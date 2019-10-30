@@ -27,7 +27,7 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
             
             check_lists checklist = new check_lists();
             checklist.Color = Guid.NewGuid().ToString();
@@ -59,7 +59,7 @@ namespace eFormSDK.Tests
             checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklist.JasperExportEnabled = randomBool;
             checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.Create(DbContext);
+            await checklist.Create(dbContext);
 
             check_list_sites checkListSite = new check_list_sites();
             checkListSite.MicrotingUid = rnd.Next(1, 255);
@@ -69,10 +69,10 @@ namespace eFormSDK.Tests
             
             //Act
             
-            checkListSite.Create(DbContext);
+            await checkListSite.Create(dbContext);
             
-            List<check_list_sites> checkListSites = DbContext.check_list_sites.AsNoTracking().ToList();
-            List<check_list_site_versions> checkListSitesVersion = DbContext.check_list_site_versions.AsNoTracking().ToList();
+            List<check_list_sites> checkListSites = dbContext.check_list_sites.AsNoTracking().ToList();
+            List<check_list_site_versions> checkListSitesVersion = dbContext.check_list_site_versions.AsNoTracking().ToList();
 
             //Assert
             
@@ -119,7 +119,7 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
             
             check_lists checklist = new check_lists();
             checklist.Color = Guid.NewGuid().ToString();
@@ -151,14 +151,14 @@ namespace eFormSDK.Tests
             checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklist.JasperExportEnabled = randomBool;
             checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.Create(DbContext);
+            await checklist.Create(dbContext);
 
             check_list_sites checkListSite = new check_list_sites();
             checkListSite.MicrotingUid = rnd.Next(1, 255);
             checkListSite.SiteId = site.Id;
             checkListSite.CheckListId = checklist.Id;
             checkListSite.LastCheckId = rnd.Next(1, 255);
-            checkListSite.Create(DbContext);
+            await checkListSite.Create(dbContext);
             
             //Act
 
@@ -169,10 +169,10 @@ namespace eFormSDK.Tests
             checkListSite.MicrotingUid = rnd.Next(1, 255);
             checkListSite.LastCheckId = rnd.Next(1, 255);
             
-            checkListSite.Update(DbContext);
+            await checkListSite.Update(dbContext);
             
-            List<check_list_sites> checkListSites = DbContext.check_list_sites.AsNoTracking().ToList();
-            List<check_list_site_versions> checkListSitesVersion = DbContext.check_list_site_versions.AsNoTracking().ToList();
+            List<check_list_sites> checkListSites = dbContext.check_list_sites.AsNoTracking().ToList();
+            List<check_list_site_versions> checkListSitesVersion = dbContext.check_list_site_versions.AsNoTracking().ToList();
 
             //Assert
             
@@ -230,7 +230,7 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
             
             check_lists checklist = new check_lists();
             checklist.Color = Guid.NewGuid().ToString();
@@ -262,23 +262,23 @@ namespace eFormSDK.Tests
             checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklist.JasperExportEnabled = randomBool;
             checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.Create(DbContext);
+            await checklist.Create(dbContext);
 
             check_list_sites checkListSite = new check_list_sites();
             checkListSite.MicrotingUid = rnd.Next(1, 255);
             checkListSite.SiteId = site.Id;
             checkListSite.CheckListId = checklist.Id;
             checkListSite.LastCheckId = rnd.Next(1, 255);
-            checkListSite.Create(DbContext);
+            await checkListSite.Create(dbContext);
             
             //Act
 
             DateTime? oldUpdatedAt = checkListSite.UpdatedAt;
 
-            checkListSite.Delete(DbContext);
+            await checkListSite.Delete(dbContext);
             
-            List<check_list_sites> checkListSites = DbContext.check_list_sites.AsNoTracking().ToList();
-            List<check_list_site_versions> checkListSitesVersion = DbContext.check_list_site_versions.AsNoTracking().ToList();
+            List<check_list_sites> checkListSites = dbContext.check_list_sites.AsNoTracking().ToList();
+            List<check_list_site_versions> checkListSitesVersion = dbContext.check_list_site_versions.AsNoTracking().ToList();
 
             //Assert
             

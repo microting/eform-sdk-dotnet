@@ -28,21 +28,21 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
             
             units unit = new units();
             unit.CustomerNo = rnd.Next(1, 255);
             unit.MicrotingUid = rnd.Next(1, 255);
             unit.OtpCode = rnd.Next(1, 255);
             unit.SiteId = site.Id;
-            unit.Create(DbContext);
+            await unit.Create(dbContext);
             
             workers worker = new workers();
             worker.Email = Guid.NewGuid().ToString();
             worker.FirstName = Guid.NewGuid().ToString();
             worker.LastName = Guid.NewGuid().ToString();
             worker.MicrotingUid = rnd.Next(1, 255);
-            worker.Create(DbContext);
+            await worker.Create(dbContext);
             
             check_lists checklist = new check_lists();
             checklist.Color = Guid.NewGuid().ToString();
@@ -74,7 +74,7 @@ namespace eFormSDK.Tests
             checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklist.JasperExportEnabled = randomBool;
             checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.Create(DbContext);
+            await checklist.Create(dbContext);
             
             cases theCase = new cases();
 
@@ -99,7 +99,7 @@ namespace eFormSDK.Tests
             theCase.WorkerId = worker.Id;
             theCase.CheckListId = checklist.Id;
             theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
-            theCase.Create(DbContext);
+            await theCase.Create(dbContext);
 
             check_list_values checkListValue = new check_list_values();
             checkListValue.Status = Guid.NewGuid().ToString();
@@ -108,10 +108,10 @@ namespace eFormSDK.Tests
 
             //Act
 
-            checkListValue.Create(DbContext);
+            await checkListValue.Create(dbContext);
             
-            List<check_list_values> checkListValues = DbContext.check_list_values.AsNoTracking().ToList();
-            List<check_list_value_versions> checkListValueVersions = DbContext.check_list_value_versions.AsNoTracking().ToList();
+            List<check_list_values> checkListValues = dbContext.check_list_values.AsNoTracking().ToList();
+            List<check_list_value_versions> checkListValueVersions = dbContext.check_list_value_versions.AsNoTracking().ToList();
 
             Assert.NotNull(checkListValues);                                                             
             Assert.NotNull(checkListValueVersions);                                                             
@@ -154,21 +154,21 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
             
             units unit = new units();
             unit.CustomerNo = rnd.Next(1, 255);
             unit.MicrotingUid = rnd.Next(1, 255);
             unit.OtpCode = rnd.Next(1, 255);
             unit.SiteId = site.Id;
-            unit.Create(DbContext);
+            await unit.Create(dbContext);
             
             workers worker = new workers();
             worker.Email = Guid.NewGuid().ToString();
             worker.FirstName = Guid.NewGuid().ToString();
             worker.LastName = Guid.NewGuid().ToString();
             worker.MicrotingUid = rnd.Next(1, 255);
-            worker.Create(DbContext);
+            await worker.Create(dbContext);
             
             check_lists checklist = new check_lists();
             checklist.Color = Guid.NewGuid().ToString();
@@ -200,7 +200,7 @@ namespace eFormSDK.Tests
             checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklist.JasperExportEnabled = randomBool;
             checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.Create(DbContext);
+            await checklist.Create(dbContext);
             
             cases theCase = new cases();
 
@@ -225,13 +225,13 @@ namespace eFormSDK.Tests
             theCase.WorkerId = worker.Id;
             theCase.CheckListId = checklist.Id;
             theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
-            theCase.Create(DbContext);
+            await theCase.Create(dbContext);
 
             check_list_values checkListValue = new check_list_values();
             checkListValue.Status = Guid.NewGuid().ToString();
             checkListValue.CaseId = theCase.Id;
             checkListValue.CheckListId = checklist.Id;
-            checkListValue.Create(DbContext);
+            await checkListValue.Create(dbContext);
             
             //Act
 
@@ -240,10 +240,10 @@ namespace eFormSDK.Tests
 
             checkListValue.Status = Guid.NewGuid().ToString();
             
-            checkListValue.Update(DbContext);
+            await checkListValue.Update(dbContext);
             
-            List<check_list_values> checkListValues = DbContext.check_list_values.AsNoTracking().ToList();
-            List<check_list_value_versions> checkListValueVersions = DbContext.check_list_value_versions.AsNoTracking().ToList();
+            List<check_list_values> checkListValues = dbContext.check_list_values.AsNoTracking().ToList();
+            List<check_list_value_versions> checkListValueVersions = dbContext.check_list_value_versions.AsNoTracking().ToList();
 
             Assert.NotNull(checkListValues);                                                             
             Assert.NotNull(checkListValueVersions);                                                             
@@ -296,21 +296,21 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
             
             units unit = new units();
             unit.CustomerNo = rnd.Next(1, 255);
             unit.MicrotingUid = rnd.Next(1, 255);
             unit.OtpCode = rnd.Next(1, 255);
             unit.SiteId = site.Id;
-            unit.Create(DbContext);
+            await unit.Create(dbContext);
             
             workers worker = new workers();
             worker.Email = Guid.NewGuid().ToString();
             worker.FirstName = Guid.NewGuid().ToString();
             worker.LastName = Guid.NewGuid().ToString();
             worker.MicrotingUid = rnd.Next(1, 255);
-            worker.Create(DbContext);
+            await worker.Create(dbContext);
             
             check_lists checklist = new check_lists();
             checklist.Color = Guid.NewGuid().ToString();
@@ -342,7 +342,7 @@ namespace eFormSDK.Tests
             checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklist.JasperExportEnabled = randomBool;
             checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.Create(DbContext);
+            await checklist.Create(dbContext);
             
             cases theCase = new cases();
 
@@ -367,22 +367,22 @@ namespace eFormSDK.Tests
             theCase.WorkerId = worker.Id;
             theCase.CheckListId = checklist.Id;
             theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
-            theCase.Create(DbContext);
+            await theCase.Create(dbContext);
 
             check_list_values checkListValue = new check_list_values();
             checkListValue.Status = Guid.NewGuid().ToString();
             checkListValue.CaseId = theCase.Id;
             checkListValue.CheckListId = checklist.Id;
-            checkListValue.Create(DbContext);
+            await checkListValue.Create(dbContext);
             
             //Act
 
             DateTime? oldUpdatedAt = checkListValue.UpdatedAt;
 
-            checkListValue.Delete(DbContext);
+            await checkListValue.Delete(dbContext);
             
-            List<check_list_values> checkListValues = DbContext.check_list_values.AsNoTracking().ToList();
-            List<check_list_value_versions> checkListValueVersions = DbContext.check_list_value_versions.AsNoTracking().ToList();
+            List<check_list_values> checkListValues = dbContext.check_list_values.AsNoTracking().ToList();
+            List<check_list_value_versions> checkListValueVersions = dbContext.check_list_value_versions.AsNoTracking().ToList();
 
             Assert.NotNull(checkListValues);                                                             
             Assert.NotNull(checkListValueVersions);                                                             

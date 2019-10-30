@@ -38,7 +38,7 @@ namespace eFormSDK.Tests
     public abstract class DbTestFixture
     {
 
-        protected MicrotingDbAnySql DbContext;
+        protected MicrotingDbAnySql dbContext;
         protected string ConnectionString;
 
         private MicrotingDbAnySql GetContext(string connectionStr)
@@ -72,14 +72,14 @@ namespace eFormSDK.Tests
                 ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
 //            }
 
-            DbContext = GetContext(ConnectionString);
+            dbContext = GetContext(ConnectionString);
 
 
-            DbContext.Database.SetCommandTimeout(300);
+            dbContext.Database.SetCommandTimeout(300);
 
             try
             {
-                ClearDb();
+                await ClearDb();
             }
             catch
             {
@@ -87,12 +87,12 @@ namespace eFormSDK.Tests
             try
             {
                 Core core = new Core();
-                core.StartSqlOnly(ConnectionString);
-                core.Close();
+                await core.StartSqlOnly(ConnectionString);
+                await core.Close();
             } catch
             {
                 AdminTools adminTools = new AdminTools(ConnectionString);
-                adminTools.DbSetup("abc1234567890abc1234567890abcdef");
+                await adminTools.DbSetup("abc1234567890abc1234567890abcdef");
             }
 
             DoSetup();
@@ -102,11 +102,11 @@ namespace eFormSDK.Tests
         public async Task TearDown()
         {
 
-            ClearDb();
+            await ClearDb();
 
-            ClearFile();
+            await ClearFile();
 
-            DbContext.Dispose();
+            dbContext.Dispose();
         }
 
         public async Task ClearDb()
@@ -174,7 +174,7 @@ namespace eFormSDK.Tests
                 try
                 {
                     string sqlCmd = string.Empty;
-                    if(DbContext.Database.IsMySql())
+                    if(dbContext.Database.IsMySql())
                     {
                         sqlCmd = string.Format("SET FOREIGN_KEY_CHECKS = 0;TRUNCATE `{0}`.`{1}`", "eformsdk-tests", modelName);
                     }
@@ -183,7 +183,7 @@ namespace eFormSDK.Tests
                         sqlCmd = string.Format("DELETE FROM [{0}]", modelName);
                     }
 #pragma warning disable EF1000 // Possible SQL injection vulnerability.
-                    DbContext.Database.ExecuteSqlCommand(sqlCmd);
+                    dbContext.Database.ExecuteSqlCommand(sqlCmd);
 #pragma warning restore EF1000 // Possible SQL injection vulnerability.
                 }
                 catch (Exception ex)

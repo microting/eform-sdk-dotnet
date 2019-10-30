@@ -27,6 +27,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure.Models;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
@@ -67,16 +68,16 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             UpdatedAt = DateTime.UtcNow;
 
             dbContext.notifications.Add(this);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             dbContext.notification_versions.Add(MapVersions(this));
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
             
         }
 
         public async Task Update(MicrotingDbAnySql dbContext)
         {
-            notifications notification = dbContext.notifications.SingleOrDefault(x => x.Id == Id);
+            notifications notification = await dbContext.notifications.SingleOrDefaultAsync(x => x.Id == Id);
 
             if (notification == null)
             {
@@ -97,14 +98,14 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 notification.Version += 1;
 
                 dbContext.notification_versions.Add(MapVersions(notification));
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
             
         }
 
         public async Task Delete(MicrotingDbAnySql dbContext)
         {
-            notifications notification = dbContext.notifications.SingleOrDefault(x => x.Id == Id);
+            notifications notification = await dbContext.notifications.SingleOrDefaultAsync(x => x.Id == Id);
 
             if (notification == null)
             {
@@ -119,7 +120,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 notification.Version += 1;
 
                 dbContext.notification_versions.Add(MapVersions(notification));
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
         }
 

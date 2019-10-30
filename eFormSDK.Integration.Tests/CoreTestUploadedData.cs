@@ -77,8 +77,8 @@ namespace eFormSDK.Integration.Tests
             dU.CurrentFile = currentFile;
             dU.Checksum = checksum;
 
-            DbContext.uploaded_data.Add(dU);
-            DbContext.SaveChanges();
+            dbContext.uploaded_data.Add(dU);
+            await dbContext.SaveChangesAsync();
 
             UploadedData ud = await sut.Advanced_UploadedDataRead(dU.Id);
 

@@ -54,7 +54,7 @@ namespace eFormSDK.Tests
             checklistParent.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklistParent.JasperExportEnabled = randomBool;
             checklistParent.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklistParent.Create(DbContext);
+            await checklistParent.Create(dbContext);
             
             check_lists checklist = new check_lists();
             checklist.Color = Guid.NewGuid().ToString();
@@ -90,10 +90,10 @@ namespace eFormSDK.Tests
             
             //Act
             
-            checklist.Create(DbContext);
+            await checklist.Create(dbContext);
             
-            List<check_lists> checkLists = DbContext.check_lists.AsNoTracking().ToList();
-            List<check_list_versions> checkListVersion = DbContext.check_list_versions.AsNoTracking().ToList();
+            List<check_lists> checkLists = dbContext.check_lists.AsNoTracking().ToList();
+            List<check_list_versions> checkListVersion = dbContext.check_list_versions.AsNoTracking().ToList();
             
             //Assert
             
@@ -221,7 +221,7 @@ namespace eFormSDK.Tests
             checklistParent.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklistParent.JasperExportEnabled = randomBool;
             checklistParent.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklistParent.Create(DbContext);
+            await checklistParent.Create(dbContext);
             
             check_lists checklist = new check_lists();
             checklist.Color = Guid.NewGuid().ToString();
@@ -254,7 +254,7 @@ namespace eFormSDK.Tests
             checklist.JasperExportEnabled = randomBool;
             checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklist.ParentId = checklistParent.Id;
-            checklist.Create(DbContext);
+            await checklist.Create(dbContext);
             
             //Act
 
@@ -320,11 +320,11 @@ namespace eFormSDK.Tests
             checklist.JasperExportEnabled = randomBool;
             checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             
-            checklist.Update(DbContext);
+            await checklist.Update(dbContext);
 
 
-            List<check_lists> checkLists = DbContext.check_lists.AsNoTracking().ToList();
-            List<check_list_versions> checkListVersion = DbContext.check_list_versions.AsNoTracking().ToList();
+            List<check_lists> checkLists = dbContext.check_lists.AsNoTracking().ToList();
+            List<check_list_versions> checkListVersion = dbContext.check_list_versions.AsNoTracking().ToList();
             
             //Assert
             
@@ -490,7 +490,7 @@ namespace eFormSDK.Tests
             checklistParent.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklistParent.JasperExportEnabled = randomBool;
             checklistParent.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklistParent.Create(DbContext);
+            await checklistParent.Create(dbContext);
             
             check_lists checklist = new check_lists();
             checklist.Color = Guid.NewGuid().ToString();
@@ -523,18 +523,18 @@ namespace eFormSDK.Tests
             checklist.JasperExportEnabled = randomBool;
             checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklist.ParentId = checklistParent.Id;
-            checklist.Create(DbContext);
+            await checklist.Create(dbContext);
             
             //Act
 
             DateTime? oldUpdatedAt = checklist.UpdatedAt;
             
             
-            checklist.Delete(DbContext);
+            await checklist.Delete(dbContext);
 
 
-            List<check_lists> checkLists = DbContext.check_lists.AsNoTracking().ToList();
-            List<check_list_versions> checkListVersion = DbContext.check_list_versions.AsNoTracking().ToList();
+            List<check_lists> checkLists = dbContext.check_lists.AsNoTracking().ToList();
+            List<check_list_versions> checkListVersion = dbContext.check_list_versions.AsNoTracking().ToList();
             
             //Assert
             

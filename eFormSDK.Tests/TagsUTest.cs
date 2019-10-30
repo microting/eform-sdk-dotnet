@@ -49,10 +49,10 @@ namespace eFormSDK.Tests
             
             //Act
             
-            tag.Create(DbContext);
+            await tag.Create(dbContext);
 
-            List<tags> tags = DbContext.tags.AsNoTracking().ToList();                            
-            List<tag_versions> tagVersions = DbContext.tag_versions.AsNoTracking().ToList(); 
+            List<tags> tags = dbContext.tags.AsNoTracking().ToList();                            
+            List<tag_versions> tagVersions = dbContext.tag_versions.AsNoTracking().ToList(); 
             
             //Assert
             
@@ -87,7 +87,7 @@ namespace eFormSDK.Tests
             tag.Name = Guid.NewGuid().ToString();
             tag.TaggingsCount = rnd.Next(1, 255);
 
-            tag.Create(DbContext);
+            await tag.Create(dbContext);
             
             //Act
 
@@ -99,10 +99,10 @@ namespace eFormSDK.Tests
             tag.Name = Guid.NewGuid().ToString();
             tag.TaggingsCount = rnd.Next(1, 255);
             
-            tag.Update(DbContext);
+            await tag.Update(dbContext);
             
-            List<tags> tags = DbContext.tags.AsNoTracking().ToList();                            
-            List<tag_versions> tagVersions = DbContext.tag_versions.AsNoTracking().ToList(); 
+            List<tags> tags = dbContext.tags.AsNoTracking().ToList();                            
+            List<tag_versions> tagVersions = dbContext.tag_versions.AsNoTracking().ToList(); 
             
             //Assert
             
@@ -145,16 +145,16 @@ namespace eFormSDK.Tests
             tag.Name = Guid.NewGuid().ToString();
             tag.TaggingsCount = rnd.Next(1, 255);
 
-            tag.Create(DbContext);
+            await tag.Create(dbContext);
             
             //Act
 
             DateTime? oldUpdatedAt = tag.UpdatedAt;
             
-            tag.Delete(DbContext);
+            await tag.Delete(dbContext);
             
-            List<tags> tags = DbContext.tags.AsNoTracking().ToList();                            
-            List<tag_versions> tagVersions = DbContext.tag_versions.AsNoTracking().ToList(); 
+            List<tags> tags = dbContext.tags.AsNoTracking().ToList();                            
+            List<tag_versions> tagVersions = dbContext.tag_versions.AsNoTracking().ToList(); 
             
             //Assert
             

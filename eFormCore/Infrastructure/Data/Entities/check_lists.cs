@@ -138,10 +138,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             WorkflowState = Constants.Constants.WorkflowStates.Created;
 
             dbContext.check_lists.Add(this);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             dbContext.check_list_versions.Add(MapCheckListVersions(this));
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
 
         public async Task Update(MicrotingDbAnySql dbContext)
@@ -191,7 +191,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 checkList.Version += 1;
 
                 dbContext.check_list_versions.Add(MapCheckListVersions(checkList));
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
         }
 
@@ -212,7 +212,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 checkList.Version += 1;
 
                 dbContext.check_list_versions.Add(MapCheckListVersions(checkList));
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
             
         }

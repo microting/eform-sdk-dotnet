@@ -41,7 +41,7 @@ namespace eFormSDK.Integration.Tests
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
-            sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
+            await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
             //await sut.StartLog(new CoreBase());
@@ -63,8 +63,8 @@ namespace eFormSDK.Integration.Tests
             
             //Assert
 
-            var folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
-            var folders = DbContext.folders.AsNoTracking().ToList();
+            var folderVersions = dbContext.folder_versions.AsNoTracking().ToList();
+            var folders = dbContext.folders.AsNoTracking().ToList();
             
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
@@ -93,7 +93,7 @@ namespace eFormSDK.Integration.Tests
             
             await sut.FolderCreate(folderName, folderDescription, null);
 
-            int firstFolderId = DbContext.folders.First().Id;
+            int firstFolderId = dbContext.folders.First().Id;
             
             string subFolderName = Guid.NewGuid().ToString();
             string subFolderDescription = Guid.NewGuid().ToString();
@@ -102,8 +102,8 @@ namespace eFormSDK.Integration.Tests
             // Act
             await sut.FolderCreate(subFolderName, subFolderDescription, firstFolderId);
 
-            var folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
-            var folders = DbContext.folders.AsNoTracking().ToList();
+            var folderVersions = dbContext.folder_versions.AsNoTracking().ToList();
+            var folders = dbContext.folders.AsNoTracking().ToList();
             
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
@@ -139,14 +139,14 @@ namespace eFormSDK.Integration.Tests
             folder.WorkflowState = Constants.WorkflowStates.Created;
             folder.MicrotingUid = 23123;
 
-            await folder.Create(DbContext);
+            await folder.Create(dbContext);
 
             //Act
             
-            sut.FolderDelete(folder.Id);
+            await sut.FolderDelete(folder.Id);
             
-            var folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
-            var folders = DbContext.folders.AsNoTracking().ToList();
+            var folderVersions = dbContext.folder_versions.AsNoTracking().ToList();
+            var folders = dbContext.folders.AsNoTracking().ToList();
             
             //Assert
             
@@ -184,7 +184,7 @@ namespace eFormSDK.Integration.Tests
             folder.WorkflowState = Constants.WorkflowStates.Created;
             folder.MicrotingUid = 23123;
 
-            await folder.Create(DbContext);
+            await folder.Create(dbContext);
 
             //Act
 
@@ -193,8 +193,8 @@ namespace eFormSDK.Integration.Tests
             
             await sut.FolderUpdate(folder.Id, newFolderName, newDescription, null);
             
-            var folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
-            var folders = DbContext.folders.AsNoTracking().ToList();
+            var folderVersions = dbContext.folder_versions.AsNoTracking().ToList();
+            var folders = dbContext.folders.AsNoTracking().ToList();
             
             //Assert
             

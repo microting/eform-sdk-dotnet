@@ -36,8 +36,8 @@ namespace eFormSDK.Integration.Tests
             await sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
-            sut.SettingUpdate(Settings.fileLocationPdf,  @"\output\dataFolder\pdf\");
-            sut.SettingUpdate(Settings.fileLocationJasper,  @"\output\dataFolder\reports\");
+            await sut.SettingUpdate(Settings.fileLocationPdf,  @"\output\dataFolder\pdf\");
+            await sut.SettingUpdate(Settings.fileLocationJasper,  @"\output\dataFolder\reports\");
         }
 
         [Test]
@@ -45,12 +45,12 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             Random rnd = new Random();
-            sites site1 = testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
-            units unit1 = testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
+            sites site1 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
+            units unit1 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
             languages language = new languages();
             language.Name = Guid.NewGuid().ToString();
             language.Description = Guid.NewGuid().ToString();
-            language.Create(DbContext);
+            await language.Create(dbContext);
             
             #region surveyConfiguration
             survey_configurations surveyConfiguration = new survey_configurations();
@@ -59,7 +59,7 @@ namespace eFormSDK.Integration.Tests
             surveyConfiguration.Start = DateTime.Now;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration.Create(DbContext);
+            await surveyConfiguration.Create(dbContext);
             #endregion
             
             #region QuestionSet
@@ -69,7 +69,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             #endregion
             
             #region Answer
@@ -83,7 +83,7 @@ namespace eFormSDK.Integration.Tests
             answer.LanguageId = language.Id;
             answer.AnswerDuration = rnd.Next(1, 255);
             answer.UtcAdjusted = true;
-            answer.Create(DbContext);
+            await answer.Create(dbContext);
             
 
             #endregion
@@ -110,7 +110,7 @@ namespace eFormSDK.Integration.Tests
             question.ValidDisplay = false;
             question.BackButtonEnabled = false;
             question.Image = false;
-            question.Create(DbContext);
+            await question.Create(dbContext);
             #endregion
             
             #region Option
@@ -122,7 +122,7 @@ namespace eFormSDK.Integration.Tests
             option.OptionsIndex = rnd.Next(1, 255);
             option.NextQuestionId = rnd.Next(1, 255);
             option.ContinuousOptionId = rnd.Next(1, 255);
-            option.Create(DbContext);
+            await option.Create(dbContext);
             #endregion
             
             answer_values answerValue = new answer_values();
@@ -135,10 +135,10 @@ namespace eFormSDK.Integration.Tests
             answerValue.OptionsId = option.Id;
             
             // Act
-            answerValue.Create(DbContext);
+            await answerValue.Create(dbContext);
 
-            answer_values dbAnswerValue = DbContext.answer_values.AsNoTracking().First();
-            answer_value_versions dbVersion = DbContext.answer_value_versions.AsNoTracking().First();
+            answer_values dbAnswerValue = dbContext.answer_values.AsNoTracking().First();
+            answer_value_versions dbVersion = dbContext.answer_value_versions.AsNoTracking().First();
             
             // Assert
             Assert.NotNull(dbAnswerValue);
@@ -155,12 +155,12 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             Random rnd = new Random();
-            sites site1 = testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
-            units unit1 = testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
+            sites site1 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
+            units unit1 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
             languages language = new languages();
             language.Name = Guid.NewGuid().ToString();
             language.Description = Guid.NewGuid().ToString();
-            language.Create(DbContext);
+            await language.Create(dbContext);
             
             #region surveyConfiguration
             survey_configurations surveyConfiguration = new survey_configurations();
@@ -169,7 +169,7 @@ namespace eFormSDK.Integration.Tests
             surveyConfiguration.Start = DateTime.Now;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration.Create(DbContext);
+            await surveyConfiguration.Create(dbContext);
             #endregion
             
             #region QuestionSet
@@ -179,7 +179,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             #endregion
             
             #region Answer
@@ -193,7 +193,7 @@ namespace eFormSDK.Integration.Tests
             answer.LanguageId = language.Id;
             answer.AnswerDuration = rnd.Next(1, 255);
             answer.UtcAdjusted = true;
-            answer.Create(DbContext);
+            await answer.Create(dbContext);
             
 
             #endregion
@@ -220,7 +220,7 @@ namespace eFormSDK.Integration.Tests
             question.ValidDisplay = false;
             question.BackButtonEnabled = false;
             question.Image = false;
-            question.Create(DbContext);
+            await question.Create(dbContext);
             #endregion
             
             #region Option
@@ -232,7 +232,7 @@ namespace eFormSDK.Integration.Tests
             option.OptionsIndex = rnd.Next(1, 255);
             option.NextQuestionId = rnd.Next(1, 255);
             option.ContinuousOptionId = rnd.Next(1, 255);
-            option.Create(DbContext);
+            await option.Create(dbContext);
             #endregion
             
             #region Answer2
@@ -246,7 +246,7 @@ namespace eFormSDK.Integration.Tests
             answer2.LanguageId = language.Id;
             answer2.AnswerDuration = rnd.Next(1, 255);
             answer2.UtcAdjusted = true;
-            answer2.Create(DbContext);
+            await answer2.Create(dbContext);
             
 
             #endregion
@@ -284,7 +284,7 @@ namespace eFormSDK.Integration.Tests
             option2.OptionsIndex = rnd.Next(1, 255);
             option2.NextQuestionId = rnd.Next(1, 255);
             option2.ContinuousOptionId = rnd.Next(1, 255);
-            option2.Create(DbContext);
+            await option2.Create(dbContext);
             #endregion
             answer_values answerValue = new answer_values();
             answerValue.QuestionId = question.Id;
@@ -295,7 +295,7 @@ namespace eFormSDK.Integration.Tests
             answerValue.Question = question;
             answerValue.OptionsId = option.Id;
             
-            answerValue.Create(DbContext);
+            await answerValue.Create(dbContext);
             // Act
             answerValue.QuestionId = question2.Id;
             answerValue.Value = rnd.Next(1, 255);
@@ -305,10 +305,10 @@ namespace eFormSDK.Integration.Tests
             answerValue.Question = question2;
             answerValue.OptionsId = option2.Id;
             
-            answerValue.Update(DbContext);
+            await answerValue.Update(dbContext);
             
-            answer_values dbAnswerValue = DbContext.answer_values.AsNoTracking().First();
-            answer_value_versions dbVersion = DbContext.answer_value_versions.AsNoTracking().First();
+            answer_values dbAnswerValue = dbContext.answer_values.AsNoTracking().First();
+            answer_value_versions dbVersion = dbContext.answer_value_versions.AsNoTracking().First();
             
             // Assert
             Assert.NotNull(dbAnswerValue);
@@ -325,12 +325,12 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             Random rnd = new Random();
-            sites site1 = testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
-            units unit1 = testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
+            sites site1 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
+            units unit1 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
             languages language = new languages();
             language.Name = Guid.NewGuid().ToString();
             language.Description = Guid.NewGuid().ToString();
-            language.Create(DbContext);
+            await language.Create(dbContext);
             
             #region surveyConfiguration
             survey_configurations surveyConfiguration = new survey_configurations();
@@ -339,7 +339,7 @@ namespace eFormSDK.Integration.Tests
             surveyConfiguration.Start = DateTime.Now;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration.Create(DbContext);
+            await surveyConfiguration.Create(dbContext);
             #endregion
             
             #region QuestionSet
@@ -349,7 +349,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             #endregion
             
             #region Answer
@@ -363,7 +363,7 @@ namespace eFormSDK.Integration.Tests
             answer.LanguageId = language.Id;
             answer.AnswerDuration = rnd.Next(1, 255);
             answer.UtcAdjusted = true;
-            answer.Create(DbContext);
+            await answer.Create(dbContext);
             
 
             #endregion
@@ -390,7 +390,7 @@ namespace eFormSDK.Integration.Tests
             question.ValidDisplay = false;
             question.BackButtonEnabled = false;
             question.Image = false;
-            question.Create(DbContext);
+            await question.Create(dbContext);
             #endregion
             
             #region Option
@@ -402,7 +402,7 @@ namespace eFormSDK.Integration.Tests
             option.OptionsIndex = rnd.Next(1, 255);
             option.NextQuestionId = rnd.Next(1, 255);
             option.ContinuousOptionId = rnd.Next(1, 255);
-            option.Create(DbContext);
+            await option.Create(dbContext);
             #endregion
             
             answer_values answerValue = new answer_values();
@@ -413,14 +413,14 @@ namespace eFormSDK.Integration.Tests
             answerValue.AnswerId = answer.Id;
             answerValue.Question = question;
             answerValue.OptionsId = option.Id;
-            answerValue.Create(DbContext);
+            await answerValue.Create(dbContext);
 
             // Act
 
-            answerValue.Delete(DbContext);
+            await answerValue.Delete(dbContext);
             
-            answer_values dbAnswerValue = DbContext.answer_values.AsNoTracking().First();
-            answer_value_versions dbVersion = DbContext.answer_value_versions.AsNoTracking().First();
+            answer_values dbAnswerValue = dbContext.answer_values.AsNoTracking().First();
+            answer_value_versions dbVersion = dbContext.answer_value_versions.AsNoTracking().First();
             
             // Assert
             Assert.NotNull(dbAnswerValue);

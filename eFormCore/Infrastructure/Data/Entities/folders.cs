@@ -49,25 +49,25 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public virtual ICollection<folders> Children { get; set; }
 
-        public async Task Create(MicrotingDbAnySql _dbContext)
+        public async Task Create(MicrotingDbAnySql dbContext)
         {
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
             Version = 1;
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             
-            _dbContext.folders.Add(this);
-            _dbContext.SaveChanges();
+            dbContext.folders.Add(this);
+            await dbContext.SaveChangesAsync();
 
-            _dbContext.folder_versions.Add(MapFolderVersions(_dbContext, this));
-            _dbContext.SaveChanges();
+            dbContext.folder_versions.Add(MapFolderVersions(dbContext, this));
+            await dbContext.SaveChangesAsync();
 
            
         }
 
-        public async Task Update(MicrotingDbAnySql _dbContext)
+        public async Task Update(MicrotingDbAnySql dbContext)
         {
-            folders folder = _dbContext.folders.FirstOrDefaultAsync(x => x.Id == Id).Result;
+            folders folder = dbContext.folders.FirstOrDefaultAsync(x => x.Id == Id).Result;
 
             if (folder == null)
             {
@@ -78,19 +78,19 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             folder.Description = Description;
             folder.ParentId = ParentId;
 
-            if (_dbContext.ChangeTracker.HasChanges())
+            if (dbContext.ChangeTracker.HasChanges())
             {
                 folder.UpdatedAt = DateTime.Now;
                 folder.Version += 1;
 
-                _dbContext.folder_versions.Add(MapFolderVersions(_dbContext, folder));
-                _dbContext.SaveChanges();
+                dbContext.folder_versions.Add(MapFolderVersions(dbContext, folder));
+                await dbContext.SaveChangesAsync();
             }
         }
 
-        public async Task Delete(MicrotingDbAnySql _dbContext)
+        public async Task Delete(MicrotingDbAnySql dbContext)
         {
-            folders folder = _dbContext.folders.SingleOrDefaultAsync(x => x.Id == Id).Result;
+            folders folder = dbContext.folders.SingleOrDefaultAsync(x => x.Id == Id).Result;
 
             if (folder == null)
             {
@@ -99,13 +99,13 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             
             folder.WorkflowState = Constants.Constants.WorkflowStates.Removed;
 
-            if (_dbContext.ChangeTracker.HasChanges())
+            if (dbContext.ChangeTracker.HasChanges())
             {
                 folder.UpdatedAt = DateTime.Now;
                 folder.Version += 1;
 
-                _dbContext.folder_versions.Add(MapFolderVersions(_dbContext, folder));
-                _dbContext.SaveChanges();
+                dbContext.folder_versions.Add(MapFolderVersions(dbContext, folder));
+                await dbContext.SaveChangesAsync();
             }
         }
 

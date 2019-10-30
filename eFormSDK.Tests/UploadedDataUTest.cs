@@ -59,10 +59,10 @@ namespace eFormSDK.Tests
             
             //Act
             
-            uploadedData.Create(DbContext);
+            await uploadedData.Create(dbContext);
 
-            List<uploaded_data> uploadedDatas = DbContext.uploaded_data.AsNoTracking().ToList();
-            List<uploaded_data_versions> uploadedDataVersions = DbContext.uploaded_data_versions.AsNoTracking().ToList();
+            List<uploaded_data> uploadedDatas = dbContext.uploaded_data.AsNoTracking().ToList();
+            List<uploaded_data_versions> uploadedDataVersions = dbContext.uploaded_data_versions.AsNoTracking().ToList();
             
             //Assert
             
@@ -129,7 +129,7 @@ namespace eFormSDK.Tests
             uploadedData.UploaderId = rnd.Next(1, 255);
             uploadedData.UploaderType = Guid.NewGuid().ToString();
 
-            uploadedData.Create(DbContext);
+            await uploadedData.Create(dbContext);
 
             //Act
             
@@ -158,10 +158,10 @@ namespace eFormSDK.Tests
             uploadedData.UploaderId = rnd.Next(1, 255);
             uploadedData.UploaderType = Guid.NewGuid().ToString();
 
-            uploadedData.Update(DbContext);
+            await uploadedData.Update(dbContext);
 
-            List<uploaded_data> uploadedDatas = DbContext.uploaded_data.AsNoTracking().ToList();
-            List<uploaded_data_versions> uploadedDataVersions = DbContext.uploaded_data_versions.AsNoTracking().ToList();
+            List<uploaded_data> uploadedDatas = dbContext.uploaded_data.AsNoTracking().ToList();
+            List<uploaded_data_versions> uploadedDataVersions = dbContext.uploaded_data_versions.AsNoTracking().ToList();
 
             //Assert                                                                            
 
@@ -239,15 +239,15 @@ namespace eFormSDK.Tests
             uploadedData.UploaderId = rnd.Next(1, 255);
             uploadedData.UploaderType = Guid.NewGuid().ToString();
 
-            uploadedData.Create(DbContext);
+            await uploadedData.Create(dbContext);
             //Act
             
             DateTime? oldUpdatedAt = uploadedData.UpdatedAt;
             
-            uploadedData.Delete(DbContext);
+            await uploadedData.Delete(dbContext);
             
-            List<uploaded_data> uploadedDatas = DbContext.uploaded_data.AsNoTracking().ToList();
-            List<uploaded_data_versions> uploadedDataVersions = DbContext.uploaded_data_versions.AsNoTracking().ToList();
+            List<uploaded_data> uploadedDatas = dbContext.uploaded_data.AsNoTracking().ToList();
+            List<uploaded_data_versions> uploadedDataVersions = dbContext.uploaded_data_versions.AsNoTracking().ToList();
 
             //Assert                                                                            
 

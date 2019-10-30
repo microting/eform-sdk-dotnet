@@ -33,7 +33,7 @@ namespace eFormSDK.Integration.Tests
             await sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
-            sut.SettingUpdate(Settings.fileLocationPdf,  @"\output\dataFolder\pdf\");
+            await sut.SettingUpdate(Settings.fileLocationPdf,  @"\output\dataFolder\pdf\");
             await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
         }
 

@@ -65,10 +65,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             UpdatedAt = DateTime.Now;
 
             dbContext.check_list_values.Add(this);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             dbContext.check_list_value_versions.Add(MapCheckListValueVersions(this));
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
         }
 
@@ -94,7 +94,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 clv.Version += 1;
 
                 dbContext.check_list_value_versions.Add(MapCheckListValueVersions(clv));
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
         }
 
@@ -115,7 +115,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 clv.Version += 1;
 
                 dbContext.check_list_value_versions.Add(MapCheckListValueVersions(clv));
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
         }
         

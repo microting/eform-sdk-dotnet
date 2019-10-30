@@ -679,7 +679,7 @@ namespace Microting.eForm.Communication
             }
         }
 
-        public string SiteWorkerLoadAllFromRemote()
+        public async Task<string> SiteWorkerLoadAllFromRemote()
         {
             WebRequest request = WebRequest.Create(addressBasic + "/v1/workers?token=" + token + "&sdk_ver=" + dllVersion);
             request.Method = "GET";

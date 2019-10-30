@@ -45,7 +45,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public async Task Create(MicrotingDbAnySql dbContext)
         {
             dbContext.field_types.Add(this);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
 
         public async Task Update(MicrotingDbAnySql dbContext)
@@ -60,7 +60,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             fieldTypes.FieldType = FieldType;
             if (dbContext.ChangeTracker.HasChanges())
             {
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
         }
 
@@ -73,7 +73,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 throw new NullReferenceException($"Could not find Field Type with Id: {Id}");
             }
             dbContext.Remove(fieldTypes);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
     }
 }

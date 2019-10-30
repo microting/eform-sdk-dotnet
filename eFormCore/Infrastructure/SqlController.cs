@@ -88,7 +88,7 @@ namespace Microting.eForm.Infrastructure
         {
 
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
-            WriteDebugConsoleLogEntry(new LogEntry(2, "SqlController", "GetContext called")); // This is done to avoid infinite loop
+//            WriteDebugConsoleLogEntry(new LogEntry(2, "SqlController", "GetContext called")); // This is done to avoid infinite loop
 
             if (connectionStr.ToLower().Contains("convert zero datetime"))
             {
@@ -131,7 +131,7 @@ namespace Microting.eForm.Infrastructure
                     MainElement mainElement = null;
                     GetConverter();
 
-                    check_lists mainCl = db.check_lists.SingleOrDefault(x => x.Id == templateId && (x.ParentId == null || x.ParentId == 0));
+                    check_lists mainCl = await db.check_lists.SingleOrDefaultAsync(x => x.Id == templateId && (x.ParentId == null || x.ParentId == 0));
 
                     if (mainCl == null)
                         return null;
@@ -163,7 +163,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    check_lists checkList = db.check_lists.SingleOrDefault(x => x.Id == templateId);
+                    check_lists checkList = await db.check_lists.SingleOrDefaultAsync(x => x.Id == templateId);
 
                     if (checkList == null)
                         return null;
@@ -188,43 +188,43 @@ namespace Microting.eForm.Infrastructure
                     Field_Dto fd9 = null;
                     Field_Dto fd10 = null;
 
-                    fields f1 = db.fields.SingleOrDefault(x => x.Id == checkList.Field1);
+                    fields f1 = await db.fields.SingleOrDefaultAsync(x => x.Id == checkList.Field1);
                     if (f1 != null)
                         fd1 = new Field_Dto(f1.Id, f1.Label, f1.Description, (int)f1.FieldTypeId, f1.FieldType.FieldType, (int)f1.CheckListId);
 
-                    fields f2 = db.fields.SingleOrDefault(x => x.Id == checkList.Field2);
+                    fields f2 = await db.fields.SingleOrDefaultAsync(x => x.Id == checkList.Field2);
                     if (f2 != null)
                         fd2 = new Field_Dto(f2.Id, f2.Label, f2.Description, (int)f2.FieldTypeId, f2.FieldType.FieldType, (int)f2.CheckListId);
 
-                    fields f3 = db.fields.SingleOrDefault(x => x.Id == checkList.Field3);
+                    fields f3 = await db.fields.SingleOrDefaultAsync(x => x.Id == checkList.Field3);
                     if (f3 != null)
                         fd3 = new Field_Dto(f3.Id, f3.Label, f3.Description, (int)f3.FieldTypeId, f3.FieldType.FieldType, (int)f3.CheckListId);
 
-                    fields f4 = db.fields.SingleOrDefault(x => x.Id == checkList.Field4);
+                    fields f4 = await db.fields.SingleOrDefaultAsync(x => x.Id == checkList.Field4);
                     if (f4 != null)
                         fd4 = new Field_Dto(f4.Id, f4.Label, f4.Description, (int)f4.FieldTypeId, f4.FieldType.FieldType, (int)f4.CheckListId);
 
-                    fields f5 = db.fields.SingleOrDefault(x => x.Id == checkList.Field5);
+                    fields f5 = await db.fields.SingleOrDefaultAsync(x => x.Id == checkList.Field5);
                     if (f5 != null)
                         fd5 = new Field_Dto(f5.Id, f5.Label, f5.Description, (int)f5.FieldTypeId, f5.FieldType.FieldType, (int)f5.CheckListId);
 
-                    fields f6 = db.fields.SingleOrDefault(x => x.Id == checkList.Field6);
+                    fields f6 = await db.fields.SingleOrDefaultAsync(x => x.Id == checkList.Field6);
                     if (f6 != null)
                         fd6 = new Field_Dto(f6.Id, f6.Label, f6.Description, (int)f6.FieldTypeId, f6.FieldType.FieldType, (int)f6.CheckListId);
 
-                    fields f7 = db.fields.SingleOrDefault(x => x.Id == checkList.Field7);
+                    fields f7 = await db.fields.SingleOrDefaultAsync(x => x.Id == checkList.Field7);
                     if (f7 != null)
                         fd7 = new Field_Dto(f7.Id, f7.Label, f7.Description, (int)f7.FieldTypeId, f7.FieldType.FieldType, (int)f7.CheckListId);
 
-                    fields f8 = db.fields.SingleOrDefault(x => x.Id == checkList.Field8);
+                    fields f8 = await db.fields.SingleOrDefaultAsync(x => x.Id == checkList.Field8);
                     if (f8 != null)
                         fd8 = new Field_Dto(f8.Id, f8.Label, f8.Description, (int)f8.FieldTypeId, f8.FieldType.FieldType, (int)f8.CheckListId);
 
-                    fields f9 = db.fields.SingleOrDefault(x => x.Id == checkList.Field9);
+                    fields f9 = await db.fields.SingleOrDefaultAsync(x => x.Id == checkList.Field9);
                     if (f9 != null)
                         fd9 = new Field_Dto(f9.Id, f9.Label, f9.Description, (int)f9.FieldTypeId, f9.FieldType.FieldType, (int)f9.CheckListId);
 
-                    fields f10 = db.fields.SingleOrDefault(x => x.Id == checkList.Field10);
+                    fields f10 = await db.fields.SingleOrDefaultAsync(x => x.Id == checkList.Field10);
                     if (f10 != null)
                         fd10 = new Field_Dto(f10.Id, f10.Label, f10.Description, (int)f10.FieldTypeId, f10.FieldType.FieldType, (int)f10.CheckListId);
                     #endregion
@@ -427,7 +427,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    check_lists checkList = db.check_lists.SingleOrDefault(x => x.Id == templateId);
+                    check_lists checkList = await db.check_lists.SingleOrDefaultAsync(x => x.Id == templateId);
 
                     if (checkList == null)
                         return false;
@@ -452,7 +452,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    check_lists checkList = db.check_lists.SingleOrDefault(x => x.Id == templateId);
+                    check_lists checkList = await db.check_lists.SingleOrDefaultAsync(x => x.Id == templateId);
 
                     if (checkList == null)
                         return false;
@@ -547,7 +547,7 @@ namespace Microting.eForm.Infrastructure
                             tags tag = db.tags.Single(x => x.Id == Id);
                             if (tag != null)
                             {
-                                taggings currentTagging = db.taggings.SingleOrDefault(x => x.TagId == tag.Id && x.CheckListId == templateId);
+                                taggings currentTagging = await db.taggings.SingleOrDefaultAsync(x => x.TagId == tag.Id && x.CheckListId == templateId);
 
                                 if (currentTagging == null)
                                 {
@@ -584,7 +584,7 @@ namespace Microting.eForm.Infrastructure
             string methodName = t.GetMethodName("SQLController"); 
             using (var db = GetContext())
             {
-                check_lists checkList = db.check_lists.SingleOrDefault(x => x.Id == eFormId);
+                check_lists checkList = await db.check_lists.SingleOrDefaultAsync(x => x.Id == eFormId);
                 if (checkList != null)
                 {
                     checkList.JasperExportEnabled = isEnabled;
@@ -598,7 +598,7 @@ namespace Microting.eForm.Infrastructure
             string methodName = t.GetMethodName("SQLController"); 
             using (var db = GetContext())
             {
-                check_lists checkList = db.check_lists.SingleOrDefault(x => x.Id == eFormId);
+                check_lists checkList = await db.check_lists.SingleOrDefaultAsync(x => x.Id == eFormId);
                 if (checkList != null)
                 {
                     checkList.DocxExportEnabled = isEnabled;
@@ -625,7 +625,7 @@ namespace Microting.eForm.Infrastructure
                     cLS.LastCheckId = 0;
                     cLS.MicrotingUid = microtingUId;
                     cLS.SiteId = siteId;
-                    cLS.Create(db);
+                    await cLS.Create(db);
                 }
             }
             catch (Exception ex)
@@ -737,7 +737,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    check_list_sites match = db.check_list_sites.SingleOrDefault(x => x.MicrotingUid == microtingUId);
+                    check_list_sites match = await db.check_list_sites.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUId);
                     if (match == null)
                         return null;
                     else
@@ -757,7 +757,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    cases match = db.cases.SingleOrDefault(x => x.MicrotingUid == microtingUId);
+                    cases match = await db.cases.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUId);
 
                     if (match != null)
                     {
@@ -779,7 +779,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    cases caseStd = db.cases.SingleOrDefault(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == microtingCheckId);
+                    cases caseStd = await db.cases.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == microtingCheckId);
 
                     if (caseStd == null)
                         caseStd = db.cases.Single(x => x.MicrotingUid == microtingUId);
@@ -793,7 +793,7 @@ namespace Microting.eForm.Infrastructure
                     caseStd.UnitId = unitId;
                     caseStd.MicrotingCheckUid = microtingCheckId;
                     #region - update "check_list_sites" if needed
-                    check_list_sites match = db.check_list_sites.SingleOrDefault(x => x.MicrotingUid == microtingUId);
+                    check_list_sites match = await db.check_list_sites.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUId);
                     if (match != null)
                     {
                         match.LastCheckId = microtingCheckId;
@@ -866,7 +866,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    cases aCase = db.cases.SingleOrDefault(x => x.Id == caseId);
+                    cases aCase = await db.cases.SingleOrDefaultAsync(x => x.Id == caseId);
 
                     if (aCase != null)
                     {
@@ -1080,7 +1080,7 @@ namespace Microting.eForm.Infrastructure
                                                 if (fieldV.Value != "" || fieldV.Value != null)
                                                 {
                                                     int Id = int.Parse(fieldV.Value);
-                                                    entity_items match = db.entity_items.SingleOrDefault(x => x.Id == Id);
+                                                    entity_items match = await db.entity_items.SingleOrDefaultAsync(x => x.Id == Id);
                                                     
                                                     if (match != null)
                                                     {
@@ -1189,7 +1189,7 @@ namespace Microting.eForm.Infrastructure
 
                         field_values fieldV = null;
 
-                        fieldV = db.field_values.SingleOrDefault(x => x.FieldId == field.Id && x.CaseId == responseCase.Id && x.CheckListId == field.CheckListId && x.WorkerId == userId);
+                        fieldV = await db.field_values.SingleOrDefaultAsync(x => x.FieldId == field.Id && x.CaseId == responseCase.Id && x.CheckListId == field.CheckListId && x.WorkerId == userId);
 
                         if (fieldV == null)
                         {
@@ -1242,7 +1242,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    cases match = db.cases.SingleOrDefault(x => x.Id == caseId);
+                    cases match = await db.cases.SingleOrDefaultAsync(x => x.Id == caseId);
 
 
                     if (match != null)
@@ -1252,52 +1252,52 @@ namespace Microting.eForm.Infrastructure
                         check_lists cl = match.CheckList;
                         field_values fv = null;
                         #region field_value and field matching
-                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field1);
+                        fv = await db.field_values.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field1);
                         if (fv != null)
                         {
                             match.FieldValue1 = fv.Value;
                         }
-                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field2);
+                        fv = await db.field_values.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field2);
                         if (fv != null)
                         {
                             match.FieldValue2 = fv.Value;
                         }
-                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field3);
+                        fv = await db.field_values.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field3);
                         if (fv != null)
                         {
                             match.FieldValue3 = fv.Value;
                         }
-                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field4);
+                        fv = await db.field_values.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field4);
                         if (fv != null)
                         {
                             match.FieldValue4 = fv.Value;
                         }
-                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field5);
+                        fv = await db.field_values.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field5);
                         if (fv != null)
                         {
                             match.FieldValue5 = fv.Value;
                         }
-                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field6);
+                        fv = await db.field_values.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field6);
                         if (fv != null)
                         {
                             match.FieldValue6 = fv.Value;
                         }
-                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field7);
+                        fv = await db.field_values.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field7);
                         if (fv != null)
                         {
                             match.FieldValue7 = fv.Value;
                         }
-                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field8);
+                        fv = await db.field_values.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field8);
                         if (fv != null)
                         {
                             match.FieldValue8 = fv.Value;
                         }
-                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field9);
+                        fv = await db.field_values.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field9);
                         if (fv != null)
                         {
                             match.FieldValue9 = fv.Value;
                         }
-                        fv = db.field_values.SingleOrDefault(x => x.CaseId == caseId && x.FieldId == cl.Field10);
+                        fv = await db.field_values.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field10);
                         if (fv != null)
                         {
                             match.FieldValue10 = fv.Value;
@@ -1494,7 +1494,7 @@ namespace Microting.eForm.Infrastructure
         {
             using (var db = GetContext())
             {
-                fields fieldDb = db.fields.SingleOrDefault(x => x.Id == id);
+                fields fieldDb = await db.fields.SingleOrDefaultAsync(x => x.Id == id);
                 return fieldDb;
             }
         }
@@ -1503,7 +1503,7 @@ namespace Microting.eForm.Infrastructure
         {
             using (var db = GetContext())
             {
-                return db.check_lists.SingleOrDefault(x => x.Id == id);
+                return await db.check_lists.SingleOrDefaultAsync(x => x.Id == id);
             }
         }
 
@@ -1542,7 +1542,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    fields dbField = db.fields.SingleOrDefault(x => x.Id == id);
+                    fields dbField = await db.fields.SingleOrDefaultAsync(x => x.Id == id);
 
                     Field field = await DbFieldToField(dbField);
                     return field;
@@ -1636,7 +1636,7 @@ namespace Microting.eForm.Infrastructure
                             if (reply.Value != "" || reply.Value != null)
                             {
 								int Id = int.Parse(reply.Value);
-                                entity_items match = db.entity_items.SingleOrDefault(x => x.Id == Id);
+                                entity_items match = await db.entity_items.SingleOrDefaultAsync(x => x.Id == Id);
 
                                 if (match != null)
                                 {
@@ -1968,7 +1968,7 @@ namespace Microting.eForm.Infrastructure
                                     {
                                         if (item.Value != "" || item.Value != null)
                                         {
-                                            entity_items match = db.entity_items.SingleOrDefault(x => x.Id.ToString() == item.Value);
+                                            entity_items match = await db.entity_items.SingleOrDefaultAsync(x => x.Id.ToString() == item.Value);
 
                                             if (match != null)
                                             {
@@ -2115,7 +2115,7 @@ namespace Microting.eForm.Infrastructure
                 }
                 else
                 {
-                    notifications aNote = db.notifications.SingleOrDefault(x => x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId);
+                    notifications aNote = await db.notifications.SingleOrDefaultAsync(x => x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId);
                     return aNote;
                 }
 
@@ -2280,7 +2280,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    return db.uploaded_data.SingleOrDefault(x => x.Id == Id);
+                    return await db.uploaded_data.SingleOrDefaultAsync(x => x.Id == Id);
                 }
             }
             catch (Exception ex)
@@ -2324,7 +2324,7 @@ namespace Microting.eForm.Infrastructure
                     uploaded_data ud = await GetUploaded_DataByTranscriptionId(transcriptionId);
                     if (ud != null)
                     {
-                        return db.field_values.SingleOrDefault(x => x.UploadedDataId == ud.Id);
+                        return await db.field_values.SingleOrDefaultAsync(x => x.UploadedDataId == ud.Id);
                     } else
                     {
                         return null;
@@ -2345,7 +2345,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    return db.uploaded_data.SingleOrDefault(x => x.TranscriptionId == transcriptionId);                    
+                    return await db.uploaded_data.SingleOrDefaultAsync(x => x.TranscriptionId == transcriptionId);                    
                 }
             }
             catch (Exception ex)
@@ -2905,7 +2905,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    cases lstMatchs = db.cases.SingleOrDefault(x => x.Id == caseId);
+                    cases lstMatchs = await db.cases.SingleOrDefaultAsync(x => x.Id == caseId);
 
                     if (lstMatchs == null)
                         return false;
@@ -2950,7 +2950,7 @@ namespace Microting.eForm.Infrastructure
                             {
                                 if (item.Value != "" || item.Value != null)
                                 {
-                                    entity_items match = db.entity_items.SingleOrDefault(x => x.Id == int.Parse(item.Value));
+                                    entity_items match = await db.entity_items.SingleOrDefaultAsync(x => x.Id == int.Parse(item.Value));
 
                                     if (match != null)
                                     {
@@ -3190,7 +3190,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    sites site = db.sites.SingleOrDefault(x => x.MicrotingUid == microting_uid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
+                    sites site = await db.sites.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
 
                     if (site != null)
                         return new SiteName_Dto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
@@ -3212,7 +3212,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    sites site = db.sites.SingleOrDefault(x => x.MicrotingUid == microting_uid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
+                    sites site = await db.sites.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
                     if (site == null)
                         return null;
 
@@ -3252,7 +3252,7 @@ namespace Microting.eForm.Infrastructure
                     //logger.LogEverything(methodName + " called");
                     //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
-                    sites site = db.sites.SingleOrDefault(x => x.MicrotingUid == microting_uid);
+                    sites site = await db.sites.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid);
 
                     if (site != null)
                     {
@@ -3294,7 +3294,7 @@ namespace Microting.eForm.Infrastructure
                     //logger.LogEverything(methodName + " called");
                     //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
-                    sites site = db.sites.SingleOrDefault(x => x.MicrotingUid == microting_uid);
+                    sites site = await db.sites.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid);
 
                     if (site != null)
                     {
@@ -3420,7 +3420,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    workers worker = db.workers.SingleOrDefault(x => x.Id == workerId && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
+                    workers worker = await db.workers.SingleOrDefaultAsync(x => x.Id == workerId && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
 
                     if (worker == null)
                         return null;
@@ -3447,7 +3447,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    workers worker = db.workers.SingleOrDefault(x => x.MicrotingUid == microting_uid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
+                    workers worker = await db.workers.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
 
                     if (worker != null)
                         return new Worker_Dto((int)worker.MicrotingUid, worker.FirstName, worker.LastName, worker.Email, worker.CreatedAt, worker.UpdatedAt);
@@ -3480,7 +3480,7 @@ namespace Microting.eForm.Infrastructure
                     //logger.LogEverything(methodName + " called");
                     //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
-                    workers worker = db.workers.SingleOrDefault(x => x.MicrotingUid == microtingUid);
+                    workers worker = await db.workers.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUid);
 
                     if (worker != null)
                     {
@@ -3517,7 +3517,7 @@ namespace Microting.eForm.Infrastructure
                 {
                     //logger.LogEverything(methodName + " called");
 
-                    workers worker = db.workers.SingleOrDefault(x => x.MicrotingUid == microtingUid);
+                    workers worker = await db.workers.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUid);
 
                     if (worker != null)
                     {
@@ -3606,11 +3606,11 @@ namespace Microting.eForm.Infrastructure
                     {
                         sites site = db.sites.Single(x => x.MicrotingUid == siteId);
                         workers worker = db.workers.Single(x => x.MicrotingUid == workerId);
-                        site_worker = db.site_workers.SingleOrDefault(x => x.SiteId == site.Id && x.WorkerId == worker.Id);
+                        site_worker = await db.site_workers.SingleOrDefaultAsync(x => x.SiteId == site.Id && x.WorkerId == worker.Id);
                     }
                     else
                     {
-                        site_worker = db.site_workers.SingleOrDefault(x => x.MicrotingUid == siteWorkerMicrotingUid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
+                        site_worker = await db.site_workers.SingleOrDefaultAsync(x => x.MicrotingUid == siteWorkerMicrotingUid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
                     }
 
 
@@ -3644,7 +3644,7 @@ namespace Microting.eForm.Infrastructure
                 {
                     //logger.LogEverything(methodName + " called");
 
-                    site_workers site_worker = db.site_workers.SingleOrDefault(x => x.MicrotingUid == microtingUid);
+                    site_workers site_worker = await db.site_workers.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUid);
 
                     if (site_worker != null)
                     {
@@ -3687,7 +3687,7 @@ namespace Microting.eForm.Infrastructure
                 {
                     //logger.LogEverything(methodName + " called");
 
-                    site_workers site_worker = db.site_workers.SingleOrDefault(x => x.MicrotingUid == microting_uid);
+                    site_workers site_worker = await db.site_workers.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid);
 
                     if (site_worker != null)
                     {
@@ -3797,7 +3797,7 @@ namespace Microting.eForm.Infrastructure
                 {
                     //logger.LogEverything(methodName + " called");
 
-                    units unit = db.units.SingleOrDefault(x => x.MicrotingUid == microtingUid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
+                    units unit = await db.units.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
 
                     if (unit != null)
                         return new Unit_Dto((int)unit.MicrotingUid, (int)unit.CustomerNo, (int)unit.OtpCode, (int)unit.SiteId, unit.CreatedAt, unit.UpdatedAt);
@@ -3830,7 +3830,7 @@ namespace Microting.eForm.Infrastructure
                 {
                     //logger.LogEverything(methodName + " called");
 
-                    units unit = db.units.SingleOrDefault(x => x.MicrotingUid == microtingUid);
+                    units unit = await db.units.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUid);
 
                     if (unit != null)
                     {
@@ -3866,7 +3866,7 @@ namespace Microting.eForm.Infrastructure
                 {
                     //logger.LogEverything(methodName + " called");
 
-                    units unit = db.units.SingleOrDefault(x => x.MicrotingUid == microtingUid);
+                    units unit = await db.units.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUid);
 
                     if (unit != null)
                     {
@@ -4014,7 +4014,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    entity_groups eG = db.entity_groups.SingleOrDefault(x => x.MicrotingUid == entityGroupMUId);
+                    entity_groups eG = await db.entity_groups.SingleOrDefaultAsync(x => x.MicrotingUid == entityGroupMUId);
 
                     if (eG == null)
                         return null;
@@ -4087,7 +4087,7 @@ namespace Microting.eForm.Infrastructure
         public async Task<EntityGroup> EntityGroupRead(int Id) 
         {
             using (var db = GetContext()) {
-                entity_groups eg = db.entity_groups.SingleOrDefault(x => x.Id == Id);
+                entity_groups eg = await db.entity_groups.SingleOrDefaultAsync(x => x.Id == Id);
                 if (eg != null) {
                     List<EntityItem> egl = new List<EntityItem>();
                     return new EntityGroup
@@ -4124,7 +4124,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    entity_groups eG = db.entity_groups.SingleOrDefault(x => x.Id == entityGroupId);
+                    entity_groups eG = await db.entity_groups.SingleOrDefaultAsync(x => x.Id == entityGroupId);
 
                     if (eG == null)
                         return false;
@@ -4154,7 +4154,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    entity_groups eG = db.entity_groups.SingleOrDefault(x => x.MicrotingUid == entityGroupMUId);
+                    entity_groups eG = await db.entity_groups.SingleOrDefaultAsync(x => x.MicrotingUid == entityGroupMUId);
 
                     if (eG == null)
                         return false;
@@ -4185,7 +4185,7 @@ namespace Microting.eForm.Infrastructure
                 {
                     List<string> killLst = new List<string>();
 
-                    entity_groups eG = db.entity_groups.SingleOrDefault(x => x.MicrotingUid == entityGroupMUId && x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
+                    entity_groups eG = await db.entity_groups.SingleOrDefaultAsync(x => x.MicrotingUid == entityGroupMUId && x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
 
                     if (eG == null)
                         return null;
@@ -4287,7 +4287,7 @@ namespace Microting.eForm.Infrastructure
         {
             using (var db = GetContext())
             {
-                entity_items et = db.entity_items.SingleOrDefault(x => x.Name == name 
+                entity_items et = await db.entity_items.SingleOrDefaultAsync(x => x.Name == name 
                                                                        && x.Description == description 
                                                                        && x.EntityGroupId == entityItemGroupId);
                 if (et != null)
@@ -4337,7 +4337,7 @@ namespace Microting.eForm.Infrastructure
         {
             using (var db = GetContext())
             {
-                var match = db.entity_items.SingleOrDefault(x => x.Id == entityItem.Id);
+                var match = await db.entity_items.SingleOrDefaultAsync(x => x.Id == entityItem.Id);
                 match.Description = entityItem.Description;
                 match.Name = entityItem.Name;
                 match.Synced = t.Bool(false);
@@ -4357,7 +4357,7 @@ namespace Microting.eForm.Infrastructure
         {
             using (var db = GetContext())
             {
-                entity_items et = db.entity_items.SingleOrDefault(x => x.Id == Id);
+                entity_items et = await db.entity_items.SingleOrDefaultAsync(x => x.Id == Id);
                 if (et == null)
                 {
                     throw new NullReferenceException("EntityItem not found with Id " + Id.ToString());
@@ -4407,7 +4407,7 @@ namespace Microting.eForm.Infrastructure
         {
             using (var db = GetContext())
             {
-                folders folder = db.folders.SingleOrDefault(x => x.MicrotingUid == microting_uid);
+                folders folder = await db.folders.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid);
 
                 if (folder == null)
                 {
@@ -4429,7 +4429,7 @@ namespace Microting.eForm.Infrastructure
         {
             using (var db = GetContext())
             {
-                folders folder = db.folders.SingleOrDefault(x => x.Id == Id);
+                folders folder = await db.folders.SingleOrDefaultAsync(x => x.Id == Id);
 
                 if (folder == null)
                 {
@@ -4476,7 +4476,7 @@ namespace Microting.eForm.Infrastructure
         {
             using (var db = GetContext())
             {
-                folders folder = db.folders.SingleOrDefault(x => x.Id == Id);
+                folders folder = await db.folders.SingleOrDefaultAsync(x => x.Id == Id);
 
                 if (folder == null)
                 {
@@ -4500,7 +4500,7 @@ namespace Microting.eForm.Infrastructure
         {
             using (var db = GetContext())
             {
-                folders folder = db.folders.SingleOrDefault(x => x.Id == Id);
+                folders folder = await db.folders.SingleOrDefaultAsync(x => x.Id == Id);
 
                 if (folder == null)
                 {
@@ -4640,8 +4640,8 @@ namespace Microting.eForm.Infrastructure
                 }
                 #endregion
 
-                settings matchId = db.settings.SingleOrDefault(x => x.Id == Id);
-                settings matchName = db.settings.SingleOrDefault(x => x.Name == name.ToString());
+                settings matchId = await db.settings.SingleOrDefaultAsync(x => x.Id == Id);
+                settings matchName = await db.settings.SingleOrDefaultAsync(x => x.Name == name.ToString());
 
                 if (matchName == null)
                 {
@@ -4720,7 +4720,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    settings match = db.settings.SingleOrDefault(x => x.Name == name.ToString());
+                    settings match = await db.settings.SingleOrDefaultAsync(x => x.Name == name.ToString());
 
                     if (match == null)
                     {
@@ -5641,7 +5641,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    tags tag = db.tags.SingleOrDefault(x => x.Name == name);
+                    tags tag = await db.tags.SingleOrDefaultAsync(x => x.Name == name);
                     if (tag == null)
                     {
                         tag = new tags();
@@ -5675,7 +5675,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    tags tag = db.tags.SingleOrDefault(x => x.Id == tagId);
+                    tags tag = await db.tags.SingleOrDefaultAsync(x => x.Id == tagId);
                     if (tag != null)                    
                     {
                         await tag.Delete(db);

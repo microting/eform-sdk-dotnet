@@ -48,31 +48,31 @@ namespace eFormSDK.Tests
              sites site = new sites();
              site.Name = Guid.NewGuid().ToString();
              site.MicrotingUid = rnd.Next(1, 255);
-             site.Create(DbContext);
+             await site.Create(dbContext);
              
              sites siteForUnit = new sites();
              siteForUnit.Name = Guid.NewGuid().ToString();
              siteForUnit.MicrotingUid = rnd.Next(1, 255);
-             siteForUnit.Create(DbContext);
+             await siteForUnit.Create(dbContext);
              
              units unit = new units();
              unit.SiteId = siteForUnit.Id;
              unit.CustomerNo = rnd.Next(1, 255);
              unit.MicrotingUid = rnd.Next(1, 255);
              unit.OtpCode = rnd.Next(1, 255);
-             unit.Create(DbContext);
+             await unit.Create(dbContext);
 
              languages language = new languages();
              language.Description = Guid.NewGuid().ToString();
              language.Name = Guid.NewGuid().ToString();
-             language.Create(DbContext);
+             await language.Create(dbContext);
              
              question_sets questionSet = new question_sets();
              questionSet.Name = Guid.NewGuid().ToString();
              questionSet.Share = randomBool;
              questionSet.HasChild = randomBool;
              questionSet.PosiblyDeployed = randomBool;
-             questionSet.Create(DbContext);
+             await questionSet.Create(dbContext);
              
              survey_configurations surveyConfiguration = new survey_configurations();
              surveyConfiguration.Name = Guid.NewGuid().ToString();
@@ -80,7 +80,7 @@ namespace eFormSDK.Tests
              surveyConfiguration.Stop = DateTime.Now;
              surveyConfiguration.TimeOut = rnd.Next(1, 255);
              surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-             surveyConfiguration.Create(DbContext);
+             await surveyConfiguration.Create(dbContext);
              
              answers answer = new answers();
              answer.AnswerDuration = rnd.Next(1, 255);
@@ -96,10 +96,10 @@ namespace eFormSDK.Tests
              
              //Act
             
-             answer.Create(DbContext);
+             await answer.Create(dbContext);
 
-             List<answers> answers = DbContext.answers.AsNoTracking().ToList();
-             List<answer_versions> answerVersions = DbContext.answer_versions.AsNoTracking().ToList();
+             List<answers> answers = dbContext.answers.AsNoTracking().ToList();
+             List<answer_versions> answerVersions = dbContext.answer_versions.AsNoTracking().ToList();
             
             //Assert
             
@@ -152,31 +152,31 @@ namespace eFormSDK.Tests
              sites site = new sites();
              site.Name = Guid.NewGuid().ToString();
              site.MicrotingUid = rnd.Next(1, 255);
-             site.Create(DbContext);
+             await site.Create(dbContext);
              
              sites siteForUnit = new sites();
              siteForUnit.Name = Guid.NewGuid().ToString();
              siteForUnit.MicrotingUid = rnd.Next(1, 255);
-             siteForUnit.Create(DbContext);
+             await siteForUnit.Create(dbContext);
              
              units unit = new units();
              unit.SiteId = siteForUnit.Id;
              unit.CustomerNo = rnd.Next(1, 255);
              unit.MicrotingUid = rnd.Next(1, 255);
              unit.OtpCode = rnd.Next(1, 255);
-             unit.Create(DbContext);
+             await unit.Create(dbContext);
              
              languages language = new languages();
              language.Description = Guid.NewGuid().ToString();
              language.Name = Guid.NewGuid().ToString();
-             language.Create(DbContext);
+             await language.Create(dbContext);
              
              question_sets questionSet = new question_sets();
              questionSet.Name = Guid.NewGuid().ToString();
              questionSet.Share = randomBool;
              questionSet.HasChild = randomBool;
              questionSet.PosiblyDeployed = randomBool;
-             questionSet.Create(DbContext);
+             await questionSet.Create(dbContext);
              
              survey_configurations surveyConfiguration = new survey_configurations();
              surveyConfiguration.Name = Guid.NewGuid().ToString();
@@ -184,7 +184,7 @@ namespace eFormSDK.Tests
              surveyConfiguration.Stop = DateTime.Now;
              surveyConfiguration.TimeOut = rnd.Next(1, 255);
              surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-             surveyConfiguration.Create(DbContext);
+             await surveyConfiguration.Create(dbContext);
              
              answers answer = new answers();
              answer.AnswerDuration = rnd.Next(1, 255);
@@ -197,7 +197,7 @@ namespace eFormSDK.Tests
              answer.UtcAdjusted = randomBool;
              answer.QuestionSetId = questionSet.Id;
              answer.SurveyConfigurationId = surveyConfiguration.Id;
-             answer.Create(DbContext);
+             answer.Create(dbContext);
             
             //Act
 
@@ -212,10 +212,10 @@ namespace eFormSDK.Tests
             answer.TimeZone = Guid.NewGuid().ToString();
             answer.UtcAdjusted = randomBool;
             
-            answer.Update(DbContext);
+            await answer.Update(dbContext);
             
-            List<answers> answers = DbContext.answers.AsNoTracking().ToList();                            
-            List<answer_versions> answerVersions = DbContext.answer_versions.AsNoTracking().ToList(); 
+            List<answers> answers = dbContext.answers.AsNoTracking().ToList();                            
+            List<answer_versions> answerVersions = dbContext.answer_versions.AsNoTracking().ToList(); 
             
             //Assert
             
@@ -280,31 +280,31 @@ namespace eFormSDK.Tests
              sites site = new sites();
              site.Name = Guid.NewGuid().ToString();
              site.MicrotingUid = rnd.Next(1, 255);
-             site.Create(DbContext);
+             await site.Create(dbContext);
              
              sites siteForUnit = new sites();
              siteForUnit.Name = Guid.NewGuid().ToString();
              siteForUnit.MicrotingUid = rnd.Next(1, 255);
-             siteForUnit.Create(DbContext);
+             await siteForUnit.Create(dbContext);
              
              units unit = new units();
              unit.CustomerNo = rnd.Next(1, 255);
              unit.MicrotingUid = rnd.Next(1, 255);
              unit.OtpCode = rnd.Next(1, 255);
              unit.SiteId = siteForUnit.Id;
-             unit.Create(DbContext);
+             await unit.Create(dbContext);
              
              languages language = new languages();
              language.Description = Guid.NewGuid().ToString();
              language.Name = Guid.NewGuid().ToString();
-             language.Create(DbContext);
+             await language.Create(dbContext);
              
              question_sets questionSet = new question_sets();
              questionSet.Name = Guid.NewGuid().ToString();
              questionSet.Share = randomBool;
              questionSet.HasChild = randomBool; 
              questionSet.PosiblyDeployed = randomBool;
-             questionSet.Create(DbContext);
+             await questionSet.Create(dbContext);
              
              survey_configurations surveyConfiguration = new survey_configurations();
              surveyConfiguration.Name = Guid.NewGuid().ToString();
@@ -312,7 +312,7 @@ namespace eFormSDK.Tests
              surveyConfiguration.Stop = DateTime.Now;
              surveyConfiguration.TimeOut = rnd.Next(1, 255);
              surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-             surveyConfiguration.Create(DbContext);
+             await surveyConfiguration.Create(dbContext);
              
              answers answer = new answers();
              answer.AnswerDuration = rnd.Next(1, 255);
@@ -324,16 +324,16 @@ namespace eFormSDK.Tests
              answer.UtcAdjusted = randomBool;
              answer.QuestionSetId = questionSet.Id;
              answer.SurveyConfigurationId = surveyConfiguration.Id;
-             answer.Create(DbContext);
+             await answer.Create(dbContext);
             
             //Act
             
             DateTime? oldUpdatedAt = answer.UpdatedAt;
             
-            answer.Delete(DbContext);
+            await answer.Delete(dbContext);
             
-            List<answers> answers = DbContext.answers.AsNoTracking().ToList();                            
-            List<answer_versions> answerVersions = DbContext.answer_versions.AsNoTracking().ToList();
+            List<answers> answers = dbContext.answers.AsNoTracking().ToList();                            
+            List<answer_versions> answerVersions = dbContext.answer_versions.AsNoTracking().ToList();
             
             //Assert
             

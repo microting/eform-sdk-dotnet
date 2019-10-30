@@ -61,7 +61,7 @@ namespace eFormSDK.Integration.Tests
             var match = await sut.SiteCreate("John Noname Doe", "John Noname", "Doe", "some_email@invalid.com");
 
             // Assert
-            var sites = DbContext.sites.AsNoTracking().ToList();
+            var sites = dbContext.sites.AsNoTracking().ToList();
 
             Assert.NotNull(sites);
 
@@ -94,67 +94,67 @@ namespace eFormSDK.Integration.Tests
 //            #region Template1
 //            DateTime cl1_Ca = DateTime.Now;
 //            DateTime cl1_Ua = DateTime.Now;
-//            check_lists cl1 = testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+//            check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 //
 //            #endregion
 //
 //            #region subtemplates
 //            #region SubTemplate1
-//            check_lists cl2 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//            check_lists cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
 //
 //            #region SubTemplate1
-//            check_lists cl3 = testHelpers.CreateSubTemplate("A.2", "D.2", "CheckList", 1, 1, cl1);
+//            check_lists cl3 = await testHelpers.CreateSubTemplate("A.2", "D.2", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
 //
 //            #region SubTemplate1
-//            check_lists cl4 = testHelpers.CreateSubTemplate("A.3", "D.3", "CheckList", 1, 1, cl1);
+//            check_lists cl4 = await testHelpers.CreateSubTemplate("A.3", "D.3", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
 //
 //            #region SubTemplate1
-//            check_lists cl5 = testHelpers.CreateSubTemplate("A.4", "D.4", "CheckList", 1, 1, cl1);
+//            check_lists cl5 = await testHelpers.CreateSubTemplate("A.4", "D.4", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
 //
 //            #region SubTemplate1
-//            check_lists cl6 = testHelpers.CreateSubTemplate("A.5", "D.5", "CheckList", 1, 1, cl1);
+//            check_lists cl6 = await testHelpers.CreateSubTemplate("A.5", "D.5", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
 //
 //            #region SubTemplate1
-//            check_lists cl7 = testHelpers.CreateSubTemplate("A.6", "D.6", "CheckList", 1, 1, cl1);
+//            check_lists cl7 = await testHelpers.CreateSubTemplate("A.6", "D.6", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
 //
 //            #region SubTemplate1
-//            check_lists cl8 = testHelpers.CreateSubTemplate("A.7", "D.7", "CheckList", 1, 1, cl1);
+//            check_lists cl8 = await testHelpers.CreateSubTemplate("A.7", "D.7", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
 //
 //            #region SubTemplate1
-//            check_lists cl9 = testHelpers.CreateSubTemplate("A.8", "D.8", "CheckList", 1, 1, cl1);
+//            check_lists cl9 = await testHelpers.CreateSubTemplate("A.8", "D.8", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
 //
 //            #region SubTemplate1
-//            check_lists cl10 = testHelpers.CreateSubTemplate("A.9", "D.9", "CheckList", 1, 1, cl1);
+//            check_lists cl10 = await testHelpers.CreateSubTemplate("A.9", "D.9", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
 //
 //            #region SubTemplate1
-//            check_lists cl11 = testHelpers.CreateSubTemplate("A.10", "D.10", "CheckList", 1, 1, cl1);
+//            check_lists cl11 = await testHelpers.CreateSubTemplate("A.10", "D.10", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
@@ -164,7 +164,7 @@ namespace eFormSDK.Integration.Tests
 //            #region field1
 //
 //
-//            fields f1 = testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
+//            fields f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
 //                5, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
 //                0, 0, "", 49);
 //
@@ -173,7 +173,7 @@ namespace eFormSDK.Integration.Tests
 //            #region field2
 //
 //
-//            fields f2 = testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+//            fields f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
 //                45, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
 //                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 //
@@ -182,7 +182,7 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region field3
 //
-//            fields f3 = testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+//            fields f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
 //                83, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0,
 //                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
 //
@@ -192,7 +192,7 @@ namespace eFormSDK.Integration.Tests
 //            #region field4
 //
 //
-//            fields f4 = testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+//            fields f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
 //                84, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0,
 //                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
 //
@@ -201,7 +201,7 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region field5
 //
-//            fields f5 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+//            fields f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
 //                85, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
 //                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 //
@@ -210,7 +210,7 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region field6
 //
-//            fields f6 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+//            fields f6 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
 //                86, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
 //                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 //
@@ -219,7 +219,7 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region field7
 //
-//            fields f7 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+//            fields f7 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
 //                87, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
 //                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 //
@@ -228,7 +228,7 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region field8
 //
-//            fields f8 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+//            fields f8 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
 //                88, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
 //                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 //
@@ -237,7 +237,7 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region field9
 //
-//            fields f9 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+//            fields f9 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
 //                89, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
 //                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 //
@@ -246,7 +246,7 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region field10
 //
-//            fields f10 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+//            fields f10 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
 //                90, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
 //                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 //
@@ -257,22 +257,22 @@ namespace eFormSDK.Integration.Tests
 
             #region Worker
 
-            workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
             #endregion
 
             #region site
-            sites site = testHelpers.CreateSite("SiteName", 88);
+            sites site = await testHelpers.CreateSite("SiteName", 88);
 
             #endregion
 
             #region units
-            units unit = testHelpers.CreateUnit(48, 49, site, 348);
+            units unit = await testHelpers.CreateUnit(48, 49, site, 348);
 
             #endregion
 
             #region site_workers
-            site_workers site_workers = testHelpers.CreateSiteWorker(55, site, worker);
+            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
 
@@ -295,67 +295,67 @@ namespace eFormSDK.Integration.Tests
 //            #region Template1
 //            DateTime cl1_Ca = DateTime.Now;
 //            DateTime cl1_Ua = DateTime.Now;
-//            check_lists cl1 = testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+//            check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 //
 //            #endregion
 //
 //            #region subtemplates
 //            #region SubTemplate1
-//            check_lists cl2 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//            check_lists cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
 //
 //            #region SubTemplate1
-//            check_lists cl3 = testHelpers.CreateSubTemplate("A.2", "D.2", "CheckList", 1, 1, cl1);
+//            check_lists cl3 = await testHelpers.CreateSubTemplate("A.2", "D.2", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
 //
 //            #region SubTemplate1
-//            check_lists cl4 = testHelpers.CreateSubTemplate("A.3", "D.3", "CheckList", 1, 1, cl1);
+//            check_lists cl4 = await testHelpers.CreateSubTemplate("A.3", "D.3", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
 //
 //            #region SubTemplate1
-//            check_lists cl5 = testHelpers.CreateSubTemplate("A.4", "D.4", "CheckList", 1, 1, cl1);
+//            check_lists cl5 = await testHelpers.CreateSubTemplate("A.4", "D.4", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
 //
 //            #region SubTemplate1
-//            check_lists cl6 = testHelpers.CreateSubTemplate("A.5", "D.5", "CheckList", 1, 1, cl1);
+//            check_lists cl6 = await testHelpers.CreateSubTemplate("A.5", "D.5", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
 //
 //            #region SubTemplate1
-//            check_lists cl7 = testHelpers.CreateSubTemplate("A.6", "D.6", "CheckList", 1, 1, cl1);
+//            check_lists cl7 = await testHelpers.CreateSubTemplate("A.6", "D.6", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
 //
 //            #region SubTemplate1
-//            check_lists cl8 = testHelpers.CreateSubTemplate("A.7", "D.7", "CheckList", 1, 1, cl1);
+//            check_lists cl8 = await testHelpers.CreateSubTemplate("A.7", "D.7", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
 //
 //            #region SubTemplate1
-//            check_lists cl9 = testHelpers.CreateSubTemplate("A.8", "D.8", "CheckList", 1, 1, cl1);
+//            check_lists cl9 = await testHelpers.CreateSubTemplate("A.8", "D.8", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
 //
 //            #region SubTemplate1
-//            check_lists cl10 = testHelpers.CreateSubTemplate("A.9", "D.9", "CheckList", 1, 1, cl1);
+//            check_lists cl10 = await testHelpers.CreateSubTemplate("A.9", "D.9", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
 //
 //            #region SubTemplate1
-//            check_lists cl11 = testHelpers.CreateSubTemplate("A.10", "D.10", "CheckList", 1, 1, cl1);
+//            check_lists cl11 = await testHelpers.CreateSubTemplate("A.10", "D.10", "CheckList", 1, 1, cl1);
 //
 //
 //            #endregion
@@ -365,7 +365,7 @@ namespace eFormSDK.Integration.Tests
 //            #region field1
 //
 //
-//            fields f1 = testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
+//            fields f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
 //                5, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
 //                0, 0, "", 49);
 //
@@ -374,7 +374,7 @@ namespace eFormSDK.Integration.Tests
 //            #region field2
 //
 //
-//            fields f2 = testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+//            fields f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
 //                45, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
 //                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 //
@@ -383,7 +383,7 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region field3
 //
-//            fields f3 = testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+//            fields f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
 //                83, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0,
 //                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
 //
@@ -393,7 +393,7 @@ namespace eFormSDK.Integration.Tests
 //            #region field4
 //
 //
-//            fields f4 = testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+//            fields f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
 //                84, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0,
 //                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
 //
@@ -402,7 +402,7 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region field5
 //
-//            fields f5 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+//            fields f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
 //                85, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
 //                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 //
@@ -411,7 +411,7 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region field6
 //
-//            fields f6 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+//            fields f6 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
 //                86, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
 //                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 //
@@ -420,7 +420,7 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region field7
 //
-//            fields f7 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+//            fields f7 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
 //                87, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
 //                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 //
@@ -429,7 +429,7 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region field8
 //
-//            fields f8 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+//            fields f8 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
 //                88, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
 //                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 //
@@ -438,7 +438,7 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region field9
 //
-//            fields f9 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+//            fields f9 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
 //                89, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
 //                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 //
@@ -447,7 +447,7 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region field10
 //
-//            fields f10 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+//            fields f10 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
 //                90, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
 //                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 //
@@ -458,22 +458,22 @@ namespace eFormSDK.Integration.Tests
 
             #region Worker
 
-            workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
             #endregion
 
             #region site
-            sites site = testHelpers.CreateSite("SiteName", 88);
+            sites site = await testHelpers.CreateSite("SiteName", 88);
 
             #endregion
 
             #region units
-            units unit = testHelpers.CreateUnit(48, 49, site, 348);
+            units unit = await testHelpers.CreateUnit(48, 49, site, 348);
 
             #endregion
 
             #region site_workers
-            site_workers site_workers = testHelpers.CreateSiteWorker(55, site, worker);
+            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
             // Act
@@ -495,7 +495,7 @@ namespace eFormSDK.Integration.Tests
 
             // Arrange
             #region site
-            sites site = testHelpers.CreateSite("SiteName", 88);
+            sites site = await testHelpers.CreateSite("SiteName", 88);
 
             #endregion
             // Act
@@ -513,7 +513,7 @@ namespace eFormSDK.Integration.Tests
             int siteMicrotingUid = 1; // This needs to be 1 for our tests to pass through the FakeHttp
             // TODO: Improve the test for supporting random id.
 
-            sites site = testHelpers.CreateSite(siteName, siteMicrotingUid);
+            sites site = await testHelpers.CreateSite(siteName, siteMicrotingUid);
             SiteName_Dto siteName_Dto = new SiteName_Dto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
             #endregion
 
@@ -521,19 +521,19 @@ namespace eFormSDK.Integration.Tests
             string email = Guid.NewGuid().ToString();
             string firstName = Guid.NewGuid().ToString();
             string lastName = Guid.NewGuid().ToString();
-            //int workerMicrotingUid = testHelpers.GetRandomInt();
+            //int workerMicrotingUid = await testHelpers.GetRandomInt();
             int workerMicrotingUid = 1; // This needs to be 1 for our tests to pass through the FakeHttp
             // TODO: Improve the test for supporting random id.
 
-            workers worker = testHelpers.CreateWorker(email, firstName, lastName, workerMicrotingUid);
+            workers worker = await testHelpers.CreateWorker(email, firstName, lastName, workerMicrotingUid);
             #endregion
 
             #region site_worker
-            site_workers site_worker = testHelpers.CreateSiteWorker(1, site, worker);
+            site_workers site_worker = await testHelpers.CreateSiteWorker(1, site, worker);
             #endregion
 
             #region unit
-            units unit = testHelpers.CreateUnit(1, 1, site, 1);
+            units unit = await testHelpers.CreateUnit(1, 1, site, 1);
             #endregion
 
 
@@ -550,7 +550,7 @@ namespace eFormSDK.Integration.Tests
             int siteMicrotingUid = 1; // This needs to be 1 for our tests to pass through the FakeHttp
             // TODO: Improve the test for supporting random id.
 
-            sites site = testHelpers.CreateSite(siteName, siteMicrotingUid);
+            sites site = await testHelpers.CreateSite(siteName, siteMicrotingUid);
             SiteName_Dto siteName_Dto = new SiteName_Dto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
             #endregion
 
@@ -558,19 +558,19 @@ namespace eFormSDK.Integration.Tests
             string email = Guid.NewGuid().ToString();
             string firstName = Guid.NewGuid().ToString();
             string lastName = Guid.NewGuid().ToString();
-            //int workerMicrotingUid = testHelpers.GetRandomInt();
+            //int workerMicrotingUid = await testHelpers.GetRandomInt();
             int workerMicrotingUid = 1; // This needs to be 1 for our tests to pass through the FakeHttp
             // TODO: Improve the test for supporting random id.
 
-            workers worker = testHelpers.CreateWorker(email, firstName, lastName, workerMicrotingUid);
+            workers worker = await testHelpers.CreateWorker(email, firstName, lastName, workerMicrotingUid);
             #endregion
 
             #region site_worker
-            site_workers site_worker = testHelpers.CreateSiteWorker(1, site, worker);
+            site_workers site_worker = await testHelpers.CreateSiteWorker(1, site, worker);
             #endregion
 
             #region unit
-            units unit = testHelpers.CreateUnit(1, 1, site, 1);
+            units unit = await testHelpers.CreateUnit(1, 1, site, 1);
             #endregion
             // Act
             var match = await sut.SiteDelete((int)site.MicrotingUid);

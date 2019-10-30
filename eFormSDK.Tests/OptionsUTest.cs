@@ -25,7 +25,7 @@ namespace eFormSDK.Tests
             questionSet.Share = randomBool;
             questionSet.HasChild = randomBool;
             questionSet.PosiblyDeployed = randomBool;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             
             questions question = new questions();
             question.Image = randomBool;
@@ -43,7 +43,7 @@ namespace eFormSDK.Tests
             question.ValidDisplay = randomBool;
             question.BackButtonEnabled = randomBool;
             question.QuestionSetId = questionSet.Id;
-            question.Create(DbContext);
+            await question.Create(dbContext);
             
             options option = new options();
             option.Weight = rnd.Next(1, 255);
@@ -53,10 +53,10 @@ namespace eFormSDK.Tests
             
             //Act
             
-            option.Create(DbContext);
+            await option.Create(dbContext);
             
-            List<options> options = DbContext.options.AsNoTracking().ToList();
-            List<option_versions> optionVersions = DbContext.option_versions.AsNoTracking().ToList();
+            List<options> options = dbContext.options.AsNoTracking().ToList();
+            List<option_versions> optionVersions = dbContext.option_versions.AsNoTracking().ToList();
             
             Assert.NotNull(options);                                                             
             Assert.NotNull(optionVersions);                                                             
@@ -97,7 +97,7 @@ namespace eFormSDK.Tests
             questionSet.Share = randomBool;
             questionSet.HasChild = randomBool;
             questionSet.PosiblyDeployed = randomBool;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             
             questions question = new questions();
             question.Image = randomBool;
@@ -115,14 +115,14 @@ namespace eFormSDK.Tests
             question.ValidDisplay = randomBool;
             question.BackButtonEnabled = randomBool;
             question.QuestionSetId = questionSet.Id;
-            question.Create(DbContext);
+            await question.Create(dbContext);
             
             options option = new options();
             option.Weight = rnd.Next(1, 255);
             option.OptionsIndex = rnd.Next(1, 255);
             option.WeightValue = rnd.Next(1, 255);
             option.QuestionId = question.Id;
-            option.Create(DbContext);
+            await option.Create(dbContext);
             
             //Act
 
@@ -134,10 +134,10 @@ namespace eFormSDK.Tests
             option.Weight = rnd.Next(1, 255);
             option.OptionsIndex = rnd.Next(1, 255);
             option.WeightValue = rnd.Next(1, 255);
-            option.Update(DbContext);
+            await option.Update(dbContext);
 
-            List<options> options = DbContext.options.AsNoTracking().ToList();
-            List<option_versions> optionVersions = DbContext.option_versions.AsNoTracking().ToList();
+            List<options> options = dbContext.options.AsNoTracking().ToList();
+            List<option_versions> optionVersions = dbContext.option_versions.AsNoTracking().ToList();
             
             Assert.NotNull(options);                                                             
             Assert.NotNull(optionVersions);                                                             
@@ -190,7 +190,7 @@ namespace eFormSDK.Tests
             questionSet.Share = randomBool;
             questionSet.HasChild = randomBool;
             questionSet.PosiblyDeployed = randomBool;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             
             questions question = new questions();
             question.Image = randomBool;
@@ -208,23 +208,23 @@ namespace eFormSDK.Tests
             question.ValidDisplay = randomBool;
             question.BackButtonEnabled = randomBool;
             question.QuestionSetId = questionSet.Id;
-            question.Create(DbContext);
+            await question.Create(dbContext);
             
             options option = new options();
             option.Weight = rnd.Next(1, 255);
             option.OptionsIndex = rnd.Next(1, 255);
             option.WeightValue = rnd.Next(1, 255);
             option.QuestionId = question.Id;
-            option.Create(DbContext);
+            await option.Create(dbContext);
             
             //Act
 
             DateTime? oldUpdatedAt = option.UpdatedAt;
             
-            option.Delete(DbContext);
+            await option.Delete(dbContext);
 
-            List<options> options = DbContext.options.AsNoTracking().ToList();
-            List<option_versions> optionVersions = DbContext.option_versions.AsNoTracking().ToList();
+            List<options> options = dbContext.options.AsNoTracking().ToList();
+            List<option_versions> optionVersions = dbContext.option_versions.AsNoTracking().ToList();
             
             Assert.NotNull(options);                                                             
             Assert.NotNull(optionVersions);                                                             

@@ -52,10 +52,10 @@ namespace eFormSDK.Integration.Tests
             questionSet.PosiblyDeployed = false;
             
             // Act
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -78,10 +78,10 @@ namespace eFormSDK.Integration.Tests
             questionSet.PosiblyDeployed = true;
             
             // Act
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -104,10 +104,10 @@ namespace eFormSDK.Integration.Tests
             questionSet.PosiblyDeployed = false;
             
             // Act
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -130,10 +130,10 @@ namespace eFormSDK.Integration.Tests
             questionSet.PosiblyDeployed = false;
             
             // Act
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -156,10 +156,10 @@ namespace eFormSDK.Integration.Tests
             questionSet.PosiblyDeployed = true;
             
             // Act
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -182,10 +182,10 @@ namespace eFormSDK.Integration.Tests
             questionSet.PosiblyDeployed = false;
             
             // Act
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -208,10 +208,10 @@ namespace eFormSDK.Integration.Tests
             questionSet.PosiblyDeployed = true;
             
             // Act
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -234,10 +234,10 @@ namespace eFormSDK.Integration.Tests
             questionSet.PosiblyDeployed = true;
             
             // Act
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -259,17 +259,17 @@ namespace eFormSDK.Integration.Tests
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
 
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             // Act
 
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
 
-            questionSet.Update(DbContext);
+            await questionSet.Update(dbContext);
             
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -292,16 +292,16 @@ namespace eFormSDK.Integration.Tests
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
             
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             // Act
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
 
-            questionSet.Update(DbContext);
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            await questionSet.Update(dbContext);
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -324,16 +324,16 @@ namespace eFormSDK.Integration.Tests
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
             
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             // Act
             questionSet.Name = name;
             questionSet.Share = true;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
             
-            questionSet.Update(DbContext);
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            await questionSet.Update(dbContext);
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -356,16 +356,16 @@ namespace eFormSDK.Integration.Tests
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
 
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             // Act
             questionSet.Name = name;
             questionSet.Share = false;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = false;
             
-            questionSet.Update(DbContext);
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            await questionSet.Update(dbContext);
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -388,16 +388,16 @@ namespace eFormSDK.Integration.Tests
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
 
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             // Act
             questionSet.Name = name;
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = true;
             
-            questionSet.Update(DbContext);
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            await questionSet.Update(dbContext);
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -420,16 +420,16 @@ namespace eFormSDK.Integration.Tests
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
 
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             // Act
             questionSet.Name = name;
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = false;
             
-            questionSet.Update(DbContext);
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            await questionSet.Update(dbContext);
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -452,16 +452,16 @@ namespace eFormSDK.Integration.Tests
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
 
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             // Act
             questionSet.Name = name;
             questionSet.Share = true;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = true;
             
-            questionSet.Update(DbContext);
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            await questionSet.Update(dbContext);
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -484,16 +484,16 @@ namespace eFormSDK.Integration.Tests
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
 
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             // Act
             questionSet.Name = name;
             questionSet.Share = false;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
             
-            questionSet.Update(DbContext);
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            await questionSet.Update(dbContext);
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -516,17 +516,17 @@ namespace eFormSDK.Integration.Tests
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
 
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             // Act
 
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
 
-            questionSet.Delete(DbContext);
+            await questionSet.Delete(dbContext);
             
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -550,16 +550,16 @@ namespace eFormSDK.Integration.Tests
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
             
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             // Act
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
 
-            questionSet.Delete(DbContext);
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            await questionSet.Delete(dbContext);
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -583,16 +583,16 @@ namespace eFormSDK.Integration.Tests
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
             
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             // Act
             questionSet.Name = name;
             questionSet.Share = true;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
             
-            questionSet.Delete(DbContext);
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            await questionSet.Delete(dbContext);
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -616,16 +616,16 @@ namespace eFormSDK.Integration.Tests
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
 
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             // Act
             questionSet.Name = name;
             questionSet.Share = false;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = false;
             
-            questionSet.Delete(DbContext);
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            await questionSet.Delete(dbContext);
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -649,16 +649,16 @@ namespace eFormSDK.Integration.Tests
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
 
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             // Act
             questionSet.Name = name;
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = true;
             
-            questionSet.Delete(DbContext);
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            await questionSet.Delete(dbContext);
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -682,16 +682,16 @@ namespace eFormSDK.Integration.Tests
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
 
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             // Act
             questionSet.Name = name;
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = false;
             
-            questionSet.Delete(DbContext);
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            await questionSet.Delete(dbContext);
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -715,16 +715,16 @@ namespace eFormSDK.Integration.Tests
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
 
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             // Act
             questionSet.Name = name;
             questionSet.Share = true;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = true;
             
-            questionSet.Delete(DbContext);
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            await questionSet.Delete(dbContext);
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);
@@ -748,16 +748,16 @@ namespace eFormSDK.Integration.Tests
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
 
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             // Act
             questionSet.Name = name;
             questionSet.Share = false;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
             
-            questionSet.Delete(DbContext);
-            question_sets dbQuestionSet = DbContext.question_sets.AsNoTracking().First();
-            question_set_versions dbQuestionSetVersion = DbContext.question_set_versions.AsNoTracking().First();
+            await questionSet.Delete(dbContext);
+            question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
+            question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestionSet);
             Assert.NotNull(dbQuestionSetVersion);

@@ -42,10 +42,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             WorkflowState = Constants.Constants.WorkflowStates.Created;
 
             dbContext.languages.Add(this);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             dbContext.language_versions.Add(MapVersions(this));
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
 
         public async Task Update(MicrotingDbAnySql dbContext)
@@ -66,7 +66,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 languages.UpdatedAt = DateTime.Now;
 
                 dbContext.language_versions.Add(MapVersions(languages));
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
 
         }
@@ -88,7 +88,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 language.UpdatedAt = DateTime.Now;
 
                 dbContext.language_versions.Add(MapVersions(language));
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
         }
         

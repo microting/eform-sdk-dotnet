@@ -44,25 +44,25 @@ namespace Microting.eForm.Helpers
         }
 
         #region "prep sever information for full load"
-        public string CreateSiteUnitWorkersForFullLoaed(bool create)
+        public async Task<string> CreateSiteUnitWorkersForFullLoaed(bool create)
         {
             if (create)
             {
                 int id = t.GetRandomInt(6);
                 string siteName = Guid.NewGuid().ToString();
-                sites site = testHelpers.CreateSite(siteName, id);
+                sites site = await testHelpers.CreateSite(siteName, id);
 
                 id = t.GetRandomInt(6);
                 string userFirstName = Guid.NewGuid().ToString();
                 string userLastName = Guid.NewGuid().ToString();
-                workers worker = testHelpers.CreateWorker("sfsdfsdf23ref@invalid.com", userFirstName, userLastName, id);
+                workers worker = await testHelpers.CreateWorker("sfsdfsdf23ref@invalid.com", userFirstName, userLastName, id);
                 return "";
             }
             
             try
             {
-                sites site = testHelpers.DbContext.sites.First();
-                workers worker = testHelpers.DbContext.workers.First();
+                sites site = testHelpers.dbContext.sites.First();
+                workers worker = testHelpers.dbContext.workers.First();
 
                 int id = t.GetRandomInt(6);
                 JObject result = JObject.FromObject(new JArray(new
@@ -85,15 +85,15 @@ namespace Microting.eForm.Helpers
         {
             if (create)
             {
-                sites site = testHelpers.CreateSite("TestSite1", 12334);
-                units unit = testHelpers.CreateUnit(20934, 234234, site, 24234);
-                workers worker = testHelpers.CreateWorker("sfsdfsdf23ref@invalid.com", "John", "Doe", 2342341);
-                site_workers sw = testHelpers.CreateSiteWorker(242345, site, worker);
+                sites site = await testHelpers.CreateSite("TestSite1", 12334);
+                units unit = await testHelpers.CreateUnit(20934, 234234, site, 24234);
+                workers worker = await testHelpers.CreateWorker("sfsdfsdf23ref@invalid.com", "John", "Doe", 2342341);
+                site_workers sw = await testHelpers.CreateSiteWorker(242345, site, worker);
                 DateTime cl1_ca = DateTime.Now;
                 DateTime cl1_ua = DateTime.Now;
-                check_lists cl1 = testHelpers.CreateTemplate(cl1_ca, cl1_ua, "MultiPictureXMLResult", "MultiPictureXMLResult_Description", "", "", 0, 0);
-                check_lists cl2 = testHelpers.CreateSubTemplate("Sub1", "Sub1Description", "", 0, 0, cl1);
-                fields f1 = testHelpers.CreateField(0, "", cl2, Constants.FieldColors.Blue, "", null, "", "PictureDescription", 0, 0, testHelpers.DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 0, 0, "Take picture", 0, 0, "", "", 0, 0, "", 0, 0, 0, 0, "", 0);
+                check_lists cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "MultiPictureXMLResult", "MultiPictureXMLResult_Description", "", "", 0, 0);
+                check_lists cl2 = await testHelpers.CreateSubTemplate("Sub1", "Sub1Description", "", 0, 0, cl1);
+                fields f1 = await testHelpers.CreateField(0, "", cl2, Constants.FieldColors.Blue, "", null, "", "PictureDescription", 0, 0, testHelpers.dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 0, 0, "Take picture", 0, 0, "", "", 0, 0, "", 0, 0, 0, 0, "", 0);
                 check_list_sites cls = await testHelpers.CreateCheckListSite(cl1, cl1_ca, site, cl1_ua, 0, Constants.WorkflowStates.Created, 555);
                 //returnXML = ;
                 return "555";
@@ -101,12 +101,12 @@ namespace Microting.eForm.Helpers
             }
             else
             {
-                sites site = testHelpers.DbContext.sites.First();
-                units unit = testHelpers.DbContext.units.First();
-                workers worker = testHelpers.DbContext.workers.First();
-                check_lists cl1 = testHelpers.DbContext.check_lists.ToList()[0];
-                check_lists cl2 = testHelpers.DbContext.check_lists.ToList()[1];
-                fields f1 = testHelpers.DbContext.fields.First();
+                sites site = testHelpers.dbContext.sites.First();
+                units unit = testHelpers.dbContext.units.First();
+                workers worker = testHelpers.dbContext.workers.First();
+                check_lists cl1 = testHelpers.dbContext.check_lists.ToList()[0];
+                check_lists cl2 = testHelpers.dbContext.check_lists.ToList()[1];
+                fields f1 = testHelpers.dbContext.fields.First();
 
                 #region return xml
                 return $@"<?xml version='1.0' encoding='UTF-8'?>

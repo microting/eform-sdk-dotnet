@@ -59,12 +59,12 @@ namespace eFormSDK.Integration.Tests
             #region Template1
             DateTime c1_Ca = DateTime.Now;
             DateTime c1_Ua = DateTime.Now;
-            check_lists cl1 = testHelpers.CreateTemplate(c1_Ca, c1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+            check_lists cl1 = await testHelpers.CreateTemplate(c1_Ca, c1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
 
             #region SubTemplate1
-            check_lists cl2 = testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+            check_lists cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
 
 
             #endregion
@@ -73,8 +73,8 @@ namespace eFormSDK.Integration.Tests
             #region field1
 
 
-            fields f1 = testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+            fields f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
 
             #endregion
@@ -82,8 +82,8 @@ namespace eFormSDK.Integration.Tests
             #region field2
 
 
-            fields f2 = testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
+            fields f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
 
@@ -91,8 +91,8 @@ namespace eFormSDK.Integration.Tests
 
             #region field3
 
-            fields f3 = testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+            fields f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
 
 
@@ -101,8 +101,8 @@ namespace eFormSDK.Integration.Tests
             #region field4
 
 
-            fields f4 = testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+            fields f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -110,8 +110,8 @@ namespace eFormSDK.Integration.Tests
 
             #region field5
 
-            fields f5 = testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+            fields f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -120,22 +120,22 @@ namespace eFormSDK.Integration.Tests
 
             #region Worker
 
-            workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
             #endregion
 
             #region site
-            sites site = testHelpers.CreateSite("SiteName", 88);
+            sites site = await testHelpers.CreateSite("SiteName", 88);
 
             #endregion
 
             #region units
-            units unit = testHelpers.CreateUnit(48, 49, site, 348);
+            units unit = await testHelpers.CreateUnit(48, 49, site, 348);
 
             #endregion
 
             #region site_workers
-            site_workers site_workers = testHelpers.CreateSiteWorker(55, site, worker);
+            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
 
@@ -147,7 +147,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
             DateTime c1_ua = DateTime.Now.AddDays(-8);
 
-            cases aCase1 = testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
+            cases aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
                 c1_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
 
@@ -158,7 +158,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c2_ca = DateTime.Now.AddDays(-7);
             DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
             DateTime c2_ua = DateTime.Now.AddDays(-6);
-            cases aCase2 = testHelpers.CreateCase("case2UId", cl1, c2_ca, "custom2",
+            cases aCase2 = await testHelpers.CreateCase("case2UId", cl1, c2_ca, "custom2",
              c2_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
             #endregion
@@ -168,7 +168,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
             DateTime c3_ua = DateTime.Now.AddDays(-9);
 
-            cases aCase3 = testHelpers.CreateCase("case3UId", cl1, c3_ca, "custom3",
+            cases aCase3 = await testHelpers.CreateCase("case3UId", cl1, c3_ca, "custom3",
               c3_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
             #endregion
@@ -178,7 +178,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
             DateTime c4_ua = DateTime.Now.AddDays(-7);
 
-            cases aCase4 = testHelpers.CreateCase("case4UId", cl1, c4_ca, "custom4",
+            cases aCase4 = await testHelpers.CreateCase("case4UId", cl1, c4_ca, "custom4",
                 c4_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 100, "caseType4", unit, c4_ua, 1, worker, Constants.WorkflowStates.Created);
             #endregion
@@ -192,7 +192,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c1Removed_da = DateTime.Now.AddDays(-8).AddHours(-12);
             DateTime c1Removed_ua = DateTime.Now.AddDays(-8);
 
-            cases aCase1Removed = testHelpers.CreateCase("case1UId", cl1, c1Removed_ca, "custom1",
+            cases aCase1Removed = await testHelpers.CreateCase("case1UId", cl1, c1Removed_ca, "custom1",
                 c1Removed_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 1, "caseType1", unit, c1Removed_ua, 1, worker, Constants.WorkflowStates.Removed);
 
@@ -203,7 +203,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c2Removed_ca = DateTime.Now.AddDays(-7);
             DateTime c2Removed_da = DateTime.Now.AddDays(-6).AddHours(-12);
             DateTime c2Removed_ua = DateTime.Now.AddDays(-6);
-            cases aCase2Removed = testHelpers.CreateCase("case2UId", cl1, c2Removed_ca, "custom2",
+            cases aCase2Removed = await testHelpers.CreateCase("case2UId", cl1, c2Removed_ca, "custom2",
              c2Removed_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 10, "caseType2", unit, c2Removed_ua, 1, worker, Constants.WorkflowStates.Removed);
             #endregion
@@ -213,7 +213,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c3Removed_da = DateTime.Now.AddDays(-9).AddHours(-12);
             DateTime c3Removed_ua = DateTime.Now.AddDays(-9);
 
-            cases aCase3Removed = testHelpers.CreateCase("case3UId", cl1, c3Removed_ca, "custom3",
+            cases aCase3Removed = await testHelpers.CreateCase("case3UId", cl1, c3Removed_ca, "custom3",
               c3Removed_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 15, "caseType3", unit, c3Removed_ua, 1, worker, Constants.WorkflowStates.Removed);
             #endregion
@@ -223,7 +223,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c4Removed_da = DateTime.Now.AddDays(-7).AddHours(-12);
             DateTime c4Removed_ua = DateTime.Now.AddDays(-7);
 
-            cases aCase4Removed = testHelpers.CreateCase("case4UId", cl1, c4Removed_ca, "custom4",
+            cases aCase4Removed = await testHelpers.CreateCase("case4UId", cl1, c4Removed_ca, "custom4",
                 c4Removed_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 100, "caseType4", unit, c4Removed_ua, 1, worker, Constants.WorkflowStates.Removed);
             #endregion
@@ -238,7 +238,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c1Retracted_da = DateTime.Now.AddDays(-8).AddHours(-12);
             DateTime c1Retracted_ua = DateTime.Now.AddDays(-8);
 
-            cases aCase1Retracted = testHelpers.CreateCase("case1UId", cl1, c1Retracted_ca, "custom1",
+            cases aCase1Retracted = await testHelpers.CreateCase("case1UId", cl1, c1Retracted_ca, "custom1",
                 c1Retracted_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 1, "caseType1", unit, c1Retracted_ua, 1, worker, Constants.WorkflowStates.Retracted);
 
@@ -250,7 +250,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c2Retracted_da = DateTime.Now.AddDays(-6).AddHours(-12);
             DateTime c2Retracted_ua = DateTime.Now.AddDays(-6);
 
-            cases aCase2Retracted = testHelpers.CreateCase("case2UId", cl1, c2Retracted_ca, "custom2",
+            cases aCase2Retracted = await testHelpers.CreateCase("case2UId", cl1, c2Retracted_ca, "custom2",
              c2Retracted_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 10, "caseType2", unit, c2Retracted_ua, 1, worker, Constants.WorkflowStates.Retracted);
             #endregion
@@ -260,7 +260,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c3Retracted_da = DateTime.Now.AddDays(-9).AddHours(-12);
             DateTime c3Retracted_ua = DateTime.Now.AddDays(-9);
 
-            cases aCase3Retracted = testHelpers.CreateCase("case3UId", cl1, c3Retracted_ca, "custom3",
+            cases aCase3Retracted = await testHelpers.CreateCase("case3UId", cl1, c3Retracted_ca, "custom3",
               c3Retracted_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 15, "caseType3", unit, c3Retracted_ua, 1, worker, Constants.WorkflowStates.Retracted);
             #endregion
@@ -270,7 +270,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c4Retracted_da = DateTime.Now.AddDays(-7).AddHours(-12);
             DateTime c4Retracted_ua = DateTime.Now.AddDays(-7);
 
-            cases aCase4Retracted = testHelpers.CreateCase("case4UId", cl1, c4Retracted_ca, "custom4",
+            cases aCase4Retracted = await testHelpers.CreateCase("case4UId", cl1, c4Retracted_ca, "custom4",
                 c4Retracted_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 100, "caseType4", unit, c4Retracted_ua, 1, worker, Constants.WorkflowStates.Retracted);
             #endregion

@@ -52,10 +52,10 @@ namespace eFormSDK.Integration.Tests
             language.Description = Guid.NewGuid().ToString();
 
             // Act
-            language.Create(DbContext);
+            await language.Create(dbContext);
 
-            languages dbLanguage = DbContext.languages.AsNoTracking().First();
-            language_versions dbLanguageVersion = DbContext.language_versions.AsNoTracking().First();
+            languages dbLanguage = dbContext.languages.AsNoTracking().First();
+            language_versions dbLanguageVersion = dbContext.language_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbLanguage);
             Assert.NotNull(dbLanguageVersion);
@@ -76,7 +76,7 @@ namespace eFormSDK.Integration.Tests
             language.Name = name;
             language.Description = description;
                 
-            language.Create(DbContext);
+            await language.Create(dbContext);
             // Act
 
             string newName = Guid.NewGuid().ToString();
@@ -84,10 +84,10 @@ namespace eFormSDK.Integration.Tests
 
             language.Name = newName;
             language.Description = newDescription;
-            language.Update(DbContext);
+            await language.Update(dbContext);
 
-            languages dbLanguage = DbContext.languages.AsNoTracking().First();
-            language_versions dbLanguageVersion = DbContext.language_versions.AsNoTracking().First();
+            languages dbLanguage = dbContext.languages.AsNoTracking().First();
+            language_versions dbLanguageVersion = dbContext.language_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbLanguage);
             Assert.NotNull(dbLanguageVersion);
@@ -111,14 +111,14 @@ namespace eFormSDK.Integration.Tests
             language.Name = name;
             language.Description = description;
 
-            language.Create(DbContext);
+            await language.Create(dbContext);
 
             // Act
 
-            language.Delete(DbContext);
+            await language.Delete(dbContext);
             
-            languages dbLanguage = DbContext.languages.AsNoTracking().First();
-            language_versions dbLanguageVersion = DbContext.language_versions.AsNoTracking().First();
+            languages dbLanguage = dbContext.languages.AsNoTracking().First();
+            language_versions dbLanguageVersion = dbContext.language_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbLanguage);
             Assert.NotNull(dbLanguageVersion);

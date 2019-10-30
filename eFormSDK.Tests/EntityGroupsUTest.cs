@@ -22,10 +22,10 @@ namespace eFormSDK.Tests
             
             //Act
             
-            entityGroup.Create(DbContext);
+            await entityGroup.Create(dbContext);
             
-            List<entity_groups> entityGroups = DbContext.entity_groups.AsNoTracking().ToList();
-            List<entity_group_versions> entityGroupVersion = DbContext.entity_group_versions.AsNoTracking().ToList();
+            List<entity_groups> entityGroups = dbContext.entity_groups.AsNoTracking().ToList();
+            List<entity_group_versions> entityGroupVersion = dbContext.entity_group_versions.AsNoTracking().ToList();
             
             //Assert
             
@@ -62,7 +62,7 @@ namespace eFormSDK.Tests
             entityGroup.Name = Guid.NewGuid().ToString();
             entityGroup.Type = Guid.NewGuid().ToString();
             entityGroup.MicrotingUid = Guid.NewGuid().ToString();
-            entityGroup.Create(DbContext);
+            await entityGroup.Create(dbContext);
             
             //Act
 
@@ -75,10 +75,10 @@ namespace eFormSDK.Tests
             entityGroup.Type = Guid.NewGuid().ToString();
             entityGroup.MicrotingUid = Guid.NewGuid().ToString();
             
-            entityGroup.Update(DbContext);
+            await entityGroup.Update(dbContext);
             
-            List<entity_groups> entityGroups = DbContext.entity_groups.AsNoTracking().ToList();
-            List<entity_group_versions> entityGroupVersion = DbContext.entity_group_versions.AsNoTracking().ToList();
+            List<entity_groups> entityGroups = dbContext.entity_groups.AsNoTracking().ToList();
+            List<entity_group_versions> entityGroupVersion = dbContext.entity_group_versions.AsNoTracking().ToList();
             
             //Assert
             
@@ -125,16 +125,16 @@ namespace eFormSDK.Tests
             entityGroup.Name = Guid.NewGuid().ToString();
             entityGroup.Type = Guid.NewGuid().ToString();
             entityGroup.MicrotingUid = Guid.NewGuid().ToString();
-            entityGroup.Create(DbContext);
+            await entityGroup.Create(dbContext);
             
             //Act
 
             DateTime? oldUpdatedAt = entityGroup.UpdatedAt;
 
-            entityGroup.Delete(DbContext);
+            await entityGroup.Delete(dbContext);
             
-            List<entity_groups> entityGroups = DbContext.entity_groups.AsNoTracking().ToList();
-            List<entity_group_versions> entityGroupVersion = DbContext.entity_group_versions.AsNoTracking().ToList();
+            List<entity_groups> entityGroups = dbContext.entity_groups.AsNoTracking().ToList();
+            List<entity_group_versions> entityGroupVersion = dbContext.entity_group_versions.AsNoTracking().ToList();
             
             //Assert
             

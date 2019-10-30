@@ -38,7 +38,7 @@ namespace eFormSDK.Integration.Tests
             sut.HandleCaseDeleted += EventCaseDeleted;
             sut.HandleFileDownloaded += EventFileDownloaded;
             sut.HandleSiteActivated += EventSiteActivated;
-            sut.StartSqlOnly(ConnectionString);
+            await sut.StartSqlOnly(ConnectionString);
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
@@ -53,14 +53,14 @@ namespace eFormSDK.Integration.Tests
         public async Task Core_Advanced_UnitRequestOtp_SetsNewOtp()
         {
             // Arrange
-            sites site = testHelpers.CreateSite("test site 1", 1313);
-            units unit = testHelpers.CreateUnit(564646, 0, site, 0);
+            sites site = await testHelpers.CreateSite("test site 1", 1313);
+            units unit = await testHelpers.CreateUnit(564646, 0, site, 0);
 
             // Act
             await sut.Advanced_UnitRequestOtp((int)unit.MicrotingUid);
 
             // Assert
-            List<units> matches = DbContext.units.AsNoTracking().ToList();
+            List<units> matches = dbContext.units.AsNoTracking().ToList();
 
             Assert.NotNull(matches);
             Assert.AreEqual(1, matches.Count);

@@ -47,7 +47,7 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
             
             units unit = new units();
             unit.CustomerNo = rnd.Next(1, 255);
@@ -58,10 +58,10 @@ namespace eFormSDK.Tests
             
             //Act
             
-            unit.Create(DbContext);
+            await unit.Create(dbContext);
 
-            List<units> units = DbContext.units.AsNoTracking().ToList();                            
-            List<unit_versions> unitsVersions = DbContext.unit_versions.AsNoTracking().ToList(); 
+            List<units> units = dbContext.units.AsNoTracking().ToList();                            
+            List<unit_versions> unitsVersions = dbContext.unit_versions.AsNoTracking().ToList(); 
             
             //Assert
             
@@ -105,7 +105,7 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
             
             units unit = new units();
             unit.CustomerNo = rnd.Next(1, 255);
@@ -114,7 +114,7 @@ namespace eFormSDK.Tests
             unit.Site = site;
             unit.SiteId = site.Id;
 
-            unit.Create(DbContext);
+            await unit.Create(dbContext);
             
             //Act
 
@@ -129,10 +129,10 @@ namespace eFormSDK.Tests
             unit.MicrotingUid = rnd.Next(1, 255);
             unit.OtpCode = rnd.Next(1, 255);
 
-            unit.Update(DbContext);
+            await unit.Update(dbContext);
 
-            List<units> units = DbContext.units.AsNoTracking().ToList();                            
-            List<unit_versions> unitsVersions = DbContext.unit_versions.AsNoTracking().ToList();
+            List<units> units = dbContext.units.AsNoTracking().ToList();                            
+            List<unit_versions> unitsVersions = dbContext.unit_versions.AsNoTracking().ToList();
             
             //Assert
             
@@ -184,7 +184,7 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
 
             units unit = new units();
             unit.CustomerNo = rnd.Next(1, 255);
@@ -193,15 +193,15 @@ namespace eFormSDK.Tests
             unit.Site = site;
             unit.SiteId = site.Id;
 
-            unit.Create(DbContext);
+            await unit.Create(dbContext);
             
             //Act
             DateTime? oldUpdatedAt = unit.UpdatedAt;
             
-            unit.Delete(DbContext);
+            await unit.Delete(dbContext);
             
-            List<units> units = DbContext.units.AsNoTracking().ToList();                            
-            List<unit_versions> unitsVersions = DbContext.unit_versions.AsNoTracking().ToList();
+            List<units> units = dbContext.units.AsNoTracking().ToList();                            
+            List<unit_versions> unitsVersions = dbContext.unit_versions.AsNoTracking().ToList();
             
             //Assert
             

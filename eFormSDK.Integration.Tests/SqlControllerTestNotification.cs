@@ -49,13 +49,13 @@ namespace eFormSDK.Integration.Tests
             var microtingUId = rnd.Next(1, 255);
 
             // Act
-            sut.NotificationCreate(notificationId, microtingUId, Constants.Notifications.RetrievedForm);
+            await sut.NotificationCreate(notificationId, microtingUId, Constants.Notifications.RetrievedForm);
 
             // Assert
-            var notification = DbContext.notifications.SingleOrDefault(x => x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
+            var notification = await dbContext.notifications.SingleOrDefaultAsync(x => x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
 
             Assert.NotNull(notification);
-            Assert.AreEqual(1, DbContext.notifications.Count());
+            Assert.AreEqual(1, dbContext.notifications.Count());
             Assert.AreEqual(Constants.Notifications.RetrievedForm, notification.Activity);
             Assert.AreEqual(Constants.WorkflowStates.Created, notification.WorkflowState);
         }
@@ -69,13 +69,13 @@ namespace eFormSDK.Integration.Tests
             var microtingUId = rnd.Next(1, 255);
 
             // Act
-            sut.NotificationCreate(notificationId, microtingUId, Constants.Notifications.Completed);
+            await sut.NotificationCreate(notificationId, microtingUId, Constants.Notifications.Completed);
 
             // Assert
-            var notification = DbContext.notifications.SingleOrDefault(x => x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
+            var notification = await dbContext.notifications.SingleOrDefaultAsync(x => x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
 
             Assert.NotNull(notification);
-            Assert.AreEqual(1, DbContext.notifications.Count());
+            Assert.AreEqual(1, dbContext.notifications.Count());
             Assert.AreEqual(Constants.Notifications.Completed, notification.Activity);
             Assert.AreEqual(Constants.WorkflowStates.Created, notification.WorkflowState);
         }
@@ -91,14 +91,14 @@ namespace eFormSDK.Integration.Tests
             var microtingUId2 = rnd.Next(1, 255);
 
             // Act
-            sut.NotificationCreate(notificationId1, microtingUId1, Constants.Notifications.Completed);
-            sut.NotificationCreate(notificationId2, microtingUId2, Constants.Notifications.Completed);
+            await sut.NotificationCreate(notificationId1, microtingUId1, Constants.Notifications.Completed);
+            await sut.NotificationCreate(notificationId2, microtingUId2, Constants.Notifications.Completed);
 
             // Assert
             Note_Dto notification = await sut.NotificationReadFirst();
 
             Assert.NotNull(notification);
-            Assert.AreEqual(2, DbContext.notifications.Count());
+            Assert.AreEqual(2, dbContext.notifications.Count());
             Assert.AreEqual(Constants.Notifications.Completed, notification.Activity);
             Assert.AreEqual(microtingUId1, notification.MicrotingUId);
         }
@@ -112,14 +112,14 @@ namespace eFormSDK.Integration.Tests
             var microtingUId = rnd.Next(1, 255);
 
             // Act
-            sut.NotificationCreate(notificationUId, microtingUId, Constants.Notifications.Completed);
-            sut.NotificationUpdate(notificationUId, microtingUId, Constants.WorkflowStates.Processed, "", "");
+            await sut.NotificationCreate(notificationUId, microtingUId, Constants.Notifications.Completed);
+            await sut.NotificationUpdate(notificationUId, microtingUId, Constants.WorkflowStates.Processed, "", "");
 
             // Assert
-            var notification = DbContext.notifications.SingleOrDefault(x => x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId);
+            var notification = await dbContext.notifications.SingleOrDefaultAsync(x => x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId);
 
             Assert.NotNull(notification);
-            Assert.AreEqual(1, DbContext.notifications.Count());
+            Assert.AreEqual(1, dbContext.notifications.Count());
             Assert.AreEqual(Constants.Notifications.Completed, notification.Activity);
             Assert.AreEqual(Constants.WorkflowStates.Processed, notification.WorkflowState);
         }
@@ -132,9 +132,9 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             Random rnd = new Random();
-            sut.NotificationCreate(Guid.NewGuid().ToString(), rnd.Next(1, 255), Constants.Notifications.UnitActivate);
-            List<notifications> notificationResult = DbContext.notifications.AsNoTracking().ToList();
-            var versionedMatches = DbContext.notifications.AsNoTracking().ToList();
+            await sut.NotificationCreate(Guid.NewGuid().ToString(), rnd.Next(1, 255), Constants.Notifications.UnitActivate);
+            List<notifications> notificationResult = dbContext.notifications.AsNoTracking().ToList();
+            var versionedMatches = dbContext.notifications.AsNoTracking().ToList();
 
             // Assert
 
@@ -161,13 +161,13 @@ namespace eFormSDK.Integration.Tests
             aNote1.MicrotingUid = rnd.Next(1, 255);
             aNote1.Activity = Constants.Notifications.UnitActivate;
 
-            DbContext.notifications.Add(aNote1);
-            DbContext.SaveChanges();
+            dbContext.notifications.Add(aNote1);
+            await dbContext.SaveChangesAsync();
 
             // Act
-            sut.NotificationReadFirst();
-            List<notifications> notificationResult = DbContext.notifications.AsNoTracking().ToList();
-            var versionedMatches = DbContext.notifications.AsNoTracking().ToList();
+            await sut.NotificationReadFirst();
+            List<notifications> notificationResult = dbContext.notifications.AsNoTracking().ToList();
+            var versionedMatches = dbContext.notifications.AsNoTracking().ToList();
 
 
             // Assert
@@ -189,13 +189,13 @@ namespace eFormSDK.Integration.Tests
             aNote1.MicrotingUid = rnd.Next(1, 255);
             aNote1.Activity = Constants.Notifications.UnitActivate;
 
-            DbContext.notifications.Add(aNote1);
-            DbContext.SaveChanges();
+            dbContext.notifications.Add(aNote1);
+            await dbContext.SaveChangesAsync();
 
             // Act
-            sut.NotificationUpdate(aNote1.NotificationUid, (int)aNote1.MicrotingUid, aNote1.WorkflowState, aNote1.Exception, "");
-            List<notifications> notificationResult = DbContext.notifications.AsNoTracking().ToList();
-            var versionedMatches = DbContext.notifications.AsNoTracking().ToList();
+            await sut.NotificationUpdate(aNote1.NotificationUid, (int)aNote1.MicrotingUid, aNote1.WorkflowState, aNote1.Exception, "");
+            List<notifications> notificationResult = dbContext.notifications.AsNoTracking().ToList();
+            var versionedMatches = dbContext.notifications.AsNoTracking().ToList();
 
             // Assert
 

@@ -404,7 +404,7 @@ namespace Microting.eForm.Communication
         {
             await log.LogEverything(t.GetMethodName("Comminicator"), "called");
 
-            var parsedData = JRaw.Parse(http.SiteWorkerLoadAllFromRemote());
+            var parsedData = JRaw.Parse(await http.SiteWorkerLoadAllFromRemote());
             List<Site_Worker_Dto> lst = new List<Site_Worker_Dto>();
 
             foreach (JToken item in parsedData)

@@ -53,11 +53,11 @@ namespace eFormSDK.Integration.Tests
             surveyConfigurations.TimeToLive = rnd.Next(1, 255);
             
             // Act
-            surveyConfigurations.Create(DbContext);
+            await surveyConfigurations.Create(dbContext);
 
-            survey_configurations dbSurveyConfigurations = DbContext.survey_configurations.AsNoTracking().First();
+            survey_configurations dbSurveyConfigurations = dbContext.survey_configurations.AsNoTracking().First();
             survey_configuration_versions dbSurveyConfigurationVersions =
-                DbContext.survey_configuration_versions.AsNoTracking().First();
+                dbContext.survey_configuration_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbSurveyConfigurations);
             Assert.NotNull(dbSurveyConfigurationVersions);
@@ -84,16 +84,16 @@ namespace eFormSDK.Integration.Tests
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
 
-            surveyConfiguration.Create(DbContext);
+            await surveyConfiguration.Create(dbContext);
             // Act
             
             string newName = Guid.NewGuid().ToString();
             surveyConfiguration.Name = newName;
-            surveyConfiguration.Update(DbContext);
+            await surveyConfiguration.Update(dbContext);
 
-            survey_configurations dbSurveyConfigurations = DbContext.survey_configurations.AsNoTracking().First();
+            survey_configurations dbSurveyConfigurations = dbContext.survey_configurations.AsNoTracking().First();
             survey_configuration_versions dbSurveyConfigurationVersions =
-                DbContext.survey_configuration_versions.AsNoTracking().First();
+                dbContext.survey_configuration_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbSurveyConfigurations);
             Assert.NotNull(dbSurveyConfigurationVersions);
@@ -121,14 +121,14 @@ namespace eFormSDK.Integration.Tests
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
 
-            surveyConfiguration.Create(DbContext);
+            await surveyConfiguration.Create(dbContext);
             // Act
 
-            surveyConfiguration.Delete(DbContext);
+            await surveyConfiguration.Delete(dbContext);
 
-            survey_configurations dbSurveyConfigurations = DbContext.survey_configurations.AsNoTracking().First();
+            survey_configurations dbSurveyConfigurations = dbContext.survey_configurations.AsNoTracking().First();
             survey_configuration_versions dbSurveyConfigurationVersions =
-                DbContext.survey_configuration_versions.AsNoTracking().First();
+                dbContext.survey_configuration_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbSurveyConfigurations);
             Assert.NotNull(dbSurveyConfigurationVersions);

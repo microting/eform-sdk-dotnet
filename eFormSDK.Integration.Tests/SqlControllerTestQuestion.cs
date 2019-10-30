@@ -25,7 +25,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -51,10 +51,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = false;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -87,7 +87,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -113,10 +113,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = true;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -151,7 +151,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -177,10 +177,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = false;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -213,7 +213,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -239,10 +239,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = false;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -275,7 +275,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -301,10 +301,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = false;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -337,7 +337,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -363,10 +363,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = true;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -398,7 +398,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -424,10 +424,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = false;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -459,7 +459,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -485,10 +485,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = false;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -520,7 +520,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -546,10 +546,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = true;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -582,7 +582,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -608,10 +608,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = false;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -644,7 +644,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -670,10 +670,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = true;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -706,7 +706,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -732,10 +732,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = true;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -768,7 +768,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -794,10 +794,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = false;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -830,7 +830,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -856,10 +856,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = true;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -892,7 +892,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -918,10 +918,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = true;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -954,7 +954,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -980,10 +980,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = true;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -1019,7 +1019,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -1045,10 +1045,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = false;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -1081,7 +1081,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -1107,10 +1107,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = false;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -1143,7 +1143,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -1169,10 +1169,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = false;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -1205,7 +1205,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -1231,10 +1231,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = true;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -1266,7 +1266,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -1292,10 +1292,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = false;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -1327,7 +1327,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -1353,10 +1353,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = false;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -1388,7 +1388,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -1414,10 +1414,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = true;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -1449,7 +1449,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -1475,10 +1475,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = false;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -1510,7 +1510,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -1536,10 +1536,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = true;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -1571,7 +1571,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -1597,10 +1597,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = true;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -1632,7 +1632,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -1658,10 +1658,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = false;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -1693,7 +1693,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -1719,10 +1719,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = true;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -1754,7 +1754,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -1780,10 +1780,10 @@ namespace eFormSDK.Integration.Tests
             question.Image = true;
 
             // Act
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -1820,7 +1820,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -1844,7 +1844,7 @@ namespace eFormSDK.Integration.Tests
             question.ValidDisplay = false;
             question.BackButtonEnabled = false;
             question.Image = false;
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
             // Act
             string newType = Guid.NewGuid().ToString();
@@ -1869,10 +1869,10 @@ namespace eFormSDK.Integration.Tests
             question.BackButtonEnabled = true;
             question.Image = true;
             
-            question.Update(DbContext);
+            await question.Update(dbContext);
             
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -1905,7 +1905,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -1929,7 +1929,7 @@ namespace eFormSDK.Integration.Tests
             question.ValidDisplay = true;
             question.BackButtonEnabled = true;
             question.Image = true;
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
             // Act
 
@@ -1955,10 +1955,10 @@ namespace eFormSDK.Integration.Tests
             question.BackButtonEnabled = false;
             question.Image = false;
             
-            question.Update(DbContext);
+            await question.Update(dbContext);
             
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -1993,7 +1993,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = true;
                     questionSet.HasChild = true;
                     questionSet.PosiblyDeployed = true;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
         
                     Random rnd = new Random();
                     string type = Guid.NewGuid().ToString();
@@ -2017,7 +2017,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -2042,10 +2042,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = false;
                     question.Image = false;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -2078,7 +2078,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = true;
                     questionSet.HasChild = true;
                     questionSet.PosiblyDeployed = true;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
         
                     Random rnd = new Random();
                     string type = Guid.NewGuid().ToString();
@@ -2102,7 +2102,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -2127,10 +2127,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = false;
                     question.Image = false;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -2163,7 +2163,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = true;
                     questionSet.HasChild = true;
                     questionSet.PosiblyDeployed = true;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
         
                     Random rnd = new Random();
                     string type = Guid.NewGuid().ToString();
@@ -2187,7 +2187,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -2212,10 +2212,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = true;
                     question.Image = false;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -2248,7 +2248,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = true;
                     questionSet.HasChild = true;
                     questionSet.PosiblyDeployed = true;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
         
                     Random rnd = new Random();
                     string type = Guid.NewGuid().ToString();
@@ -2272,7 +2272,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -2297,10 +2297,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = false;
                     question.Image = true;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -2332,7 +2332,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = true;
                     questionSet.HasChild = true;
                     questionSet.PosiblyDeployed = true;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
         
                     Random rnd = new Random();
                     string type = Guid.NewGuid().ToString();
@@ -2356,7 +2356,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -2381,10 +2381,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = false;
                     question.Image = false;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -2416,7 +2416,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = true;
                     questionSet.HasChild = true;
                     questionSet.PosiblyDeployed = true;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
         
                     Random rnd = new Random();
                     string type = Guid.NewGuid().ToString();
@@ -2440,7 +2440,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -2465,10 +2465,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = true;
                     question.Image = false;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -2500,7 +2500,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = true;
                     questionSet.HasChild = true;
                     questionSet.PosiblyDeployed = true;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
         
                     Random rnd = new Random();
                     string type = Guid.NewGuid().ToString();
@@ -2524,7 +2524,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -2549,10 +2549,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = false;
                     question.Image = true;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -2584,7 +2584,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = true;
                     questionSet.HasChild = true;
                     questionSet.PosiblyDeployed = true;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
         
                     Random rnd = new Random();
                     string type = Guid.NewGuid().ToString();
@@ -2608,7 +2608,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -2633,10 +2633,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = true;
                     question.Image = false;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -2668,7 +2668,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = true;
                     questionSet.HasChild = true;
                     questionSet.PosiblyDeployed = true;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
         
                     Random rnd = new Random();
                     string type = Guid.NewGuid().ToString();
@@ -2692,7 +2692,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -2717,10 +2717,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = false;
                     question.Image = true;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -2752,7 +2752,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = true;
                     questionSet.HasChild = true;
                     questionSet.PosiblyDeployed = true;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
         
                     Random rnd = new Random();
                     string type = Guid.NewGuid().ToString();
@@ -2776,7 +2776,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -2801,10 +2801,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = true;
                     question.Image = true;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -2836,7 +2836,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = true;
                     questionSet.HasChild = true;
                     questionSet.PosiblyDeployed = true;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
         
                     Random rnd = new Random();
                     string type = Guid.NewGuid().ToString();
@@ -2860,7 +2860,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -2885,10 +2885,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = true;
                     question.Image = false;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -2920,7 +2920,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = true;
                     questionSet.HasChild = true;
                     questionSet.PosiblyDeployed = true;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
         
                     Random rnd = new Random();
                     string type = Guid.NewGuid().ToString();
@@ -2944,7 +2944,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -2969,10 +2969,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = true;
                     question.Image = true;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -3004,7 +3004,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = true;
                     questionSet.HasChild = true;
                     questionSet.PosiblyDeployed = true;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
         
                     Random rnd = new Random();
                     string type = Guid.NewGuid().ToString();
@@ -3028,7 +3028,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -3053,10 +3053,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = true;
                     question.Image = true;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -3092,7 +3092,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = false;
                     questionSet.HasChild = false;
                     questionSet.PosiblyDeployed = false;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
 
         
                     Random rnd = new Random();
@@ -3117,7 +3117,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -3142,10 +3142,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = false;
                     question.Image = false;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -3178,7 +3178,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = false;
                     questionSet.HasChild = false;
                     questionSet.PosiblyDeployed = false;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
 
         
                     Random rnd = new Random();
@@ -3203,7 +3203,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -3228,10 +3228,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = false;
                     question.Image = false;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -3264,7 +3264,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = false;
                     questionSet.HasChild = false;
                     questionSet.PosiblyDeployed = false;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
 
         
                     Random rnd = new Random();
@@ -3289,7 +3289,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -3314,10 +3314,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = true;
                     question.Image = false;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -3350,7 +3350,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = false;
                     questionSet.HasChild = false;
                     questionSet.PosiblyDeployed = false;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
 
         
                     Random rnd = new Random();
@@ -3375,7 +3375,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -3400,10 +3400,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = false;
                     question.Image = true;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -3435,7 +3435,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = false;
                     questionSet.HasChild = false;
                     questionSet.PosiblyDeployed = false;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
 
         
                     Random rnd = new Random();
@@ -3460,7 +3460,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -3485,10 +3485,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = false;
                     question.Image = false;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -3520,7 +3520,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = false;
                     questionSet.HasChild = false;
                     questionSet.PosiblyDeployed = false;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
 
         
                     Random rnd = new Random();
@@ -3545,7 +3545,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -3570,10 +3570,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = true;
                     question.Image = false;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -3605,7 +3605,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = false;
                     questionSet.HasChild = false;
                     questionSet.PosiblyDeployed = false;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
 
         
                     Random rnd = new Random();
@@ -3630,7 +3630,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -3655,10 +3655,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = false;
                     question.Image = true;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -3690,7 +3690,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = false;
                     questionSet.HasChild = false;
                     questionSet.PosiblyDeployed = false;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
 
         
                     Random rnd = new Random();
@@ -3715,7 +3715,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -3740,10 +3740,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = true;
                     question.Image = false;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -3775,7 +3775,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = false;
                     questionSet.HasChild = false;
                     questionSet.PosiblyDeployed = false;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
 
         
                     Random rnd = new Random();
@@ -3800,7 +3800,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -3825,10 +3825,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = false;
                     question.Image = true;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -3860,7 +3860,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = false;
                     questionSet.HasChild = false;
                     questionSet.PosiblyDeployed = false;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
 
         
                     Random rnd = new Random();
@@ -3885,7 +3885,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -3910,10 +3910,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = true;
                     question.Image = true;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -3945,7 +3945,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = false;
                     questionSet.HasChild = false;
                     questionSet.PosiblyDeployed = false;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
 
         
                     Random rnd = new Random();
@@ -3970,7 +3970,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -3995,10 +3995,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = true;
                     question.Image = false;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -4031,7 +4031,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = false;
                     questionSet.HasChild = false;
                     questionSet.PosiblyDeployed = false;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
 
         
                     Random rnd = new Random();
@@ -4056,7 +4056,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -4081,10 +4081,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = true;
                     question.Image = true;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -4116,7 +4116,7 @@ namespace eFormSDK.Integration.Tests
                     questionSet.Share = false;
                     questionSet.HasChild = false;
                     questionSet.PosiblyDeployed = false;
-                    questionSet.Create(DbContext);
+                    await questionSet.Create(dbContext);
         
                     Random rnd = new Random();
                     string type = Guid.NewGuid().ToString();
@@ -4140,7 +4140,7 @@ namespace eFormSDK.Integration.Tests
                     question.ValidDisplay = false;
                     question.BackButtonEnabled = false;
                     question.Image = false;
-                    question.Create(DbContext);
+                    await question.Create(dbContext);
         
                     // Act
                     string newType = Guid.NewGuid().ToString();
@@ -4165,10 +4165,10 @@ namespace eFormSDK.Integration.Tests
                     question.BackButtonEnabled = true;
                     question.Image = true;
                     
-                    question.Update(DbContext);
+                    await question.Update(dbContext);
                     
-                    questions dbQuestion = DbContext.questions.AsNoTracking().First();
-                    question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+                    questions dbQuestion = dbContext.questions.AsNoTracking().First();
+                    question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
                     // Assert
                     Assert.NotNull(dbQuestion);
                     Assert.NotNull(dbQuestionVersion);
@@ -4206,7 +4206,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -4230,14 +4230,14 @@ namespace eFormSDK.Integration.Tests
             question.ValidDisplay = false;
             question.BackButtonEnabled = false;
             question.Image = false;
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
             // Act
                 
-            question.Delete(DbContext);
+            await question.Delete(dbContext);
             
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -4271,7 +4271,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -4295,14 +4295,14 @@ namespace eFormSDK.Integration.Tests
             question.ValidDisplay = true;
             question.BackButtonEnabled = true;
             question.Image = true;
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
             // Act
 
-            question.Delete(DbContext);
+            await question.Delete(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -4338,7 +4338,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -4362,14 +4362,14 @@ namespace eFormSDK.Integration.Tests
             question.ValidDisplay = false;
             question.BackButtonEnabled = false;
             question.Image = false;
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
             // Act
 
-            question.Delete(DbContext);
+            await question.Delete(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -4403,7 +4403,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -4427,14 +4427,14 @@ namespace eFormSDK.Integration.Tests
             question.ValidDisplay = true;
             question.BackButtonEnabled = false;
             question.Image = false;
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
             // Act
 
-            question.Delete(DbContext);
+            await question.Delete(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -4468,7 +4468,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -4492,15 +4492,15 @@ namespace eFormSDK.Integration.Tests
             question.ValidDisplay = false;
             question.BackButtonEnabled = true;
             question.Image = false;
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
             // Act
             
-            question.Delete(DbContext);
+            await question.Delete(dbContext);
 
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -4534,7 +4534,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -4558,14 +4558,14 @@ namespace eFormSDK.Integration.Tests
             question.ValidDisplay = false;
             question.BackButtonEnabled = false;
             question.Image = true;
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
             // Act
 
-            question.Delete(DbContext);
+            await question.Delete(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -4602,7 +4602,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -4626,14 +4626,14 @@ namespace eFormSDK.Integration.Tests
             question.ValidDisplay = false;
             question.BackButtonEnabled = false;
             question.Image = false;
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
             // Act
 
-            question.Delete(DbContext);
+            await question.Delete(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -4667,7 +4667,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -4691,13 +4691,13 @@ namespace eFormSDK.Integration.Tests
             question.ValidDisplay = true;
             question.BackButtonEnabled = false;
             question.Image = false;
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
             // Act
-            question.Delete(DbContext);
+            await question.Delete(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -4731,7 +4731,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -4755,13 +4755,13 @@ namespace eFormSDK.Integration.Tests
             question.ValidDisplay = false;
             question.BackButtonEnabled = true;
             question.Image = false;
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
             // Act
-            question.Delete(DbContext);
+            await question.Delete(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);
@@ -4795,7 +4795,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             Random rnd = new Random();
             string type = Guid.NewGuid().ToString();
@@ -4819,13 +4819,13 @@ namespace eFormSDK.Integration.Tests
             question.ValidDisplay = false;
             question.BackButtonEnabled = false;
             question.Image = true;
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
             // Act
-            question.Delete(DbContext);
+            await question.Delete(dbContext);
 
-            questions dbQuestion = DbContext.questions.AsNoTracking().First();
-            question_versions dbQuestionVersion = DbContext.question_versions.AsNoTracking().First();
+            questions dbQuestion = dbContext.questions.AsNoTracking().First();
+            question_versions dbQuestionVersion = dbContext.question_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbQuestion);
             Assert.NotNull(dbQuestionVersion);

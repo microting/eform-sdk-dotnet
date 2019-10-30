@@ -22,14 +22,14 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
 
             workers worker = new workers();
             worker.Email = Guid.NewGuid().ToString();
             worker.FirstName = Guid.NewGuid().ToString();
             worker.LastName = Guid.NewGuid().ToString();
             worker.MicrotingUid = rnd.Next(1, 255);
-            worker.Create(DbContext);
+            await worker.Create(dbContext);
 
             site_workers siteWorker = new site_workers();
             siteWorker.MicrotingUid = rnd.Next(1, 255);
@@ -38,10 +38,10 @@ namespace eFormSDK.Tests
             
             //Act
             
-            siteWorker.Create(DbContext);
+            await siteWorker.Create(dbContext);
             
-            List<site_workers> siteWorkers = DbContext.site_workers.AsNoTracking().ToList();
-            List<site_worker_versions> siteWorkerVersions = DbContext.site_worker_versions.AsNoTracking().ToList();
+            List<site_workers> siteWorkers = dbContext.site_workers.AsNoTracking().ToList();
+            List<site_worker_versions> siteWorkerVersions = dbContext.site_worker_versions.AsNoTracking().ToList();
             
             Assert.NotNull(siteWorkers);                                                             
             Assert.NotNull(siteWorkerVersions);                                                             
@@ -80,20 +80,20 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
 
             workers worker = new workers();
             worker.Email = Guid.NewGuid().ToString();
             worker.FirstName = Guid.NewGuid().ToString();
             worker.LastName = Guid.NewGuid().ToString();
             worker.MicrotingUid = rnd.Next(1, 255);
-            worker.Create(DbContext);
+            await worker.Create(dbContext);
 
             site_workers siteWorker = new site_workers();
             siteWorker.MicrotingUid = rnd.Next(1, 255);
             siteWorker.SiteId = site.Id;
             siteWorker.WorkerId = worker.Id;
-            siteWorker.Create(DbContext);
+            await siteWorker.Create(dbContext);
 
             
             //Act
@@ -103,11 +103,11 @@ namespace eFormSDK.Tests
 
             siteWorker.MicrotingUid = rnd.Next(1, 255);
             
-            siteWorker.Update(DbContext);
+            await siteWorker.Update(dbContext);
 
             
-            List<site_workers> siteWorkers = DbContext.site_workers.AsNoTracking().ToList();
-            List<site_worker_versions> siteWorkerVersions = DbContext.site_worker_versions.AsNoTracking().ToList();
+            List<site_workers> siteWorkers = dbContext.site_workers.AsNoTracking().ToList();
+            List<site_worker_versions> siteWorkerVersions = dbContext.site_worker_versions.AsNoTracking().ToList();
             
             Assert.NotNull(siteWorkers);                                                             
             Assert.NotNull(siteWorkerVersions);                                                             
@@ -157,31 +157,31 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
 
             workers worker = new workers();
             worker.Email = Guid.NewGuid().ToString();
             worker.FirstName = Guid.NewGuid().ToString();
             worker.LastName = Guid.NewGuid().ToString();
             worker.MicrotingUid = rnd.Next(1, 255);
-            worker.Create(DbContext);
+            await worker.Create(dbContext);
 
             site_workers siteWorker = new site_workers();
             siteWorker.MicrotingUid = rnd.Next(1, 255);
             siteWorker.SiteId = site.Id;
             siteWorker.WorkerId = worker.Id;
-            siteWorker.Create(DbContext);
+            await siteWorker.Create(dbContext);
 
             
             //Act
 
             DateTime? oldUpdatedAt = siteWorker.UpdatedAt;
             
-            siteWorker.Delete(DbContext);
+            await siteWorker.Delete(dbContext);
 
             
-            List<site_workers> siteWorkers = DbContext.site_workers.AsNoTracking().ToList();
-            List<site_worker_versions> siteWorkerVersions = DbContext.site_worker_versions.AsNoTracking().ToList();
+            List<site_workers> siteWorkers = dbContext.site_workers.AsNoTracking().ToList();
+            List<site_worker_versions> siteWorkerVersions = dbContext.site_worker_versions.AsNoTracking().ToList();
             
             Assert.NotNull(siteWorkers);                                                             
             Assert.NotNull(siteWorkerVersions);                                                             

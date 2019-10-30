@@ -46,12 +46,12 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             Random rnd = new Random();
-            sites site1 = testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
-            units unit1 = testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
+            sites site1 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
+            units unit1 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
             languages language = new languages();
             language.Name = Guid.NewGuid().ToString();
             language.Description = Guid.NewGuid().ToString();
-            language.Create(DbContext);
+            await language.Create(dbContext);
             
             survey_configurations surveyConfiguration = new survey_configurations();
             surveyConfiguration.Name = Guid.NewGuid().ToString();
@@ -59,7 +59,7 @@ namespace eFormSDK.Integration.Tests
             surveyConfiguration.Start = DateTime.Now;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration.Create(DbContext);
+            await surveyConfiguration.Create(dbContext);
 
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
@@ -67,7 +67,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             
             answers answer = new answers();
@@ -81,10 +81,10 @@ namespace eFormSDK.Integration.Tests
             answer.AnswerDuration = rnd.Next(1, 255);
             answer.UtcAdjusted = true;
             // Act
-            answer.Create(DbContext);
+            await answer.Create(dbContext);
 
-            answers dbAnswer = DbContext.answers.AsNoTracking().First();
-            answer_versions dbVersion = DbContext.answer_versions.AsNoTracking().First();
+            answers dbAnswer = dbContext.answers.AsNoTracking().First();
+            answer_versions dbVersion = dbContext.answer_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbAnswer);
             Assert.NotNull(dbVersion);
@@ -105,12 +105,12 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             Random rnd = new Random();
-            sites site1 = testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
-            units unit1 = testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
+            sites site1 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
+            units unit1 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
             languages language = new languages();
             language.Name = Guid.NewGuid().ToString();
             language.Description = Guid.NewGuid().ToString();
-            language.Create(DbContext);
+            await language.Create(dbContext);
             
             survey_configurations surveyConfiguration = new survey_configurations();
             surveyConfiguration.Name = Guid.NewGuid().ToString();
@@ -118,7 +118,7 @@ namespace eFormSDK.Integration.Tests
             surveyConfiguration.Start = DateTime.Now;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration.Create(DbContext);
+            await surveyConfiguration.Create(dbContext);
 
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
@@ -126,7 +126,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             
             answers answer = new answers();
@@ -140,10 +140,10 @@ namespace eFormSDK.Integration.Tests
             answer.AnswerDuration = rnd.Next(1, 255);
             answer.UtcAdjusted = false;
             // Act
-            answer.Create(DbContext);
+            await answer.Create(dbContext);
 
-            answers dbAnswer = DbContext.answers.AsNoTracking().First();
-            answer_versions dbVersion = DbContext.answer_versions.AsNoTracking().First();
+            answers dbAnswer = dbContext.answers.AsNoTracking().First();
+            answer_versions dbVersion = dbContext.answer_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbAnswer);
             Assert.NotNull(dbVersion);
@@ -165,20 +165,20 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             Random rnd = new Random();
             
-            sites site1 = testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
-            sites site2 = testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
+            sites site1 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
+            sites site2 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
             
-            units unit1 = testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
-            units unit2 = testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
+            units unit1 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
+            units unit2 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
            
             languages language = new languages();
             language.Name = Guid.NewGuid().ToString();
             language.Description = Guid.NewGuid().ToString();
-            language.Create(DbContext);
+            await language.Create(dbContext);
             languages language2 = new languages();
             language2.Name = Guid.NewGuid().ToString();
             language2.Description = Guid.NewGuid().ToString();
-            language2.Create(DbContext);
+            await language2.Create(dbContext);
             
             survey_configurations surveyConfiguration = new survey_configurations();
             surveyConfiguration.Name = Guid.NewGuid().ToString();
@@ -186,7 +186,7 @@ namespace eFormSDK.Integration.Tests
             surveyConfiguration.Start = DateTime.Now;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration.Create(DbContext);
+            await surveyConfiguration.Create(dbContext);
 
             survey_configurations surveyConfiguration2 = new survey_configurations();
             surveyConfiguration2.Name = Guid.NewGuid().ToString();
@@ -194,7 +194,7 @@ namespace eFormSDK.Integration.Tests
             surveyConfiguration2.Start = DateTime.Now;
             surveyConfiguration2.TimeOut = rnd.Next(1, 255);
             surveyConfiguration2.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration2.Create(DbContext);
+            await surveyConfiguration2.Create(dbContext);
 
             
             string name = Guid.NewGuid().ToString();
@@ -203,7 +203,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             
             string name2 = Guid.NewGuid().ToString();
             question_sets questionSet2 = new question_sets();
@@ -211,7 +211,7 @@ namespace eFormSDK.Integration.Tests
             questionSet2.Share = false;
             questionSet2.HasChild = false;
             questionSet2.PosiblyDeployed = false;
-            questionSet2.Create(DbContext);
+            await questionSet2.Create(dbContext);
 
             
             answers answer = new answers();
@@ -224,7 +224,7 @@ namespace eFormSDK.Integration.Tests
             answer.LanguageId = language.Id;
             answer.AnswerDuration = rnd.Next(1, 255);
             answer.UtcAdjusted = false;
-            answer.Create(DbContext);
+            await answer.Create(dbContext);
             // Act
 
             answer.SiteId = site2.Id;
@@ -237,10 +237,10 @@ namespace eFormSDK.Integration.Tests
             answer.AnswerDuration = rnd.Next(1, 255);
             answer.UtcAdjusted = true;
             
-            answer.Update(DbContext);
+            await answer.Update(dbContext);
             
-            answers dbAnswer = DbContext.answers.AsNoTracking().First();
-            answer_versions dbVersion = DbContext.answer_versions.AsNoTracking().First();
+            answers dbAnswer = dbContext.answers.AsNoTracking().First();
+            answer_versions dbVersion = dbContext.answer_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbAnswer);
             Assert.NotNull(dbVersion);
@@ -262,20 +262,20 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             Random rnd = new Random();
                        
-            sites site1 = testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
-            sites site2 = testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
+            sites site1 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
+            sites site2 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
             
-            units unit1 = testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
-            units unit2 = testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
+            units unit1 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
+            units unit2 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
            
             languages language = new languages();
             language.Name = Guid.NewGuid().ToString();
             language.Description = Guid.NewGuid().ToString();
-            language.Create(DbContext);
+            await language.Create(dbContext);
             languages language2 = new languages();
             language2.Name = Guid.NewGuid().ToString();
             language2.Description = Guid.NewGuid().ToString();
-            language2.Create(DbContext);
+            await language2.Create(dbContext);
             
             survey_configurations surveyConfiguration = new survey_configurations();
             surveyConfiguration.Name = Guid.NewGuid().ToString();
@@ -283,7 +283,7 @@ namespace eFormSDK.Integration.Tests
             surveyConfiguration.Start = DateTime.Now;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration.Create(DbContext);
+            await surveyConfiguration.Create(dbContext);
 
             survey_configurations surveyConfiguration2 = new survey_configurations();
             surveyConfiguration2.Name = Guid.NewGuid().ToString();
@@ -291,7 +291,7 @@ namespace eFormSDK.Integration.Tests
             surveyConfiguration2.Start = DateTime.Now;
             surveyConfiguration2.TimeOut = rnd.Next(1, 255);
             surveyConfiguration2.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration2.Create(DbContext);
+            await surveyConfiguration2.Create(dbContext);
 
             
             string name = Guid.NewGuid().ToString();
@@ -300,7 +300,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
             
             string name2 = Guid.NewGuid().ToString();
             question_sets questionSet2 = new question_sets();
@@ -308,7 +308,7 @@ namespace eFormSDK.Integration.Tests
             questionSet2.Share = false;
             questionSet2.HasChild = false;
             questionSet2.PosiblyDeployed = false;
-            questionSet2.Create(DbContext);
+            await questionSet2.Create(dbContext);
 
             
             answers answer = new answers();
@@ -321,7 +321,7 @@ namespace eFormSDK.Integration.Tests
             answer.LanguageId = language.Id;
             answer.AnswerDuration = rnd.Next(1, 255);
             answer.UtcAdjusted = true;
-            answer.Create(DbContext);
+            await answer.Create(dbContext);
             // Act
 
             answer.SiteId = site2.Id;
@@ -334,9 +334,9 @@ namespace eFormSDK.Integration.Tests
             answer.AnswerDuration = rnd.Next(1, 255);
             answer.UtcAdjusted = false;
             
-            answer.Update(DbContext);
-            answers dbAnswer = DbContext.answers.AsNoTracking().First();
-            answer_versions dbVersion = DbContext.answer_versions.AsNoTracking().First();
+            await answer.Update(dbContext);
+            answers dbAnswer = dbContext.answers.AsNoTracking().First();
+            answer_versions dbVersion = dbContext.answer_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbAnswer);
             Assert.NotNull(dbVersion);
@@ -357,12 +357,12 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             Random rnd = new Random();
-            sites site1 = testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
-            units unit1 = testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
+            sites site1 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
+            units unit1 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
             languages language = new languages();
             language.Name = Guid.NewGuid().ToString();
             language.Description = Guid.NewGuid().ToString();
-            language.Create(DbContext);
+            await language.Create(dbContext);
             
             survey_configurations surveyConfiguration = new survey_configurations();
             surveyConfiguration.Name = Guid.NewGuid().ToString();
@@ -370,7 +370,7 @@ namespace eFormSDK.Integration.Tests
             surveyConfiguration.Start = DateTime.Now;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration.Create(DbContext);
+            await surveyConfiguration.Create(dbContext);
 
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
@@ -378,7 +378,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             
             answers answer = new answers();
@@ -391,13 +391,13 @@ namespace eFormSDK.Integration.Tests
             answer.LanguageId = language.Id;
             answer.AnswerDuration = rnd.Next(1, 255);
             answer.UtcAdjusted = true;
-            answer.Create(DbContext);
+            await answer.Create(dbContext);
             // Act
 
-            answer.Delete(DbContext);
+            await answer.Delete(dbContext);
             
-            answers dbAnswer = DbContext.answers.AsNoTracking().First();
-            answer_versions dbVersion = DbContext.answer_versions.AsNoTracking().First();
+            answers dbAnswer = dbContext.answers.AsNoTracking().First();
+            answer_versions dbVersion = dbContext.answer_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbAnswer);
             Assert.NotNull(dbVersion);
@@ -419,12 +419,12 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             Random rnd = new Random();
-            sites site1 = testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
-            units unit1 = testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
+            sites site1 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
+            units unit1 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
             languages language = new languages();
             language.Name = Guid.NewGuid().ToString();
             language.Description = Guid.NewGuid().ToString();
-            language.Create(DbContext);
+            await language.Create(dbContext);
             
             survey_configurations surveyConfiguration = new survey_configurations();
             surveyConfiguration.Name = Guid.NewGuid().ToString();
@@ -432,7 +432,7 @@ namespace eFormSDK.Integration.Tests
             surveyConfiguration.Start = DateTime.Now;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration.Create(DbContext);
+            await surveyConfiguration.Create(dbContext);
 
             string name = Guid.NewGuid().ToString();
             question_sets questionSet = new question_sets();
@@ -440,7 +440,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             
             answers answer = new answers();
@@ -453,13 +453,13 @@ namespace eFormSDK.Integration.Tests
             answer.LanguageId = language.Id;
             answer.AnswerDuration = rnd.Next(1, 255);
             answer.UtcAdjusted = false;
-            answer.Create(DbContext);
+            await answer.Create(dbContext);
             // Act
 
-            answer.Delete(DbContext);
+            await answer.Delete(dbContext);
             
-            answers dbAnswer = DbContext.answers.AsNoTracking().First();
-            answer_versions dbVersion = DbContext.answer_versions.AsNoTracking().First();
+            answers dbAnswer = dbContext.answers.AsNoTracking().First();
+            answer_versions dbVersion = dbContext.answer_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbAnswer);
             Assert.NotNull(dbVersion);

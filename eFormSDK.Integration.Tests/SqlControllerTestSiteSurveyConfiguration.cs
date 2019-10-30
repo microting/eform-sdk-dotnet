@@ -51,20 +51,20 @@ namespace eFormSDK.Integration.Tests
             surveyConfiguration.Start = DateTime.Now;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration.Create(DbContext);
+            await surveyConfiguration.Create(dbContext);
 
-            sites site1 = testHelpers.CreateSite("SiteName1", 88);
+            sites site1 = await testHelpers.CreateSite("SiteName1", 88);
 
             site_survey_configurations siteSurveyConfiguration = new site_survey_configurations();
             siteSurveyConfiguration.SiteId = site1.Id;
             siteSurveyConfiguration.SurveyConfigurationId = surveyConfiguration.Id;
             // Act
-            siteSurveyConfiguration.Create(DbContext);
+            await siteSurveyConfiguration.Create(dbContext);
 
             site_survey_configurations dbSiteSurveyConfiguration =
-                DbContext.site_survey_configurations.AsNoTracking().First();
+                dbContext.site_survey_configurations.AsNoTracking().First();
             site_survey_configuration_versions dbSiteSurveyConfigurationVersion =
-                DbContext.site_survey_configuration_versions.AsNoTracking().First();
+                dbContext.site_survey_configuration_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbSiteSurveyConfiguration);
             Assert.NotNull(dbSiteSurveyConfigurationVersion);
@@ -85,32 +85,32 @@ namespace eFormSDK.Integration.Tests
             surveyConfiguration.Start = DateTime.Now;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration.Create(DbContext);
+            await surveyConfiguration.Create(dbContext);
 
-            sites site1 = testHelpers.CreateSite("SiteName1", 88);
+            sites site1 = await testHelpers.CreateSite("SiteName1", 88);
             
             site_survey_configurations siteSurveyConfiguration = new site_survey_configurations();
             siteSurveyConfiguration.SiteId = site1.Id;
             siteSurveyConfiguration.SurveyConfigurationId = surveyConfiguration.Id;
-            siteSurveyConfiguration.Create(DbContext);
+            await siteSurveyConfiguration.Create(dbContext);
             // Act
-            sites site2 = testHelpers.CreateSite("siteName2", 666);
+            sites site2 = await testHelpers.CreateSite("siteName2", 666);
             survey_configurations surveyConfiguration2 = new survey_configurations();
             surveyConfiguration2.Name = Guid.NewGuid().ToString();
             surveyConfiguration2.Stop = DateTime.Now;
             surveyConfiguration2.Start = DateTime.Now;
             surveyConfiguration2.TimeOut = rnd.Next(1, 255);
             surveyConfiguration2.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration2.Create(DbContext);
+            await surveyConfiguration2.Create(dbContext);
 
             siteSurveyConfiguration.SiteId = site2.Id;
             siteSurveyConfiguration.SurveyConfigurationId = surveyConfiguration2.Id;
             
-            siteSurveyConfiguration.Update(DbContext);
+            await siteSurveyConfiguration.Update(dbContext);
             site_survey_configurations dbSiteSurveyConfiguration =
-                DbContext.site_survey_configurations.AsNoTracking().First();
+                dbContext.site_survey_configurations.AsNoTracking().First();
             site_survey_configuration_versions dbSiteSurveyConfigurationVersion =
-                DbContext.site_survey_configuration_versions.AsNoTracking().First();
+                dbContext.site_survey_configuration_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbSiteSurveyConfiguration);
             Assert.NotNull(dbSiteSurveyConfigurationVersion);
@@ -131,20 +131,20 @@ namespace eFormSDK.Integration.Tests
             surveyConfiguration.Start = DateTime.Now;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration.Create(DbContext);
+            await surveyConfiguration.Create(dbContext);
 
-            sites site1 = testHelpers.CreateSite("SiteName1", 88);
+            sites site1 = await testHelpers.CreateSite("SiteName1", 88);
 
             site_survey_configurations siteSurveyConfiguration = new site_survey_configurations();
             siteSurveyConfiguration.SiteId = site1.Id;
             siteSurveyConfiguration.SurveyConfigurationId = surveyConfiguration.Id;
-            siteSurveyConfiguration.Create(DbContext);
+            await siteSurveyConfiguration.Create(dbContext);
             // Act
-            siteSurveyConfiguration.Delete(DbContext);
+            await siteSurveyConfiguration.Delete(dbContext);
             site_survey_configurations dbSiteSurveyConfiguration =
-                DbContext.site_survey_configurations.AsNoTracking().First();
+                dbContext.site_survey_configurations.AsNoTracking().First();
             site_survey_configuration_versions dbSiteSurveyConfigurationVersion =
-                DbContext.site_survey_configuration_versions.AsNoTracking().First();
+                dbContext.site_survey_configuration_versions.AsNoTracking().First();
             // Assert
             Assert.NotNull(dbSiteSurveyConfiguration);
             Assert.NotNull(dbSiteSurveyConfigurationVersion);

@@ -25,14 +25,14 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
             
             units unit = new units();
             unit.CustomerNo = rnd.Next(1, 255);
             unit.MicrotingUid = rnd.Next(1, 255);
             unit.OtpCode = rnd.Next(1, 255);
             unit.SiteId = site.Id;
-            unit.Create(DbContext);
+            await unit.Create(dbContext);
             
             check_lists checklist = new check_lists();
             checklist.Color = Guid.NewGuid().ToString();
@@ -64,18 +64,18 @@ namespace eFormSDK.Tests
             checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklist.JasperExportEnabled = randomBool;
             checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.Create(DbContext);
+            await checklist.Create(dbContext);
             
             entity_groups entityGroup = new entity_groups();
             entityGroup.Name = Guid.NewGuid().ToString();
             entityGroup.Type = Guid.NewGuid().ToString();
             entityGroup.MicrotingUid = Guid.NewGuid().ToString();
-            entityGroup.Create(DbContext);
+            await entityGroup.Create(dbContext);
             
             field_types fieldType = new field_types();
             fieldType.Description = Guid.NewGuid().ToString();
             fieldType.FieldType = Guid.NewGuid().ToString();
-            fieldType.Create(DbContext);
+            await fieldType.Create(dbContext);
             
             fields field = new fields();
             field.Color = Guid.NewGuid().ToString();
@@ -109,7 +109,7 @@ namespace eFormSDK.Tests
             field.CheckListId = checklist.Id;
             field.EntityGroupId = entityGroup.Id;
             field.FieldTypeId = fieldType.Id;
-            field.Create(DbContext);
+            await field.Create(dbContext);
             
             
             
@@ -118,7 +118,7 @@ namespace eFormSDK.Tests
             worker.FirstName = Guid.NewGuid().ToString();
             worker.LastName = Guid.NewGuid().ToString();
             worker.MicrotingUid = rnd.Next(1, 255);
-            worker.Create(DbContext);
+            await worker.Create(dbContext);
             
             cases theCase = new cases();
             theCase.Custom = Guid.NewGuid().ToString();
@@ -142,7 +142,7 @@ namespace eFormSDK.Tests
             theCase.WorkerId = worker.Id;
             theCase.CheckListId = checklist.Id;
             theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
-            theCase.Create(DbContext);
+            await theCase.Create(dbContext);
             
             uploaded_data uploadedData = new uploaded_data();
             uploadedData.Checksum = Guid.NewGuid().ToString();
@@ -155,7 +155,7 @@ namespace eFormSDK.Tests
             uploadedData.TranscriptionId = rnd.Next(1, 255);
             uploadedData.UploaderId = rnd.Next(1, 255);
             uploadedData.UploaderType = Guid.NewGuid().ToString();
-            uploadedData.Create(DbContext);
+            await uploadedData.Create(dbContext);
 
             field_values fieldValue = new field_values();
             fieldValue.Accuracy = Guid.NewGuid().ToString();
@@ -174,10 +174,10 @@ namespace eFormSDK.Tests
 
             //Act
             
-            fieldValue.Create(DbContext);
+            await fieldValue.Create(dbContext);
             
-            List<field_values> fieldValues = DbContext.field_values.AsNoTracking().ToList();
-            List<field_value_versions> fieldValueVersions = DbContext.field_value_versions.AsNoTracking().ToList();
+            List<field_values> fieldValues = dbContext.field_values.AsNoTracking().ToList();
+            List<field_value_versions> fieldValueVersions = dbContext.field_value_versions.AsNoTracking().ToList();
             
             Assert.NotNull(fieldValues);                                                             
             Assert.NotNull(fieldValueVersions);                                                             
@@ -236,14 +236,14 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
             
             units unit = new units();
             unit.CustomerNo = rnd.Next(1, 255);
             unit.MicrotingUid = rnd.Next(1, 255);
             unit.OtpCode = rnd.Next(1, 255);
             unit.SiteId = site.Id;
-            unit.Create(DbContext);
+            await unit.Create(dbContext);
             
             check_lists checklist = new check_lists();
             checklist.Color = Guid.NewGuid().ToString();
@@ -275,18 +275,18 @@ namespace eFormSDK.Tests
             checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklist.JasperExportEnabled = randomBool;
             checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.Create(DbContext);
+            await checklist.Create(dbContext);
             
             entity_groups entityGroup = new entity_groups();
             entityGroup.Name = Guid.NewGuid().ToString();
             entityGroup.Type = Guid.NewGuid().ToString();
             entityGroup.MicrotingUid = Guid.NewGuid().ToString();
-            entityGroup.Create(DbContext);
+            await entityGroup.Create(dbContext);
             
             field_types fieldType = new field_types();
             fieldType.Description = Guid.NewGuid().ToString();
             fieldType.FieldType = Guid.NewGuid().ToString();
-            fieldType.Create(DbContext);
+            await fieldType.Create(dbContext);
             
             fields field = new fields();
             field.Color = Guid.NewGuid().ToString();
@@ -320,14 +320,14 @@ namespace eFormSDK.Tests
             field.CheckListId = checklist.Id;
             field.EntityGroupId = entityGroup.Id;
             field.FieldTypeId = fieldType.Id;
-            field.Create(DbContext);
+            await field.Create(dbContext);
             
             workers worker = new workers();
             worker.Email = Guid.NewGuid().ToString();
             worker.FirstName = Guid.NewGuid().ToString();
             worker.LastName = Guid.NewGuid().ToString();
             worker.MicrotingUid = rnd.Next(1, 255);
-            worker.Create(DbContext);
+            await worker.Create(dbContext);
             
             cases theCase = new cases();
             theCase.Custom = Guid.NewGuid().ToString();
@@ -351,7 +351,7 @@ namespace eFormSDK.Tests
             theCase.WorkerId = worker.Id;
             theCase.CheckListId = checklist.Id;
             theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
-            theCase.Create(DbContext);
+            await theCase.Create(dbContext);
             
             uploaded_data uploadedData = new uploaded_data();
             uploadedData.Checksum = Guid.NewGuid().ToString();
@@ -364,7 +364,7 @@ namespace eFormSDK.Tests
             uploadedData.TranscriptionId = rnd.Next(1, 255);
             uploadedData.UploaderId = rnd.Next(1, 255);
             uploadedData.UploaderType = Guid.NewGuid().ToString();
-            uploadedData.Create(DbContext);
+            await uploadedData.Create(dbContext);
 
             field_values fieldValue = new field_values();
             fieldValue.Accuracy = Guid.NewGuid().ToString();
@@ -380,7 +380,7 @@ namespace eFormSDK.Tests
             fieldValue.WorkerId = worker.Id;
             fieldValue.CheckListId = checklist.Id;
             fieldValue.UploadedDataId = uploadedData.Id;
-            fieldValue.Create(DbContext);
+            await fieldValue.Create(dbContext);
 
             //Act
 
@@ -403,10 +403,10 @@ namespace eFormSDK.Tests
             fieldValue.Value = Guid.NewGuid().ToString();
             fieldValue.DoneAt = DateTime.Now;
 
-            fieldValue.Update(DbContext);
+            await fieldValue.Update(dbContext);
             
-            List<field_values> fieldValues = DbContext.field_values.AsNoTracking().ToList();
-            List<field_value_versions> fieldValueVersions = DbContext.field_value_versions.AsNoTracking().ToList();
+            List<field_values> fieldValues = dbContext.field_values.AsNoTracking().ToList();
+            List<field_value_versions> fieldValueVersions = dbContext.field_value_versions.AsNoTracking().ToList();
             
             Assert.NotNull(fieldValues);                                                             
             Assert.NotNull(fieldValueVersions);                                                             
@@ -484,14 +484,14 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
             
             units unit = new units();
             unit.CustomerNo = rnd.Next(1, 255);
             unit.MicrotingUid = rnd.Next(1, 255);
             unit.OtpCode = rnd.Next(1, 255);
             unit.SiteId = site.Id;
-            unit.Create(DbContext);
+            await unit.Create(dbContext);
             
             check_lists checklist = new check_lists();
             checklist.Color = Guid.NewGuid().ToString();
@@ -523,18 +523,18 @@ namespace eFormSDK.Tests
             checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklist.JasperExportEnabled = randomBool;
             checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.Create(DbContext);
+            await checklist.Create(dbContext);
             
             entity_groups entityGroup = new entity_groups();
             entityGroup.Name = Guid.NewGuid().ToString();
             entityGroup.Type = Guid.NewGuid().ToString();
             entityGroup.MicrotingUid = Guid.NewGuid().ToString();
-            entityGroup.Create(DbContext);
+            await entityGroup.Create(dbContext);
             
             field_types fieldType = new field_types();
             fieldType.Description = Guid.NewGuid().ToString();
             fieldType.FieldType = Guid.NewGuid().ToString();
-            fieldType.Create(DbContext);
+            await fieldType.Create(dbContext);
             
             fields field = new fields();
             field.Color = Guid.NewGuid().ToString();
@@ -568,14 +568,14 @@ namespace eFormSDK.Tests
             field.CheckListId = checklist.Id;
             field.EntityGroupId = entityGroup.Id;
             field.FieldTypeId = fieldType.Id;
-            field.Create(DbContext);
+            await field.Create(dbContext);
             
             workers worker = new workers();
             worker.Email = Guid.NewGuid().ToString();
             worker.FirstName = Guid.NewGuid().ToString();
             worker.LastName = Guid.NewGuid().ToString();
             worker.MicrotingUid = rnd.Next(1, 255);
-            worker.Create(DbContext);
+            await worker.Create(dbContext);
             
             cases theCase = new cases();
             theCase.Custom = Guid.NewGuid().ToString();
@@ -599,7 +599,7 @@ namespace eFormSDK.Tests
             theCase.WorkerId = worker.Id;
             theCase.CheckListId = checklist.Id;
             theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
-            theCase.Create(DbContext);
+            await theCase.Create(dbContext);
             
             uploaded_data uploadedData = new uploaded_data();
             uploadedData.Checksum = Guid.NewGuid().ToString();
@@ -612,7 +612,7 @@ namespace eFormSDK.Tests
             uploadedData.TranscriptionId = rnd.Next(1, 255);
             uploadedData.UploaderId = rnd.Next(1, 255);
             uploadedData.UploaderType = Guid.NewGuid().ToString();
-            uploadedData.Create(DbContext);
+            await uploadedData.Create(dbContext);
 
             field_values fieldValue = new field_values();
             fieldValue.Accuracy = Guid.NewGuid().ToString();
@@ -628,17 +628,17 @@ namespace eFormSDK.Tests
             fieldValue.WorkerId = worker.Id;
             fieldValue.CheckListId = checklist.Id;
             fieldValue.UploadedDataId = uploadedData.Id;
-            fieldValue.Create(DbContext);
+            await fieldValue.Create(dbContext);
 
             //Act
 
             DateTime? oldUpdatedAt = fieldValue.UpdatedAt;
             
 
-            fieldValue.Delete(DbContext);
+            await fieldValue.Delete(dbContext);
             
-            List<field_values> fieldValues = DbContext.field_values.AsNoTracking().ToList();
-            List<field_value_versions> fieldValueVersions = DbContext.field_value_versions.AsNoTracking().ToList();
+            List<field_values> fieldValues = dbContext.field_values.AsNoTracking().ToList();
+            List<field_value_versions> fieldValueVersions = dbContext.field_value_versions.AsNoTracking().ToList();
             
             Assert.NotNull(fieldValues);                                                             
             Assert.NotNull(fieldValueVersions);                                                             

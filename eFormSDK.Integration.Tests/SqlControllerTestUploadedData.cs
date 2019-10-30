@@ -68,8 +68,8 @@ namespace eFormSDK.Integration.Tests
             dU.CurrentFile = currentFile;
             dU.Checksum = checksum;
 
-            DbContext.uploaded_data.Add(dU);
-            DbContext.SaveChanges();
+            dbContext.uploaded_data.Add(dU);
+            await dbContext.SaveChangesAsync();
 
             UploadedData ud = await sut.FileRead();
 
@@ -114,8 +114,8 @@ namespace eFormSDK.Integration.Tests
             dU.CurrentFile = currentFile;
             dU.Checksum = checksum;
 
-            DbContext.uploaded_data.Add(dU);
-            DbContext.SaveChanges();
+            dbContext.uploaded_data.Add(dU);
+            await dbContext.SaveChangesAsync();
 
             uploaded_data ud = await sut.GetUploadedData(dU.Id);
 
@@ -154,8 +154,8 @@ namespace eFormSDK.Integration.Tests
 
 
 
-            DbContext.uploaded_data.Add(ud);
-            DbContext.SaveChanges();
+            dbContext.uploaded_data.Add(ud);
+            await dbContext.SaveChangesAsync();
 
 
             // Act
@@ -185,10 +185,10 @@ namespace eFormSDK.Integration.Tests
         public async Task SQL_File_FileCaseFindMUId_doesFindMUId()
         {
             Random rnd = new Random();
-            sites site1 = testHelpers.CreateSite("MySite", 22);
+            sites site1 = await testHelpers.CreateSite("MySite", 22);
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
-            check_lists cl1 = testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template1", "template_desc", "", "", 1, 1);
+            check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template1", "template_desc", "", "", 1, 1);
 
             string guid = Guid.NewGuid().ToString();
 
@@ -196,13 +196,13 @@ namespace eFormSDK.Integration.Tests
             DateTime c1_ca = DateTime.Now.AddDays(-9);
             DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
             DateTime c1_ua = DateTime.Now.AddDays(-8);
-            workers worker = testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-            site_workers site_workers = testHelpers.CreateSiteWorker(55, site1, worker);
-            units unit = testHelpers.CreateUnit(48, 49, site1, 348);
+            workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker);
+            units unit = await testHelpers.CreateUnit(48, 49, site1, 348);
 
             string microtingUId = Guid.NewGuid().ToString();
             string microtingCheckId = Guid.NewGuid().ToString();
-            cases aCase1 = testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
+            cases aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
                 c1_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site1, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
 
@@ -217,19 +217,19 @@ namespace eFormSDK.Integration.Tests
             ud.FileName = "fileName";
             //ud.Id = 111;
 
-            DbContext.uploaded_data.Add(ud);
-            DbContext.SaveChanges();
+            dbContext.uploaded_data.Add(ud);
+            await dbContext.SaveChangesAsync();
 
             field_values fVs = new field_values();
             fVs.UploadedDataId = ud.Id;
             fVs.CaseId = aCase1.Id;
 
-            DbContext.field_values.Add(fVs);
-            DbContext.SaveChanges();
+            dbContext.field_values.Add(fVs);
+            await dbContext.SaveChangesAsync();
 
 
             // Act
-            sut.FileCaseFindMUId("url");
+            await sut.FileCaseFindMUId("url");
 
 
             Assert.NotNull(fVs);
@@ -247,13 +247,13 @@ namespace eFormSDK.Integration.Tests
             ud.WorkflowState = Constants.WorkflowStates.PreCreated;
             ud.Version = 1;
 
-            DbContext.uploaded_data.Add(ud);
-            DbContext.SaveChanges();
+            dbContext.uploaded_data.Add(ud);
+            await dbContext.SaveChangesAsync();
 
 
             // Act
-            sut.FileProcessed("url", "myChecksum", "myFileLocation", "myFileName", ud.Id);
-            List<uploaded_data> uploadedDataResult = DbContext.uploaded_data.AsNoTracking().ToList();
+            await sut.FileProcessed("url", "myChecksum", "myFileLocation", "myFileName", ud.Id);
+            List<uploaded_data> uploadedDataResult = dbContext.uploaded_data.AsNoTracking().ToList();
             //var versionedMatches = DbContext.uploaded_data_versions.AsNoTracking().ToList(); TODO 05/01/2018
 
             // Assert
@@ -275,12 +275,12 @@ namespace eFormSDK.Integration.Tests
         {
             uploaded_data ud = new uploaded_data();
 
-            DbContext.uploaded_data.Add(ud);
-            DbContext.SaveChanges();
+            dbContext.uploaded_data.Add(ud);
+            await dbContext.SaveChangesAsync();
 
 
-            sut.GetUploadedData(ud.Id);
-            List<uploaded_data> uploadedDataResult = DbContext.uploaded_data.AsNoTracking().ToList();
+            await sut.GetUploadedData(ud.Id);
+            List<uploaded_data> uploadedDataResult = dbContext.uploaded_data.AsNoTracking().ToList();
 
 
             Assert.NotNull(ud);
@@ -296,12 +296,12 @@ namespace eFormSDK.Integration.Tests
 
             ud.WorkflowState = Constants.WorkflowStates.Created;
             ud.Version = 1;
-            DbContext.uploaded_data.Add(ud);
-            DbContext.SaveChanges();
+            dbContext.uploaded_data.Add(ud);
+            await dbContext.SaveChangesAsync();
 
             // Act
-            sut.DeleteFile(ud.Id);
-            List<uploaded_data> uploadedDataResult = DbContext.uploaded_data.AsNoTracking().ToList();
+            await sut.DeleteFile(ud.Id);
+            List<uploaded_data> uploadedDataResult = dbContext.uploaded_data.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(ud);

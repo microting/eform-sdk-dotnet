@@ -168,7 +168,7 @@ namespace eFormCore
 
 					//subscriber
 					_subscriber = new Subscriber(_sqlController, log, _bus);
-					_subscriber.Start();
+					await _subscriber.Start();
 					await log.LogStandard(t.GetMethodName("Core"), "Subscriber started");
 
 					await log.LogCritical(t.GetMethodName("Core"), "started");

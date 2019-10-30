@@ -27,7 +27,7 @@ namespace eFormSDK.Tests
             questionSetForQuestion.HasChild = randomBool;
             questionSetForQuestion.ParentId = rnd.Next(1, 255);
             questionSetForQuestion.PosiblyDeployed = randomBool;
-            questionSetForQuestion.Create(DbContext);
+            await questionSetForQuestion.Create(dbContext);
             
             questions question = new questions();
             question.Image = randomBool;
@@ -49,10 +49,10 @@ namespace eFormSDK.Tests
 
             //Act
             
-            question.Create(DbContext);
+            await question.Create(dbContext);
             
-            List<questions> questions = DbContext.questions.AsNoTracking().ToList();
-            List<question_versions> questionVersions = DbContext.question_versions.AsNoTracking().ToList();
+            List<questions> questions = dbContext.questions.AsNoTracking().ToList();
+            List<question_versions> questionVersions = dbContext.question_versions.AsNoTracking().ToList();
             
             Assert.NotNull(questions);                                                             
             Assert.NotNull(questionVersions);                                                             
@@ -119,7 +119,7 @@ namespace eFormSDK.Tests
             questionSetForQuestion.HasChild = randomBool;
             questionSetForQuestion.ParentId = rnd.Next(1, 255);
             questionSetForQuestion.PosiblyDeployed = randomBool;
-            questionSetForQuestion.Create(DbContext);
+            await questionSetForQuestion.Create(dbContext);
             
             questions question = new questions();
             question.Image = randomBool;
@@ -138,7 +138,7 @@ namespace eFormSDK.Tests
             question.BackButtonEnabled = randomBool;
             question.ContinuousQuestionId = rnd.Next(1, 255);
             question.QuestionSetId = questionSetForQuestion.Id;
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
             //Act
 
@@ -174,10 +174,10 @@ namespace eFormSDK.Tests
             question.BackButtonEnabled = randomBool;
             question.ContinuousQuestionId = rnd.Next(1, 255);
             
-            question.Update(DbContext);
+            await question.Update(dbContext);
 
-            List<questions> questions = DbContext.questions.AsNoTracking().ToList();
-            List<question_versions> questionVersions = DbContext.question_versions.AsNoTracking().ToList();
+            List<questions> questions = dbContext.questions.AsNoTracking().ToList();
+            List<question_versions> questionVersions = dbContext.question_versions.AsNoTracking().ToList();
             
             Assert.NotNull(questions);                                                             
             Assert.NotNull(questionVersions);                                                             
@@ -266,7 +266,7 @@ namespace eFormSDK.Tests
             questionSetForQuestion.HasChild = randomBool;
             questionSetForQuestion.ParentId = rnd.Next(1, 255);
             questionSetForQuestion.PosiblyDeployed = randomBool;
-            questionSetForQuestion.Create(DbContext);
+            await questionSetForQuestion.Create(dbContext);
             
             questions question = new questions();
             question.Image = randomBool;
@@ -285,16 +285,16 @@ namespace eFormSDK.Tests
             question.BackButtonEnabled = randomBool;
             question.ContinuousQuestionId = rnd.Next(1, 255);
             question.QuestionSetId = questionSetForQuestion.Id;
-            question.Create(DbContext);
+            await question.Create(dbContext);
 
             //Act
 
             DateTime? oldUpdatedAt = question.UpdatedAt;
 
-            question.Delete(DbContext);
+            await question.Delete(dbContext);
 
-            List<questions> questions = DbContext.questions.AsNoTracking().ToList();
-            List<question_versions> questionVersions = DbContext.question_versions.AsNoTracking().ToList();
+            List<questions> questions = dbContext.questions.AsNoTracking().ToList();
+            List<question_versions> questionVersions = dbContext.question_versions.AsNoTracking().ToList();
             
             Assert.NotNull(questions);                                                             
             Assert.NotNull(questionVersions);                                                             

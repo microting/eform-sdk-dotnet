@@ -27,21 +27,21 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
             
             units unit = new units();
             unit.CustomerNo = rnd.Next(1, 255);
             unit.MicrotingUid = rnd.Next(1, 255);
             unit.OtpCode = rnd.Next(1, 255);
             unit.SiteId = site.Id;
-            unit.Create(DbContext);
+            await unit.Create(dbContext);
             
             workers worker = new workers();
             worker.Email = Guid.NewGuid().ToString();
             worker.FirstName = Guid.NewGuid().ToString();
             worker.LastName = Guid.NewGuid().ToString();
             worker.MicrotingUid = rnd.Next(1, 255);
-            worker.Create(DbContext);
+            await worker.Create(dbContext);
             
             check_lists checklist = new check_lists();
             checklist.Color = Guid.NewGuid().ToString();
@@ -73,7 +73,7 @@ namespace eFormSDK.Tests
             checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklist.JasperExportEnabled = randomBool;
             checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.Create(DbContext);
+            await checklist.Create(dbContext);
             
             cases theCase = new cases();
 
@@ -102,10 +102,10 @@ namespace eFormSDK.Tests
             
             //Act
             
-            theCase.Create(DbContext);
+            await theCase.Create(dbContext);
             
-            List<cases> cases = DbContext.cases.AsNoTracking().ToList();
-            List<case_versions> caseVersions = DbContext.case_versions.AsNoTracking().ToList();
+            List<cases> cases = dbContext.cases.AsNoTracking().ToList();
+            List<case_versions> caseVersions = dbContext.case_versions.AsNoTracking().ToList();
             
             //Assert
             
@@ -186,21 +186,21 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
             
             units unit = new units();
             unit.CustomerNo = rnd.Next(1, 255);
             unit.MicrotingUid = rnd.Next(1, 255);
             unit.OtpCode = rnd.Next(1, 255);
             unit.SiteId = site.Id;
-            unit.Create(DbContext);
+            await unit.Create(dbContext);
             
             workers worker = new workers();
             worker.Email = Guid.NewGuid().ToString();
             worker.FirstName = Guid.NewGuid().ToString();
             worker.LastName = Guid.NewGuid().ToString();
             worker.MicrotingUid = rnd.Next(1, 255);
-            worker.Create(DbContext);
+            await worker.Create(dbContext);
             
             check_lists checklist = new check_lists();
             checklist.Color = Guid.NewGuid().ToString();
@@ -232,7 +232,7 @@ namespace eFormSDK.Tests
             checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklist.JasperExportEnabled = randomBool;
             checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.Create(DbContext);
+            await checklist.Create(dbContext);
             
             cases theCase = new cases();
 
@@ -257,7 +257,7 @@ namespace eFormSDK.Tests
             theCase.WorkerId = worker.Id;
             theCase.CheckListId = checklist.Id;
             theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
-            theCase.Create(DbContext);
+            await theCase.Create(dbContext);
             
             //Act
 
@@ -298,10 +298,10 @@ namespace eFormSDK.Tests
             theCase.MicrotingUid = rnd.Next(shortMinValue, shortmaxValue);
             theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
             
-            theCase.Update(DbContext);
+            await theCase.Update(dbContext);
             
-            List<cases> cases = DbContext.cases.AsNoTracking().ToList();
-            List<case_versions> caseVersions = DbContext.case_versions.AsNoTracking().ToList();
+            List<cases> cases = dbContext.cases.AsNoTracking().ToList();
+            List<case_versions> caseVersions = dbContext.case_versions.AsNoTracking().ToList();
             
             //Assert
             
@@ -410,21 +410,21 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
             
             units unit = new units();
             unit.CustomerNo = rnd.Next(1, 255);
             unit.MicrotingUid = rnd.Next(1, 255);
             unit.OtpCode = rnd.Next(1, 255);
             unit.SiteId = site.Id;
-            unit.Create(DbContext);
+            await unit.Create(dbContext);
             
             workers worker = new workers();
             worker.Email = Guid.NewGuid().ToString();
             worker.FirstName = Guid.NewGuid().ToString();
             worker.LastName = Guid.NewGuid().ToString();
             worker.MicrotingUid = rnd.Next(1, 255);
-            worker.Create(DbContext);
+            await worker.Create(dbContext);
             
             check_lists checklist = new check_lists();
             checklist.Color = Guid.NewGuid().ToString();
@@ -456,7 +456,7 @@ namespace eFormSDK.Tests
             checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklist.JasperExportEnabled = randomBool;
             checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.Create(DbContext);
+            await checklist.Create(dbContext);
             
             cases theCase = new cases();
 
@@ -481,17 +481,17 @@ namespace eFormSDK.Tests
             theCase.WorkerId = worker.Id;
             theCase.CheckListId = checklist.Id;
             theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
-            theCase.Create(DbContext);
+            await theCase.Create(dbContext);
             
             
             //Act
 
             DateTime? oldUpdatedAt = theCase.UpdatedAt;
             
-            theCase.Delete(DbContext);
+            await theCase.Delete(dbContext);
             
-            List<cases> cases = DbContext.cases.AsNoTracking().ToList();
-            List<case_versions> caseVersions = DbContext.case_versions.AsNoTracking().ToList();
+            List<cases> cases = dbContext.cases.AsNoTracking().ToList();
+            List<case_versions> caseVersions = dbContext.case_versions.AsNoTracking().ToList();
             
             //Assert
             

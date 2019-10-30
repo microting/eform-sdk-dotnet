@@ -85,7 +85,7 @@ namespace Microting.eForm.Communication
 
         string SiteWorkerDelete(int id);
 
-        string SiteWorkerLoadAllFromRemote();
+        Task<string> SiteWorkerLoadAllFromRemote();
 
         string FolderLoadAllFromRemote();
 

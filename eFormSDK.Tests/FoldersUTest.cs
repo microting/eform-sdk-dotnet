@@ -24,7 +24,7 @@ namespace eFormSDK.Tests
             parentFolder.Description = Guid.NewGuid().ToString();
             parentFolder.Name = Guid.NewGuid().ToString();
             parentFolder.MicrotingUid = rnd.Next(1, 255);
-            parentFolder.Create(DbContext);
+            await parentFolder.Create(dbContext);
             
             folders folder = new folders();
             folder.Description = Guid.NewGuid().ToString();
@@ -34,10 +34,10 @@ namespace eFormSDK.Tests
             
             //Act
             
-            folder.Create(DbContext);
+            await folder.Create(dbContext);
             
-            List<folders> folders = DbContext.folders.AsNoTracking().ToList();
-            List<folder_versions> folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
+            List<folders> folders = dbContext.folders.AsNoTracking().ToList();
+            List<folder_versions> folderVersions = dbContext.folder_versions.AsNoTracking().ToList();
             
             Assert.NotNull(folders);                                                             
             Assert.NotNull(folderVersions);                                                             
@@ -77,14 +77,14 @@ namespace eFormSDK.Tests
             parentFolder.Description = Guid.NewGuid().ToString();
             parentFolder.Name = Guid.NewGuid().ToString();
             parentFolder.MicrotingUid = rnd.Next(1, 255);
-            parentFolder.Create(DbContext);
+            await parentFolder.Create(dbContext);
             
             folders folder = new folders();
             folder.Description = Guid.NewGuid().ToString();
             folder.Name = Guid.NewGuid().ToString();
             folder.MicrotingUid = rnd.Next(1, 255);
             folder.ParentId = parentFolder.Id;
-            folder.Create(DbContext);
+            await folder.Create(dbContext);
 
             //Act
             DateTime? oldUpdatedAt = folder.UpdatedAt;
@@ -95,10 +95,10 @@ namespace eFormSDK.Tests
             folder.Description = Guid.NewGuid().ToString();
             folder.Name = Guid.NewGuid().ToString();
             folder.MicrotingUid = rnd.Next(1, 255);
-            folder.Update(DbContext);
+            await folder.Update(dbContext);
             
-            List<folders> folders = DbContext.folders.AsNoTracking().ToList();
-            List<folder_versions> folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
+            List<folders> folders = dbContext.folders.AsNoTracking().ToList();
+            List<folder_versions> folderVersions = dbContext.folder_versions.AsNoTracking().ToList();
             
             Assert.NotNull(folders);                                                             
             Assert.NotNull(folderVersions);                                                             
@@ -149,21 +149,21 @@ namespace eFormSDK.Tests
             parentFolder.Description = Guid.NewGuid().ToString();
             parentFolder.Name = Guid.NewGuid().ToString();
             parentFolder.MicrotingUid = rnd.Next(1, 255);
-            parentFolder.Create(DbContext);
+            await parentFolder.Create(dbContext);
             
             folders folder = new folders();
             folder.Description = Guid.NewGuid().ToString();
             folder.Name = Guid.NewGuid().ToString();
             folder.MicrotingUid = rnd.Next(1, 255);
             folder.ParentId = parentFolder.Id;
-            folder.Create(DbContext);
+            await folder.Create(dbContext);
 
             //Act
             
-            folder.Delete(DbContext);
+            await folder.Delete(dbContext);
             
-            List<folders> folders = DbContext.folders.AsNoTracking().ToList();
-            List<folder_versions> folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
+            List<folders> folders = dbContext.folders.AsNoTracking().ToList();
+            List<folder_versions> folderVersions = dbContext.folder_versions.AsNoTracking().ToList();
             
             Assert.NotNull(folders);                                                             
             Assert.NotNull(folderVersions);                                                             

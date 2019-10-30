@@ -282,9 +282,9 @@ namespace Microting.eForm.Communication
         #region folder
         
         
-        public string SiteWorkerLoadAllFromRemote()
+        public async Task<string> SiteWorkerLoadAllFromRemote()
         {
-            return _testHelperReturnXml.CreateSiteUnitWorkersForFullLoaed(false);
+            return await _testHelperReturnXml.CreateSiteUnitWorkersForFullLoaed(false);
         }
 
         public string FolderLoadAllFromRemote()

@@ -25,7 +25,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             #endregion
             
@@ -53,7 +53,7 @@ namespace eFormSDK.Integration.Tests
             question.BackButtonEnabled = false;
             question.Image = false;
             
-            question.Create(DbContext);
+            await question.Create(dbContext);
             #endregion
             
             #region Option
@@ -69,10 +69,10 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             // Act
-            option.Create(DbContext);
+            await option.Create(dbContext);
 
-            options dbOption = DbContext.options.AsNoTracking().First();
-            option_versions dbVersions = DbContext.option_versions.AsNoTracking().First();
+            options dbOption = dbContext.options.AsNoTracking().First();
+            option_versions dbVersions = dbContext.option_versions.AsNoTracking().First();
             //Assert
             Assert.NotNull(dbOption);
             Assert.NotNull(dbVersions);
@@ -96,7 +96,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             #endregion
             
@@ -123,7 +123,7 @@ namespace eFormSDK.Integration.Tests
             question.ValidDisplay = false;
             question.BackButtonEnabled = false;
             question.Image = false;
-            question.Create(DbContext);
+            await question.Create(dbContext);
             #endregion
             #region Question2
             string type2 = Guid.NewGuid().ToString();
@@ -148,7 +148,7 @@ namespace eFormSDK.Integration.Tests
             question2.BackButtonEnabled = false;
             question2.Image = false;
             
-            question2.Create(DbContext);
+            await question2.Create(dbContext);
             #endregion
             #region Option
             
@@ -160,7 +160,7 @@ namespace eFormSDK.Integration.Tests
             option.NextQuestionId = rnd.Next(1, 255);
             option.ContinuousOptionId = rnd.Next(1, 255);
 
-            option.Create(DbContext);
+            await option.Create(dbContext);
 
             #endregion
 
@@ -173,10 +173,10 @@ namespace eFormSDK.Integration.Tests
             option.NextQuestionId = rnd.Next(1, 550);
             option.ContinuousOptionId = rnd.Next(1, 550);
 
-            option.Update(DbContext);
+            await option.Update(dbContext);
             
-            options dbOption = DbContext.options.AsNoTracking().First();
-            option_versions dbVersions = DbContext.option_versions.AsNoTracking().First();
+            options dbOption = dbContext.options.AsNoTracking().First();
+            option_versions dbVersions = dbContext.option_versions.AsNoTracking().First();
             //Assert
             Assert.NotNull(dbOption);
             Assert.NotNull(dbVersions);
@@ -200,7 +200,7 @@ namespace eFormSDK.Integration.Tests
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
-            questionSet.Create(DbContext);
+            await questionSet.Create(dbContext);
 
             #endregion
             
@@ -228,7 +228,7 @@ namespace eFormSDK.Integration.Tests
             question.BackButtonEnabled = false;
             question.Image = false;
             
-            question.Create(DbContext);
+            await question.Create(dbContext);
             #endregion
             
             #region Option
@@ -240,16 +240,16 @@ namespace eFormSDK.Integration.Tests
             option.OptionsIndex = rnd.Next(1, 255);
             option.NextQuestionId = rnd.Next(1, 255);
             option.ContinuousOptionId = rnd.Next(1, 255);
-            option.Create(DbContext);
+            await option.Create(dbContext);
 
             #endregion
 
             // Act
 
-            option.Delete(DbContext);
+            await option.Delete(dbContext);
             
-            options dbOption = DbContext.options.AsNoTracking().First();
-            option_versions dbVersions = DbContext.option_versions.AsNoTracking().First();
+            options dbOption = dbContext.options.AsNoTracking().First();
+            option_versions dbVersions = dbContext.option_versions.AsNoTracking().First();
             //Assert
             Assert.NotNull(dbOption);
             Assert.NotNull(dbVersions);

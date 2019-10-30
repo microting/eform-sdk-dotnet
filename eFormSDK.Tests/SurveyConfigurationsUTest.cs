@@ -27,10 +27,10 @@ namespace eFormSDK.Tests
             
             //Act
             
-            surveyConfiguration.Create(DbContext);
+            await surveyConfiguration.Create(dbContext);
             
-            List<survey_configurations> surveyConfigurations = DbContext.survey_configurations.AsNoTracking().ToList();
-            List<survey_configuration_versions> surveyConfigurationVersions = DbContext.survey_configuration_versions.AsNoTracking().ToList();
+            List<survey_configurations> surveyConfigurations = dbContext.survey_configurations.AsNoTracking().ToList();
+            List<survey_configuration_versions> surveyConfigurationVersions = dbContext.survey_configuration_versions.AsNoTracking().ToList();
             
             Assert.NotNull(surveyConfigurations);                                                             
             Assert.NotNull(surveyConfigurationVersions);                                                             
@@ -75,7 +75,7 @@ namespace eFormSDK.Tests
             surveyConfiguration.Stop = DateTime.Now;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration.Create(DbContext);
+            await surveyConfiguration.Create(dbContext);
 
             
             //Act
@@ -92,10 +92,10 @@ namespace eFormSDK.Tests
             surveyConfiguration.Stop = DateTime.Now;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration.Update(DbContext);
+            await surveyConfiguration.Update(dbContext);
             
-            List<survey_configurations> surveyConfigurations = DbContext.survey_configurations.AsNoTracking().ToList();
-            List<survey_configuration_versions> surveyConfigurationVersions = DbContext.survey_configuration_versions.AsNoTracking().ToList();
+            List<survey_configurations> surveyConfigurations = dbContext.survey_configurations.AsNoTracking().ToList();
+            List<survey_configuration_versions> surveyConfigurationVersions = dbContext.survey_configuration_versions.AsNoTracking().ToList();
             
             Assert.NotNull(surveyConfigurations);                                                             
             Assert.NotNull(surveyConfigurationVersions);                                                             
@@ -153,17 +153,17 @@ namespace eFormSDK.Tests
             surveyConfiguration.Stop = DateTime.Now;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration.Create(DbContext);
+            await surveyConfiguration.Create(dbContext);
 
             
             //Act
 
             DateTime? oldUpdatedAt = surveyConfiguration.UpdatedAt;
          
-            surveyConfiguration.Delete(DbContext);
+            await surveyConfiguration.Delete(dbContext);
             
-            List<survey_configurations> surveyConfigurations = DbContext.survey_configurations.AsNoTracking().ToList();
-            List<survey_configuration_versions> surveyConfigurationVersions = DbContext.survey_configuration_versions.AsNoTracking().ToList();
+            List<survey_configurations> surveyConfigurations = dbContext.survey_configurations.AsNoTracking().ToList();
+            List<survey_configuration_versions> surveyConfigurationVersions = dbContext.survey_configuration_versions.AsNoTracking().ToList();
             
             Assert.NotNull(surveyConfigurations);                                                             
             Assert.NotNull(surveyConfigurationVersions);                                                             

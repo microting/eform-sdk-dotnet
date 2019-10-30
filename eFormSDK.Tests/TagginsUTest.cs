@@ -49,7 +49,7 @@ namespace eFormSDK.Tests
             tags tag = new tags();
             tag.Name = Guid.NewGuid().ToString();
             tag.TaggingsCount = rnd.Next(1, 255);
-            tag.Create(DbContext);
+            await tag.Create(dbContext);
             
             check_lists checklist = new check_lists();
             checklist.Color = Guid.NewGuid().ToString();
@@ -83,7 +83,7 @@ namespace eFormSDK.Tests
             checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklist.JasperExportEnabled = randomBool;
             checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.Create(DbContext);
+            await checklist.Create(dbContext);
             
             taggings tagging = new taggings();
             tagging.Tag = tag;
@@ -95,10 +95,10 @@ namespace eFormSDK.Tests
             
             //Act
             
-            tagging.Create(DbContext);
+            await tagging.Create(dbContext);
 
-            List<taggings> taggings = DbContext.taggings.AsNoTracking().ToList();
-            List<tagging_versions> taggingVersions = DbContext.tagging_versions.AsNoTracking().ToList();
+            List<taggings> taggings = dbContext.taggings.AsNoTracking().ToList();
+            List<tagging_versions> taggingVersions = dbContext.tagging_versions.AsNoTracking().ToList();
             
             //Assert
             
@@ -143,8 +143,8 @@ namespace eFormSDK.Tests
             tags tag = new tags();
             tag.Name = Guid.NewGuid().ToString();
             tag.TaggingsCount = rnd.Next(1, 255);
-            DbContext.tags.Add(tag);
-            DbContext.SaveChanges();
+            dbContext.tags.Add(tag);
+            await dbContext.SaveChangesAsync();
             
             check_lists checklist = new check_lists();
             checklist.Color = Guid.NewGuid().ToString();
@@ -178,7 +178,7 @@ namespace eFormSDK.Tests
             checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklist.JasperExportEnabled = randomBool;
             checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.Create(DbContext);
+            await checklist.Create(dbContext);
 
             taggings tagging = new taggings();
             tagging.Tag = tag;
@@ -186,16 +186,16 @@ namespace eFormSDK.Tests
             tagging.TaggerId = rnd.Next(1, 255);
             tagging.TagId = rnd.Next(1, 255);
             tagging.CheckListId = checklist.Id;
-            tagging.Create(DbContext);
+            await tagging.Create(dbContext);
 
             //Act
 
             DateTime? oldUpdatedAt = tagging.UpdatedAt;
 
-            tagging.Delete(DbContext);
+            await tagging.Delete(dbContext);
             
-            List<taggings> taggings = DbContext.taggings.AsNoTracking().ToList();
-            List<tagging_versions> taggingVersions = DbContext.tagging_versions.AsNoTracking().ToList();
+            List<taggings> taggings = dbContext.taggings.AsNoTracking().ToList();
+            List<tagging_versions> taggingVersions = dbContext.tagging_versions.AsNoTracking().ToList();
             
             //Assert
             

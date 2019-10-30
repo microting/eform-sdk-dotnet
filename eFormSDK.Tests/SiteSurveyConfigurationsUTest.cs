@@ -22,7 +22,7 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
             
             survey_configurations surveyConfiguration = new survey_configurations();
             surveyConfiguration.Name = Guid.NewGuid().ToString();
@@ -30,7 +30,7 @@ namespace eFormSDK.Tests
             surveyConfiguration.Stop = DateTime.Now;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration.Create(DbContext);
+            surveyConfiguration.Create(dbContext);
 
             site_survey_configurations siteSurveyConfiguration = new site_survey_configurations();
             siteSurveyConfiguration.SiteId = site.Id;
@@ -39,10 +39,10 @@ namespace eFormSDK.Tests
             
             //Act
             
-            siteSurveyConfiguration.Create(DbContext);
+            await siteSurveyConfiguration.Create(dbContext);
             
-            List<site_survey_configurations> siteSurveyConfigurations = DbContext.site_survey_configurations.AsNoTracking().ToList();
-            List<site_survey_configuration_versions> siteSurveyConfigurationVersions = DbContext.site_survey_configuration_versions.AsNoTracking().ToList();
+            List<site_survey_configurations> siteSurveyConfigurations = dbContext.site_survey_configurations.AsNoTracking().ToList();
+            List<site_survey_configuration_versions> siteSurveyConfigurationVersions = dbContext.site_survey_configuration_versions.AsNoTracking().ToList();
             
             Assert.NotNull(siteSurveyConfigurations);                                                             
             Assert.NotNull(siteSurveyConfigurationVersions);                                                             
@@ -79,7 +79,7 @@ namespace eFormSDK.Tests
             sites site = new sites();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
-            site.Create(DbContext);
+            await site.Create(dbContext);
             
             survey_configurations surveyConfiguration = new survey_configurations();
             surveyConfiguration.Name = Guid.NewGuid().ToString();
@@ -87,22 +87,22 @@ namespace eFormSDK.Tests
             surveyConfiguration.Stop = DateTime.Now;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            surveyConfiguration.Create(DbContext);
+            await surveyConfiguration.Create(dbContext);
 
             site_survey_configurations siteSurveyConfiguration = new site_survey_configurations();
             siteSurveyConfiguration.SiteId = site.Id;
             siteSurveyConfiguration.SurveyConfigurationId = surveyConfiguration.Id;
-            siteSurveyConfiguration.Create(DbContext);
+            await siteSurveyConfiguration.Create(dbContext);
 
             //Act
 
             DateTime? oldUpdatedAt = siteSurveyConfiguration.UpdatedAt;
             
-            siteSurveyConfiguration.Delete(DbContext);
+            await siteSurveyConfiguration.Delete(dbContext);
 
             
-            List<site_survey_configurations> siteSurveyConfigurations = DbContext.site_survey_configurations.AsNoTracking().ToList();
-            List<site_survey_configuration_versions> siteSurveyConfigurationVersions = DbContext.site_survey_configuration_versions.AsNoTracking().ToList();
+            List<site_survey_configurations> siteSurveyConfigurations = dbContext.site_survey_configurations.AsNoTracking().ToList();
+            List<site_survey_configuration_versions> siteSurveyConfigurationVersions = dbContext.site_survey_configuration_versions.AsNoTracking().ToList();
             
             Assert.NotNull(siteSurveyConfigurations);                                                             
             Assert.NotNull(siteSurveyConfigurationVersions);                                                             
