@@ -31,6 +31,7 @@ using Amazon.SQS;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
+using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Messages;
 using Newtonsoft.Json.Linq;
 using Rebus.Bus;
@@ -124,7 +125,7 @@ namespace Microting.eForm.Services
             if (sqlController.SettingRead(Settings.token).Result != "UNIT_TEST___________________L:32")
             #region amazon
             {
-                log.LogStandard(t.GetMethodName("Subscriber"), $"{DateTime.Now.ToString()} - Starting up").RunSynchronously();
+                log.LogStandard(t.GetMethodName("Subscriber"), $"{DateTime.Now.ToString()} - Starting up");
 
                 #region setup
                 isActive = true;
@@ -132,7 +133,7 @@ namespace Microting.eForm.Services
 
                 string awsAccessKeyId = sqlController.SettingRead(Settings.awsAccessKeyId).Result;
                 string awsSecretAccessKey = sqlController.SettingRead(Settings.awsSecretAccessKey).Result;
-                string awsQueueUrl = sqlController.SettingRead(Settings.awsEndPoint) + sqlController.SettingRead(Settings.token).Result;
+                string awsQueueUrl = sqlController.SettingRead(Settings.awsEndPoint).Result + sqlController.SettingRead(Settings.token).Result;
 
                 var sqsClient = new AmazonSQSClient(awsAccessKeyId, awsSecretAccessKey, RegionEndpoint.EUCentral1);
                 DateTime lastException = DateTime.MinValue;
@@ -158,13 +159,14 @@ namespace Microting.eForm.Services
 
                                 log.LogStandard(t.GetMethodName("Subscriber"),
                                     "Notification notificationUId : " + notificationUId + " microtingUId : " +
-                                    microtingUId + " action : " + action).RunSynchronously();
+                                    microtingUId + " action : " + action);
+                                notifications result;
                                 switch (action)
                                 {
                                     case Constants.Notifications.Completed:
-                                        sqlController.NotificationCreate(notificationUId, microtingUId,
-                                            Constants.Notifications.Completed).RunSynchronously();
-                                        bus.SendLocal(new EformCompleted(notificationUId, microtingUId));
+                                        result = sqlController.NotificationCreate(notificationUId, microtingUId,
+                                                Constants.Notifications.Completed).Result;
+                                            bus.SendLocal(new EformCompleted(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.EformParsedByServer:
                                         bus.SendLocal(new EformParsedByServer(notificationUId, microtingUId));
@@ -173,18 +175,18 @@ namespace Microting.eForm.Services
                                         bus.SendLocal(new EformParsingError(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.RetrievedForm:
-                                        sqlController.NotificationCreate(notificationUId, microtingUId,
-                                            Constants.Notifications.RetrievedForm).RunSynchronously();
+                                        result = sqlController.NotificationCreate(notificationUId, microtingUId,
+                                            Constants.Notifications.RetrievedForm).Result;
                                         bus.SendLocal(new EformRetrieved(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.UnitActivate:
-                                        sqlController.NotificationCreate(notificationUId, microtingUId,
-                                            Constants.Notifications.UnitActivate).RunSynchronously();
+                                        result = sqlController.NotificationCreate(notificationUId, microtingUId,
+                                            Constants.Notifications.UnitActivate).Result;
                                         bus.SendLocal(new UnitActivated(notificationUId, microtingUId));
                                         break;
                                     case Constants.Notifications.SpeechToTextCompleted:
-                                        sqlController.NotificationCreate(notificationUId, microtingUId,
-                                            Constants.Notifications.SpeechToTextCompleted).RunSynchronously();
+                                        result = sqlController.NotificationCreate(notificationUId, microtingUId,
+                                            Constants.Notifications.SpeechToTextCompleted).Result;
                                         bus.SendLocal(new TranscriptionCompleted(notificationUId, microtingUId));
                                         break;
                                 }
@@ -194,13 +196,13 @@ namespace Microting.eForm.Services
                         else
                         {
                             log.LogStandard(t.GetMethodName("Subscriber"),
-                                $"{DateTime.Now.ToString()} -  No messages for us right now!").RunSynchronously();
+                                $"{DateTime.Now.ToString()} -  No messages for us right now!");
                         }
 
                     }
                     catch (WebException webException)
                     {
-                        log.LogWarning(t.GetMethodName("Subscriber"), t.PrintException(t.GetMethodName("Subscriber") + " failed", webException)).RunSynchronously();
+                        log.LogWarning(t.GetMethodName("Subscriber"), t.PrintException(t.GetMethodName("Subscriber") + " failed", webException));
                         // We try to sleep 20 seconds to see if the problem goes away by it self.
                         Thread.Sleep(20000);
                     }
@@ -208,18 +210,18 @@ namespace Microting.eForm.Services
                     catch (Exception ex)
                     {
                         // Log exception
-                        log.LogWarning(t.GetMethodName("Subscriber"), t.PrintException(t.GetMethodName("Subscriber") + " failed", ex)).RunSynchronously();
+                        log.LogWarning(t.GetMethodName("Subscriber"), t.PrintException(t.GetMethodName("Subscriber") + " failed", ex));
 
                         if (DateTime.Compare(lastException.AddMinutes(5), DateTime.Now) > 0)
                         {
                             keepSubscribed = false;
-                            log.LogException(t.GetMethodName("Subscriber"), "failed, twice in the last 5 minuts", ex, true).RunSynchronously();
+                            log.LogException(t.GetMethodName("Subscriber"), "failed, twice in the last 5 minuts", ex, true);
                         }
 
                         lastException = DateTime.Now;
                     }
                 }
-                log.LogStandard(t.GetMethodName("Subscriber"), "--- WE WHERE TOLD NOT TO CONTINUE TO SUBSCRIBE ---").RunSynchronously();
+                log.LogStandard(t.GetMethodName("Subscriber"), "--- WE WHERE TOLD NOT TO CONTINUE TO SUBSCRIBE ---");
                 sqsClient.Dispose();
                 //EventMsgClient("Subscriber closed", null);
                 keepSubscribed = false;
