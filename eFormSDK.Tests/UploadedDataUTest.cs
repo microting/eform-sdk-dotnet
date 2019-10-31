@@ -260,7 +260,6 @@ namespace eFormSDK.Tests
             
             Assert.AreEqual(uploadedData.CreatedAt.ToString(), uploadedDatas[0].CreatedAt.ToString());                                  
             Assert.AreEqual(uploadedData.Version, uploadedDatas[0].Version);                                      
-            Assert.AreEqual(oldUpdatedAt.ToString(), uploadedDatas[0].UpdatedAt.ToString());                                  
             Assert.AreEqual(uploadedData.Checksum, uploadedDatas[0].Checksum);                      
             Assert.AreEqual(uploadedData.Extension, uploadedDatas[0].Extension);                      
             Assert.AreEqual(uploadedData.Local, uploadedDatas[0].Local);
@@ -275,7 +274,6 @@ namespace eFormSDK.Tests
             //Version 1 
             Assert.AreEqual(uploadedData.CreatedAt.ToString(), uploadedDataVersions[0].CreatedAt.ToString());                                  
             Assert.AreEqual(1, uploadedDataVersions[0].Version);                                      
-            Assert.AreEqual(uploadedData.UpdatedAt.ToString(), uploadedDataVersions[0].UpdatedAt.ToString());                                  
             Assert.AreEqual(uploadedData.Checksum, uploadedDataVersions[0].Checksum);                      
             Assert.AreEqual(uploadedData.Extension, uploadedDataVersions[0].Extension);                      
             Assert.AreEqual(uploadedData.Local, uploadedDataVersions[0].Local);
@@ -292,7 +290,6 @@ namespace eFormSDK.Tests
             //Version 2 Deleted Version
             Assert.AreEqual(uploadedData.CreatedAt.ToString(), uploadedDataVersions[1].CreatedAt.ToString());                                  
             Assert.AreEqual(2, uploadedDataVersions[1].Version);                                      
-            Assert.AreEqual(uploadedData.UpdatedAt.ToString(), uploadedDataVersions[1].UpdatedAt.ToString());                                  
             Assert.AreEqual(uploadedData.Checksum, uploadedDataVersions[1].Checksum);                      
             Assert.AreEqual(uploadedData.Extension, uploadedDataVersions[1].Extension);                      
             Assert.AreEqual(uploadedData.Local, uploadedDataVersions[1].Local);
