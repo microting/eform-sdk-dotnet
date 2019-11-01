@@ -70,6 +70,7 @@ namespace eFormSDK.Integration.Tests
 
         }
         [Test]//Using communicator, needs httpMock
+#pragma warning disable 1998
         public async Task Core_Site_SiteCreate_ReturnSiteId()
         {
             //// Arrange
@@ -83,10 +84,9 @@ namespace eFormSDK.Integration.Tests
             // Assert.AreEqual(site.SiteName, "site1");
             // Assert.AreEqual(site.FirstName, "René");
             // Assert.AreEqual(site.LastName, "Madsen");
-
-
-
         }
+#pragma warning restore 1998
+        
         [Test]
         public async Task Core_Site_SiteRead_ReturnsFullSite()
         {

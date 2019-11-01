@@ -90,10 +90,12 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(Constants.WorkflowStates.Removed, theCase.WorkflowState);
         }
 
-        [Test]//needs http mock done
+        [Test]// TODO needs http mock done
+#pragma warning disable 1998
         public async Task Core_Case_CaseCheck_ChecksCase()
         {
-
+#pragma warning restore 1998
+            
         }
         [Test]
         public async Task Core_Case_CaseRead_ReadsCase()
@@ -965,7 +967,8 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(match);
             Assert.True(match);
         }
-        [Test]//skal bruge communicator, mangler mock.
+        [Test]// TODO needs mocks
+#pragma warning disable 1998
         public async Task Core_Case_CaseDelete_ReturnsTrue()
         {
             //// Arrange
@@ -1339,7 +1342,10 @@ namespace eFormSDK.Integration.Tests
             // Assert.True(match);
 
         }
-        [Test]//skal bruge communicator, mangler mock.
+#pragma warning restore 1998
+        
+#pragma warning disable 1998
+        [Test]// TODO needs mocks
         public async Task Core_Case_CaseDelete2_ReturnsTrue()
         {
             //// Arrange
@@ -1713,6 +1719,8 @@ namespace eFormSDK.Integration.Tests
             // Assert.True(match);
 
         }
+#pragma warning restore 1998
+        
         [Test]
         public async Task Core_Case_CaseUpdateFieldValues()
         {
@@ -5481,7 +5489,9 @@ namespace eFormSDK.Integration.Tests
             Assert.NotNull(match);
             Assert.True(match);
         }
-        [Test]//can't be done, because of Jaxml file.
+        
+        [Test] // TODO add jaxml files
+#pragma warning disable 1998
         public async Task Core_Case_CaseToPdf_returns_Path()
         {
             // Arrange
@@ -5490,7 +5500,7 @@ namespace eFormSDK.Integration.Tests
 
             // Assert
         }
-
+#pragma warning restore 1998
         #endregion
 
 

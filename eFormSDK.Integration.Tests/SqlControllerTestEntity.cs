@@ -1763,6 +1763,7 @@ namespace eFormSDK.Integration.Tests
 
         //TODO René needs to make migration
         [Test]
+#pragma warning disable 1998
         public async Task SQL_EntityGroup_EntityGroupReadSorted_ReadsByParameter()
         {
 
@@ -2108,9 +2109,11 @@ namespace eFormSDK.Integration.Tests
 
             //#endregion
         }
+#pragma warning restore 1998
 
         //TODO René needs to make migration
         [Test]
+#pragma warning disable 1998
         public async Task SQL_EntityGroup_EntityGroupRead_ReadsEntityGroup()
         {
 
@@ -2398,12 +2401,8 @@ namespace eFormSDK.Integration.Tests
             //var readSelectRetracted = await sut.EntityGroupRead("microtingUIdST");
             //#endregion
             //// Assert
-
-
-
-
         }
-
+#pragma warning restore 1998
 
         [Test]
         public async Task SQL_EntityGroup_EntityGroupUpdate_UpdatesEntityGroup()
@@ -2985,7 +2984,8 @@ namespace eFormSDK.Integration.Tests
 
         //TODO René needs to make migration
         [Test]
-        public async Task SQL_EntityGroup_EntityGroupUpdateItems_UpdatesEntotyGroupItems()
+#pragma warning disable 1998
+        public async Task SQL_EntityGroup_EntityGroupUpdateItems_UpdatesEntityGroupItems()
         {
 
             // Arrance
@@ -2995,7 +2995,7 @@ namespace eFormSDK.Integration.Tests
             // Assert
 
         }
-
+#pragma warning restore 1998
 
         [Test]
         public async Task SQL_EntityGroup_EntityGroupDelete_DeletesEntityGroup()
@@ -3368,6 +3368,7 @@ namespace eFormSDK.Integration.Tests
         #endregion
 
         #region eventhandlers
+#pragma warning disable 1998
         public async Task EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
@@ -3397,6 +3398,7 @@ namespace eFormSDK.Integration.Tests
         {
             // Does nothing for web implementation
         }
+#pragma warning restore 1998
         #endregion
     }
 

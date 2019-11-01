@@ -80,7 +80,7 @@ namespace eFormSDK.Integration.Tests
 
             await ClearDb();
 
-            await ClearFile();
+            ClearFile();
 
             dbContext.Dispose();
         }
@@ -152,14 +152,14 @@ namespace eFormSDK.Integration.Tests
                     string sqlCmd = string.Empty;
                     if(dbContext.Database.IsMySql())
                     {
-                        sqlCmd = string.Format("SET FOREIGN_KEY_CHECKS = 0;TRUNCATE `{0}`.`{1}`", "eformsdk-tests", modelName);
+                        sqlCmd = $"SET FOREIGN_KEY_CHECKS = 0;TRUNCATE `eformsdk-tests`.`{modelName}`";
                     }
                     else
                     {
-                        sqlCmd = string.Format("DELETE FROM [{0}]", modelName);
+                        sqlCmd = $"DELETE FROM [{modelName}]";
                     }
 #pragma warning disable EF1000 // Possible SQL injection vulnerability.
-                    dbContext.Database.ExecuteSqlCommand(sqlCmd);
+                    await dbContext.Database.ExecuteSqlCommandAsync(sqlCmd);
 #pragma warning restore EF1000 // Possible SQL injection vulnerability.
                 }
                 catch (Exception ex)
@@ -170,7 +170,7 @@ namespace eFormSDK.Integration.Tests
         }
         private string path;
 
-        public async Task ClearFile()
+        public void ClearFile()
         {
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
@@ -200,7 +200,9 @@ namespace eFormSDK.Integration.Tests
 
 
         }
+#pragma warning disable 1998
         public virtual async Task DoSetup() { }
+#pragma warning restore 1998
 
     }
 }

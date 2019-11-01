@@ -120,11 +120,13 @@ namespace Microting.eForm.Services
         #endregion
 
         #region private
+#pragma warning disable 4014
         private void SubscriberThread()
         {
             if (sqlController.SettingRead(Settings.token).Result != "UNIT_TEST___________________L:32")
             #region amazon
             {
+                
                 log.LogStandard(t.GetMethodName("Subscriber"), $"{DateTime.Now.ToString()} - Starting up");
 
                 #region setup
@@ -243,6 +245,7 @@ namespace Microting.eForm.Services
             }
             #endregion
         }
+#pragma warning restore 4014
         #endregion
     }
 }

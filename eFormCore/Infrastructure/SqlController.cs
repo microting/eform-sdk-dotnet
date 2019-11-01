@@ -47,6 +47,7 @@ namespace Microting.eForm.Infrastructure
         private readonly Tools t = new Tools();
         private List<Holder> converter = null;
         private readonly bool isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+        private int logLimit = 0;
         #endregion
 
         #region con
@@ -66,6 +67,7 @@ namespace Microting.eForm.Infrastructure
                     db.Database.EnsureCreated();
 
                    var match = db.settings.Count();
+                   logLimit = int.Parse(SettingRead(Settings.logLimit).Result);
                 }
             }
             catch (Exception ex)
@@ -397,7 +399,7 @@ namespace Microting.eForm.Infrastructure
 
                     foreach (DataItem dataItem in mainElement.DataItemGetAll())
                     {
-                        fields field = db.fields.Single(x => x.Id == dataItem.Id);
+                        fields field = await db.fields.SingleAsync(x => x.Id == dataItem.Id);
                         Field_Dto fieldDto = new Field_Dto(field.Id, field.Label, field.Description, (int)field.FieldTypeId, field.FieldType.FieldType, (int)field.CheckListId);
                         if (field.ParentFieldId != null)
                         {
@@ -496,7 +498,7 @@ namespace Microting.eForm.Infrastructure
                     //logger.LogEverything(methodName + " called");
                     //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
-                    check_lists check_list = db.check_lists.Single(x => x.Id == templateId);
+                    check_lists check_list = await db.check_lists.SingleAsync(x => x.Id == templateId);
 
                     if (check_list != null)
                     {
@@ -526,7 +528,7 @@ namespace Microting.eForm.Infrastructure
                     //logger.LogEverything(methodName + " called");
                     //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
-                    check_lists checkList = db.check_lists.Single(x => x.Id == templateId);
+                    check_lists checkList = await db.check_lists.SingleAsync(x => x.Id == templateId);
 
                     if (checkList != null)
                     {
@@ -535,7 +537,7 @@ namespace Microting.eForm.Infrastructure
 //                        int index = 0;
                         foreach (taggings tagging in clTaggings)
                         {
-                            taggings currentTagging = db.taggings.Single(x => x.Id == tagging.Id);
+                            taggings currentTagging = await db.taggings.SingleAsync(x => x.Id == tagging.Id);
                             if (currentTagging != null)
                             {
                                 await currentTagging.Delete(db);
@@ -545,7 +547,7 @@ namespace Microting.eForm.Infrastructure
                         // set all new taggings
                         foreach (int Id in tagIds)
                         {
-                            tags tag = db.tags.Single(x => x.Id == Id);
+                            tags tag = await db.tags.SingleAsync(x => x.Id == Id);
                             if (tag != null)
                             {
                                 taggings currentTagging = await db.taggings.SingleOrDefaultAsync(x => x.TagId == tag.Id && x.CheckListId == templateId);
@@ -619,7 +621,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    int siteId = db.sites.Single(x => x.MicrotingUid == siteUId).Id;
+                    int siteId = db.sites.SingleAsync(x => x.MicrotingUid == siteUId).Id;
 
                     check_list_sites cLS = new check_list_sites();
                     cLS.CheckListId = checkListId;
@@ -643,7 +645,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    sites site = db.sites.Single(x => x.MicrotingUid == microtingUid);
+                    sites site = await db.sites.SingleAsync(x => x.MicrotingUid == microtingUid);
                     IQueryable<check_list_sites> sub_query = db.check_list_sites.Where(x => x.SiteId == site.Id && x.CheckListId == templateId);
                     if (workflowState == Constants.Constants.WorkflowStates.NotRemoved)
                         sub_query = sub_query.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
@@ -786,10 +788,10 @@ namespace Microting.eForm.Infrastructure
                     cases caseStd = await db.cases.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == microtingCheckId);
 
                     if (caseStd == null)
-                        caseStd = db.cases.Single(x => x.MicrotingUid == microtingUId);
+                        caseStd = await db.cases.SingleAsync(x => x.MicrotingUid == microtingUId);
 
-                    int userId = db.workers.Single(x => x.MicrotingUid == workerMicrotingUId).Id;
-                    int unitId = db.units.Single(x => x.MicrotingUid == unitMicrotingUid).Id;
+                    int userId = db.workers.SingleAsync(x => x.MicrotingUid == workerMicrotingUId).Id;
+                    int unitId = db.units.SingleAsync(x => x.MicrotingUid == unitMicrotingUid).Id;
 
                     caseStd.Status = 100;
                     caseStd.DoneAt = doneAt;
@@ -821,7 +823,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    cases match = db.cases.Single(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == microtingCheckId);
+                    cases match = await db.cases.SingleAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == microtingCheckId);
 
                     match.WorkflowState = Constants.Constants.WorkflowStates.Retracted;
                     await match.Update(db);
@@ -896,7 +898,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    check_list_sites checkListSites = db.check_list_sites.Single(x => x.MicrotingUid == microtingUId);
+                    check_list_sites checkListSites = await db.check_list_sites.SingleAsync(x => x.MicrotingUid == microtingUId);
 
                     await checkListSites.Delete(db);
 
@@ -922,7 +924,7 @@ namespace Microting.eForm.Infrastructure
                 {
                     int elementId;
                     int userUId = int.Parse(response.Checks[xmlIndex].WorkerId);
-                    int userId = db.workers.Single(x => x.MicrotingUid == userUId).Id;
+                    int userId = db.workers.SingleAsync(x => x.MicrotingUid == userUId).Id;
                     List<string> elements = t.LocateList(xmlString, "<ElementList>", "</ElementList>");
                     List<Field_Dto> TemplatFieldLst = null;
                     cases responseCase = null;
@@ -931,13 +933,13 @@ namespace Microting.eForm.Infrastructure
 
                     try //if a reversed case, case needs to be created
                     {
-                        check_list_sites cLS = db.check_list_sites.Single(x => x.MicrotingUid == int.Parse(response.Value));
+                        check_list_sites cLS = await db.check_list_sites.SingleAsync(x => x.MicrotingUid == int.Parse(response.Value));
                         int caseId = await CaseCreate((int)cLS.CheckListId, (int)cLS.Site.MicrotingUid, int.Parse(response.Value), response.Checks[xmlIndex].Id, "ReversedCase", "", DateTime.Now);
-                        responseCase = db.cases.Single(x => x.Id == caseId);
+                        responseCase = await db.cases.SingleAsync(x => x.Id == caseId);
                     }
                     catch //already created case Id retrived
                     {
-                        responseCase = db.cases.Single(x => x.MicrotingUid == int.Parse(response.Value));
+                        responseCase = await db.cases.SingleAsync(x => x.MicrotingUid == int.Parse(response.Value));
                     }
 
                     check_lists cl = responseCase.CheckList;
@@ -991,7 +993,7 @@ namespace Microting.eForm.Infrastructure
 
                                 int field_id = int.Parse(t.Locate(dataItemStr, "<Id>", "</"));
 
-                                fields f = db.fields.Single(x => x.Id == field_id);
+                                fields f = await db.fields.SingleAsync(x => x.Id == field_id);
                                 field_values fieldV = null;
 
 
@@ -1342,8 +1344,8 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    var aCase = db.cases.Single(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
-                    var mainCheckList = db.check_lists.Single(x => x.Id == aCase.CheckListId);
+                    var aCase = await db.cases.SingleAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
+                    var mainCheckList = await db.check_lists.SingleAsync(x => x.Id == aCase.CheckListId);
 
                     ReplyElement replyElement = new ReplyElement();
 
@@ -1387,7 +1389,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    var checkList = db.check_lists.Single(x => x.Id == parentId);
+                    var checkList = await db.check_lists.SingleAsync(x => x.Id == parentId);
                     //Element element = new Element();
                     if (checkList.Children.Count() > 0)
                     {
@@ -1421,7 +1423,7 @@ namespace Microting.eForm.Infrastructure
                                 List<DataItem> dataItemSubList = new List<DataItem>();
                                 foreach (fields subField in field.Children.OrderBy(x => x.DisplayIndex))
                                 {
-                                    Field _field = await DbFieldToField(subField);
+                                    Field _field = DbFieldToField(subField);
 
                                     _field.FieldValues = new List<FieldValue>();
                                     foreach (field_values fieldValue in subField.FieldValues.Where(x => x.CaseId == caseId).ToList())
@@ -1440,7 +1442,7 @@ namespace Microting.eForm.Infrastructure
                             }
                             else
                             {
-                                Field _field = await DbFieldToField(field);
+                                Field _field = DbFieldToField(field);
                                 _field.FieldValues = new List<FieldValue>();
                                 foreach (field_values fieldValue in field.FieldValues.Where(x => x.CaseId == caseId).ToList())
                                 {
@@ -1481,7 +1483,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    var aCase = db.cases.Single(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
+                    var aCase = await db.cases.SingleAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
                     int caseId = aCase.Id;
 
                     List<field_values> lst = db.field_values.Where(x => x.CaseId == caseId).ToList();
@@ -1511,7 +1513,7 @@ namespace Microting.eForm.Infrastructure
             }
         }
 
-        private async Task<Field> DbFieldToField(fields dbField)
+        private Field DbFieldToField(fields dbField)
         {
             Field field = new Field()
             {
@@ -1527,12 +1529,12 @@ namespace Microting.eForm.Infrastructure
             
             if (field.FieldType == "SingleSelect")
             {
-                field.KeyValuePairList = await PairRead(dbField.KeyValuePairList);
+                field.KeyValuePairList = PairRead(dbField.KeyValuePairList);
             }
 
             if (field.FieldType == "MultiSelect")
             {
-                field.KeyValuePairList = await PairRead(dbField.KeyValuePairList);
+                field.KeyValuePairList = PairRead(dbField.KeyValuePairList);
             }
             
             return field;
@@ -1548,7 +1550,7 @@ namespace Microting.eForm.Infrastructure
                 {
                     fields dbField = await db.fields.SingleOrDefaultAsync(x => x.Id == id);
 
-                    Field field = await DbFieldToField(dbField);
+                    Field field = DbFieldToField(dbField);
                     return field;
                 }
             }
@@ -1566,7 +1568,7 @@ namespace Microting.eForm.Infrastructure
                 using (var db = GetContext())
                 {
 
-//                    fields field = db.fields.Single(x => x.Id == reply.FieldId);
+//                    fields field = db.fields.SingleAsync(x => x.Id == reply.FieldId);
                     FieldValue field_value = new FieldValue();
                     field_value.Accuracy = reply.Accuracy;
                     field_value.Altitude = reply.Altitude;
@@ -1601,7 +1603,7 @@ namespace Microting.eForm.Infrastructure
                                 {
                                     uploadedDataId = (int)fV.UploadedDataId;
 
-                                    uploadedData = db.uploaded_data.Single(x => x.Id == uploadedDataId);
+                                    uploadedData = await db.uploaded_data.SingleAsync(x => x.Id == uploadedDataId);
 
                                     if (uploadedData.FileName != null)
                                         locations += uploadedData.FileLocation + uploadedData.FileName + Environment.NewLine;
@@ -1660,7 +1662,7 @@ namespace Microting.eForm.Infrastructure
                         string fullKey = t.Locate(dbField.KeyValuePairList, "<" + key + ">", "</" + key + ">");
                         field_value.ValueReadable = t.Locate(fullKey, "<key>", "</key>");
 
-                        field_value.KeyValuePairList = await PairRead(dbField.KeyValuePairList);
+                        field_value.KeyValuePairList = PairRead(dbField.KeyValuePairList);
                     }
 
                     if (field_value.FieldType == Constants.Constants.FieldTypes.MultiSelect)
@@ -1678,7 +1680,7 @@ namespace Microting.eForm.Infrastructure
                             field_value.ValueReadable += t.Locate(fullKey, "<key>", "</key>");
                         }
 
-                        field_value.KeyValuePairList = await PairRead(dbField.KeyValuePairList);
+                        field_value.KeyValuePairList = PairRead(dbField.KeyValuePairList);
                     }
 
                     if (field_value.FieldType == Constants.Constants.FieldTypes.Number ||
@@ -1716,7 +1718,7 @@ namespace Microting.eForm.Infrastructure
                 using (var db = GetContext())
                 {
 
-                    fields field = db.fields.Single(x => x.Id == reply.FieldId);
+                    fields field = await db.fields.SingleAsync(x => x.Id == reply.FieldId);
 
                     return await ReadFieldValue(reply, field, joinUploadedData);
                 }
@@ -1831,7 +1833,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    field_values fieldMatch = db.field_values.Single(x => x.Id == fieldValueId);
+                    field_values fieldMatch = await db.field_values.SingleAsync(x => x.Id == fieldValueId);
 
                     fieldMatch.Value = value;
                     await fieldMatch.Update(db);
@@ -1855,7 +1857,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    fields matchField = db.fields.Single(x => x.Id == fieldId);
+                    fields matchField = await db.fields.SingleAsync(x => x.Id == fieldId);
 
                     List<field_values> matches = db.field_values.Where(x => x.FieldId == fieldId && caseIds.Contains((int)x.CaseId)).ToList();
 
@@ -1931,7 +1933,7 @@ namespace Microting.eForm.Infrastructure
 
                         case Constants.Constants.FieldTypes.SingleSelect:
                             {
-                                var kVP = await PairRead(matchField.KeyValuePairList);
+                                var kVP = PairRead(matchField.KeyValuePairList);
 
                                 foreach (field_values item in matches)
                                     replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), PairMatch(kVP, item.Value), false, ""));
@@ -1940,7 +1942,7 @@ namespace Microting.eForm.Infrastructure
 
                         case Constants.Constants.FieldTypes.MultiSelect:
                             {
-                                var kVP = await PairRead(matchField.KeyValuePairList);
+                                var kVP = PairRead(matchField.KeyValuePairList);
                                 rtrnLst = new List<List<KeyValuePair>>();
                                 List<KeyValuePair> replyLst = null;
                                 int index = 0;
@@ -2064,7 +2066,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    check_list_values clv = db.check_list_values.Single(x => x.CaseId == caseId && x.CheckListId == checkListId);
+                    check_list_values clv = await db.check_list_values.SingleAsync(x => x.CaseId == caseId && x.CheckListId == checkListId);
                     return clv.Status;
                 }
             }
@@ -2141,7 +2143,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    notifications aNoti = db.notifications.FirstOrDefault(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created);
+                    notifications aNoti = await db.notifications.FirstOrDefaultAsync(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created);
 
                     if (aNoti != null)
                     {
@@ -2173,7 +2175,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    notifications aNoti = db.notifications.Single(x => x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId);
+                    notifications aNoti = await db.notifications.SingleAsync(x => x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId);
                     aNoti.WorkflowState = workflowState;
 //                    aNoti.UpdatedAt = DateTime.Now;
                     aNoti.Exception = exception;
@@ -2199,7 +2201,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    uploaded_data dU = db.uploaded_data.FirstOrDefault(x => x.WorkflowState == Constants.Constants.WorkflowStates.PreCreated);
+                    uploaded_data dU = await db.uploaded_data.FirstOrDefaultAsync(x => x.WorkflowState == Constants.Constants.WorkflowStates.PreCreated);
 
                     if (dU != null)
                     {
@@ -2234,8 +2236,8 @@ namespace Microting.eForm.Infrastructure
                     try
                     {
                         uploaded_data dU = db.uploaded_data.Where(x => x.FileLocation == urlString).First();
-                        field_values fV = db.field_values.Single(x => x.UploadedDataId == dU.Id);
-                        cases aCase = db.cases.Single(x => x.Id == fV.CaseId);
+                        field_values fV = await db.field_values.SingleAsync(x => x.UploadedDataId == dU.Id);
+                        cases aCase = await db.cases.SingleAsync(x => x.Id == fV.CaseId);
 
                         return await CaseReadByCaseId(aCase.Id);
                     }
@@ -2259,7 +2261,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    uploaded_data uD = db.uploaded_data.Single(x => x.Id == Id);
+                    uploaded_data uD = await db.uploaded_data.SingleAsync(x => x.Id == Id);
 
                     uD.Checksum = checkSum;
                     uD.FileLocation = fileLocation;
@@ -2303,7 +2305,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    uploaded_data uD = db.uploaded_data.Single(x => x.Id == uploadedData.Id);
+                    uploaded_data uD = await db.uploaded_data.SingleAsync(x => x.Id == uploadedData.Id);
                     uD.TranscriptionId = uploadedData.TranscriptionId;
                     await uD.Update(db);
                     
@@ -2373,7 +2375,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    uploaded_data uD = db.uploaded_data.Single(x => x.Id == Id);
+                    uploaded_data uD = await db.uploaded_data.SingleAsync(x => x.Id == Id);
 
                     await uD.Delete(db);
 
@@ -2403,7 +2405,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    cases aCase = db.cases.Single(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
+                    cases aCase = await db.cases.SingleAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
                     return await CaseReadByCaseId(aCase.Id);
                 }
             } catch  (Exception ex)
@@ -2426,15 +2428,15 @@ namespace Microting.eForm.Infrastructure
                 {
                     try
                     {
-                        cases aCase = db.cases.Single(x => x.MicrotingUid == microtingUId);
+                        cases aCase = await db.cases.SingleAsync(x => x.MicrotingUid == microtingUId);
                         return await CaseReadByCaseId(aCase.Id);
                     }
                     catch { }
 
                     try
                     {
-                        check_list_sites cls = db.check_list_sites.Single(x => x.MicrotingUid == microtingUId);
-                        check_lists cL = db.check_lists.Single(x => x.Id == cls.CheckListId);
+                        check_list_sites cls = await db.check_list_sites.SingleAsync(x => x.MicrotingUid == microtingUId);
+                        check_lists cL = await db.check_lists.SingleAsync(x => x.Id == cls.CheckListId);
 
                         #region string stat = aCase.workflow_state ...
                         string stat = "";
@@ -2445,7 +2447,7 @@ namespace Microting.eForm.Infrastructure
                             stat = "Deleted";
                         #endregion
 
-                        int remoteSiteId = (int)db.sites.Single(x => x.Id == (int)cls.SiteId).MicrotingUid;
+                        int remoteSiteId = (int)db.sites.SingleAsync(x => x.Id == (int)cls.SiteId).Result.MicrotingUid;
                         Case_Dto rtrnCase = new Case_Dto(null, stat, remoteSiteId, cL.CaseType, "ReversedCase", cls.MicrotingUid, cls.LastCheckId, null, cL.Id, null);
                         return rtrnCase;
                     }
@@ -2473,8 +2475,8 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    cases aCase = db.cases.Single(x => x.Id == caseId);
-                    check_lists cL = db.check_lists.Single(x => x.Id == aCase.CheckListId);
+                    cases aCase = await db.cases.SingleAsync(x => x.Id == caseId);
+                    check_lists cL = await db.check_lists.SingleAsync(x => x.Id == aCase.CheckListId);
 
                     #region string stat = aCase.workflow_state ...
                     string stat = "";
@@ -2491,7 +2493,7 @@ namespace Microting.eForm.Infrastructure
                         stat = "Deleted";
                     #endregion
 
-                    int remoteSiteId = (int)db.sites.Single(x => x.Id == (int)aCase.SiteId).MicrotingUid;
+                    int remoteSiteId = (int)db.sites.SingleAsync(x => x.Id == (int)aCase.SiteId).Result.MicrotingUid;
                     Case_Dto cDto = new Case_Dto(aCase.Id, stat, remoteSiteId, cL.CaseType, aCase.CaseUid, aCase.MicrotingUid, aCase.MicrotingCheckUid, aCase.Custom, cL.Id, aCase.WorkflowState);
                     return cDto;
                 }
@@ -2775,7 +2777,7 @@ namespace Microting.eForm.Infrastructure
                             break;
                     }
 
-                    matches = sub_query.ToList();
+                    matches = await sub_query.ToListAsync();
                     
                     List<Case> rtrnLst = new List<Case>();
                     int numOfElements = 0;
@@ -3061,9 +3063,9 @@ namespace Microting.eForm.Infrastructure
             {
                 List<sites> matches = null;
                 if(includeRemoved)
-                    matches = db.sites.ToList();
+                    matches = await db.sites.ToListAsync();
                 else
-                    matches = db.sites.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToList();
+                    matches = await db.sites.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToListAsync();
 
                 foreach (sites aSite in matches)
                 {
@@ -3085,16 +3087,16 @@ namespace Microting.eForm.Infrastructure
                 switch (workflowState)
                 {
                     case Constants.Constants.WorkflowStates.NotRemoved:
-                        matches = db.sites.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList();
+                        matches = await db.sites.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToListAsync();
                         break;
                     case Constants.Constants.WorkflowStates.Removed:
-                        matches = db.sites.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed).ToList();
+                        matches = await db.sites.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed).ToListAsync();
                         break;
                     case Constants.Constants.WorkflowStates.Created:
-                        matches = db.sites.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToList();
+                        matches = await db.sites.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToListAsync();
                         break;
                     default:
-                        matches = db.sites.ToList();
+                        matches = await db.sites.ToListAsync();
                         break;
                 }
                 foreach (sites aSite in matches)
@@ -3224,7 +3226,7 @@ namespace Microting.eForm.Infrastructure
                         return null;
 
                     site_workers site_worker = db.site_workers.Where(x => x.SiteId == site.Id).ToList().First();
-                    workers worker = db.workers.Single(x => x.Id == site_worker.WorkerId);
+                    workers worker = await db.workers.SingleAsync(x => x.Id == site_worker.WorkerId);
                     List<units> units = db.units.Where(x => x.SiteId == site.Id).ToList();
 
                     if (units.Count() > 0 && worker != null)
@@ -3352,16 +3354,16 @@ namespace Microting.eForm.Infrastructure
                     switch (workflowState)
                     {
                         case Constants.Constants.WorkflowStates.NotRemoved:
-                            matches = db.workers.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList();
+                            matches = await db.workers.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToListAsync();
                             break;
                         case Constants.Constants.WorkflowStates.Removed:
-                            matches = db.workers.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed).ToList();
+                            matches = await db.workers.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed).ToListAsync();
                             break;
                         case Constants.Constants.WorkflowStates.Created:
-                            matches = db.workers.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToList();
+                            matches = await db.workers.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToListAsync();
                             break;
                         default:
-                            matches = db.workers.ToList();
+                            matches = await db.workers.ToListAsync();
                             break;
                     }
                     foreach (workers worker in matches)
@@ -3562,8 +3564,8 @@ namespace Microting.eForm.Infrastructure
                 {
                     //logger.LogEverything(methodName + " called");
 
-                    int localSiteId = db.sites.Single(x => x.MicrotingUid == siteUId).Id;
-                    int localWorkerId = db.workers.Single(x => x.MicrotingUid == workerUId).Id;
+                    int localSiteId = db.sites.SingleAsync(x => x.MicrotingUid == siteUId).Id;
+                    int localWorkerId = db.workers.SingleAsync(x => x.MicrotingUid == workerUId).Id;
 
                     site_workers site_worker = new site_workers();
 //                    site_worker.WorkflowState = Constants.Constants.WorkflowStates.Created;
@@ -3611,8 +3613,8 @@ namespace Microting.eForm.Infrastructure
                     site_workers site_worker = null;
                     if (siteWorkerMicrotingUid == null)
                     {
-                        sites site = db.sites.Single(x => x.MicrotingUid == siteId);
-                        workers worker = db.workers.Single(x => x.MicrotingUid == workerId);
+                        sites site = await db.sites.SingleAsync(x => x.MicrotingUid == siteId);
+                        workers worker = await db.workers.SingleAsync(x => x.MicrotingUid == workerId);
                         site_worker = await db.site_workers.SingleOrDefaultAsync(x => x.SiteId == site.Id && x.WorkerId == worker.Id);
                     }
                     else
@@ -3736,7 +3738,7 @@ namespace Microting.eForm.Infrastructure
                 List<Unit_Dto> listWorkerDto = new List<Unit_Dto>();
                 using (var db = GetContext())
                 {
-                    foreach (units unit in db.units.ToList())
+                    foreach (units unit in await db.units.ToListAsync())
                     {
                         Unit_Dto unitDto = new Unit_Dto((int)unit.MicrotingUid, (int)unit.CustomerNo, (int)unit.OtpCode, (int)unit.Site.MicrotingUid, unit.CreatedAt, unit.UpdatedAt);
                         listWorkerDto.Add(unitDto);
@@ -3769,7 +3771,7 @@ namespace Microting.eForm.Infrastructure
                 using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
-                    int localSiteId = db.sites.Single(x => x.MicrotingUid == siteUId).Id;
+                    int localSiteId = db.sites.SingleAsync(x => x.MicrotingUid == siteUId).Id;
 
                     units unit = new units();
                     unit.MicrotingUid = microtingUid;
@@ -3943,11 +3945,11 @@ namespace Microting.eForm.Infrastructure
                     numOfElements = source.Count();
                     if (numOfElements < pageSize)
                     {
-                        eG = source.ToList();
+                        eG = await source.ToListAsync();
                     }
                     else
                     {
-                        eG = source.Skip(offSet).Take(pageSize).ToList();
+                        eG = await source.Skip(offSet).Take(pageSize).ToListAsync();
                     }
 
                     foreach (entity_groups eg in eG)
@@ -4238,7 +4240,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    return db.entity_items.Single(x => x.MicrotingUid == microtingUId);
+                    return await db.entity_items.SingleAsync(x => x.MicrotingUid == microtingUId);
                 }
             }
             catch (Exception ex)
@@ -4257,7 +4259,7 @@ namespace Microting.eForm.Infrastructure
         {
             using (var db = GetContext())
             {
-                entity_items et = db.entity_items.FirstOrDefault(x => x.Id == id);
+                entity_items et = await db.entity_items.FirstOrDefaultAsync(x => x.Id == id);
                 if (et != null)
                 {
                     EntityItem entityItem = new EntityItem
@@ -4393,7 +4395,7 @@ namespace Microting.eForm.Infrastructure
             using (var db = GetContext())
             {
                 List<folders> matches = null;
-                matches = includeRemoved ? db.folders.ToList() : db.folders.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToList();
+                matches = includeRemoved ? await db.folders.ToListAsync() : await db.folders.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToListAsync();
 
                 foreach (folders folder in matches)
                 {
@@ -4701,7 +4703,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    settings match = db.settings.Single(x => x.Name == name.ToString());
+                    settings match = await db.settings.SingleAsync(x => x.Name == name.ToString());
 
                     if (match.Value == null)
                         return "";
@@ -4732,7 +4734,7 @@ namespace Microting.eForm.Infrastructure
                     if (match == null)
                     {
                         await SettingCreate(name);
-                        match = db.settings.Single(x => x.Name == name.ToString());
+                        match = await db.settings.SingleAsync(x => x.Name == name.ToString());
                     }
 
                     match.Value = newValue;
@@ -4859,11 +4861,11 @@ namespace Microting.eForm.Infrastructure
                         newLog.Type = logEntry.Type;
 
                         db.logs.Add(newLog);
-                        db.SaveChanges();
+                        await db.SaveChangesAsync();
                         
 
                         #region clean up of log table
-                        int limit = t.Int(await SettingRead(Settings.logLimit));
+                        int limit = t.Int(logLimit);
                         if (limit > 0)
                         {
                             List<logs> killList = db.logs.Where(x => x.Id <= newLog.Id - limit).ToList();
@@ -4871,7 +4873,7 @@ namespace Microting.eForm.Infrastructure
                             if (killList.Count > 0)
                             {
                                 db.logs.RemoveRange(killList);
-                                db.SaveChanges();
+                                await db.SaveChangesAsync();
                             }
                         }
                         #endregion
@@ -4919,12 +4921,12 @@ namespace Microting.eForm.Infrastructure
                     newLog.Type = logEntry.Type;
 
                     db.log_exceptions.Add(newLog);
-                    db.SaveChanges();
+                    await db.SaveChangesAsync();
 
                     WriteErrorConsoleLogEntry(logEntry);
 
                     #region clean up of log exception table
-                    int limit = t.Int(await SettingRead(Settings.logLimit));
+                    int limit = t.Int(logLimit);
                     if (limit > 0)
                     {
                         List<log_exceptions> killList = db.log_exceptions.Where(x => x.Id <= newLog.Id - limit).ToList();
@@ -4932,7 +4934,7 @@ namespace Microting.eForm.Infrastructure
                         if (killList.Count > 0)
                         {
                             db.log_exceptions.RemoveRange(killList);
-                            db.SaveChanges();
+                            await db.SaveChangesAsync();
                         }
                     }
                     #endregion
@@ -5381,7 +5383,7 @@ namespace Microting.eForm.Infrastructure
                         //the actual DataElement
                         try
                         {
-                            check_lists cl = db.check_lists.Single(x => x.Id == elementId);
+                            check_lists cl = await db.check_lists.SingleAsync(x => x.Id == elementId);
                             GroupElement gElement = new GroupElement(cl.Id, 
                                 cl.Label, 
                                 t.Int(cl.DisplayIndex), 
@@ -5411,7 +5413,7 @@ namespace Microting.eForm.Infrastructure
                         //the actual DataElement
                         try
                         {
-                            check_lists cl = db.check_lists.Single(x => x.Id == elementId);
+                            check_lists cl = await db.check_lists.SingleAsync(x => x.Id == elementId);
                             DataElement dElement = new DataElement(cl.Id, 
                                 cl.Label,
                                 t.Int(cl.DisplayIndex), 
@@ -5461,7 +5463,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-//                    fields field = db.fields.Single(x => x.Id == dataItemId);
+//                    fields field = db.fields.SingleAsync(x => x.Id == dataItemId);
                     string fieldTypeStr = Find(t.Int(field.FieldTypeId));
 
                     //KEY POINT - mapping
@@ -5503,7 +5505,7 @@ namespace Microting.eForm.Infrastructure
 
                         case Constants.Constants.FieldTypes.MultiSelect:
                             lstDataItem.Add(new MultiSelect(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
-                                await PairRead(field.KeyValuePairList)));
+                                PairRead(field.KeyValuePairList)));
                             break;
 
                         case Constants.Constants.FieldTypes.Picture:
@@ -5527,7 +5529,7 @@ namespace Microting.eForm.Infrastructure
 
                         case Constants.Constants.FieldTypes.SingleSelect:
                             lstDataItem.Add(new SingleSelect(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
-                                await PairRead(field.KeyValuePairList)));
+                                PairRead(field.KeyValuePairList)));
                             break;
 
                         case Constants.Constants.FieldTypes.Text:
@@ -5618,9 +5620,9 @@ namespace Microting.eForm.Infrastructure
                 {
                     List<tags> matches = null;
                     if (!includeRemoved)
-                        matches = db.tags.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToList();
+                        matches = await db.tags.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToListAsync();
                     else
-                        matches = db.tags.ToList();
+                        matches = await db.tags.ToListAsync();
 
                     foreach (tags tag in matches)
                     {
@@ -5757,7 +5759,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public async Task<List<KeyValuePair>> PairRead(string str)
+        public List<KeyValuePair> PairRead(string str)
         {
             List<KeyValuePair> list = new List<KeyValuePair>();
             str = t.Locate(str, "<hash>", "</hash>");

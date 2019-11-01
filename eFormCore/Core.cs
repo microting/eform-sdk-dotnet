@@ -4721,9 +4721,9 @@ namespace eFormCore
         #endregion
 
 
-        public async Task<List<KeyValuePair>> PairRead(string str)
+        public List<KeyValuePair> PairRead(string str)
         {
-            return await _sqlController.PairRead(str);
+            return _sqlController.PairRead(str);
         }
 
         #region fireEvents

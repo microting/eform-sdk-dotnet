@@ -229,10 +229,12 @@ namespace Microting.eForm
 
     public class LogWriter
     {
+#pragma warning disable 1998
         public virtual async Task<string> WriteLogEntry(LogEntry logEntry)
         {
             throw new Exception("SqlControllerBase." + "LogText" + " method should never actually be called. SqlController should override");
         }
+#pragma warning restore 1998
 
         public virtual void WriteIfFailed(string str)
         {

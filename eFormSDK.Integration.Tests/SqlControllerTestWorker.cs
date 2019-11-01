@@ -1303,7 +1303,9 @@ namespace eFormSDK.Integration.Tests
         }
         #endregion
 
+        
         #region eventhandlers
+#pragma warning disable 1998
         public async Task EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
@@ -1333,6 +1335,7 @@ namespace eFormSDK.Integration.Tests
         {
             // Does nothing for web implementation
         }
+#pragma warning restore 1998
         #endregion
     }
 

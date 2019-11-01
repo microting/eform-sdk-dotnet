@@ -375,16 +375,17 @@ namespace eFormSDK.Integration.Tests
 
         }
 
-        [Test]
-        public async Task SQL_Template_UpdateCaseFieldValue_DoesUpdateFieldValues()
-        {
-            // Arrance
+//        [Test]
+//        public async Task SQL_Template_UpdateCaseFieldValue_DoesUpdateFieldValues()
+//        {
+//            // Arrance
+//
+//            // Act
+//
+//            // Assert
+//            Assert.True(true);
+//        }
 
-            // Act
-
-            // Assert
-            Assert.True(true);
-        }
         [Test] //might need aditional testing
         public async Task SQL_Template_TemplateCreate_CreatesTemplate()
         {
@@ -1346,7 +1347,9 @@ namespace eFormSDK.Integration.Tests
 
         #endregion
 
+        
         #region eventhandlers
+#pragma warning disable 1998
         public async Task EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
@@ -1376,6 +1379,7 @@ namespace eFormSDK.Integration.Tests
         {
             // Does nothing for web implementation
         }
+#pragma warning restore 1998
         #endregion
     }
 

@@ -25,6 +25,7 @@ SOFTWARE.
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -50,7 +51,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public async Task Update(MicrotingDbAnySql dbContext)
         {
-            languages languages = dbContext.languages.FirstOrDefault(x => x.Id == Id);
+            languages languages = await dbContext.languages.FirstOrDefaultAsync(x => x.Id == Id);
 
             if (languages == null)
             {
@@ -73,7 +74,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public async Task Delete(MicrotingDbAnySql dbContext)
         {
-            languages language = dbContext.languages.FirstOrDefault(x => x.Id == Id);
+            languages language = await dbContext.languages.FirstOrDefaultAsync(x => x.Id == Id);
 
             if (language == null)
             {

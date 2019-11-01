@@ -27,6 +27,7 @@ using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -84,7 +85,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public async Task Update(MicrotingDbAnySql dbContext)
         {
-            questions question = dbContext.questions.FirstOrDefault(x => x.Id == Id);
+            questions question = await dbContext.questions.FirstOrDefaultAsync(x => x.Id == Id);
 
             if (question == null)
             {
@@ -120,7 +121,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public async Task Delete(MicrotingDbAnySql dbContext)
         {
-            questions question = dbContext.questions.FirstOrDefault(x => x.Id == Id);
+            questions question = await dbContext.questions.FirstOrDefaultAsync(x => x.Id == Id);
 
             if (question == null)
             {

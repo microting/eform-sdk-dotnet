@@ -27,6 +27,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -77,7 +78,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public async Task Update(MicrotingDbAnySql dbContext)
         {
-            check_list_sites checkListSites = dbContext.check_list_sites.FirstOrDefault(x => x.Id == Id);
+            check_list_sites checkListSites = await dbContext.check_list_sites.FirstOrDefaultAsync(x => x.Id == Id);
 
             if (checkListSites == null)
             {
@@ -103,7 +104,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public async Task Delete(MicrotingDbAnySql dbContext)
         {
-            check_list_sites checkListSites = dbContext.check_list_sites.FirstOrDefault(x => x.Id == Id);
+            check_list_sites checkListSites = await dbContext.check_list_sites.FirstOrDefaultAsync(x => x.Id == Id);
 
             if (checkListSites == null)
             {

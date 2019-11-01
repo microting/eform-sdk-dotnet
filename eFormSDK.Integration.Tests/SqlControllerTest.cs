@@ -42,292 +42,292 @@ namespace eFormSDK.Integration.Tests
 
         #region check
         
-        [Test]
-        public async Task SQL_Check_ChecksCreate_IsCreated()
-        {
-
-
-            // Arrance
-            #region Template1
-            /* check_lists cl1 = new check_lists();
-             cl1.created_at = DateTime.Now;
-             cl1.updated_at = DateTime.Now;
-             cl1.label = "A";
-             cl1.description = "D";
-             cl1.workflow_state = Constants.WorkflowStates.Created;
-             cl1.case_type = "CheckList";
-             cl1.folder_name = "Template1FolderName";
-             cl1.display_index = 1;
-             cl1.repeated = 1;
-
-             DbContext.check_lists.Add(cl1);
-             await dbContext.SaveChangesAsync();
-             */
-            #endregion
-
-            #region SubTemplate1
-            /*check_lists cl2 = new check_lists();
-            cl2.created_at = DateTime.Now;
-            cl2.updated_at = DateTime.Now;
-            cl2.label = "A.1";
-            cl2.description = "D.1";
-            cl2.workflow_state = Constants.WorkflowStates.Created;
-            cl2.case_type = "CheckList";
-            cl2.display_index = 1;
-            cl2.repeated = 1;
-            cl2.parent_id = cl1.Id;
-
-            DbContext.check_lists.Add(cl2);
-            await dbContext.SaveChangesAsync();
-            */
-            #endregion
-
-            #region Fields
-            /*
-            field_types ft = DbContext.field_types.Where(x => x.Id == 9).First();
-
-            fields f1 = new fields();
-            f1.field_type = ft;
-            f1.label = "Comment field";
-            f1.description = "";
-            f1.check_list_id = cl2.Id;
-
-            DbContext.fields.Add(f1);
-            await dbContext.SaveChangesAsync();
-            */
-            #endregion
-
-            #region Worker
-            /*
-            workers worker = new workers();
-            worker.first_name = "Arne";
-            worker.last_name = "Jensen";
-            worker.email = "aa@tak.dk";
-            worker.created_at = DateTime.Now;
-            worker.updated_at = DateTime.Now;
-            worker.microting_uid = 21;
-            worker.workflow_state = Constants.WorkflowStates.Created;
-            worker.version = 69;
-            DbContext.workers.Add(worker);
-            await dbContext.SaveChangesAsync();
-            */
-            #endregion
-
-            #region site
-            /*
-            sites site = new sites();
-            site.name = "SiteName";
-            site.microting_uid = 88;
-            site.updated_at = DateTime.Now;
-            site.created_at = DateTime.Now;
-            site.version = 64;
-            site.workflow_state = Constants.WorkflowStates.Created;
-            DbContext.sites.Add(site);
-            await dbContext.SaveChangesAsync();
-            */
-            #endregion
-
-            #region units
-
-            /*units unit = new units();
-            unit.microting_uid = 48;
-            unit.otp_code = 49;
-            unit.site = site;
-            unit.site_id = site.Id;
-            unit.created_at = DateTime.Now;
-            unit.customer_no = 348;
-            unit.updated_at = DateTime.Now;
-            unit.version = 9;
-            unit.workflow_state = Constants.WorkflowStates.Created;
-
-            DbContext.units.Add(unit);
-            await dbContext.SaveChangesAsync();
-            */
-            #endregion
-
-            #region site_workers
-            /* site_workers site_workers = new site_workers();
-             site_workers.created_at = DateTime.Now;
-             site_workers.microting_uid = 55;
-             site_workers.updated_at = DateTime.Now;
-             site_workers.version = 63;
-             site_workers.site = site;
-             site_workers.site_id = site.Id;
-             site_workers.worker = worker;
-             site_workers.worker_id = worker.Id;
-             site_workers.workflow_state = Constants.WorkflowStates.Created;
-             DbContext.site_workers.Add(site_workers);
-             await dbContext.SaveChangesAsync();
-             */
-            #endregion
-
-            #region Case1
-            /*
-            sites site = new sites();
-            site.name = "SiteName";
-            DbContext.sites.Add(site);
-            await dbContext.SaveChangesAsync();
-
-            check_lists cl = new check_lists();
-            cl.label = "label";
-
-            DbContext.check_lists.Add(cl);
-            await dbContext.SaveChangesAsync();
-
-
-
-            string caseType = "AAKKAA";
-            DateTime createdAt = DateTime.Now;
-            int checkListId = 1;
-            string microtingUId = "microting_UId";
-            string microtingCheckId = "microting_Check_Id";
-            string caseUId = "caseUId";
-            string custom = "custom";
-            cases aCase = new cases();
-            aCase.status = 66;
-            aCase.type = caseType;
-            aCase.created_at = createdAt;
-            aCase.updated_at = createdAt;
-            aCase.check_list_id = checkListId;
-            aCase.microting_uid = microtingUId;
-            aCase.microting_check_uid = microtingCheckId;
-            aCase.case_uid = caseUId;
-            aCase.workflow_state = Constants.WorkflowStates.Created;
-            aCase.version = 1;
-            aCase.site_id = site.Id;
-
-            aCase.custom = custom;
-
-            DbContext.cases.Add(aCase);
-            await dbContext.SaveChangesAsync();
-            */
-            #endregion
-
-            #region Check List Values
-            /*
-            check_list_values check_List_Values = new check_list_values();
-
-            check_List_Values.case_id = aCase.Id;
-            check_List_Values.check_list_id = cl2.Id;
-            check_List_Values.created_at = DateTime.Now;
-            check_List_Values.status = "completed";
-            check_List_Values.updated_at = DateTime.Now;
-            check_List_Values.user_id = null;
-            check_List_Values.version = 865;
-            check_List_Values.workflow_state = Constants.WorkflowStates.Created;
-
-            DbContext.check_list_values.Add(check_List_Values);
-            await dbContext.SaveChangesAsync();
-            */
-            #endregion
-
-            #region Field Values
-            /*
-            field_values field_Values1 = new field_values();
-            field_Values1.case_id = aCase.Id;
-            field_Values1.check_list = cl2;
-            field_Values1.check_list_id = cl2.Id;
-            field_Values1.created_at = DateTime.Now;
-            field_Values1.date = DateTime.Now;
-            field_Values1.done_at = DateTime.Now;
-            field_Values1.field = f1;
-            field_Values1.field_id = f1.Id;
-            field_Values1.updated_at = DateTime.Now;
-            field_Values1.user_id = null;
-            field_Values1.value = "tomt1";
-            field_Values1.version = 61234;
-            field_Values1.worker = worker;
-            field_Values1.workflow_state = Constants.WorkflowStates.Created;
-
-            DbContext.field_values.Add(field_Values1);
-            await dbContext.SaveChangesAsync();
-
-            field_values field_Values2 = new field_values();
-            field_Values2.case_id = aCase.Id;
-            field_Values2.check_list = cl2;
-            field_Values2.check_list_id = cl2.Id;
-            field_Values2.created_at = DateTime.Now;
-            field_Values2.date = DateTime.Now;
-            field_Values2.done_at = DateTime.Now;
-            field_Values2.field = f2;
-            field_Values2.field_id = f2.Id;
-            field_Values2.updated_at = DateTime.Now;
-            field_Values2.user_id = null;
-            field_Values2.value = "tomt2";
-            field_Values2.version = 61234;
-            field_Values2.worker = worker;
-            field_Values2.workflow_state = Constants.WorkflowStates.Created;
-
-            DbContext.field_values.Add(field_Values2);
-            await dbContext.SaveChangesAsync();
-
-            field_values field_Values3 = new field_values();
-            field_Values3.case_id = aCase.Id;
-            field_Values3.check_list = cl2;
-            field_Values3.check_list_id = cl2.Id;
-            field_Values3.created_at = DateTime.Now;
-            field_Values3.date = DateTime.Now;
-            field_Values3.done_at = DateTime.Now;
-            field_Values3.field = f3;
-            field_Values3.field_id = f3.Id;
-            field_Values3.updated_at = DateTime.Now;
-            field_Values3.user_id = null;
-            field_Values3.value = "tomt3";
-            field_Values3.version = 61234;
-            field_Values3.worker = worker;
-            field_Values3.workflow_state = Constants.WorkflowStates.Created;
-
-            DbContext.field_values.Add(field_Values3);
-            await dbContext.SaveChangesAsync();
-
-            field_values field_Values4 = new field_values();
-            field_Values4.case_id = aCase.Id;
-            field_Values4.check_list = cl2;
-            field_Values4.check_list_id = cl2.Id;
-            field_Values4.created_at = DateTime.Now;
-            field_Values4.date = DateTime.Now;
-            field_Values4.done_at = DateTime.Now;
-            field_Values4.field = f4;
-            field_Values4.field_id = f4.Id;
-            field_Values4.updated_at = DateTime.Now;
-            field_Values4.user_id = null;
-            field_Values4.value = "tomt4";
-            field_Values4.version = 61234;
-            field_Values4.worker = worker;
-            field_Values4.workflow_state = Constants.WorkflowStates.Created;
-
-            DbContext.field_values.Add(field_Values4);
-            await dbContext.SaveChangesAsync();
-
-            field_values field_Values5 = new field_values();
-            field_Values5.case_id = aCase.Id;
-            field_Values5.check_list = cl2;
-            field_Values5.check_list_id = cl2.Id;
-            field_Values5.created_at = DateTime.Now;
-            field_Values5.date = DateTime.Now;
-            field_Values5.done_at = DateTime.Now;
-            field_Values5.field = f5;
-            field_Values5.field_id = f5.Id;
-            field_Values5.updated_at = DateTime.Now;
-            field_Values5.user_id = null;
-            field_Values5.value = "tomt5";
-            field_Values5.version = 61234;
-            field_Values5.worker = worker;
-            field_Values5.workflow_state = Constants.WorkflowStates.Created;
-
-            DbContext.field_values.Add(field_Values5);
-            await dbContext.SaveChangesAsync();
-            */
-            #endregion
-
-
-            // Act
-
-
-
-            // Assert
-
-        }
+//        [Test]
+//        public async Task SQL_Check_ChecksCreate_IsCreated()
+//        {
+//
+//
+//            // Arrance
+//            #region Template1
+//            /* check_lists cl1 = new check_lists();
+//             cl1.created_at = DateTime.Now;
+//             cl1.updated_at = DateTime.Now;
+//             cl1.label = "A";
+//             cl1.description = "D";
+//             cl1.workflow_state = Constants.WorkflowStates.Created;
+//             cl1.case_type = "CheckList";
+//             cl1.folder_name = "Template1FolderName";
+//             cl1.display_index = 1;
+//             cl1.repeated = 1;
+//
+//             DbContext.check_lists.Add(cl1);
+//             await dbContext.SaveChangesAsync();
+//             */
+//            #endregion
+//
+//            #region SubTemplate1
+//            /*check_lists cl2 = new check_lists();
+//            cl2.created_at = DateTime.Now;
+//            cl2.updated_at = DateTime.Now;
+//            cl2.label = "A.1";
+//            cl2.description = "D.1";
+//            cl2.workflow_state = Constants.WorkflowStates.Created;
+//            cl2.case_type = "CheckList";
+//            cl2.display_index = 1;
+//            cl2.repeated = 1;
+//            cl2.parent_id = cl1.Id;
+//
+//            DbContext.check_lists.Add(cl2);
+//            await dbContext.SaveChangesAsync();
+//            */
+//            #endregion
+//
+//            #region Fields
+//            /*
+//            field_types ft = DbContext.field_types.Where(x => x.Id == 9).First();
+//
+//            fields f1 = new fields();
+//            f1.field_type = ft;
+//            f1.label = "Comment field";
+//            f1.description = "";
+//            f1.check_list_id = cl2.Id;
+//
+//            DbContext.fields.Add(f1);
+//            await dbContext.SaveChangesAsync();
+//            */
+//            #endregion
+//
+//            #region Worker
+//            /*
+//            workers worker = new workers();
+//            worker.first_name = "Arne";
+//            worker.last_name = "Jensen";
+//            worker.email = "aa@tak.dk";
+//            worker.created_at = DateTime.Now;
+//            worker.updated_at = DateTime.Now;
+//            worker.microting_uid = 21;
+//            worker.workflow_state = Constants.WorkflowStates.Created;
+//            worker.version = 69;
+//            DbContext.workers.Add(worker);
+//            await dbContext.SaveChangesAsync();
+//            */
+//            #endregion
+//
+//            #region site
+//            /*
+//            sites site = new sites();
+//            site.name = "SiteName";
+//            site.microting_uid = 88;
+//            site.updated_at = DateTime.Now;
+//            site.created_at = DateTime.Now;
+//            site.version = 64;
+//            site.workflow_state = Constants.WorkflowStates.Created;
+//            DbContext.sites.Add(site);
+//            await dbContext.SaveChangesAsync();
+//            */
+//            #endregion
+//
+//            #region units
+//
+//            /*units unit = new units();
+//            unit.microting_uid = 48;
+//            unit.otp_code = 49;
+//            unit.site = site;
+//            unit.site_id = site.Id;
+//            unit.created_at = DateTime.Now;
+//            unit.customer_no = 348;
+//            unit.updated_at = DateTime.Now;
+//            unit.version = 9;
+//            unit.workflow_state = Constants.WorkflowStates.Created;
+//
+//            DbContext.units.Add(unit);
+//            await dbContext.SaveChangesAsync();
+//            */
+//            #endregion
+//
+//            #region site_workers
+//            /* site_workers site_workers = new site_workers();
+//             site_workers.created_at = DateTime.Now;
+//             site_workers.microting_uid = 55;
+//             site_workers.updated_at = DateTime.Now;
+//             site_workers.version = 63;
+//             site_workers.site = site;
+//             site_workers.site_id = site.Id;
+//             site_workers.worker = worker;
+//             site_workers.worker_id = worker.Id;
+//             site_workers.workflow_state = Constants.WorkflowStates.Created;
+//             DbContext.site_workers.Add(site_workers);
+//             await dbContext.SaveChangesAsync();
+//             */
+//            #endregion
+//
+//            #region Case1
+//            /*
+//            sites site = new sites();
+//            site.name = "SiteName";
+//            DbContext.sites.Add(site);
+//            await dbContext.SaveChangesAsync();
+//
+//            check_lists cl = new check_lists();
+//            cl.label = "label";
+//
+//            DbContext.check_lists.Add(cl);
+//            await dbContext.SaveChangesAsync();
+//
+//
+//
+//            string caseType = "AAKKAA";
+//            DateTime createdAt = DateTime.Now;
+//            int checkListId = 1;
+//            string microtingUId = "microting_UId";
+//            string microtingCheckId = "microting_Check_Id";
+//            string caseUId = "caseUId";
+//            string custom = "custom";
+//            cases aCase = new cases();
+//            aCase.status = 66;
+//            aCase.type = caseType;
+//            aCase.created_at = createdAt;
+//            aCase.updated_at = createdAt;
+//            aCase.check_list_id = checkListId;
+//            aCase.microting_uid = microtingUId;
+//            aCase.microting_check_uid = microtingCheckId;
+//            aCase.case_uid = caseUId;
+//            aCase.workflow_state = Constants.WorkflowStates.Created;
+//            aCase.version = 1;
+//            aCase.site_id = site.Id;
+//
+//            aCase.custom = custom;
+//
+//            DbContext.cases.Add(aCase);
+//            await dbContext.SaveChangesAsync();
+//            */
+//            #endregion
+//
+//            #region Check List Values
+//            /*
+//            check_list_values check_List_Values = new check_list_values();
+//
+//            check_List_Values.case_id = aCase.Id;
+//            check_List_Values.check_list_id = cl2.Id;
+//            check_List_Values.created_at = DateTime.Now;
+//            check_List_Values.status = "completed";
+//            check_List_Values.updated_at = DateTime.Now;
+//            check_List_Values.user_id = null;
+//            check_List_Values.version = 865;
+//            check_List_Values.workflow_state = Constants.WorkflowStates.Created;
+//
+//            DbContext.check_list_values.Add(check_List_Values);
+//            await dbContext.SaveChangesAsync();
+//            */
+//            #endregion
+//
+//            #region Field Values
+//            /*
+//            field_values field_Values1 = new field_values();
+//            field_Values1.case_id = aCase.Id;
+//            field_Values1.check_list = cl2;
+//            field_Values1.check_list_id = cl2.Id;
+//            field_Values1.created_at = DateTime.Now;
+//            field_Values1.date = DateTime.Now;
+//            field_Values1.done_at = DateTime.Now;
+//            field_Values1.field = f1;
+//            field_Values1.field_id = f1.Id;
+//            field_Values1.updated_at = DateTime.Now;
+//            field_Values1.user_id = null;
+//            field_Values1.value = "tomt1";
+//            field_Values1.version = 61234;
+//            field_Values1.worker = worker;
+//            field_Values1.workflow_state = Constants.WorkflowStates.Created;
+//
+//            DbContext.field_values.Add(field_Values1);
+//            await dbContext.SaveChangesAsync();
+//
+//            field_values field_Values2 = new field_values();
+//            field_Values2.case_id = aCase.Id;
+//            field_Values2.check_list = cl2;
+//            field_Values2.check_list_id = cl2.Id;
+//            field_Values2.created_at = DateTime.Now;
+//            field_Values2.date = DateTime.Now;
+//            field_Values2.done_at = DateTime.Now;
+//            field_Values2.field = f2;
+//            field_Values2.field_id = f2.Id;
+//            field_Values2.updated_at = DateTime.Now;
+//            field_Values2.user_id = null;
+//            field_Values2.value = "tomt2";
+//            field_Values2.version = 61234;
+//            field_Values2.worker = worker;
+//            field_Values2.workflow_state = Constants.WorkflowStates.Created;
+//
+//            DbContext.field_values.Add(field_Values2);
+//            await dbContext.SaveChangesAsync();
+//
+//            field_values field_Values3 = new field_values();
+//            field_Values3.case_id = aCase.Id;
+//            field_Values3.check_list = cl2;
+//            field_Values3.check_list_id = cl2.Id;
+//            field_Values3.created_at = DateTime.Now;
+//            field_Values3.date = DateTime.Now;
+//            field_Values3.done_at = DateTime.Now;
+//            field_Values3.field = f3;
+//            field_Values3.field_id = f3.Id;
+//            field_Values3.updated_at = DateTime.Now;
+//            field_Values3.user_id = null;
+//            field_Values3.value = "tomt3";
+//            field_Values3.version = 61234;
+//            field_Values3.worker = worker;
+//            field_Values3.workflow_state = Constants.WorkflowStates.Created;
+//
+//            DbContext.field_values.Add(field_Values3);
+//            await dbContext.SaveChangesAsync();
+//
+//            field_values field_Values4 = new field_values();
+//            field_Values4.case_id = aCase.Id;
+//            field_Values4.check_list = cl2;
+//            field_Values4.check_list_id = cl2.Id;
+//            field_Values4.created_at = DateTime.Now;
+//            field_Values4.date = DateTime.Now;
+//            field_Values4.done_at = DateTime.Now;
+//            field_Values4.field = f4;
+//            field_Values4.field_id = f4.Id;
+//            field_Values4.updated_at = DateTime.Now;
+//            field_Values4.user_id = null;
+//            field_Values4.value = "tomt4";
+//            field_Values4.version = 61234;
+//            field_Values4.worker = worker;
+//            field_Values4.workflow_state = Constants.WorkflowStates.Created;
+//
+//            DbContext.field_values.Add(field_Values4);
+//            await dbContext.SaveChangesAsync();
+//
+//            field_values field_Values5 = new field_values();
+//            field_Values5.case_id = aCase.Id;
+//            field_Values5.check_list = cl2;
+//            field_Values5.check_list_id = cl2.Id;
+//            field_Values5.created_at = DateTime.Now;
+//            field_Values5.date = DateTime.Now;
+//            field_Values5.done_at = DateTime.Now;
+//            field_Values5.field = f5;
+//            field_Values5.field_id = f5.Id;
+//            field_Values5.updated_at = DateTime.Now;
+//            field_Values5.user_id = null;
+//            field_Values5.value = "tomt5";
+//            field_Values5.version = 61234;
+//            field_Values5.worker = worker;
+//            field_Values5.workflow_state = Constants.WorkflowStates.Created;
+//
+//            DbContext.field_values.Add(field_Values5);
+//            await dbContext.SaveChangesAsync();
+//            */
+//            #endregion
+//
+//
+//            // Act
+//
+//
+//
+//            // Assert
+//
+//        }
 
 
         #endregion
@@ -630,9 +630,10 @@ namespace eFormSDK.Integration.Tests
 
         #endregion
 
-        //TODOS in here, Migration required
+        //TODO in here, Migration required
         #region Public WriteLog TODO
         [Test]
+#pragma warning disable 1998
         public async Task SQL_WriteLog_StartLog_ReturnsLog()
         {
             // Arrance
@@ -641,8 +642,10 @@ namespace eFormSDK.Integration.Tests
 
             // Assert
         }
+#pragma warning restore 1998
 
         [Test]
+#pragma warning disable 1998
         public async Task SQL_WriteLog_WriteLogEntry()
         {
             // Arrance
@@ -651,9 +654,10 @@ namespace eFormSDK.Integration.Tests
 
             // Assert
         }
-
+#pragma warning restore 1998
 
         [Test]
+#pragma warning disable 1998
         public async Task SQL_WriteLog_WriteLogExceptionEntry()
         {
             // Arrance
@@ -662,9 +666,11 @@ namespace eFormSDK.Integration.Tests
 
             // Assert
         }
+#pragma warning restore 1998
 
 
         [Test] 
+#pragma warning disable 1998
         public async Task SQL_WriteLog_WriteIfFailed()
         {
             // Arrance
@@ -673,7 +679,7 @@ namespace eFormSDK.Integration.Tests
 
             // Assert
         }
-
+#pragma warning restore 1998
 
 
         #endregion

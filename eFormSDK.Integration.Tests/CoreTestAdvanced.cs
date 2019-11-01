@@ -77,7 +77,8 @@ namespace eFormSDK.Integration.Tests
             Assert.True(match);
 
         }
-        [Test]//skal bruge mock
+        [Test]// TODO Needs to use mocks
+#pragma warning disable 1998
         public async Task Core_AdvancedTemplate_Advanced_TemplateDisplayIndexChangeServer_ChangesDisplayIndex()
         {
 
@@ -101,6 +102,8 @@ namespace eFormSDK.Integration.Tests
             // Assert.True(match);
 
         }
+#pragma warning restore 1998
+        
         [Test]
         public async Task Core_AdvancedTemplate_Advanced_TemplateUpdateFieldIdsForColumns_ChangesIdsForColumns()
         {

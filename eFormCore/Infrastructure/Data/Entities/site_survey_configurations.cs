@@ -26,6 +26,7 @@ using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -56,7 +57,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public async Task Update(MicrotingDbAnySql dbContext)
         {
             site_survey_configurations siteSurveyConfiguration =
-                dbContext.site_survey_configurations.FirstOrDefault(x => x.Id == Id);
+                await dbContext.site_survey_configurations.FirstOrDefaultAsync(x => x.Id == Id);
 
             if (siteSurveyConfiguration == null)
             {
@@ -80,7 +81,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         {
             
             site_survey_configurations siteSurveyConfiguration =
-                dbContext.site_survey_configurations.FirstOrDefault(x => x.Id == Id);
+                await dbContext.site_survey_configurations.FirstOrDefaultAsync(x => x.Id == Id);
 
             if (siteSurveyConfiguration == null)
             {

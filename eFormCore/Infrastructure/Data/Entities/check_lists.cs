@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -146,7 +147,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public async Task Update(MicrotingDbAnySql dbContext)
         {
-            check_lists checkList = dbContext.check_lists.FirstOrDefault(x => x.Id == Id);
+            check_lists checkList = await dbContext.check_lists.FirstOrDefaultAsync(x => x.Id == Id);
 
             if (checkList == null)
             {
@@ -197,7 +198,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public async Task Delete(MicrotingDbAnySql dbContext)
         {
-            check_lists checkList = dbContext.check_lists.FirstOrDefault(x => x.Id == Id);
+            check_lists checkList = await dbContext.check_lists.FirstOrDefaultAsync(x => x.Id == Id);
 
             if (checkList == null)
             {

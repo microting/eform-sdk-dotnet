@@ -1002,7 +1002,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(6, _fields[5].DisplayIndex);
             Assert.AreEqual(0, _fields[5].Mandatory); //false
 
-            List<KeyValuePair> kvp = await sut.PairRead(_fields[5].KeyValuePairList);
+            List<KeyValuePair> kvp = sut.PairRead(_fields[5].KeyValuePairList);
             Assert.AreEqual("1", kvp[0].DisplayOrder);
             Assert.AreEqual("Valgmulighed 1", kvp[0].Value);
             Assert.AreEqual(false, kvp[0].Selected); //false
@@ -1065,7 +1065,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(0, _fields[6].Mandatory); //false
 
 
-            List<KeyValuePair> kvpp1 = await sut.PairRead(_fields[6].KeyValuePairList);
+            List<KeyValuePair> kvpp1 = sut.PairRead(_fields[6].KeyValuePairList);
             Assert.AreEqual("1", kvpp1[0].Key);
             Assert.AreEqual("Valgmulighed 1", kvpp1[0].Value);
             Assert.AreEqual(false, kvpp1[0].Selected); //false
@@ -1309,7 +1309,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(0, _fields[0].DisplayIndex);
             Assert.AreEqual(0, _fields[0].Mandatory); //false
 
-            List<KeyValuePair> kvp = await sut.PairRead(_fields[0].KeyValuePairList);
+            List<KeyValuePair> kvp = sut.PairRead(_fields[0].KeyValuePairList);
             Assert.AreEqual("1", kvp[0].Key); 
             // Assert.AreEqual(CData, kvp[0].Value); todo
             Assert.AreEqual(false, kvp[0].Selected); //false
@@ -1336,7 +1336,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(1, _fields[1].DisplayIndex);
             Assert.AreEqual(0, _fields[1].Mandatory); //false
 
-            List<KeyValuePair> kvpp1 = await sut.PairRead(_fields[1].KeyValuePairList);
+            List<KeyValuePair> kvpp1 = sut.PairRead(_fields[1].KeyValuePairList);
             Assert.AreEqual("1", kvpp1[0].Key);
             // Assert.AreEqual(CData, kvp[0].Value); todo
             Assert.AreEqual(false, kvpp1[0].Selected); //false
@@ -1481,7 +1481,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(0, _fields[0].DisplayIndex);
             Assert.AreEqual(0, _fields[0].Mandatory); //false
 
-            List<KeyValuePair> kvp = await sut.PairRead(_fields[0].KeyValuePairList);
+            List<KeyValuePair> kvp = sut.PairRead(_fields[0].KeyValuePairList);
 
             
             Assert.AreEqual("1", kvp[0].Key);
