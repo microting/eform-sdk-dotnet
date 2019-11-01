@@ -85,7 +85,7 @@ namespace eFormSDK.Integration.Tests
             dbContext.Dispose();
         }
 
-        public async Task ClearDb()
+        private async Task ClearDb()
         {
 
             List<string> modelNames = new List<string>();
@@ -170,7 +170,7 @@ namespace eFormSDK.Integration.Tests
         }
         private string path;
 
-        public void ClearFile()
+        private void ClearFile()
         {
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");

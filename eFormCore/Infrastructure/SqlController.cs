@@ -791,8 +791,8 @@ namespace Microting.eForm.Infrastructure
                     if (caseStd == null)
                         caseStd = await db.cases.SingleAsync(x => x.MicrotingUid == microtingUId);
 
-                    int userId = db.workers.SingleAsync(x => x.MicrotingUid == workerMicrotingUId).Id;
-                    int unitId = db.units.SingleAsync(x => x.MicrotingUid == unitMicrotingUid).Id;
+                    int userId = db.workers.SingleAsync(x => x.MicrotingUid == workerMicrotingUId).Result.Id;
+                    int unitId = db.units.SingleAsync(x => x.MicrotingUid == unitMicrotingUid).Result.Id;
 
                     caseStd.Status = 100;
                     caseStd.DoneAt = doneAt;
@@ -3565,18 +3565,18 @@ namespace Microting.eForm.Infrastructure
                 {
                     //logger.LogEverything(methodName + " called");
 
-                    int localSiteId = db.sites.SingleAsync(x => x.MicrotingUid == siteUId).Id;
-                    int localWorkerId = db.workers.SingleAsync(x => x.MicrotingUid == workerUId).Id;
+                    int localSiteId = db.sites.SingleAsync(x => x.MicrotingUid == siteUId).Result.Id;
+                    int localWorkerId = db.workers.SingleAsync(x => x.MicrotingUid == workerUId).Result.Id;
 
-                    site_workers site_worker = new site_workers();
+                    site_workers siteWorker = new site_workers();
 //                    site_worker.WorkflowState = Constants.Constants.WorkflowStates.Created;
 //                    site_worker.Version = 1;
 //                    site_worker.CreatedAt = DateTime.Now;
 //                    site_worker.UpdatedAt = DateTime.Now;
-                    site_worker.MicrotingUid = microtingUId;
-                    site_worker.SiteId = localSiteId;
-                    site_worker.WorkerId = localWorkerId;
-                    await site_worker.Create(db);
+                    siteWorker.MicrotingUid = microtingUId;
+                    siteWorker.SiteId = localSiteId;
+                    siteWorker.WorkerId = localWorkerId;
+                    await siteWorker.Create(db);
 
 
 //                    db.site_workers.Add(site_worker);
@@ -3585,7 +3585,7 @@ namespace Microting.eForm.Infrastructure
 //                    db.site_worker_versions.Add(MapSiteWorkerVersions(site_worker));
 //                    db.SaveChanges();
 
-                    return site_worker.Id;
+                    return siteWorker.Id;
                 }
             }
             catch (Exception ex)
@@ -3611,21 +3611,21 @@ namespace Microting.eForm.Infrastructure
                 using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
-                    site_workers site_worker = null;
+                    site_workers siteWorker = null;
                     if (siteWorkerMicrotingUid == null)
                     {
                         sites site = await db.sites.SingleAsync(x => x.MicrotingUid == siteId);
                         workers worker = await db.workers.SingleAsync(x => x.MicrotingUid == workerId);
-                        site_worker = await db.site_workers.SingleOrDefaultAsync(x => x.SiteId == site.Id && x.WorkerId == worker.Id);
+                        siteWorker = await db.site_workers.SingleOrDefaultAsync(x => x.SiteId == site.Id && x.WorkerId == worker.Id);
                     }
                     else
                     {
-                        site_worker = await db.site_workers.SingleOrDefaultAsync(x => x.MicrotingUid == siteWorkerMicrotingUid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
+                        siteWorker = await db.site_workers.SingleOrDefaultAsync(x => x.MicrotingUid == siteWorkerMicrotingUid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
                     }
 
 
-                    if (site_worker != null)
-                        return new Site_Worker_Dto((int)site_worker.MicrotingUid, (int)site_worker.Site.MicrotingUid, (int)site_worker.Worker.MicrotingUid);
+                    if (siteWorker != null)
+                        return new Site_Worker_Dto((int)siteWorker.MicrotingUid, (int)siteWorker.Site.MicrotingUid, (int)siteWorker.Worker.MicrotingUid);
                     else
                         return null;
                 }
