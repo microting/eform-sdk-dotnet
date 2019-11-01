@@ -622,7 +622,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    int siteId = db.sites.SingleAsync(x => x.MicrotingUid == siteUId).Id;
+                    int siteId = db.sites.SingleAsync(x => x.MicrotingUid == siteUId).Result.Id;
 
                     check_list_sites cLS = new check_list_sites();
                     cLS.CheckListId = checkListId;
@@ -925,7 +925,7 @@ namespace Microting.eForm.Infrastructure
                 {
                     int elementId;
                     int userUId = int.Parse(response.Checks[xmlIndex].WorkerId);
-                    int userId = db.workers.SingleAsync(x => x.MicrotingUid == userUId).Id;
+                    int userId = db.workers.SingleAsync(x => x.MicrotingUid == userUId).Result.Id;
                     List<string> elements = t.LocateList(xmlString, "<ElementList>", "</ElementList>");
                     List<Field_Dto> TemplatFieldLst = null;
                     cases responseCase = null;
@@ -3772,7 +3772,7 @@ namespace Microting.eForm.Infrastructure
                 using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
-                    int localSiteId = db.sites.SingleAsync(x => x.MicrotingUid == siteUId).Id;
+                    int localSiteId = db.sites.SingleAsync(x => x.MicrotingUid == siteUId).Result.Id;
 
                     units unit = new units();
                     unit.MicrotingUid = microtingUid;
