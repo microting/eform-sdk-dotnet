@@ -67,7 +67,6 @@ namespace Microting.eForm.Infrastructure
                     db.Database.EnsureCreated();
 
                    var match = db.settings.Count();
-                   logLimit = int.Parse(SettingRead(Settings.logLimit).Result);
                 }
             }
             catch (Exception ex)
@@ -84,6 +83,8 @@ namespace Microting.eForm.Infrastructure
             {
                 bool result = SettingCreateDefaults().Result;
             }
+            
+            logLimit = int.Parse(SettingRead(Settings.logLimit).Result);
         }
 
         private MicrotingDbAnySql GetContext()
