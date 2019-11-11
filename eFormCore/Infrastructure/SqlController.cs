@@ -1053,7 +1053,7 @@ namespace Microting.eForm.Infrastructure
                                     {
                                         if (!string.IsNullOrEmpty(extractedValue) && extractedValue != "null")
                                         {
-                                            int Id = EntityItemRead(extractedValue).Id;
+                                            int Id = EntityItemRead(extractedValue).Result.Id;
                                             fieldV.Value = Id.ToString();
                                         }
                                     }
@@ -1086,7 +1086,8 @@ namespace Microting.eForm.Infrastructure
                                             {
                                                 if (fieldV.Value != "" || fieldV.Value != null)
                                                 {
-                                                    entity_items match = await db.entity_items.SingleOrDefaultAsync(x => x.MicrotingUid == fieldV.Value);
+                                                    int Id = int.Parse(fieldV.Value);
+                                                    entity_items match = await db.entity_items.SingleOrDefaultAsync(x => x.Id == Id);
                                                     
                                                     if (match != null)
                                                     {
