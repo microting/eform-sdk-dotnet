@@ -1570,25 +1570,25 @@ namespace Microting.eForm.Infrastructure
                 {
 
 //                    fields field = db.fields.SingleAsync(x => x.Id == reply.FieldId);
-                    FieldValue field_value = new FieldValue();
-                    field_value.Accuracy = reply.Accuracy;
-                    field_value.Altitude = reply.Altitude;
-                    field_value.Color = dbField.Color;
-                    field_value.Date = reply.Date;
-                    field_value.FieldId = t.Int(reply.FieldId);
-                    field_value.FieldType = dbField.FieldType.FieldType;
-                    field_value.DateOfDoing = t.Date(reply.DoneAt);
-                    field_value.Description = new CDataValue();
-                    field_value.Description.InderValue = dbField.Description;
-                    field_value.DisplayOrder = t.Int(dbField.DisplayIndex);
-                    field_value.Heading = reply.Heading;
-                    field_value.Id = reply.Id;
-                    field_value.OriginalId = reply.Field.OriginalId;
-                    field_value.Label = dbField.Label;
-                    field_value.Latitude = reply.Latitude;
-                    field_value.Longitude = reply.Longitude;
-                    field_value.Mandatory = t.Bool(dbField.Mandatory);
-                    field_value.ReadOnly = t.Bool(dbField.ReadOnly);
+                    FieldValue fieldValue = new FieldValue();
+                    fieldValue.Accuracy = reply.Accuracy;
+                    fieldValue.Altitude = reply.Altitude;
+                    fieldValue.Color = dbField.Color;
+                    fieldValue.Date = reply.Date;
+                    fieldValue.FieldId = t.Int(reply.FieldId);
+                    fieldValue.FieldType = dbField.FieldType.FieldType;
+                    fieldValue.DateOfDoing = t.Date(reply.DoneAt);
+                    fieldValue.Description = new CDataValue();
+                    fieldValue.Description.InderValue = dbField.Description;
+                    fieldValue.DisplayOrder = t.Int(dbField.DisplayIndex);
+                    fieldValue.Heading = reply.Heading;
+                    fieldValue.Id = reply.Id;
+                    fieldValue.OriginalId = reply.Field.OriginalId;
+                    fieldValue.Label = dbField.Label;
+                    fieldValue.Latitude = reply.Latitude;
+                    fieldValue.Longitude = reply.Longitude;
+                    fieldValue.Mandatory = t.Bool(dbField.Mandatory);
+                    fieldValue.ReadOnly = t.Bool(dbField.ReadOnly);
                     #region answer.UploadedDataId = reply.uploaded_data_id;
                     if (reply.UploadedDataId.HasValue)
                         if (reply.UploadedDataId > 0)
@@ -1611,7 +1611,7 @@ namespace Microting.eForm.Infrastructure
                                     else
                                         locations += "File attached, awaiting download" + Environment.NewLine;
                                 }
-                                field_value.UploadedData = locations.TrimEnd();
+                                fieldValue.UploadedData = locations.TrimEnd();
                             }
                             else
                             {
@@ -1626,17 +1626,17 @@ namespace Microting.eForm.Infrastructure
                                 uploadedDataObj.FileLocation = uploadedData.FileLocation;
                                 uploadedDataObj.FileName = uploadedData.FileName;
                                 uploadedDataObj.Id = uploadedData.Id;
-                                field_value.UploadedDataObj = uploadedDataObj;
-                                field_value.UploadedData = "";
+                                fieldValue.UploadedDataObj = uploadedDataObj;
+                                fieldValue.UploadedData = "";
                             }
 
                         }
                     #endregion
-                    field_value.Value = reply.Value;
+                    fieldValue.Value = reply.Value;
                     #region answer.ValueReadable = reply.value 'ish' //and if needed: answer.KeyValuePairList = ReadPairs(...);
-                    field_value.ValueReadable = reply.Value;
+                    fieldValue.ValueReadable = reply.Value;
 
-                    if (field_value.FieldType == Constants.Constants.FieldTypes.EntitySearch || field_value.FieldType == Constants.Constants.FieldTypes.EntitySelect)
+                    if (fieldValue.FieldType == Constants.Constants.FieldTypes.EntitySearch || fieldValue.FieldType == Constants.Constants.FieldTypes.EntitySelect)
                     {
                         try
                         {
@@ -1647,9 +1647,9 @@ namespace Microting.eForm.Infrastructure
 
                                 if (match != null)
                                 {
-                                    field_value.ValueReadable = match.Name;
-                                    field_value.Value = match.Id.ToString();
-                                    field_value.MicrotingUuid = match.MicrotingUid;
+                                    fieldValue.ValueReadable = match.Name;
+                                    fieldValue.Value = match.Id.ToString();
+                                    fieldValue.MicrotingUuid = match.MicrotingUid;
                                 }
 
                             }
@@ -1657,50 +1657,50 @@ namespace Microting.eForm.Infrastructure
                         catch { }
                     }
 
-                    if (field_value.FieldType == Constants.Constants.FieldTypes.SingleSelect)
+                    if (fieldValue.FieldType == Constants.Constants.FieldTypes.SingleSelect)
                     {
-                        string key = field_value.Value;
+                        string key = fieldValue.Value;
                         string fullKey = t.Locate(dbField.KeyValuePairList, "<" + key + ">", "</" + key + ">");
-                        field_value.ValueReadable = t.Locate(fullKey, "<key>", "</key>");
+                        fieldValue.ValueReadable = t.Locate(fullKey, "<key>", "</key>");
 
-                        field_value.KeyValuePairList = PairRead(dbField.KeyValuePairList);
+                        fieldValue.KeyValuePairList = PairRead(dbField.KeyValuePairList);
                     }
 
-                    if (field_value.FieldType == Constants.Constants.FieldTypes.MultiSelect)
+                    if (fieldValue.FieldType == Constants.Constants.FieldTypes.MultiSelect)
                     {
-                        field_value.ValueReadable = "";
+                        fieldValue.ValueReadable = "";
 
-                        string keys = field_value.Value;
+                        string keys = fieldValue.Value;
                         List<string> keyLst = keys.Split('|').ToList();
 
                         foreach (string key in keyLst)
                         {
                             string fullKey = t.Locate(dbField.KeyValuePairList, "<" + key + ">", "</" + key + ">");
-                            if (field_value.ValueReadable != "")
-                                field_value.ValueReadable += '|';
-                            field_value.ValueReadable += t.Locate(fullKey, "<key>", "</key>");
+                            if (fieldValue.ValueReadable != "")
+                                fieldValue.ValueReadable += '|';
+                            fieldValue.ValueReadable += t.Locate(fullKey, "<key>", "</key>");
                         }
 
-                        field_value.KeyValuePairList = PairRead(dbField.KeyValuePairList);
+                        fieldValue.KeyValuePairList = PairRead(dbField.KeyValuePairList);
                     }
 
-                    if (field_value.FieldType == Constants.Constants.FieldTypes.Number ||
-                        field_value.FieldType == Constants.Constants.FieldTypes.NumberStepper)
+                    if (fieldValue.FieldType == Constants.Constants.FieldTypes.Number ||
+                        fieldValue.FieldType == Constants.Constants.FieldTypes.NumberStepper)
                     {
                         if (reply.Value != null)
                         {
-                            field_value.ValueReadable = reply.Value.Replace(",", ".");
-                            field_value.Value = reply.Value.Replace(",", ".");
+                            fieldValue.ValueReadable = reply.Value.Replace(",", ".");
+                            fieldValue.Value = reply.Value.Replace(",", ".");
                         }
                         else
                         {
-                            field_value.ValueReadable = "";
-                            field_value.Value = "";
+                            fieldValue.ValueReadable = "";
+                            fieldValue.Value = "";
                         }
                     }
                     #endregion
 
-                    return field_value;
+                    return fieldValue;
                 }
             }
             catch (Exception ex)
