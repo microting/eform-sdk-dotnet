@@ -1086,8 +1086,7 @@ namespace Microting.eForm.Infrastructure
                                             {
                                                 if (fieldV.Value != "" || fieldV.Value != null)
                                                 {
-                                                    int Id = int.Parse(fieldV.Value);
-                                                    entity_items match = await db.entity_items.SingleOrDefaultAsync(x => x.Id == Id);
+                                                    entity_items match = await db.entity_items.SingleOrDefaultAsync(x => x.MicrotingUid == fieldV.Value);
                                                     
                                                     if (match != null)
                                                     {
