@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using Microting.eForm.Dto;
+using KeyValuePair = Microting.eForm.Dto.KeyValuePair;
 
 namespace Microting.eForm.Infrastructure.Models
 {

@@ -34,6 +34,8 @@ using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Extensions;
 using Microting.eForm.Infrastructure.Models;
 using Microting.eForm.Infrastructure.Models.reply;
+using KeyValuePair = Microting.eForm.Dto.KeyValuePair;
+
 //using eFormSqlController.Migrations;
 
 namespace Microting.eForm.Infrastructure
