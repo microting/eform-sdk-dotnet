@@ -655,7 +655,7 @@ namespace Microting.eForm.Communication
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityGroupDelete failed", ex);
+                throw new Exception("EntityGroupUpdate failed", ex);
             }
         }
 
@@ -672,7 +672,7 @@ namespace Microting.eForm.Communication
                     if (await http.EntitySearchGroupDelete(entityGroupId))
                         return;
                     else
-                        throw new Exception("EntitySearchItemDelete failed");
+                        throw new Exception("EntityGroupDelete failed");
                 }
 
                 if (entityType == Constants.FieldTypes.EntitySelect)
@@ -680,7 +680,7 @@ namespace Microting.eForm.Communication
                     if (await http.EntitySelectGroupDelete(entityGroupId))
                         return;
                     else
-                        throw new Exception("EntitySearchItemDelete failed");
+                        throw new Exception("EntityGroupDelete failed");
                 }
 
                 throw new Exception("entityType:'" + entityType + "' not known");

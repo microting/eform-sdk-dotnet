@@ -2546,19 +2546,19 @@ namespace eFormCore
         /// <summary>
         /// Returns the EntityGroup and its EntityItems
         /// </summary>
-        /// <param name="entityGroupMUId">The unique microting id of the EntityGroup</param>
-        public async Task<EntityGroup> EntityGroupRead(string entityGroupMUId)
+        /// <param name="entityGroupMuId">The unique microting id of the EntityGroup</param>
+        public async Task<EntityGroup> EntityGroupRead(string entityGroupMuId)
         {
-            if (string.IsNullOrEmpty(entityGroupMUId))
-                throw new ArgumentNullException("entityGroupMUId cannot be null or empty");
-            return await EntityGroupRead(entityGroupMUId, Constants.EntityItemSortParameters.DisplayIndex, "");
+            if (string.IsNullOrEmpty(entityGroupMuId))
+                throw new ArgumentNullException(nameof(entityGroupMuId));
+            return await EntityGroupRead(entityGroupMuId, Constants.EntityItemSortParameters.DisplayIndex, "");
         }
 
-        public async Task<EntityGroup> EntityGroupRead(string entityGroupMUId, string sort, string nameFilter)
+        public async Task<EntityGroup> EntityGroupRead(string entityGroupMuId, string sort, string nameFilter)
         {
             string methodName = t.GetMethodName("Core");
-            if (string.IsNullOrEmpty(entityGroupMUId))
-                throw new ArgumentNullException("entityGroupMUId cannot be null or empty");
+            if (string.IsNullOrEmpty(entityGroupMuId))
+                throw new ArgumentNullException(nameof(entityGroupMuId));
             try
             {
                 if (Running())
@@ -2566,7 +2566,7 @@ namespace eFormCore
                     while (_updateIsRunningEntities)
                         Thread.Sleep(200);
 
-                    return await _sqlController.EntityGroupReadSorted(entityGroupMUId, sort, nameFilter);
+                    return await _sqlController.EntityGroupReadSorted(entityGroupMuId, sort, nameFilter);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2575,7 +2575,7 @@ namespace eFormCore
             {
                 try
                 {
-                    await log.LogException(t.GetMethodName("Core"), "(string entityGroupMUId " + entityGroupMUId + ", string sort " + sort + ", string nameFilter " + nameFilter + ") failed", ex, false);
+                    await log.LogException(t.GetMethodName("Core"), "(string entityGroupMUId " + entityGroupMuId + ", string sort " + sort + ", string nameFilter " + nameFilter + ") failed", ex, false);
                 }
                 catch
                 {
