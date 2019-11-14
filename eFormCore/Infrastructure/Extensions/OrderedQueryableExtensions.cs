@@ -22,8 +22,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.EntityFrameworkCore.Query.Internal;
+using Microsoft.EntityFrameworkCore.Storage;
+using Remotion.Linq.Parsing.Structure;
 
 namespace Microting.eForm.Infrastructure.Extensions
 {
@@ -92,5 +99,7 @@ namespace Microting.eForm.Infrastructure.Extensions
                 .Invoke(genericMethod, new object[] {query, selector});
             return newQuery;
         }
+        
+        
     }
 }

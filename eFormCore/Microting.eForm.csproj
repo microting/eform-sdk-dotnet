@@ -92,6 +92,7 @@
     <Compile Include="Infrastructure\Data\Entities\uploaded_data_versions.cs" />
     <Compile Include="Infrastructure\Data\Entities\workers.cs" />
     <Compile Include="Infrastructure\Data\Entities\worker_versions.cs" />
+    <Compile Include="Infrastructure\Extensions\IQueryableExtensions.cs" />
     <Compile Include="Infrastructure\Extensions\OrderedQueryableExtensions.cs" />
     <Compile Include="Infrastructure\Models\DataItem.cs" />
     <Compile Include="Infrastructure\Models\DataItemGroup.cs" />
