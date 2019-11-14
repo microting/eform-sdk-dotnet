@@ -758,7 +758,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public async Task CaseUpdateRetreived(int microtingUId)
+        public async Task CaseUpdateRetrieved(int microtingUId)
         {
             try
             {
@@ -848,9 +848,10 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    cases aCase = await db.cases.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUId);
-                    if (aCase != null)
+                    List<cases> matches = await db.cases.Where(x => x.MicrotingUid == microtingUId).ToListAsync();
+                    if (matches.Count == 1)
                     {
+                        cases aCase = matches.First();
                         if (aCase.WorkflowState != Constants.Constants.WorkflowStates.Retracted && aCase.WorkflowState != Constants.Constants.WorkflowStates.Removed)
                         {
                             await aCase.Delete((db));
