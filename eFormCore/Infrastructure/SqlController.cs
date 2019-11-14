@@ -1430,7 +1430,7 @@ namespace Microting.eForm.Infrastructure
                                     _field.FieldValues = new List<FieldValue>();
                                     foreach (field_values fieldValue in subField.FieldValues.Where(x => x.CaseId == caseId).ToList())
                                     {
-                                        FieldValue answer = await ReadFieldValue(fieldValue, field, false);
+                                        FieldValue answer = await ReadFieldValue(fieldValue, subField, false);
                                         _field.FieldValues.Add(answer);
                                     }
                                     dataItemSubList.Add(_field);
