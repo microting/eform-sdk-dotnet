@@ -1372,7 +1372,8 @@ namespace Microting.eForm.Infrastructure
                     replyElement.JasperExportEnabled = mainCheckList.JasperExportEnabled;
                     replyElement.DocxExportEnabled = mainCheckList.DocxExportEnabled;
 
-                    foreach (check_lists checkList in aCase.CheckList.Children.OrderBy(x => x.DisplayIndex))
+                    check_lists checkLists = await db.check_lists.SingleAsync(x => x.Id == aCase.CheckListId);
+                    foreach (check_lists checkList in checkLists.Children.OrderBy(x => x.DisplayIndex))
                     {
                         replyElement.ElementList.Add(await SubChecks(checkList.Id, aCase.Id));
                     }
@@ -1394,7 +1395,7 @@ namespace Microting.eForm.Infrastructure
                 {
                     var checkList = await db.check_lists.SingleAsync(x => x.Id == parentId);
                     //Element element = new Element();
-                    if (checkList.Children.Count() > 0)
+                    if (checkList.Children.Any())
                     {
                         List<Element> elementList = new List<Element>();
                         foreach (check_lists subList in checkList.Children.OrderBy(x => x.DisplayIndex))
@@ -1437,11 +1438,21 @@ namespace Microting.eForm.Infrastructure
                                     dataItemSubList.Add(_field);
                                 }
 
-                                CDataValue description = new CDataValue();
-                                description.InderValue = field.Description;
-                                FieldContainer fG = new FieldContainer(field.Id, field.Label, description, field.Color, (int)field.DisplayIndex, field.DefaultValue, dataItemSubList);
-                                fG.OriginalId = field.OriginalId;
-                                dataItemList.Add(fG);
+                                FieldContainer fC = new FieldContainer()
+                                {
+                                    Id = field.Id,
+                                    Label = field.Label,
+                                    Description = new CDataValue()
+                                    {
+                                        InderValue = field.Description
+                                    },
+                                    Color = field.Color,
+                                    DisplayOrder = (int)field.DisplayIndex,
+                                    Value = field.DefaultValue,
+                                    DataItemList = dataItemSubList,
+                                    OriginalId = field.OriginalId
+                                };
+                                dataItemList.Add(fC);
                             }
                             else
                             {
@@ -1455,20 +1466,24 @@ namespace Microting.eForm.Infrastructure
                                 dataItemList.Add(_field);
                             }
                         }
-                        DataElement dataElement = new DataElement(checkList.Id, 
-                            checkList.Label, 
-                            (int)checkList.DisplayIndex, 
-                            checkList.Description, 
-                            t.Bool(checkList.ApprovalEnabled), 
-                            t.Bool(checkList.ReviewEnabled), 
-                            t.Bool(checkList.DoneButtonEnabled), 
-                            t.Bool(checkList.ExtraFieldsEnabled), 
-                            "", 
-                            t.Bool(checkList.QuickSyncEnabled), 
-                            dataItemGroupList, 
-                            dataItemList);
-                        dataElement.OriginalId = checkList.OriginalId;
-                        //return dataElement;
+                        DataElement dataElement = new DataElement()
+                        {
+                            Id = checkList.Id,
+                            Label = checkList.Label,
+                            DisplayOrder = (int)checkList.DisplayIndex,
+                            Description = new CDataValue()
+                            {
+                                InderValue = checkList.Description
+                            },
+                            ApprovalEnabled = t.Bool(checkList.ApprovalEnabled),
+                            ReviewEnabled = t.Bool(checkList.ReviewEnabled),
+                            DoneButtonEnabled = t.Bool(checkList.DoneButtonEnabled),
+                            ExtraFieldsEnabled = t.Bool(checkList.ExtraFieldsEnabled),
+                            QuickSyncEnabled = t.Bool(checkList.QuickSyncEnabled),
+                            DataItemGroupList = dataItemGroupList,
+                            DataItemList = dataItemList,
+                            OriginalId = checkList.OriginalId
+                        };
                         return new CheckListValue(dataElement, await CheckListValueStatusRead(caseId, checkList.Id));
                     }
                     //return element;
