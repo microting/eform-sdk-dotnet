@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace Microting.eForm.Infrastructure.Extensions

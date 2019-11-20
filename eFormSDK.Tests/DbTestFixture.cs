@@ -175,14 +175,14 @@ namespace eFormSDK.Tests
                     string sqlCmd = string.Empty;
                     if(dbContext.Database.IsMySql())
                     {
-                        sqlCmd = string.Format("SET FOREIGN_KEY_CHECKS = 0;TRUNCATE `{0}`.`{1}`", "eformsdk-tests", modelName);
+                        sqlCmd = $"SET FOREIGN_KEY_CHECKS = 0;TRUNCATE `eformsdk-tests`.`{modelName}`";
                     }
                     else
                     {
-                        sqlCmd = string.Format("DELETE FROM [{0}]", modelName);
+                        sqlCmd = $"DELETE FROM [{modelName}]";
                     }
 #pragma warning disable EF1000 // Possible SQL injection vulnerability.
-                    dbContext.Database.ExecuteSqlCommand(sqlCmd);
+                    dbContext.Database.ExecuteSqlRaw(sqlCmd);
 #pragma warning restore EF1000 // Possible SQL injection vulnerability.
                 }
                 catch (Exception ex)

@@ -34,6 +34,9 @@ using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Extensions;
 using Microting.eForm.Infrastructure.Models;
 using Microting.eForm.Infrastructure.Models.reply;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Pomelo.EntityFrameworkCore.MySql.Internal;
+using CharSet = Pomelo.EntityFrameworkCore.MySql.Storage.CharSet;
 using KeyValuePair = Microting.eForm.Dto.KeyValuePair;
 
 //using eFormSqlController.Migrations;
@@ -97,7 +100,12 @@ namespace Microting.eForm.Infrastructure
 
             if (connectionStr.ToLower().Contains("convert zero datetime"))
             {
-                dbContextOptionsBuilder.UseMySql(connectionStr);
+                dbContextOptionsBuilder.UseMySql(connectionStr, MySqlOptions =>
+                    {
+                        MySqlOptions
+                            .CharSet(CharSet.Utf8Mb4)
+                            .ServerVersion(new Version(10, 3, 20), ServerType.MariaDb);
+                    });
             }
             else
             {

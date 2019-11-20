@@ -159,7 +159,7 @@ namespace eFormSDK.Integration.Tests
                         sqlCmd = $"DELETE FROM [{modelName}]";
                     }
 #pragma warning disable EF1000 // Possible SQL injection vulnerability.
-                    await dbContext.Database.ExecuteSqlCommandAsync(sqlCmd);
+                    await dbContext.Database.ExecuteSqlRawAsync(sqlCmd);
 #pragma warning restore EF1000 // Possible SQL injection vulnerability.
                 }
                 catch (Exception ex)
