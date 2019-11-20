@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
-using Remotion.Linq;
-using Remotion.Linq.Parsing.Structure;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Microting.eForm.Infrastructure.Extensions
 {
@@ -46,25 +46,25 @@ namespace Microting.eForm.Infrastructure.Extensions
 //            return sql;
 //        }
 
-        public static string ToSql<TEntity>(this IQueryable<TEntity> query, DbContext dbCtx)
-        {
-            try
-            {
-                IQueryModelGenerator modelGenerator = dbCtx.GetService<IQueryModelGenerator>();
-                QueryModel queryModel = modelGenerator.ParseQuery(query.Expression);
-                DatabaseDependencies databaseDependencies = dbCtx.GetService<DatabaseDependencies>();
-                QueryCompilationContext queryCompilationContext =
-                    databaseDependencies.QueryCompilationContextFactory.Create(false);
-                RelationalQueryModelVisitor modelVisitor =
-                    (RelationalQueryModelVisitor) queryCompilationContext.CreateQueryModelVisitor();
-                modelVisitor.CreateQueryExecutor<TEntity>(queryModel);
-                var sql = modelVisitor.Queries.First().ToString();
-                return sql;
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-        }
+//        public static string ToSql<TEntity>(this IQueryable<TEntity> query, DbContext dbCtx)
+//        {
+//            try
+//            {
+//                IQueryModelGenerator modelGenerator = dbCtx.GetService<IQueryModelGenerator>();
+//                QueryModel queryModel = modelGenerator.ParseQuery(query.Expression);
+//                DatabaseDependencies databaseDependencies = dbCtx.GetService<DatabaseDependencies>();
+//                QueryCompilationContext queryCompilationContext =
+//                    databaseDependencies.QueryCompilationContextFactory.Create(false);
+//                RelationalQueryModelVisitor modelVisitor =
+//                    (RelationalQueryModelVisitor) queryCompilationContext.CreateQueryModelVisitor();
+//                modelVisitor.CreateQueryExecutor<TEntity>(queryModel);
+//                var sql = modelVisitor.Queries.First().ToString();
+//                return sql;
+//            }
+//            catch (Exception ex)
+//            {
+//                return ex.Message;
+//            }
+//        }
     }
 }
