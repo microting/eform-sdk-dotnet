@@ -760,7 +760,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public async Task CaseUpdateRetreived(int microtingUId)
+        public async Task CaseUpdateRetrieved(int microtingUId)
         {
             try
             {
@@ -850,9 +850,10 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    cases aCase = await db.cases.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUId);
-                    if (aCase != null)
+                    List<cases> matches = await db.cases.Where(x => x.MicrotingUid == microtingUId).ToListAsync();
+                    if (matches.Count == 1)
                     {
+                        cases aCase = matches.First();
                         if (aCase.WorkflowState != Constants.Constants.WorkflowStates.Retracted && aCase.WorkflowState != Constants.Constants.WorkflowStates.Removed)
                         {
                             await aCase.Delete((db));
@@ -1431,7 +1432,7 @@ namespace Microting.eForm.Infrastructure
                                     _field.FieldValues = new List<FieldValue>();
                                     foreach (field_values fieldValue in subField.FieldValues.Where(x => x.CaseId == caseId).ToList())
                                     {
-                                        FieldValue answer = await ReadFieldValue(fieldValue, field, false);
+                                        FieldValue answer = await ReadFieldValue(fieldValue, subField, false);
                                         _field.FieldValues.Add(answer);
                                     }
                                     dataItemSubList.Add(_field);
@@ -2669,9 +2670,50 @@ namespace Microting.eForm.Infrastructure
                     {
                         sub_query = sub_query.Where(x => x.CheckListId == templatId);
                     }
-                    if (searchKey != null && searchKey != "")
+                    
+                    if (!string.IsNullOrEmpty(searchKey))
                     {
-                        sub_query = sub_query.Where(x => x.FieldValue1.Contains(searchKey) || x.FieldValue2.Contains(searchKey) || x.FieldValue3.Contains(searchKey) || x.FieldValue4.Contains(searchKey) || x.FieldValue5.Contains(searchKey) || x.FieldValue6.Contains(searchKey) || x.FieldValue7.Contains(searchKey) || x.FieldValue8.Contains(searchKey) || x.FieldValue9.Contains(searchKey) || x.FieldValue10.Contains(searchKey) || x.Id.ToString().Contains(searchKey) || x.Site.Name.Contains(searchKey) || x.Worker.FirstName.Contains(searchKey) || x.Worker.LastName.Contains(searchKey));
+                        if (searchKey.Contains("!"))
+                        {
+                            searchKey = searchKey.ToLower().Replace("!", "");
+                            IQueryable<cases> excludeQuery = db.cases.Where(x => x.DoneAt > start && x.DoneAt < end);
+                            excludeQuery = excludeQuery.Where(x => x.FieldValue1.ToLower().Contains(searchKey) || 
+                                                             x.FieldValue2.ToLower().Contains(searchKey) || 
+                                                             x.FieldValue3.ToLower().Contains(searchKey) || 
+                                                             x.FieldValue4.ToLower().Contains(searchKey) || 
+                                                             x.FieldValue5.ToLower().Contains(searchKey) || 
+                                                             x.FieldValue6.ToLower().Contains(searchKey) || 
+                                                             x.FieldValue7.ToLower().Contains(searchKey) || 
+                                                             x.FieldValue8.ToLower().Contains(searchKey) || 
+                                                             x.FieldValue9.ToLower().Contains(searchKey) || 
+                                                             x.FieldValue10.ToLower().Contains(searchKey) || 
+                                                             x.Id.ToString().Contains(searchKey) || 
+                                                             x.Site.Name.ToLower().Contains(searchKey) || 
+                                                             x.Worker.FirstName.ToLower().Contains(searchKey) || 
+                                                             x.Worker.LastName.ToLower().Contains(searchKey) || 
+                                                             x.DoneAt.ToString().Contains(searchKey));
+                            
+                            sub_query = sub_query.Except(excludeQuery.ToList());
+                        }
+                        else
+                        {
+                            searchKey = searchKey.ToLower();
+                            sub_query = sub_query.Where(x => x.FieldValue1.ToLower().Contains(searchKey) || 
+                                                             x.FieldValue2.ToLower().Contains(searchKey) || 
+                                                             x.FieldValue3.ToLower().Contains(searchKey) || 
+                                                             x.FieldValue4.ToLower().Contains(searchKey) || 
+                                                             x.FieldValue5.ToLower().Contains(searchKey) || 
+                                                             x.FieldValue6.ToLower().Contains(searchKey) || 
+                                                             x.FieldValue7.ToLower().Contains(searchKey) || 
+                                                             x.FieldValue8.ToLower().Contains(searchKey) || 
+                                                             x.FieldValue9.ToLower().Contains(searchKey) || 
+                                                             x.FieldValue10.ToLower().Contains(searchKey) || 
+                                                             x.Id.ToString().Contains(searchKey) || 
+                                                             x.Site.Name.ToLower().Contains(searchKey) || 
+                                                             x.Worker.FirstName.ToLower().Contains(searchKey) || 
+                                                             x.Worker.LastName.ToLower().Contains(searchKey) ||
+                                                             x.DoneAt.ToString().Contains(searchKey));    
+                        }
                     }
 
                     switch (sortParameter)
@@ -2780,6 +2822,8 @@ namespace Microting.eForm.Infrastructure
                             break;
                     }
 
+//                    string bla = sub_query.ToSql(db);
+//                    await log.LogStandard("SQLController", $"Query is {bla}");
                     matches = await sub_query.ToListAsync();
                     
                     List<Case> rtrnLst = new List<Case>();

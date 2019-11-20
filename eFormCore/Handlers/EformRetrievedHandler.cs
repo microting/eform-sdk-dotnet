@@ -55,7 +55,7 @@ namespace Microting.eForm.Handlers
         {
             try
             {
-                await sqlController.CaseUpdateRetreived(message.MicrotringUUID);
+                await sqlController.CaseUpdateRetrieved(message.MicrotringUUID);
                 
                 await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
 

@@ -268,12 +268,14 @@ namespace Microting.eForm.Communication
             request.ContentType = "application/x-www-form-urlencoded";
             request.ContentLength = content.Length;
 
-            string responseXml = await PostToServer(request, content);
+            string newUrl = await PostToServerGetRedirect(request, content);
 
-			if (responseXml.Contains("workflowState=\"created"))
-				return true;
-			else
-				throw new Exception("Unable to update EntitySearch, error was: " + responseXml);
+            request = WebRequest.Create(newUrl + "?token=" + token);
+            request.Method = "GET";
+
+            string response = await PostToServer(request);
+            
+            return response.Contains("workflow_state\": \"created");
         }
 
         public async Task<bool> EntitySearchItemDelete(string entitySearchItemId)
@@ -331,22 +333,14 @@ namespace Microting.eForm.Communication
             request.ContentType = "application/json; charset=utf-8";
             request.ContentLength = content.Length;
 
-            string responseXml = await PostToServerNoRedirect(request, content);
+            string newUrl = await PostToServerGetRedirect(request, content);
 
-            if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
-            {
-                WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_item_groups/" + entityGroupMUId + ".json?token=" + token + "&protocol=" + protocolEntitySelect +
-                    "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-                request2.Method = "GET";
-                string responseXml2 = await PostToServer(request2);
+            request = WebRequest.Create(newUrl + "?token=" + token);
+            request.Method = "GET";
 
-                if (responseXml2.Contains("workflow_state\": \"created"))
-                    return true;
-                else
-                    return false;
-            }
-            else
-                return false;
+            string response = await PostToServer(request);
+            
+            return response.Contains("workflow_state\": \"created");
         }
 
         public async Task<bool> EntitySelectGroupDelete(string entityGroupId)

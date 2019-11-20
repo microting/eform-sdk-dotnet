@@ -137,7 +137,7 @@ namespace eFormSDK.Integration.Tests
             await dbContext.SaveChangesAsync();
 
             // Act
-            await sut.CaseUpdateRetreived((int)aCase.MicrotingUid);
+            await sut.CaseUpdateRetrieved((int)aCase.MicrotingUid);
             //Case_Dto caseResult = await sut.CaseFindCustomMatchs(aCase.microting_uid);
             List<cases> caseResults = dbContext.cases.AsNoTracking().ToList();
 

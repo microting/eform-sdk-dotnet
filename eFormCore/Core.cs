@@ -2094,12 +2094,12 @@ namespace eFormCore
             
             SortedDictionary<string, string> valuePairs = new SortedDictionary<string, string>();
             // get base values
-            valuePairs.Add("F_CaseName", reply.Label);
+            valuePairs.Add("F_CaseName", reply.Label.Replace("&", "&amp;"));
             valuePairs.Add("F_SerialNumber", $"{caseId}/{cDto.MicrotingUId}");
-            valuePairs.Add("F_Worker", await _sqlController.WorkerNameRead(reply.DoneById));
+            valuePairs.Add("F_Worker", _sqlController.WorkerNameRead(reply.DoneById).Result.Replace("&", "&amp;"));
             valuePairs.Add("F_CheckId", reply.MicrotingUId.ToString());
             valuePairs.Add("F_CheckDate", reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss"));
-            valuePairs.Add("F_SiteName", _sqlController.SiteRead(reply.SiteMicrotingUuid).Result.SiteName);
+            valuePairs.Add("F_SiteName", _sqlController.SiteRead(reply.SiteMicrotingUuid).Result.SiteName.Replace("&", "&amp;"));
             
             // get field_values
             List<KeyValuePair<string, string>> pictures = new List<KeyValuePair<string, string>>();
@@ -2120,7 +2120,7 @@ namespace eFormCore
                 {
                     case Constants.FieldTypes.MultiSelect:
                         valuePairs[$"F_{fieldValue.FieldId}"] =
-                            fieldValue.ValueReadable.Replace("|", @"</w:t><w:br/><w:t>");
+                            fieldValue.ValueReadable.Replace("|", @"</w:t><w:br/><w:t>").Replace("&", "&amp;");
                         break;
                     
                     case Constants.FieldTypes.Picture:
@@ -2130,8 +2130,8 @@ namespace eFormCore
                             fields field = await _sqlController.FieldReadRaw(fieldValue.FieldId);
                             check_lists checkList = await _sqlController.CheckListRead((int)field.CheckListId);
                         
-                            pictures.Add(new KeyValuePair<string, string>($"{checkList.Label} - {field.Label}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
-                            SwiftObjectGetResponse swiftObjectGetResponse = GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName).Result;
+                            pictures.Add(new KeyValuePair<string, string>($"{checkList.Label.Replace("&", "&amp;")} - {field.Label.Replace("&", "&amp;")}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
+                            SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName);
                             var fileStream =
                                 File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
                             swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
@@ -2163,9 +2163,10 @@ namespace eFormCore
                                 fieldValue.ValueReadable = fieldValue.ValueReadable.Replace("<br>", "|||");
                                 fieldValue.ValueReadable = Regex.Replace(fieldValue.ValueReadable, "<.*?>", 
                                     string.Empty);
-                                fieldValue.ValueReadable =
+                                fieldValue.ValueReadable = fieldValue.ValueReadable.Replace("\t", @"</w:t><w:tab/><w:t>"); 
+                               fieldValue.ValueReadable =
                                     fieldValue.ValueReadable.Replace("|||", @"</w:t><w:br/><w:t>");
-                                valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable;
+                                valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable.Replace("&", "&amp;");;
                             }
                         }
                         break;
@@ -2547,19 +2548,19 @@ namespace eFormCore
         /// <summary>
         /// Returns the EntityGroup and its EntityItems
         /// </summary>
-        /// <param name="entityGroupMUId">The unique microting id of the EntityGroup</param>
-        public async Task<EntityGroup> EntityGroupRead(string entityGroupMUId)
+        /// <param name="entityGroupMuId">The unique microting id of the EntityGroup</param>
+        public async Task<EntityGroup> EntityGroupRead(string entityGroupMuId)
         {
-            if (string.IsNullOrEmpty(entityGroupMUId))
-                throw new ArgumentNullException("entityGroupMUId cannot be null or empty");
-            return await EntityGroupRead(entityGroupMUId, Constants.EntityItemSortParameters.DisplayIndex, "");
+            if (string.IsNullOrEmpty(entityGroupMuId))
+                throw new ArgumentNullException(nameof(entityGroupMuId));
+            return await EntityGroupRead(entityGroupMuId, Constants.EntityItemSortParameters.DisplayIndex, "");
         }
 
-        public async Task<EntityGroup> EntityGroupRead(string entityGroupMUId, string sort, string nameFilter)
+        public async Task<EntityGroup> EntityGroupRead(string entityGroupMuId, string sort, string nameFilter)
         {
             string methodName = t.GetMethodName("Core");
-            if (string.IsNullOrEmpty(entityGroupMUId))
-                throw new ArgumentNullException("entityGroupMUId cannot be null or empty");
+            if (string.IsNullOrEmpty(entityGroupMuId))
+                throw new ArgumentNullException(nameof(entityGroupMuId));
             try
             {
                 if (Running())
@@ -2567,7 +2568,7 @@ namespace eFormCore
                     while (_updateIsRunningEntities)
                         Thread.Sleep(200);
 
-                    return await _sqlController.EntityGroupReadSorted(entityGroupMUId, sort, nameFilter);
+                    return await _sqlController.EntityGroupReadSorted(entityGroupMuId, sort, nameFilter);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2576,7 +2577,7 @@ namespace eFormCore
             {
                 try
                 {
-                    await log.LogException(t.GetMethodName("Core"), "(string entityGroupMUId " + entityGroupMUId + ", string sort " + sort + ", string nameFilter " + nameFilter + ") failed", ex, false);
+                    await log.LogException(t.GetMethodName("Core"), "(string entityGroupMUId " + entityGroupMuId + ", string sort " + sort + ", string nameFilter " + nameFilter + ") failed", ex, false);
                 }
                 catch
                 {
