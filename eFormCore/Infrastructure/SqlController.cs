@@ -1346,7 +1346,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    var aCase = await db.cases.SingleAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
+                    var aCase = await db.cases.AsNoTracking().SingleAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
                     var mainCheckList = await db.check_lists.SingleAsync(x => x.Id == aCase.CheckListId);
 
                     ReplyElement replyElement = new ReplyElement();
@@ -1599,13 +1599,13 @@ namespace Microting.eForm.Infrastructure
                             uploaded_data uploadedData;
                             if (joinUploadedData)
                             {
-                                List<field_values> lst = db.field_values.Where(x => x.CaseId == reply.CaseId && x.FieldId == reply.FieldId).ToList();
+                                List<field_values> lst = await db.field_values.AsNoTracking().Where(x => x.CaseId == reply.CaseId && x.FieldId == reply.FieldId).ToListAsync();
 
                                 foreach (field_values fV in lst)
                                 {
                                     uploadedDataId = (int)fV.UploadedDataId;
 
-                                    uploadedData = await db.uploaded_data.SingleAsync(x => x.Id == uploadedDataId);
+                                    uploadedData = await db.uploaded_data.AsNoTracking().SingleAsync(x => x.Id == uploadedDataId);
 
                                     if (uploadedData.FileName != null)
                                         locations += uploadedData.FileLocation + uploadedData.FileName + Environment.NewLine;
@@ -1644,7 +1644,7 @@ namespace Microting.eForm.Infrastructure
                             if (reply.Value != "" || reply.Value != null)
                             {
 								int Id = int.Parse(reply.Value);
-                                entity_items match = await db.entity_items.SingleOrDefaultAsync(x => x.Id == Id);
+                                entity_items match = await db.entity_items.AsNoTracking().SingleOrDefaultAsync(x => x.Id == Id);
 
                                 if (match != null)
                                 {
@@ -2477,7 +2477,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    cases aCase = await db.cases.SingleAsync(x => x.Id == caseId);
+                    cases aCase = await db.cases.AsNoTracking().SingleAsync(x => x.Id == caseId);
                     check_lists cL = await db.check_lists.SingleAsync(x => x.Id == aCase.CheckListId);
 
                     #region string stat = aCase.workflow_state ...
@@ -2524,7 +2524,7 @@ namespace Microting.eForm.Infrastructure
 
                 using (var db = GetContext())
                 {
-                    List<cases> matches = db.cases.Where(x => x.CaseUid == caseUId).ToList();
+                    List<cases> matches = await db.cases.Where(x => x.CaseUid == caseUId).ToListAsync();
                     List<Case_Dto> lstDto = new List<Case_Dto>();
 
                     foreach (cases aCase in matches)
@@ -2552,7 +2552,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    cases match = await db.cases.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
+                    cases match = await db.cases.AsNoTracking().SingleOrDefaultAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
                     match.SiteId = db.sites.SingleOrDefaultAsync(x => x.Id == match.SiteId).Result.MicrotingUid;
 
                     if (match.UnitId != null)
@@ -2822,7 +2822,7 @@ namespace Microting.eForm.Infrastructure
 
 //                    string bla = sub_query.ToSql(db);
 //                    await log.LogStandard("SQLController", $"Query is {bla}");
-                    matches = await sub_query.ToListAsync();
+                    matches = await sub_query.AsNoTracking().ToListAsync();
                     
                     List<Case> rtrnLst = new List<Case>();
                     int numOfElements = 0;
