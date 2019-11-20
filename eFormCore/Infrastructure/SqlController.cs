@@ -1367,7 +1367,8 @@ namespace Microting.eForm.Infrastructure
                     //replyElement.StartDate
                     if (aCase.UnitId != null) replyElement.UnitId = (int) aCase.UnitId;
                     replyElement.MicrotingUId = (int)aCase.MicrotingCheckUid;
-                    if (aCase.Site.MicrotingUid != null) replyElement.SiteMicrotingUuid = (int) aCase.Site.MicrotingUid;
+                    sites site = await db.sites.SingleAsync(x => x.Id == aCase.SiteId);
+                    if (site.MicrotingUid != null) replyElement.SiteMicrotingUuid = (int) site.MicrotingUid;
                     replyElement.JasperExportEnabled = mainCheckList.JasperExportEnabled;
                     replyElement.DocxExportEnabled = mainCheckList.DocxExportEnabled;
 
@@ -2842,34 +2843,39 @@ namespace Microting.eForm.Infrastructure
                     #region cases -> Case
                     foreach (var dbCase in dbCases)
                     {
-                        Case nCase = new Case();
-                        nCase.CaseType = dbCase.Type;
-                        nCase.CaseUId = dbCase.CaseUid;
-                        nCase.CheckUIid = dbCase.MicrotingCheckUid;
-                        nCase.CreatedAt = dbCase.CreatedAt;
-                        nCase.Custom = dbCase.Custom;
-                        nCase.DoneAt = dbCase.DoneAt;
-                        nCase.Id = dbCase.Id;
-                        nCase.MicrotingUId = dbCase.MicrotingUid;
-                        nCase.SiteId = dbCase.Site.MicrotingUid;
-                        nCase.SiteName = dbCase.Site.Name;
-                        nCase.Status = dbCase.Status;
-                        nCase.TemplatId = dbCase.CheckListId;
-                        nCase.UnitId = dbCase.Unit.MicrotingUid;
-                        nCase.UpdatedAt = dbCase.UpdatedAt;
-                        nCase.Version = dbCase.Version;
-                        nCase.WorkerName = dbCase.Worker.FirstName + " " + dbCase.Worker.LastName;
-                        nCase.WorkflowState = dbCase.WorkflowState;
-                        nCase.FieldValue1 = dbCase.FieldValue1;
-                        nCase.FieldValue2 = dbCase.FieldValue2;
-                        nCase.FieldValue3 = dbCase.FieldValue3;
-                        nCase.FieldValue4 = dbCase.FieldValue4;
-                        nCase.FieldValue5 = dbCase.FieldValue5;
-                        nCase.FieldValue6 = dbCase.FieldValue6;
-                        nCase.FieldValue7 = dbCase.FieldValue7;
-                        nCase.FieldValue8 = dbCase.FieldValue8;
-                        nCase.FieldValue9 = dbCase.FieldValue9;
-                        nCase.FieldValue10 = dbCase.FieldValue10;
+                        sites site = await db.sites.SingleAsync(x => x.Id == dbCase.SiteId);
+                        units unit = await db.units.SingleAsync(x => x.Id == dbCase.UnitId);
+                        workers worker = await db.workers.SingleAsync(x => x.Id == dbCase.WorkerId);
+                        Case nCase = new Case
+                        {
+                            CaseType = dbCase.Type,
+                            CaseUId = dbCase.CaseUid,
+                            CheckUIid = dbCase.MicrotingCheckUid,
+                            CreatedAt = dbCase.CreatedAt,
+                            Custom = dbCase.Custom,
+                            DoneAt = dbCase.DoneAt,
+                            Id = dbCase.Id,
+                            MicrotingUId = dbCase.MicrotingUid,
+                            SiteId = site.MicrotingUid,
+                            SiteName = site.Name,
+                            Status = dbCase.Status,
+                            TemplatId = dbCase.CheckListId,
+                            UnitId = unit.MicrotingUid,
+                            UpdatedAt = dbCase.UpdatedAt,
+                            Version = dbCase.Version,
+                            WorkerName = worker.FirstName + " " + worker.LastName,
+                            WorkflowState = dbCase.WorkflowState,
+                            FieldValue1 = dbCase.FieldValue1,
+                            FieldValue2 = dbCase.FieldValue2,
+                            FieldValue3 = dbCase.FieldValue3,
+                            FieldValue4 = dbCase.FieldValue4,
+                            FieldValue5 = dbCase.FieldValue5,
+                            FieldValue6 = dbCase.FieldValue6,
+                            FieldValue7 = dbCase.FieldValue7,
+                            FieldValue8 = dbCase.FieldValue8,
+                            FieldValue9 = dbCase.FieldValue9,
+                            FieldValue10 = dbCase.FieldValue10
+                        };
 
                         rtrnLst.Add(nCase);
                     }
