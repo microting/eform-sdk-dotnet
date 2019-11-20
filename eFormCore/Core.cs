@@ -2093,12 +2093,12 @@ namespace eFormCore
             
             SortedDictionary<string, string> valuePairs = new SortedDictionary<string, string>();
             // get base values
-            valuePairs.Add("F_CaseName", reply.Label);
+            valuePairs.Add("F_CaseName", reply.Label.Replace("&", "&amp;"));
             valuePairs.Add("F_SerialNumber", $"{caseId}/{cDto.MicrotingUId}");
-            valuePairs.Add("F_Worker", await _sqlController.WorkerNameRead(reply.DoneById));
+            valuePairs.Add("F_Worker", _sqlController.WorkerNameRead(reply.DoneById).Result.Replace("&", "&amp;"));
             valuePairs.Add("F_CheckId", reply.MicrotingUId.ToString());
             valuePairs.Add("F_CheckDate", reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss"));
-            valuePairs.Add("F_SiteName", _sqlController.SiteRead(reply.SiteMicrotingUuid).Result.SiteName);
+            valuePairs.Add("F_SiteName", _sqlController.SiteRead(reply.SiteMicrotingUuid).Result.SiteName.Replace("&", "&amp;"));
             
             // get field_values
             List<KeyValuePair<string, string>> pictures = new List<KeyValuePair<string, string>>();
@@ -2119,7 +2119,7 @@ namespace eFormCore
                 {
                     case Constants.FieldTypes.MultiSelect:
                         valuePairs[$"F_{fieldValue.FieldId}"] =
-                            fieldValue.ValueReadable.Replace("|", @"</w:t><w:br/><w:t>");
+                            fieldValue.ValueReadable.Replace("|", @"</w:t><w:br/><w:t>").Replace("&", "&amp;");
                         break;
                     
                     case Constants.FieldTypes.Picture:
@@ -2129,8 +2129,8 @@ namespace eFormCore
                             fields field = await _sqlController.FieldReadRaw(fieldValue.FieldId);
                             check_lists checkList = await _sqlController.CheckListRead((int)field.CheckListId);
                         
-                            pictures.Add(new KeyValuePair<string, string>($"{checkList.Label} - {field.Label}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
-                            SwiftObjectGetResponse swiftObjectGetResponse = GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName).Result;
+                            pictures.Add(new KeyValuePair<string, string>($"{checkList.Label.Replace("&", "&amp;")} - {field.Label.Replace("&", "&amp;")}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
+                            SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName);
                             var fileStream =
                                 File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
                             swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
@@ -2162,9 +2162,10 @@ namespace eFormCore
                                 fieldValue.ValueReadable = fieldValue.ValueReadable.Replace("<br>", "|||");
                                 fieldValue.ValueReadable = Regex.Replace(fieldValue.ValueReadable, "<.*?>", 
                                     string.Empty);
+                                fieldValue.ValueReadable = fieldValue.ValueReadable.Replace("\t", @"</w:t><w:tab/><w:t>"); 
                                 fieldValue.ValueReadable =
                                     fieldValue.ValueReadable.Replace("|||", @"</w:t><w:br/><w:t>");
-                                valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable;
+                                valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable.Replace("&", "&amp;");;
                             }
                         }
                         break;
