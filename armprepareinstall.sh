@@ -7,10 +7,11 @@ if [ $ARCH = $ARMARCH ]; then
 	wget https://download.visualstudio.microsoft.com/download/pr/89fb60b1-3359-414e-94cf-359f57f37c7c/256e6dac8f44f9bad01f23f9a27b01ee/dotnet-sdk-3.0.101-linux-arm64.tar.gz
 	mkdir -p $HOME/dotnet
 	ls -lah
-	tar zxf dotnet-sdk-3.0.101-linux-arm64.tar.gz -C $HOME/dotnet
-	ls -lah
+	tar zxfv dotnet-sdk-3.0.101-linux-arm64.tar.gz -C $HOME/dotnet
+	ls -lah $HOME/dotnet
 	export DOTNET_ROOT=$HOME/dotnet
 	export PATH=$PATH:$HOME/dotnet
+	export $HOME=$PATH
 else
 	wget -q https://packages.microsoft.com/config/ubuntu/19.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 	sudo dpkg -i packages-microsoft-prod.deb
