@@ -9,6 +9,7 @@ if [ $ARCH = $ARMARCH ]; then
 	export DOTNET_ROOT=$HOME/dotnet
 	export PATH=$PATH:$HOME/dotnet
 else
+	sudo apt-get install -qq dotnet-sdk-3.0
 	echo "WE ARE NOT ON ARM"
 	echo $ARCH
 fi
