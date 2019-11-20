@@ -11,7 +11,7 @@ if [ $ARCH = $ARMARCH ]; then
 	ls -lah $HOME/dotnet
 	export DOTNET_ROOT=$HOME/dotnet
 	export PATH=$PATH:$HOME/dotnet
-	export $HOME=$PATH
+	export $HOME=$HOME:$HOME/dotnet
 else
 	wget -q https://packages.microsoft.com/config/ubuntu/19.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 	sudo dpkg -i packages-microsoft-prod.deb
