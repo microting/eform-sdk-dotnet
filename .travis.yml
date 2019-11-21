@@ -13,9 +13,9 @@ services:
 script:
   - ./armprepareinstall.sh
   - dotnet restore
-  - dotnet build --no-restore -c Release eFormSDK.sln
-  - dotnet test --no-restore --no-build -v n eFormSDK.Integration.Tests/eFormSDK.Integration.Tests.csproj || travis_terminate 1;
-  - dotnet test --no-restore --no-build -v n eFormSDK.Tests/eFormSDK.Tests.csproj || travis_terminate 1;
+  - dotnet build --no-restore eFormSDK.sln
+  - dotnet test --no-restore -c Release -v n eFormSDK.Integration.Tests/eFormSDK.Integration.Tests.csproj || travis_terminate 1;
+  - dotnet test --no-restore -c Release -v n eFormSDK.Tests/eFormSDK.Tests.csproj || travis_terminate 1;
   - export GITVERSION=`git describe --abbrev=0 --tags | cut -d "v" -f 2`
   - echo $GITVERSION
   - dotnet pack eFormSDK.sln -c Release -o ./artifacts -p:PackageVersion=$GITVERSION
