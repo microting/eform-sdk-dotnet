@@ -29,32 +29,26 @@ namespace eFormSDK.Integration.Tests
 
         public override async Task DoSetup()
         {
-            #region Setup SettingsTableContent
-
-//            if (sql == null)
-//            {
-//                SqlController sql = new SqlController(ConnectionString);
-//                
-//            }
-//            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-//            await sql.SettingUpdate(Settings.firstRunDone, "true");
-//            await sql.SettingUpdate(Settings.knownSitesDone, "true");
-            #endregion
-
-            sut = new Core();
-            sut.HandleCaseCreated += EventCaseCreated;
-            sut.HandleCaseRetrived += EventCaseRetrived;
-            sut.HandleCaseCompleted += EventCaseCompleted;
-            sut.HandleCaseDeleted += EventCaseDeleted;
-            sut.HandleFileDownloaded += EventFileDownloaded;
-            sut.HandleSiteActivated += EventSiteActivated;
-            await sut.StartSqlOnly(ConnectionString);
+            if (sut == null)
+            {
+                sut = new Core();
+                sut.HandleCaseCreated += EventCaseCreated;
+                sut.HandleCaseRetrived += EventCaseRetrived;
+                sut.HandleCaseCompleted += EventCaseCompleted;
+                sut.HandleCaseDeleted += EventCaseDeleted;
+                sut.HandleFileDownloaded += EventFileDownloaded;
+                sut.HandleSiteActivated += EventSiteActivated;
+                await sut.StartSqlOnly(ConnectionString);    
+            }
+            
+            testHelpers = new TestHelpers();
+            
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
-            testHelpers = new TestHelpers();
+            
             //await sut.StartLog(new CoreBase());
         }
 
@@ -2055,14 +2049,6 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Fields
-            #region field1
-
-
-            fields f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
-                0, 0, "", 49);
-
-            #endregion
 
             #region field2
 
@@ -2074,33 +2060,6 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            #region field3
-
-            fields f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, dbContext.field_types.Where(x => x.FieldType == "number").First(), 0, 0, 1, 0,
-                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field4
-
-
-            fields f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0,
-                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field5
-
-            fields f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
             #endregion
 
             #region Worker
@@ -2187,51 +2146,6 @@ namespace eFormSDK.Integration.Tests
             #region ud1
             uploaded_data ud1 = await testHelpers.CreateUploadedData("", "File.jpg", "jpg", path + folderPath, "File.jpg", 1, worker,
             Constants.UploaderTypes.System, 55, true);
-            #endregion
-
-            #region ud2
-            uploaded_data ud2 = await testHelpers.CreateUploadedData("checksum2", "File1", "no", "hjgjghjhg", "File2", 1, worker,
-                "local", 55, false);
-            #endregion
-
-            #region ud3
-            uploaded_data ud3 = await testHelpers.CreateUploadedData("checksum3", "File1", "no", "hjgjghjhg", "File3", 1, worker,
-                "local", 55, false);
-            #endregion
-
-            #region ud4
-            uploaded_data ud4 = await testHelpers.CreateUploadedData("checksum4", "File1", "no", "hjgjghjhg", "File4", 1, worker,
-                "local", 55, false);
-            #endregion
-
-            #region ud5
-            uploaded_data ud5 = await testHelpers.CreateUploadedData("checksum5", "File1", "no", "hjgjghjhg", "File5", 1, worker,
-                "local", 55, false);
-            #endregion
-
-            #region ud6
-            uploaded_data ud6 = await testHelpers.CreateUploadedData("checksum6", "File1", "no", "hjgjghjhg", "File6", 1, worker,
-                "local", 55, false);
-            #endregion
-
-            #region ud7
-            uploaded_data ud7 = await testHelpers.CreateUploadedData("checksum7", "File1", "no", "hjgjghjhg", "File7", 1, worker,
-                "local", 55, false);
-            #endregion
-
-            #region ud8
-            uploaded_data ud8 = await testHelpers.CreateUploadedData("checksum8", "File1", "no", "hjgjghjhg", "File8", 1, worker,
-                "local", 55, false);
-            #endregion
-
-            #region ud9
-            uploaded_data ud9 = await testHelpers.CreateUploadedData("checksum9", "File1", "no", "hjgjghjhg", "File9", 1, worker,
-                "local", 55, false);
-            #endregion
-
-            #region ud10
-            uploaded_data ud10 = await testHelpers.CreateUploadedData("checksum10", "File1", "no", "hjgjghjhg", "File10", 1, worker,
-                "local", 55, false);
             #endregion
 
             #endregion

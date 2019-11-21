@@ -21,22 +21,18 @@ namespace eFormSDK.Integration.Tests
 
         public override async Task DoSetup()
         {
-            #region Setup SettingsTableContent
 
-            SqlController sql = new SqlController(ConnectionString);
-            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            await sql.SettingUpdate(Settings.firstRunDone, "true");
-            await sql.SettingUpdate(Settings.knownSitesDone, "true");
-            #endregion
-
-            sut = new Core();
-            sut.HandleCaseCreated += EventCaseCreated;
-            sut.HandleCaseRetrived += EventCaseRetrived;
-            sut.HandleCaseCompleted += EventCaseCompleted;
-            sut.HandleCaseDeleted += EventCaseDeleted;
-            sut.HandleFileDownloaded += EventFileDownloaded;
-            sut.HandleSiteActivated += EventSiteActivated;
-            await sut.StartSqlOnly(ConnectionString);
+            if (sut == null)
+            {
+                sut = new Core();
+                sut.HandleCaseCreated += EventCaseCreated;
+                sut.HandleCaseRetrived += EventCaseRetrived;
+                sut.HandleCaseCompleted += EventCaseCompleted;
+                sut.HandleCaseDeleted += EventCaseDeleted;
+                sut.HandleFileDownloaded += EventFileDownloaded;
+                sut.HandleSiteActivated += EventSiteActivated;
+                await sut.StartSqlOnly(ConnectionString);
+            }
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));

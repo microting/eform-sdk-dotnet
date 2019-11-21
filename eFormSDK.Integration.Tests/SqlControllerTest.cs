@@ -26,8 +26,11 @@ namespace eFormSDK.Integration.Tests
 
         public override async Task DoSetup()
         {
-            sut = new SqlController(ConnectionString);
-            await sut.StartLog(new CoreBase());
+            if (sut == null)
+            {
+                sut = new SqlController(ConnectionString);
+                await sut.StartLog(new CoreBase());
+            }
             testHelpers = new TestHelpers();
             await sut.SettingUpdate(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SettingUpdate(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
