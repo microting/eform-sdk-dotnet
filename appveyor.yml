@@ -8,4 +8,5 @@ shallow_clone: true                 # default is "false"
 services:
   - mssql2017
 
-
+before_build:
+- appveyor-retry dotnet restore
