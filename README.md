@@ -5,6 +5,7 @@
 [![Build Status on Linux](https://travis-ci.org/microting/eform-sdk-dotnet.svg?branch=master)](https://travis-ci.org/microting/eform-sdk-dotnet)
 [![NuGet Badge](https://buildstats.info/nuget/Microting.eForm)](https://www.nuget.org/packages/Microting.eForm/)
 [![Maintainability](https://api.codeclimate.com/v1/badges/72013d4897452b0e305c/maintainability)](https://codeclimate.com/github/microting/eform-sdk-dotnet/maintainability)
+[![Build status](https://ci.appveyor.com/api/projects/status/usplqirepkrwrw0t/branch/master?svg=true)](https://ci.appveyor.com/project/renemadsen/eform-sdk-dotnet/branch/master)
 
 A .NET SDK for integrating with the Microting eForm API v1.
 

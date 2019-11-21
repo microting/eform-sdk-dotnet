@@ -1,0 +1,11 @@
+skip_tags: true
+
+image: Visual Studio 2017
+
+shallow_clone: true                 # default is "false"
+
+# enable service required for build/tests
+services:
+  - mssql2014           # start SQL Server 2014 Express
+
+
