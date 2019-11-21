@@ -17,6 +17,7 @@ namespace eFormSDK.Integration.Tests
 
         protected MicrotingDbAnySql dbContext;
         protected string ConnectionString;
+        protected bool firstRunDone = false;
 
         private MicrotingDbAnySql GetContext(string connectionStr)
         {
@@ -64,16 +65,23 @@ namespace eFormSDK.Integration.Tests
             catch
             {
             }
-            try
+
+            if (!firstRunDone)
             {
-                Core core = new Core();
-                await core.StartSqlOnly(ConnectionString);
-                await core.Close();
-            } catch
-            {
-                AdminTools adminTools = new AdminTools(ConnectionString);
-                await adminTools.DbSetup("abc1234567890abc1234567890abcdef");
+                try
+                {
+                    Core core = new Core();
+                    await core.StartSqlOnly(ConnectionString);
+                    await core.Close();
+                } catch
+                {
+                    AdminTools adminTools = new AdminTools(ConnectionString);
+                    await adminTools.DbSetup("abc1234567890abc1234567890abcdef");
+                }
+
+                firstRunDone = true;
             }
+            
 
             await DoSetup();
             Console.WriteLine($"End Setup {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
@@ -172,7 +180,10 @@ namespace eFormSDK.Integration.Tests
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    if (!ex.Message.Contains("Unknown database"))
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                 }
             }
             Console.WriteLine($"End ClearDb {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");

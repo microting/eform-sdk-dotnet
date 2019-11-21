@@ -65,7 +65,7 @@ namespace Microting.eForm.Infrastructure
             #region migrate if needed
             try
             {
-                if (migrated)
+                if (!migrated)
                 {
                     using (var db = GetContext())
                     {

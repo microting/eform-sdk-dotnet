@@ -395,20 +395,20 @@ namespace eFormCore
             {
                 if (_coreAvailable && !_coreStatChanging)
                 {
-                    lock (_lockMain) //Will let sending Cases sending finish, before closing
-                    {
+//                    lock (_lockMain) //Will let sending Cases sending finish, before closing
+//                    {
                         _coreStatChanging = true;
 
                         _coreAvailable = false;
-                        log.LogCritical(t.GetMethodName("Core"), "called").RunSynchronously();
+                        await log.LogCritical("Core.Close", "called");
 
                         try
                         {
                             if (_subscriber != null)
                             {
-                                log.LogEverything(t.GetMethodName("Core"), "Subscriber requested to close connection").RunSynchronously();
-                                _subscriber.Close().RunSynchronously();
-                                log.LogEverything(t.GetMethodName("Core"), "Subscriber closed").RunSynchronously();
+                                await log.LogEverything("Core.Close", "Subscriber requested to close connection");
+                                await _subscriber.Close();
+                                await log.LogEverything("Core.Close", "Subscriber closed");
                                 _bus.Advanced.Workers.SetNumberOfWorkers(0);
                                 _bus.Dispose();
                                 _coreThreadRunning = false;
@@ -416,7 +416,7 @@ namespace eFormCore
                         }
                         catch (Exception ex)
                         {
-                            log.LogException(t.GetMethodName("Core"), "Subscriber failed to close", ex, false).RunSynchronously();
+                            await log.LogException("Core.Close", "Subscriber failed to close", ex, false);
                         }
 
                         int tries = 0;
@@ -426,12 +426,12 @@ namespace eFormCore
                             tries++;
 
                             if (tries > 600)
-                                FatalExpection("Failed to close Core correct after 60 secs", new Exception()).RunSynchronously();
+                                await FatalExpection("Failed to close Core correct after 60 secs", new Exception());
                         }
 
                         _updateIsRunningEntities = false;
 
-                        log.LogStandard(t.GetMethodName("Core"), "Core closed").RunSynchronously();
+                        await log.LogStandard("Core.Close", "Core closed");
                         _subscriber = null;
                         _communicator = null;
                         _sqlController = null;
@@ -439,7 +439,7 @@ namespace eFormCore
 
                         _coreStatChanging = false;
                     }
-                }
+//                }
             }
             catch (ThreadAbortException)
             {
@@ -448,7 +448,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                FatalExpection(t.GetMethodName("Core") + " failed. Core failed to close", ex).RunSynchronously();
+                await FatalExpection("Core.Close failed. Core failed to close", ex);
             }
             return true;
         }
