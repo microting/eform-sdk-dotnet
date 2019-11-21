@@ -63,14 +63,14 @@ namespace eFormSDK.Tests
         public async Task Setup()
         {
 
-//            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-//            {
-//                ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
-//            }
-//            else
-//            {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                ConnectionString = @"data source=(Local)\SQL2017;Initial catalog=eformsdk-tests;User ID=sa;Password=Password12!";
+            }
+            else
+            {
                 ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
-//            }
+            }
 
             dbContext = GetContext(ConnectionString);
 
