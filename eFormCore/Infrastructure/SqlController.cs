@@ -1450,7 +1450,8 @@ namespace Microting.eForm.Infrastructure
                                     DisplayOrder = (int)field.DisplayIndex,
                                     Value = field.DefaultValue,
                                     DataItemList = dataItemSubList,
-                                    OriginalId = field.OriginalId
+                                    OriginalId = field.OriginalId,
+                                    FieldType = "FieldContainer"
                                 };
                                 dataItemList.Add(fC);
                             }
