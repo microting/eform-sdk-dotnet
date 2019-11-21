@@ -422,8 +422,8 @@ namespace Microting.eForm.Communication
         #region public unit      
         public async Task<int> UnitRequestOtp(int microtingUid)
         {
-            await log.LogEverything("Communicator.", "called");
-            await log.LogVariable("Communicator.", nameof(microtingUid), microtingUid);
+            await log.LogEverything("Communicator.UnitRequestOtp", "called");
+            await log.LogVariable("Communicator.UnitRequestOtp", nameof(microtingUid), microtingUid);
 
             return await http.UnitRequestOtp(microtingUid);
         }
@@ -590,10 +590,10 @@ namespace Microting.eForm.Communication
         #region public entity
         public async Task<string> EntityGroupCreate(string entityType, string name, string id)
         {
-            await log.LogEverything("Communicator.", "called");
-            await log.LogVariable("Communicator.", nameof(entityType), entityType);
-            await log.LogVariable("Communicator.", nameof(name), name);
-            await log.LogVariable("Communicator.", nameof(id), id);
+            await log.LogEverything("Communicator.EntityGroupCreate", "called");
+            await log.LogVariable("Communicator.EntityGroupCreate", nameof(entityType), entityType);
+            await log.LogVariable("Communicator.EntityGroupCreate", nameof(name), name);
+            await log.LogVariable("Communicator.EntityGroupCreate", nameof(id), id);
 
             try
             {
@@ -627,11 +627,11 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> EntityGroupUpdate(string entityType, string name, int id, string entityGroupMUId)
         {
-            await log.LogEverything("Communicator.", "called");
-            await log.LogVariable("Communicator.", nameof(entityType), entityType);
-            await log.LogVariable("Communicator.", nameof(name), name);
-            await log.LogVariable("Communicator.", nameof(id), id);
-            await log.LogVariable("Communicator.", nameof(entityGroupMUId), entityGroupMUId);
+            await log.LogEverything("Communicator.EntityGroupUpdate", "called");
+            await log.LogVariable("Communicator.EntityGroupUpdate", nameof(entityType), entityType);
+            await log.LogVariable("Communicator.EntityGroupUpdate", nameof(name), name);
+            await log.LogVariable("Communicator.EntityGroupUpdate", nameof(id), id);
+            await log.LogVariable("Communicator.EntityGroupUpdate", nameof(entityGroupMUId), entityGroupMUId);
 
             try
             {
@@ -661,9 +661,9 @@ namespace Microting.eForm.Communication
 
         public async Task EntityGroupDelete(string entityType, string entityGroupId)
         {
-            await log.LogEverything("Communicator.", "called");
-            await log.LogVariable("Communicator.", nameof(entityType), entityType);
-            await log.LogVariable("Communicator.", nameof(entityGroupId), entityGroupId);
+            await log.LogEverything("Communicator.EntityGroupDelete", "called");
+            await log.LogVariable("Communicator.EntityGroupDelete", nameof(entityType), entityType);
+            await log.LogVariable("Communicator.EntityGroupDelete", nameof(entityGroupId), entityGroupId);
 
             try
             {
@@ -695,11 +695,11 @@ namespace Microting.eForm.Communication
 
         public async Task<string> EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id)
         {
-            await log.LogEverything("Communicator.", "called");
-            await log.LogVariable("Communicator.", nameof(entitySearchGroupId), entitySearchGroupId);
-            await log.LogVariable("Communicator.", nameof(name), name);
-            await log.LogVariable("Communicator.", nameof(id), id);
-            await log.LogVariable("Communicator.", nameof(description), description);
+            await log.LogEverything("Communicator.EntitySearchItemCreate", "called");
+            await log.LogVariable("Communicator.EntitySearchItemCreate", nameof(entitySearchGroupId), entitySearchGroupId);
+            await log.LogVariable("Communicator.EntitySearchItemCreate", nameof(name), name);
+            await log.LogVariable("Communicator.EntitySearchItemCreate", nameof(id), id);
+            await log.LogVariable("Communicator.EntitySearchItemCreate", nameof(description), description);
 
             try
             {
@@ -713,12 +713,12 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
         {
-            await log.LogEverything("Communicator.", "called");
-            await log.LogVariable("Communicator.", nameof(entitySearchGroupId), entitySearchGroupId);
-            await log.LogVariable("Communicator.", nameof(entitySearchItemId), entitySearchItemId);
-            await log.LogVariable("Communicator.", nameof(name), name);
-            await log.LogVariable("Communicator.", nameof(id), id);
-            await log.LogVariable("Communicator.", nameof(description), description);
+            await log.LogEverything("Communicator.EntitySearchItemUpdate", "called");
+            await log.LogVariable("Communicator.EntitySearchItemUpdate", nameof(entitySearchGroupId), entitySearchGroupId);
+            await log.LogVariable("Communicator.EntitySearchItemUpdate", nameof(entitySearchItemId), entitySearchItemId);
+            await log.LogVariable("Communicator.EntitySearchItemUpdate", nameof(name), name);
+            await log.LogVariable("Communicator.EntitySearchItemUpdate", nameof(id), id);
+            await log.LogVariable("Communicator.EntitySearchItemUpdate", nameof(description), description);
 
             //try
             //{
@@ -732,8 +732,8 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> EntitySearchItemDelete(string entitySearchItemId)
         {
-            await log.LogEverything("Communicator.", "called");
-            await log.LogVariable("Communicator.", nameof(entitySearchItemId), entitySearchItemId);
+            await log.LogEverything("Communicator.EntitySearchItemDelete", "called");
+            await log.LogVariable("Communicator.EntitySearchItemDelete", nameof(entitySearchItemId), entitySearchItemId);
 
             try
             {
@@ -749,11 +749,11 @@ namespace Microting.eForm.Communication
 
         public async Task<string> EntitySelectItemCreate(string entitySearchGroupId, string name, int displayOrder, string ownUUID)
         {
-            await log.LogEverything("Communicator.", "called");
-            await log.LogVariable("Communicator.", nameof(entitySearchGroupId), entitySearchGroupId);
-            await log.LogVariable("Communicator.", nameof(name), name);
-            await log.LogVariable("Communicator.", nameof(displayOrder), displayOrder);
-            await log.LogVariable("Communicator.", nameof(ownUUID), ownUUID);
+            await log.LogEverything("Communicator.EntitySelectItemCreate", "called");
+            await log.LogVariable("Communicator.EntitySelectItemCreate", nameof(entitySearchGroupId), entitySearchGroupId);
+            await log.LogVariable("Communicator.EntitySelectItemCreate", nameof(name), name);
+            await log.LogVariable("Communicator.EntitySelectItemCreate", nameof(displayOrder), displayOrder);
+            await log.LogVariable("Communicator.EntitySelectItemCreate", nameof(ownUUID), ownUUID);
 
             try
             {
@@ -767,12 +767,12 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> EntitySelectItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, int displayOrder, string ownUUID)
         {
-            await log.LogEverything("Communicator.", "called");
-            await log.LogVariable("Communicator.", nameof(entitySearchGroupId), entitySearchGroupId);
-            await log.LogVariable("Communicator.", nameof(entitySearchItemId), entitySearchItemId);
-            await log.LogVariable("Communicator.", nameof(name), name);
-            await log.LogVariable("Communicator.", nameof(displayOrder), displayOrder);
-            await log.LogVariable("Communicator.", nameof(ownUUID), ownUUID);
+            await log.LogEverything("Communicator.EntitySelectItemUpdate", "called");
+            await log.LogVariable("Communicator.EntitySelectItemUpdate", nameof(entitySearchGroupId), entitySearchGroupId);
+            await log.LogVariable("Communicator.EntitySelectItemUpdate", nameof(entitySearchItemId), entitySearchItemId);
+            await log.LogVariable("Communicator.EntitySelectItemUpdate", nameof(name), name);
+            await log.LogVariable("Communicator.EntitySelectItemUpdate", nameof(displayOrder), displayOrder);
+            await log.LogVariable("Communicator.EntitySelectItemUpdate", nameof(ownUUID), ownUUID);
 
             //try
             //{
@@ -786,8 +786,8 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> EntitySelectItemDelete(string entitySearchItemId)
         {
-            await log.LogEverything("Communicator.", "called");
-            await log.LogVariable("Communicator.", nameof(entitySearchItemId), entitySearchItemId);
+            await log.LogEverything("Communicator.EntitySelectItemDelete", "called");
+            await log.LogVariable("Communicator.EntitySelectItemDelete", nameof(entitySearchItemId), entitySearchItemId);
 
             try
             {
@@ -803,9 +803,9 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> PdfUpload(string localPath, string hash)
         {
-            await log.LogEverything("Communicator.", "called");
-            await log.LogVariable("Communicator.", nameof(localPath), localPath);
-            await log.LogVariable("Communicator.", nameof(hash), hash);
+            await log.LogEverything("Communicator.PdfUpload", "called");
+            await log.LogVariable("Communicator.PdfUpload", nameof(localPath), localPath);
+            await log.LogVariable("Communicator.PdfUpload", nameof(hash), hash);
 
             try
             {
@@ -813,16 +813,16 @@ namespace Microting.eForm.Communication
             }
             catch (Exception ex)
             {
-                throw new Exception("Communicator." + " failed", ex);
+                throw new Exception("Communicator.PdfUpload" + " failed", ex);
             }
         }
 
         public async Task<string> TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex)
         {
-            await log.LogEverything("Communicator.", "called");
-            await log.LogVariable("Communicator.", nameof(microtingUId), microtingUId);
-            await log.LogVariable("Communicator.", nameof(siteId), siteId);
-            await log.LogVariable("Communicator.", nameof(newDisplayIndex), newDisplayIndex);
+            await log.LogEverything("Communicator.TemplateDisplayIndexChange", "called");
+            await log.LogVariable("Communicator.TemplateDisplayIndexChange", nameof(microtingUId), microtingUId);
+            await log.LogVariable("Communicator.TemplateDisplayIndexChange", nameof(siteId), siteId);
+            await log.LogVariable("Communicator.TemplateDisplayIndexChange", nameof(newDisplayIndex), newDisplayIndex);
 
             try
             {
@@ -830,7 +830,7 @@ namespace Microting.eForm.Communication
             }
             catch (Exception ex)
             {
-                throw new Exception("Communicator." + " failed", ex);
+                throw new Exception("Communicator.TemplateDisplayIndexChange" + " failed", ex);
             }
         }
         #endregion
@@ -838,8 +838,8 @@ namespace Microting.eForm.Communication
         #region public speechToText
         public async Task<int> SpeechToText(string pathToAudioFile)
         {
-            await log.LogEverything("Communicator.", "called");
-            await log.LogVariable("Communicator.", nameof(pathToAudioFile), pathToAudioFile);
+            await log.LogEverything("Communicator.SpeechToText", "called");
+            await log.LogVariable("Communicator.SpeechToText", nameof(pathToAudioFile), pathToAudioFile);
 
             try
             {
@@ -847,14 +847,14 @@ namespace Microting.eForm.Communication
             }
             catch (Exception ex)
             {
-                throw new Exception("Communicator." + " failed", ex);
+                throw new Exception("Communicator.SpeechToText" + " failed", ex);
             }
         }
 
         public async Task<JToken> SpeechToText(int requestId)
         {
-            await log.LogEverything("Communicator.", "called");
-            await log.LogVariable("Communicator.", nameof(requestId), requestId);
+            await log.LogEverything("Communicator.SpeechToText", "called");
+            await log.LogVariable("Communicator.SpeechToText", nameof(requestId), requestId);
 
             try
             {
@@ -862,7 +862,7 @@ namespace Microting.eForm.Communication
             }
             catch (Exception ex)
             {
-                throw new Exception("Communicator." + " failed", ex);
+                throw new Exception("Communicator.SpeechToText" + " failed", ex);
             }
         }
         #endregion

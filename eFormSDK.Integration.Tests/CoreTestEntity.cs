@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
@@ -1758,7 +1759,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             await sut.EntitySearchItemCreate(eG1.Id, "Jon Doe", "", "");
 
-            List<entity_items> items = dbContext.entity_items.ToList();
+            List<entity_items> items = dbContext.entity_items.AsNoTracking().ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());
@@ -1773,7 +1774,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             await sut.EntityItemDelete(et.Id);
-            List<entity_items> items = dbContext.entity_items.ToList();
+            List<entity_items> items = dbContext.entity_items.AsNoTracking().ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());
@@ -1789,7 +1790,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             EntityItem result_item = await sut.EntitySearchItemCreate(eG1.Id, "Jon Doe", "", "");
-            List<entity_items> items = dbContext.entity_items.ToList();
+            List<entity_items> items = dbContext.entity_items.AsNoTracking().ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());
@@ -1806,7 +1807,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             await sut.EntitySelectItemCreate(eG1.Id, "Jon Doe", 0, "");
 
-            List<entity_items> items = dbContext.entity_items.ToList();
+            List<entity_items> items = dbContext.entity_items.AsNoTracking().ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());
@@ -1821,7 +1822,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             await sut.EntityItemDelete(et.Id);
-            List<entity_items> items = dbContext.entity_items.ToList();
+            List<entity_items> items = dbContext.entity_items.AsNoTracking().ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());
@@ -1837,7 +1838,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             EntityItem result_item = await sut.EntitySelectItemCreate(eG1.Id, "Jon Doe", 0, "");
-            List<entity_items> items = dbContext.entity_items.ToList();
+            List<entity_items> items = dbContext.entity_items.AsNoTracking().ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());
