@@ -10,6 +10,7 @@ if [ $ARCH = $ARMARCH ]; then
 	sudo ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
 	echo $HOME
 	echo $PATH
+	ls -lah /usr/share/dotnet
 else
 	wget -q https://packages.microsoft.com/config/ubuntu/19.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 	sudo dpkg -i packages-microsoft-prod.deb
