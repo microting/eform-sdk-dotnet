@@ -31,10 +31,14 @@ namespace eFormSDK.Integration.Tests
         {
             #region Setup SettingsTableContent
 
-            SqlController sql = new SqlController(ConnectionString);
-            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            await sql.SettingUpdate(Settings.firstRunDone, "true");
-            await sql.SettingUpdate(Settings.knownSitesDone, "true");
+//            if (sql == null)
+//            {
+//                SqlController sql = new SqlController(ConnectionString);
+//                
+//            }
+//            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+//            await sql.SettingUpdate(Settings.firstRunDone, "true");
+//            await sql.SettingUpdate(Settings.knownSitesDone, "true");
             #endregion
 
             sut = new Core();

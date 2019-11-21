@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,7 @@ namespace eFormSDK.Integration.Tests
         [SetUp]
         public async Task Setup()
         {
+            Console.WriteLine($"Starting Setup {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -48,10 +50,12 @@ namespace eFormSDK.Integration.Tests
                 ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
             }
 
-            dbContext = GetContext(ConnectionString);
+            if (dbContext == null)
+            {
+                dbContext = GetContext(ConnectionString);
+                dbContext.Database.SetCommandTimeout(300);
+            }
 
-
-            dbContext.Database.SetCommandTimeout(300);
 
             try
             {
@@ -72,21 +76,25 @@ namespace eFormSDK.Integration.Tests
             }
 
             await DoSetup();
+            Console.WriteLine($"End Setup {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
+
         }
       
         [TearDown]
-        public async Task TearDown()
+        public void TearDown()
         {
+            Console.WriteLine($"Starting TearDown {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
 
-            await ClearDb();
+//            await ClearDb();
 
             ClearFile();
+            Console.WriteLine($"End TearDown {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
 
-            dbContext.Dispose();
         }
 
         private async Task ClearDb()
         {
+            Console.WriteLine($"Starting ClearDb {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
 
             List<string> modelNames = new List<string>();
             modelNames.Add("case_versions");
@@ -115,8 +123,8 @@ namespace eFormSDK.Integration.Tests
             modelNames.Add("logs");
             modelNames.Add("notification_versions");
             modelNames.Add("notifications");
-            modelNames.Add("setting_versions");
-            modelNames.Add("settings");
+//            modelNames.Add("setting_versions");
+//            modelNames.Add("settings");
             modelNames.Add("unit_versions");
             modelNames.Add("units");
             modelNames.Add("site_worker_versions");
@@ -167,11 +175,15 @@ namespace eFormSDK.Integration.Tests
                     Console.WriteLine(ex.Message);
                 }
             }
+            Console.WriteLine($"End ClearDb {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
+
         }
         private string path;
 
         private void ClearFile()
         {
+            Console.WriteLine($"Starting ClearFile {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
+
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
 
@@ -198,6 +210,7 @@ namespace eFormSDK.Integration.Tests
             }
             catch { }
 
+            Console.WriteLine($"End ClearFile {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
 
         }
 #pragma warning disable 1998

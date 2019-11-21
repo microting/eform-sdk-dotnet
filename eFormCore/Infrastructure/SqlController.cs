@@ -24,6 +24,7 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -53,6 +54,7 @@ namespace Microting.eForm.Infrastructure
         private List<Holder> converter = null;
         private readonly bool isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         private int logLimit = 0;
+        private bool migrated = false;
         #endregion
 
         #region con
@@ -63,15 +65,21 @@ namespace Microting.eForm.Infrastructure
             #region migrate if needed
             try
             {
-                using (var db = GetContext())
+                if (migrated)
                 {
-                    WriteDebugConsoleLogEntry(new LogEntry(2, "SqlController.SqlController", "db.Database.Migrate() called"));
-                    db.Database.Migrate();
-                    
-                    WriteDebugConsoleLogEntry(new LogEntry(2, "SqlController.SqlController", "db.Database.EnsureCreated() called"));
-                    db.Database.EnsureCreated();
+                    using (var db = GetContext())
+                    {
+                        WriteDebugConsoleLogEntry(new LogEntry(2, "SqlController.SqlController",
+                            $"db.Database.Migrate() called {DateTime.Now.ToString(CultureInfo.CurrentCulture)}"));
+                        db.Database.Migrate();
 
-                   var match = db.settings.Count();
+                        WriteDebugConsoleLogEntry(new LogEntry(2, "SqlController.SqlController",
+                            $"db.Database.EnsureCreated() called {DateTime.Now.ToString(CultureInfo.CurrentCulture)}"));
+                        db.Database.EnsureCreated();
+
+//                        var match = db.settings.Count();
+                        migrated = true;
+                    }
                 }
             }
             catch (Exception ex)

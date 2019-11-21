@@ -228,15 +228,15 @@ namespace eFormCore
                     if (log == null)
                         log = await _sqlController.StartLog(this);
 
-                    await log.LogCritical(t.GetMethodName("Core"), "###########################################################################");
-                    await log.LogCritical(t.GetMethodName("Core"), "called");
-                    await log.LogStandard(t.GetMethodName("Core"), "SqlController and Logger started");
+                    await log.LogCritical("Core.StartSqlOnly", "###########################################################################");
+                    await log.LogCritical("Core.StartSqlOnly", "called");
+                    await log.LogStandard("Core.StartSqlOnly", "SqlController and Logger started");
 
                     //settings read
                     this._connectionString = connectionString;
                     _fileLocationPicture = await _sqlController.SettingRead(Settings.fileLocationPicture);
                     _fileLocationPdf = await _sqlController.SettingRead(Settings.fileLocationPdf);
-                    await log.LogStandard(t.GetMethodName("Core"), "Settings read");
+                    await log.LogStandard("Core.StartSqlOnly", "Settings read");
 
                     //communicators
                     string token = await _sqlController.SettingRead(Settings.token);
@@ -294,7 +294,7 @@ namespace eFormCore
 				        }
 				        catch (Exception ex)
 				        {
-				            await log.LogWarning(t.GetMethodName("Core"), ex.Message);
+				            await log.LogWarning("Core.StartSqlOnly", ex.Message);
 				        }
 				        
 				        
@@ -314,9 +314,9 @@ namespace eFormCore
 
 
 
-                    await log.LogStandard(t.GetMethodName("Core"), "Communicator started");
+                    await log.LogStandard("Core.StartSqlOnly", "Communicator started");
 
-                    await log.LogCritical(t.GetMethodName("Core"), "started");
+                    await log.LogCritical("Core.StartSqlOnly", "started");
                     _coreAvailable = true;
                     _coreStatChanging = false;
                 }
@@ -327,7 +327,7 @@ namespace eFormCore
                 _coreThreadRunning = false;
                 _coreStatChanging = false;
 
-                await FatalExpection(t.GetMethodName("Core") + " failed", ex);
+                await FatalExpection("Core.StartSqlOnly failed", ex);
                 return false;
             }
             #endregion
@@ -1962,15 +1962,15 @@ namespace eFormCore
         
         public async Task<string> GetSdkSetting(Settings settingName)
         {
-            string methodName = t.GetMethodName("Core");
-            await log.LogStandard(t.GetMethodName("Core"), "called");
+//            string methodName = t.GetMethodName("Core");
+            await log.LogStandard("Core.GetSdkSetting", "called");
             try
             {
                 return await _sqlController.SettingRead(settingName);
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException("Core.GetSdkSetting", "failed", ex, false);
                 return "N/A";
             }
         }
@@ -1982,8 +1982,8 @@ namespace eFormCore
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(settingValue), settingValue);
+                    await log.LogStandard("Core.SetSdkSetting", "called");
+                    await log.LogVariable("Core.SetSdkSetting", nameof(settingValue), settingValue);
 
                     await _sqlController.SettingUpdate(settingName, settingValue);
                     return true;
@@ -1993,7 +1993,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException("Core.SetSdkSetting", "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3081,9 +3081,9 @@ namespace eFormCore
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(newDisplayIndex), newDisplayIndex);
+                    await log.LogStandard("Core.Advanced_TemplateDisplayIndexChangeDb", "called");
+                    await log.LogVariable("Core.Advanced_TemplateDisplayIndexChangeDb", nameof(templateId), templateId);
+                    await log.LogVariable("Core.Advanced_TemplateDisplayIndexChangeDb", nameof(newDisplayIndex), newDisplayIndex);
 
                     return await _sqlController.TemplateDisplayIndexChange(templateId, newDisplayIndex);
                 }
@@ -3092,7 +3092,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException("Core.Advanced_TemplateDisplayIndexChangeDb", "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }

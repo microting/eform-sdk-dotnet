@@ -24,11 +24,13 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using eFormCore;
 using Microsoft.EntityFrameworkCore;
+using Microting.eForm;
 using Microting.eForm.Infrastructure;
 using NUnit.Framework;
 
@@ -62,6 +64,7 @@ namespace eFormSDK.Tests
         [SetUp]
         public async Task Setup()
         {
+            Console.WriteLine($"Starting Setup {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -72,14 +75,16 @@ namespace eFormSDK.Tests
                 ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
             }
 
-            dbContext = GetContext(ConnectionString);
+            if (dbContext == null)
+            {
+                dbContext = GetContext(ConnectionString);
+                dbContext.Database.SetCommandTimeout(300);
+            }
 
-
-            dbContext.Database.SetCommandTimeout(300);
 
             try
             {
-                ClearDb();
+                await ClearDb();
             }
             catch
             {
@@ -95,22 +100,26 @@ namespace eFormSDK.Tests
                 await adminTools.DbSetup("abc1234567890abc1234567890abcdef");
             }
 
-            DoSetup();
+            await DoSetup();
+            Console.WriteLine($"End Setup {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
+
         }
       
         [TearDown]
-        public async Task TearDown()
+        public void TearDown()
         {
-            await Task.Run(() => {
-                ClearDb();
-                ClearFile();
-                dbContext.Dispose();
-            });
+            Console.WriteLine($"Starting TearDown {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
+
+//            await ClearDb();
+
+            ClearFile();
+            Console.WriteLine($"End TearDown {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
+
         }
 
-        public void ClearDb()
+        private async Task ClearDb()
         {
-
+            Console.WriteLine($"Starting CleanDb {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
             List<string> modelNames = new List<string>();
             modelNames.Add("case_versions");
             modelNames.Add("cases");
@@ -138,8 +147,8 @@ namespace eFormSDK.Tests
             modelNames.Add("logs");
             modelNames.Add("notification_versions");
             modelNames.Add("notifications");
-            modelNames.Add("setting_versions");
-            modelNames.Add("settings");
+//            modelNames.Add("setting_versions");
+//            modelNames.Add("settings");
             modelNames.Add("unit_versions");
             modelNames.Add("units");
             modelNames.Add("site_worker_versions");
@@ -182,7 +191,7 @@ namespace eFormSDK.Tests
                         sqlCmd = $"DELETE FROM [{modelName}]";
                     }
 #pragma warning disable EF1000 // Possible SQL injection vulnerability.
-                    dbContext.Database.ExecuteSqlRaw(sqlCmd);
+                    await dbContext.Database.ExecuteSqlRawAsync(sqlCmd);
 #pragma warning restore EF1000 // Possible SQL injection vulnerability.
                 }
                 catch (Exception ex)
@@ -190,11 +199,15 @@ namespace eFormSDK.Tests
                     Console.WriteLine(ex.Message);
                 }
             }
+            
+            Console.WriteLine($"Done CleanDb {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
         }
         private string path;
 
-        public void ClearFile()
+        private void ClearFile()
         {
+            
+            Console.WriteLine($"Starting ClearFile {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
 
@@ -222,8 +235,11 @@ namespace eFormSDK.Tests
             catch { }
 
 
+            Console.WriteLine($"End ClearFile {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
         }
-        public virtual void DoSetup() { }
+#pragma warning disable 1998
+        public virtual async Task DoSetup() { }
+#pragma warning restore 1998
 
     }
 }
