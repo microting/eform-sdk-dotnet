@@ -6,6 +6,6 @@ shallow_clone: true                 # default is "false"
 
 # enable service required for build/tests
 services:
-  - mssql2014           # start SQL Server 2014 Express
+  - mssql2017
 
 
