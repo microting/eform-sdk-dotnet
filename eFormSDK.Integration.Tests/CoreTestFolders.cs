@@ -89,7 +89,7 @@ namespace eFormSDK.Integration.Tests
             
             await sut.FolderCreate(folderName, folderDescription, null);
 
-            int firstFolderId = dbContext.folders.First().Id;
+            int firstFolderId = dbContext.folders.AsNoTracking().First().Id;
             
             string subFolderName = Guid.NewGuid().ToString();
             string subFolderDescription = Guid.NewGuid().ToString();
@@ -129,11 +129,13 @@ namespace eFormSDK.Integration.Tests
             
             string folderName = Guid.NewGuid().ToString();
             string folderDescription = Guid.NewGuid().ToString();
-            folders folder = new folders();
-            folder.Name = folderName;
-            folder.Description = folderDescription;
-            folder.WorkflowState = Constants.WorkflowStates.Created;
-            folder.MicrotingUid = 23123;
+            folders folder = new folders
+            {
+                Name = folderName,
+                Description = folderDescription,
+                WorkflowState = Constants.WorkflowStates.Created,
+                MicrotingUid = 23123
+            };
 
             await folder.Create(dbContext);
 
@@ -174,11 +176,13 @@ namespace eFormSDK.Integration.Tests
             
             string folderName = Guid.NewGuid().ToString();
             string folderDescription = Guid.NewGuid().ToString();
-            folders folder = new folders();
-            folder.Name = folderName;
-            folder.Description = folderDescription;
-            folder.WorkflowState = Constants.WorkflowStates.Created;
-            folder.MicrotingUid = 23123;
+            folders folder = new folders
+            {
+                Name = folderName,
+                Description = folderDescription,
+                WorkflowState = Constants.WorkflowStates.Created,
+                MicrotingUid = 23123
+            };
 
             await folder.Create(dbContext);
 

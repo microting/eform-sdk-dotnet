@@ -50,13 +50,9 @@ namespace eFormSDK.Integration.Tests
             {
                 ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
             }
-
-            if (dbContext == null)
-            {
-                dbContext = GetContext(ConnectionString);
-                dbContext.Database.SetCommandTimeout(300);
-            }
-
+            
+            dbContext = GetContext(ConnectionString);
+            dbContext.Database.SetCommandTimeout(300);
 
             try
             {
