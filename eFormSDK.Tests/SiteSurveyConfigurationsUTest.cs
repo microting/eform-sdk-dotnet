@@ -96,7 +96,7 @@ namespace eFormSDK.Tests
 
             //Act
 
-            DateTime? oldUpdatedAt = siteSurveyConfiguration.UpdatedAt;
+//            DateTime? oldUpdatedAt = siteSurveyConfiguration.UpdatedAt;
             
             await siteSurveyConfiguration.Delete(dbContext);
 

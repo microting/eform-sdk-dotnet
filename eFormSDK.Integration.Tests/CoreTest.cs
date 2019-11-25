@@ -19,7 +19,7 @@ namespace eFormSDK.Integration.Tests
     public class CoreTest : DbTestFixture
     {
         private Core sut;
-        private TestHelpers testHelpers;
+//        private TestHelpers testHelpers;
         private TestHelperReturnXML testHelperReturnXml;
         private string path;
 
@@ -37,11 +37,11 @@ namespace eFormSDK.Integration.Tests
                 await sut.StartSqlOnly(ConnectionString);
             }
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
+            path = Path.GetDirectoryName(path).Replace(@"file:", "");
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
-            testHelpers = new TestHelpers();
+//            testHelpers = new TestHelpers();
             testHelperReturnXml = new TestHelperReturnXML();
             //await sut.StartLog(new CoreBase());
         }

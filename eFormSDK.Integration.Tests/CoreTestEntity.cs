@@ -1786,7 +1786,7 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             entity_groups eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            entity_items et = await testHelpers.CreateEntityItem("", 0, eG1.Id, "", "", "Jon Doe", 1, 0, Constants.WorkflowStates.Removed);
+//            entity_items et = await testHelpers.CreateEntityItem("", 0, eG1.Id, "", "", "Jon Doe", 1, 0, Constants.WorkflowStates.Removed);
 
             // Act
             EntityItem result_item = await sut.EntitySearchItemCreate(eG1.Id, "Jon Doe", "", "");

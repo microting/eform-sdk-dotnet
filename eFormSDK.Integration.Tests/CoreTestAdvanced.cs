@@ -116,63 +116,61 @@ namespace eFormSDK.Integration.Tests
             #region subtemplates
             #region SubTemplate1
             check_lists cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
             #endregion
 
-            #region SubTemplate1
-            check_lists cl3 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
-            #endregion
-
-            #region SubTemplate1
-            check_lists cl4 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
-            #endregion
-
-            #region SubTemplate1
-            check_lists cl5 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
-            #endregion
-
-            #region SubTemplate1
-            check_lists cl6 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
-            #endregion
-
-            #region SubTemplate1
-            check_lists cl7 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
-            #endregion
-
-            #region SubTemplate1
-            check_lists cl8 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
-            #endregion
-
-            #region SubTemplate1
-            check_lists cl9 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
-            #endregion
-
-            #region SubTemplate1
-            check_lists cl10 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
-            #endregion
-
-            #region SubTemplate1
-            check_lists cl11 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
-            #endregion
+//            #region SubTemplate1
+//            check_lists cl3 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//
+//
+//            #endregion
+//
+//            #region SubTemplate1
+//            check_lists cl4 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//
+//
+//            #endregion
+//
+//            #region SubTemplate1
+//            check_lists cl5 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//
+//
+//            #endregion
+//
+//            #region SubTemplate1
+//            check_lists cl6 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//
+//
+//            #endregion
+//
+//            #region SubTemplate1
+//            check_lists cl7 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//
+//
+//            #endregion
+//
+//            #region SubTemplate1
+//            check_lists cl8 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//
+//
+//            #endregion
+//
+//            #region SubTemplate1
+//            check_lists cl9 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//
+//
+//            #endregion
+//
+//            #region SubTemplate1
+//            check_lists cl10 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//
+//
+//            #endregion
+//
+//            #region SubTemplate1
+//            check_lists cl11 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//
+//
+//            #endregion
             #endregion
 
             #region Fields
@@ -1074,7 +1072,7 @@ namespace eFormSDK.Integration.Tests
 //
 //            #endregion
 //
-//            #endregion
+            #endregion
 
             #region Workers
 
@@ -1083,50 +1081,50 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            #region worker2
-            workers worker2 = await testHelpers.CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
-
-            #endregion
-
-            #region worker3
-            workers worker3 = await testHelpers.CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
-
-            #endregion
-
-            #region worker4
-            workers worker4 = await testHelpers.CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
-
-            #endregion
-
-            #region worker5
-            workers worker5 = await testHelpers.CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
-
-            #endregion
-
-            #region worker6
-            workers worker6 = await testHelpers.CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
-
-            #endregion
-
-            #region worker7
-            workers worker7 = await testHelpers.CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
-
-            #endregion
-
-            #region worker8
-            workers worker8 = await testHelpers.CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
-
-            #endregion
-
-            #region worker9
-            workers worker9 = await testHelpers.CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
-
-            #endregion
-
-            #region worker10
-            workers worker10 = await testHelpers.CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
-
-            #endregion
+//            #region worker2
+//            workers worker2 = await testHelpers.CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+//
+//            #endregion
+//
+//            #region worker3
+//            workers worker3 = await testHelpers.CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+//
+//            #endregion
+//
+//            #region worker4
+//            workers worker4 = await testHelpers.CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+//
+//            #endregion
+//
+//            #region worker5
+//            workers worker5 = await testHelpers.CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+//
+//            #endregion
+//
+//            #region worker6
+//            workers worker6 = await testHelpers.CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+//
+//            #endregion
+//
+//            #region worker7
+//            workers worker7 = await testHelpers.CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+//
+//            #endregion
+//
+//            #region worker8
+//            workers worker8 = await testHelpers.CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+//
+//            #endregion
+//
+//            #region worker9
+//            workers worker9 = await testHelpers.CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+//
+//            #endregion
+//
+//            #region worker10
+//            workers worker10 = await testHelpers.CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+//
+//            #endregion
 
             #endregion
 
@@ -1137,57 +1135,57 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            #region Site2
-            sites site2 = await testHelpers.CreateSite("SiteName2", 89);
-
-            #endregion
-
-            #region Site3
-            sites site3 = await testHelpers.CreateSite("SiteName3", 90);
-
-            #endregion
-
-            #region Site4
-            sites site4 = await testHelpers.CreateSite("SiteName4", 91);
-
-            #endregion
-
-            #region Site5
-            sites site5 = await testHelpers.CreateSite("SiteName5", 92);
-
-            #endregion
-
-            #region Site6
-            sites site6 = await testHelpers.CreateSite("SiteName6", 93);
-
-            #endregion
-
-            #region Site7
-            sites site7 = await testHelpers.CreateSite("SiteName7", 94);
-
-            #endregion
-
-            #region Site8
-            sites site8 = await testHelpers.CreateSite("SiteName8", 95);
-
-            #endregion
-
-            #region Site9
-            sites site9 = await testHelpers.CreateSite("SiteName9", 96);
-
-            #endregion
-
-            #region Site10
-            sites site10 = await testHelpers.CreateSite("SiteName10", 97);
-
-            #endregion
-
-            #endregion
-
-            #region units
-            units unit = await testHelpers.CreateUnit(48, 49, site1, 348);
-
-            #endregion
+//            #region Site2
+//            sites site2 = await testHelpers.CreateSite("SiteName2", 89);
+//
+//            #endregion
+//
+//            #region Site3
+//            sites site3 = await testHelpers.CreateSite("SiteName3", 90);
+//
+//            #endregion
+//
+//            #region Site4
+//            sites site4 = await testHelpers.CreateSite("SiteName4", 91);
+//
+//            #endregion
+//
+//            #region Site5
+//            sites site5 = await testHelpers.CreateSite("SiteName5", 92);
+//
+//            #endregion
+//
+//            #region Site6
+//            sites site6 = await testHelpers.CreateSite("SiteName6", 93);
+//
+//            #endregion
+//
+//            #region Site7
+//            sites site7 = await testHelpers.CreateSite("SiteName7", 94);
+//
+//            #endregion
+//
+//            #region Site8
+//            sites site8 = await testHelpers.CreateSite("SiteName8", 95);
+//
+//            #endregion
+//
+//            #region Site9
+//            sites site9 = await testHelpers.CreateSite("SiteName9", 96);
+//
+//            #endregion
+//
+//            #region Site10
+//            sites site10 = await testHelpers.CreateSite("SiteName10", 97);
+//
+//            #endregion
+//
+//            #endregion
+//
+//            #region units
+//            units unit = await testHelpers.CreateUnit(48, 49, site1, 348);
+//
+//            #endregion
 
             #region site_workers
             site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker1);
@@ -1217,7 +1215,7 @@ namespace eFormSDK.Integration.Tests
             int siteMicrotingUid = await testHelpers.GetRandomInt();
 
             sites site = await testHelpers.CreateSite(siteName, siteMicrotingUid);
-            SiteName_Dto siteName_Dto = new SiteName_Dto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
+//            SiteName_Dto siteName_Dto = new SiteName_Dto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
             #endregion
 
             #region worker
@@ -1227,15 +1225,15 @@ namespace eFormSDK.Integration.Tests
             int workerMicrotingUid = await testHelpers.GetRandomInt();
 
             workers worker = await testHelpers.CreateWorker(email, firstName, lastName, workerMicrotingUid);
-            Worker_Dto worker_Dto = new Worker_Dto(worker.MicrotingUid, worker.FirstName, worker.LastName, worker.Email, worker.CreatedAt, worker.UpdatedAt);
+//            Worker_Dto worker_Dto = new Worker_Dto(worker.MicrotingUid, worker.FirstName, worker.LastName, worker.Email, worker.CreatedAt, worker.UpdatedAt);
 
-            site_workers site_worker = await testHelpers.CreateSiteWorker(1, site, worker);
+            await testHelpers.CreateSiteWorker(1, site, worker);
 
             #endregion
 
             // Act
 
-            //var match = await sut.Advanced_SiteWorkerCreate(siteName_Dto, worker_Dto);
+//            var match = await sut.Advanced_SiteWorkerCreate(siteName_Dto, worker_Dto);
             var match2 = await sut.Advanced_SiteWorkerDelete(1);
             var result = dbContext.site_workers.AsNoTracking().ToList();
 
@@ -1392,55 +1390,55 @@ namespace eFormSDK.Integration.Tests
 
             #region Workers
 
-            #region worker1
-            workers worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-
-            #endregion
-
-            #region worker2
-            workers worker2 = await testHelpers.CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
-
-            #endregion
-
-            #region worker3
-            workers worker3 = await testHelpers.CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
-
-            #endregion
-
-            #region worker4
-            workers worker4 = await testHelpers.CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
-
-            #endregion
-
-            #region worker5
-            workers worker5 = await testHelpers.CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
-
-            #endregion
-
-            #region worker6
-            workers worker6 = await testHelpers.CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
-
-            #endregion
-
-            #region worker7
-            workers worker7 = await testHelpers.CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
-
-            #endregion
-
-            #region worker8
-            workers worker8 = await testHelpers.CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
-
-            #endregion
-
-            #region worker9
-            workers worker9 = await testHelpers.CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
-
-            #endregion
-
-            #region worker10
-            workers worker10 = await testHelpers.CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
-
-            #endregion
+//            #region worker1
+//            workers worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+//
+//            #endregion
+//
+//            #region worker2
+//            workers worker2 = await testHelpers.CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+//
+//            #endregion
+//
+//            #region worker3
+//            workers worker3 = await testHelpers.CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+//
+//            #endregion
+//
+//            #region worker4
+//            workers worker4 = await testHelpers.CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+//
+//            #endregion
+//
+//            #region worker5
+//            workers worker5 = await testHelpers.CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+//
+//            #endregion
+//
+//            #region worker6
+//            workers worker6 = await testHelpers.CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+//
+//            #endregion
+//
+//            #region worker7
+//            workers worker7 = await testHelpers.CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+//
+//            #endregion
+//
+//            #region worker8
+//            workers worker8 = await testHelpers.CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+//
+//            #endregion
+//
+//            #region worker9
+//            workers worker9 = await testHelpers.CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+//
+//            #endregion
+//
+//            #region worker10
+//            workers worker10 = await testHelpers.CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+//
+//            #endregion
 
             #endregion
 
@@ -1451,50 +1449,50 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            #region Site2
-            sites site2 = await testHelpers.CreateSite("SiteName2", 89);
-
-            #endregion
-
-            #region Site3
-            sites site3 = await testHelpers.CreateSite("SiteName3", 90);
-
-            #endregion
-
-            #region Site4
-            sites site4 = await testHelpers.CreateSite("SiteName4", 91);
-
-            #endregion
-
-            #region Site5
-            sites site5 = await testHelpers.CreateSite("SiteName5", 92);
-
-            #endregion
-
-            #region Site6
-            sites site6 = await testHelpers.CreateSite("SiteName6", 93);
-
-            #endregion
-
-            #region Site7
-            sites site7 = await testHelpers.CreateSite("SiteName7", 94);
-
-            #endregion
-
-            #region Site8
-            sites site8 = await testHelpers.CreateSite("SiteName8", 95);
-
-            #endregion
-
-            #region Site9
-            sites site9 = await testHelpers.CreateSite("SiteName9", 96);
-
-            #endregion
-
-            #region Site10
-            sites site10 = await testHelpers.CreateSite("SiteName10", 97);
-
-            #endregion
+//            #region Site2
+//            sites site2 = await testHelpers.CreateSite("SiteName2", 89);
+//
+//            #endregion
+//
+//            #region Site3
+//            sites site3 = await testHelpers.CreateSite("SiteName3", 90);
+//
+//            #endregion
+//
+//            #region Site4
+//            sites site4 = await testHelpers.CreateSite("SiteName4", 91);
+//
+//            #endregion
+//
+//            #region Site5
+//            sites site5 = await testHelpers.CreateSite("SiteName5", 92);
+//
+//            #endregion
+//
+//            #region Site6
+//            sites site6 = await testHelpers.CreateSite("SiteName6", 93);
+//
+//            #endregion
+//
+//            #region Site7
+//            sites site7 = await testHelpers.CreateSite("SiteName7", 94);
+//
+//            #endregion
+//
+//            #region Site8
+//            sites site8 = await testHelpers.CreateSite("SiteName8", 95);
+//
+//            #endregion
+//
+//            #region Site9
+//            sites site9 = await testHelpers.CreateSite("SiteName9", 96);
+//
+//            #endregion
+//
+//            #region Site10
+//            sites site10 = await testHelpers.CreateSite("SiteName10", 97);
+//
+//            #endregion
 
             #endregion
 
@@ -1628,57 +1626,57 @@ namespace eFormSDK.Integration.Tests
 
             #region Workers
 
-            #region worker1
-            workers worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+//            #region worker1
+//            workers worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+//
+//            #endregion
+//
+//            #region worker2
+//            workers worker2 = await testHelpers.CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
+//
+//            #endregion
+//
+//            #region worker3
+//            workers worker3 = await testHelpers.CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
+//
+//            #endregion
+//
+//            #region worker4
+//            workers worker4 = await testHelpers.CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
+//
+//            #endregion
+//
+//            #region worker5
+//            workers worker5 = await testHelpers.CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
+//
+//            #endregion
+//
+//            #region worker6
+//            workers worker6 = await testHelpers.CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
+//
+//            #endregion
+//
+//            #region worker7
+//            workers worker7 = await testHelpers.CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
+//
+//            #endregion
+//
+//            #region worker8
+//            workers worker8 = await testHelpers.CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
+//
+//            #endregion
+//
+//            #region worker9
+//            workers worker9 = await testHelpers.CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
+//
+//            #endregion
+//
+//            #region worker10
+//            workers worker10 = await testHelpers.CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
+//
+//            #endregion
 
-            #endregion
-
-            #region worker2
-            workers worker2 = await testHelpers.CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
-
-            #endregion
-
-            #region worker3
-            workers worker3 = await testHelpers.CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
-
-            #endregion
-
-            #region worker4
-            workers worker4 = await testHelpers.CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
-
-            #endregion
-
-            #region worker5
-            workers worker5 = await testHelpers.CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
-
-            #endregion
-
-            #region worker6
-            workers worker6 = await testHelpers.CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
-
-            #endregion
-
-            #region worker7
-            workers worker7 = await testHelpers.CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
-
-            #endregion
-
-            #region worker8
-            workers worker8 = await testHelpers.CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
-
-            #endregion
-
-            #region worker9
-            workers worker9 = await testHelpers.CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
-
-            #endregion
-
-            #region worker10
-            workers worker10 = await testHelpers.CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
-
-            #endregion
-
-            #endregion
+//            #endregion
 
             #region sites
 
@@ -1780,10 +1778,12 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker1);
+//            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker1);
 
             #endregion
 
+            #endregion
+            
             #endregion
             // Act
 
@@ -1836,43 +1836,29 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            #region field2
-
-
-            fields f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
-                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
-
-
-            #endregion
-
-            #region field3
-
-            fields f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, dbContext.field_types.Where(x => x.FieldType == "number").First(), 0, 0, 1, 0,
-                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field4
-
-
-            fields f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0,
-                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field5
-
-            fields f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
+//            #region field2
+//            fields f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+//                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
+//                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+//            #endregion
+//
+//            #region field3
+//            fields f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+//                83, 0, dbContext.field_types.Where(x => x.FieldType == "number").First(), 0, 0, 1, 0,
+//                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+//            #endregion
+//
+//            #region field4
+//            fields f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+//                84, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0,
+//                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+//            #endregion
+//
+//            #region field5
+//            fields f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//            #endregion
             #endregion
 
             // Act
@@ -1893,84 +1879,59 @@ namespace eFormSDK.Integration.Tests
             DateTime cl_ca = DateTime.Now;
             DateTime cl_ua = DateTime.Now;
             check_lists cl1 = await testHelpers.CreateTemplate(cl_ca, cl_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
-
             #endregion
 
             #region SubTemplate1
             check_lists cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
             #endregion
 
             #region Fields
             #region field1
-
-
             fields f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
                 5, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
-
             #endregion
 
-            #region field2
-
-
-            fields f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
-                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
-
-
-            #endregion
-
-            #region field3
-
-            fields f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, dbContext.field_types.Where(x => x.FieldType == "number").First(), 0, 0, 1, 0,
-                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field4
-
-
-            fields f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0,
-                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field5
-
-            fields f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
+//            #region field2
+//            fields f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+//                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
+//                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+//            #endregion
+//
+//            #region field3
+//            fields f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+//                83, 0, dbContext.field_types.Where(x => x.FieldType == "number").First(), 0, 0, 1, 0,
+//                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+//            #endregion
+//
+//            #region field4
+//            fields f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+//                84, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0,
+//                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+//            #endregion
+//
+//            #region field5
+//            fields f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//            #endregion
             #endregion
 
             #region Worker
-
             workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-
             #endregion
 
             #region site
             sites site = await testHelpers.CreateSite("SiteName", 88);
-
             #endregion
 
             #region units
             units unit = await testHelpers.CreateUnit(48, 49, site, 348);
-
             #endregion
 
-            #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
-
-            #endregion
+//            #region site_workers
+//            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
+//            #endregion
 
             #region Case1
 
@@ -1980,39 +1941,30 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            #region Check List Values
-            check_list_values check_List_Values = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
-
-
-            #endregion
+//            #region Check List Values
+//            check_list_values check_List_Values = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
+//            #endregion
 
             #region Field Values
             #region fv1
             field_values field_Value1 = await testHelpers.CreateFieldValue(aCase, cl2, f1, null, null, "tomt1", 61234, worker);
-
             #endregion
 
-            #region fv2
-            field_values field_Value2 = await testHelpers.CreateFieldValue(aCase, cl2, f2, null, null, "tomt2", 61234, worker);
-
-            #endregion
-
-            #region fv3
-            field_values field_Value3 = await testHelpers.CreateFieldValue(aCase, cl2, f3, null, null, "tomt3", 61234, worker);
-
-            #endregion
-
-            #region fv4
-            field_values field_Value4 = await testHelpers.CreateFieldValue(aCase, cl2, f4, null, null, "tomt4", 61234, worker);
-
-            #endregion
-
-            #region fv5
-            field_values field_Value5 = await testHelpers.CreateFieldValue(aCase, cl2, f5, null, null, "tomt5", 61234, worker);
-
-            #endregion
-
-
+//            #region fv2
+//            field_values field_Value2 = await testHelpers.CreateFieldValue(aCase, cl2, f2, null, null, "tomt2", 61234, worker);
+//            #endregion
+//
+//            #region fv3
+//            field_values field_Value3 = await testHelpers.CreateFieldValue(aCase, cl2, f3, null, null, "tomt3", 61234, worker);
+//            #endregion
+//
+//            #region fv4
+//            field_values field_Value4 = await testHelpers.CreateFieldValue(aCase, cl2, f4, null, null, "tomt4", 61234, worker);
+//            #endregion
+//
+//            #region fv5
+//            field_values field_Value5 = await testHelpers.CreateFieldValue(aCase, cl2, f5, null, null, "tomt5", 61234, worker);
+//            #endregion
             #endregion
             #endregion
             // Act
@@ -2051,86 +2003,68 @@ namespace eFormSDK.Integration.Tests
             #region Fields
 
             #region field2
-
-
             fields f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
                 45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
-
-
             #endregion
 
             #endregion
 
             #region Worker
-
             workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-
             #endregion
 
             #region sites
 
-            #region Site1
-            sites site1 = await testHelpers.CreateSite("SiteName1", 88);
+//            #region Site1
+//            sites site1 = await testHelpers.CreateSite("SiteName1", 88);
+//            #endregion
+
+//            #region Site2
+//            sites site2 = await testHelpers.CreateSite("SiteName2", 89);
+//            #endregion
+//
+//            #region Site3
+//            sites site3 = await testHelpers.CreateSite("SiteName3", 90);
+//            #endregion
+//
+//            #region Site4
+//            sites site4 = await testHelpers.CreateSite("SiteName4", 91);
+//            #endregion
+//
+//            #region Site5
+//            sites site5 = await testHelpers.CreateSite("SiteName5", 92);
+//            #endregion
+//
+//            #region Site6
+//            sites site6 = await testHelpers.CreateSite("SiteName6", 93);
+//            #endregion
+//
+//            #region Site7
+//            sites site7 = await testHelpers.CreateSite("SiteName7", 94);
+//            #endregion
+//
+//            #region Site8
+//            sites site8 = await testHelpers.CreateSite("SiteName8", 95);
+//            #endregion
+//
+//            #region Site9
+//            sites site9 = await testHelpers.CreateSite("SiteName9", 96);
+//            #endregion
+//
+//            #region Site10
+//            sites site10 = await testHelpers.CreateSite("SiteName10", 97);
+//            #endregion
 
             #endregion
 
-            #region Site2
-            sites site2 = await testHelpers.CreateSite("SiteName2", 89);
+//            #region units
+//            units unit = await testHelpers.CreateUnit(48, 49, site1, 348);
+//            #endregion
 
-            #endregion
-
-            #region Site3
-            sites site3 = await testHelpers.CreateSite("SiteName3", 90);
-
-            #endregion
-
-            #region Site4
-            sites site4 = await testHelpers.CreateSite("SiteName4", 91);
-
-            #endregion
-
-            #region Site5
-            sites site5 = await testHelpers.CreateSite("SiteName5", 92);
-
-            #endregion
-
-            #region Site6
-            sites site6 = await testHelpers.CreateSite("SiteName6", 93);
-
-            #endregion
-
-            #region Site7
-            sites site7 = await testHelpers.CreateSite("SiteName7", 94);
-
-            #endregion
-
-            #region Site8
-            sites site8 = await testHelpers.CreateSite("SiteName8", 95);
-
-            #endregion
-
-            #region Site9
-            sites site9 = await testHelpers.CreateSite("SiteName9", 96);
-
-            #endregion
-
-            #region Site10
-            sites site10 = await testHelpers.CreateSite("SiteName10", 97);
-
-            #endregion
-
-            #endregion
-
-            #region units
-            units unit = await testHelpers.CreateUnit(48, 49, site1, 348);
-
-            #endregion
-
-            #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker);
-
-            #endregion
+//            #region site_workers
+//            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker);
+//            #endregion
 
 
             string folderPath;
@@ -2164,186 +2098,128 @@ namespace eFormSDK.Integration.Tests
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
-
             #endregion
 
             #region subtemplates
             #region SubTemplate1
             check_lists cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
             #endregion
 
-            #region SubTemplate1
-            check_lists cl3 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
-            #endregion
-
-            #region SubTemplate1
-            check_lists cl4 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
-            #endregion
-
-            #region SubTemplate1
-            check_lists cl5 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
-            #endregion
-
-            #region SubTemplate1
-            check_lists cl6 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
-            #endregion
-
-            #region SubTemplate1
-            check_lists cl7 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
-            #endregion
-
-            #region SubTemplate1
-            check_lists cl8 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
-            #endregion
-
-            #region SubTemplate1
-            check_lists cl9 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
-            #endregion
-
-            #region SubTemplate1
-            check_lists cl10 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
-            #endregion
-
-            #region SubTemplate1
-            check_lists cl11 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-
-            #endregion
+//            #region SubTemplate2
+//            check_lists cl3 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//            #endregion
+//
+//            #region SubTemplate3
+//            check_lists cl4 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//            #endregion
+//
+//            #region SubTemplate4
+//            check_lists cl5 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//            #endregion
+//
+//            #region SubTemplate5
+//            check_lists cl6 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//            #endregion
+//
+//            #region SubTemplate6
+//            check_lists cl7 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//            #endregion
+//
+//            #region SubTemplate7
+//            check_lists cl8 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//            #endregion
+//
+//            #region SubTemplate8
+//            check_lists cl9 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//            #endregion
+//
+//            #region SubTemplate9
+//            check_lists cl10 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//            #endregion
+//
+//            #region SubTemplate10
+//            check_lists cl11 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+//            #endregion
             #endregion
 
             #region Fields
             #region field1
-
-
             fields f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
                 5, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
-
             #endregion
 
             #region field2
-
-
             fields f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
                 45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
-
-
             #endregion
 
             #region field3
-
             fields f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
                 83, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-
-
             #endregion
 
             #region field4
-
-
             fields f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
                 84, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
             #endregion
 
             #region field5
-
             fields f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
                 85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
             #endregion
 
             #region field6
-
             fields f6 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
                 86, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
             #endregion
 
             #region field7
-
             fields f7 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
                 87, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
             #endregion
 
             #region field8
-
             fields f8 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
                 88, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
             #endregion
 
             #region field9
-
             fields f9 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
                 89, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
             #endregion
 
             #region field10
-
             fields f10 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
                 90, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
             #endregion
 
             #endregion
 
             #region Worker
-
             workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-
             #endregion
 
             #region site
             sites site = await testHelpers.CreateSite("SiteName", 88);
-
             #endregion
 
             #region units
             units unit = await testHelpers.CreateUnit(48, 49, site, 348);
-
             #endregion
 
-            #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
-
-            #endregion
+//            #region site_workers
+//            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
+//            #endregion
 
             #region cases
             #region cases created
@@ -2359,35 +2235,34 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            #region Case2
-
-            DateTime c2_ca = DateTime.Now.AddDays(-7);
-            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
-            DateTime c2_ua = DateTime.Now.AddDays(-6);
-            cases aCase2 = await testHelpers.CreateCase("case2UId", cl1, c2_ca, "custom2",
-             c2_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
-               site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
-            #endregion
-
-            #region Case3
-            DateTime c3_ca = DateTime.Now.AddDays(-10);
-            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
-            DateTime c3_ua = DateTime.Now.AddDays(-9);
-
-            cases aCase3 = await testHelpers.CreateCase("case3UId", cl1, c3_ca, "custom3",
-              c3_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
-               site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
-            #endregion
-
-            #region Case4
-            DateTime c4_ca = DateTime.Now.AddDays(-8);
-            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
-            DateTime c4_ua = DateTime.Now.AddDays(-7);
-
-            cases aCase4 = await testHelpers.CreateCase("case4UId", cl1, c4_ca, "custom4",
-                c4_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
-               site, 100, "caseType4", unit, c4_ua, 1, worker, Constants.WorkflowStates.Created);
-            #endregion
+//            #region Case2
+//            DateTime c2_ca = DateTime.Now.AddDays(-7);
+//            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
+//            DateTime c2_ua = DateTime.Now.AddDays(-6);
+//            cases aCase2 = await testHelpers.CreateCase("case2UId", cl1, c2_ca, "custom2",
+//             c2_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
+//               site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
+//            #endregion
+//
+//            #region Case3
+//            DateTime c3_ca = DateTime.Now.AddDays(-10);
+//            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
+//            DateTime c3_ua = DateTime.Now.AddDays(-9);
+//
+//            cases aCase3 = await testHelpers.CreateCase("case3UId", cl1, c3_ca, "custom3",
+//              c3_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
+//               site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
+//            #endregion
+//
+//            #region Case4
+//            DateTime c4_ca = DateTime.Now.AddDays(-8);
+//            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
+//            DateTime c4_ua = DateTime.Now.AddDays(-7);
+//
+//            cases aCase4 = await testHelpers.CreateCase("case4UId", cl1, c4_ca, "custom4",
+//                c4_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
+//               site, 100, "caseType4", unit, c4_ua, 1, worker, Constants.WorkflowStates.Created);
+//            #endregion
             #endregion
 
             #endregion
@@ -2446,97 +2321,87 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Check List Values
-            #region clv1
-            check_list_values clv1 = await testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.Checked, null, 860);
-            #endregion
-
-            #region clv2
-            check_list_values clv2 = await testHelpers.CreateCheckListValue(aCase1, cl3, Constants.CheckListValues.Checked, null, 861);
-            #endregion
-
-            #region clv3
-            check_list_values clv3 = await testHelpers.CreateCheckListValue(aCase1, cl4, Constants.CheckListValues.Checked, null, 862);
-            #endregion
-
-            #region clv4
-            check_list_values clv4 = await testHelpers.CreateCheckListValue(aCase1, cl5, Constants.CheckListValues.NotChecked, null, 863);
-            #endregion
-
-            #region clv5
-            check_list_values clv5 = await testHelpers.CreateCheckListValue(aCase1, cl6, Constants.CheckListValues.NotChecked, null, 864);
-            #endregion
-
-            #region clv6
-            check_list_values clv6 = await testHelpers.CreateCheckListValue(aCase1, cl7, Constants.CheckListValues.NotChecked, null, 865);
-            #endregion
-
-            #region clv7
-            check_list_values clv7 = await testHelpers.CreateCheckListValue(aCase1, cl8, Constants.CheckListValues.NotApproved, null, 866);
-            #endregion
-
-            #region clv8
-            check_list_values clv8 = await testHelpers.CreateCheckListValue(aCase1, cl9, Constants.CheckListValues.NotApproved, null, 867);
-            #endregion
-
-            #region clv9
-            check_list_values clv9 = await testHelpers.CreateCheckListValue(aCase1, cl10, Constants.CheckListValues.NotApproved, null, 868);
-            #endregion
-
-            #region clv10
-            check_list_values clv10 = await testHelpers.CreateCheckListValue(aCase1, cl11, Constants.CheckListValues.NotApproved, null, 869);
-            #endregion
+//            #region clv1
+//            check_list_values clv1 = await testHelpers.CreateCheckListValue(aCase1, cl2, Constants.CheckListValues.Checked, null, 860);
+//            #endregion
+//
+//            #region clv2
+//            check_list_values clv2 = await testHelpers.CreateCheckListValue(aCase1, cl3, Constants.CheckListValues.Checked, null, 861);
+//            #endregion
+//
+//            #region clv3
+//            check_list_values clv3 = await testHelpers.CreateCheckListValue(aCase1, cl4, Constants.CheckListValues.Checked, null, 862);
+//            #endregion
+//
+//            #region clv4
+//            check_list_values clv4 = await testHelpers.CreateCheckListValue(aCase1, cl5, Constants.CheckListValues.NotChecked, null, 863);
+//            #endregion
+//
+//            #region clv5
+//            check_list_values clv5 = await testHelpers.CreateCheckListValue(aCase1, cl6, Constants.CheckListValues.NotChecked, null, 864);
+//            #endregion
+//
+//            #region clv6
+//            check_list_values clv6 = await testHelpers.CreateCheckListValue(aCase1, cl7, Constants.CheckListValues.NotChecked, null, 865);
+//            #endregion
+//
+//            #region clv7
+//            check_list_values clv7 = await testHelpers.CreateCheckListValue(aCase1, cl8, Constants.CheckListValues.NotApproved, null, 866);
+//            #endregion
+//
+//            #region clv8
+//            check_list_values clv8 = await testHelpers.CreateCheckListValue(aCase1, cl9, Constants.CheckListValues.NotApproved, null, 867);
+//            #endregion
+//
+//            #region clv9
+//            check_list_values clv9 = await testHelpers.CreateCheckListValue(aCase1, cl10, Constants.CheckListValues.NotApproved, null, 868);
+//            #endregion
+//
+//            #region clv10
+//            check_list_values clv10 = await testHelpers.CreateCheckListValue(aCase1, cl11, Constants.CheckListValues.NotApproved, null, 869);
+//            #endregion
 
             #endregion
 
             #region Field Values
             #region fv1
             field_values field_Value1 = await testHelpers.CreateFieldValue(aCase1, cl2, f1, ud1.Id, null, "tomt1", 61230, worker);
-
             #endregion
 
             #region fv2
             field_values field_Value2 = await testHelpers.CreateFieldValue(aCase1, cl2, f2, ud2.Id, null, "tomt2", 61231, worker);
-
             #endregion
 
             #region fv3
             field_values field_Value3 = await testHelpers.CreateFieldValue(aCase1, cl2, f3, ud3.Id, null, "tomt3", 61232, worker);
-
             #endregion
 
             #region fv4
             field_values field_Value4 = await testHelpers.CreateFieldValue(aCase1, cl2, f4, ud4.Id, null, "tomt4", 61233, worker);
-
             #endregion
 
             #region fv5
             field_values field_Value5 = await testHelpers.CreateFieldValue(aCase1, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
-
             #endregion
 
             #region fv6
             field_values field_Value6 = await testHelpers.CreateFieldValue(aCase1, cl2, f6, ud6.Id, null, "tomt6", 61235, worker);
-
             #endregion
 
             #region fv7
             field_values field_Value7 = await testHelpers.CreateFieldValue(aCase1, cl2, f7, ud7.Id, null, "tomt7", 61236, worker);
-
             #endregion
 
             #region fv8
             field_values field_Value8 = await testHelpers.CreateFieldValue(aCase1, cl2, f8, ud8.Id, null, "tomt8", 61237, worker);
-
             #endregion
 
             #region fv9
             field_values field_Value9 = await testHelpers.CreateFieldValue(aCase1, cl2, f9, ud9.Id, null, "tomt9", 61238, worker);
-
             #endregion
 
             #region fv10
             field_values field_Value10 = await testHelpers.CreateFieldValue(aCase1, cl2, f10, ud10.Id, null, "tomt10", 61239, worker);
-
             #endregion
 
 
@@ -2601,8 +2466,6 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual("tomt8", theCaseAfter.FieldValue8);
             Assert.AreEqual("tomt9", theCaseAfter.FieldValue9);
             Assert.AreEqual("tomt10", theCaseAfter.FieldValue10);
-
-
         }
 
 
