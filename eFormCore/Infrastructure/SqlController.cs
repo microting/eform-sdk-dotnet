@@ -1364,7 +1364,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    var aCase = await db.cases.SingleAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
+                    var aCase = await db.cases.AsNoTracking().SingleAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
                     var mainCheckList = await db.check_lists.SingleAsync(x => x.Id == aCase.CheckListId);
 
                     ReplyElement replyElement = new ReplyElement();
@@ -1385,11 +1385,13 @@ namespace Microting.eForm.Infrastructure
                     //replyElement.StartDate
                     if (aCase.UnitId != null) replyElement.UnitId = (int) aCase.UnitId;
                     replyElement.MicrotingUId = (int)aCase.MicrotingCheckUid;
-                    if (aCase.Site.MicrotingUid != null) replyElement.SiteMicrotingUuid = (int) aCase.Site.MicrotingUid;
+                    sites site = await db.sites.SingleAsync(x => x.Id == aCase.SiteId);
+                    if (site.MicrotingUid != null) replyElement.SiteMicrotingUuid = (int) site.MicrotingUid;
                     replyElement.JasperExportEnabled = mainCheckList.JasperExportEnabled;
                     replyElement.DocxExportEnabled = mainCheckList.DocxExportEnabled;
 
-                    foreach (check_lists checkList in aCase.CheckList.Children.OrderBy(x => x.DisplayIndex))
+                    check_lists checkLists = await db.check_lists.SingleAsync(x => x.Id == aCase.CheckListId);
+                    foreach (check_lists checkList in checkLists.Children.OrderBy(x => x.DisplayIndex))
                     {
                         replyElement.ElementList.Add(await SubChecks(checkList.Id, aCase.Id));
                     }
@@ -1411,7 +1413,7 @@ namespace Microting.eForm.Infrastructure
                 {
                     var checkList = await db.check_lists.SingleAsync(x => x.Id == parentId);
                     //Element element = new Element();
-                    if (checkList.Children.Count() > 0)
+                    if (checkList.Children.Any())
                     {
                         List<Element> elementList = new List<Element>();
                         foreach (check_lists subList in checkList.Children.OrderBy(x => x.DisplayIndex))
@@ -1454,11 +1456,22 @@ namespace Microting.eForm.Infrastructure
                                     dataItemSubList.Add(_field);
                                 }
 
-                                CDataValue description = new CDataValue();
-                                description.InderValue = field.Description;
-                                FieldContainer fG = new FieldContainer(field.Id, field.Label, description, field.Color, (int)field.DisplayIndex, field.DefaultValue, dataItemSubList);
-                                fG.OriginalId = field.OriginalId;
-                                dataItemList.Add(fG);
+                                FieldContainer fC = new FieldContainer()
+                                {
+                                    Id = field.Id,
+                                    Label = field.Label,
+                                    Description = new CDataValue()
+                                    {
+                                        InderValue = field.Description
+                                    },
+                                    Color = field.Color,
+                                    DisplayOrder = (int)field.DisplayIndex,
+                                    Value = field.DefaultValue,
+                                    DataItemList = dataItemSubList,
+                                    OriginalId = field.OriginalId,
+                                    FieldType = "FieldContainer"
+                                };
+                                dataItemList.Add(fC);
                             }
                             else
                             {
@@ -1472,20 +1485,24 @@ namespace Microting.eForm.Infrastructure
                                 dataItemList.Add(_field);
                             }
                         }
-                        DataElement dataElement = new DataElement(checkList.Id, 
-                            checkList.Label, 
-                            (int)checkList.DisplayIndex, 
-                            checkList.Description, 
-                            t.Bool(checkList.ApprovalEnabled), 
-                            t.Bool(checkList.ReviewEnabled), 
-                            t.Bool(checkList.DoneButtonEnabled), 
-                            t.Bool(checkList.ExtraFieldsEnabled), 
-                            "", 
-                            t.Bool(checkList.QuickSyncEnabled), 
-                            dataItemGroupList, 
-                            dataItemList);
-                        dataElement.OriginalId = checkList.OriginalId;
-                        //return dataElement;
+                        DataElement dataElement = new DataElement()
+                        {
+                            Id = checkList.Id,
+                            Label = checkList.Label,
+                            DisplayOrder = (int)checkList.DisplayIndex,
+                            Description = new CDataValue()
+                            {
+                                InderValue = checkList.Description
+                            },
+                            ApprovalEnabled = t.Bool(checkList.ApprovalEnabled),
+                            ReviewEnabled = t.Bool(checkList.ReviewEnabled),
+                            DoneButtonEnabled = t.Bool(checkList.DoneButtonEnabled),
+                            ExtraFieldsEnabled = t.Bool(checkList.ExtraFieldsEnabled),
+                            QuickSyncEnabled = t.Bool(checkList.QuickSyncEnabled),
+                            DataItemGroupList = dataItemGroupList,
+                            DataItemList = dataItemList,
+                            OriginalId = checkList.OriginalId
+                        };
                         return new CheckListValue(dataElement, await CheckListValueStatusRead(caseId, checkList.Id));
                     }
                     //return element;
@@ -1617,13 +1634,13 @@ namespace Microting.eForm.Infrastructure
                             uploaded_data uploadedData;
                             if (joinUploadedData)
                             {
-                                List<field_values> lst = db.field_values.Where(x => x.CaseId == reply.CaseId && x.FieldId == reply.FieldId).ToList();
+                                List<field_values> lst = await db.field_values.AsNoTracking().Where(x => x.CaseId == reply.CaseId && x.FieldId == reply.FieldId).ToListAsync();
 
                                 foreach (field_values fV in lst)
                                 {
                                     uploadedDataId = (int)fV.UploadedDataId;
 
-                                    uploadedData = await db.uploaded_data.SingleAsync(x => x.Id == uploadedDataId);
+                                    uploadedData = await db.uploaded_data.AsNoTracking().SingleAsync(x => x.Id == uploadedDataId);
 
                                     if (uploadedData.FileName != null)
                                         locations += uploadedData.FileLocation + uploadedData.FileName + Environment.NewLine;
@@ -1662,7 +1679,7 @@ namespace Microting.eForm.Infrastructure
                             if (reply.Value != "" || reply.Value != null)
                             {
 								int Id = int.Parse(reply.Value);
-                                entity_items match = await db.entity_items.SingleOrDefaultAsync(x => x.Id == Id);
+                                entity_items match = await db.entity_items.AsNoTracking().SingleOrDefaultAsync(x => x.Id == Id);
 
                                 if (match != null)
                                 {
@@ -2495,7 +2512,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    cases aCase = await db.cases.SingleAsync(x => x.Id == caseId);
+                    cases aCase = await db.cases.AsNoTracking().SingleAsync(x => x.Id == caseId);
                     check_lists cL = await db.check_lists.SingleAsync(x => x.Id == aCase.CheckListId);
 
                     #region string stat = aCase.workflow_state ...
@@ -2542,7 +2559,7 @@ namespace Microting.eForm.Infrastructure
 
                 using (var db = GetContext())
                 {
-                    List<cases> matches = db.cases.Where(x => x.CaseUid == caseUId).ToList();
+                    List<cases> matches = await db.cases.Where(x => x.CaseUid == caseUId).ToListAsync();
                     List<Case_Dto> lstDto = new List<Case_Dto>();
 
                     foreach (cases aCase in matches)
@@ -2570,7 +2587,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    cases match = await db.cases.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
+                    cases match = await db.cases.AsNoTracking().SingleOrDefaultAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
                     match.SiteId = db.sites.SingleOrDefaultAsync(x => x.Id == match.SiteId).Result.MicrotingUid;
 
                     if (match.UnitId != null)
@@ -2840,7 +2857,7 @@ namespace Microting.eForm.Infrastructure
 
 //                    string bla = sub_query.ToSql(db);
 //                    await log.LogStandard("SQLController", $"Query is {bla}");
-                    matches = await sub_query.ToListAsync();
+                    matches = await sub_query.AsNoTracking().ToListAsync();
                     
                     List<Case> rtrnLst = new List<Case>();
                     int numOfElements = 0;
@@ -2860,34 +2877,39 @@ namespace Microting.eForm.Infrastructure
                     #region cases -> Case
                     foreach (var dbCase in dbCases)
                     {
-                        Case nCase = new Case();
-                        nCase.CaseType = dbCase.Type;
-                        nCase.CaseUId = dbCase.CaseUid;
-                        nCase.CheckUIid = dbCase.MicrotingCheckUid;
-                        nCase.CreatedAt = dbCase.CreatedAt;
-                        nCase.Custom = dbCase.Custom;
-                        nCase.DoneAt = dbCase.DoneAt;
-                        nCase.Id = dbCase.Id;
-                        nCase.MicrotingUId = dbCase.MicrotingUid;
-                        nCase.SiteId = dbCase.Site.MicrotingUid;
-                        nCase.SiteName = dbCase.Site.Name;
-                        nCase.Status = dbCase.Status;
-                        nCase.TemplatId = dbCase.CheckListId;
-                        nCase.UnitId = dbCase.Unit.MicrotingUid;
-                        nCase.UpdatedAt = dbCase.UpdatedAt;
-                        nCase.Version = dbCase.Version;
-                        nCase.WorkerName = dbCase.Worker.FirstName + " " + dbCase.Worker.LastName;
-                        nCase.WorkflowState = dbCase.WorkflowState;
-                        nCase.FieldValue1 = dbCase.FieldValue1;
-                        nCase.FieldValue2 = dbCase.FieldValue2;
-                        nCase.FieldValue3 = dbCase.FieldValue3;
-                        nCase.FieldValue4 = dbCase.FieldValue4;
-                        nCase.FieldValue5 = dbCase.FieldValue5;
-                        nCase.FieldValue6 = dbCase.FieldValue6;
-                        nCase.FieldValue7 = dbCase.FieldValue7;
-                        nCase.FieldValue8 = dbCase.FieldValue8;
-                        nCase.FieldValue9 = dbCase.FieldValue9;
-                        nCase.FieldValue10 = dbCase.FieldValue10;
+                        sites site = await db.sites.SingleAsync(x => x.Id == dbCase.SiteId);
+                        units unit = await db.units.SingleAsync(x => x.Id == dbCase.UnitId);
+                        workers worker = await db.workers.SingleAsync(x => x.Id == dbCase.WorkerId);
+                        Case nCase = new Case
+                        {
+                            CaseType = dbCase.Type,
+                            CaseUId = dbCase.CaseUid,
+                            CheckUIid = dbCase.MicrotingCheckUid,
+                            CreatedAt = dbCase.CreatedAt,
+                            Custom = dbCase.Custom,
+                            DoneAt = dbCase.DoneAt,
+                            Id = dbCase.Id,
+                            MicrotingUId = dbCase.MicrotingUid,
+                            SiteId = site.MicrotingUid,
+                            SiteName = site.Name,
+                            Status = dbCase.Status,
+                            TemplatId = dbCase.CheckListId,
+                            UnitId = unit.MicrotingUid,
+                            UpdatedAt = dbCase.UpdatedAt,
+                            Version = dbCase.Version,
+                            WorkerName = worker.FirstName + " " + worker.LastName,
+                            WorkflowState = dbCase.WorkflowState,
+                            FieldValue1 = dbCase.FieldValue1,
+                            FieldValue2 = dbCase.FieldValue2,
+                            FieldValue3 = dbCase.FieldValue3,
+                            FieldValue4 = dbCase.FieldValue4,
+                            FieldValue5 = dbCase.FieldValue5,
+                            FieldValue6 = dbCase.FieldValue6,
+                            FieldValue7 = dbCase.FieldValue7,
+                            FieldValue8 = dbCase.FieldValue8,
+                            FieldValue9 = dbCase.FieldValue9,
+                            FieldValue10 = dbCase.FieldValue10
+                        };
 
                         rtrnLst.Add(nCase);
                     }
