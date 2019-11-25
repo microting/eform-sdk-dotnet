@@ -42,7 +42,6 @@ namespace Microting.eForm.Handlers
         private readonly Communicator communicator;
         private readonly Log log;
         private readonly Core core;
-        Tools t = new Tools();
 
         public TranscriptionCompletedHandler(SqlController sqlController, Communicator communicator, Log log, Core core)
         {
@@ -67,15 +66,17 @@ namespace Microting.eForm.Handlers
 
                 if (ud.FileName.Contains("3gp"))
                 {
-                    await log.LogStandard(t.GetMethodName("TranscriptionCompletedHandler"), "file_name contains 3gp");
+                    await log.LogStandard("TranscriptionCompletedHandler.Handle", "file_name contains 3gp");
                     string urlStr = sqlController.SettingRead(Settings.comSpeechToText) + "/download_file/" + message.MicrotringUUID + ".wav?token=" + sqlController.SettingRead(Settings.token);
                     string fileLocationPicture = await sqlController.SettingRead(Settings.fileLocationPicture);
                     using (var client = new System.Net.WebClient())
                     {
                         try
                         {
-                            await log.LogStandard(t.GetMethodName("TranscriptionCompletedHandler"), "Trying to donwload file from : " + urlStr);
+                            await log.LogStandard("TranscriptionCompletedHandler.Handle", "Trying to download file from : " + urlStr);
                             client.DownloadFile(urlStr, fileLocationPicture + ud.FileName.Replace(".3gp", ".wav"));
+                            await core.PutFileToStorageSystem(fileLocationPicture + ud.FileName.Replace(".3gp", ".wav"),
+                                ud.FileName.Replace("3gp", "wav"));
                         }
                         catch (Exception ex)
                         {
@@ -87,7 +88,7 @@ namespace Microting.eForm.Handlers
 
                 await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
 
-                await log.LogStandard(t.GetMethodName("TranscriptionCompletedHandler"), "Transcription with id " + message.MicrotringUUID + " has been transcribed");
+                await log.LogStandard("TranscriptionCompletedHandler.Handle", "Transcription with id " + message.MicrotringUUID + " has been transcribed");
             }
             catch (Exception ex)
             {
