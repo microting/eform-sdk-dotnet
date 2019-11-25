@@ -1602,9 +1602,8 @@ namespace eFormCore
 
         public async Task<bool> CaseDeleteResult(int caseId)
         {
-            string methodName = t.GetMethodName("Core");
-            await log.LogStandard(t.GetMethodName("Core"), "called");
-            await log.LogVariable(t.GetMethodName("Core"), nameof(caseId), caseId);
+            await log.LogStandard("Core.CaseDeleteResult", "called");
+            await log.LogVariable("Core.CaseDeleteResult", nameof(caseId), caseId);
             try
             {
                 return await _sqlController.CaseDeleteResult(caseId);
@@ -1614,11 +1613,11 @@ namespace eFormCore
             {
                 try
                 {
-                    await log.LogException(t.GetMethodName("Core"), "(int " + caseId.ToString() + ") failed", ex, false);
+                    await log.LogException("Core.CaseDeleteResult", "(int " + caseId.ToString() + ") failed", ex, false);
                 }
                 catch
                 {
-                    await log.LogException(t.GetMethodName("Core"), "(int caseId) failed", ex, false);
+                    await log.LogException("Core.CaseDeleteResult", "(int caseId) failed", ex, false);
                 }
 
                 return false;
@@ -1627,16 +1626,15 @@ namespace eFormCore
 
         public async Task<bool> CaseUpdateFieldValues(int id)
         {
-            string methodName = t.GetMethodName("Core");
-            await log.LogStandard(t.GetMethodName("Core"), "called");
-            await log.LogVariable(t.GetMethodName("Core"), nameof(id), id);
+            await log.LogStandard("Core.CaseUpdateFieldValues", "called");
+            await log.LogVariable("Core.CaseUpdateFieldValues", nameof(id), id);
             try
             {
                 return await _sqlController.CaseUpdateFieldValues(id);
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException("Core.CaseUpdateFieldValues", "failed", ex, false);
                 return false;
             }
         }
