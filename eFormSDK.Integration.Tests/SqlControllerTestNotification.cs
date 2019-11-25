@@ -123,7 +123,7 @@ namespace eFormSDK.Integration.Tests
 
 
         [Test]
-        public async Task SQL_Notification_Notificationcreate_isCreated()
+        public async Task SQL_Notification_NotificationCreate_isCreated()
         {
 
 
@@ -164,7 +164,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             await sut.NotificationReadFirst();
             List<notifications> notificationResult = dbContext.notifications.AsNoTracking().ToList();
-            var versionedMatches = dbContext.notifications.AsNoTracking().ToList();
+//            var versionedMatches = dbContext.notifications.AsNoTracking().ToList();
 
 
             // Assert
@@ -192,7 +192,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             await sut.NotificationUpdate(aNote1.NotificationUid, (int)aNote1.MicrotingUid, aNote1.WorkflowState, aNote1.Exception, "");
             List<notifications> notificationResult = dbContext.notifications.AsNoTracking().ToList();
-            var versionedMatches = dbContext.notifications.AsNoTracking().ToList();
+//            var versionedMatches = dbContext.notifications.AsNoTracking().ToList();
 
             // Assert
 

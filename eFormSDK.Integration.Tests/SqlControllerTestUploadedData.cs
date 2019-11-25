@@ -187,7 +187,7 @@ namespace eFormSDK.Integration.Tests
             DateTime cl1_Ua = DateTime.Now;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template1", "template_desc", "", "", 1, 1);
 
-            string guid = Guid.NewGuid().ToString();
+//            string guid = Guid.NewGuid().ToString();
 
 
             DateTime c1_ca = DateTime.Now.AddDays(-9);
@@ -197,8 +197,8 @@ namespace eFormSDK.Integration.Tests
             site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker);
             units unit = await testHelpers.CreateUnit(48, 49, site1, 348);
 
-            string microtingUId = Guid.NewGuid().ToString();
-            string microtingCheckId = Guid.NewGuid().ToString();
+//            string microtingUId = Guid.NewGuid().ToString();
+//            string microtingCheckId = Guid.NewGuid().ToString();
             cases aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
                 c1_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site1, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);

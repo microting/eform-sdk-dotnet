@@ -69,8 +69,8 @@ namespace eFormSDK.Integration.Tests
             DateTime cl1_Ua = DateTime.Now;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template2", "template_desc", "", "", 1, 1);
 
-            string guid = Guid.NewGuid().ToString();
-            string guid2 = Guid.NewGuid().ToString();
+//            string guid = Guid.NewGuid().ToString();
+//            string guid2 = Guid.NewGuid().ToString();
             int lastCheckUid1 = rnd.Next(1, 255);
             int lastCheckUid2 = rnd.Next(1, 255);
 
@@ -80,8 +80,8 @@ namespace eFormSDK.Integration.Tests
             // Act
             List<int> matches = await sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, Constants.WorkflowStates.NotRemoved);
             List<int> matches2 = await sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, null);
-            List<check_list_sites> checkListSiteResult1 = dbContext.check_list_sites.AsNoTracking().ToList();
-            var versionedMatches1 = dbContext.check_list_site_versions.AsNoTracking().ToList();
+//            List<check_list_sites> checkListSiteResult1 = dbContext.check_list_sites.AsNoTracking().ToList();
+//            var versionedMatches1 = dbContext.check_list_site_versions.AsNoTracking().ToList();
 
 
             // Assert
@@ -104,7 +104,7 @@ namespace eFormSDK.Integration.Tests
             DateTime cl1_Ua = DateTime.Now;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "bla", "bla_desc", "", "", 0, 0);
 
-            string guid = Guid.NewGuid().ToString();
+//            string guid = Guid.NewGuid().ToString();
             int lastCheckUid1 = rnd.Next(1, 255);
 
 

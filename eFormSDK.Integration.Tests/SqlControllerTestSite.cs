@@ -59,107 +59,107 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            #region Fields
-
-            #region field1
-
-
-            fields f1 = await testHelpers.CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
-                0, 0, "", 49);
-
-            #endregion
-
-            #region field2
-
-
-            fields f2 = await testHelpers.CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
-                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
-
-
-            #endregion
-
-            #region field3
-
-            fields f3 = await testHelpers.CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
-                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field4
-
-
-            fields f4 = await testHelpers.CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
-                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field5
-
-            fields f5 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field6
-
-            fields f6 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                86, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field7
-
-            fields f7 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                87, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field8
-
-            fields f8 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                88, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field9
-
-            fields f9 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                89, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field10
-
-            fields f10 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                90, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #endregion
-
-            #region Worker
-
-            workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-
-            #endregion
+//            #region Fields
+//
+//            #region field1
+//
+//
+//            fields f1 = await testHelpers.CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+//                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+//                0, 0, "", 49);
+//
+//            #endregion
+//
+//            #region field2
+//
+//
+//            fields f2 = await testHelpers.CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+//                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
+//                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+//
+//
+//            #endregion
+//
+//            #region field3
+//
+//            fields f3 = await testHelpers.CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+//                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+//                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field4
+//
+//
+//            fields f4 = await testHelpers.CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+//                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+//                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field5
+//
+//            fields f5 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field6
+//
+//            fields f6 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                86, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field7
+//
+//            fields f7 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                87, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field8
+//
+//            fields f8 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                88, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field9
+//
+//            fields f9 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                89, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field10
+//
+//            fields f10 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                90, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #endregion
+//
+//            #region Worker
+//
+//            workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+//
+//            #endregion
 
             #region sites
 
@@ -275,107 +275,107 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            #region Fields
-
-            #region field1
-
-
-            fields f1 = await testHelpers.CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
-                0, 0, "", 49);
-
-            #endregion
-
-            #region field2
-
-
-            fields f2 = await testHelpers.CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
-                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
-
-
-            #endregion
-
-            #region field3
-
-            fields f3 = await testHelpers.CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
-                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field4
-
-
-            fields f4 = await testHelpers.CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
-                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field5
-
-            fields f5 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field6
-
-            fields f6 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                86, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field7
-
-            fields f7 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                87, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field8
-
-            fields f8 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                88, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field9
-
-            fields f9 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                89, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field10
-
-            fields f10 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                90, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #endregion
-
-            #region Worker
-
-            workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-
-            #endregion
+//            #region Fields
+//
+//            #region field1
+//
+//
+//            fields f1 = await testHelpers.CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+//                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+//                0, 0, "", 49);
+//
+//            #endregion
+//
+//            #region field2
+//
+//
+//            fields f2 = await testHelpers.CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+//                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
+//                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+//
+//
+//            #endregion
+//
+//            #region field3
+//
+//            fields f3 = await testHelpers.CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+//                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+//                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field4
+//
+//
+//            fields f4 = await testHelpers.CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+//                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+//                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field5
+//
+//            fields f5 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field6
+//
+//            fields f6 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                86, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field7
+//
+//            fields f7 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                87, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field8
+//
+//            fields f8 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                88, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field9
+//
+//            fields f9 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                89, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field10
+//
+//            fields f10 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                90, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #endregion
+//
+//            #region Worker
+//
+//            workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+//
+//            #endregion
 
             #region sites
 
@@ -495,107 +495,107 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            #region Fields
-
-            #region field1
-
-
-            fields f1 = await testHelpers.CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
-                0, 0, "", 49);
-
-            #endregion
-
-            #region field2
-
-
-            fields f2 = await testHelpers.CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
-                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
-
-
-            #endregion
-
-            #region field3
-
-            fields f3 = await testHelpers.CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
-                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field4
-
-
-            fields f4 = await testHelpers.CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
-                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field5
-
-            fields f5 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field6
-
-            fields f6 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                86, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field7
-
-            fields f7 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                87, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field8
-
-            fields f8 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                88, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field9
-
-            fields f9 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                89, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field10
-
-            fields f10 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                90, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #endregion
-
-            #region Worker
-
-            workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-
-            #endregion
+//            #region Fields
+//
+//            #region field1
+//
+//
+//            fields f1 = await testHelpers.CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+//                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+//                0, 0, "", 49);
+//
+//            #endregion
+//
+//            #region field2
+//
+//
+//            fields f2 = await testHelpers.CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+//                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
+//                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+//
+//
+//            #endregion
+//
+//            #region field3
+//
+//            fields f3 = await testHelpers.CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+//                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+//                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field4
+//
+//
+//            fields f4 = await testHelpers.CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+//                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+//                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field5
+//
+//            fields f5 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field6
+//
+//            fields f6 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                86, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field7
+//
+//            fields f7 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                87, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field8
+//
+//            fields f8 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                88, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field9
+//
+//            fields f9 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                89, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field10
+//
+//            fields f10 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                90, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #endregion
+//
+//            #region Worker
+//
+//            workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+//
+//            #endregion
 
             #region sites
 
@@ -604,50 +604,50 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            #region Site2
-            sites site2 = await testHelpers.CreateSite("SiteName2", 89);
-
-            #endregion
-
-            #region Site3
-            sites site3 = await testHelpers.CreateSite("SiteName3", 90);
-
-            #endregion
-
-            #region Site4
-            sites site4 = await testHelpers.CreateSite("SiteName4", 91);
-
-            #endregion
-
-            #region Site5
-            sites site5 = await testHelpers.CreateSite("SiteName5", 92);
-
-            #endregion
-
-            #region Site6
-            sites site6 = await testHelpers.CreateSite("SiteName6", 93);
-
-            #endregion
-
-            #region Site7
-            sites site7 = await testHelpers.CreateSite("SiteName7", 94);
-
-            #endregion
-
-            #region Site8
-            sites site8 = await testHelpers.CreateSite("SiteName8", 95);
-
-            #endregion
-
-            #region Site9
-            sites site9 = await testHelpers.CreateSite("SiteName9", 96);
-
-            #endregion
-
-            #region Site10
-            sites site10 = await testHelpers.CreateSite("SiteName10", 97);
-
-            #endregion
+//            #region Site2
+//            sites site2 = await testHelpers.CreateSite("SiteName2", 89);
+//
+//            #endregion
+//
+//            #region Site3
+//            sites site3 = await testHelpers.CreateSite("SiteName3", 90);
+//
+//            #endregion
+//
+//            #region Site4
+//            sites site4 = await testHelpers.CreateSite("SiteName4", 91);
+//
+//            #endregion
+//
+//            #region Site5
+//            sites site5 = await testHelpers.CreateSite("SiteName5", 92);
+//
+//            #endregion
+//
+//            #region Site6
+//            sites site6 = await testHelpers.CreateSite("SiteName6", 93);
+//
+//            #endregion
+//
+//            #region Site7
+//            sites site7 = await testHelpers.CreateSite("SiteName7", 94);
+//
+//            #endregion
+//
+//            #region Site8
+//            sites site8 = await testHelpers.CreateSite("SiteName8", 95);
+//
+//            #endregion
+//
+//            #region Site9
+//            sites site9 = await testHelpers.CreateSite("SiteName9", 96);
+//
+//            #endregion
+//
+//            #region Site10
+//            sites site10 = await testHelpers.CreateSite("SiteName10", 97);
+//
+//            #endregion
 
             #endregion
             #endregion
@@ -682,101 +682,101 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            #region Fields
-
-            #region field1
-
-
-            fields f1 = await testHelpers.CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
-                0, 0, "", 49);
-
-            #endregion
-
-            #region field2
-
-
-            fields f2 = await testHelpers.CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
-                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
-
-
-            #endregion
-
-            #region field3
-
-            fields f3 = await testHelpers.CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
-                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field4
-
-
-            fields f4 = await testHelpers.CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
-                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field5
-
-            fields f5 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field6
-
-            fields f6 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                86, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field7
-
-            fields f7 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                87, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field8
-
-            fields f8 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                88, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field9
-
-            fields f9 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                89, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field10
-
-            fields f10 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                90, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #endregion
+//            #region Fields
+//
+//            #region field1
+//
+//
+//            fields f1 = await testHelpers.CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+//                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+//                0, 0, "", 49);
+//
+//            #endregion
+//
+//            #region field2
+//
+//
+//            fields f2 = await testHelpers.CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+//                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
+//                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+//
+//
+//            #endregion
+//
+//            #region field3
+//
+//            fields f3 = await testHelpers.CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+//                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+//                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field4
+//
+//
+//            fields f4 = await testHelpers.CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+//                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+//                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field5
+//
+//            fields f5 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field6
+//
+//            fields f6 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                86, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field7
+//
+//            fields f7 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                87, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field8
+//
+//            fields f8 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                88, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field9
+//
+//            fields f9 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                89, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field10
+//
+//            fields f10 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                90, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #endregion
 
             #region Worker
 
@@ -795,46 +795,46 @@ namespace eFormSDK.Integration.Tests
             sites site2 = await testHelpers.CreateSite("SiteName2", 89);
 
             #endregion
-
-            #region Site3
-            sites site3 = await testHelpers.CreateSite("SiteName3", 90);
-
-            #endregion
-
-            #region Site4
-            sites site4 = await testHelpers.CreateSite("SiteName4", 91);
-
-            #endregion
-
-            #region Site5
-            sites site5 = await testHelpers.CreateSite("SiteName5", 92);
-
-            #endregion
-
-            #region Site6
-            sites site6 = await testHelpers.CreateSite("SiteName6", 93);
-
-            #endregion
-
-            #region Site7
-            sites site7 = await testHelpers.CreateSite("SiteName7", 94);
-
-            #endregion
-
-            #region Site8
-            sites site8 = await testHelpers.CreateSite("SiteName8", 95);
-
-            #endregion
-
-            #region Site9
-            sites site9 = await testHelpers.CreateSite("SiteName9", 96);
-
-            #endregion
-
-            #region Site10
-            sites site10 = await testHelpers.CreateSite("SiteName10", 97);
-
-            #endregion
+//
+//            #region Site3
+//            sites site3 = await testHelpers.CreateSite("SiteName3", 90);
+//
+//            #endregion
+//
+//            #region Site4
+//            sites site4 = await testHelpers.CreateSite("SiteName4", 91);
+//
+//            #endregion
+//
+//            #region Site5
+//            sites site5 = await testHelpers.CreateSite("SiteName5", 92);
+//
+//            #endregion
+//
+//            #region Site6
+//            sites site6 = await testHelpers.CreateSite("SiteName6", 93);
+//
+//            #endregion
+//
+//            #region Site7
+//            sites site7 = await testHelpers.CreateSite("SiteName7", 94);
+//
+//            #endregion
+//
+//            #region Site8
+//            sites site8 = await testHelpers.CreateSite("SiteName8", 95);
+//
+//            #endregion
+//
+//            #region Site9
+//            sites site9 = await testHelpers.CreateSite("SiteName9", 96);
+//
+//            #endregion
+//
+//            #region Site10
+//            sites site10 = await testHelpers.CreateSite("SiteName10", 97);
+//
+//            #endregion
 
             #endregion
 
@@ -879,101 +879,101 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            #region Fields
-
-            #region field1
-
-
-            fields f1 = await testHelpers.CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
-                0, 0, "", 49);
-
-            #endregion
-
-            #region field2
-
-
-            fields f2 = await testHelpers.CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
-                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
-
-
-            #endregion
-
-            #region field3
-
-            fields f3 = await testHelpers.CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
-                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field4
-
-
-            fields f4 = await testHelpers.CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
-                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field5
-
-            fields f5 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field6
-
-            fields f6 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                86, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field7
-
-            fields f7 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                87, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field8
-
-            fields f8 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                88, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field9
-
-            fields f9 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                89, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field10
-
-            fields f10 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                90, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #endregion
+//            #region Fields
+//
+//            #region field1
+//
+//
+//            fields f1 = await testHelpers.CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+//                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+//                0, 0, "", 49);
+//
+//            #endregion
+//
+//            #region field2
+//
+//
+//            fields f2 = await testHelpers.CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+//                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
+//                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+//
+//
+//            #endregion
+//
+//            #region field3
+//
+//            fields f3 = await testHelpers.CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+//                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+//                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field4
+//
+//
+//            fields f4 = await testHelpers.CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+//                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+//                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field5
+//
+//            fields f5 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field6
+//
+//            fields f6 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                86, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field7
+//
+//            fields f7 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                87, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field8
+//
+//            fields f8 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                88, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field9
+//
+//            fields f9 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                89, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field10
+//
+//            fields f10 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                90, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #endregion
 
             #region Worker
 
@@ -988,62 +988,62 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            #region Site2
-            sites site2 = await testHelpers.CreateSite("SiteName2", 89);
+//            #region Site2
+//            sites site2 = await testHelpers.CreateSite("SiteName2", 89);
+//
+//            #endregion
+//
+//            #region Site3
+//            sites site3 = await testHelpers.CreateSite("SiteName3", 90);
+//
+//            #endregion
+//
+//            #region Site4
+//            sites site4 = await testHelpers.CreateSite("SiteName4", 91);
+//
+//            #endregion
+//
+//            #region Site5
+//            sites site5 = await testHelpers.CreateSite("SiteName5", 92);
+//
+//            #endregion
+//
+//            #region Site6
+//            sites site6 = await testHelpers.CreateSite("SiteName6", 93);
+//
+//            #endregion
+//
+//            #region Site7
+//            sites site7 = await testHelpers.CreateSite("SiteName7", 94);
+//
+//            #endregion
+//
+//            #region Site8
+//            sites site8 = await testHelpers.CreateSite("SiteName8", 95);
+//
+//            #endregion
+//
+//            #region Site9
+//            sites site9 = await testHelpers.CreateSite("SiteName9", 96);
+//
+//            #endregion
+//
+//            #region Site10
+//            sites site10 = await testHelpers.CreateSite("SiteName10", 97);
+//
+//            #endregion
 
             #endregion
 
-            #region Site3
-            sites site3 = await testHelpers.CreateSite("SiteName3", 90);
-
-            #endregion
-
-            #region Site4
-            sites site4 = await testHelpers.CreateSite("SiteName4", 91);
-
-            #endregion
-
-            #region Site5
-            sites site5 = await testHelpers.CreateSite("SiteName5", 92);
-
-            #endregion
-
-            #region Site6
-            sites site6 = await testHelpers.CreateSite("SiteName6", 93);
-
-            #endregion
-
-            #region Site7
-            sites site7 = await testHelpers.CreateSite("SiteName7", 94);
-
-            #endregion
-
-            #region Site8
-            sites site8 = await testHelpers.CreateSite("SiteName8", 95);
-
-            #endregion
-
-            #region Site9
-            sites site9 = await testHelpers.CreateSite("SiteName9", 96);
-
-            #endregion
-
-            #region Site10
-            sites site10 = await testHelpers.CreateSite("SiteName10", 97);
-
-            #endregion
-
-            #endregion
-
-            #region units
-            units unit = await testHelpers.CreateUnit(48, 49, site1, 348);
-
-            #endregion
-
-            #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker);
-
-            #endregion
+//            #region units
+//            units unit = await testHelpers.CreateUnit(48, 49, site1, 348);
+//
+//            #endregion
+//
+//            #region site_workers
+//            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker);
+//
+//            #endregion
             #endregion
 
             // Act
@@ -1075,101 +1075,101 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            #region Fields
-
-            #region field1
-
-
-            fields f1 = await testHelpers.CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
-                0, 0, "", 49);
-
-            #endregion
-
-            #region field2
-
-
-            fields f2 = await testHelpers.CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
-                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
-
-
-            #endregion
-
-            #region field3
-
-            fields f3 = await testHelpers.CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
-                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field4
-
-
-            fields f4 = await testHelpers.CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
-                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field5
-
-            fields f5 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field6
-
-            fields f6 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                86, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field7
-
-            fields f7 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                87, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field8
-
-            fields f8 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                88, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field9
-
-            fields f9 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                89, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #region field10
-
-            fields f10 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
-                90, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-
-            #endregion
-
-            #endregion
+//            #region Fields
+//
+//            #region field1
+//
+//
+//            fields f1 = await testHelpers.CreateField(1, "barcode", Cl2, "e2f4fb", "custom", null, "", "Comment field description",
+//                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+//                0, 0, "", 49);
+//
+//            #endregion
+//
+//            #region field2
+//
+//
+//            fields f2 = await testHelpers.CreateField(1, "barcode", Cl2, "f5eafa", "custom", null, "", "showPDf Description",
+//                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
+//                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+//
+//
+//            #endregion
+//
+//            #region field3
+//
+//            fields f3 = await testHelpers.CreateField(0, "barcode", Cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+//                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+//                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field4
+//
+//
+//            fields f4 = await testHelpers.CreateField(1, "barcode", Cl2, "fff6df", "custom", null, "", "date Description",
+//                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+//                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field5
+//
+//            fields f5 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field6
+//
+//            fields f6 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                86, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field7
+//
+//            fields f7 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                87, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field8
+//
+//            fields f8 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                88, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field9
+//
+//            fields f9 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                89, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #region field10
+//
+//            fields f10 = await testHelpers.CreateField(0, "barcode", Cl2, "ffe4e4", "custom", null, "", "picture Description",
+//                90, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+//                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+//
+//
+//            #endregion
+//
+//            #endregion
 
             #region Worker
 
@@ -1184,62 +1184,62 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            #region Site2
-            sites site2 = await testHelpers.CreateSite("SiteName2", 89);
+//            #region Site2
+//            sites site2 = await testHelpers.CreateSite("SiteName2", 89);
+//
+//            #endregion
+//
+//            #region Site3
+//            sites site3 = await testHelpers.CreateSite("SiteName3", 90);
+//
+//            #endregion
+//
+//            #region Site4
+//            sites site4 = await testHelpers.CreateSite("SiteName4", 91);
+//
+//            #endregion
+//
+//            #region Site5
+//            sites site5 = await testHelpers.CreateSite("SiteName5", 92);
+//
+//            #endregion
+//
+//            #region Site6
+//            sites site6 = await testHelpers.CreateSite("SiteName6", 93);
+//
+//            #endregion
+//
+//            #region Site7
+//            sites site7 = await testHelpers.CreateSite("SiteName7", 94);
+//
+//            #endregion
+//
+//            #region Site8
+//            sites site8 = await testHelpers.CreateSite("SiteName8", 95);
+//
+//            #endregion
+//
+//            #region Site9
+//            sites site9 = await testHelpers.CreateSite("SiteName9", 96);
+//
+//            #endregion
+//
+//            #region Site10
+//            sites site10 = await testHelpers.CreateSite("SiteName10", 97);
+//
+//            #endregion
 
             #endregion
 
-            #region Site3
-            sites site3 = await testHelpers.CreateSite("SiteName3", 90);
-
-            #endregion
-
-            #region Site4
-            sites site4 = await testHelpers.CreateSite("SiteName4", 91);
-
-            #endregion
-
-            #region Site5
-            sites site5 = await testHelpers.CreateSite("SiteName5", 92);
-
-            #endregion
-
-            #region Site6
-            sites site6 = await testHelpers.CreateSite("SiteName6", 93);
-
-            #endregion
-
-            #region Site7
-            sites site7 = await testHelpers.CreateSite("SiteName7", 94);
-
-            #endregion
-
-            #region Site8
-            sites site8 = await testHelpers.CreateSite("SiteName8", 95);
-
-            #endregion
-
-            #region Site9
-            sites site9 = await testHelpers.CreateSite("SiteName9", 96);
-
-            #endregion
-
-            #region Site10
-            sites site10 = await testHelpers.CreateSite("SiteName10", 97);
-
-            #endregion
-
-            #endregion
-
-            #region units
-            units unit = await testHelpers.CreateUnit(48, 49, site1, 348);
-
-            #endregion
-
-            #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker);
-
-            #endregion
+//            #region units
+//            units unit = await testHelpers.CreateUnit(48, 49, site1, 348);
+//
+//            #endregion
+//
+//            #region site_workers
+//            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker);
+//
+//            #endregion
             #endregion
 
             // Act

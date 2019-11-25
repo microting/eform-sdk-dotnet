@@ -114,10 +114,10 @@ namespace eFormSDK.Integration.Tests
      
             #endregion
 
-            #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
-           
-            #endregion
+//            #region site_workers
+//            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
+//           
+//            #endregion
 
             #region Case1
 
@@ -127,11 +127,11 @@ namespace eFormSDK.Integration.Tests
          
             #endregion
 
-            #region Check List Values
-            check_list_values check_List_Values = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
-         
-
-            #endregion
+//            #region Check List Values
+//            check_list_values check_List_Values = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
+//         
+//
+//            #endregion
 
             #region Field Values
             #region fv1

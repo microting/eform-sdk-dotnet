@@ -40,8 +40,8 @@ namespace eFormSDK.Integration.Tests
         public async Task languages_Create_DoesCreate()
         {
             // Arrange
-            string name = Guid.NewGuid().ToString();
-            string description = Guid.NewGuid().ToString();
+//            string name = Guid.NewGuid().ToString();
+//            string description = Guid.NewGuid().ToString();
 
             languages language = new languages();
 
