@@ -15,4 +15,5 @@ jobs:
     - script: ./integration-tests-core.sh
     - script: ./integration-tests-sqlcontroller.sh
     - stage: "Deploy"
+      if: branch = master
       script: ./deploy.sh
