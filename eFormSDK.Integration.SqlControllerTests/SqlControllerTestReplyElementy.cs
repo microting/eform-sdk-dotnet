@@ -124,11 +124,10 @@ namespace eFormSDK.Integration.SqlControllerTests
          
             #endregion
 
-//            #region Check List Values
-//            check_list_values check_List_Values = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
-//         
-//
-//            #endregion
+            #region Check List Values
+            check_list_values check_List_Values = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
+            
+            #endregion
 
             #region Field Values
             #region fv1
