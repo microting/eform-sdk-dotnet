@@ -12,6 +12,7 @@ services:
 jobs:
   include:
     - script: ./unit-tests.sh
-    - script: ./integration-tests.sh
+    - script: ./integration-tests-core.sh
+    - script: ./integration-tests-sqlcontroller.sh
     - stage: "Deploy"
       script: ./deploy.sh
