@@ -15,11 +15,13 @@ namespace eFormSDK.Tests
         public async Task FieldType_Create_DoesCreate()
         {
             //Arrange
-            
-            field_types fieldType = new field_types();
-            fieldType.Description = Guid.NewGuid().ToString();
-            fieldType.FieldType = Guid.NewGuid().ToString();
-            
+
+            field_types fieldType = new field_types
+            {
+                Description = Guid.NewGuid().ToString(), 
+                FieldType = Guid.NewGuid().ToString()
+            };
+
             //Act
             
             List<field_types> fieldTypes = dbContext.field_types.AsNoTracking().ToList();
@@ -38,16 +40,21 @@ namespace eFormSDK.Tests
             Assert.AreEqual(fieldType.Description, fieldTypes[19].Description);
             Assert.AreEqual(fieldType.Id, fieldTypes[19].Id);
             Assert.AreEqual(fieldType.FieldType, fieldTypes[19].FieldType);
+
+            dbContext.field_types.Remove(fieldType);
+            await dbContext.SaveChangesAsync();
         }
 
         [Test]
         public async Task FieldType_Update_DoesUpdate()
         {
             //Arrange
-            
-            field_types fieldType = new field_types();
-            fieldType.Description = Guid.NewGuid().ToString();
-            fieldType.FieldType = Guid.NewGuid().ToString();
+
+            field_types fieldType = new field_types
+            {
+                Description = Guid.NewGuid().ToString(), 
+                FieldType = Guid.NewGuid().ToString()
+            };
             await fieldType.Create(dbContext);
             
             //Act
@@ -68,16 +75,21 @@ namespace eFormSDK.Tests
             Assert.AreEqual(fieldType.Description, fieldTypes[19].Description);
             Assert.AreEqual(fieldType.Id, fieldTypes[19].Id);
             Assert.AreEqual(fieldType.FieldType, fieldTypes[19].FieldType);
+            
+            dbContext.field_types.Remove(fieldType);
+            await dbContext.SaveChangesAsync();
         }
 
         [Test]
         public async Task FieldType_Delete_DoesDelete()
         {
             //Arrange
-            
-            field_types fieldType = new field_types();
-            fieldType.Description = Guid.NewGuid().ToString();
-            fieldType.FieldType = Guid.NewGuid().ToString();
+
+            field_types fieldType = new field_types
+            {
+                Description = Guid.NewGuid().ToString(), 
+                FieldType = Guid.NewGuid().ToString()
+            };
             await fieldType.Create(dbContext);
             
             //Act
@@ -95,7 +107,8 @@ namespace eFormSDK.Tests
             
             fieldTypes = dbContext.field_types.AsNoTracking().ToList();
             
-            Assert.AreEqual(19, fieldTypes.Count());
+            Assert.AreEqual(19, fieldTypes.Count());            
+
         }
     }
 }
