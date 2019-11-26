@@ -13,26 +13,8 @@ services:
 jobs:
   include:
     - stage: "Unit tests"
-    - script:
-      - ./armprepareinstall.sh
-      - dotnet restore
-      - dotnet build --no-restore eFormSDK.sln
-      - dotnet test --no-restore -c Release -v n eFormSDK.Tests/eFormSDK.Tests.csproj || travis_terminate 1;
-
+    - script: ./unit-tests.sh
     - stage: "Integration tests"
-    - script:
-      - ./armprepareinstall.sh
-      - dotnet restore
-      - dotnet build --no-restore eFormSDK.sln
-      - dotnet test --no-restore -c Release -v n eFormSDK.Integration.Tests/eFormSDK.Integration.Tests.csproj || travis_terminate 1;
+    - script: ./integration-tests.sh
     - stage: "Deploy"
-      - script:
-        - ./armprepareinstall.sh
-        - dotnet restore
-        - dotnet build --no-restore eFormSDK.sln
-        - export GITVERSION=`git describe --abbrev=0 --tags | cut -d "v" -f 2`
-        - echo $GITVERSION
-        - dotnet pack eFormSDK.sln -c Release -o ./artifacts -p:PackageVersion=$GITVERSION
-        - export FILENAME="/home/travis/build/microting/eform-sdk-dotnet/eFormCore/artifacts/Microting.eForm.${GITVERSION}.nupkg"
-        - echo $FILENAME
-        - dotnet nuget push $FILENAME -k $NUGET_SECRET_KEY -s https://api.nuget.org/v3/index.json || true
+    - script: ./deploy.sh
