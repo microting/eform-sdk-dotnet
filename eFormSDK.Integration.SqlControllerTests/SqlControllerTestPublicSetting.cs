@@ -18,7 +18,7 @@ namespace eFormSDK.Integration.SqlControllerTests
     {
         private SqlController sut;
         private TestHelpers testHelpers;
-        string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:", "");
+        readonly string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:", "");
 
         public override async Task DoSetup()
         {
@@ -130,9 +130,9 @@ namespace eFormSDK.Integration.SqlControllerTests
             Assert.AreEqual(match5, "https://basic.microting.com");
             Assert.AreEqual(match6, "https://srv16.microting.com");
             Assert.AreEqual(match7, "64856189");
-            Assert.AreEqual(match8, @"\output\dataFolder\reports\");
-            Assert.AreEqual(match9, @"\output\dataFolder\pdf\");
-            Assert.AreEqual(match10, @"\output\dataFolder\picture\");
+            Assert.AreEqual(match8, Path.Combine(path, "output", "dataFolder", "reports"));
+            Assert.AreEqual(match9, Path.Combine(path, "output", "dataFolder", "pdf"));
+            Assert.AreEqual(match10, Path.Combine(path, "output", "dataFolder", "picture"));
             Assert.AreEqual(match11, "true");
             Assert.AreEqual(match12, "http://localhost:3000");
             Assert.AreEqual(match13, "true");
@@ -197,9 +197,9 @@ namespace eFormSDK.Integration.SqlControllerTests
             Assert.AreEqual(match[1].Value, "4");
             Assert.AreEqual(match[2].Value, "25000");
             Assert.AreEqual(match[3].Value, "true");
-            Assert.AreEqual(match[4].Value, @"\output\dataFolder\picture\");
-            Assert.AreEqual(match[5].Value, @"\output\dataFolder\pdf\");
-            Assert.AreEqual(match[6].Value, @"\output\dataFolder\reports\");
+            Assert.AreEqual(match[4].Value, Path.Combine(path, "output", "dataFolder", "picture"));
+            Assert.AreEqual(match[5].Value, Path.Combine(path, "output", "dataFolder", "pdf"));
+            Assert.AreEqual(match[6].Value, Path.Combine(path, "output", "dataFolder", "reports"));
             Assert.AreEqual(match[7].Value, "abc1234567890abc1234567890abcdef");
             Assert.AreEqual(match[8].Value, "https://basic.microting.com");
             Assert.AreEqual(match[9].Value, "http://srv05.microting.com");
