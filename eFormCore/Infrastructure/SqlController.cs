@@ -5897,15 +5897,15 @@ namespace Microting.eForm.Infrastructure
         /// <param name="description"></param>
         private async Task FieldTypeAdd(int Id, string fieldType, string description)
         {
-            using (var db = GetContext())
+            await using var db = GetContext();
+            if (db.field_types.Count(x => x.FieldType == fieldType) == 0)
             {
-                if (db.field_types.Count(x => x.FieldType == fieldType) == 0)
+                field_types fT = new field_types
                 {
-                    field_types fT = new field_types();
-                    fT.FieldType = fieldType;
-                    fT.Description = description;
-                    await fT.Create(db);
-                }                
+                    FieldType = fieldType, 
+                    Description = description
+                };
+                await fT.Create(db);
             }
         }
     }    
