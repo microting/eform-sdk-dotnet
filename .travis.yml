@@ -13,6 +13,7 @@ jobs:
   include:
     - stage: "Tests"
       script: ./unit-tests.sh
+    - stage: "Integration tests"
       script: ./integration-tests.sh
     - stage: "Deploy"
       script: ./deploy.sh
