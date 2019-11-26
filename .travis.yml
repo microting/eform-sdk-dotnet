@@ -11,7 +11,6 @@ services:
 - mysql
 jobs:
   include:
-    - stage: "Tests"
     - script: ./unit-tests.sh
     - script: ./integration-tests.sh
     - stage: "Deploy"
