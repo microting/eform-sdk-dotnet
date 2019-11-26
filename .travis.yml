@@ -4,7 +4,6 @@
 dist: bionic
 arch:
   - amd64
-  - arm64
 language: csharp
 solution: eformSDK.sln
 mono: none
@@ -12,9 +11,8 @@ services:
 - mysql
 jobs:
   include:
-    - stage: "Unit tests"
+    - stage: "Tests"
     - script: ./unit-tests.sh
-    - stage: "Integration tests"
     - script: ./integration-tests.sh
     - stage: "Deploy"
     - script: ./deploy.sh
