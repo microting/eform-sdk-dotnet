@@ -144,8 +144,7 @@ namespace Microting.eForm.Helpers
                 
                 currentHeader = keyValuePair.Key;
                 InsertPicture(keyValuePair.Value, wordDoc);
-                
-                
+
             }
             
             wordDoc.Save();

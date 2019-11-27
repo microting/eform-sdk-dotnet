@@ -2124,6 +2124,7 @@ namespace eFormCore
                         
                             pictures.Add(new KeyValuePair<string, string>($"{checkList.Label.Replace("&", "&amp;")} - {field.Label.Replace("&", "&amp;")}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
                             SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName);
+                            Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
                             var fileStream =
                                 File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
                             swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
@@ -2136,7 +2137,6 @@ namespace eFormCore
                         }
                         break;
                     case Constants.FieldTypes.CheckBox:
-                        // TODO change this to use Winding 0252 = checkmark
                         valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable.ToLower() == "checked" ? "&#10004;" : "";
                         break;
                     default:
