@@ -17,20 +17,93 @@ using Text = DocumentFormat.OpenXml.Wordprocessing.Text;
 
 namespace Microting.eForm.Helpers
 {
-    public class ReportHelper
+    public static class ReportHelper
     {
-        public static void SearchAndReplace(string fullPathToDocument,SortedDictionary<string, string> valuesToReplace, string outputFileName)
+        public static void SearchAndReplace(string fullPathToDocument, SortedDictionary<string, string> valuesToReplace, string outputFileName)
         {
             File.Copy(fullPathToDocument, outputFileName);
             
             WordprocessingDocument wordDoc = WordprocessingDocument.Open(outputFileName, true);
 
+            SearchAndReplaceHeaders(wordDoc, valuesToReplace);
+            
+            SearchAndReplaceBody(wordDoc, valuesToReplace);
+
+            SearchAndReplaceFooters(wordDoc, valuesToReplace);
+
+            wordDoc.Save();
+            wordDoc.Close();
+            wordDoc.Dispose();
+        }
+
+        private static void SearchAndReplaceHeaders(WordprocessingDocument wordDoc, 
+            SortedDictionary<string, string> valuesToReplace)
+        {
+            foreach (HeaderPart headerPart in wordDoc.MainDocumentPart.HeaderParts)
+            {
+                string docText = null;
+                using (StreamReader sr = new StreamReader(headerPart.GetStream()))
+                {
+                    docText = sr.ReadToEnd();
+                }
+                
+                docText = SearchAndReplace(docText, valuesToReplace);
+
+                using (StreamWriter sw = new StreamWriter(headerPart.GetStream(FileMode.Create)))
+                {
+                    sw.Write(docText);
+                    sw.Flush();
+                    sw.Close();
+                    sw.Dispose();
+                }
+            }
+        }
+        
+        private static void SearchAndReplaceBody(WordprocessingDocument wordDoc, 
+            SortedDictionary<string, string> valuesToReplace)
+        {
             string docText = null;
             using (StreamReader sr = new StreamReader(wordDoc.MainDocumentPart.GetStream()))
             {
                 docText = sr.ReadToEnd();
             }
-            
+
+            docText = SearchAndReplace(docText, valuesToReplace);
+
+            using (StreamWriter sw = new StreamWriter(wordDoc.MainDocumentPart.GetStream(FileMode.Create)))
+            {
+                sw.Write(docText);
+                sw.Flush();
+                sw.Close();
+                sw.Dispose();
+            }
+        }
+        
+        private static void SearchAndReplaceFooters(WordprocessingDocument wordDoc, 
+            SortedDictionary<string, string> valuesToReplace)
+        {
+            foreach (FooterPart footerPart in wordDoc.MainDocumentPart.FooterParts)
+            {
+                string docText = null;
+                using (StreamReader sr = new StreamReader(footerPart.GetStream()))
+                {
+                    docText = sr.ReadToEnd();
+                }
+                
+                docText = SearchAndReplace(docText, valuesToReplace);
+
+                using (StreamWriter sw = new StreamWriter(footerPart.GetStream(FileMode.Create)))
+                {
+                    sw.Write(docText);
+                    sw.Flush();
+                    sw.Close();
+                    sw.Dispose();
+                }
+            }
+        }
+        
+        private static string SearchAndReplace(string docText, SortedDictionary<string, string> valuesToReplace)
+        {
             foreach (var fieldValue in valuesToReplace.Reverse())
             {
                 if (fieldValue.Value != null)
@@ -45,17 +118,7 @@ namespace Microting.eForm.Helpers
                 }
             }
 
-            using (StreamWriter sw = new StreamWriter(wordDoc.MainDocumentPart.GetStream(FileMode.Create)))
-            {
-                sw.Write(docText);
-                sw.Flush();
-                sw.Close();
-                sw.Dispose();
-            }
-            
-            wordDoc.Save();
-            wordDoc.Close();
-            wordDoc.Dispose();
+            return docText;
         }
 
         public static void InsertImages(string fullPathToDocument, List<KeyValuePair<string, string>> pictures)
