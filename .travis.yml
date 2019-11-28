@@ -12,20 +12,32 @@ jobs:
     - stage: testing
       os: linux
       arch:
-        - arm64
         - amd64
       script: ./unit-tests.sh
     - stage: testing
       os: linux
       arch:
-        - arm64
         - amd64
       script: ./integration-tests-core.sh
     - stage: testing
       os: linux
       arch:
-        - arm64
         - amd64
+      script: ./integration-tests-sqlcontroller.sh
+    - stage: testing
+      os: linux
+      arch:
+        - arm64
+      script: ./unit-tests.sh
+    - stage: testing
+      os: linux
+      arch:
+        - arm64
+      script: ./integration-tests-core.sh
+    - stage: testing
+      os: linux
+      arch:
+        - arm64
       script: ./integration-tests-sqlcontroller.sh
     - stage: "Deploy"
       if: branch = master
