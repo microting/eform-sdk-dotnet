@@ -9,9 +9,26 @@ services:
 - mysql
 jobs:
   include:
-    - script: ./unit-tests.sh
-    - script: ./integration-tests-core.sh
-    - script: ./integration-tests-sqlcontroller.sh
+    - stage: testing
+      os: linux
+      arch:
+        - arm64
+        - amd64
+      script: ./unit-tests.sh
+    - stage: testing
+      os: linux
+      arch:
+        - arm64
+        - amd64
+      script: ./integration-tests-core.sh
+    - stage: testing
+      os: linux
+      arch:
+        - arm64
+        - amd64
+      script: ./integration-tests-sqlcontroller.sh
     - stage: "Deploy"
       if: branch = master
+      os: linux
+      arch: amd64
       script: ./deploy.sh
