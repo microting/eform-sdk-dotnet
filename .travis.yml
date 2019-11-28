@@ -1,6 +1,3 @@
-#os:
-#  - linux
-#  - osx
 dist: bionic
 language: csharp
 solution: eformSDK.sln
@@ -24,21 +21,21 @@ jobs:
       arch:
         - amd64
       script: ./integration-tests-sqlcontroller.sh
-    - stage: testing
-      os: linux
-      arch:
-        - arm64
-      script: ./unit-tests.sh
-    - stage: testing
-      os: linux
-      arch:
-        - arm64
-      script: ./integration-tests-core.sh
-    - stage: testing
-      os: linux
-      arch:
-        - arm64
-      script: ./integration-tests-sqlcontroller.sh
+    #- stage: testing
+    #  os: linux
+    #  arch:
+    #    - arm64
+    #  script: ./unit-tests.sh
+    #- stage: testing
+    #  os: linux
+    #  arch:
+    #    - arm64
+    #  script: ./integration-tests-core.sh
+    #- stage: testing
+    #  os: linux
+    #  arch:
+    #    - arm64
+    #  script: ./integration-tests-sqlcontroller.sh
     - stage: "Deploy"
       if: branch = master
       os: linux
