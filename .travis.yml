@@ -4,6 +4,7 @@
 dist: bionic
 arch:
   - amd64
+  - arm64
 language: csharp
 solution: eformSDK.sln
 mono: none
