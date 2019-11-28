@@ -1400,7 +1400,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EformCheckRead failed", ex);
+                throw new Exception("SqlController.CheckRead failed", ex);
             }
         }
 
@@ -1510,7 +1510,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EformCheckRead failed", ex);
+                throw new Exception("SqlController.SubChecks failed", ex);
             }
         }
 
@@ -2093,7 +2093,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseReadFull failed", ex);
+                throw new Exception("SqlController.FieldValueReadAllValues failed", ex);
             }
         }
 
@@ -2109,7 +2109,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CheckListValueStatusRead failed", ex);
+                throw new Exception("SqlController.CheckListValueStatusRead failed", ex);
             }
         }
 
@@ -2127,7 +2127,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("FieldValueUpdate failed", ex);
+                throw new Exception("SqlController.CheckListValueStatusUpdate failed", ex);
             }
         }
         #endregion
@@ -2143,13 +2143,11 @@ namespace Microting.eForm.Infrastructure
         /// <returns></returns>
         public async Task<notifications> NotificationCreate(string notificationUId, int microtingUId, string activity)
         {
-            string methodName = t.GetMethodName("SQLController");
-
             using (var db = GetContext())
             {
                 if (!db.notifications.Any(x => x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId))
                 {
-                    await log.LogStandard(methodName, "SAVING notificationUId : " + notificationUId + " microtingUId : " + microtingUId + " action : " + activity);
+                    await log.LogStandard("SqlController.NotificationCreate", "SAVING notificationUId : " + notificationUId + " microtingUId : " + microtingUId + " action : " + activity);
 
                     notifications aNote = new notifications();
 
@@ -2193,7 +2191,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
+                throw new Exception("SqlController.NotificationReadFirst failed", ex);
             }
         }
 
@@ -2224,7 +2222,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
+                throw new Exception("SqlController.NotificationUpdate failed", ex);
             }
         }
         #endregion
@@ -2259,7 +2257,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("FileRead failed", ex);
+                throw new Exception("SqlController.FileRead failed", ex);
             }
         }
 
@@ -2287,7 +2285,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
 //                await log.LogCritical(t.GetMethodName("Core"), ex.Message);
-                throw new Exception("FileRead failed", ex);
+                throw new Exception("SqlController.FileCaseFindMUId failed", ex);
             }
         }
 
@@ -2310,7 +2308,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("FileProcessed failed", ex);
+                throw new Exception("SqlController.FileProcessed failed", ex);
             }
         }
 
@@ -2331,7 +2329,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("Get uploaded data object failed", ex);
+                throw new Exception("SqlController.GetUploadedData failed", ex);
             }
         }
 
@@ -2351,7 +2349,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("UpdateUploadedData failed", ex);
+                throw new Exception("SqlController.UpdateUploadedData failed", ex);
             }
         }
 
@@ -2379,7 +2377,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("Get uploaded data object failed", ex);
+                throw new Exception("SqlController.GetFieldValueByTranscriptionId failed", ex);
             }
         }
 
@@ -2396,7 +2394,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("Get uploaded data object failed", ex);
+                throw new Exception("SqlController.GetUploaded_DataByTranscriptionId failed", ex);
             }
         }
 
@@ -2421,7 +2419,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("FileProcessed failed", ex);
+                throw new Exception("SqlController.DeleteFile failed", ex);
             }
         }
         #endregion
@@ -2447,7 +2445,7 @@ namespace Microting.eForm.Infrastructure
                 }
             } catch  (Exception ex)
             {
-                throw new Exception("CaseReadByMuuId failed", ex);
+                throw new Exception("SqlController.CaseLookup failed", ex);
             }
         }
         
@@ -2490,13 +2488,13 @@ namespace Microting.eForm.Infrastructure
                     }
                     catch(Exception ex1)
                     {
-                        throw new Exception("CaseReadByMuuId failed", ex1);
+                        throw new Exception("SqlController.CaseReadByMUId failed", ex1);
                     }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseReadByMuuId failed", ex);
+                throw new Exception("SqlController.CaseReadByMUId failed", ex);
             }
         }
 
@@ -2537,7 +2535,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseReadByCaseId failed", ex);
+                throw new Exception("SqlController.CaseReadByCaseId failed", ex);
             }
         }
 
@@ -2570,7 +2568,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseReadByCaseUId failed", ex);
+                throw new Exception("SqlController.CaseReadByCaseUId failed", ex);
             }
         }
         
@@ -2600,7 +2598,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseReadFull failed", ex);
+                throw new Exception("SqlController.CaseReadFull failed", ex);
             }
         }
 
@@ -2649,13 +2647,13 @@ namespace Microting.eForm.Infrastructure
                         return sub_query.First().Id;
                     } catch (Exception ex)
                     {
-                        throw new Exception("CaseReadFirstId failed", ex);
+                        throw new Exception("SqlController.CaseReadFirstId failed", ex);
                     }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseReadFull failed", ex);
+                throw new Exception("SqlController.CaseReadFull failed", ex);
             }
         }
 
@@ -2923,7 +2921,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseReadFull failed", ex);
+                throw new Exception("SqlController.CaseReadAll failed", ex);
             }
         }
 
@@ -2988,7 +2986,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseFindCustomMatchs failed", ex);
+                throw new Exception("SqlController.CaseFindCustomMatchs failed", ex);
             }
         }
 
@@ -3128,7 +3126,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
+                throw new Exception("SqlController.CaseUpdateFieldValues failed", ex);
             }
         }
         #endregion
@@ -3237,7 +3235,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<int> SiteCreate(int microtingUid, string name)
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3267,7 +3265,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.SiteCreate failed", ex);
             }
         }
 
@@ -3279,7 +3277,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<SiteName_Dto> SiteRead(int microting_uid)
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3294,14 +3292,14 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.SiteRead failed", ex);
             }
         }
 
         //TODO
         public async Task<Site_Dto> SiteReadSimple(int microting_uid)
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3325,7 +3323,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.SiteReadSimple failed", ex);
             }
         }
 
@@ -3338,7 +3336,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> SiteUpdate(int microting_uid, string name)
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3368,7 +3366,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.SiteUpdate failed", ex);
             }
         }
 
@@ -3380,7 +3378,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> SiteDelete(int microting_uid)
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3410,7 +3408,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.SiteDelete failed", ex);
             }
         }
         #endregion
@@ -3427,7 +3425,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<List<Worker_Dto>> WorkerGetAll(string workflowState, int? offSet, int? limit)
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 List<Worker_Dto> listWorkerDto = new List<Worker_Dto>();
@@ -3462,7 +3460,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.WorkerGetAll failed", ex);
             }
 
         }
@@ -3478,7 +3476,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<int> WorkerCreate(int microtingUid, string firstName, string lastName, string email)
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3497,7 +3495,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.WorkerCreate failed", ex);
             }
         }
 
@@ -3509,7 +3507,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<string> WorkerNameRead(int workerId)
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3524,7 +3522,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.WorkerNameRead failed", ex);
             }
         }
 
@@ -3536,7 +3534,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<Worker_Dto> WorkerRead(int microting_uid)
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3551,7 +3549,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.WorkerRead failed", ex);
             }
         }
 
@@ -3566,7 +3564,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> WorkerUpdate(int microtingUid, string firstName, string lastName, string email)
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3591,7 +3589,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.WorkerUpdate failed", ex);
             }
         }
         
@@ -3604,7 +3602,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> WorkerDelete(int microtingUid)
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3625,7 +3623,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.WorkerDelete failed", ex);
             }
         }
         #endregion
@@ -3642,7 +3640,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<int> SiteWorkerCreate(int microtingUId, int siteUId, int workerUId)
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3675,7 +3673,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.SiteWorkerCreate failed", ex);
             }
         }
 
@@ -3689,7 +3687,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<Site_Worker_Dto> SiteWorkerRead(int? siteWorkerMicrotingUid, int? siteId, int? workerId)
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3717,7 +3715,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.SiteWorkerRead failed", ex);
             }
         }
 
@@ -3731,7 +3729,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> SiteWorkerUpdate(int microtingUid, int siteId, int workerId)
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3762,7 +3760,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.SiteWorkerUpdate failed", ex);
             }
         }
 
@@ -3774,7 +3772,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> SiteWorkerDelete(int microting_uid)
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3803,7 +3801,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.SiteWorkerDelete failed", ex);
             }
         }
         #endregion
@@ -3817,7 +3815,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<List<Unit_Dto>> UnitGetAll()
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 List<Unit_Dto> listWorkerDto = new List<Unit_Dto>();
@@ -3834,7 +3832,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.UnitGetAll failed", ex);
             }
         }
         
@@ -3850,7 +3848,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<int> UnitCreate(int microtingUid, int customerNo, int otpCode, int siteUId)
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3872,7 +3870,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.UnitCreate failed", ex);
             }
         }
 
@@ -3884,7 +3882,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<Unit_Dto> UnitRead(int microtingUid)
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3902,7 +3900,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.UnitRead failed", ex);
             }
         }
 
@@ -3917,7 +3915,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> UnitUpdate(int microtingUid, int customerNo, int otpCode, int siteId)
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3941,7 +3939,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.UnitUpdate failed", ex);
             }
         }
         
@@ -3953,7 +3951,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> UnitDelete(int microtingUid)
         {
-            string methodName = t.GetMethodName("SQLController");
+//            string methodName = t.GetMethodName("SQLController");
             try
             {
                 using (var db = GetContext())
@@ -3975,7 +3973,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception(methodName + " failed", ex);
+                throw new Exception("SqlController.UnitDelete failed", ex);
             }
         }
         #endregion
@@ -3989,9 +3987,9 @@ namespace Microting.eForm.Infrastructure
         {
 
             if (entityType != Constants.Constants.FieldTypes.EntitySearch && entityType != Constants.Constants.FieldTypes.EntitySelect)
-                throw new Exception("EntityGroupAll failed. EntityType:" + entityType + " is not an known type");
+                throw new Exception("SqlController.EntityGroupAll failed. EntityType:" + entityType + " is not an known type");
             if (workflowState != Constants.Constants.WorkflowStates.NotRemoved && workflowState != Constants.Constants.WorkflowStates.Created && workflowState != Constants.Constants.WorkflowStates.Removed)
-                throw new Exception("EntityGroupAll failed. workflowState:" + workflowState + " is not an known workflow state");
+                throw new Exception("SqlController.EntityGroupAll failed. workflowState:" + workflowState + " is not an known workflow state");
 
             List<entity_groups> eG = null;
             List<EntityGroup> e_G = new List<EntityGroup>();
@@ -4058,7 +4056,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityGroupAll failed", ex);
+                throw new Exception("SqlController.EntityGroupAll failed", ex);
             }
         }
 
@@ -4074,7 +4072,7 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 if (entityType != Constants.Constants.FieldTypes.EntitySearch && entityType != Constants.Constants.FieldTypes.EntitySelect)
-                    throw new Exception("EntityGroupCreate failed. EntityType:" + entityType + " is not an known type");
+                    throw new Exception("SqlController.EntityGroupCreate failed. EntityType:" + entityType + " is not an known type");
 
                 using (var db = GetContext())
                 {
@@ -4097,7 +4095,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityGroupCreate failed", ex);
+                throw new Exception("SqlController.EntityGroupCreate failed", ex);
             }
         }
 
@@ -4168,7 +4166,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityGroupRead failed", ex);
+                throw new Exception("SqlController.EntityGroupReadSorted failed", ex);
             }
         }
 
@@ -4231,7 +4229,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityGroupUpdate failed", ex);
+                throw new Exception("SqlController.EntityGroupUpdate failed", ex);
             }
         }
 
@@ -4261,7 +4259,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityGroupUpdate failed", ex);
+                throw new Exception("SqlController.EntityGroupUpdateName failed", ex);
             }
         }
 
@@ -4306,7 +4304,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityGroupDelete failed", ex);
+                throw new Exception("SqlController.EntityGroupDelete failed", ex);
             }
         }
         #endregion
@@ -4330,7 +4328,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityItemRead failed", ex);
+                throw new Exception("SqlController.EntityItemRead failed", ex);
             }
         }
 
@@ -5897,15 +5895,15 @@ namespace Microting.eForm.Infrastructure
         /// <param name="description"></param>
         private async Task FieldTypeAdd(int Id, string fieldType, string description)
         {
-            using (var db = GetContext())
+            await using var db = GetContext();
+            if (db.field_types.Count(x => x.FieldType == fieldType) == 0)
             {
-                if (db.field_types.Count(x => x.FieldType == fieldType) == 0)
+                field_types fT = new field_types
                 {
-                    field_types fT = new field_types();
-                    fT.FieldType = fieldType;
-                    fT.Description = description;
-                    await fT.Create(db);
-                }                
+                    FieldType = fieldType, 
+                    Description = description
+                };
+                await fT.Create(db);
             }
         }
     }    

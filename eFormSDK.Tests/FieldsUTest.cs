@@ -71,11 +71,8 @@ namespace eFormSDK.Tests
             entityGroup.Type = Guid.NewGuid().ToString();
             entityGroup.MicrotingUid = Guid.NewGuid().ToString();
             await entityGroup.Create(dbContext);
-            
-            field_types fieldType = new field_types();
-            fieldType.Description = Guid.NewGuid().ToString();
-            fieldType.FieldType = Guid.NewGuid().ToString();
-            await fieldType.Create(dbContext);
+
+            field_types fieldType = dbContext.field_types.First(); 
             
             fields parentFIeld = new fields();
             parentFIeld.Color = Guid.NewGuid().ToString();
@@ -297,10 +294,7 @@ namespace eFormSDK.Tests
             entityGroup.MicrotingUid = Guid.NewGuid().ToString();
             await entityGroup.Create(dbContext);
             
-            field_types fieldType = new field_types();
-            fieldType.Description = Guid.NewGuid().ToString();
-            fieldType.FieldType = Guid.NewGuid().ToString();
-            await fieldType.Create(dbContext);
+            field_types fieldType =dbContext.field_types.First(); 
             
             fields parentFIeld = new fields();
             parentFIeld.Color = Guid.NewGuid().ToString();
@@ -621,10 +615,7 @@ namespace eFormSDK.Tests
             entityGroup.MicrotingUid = Guid.NewGuid().ToString();
             await entityGroup.Create(dbContext);
             
-            field_types fieldType = new field_types();
-            fieldType.Description = Guid.NewGuid().ToString();
-            fieldType.FieldType = Guid.NewGuid().ToString();
-            await fieldType.Create(dbContext);
+            field_types fieldType = dbContext.field_types.First();
             
             fields parentFIeld = new fields();
             parentFIeld.Color = Guid.NewGuid().ToString();

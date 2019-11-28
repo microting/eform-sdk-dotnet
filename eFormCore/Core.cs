@@ -32,7 +32,6 @@ using System.Linq;
 using System.Globalization;
 using System.Text;
 using System.Xml;
-//using OfficeOpenXml;
 using Castle.Windsor;
 using Castle.MicroKernel.Registration;
 using Rebus.Bus;
@@ -42,7 +41,6 @@ using System.Threading.Tasks;
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
-using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using Microting.eForm;
 using Microting.eForm.Communication;
 using Microting.eForm.Dto;
@@ -1488,19 +1486,19 @@ namespace eFormCore
             //bus.SendLocal(new EformCompleted(notificationUId, microtingUId)).Wait();
 
             //string microtingUId = message.MicrotringUUID;
-            string methodName = t.GetMethodName("Core");
+//            string methodName = t.GetMethodName("Core");
 
             //await log.LogStandard(t.GetMethodName("Core"), "called");
-            await log.LogVariable(methodName, nameof(microtingUId), microtingUId);
+            await log.LogVariable("Core.CaseDelete", nameof(microtingUId), microtingUId);
 
             var cDto = await _sqlController.CaseReadByMUId(microtingUId);
             string xmlResponse = await _communicator.Delete(microtingUId.ToString(), cDto.SiteUId);
-            await log.LogEverything(methodName, "XML response is 1218 : " + xmlResponse);
+            await log.LogEverything("Core.CaseDelete", "XML response is 1218 : " + xmlResponse);
             Response resp = new Response();
 
             if (xmlResponse.Contains("Error occured: Contact Microting"))
             {
-                await log.LogEverything(methodName, "XML response is : " + xmlResponse);
+                await log.LogEverything("Core.CaseDelete", "XML response is : " + xmlResponse);
                 await log.LogEverything("DELETE ERROR", "failed for microtingUId: " + microtingUId);
                 return false;
             }
@@ -1510,19 +1508,19 @@ namespace eFormCore
                 try
                 {
                     resp = resp.XmlToClass(xmlResponse);
-                    await log.LogException(methodName, "failed", new Exception("Error from Microting server: " + resp.Value), false);
+                    await log.LogException("Core.CaseDelete", "failed", new Exception("Error from Microting server: " + resp.Value), false);
                     return false;
                 }
                 catch (Exception ex)
                 {
                     try
                     {
-                        await log.LogException(t.GetMethodName("Core"), "(string " + microtingUId + ") failed", ex, false);
+                        await log.LogException("Core.CaseDelete", "(string " + microtingUId + ") failed", ex, false);
                         throw ex;
                     }
                     catch
                     {
-                        await log.LogException(t.GetMethodName("Core"), "(string microtingUId) failed", ex, false);
+                        await log.LogException("Core.CaseDelete", "(string microtingUId) failed", ex, false);
                         throw ex;
                     }
                 }
@@ -1538,16 +1536,16 @@ namespace eFormCore
                         resp = resp.XmlToClass(xmlResponse);
                         if (resp.Type.ToString() == "Success")
                         {
-                            await log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + $" has been removed from server in retry loop with i being : {i.ToString()}");
+                            await log.LogStandard("Core.CaseDelete", cDto.ToString() + $" has been removed from server in retry loop with i being : {i.ToString()}");
                             break;
                         }                            
                         else
                         {
-                            await log.LogEverything(t.GetMethodName("Core"), $"retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
+                            await log.LogEverything("Core.CaseDelete", $"retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
                         }
                     } catch (Exception ex)
                     {
-                        await log.LogEverything(t.GetMethodName("Core"), $" Exception is: {ex.Message}, retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
+                        await log.LogEverything("Core.CaseDelete", $" Exception is: {ex.Message}, retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
                     }
                     //if (!xmlResponse.Contains("Parsing in progress: Can not delete check list!"))
                     //{
@@ -1559,45 +1557,37 @@ namespace eFormCore
                     //}
                 }
 
-            await log.LogEverything(t.GetMethodName("Core"), "XML response:");
-            await log.LogEverything(t.GetMethodName("Core"), xmlResponse);
+            await log.LogEverything("Core.CaseDelete", "XML response:");
+            await log.LogEverything("Core.CaseDelete", xmlResponse);
 
             resp = resp.XmlToClass(xmlResponse);
             if (resp.Type.ToString() == "Success")
             {
-                await log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + " has been removed from server");
+                await log.LogStandard("Core.CaseDelete", cDto.ToString() + " has been removed from server");
                 try
                 {
-                    if (await _sqlController.CaseDelete(microtingUId))
+                    bool result = await _sqlController.CaseDelete(microtingUId);
+                    try
                     {
-                        cDto = await _sqlController.CaseReadByMUId(microtingUId);
-                        await FireHandleCaseDeleted(cDto);
-
-                        await log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + " has been removed");
-
-                        return true;
-                    } else
+                        await _sqlController.CaseDeleteReversed(microtingUId);
+                        result = true;
+                    }
+                    catch (Exception ex)
                     {
-                        try
-                        {
-                            await _sqlController.CaseDeleteReversed(microtingUId);
+                        await log.LogException("Core.CaseDelete", "(string microtingUId) failed", ex, false);
+                        throw ex;
+                    }
+                    
+                    cDto = await _sqlController.CaseReadByMUId(microtingUId);
+                    await FireHandleCaseDeleted(cDto);
+                    await log.LogStandard("Core.CaseDelete", cDto.ToString() + " has been removed");
+                    return result;
 
-                            cDto = await _sqlController.CaseReadByMUId(microtingUId);
-                            await FireHandleCaseDeleted(cDto);
-                            await log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + " has been removed");
-
-                            return true;
-                        }
-                        catch (Exception ex)
-                        {
-                            await log.LogException(t.GetMethodName("Core"), "(string microtingUId) failed", ex, false);
-                            throw ex;
-                        }
-                    }                    
+//                    }                    
                 }
                 catch (Exception ex)
                 {
-                    await log.LogException(t.GetMethodName("Core"), "(string microtingUId) failed", ex, false);
+                    await log.LogException("Core.CaseDelete", "(string microtingUId) failed", ex, false);
                 }
 
                 
@@ -1608,9 +1598,8 @@ namespace eFormCore
 
         public async Task<bool> CaseDeleteResult(int caseId)
         {
-            string methodName = t.GetMethodName("Core");
-            await log.LogStandard(t.GetMethodName("Core"), "called");
-            await log.LogVariable(t.GetMethodName("Core"), nameof(caseId), caseId);
+            await log.LogStandard("Core.CaseDeleteResult", "called");
+            await log.LogVariable("Core.CaseDeleteResult", nameof(caseId), caseId);
             try
             {
                 return await _sqlController.CaseDeleteResult(caseId);
@@ -1620,11 +1609,11 @@ namespace eFormCore
             {
                 try
                 {
-                    await log.LogException(t.GetMethodName("Core"), "(int " + caseId.ToString() + ") failed", ex, false);
+                    await log.LogException("Core.CaseDeleteResult", "(int " + caseId.ToString() + ") failed", ex, false);
                 }
                 catch
                 {
-                    await log.LogException(t.GetMethodName("Core"), "(int caseId) failed", ex, false);
+                    await log.LogException("Core.CaseDeleteResult", "(int caseId) failed", ex, false);
                 }
 
                 return false;
@@ -1633,16 +1622,15 @@ namespace eFormCore
 
         public async Task<bool> CaseUpdateFieldValues(int id)
         {
-            string methodName = t.GetMethodName("Core");
-            await log.LogStandard(t.GetMethodName("Core"), "called");
-            await log.LogVariable(t.GetMethodName("Core"), nameof(id), id);
+            await log.LogStandard("Core.CaseUpdateFieldValues", "called");
+            await log.LogVariable("Core.CaseUpdateFieldValues", nameof(id), id);
             try
             {
                 return await _sqlController.CaseUpdateFieldValues(id);
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException("Core.CaseUpdateFieldValues", "failed", ex, false);
                 return false;
             }
         }

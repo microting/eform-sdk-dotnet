@@ -13,11 +13,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{9AE039
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EC3ADE84-3AEF-4FD8-B722-133CAFBF1DB4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eFormSDK.Integration.Tests", "eFormSDK.Integration.Tests\eFormSDK.Integration.Tests.csproj", "{62B3C17F-81C2-40AC-A2D6-61DF44FEB9BF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eFormSDK.Tests", "eFormSDK.Tests\eFormSDK.Tests.csproj", "{93E65074-6675-4B3E-A267-DB1E94EC9CE4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBMigrator", "DBMigrator\DBMigrator.csproj", "{138D60C3-AFB2-4568-831B-E549C2BA1B2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormSDK.Integration.CoreTests", "eFormSDK.Integration.CoreTests\eFormSDK.Integration.CoreTests.csproj", "{DB392DDF-AD4D-4E2A-8D9C-AD4CB2B9D501}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eFormSDK.Integration.SqlControllerTests", "eFormSDK.Integration.SqlControllerTests\eFormSDK.Integration.SqlControllerTests.csproj", "{5D001746-DFF6-408A-80F2-7C7DD3F6FD1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +31,6 @@ Global
 		{7F313870-A8FA-4D32-8120-3576E7523EB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F313870-A8FA-4D32-8120-3576E7523EB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F313870-A8FA-4D32-8120-3576E7523EB5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{62B3C17F-81C2-40AC-A2D6-61DF44FEB9BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{62B3C17F-81C2-40AC-A2D6-61DF44FEB9BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{62B3C17F-81C2-40AC-A2D6-61DF44FEB9BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{62B3C17F-81C2-40AC-A2D6-61DF44FEB9BF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{93E65074-6675-4B3E-A267-DB1E94EC9CE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{93E65074-6675-4B3E-A267-DB1E94EC9CE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93E65074-6675-4B3E-A267-DB1E94EC9CE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,13 +39,22 @@ Global
 		{138D60C3-AFB2-4568-831B-E549C2BA1B2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{138D60C3-AFB2-4568-831B-E549C2BA1B2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{138D60C3-AFB2-4568-831B-E549C2BA1B2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB392DDF-AD4D-4E2A-8D9C-AD4CB2B9D501}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB392DDF-AD4D-4E2A-8D9C-AD4CB2B9D501}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB392DDF-AD4D-4E2A-8D9C-AD4CB2B9D501}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB392DDF-AD4D-4E2A-8D9C-AD4CB2B9D501}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D001746-DFF6-408A-80F2-7C7DD3F6FD1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D001746-DFF6-408A-80F2-7C7DD3F6FD1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D001746-DFF6-408A-80F2-7C7DD3F6FD1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D001746-DFF6-408A-80F2-7C7DD3F6FD1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{62B3C17F-81C2-40AC-A2D6-61DF44FEB9BF} = {EC3ADE84-3AEF-4FD8-B722-133CAFBF1DB4}
 		{93E65074-6675-4B3E-A267-DB1E94EC9CE4} = {EC3ADE84-3AEF-4FD8-B722-133CAFBF1DB4}
+		{DB392DDF-AD4D-4E2A-8D9C-AD4CB2B9D501} = {EC3ADE84-3AEF-4FD8-B722-133CAFBF1DB4}
+		{5D001746-DFF6-408A-80F2-7C7DD3F6FD1C} = {EC3ADE84-3AEF-4FD8-B722-133CAFBF1DB4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2EEC39FC-8F5F-45F5-8770-7B7E0EDF090A}
