@@ -1127,7 +1127,7 @@ namespace eFormCore
                         else
                             await _sqlController.CheckListSitesCreate(mainElement.Id, siteUid, mUId);
 
-                        Case_Dto cDto = await _sqlController.CaseReadByMUId(mUId);
+                        CaseDto cDto = await _sqlController.CaseReadByMUId(mUId);
                         //InteractionCaseUpdate(cDto);
                         try { HandleCaseCreated?.Invoke(cDto, EventArgs.Empty); }
                         catch { await log.LogWarning(t.GetMethodName("Core"), "HandleCaseCreated event's external logic suffered an Expection"); }
@@ -1162,7 +1162,7 @@ namespace eFormCore
                     await log.LogStandard(t.GetMethodName("Core"), "called");
                     await log.LogVariable(t.GetMethodName("Core"), nameof(microtingUId), microtingUId);
 
-                    Case_Dto cDto = await CaseLookupMUId(microtingUId);
+                    CaseDto cDto = await CaseLookupMUId(microtingUId);
                     return await _communicator.CheckStatus(cDto.MicrotingUId.ToString(), cDto.SiteUId);
                 }
                 else
@@ -1222,7 +1222,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<Case_Dto> CaseReadByCaseId(int id)
+        public async Task<CaseDto> CaseReadByCaseId(int id)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -1639,7 +1639,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<Case_Dto> CaseLookup(int microtingUId, int checkUId)
+        public async Task<CaseDto> CaseLookup(int microtingUId, int checkUId)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -1666,7 +1666,7 @@ namespace eFormCore
         /// Looks up the case's markers, from the match
         /// </summary>
         /// <param name="microtingUId">Microting unique ID of the eForm case</param>
-        public async Task<Case_Dto> CaseLookupMUId(int microtingUId)
+        public async Task<CaseDto> CaseLookupMUId(int microtingUId)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -1692,7 +1692,7 @@ namespace eFormCore
         /// Looks up the case's markers, from the match
         /// </summary>
         /// <param name="CaseId">Microting DB's ID of the eForm case</param>
-        public async Task<Case_Dto> CaseLookupCaseId(int caseId)
+        public async Task<CaseDto> CaseLookupCaseId(int caseId)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -1718,7 +1718,7 @@ namespace eFormCore
         /// Looks up the case's markers, from the matches
         /// </summary>
         /// <param name="caseUId">Case's unique ID of the set of case(s)</param>
-        public async Task<List<Case_Dto>> CaseLookupCaseUId(string caseUId)
+        public async Task<List<CaseDto>> CaseLookupCaseUId(string caseUId)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -1878,7 +1878,7 @@ namespace eFormCore
             return await CasesToCsv(templateId, start, end, pathAndName, customPathForUploadedData, ".", "");
         }
 
-        public async Task<string> CaseToJasperXml(Case_Dto cDto, ReplyElement reply, int caseId, string timeStamp, string customPathForUploadedData, string customXMLContent)
+        public async Task<string> CaseToJasperXml(CaseDto cDto, ReplyElement reply, int caseId, string timeStamp, string customPathForUploadedData, string customXMLContent)
         {
             string methodName = t.GetMethodName("Core");
             try
@@ -2081,7 +2081,7 @@ namespace eFormCore
             return _resultDocument;
         }
 
-        private async Task<string> DocxToPdf(int caseId, string jasperTemplate, string timeStamp, ReplyElement reply, Case_Dto cDto, string customPathForUploadedData, string customXmlContent, string fileType)
+        private async Task<string> DocxToPdf(int caseId, string jasperTemplate, string timeStamp, ReplyElement reply, CaseDto cDto, string customPathForUploadedData, string customXmlContent, string fileType)
         {
             
             SortedDictionary<string, string> valuePairs = new SortedDictionary<string, string>();
@@ -2252,7 +2252,7 @@ namespace eFormCore
                     if (timeStamp == null)
                         timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
                     
-                    Case_Dto cDto = await CaseLookupCaseId(caseId);
+                    CaseDto cDto = await CaseLookupCaseId(caseId);
                     ReplyElement reply = await CaseRead((int)cDto.MicrotingUId, (int)cDto.CheckUId);
                     
                     string resultDocument = "";
@@ -4436,7 +4436,7 @@ namespace eFormCore
                     await log.LogWarning(t.GetMethodName("Core"), "Download of '" + urlStr + "' failed. Check sum did not match");
                 #endregion
 
-                Case_Dto dto = await _sqlController.FileCaseFindMUId(urlStr);
+                CaseDto dto = await _sqlController.FileCaseFindMUId(urlStr);
                 File_Dto fDto = new File_Dto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId.ToString(), dto.CheckUId.ToString(), _fileLocationPicture + fileName);
                 try { HandleFileDownloaded?.Invoke(fDto, EventArgs.Empty); }
                 catch { await log.LogWarning(t.GetMethodName("Core"), "HandleFileDownloaded event's external logic suffered an Expection"); }
@@ -4615,10 +4615,10 @@ namespace eFormCore
         
         public async Task<bool> CheckStatusByMicrotingUid(int microtingUid)
         {
-            List<Case_Dto> lstCase = new List<Case_Dto>();
+            List<CaseDto> lstCase = new List<CaseDto>();
             MainElement mainElement = new MainElement();
 
-            Case_Dto concreteCase = await _sqlController.CaseReadByMUId(microtingUid);
+            CaseDto concreteCase = await _sqlController.CaseReadByMUId(microtingUid);
             await log.LogEverything(t.GetMethodName("Core"), concreteCase.ToString() + " has been matched");
 
             if (concreteCase.CaseUId == "" || concreteCase.CaseUId == "ReversedCase")
@@ -4626,7 +4626,7 @@ namespace eFormCore
             else
                 lstCase = await _sqlController.CaseReadByCaseUId(concreteCase.CaseUId);
 
-            foreach (Case_Dto aCase in lstCase)
+            foreach (CaseDto aCase in lstCase)
             {
                 if (aCase.SiteUId == concreteCase.SiteUId)
                 {
@@ -4687,7 +4687,7 @@ namespace eFormCore
                                 await _sqlController.CaseRetract(microtingUid, (int)check.Id);
                                 await log.LogEverything(t.GetMethodName("Core"), "sqlController.CaseRetract(...)");
                                 // TODO add case.Id
-                                Case_Dto cDto = await _sqlController.CaseReadByMUId(microtingUid);
+                                CaseDto cDto = await _sqlController.CaseReadByMUId(microtingUid);
 								//InteractionCaseUpdate(cDto);
                                 await FireHandleCaseCompleted(cDto);
                                 //try { HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty); }
@@ -4722,7 +4722,7 @@ namespace eFormCore
 
         #region fireEvents
 
-        public async Task FireHandleCaseCompleted(Case_Dto caseDto)
+        public async Task FireHandleCaseCompleted(CaseDto caseDto)
 		{
 		    await log.LogStandard(t.GetMethodName("Core"), $"FireHandleCaseCompleted for MicrotingUId {caseDto.MicrotingUId}");
 			try { HandleCaseCompleted.Invoke(caseDto, EventArgs.Empty); }
@@ -4733,7 +4733,7 @@ namespace eFormCore
 			}
 		}
 
-        public async Task FireHandleCaseDeleted(Case_Dto caseDto)
+        public async Task FireHandleCaseDeleted(CaseDto caseDto)
         {
             try { HandleCaseDeleted?.Invoke(caseDto, EventArgs.Empty); }
             catch { await log.LogWarning(t.GetMethodName("Core"), "HandleCaseCompleted event's external logic suffered an Expection"); }
@@ -4751,7 +4751,7 @@ namespace eFormCore
             catch { await log.LogWarning(t.GetMethodName("Core"), "HandleSiteActivated event's external logic suffered an Expection"); }
         }
 
-		public async Task FireHandleCaseRetrived(Case_Dto caseDto)
+		public async Task FireHandleCaseRetrived(CaseDto caseDto)
 		{
 		    await log.LogStandard(t.GetMethodName("Core"), $"FireHandleCaseRetrived for MicrotingUId {caseDto.MicrotingUId}");
 

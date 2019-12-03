@@ -2246,7 +2246,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public async Task<Case_Dto> FileCaseFindMUId(string urlString)
+        public async Task<CaseDto> FileCaseFindMUId(string urlString)
         {
             try
             {
@@ -2418,7 +2418,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="checkUId"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<Case_Dto> CaseLookup(int microtingUId, int checkUId)
+        public async Task<CaseDto> CaseLookup(int microtingUId, int checkUId)
         {
             try
             {
@@ -2439,7 +2439,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="microtingUId"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<Case_Dto> CaseReadByMUId(int microtingUId)
+        public async Task<CaseDto> CaseReadByMUId(int microtingUId)
         {
             try
             {
@@ -2467,8 +2467,20 @@ namespace Microting.eForm.Infrastructure
                         #endregion
 
                         int remoteSiteId = (int)db.sites.SingleAsync(x => x.Id == (int)cls.SiteId).Result.MicrotingUid;
-                        Case_Dto rtrnCase = new Case_Dto(null, stat, remoteSiteId, cL.CaseType, "ReversedCase", cls.MicrotingUid, cls.LastCheckId, null, cL.Id, null);
-                        return rtrnCase;
+                        CaseDto returnCase = new CaseDto()
+                        {
+                            CaseId = null,
+                            Stat = stat,
+                            SiteUId = remoteSiteId,
+                            CaseType = cL.CaseType,
+                            CaseUId = "ReversedCase",
+                            MicrotingUId = cls.MicrotingUid,
+                            CheckUId = cls.LastCheckId,
+                            Custom = null,
+                            CheckListId = cL.Id,
+                            WorkflowState = null
+                        };
+                        return returnCase;
                     }
                     catch(Exception ex1)
                     {
@@ -2488,7 +2500,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="caseId"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<Case_Dto> CaseReadByCaseId(int caseId)
+        public async Task<CaseDto> CaseReadByCaseId(int caseId)
         {
             try
             {
@@ -2513,8 +2525,21 @@ namespace Microting.eForm.Infrastructure
                     #endregion
 
                     int remoteSiteId = (int)db.sites.SingleAsync(x => x.Id == (int)aCase.SiteId).Result.MicrotingUid;
-                    Case_Dto cDto = new Case_Dto(aCase.Id, stat, remoteSiteId, cL.CaseType, aCase.CaseUid, aCase.MicrotingUid, aCase.MicrotingCheckUid, aCase.Custom, cL.Id, aCase.WorkflowState);
-                    return cDto;
+                    CaseDto caseDto = new CaseDto()
+                    {
+                        CaseId = aCase.Id,
+                        Stat = stat,
+                        SiteUId = remoteSiteId,
+                        CaseType = cL.CaseType,
+                        CaseUId = aCase.CaseUid,
+                        MicrotingUId = aCase.MicrotingUid,
+                        CheckUId = aCase.MicrotingCheckUid,
+                        Custom = aCase.Custom,
+                        CheckListId = cL.Id,
+                        WorkflowState = aCase.WorkflowState
+
+                    };
+                    return caseDto;
                 }
             }
             catch (Exception ex)
@@ -2529,7 +2554,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="caseUId"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<List<Case_Dto>> CaseReadByCaseUId(string caseUId)
+        public async Task<List<CaseDto>> CaseReadByCaseUId(string caseUId)
         {
             try
             {
@@ -2542,7 +2567,7 @@ namespace Microting.eForm.Infrastructure
                 using (var db = GetContext())
                 {
                     List<cases> matches = await db.cases.Where(x => x.CaseUid == caseUId).ToListAsync();
-                    List<Case_Dto> lstDto = new List<Case_Dto>();
+                    List<CaseDto> lstDto = new List<CaseDto>();
 
                     foreach (cases aCase in matches)
                         lstDto.Add(await CaseReadByCaseId(aCase.Id));
@@ -2952,13 +2977,13 @@ namespace Microting.eForm.Infrastructure
         /// <param name="customString"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<List<Case_Dto>> CaseFindCustomMatchs(string customString)
+        public async Task<List<CaseDto>> CaseFindCustomMatchs(string customString)
         {
             try
             {
                 using (var db = GetContext())
                 {
-                    List<Case_Dto> foundCasesThatMatch = new List<Case_Dto>();
+                    List<CaseDto> foundCasesThatMatch = new List<CaseDto>();
 
                     List<cases> lstMatchs = db.cases.Where(x => x.Custom == customString && x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToList();
 
