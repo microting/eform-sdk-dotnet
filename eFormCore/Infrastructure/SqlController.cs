@@ -2434,7 +2434,7 @@ namespace Microting.eForm.Infrastructure
         }
         
         /// <summary>
-        /// Finds a Case_Dto based on microtingUId
+        /// Finds a CaseDto based on microtingUId
         /// </summary>
         /// <param name="microtingUId"></param>
         /// <returns></returns>

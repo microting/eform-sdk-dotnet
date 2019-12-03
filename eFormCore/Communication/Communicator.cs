@@ -149,7 +149,7 @@ namespace Microting.eForm.Communication
         //        await log.LogVariable(t.GetMethodName("Comminicator"), nameof(microtingUId), microtingUId);
 
         //        string correctStat = null;
-        //        Case_Dto caseDto = null;
+        //        CaseDto caseDto = null;
 
         //        try
         //        {

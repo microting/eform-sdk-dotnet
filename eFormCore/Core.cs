@@ -1894,7 +1894,7 @@ namespace eFormCore
                         timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
 
                     //get needed data
-//                    Case_Dto cDto = CaseLookupCaseId(caseId);
+//                    CaseDto cDto = CaseLookupCaseId(caseId);
 //                    ReplyElement reply = CaseRead(cDto.MicrotingUId, cDto.CheckUId);
                     if (reply == null)
                         throw new NullReferenceException("reply is null. Delete or fix the case with ID " + caseId.ToString());

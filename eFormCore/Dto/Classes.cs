@@ -361,7 +361,7 @@ namespace Microting.eForm.Dto
     }
     #endregion
 
-    #region Case_Dto
+    #region CaseDto
     public class CaseDto
     {
         #region con

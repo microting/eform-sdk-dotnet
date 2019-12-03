@@ -83,7 +83,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             await sut.CaseDeleteResult(aCase.Id);
-            Case_Dto theCase = await sut.CaseLookupCaseId(aCase.Id);
+            CaseDto theCase = await sut.CaseLookupCaseId(aCase.Id);
 
             // Assert
             Assert.NotNull(theCase);
@@ -3825,7 +3825,7 @@ namespace eFormSDK.Integration.Tests
             string timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
             string pdfPath = Path.Combine(path, "output","dataFolder","reports", "results",
                 $"{timeStamp}_{aCase2.Id}.xml");
-            Case_Dto cDto = await sut.CaseLookupCaseId(aCase2.Id);
+            CaseDto cDto = await sut.CaseLookupCaseId(aCase2.Id);
             ReplyElement reply = await sut.CaseRead((int)cDto.MicrotingUId, (int)cDto.CheckUId);
             var match = await sut.CaseToJasperXml(cDto, reply, aCase2.Id, timeStamp, pdfPath, "");
 
