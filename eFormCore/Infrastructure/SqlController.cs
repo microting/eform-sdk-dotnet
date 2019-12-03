@@ -2544,7 +2544,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseReadByCaseId failed", ex);
+                throw new Exception("SqlController.CaseReadByCaseId: failed", ex);
             }
         }
 

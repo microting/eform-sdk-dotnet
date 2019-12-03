@@ -1182,14 +1182,13 @@ namespace eFormCore
         /// <param name="checkUId">If left empty, "0" or NULL it will try to retrieve the first check. Alternative is stating the Id of the specific check wanted to retrieve</param>
         public async Task<ReplyElement> CaseRead(int microtingUId, int checkUId)
         {
-            string methodName = t.GetMethodName("Core");
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(microtingUId), microtingUId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(checkUId), checkUId);
+                    await log.LogStandard("Core.CaseRead", "called");
+                    await log.LogVariable("Core.CaseRead", nameof(microtingUId), microtingUId);
+                    await log.LogVariable("Core.CaseRead", nameof(checkUId), checkUId);
 //
 //                    if (checkUId == null)
 //                        checkUId = "";
@@ -1201,13 +1200,13 @@ namespace eFormCore
                     #region handling if no match case found
                     if (aCase == null)
                     {
-                        await log.LogWarning(t.GetMethodName("Core"), "No case found with MuuId:'" + microtingUId + "'");
+                        await log.LogWarning("Core.CaseRead", "No case found with MuuId:'" + microtingUId + "'");
                         return null;
                     }
                     #endregion
 
                     int id = aCase.Id;
-                    await log.LogEverything(t.GetMethodName("Core"), "aCase.Id:" + aCase.Id.ToString() + ", found");
+                    await log.LogEverything("Core.CaseRead", "aCase.Id:" + aCase.Id.ToString() + ", found");
 
                     ReplyElement replyElement = await _sqlController.CheckRead(microtingUId, checkUId);
                     return replyElement;
@@ -1217,20 +1216,19 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException("Core.CaseRead", "failed", ex, false);
                 return null;
             }
         }
 
         public async Task<CaseDto> CaseReadByCaseId(int id)
         {
-            string methodName = t.GetMethodName("Core");
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(id), id);
+                    await log.LogStandard("Core.CaseReadByCaseId", "called");
+                    await log.LogVariable("Core.CaseReadByCaseId", nameof(id), id);
 
                     return await _sqlController.CaseReadByCaseId(id);
                 }
@@ -1239,21 +1237,20 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException("Core.CaseReadByCaseId", "failed", ex, false);
                 return null;
             }
         }
 
         public async Task<int?> CaseReadFirstId(int? templateId, string workflowState)
         {
-            string methodName = t.GetMethodName("Core");
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(workflowState), workflowState);
+                    await log.LogStandard("Core.CaseReadFirstId", "called");
+                    await log.LogVariable("Core.CaseReadFirstId", nameof(templateId), templateId);
+                    await log.LogVariable("Core.CaseReadFirstId", nameof(workflowState), workflowState);
 
                     return await _sqlController.CaseReadFirstId(templateId, workflowState);
                 }
@@ -1262,7 +1259,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException("Core.CaseReadFirstId", "failed", ex, false);
                 return null;
             }
         }
@@ -1694,13 +1691,12 @@ namespace eFormCore
         /// <param name="CaseId">Microting DB's ID of the eForm case</param>
         public async Task<CaseDto> CaseLookupCaseId(int caseId)
         {
-            string methodName = t.GetMethodName("Core");
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(caseId), caseId);
+                    await log.LogStandard("Core.CaseLookupCaseId", "called");
+                    await log.LogVariable("Core.CaseLookupCaseId", nameof(caseId), caseId);
 
                     return await _sqlController.CaseReadByCaseId(caseId);
                 }
@@ -1709,7 +1705,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException("Core.CaseLookupCaseId", "failed", ex, false);
                 return null;
             }
         }
@@ -1880,15 +1876,14 @@ namespace eFormCore
 
         public async Task<string> CaseToJasperXml(CaseDto cDto, ReplyElement reply, int caseId, string timeStamp, string customPathForUploadedData, string customXMLContent)
         {
-            string methodName = t.GetMethodName("Core");
             try
             {
                 //if (coreRunning)
                 if (true)
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(caseId), caseId.ToString());
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(timeStamp), timeStamp);
+                    await log.LogStandard("Core.CaseToJasperXml", "called");
+                    await log.LogVariable("Core.CaseToJasperXml", nameof(caseId), caseId.ToString());
+                    await log.LogVariable("Core.CaseToJasperXml", nameof(timeStamp), timeStamp);
 
                     if (timeStamp == null)
                         timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
@@ -1901,8 +1896,8 @@ namespace eFormCore
                     string clsLst = "";
                     string fldLst = "";
                     GetChecksAndFields(ref clsLst, ref fldLst, reply.ElementList, customPathForUploadedData);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(clsLst), clsLst);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(fldLst), fldLst);
+                    await log.LogVariable("Core.CaseToJasperXml", nameof(clsLst), clsLst);
+                    await log.LogVariable("Core.CaseToJasperXml", nameof(fldLst), fldLst);
 
                     #region convert to jasperXml
                     string jasperXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -1937,7 +1932,7 @@ namespace eFormCore
                     File.WriteAllText(fullPath, jasperXml.Trim(), Encoding.UTF8);
 
                     //string path = Path.GetFullPath(locaR);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(fullPath), fullPath);
+                    await log.LogVariable("Core.CaseToJasperXml", nameof(fullPath), fullPath);
                     return fullPath;
                 }
                 else
@@ -1945,7 +1940,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException("Core.CaseToJasperXml", "failed", ex, false);
                 return null;
             }
         }
