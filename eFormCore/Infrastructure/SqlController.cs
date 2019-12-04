@@ -53,6 +53,7 @@ namespace Microting.eForm.Infrastructure
         #region con
         public SqlController(string connectionString)
         {
+            string methodName = "SqlController.SqlController";
             connectionStr = connectionString;          
 
             #region migrate if needed
@@ -60,10 +61,10 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    WriteDebugConsoleLogEntry(new LogEntry(2, "SqlController.SqlController", "db.Database.Migrate() called"));
+                    WriteDebugConsoleLogEntry(new LogEntry(2, methodName, "db.Database.Migrate() called"));
                     db.Database.Migrate();
                     
-                    WriteDebugConsoleLogEntry(new LogEntry(2, "SqlController.SqlController", "db.Database.EnsureCreated() called"));
+                    WriteDebugConsoleLogEntry(new LogEntry(2, methodName, "db.Database.EnsureCreated() called"));
                     db.Database.EnsureCreated();
 
                    var match = db.settings.Count();
@@ -113,6 +114,7 @@ namespace Microting.eForm.Infrastructure
        //TODO
         public async Task<int> TemplateCreate(MainElement mainElement)
         {
+            string methodName = "SqlController.TemplateCreate";
             try
             {
                 var result = await EformCreateDb(mainElement);
@@ -121,13 +123,14 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("TemplatCreate failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         //TODO
         public async Task<MainElement> TemplateRead(int templateId)
         {
+            string methodName = "SqlController.TemplateRead";
             try
             {
                 using (var db = GetContext())
@@ -156,13 +159,15 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("TemplatRead failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         //TODO
         public async Task<Template_Dto> TemplateItemRead(int templateId)
         {
+            string methodName = "SqlController.TemplateItemRead";
+
             try
             {
                 using (var db = GetContext())
@@ -252,14 +257,14 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         //TODO
         public async Task<List<Template_Dto>> TemplateItemReadAll(bool includeRemoved, string siteWorkflowState, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.TemplateItemReadAll";
             await log.LogStandard(methodName, "called");
             await log.LogVariable(methodName, nameof(includeRemoved), includeRemoved);
             await log.LogVariable(methodName, nameof(searchKey), searchKey);
@@ -381,7 +386,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("TemplateSimpleReadAll failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
 
 
@@ -390,7 +395,7 @@ namespace Microting.eForm.Infrastructure
         //TODO
         public async Task<List<Field_Dto>> TemplateFieldReadAll(int templateId)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.TemplateFieldReadAll";
             try
             {
                 using (var db = GetContext())
@@ -427,6 +432,7 @@ namespace Microting.eForm.Infrastructure
         //TODO
         public async Task<bool> TemplateDisplayIndexChange(int templateId, int newDisplayIndex)
         {
+            string methodName = "SqlController.TemplateDisplayIndexChange";
             try
             {
                 using (var db = GetContext())
@@ -445,13 +451,14 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         //TODO
         public async Task<bool> TemplateUpdateFieldIdsForColumns(int templateId, int? fieldId1, int? fieldId2, int? fieldId3, int? fieldId4, int? fieldId5, int? fieldId6, int? fieldId7, int? fieldId8, int? fieldId9, int? fieldId10)
         {
+            string methodName = "SqlController.TemplateUpdateFieldIdsForColumns";
             try
             {
                 using (var db = GetContext())
@@ -479,7 +486,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -491,7 +498,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> TemplateDelete(int templateId)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.TemplateDelete";
             try
             {
                 using (var db = GetContext())
@@ -521,7 +528,7 @@ namespace Microting.eForm.Infrastructure
         //TODO
         public async Task<bool> TemplateSetTags(int templateId, List<int> tagIds)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.TemplateSetTags";
             try
             {
                 using (var db = GetContext())
@@ -585,7 +592,7 @@ namespace Microting.eForm.Infrastructure
 
         public async Task SetJasperExportEnabled(int eFormId, bool isEnabled)
         {
-            string methodName = t.GetMethodName("SQLController"); 
+            string methodName = "SqlController.SetJasperExportEnabled";
             using (var db = GetContext())
             {
                 check_lists checkList = await db.check_lists.SingleOrDefaultAsync(x => x.Id == eFormId);
@@ -599,7 +606,7 @@ namespace Microting.eForm.Infrastructure
 
         public async Task SetDocxExportEnabled(int eFormId, bool isEnabled)
         {
-            string methodName = t.GetMethodName("SQLController"); 
+            string methodName = "SqlController.SetDocxExportEnabled";
             using (var db = GetContext())
             {
                 check_lists checkList = await db.check_lists.SingleOrDefaultAsync(x => x.Id == eFormId);
@@ -618,6 +625,7 @@ namespace Microting.eForm.Infrastructure
         //TODO
         public async Task CheckListSitesCreate(int checkListId, int siteUId, int microtingUId)
         {
+            string methodName = "SqlController.CheckListSitesCreate";
             try
             {
                 using (var db = GetContext())
@@ -634,7 +642,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CheckListSitesCreate failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -642,6 +650,7 @@ namespace Microting.eForm.Infrastructure
 #pragma warning disable 1998
         public async Task<List<int>> CheckListSitesRead(int templateId, int microtingUid, string workflowState)
         {
+            string methodName = "SqlController.CheckListSitesRead";
             try
             {
                 using (var db = GetContext())
@@ -656,7 +665,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CheckListSitesRead failed", ex);
+                throw new Exception( methodName + " failed", ex);
             }
         }
 #pragma warning restore 1998
@@ -677,7 +686,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<int> CaseCreate(int checkListId, int siteUId, int? microtingUId, int? microtingCheckId, string caseUId, string custom, DateTime createdAt)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.CaseCreate";
             await log.LogStandard(methodName, "called");
             try
             {
@@ -728,7 +737,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseCreate failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -740,6 +749,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<int?> CaseReadLastCheckIdByMicrotingUId(int microtingUId)
         {
+            string methodName = "SqlController.CaseReadLastCheckIdByMicrotingUId";
             try
             {
                 using (var db = GetContext())
@@ -753,13 +763,14 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseReadByMuuId failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         //TODO
         public async Task CaseUpdateRetrieved(int microtingUId)
         {
+            string methodName = "SqlController.CaseUpdateRetrieved";
             try
             {
                 using (var db = GetContext())
@@ -775,13 +786,14 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseUpdateRetrived failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         //TODO
         public async Task CaseUpdateCompleted(int microtingUId, int microtingCheckId, DateTime doneAt, int workerMicrotingUId, int unitMicrotingUid)
         {
+            string methodName = "SqlController.CaseUpdateCompleted";
             try
             {
                 using (var db = GetContext())
@@ -813,13 +825,14 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseUpdateCompleted failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         //TODO
         public async Task CaseRetract(int microtingUId, int microtingCheckId)
         {
+            string methodName = "SqlController.CaseRetract";
             try
             {
                 using (var db = GetContext())
@@ -832,7 +845,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseRetract failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -844,6 +857,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> CaseDelete(int microtingUId)
         {
+            string methodName = "SqlController.CaseDelete";
             try
             {
                 using (var db = GetContext())
@@ -863,13 +877,14 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseDelete failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         //TODO
         public async Task<bool> CaseDeleteResult(int caseId)
         {
+            string methodName = "SqlController.CaseDeleteResult";
             try
             {
                 using (var db = GetContext())
@@ -889,13 +904,14 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseDelete failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         //TODO
         public async Task CaseDeleteReversed(int microtingUId)
         {
+            string methodName = "SqlController.CaseDeleteReversed";
             try
             {
                 using (var db = GetContext())
@@ -908,7 +924,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseDelete failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -919,6 +935,7 @@ namespace Microting.eForm.Infrastructure
         //TODO
         public async Task<List<int>> ChecksCreate(Response response, string xmlString, int xmlIndex)
         {
+            string methodName = "SqlController.ChecksCreate";
             List<int> uploadedDataIds = new List<int>();
             try
             {
@@ -1234,7 +1251,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EformCheckCreateDb failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -1246,6 +1263,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> UpdateCaseFieldValue(int caseId)
         {
+            string methodName = "SqlController.UpdateCaseFieldValue";
             try
             {
                 using (var db = GetContext())
@@ -1329,7 +1347,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("UpdateCaseFieldValue failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -1342,6 +1360,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<ReplyElement> CheckRead(int microtingUId, int checkUId)
         {
+            string methodName = "SqlController.CheckRead";
             try
             {
                 using (var db = GetContext())
@@ -1382,13 +1401,14 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EformCheckRead failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         //TODO
         private async Task<Element> SubChecks(int parentId, int caseId)
         {
+            string methodName = "SqlController.SubChecks";
             try
             {
                 using (var db = GetContext())
@@ -1492,12 +1512,13 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EformCheckRead failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         public async Task<List<field_values>> ChecksRead(int microtingUId, int checkUId)
         {
+            string methodName = "SqlController.ChecksRead";
             try
             {
                 using (var db = GetContext())
@@ -1511,7 +1532,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EformCheckRead failed", ex);
+                throw new Exception( methodName + " failed", ex);
             }
         }
 
@@ -1562,7 +1583,7 @@ namespace Microting.eForm.Infrastructure
         public async Task<Field> FieldRead(int id)
         {
 
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.FieldRead";
             try
             {
                 using (var db = GetContext())
@@ -1582,6 +1603,7 @@ namespace Microting.eForm.Infrastructure
 
         private async Task<FieldValue> ReadFieldValue(field_values reply, fields dbField, bool joinUploadedData)
         {
+            string methodName = "SqlController.ReadFieldValue";
             try
             {
                 using (var db = GetContext())
@@ -1723,15 +1745,15 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("FieldValueRead failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         // Rename method to something more intuitive!
         public async Task<FieldValue> FieldValueRead(field_values reply, bool joinUploadedData)
         {
-            
-            
+            string methodName = "SqlController.FieldValueRead";
+ 
             try
             {
                 using (var db = GetContext())
@@ -1744,12 +1766,13 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("FieldValueRead failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         public async Task<List<FieldValue>> FieldValueReadList(int fieldId, int instancesBackInTime)
         {
+            string methodName = "SqlController.FieldValueReadList";
             try
             {
                 using (var db = GetContext())
@@ -1769,12 +1792,13 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("FieldValueReadList failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         public async Task<List<FieldValue>> FieldValueReadList(int fieldId, List<int> caseIds)
         {
+            string methodName = "SqlController.FieldValueReadList";
             try
             {
                 using (var db = GetContext())
@@ -1791,12 +1815,13 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("FieldValueReadList failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         public async Task<List<FieldValue>> FieldValueReadList(List<int> caseIds)
         {
+            string methodName = "SqlController.FieldValueReadList";
             try
             {
                 using (var db = GetContext())
@@ -1812,13 +1837,14 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("FieldValueReadList failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         
 #pragma warning disable 1998
         public async Task<List<CheckListValue>> CheckListValueReadList(List<int> caseIds)
         {
+            string methodName = "SqlController.CheckListValueReadList";
             try
             {
                 using (var db = GetContext())
@@ -1840,7 +1866,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("FieldValueReadList failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 #pragma warning restore 1998
@@ -1848,6 +1874,7 @@ namespace Microting.eForm.Infrastructure
 
         public async Task FieldValueUpdate(int caseId, int fieldValueId, string value)
         {
+            string methodName = "SqlController.FieldValueUpdate";
             try
             {
                 using (var db = GetContext())
@@ -1860,7 +1887,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("FieldValueUpdate failed", ex);
+                throw new Exception(methodName +" failed", ex);
             }
         }
 
@@ -1872,6 +1899,7 @@ namespace Microting.eForm.Infrastructure
 
         public async Task<List<List<KeyValuePair>>> FieldValueReadAllValues(int fieldId, List<int> caseIds, string customPathForUploadedData, string decimalSeparator, string thousandSeparator)
         {
+            string methodName = "SqlController.FieldValueReadAllValues";
             try
             {
                 using (var db = GetContext())
@@ -2075,12 +2103,13 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseReadFull failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         public async Task<string> CheckListValueStatusRead(int caseId, int checkListId)
         {
+            string methodName = "SqlController.CheckListValueStatusRead";
             try
             {
                 using (var db = GetContext())
@@ -2091,12 +2120,13 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CheckListValueStatusRead failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         public async Task CheckListValueStatusUpdate(int caseId, int checkListId, string value)
         {
+            string methodName = "SqlController.CheckListValueStatusUpdate";
             try
             {
                 using (var db = GetContext())
@@ -2109,7 +2139,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("FieldValueUpdate failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -2125,7 +2155,7 @@ namespace Microting.eForm.Infrastructure
         /// <returns></returns>
         public async Task<notifications> NotificationCreate(string notificationUId, int microtingUId, string activity)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.NotificationCreate";
 
             using (var db = GetContext())
             {
@@ -2158,6 +2188,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<Note_Dto> NotificationReadFirst()
         {
+            string methodName = "SqlController.NotificationReadFirst";
             try
             {
                 using (var db = GetContext())
@@ -2175,7 +2206,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2190,6 +2221,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task NotificationUpdate(string notificationUId, int microtingUId, string workflowState, string exception, string stacktrace)
         {
+            string methodName = "SqlController.NotificationUpdate";
             try
             {
                 using (var db = GetContext())
@@ -2206,7 +2238,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -2216,6 +2248,7 @@ namespace Microting.eForm.Infrastructure
         //TODO
         public async Task<UploadedData> FileRead()
         {
+            string methodName = "SqlController.FileRead";
             try
             {
                 using (var db = GetContext())
@@ -2241,13 +2274,14 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("FileRead failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         //TODO
         public async Task<CaseDto> FileCaseFindMUId(string urlString)
         {
+            string methodName = "SqlController.FileCaseFindMUId";
             try
             {
                 using (var db = GetContext())
@@ -2269,13 +2303,14 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
 //                await log.LogCritical(t.GetMethodName("Core"), ex.Message);
-                throw new Exception("FileRead failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         //TODO
         public async Task FileProcessed(string urlString, string checkSum, string fileLocation, string fileName, int Id)
         {
+            string methodName = "SqlController.FileProcessed";
             try
             {
                 using (var db = GetContext())
@@ -2292,7 +2327,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("FileProcessed failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2304,6 +2339,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<uploaded_data> GetUploadedData(int Id)
         {
+            string methodName = "SqlController.GetUploadedData";
             try
             {
                 using (var db = GetContext())
@@ -2313,13 +2349,14 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("Get uploaded data object failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         //TODO
         public async Task<bool> UpdateUploadedData(uploaded_data uploadedData)
         {
+            string methodName = "SqlController.UpdateUploadedData";
             try
             {
                 using (var db = GetContext())
@@ -2333,7 +2370,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("UpdateUploadedData failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2345,6 +2382,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<field_values> GetFieldValueByTranscriptionId(int transcriptionId)
         {
+            string methodName = "SqlController.GetFieldValueByTranscriptionId";
             try
             {
                 using (var db = GetContext())
@@ -2361,7 +2399,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("Get uploaded data object failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2369,6 +2407,7 @@ namespace Microting.eForm.Infrastructure
         public async Task<uploaded_data> GetUploaded_DataByTranscriptionId(int transcriptionId)
         {
 
+            string methodName = "SqlController.GetUploaded_DataByTranscriptionId";
             try
             {
                 using (var db = GetContext())
@@ -2378,7 +2417,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("Get uploaded data object failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2390,6 +2429,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> DeleteFile(int Id)
         {
+            string methodName = "SqlController.DeleteFile";
             try
             {
                 using (var db = GetContext())
@@ -2403,7 +2443,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("FileProcessed failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -2420,6 +2460,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<CaseDto> CaseLookup(int microtingUId, int checkUId)
         {
+            string methodName = "SqlController.CaseLookup";
             try
             {
                 using (var db = GetContext())
@@ -2429,7 +2470,7 @@ namespace Microting.eForm.Infrastructure
                 }
             } catch  (Exception ex)
             {
-                throw new Exception("CaseReadByMuuId failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         
@@ -2441,6 +2482,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<CaseDto> CaseReadByMUId(int microtingUId)
         {
+            string methodName = "SqlController.CaseReadByMUId";
             try
             {
                 using (var db = GetContext())
@@ -2484,13 +2526,13 @@ namespace Microting.eForm.Infrastructure
                     }
                     catch(Exception ex1)
                     {
-                        throw new Exception("CaseReadByMuuId failed", ex1);
+                        throw new Exception(methodName + " failed", ex1);
                     }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseReadByMuuId failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2502,6 +2544,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<CaseDto> CaseReadByCaseId(int caseId)
         {
+            string methodName = "SqlController.CaseReadByCaseId";
             try
             {
                 using (var db = GetContext())
@@ -2544,7 +2587,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("SqlController.CaseReadByCaseId: failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2556,13 +2599,14 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<List<CaseDto>> CaseReadByCaseUId(string caseUId)
         {
+            string methodName = "SqlController.CaseReadByCaseUId";
             try
             {
                 if (caseUId == "")
-                    throw new Exception("CaseReadByCaseUId failed. Due invalid input:''. This would return incorrect data");
+                    throw new Exception(methodName + " failed. Due invalid input:''. This would return incorrect data");
 
                 if (caseUId == "ReversedCase")
-                    throw new Exception("CaseReadByCaseUId failed. Due invalid input:'ReversedCase'. This would return incorrect data");
+                    throw new Exception(methodName + " failed. Due invalid input:'ReversedCase'. This would return incorrect data");
 
                 using (var db = GetContext())
                 {
@@ -2577,7 +2621,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseReadByCaseUId failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         
@@ -2590,6 +2634,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<cases> CaseReadFull(int microtingUId, int checkUId)
         {
+            string methodName = "SqlController.CaseReadFull";
             try
             {
                 using (var db = GetContext())
@@ -2607,7 +2652,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseReadFull failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2620,7 +2665,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<int?> CaseReadFirstId(int? templateId, string workflowState)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.CaseReadFirstId";
             await log.LogStandard(methodName, "called");
             await log.LogVariable(methodName, nameof(templateId), templateId);
             await log.LogVariable(methodName, nameof(workflowState), workflowState);
@@ -2656,13 +2701,13 @@ namespace Microting.eForm.Infrastructure
                         return sub_query.First().Id;
                     } catch (Exception ex)
                     {
-                        throw new Exception("CaseReadFirstId failed", ex);
+                        throw new Exception(methodName + " failed", ex);
                     }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseReadFull failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2671,6 +2716,7 @@ namespace Microting.eForm.Infrastructure
             string searchKey, bool descendingSort, string sortParameter, int offSet, int pageSize)
         {
                         
+            string methodName = "SqlController.CaseReadAll";
             try
             {
                 using (var db = GetContext())
@@ -2930,7 +2976,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseReadFull failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2947,7 +2993,7 @@ namespace Microting.eForm.Infrastructure
         /// <returns></returns>
         public async Task<List<Case>> CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter)
         {            
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.CaseReadAll";
             await log.LogStandard(methodName, "called");
             await log.LogVariable(methodName, nameof(templatId), templatId);
             await log.LogVariable(methodName, nameof(start), start);
@@ -2979,6 +3025,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<List<CaseDto>> CaseFindCustomMatchs(string customString)
         {
+            string methodName = "SqlController.CaseFindCustomMatchs";
             try
             {
                 using (var db = GetContext())
@@ -2995,13 +3042,14 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CaseFindCustomMatchs failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         //TODO
         public async Task<bool> CaseUpdateFieldValues(int caseId)
         {
+            string methodName = "SqlController.CaseUpdateFieldValues";
             try
             {
                 using (var db = GetContext())
@@ -3135,7 +3183,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
+                throw new Exception(methodName +  " failed", ex);
             }
         }
         #endregion
@@ -3150,6 +3198,7 @@ namespace Microting.eForm.Infrastructure
         /// <returns></returns>
         public async Task<List<SiteName_Dto>> SiteGetAll(bool includeRemoved)
         {
+            string methodName = "SqlController.SiteGetAll";
             List<SiteName_Dto> siteList = new List<SiteName_Dto>();
             using (var db = GetContext())
             {
@@ -3172,6 +3221,7 @@ namespace Microting.eForm.Infrastructure
         //TODO
         public async Task<List<Site_Dto>> SimpleSiteGetAll(string workflowState, int? offSet, int? limit)
         {
+            string methodName = "SqlController.SimpleSiteGetAll";
             List<Site_Dto> siteList = new List<Site_Dto>();
             using (var db = GetContext())
             {
@@ -3244,7 +3294,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<int> SiteCreate(int microtingUid, string name)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.SiteCreate";
             try
             {
                 using (var db = GetContext())
@@ -3286,7 +3336,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<SiteName_Dto> SiteRead(int microting_uid)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.SiteRead";
             try
             {
                 using (var db = GetContext())
@@ -3308,7 +3358,7 @@ namespace Microting.eForm.Infrastructure
         //TODO
         public async Task<Site_Dto> SiteReadSimple(int microting_uid)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.SiteReadSimple";
             try
             {
                 using (var db = GetContext())
@@ -3345,7 +3395,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> SiteUpdate(int microting_uid, string name)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.SiteUpdate";
             try
             {
                 using (var db = GetContext())
@@ -3387,7 +3437,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> SiteDelete(int microting_uid)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.SiteDelete";
             try
             {
                 using (var db = GetContext())
@@ -3434,7 +3484,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<List<Worker_Dto>> WorkerGetAll(string workflowState, int? offSet, int? limit)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.WorkerGetAll";
             try
             {
                 List<Worker_Dto> listWorkerDto = new List<Worker_Dto>();
@@ -3485,7 +3535,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<int> WorkerCreate(int microtingUid, string firstName, string lastName, string email)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.WorkerCreate";
             try
             {
                 using (var db = GetContext())
@@ -3516,7 +3566,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<string> WorkerNameRead(int workerId)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.WorkerNameRead";
             try
             {
                 using (var db = GetContext())
@@ -3543,7 +3593,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<Worker_Dto> WorkerRead(int microting_uid)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.WorkerRead";
             try
             {
                 using (var db = GetContext())
@@ -3573,7 +3623,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> WorkerUpdate(int microtingUid, string firstName, string lastName, string email)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.WorkerUpdate";
             try
             {
                 using (var db = GetContext())
@@ -3611,7 +3661,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> WorkerDelete(int microtingUid)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.WorkerDelete";
             try
             {
                 using (var db = GetContext())
@@ -3649,7 +3699,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<int> SiteWorkerCreate(int microtingUId, int siteUId, int workerUId)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.SiteWorkerCreate";
             try
             {
                 using (var db = GetContext())
@@ -3696,7 +3746,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<Site_Worker_Dto> SiteWorkerRead(int? siteWorkerMicrotingUid, int? siteId, int? workerId)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.SiteWorkerRead";
             try
             {
                 using (var db = GetContext())
@@ -3738,7 +3788,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> SiteWorkerUpdate(int microtingUid, int siteId, int workerId)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.SiteWorkerUpdate";
             try
             {
                 using (var db = GetContext())
@@ -3781,7 +3831,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> SiteWorkerDelete(int microting_uid)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.SiteWorkerDelete";
             try
             {
                 using (var db = GetContext())
@@ -3824,7 +3874,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<List<Unit_Dto>> UnitGetAll()
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.UnitGetAll";
             try
             {
                 List<Unit_Dto> listWorkerDto = new List<Unit_Dto>();
@@ -3857,7 +3907,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<int> UnitCreate(int microtingUid, int customerNo, int otpCode, int siteUId)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.UnitCreate";
             try
             {
                 using (var db = GetContext())
@@ -3891,7 +3941,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<Unit_Dto> UnitRead(int microtingUid)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.UnitRead";
             try
             {
                 using (var db = GetContext())
@@ -3924,7 +3974,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> UnitUpdate(int microtingUid, int customerNo, int otpCode, int siteId)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.UnitUpdate";
             try
             {
                 using (var db = GetContext())
@@ -3960,7 +4010,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> UnitDelete(int microtingUid)
         {
-            string methodName = t.GetMethodName("SQLController");
+            string methodName = "SqlController.UnitDelete";
             try
             {
                 using (var db = GetContext())
@@ -3999,6 +4049,7 @@ namespace Microting.eForm.Infrastructure
                 throw new Exception("EntityGroupAll failed. EntityType:" + entityType + " is not an known type");
             if (workflowState != Constants.Constants.WorkflowStates.NotRemoved && workflowState != Constants.Constants.WorkflowStates.Created && workflowState != Constants.Constants.WorkflowStates.Removed)
                 throw new Exception("EntityGroupAll failed. workflowState:" + workflowState + " is not an known workflow state");
+            string methodName = "SqlController.EntityGroupAll";
 
             List<entity_groups> eG = null;
             List<EntityGroup> e_G = new List<EntityGroup>();
@@ -4065,7 +4116,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityGroupAll failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -4078,6 +4129,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<EntityGroup> EntityGroupCreate(string name, string entityType)
         {
+            string methodName = "SqlController.EntityGroupCreate";
             try
             {
                 if (entityType != Constants.Constants.FieldTypes.EntitySearch && entityType != Constants.Constants.FieldTypes.EntitySelect)
@@ -4104,13 +4156,14 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityGroupCreate failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         //TODO
         public async Task<EntityGroup> EntityGroupReadSorted(string entityGroupMUId, string sort, string nameFilter)
         {
+            string methodName = "SqlController.EntityGroupReadSorted";
             try
             {
                 using (var db = GetContext())
@@ -4175,7 +4228,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityGroupRead failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -4187,6 +4240,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="NullReferenceException"></exception>
         public async Task<EntityGroup> EntityGroupRead(int Id) 
         {
+            string methodName = "SqlController.EntityGroupRead";
             using (var db = GetContext()) {
                 entity_groups eg = await db.entity_groups.SingleOrDefaultAsync(x => x.Id == Id);
                 if (eg != null) {
@@ -4221,6 +4275,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> EntityGroupUpdate(int entityGroupId, string entityGroupMUId)
         {
+            string methodName = "SqlController.EntityGroupUpdate";
             try
             {
                 using (var db = GetContext())
@@ -4238,7 +4293,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityGroupUpdate failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -4251,6 +4306,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> EntityGroupUpdateName(string name, string entityGroupMUId)
         {
+            string methodName = "SqlController.EntityGroupUpdateName";
             try
             {
                 using (var db = GetContext())
@@ -4268,7 +4324,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityGroupUpdate failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -4280,6 +4336,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<string> EntityGroupDelete(string entityGroupMUId)
         {
+            string methodName = "SqlController.EntityGroupDelete";
             try
             {
                 using (var db = GetContext())
@@ -4313,7 +4370,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityGroupDelete failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -4328,6 +4385,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<entity_items> EntityItemRead(string microtingUId)
         {
+            string methodName = "SqlController.EntityItemRead";
             try
             {
                 using (var db = GetContext())
@@ -4337,7 +4395,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EntityItemRead failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -4349,6 +4407,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="NullReferenceException"></exception>
         public async Task<EntityItem> EntityItemRead(int id)
         {
+            string methodName = "SqlController.EntityItemRead";
             using (var db = GetContext())
             {
                 entity_items et = await db.entity_items.FirstOrDefaultAsync(x => x.Id == id);
@@ -4386,6 +4445,7 @@ namespace Microting.eForm.Infrastructure
         /// <returns></returns>
         public async Task<EntityItem> EntityItemRead(int entityItemGroupId, string name, string description)
         {
+            string methodName = "SqlController.EntityItemRead";
             using (var db = GetContext())
             {
                 entity_items et = await db.entity_items.SingleOrDefaultAsync(x => x.Name == name 
@@ -4415,6 +4475,7 @@ namespace Microting.eForm.Infrastructure
         public async Task<EntityItem> EntityItemCreate(int entityItemGroupId, EntityItem entityItem)
         {
 
+            string methodName = "SqlController.EntityItemCreate";
             using (var db = GetContext())
             {
                 entity_items eI = new entity_items();
@@ -4436,6 +4497,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="entityItem"></param>
         public async Task EntityItemUpdate(EntityItem entityItem)
         {
+            string methodName = "SqlController.EntityItemUpdate";
             using (var db = GetContext())
             {
                 var match = await db.entity_items.SingleOrDefaultAsync(x => x.Id == entityItem.Id);
@@ -4456,6 +4518,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="NullReferenceException"></exception>
         public async Task EntityItemDelete(int Id)
         {
+            string methodName = "SqlController.EntityItemDelete";
             using (var db = GetContext())
             {
                 entity_items et = await db.entity_items.SingleOrDefaultAsync(x => x.Id == Id);
@@ -4483,6 +4546,7 @@ namespace Microting.eForm.Infrastructure
         /// <returns></returns>
         public async Task<List<Folder_Dto>> FolderGetAll(bool includeRemoved)
         {
+            string methodName = "SqlController.FolderGetAll";
             List<Folder_Dto> folderDtos = new List<Folder_Dto>();
             using (var db = GetContext())
             {
@@ -4506,6 +4570,7 @@ namespace Microting.eForm.Infrastructure
         /// <returns></returns>
         public async Task<Folder_Dto> FolderReadByMicrotingUUID(int microting_uid)
         {
+            string methodName = "SqlController.FolderReadByMicrotingUUID";
             using (var db = GetContext())
             {
                 folders folder = await db.folders.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid);
@@ -4528,6 +4593,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="NullReferenceException"></exception>
         public async Task<Folder_Dto> FolderRead(int Id)
         {
+            string methodName = "SqlController.FolderRead";
             using (var db = GetContext())
             {
                 folders folder = await db.folders.SingleOrDefaultAsync(x => x.Id == Id);
@@ -4575,6 +4641,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="NullReferenceException"></exception>
         public async Task FolderUpdate(int Id, string name, string description, int? parent_id)
         {
+            string methodName = "SqlController.FolderUpdate";
             using (var db = GetContext())
             {
                 folders folder = await db.folders.SingleOrDefaultAsync(x => x.Id == Id);
@@ -4599,6 +4666,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="NullReferenceException"></exception>
         public async Task FolderDelete(int Id)
         {
+            string methodName = "SqlController.FolderDelete";
             using (var db = GetContext())
             {
                 folders folder = await db.folders.SingleOrDefaultAsync(x => x.Id == Id);
@@ -4619,8 +4687,10 @@ namespace Microting.eForm.Infrastructure
         
         //TODO
         public async Task<bool> SettingCreateDefaults()
-        {
-            WriteDebugConsoleLogEntry(new LogEntry(2, "SqlController.SettingCreateDefaults", "called"));
+        {            
+            string methodName = "SqlController.SettingCreateDefaults";
+
+            WriteDebugConsoleLogEntry(new LogEntry(2, methodName, "called"));
             //key point
             await SettingCreate(Settings.firstRunDone);
             await SettingCreate(Settings.logLevel);
@@ -4664,6 +4734,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="IndexOutOfRangeException"></exception>
         public async Task<bool> SettingCreate(Settings name)
         {
+            string methodName = "SqlController.SettingCreate";
             using (var db = GetContext())
             {
                 //key point
@@ -4791,6 +4862,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<string> SettingRead(Settings name)
         {
+            string methodName = "SqlController.SettingRead";
             try
             {
                 using (var db = GetContext())
@@ -4805,7 +4877,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -4817,6 +4889,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task SettingUpdate(Settings name, string newValue)
         {
+            string methodName = "SqlController.SettingUpdate";
             try
             {
                 using (var db = GetContext())
@@ -4835,13 +4908,14 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         //TODO
         public async Task<List<string>> SettingCheckAll()
         {
+            string methodName = "SqlController.SettingCheckAll";
             List<string> result = new List<string>();
             try
             {
@@ -4901,7 +4975,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -4916,6 +4990,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<Log> StartLog(CoreBase core)
         {
+            string methodName = "SqlController.StartLog";
             try
             {
                 string logLevel = await SettingRead(Settings.logLevel);
@@ -4926,7 +5001,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName("SQLController") + " failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -4935,6 +5010,7 @@ namespace Microting.eForm.Infrastructure
         {
 //            lock (_lockWrite)
 //            {
+            string methodName = "SqlController.WriteLogEntry";
             WriteDebugConsoleLogEntry(logEntry);
                     
             if (logEntry.Level < 0)
@@ -4974,7 +5050,7 @@ namespace Microting.eForm.Infrastructure
                 }
                 catch (Exception ex)
                 {
-                    return t.PrintException(t.GetMethodName("SQLController") + " failed", ex);
+                    return t.PrintException(methodName + " failed", ex);
                 }
                 
             }
@@ -5002,6 +5078,7 @@ namespace Microting.eForm.Infrastructure
         //TODO
         private async Task<string> WriteLogExceptionEntry(LogEntry logEntry)
         {
+            string methodName = "SqlController.WriteLogExceptionEntry";
             try
             {
                 using (var db = GetContext())
@@ -5035,7 +5112,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                return t.PrintException(t.GetMethodName("SQLController") + " failed", ex);
+                return t.PrintException(methodName + " failed", ex);
             }
         }
 
@@ -5068,6 +5145,7 @@ namespace Microting.eForm.Infrastructure
         //TODO
         private async Task<int> EformCreateDb(MainElement mainElement)
         {
+            string methodName = "SqlController.EformCreateDb";
             try
             {
                 using (var db = GetContext())
@@ -5110,7 +5188,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("EformCreateDb failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -5138,6 +5216,7 @@ namespace Microting.eForm.Infrastructure
         //TODO
         private async Task CreateGroupElement(int parentId, GroupElement groupElement)
         {
+            string methodName = "SqlController.CreateGroupElement";
             try
             {
                 using (var db = GetContext())
@@ -5165,13 +5244,14 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CreateGroupElement failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         //TODO
         private async Task CreateDataElement(int parentId, DataElement dataElement)
         {
+            string methodName = "SqlController.CreateDataElement";
             try
             {
                 using (var db = GetContext())
@@ -5207,7 +5287,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CreateDataElement failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -5265,6 +5345,7 @@ namespace Microting.eForm.Infrastructure
         //TODO
         private async Task CreateDataItem(int? parentFieldId, int elementId, DataItem dataItem)
         {
+            string methodName = "SqlController.CreateDataItem";
             try
             {
                 using (var db = GetContext())
@@ -5442,7 +5523,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("CreateDataItem failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -5457,6 +5538,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         private async Task<Element> GetElement(int elementId)
         {
+            string methodName = "SqlController.GetElement";
             try
             {
                 using (var db = GetContext())
@@ -5537,7 +5619,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("GetElement failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -5551,6 +5633,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         private async Task GetDataItem(List<DataItem> lstDataItem, List<DataItemGroup> lstDataItemGroup, fields field)
         {
+            string methodName = "SqlController.GetDataItem";
             try
             {
                 using (var db = GetContext())
@@ -5664,13 +5747,14 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("GetDataItem failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         //TODO
         private void GetConverter()
         {
+            string methodName = "SqlController.GetConverter";
             if (converter == null)
             {
                 try
@@ -5689,7 +5773,7 @@ namespace Microting.eForm.Infrastructure
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception("GetConverter failed", ex);
+                    throw new Exception(methodName + " failed", ex);
                 }                
             }
         }
@@ -5705,6 +5789,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<List<Tag>> GetAllTags(bool includeRemoved)
         {
+            string methodName = "SqlController.GetAllTags";
             List<Tag> tags = new List<Tag>();
             try
             {
@@ -5726,7 +5811,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("GetAllTags failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -5738,6 +5823,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<int> TagCreate(string name)
         {
+            string methodName = "SqlController.TagCreate";
             try
             {
                 using (var db = GetContext())
@@ -5760,7 +5846,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("TagCreate failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -5772,6 +5858,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         public async Task<bool> TagDelete(int tagId)
         {
+            string methodName = "SqlController.TagDelete";
             try
             {
                 using (var db = GetContext())
@@ -5786,7 +5873,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception("TagDelete failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -5801,6 +5888,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         private string Find(int fieldTypeId)
         {
+            string methodName = "SqlController.Find";
             foreach (var holder in converter)
             {
                 if (holder.Index == fieldTypeId)
@@ -5817,6 +5905,7 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         private int Find(string typeStr)
         {
+            string methodName = "SqlController.Find";
             foreach (var holder in converter)
             {
                 if (holder.FieldType == typeStr)
@@ -5832,6 +5921,7 @@ namespace Microting.eForm.Infrastructure
             string inderStr;
             int index = 1;
 
+            string methodName = "SqlController.PairBuild";
             foreach (KeyValuePair kVP in lst)
             {
                 inderStr = "<" + index + ">";
