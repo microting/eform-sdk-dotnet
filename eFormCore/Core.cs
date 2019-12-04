@@ -2105,6 +2105,7 @@ namespace eFormCore
             
             // get field_values
             List<KeyValuePair<string, string>> pictures = new List<KeyValuePair<string, string>>();
+            List<KeyValuePair<string, string>> signatures = new List<KeyValuePair<string, string>>();
             List<int> caseIds = new List<int>();
             caseIds.Add(caseId);
             List<FieldValue> fieldValues = await _sqlController.FieldValueReadList(caseIds);
@@ -2124,7 +2125,6 @@ namespace eFormCore
                         valuePairs[$"F_{fieldValue.FieldId}"] =
                             fieldValue.ValueReadable.Replace("|", @"</w:t><w:br/><w:t>").Replace("&", "&amp;");
                         break;
-                    
                     case Constants.FieldTypes.Picture:
                         imageFieldCountList[$"FCount_{fieldValue.FieldId}"] = 0;
                         if (fieldValue.UploadedDataObj != null)
@@ -2144,6 +2144,22 @@ namespace eFormCore
                             {
                                 imageFieldCountList[$"FCount_{fieldValue.FieldId}"] += 1;
                             }
+                        }
+                        break;
+                    case Constants.FieldTypes.Signature:
+                        if (fieldValue.UploadedDataObj != null)
+                        {
+                            fields field = await _sqlController.FieldReadRaw(fieldValue.FieldId);
+                            check_lists checkList = await _sqlController.CheckListRead((int)field.CheckListId);
+                        
+                            signatures.Add(new KeyValuePair<string, string>($"{checkList.Label.Replace("&", "&amp;")} - {field.Label.Replace("&", "&amp;")}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
+                            SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName);
+                            Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
+                            var fileStream =
+                                File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
+                            swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
+                            swiftObjectGetResponse.ObjectStreamContent.CopyTo(fileStream);
+                            fileStream.Close();   
                         }
                         break;
                     case Constants.FieldTypes.CheckBox:
@@ -2207,8 +2223,8 @@ namespace eFormCore
 
             ReportHelper.SearchAndReplace(templateFile, valuePairs, resultDocument);
             
-            // TODO insert images
             ReportHelper.InsertImages(resultDocument, pictures);
+            ReportHelper.InsertSignature(resultDocument, signatures);
             
             if (fileType == "pdf")
             {
@@ -4329,7 +4345,7 @@ namespace eFormCore
                             Field field = (Field)item;
                             foreach (FieldValue answer in field.FieldValues)
                             {
-                                jasperFieldXml += GetJasperFieldValue(field, answer, customPathForUploadedData);
+                                jasperFieldXml += GetJasperFieldValue(field, answer, customPathForUploadedData).Result;
                             }
                         } else if (item is FieldContainer)
                         {
@@ -4340,7 +4356,7 @@ namespace eFormCore
                                 jasperFieldXml += Environment.NewLine + "<F" + field.Id + " name=\"" + field.Label + "\" parent=\"" + dataE.Label + "\">";
                                 foreach (FieldValue answer in field.FieldValues)
                                 {                                    
-                                    jasperFieldXml += GetJasperFieldValue(field, answer, customPathForUploadedData);
+                                    jasperFieldXml += GetJasperFieldValue(field, answer, customPathForUploadedData).Result;
                                 }
 
                                 jasperFieldXml += Environment.NewLine + "</F" + field.Id + ">";

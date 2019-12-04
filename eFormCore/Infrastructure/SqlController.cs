@@ -60,13 +60,16 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    WriteDebugConsoleLogEntry(new LogEntry(2, "SqlController.SqlController", "db.Database.Migrate() called"));
-                    db.Database.Migrate();
+                    if (db.Database.GetPendingMigrations().Any())
+                    {
+                        WriteDebugConsoleLogEntry(new LogEntry(2, "SqlController.SqlController", "db.Database.Migrate() called"));
+                        db.Database.Migrate();   
+                    }
                     
-                    WriteDebugConsoleLogEntry(new LogEntry(2, "SqlController.SqlController", "db.Database.EnsureCreated() called"));
-                    db.Database.EnsureCreated();
+//                    WriteDebugConsoleLogEntry(new LogEntry(2, "SqlController.SqlController", "db.Database.EnsureCreated() called"));
+//                    db.Database.EnsureCreated();
 
-                   var match = db.settings.Count();
+//                   var match = db.settings.Count();
                 }
             }
             catch (Exception ex)
