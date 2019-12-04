@@ -2100,7 +2100,7 @@ namespace eFormCore
             valuePairs.Add("F_SerialNumber", $"{caseId}/{cDto.MicrotingUId}");
             valuePairs.Add("F_Worker", _sqlController.WorkerNameRead(reply.DoneById).Result.Replace("&", "&amp;"));
             valuePairs.Add("F_CheckId", reply.MicrotingUId.ToString());
-            valuePairs.Add("F_CheckDate", reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss"));
+            valuePairs.Add("F_CheckDate", reply.DoneAt.ToString("yyyy-MM-dd HH:mm:ss"));
             valuePairs.Add("F_SiteName", _sqlController.SiteRead(reply.SiteMicrotingUuid).Result.SiteName.Replace("&", "&amp;"));
             
             // get field_values
