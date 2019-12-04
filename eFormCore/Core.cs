@@ -138,6 +138,7 @@ namespace eFormCore
         /// </summary>
         public async Task<bool> Start(string connectionString)
 		{
+            string methodName = t.GetMethodName("Core.Start");
 			try
 			{
 				if (!_coreAvailable && !_coreStatChanging)
@@ -163,7 +164,7 @@ namespace eFormCore
 						, new RebusInstaller(connectionString, _maxParallelism, _numberOfWorkers)
 					);
 					_bus = _container.Resolve<IBus>();
-					await log.LogCritical(t.GetMethodName("Core"), "called");
+					await log.LogCritical(methodName, "called");
 
 					//---
 
@@ -172,9 +173,9 @@ namespace eFormCore
 					//subscriber
 					_subscriber = new Subscriber(_sqlController, log, _bus);
 					_subscriber.Start();
-					await log.LogStandard(t.GetMethodName("Core"), "Subscriber started");
+					await log.LogStandard(methodName, "Subscriber started");
 
-					await log.LogCritical(t.GetMethodName("Core"), "started");
+					await log.LogCritical(methodName, "started");
 					_coreAvailable = true;
 					_coreStatChanging = false;
 
@@ -183,13 +184,13 @@ namespace eFormCore
                     //coreThread.Start();
                     _coreThreadRunning = true;
 
-                    await log.LogStandard(t.GetMethodName("Core"), "CoreThread started");
+                    await log.LogStandard(methodName, "CoreThread started");
 				}
 			}
 			#region catch
 			catch (Exception ex)
 			{
-                await FatalExpection(t.GetMethodName("Core") + " failed", ex);
+                await FatalExpection(methodName + " failed", ex);
 				throw ex;
 				//return false;
 			}
@@ -200,6 +201,7 @@ namespace eFormCore
 
         public async Task<bool> StartSqlOnly(string connectionString)
         {
+            string methodName = t.GetMethodName("Core.StartSqlOnly");
 
             try
             {
@@ -230,15 +232,15 @@ namespace eFormCore
                     if (log == null)
                         log = await _sqlController.StartLog(this);
 
-                    await log.LogCritical(t.GetMethodName("Core"), "###########################################################################");
-                    await log.LogCritical(t.GetMethodName("Core"), "called");
-                    await log.LogStandard(t.GetMethodName("Core"), "SqlController and Logger started");
+                    await log.LogCritical(methodName, "###########################################################################");
+                    await log.LogCritical(methodName, "called");
+                    await log.LogStandard(methodName, "SqlController and Logger started");
 
                     //settings read
                     this._connectionString = connectionString;
                     _fileLocationPicture = await _sqlController.SettingRead(Settings.fileLocationPicture);
                     _fileLocationPdf = await _sqlController.SettingRead(Settings.fileLocationPdf);
-                    await log.LogStandard(t.GetMethodName("Core"), "Settings read");
+                    await log.LogStandard(methodName, "Settings read");
 
                     //communicators
                     string token = await _sqlController.SettingRead(Settings.token);
@@ -296,7 +298,7 @@ namespace eFormCore
 				        }
 				        catch (Exception ex)
 				        {
-				            await log.LogWarning(t.GetMethodName("Core"), ex.Message);
+				            await log.LogWarning(methodName, ex.Message);
 				        }
 				        
 				        
@@ -316,9 +318,9 @@ namespace eFormCore
 
 
 
-                    await log.LogStandard(t.GetMethodName("Core"), "Communicator started");
+                    await log.LogStandard(methodName, "Communicator started");
 
-                    await log.LogCritical(t.GetMethodName("Core"), "started");
+                    await log.LogCritical(methodName, "started");
                     _coreAvailable = true;
                     _coreStatChanging = false;
                 }
@@ -329,7 +331,7 @@ namespace eFormCore
                 _coreThreadRunning = false;
                 _coreStatChanging = false;
 
-                await FatalExpection(t.GetMethodName("Core") + " failed", ex);
+                await FatalExpection(methodName + " failed", ex);
                 return false;
             }
             #endregion
@@ -339,14 +341,15 @@ namespace eFormCore
 
         public override async Task Restart(int sameExceptionCount, int sameExceptionCountMax)
         {
+            string methodName = t.GetMethodName("Core.Restart");
             try
             {
                 if (_coreRestarting == false)
                 {
                     _coreRestarting = true;
-                    await log.LogCritical(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(sameExceptionCount), sameExceptionCount);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(sameExceptionCountMax), sameExceptionCountMax);
+                    await log.LogCritical(methodName, "called");
+                    await log.LogVariable(methodName, nameof(sameExceptionCount), sameExceptionCount);
+                    await log.LogVariable(methodName, nameof(sameExceptionCountMax), sameExceptionCountMax);
 
                     _sameExceptionCountTried++;
 
@@ -365,17 +368,17 @@ namespace eFormCore
                         case 4: secondsDelay = 512; break;
                         default: throw new ArgumentOutOfRangeException("sameExceptionCount should be above 0");
                     }
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(_sameExceptionCountTried), _sameExceptionCountTried);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(secondsDelay), secondsDelay);
+                    await log.LogVariable(methodName, nameof(_sameExceptionCountTried), _sameExceptionCountTried);
+                    await log.LogVariable(methodName, nameof(secondsDelay), secondsDelay);
 
                     await Close();
 
-                    await log.LogStandard(t.GetMethodName("Core"), "Trying to restart the Core in " + secondsDelay + " seconds");
+                    await log.LogStandard(methodName, "Trying to restart the Core in " + secondsDelay + " seconds");
 
                     if (!skipRestartDelay)
                         Thread.Sleep(secondsDelay * 1000);
                     else
-                        await log.LogStandard(t.GetMethodName("Core"), "Delay skipped");
+                        await log.LogStandard(methodName, "Delay skipped");
 
                     await Start(_connectionString);
                     _coreRestarting = false;
@@ -383,7 +386,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await FatalExpection(t.GetMethodName("Core") + "failed. Core failed to restart", ex);
+                await FatalExpection(methodName + "failed. Core failed to restart", ex);
             }
         }
 
@@ -392,7 +395,8 @@ namespace eFormCore
         /// </summary>
         public async Task<bool> Close()
         {
-            await log.LogStandard(t.GetMethodName("Core"), "Close called");
+            string methodName = t.GetMethodName("Core.Close");
+            await log.LogStandard(methodName, "Close called");
             try
             {
                 if (_coreAvailable && !_coreStatChanging)
@@ -402,15 +406,15 @@ namespace eFormCore
                         _coreStatChanging = true;
 
                         _coreAvailable = false;
-                        log.LogCritical(t.GetMethodName("Core"), "called").RunSynchronously();
+                        log.LogCritical(methodName, "called").RunSynchronously();
 
                         try
                         {
                             if (_subscriber != null)
                             {
-                                log.LogEverything(t.GetMethodName("Core"), "Subscriber requested to close connection").RunSynchronously();
+                                log.LogEverything(methodName, "Subscriber requested to close connection").RunSynchronously();
                                 _subscriber.Close().RunSynchronously();
-                                log.LogEverything(t.GetMethodName("Core"), "Subscriber closed").RunSynchronously();
+                                log.LogEverything(methodName, "Subscriber closed").RunSynchronously();
                                 _bus.Advanced.Workers.SetNumberOfWorkers(0);
                                 _bus.Dispose();
                                 _coreThreadRunning = false;
@@ -418,7 +422,7 @@ namespace eFormCore
                         }
                         catch (Exception ex)
                         {
-                            log.LogException(t.GetMethodName("Core"), "Subscriber failed to close", ex, false).RunSynchronously();
+                            log.LogException(methodName, "Subscriber failed to close", ex, false).RunSynchronously();
                         }
 
                         int tries = 0;
@@ -433,7 +437,7 @@ namespace eFormCore
 
                         _updateIsRunningEntities = false;
 
-                        log.LogStandard(t.GetMethodName("Core"), "Core closed").RunSynchronously();
+                        log.LogStandard(methodName, "Core closed").RunSynchronously();
                         _subscriber = null;
                         _communicator = null;
                         _sqlController = null;
@@ -450,7 +454,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                FatalExpection(t.GetMethodName("Core") + " failed. Core failed to close", ex).RunSynchronously();
+                FatalExpection(methodName + " failed. Core failed to close", ex).RunSynchronously();
             }
             return true;
         }
@@ -465,6 +469,7 @@ namespace eFormCore
 
         public async Task FatalExpection(string reason, Exception exception)
         {
+            string methodName = t.GetMethodName("Core.FatalExpection");
             _coreAvailable = false;
             _coreThreadRunning = false;
             _coreStatChanging = false;
@@ -472,7 +477,7 @@ namespace eFormCore
 
             try
             {
-                await log.LogFatalException(t.GetMethodName("Core") + " called for reason:'" + reason + "'", exception);
+                await log.LogFatalException(methodName + " called for reason:'" + reason + "'", exception);
             }
             catch { }
 
@@ -492,12 +497,12 @@ namespace eFormCore
         {
             if (string.IsNullOrEmpty(xmlString))
                 throw new ArgumentNullException("xmlString cannot be null or empty");
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.TemplateFromXml";
             try
             {
-                await log.LogStandard(t.GetMethodName("Core"), "called");
-                await log.LogEverything(t.GetMethodName("Core"), "XML to transform:");
-                await log.LogEverything(t.GetMethodName("Core"), xmlString);
+                await log.LogStandard(methodName, "called");
+                await log.LogEverything(methodName, "XML to transform:");
+                await log.LogEverything(methodName, xmlString);
 
                 //XML HACK TODO
                 #region xmlString = corrected xml if needed
@@ -606,8 +611,8 @@ namespace eFormCore
                 xmlString = t.ReplaceInsensitive(xmlString, ">False<", ">false<");
                 #endregion
 
-                await log.LogEverything(t.GetMethodName("Core"), "XML after possible corrections:");
-                await log.LogEverything(t.GetMethodName("Core"), xmlString);
+                await log.LogEverything(methodName, "XML after possible corrections:");
+                await log.LogEverything(methodName, xmlString);
 
                 MainElement mainElement = new MainElement();
                 mainElement = mainElement.XmlToClass(xmlString);
@@ -618,7 +623,7 @@ namespace eFormCore
                 mainElement.PushMessageBody = "";
                 if (mainElement.Repeated < 1)
                 {
-                    await log.LogCritical(t.GetMethodName("Core"), "mainElement.Repeated = 1 // enforced");
+                    await log.LogCritical(methodName, "mainElement.Repeated = 1 // enforced");
                     mainElement.Repeated = 1;
                 }
 
@@ -626,7 +631,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 if (ex.InnerException != null)
                 {
                     if (ex.InnerException.InnerException != null)
@@ -655,7 +660,7 @@ namespace eFormCore
 
         public async Task<List<string>> TemplateValidation(MainElement mainElement)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.TemplateValidation";
             try
             {
                 if (Running())
@@ -674,15 +679,16 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         private async Task<List<string>> FieldValidation(MainElement mainElement)
         {
+            string methodName = t.GetMethodName("Core.FieldValidation");
 
-            await log.LogStandard(t.GetMethodName("Core"), "called");
+            await log.LogStandard(methodName, "called");
 
             List<string> errorLst = new List<string>();
             var dataItems = mainElement.DataItemGetAll();
@@ -742,7 +748,8 @@ namespace eFormCore
 
         private async Task<List<string>> CheckListValidation(MainElement mainElement)
         {
-            await log.LogStandard(t.GetMethodName("Core"), "called");
+            string methodName = "Core.CheckListValidation";
+            await log.LogStandard(methodName, "called");
             List<string> errorLst = new List<string>();
             
             List<string> acceptedColors = new List<string>();
@@ -763,12 +770,12 @@ namespace eFormCore
             if (mainElement == null)
                 throw new ArgumentNullException(nameof(mainElement), "mainElement not allowed to be null");
 
-            string methodName = t.GetMethodName("Core");
+            string methodName = t.GetMethodName("Core.TemplateUploadData");
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
+                    await log.LogStandard(methodName, "called");
 
                     List<string> errorLst = new List<string>();
                     var dataItems = mainElement.DataItemGetAll();
@@ -839,7 +846,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -853,12 +860,12 @@ namespace eFormCore
             if (mainElement == null)
                 throw new ArgumentNullException(nameof(mainElement), "mainElement not allowed to be null");
 
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.TemplateCreate";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
+                    await log.LogStandard(methodName, "called");
 
                     List<string> errors = await TemplateValidation(mainElement);
 
@@ -867,7 +874,7 @@ namespace eFormCore
                         throw new Exception("mainElement failed TemplateValidation. Run TemplateValidation to see errors");
 
                     int templateId = await _sqlController.TemplateCreate(mainElement);
-                    await log.LogEverything(t.GetMethodName("Core"), "Template id:" + templateId.ToString() + " created in DB");
+                    await log.LogEverything(methodName, "Template id:" + templateId.ToString() + " created in DB");
                     return templateId;
                 }
                 else
@@ -875,7 +882,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -886,13 +893,13 @@ namespace eFormCore
         /// <param name="templateId">Template MainElement's ID to be retrieved from the Microting local DB</param>
         public async Task<MainElement> TemplateRead(int templateId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.TemplateRead";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(templateId), templateId);
 
                     return await _sqlController.TemplateRead(templateId);
                 }
@@ -901,7 +908,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -912,13 +919,13 @@ namespace eFormCore
         /// <param name="templateId">Template MainElement's ID to be retrieved from the Microting local DB</param>
         public async Task<bool> TemplateDelete(int templateId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.TemplateDelete";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(templateId), templateId);
 
                     return await _sqlController.TemplateDelete(templateId);                    
                 }
@@ -927,7 +934,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -938,13 +945,13 @@ namespace eFormCore
         /// <param name="templateId">Template MainElement's ID to be retrieved from the Microting local DB</param>
         public async Task<Template_Dto> TemplateItemRead(int templateId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.TemplateItemRead";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(templateId), templateId);
 
                     return await _sqlController.TemplateItemRead(templateId);
                 }
@@ -955,11 +962,11 @@ namespace eFormCore
             {
                 try
                 {
-                    await log.LogException(t.GetMethodName("Core"), "(int " + templateId.ToString() + ") failed", ex, false);
+                    await log.LogException(methodName, "(int " + templateId.ToString() + ") failed", ex, false);
                 }
                 catch
                 {
-                    await log.LogException(t.GetMethodName("Core"), "(int templateId) failed", ex, false);
+                    await log.LogException(methodName, "(int templateId) failed", ex, false);
                 }
                 throw new Exception("failed", ex);
             }
@@ -971,13 +978,13 @@ namespace eFormCore
         /// <param name="includeRemoved">Filters list to only show all active or all including removed</param>
         public async Task<List<Template_Dto>> TemplateItemReadAll(bool includeRemoved)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.TemplateItemReadAll";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(includeRemoved), includeRemoved);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(includeRemoved), includeRemoved);
 
                     return await TemplateItemReadAll(includeRemoved, Constants.WorkflowStates.Created, "", true, "", new List<int>());
                 }
@@ -988,11 +995,11 @@ namespace eFormCore
             {
                 try
                 {
-                    await log.LogException(t.GetMethodName("Core"), "(bool " + includeRemoved.ToString() + ") failed", ex, false);
+                    await log.LogException(methodName, "(bool " + includeRemoved.ToString() + ") failed", ex, false);
                 }
                 catch
                 {
-                    await log.LogException(t.GetMethodName("Core"), "(bool includeRemoved) failed", ex, false);
+                    await log.LogException(methodName, "(bool includeRemoved) failed", ex, false);
                 }
                 throw new Exception("failed", ex);
             }
@@ -1000,17 +1007,17 @@ namespace eFormCore
 
         public async Task<List<Template_Dto>> TemplateItemReadAll(bool includeRemoved, string siteWorkflowState, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.TemplateItemReadAll";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(includeRemoved), includeRemoved);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(searchKey), searchKey);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(descendingSort), descendingSort);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(sortParameter), sortParameter);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(tagIds), tagIds.ToString());
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(includeRemoved), includeRemoved);
+                    await log.LogVariable(methodName, nameof(searchKey), searchKey);
+                    await log.LogVariable(methodName, nameof(descendingSort), descendingSort);
+                    await log.LogVariable(methodName, nameof(sortParameter), sortParameter);
+                    await log.LogVariable(methodName, nameof(tagIds), tagIds.ToString());
 
                     return await _sqlController.TemplateItemReadAll(includeRemoved, siteWorkflowState, searchKey, descendingSort, sortParameter, tagIds);
                 }
@@ -1019,21 +1026,21 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<bool> TemplateSetTags(int templateId, List<int> tagIds)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.TemplateSetTags";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(tagIds), tagIds.ToString());
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(templateId), templateId);
+                    await log.LogVariable(methodName, nameof(tagIds), tagIds.ToString());
 
                     return await _sqlController.TemplateSetTags(templateId, tagIds);
                 }
@@ -1042,7 +1049,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -1082,18 +1089,18 @@ namespace eFormCore
         /// <param name="custom">Custom extended parameter</param>
         public async Task<List<int>> CaseCreate(MainElement mainElement, string caseUId, List<int> siteUids, string custom)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.CaseCreate";
             try
             {
                 if (Running())
                 {
 //                    lock (_lockMain) //Will let sending Cases sending finish, before closing
 //                    {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
+                    await log.LogStandard(methodName, "called");
                     string siteIdsStr = string.Join(",", siteUids);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(caseUId), caseUId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(siteIdsStr), siteIdsStr);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(custom), custom);
+                    await log.LogVariable(methodName, nameof(caseUId), caseUId);
+                    await log.LogVariable(methodName, nameof(siteIdsStr), siteIdsStr);
+                    await log.LogVariable(methodName, nameof(custom), custom);
 
                     #region check input
                     DateTime start = DateTime.Parse(mainElement.StartDate.ToShortDateString());
@@ -1101,13 +1108,13 @@ namespace eFormCore
 
                     if (end < DateTime.Now)
                     {
-                        await log.LogStandard(t.GetMethodName("Core"), "mainElement.EndDate is set to " + end);
+                        await log.LogStandard(methodName, "mainElement.EndDate is set to " + end);
                         throw new ArgumentException("mainElement.EndDate needs to be a future date");
                     }
 
                     if (end <= start)
                     {
-                        await log.LogStandard(t.GetMethodName("Core"), "mainElement.StartDat is set to " + start);
+                        await log.LogStandard(methodName, "mainElement.StartDat is set to " + start);
                         throw new ArgumentException("mainElement.StartDate needs to be at least the day, before the remove date (mainElement.EndDate)");
                     }
 
@@ -1130,8 +1137,8 @@ namespace eFormCore
                         CaseDto cDto = await _sqlController.CaseReadByMUId(mUId);
                         //InteractionCaseUpdate(cDto);
                         try { HandleCaseCreated?.Invoke(cDto, EventArgs.Empty); }
-                        catch { await log.LogWarning(t.GetMethodName("Core"), "HandleCaseCreated event's external logic suffered an Expection"); }
-                        await log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + " has been created");
+                        catch { await log.LogWarning(methodName, "HandleCaseCreated event's external logic suffered an Expection"); }
+                        await log.LogStandard(methodName, cDto.ToString() + " has been created");
 
                         lstMUId.Add(mUId);
                     }
@@ -1143,7 +1150,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return null;
             }
         }
@@ -1154,13 +1161,13 @@ namespace eFormCore
         /// <param name="microtingUId">Microting ID of the eForm case</param>
         public async Task<string> CaseCheck(int microtingUId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.CaseCheck";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(microtingUId), microtingUId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(microtingUId), microtingUId);
 
                     CaseDto cDto = await CaseLookupMUId(microtingUId);
                     return await _communicator.CheckStatus(cDto.MicrotingUId.ToString(), cDto.SiteUId);
@@ -1170,7 +1177,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return null;
             }
         }
@@ -1182,13 +1189,14 @@ namespace eFormCore
         /// <param name="checkUId">If left empty, "0" or NULL it will try to retrieve the first check. Alternative is stating the Id of the specific check wanted to retrieve</param>
         public async Task<ReplyElement> CaseRead(int microtingUId, int checkUId)
         {
+            string methodName = "Core.CaseRead";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard("Core.CaseRead", "called");
-                    await log.LogVariable("Core.CaseRead", nameof(microtingUId), microtingUId);
-                    await log.LogVariable("Core.CaseRead", nameof(checkUId), checkUId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(microtingUId), microtingUId);
+                    await log.LogVariable(methodName, nameof(checkUId), checkUId);
 //
 //                    if (checkUId == null)
 //                        checkUId = "";
@@ -1200,13 +1208,13 @@ namespace eFormCore
                     #region handling if no match case found
                     if (aCase == null)
                     {
-                        await log.LogWarning("Core.CaseRead", "No case found with MuuId:'" + microtingUId + "'");
+                        await log.LogWarning(methodName, "No case found with MuuId:'" + microtingUId + "'");
                         return null;
                     }
                     #endregion
 
                     int id = aCase.Id;
-                    await log.LogEverything("Core.CaseRead", "aCase.Id:" + aCase.Id.ToString() + ", found");
+                    await log.LogEverything(methodName, "aCase.Id:" + aCase.Id.ToString() + ", found");
 
                     ReplyElement replyElement = await _sqlController.CheckRead(microtingUId, checkUId);
                     return replyElement;
@@ -1216,19 +1224,20 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException("Core.CaseRead", "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return null;
             }
         }
 
         public async Task<CaseDto> CaseReadByCaseId(int id)
         {
+            string methodName = "Core.CaseReadByCaseId";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard("Core.CaseReadByCaseId", "called");
-                    await log.LogVariable("Core.CaseReadByCaseId", nameof(id), id);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(id), id);
 
                     return await _sqlController.CaseReadByCaseId(id);
                 }
@@ -1237,20 +1246,21 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException("Core.CaseReadByCaseId", "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return null;
             }
         }
 
         public async Task<int?> CaseReadFirstId(int? templateId, string workflowState)
         {
+            string methodName = "Core.CaseReadFirstId";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard("Core.CaseReadFirstId", "called");
-                    await log.LogVariable("Core.CaseReadFirstId", nameof(templateId), templateId);
-                    await log.LogVariable("Core.CaseReadFirstId", nameof(workflowState), workflowState);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(templateId), templateId);
+                    await log.LogVariable(methodName, nameof(workflowState), workflowState);
 
                     return await _sqlController.CaseReadFirstId(templateId, workflowState);
                 }
@@ -1259,7 +1269,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException("Core.CaseReadFirstId", "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return null;
             }
         }
@@ -1271,16 +1281,16 @@ namespace eFormCore
 
         public async Task<List<Case>> CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, string searchKey)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.CaseReadAll";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(start), start);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(end), end);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(workflowState), workflowState);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(templateId), templateId);
+                    await log.LogVariable(methodName, nameof(start), start);
+                    await log.LogVariable(methodName, nameof(end), end);
+                    await log.LogVariable(methodName, nameof(workflowState), workflowState);
 
                     return await CaseReadAll(templateId, start, end, workflowState, searchKey, false, null);
                 }
@@ -1289,25 +1299,25 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return null;
             }
         }
 
         public async Task<List<Case>> CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.CaseReadAll";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(start), start);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(end), end);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(workflowState), workflowState);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(descendingSort), descendingSort);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(sortParameter), sortParameter);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(templateId), templateId);
+                    await log.LogVariable(methodName, nameof(start), start);
+                    await log.LogVariable(methodName, nameof(end), end);
+                    await log.LogVariable(methodName, nameof(workflowState), workflowState);
+                    await log.LogVariable(methodName, nameof(descendingSort), descendingSort);
+                    await log.LogVariable(methodName, nameof(sortParameter), sortParameter);
 
                     return await _sqlController.CaseReadAll(templateId, start, end, workflowState, searchKey, descendingSort, sortParameter);
                 }
@@ -1316,7 +1326,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return null;
             }
         }
@@ -1324,21 +1334,21 @@ namespace eFormCore
         public async Task<CaseList> CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, 
             string searchKey, bool descendingSort, string sortParameter, int pageIndex, int pageSize)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.CaseReadAll";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(start), start);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(end), end);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(workflowState), workflowState);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(descendingSort), descendingSort);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(sortParameter), sortParameter);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(pageIndex), pageIndex);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(pageSize), pageSize);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(searchKey), searchKey);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(templateId), templateId);
+                    await log.LogVariable(methodName, nameof(start), start);
+                    await log.LogVariable(methodName, nameof(end), end);
+                    await log.LogVariable(methodName, nameof(workflowState), workflowState);
+                    await log.LogVariable(methodName, nameof(descendingSort), descendingSort);
+                    await log.LogVariable(methodName, nameof(sortParameter), sortParameter);
+                    await log.LogVariable(methodName, nameof(pageIndex), pageIndex);
+                    await log.LogVariable(methodName, nameof(pageSize), pageSize);
+                    await log.LogVariable(methodName, nameof(searchKey), searchKey);
 
                     return await _sqlController.CaseReadAll(templateId, start, end, workflowState, searchKey, descendingSort, sortParameter, pageIndex, pageSize);
                 }
@@ -1347,7 +1357,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return null;
             }
         }
@@ -1359,13 +1369,13 @@ namespace eFormCore
         /// <param name="newCheckListValuePairLst">List of '[checkListValueId]|[new status]'</param>
         public async Task<bool> CaseUpdate(int caseId, List<string> newFieldValuePairLst, List<string> newCheckListValuePairLst)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.CaseUpdate";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(caseId), caseId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(caseId), caseId);
 
                     if (newFieldValuePairLst == null)
                         newFieldValuePairLst = new List<string>();
@@ -1397,21 +1407,21 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return false;
             }
         }
 
         public async Task<bool> CaseDelete(int templateId, int siteUId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.CaseDelete";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(siteUId), siteUId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(templateId), templateId);
+                    await log.LogVariable(methodName, nameof(siteUId), siteUId);
 
                     return await CaseDelete(templateId, siteUId, "");
                 }
@@ -1422,11 +1432,11 @@ namespace eFormCore
             {
                 try
                 {
-                    await log.LogException(t.GetMethodName("Core"), "(int " + templateId.ToString() + ", int " + siteUId.ToString() + ") failed", ex, false);
+                    await log.LogException(methodName, "(int " + templateId.ToString() + ", int " + siteUId.ToString() + ") failed", ex, false);
                 }
                 catch
                 {
-                    await log.LogException(t.GetMethodName("Core"), "(int templateId, int siteUId) failed", ex, false);
+                    await log.LogException(methodName, "(int templateId, int siteUId) failed", ex, false);
                 }
                 return false;
             }
@@ -1434,15 +1444,15 @@ namespace eFormCore
 
         public async Task<bool> CaseDelete(int templateId, int siteUId, string workflowState)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.CaseDelete";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(siteUId), siteUId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(workflowState), workflowState);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(templateId), templateId);
+                    await log.LogVariable(methodName, nameof(siteUId), siteUId);
+                    await log.LogVariable(methodName, nameof(workflowState), workflowState);
 
                     List<string> errors = new List<string>();
                     foreach (int microtingUId in await _sqlController.CheckListSitesRead(templateId, siteUId, workflowState))
@@ -1467,11 +1477,11 @@ namespace eFormCore
             {
                 try
                 {
-                    await log.LogException(t.GetMethodName("Core"), "(int " + templateId.ToString() + ", int " + siteUId.ToString() + ", string " + workflowState + ") failed", ex, false);
+                    await log.LogException(methodName, "(int " + templateId.ToString() + ", int " + siteUId.ToString() + ", string " + workflowState + ") failed", ex, false);
                 }
                 catch
                 {
-                    await log.LogException(t.GetMethodName("Core"), "(int templateId, int siteUId, string workflowState) failed", ex, false);
+                    await log.LogException(methodName, "(int templateId, int siteUId, string workflowState) failed", ex, false);
                 }
                 return false;
             }
@@ -1487,19 +1497,18 @@ namespace eFormCore
             //bus.SendLocal(new EformCompleted(notificationUId, microtingUId)).Wait();
 
             //string microtingUId = message.MicrotringUUID;
-//            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.CaseDelete";
 
-            //await log.LogStandard(t.GetMethodName("Core"), "called");
-            await log.LogVariable("Core.CaseDelete", nameof(microtingUId), microtingUId);
+            await log.LogVariable(methodName, nameof(microtingUId), microtingUId);
 
             var cDto = await _sqlController.CaseReadByMUId(microtingUId);
             string xmlResponse = await _communicator.Delete(microtingUId.ToString(), cDto.SiteUId);
-            await log.LogEverything("Core.CaseDelete", "XML response is 1218 : " + xmlResponse);
+            await log.LogEverything(methodName, "XML response is 1218 : " + xmlResponse);
             Response resp = new Response();
 
             if (xmlResponse.Contains("Error occured: Contact Microting"))
             {
-                await log.LogEverything("Core.CaseDelete", "XML response is : " + xmlResponse);
+                await log.LogEverything(methodName, "XML response is : " + xmlResponse);
                 await log.LogEverything("DELETE ERROR", "failed for microtingUId: " + microtingUId);
                 return false;
             }
@@ -1509,19 +1518,19 @@ namespace eFormCore
                 try
                 {
                     resp = resp.XmlToClass(xmlResponse);
-                    await log.LogException("Core.CaseDelete", "failed", new Exception("Error from Microting server: " + resp.Value), false);
+                    await log.LogException(methodName, "failed", new Exception("Error from Microting server: " + resp.Value), false);
                     return false;
                 }
                 catch (Exception ex)
                 {
                     try
                     {
-                        await log.LogException("Core.CaseDelete", "(string " + microtingUId + ") failed", ex, false);
+                        await log.LogException(methodName, "(string " + microtingUId + ") failed", ex, false);
                         throw ex;
                     }
                     catch
                     {
-                        await log.LogException("Core.CaseDelete", "(string microtingUId) failed", ex, false);
+                        await log.LogException(methodName, "(string microtingUId) failed", ex, false);
                         throw ex;
                     }
                 }
@@ -1537,16 +1546,16 @@ namespace eFormCore
                         resp = resp.XmlToClass(xmlResponse);
                         if (resp.Type.ToString() == "Success")
                         {
-                            await log.LogStandard("Core.CaseDelete", cDto.ToString() + $" has been removed from server in retry loop with i being : {i.ToString()}");
+                            await log.LogStandard(methodName, cDto.ToString() + $" has been removed from server in retry loop with i being : {i.ToString()}");
                             break;
                         }                            
                         else
                         {
-                            await log.LogEverything("Core.CaseDelete", $"retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
+                            await log.LogEverything(methodName, $"retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
                         }
                     } catch (Exception ex)
                     {
-                        await log.LogEverything("Core.CaseDelete", $" Exception is: {ex.Message}, retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
+                        await log.LogEverything(methodName, $" Exception is: {ex.Message}, retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
                     }
                     //if (!xmlResponse.Contains("Parsing in progress: Can not delete check list!"))
                     //{
@@ -1558,13 +1567,13 @@ namespace eFormCore
                     //}
                 }
 
-            await log.LogEverything("Core.CaseDelete", "XML response:");
-            await log.LogEverything("Core.CaseDelete", xmlResponse);
+            await log.LogEverything(methodName, "XML response:");
+            await log.LogEverything(methodName, xmlResponse);
 
             resp = resp.XmlToClass(xmlResponse);
             if (resp.Type.ToString() == "Success")
             {
-                await log.LogStandard("Core.CaseDelete", cDto.ToString() + " has been removed from server");
+                await log.LogStandard(methodName, cDto.ToString() + " has been removed from server");
                 try
                 {
                     bool result = await _sqlController.CaseDelete(microtingUId);
@@ -1575,20 +1584,20 @@ namespace eFormCore
                     }
                     catch (Exception ex)
                     {
-                        await log.LogException("Core.CaseDelete", "(string microtingUId) failed", ex, false);
+                        await log.LogException(methodName, "(string microtingUId) failed", ex, false);
                         throw ex;
                     }
                     
                     cDto = await _sqlController.CaseReadByMUId(microtingUId);
                     await FireHandleCaseDeleted(cDto);
-                    await log.LogStandard("Core.CaseDelete", cDto.ToString() + " has been removed");
+                    await log.LogStandard(methodName, cDto.ToString() + " has been removed");
                     return result;
 
 //                    }                    
                 }
                 catch (Exception ex)
                 {
-                    await log.LogException("Core.CaseDelete", "(string microtingUId) failed", ex, false);
+                    await log.LogException(methodName, "(string microtingUId) failed", ex, false);
                 }
 
                 
@@ -1599,8 +1608,9 @@ namespace eFormCore
 
         public async Task<bool> CaseDeleteResult(int caseId)
         {
-            await log.LogStandard("Core.CaseDeleteResult", "called");
-            await log.LogVariable("Core.CaseDeleteResult", nameof(caseId), caseId);
+            string methodName = "Core.CaseDeleteResult";
+            await log.LogStandard(methodName, "called");
+            await log.LogVariable(methodName, nameof(caseId), caseId);
             try
             {
                 return await _sqlController.CaseDeleteResult(caseId);
@@ -1610,11 +1620,11 @@ namespace eFormCore
             {
                 try
                 {
-                    await log.LogException("Core.CaseDeleteResult", "(int " + caseId.ToString() + ") failed", ex, false);
+                    await log.LogException(methodName, "(int " + caseId.ToString() + ") failed", ex, false);
                 }
                 catch
                 {
-                    await log.LogException("Core.CaseDeleteResult", "(int caseId) failed", ex, false);
+                    await log.LogException(methodName, "(int caseId) failed", ex, false);
                 }
 
                 return false;
@@ -1623,29 +1633,30 @@ namespace eFormCore
 
         public async Task<bool> CaseUpdateFieldValues(int id)
         {
-            await log.LogStandard("Core.CaseUpdateFieldValues", "called");
-            await log.LogVariable("Core.CaseUpdateFieldValues", nameof(id), id);
+            string methodName = "Core.CaseUpdateFieldValues";
+            await log.LogStandard(methodName, "called");
+            await log.LogVariable(methodName, nameof(id), id);
             try
             {
                 return await _sqlController.CaseUpdateFieldValues(id);
             }
             catch (Exception ex)
             {
-                await log.LogException("Core.CaseUpdateFieldValues", "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return false;
             }
         }
 
         public async Task<CaseDto> CaseLookup(int microtingUId, int checkUId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.CaseLookup";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(microtingUId), microtingUId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(checkUId), checkUId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(microtingUId), microtingUId);
+                    await log.LogVariable(methodName, nameof(checkUId), checkUId);
 
                     return await _sqlController.CaseLookup(microtingUId, checkUId);
                 }
@@ -1654,7 +1665,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return null;
             }
         }
@@ -1665,13 +1676,13 @@ namespace eFormCore
         /// <param name="microtingUId">Microting unique ID of the eForm case</param>
         public async Task<CaseDto> CaseLookupMUId(int microtingUId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.CaseLookupMUId";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(microtingUId), microtingUId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(microtingUId), microtingUId);
 
                     return await _sqlController.CaseReadByMUId(microtingUId);
                 }
@@ -1680,7 +1691,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return null;
             }
         }
@@ -1691,12 +1702,14 @@ namespace eFormCore
         /// <param name="CaseId">Microting DB's ID of the eForm case</param>
         public async Task<CaseDto> CaseLookupCaseId(int caseId)
         {
+            string methodName = "Core.CaseLookupCaseId";
+
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard("Core.CaseLookupCaseId", "called");
-                    await log.LogVariable("Core.CaseLookupCaseId", nameof(caseId), caseId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(caseId), caseId);
 
                     return await _sqlController.CaseReadByCaseId(caseId);
                 }
@@ -1705,7 +1718,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException("Core.CaseLookupCaseId", "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return null;
             }
         }
@@ -1716,13 +1729,13 @@ namespace eFormCore
         /// <param name="caseUId">Case's unique ID of the set of case(s)</param>
         public async Task<List<CaseDto>> CaseLookupCaseUId(string caseUId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.CaseLookupCaseUId";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(caseUId), caseUId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(caseUId), caseUId);
 
                     return await _sqlController.CaseReadByCaseUId(caseUId);
                 }
@@ -1731,7 +1744,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return null;
             }
         }
@@ -1743,14 +1756,14 @@ namespace eFormCore
         /// <param name="checkUId">If left empty, "0" or NULL it will try to retrieve the first check. Alternative is stating the Id of the specific check wanted to retrieve</param>
         public async Task<int?> CaseIdLookup(int microtingUId, int checkUId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.CaseIdLookup";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(microtingUId), microtingUId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(checkUId), checkUId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(microtingUId), microtingUId);
+                    await log.LogVariable(methodName, nameof(checkUId), checkUId);
 
 //                    if (checkUId == null)
 //                        checkUId = "";
@@ -1762,12 +1775,12 @@ namespace eFormCore
                     #region handling if no match case found
                     if (aCase == null)
                     {
-                        await log.LogWarning(t.GetMethodName("Core"), "No case found with MuuId:'" + microtingUId + "'");
+                        await log.LogWarning(methodName, "No case found with MuuId:'" + microtingUId + "'");
                         return -1;
                     }
                     #endregion
                     int id = aCase.Id;
-                    await log.LogEverything(t.GetMethodName("Core"), "aCase.Id:" + aCase.Id.ToString() + ", found");
+                    await log.LogEverything(methodName, "aCase.Id:" + aCase.Id.ToString() + ", found");
 
                     return id;
                 }
@@ -1776,7 +1789,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return null;
             }
         }
@@ -1791,17 +1804,17 @@ namespace eFormCore
         public async Task<string> CasesToCsv(int templateId, DateTime? start, DateTime? end, string pathAndName,
             string customPathForUploadedData, string decimalSeparator, string thousandSeparator)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.CasesToCsv";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId.ToString());
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(start), start.ToString());
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(end), end.ToString());
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(pathAndName), pathAndName);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(customPathForUploadedData), customPathForUploadedData);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(templateId), templateId.ToString());
+                    await log.LogVariable(methodName, nameof(start), start.ToString());
+                    await log.LogVariable(methodName, nameof(end), end.ToString());
+                    await log.LogVariable(methodName, nameof(pathAndName), pathAndName);
+                    await log.LogVariable(methodName, nameof(customPathForUploadedData), customPathForUploadedData);
 
                     List<List<string>> dataSet = await GenerateDataSetFromCases(templateId, start, end, customPathForUploadedData, decimalSeparator, thousandSeparator);
 
@@ -1857,7 +1870,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return null;
             }
         }
@@ -1876,14 +1889,15 @@ namespace eFormCore
 
         public async Task<string> CaseToJasperXml(CaseDto cDto, ReplyElement reply, int caseId, string timeStamp, string customPathForUploadedData, string customXMLContent)
         {
+            string methodName = "Core.CaseToJasperXml";
             try
             {
                 //if (coreRunning)
                 if (true)
                 {
-                    await log.LogStandard("Core.CaseToJasperXml", "called");
-                    await log.LogVariable("Core.CaseToJasperXml", nameof(caseId), caseId.ToString());
-                    await log.LogVariable("Core.CaseToJasperXml", nameof(timeStamp), timeStamp);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(caseId), caseId.ToString());
+                    await log.LogVariable(methodName, nameof(timeStamp), timeStamp);
 
                     if (timeStamp == null)
                         timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
@@ -1896,8 +1910,8 @@ namespace eFormCore
                     string clsLst = "";
                     string fldLst = "";
                     GetChecksAndFields(ref clsLst, ref fldLst, reply.ElementList, customPathForUploadedData);
-                    await log.LogVariable("Core.CaseToJasperXml", nameof(clsLst), clsLst);
-                    await log.LogVariable("Core.CaseToJasperXml", nameof(fldLst), fldLst);
+                    await log.LogVariable(methodName, nameof(clsLst), clsLst);
+                    await log.LogVariable(methodName, nameof(fldLst), fldLst);
 
                     #region convert to jasperXml
                     string jasperXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
@@ -1921,7 +1935,7 @@ namespace eFormCore
                         + Environment.NewLine + "</C" + reply.Id + ">"
                         + customXMLContent
                         + Environment.NewLine + "</root>";
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(jasperXml), jasperXml);
+                    await log.LogVariable(methodName, nameof(jasperXml), jasperXml);
                     #endregion
 
                     //place in settings allocated placement
@@ -1932,7 +1946,7 @@ namespace eFormCore
                     File.WriteAllText(fullPath, jasperXml.Trim(), Encoding.UTF8);
 
                     //string path = Path.GetFullPath(locaR);
-                    await log.LogVariable("Core.CaseToJasperXml", nameof(fullPath), fullPath);
+                    await log.LogVariable(methodName, nameof(fullPath), fullPath);
                     return fullPath;
                 }
                 else
@@ -1940,7 +1954,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException("Core.CaseToJasperXml", "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return null;
             }
         }
@@ -1949,28 +1963,28 @@ namespace eFormCore
         
         public async Task<string> GetSdkSetting(Settings settingName)
         {
-            string methodName = t.GetMethodName("Core");
-            await log.LogStandard(t.GetMethodName("Core"), "called");
+            string methodName = "Core.GetSdkSetting";
+            await log.LogStandard(methodName, "called");
             try
             {
                 return await _sqlController.SettingRead(settingName);
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return "N/A";
             }
         }
 
         public async Task<bool> SetSdkSetting(Settings settingName, string settingValue)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.SetSdkSetting";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(settingValue), settingValue);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(settingValue), settingValue);
 
                     await _sqlController.SettingUpdate(settingName, settingValue);
                     return true;
@@ -1980,7 +1994,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -2009,6 +2023,7 @@ namespace eFormCore
 
         private async Task<string> JasperToPdf(int caseId, string jasperTemplate, string timeStamp)
         {
+            string methodName = "Core.JasperToPdf";
             #region run jar
             // Start the child process.
             System.Diagnostics.Process p = new System.Diagnostics.Process();
@@ -2047,7 +2062,7 @@ namespace eFormCore
             string command =
                 $"-d64 -Xms512m -Xmx2g -Dfile.encoding=UTF-8 -jar {localJasperExporter} -template=\"{_templateFile}\" -type=\"pdf\" -uri=\"{_dataSourceXML}\" -outputFile=\"{_resultDocument}\"";
 
-            await log.LogVariable(t.GetMethodName("Core"), nameof(command), command);
+            await log.LogVariable(methodName, nameof(command), command);
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 p.StartInfo.FileName = "java.exe";
@@ -2066,7 +2081,7 @@ namespace eFormCore
             // p.WaitForExit();
             // Read the output stream first and then wait.
             string output = p.StandardOutput.ReadToEnd();
-            await log.LogVariable(t.GetMethodName("Core"), nameof(output), output);
+            await log.LogVariable(methodName, nameof(output), output);
             p.WaitForExit();
 
             if (output != "")
@@ -2234,15 +2249,15 @@ namespace eFormCore
                 throw new ArgumentException($"Filetypes allowed are only: pdf, docx, pptx, currently specified was {fileType}");    
             }            
             
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.CaseToPdf";
             try
             {
                 //if (coreRunning)
                 if (true)
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(caseId), caseId.ToString());
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(jasperTemplate), jasperTemplate);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(caseId), caseId.ToString());
+                    await log.LogVariable(methodName, nameof(jasperTemplate), jasperTemplate);
 
                     if (timeStamp == null)
                         timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
@@ -2264,7 +2279,7 @@ namespace eFormCore
 
                     //return path
                     string path = Path.GetFullPath(resultDocument);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(path), path);
+                    await log.LogVariable(methodName, nameof(path), path);
                     return path;
                 }
                 else
@@ -2272,7 +2287,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return null;
             }
         }
@@ -2281,16 +2296,16 @@ namespace eFormCore
         #region site
         public async Task<Site_Dto> SiteCreate(string name, string userFirstName, string userLastName, string userEmail)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.SiteCreate";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(name), name);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(userFirstName), userFirstName);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(userLastName), userLastName);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(userEmail), userEmail);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(name), name);
+                    await log.LogVariable(methodName, nameof(userFirstName), userFirstName);
+                    await log.LogVariable(methodName, nameof(userLastName), userLastName);
+                    await log.LogVariable(methodName, nameof(userEmail), userEmail);
 
                     Tuple<Site_Dto, Unit_Dto> siteResult = await _communicator.SiteCreate(name);
 
@@ -2329,7 +2344,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -2342,13 +2357,13 @@ namespace eFormCore
         // TODO: Refactor to DeviceUserRead(int siteMicrotingUUID)
         public async Task<Site_Dto> SiteRead(int microtingUid)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.SiteRead";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(microtingUid), microtingUid);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(microtingUid), microtingUid);
 
                     return await _sqlController.SiteReadSimple(microtingUid);
                 }
@@ -2357,14 +2372,14 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<List<Site_Dto>> SiteReadAll(bool includeRemoved)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.SiteReadAll";
             try
             {
                 if (Running())
@@ -2379,20 +2394,20 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<Site_Dto> SiteReset(int siteId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.SiteReset";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(siteId), siteId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(siteId), siteId);
 
                     Site_Dto site = await SiteRead(siteId);
                     await Advanced_UnitRequestOtp((int)site.UnitId);
@@ -2404,7 +2419,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -2421,7 +2436,7 @@ namespace eFormCore
         // TODO Refactor to be named DeviceUserUpdate(int siteMicrotingUid, string siteName, string userFirstName, string userLastName, string userEmail)
         public async Task<bool> SiteUpdate(int siteMicrotingUid, string siteName, string userFirstName, string userLastName, string userEmail)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.SiteUpdate";
             try
             {
                 if (Running())
@@ -2441,7 +2456,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -2455,7 +2470,7 @@ namespace eFormCore
         // TODO: Refactor to DeviceUserDelete(int siteMicrotingUUID)
         public async Task<bool> SiteDelete(int microtingUid)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.SiteDelete";
             try
             {
                 if (Running())
@@ -2482,7 +2497,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -2497,6 +2512,7 @@ namespace eFormCore
         /// <param name="name">Templat MainElement's ID to be retrieved from the Microting local DB</param>
         public async Task<EntityGroup> EntityGroupCreate(string entityType, string name)
         {
+            string methodName = "Core.EntityGroupCreate";
             try
             {
                 if (Running())
@@ -2527,7 +2543,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "EntityListCreate failed", ex, false);
+                await log.LogException(methodName, "EntityListCreate failed", ex, false);
                 throw new Exception("EntityListCreate failed", ex);
             }
         }
@@ -2545,7 +2561,7 @@ namespace eFormCore
 
         public async Task<EntityGroup> EntityGroupRead(string entityGroupMuId, string sort, string nameFilter)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.EntityGroupRead";
             if (string.IsNullOrEmpty(entityGroupMuId))
                 throw new ArgumentNullException(nameof(entityGroupMuId));
             try
@@ -2564,11 +2580,11 @@ namespace eFormCore
             {
                 try
                 {
-                    await log.LogException(t.GetMethodName("Core"), "(string entityGroupMUId " + entityGroupMuId + ", string sort " + sort + ", string nameFilter " + nameFilter + ") failed", ex, false);
+                    await log.LogException(methodName, "(string entityGroupMUId " + entityGroupMuId + ", string sort " + sort + ", string nameFilter " + nameFilter + ") failed", ex, false);
                 }
                 catch
                 {
-                    await log.LogException(t.GetMethodName("Core"), "(string entityGroupMUId, string sort, string nameFilter) failed", ex, false);
+                    await log.LogException(methodName, "(string entityGroupMUId, string sort, string nameFilter) failed", ex, false);
                 }
                 throw new Exception("failed", ex);
 
@@ -2581,6 +2597,7 @@ namespace eFormCore
         /// <param name="entityGroup">The EntityGroup and its EntityItems</param>
         public async Task<bool> EntityGroupUpdate(EntityGroup entityGroup)
         {
+            string methodName = "Core.EntityGroupUpdate";
             try
             {
                 if (Running())
@@ -2609,7 +2626,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "EntityGroupRead failed", ex, false);
+                await log.LogException(methodName, "EntityGroupRead failed", ex, false);
                 throw new Exception("EntityGroupRead failed", ex);
             }
             return true;
@@ -2621,6 +2638,7 @@ namespace eFormCore
         /// <param name="entityGroupMUId">The unique microting id of the EntityGroup</param>
         public async Task<bool> EntityGroupDelete(string entityGroupMUId)
         {
+            string methodName = "Core.EntityGroupDelete";
             try
             {
                 if (Running())
@@ -2638,7 +2656,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "EntityGroupDelete failed", ex, false);
+                await log.LogException(methodName, "EntityGroupDelete failed", ex, false);
                 throw new Exception("EntityGroupDelete failed", ex);
             }
             return true;
@@ -2752,6 +2770,7 @@ namespace eFormCore
 
         public async Task<string> PdfUpload(string localPath)
         {
+            string methodName = "Core.PdfUpload";
             try
             {
                 if (Running())
@@ -2770,7 +2789,7 @@ namespace eFormCore
                         return chechSum;
                     else
                     {
-                        await log.LogWarning(t.GetMethodName("Core"), "Uploading of PDF failed");
+                        await log.LogWarning(methodName, "Uploading of PDF failed");
                         return null;
                     }
                 }
@@ -2779,8 +2798,8 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
-                throw new Exception(t.GetMethodName("Core") + " failed", ex);
+                await log.LogException(methodName, "failed", ex, false);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -2789,6 +2808,7 @@ namespace eFormCore
 
         public async Task<List<Folder_Dto>> FolderGetAll(bool includeRemoved)
         {
+            string methodName = "Core.FolderGetAll";
             try
             {
                 if (Running())
@@ -2802,13 +2822,14 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "FolderGetAll failed", ex, false);
+                await log.LogException(methodName, "FolderGetAll failed", ex, false);
                 throw new Exception("FolderGetAll failed", ex);
             }
         }
 
         public async Task<Folder_Dto> FolderRead(int id)
         {
+            string methodName = "Core.FolderRead";
             try
             {
                 if (Running())
@@ -2822,7 +2843,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "FolderRead failed", ex, false);
+                await log.LogException(methodName, "FolderRead failed", ex, false);
                 throw new Exception("FolderRead failed", ex);
             }
         }
@@ -2830,6 +2851,7 @@ namespace eFormCore
 
         public async Task FolderCreate(string name, string description, int? parent_id)
         {
+            string methodName = "Core.FolderCreate";
             try
             {
                 if (Running())
@@ -2848,13 +2870,14 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "FolderCreate failed", ex, false);
+                await log.LogException(methodName, "FolderCreate failed", ex, false);
                 throw new Exception("FolderCreate failed", ex);
             }
         }
 
         public async Task FolderUpdate(int id, string name, string description, int? parent_id)
         {
+            string methodName = "Core.FolderUpdate";
             try
             {
                 if (Running())
@@ -2875,13 +2898,14 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "FolderUpdate failed", ex, false);
+                await log.LogException(methodName, "FolderUpdate failed", ex, false);
                 throw new Exception("FolderUpdate failed", ex);
             }
         }
 
         public async Task FolderDelete(int id)
         {
+            string methodName = "Core.FolderDelete";
             try
             {
                 if (Running())
@@ -2900,7 +2924,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "FolderDelete failed", ex, false);
+                await log.LogException(methodName, "FolderDelete failed", ex, false);
                 throw new Exception("FolderDelete failed", ex);
             }
         }
@@ -2911,7 +2935,7 @@ namespace eFormCore
         #region tags
         public async Task<List<Tag>> GetAllTags(bool includeRemoved)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.GetAllTags";
             try
             {
                 if (Running())
@@ -2923,7 +2947,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -2935,7 +2959,7 @@ namespace eFormCore
         /// <returns></returns>
         public async Task<int> TagCreate(string name)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.TagCreate";
             if (string.IsNullOrEmpty(name))
             {
                 throw new ArgumentNullException("Name is not allowed to be null or empty");
@@ -2951,7 +2975,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -2960,7 +2984,7 @@ namespace eFormCore
 
         public async Task<bool> TagDelete(int tagId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.TagDelete";
             try
             {
                 if (Running())
@@ -2972,7 +2996,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -2983,7 +3007,7 @@ namespace eFormCore
 
         public async Task<bool> TranscribeUploadedData(int uploadedDataId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.TranscribeUploadedData";
             try
             {
                 if (Running())
@@ -3013,14 +3037,14 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<int> SpeechToText(string pathToAudioFile)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.SpeechToText";
             try
             {
                 if (Running())
@@ -3032,14 +3056,14 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<bool> SpeechToText(int requestId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.SpeechToText";
             try
             {
                 if (Running())
@@ -3052,7 +3076,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3063,14 +3087,14 @@ namespace eFormCore
         #region templat
         public async Task<bool> Advanced_TemplateDisplayIndexChangeDb(int templateId, int newDisplayIndex)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_TemplateDisplayIndexChangeDb";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(newDisplayIndex), newDisplayIndex);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(templateId), templateId);
+                    await log.LogVariable(methodName, nameof(newDisplayIndex), newDisplayIndex);
 
                     return await _sqlController.TemplateDisplayIndexChange(templateId, newDisplayIndex);
                 }
@@ -3079,22 +3103,22 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<bool> Advanced_TemplateDisplayIndexChangeServer(int templateId, int siteUId, int newDisplayIndex)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_TemplateDisplayIndexChangeServer";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(siteUId), siteUId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(newDisplayIndex), newDisplayIndex);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(templateId), templateId);
+                    await log.LogVariable(methodName, nameof(siteUId), siteUId);
+                    await log.LogVariable(methodName, nameof(newDisplayIndex), newDisplayIndex);
 
                     string respXml = null;
                     List<string> errors = new List<string>();
@@ -3120,30 +3144,30 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<bool> Advanced_TemplateUpdateFieldIdsForColumns(int templateId, int? fieldId1, int? fieldId2, int? fieldId3, int? fieldId4, int? fieldId5, int? fieldId6, int? fieldId7, int? fieldId8, int? fieldId9, int? fieldId10)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_TemplateUpdateFieldIdsForColumns";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(fieldId1), fieldId1);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(fieldId2), fieldId2);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(fieldId3), fieldId3);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(fieldId4), fieldId4);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(fieldId5), fieldId5);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(fieldId6), fieldId6);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(fieldId7), fieldId7);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(fieldId8), fieldId8);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(fieldId9), fieldId9);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(fieldId10), fieldId10);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(templateId), templateId);
+                    await log.LogVariable(methodName, nameof(fieldId1), fieldId1);
+                    await log.LogVariable(methodName, nameof(fieldId2), fieldId2);
+                    await log.LogVariable(methodName, nameof(fieldId3), fieldId3);
+                    await log.LogVariable(methodName, nameof(fieldId4), fieldId4);
+                    await log.LogVariable(methodName, nameof(fieldId5), fieldId5);
+                    await log.LogVariable(methodName, nameof(fieldId6), fieldId6);
+                    await log.LogVariable(methodName, nameof(fieldId7), fieldId7);
+                    await log.LogVariable(methodName, nameof(fieldId8), fieldId8);
+                    await log.LogVariable(methodName, nameof(fieldId9), fieldId9);
+                    await log.LogVariable(methodName, nameof(fieldId10), fieldId10);
 
                     return await _sqlController.TemplateUpdateFieldIdsForColumns(templateId, fieldId1, fieldId2, fieldId3, fieldId4, fieldId5, fieldId6, fieldId7, fieldId8, fieldId9, fieldId10);
                 }
@@ -3152,20 +3176,20 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<List<Field_Dto>> Advanced_TemplateFieldReadAll(int templateId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_TemplateFieldReadAll";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(templateId), templateId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(templateId), templateId);
 
                     return await _sqlController.TemplateFieldReadAll(templateId);
                 }
@@ -3174,7 +3198,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return null;
             }
         }
@@ -3209,15 +3233,15 @@ namespace eFormCore
         #region sites
         public async Task<List<Site_Dto>> Advanced_SiteReadAll(string workflowState, int? offSet, int? limit)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_SiteReadAll";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(workflowState), workflowState);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(offSet), offSet.ToString());
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(limit), limit.ToString());
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(workflowState), workflowState);
+                    await log.LogVariable(methodName, nameof(offSet), offSet.ToString());
+                    await log.LogVariable(methodName, nameof(limit), limit.ToString());
 
                     return await _sqlController.SimpleSiteGetAll(workflowState, offSet, limit);
                 }
@@ -3226,20 +3250,20 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<SiteName_Dto> Advanced_SiteItemRead(int microting_uuid)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_SiteItemRead";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(microting_uuid), microting_uuid);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(microting_uuid), microting_uuid);
 
                     return await _sqlController.SiteRead(microting_uuid);
                 }
@@ -3248,7 +3272,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3260,7 +3284,7 @@ namespace eFormCore
 
         public async Task<List<SiteName_Dto>> Advanced_SiteItemReadAll(bool includeRemoved)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_SiteItemReadAll";
             try
             {
                 if (Running())
@@ -3272,21 +3296,21 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<bool> Advanced_SiteItemUpdate(int siteId, string name)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_SiteItemUpdate";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(siteId), siteId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(name), name);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(siteId), siteId);
+                    await log.LogVariable(methodName, nameof(name), name);
 
                     if (await _sqlController.SiteRead(siteId) == null)
                         return false;
@@ -3302,20 +3326,20 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<bool> Advanced_SiteItemDelete(int siteId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_SiteItemDelete";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(siteId), siteId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(siteId), siteId);
 
                     bool success = await _communicator.SiteDelete(siteId);
                     if (!success)
@@ -3328,7 +3352,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3338,15 +3362,15 @@ namespace eFormCore
         #region workers
         public async Task<Worker_Dto> Advanced_WorkerCreate(string firstName, string lastName, string email)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_WorkerCreate";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(firstName), firstName);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(lastName), lastName);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(email), email);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(firstName), firstName);
+                    await log.LogVariable(methodName, nameof(lastName), lastName);
+                    await log.LogVariable(methodName, nameof(email), email);
 
                     Worker_Dto workerDto = await _communicator.WorkerCreate(firstName, lastName, email);
                     int workerUId = workerDto.WorkerUId;
@@ -3364,20 +3388,20 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<string> Advanced_WorkerNameRead(int workerId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_WorkerNameRead";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(workerId), workerId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(workerId), workerId);
 
                     return await _sqlController.WorkerNameRead(workerId);
                 }
@@ -3386,20 +3410,20 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<Worker_Dto> Advanced_WorkerRead(int workerId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_WorkerRead";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(workerId), workerId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(workerId), workerId);
 
                     return await _sqlController.WorkerRead(workerId);
                 }
@@ -3408,22 +3432,22 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<List<Worker_Dto>> Advanced_WorkerReadAll(string workflowState, int? offSet, int? limit)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_WorkerReadAll";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(workflowState), workflowState);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(offSet), offSet.ToString());
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(limit), limit.ToString());
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(workflowState), workflowState);
+                    await log.LogVariable(methodName, nameof(offSet), offSet.ToString());
+                    await log.LogVariable(methodName, nameof(limit), limit.ToString());
 
                     return await _sqlController.WorkerGetAll(workflowState, offSet, limit);
                 }
@@ -3432,23 +3456,23 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<bool> Advanced_WorkerUpdate(int workerId, string firstName, string lastName, string email)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_WorkerUpdate";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(workerId), workerId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(firstName), firstName);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(lastName), lastName);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(email), email);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(workerId), workerId);
+                    await log.LogVariable(methodName, nameof(firstName), firstName);
+                    await log.LogVariable(methodName, nameof(lastName), lastName);
+                    await log.LogVariable(methodName, nameof(email), email);
 
                     if (await _sqlController.WorkerRead(workerId) == null)
                         return false;
@@ -3464,20 +3488,20 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<bool> Advanced_WorkerDelete(int microtingUid)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_WorkerDelete";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(microtingUid), microtingUid);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(microtingUid), microtingUid);
 
                     bool success = await _communicator.WorkerDelete(microtingUid);
                     if (!success)
@@ -3490,7 +3514,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3500,14 +3524,14 @@ namespace eFormCore
         #region site_workers
         public async Task<Site_Worker_Dto> Advanced_SiteWorkerCreate(SiteName_Dto siteDto, Worker_Dto workerDto)
         {   
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_SiteWorkerCreate";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), "siteId", siteDto.SiteUId);
-                    await log.LogVariable(t.GetMethodName("Core"), "workerId", workerDto.WorkerUId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, "siteId", siteDto.SiteUId);
+                    await log.LogVariable(methodName, "workerId", workerDto.WorkerUId);
 
                     Site_Worker_Dto result = await _communicator.SiteWorkerCreate(siteDto.SiteUId, workerDto.WorkerUId);
                     //var parsedData = JRaw.Parse(result);
@@ -3528,22 +3552,22 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<Site_Worker_Dto> Advanced_SiteWorkerRead(int? siteWorkerMicrotingUid, int? siteId, int? workerId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_SiteWorkerRead";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(siteWorkerMicrotingUid), siteWorkerMicrotingUid.ToString());
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(siteId), siteId.ToString());
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(workerId), workerId.ToString());
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(siteWorkerMicrotingUid), siteWorkerMicrotingUid.ToString());
+                    await log.LogVariable(methodName, nameof(siteId), siteId.ToString());
+                    await log.LogVariable(methodName, nameof(workerId), workerId.ToString());
 
                     return await _sqlController.SiteWorkerRead(siteWorkerMicrotingUid, siteId, workerId);
                 }
@@ -3552,20 +3576,20 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<bool> Advanced_SiteWorkerDelete(int workerId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_SiteWorkerDelete";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(workerId), workerId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(workerId), workerId);
 
                     bool success = await _communicator.SiteWorkerDelete(workerId);
                     if (!success)
@@ -3578,7 +3602,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3587,13 +3611,13 @@ namespace eFormCore
         #region units
         public async Task<Unit_Dto> Advanced_UnitRead(int microtingUid)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_UnitRead";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(microtingUid), microtingUid);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(microtingUid), microtingUid);
 
                     return await _sqlController.UnitRead(microtingUid);
                 }
@@ -3602,19 +3626,19 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return null;
             }
         }
 
         public async Task<List<Unit_Dto>> Advanced_UnitReadAll()
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_UnitReadAll";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
+                    await log.LogStandard(methodName, "called");
 
                     return await _sqlController.UnitGetAll();
                 }
@@ -3623,20 +3647,20 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 return null;
             }
         }
 
         public async Task<Unit_Dto> Advanced_UnitRequestOtp(int microtingUid)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_UnitRequestOtp";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(microtingUid), microtingUid);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(microtingUid), microtingUid);
 
                     int otp_code = await _communicator.UnitRequestOtp(microtingUid);
 
@@ -3651,20 +3675,20 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw ex;
             }
         }
         
         public async Task<bool> Advanced_UnitDelete(int unitId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_UnitDelete";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(unitId), unitId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(unitId), unitId);
 
                     bool success = await _communicator.UnitDelete(unitId);
                     if (!success)
@@ -3677,7 +3701,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3686,13 +3710,13 @@ namespace eFormCore
         #region fields
         public async Task<Field> Advanced_FieldRead(int id)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_FieldRead";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(id), id);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(id), id);
 
                     return await _sqlController.FieldRead(id);
                 }
@@ -3701,18 +3725,18 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<UploadedData> Advanced_UploadedDataRead(int id)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_UploadedDataRead";
             try
             {
-                await log.LogStandard(t.GetMethodName("Core"), "called");
-                await log.LogVariable(t.GetMethodName("Core"), nameof(id), id);
+                await log.LogStandard(methodName, "called");
+                await log.LogVariable(methodName, nameof(id), id);
 
                 var ud = await _sqlController.GetUploadedData(id);
                 UploadedData uD = new UploadedData();
@@ -3728,21 +3752,21 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<List<FieldValue>> Advanced_FieldValueReadList(int id, int instances)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_FieldValueReadList";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(id), id);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(instances), instances);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(id), id);
+                    await log.LogVariable(methodName, nameof(instances), instances);
 
                     return await _sqlController.FieldValueReadList(id, instances);
                 }
@@ -3751,20 +3775,20 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
         
         public async Task<List<FieldValue>> Advanced_FieldValueReadList(int fieldId, List<int> caseIds)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_FieldValueReadList";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(fieldId), fieldId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(fieldId), fieldId);
 
                     return await _sqlController.FieldValueReadList(fieldId, caseIds);
                 }
@@ -3773,18 +3797,19 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<List<FieldValue>> Advanced_FieldValueReadList(List<int> caseIds)
         {
+            string methodName = "Core.Advanced_FieldValueReadList";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
+                    await log.LogStandard(methodName, "called");
 
                     return await _sqlController.FieldValueReadList(caseIds);
                 }
@@ -3793,18 +3818,19 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<List<CheckListValue>> Advanced_CheckListValueReadList(List<int> caseIds)
         {
+            string methodName = "Core.Advanced_CheckListValueReadList";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
+                    await log.LogStandard(methodName, "called");
 
                     return await _sqlController.CheckListValueReadList(caseIds);
                 }
@@ -3813,7 +3839,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3829,19 +3855,19 @@ namespace eFormCore
             if (workflowState != Constants.WorkflowStates.NotRemoved && workflowState != Constants.WorkflowStates.Created && workflowState != Constants.WorkflowStates.Removed)
                 throw new Exception("EntityGroupAll failed. workflowState:" + workflowState + " is not an known workflow state");
 
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_EntityGroupAll";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(sort), sort);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(nameFilter), nameFilter);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(pageIndex), pageIndex);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(pageSize), pageSize);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(entityType), entityType);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(desc), desc);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(workflowState), workflowState);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(sort), sort);
+                    await log.LogVariable(methodName, nameof(nameFilter), nameFilter);
+                    await log.LogVariable(methodName, nameof(pageIndex), pageIndex);
+                    await log.LogVariable(methodName, nameof(pageSize), pageSize);
+                    await log.LogVariable(methodName, nameof(entityType), entityType);
+                    await log.LogVariable(methodName, nameof(desc), desc);
+                    await log.LogVariable(methodName, nameof(workflowState), workflowState);
 
                     return await _sqlController.EntityGroupAll(sort, nameFilter, pageIndex, pageSize, entityType, desc, workflowState);
                 }
@@ -3850,21 +3876,21 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<bool> Advanced_DeleteUploadedData(int fieldId, int uploadedDataId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_DeleteUploadedData";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(fieldId), fieldId);
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(uploadedDataId), uploadedDataId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(fieldId), fieldId);
+                    await log.LogVariable(methodName, nameof(uploadedDataId), uploadedDataId);
 
                     uploaded_data uD = await _sqlController.GetUploadedData(uploadedDataId);
 
@@ -3881,7 +3907,7 @@ namespace eFormCore
                     }
                     catch (Exception exd)
                     {
-                        await log.LogException(t.GetMethodName("Core"), "failed", exd, true);
+                        await log.LogException(methodName, "failed", exd, true);
                         throw new Exception("failed", exd);
                     }
 
@@ -3892,20 +3918,20 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<bool> Advanced_UpdateCaseFieldValue(int caseId)
         {
-            string methodName = t.GetMethodName("Core");
+            string methodName = "Core.Advanced_UpdateCaseFieldValue";
             try
             {
                 if (Running())
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), "called");
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(caseId), caseId);
+                    await log.LogStandard(methodName, "called");
+                    await log.LogVariable(methodName, nameof(caseId), caseId);
                     return await _sqlController.CaseUpdateFieldValues(caseId);
                 }
                 else
@@ -3915,7 +3941,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Core"), "failed", ex, false);
+                await log.LogException(methodName, "failed", ex, false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3991,17 +4017,18 @@ namespace eFormCore
 
         private async Task<int> SendXml(MainElement mainElement, int siteId)
         {
-            await log.LogEverything(t.GetMethodName("Core"), "siteId:" + siteId + ", requested sent eForm");
+            string methodName = "Core.SendXml";
+            await log.LogEverything(methodName, "siteId:" + siteId + ", requested sent eForm");
 
             string xmlStrRequest = mainElement.ClassToXml();
             
-            await log.LogEverything(t.GetMethodName("Core"), "siteId:" + siteId + ", ClassToXml done");
+            await log.LogEverything(methodName, "siteId:" + siteId + ", ClassToXml done");
             string xmlStrResponse = await _communicator.PostXml(xmlStrRequest, siteId);
-            await log.LogEverything(t.GetMethodName("Core"), "siteId:" + siteId + ", PostXml done");
+            await log.LogEverything(methodName, "siteId:" + siteId + ", PostXml done");
 
             Response response = new Response();
             response = response.XmlToClass(xmlStrResponse);
-            await log.LogEverything(t.GetMethodName("Core"), "siteId:" + siteId + ", XmlToClass done");
+            await log.LogEverything(methodName, "siteId:" + siteId + ", XmlToClass done");
 
             //if reply is "success", it's created
             if (response.Type.ToString().ToLower() == "success")
@@ -4341,7 +4368,8 @@ namespace eFormCore
         {
             _coreThreadRunning = true;
 
-            await log.LogEverything(t.GetMethodName("Core"), "initiated");
+            string methodName = "Core.CoreThread";
+            await log.LogEverything(methodName, "initiated");
             while (_coreAvailable)
             {
                 try
@@ -4367,26 +4395,27 @@ namespace eFormCore
                 }
                 catch (ThreadAbortException)
                 {
-                    await log.LogWarning(t.GetMethodName("Core"), "catch of ThreadAbortException");
+                    await log.LogWarning(methodName, "catch of ThreadAbortException");
                 }
                 catch (Exception ex)
                 {
-                    await FatalExpection(t.GetMethodName("Core") + "failed", ex);
+                    await FatalExpection(methodName + "failed", ex);
                 }
             }
-            await log.LogEverything(t.GetMethodName("Core"), "completed");
+            await log.LogEverything(methodName, "completed");
 
             _coreThreadRunning = false;
         }
 
         public async Task<bool> DownloadUploadedData(int uploadedDataId)
         {
+            string methodName = "Core.DownloadUploadedData";
             uploaded_data uploadedData = await _sqlController.GetUploadedData(uploadedDataId);
 
             if (uploadedData != null)
             {
                 string urlStr = uploadedData.FileLocation;
-                await log.LogEverything(t.GetMethodName("Core"), "Received file:" + uploadedData.ToString());
+                await log.LogEverything(methodName, "Received file:" + uploadedData.ToString());
 
                 #region finding file name and creating folder if needed
                 FileInfo file = new FileInfo(_fileLocationPicture);
@@ -4402,12 +4431,12 @@ namespace eFormCore
                 {
                     try
                     {
-                        await log.LogStandard(t.GetMethodName("Core"), $"Downloading file to #{_fileLocationPicture}/#{fileName}");
+                        await log.LogStandard(methodName, $"Downloading file to #{_fileLocationPicture}/#{fileName}");
                         client.DownloadFile(urlStr, _fileLocationPicture + fileName);
                     }
                     catch (Exception ex)
                     {
-                        await log.LogWarning(t.GetMethodName("Core"), "We got an error " + ex.Message);
+                        await log.LogWarning(methodName, "We got an error " + ex.Message);
                         throw new Exception("Downloading and creating fil locally failed.", ex);
                     }
 
@@ -4428,38 +4457,38 @@ namespace eFormCore
 
                 #region checks checkSum
                 if (chechSum != fileName.Substring(fileName.LastIndexOf(".") - 32, 32))
-                    await log.LogWarning(t.GetMethodName("Core"), "Download of '" + urlStr + "' failed. Check sum did not match");
+                    await log.LogWarning(methodName, "Download of '" + urlStr + "' failed. Check sum did not match");
                 #endregion
 
                 CaseDto dto = await _sqlController.FileCaseFindMUId(urlStr);
                 File_Dto fDto = new File_Dto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId.ToString(), dto.CheckUId.ToString(), _fileLocationPicture + fileName);
                 try { HandleFileDownloaded?.Invoke(fDto, EventArgs.Empty); }
-                catch { await log.LogWarning(t.GetMethodName("Core"), "HandleFileDownloaded event's external logic suffered an Expection"); }
-                await log.LogStandard(t.GetMethodName("Core"), "Downloaded file '" + urlStr + "'.");
+                catch { await log.LogWarning(methodName, "HandleFileDownloaded event's external logic suffered an Expection"); }
+                await log.LogStandard(methodName, "Downloaded file '" + urlStr + "'.");
 
                 await _sqlController.FileProcessed(urlStr, chechSum, _fileLocationPicture, fileName, uploadedData.Id);
 
                 if (_swiftEnabled)
                 {
-                    await log.LogStandard(t.GetMethodName("Core"), $"Swift enabled, so trying to upload file {fileName}");
+                    await log.LogStandard(methodName, $"Swift enabled, so trying to upload file {fileName}");
                     string filePath = Path.Combine(_fileLocationPicture, fileName);
                     if (File.Exists(filePath))
                     {
-                        await log.LogStandard(t.GetMethodName("Core"), $"File exists at path {filePath}");
+                        await log.LogStandard(methodName, $"File exists at path {filePath}");
                         try
                         {
                             await PutFileToStorageSystem(filePath, fileName);
                         }
                         catch (UnauthorizedAccessException)
                         {
-                            await log.LogStandard(t.GetMethodName("Core"), "Trying to reauthenticate before putting file again");
+                            await log.LogStandard(methodName, "Trying to reauthenticate before putting file again");
                             _swiftClient.AuthenticateAsyncV2(_keystoneEndpoint, _swiftUserName, _swiftPassword);
                             await PutFileToStorageSystem(filePath, fileName);                                                        
                         }                        
                     }
                     else
                     {
-                        await log.LogWarning(t.GetMethodName("Core"), $"File could not be found at filepath {filePath}");
+                        await log.LogWarning(methodName, $"File could not be found at filepath {filePath}");
                     }
                 }
                 
@@ -4498,9 +4527,10 @@ namespace eFormCore
 
         private async Task<SwiftObjectGetResponse> GetFileFromSwiftStorage(string fileName, int retries)
         {
+            string methodName = "Core.GetFileFromSwiftStorage";
             if (_swiftEnabled)
             {                
-                await log.LogStandard(t.GetMethodName("Core"), $"Trying to get file {fileName} from {_customerNo}_uploaded_data");
+                await log.LogStandard(methodName, $"Trying to get file {fileName} from {_customerNo}_uploaded_data");
                 SwiftObjectGetResponse response = await _swiftClient.ObjectGetAsync(_customerNo + "_uploaded_data", fileName);
                 if (response.IsSuccess)
                 {
@@ -4510,11 +4540,11 @@ namespace eFormCore
                 {
                     if (response.Reason == "Unauthorized")
                     {
-                        await log.LogWarning(t.GetMethodName("Core"), "Check swift credentials : Unauthorized");
+                        await log.LogWarning(methodName, "Check swift credentials : Unauthorized");
                         throw new UnauthorizedAccessException();
                     }
                     
-                    await log.LogCritical(t.GetMethodName("Core"), $"Could not get file {fileName}, reason is {response.Reason}");
+                    await log.LogCritical(methodName, $"Could not get file {fileName}, reason is {response.Reason}");
                     throw new Exception($"Could not get file {fileName}");
                 }
             }
@@ -4553,7 +4583,8 @@ namespace eFormCore
 
         private async Task PutFileToSwiftStorage(string filePath, string fileName, int tryCount)
         {
-            await log.LogStandard(t.GetMethodName("Core"), $"Trying to upload file {fileName} to {_customerNo}_uploaded_data");
+            string methodName = "Core.PutFileToSwiftStorage";
+            await log.LogStandard(methodName, $"Trying to upload file {fileName} to {_customerNo}_uploaded_data");
             try
             {
                 var fileStream = new FileStream(filePath, FileMode.Open);
@@ -4567,11 +4598,11 @@ namespace eFormCore
                     {
                         fileStream.Close();
                         fileStream.Dispose();
-                        await log.LogWarning(t.GetMethodName("Core"), "Check swift credentials : Unauthorized");
+                        await log.LogWarning(methodName, "Check swift credentials : Unauthorized");
                         throw new UnauthorizedAccessException();
                     }
 
-                    await log.LogWarning(t.GetMethodName("Core"), $"Something went wrong, message was {response.Reason}");
+                    await log.LogWarning(methodName, $"Something went wrong, message was {response.Reason}");
 
                     response = _swiftClient.ContainerPutAsync(_customerNo + "_uploaded_data").Result;
                     if (response.IsSuccess)
@@ -4592,8 +4623,8 @@ namespace eFormCore
             }
             catch (FileNotFoundException ex)
             {
-                await log.LogCritical(t.GetMethodName("Core"), $"File not found at {filePath}");
-                await log.LogCritical(t.GetMethodName("Core"), ex.Message);
+                await log.LogCritical(methodName, $"File not found at {filePath}");
+                await log.LogCritical(methodName, ex.Message);
             }   
         }
 
@@ -4610,11 +4641,12 @@ namespace eFormCore
         
         public async Task<bool> CheckStatusByMicrotingUid(int microtingUid)
         {
+            string methodName = "Core.CheckStatusByMicrotingUid";
             List<CaseDto> lstCase = new List<CaseDto>();
             MainElement mainElement = new MainElement();
 
             CaseDto concreteCase = await _sqlController.CaseReadByMUId(microtingUid);
-            await log.LogEverything(t.GetMethodName("Core"), concreteCase.ToString() + " has been matched");
+            await log.LogEverything(methodName, concreteCase.ToString() + " has been matched");
 
             if (concreteCase.CaseUId == "" || concreteCase.CaseUId == "ReversedCase")
                 lstCase.Add(concreteCase);
@@ -4627,14 +4659,14 @@ namespace eFormCore
                 {
                     #region get response's data and update DB with data
                     int? checkIdLastKnown = await _sqlController.CaseReadLastCheckIdByMicrotingUId(microtingUid); //null if NOT a checkListSite
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(checkIdLastKnown), checkIdLastKnown);
+                    await log.LogVariable(methodName, nameof(checkIdLastKnown), checkIdLastKnown);
 
                     string respXml;
                     if (checkIdLastKnown == null)
                         respXml = await _communicator.Retrieve(microtingUid.ToString(), concreteCase.SiteUId);
                     else
                         respXml = await _communicator.RetrieveFromId(microtingUid.ToString(), concreteCase.SiteUId, checkIdLastKnown.ToString());
-                    await log.LogVariable(t.GetMethodName("Core"), nameof(respXml), respXml);
+                    await log.LogVariable(methodName, nameof(respXml), respXml);
 
                     Response resp = new Response();
                     resp = resp.XmlToClassUsingXmlDocument(respXml);
@@ -4642,7 +4674,7 @@ namespace eFormCore
 
                     if (resp.Type == Response.ResponseTypes.Success)
                     {
-                        await log.LogEverything(t.GetMethodName("Core"), "resp.Type == Response.ResponseTypes.Success (true)");
+                        await log.LogEverything(methodName, "resp.Type == Response.ResponseTypes.Success (true)");
                         if (resp.Checks.Count > 0)
                         {
                             XmlDocument xDoc = new XmlDocument();
@@ -4654,14 +4686,14 @@ namespace eFormCore
                             {
 
                                 int unitUId = _sqlController.UnitRead(int.Parse(check.UnitId)).Result.UnitUId;
-                                await log.LogVariable(t.GetMethodName("Core"), nameof(unitUId), unitUId);
+                                await log.LogVariable(methodName, nameof(unitUId), unitUId);
                                 int workerUId = _sqlController.WorkerRead(int.Parse(check.WorkerId)).Result.WorkerUId;
-                                await log.LogVariable(t.GetMethodName("Core"), nameof(workerUId), workerUId);
+                                await log.LogVariable(methodName, nameof(workerUId), workerUId);
 
                                 await _sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml.ToString(), i);
 
                                 await _sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, DateTime.Parse(check.Date), workerUId, unitUId);
-                                await log.LogEverything(t.GetMethodName("Core"), "sqlController.CaseUpdateCompleted(...)");
+                                await log.LogEverything(methodName, "sqlController.CaseUpdateCompleted(...)");
 
                                 #region IF needed retract case, thereby completing the process
                                 if (checkIdLastKnown == null)
@@ -4672,29 +4704,29 @@ namespace eFormCore
 
                                     if (respRet.Type == Response.ResponseTypes.Success)
                                     {
-                                        await log.LogEverything(t.GetMethodName("Core"), aCase.ToString() + " has been retracted");
+                                        await log.LogEverything(methodName, aCase.ToString() + " has been retracted");
                                     }
                                     else
-                                        await log.LogWarning(t.GetMethodName("Core"), "Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
+                                        await log.LogWarning(methodName, "Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
                                 }
                                 #endregion
 
                                 await _sqlController.CaseRetract(microtingUid, (int)check.Id);
-                                await log.LogEverything(t.GetMethodName("Core"), "sqlController.CaseRetract(...)");
+                                await log.LogEverything(methodName, "sqlController.CaseRetract(...)");
                                 // TODO add case.Id
                                 CaseDto cDto = await _sqlController.CaseReadByMUId(microtingUid);
 								//InteractionCaseUpdate(cDto);
                                 await FireHandleCaseCompleted(cDto);
                                 //try { HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty); }
                                 //catch { await log.LogWarning(t.GetMethodName("Core"), "HandleCaseCompleted event's external logic suffered an Expection"); }
-                                await log.LogStandard(t.GetMethodName("Core"), cDto.ToString() + " has been completed");
+                                await log.LogStandard(methodName, cDto.ToString() + " has been completed");
                                 i++;
                             }
                         }
                     }
                     else
                     {
-                        await log.LogEverything(t.GetMethodName("Core"), "resp.Type == Response.ResponseTypes.Success (false)");
+                        await log.LogEverything(methodName, "resp.Type == Response.ResponseTypes.Success (false)");
                         throw new Exception("Failed to retrive eForm " + microtingUid + " from site " + aCase.SiteUId);
                     }
                     #endregion
@@ -4719,41 +4751,46 @@ namespace eFormCore
 
         public async Task FireHandleCaseCompleted(CaseDto caseDto)
 		{
-		    await log.LogStandard(t.GetMethodName("Core"), $"FireHandleCaseCompleted for MicrotingUId {caseDto.MicrotingUId}");
+            string methodName = "Core.FireHandleCaseCompleted";
+		    await log.LogStandard(methodName, $"FireHandleCaseCompleted for MicrotingUId {caseDto.MicrotingUId}");
 			try { HandleCaseCompleted.Invoke(caseDto, EventArgs.Empty); }
 			catch (Exception ex)
 			{
-				await log.LogWarning(t.GetMethodName("Core"), "HandleCaseCompleted event's external logic suffered an Expection");
+				await log.LogWarning(methodName, "HandleCaseCompleted event's external logic suffered an Expection");
 				throw ex;
 			}
 		}
 
         public async Task FireHandleCaseDeleted(CaseDto caseDto)
         {
+            string methodName = "Core.FireHandleCaseDeleted";
             try { HandleCaseDeleted?.Invoke(caseDto, EventArgs.Empty); }
-            catch { await log.LogWarning(t.GetMethodName("Core"), "HandleCaseCompleted event's external logic suffered an Expection"); }
+            catch { await log.LogWarning(methodName, "HandleCaseCompleted event's external logic suffered an Expection"); }
         }
 
         public async Task FireHandleNotificationNotFound(Note_Dto notification)
         {
+            string methodName = "Core.FireHandleNotificationNotFound";
             try { HandleNotificationNotFound?.Invoke(notification, EventArgs.Empty); }
-            catch { await log.LogWarning(t.GetMethodName("Core"), "HandleNotificationNotFound event's external logic suffered an Expection"); }
+            catch { await log.LogWarning(methodName, "HandleNotificationNotFound event's external logic suffered an Expection"); }
         }
 
         public async Task FireHandleSiteActivated(Note_Dto notification)
         {
+            string methodName = "Core.FireHandleSiteActivated";
             try { HandleSiteActivated?.Invoke(notification, EventArgs.Empty); }
-            catch { await log.LogWarning(t.GetMethodName("Core"), "HandleSiteActivated event's external logic suffered an Expection"); }
+            catch { await log.LogWarning(methodName, "HandleSiteActivated event's external logic suffered an Expection"); }
         }
 
 		public async Task FireHandleCaseRetrived(CaseDto caseDto)
 		{
-		    await log.LogStandard(t.GetMethodName("Core"), $"FireHandleCaseRetrived for MicrotingUId {caseDto.MicrotingUId}");
+            string methodName = "Core.FireHandleCaseRetrived";
+		    await log.LogStandard(methodName, $"FireHandleCaseRetrived for MicrotingUId {caseDto.MicrotingUId}");
 
 			try { HandleCaseRetrived.Invoke(caseDto, EventArgs.Empty); }
 			catch (Exception ex)
 			{
-				await log.LogWarning(t.GetMethodName("Core"), "HandleCaseRetrived event's external logic suffered an Expection");
+				await log.LogWarning(methodName, "HandleCaseRetrived event's external logic suffered an Expection");
 				throw ex;
 			}
 		}
