@@ -138,8 +138,9 @@ namespace eFormCore
         /// </summary>
         public async Task<bool> Start(string connectionString)
 		{
-            string methodName = t.GetMethodName("Core.Start");
-			try
+            string methodName = "Core.Start";
+            
+            try
 			{
 				if (!_coreAvailable && !_coreStatChanging)
 				{
@@ -201,8 +202,7 @@ namespace eFormCore
 
         public async Task<bool> StartSqlOnly(string connectionString)
         {
-            string methodName = t.GetMethodName("Core.StartSqlOnly");
-
+            string methodName = "Core.StartSqlOnly";
             try
             {
                 if (!_coreAvailable && !_coreStatChanging)
@@ -341,7 +341,7 @@ namespace eFormCore
 
         public override async Task Restart(int sameExceptionCount, int sameExceptionCountMax)
         {
-            string methodName = t.GetMethodName("Core.Restart");
+            string methodName = "Core.Restart";
             try
             {
                 if (_coreRestarting == false)
@@ -395,7 +395,7 @@ namespace eFormCore
         /// </summary>
         public async Task<bool> Close()
         {
-            string methodName = t.GetMethodName("Core.Close");
+            string methodName = "Core.Close";
             await log.LogStandard(methodName, "Close called");
             try
             {
@@ -469,7 +469,7 @@ namespace eFormCore
 
         public async Task FatalExpection(string reason, Exception exception)
         {
-            string methodName = t.GetMethodName("Core.FatalExpection");
+            string methodName = "Core.FatalExpection";
             _coreAvailable = false;
             _coreThreadRunning = false;
             _coreStatChanging = false;
@@ -686,7 +686,7 @@ namespace eFormCore
 
         private async Task<List<string>> FieldValidation(MainElement mainElement)
         {
-            string methodName = t.GetMethodName("Core.FieldValidation");
+            string methodName = "Core.FieldValidation";
 
             await log.LogStandard(methodName, "called");
 
@@ -770,7 +770,7 @@ namespace eFormCore
             if (mainElement == null)
                 throw new ArgumentNullException(nameof(mainElement), "mainElement not allowed to be null");
 
-            string methodName = t.GetMethodName("Core.TemplateUploadData");
+            string methodName = "Core.TemplateUploadData";
             try
             {
                 if (Running())
