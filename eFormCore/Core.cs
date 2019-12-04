@@ -201,7 +201,7 @@ namespace eFormCore
 
         public async Task<bool> StartSqlOnly(string connectionString)
         {
-            string methodName = t.GetMethodName("Core.StartSqlOnly");
+            string methodName = "Core.StartSqlOnly";
 
             try
             {
@@ -2104,7 +2104,8 @@ namespace eFormCore
             valuePairs.Add("F_SiteName", _sqlController.SiteRead(reply.SiteMicrotingUuid).Result.SiteName.Replace("&", "&amp;"));
             
             // get field_values
-            List<KeyValuePair<string, string>> pictures = new List<KeyValuePair<string, string>>();
+            List<KeyValuePair<string, List<string>>> pictures = new List<KeyValuePair<string, List<string>>>();
+            List<KeyValuePair<string, string>> pictureGeotags = new List<KeyValuePair<string, string>>();
             List<KeyValuePair<string, string>> signatures = new List<KeyValuePair<string, string>>();
             List<int> caseIds = new List<int>();
             caseIds.Add(caseId);
@@ -2132,7 +2133,23 @@ namespace eFormCore
                             fields field = await _sqlController.FieldReadRaw(fieldValue.FieldId);
                             check_lists checkList = await _sqlController.CheckListRead((int)field.CheckListId);
                         
-                            pictures.Add(new KeyValuePair<string, string>($"{checkList.Label.Replace("&", "&amp;")} - {field.Label.Replace("&", "&amp;")}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
+                            
+//                            var item = new KeyValuePair<string, List<string>>();
+//                            item.Key = $"{checkList.Label.Replace("&", "&amp;")} - {field.Label.Replace("&", "&amp;")}";
+//                            item.Value
+                            string geoTag = "";
+                            if (fieldValue.Latitude != null)
+                            {
+                                geoTag =
+                                    $"https://www.google.com/maps/place/{fieldValue.Latitude},{fieldValue.Longitude}";
+                            }
+                            var list = new List<string>();
+                            list.Add(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
+                            list.Add(geoTag);
+                            pictures.Add(new KeyValuePair<string, List<string>>($"{checkList.Label.Replace("&", "&amp;")} - {field.Label.Replace("&", "&amp;")}", list));
+//                            if (fieldValue.Latitude != null) {
+//                                pictureGeotags.Add(new KeyValuePair<string, string>($"{checkList.Label.Replace("&", "&amp;")} - {field.Label.Replace("&", "&amp;")}", ));
+//                            }
                             SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName);
                             Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
                             var fileStream =
@@ -2152,18 +2169,21 @@ namespace eFormCore
                             fields field = await _sqlController.FieldReadRaw(fieldValue.FieldId);
                             check_lists checkList = await _sqlController.CheckListRead((int)field.CheckListId);
                         
-                            signatures.Add(new KeyValuePair<string, string>($"{checkList.Label.Replace("&", "&amp;")} - {field.Label.Replace("&", "&amp;")}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
+                            signatures.Add(new KeyValuePair<string, string>($"F_{fieldValue.FieldId}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
                             SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName);
                             Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
                             var fileStream =
                                 File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
                             swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
                             swiftObjectGetResponse.ObjectStreamContent.CopyTo(fileStream);
-                            fileStream.Close();   
+                            fileStream.Close();
+                            valuePairs.Remove($"F_{field.Id}");
                         }
                         break;
                     case Constants.FieldTypes.CheckBox:
                         valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable.ToLower() == "checked" ? "&#10004;" : "";
+                        break;
+                    case Constants.FieldTypes.FieldGroup:
                         break;
                     default:
                         if (fieldValue.ValueReadable == "null")
