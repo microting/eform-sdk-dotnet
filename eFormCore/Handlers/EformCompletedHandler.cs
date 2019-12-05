@@ -71,10 +71,10 @@ namespace Microting.eForm.Handlers
 
         private async Task<bool> CheckStatusByMicrotingUid(int microtingUid)
         {
-            List<Case_Dto> lstCase = new List<Case_Dto>();
+            List<CaseDto> lstCase = new List<CaseDto>();
             MainElement mainElement = new MainElement();
 
-            Case_Dto concreteCase = await sqlController.CaseReadByMUId(microtingUid);
+            CaseDto concreteCase = await sqlController.CaseReadByMUId(microtingUid);
             await log.LogEverything(t.GetMethodName("EformCompletedHandler"), concreteCase.ToString() + " has been matched");
 
             if (concreteCase.CaseUId == "" || concreteCase.CaseUId == "ReversedCase")
@@ -82,7 +82,7 @@ namespace Microting.eForm.Handlers
             else
                 lstCase = await sqlController.CaseReadByCaseUId(concreteCase.CaseUId);
 
-            foreach (Case_Dto aCase in lstCase)
+            foreach (CaseDto aCase in lstCase)
             {
                 if (aCase.SiteUId == concreteCase.SiteUId)
                 {
@@ -153,7 +153,7 @@ namespace Microting.eForm.Handlers
                                 await sqlController.CaseRetract(microtingUid, (int)check.Id);
                                 await log.LogEverything(t.GetMethodName("EformCompletedHandler"), "sqlController.CaseRetract(...)");
                                 // TODO add case.id
-                                Case_Dto cDto = await sqlController.CaseReadByMUId(microtingUid);
+                                CaseDto cDto = await sqlController.CaseReadByMUId(microtingUid);
                                 await core.FireHandleCaseCompleted(cDto);
                                 await log.LogStandard(t.GetMethodName("EformCompletedHandler"), cDto.ToString() + " has been completed");
                                 i++;

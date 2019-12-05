@@ -361,35 +361,12 @@ namespace Microting.eForm.Dto
     }
     #endregion
 
-    #region Case_Dto
-    public class Case_Dto
+    #region CaseDto
+    public class CaseDto
     {
         #region con
-        public Case_Dto()
+        public CaseDto()
         {
-        }
-
-        public Case_Dto(int? caseId, string stat, int siteUId, string caseType, string caseUId, int? microtingUId, int? checkUId, string custom, int checkListId, string workflowState)
-        {
-            if (caseType == null)
-                caseType = "";
-            if (caseUId == null)
-                caseUId = "";
-//            if (microtingUId == null)
-//                microtingUId = "";
-//            if (checkUId == null)
-//                checkUId = "";
-
-            CaseId = caseId;
-            Stat = stat;
-            SiteUId = siteUId;
-            CaseType = caseType;
-            CaseUId = caseUId;
-            MicrotingUId = microtingUId;
-            CheckUId = checkUId;
-            Custom = custom;
-            CheckListId = checkListId;
-            WorkflowState = workflowState;
         }
 
         #endregion
@@ -398,52 +375,52 @@ namespace Microting.eForm.Dto
         /// <summary>
         /// Local case identifier
         /// </summary>
-        public int? CaseId { get; }
+        public int? CaseId { get; set; }
 
         /// <summary>
         /// Status of the case
         /// </summary>
-        public string Stat { get; }
+        public string Stat { get; set; }
 
         /// <summary>
         /// Unique identifier of device
         /// </summary>
-        public int SiteUId { get; }
+        public int SiteUId { get; set; }
 
         /// <summary>
         /// Identifier of a collection of cases in your system
         /// </summary>
-        public string CaseType { get; }
+        public string CaseType { get; set; }
 
         /// <summary>
         /// Unique identifier of a group of case(s) in your system
         /// </summary>
-        public string CaseUId { get; }
+        public string CaseUId { get; set; }
 
         /// <summary>
         ///Unique identifier of that specific eForm in Microting system
         /// </summary>
-        public int? MicrotingUId { get; }
+        public int? MicrotingUId { get; set; }
 
         /// <summary>
         /// Unique identifier of that check of the eForm. Only used if repeat
         /// </summary>
-        public int? CheckUId { get; }
+        public int? CheckUId { get; set; }
 
         /// <summary>
         /// Custom data. Only used in special cases
         /// </summary>
-        public string Custom { get; }
+        public string Custom { get; set; }
 
         /// <summary>
         /// Unique identifier of device
         /// </summary>
-        public int CheckListId { get; }
+        public int CheckListId { get; set; }
 
         /// <summary>
         /// WorkflowState
         /// </summary>
-        public string WorkflowState { get; }
+        public string WorkflowState { get; set; }
 
         #endregion
 

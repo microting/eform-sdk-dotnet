@@ -132,7 +132,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             // Act
             await sut.CaseUpdateRetrieved((int)aCase.MicrotingUid);
-            //Case_Dto caseResult = await sut.CaseFindCustomMatchs(aCase.microting_uid);
+            //CaseDto caseResult = await sut.CaseFindCustomMatchs(aCase.microting_uid);
             List<cases> caseResults = dbContext.cases.AsNoTracking().ToList();
 
 
@@ -570,10 +570,10 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
             // Act
-            List<Case_Dto> aCase1Custom = await sut.CaseFindCustomMatchs(aCase1.Custom);
-            List<Case_Dto> aCase2Custom = await sut.CaseFindCustomMatchs(aCase2.Custom);
-            List<Case_Dto> aCase3Custom = await sut.CaseFindCustomMatchs(aCase3.Custom);
-            List<Case_Dto> aCase4Custom = await sut.CaseFindCustomMatchs(aCase4.Custom);
+            List<CaseDto> aCase1Custom = await sut.CaseFindCustomMatchs(aCase1.Custom);
+            List<CaseDto> aCase2Custom = await sut.CaseFindCustomMatchs(aCase2.Custom);
+            List<CaseDto> aCase3Custom = await sut.CaseFindCustomMatchs(aCase3.Custom);
+            List<CaseDto> aCase4Custom = await sut.CaseFindCustomMatchs(aCase4.Custom);
             // Assert
             Assert.AreEqual(aCase1.Custom, aCase1Custom[0].Custom);
             Assert.AreEqual(aCase2.Custom, aCase2Custom[0].Custom);
