@@ -2111,8 +2111,8 @@ namespace eFormCore
             caseIds.Add(caseId);
             List<FieldValue> fieldValues = await _sqlController.FieldValueReadList(caseIds);
 
-            List<Field_Dto> allFields = await _sqlController.TemplateFieldReadAll(int.Parse(jasperTemplate));
-            foreach (Field_Dto field in allFields)
+            List<FieldDto> allFields = await _sqlController.TemplateFieldReadAll(int.Parse(jasperTemplate));
+            foreach (FieldDto field in allFields)
             {
                 valuePairs.Add($"F_{field.Id}", "");
             }
@@ -2330,7 +2330,7 @@ namespace eFormCore
         #endregion
 
         #region site
-        public async Task<Site_Dto> SiteCreate(string name, string userFirstName, string userLastName, string userEmail)
+        public async Task<SiteDto> SiteCreate(string name, string userFirstName, string userLastName, string userEmail)
         {
             string methodName = "Core.SiteCreate";
             try
@@ -2343,7 +2343,7 @@ namespace eFormCore
                     await log.LogVariable(methodName, nameof(userLastName), userLastName);
                     await log.LogVariable(methodName, nameof(userEmail), userEmail);
 
-                    Tuple<Site_Dto, Unit_Dto> siteResult = await _communicator.SiteCreate(name);
+                    Tuple<SiteDto, UnitDto> siteResult = await _communicator.SiteCreate(name);
 
                     string token = await _sqlController.SettingRead(Settings.token);
                     int customerNo = _communicator.OrganizationLoadAllFromRemote(token).Result.CustomerNo;
@@ -2352,13 +2352,13 @@ namespace eFormCore
                     int siteId = siteResult.Item1.SiteId;
                     int unitUId = siteResult.Item2.UnitUId;
                     int otpCode = siteResult.Item2.OtpCode;
-                    SiteName_Dto siteDto = await _sqlController.SiteRead(siteResult.Item1.SiteId);
+                    SiteNameDto siteDto = await _sqlController.SiteRead(siteResult.Item1.SiteId);
                     if (siteDto == null)
                     {
                         await _sqlController.SiteCreate((int)siteId, siteName);
                     }
                     siteDto = await _sqlController.SiteRead(siteId);
-                    Unit_Dto unitDto = await _sqlController.UnitRead(unitUId);
+                    UnitDto unitDto = await _sqlController.UnitRead(unitUId);
                     if (unitDto == null)
                     {
                         await _sqlController.UnitCreate(unitUId, customerNo, otpCode, siteDto.SiteUId);
@@ -2370,7 +2370,7 @@ namespace eFormCore
                         userEmail = siteId + "." + customerNo + "@invalid.invalid";
                     }
 
-                    Worker_Dto workerDto = await Advanced_WorkerCreate(userFirstName, userLastName, userEmail);
+                    WorkerDto workerDto = await Advanced_WorkerCreate(userFirstName, userLastName, userEmail);
                     await Advanced_SiteWorkerCreate(siteDto, workerDto);
 
                     return await SiteRead(siteId);
@@ -2391,7 +2391,7 @@ namespace eFormCore
         /// <param name="microtingUid"></param>
         /// <returns></returns>
         // TODO: Refactor to DeviceUserRead(int siteMicrotingUUID)
-        public async Task<Site_Dto> SiteRead(int microtingUid)
+        public async Task<SiteDto> SiteRead(int microtingUid)
         {
             string methodName = "Core.SiteRead";
             try
@@ -2413,7 +2413,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<List<Site_Dto>> SiteReadAll(bool includeRemoved)
+        public async Task<List<SiteDto>> SiteReadAll(bool includeRemoved)
         {
             string methodName = "Core.SiteReadAll";
             try
@@ -2435,7 +2435,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<Site_Dto> SiteReset(int siteId)
+        public async Task<SiteDto> SiteReset(int siteId)
         {
             string methodName = "Core.SiteReset";
             try
@@ -2445,7 +2445,7 @@ namespace eFormCore
                     await log.LogStandard(methodName, "called");
                     await log.LogVariable(methodName, nameof(siteId), siteId);
 
-                    Site_Dto site = await SiteRead(siteId);
+                    SiteDto site = await SiteRead(siteId);
                     await Advanced_UnitRequestOtp((int)site.UnitId);
 
                     return await SiteRead(siteId);
@@ -2477,7 +2477,7 @@ namespace eFormCore
             {
                 if (Running())
                 {
-                    Site_Dto siteDto = await SiteRead(siteMicrotingUid);
+                    SiteDto siteDto = await SiteRead(siteMicrotingUid);
                     await Advanced_SiteItemUpdate(siteMicrotingUid, siteName);
                     if (String.IsNullOrEmpty(userEmail))
                     {
@@ -2511,12 +2511,12 @@ namespace eFormCore
             {
                 if (Running())
                 {
-                    Site_Dto siteDto = await SiteRead(microtingUid);
+                    SiteDto siteDto = await SiteRead(microtingUid);
 
                     if (siteDto != null)
                     {
                         await Advanced_SiteItemDelete(microtingUid);
-                        Site_Worker_Dto siteWorkerDto = await Advanced_SiteWorkerRead(null, microtingUid, siteDto.WorkerUid);
+                        SiteWorkerDto siteWorkerDto = await Advanced_SiteWorkerRead(null, microtingUid, siteDto.WorkerUid);
                         await Advanced_SiteWorkerDelete(siteWorkerDto.MicrotingUId);
                         await Advanced_WorkerDelete((int)siteDto.WorkerUid);
                         return true;
@@ -2842,14 +2842,14 @@ namespace eFormCore
         
         #region folder
 
-        public async Task<List<Folder_Dto>> FolderGetAll(bool includeRemoved)
+        public async Task<List<FolderDto>> FolderGetAll(bool includeRemoved)
         {
             string methodName = "Core.FolderGetAll";
             try
             {
                 if (Running())
                 {
-                    List<Folder_Dto> folderDtos = await _sqlController.FolderGetAll(includeRemoved);
+                    List<FolderDto> folderDtos = await _sqlController.FolderGetAll(includeRemoved);
 
                     return folderDtos;
                 }
@@ -2863,14 +2863,14 @@ namespace eFormCore
             }
         }
 
-        public async Task<Folder_Dto> FolderRead(int id)
+        public async Task<FolderDto> FolderRead(int id)
         {
             string methodName = "Core.FolderRead";
             try
             {
                 if (Running())
                 {
-                    Folder_Dto folderDto = await _sqlController.FolderRead(id);
+                    FolderDto folderDto = await _sqlController.FolderRead(id);
 
                     return folderDto;
                 }
@@ -2918,7 +2918,7 @@ namespace eFormCore
             {
                 if (Running())
                 {
-                    Folder_Dto folder = await FolderRead(id);
+                    FolderDto folder = await FolderRead(id);
                     int apiParentId = 0;
                     if (parent_id != null)
                     {
@@ -2946,7 +2946,7 @@ namespace eFormCore
             {
                 if (Running())
                 {
-                    Folder_Dto folder = await FolderRead(id);
+                    FolderDto folder = await FolderRead(id);
                     bool success = await _communicator.FolderDelete((int)folder.MicrotingUId);
                     if (success)
                     {
@@ -3217,7 +3217,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<List<Field_Dto>> Advanced_TemplateFieldReadAll(int templateId)
+        public async Task<List<FieldDto>> Advanced_TemplateFieldReadAll(int templateId)
         {
             string methodName = "Core.Advanced_TemplateFieldReadAll";
             try
@@ -3267,7 +3267,7 @@ namespace eFormCore
 //        }
 
         #region sites
-        public async Task<List<Site_Dto>> Advanced_SiteReadAll(string workflowState, int? offSet, int? limit)
+        public async Task<List<SiteDto>> Advanced_SiteReadAll(string workflowState, int? offSet, int? limit)
         {
             string methodName = "Core.Advanced_SiteReadAll";
             try
@@ -3291,7 +3291,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<SiteName_Dto> Advanced_SiteItemRead(int microting_uuid)
+        public async Task<SiteNameDto> Advanced_SiteItemRead(int microting_uuid)
         {
             string methodName = "Core.Advanced_SiteItemRead";
             try
@@ -3313,12 +3313,12 @@ namespace eFormCore
             }
         }
 
-        public async Task<List<SiteName_Dto>> Advanced_SiteItemReadAll()
+        public async Task<List<SiteNameDto>> Advanced_SiteItemReadAll()
         {
             return await Advanced_SiteItemReadAll(true);
         }
 
-        public async Task<List<SiteName_Dto>> Advanced_SiteItemReadAll(bool includeRemoved)
+        public async Task<List<SiteNameDto>> Advanced_SiteItemReadAll(bool includeRemoved)
         {
             string methodName = "Core.Advanced_SiteItemReadAll";
             try
@@ -3396,7 +3396,7 @@ namespace eFormCore
         #endregion
 
         #region workers
-        public async Task<Worker_Dto> Advanced_WorkerCreate(string firstName, string lastName, string email)
+        public async Task<WorkerDto> Advanced_WorkerCreate(string firstName, string lastName, string email)
         {
             string methodName = "Core.Advanced_WorkerCreate";
             try
@@ -3408,7 +3408,7 @@ namespace eFormCore
                     await log.LogVariable(methodName, nameof(lastName), lastName);
                     await log.LogVariable(methodName, nameof(email), email);
 
-                    Worker_Dto workerDto = await _communicator.WorkerCreate(firstName, lastName, email);
+                    WorkerDto workerDto = await _communicator.WorkerCreate(firstName, lastName, email);
                     int workerUId = workerDto.WorkerUId;
 
                     workerDto = await _sqlController.WorkerRead(workerDto.WorkerUId);
@@ -3451,7 +3451,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<Worker_Dto> Advanced_WorkerRead(int workerId)
+        public async Task<WorkerDto> Advanced_WorkerRead(int workerId)
         {
             string methodName = "Core.Advanced_WorkerRead";
             try
@@ -3473,7 +3473,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<List<Worker_Dto>> Advanced_WorkerReadAll(string workflowState, int? offSet, int? limit)
+        public async Task<List<WorkerDto>> Advanced_WorkerReadAll(string workflowState, int? offSet, int? limit)
         {
             string methodName = "Core.Advanced_WorkerReadAll";
             try
@@ -3558,7 +3558,7 @@ namespace eFormCore
         #endregion
 
         #region site_workers
-        public async Task<Site_Worker_Dto> Advanced_SiteWorkerCreate(SiteName_Dto siteDto, Worker_Dto workerDto)
+        public async Task<SiteWorkerDto> Advanced_SiteWorkerCreate(SiteNameDto siteDto, WorkerDto workerDto)
         {   
             string methodName = "Core.Advanced_SiteWorkerCreate";
             try
@@ -3569,11 +3569,11 @@ namespace eFormCore
                     await log.LogVariable(methodName, "siteId", siteDto.SiteUId);
                     await log.LogVariable(methodName, "workerId", workerDto.WorkerUId);
 
-                    Site_Worker_Dto result = await _communicator.SiteWorkerCreate(siteDto.SiteUId, workerDto.WorkerUId);
+                    SiteWorkerDto result = await _communicator.SiteWorkerCreate(siteDto.SiteUId, workerDto.WorkerUId);
                     //var parsedData = JRaw.Parse(result);
                     //int workerUid = int.Parse(parsedData["id"].ToString());
 
-                    Site_Worker_Dto siteWorkerDto = await _sqlController.SiteWorkerRead(result.MicrotingUId, null, null);
+                    SiteWorkerDto siteWorkerDto = await _sqlController.SiteWorkerRead(result.MicrotingUId, null, null);
 
                     if (siteWorkerDto == null)
                     {
@@ -3593,7 +3593,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<Site_Worker_Dto> Advanced_SiteWorkerRead(int? siteWorkerMicrotingUid, int? siteId, int? workerId)
+        public async Task<SiteWorkerDto> Advanced_SiteWorkerRead(int? siteWorkerMicrotingUid, int? siteId, int? workerId)
         {
             string methodName = "Core.Advanced_SiteWorkerRead";
             try
@@ -3645,7 +3645,7 @@ namespace eFormCore
         #endregion
 
         #region units
-        public async Task<Unit_Dto> Advanced_UnitRead(int microtingUid)
+        public async Task<UnitDto> Advanced_UnitRead(int microtingUid)
         {
             string methodName = "Core.Advanced_UnitRead";
             try
@@ -3667,7 +3667,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<List<Unit_Dto>> Advanced_UnitReadAll()
+        public async Task<List<UnitDto>> Advanced_UnitReadAll()
         {
             string methodName = "Core.Advanced_UnitReadAll";
             try
@@ -3688,7 +3688,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<Unit_Dto> Advanced_UnitRequestOtp(int microtingUid)
+        public async Task<UnitDto> Advanced_UnitRequestOtp(int microtingUid)
         {
             string methodName = "Core.Advanced_UnitRequestOtp";
             try
@@ -3700,7 +3700,7 @@ namespace eFormCore
 
                     int otp_code = await _communicator.UnitRequestOtp(microtingUid);
 
-                    Unit_Dto my_dto = await Advanced_UnitRead(microtingUid);
+                    UnitDto my_dto = await Advanced_UnitRead(microtingUid);
 
                     await _sqlController.UnitUpdate(microtingUid, my_dto.CustomerNo, otp_code, my_dto.SiteUId);
 
@@ -4497,7 +4497,7 @@ namespace eFormCore
                 #endregion
 
                 CaseDto dto = await _sqlController.FileCaseFindMUId(urlStr);
-                File_Dto fDto = new File_Dto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId.ToString(), dto.CheckUId.ToString(), _fileLocationPicture + fileName);
+                FileDto fDto = new FileDto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId.ToString(), dto.CheckUId.ToString(), _fileLocationPicture + fileName);
                 try { HandleFileDownloaded?.Invoke(fDto, EventArgs.Empty); }
                 catch { await log.LogWarning(methodName, "HandleFileDownloaded event's external logic suffered an Expection"); }
                 await log.LogStandard(methodName, "Downloaded file '" + urlStr + "'.");
@@ -4804,14 +4804,14 @@ namespace eFormCore
             catch { await log.LogWarning(methodName, "HandleCaseCompleted event's external logic suffered an Expection"); }
         }
 
-        public async Task FireHandleNotificationNotFound(Note_Dto notification)
+        public async Task FireHandleNotificationNotFound(NoteDto notification)
         {
             string methodName = "Core.FireHandleNotificationNotFound";
             try { HandleNotificationNotFound?.Invoke(notification, EventArgs.Empty); }
             catch { await log.LogWarning(methodName, "HandleNotificationNotFound event's external logic suffered an Expection"); }
         }
 
-        public async Task FireHandleSiteActivated(Note_Dto notification)
+        public async Task FireHandleSiteActivated(NoteDto notification)
         {
             string methodName = "Core.FireHandleSiteActivated";
             try { HandleSiteActivated?.Invoke(notification, EventArgs.Empty); }

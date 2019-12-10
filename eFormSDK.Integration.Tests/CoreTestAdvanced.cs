@@ -936,7 +936,7 @@ namespace eFormSDK.Integration.Tests
             int siteMicrotingUid = await testHelpers.GetRandomInt();
 
             sites site = await testHelpers.CreateSite(siteName, siteMicrotingUid);
-            SiteName_Dto siteName_Dto = new SiteName_Dto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
+            SiteNameDto siteName_Dto = new SiteNameDto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
             #endregion
 
             #region worker
@@ -946,7 +946,7 @@ namespace eFormSDK.Integration.Tests
             int workerMicrotingUid = await testHelpers.GetRandomInt();
 
             workers worker = await testHelpers.CreateWorker(email, firstName, lastName, workerMicrotingUid);
-            Worker_Dto worker_Dto = new Worker_Dto(worker.MicrotingUid, worker.FirstName, worker.LastName, worker.Email, worker.CreatedAt, worker.UpdatedAt);
+            WorkerDto worker_Dto = new WorkerDto(worker.MicrotingUid, worker.FirstName, worker.LastName, worker.Email, worker.CreatedAt, worker.UpdatedAt);
             #endregion
 
             // Act
@@ -1219,7 +1219,7 @@ namespace eFormSDK.Integration.Tests
             int siteMicrotingUid = await testHelpers.GetRandomInt();
 
             sites site = await testHelpers.CreateSite(siteName, siteMicrotingUid);
-            SiteName_Dto siteName_Dto = new SiteName_Dto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
+            SiteNameDto siteName_Dto = new SiteNameDto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
             #endregion
 
             #region worker
@@ -1229,7 +1229,7 @@ namespace eFormSDK.Integration.Tests
             int workerMicrotingUid = await testHelpers.GetRandomInt();
 
             workers worker = await testHelpers.CreateWorker(email, firstName, lastName, workerMicrotingUid);
-            Worker_Dto worker_Dto = new Worker_Dto(worker.MicrotingUid, worker.FirstName, worker.LastName, worker.Email, worker.CreatedAt, worker.UpdatedAt);
+            WorkerDto worker_Dto = new WorkerDto(worker.MicrotingUid, worker.FirstName, worker.LastName, worker.Email, worker.CreatedAt, worker.UpdatedAt);
 
             site_workers site_worker = await testHelpers.CreateSiteWorker(1, site, worker);
 
@@ -1506,7 +1506,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            Unit_Dto match = await sut.Advanced_UnitRead((int) unit.MicrotingUid);
+            UnitDto match = await sut.Advanced_UnitRead((int) unit.MicrotingUid);
 
             // Assert
             Assert.NotNull(match);

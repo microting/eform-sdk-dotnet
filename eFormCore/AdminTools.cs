@@ -189,7 +189,7 @@ namespace eFormCore
                 {
                     foreach (var item in await communicator.SiteLoadAllFromRemote())
                     {
-                        SiteName_Dto siteDto = await sqlController.SiteRead(item.SiteUId);
+                        SiteNameDto siteDto = await sqlController.SiteRead(item.SiteUId);
                         if (siteDto == null)
                         {
                             await sqlController.SiteCreate(item.SiteUId, item.SiteName);
@@ -198,7 +198,7 @@ namespace eFormCore
 
                     foreach (var item in await communicator.WorkerLoadAllFromRemote())
                     {
-                        Worker_Dto workerDto = await sqlController.WorkerRead(item.WorkerUId);
+                        WorkerDto workerDto = await sqlController.WorkerRead(item.WorkerUId);
                         if (workerDto == null)
                         {
                             await sqlController.WorkerCreate(item.WorkerUId, item.FirstName, item.LastName, item.Email);
@@ -207,7 +207,7 @@ namespace eFormCore
 
                     foreach (var item in await communicator.SiteWorkerLoadAllFromRemote())
                     {
-                        Site_Worker_Dto siteWorkerDto = await sqlController.SiteWorkerRead(item.MicrotingUId, null, null);
+                        SiteWorkerDto siteWorkerDto = await sqlController.SiteWorkerRead(item.MicrotingUId, null, null);
                         if (siteWorkerDto == null)
                         {
                             try
@@ -226,7 +226,7 @@ namespace eFormCore
 
                     foreach (var item in await communicator.UnitLoadAllFromRemote(customerNo))
                     {
-                        Unit_Dto unitDto = await sqlController.UnitRead(item.UnitUId);
+                        UnitDto unitDto = await sqlController.UnitRead(item.UnitUId);
                         if (unitDto == null)
                         {
                             try
@@ -241,11 +241,11 @@ namespace eFormCore
                         }
                     }
 
-                    foreach (Folder_Dto folderDto in await communicator.FolderLoadAllFromRemote())
+                    foreach (FolderDto folderDto in await communicator.FolderLoadAllFromRemote())
                     {
                         if (folderDto.MicrotingUId != null)
                         {
-                            Folder_Dto folder = await sqlController.FolderReadByMicrotingUUID((int)folderDto.MicrotingUId);
+                            FolderDto folder = await sqlController.FolderReadByMicrotingUUID((int)folderDto.MicrotingUId);
 
                             if (folder == null)
                             {
@@ -259,7 +259,7 @@ namespace eFormCore
                                 {
                                     if (folderDto.ParentId != null)
                                     {
-                                        Folder_Dto parenFolder =
+                                        FolderDto parenFolder =
                                             await sqlController.FolderReadByMicrotingUUID((int) folderDto.ParentId);
                                     
                                         await sqlController.FolderCreate(folderDto.Name, folderDto.Description, parenFolder.Id,
@@ -293,7 +293,7 @@ namespace eFormCore
                 string token = await sqlController.SettingRead(Settings.token);
                 Communicator communicator = new Communicator(token, @"https://srv05.microting.com", @"https://basic.microting.com", "", "", log, "https://speechtotext.microting.com");
 
-                Organization_Dto organizationDto = await communicator.OrganizationLoadAllFromRemote(token);
+                OrganizationDto organizationDto = await communicator.OrganizationLoadAllFromRemote(token);
                 await sqlController.SettingUpdate(Settings.token, token);
                 await sqlController.SettingUpdate(Settings.comAddressBasic, organizationDto.ComAddressBasic);
                 await sqlController.SettingUpdate(Settings.comAddressPdfUpload, organizationDto.ComAddressPdfUpload);

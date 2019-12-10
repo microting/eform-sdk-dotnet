@@ -95,7 +95,7 @@ namespace eFormSDK.Integration.Tests
             await sut.NotificationCreate(notificationId2, microtingUId2, Constants.Notifications.Completed);
 
             // Assert
-            Note_Dto notification = await sut.NotificationReadFirst();
+            NoteDto notification = await sut.NotificationReadFirst();
 
             Assert.NotNull(notification);
             Assert.AreEqual(2, dbContext.notifications.Count());
