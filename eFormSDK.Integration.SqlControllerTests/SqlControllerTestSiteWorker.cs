@@ -519,7 +519,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             // Act
 
-            Site_Worker_Dto match = await sut.SiteWorkerRead(site_workers.MicrotingUid, site1.Id, worker1.Id);
+            SiteWorkerDto match = await sut.SiteWorkerRead(site_workers.MicrotingUid, site1.Id, worker1.Id);
 
             // Assert
 

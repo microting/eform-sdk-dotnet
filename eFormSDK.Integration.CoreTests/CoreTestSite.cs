@@ -507,7 +507,7 @@ namespace eFormSDK.Integration.CoreTests
             // TODO: Improve the test for supporting random id.
 
             sites site = await testHelpers.CreateSite(siteName, siteMicrotingUid);
-//            SiteName_Dto siteName_Dto = new SiteName_Dto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
+//            SiteNameDto siteName_Dto = new SiteNameDto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
             #endregion
 
             #region worker
@@ -544,7 +544,7 @@ namespace eFormSDK.Integration.CoreTests
             // TODO: Improve the test for supporting random id.
 
             sites site = await testHelpers.CreateSite(siteName, siteMicrotingUid);
-//            SiteName_Dto siteName_Dto = new SiteName_Dto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
+//            SiteNameDto siteName_Dto = new SiteNameDto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
             #endregion
 
             #region worker

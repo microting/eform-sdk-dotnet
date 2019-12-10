@@ -246,7 +246,7 @@ namespace Microting.eForm.Communication
 
         #region public site
         #region public siteName
-        public async Task<Tuple<Site_Dto, Unit_Dto>> SiteCreate(string name)
+        public async Task<Tuple<SiteDto, UnitDto>> SiteCreate(string name)
         {
             await log.LogEverything("Communicator.SiteCreate", "called");
             await log.LogVariable("Communicator.SiteCreate", nameof(name), name);
@@ -256,9 +256,18 @@ namespace Microting.eForm.Communication
 
             int unitId = int.Parse(parsedData["unit_id"].ToString());
             int otpCode = int.Parse(parsedData["otp_code"].ToString());
-            Site_Dto siteDto = new Site_Dto(int.Parse(parsedData["id"].ToString()), parsedData["name"].ToString(), "", "", 0, 0, unitId, 0); // WorkerUid is set to 0, because it's used in this context.
-            Unit_Dto unitDto = new Unit_Dto(unitId, 0, otpCode, siteDto.SiteId, DateTime.Parse(parsedData["created_at"].ToString()), DateTime.Parse(parsedData["updated_at"].ToString()));
-            Tuple<Site_Dto, Unit_Dto> result = new Tuple<Site_Dto, Unit_Dto>(siteDto, unitDto);
+            SiteDto siteDto = new SiteDto(int.Parse(parsedData["id"].ToString()), parsedData["name"].ToString(), "", "", 0, 0, unitId, 0); // WorkerUid is set to 0, because it's used in this context.
+            UnitDto unitDto = new UnitDto()
+            {
+                UnitUId = unitId,
+                CustomerNo = 0,
+                OtpCode = otpCode,
+                SiteUId = siteDto.SiteId,
+                CreatedAt = DateTime.Parse(parsedData["created_at"].ToString()),
+                UpdatedAt = DateTime.Parse(parsedData["updated_at"].ToString()),
+                WorkflowState = Constants.WorkflowStates.Created
+            };
+            Tuple<SiteDto, UnitDto> result = new Tuple<SiteDto, UnitDto>(siteDto, unitDto);
 
             return result;
         }
@@ -290,12 +299,12 @@ namespace Microting.eForm.Communication
             }
         }
 
-        public async Task<List<SiteName_Dto>> SiteLoadAllFromRemote()
+        public async Task<List<SiteNameDto>> SiteLoadAllFromRemote()
         {
             await log.LogEverything("Communicator.SiteLoadAllFromRemote", "called");
 
             var parsedData = JRaw.Parse(await http.SiteLoadAllFromRemote());
-            List<SiteName_Dto> lst = new List<SiteName_Dto>();
+            List<SiteNameDto> lst = new List<SiteNameDto>();
 
             foreach (JToken item in parsedData)
             {
@@ -303,7 +312,7 @@ namespace Microting.eForm.Communication
                 int microtingUid = int.Parse(item["id"].ToString());
                 DateTime? createdAt = DateTime.Parse(item["created_at"].ToString());
                 DateTime? updatedAt = DateTime.Parse(item["updated_at"].ToString());
-                SiteName_Dto temp = new SiteName_Dto(microtingUid, name, createdAt, updatedAt);
+                SiteNameDto temp = new SiteNameDto(microtingUid, name, createdAt, updatedAt);
                 lst.Add(temp);
             }
             return lst;
@@ -311,7 +320,7 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region public worker
-        public async Task<Worker_Dto> WorkerCreate(string firstName, string lastName, string email)
+        public async Task<WorkerDto> WorkerCreate(string firstName, string lastName, string email)
         {
             await log.LogEverything("Communicator.WorkerCreate", "called");
             await log.LogVariable("Communicator.WorkerCreate", nameof(firstName), firstName);
@@ -323,7 +332,7 @@ namespace Microting.eForm.Communication
             int workerUid = int.Parse(parsedData["id"].ToString());
             DateTime? createdAt = DateTime.Parse(parsedData["created_at"].ToString());
             DateTime? updatedAt = DateTime.Parse(parsedData["updated_at"].ToString());
-            return new Worker_Dto(workerUid, firstName, lastName, email, createdAt, updatedAt);
+            return new WorkerDto(workerUid, firstName, lastName, email, createdAt, updatedAt);
         }
 
         public async Task<bool> WorkerUpdate(int workerId, string firstName, string lastName, string email)
@@ -351,12 +360,12 @@ namespace Microting.eForm.Communication
                 return false;
         }
 
-        public async Task<List<Worker_Dto>> WorkerLoadAllFromRemote()
+        public async Task<List<WorkerDto>> WorkerLoadAllFromRemote()
         {
             await log.LogEverything("Communicator.WorkerLoadAllFromRemote", "called");
 
             var parsedData = JRaw.Parse(await http.WorkerLoadAllFromRemote());
-            List<Worker_Dto> lst = new List<Worker_Dto>();
+            List<WorkerDto> lst = new List<WorkerDto>();
 
             foreach (JToken item in parsedData)
             {
@@ -366,7 +375,7 @@ namespace Microting.eForm.Communication
                 int microtingUid = int.Parse(item["id"].ToString());
                 DateTime? createdAt = DateTime.Parse(item["created_at"].ToString());
                 DateTime? updatedAt = DateTime.Parse(item["updated_at"].ToString());
-                Worker_Dto temp = new Worker_Dto(microtingUid, firstName, lastName, email, createdAt, updatedAt);
+                WorkerDto temp = new WorkerDto(microtingUid, firstName, lastName, email, createdAt, updatedAt);
                 lst.Add(temp);
             }
             return lst;
@@ -374,7 +383,7 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region public site_worker
-        public async Task<Site_Worker_Dto> SiteWorkerCreate(int siteId, int workerId)
+        public async Task<SiteWorkerDto> SiteWorkerCreate(int siteId, int workerId)
         {
             await log.LogEverything("Communicator.SiteWorkerCreate", "called");
             await log.LogVariable("Communicator.SiteWorkerCreate", nameof(siteId), siteId);
@@ -383,7 +392,7 @@ namespace Microting.eForm.Communication
             string result = await http.SiteWorkerCreate(siteId, workerId);
             var parsedData = JRaw.Parse(result);
             int workerUid = int.Parse(parsedData["id"].ToString());
-            return new Site_Worker_Dto(workerUid, siteId, workerId);
+            return new SiteWorkerDto(workerUid, siteId, workerId);
         }
 
         public async Task<bool> SiteWorkerDelete(int workerId)
@@ -400,19 +409,19 @@ namespace Microting.eForm.Communication
                 return false;
         }
 
-        public async Task<List<Site_Worker_Dto>> SiteWorkerLoadAllFromRemote()
+        public async Task<List<SiteWorkerDto>> SiteWorkerLoadAllFromRemote()
         {
             await log.LogEverything("Communicator.SiteWorkerLoadAllFromRemote", "called");
 
             var parsedData = JRaw.Parse(await http.SiteWorkerLoadAllFromRemote());
-            List<Site_Worker_Dto> lst = new List<Site_Worker_Dto>();
+            List<SiteWorkerDto> lst = new List<SiteWorkerDto>();
 
             foreach (JToken item in parsedData)
             {
                 int microtingUid = int.Parse(item["id"].ToString());
                 int siteUId = int.Parse(item["site_id"].ToString());
                 int workerUId = int.Parse(item["user_id"].ToString());
-                Site_Worker_Dto temp = new Site_Worker_Dto(microtingUid, siteUId, workerUId);
+                SiteWorkerDto temp = new SiteWorkerDto(microtingUid, siteUId, workerUId);
                 lst.Add(temp);
             }
             return lst;
@@ -428,13 +437,13 @@ namespace Microting.eForm.Communication
             return await http.UnitRequestOtp(microtingUid);
         }
 
-        public async Task<List<Unit_Dto>> UnitLoadAllFromRemote(int customerNo)
+        public async Task<List<UnitDto>> UnitLoadAllFromRemote(int customerNo)
         {
             await log.LogEverything("Communicator.UnitLoadAllFromRemote", "called");
             await log.LogVariable("Communicator.UnitLoadAllFromRemote", nameof(customerNo), customerNo);
 
             var parsedData = JRaw.Parse(await http.UnitLoadAllFromRemote());
-            List<Unit_Dto> lst = new List<Unit_Dto>();
+            List<UnitDto> lst = new List<UnitDto>();
 
             foreach (JToken item in parsedData)
             {
@@ -450,8 +459,17 @@ namespace Microting.eForm.Communication
 
                 DateTime? createdAt = DateTime.Parse(item["created_at"].ToString());
                 DateTime? updatedAt = DateTime.Parse(item["updated_at"].ToString());
-                Unit_Dto temp = new Unit_Dto(microtingUid, customerNo, otpCode, siteUId, createdAt, updatedAt);
-                lst.Add(temp);
+                UnitDto unitDto = new UnitDto()
+                {
+                    UnitUId = microtingUid,
+                    CustomerNo = customerNo,
+                    OtpCode = otpCode,
+                    SiteUId = siteUId,
+                    CreatedAt = createdAt,
+                    UpdatedAt = updatedAt,
+                    WorkflowState = Constants.WorkflowStates.Created
+                };
+                lst.Add(unitDto);
             }
             return lst;
         }
@@ -476,7 +494,7 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region public organization      
-        public async Task<Organization_Dto> OrganizationLoadAllFromRemote(string token)
+        public async Task<OrganizationDto> OrganizationLoadAllFromRemote(string token)
         {
             await log.LogEverything("Communicator.OrganizationLoadAllFromRemote", "called");
             await log.LogVariable("Communicator.OrganizationLoadAllFromRemote", nameof(token), token);
@@ -492,7 +510,7 @@ namespace Microting.eForm.Communication
 
             JToken orgResult = JRaw.Parse(await specialHttp.OrganizationLoadAllFromRemote());
 
-            Organization_Dto organizationDto = new Organization_Dto(int.Parse(orgResult.First.First["id"].ToString()),
+            OrganizationDto organizationDto = new OrganizationDto(int.Parse(orgResult.First.First["id"].ToString()),
                 orgResult.First.First["name"].ToString(),
                 int.Parse(orgResult.First.First["customer_no"].ToString()),
                 int.Parse(orgResult.First.First["unit_license_number"].ToString()),
@@ -511,13 +529,13 @@ namespace Microting.eForm.Communication
         
         #region folder
 
-        public async Task<List<Folder_Dto>> FolderLoadAllFromRemote()
+        public async Task<List<FolderDto>> FolderLoadAllFromRemote()
         {
             await log.LogEverything("Communicator.FolderLoadAllFromRemote", "called");
 
             string rawData = await http.FolderLoadAllFromRemote();
             
-            List<Folder_Dto> list = new List<Folder_Dto>();
+            List<FolderDto> list = new List<FolderDto>();
             if (!string.IsNullOrEmpty(rawData))
             {
                 var parsedData = JRaw.Parse(rawData);
@@ -534,7 +552,7 @@ namespace Microting.eForm.Communication
                     } catch {}
                 
                 
-                    Folder_Dto folderDto = new Folder_Dto(null, name, description, parentId, null, null, microtingUUID);
+                    FolderDto folderDto = new FolderDto(null, name, description, parentId, null, null, microtingUUID);
                 
                     list.Add(folderDto);
                 }
