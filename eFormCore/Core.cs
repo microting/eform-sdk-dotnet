@@ -316,7 +316,7 @@ namespace eFormCore
 
                             _s3Client = new AmazonS3Client(_s3AccessKeyId, _s3SecretAccessKey, new AmazonS3Config()
                             {
-                                ServiceURL = _s3Endpoint
+                                ServiceURL = _s3Endpoint,
                             });
 
                             _container.Register(Component.For<AmazonS3Client>().Instance(_s3Client));
@@ -4551,7 +4551,7 @@ namespace eFormCore
         {
             GetObjectRequest request = new GetObjectRequest
             {
-                BucketName = $"{_customerNo}_uploaded_data",
+                BucketName = $"{_customerNo}-uploaded-data",
                 Key = fileName
             };
 
@@ -4681,12 +4681,12 @@ namespace eFormCore
             string methodName = "Core.PutFileToS3Storage";
             await log.LogStandard(methodName, $"Trying to upload file {fileName} to {_customerNo}_uploaded_data");
 
-            if (!(await AmazonS3Util.DoesS3BucketExistV2Async(_s3Client, $"{_customerNo}_uploaded_data")))
+            if (!(await AmazonS3Util.DoesS3BucketExistV2Async(_s3Client, $"{_customerNo}-uploaded-data")))
             {
                 var putBucketRequest = new PutBucketRequest()
                 {
-                    BucketName = $"{_customerNo}_uploaded_data",
-                    UseClientRegion = true
+                    BucketName = $"{_customerNo}-uploaded-data",
+                    UseClientRegion = true,
                 };
 
                 try
@@ -4703,7 +4703,7 @@ namespace eFormCore
             var fileStream = new FileStream(filePath, FileMode.Open);
             PutObjectRequest putObjectRequest = new PutObjectRequest
             {
-                BucketName = $"{_customerNo}_uploaded_data",
+                BucketName = $"{_customerNo}-uploaded-data",
                 Key = fileName,
                 FilePath = filePath
             };
