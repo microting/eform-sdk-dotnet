@@ -303,13 +303,24 @@ namespace eFormCore
 
                     if (_s3Enabled)
                     {
-                        _s3AccessKeyId = await _sqlController.SettingRead(Settings.s3AccessKeyId);
-                        _s3SecretAccessKey = await _sqlController.SettingRead(Settings.s3SecrectAccessKey);
-                        _s3Endpoint = await _sqlController.SettingRead(Settings.s3Endpoint);
+                        try
+                        {
+                            _s3AccessKeyId = await _sqlController.SettingRead(Settings.s3AccessKeyId);
+                            _s3SecretAccessKey = await _sqlController.SettingRead(Settings.s3SecrectAccessKey);
+                            _s3Endpoint = await _sqlController.SettingRead(Settings.s3Endpoint);
 
-                        _s3Client = new AmazonS3Client(_s3AccessKeyId,_s3SecretAccessKey, RegionEndpoint.EUCentral1);
-				        
-                        _container.Register(Component.For<AmazonS3Client>().Instance(_s3Client));
+                            _s3Client = new AmazonS3Client(_s3AccessKeyId, _s3SecretAccessKey, new AmazonS3Config()
+                            {
+                                ServiceURL = _s3Endpoint,
+                            });
+
+                            _container.Register(Component.For<AmazonS3Client>().Instance(_s3Client));
+                        }
+                        catch (Exception ex)
+                        {
+                            await log.LogWarning(methodName, ex.Message);
+                        }
+                        
                     }
                     await log.LogStandard(methodName, "Communicator started");
 
@@ -4534,12 +4545,12 @@ namespace eFormCore
         {
             GetObjectRequest request = new GetObjectRequest
             {
-                BucketName = $"{_customerNo}_uploaded_data",
+                BucketName = $"{_customerNo}-uploaded-data",
                 Key = fileName
             };
 
-            GetObjectResponse response = await _s3Client.GetObjectAsync(request);
-            return response;
+            return await _s3Client.GetObjectAsync(request);
+//            return response;
         }
 
         public async Task<SwiftObjectGetResponse> GetFileFromSwiftStorage(string fileName)
@@ -4661,13 +4672,46 @@ namespace eFormCore
 
         private async Task PutFileToS3Storage(string filePath, string fileName, int tryCount)
         {
-            await Task.Run(() => { }); // TODO FIX ME
+            string methodName = "Core.PutFileToS3Storage";
+            await log.LogStandard(methodName, $"Trying to upload file {fileName} to {_customerNo}_uploaded_data");
+
+            if (!(await AmazonS3Util.DoesS3BucketExistV2Async(_s3Client, $"{_customerNo}-uploaded-data")))
+            {
+                var putBucketRequest = new PutBucketRequest()
+                {
+                    BucketName = $"{_customerNo}-uploaded-data",
+                    UseClientRegion = true,
+                };
+
+                try
+                {
+                    PutBucketResponse putBucketResponse = await _s3Client.PutBucketAsync(putBucketRequest);
+                }
+                catch (Exception ex)
+                {
+                    await log.LogWarning(methodName, $"Something went wrong, message was {ex.Message}");
+
+                }
+            }
+            
+            var fileStream = new FileStream(filePath, FileMode.Open);
             PutObjectRequest putObjectRequest = new PutObjectRequest
             {
-                BucketName = $"{_customerNo}_uploaded_data",
+                BucketName = $"{_customerNo}-uploaded-data",
                 Key = fileName,
                 FilePath = filePath
             };
+            try
+            {
+                var response = await _s3Client.PutObjectAsync(putObjectRequest);
+            }
+            catch (Exception ex)
+            {
+                await log.LogWarning(methodName, $"Something went wrong, message was {ex.Message}");
+//                await _s3Client.PutBucketAsync($"{_customerNo}_uploaded_data");
+            }
+            
+//            if (!response.)
         }
         
         public async Task<bool> CheckStatusByMicrotingUid(int microtingUid)
