@@ -4737,6 +4737,7 @@ namespace Microting.eForm.Infrastructure
             await SettingCreate(Settings.s3AccessKeyId);
             await SettingCreate(Settings.s3SecrectAccessKey);
             await SettingCreate(Settings.s3Endpoint);
+            await SettingCreate(Settings.s3BucketName);
 
             return true;
         }
@@ -4820,7 +4821,8 @@ namespace Microting.eForm.Infrastructure
                     case Settings.s3Enabled: Id = 27; defaultValue = "false"; break;
                     case Settings.s3AccessKeyId: Id = 28; defaultValue = "XXX"; break;
                     case Settings.s3SecrectAccessKey: Id = 29; defaultValue = "XXX"; break;
-                    case Settings.s3Endpoint: Id = 30; defaultValue = "XXX"; break;
+                    case Settings.s3Endpoint: Id = 30; defaultValue = "https://s3.eu-central-1.amazonaws.com"; break;
+                    case Settings.s3BucketName: Id = 31; defaultValue = "XXX"; break;
 
                     default:
                         throw new IndexOutOfRangeException(name.ToString() + " is not a known/mapped Settings type");
@@ -4861,9 +4863,10 @@ namespace Microting.eForm.Infrastructure
                     }
                     db.SaveChanges();
                 }
-                else
-                    if (string.IsNullOrEmpty(matchName.Value))
-                    matchName.Value = defaultValue;
+                else if (string.IsNullOrEmpty(matchName.Value))
+                {
+                    matchName.Value = defaultValue;   
+                }
             }
 
             return true;

@@ -31,6 +31,7 @@ namespace Microting.eForm.Dto
         s3Enabled,
         s3AccessKeyId,
         s3SecrectAccessKey,
-        s3Endpoint
+        s3Endpoint,
+        s3BucketName
     }
 }
