@@ -41,6 +41,7 @@ using System.Threading.Tasks;
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Amazon.S3.Util;
 using Microting.eForm;
 using Microting.eForm.Communication;
 using Microting.eForm.Dto;
