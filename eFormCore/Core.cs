@@ -314,10 +314,18 @@ namespace eFormCore
                             _s3SecretAccessKey = await _sqlController.SettingRead(Settings.s3SecrectAccessKey);
                             _s3Endpoint = await _sqlController.SettingRead(Settings.s3Endpoint);
 
-                            _s3Client = new AmazonS3Client(_s3AccessKeyId, _s3SecretAccessKey, new AmazonS3Config()
+                            if (_s3Endpoint.Contains("https"))
                             {
-                                ServiceURL = _s3Endpoint,
-                            });
+                                _s3Client = new AmazonS3Client(_s3AccessKeyId, _s3SecretAccessKey, new AmazonS3Config()
+                                {
+                                    ServiceURL = _s3Endpoint,
+                                });
+                            }
+                            else
+                            {
+                                _s3Client = new AmazonS3Client(_s3AccessKeyId, _s3SecretAccessKey, RegionEndpoint.EUCentral1);
+                                
+                            }
 
                             _container.Register(Component.For<AmazonS3Client>().Instance(_s3Client));
                         }
@@ -4516,29 +4524,29 @@ namespace eFormCore
 
                 await _sqlController.FileProcessed(urlStr, chechSum, _fileLocationPicture, fileName, uploadedData.Id);
 
-                if (_swiftEnabled)
-                {
-                    await log.LogStandard(methodName, $"Swift enabled, so trying to upload file {fileName}");
+//                if (_swiftEnabled || _s3Enabled)
+//                {
+                    await log.LogStandard(methodName, $"Trying to upload file {fileName}");
                     string filePath = Path.Combine(_fileLocationPicture, fileName);
                     if (File.Exists(filePath))
                     {
                         await log.LogStandard(methodName, $"File exists at path {filePath}");
-                        try
-                        {
+//                        try
+//                        {
                             await PutFileToStorageSystem(filePath, fileName);
-                        }
-                        catch (UnauthorizedAccessException)
-                        {
-                            await log.LogStandard(methodName, "Trying to reauthenticate before putting file again");
-                            _swiftClient.AuthenticateAsyncV2(_keystoneEndpoint, _swiftUserName, _swiftPassword);
-                            await PutFileToStorageSystem(filePath, fileName);                                                        
-                        }                        
+//                        }
+//                        catch (UnauthorizedAccessException)
+//                        {
+//                            await log.LogStandard(methodName, "Trying to reauthenticate before putting file again");
+//                            _swiftClient.AuthenticateAsyncV2(_keystoneEndpoint, _swiftUserName, _swiftPassword);
+//                            await PutFileToStorageSystem(filePath, fileName);                                                        
+//                        }                        
                     }
                     else
                     {
                         await log.LogWarning(methodName, $"File could not be found at filepath {filePath}");
                     }
-                }
+//                }
                 
                 return true;
             } else
@@ -4556,7 +4564,6 @@ namespace eFormCore
             };
 
             return await _s3Client.GetObjectAsync(request);
-//            return response;
         }
 
         public async Task<SwiftObjectGetResponse> GetFileFromSwiftStorage(string fileName)
@@ -4682,23 +4689,30 @@ namespace eFormCore
             string bucketName = await _sqlController.SettingRead(Settings.s3BucketName);
             await log.LogStandard(methodName, $"Trying to upload file {fileName} to {bucketName}");
 
-            if (!(await AmazonS3Util.DoesS3BucketExistV2Async(_s3Client, bucketName)))
+            try
             {
-                var putBucketRequest = new PutBucketRequest()
+                if (!(await AmazonS3Util.DoesS3BucketExistV2Async(_s3Client, bucketName)))
                 {
-                    BucketName = bucketName,
-                    UseClientRegion = true,
-                };
+                    var putBucketRequest = new PutBucketRequest()
+                    {
+                        BucketName = bucketName,
+                        UseClientRegion = true,
+                    };
 
-                try
-                {
-                    PutBucketResponse putBucketResponse = await _s3Client.PutBucketAsync(putBucketRequest);
-                }
-                catch (Exception ex)
-                {
-                    await log.LogWarning(methodName, $"Something went wrong, message was {ex.Message}");
+                    try
+                    {
+                        PutBucketResponse putBucketResponse = await _s3Client.PutBucketAsync(putBucketRequest);
+                    }
+                    catch (Exception ex)
+                    {
+                        await log.LogWarning(methodName, $"Something went wrong, message was {ex.Message}");
 
+                    }
                 }
+            }
+            catch (Exception ex2)
+            {
+                await log.LogWarning(methodName, $"Something went wrong, message was {ex2.Message}");
             }
             
             var fileStream = new FileStream(filePath, FileMode.Open);
