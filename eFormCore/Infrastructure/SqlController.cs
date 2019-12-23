@@ -84,7 +84,7 @@ namespace Microting.eForm.Infrastructure
             logLimit = int.Parse(SettingRead(Settings.logLimit).Result);
         }
 
-        private MicrotingDbAnySql GetContext()
+        private MicrotingDbContext GetContext()
         {
 
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
@@ -98,7 +98,7 @@ namespace Microting.eForm.Infrastructure
                 dbContextOptionsBuilder.UseSqlServer(connectionStr);
             }
             dbContextOptionsBuilder.UseLazyLoadingProxies(true);
-            return new MicrotingDbAnySql(dbContextOptionsBuilder.Options);
+            return new MicrotingDbContext(dbContextOptionsBuilder.Options);
 
         }
         #endregion

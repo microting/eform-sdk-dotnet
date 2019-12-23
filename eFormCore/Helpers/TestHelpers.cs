@@ -35,7 +35,7 @@ namespace Microting.eForm.Helpers
 {
     public class TestHelpers
     {
-        public MicrotingDbAnySql dbContext;
+        public MicrotingDbContext dbContext;
 //        private string returnXML;
 //        private string returnJSON;
         public TestHelpers()
@@ -54,7 +54,7 @@ namespace Microting.eForm.Helpers
 
             dbContext = GetContext(connectionString);
         }
-        private MicrotingDbAnySql GetContext(string connectionStr)
+        private MicrotingDbContext GetContext(string connectionStr)
         {
 
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
@@ -68,7 +68,7 @@ namespace Microting.eForm.Helpers
                 dbContextOptionsBuilder.UseSqlServer(connectionStr);
             }
             dbContextOptionsBuilder.UseLazyLoadingProxies(true);
-            return new MicrotingDbAnySql(dbContextOptionsBuilder.Options);
+            return new MicrotingDbContext(dbContextOptionsBuilder.Options);
 
         }
         #region helperMethods

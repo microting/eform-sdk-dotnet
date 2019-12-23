@@ -42,6 +42,7 @@
     <Compile Include="Dto\TemplateDto.cs" />
     <Compile Include="Dto\UnitDto.cs" />
     <Compile Include="Dto\WorkerDto.cs" />
+    <Compile Include="Handlers\AnswerCompletedHandler.cs" />
     <Compile Include="Handlers\EformDeleteFromServerHandler.cs" />
     <Compile Include="Handlers\EformParsingErrorHandler.cs" />
     <Compile Include="Handlers\EformParsedByServerHandler.cs" />
@@ -117,6 +118,8 @@
     <Compile Include="Infrastructure\Data\Entities\worker_versions.cs" />
     <Compile Include="Infrastructure\Extensions\IQueryableExtensions.cs" />
     <Compile Include="Infrastructure\Extensions\OrderedQueryableExtensions.cs" />
+    <Compile Include="Infrastructure\Factories\MicrotingDbContextFactory.cs" />
+    <Compile Include="Infrastructure\Helpers\DbContextHelper.cs" />
     <Compile Include="Infrastructure\Models\DataItem.cs" />
     <Compile Include="Infrastructure\Models\DataItemGroup.cs" />
     <Compile Include="Infrastructure\Models\Element.cs" />
@@ -130,6 +133,7 @@
     <Compile Include="Installers\RebusHandlerInstaller.cs" />
     <Compile Include="Installers\RebusInstaller.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="Messages\AnswerCompleted.cs" />
     <Compile Include="Messages\EformDeleteFromServer.cs" />
     <Compile Include="Messages\EformParsingError.cs" />
     <Compile Include="Messages\EformParsedByServer.cs" />
@@ -171,8 +175,7 @@
     <Compile Include="Migrations\20190924172326_AddingNewIndexOnCases.cs" />
     <Compile Include="Migrations\20190924172326_AddingNewIndexOnCases.Designer.cs" />
     <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
-    <Compile Include="Infrastructure\MicrotingContextInterface.cs" />
-    <Compile Include="Infrastructure\MicrotingDbAnySql.cs" />
+    <Compile Include="Infrastructure\MicrotingDbContext.cs" />
     <Compile Include="Infrastructure\SqlController.cs" />
     <Compile Include="Services\Subscriber.cs" />
     <Compile Include="Tools.cs" />

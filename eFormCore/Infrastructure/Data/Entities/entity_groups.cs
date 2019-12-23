@@ -52,7 +52,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         [StringLength(50)]
         public string Type { get; set; }
 
-        public async Task Create(MicrotingDbAnySql dbContext)
+        public async Task Create(MicrotingDbContext dbContext)
         {
            
             WorkflowState = Constants.Constants.WorkflowStates.Created;
@@ -68,7 +68,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         }
         
-        public async Task Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbContext dbContext)
         {
             entity_groups entityGroups = await dbContext.entity_groups.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -91,7 +91,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public async Task Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbContext dbContext)
         {
             
             entity_groups entityGroups = await dbContext.entity_groups.FirstOrDefaultAsync(x => x.Id == Id);

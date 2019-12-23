@@ -38,10 +38,10 @@ namespace eFormSDK.Tests
     public abstract class DbTestFixture
     {
 
-        protected MicrotingDbAnySql dbContext;
+        protected MicrotingDbContext dbContext;
         protected string ConnectionString;
 
-        private MicrotingDbAnySql GetContext(string connectionStr)
+        private MicrotingDbContext GetContext(string connectionStr)
         {
             
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
@@ -55,7 +55,7 @@ namespace eFormSDK.Tests
                 dbContextOptionsBuilder.UseSqlServer(connectionStr);          
             }
             dbContextOptionsBuilder.UseLazyLoadingProxies(true);
-            return new MicrotingDbAnySql(dbContextOptionsBuilder.Options);            
+            return new MicrotingDbContext(dbContextOptionsBuilder.Options);            
 
         }
 

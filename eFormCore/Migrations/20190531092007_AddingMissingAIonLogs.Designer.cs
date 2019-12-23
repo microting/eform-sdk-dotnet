@@ -9,7 +9,7 @@ using Microting.eForm.Infrastructure;
 
 namespace Microting.eForm.Migrations
 {
-    [DbContext(typeof(MicrotingDbAnySql))]
+    [DbContext(typeof(MicrotingDbContext))]
     [Migration("20190531092007_AddingMissingAIonLogs")]
     partial class AddingMissingAIonLogs
     {
