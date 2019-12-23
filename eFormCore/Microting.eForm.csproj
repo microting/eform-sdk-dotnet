@@ -55,6 +55,7 @@
     <Compile Include="Helpers\TestHelpereFormFromXML.cs" />
     <Compile Include="Helpers\TestHelperReturnXML.cs" />
     <Compile Include="Helpers\TestHelpers.cs" />
+    <Compile Include="Helpers\ValidationHelper.cs" />
     <Compile Include="Infrastructure\Constants\Constants.cs" />
     <Compile Include="Infrastructure\Data\Entities\answers.cs" />
     <Compile Include="Infrastructure\Data\Entities\answer_values.cs" />
