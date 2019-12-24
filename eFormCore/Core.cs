@@ -45,6 +45,7 @@ using Amazon.S3.Model;
 using Amazon.S3.Util;
 using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using Microsoft.EntityFrameworkCore;
 using Microting.eForm;
 using Microting.eForm.Communication;
 using Microting.eForm.Dto;
@@ -2927,7 +2928,10 @@ namespace eFormCore
             {
                 if (Running())
                 {
-                    return await _sqlController.GetAllTags(includeRemoved);
+                    using (var db = dbContextHelper.GetDbContext())
+                    {
+                        return await tags.GetAll(db, includeRemoved);
+                    }
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2955,7 +2959,15 @@ namespace eFormCore
             {
                 if (Running())
                 {
-                    return await _sqlController.TagCreate(name);
+                    using (MicrotingDbContext db = dbContextHelper.GetDbContext())
+                    {
+                        tags tag = new tags
+                        {
+                            Name = name
+                        };
+                        await tag.Create(db);
+                        return tag.Id;
+                    }
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2976,7 +2988,17 @@ namespace eFormCore
             {
                 if (Running())
                 {
-                    return await _sqlController.TagDelete(tagId);
+                    using (var db = dbContextHelper.GetDbContext())
+                    {
+                        tags tag = await db.tags.SingleOrDefaultAsync(x => x.Id == tagId);
+                        if (tag != null)                    
+                        {
+                            await tag.Delete(db);
+                            return true;
+                        }
+
+                        return false;
+                    }
                 }
                 else
                     throw new Exception("Core is not running");

@@ -41,111 +41,111 @@ namespace eFormSDK.Integration.Tests
 
 
         #region tag
-        [Test]
-        public async Task SQL_Tags_CreateTag_DoesCreateNewTag()
-        {
-            // Arrance
-            string tagName = "Tag1";
+//        [Test]
+//        public async Task SQL_Tags_CreateTag_DoesCreateNewTag()
+//        {
+//            // Arrance
+//            string tagName = "Tag1";
+//
+//            // Act
+//            await sut.TagCreate(tagName);
+//
+//            // Assert
+//            var tag = dbContext.tags.ToList();
+//
+//            Assert.AreEqual(tag[0].Name, tagName);
+//            Assert.AreEqual(1, tag.Count());
+//        }
 
-            // Act
-            await sut.TagCreate(tagName);
+//        [Test]
+//        public async Task SQL_Tags_DeleteTag_DoesMarkTagAsRemoved()
+//        {
+//            // Arrance
+//            string tagName = "Tag1";
+//            tags tag = new tags();
+//            tag.Name = tagName;
+//            tag.WorkflowState = Constants.WorkflowStates.Created;
+//
+//            dbContext.tags.Add(tag);
+//            await dbContext.SaveChangesAsync();
+//
+//            // Act
+//            await sut.TagDelete(tag.Id);
+//
+//            // Assert
+//            var result = dbContext.tags.AsNoTracking().ToList();
+//
+//            Assert.AreEqual(result[0].Name, tagName);
+//            Assert.AreEqual(1, result.Count());
+//            Assert.AreEqual(Constants.WorkflowStates.Removed, result[0].WorkflowState);
+//        }
 
-            // Assert
-            var tag = dbContext.tags.ToList();
+//        [Test]
+//        public async Task SQL_Tags_CreateTag_DoesRecreateRemovedTag()
+//        {
+//            // Arrance
+//            string tagName = "Tag1";
+//            tags tag = new tags();
+//            tag.Name = tagName;
+//            tag.WorkflowState = Constants.WorkflowStates.Removed;
+//
+//            dbContext.tags.Add(tag);
+//            await dbContext.SaveChangesAsync();
+//
+//            // Act
+//            await sut.TagCreate(tagName);
+//
+//            // Assert
+//            var result = dbContext.tags.AsNoTracking().ToList();
+//
+//            Assert.AreEqual(result[0].Name, tagName);
+//            Assert.AreEqual(1, result.Count());
+//            Assert.AreEqual(Constants.WorkflowStates.Created, result[0].WorkflowState);
+//        }
 
-            Assert.AreEqual(tag[0].Name, tagName);
-            Assert.AreEqual(1, tag.Count());
-        }
-
-        [Test]
-        public async Task SQL_Tags_DeleteTag_DoesMarkTagAsRemoved()
-        {
-            // Arrance
-            string tagName = "Tag1";
-            tags tag = new tags();
-            tag.Name = tagName;
-            tag.WorkflowState = Constants.WorkflowStates.Created;
-
-            dbContext.tags.Add(tag);
-            await dbContext.SaveChangesAsync();
-
-            // Act
-            await sut.TagDelete(tag.Id);
-
-            // Assert
-            var result = dbContext.tags.AsNoTracking().ToList();
-
-            Assert.AreEqual(result[0].Name, tagName);
-            Assert.AreEqual(1, result.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Removed, result[0].WorkflowState);
-        }
-
-        [Test]
-        public async Task SQL_Tags_CreateTag_DoesRecreateRemovedTag()
-        {
-            // Arrance
-            string tagName = "Tag1";
-            tags tag = new tags();
-            tag.Name = tagName;
-            tag.WorkflowState = Constants.WorkflowStates.Removed;
-
-            dbContext.tags.Add(tag);
-            await dbContext.SaveChangesAsync();
-
-            // Act
-            await sut.TagCreate(tagName);
-
-            // Assert
-            var result = dbContext.tags.AsNoTracking().ToList();
-
-            Assert.AreEqual(result[0].Name, tagName);
-            Assert.AreEqual(1, result.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Created, result[0].WorkflowState);
-        }
-
-        [Test]
-        public async Task SQL_Tags_GetAllTags_DoesReturnAllTags()
-        {
-            // Arrance
-            string tagName1 = "Tag1";
-            tags tag = new tags();
-            tag.Name = tagName1;
-            tag.WorkflowState = Constants.WorkflowStates.Removed;
-
-            dbContext.tags.Add(tag);
-            await dbContext.SaveChangesAsync();
-
-            string tagName2 = "Tag2";
-            tag = new tags();
-
-            tag.Name = tagName2;
-            tag.WorkflowState = Constants.WorkflowStates.Removed;
-
-            dbContext.tags.Add(tag);
-            await dbContext.SaveChangesAsync();
-            string tagName3 = "Tag3";
-            tag = new tags();
-
-            tag.Name = tagName3;
-            tag.WorkflowState = Constants.WorkflowStates.Removed;
-
-            dbContext.tags.Add(tag);
-            await dbContext.SaveChangesAsync();
-            //int tagId3 = await sut.TagCreate(tagName3);
-
-            // Act
-            var tags = await sut.GetAllTags(true);
-
-            // Assert
-            Assert.True(true);
-            Assert.AreEqual(3, tags.Count());
-            Assert.AreEqual(tagName1, tags[0].Name);
-            Assert.AreEqual(0, tags[0].TaggingCount);
-            Assert.AreEqual(tagName2, tags[1].Name);
-            Assert.AreEqual(0, tags[1].TaggingCount);
-            Assert.AreEqual(tagName3, tags[2].Name);
-            Assert.AreEqual(0, tags[2].TaggingCount);
-        }
+//        [Test]
+//        public async Task SQL_Tags_GetAllTags_DoesReturnAllTags()
+//        {
+//            // Arrance
+//            string tagName1 = "Tag1";
+//            tags tag = new tags();
+//            tag.Name = tagName1;
+//            tag.WorkflowState = Constants.WorkflowStates.Removed;
+//
+//            dbContext.tags.Add(tag);
+//            await dbContext.SaveChangesAsync();
+//
+//            string tagName2 = "Tag2";
+//            tag = new tags();
+//
+//            tag.Name = tagName2;
+//            tag.WorkflowState = Constants.WorkflowStates.Removed;
+//
+//            dbContext.tags.Add(tag);
+//            await dbContext.SaveChangesAsync();
+//            string tagName3 = "Tag3";
+//            tag = new tags();
+//
+//            tag.Name = tagName3;
+//            tag.WorkflowState = Constants.WorkflowStates.Removed;
+//
+//            dbContext.tags.Add(tag);
+//            await dbContext.SaveChangesAsync();
+//            //int tagId3 = await sut.TagCreate(tagName3);
+//
+//            // Act
+//            var tags = await sut.GetAllTags(true);
+//
+//            // Assert
+//            Assert.True(true);
+//            Assert.AreEqual(3, tags.Count());
+//            Assert.AreEqual(tagName1, tags[0].Name);
+//            Assert.AreEqual(0, tags[0].TaggingCount);
+//            Assert.AreEqual(tagName2, tags[1].Name);
+//            Assert.AreEqual(0, tags[1].TaggingCount);
+//            Assert.AreEqual(tagName3, tags[2].Name);
+//            Assert.AreEqual(0, tags[2].TaggingCount);
+//        }
 
         [Test]
         public async Task SQL_Tags_TemplateSetTags_DoesAssignTagToTemplate()

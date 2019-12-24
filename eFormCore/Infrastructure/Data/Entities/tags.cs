@@ -28,6 +28,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microting.eForm.Dto;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -36,30 +37,15 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public tags()
         {
             this.Taggings = new HashSet<taggings>();
-            //this.check_lists = new HashSet<check_lists>();
         }
-
-//        [Key]
-//        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int Id { get; set; }
-//
-//        public DateTime? created_at { get; set; }
-//
-//        public DateTime? updated_at { get; set; }
-
+        
         [StringLength(255)]
         public string Name { get; set; }
 
         public int? TaggingsCount { get; set; }
 
-//        public int? version { get; set; }
-//
-//        [StringLength(255)]
-//        public string workflow_state { get; set; }
-
         public virtual ICollection<taggings> Taggings { get; set; }
 
-        //public virtual ICollection<check_lists> check_lists { get; set; }
         public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
@@ -70,7 +56,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             dbContext.tags.Add(this);
             await dbContext.SaveChangesAsync();
 
-            dbContext.tag_versions.Add(MapTagVersions(this));
+            dbContext.tag_versions.Add(MapVersions(this));
             await dbContext.SaveChangesAsync();
 
         }
@@ -93,7 +79,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 tag.Version += 1;
                 tag.UpdatedAt = DateTime.Now;
 
-                dbContext.tag_versions.Add(MapTagVersions(tag));
+                dbContext.tag_versions.Add(MapVersions(tag));
                 await dbContext.SaveChangesAsync();
             }
         }
@@ -115,13 +101,30 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 tag.Version += 1;
                 tag.UpdatedAt = DateTime.Now;
 
-                dbContext.tag_versions.Add(MapTagVersions(tag));
+                dbContext.tag_versions.Add(MapVersions(tag));
                 await dbContext.SaveChangesAsync();
             }
         }
-
         
-        private tag_versions MapTagVersions(tags tags)
+        public static async Task<List<Tag>> GetAll(MicrotingDbContext dbContext, bool includeRemoved)
+        {
+            List<Tag> tags = new List<Tag>();
+            List<tags> matches = null;
+            if (!includeRemoved)
+                matches = await dbContext.tags.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToListAsync();
+            else
+                matches = await dbContext.tags.ToListAsync();
+
+            foreach (tags tag in matches)
+            {
+                Tag t = new Tag(tag.Id, tag.Name, tag.TaggingsCount);
+                tags.Add(t);
+            }
+
+            return tags;
+        }
+
+        private tag_versions MapVersions(tags tags)
         {
             tag_versions tagVer = new tag_versions();
             tagVer.WorkflowState = tags.WorkflowState;

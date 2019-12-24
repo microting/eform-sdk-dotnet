@@ -5747,33 +5747,33 @@ namespace Microting.eForm.Infrastructure
         /// <param name="includeRemoved"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<List<Tag>> GetAllTags(bool includeRemoved)
-        {
-            string methodName = "SqlController.GetAllTags";
-            List<Tag> tags = new List<Tag>();
-            try
-            {
-                using (var db = GetContext())
-                {
-                    List<tags> matches = null;
-                    if (!includeRemoved)
-                        matches = await db.tags.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToListAsync();
-                    else
-                        matches = await db.tags.ToListAsync();
-
-                    foreach (tags tag in matches)
-                    {
-                        Tag t = new Tag(tag.Id, tag.Name, tag.TaggingsCount);
-                        tags.Add(t);
-                    }
-                }
-                return tags;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
+//        public async Task<List<Tag>> GetAllTags(bool includeRemoved)
+//        {
+//            string methodName = "SqlController.GetAllTags";
+//            List<Tag> tags = new List<Tag>();
+//            try
+//            {
+//                using (var db = GetContext())
+//                {
+//                    List<tags> matches = null;
+//                    if (!includeRemoved)
+//                        matches = await db.tags.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToListAsync();
+//                    else
+//                        matches = await db.tags.ToListAsync();
+//
+//                    foreach (tags tag in matches)
+//                    {
+//                        Tag t = new Tag(tag.Id, tag.Name, tag.TaggingsCount);
+//                        tags.Add(t);
+//                    }
+//                }
+//                return tags;
+//            }
+//            catch (Exception ex)
+//            {
+//                throw new Exception(methodName + " failed", ex);
+//            }
+//        }
 
         /// <summary>
         /// Create tag with given name and saves it in DB
@@ -5781,34 +5781,34 @@ namespace Microting.eForm.Infrastructure
         /// <param name="name"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<int> TagCreate(string name)
-        {
-            string methodName = "SqlController.TagCreate";
-            try
-            {
-                using (var db = GetContext())
-                {
-                    tags tag = await db.tags.SingleOrDefaultAsync(x => x.Name == name);
-                    if (tag == null)
-                    {
-                        tag = new tags();
-                        tag.Name = name;
-                        await tag.Create(db);
-                        return tag.Id;
-                    } else
-                    {
-                        tag.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                        await tag.Update(db);
-                        return tag.Id;
-                    }                    
-                }
-                //return ;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
+//        public async Task<int> TagCreate(string name)
+//        {
+//            string methodName = "SqlController.TagCreate";
+//            try
+//            {
+//                using (var db = GetContext())
+//                {
+//                    tags tag = await db.tags.SingleOrDefaultAsync(x => x.Name == name);
+//                    if (tag == null)
+//                    {
+//                        tag = new tags();
+//                        tag.Name = name;
+//                        await tag.Create(db);
+//                        return tag.Id;
+//                    } else
+//                    {
+//                        tag.WorkflowState = Constants.Constants.WorkflowStates.Created;
+//                        await tag.Update(db);
+//                        return tag.Id;
+//                    }                    
+//                }
+//                //return ;
+//            }
+//            catch (Exception ex)
+//            {
+//                throw new Exception(methodName + " failed", ex);
+//            }
+//        }
 
         /// <summary>
         /// Deletes tag with specific id from DB
@@ -5816,26 +5816,26 @@ namespace Microting.eForm.Infrastructure
         /// <param name="tagId"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<bool> TagDelete(int tagId)
-        {
-            string methodName = "SqlController.TagDelete";
-            try
-            {
-                using (var db = GetContext())
-                {
-                    tags tag = await db.tags.SingleOrDefaultAsync(x => x.Id == tagId);
-                    if (tag != null)                    
-                    {
-                        await tag.Delete(db);
-                    }
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
+//        public async Task<bool> TagDelete(int tagId)
+//        {
+//            string methodName = "SqlController.TagDelete";
+//            try
+//            {
+//                using (var db = GetContext())
+//                {
+//                    tags tag = await db.tags.SingleOrDefaultAsync(x => x.Id == tagId);
+//                    if (tag != null)                    
+//                    {
+//                        await tag.Delete(db);
+//                    }
+//                }
+//                return true;
+//            }
+//            catch (Exception ex)
+//            {
+//                throw new Exception(methodName + " failed", ex);
+//            }
+//        }
         #endregion
 
         #region help methods
