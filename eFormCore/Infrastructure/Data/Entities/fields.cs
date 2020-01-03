@@ -39,19 +39,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             this.Children = new HashSet<fields>();
             this.FieldValues = new HashSet<field_values>();
         }
-//
-//        [Key]
-//        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int Id { get; set; }
-//
-//        [StringLength(255)]
-//        public string workflow_state { get; set; }
-//
-//        public int? version { get; set; }
-//
-//        public DateTime? created_at { get; set; }
-//
-//        public DateTime? updated_at { get; set; }
 
         public int? ParentFieldId { get; set; }
 
@@ -135,7 +122,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public virtual ICollection<field_values> FieldValues { get; set; }
 
-        public async Task Create(MicrotingDbAnySql dbContext)
+        public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             Version = 1;
@@ -151,7 +138,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         }
 
 
-        public async Task Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbContext dbContext)
         {
             fields field = await dbContext.fields.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -204,7 +191,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public async Task Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbContext dbContext)
         {
             fields field = await dbContext.fields.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -224,9 +211,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 await dbContext.SaveChangesAsync();
             }
         }
-        
-        
-        
+
         private field_versions MapFieldVersions(fields field)
         {
             field_versions fv = new field_versions();

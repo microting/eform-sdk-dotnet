@@ -60,7 +60,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         public int Version { get; set; }
 
-        public async Task Create(MicrotingDbAnySql dbContext)
+        public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             Version = 1;
@@ -75,7 +75,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             
         }
 
-        public async Task Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbContext dbContext)
         {
             notifications notification = await dbContext.notifications.SingleOrDefaultAsync(x => x.Id == Id);
 
@@ -103,7 +103,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             
         }
 
-        public async Task Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbContext dbContext)
         {
             notifications notification = await dbContext.notifications.SingleOrDefaultAsync(x => x.Id == Id);
 

@@ -8,7 +8,7 @@ using Microting.eForm.Infrastructure;
 
 namespace Microting.eForm.Migrations
 {
-    [DbContext(typeof(MicrotingDbAnySql))]
+    [DbContext(typeof(MicrotingDbContext))]
     partial class MicrotingDbAnySqlModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

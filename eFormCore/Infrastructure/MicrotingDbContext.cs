@@ -30,11 +30,11 @@ using Microting.eForm.Infrastructure.Data.Entities;
 
 namespace Microting.eForm.Infrastructure
 {
-    public partial class MicrotingDbAnySql : DbContext
+    public partial class MicrotingDbContext : DbContext
     {
-        public MicrotingDbAnySql() { }
+        public MicrotingDbContext() { }
 
-        public MicrotingDbAnySql(DbContextOptions options)
+        public MicrotingDbContext(DbContextOptions options)
           : base(options)
         {
            

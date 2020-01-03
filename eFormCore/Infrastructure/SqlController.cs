@@ -84,7 +84,7 @@ namespace Microting.eForm.Infrastructure
             logLimit = int.Parse(SettingRead(Settings.logLimit).Result);
         }
 
-        private MicrotingDbAnySql GetContext()
+        private MicrotingDbContext GetContext()
         {
 
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
@@ -98,7 +98,7 @@ namespace Microting.eForm.Infrastructure
                 dbContextOptionsBuilder.UseSqlServer(connectionStr);
             }
             dbContextOptionsBuilder.UseLazyLoadingProxies(true);
-            return new MicrotingDbAnySql(dbContextOptionsBuilder.Options);
+            return new MicrotingDbContext(dbContextOptionsBuilder.Options);
 
         }
         #endregion
@@ -4181,65 +4181,7 @@ namespace Microting.eForm.Infrastructure
             string methodName = "SqlController.EntityGroupReadSorted";
             try
             {
-                using (var db = GetContext())
-                {
-                    entity_groups eG = await db.entity_groups.SingleOrDefaultAsync(x => x.MicrotingUid == entityGroupMUId);
-
-                    if (eG == null)
-                        return null;
-
-                    List<EntityItem> lst = new List<EntityItem>();
-//                    EntityGroup rtnEG = new EntityGroup(eG.Id, eG.Name, eG.Type, eG.MicrotingUid, lst, eG.WorkflowState, eG.CreatedAt, eG.UpdatedAt);
-                    EntityGroup rtnEG = new EntityGroup
-                    {
-                        Id = eG.Id,
-                        Name = eG.Name,
-                        Type = eG.Type,
-                        MicrotingUUID = eG.MicrotingUid,
-                        EntityGroupItemLst = lst,
-                        WorkflowState = eG.WorkflowState,
-                        CreatedAt = eG.CreatedAt,
-                        UpdatedAt = eG.UpdatedAt
-                    };
-
-                    List<entity_items> eILst = null;
-
-                    if (string.IsNullOrEmpty(nameFilter))
-                    {
-                        eILst = db.entity_items.
-                            Where(x => x.EntityGroupId == eG.Id 
-                                       && x.WorkflowState != Constants.Constants.WorkflowStates.Removed 
-                                       && x.WorkflowState != Constants.Constants.WorkflowStates.FailedToSync).
-                            CustomOrderBy(sort).ToList();
-                    }
-                    else
-                    {
-                        eILst = db.entity_items.
-                            Where(x => x.EntityGroupId == eG.Id 
-                                       && x.WorkflowState != Constants.Constants.WorkflowStates.Removed 
-                                       && x.WorkflowState != Constants.Constants.WorkflowStates.FailedToSync 
-                                       && x.Name.Contains(nameFilter)).
-                            CustomOrderBy(sort).ToList();
-                    }
-
-                    if (eILst.Count > 0)
-                        foreach (entity_items item in eILst)
-                        {
-                            EntityItem eI = new EntityItem
-                            {
-                                Id = item.Id,
-                                Name = item.Name,
-                                Description = item.Description,
-                                EntityItemUId = item.EntityItemUid,
-                                MicrotingUUID = item.MicrotingUid,
-                                WorkflowState = item.WorkflowState,
-                                DisplayIndex = item.DisplayIndex
-                            };
-                            lst.Add(eI);
-                        }
-
-                    return rtnEG;
-                }
+                return await entity_groups.ReadSorted(GetContext(), entityGroupMUId, sort, nameFilter);
             }
             catch (Exception ex)
             {

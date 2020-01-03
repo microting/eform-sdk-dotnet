@@ -44,6 +44,7 @@ namespace Microting.eForm.Installers
             container.Register(Component.For<IHandleMessages<TranscribeAudioFile>>().ImplementedBy<TranscribeAudioFileHandler>().LifestyleTransient());
             container.Register(Component.For<IHandleMessages<TranscriptionCompleted>>().ImplementedBy<TranscriptionCompletedHandler>().LifestyleTransient());
             container.Register(Component.For<IHandleMessages<UnitActivated>>().ImplementedBy<UnitActivatedHandler>().LifestyleTransient());
+            container.Register(Component.For<IHandleMessages<AnswerCompleted>>().ImplementedBy<AnswerCompletedHandler>().LifestyleTransient());
         }
     }
 }

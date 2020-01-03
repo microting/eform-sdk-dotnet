@@ -40,7 +40,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public virtual sites Site { get; set; }
         public virtual survey_configurations SurveyConfiguration { get; set; }
-        public async Task Create(MicrotingDbAnySql dbContext)
+        public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             CreatedAt = DateTime.Now;
@@ -54,7 +54,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbContext dbContext)
         {
             site_survey_configurations siteSurveyConfiguration =
                 await dbContext.site_survey_configurations.FirstOrDefaultAsync(x => x.Id == Id);
@@ -77,7 +77,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public async Task Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbContext dbContext)
         {
             
             site_survey_configurations siteSurveyConfiguration =

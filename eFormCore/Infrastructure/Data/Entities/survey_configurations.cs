@@ -42,7 +42,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int TimeOut { get; set; }
 
 
-        public async Task Create(MicrotingDbAnySql dbContext)
+        public async Task Create(MicrotingDbContext dbContext)
         {
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
@@ -56,7 +56,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbContext dbContext)
         {
             survey_configurations surveyConfigurations =
                 await dbContext.survey_configurations.FirstOrDefaultAsync(x => x.Id == Id);
@@ -83,7 +83,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public async Task Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbContext dbContext)
         {
             survey_configurations surveyConfigurations =
                 await dbContext.survey_configurations.FirstOrDefaultAsync(x => x.Id == Id);

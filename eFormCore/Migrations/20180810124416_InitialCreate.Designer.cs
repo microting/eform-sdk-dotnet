@@ -32,7 +32,7 @@ using Microting.eForm.Infrastructure;
 
 namespace Microting.eForm.Migrations
 {
-    [DbContext(typeof(MicrotingDbAnySql))]
+    [DbContext(typeof(MicrotingDbContext))]
     [Migration("20180810124416_InitialCreate")]
     partial class InitialCreate
     {
