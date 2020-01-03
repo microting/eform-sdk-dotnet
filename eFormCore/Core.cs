@@ -52,6 +52,7 @@ using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
+using Microting.eForm.Infrastructure.Helpers;
 using Microting.eForm.Infrastructure.Models;
 using Microting.eForm.Infrastructure.Models.reply;
 using Microting.eForm.Installers;
@@ -82,6 +83,7 @@ namespace eFormCore
         private Subscriber _subscriber;
         private Communicator _communicator;
         private SqlController _sqlController;
+        public DbContextHelper dbContextHelper;
         private readonly Tools t = new Tools();
 
         private IWindsorContainer _container;
@@ -214,7 +216,8 @@ namespace eFormCore
                         throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
 
                     //sqlController
-                    _sqlController = new SqlController(connectionString);
+                    dbContextHelper = new DbContextHelper(connectionString);
+                    _sqlController = new SqlController(dbContextHelper);
 
                     //check settings
                     if (_sqlController.SettingCheckAll().Result.Count > 0)

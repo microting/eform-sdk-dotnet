@@ -29,6 +29,7 @@ using Microting.eForm;
 using Microting.eForm.Communication;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure;
+using Microting.eForm.Infrastructure.Helpers;
 
 namespace eFormCore
 {
@@ -45,7 +46,8 @@ namespace eFormCore
         public AdminTools(string serverConnectionString)
         {
             connectionString = serverConnectionString;
-            sqlController = new SqlController(serverConnectionString);
+            DbContextHelper dbContextHelper = new DbContextHelper(serverConnectionString);
+            sqlController = new SqlController(dbContextHelper);
             log = new Log(new CoreBase(), sqlController, 4);
         }
         #endregion
@@ -166,7 +168,8 @@ namespace eFormCore
         {
 //            try
 //            {
-                sqlController = new SqlController(connectionString);
+            DbContextHelper dbContextHelper = new DbContextHelper(connectionString);
+            sqlController = new SqlController(dbContextHelper);
 
                 if (token == null)
                     token = await sqlController.SettingRead(Settings.token);
@@ -288,7 +291,9 @@ namespace eFormCore
         {
             try
             {
-                sqlController = new SqlController(connectionString);
+                DbContextHelper dbContextHelper = new DbContextHelper(connectionString);
+                sqlController = new SqlController(dbContextHelper);
+//                sqlController = new SqlController(connectionString);
 
                 string token = await sqlController.SettingRead(Settings.token);
                 Communicator communicator = new Communicator(token, @"https://srv05.microting.com", @"https://basic.microting.com", "", "", log, "https://speechtotext.microting.com");

@@ -12,6 +12,7 @@ using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Models;
+using Microting.eForm.Infrastructure.Helpers;
 
 namespace eFormSDK.Integration.Tests
 {
@@ -27,7 +28,8 @@ namespace eFormSDK.Integration.Tests
         {
             #region Setup SettingsTableContent
 
-            SqlController sql = new SqlController(ConnectionString);
+            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
+            SqlController sql = new SqlController(dbContextHelper);
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
             await sql.SettingUpdate(Settings.firstRunDone, "true");
             await sql.SettingUpdate(Settings.knownSitesDone, "true");

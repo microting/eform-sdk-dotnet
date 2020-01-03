@@ -32,6 +32,7 @@ using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Extensions;
+using Microting.eForm.Infrastructure.Helpers;
 using Microting.eForm.Infrastructure.Models;
 using Microting.eForm.Infrastructure.Models.reply;
 //using eFormSqlController.Migrations;
@@ -48,13 +49,16 @@ namespace Microting.eForm.Infrastructure
         private List<Holder> converter = null;
         private readonly bool isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         private int logLimit = 0;
+        private readonly DbContextHelper dbContextHelper;
         #endregion
 
         #region con
-        public SqlController(string connectionString)
+        public SqlController(DbContextHelper dbContextHelper)
         {
+            this.dbContextHelper = dbContextHelper;
+//            dbContextHelper = new DbContextHelper(connectionString);
             string methodName = "SqlController.SqlController";
-            connectionStr = connectionString;          
+//            connectionStr = connectionString;          
 
             #region migrate if needed
             try
@@ -87,18 +91,19 @@ namespace Microting.eForm.Infrastructure
         private MicrotingDbContext GetContext()
         {
 
-            DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
-
-            if (connectionStr.ToLower().Contains("convert zero datetime"))
-            {
-                dbContextOptionsBuilder.UseMySql(connectionStr);
-            }
-            else
-            {
-                dbContextOptionsBuilder.UseSqlServer(connectionStr);
-            }
-            dbContextOptionsBuilder.UseLazyLoadingProxies(true);
-            return new MicrotingDbContext(dbContextOptionsBuilder.Options);
+            return dbContextHelper.GetDbContext();
+//            DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
+//
+//            if (connectionStr.ToLower().Contains("convert zero datetime"))
+//            {
+//                dbContextOptionsBuilder.UseMySql(connectionStr);
+//            }
+//            else
+//            {
+//                dbContextOptionsBuilder.UseSqlServer(connectionStr);
+//            }
+//            dbContextOptionsBuilder.UseLazyLoadingProxies(true);
+//            return new MicrotingDbContext(dbContextOptionsBuilder.Options);
 
         }
         #endregion

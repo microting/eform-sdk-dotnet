@@ -11,6 +11,7 @@ using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
+using Microting.eForm.Infrastructure.Helpers;
 
 namespace eFormSDK.Integration.Tests
 {
@@ -26,7 +27,8 @@ namespace eFormSDK.Integration.Tests
 
         public override async Task DoSetup()
         {
-            sut = new SqlController(ConnectionString);
+            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
+            SqlController sut = new SqlController(dbContextHelper);
             await sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
             await sut.SettingUpdate(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
