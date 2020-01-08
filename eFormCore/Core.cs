@@ -1126,8 +1126,8 @@ namespace eFormCore
                     await log.LogVariable(methodName, nameof(custom), custom);
 
                     #region check input
-                    DateTime start = DateTime.Parse(mainElement.StartDate.ToShortDateString());
-                    DateTime end = DateTime.Parse(mainElement.EndDate.ToShortDateString());
+                    DateTime start = DateTime.Parse(mainElement.StartDate.ToLongDateString());
+                    DateTime end = DateTime.Parse(mainElement.EndDate.ToLongDateString());
 
                     if (end < DateTime.Now)
                     {
