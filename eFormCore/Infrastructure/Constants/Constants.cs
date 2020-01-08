@@ -34,6 +34,8 @@ namespace Microting.eForm.Infrastructure.Constants
             public const string EformParsedByServer = "eform_parsed_by_server";
             public const string EformParsingError = "eform_parsing_error";
             public const string SpeechToTextCompleted = "speech_to_text_completed";
+            public const string InSightAnswerDone = "insight_answer_done";
+            public const string InSightSurveyConfigurationCreated = "insight_survey_configuration_created";
         }
 
         public static class WorkflowStates

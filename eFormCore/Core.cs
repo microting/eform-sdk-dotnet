@@ -4563,7 +4563,7 @@ namespace eFormCore
             GetObjectRequest request = new GetObjectRequest
             {
                 BucketName = await _sqlController.SettingRead(Settings.s3BucketName),
-                Key = fileName
+                Key = $"{_customerNo}/{fileName}"
             };
 
             return await _s3Client.GetObjectAsync(request);
@@ -4692,37 +4692,11 @@ namespace eFormCore
             string bucketName = await _sqlController.SettingRead(Settings.s3BucketName);
             await log.LogStandard(methodName, $"Trying to upload file {fileName} to {bucketName}");
 
-            try
-            {
-                if (!(await AmazonS3Util.DoesS3BucketExistV2Async(_s3Client, bucketName)))
-                {
-                    var putBucketRequest = new PutBucketRequest()
-                    {
-                        BucketName = bucketName,
-                        UseClientRegion = true,
-                    };
-
-                    try
-                    {
-                        PutBucketResponse putBucketResponse = await _s3Client.PutBucketAsync(putBucketRequest);
-                    }
-                    catch (Exception ex)
-                    {
-                        await log.LogWarning(methodName, $"Something went wrong, message was {ex.Message}");
-
-                    }
-                }
-            }
-            catch (Exception ex2)
-            {
-                await log.LogWarning(methodName, $"Something went wrong, message was {ex2.Message}");
-            }
-            
             var fileStream = new FileStream(filePath, FileMode.Open);
             PutObjectRequest putObjectRequest = new PutObjectRequest
             {
                 BucketName = await _sqlController.SettingRead(Settings.s3BucketName),
-                Key = fileName,
+                Key = $"{_customerNo}/{fileName}",
                 FilePath = filePath
             };
             try
@@ -4732,10 +4706,8 @@ namespace eFormCore
             catch (Exception ex)
             {
                 await log.LogWarning(methodName, $"Something went wrong, message was {ex.Message}");
-//                await _s3Client.PutBucketAsync($"{_customerNo}_uploaded_data");
             }
             
-//            if (!response.)
         }
         
         public async Task<bool> CheckStatusByMicrotingUid(int microtingUid)
