@@ -4562,8 +4562,8 @@ namespace eFormCore
         {
             GetObjectRequest request = new GetObjectRequest
             {
-                BucketName = await _sqlController.SettingRead(Settings.s3BucketName),
-                Key = $"{_customerNo}/{fileName}"
+                BucketName = $"{await _sqlController.SettingRead(Settings.s3BucketName)}/{_customerNo}",
+                Key = fileName
             };
 
             return await _s3Client.GetObjectAsync(request);
@@ -4695,8 +4695,8 @@ namespace eFormCore
             var fileStream = new FileStream(filePath, FileMode.Open);
             PutObjectRequest putObjectRequest = new PutObjectRequest
             {
-                BucketName = await _sqlController.SettingRead(Settings.s3BucketName),
-                Key = $"{_customerNo}/{fileName}",
+                BucketName = $"{await _sqlController.SettingRead(Settings.s3BucketName)}/{_customerNo}",
+                Key = fileName,
                 FilePath = filePath
             };
             try
