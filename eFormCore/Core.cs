@@ -2173,13 +2173,31 @@ namespace eFormCore
 //                            if (fieldValue.Latitude != null) {
 //                                pictureGeotags.Add(new KeyValuePair<string, string>($"{checkList.Label.Replace("&", "&amp;")} - {field.Label.Replace("&", "&amp;")}", ));
 //                            }
-                            SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName);
-                            Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
-                            var fileStream =
-                                File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
-                            swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
-                            swiftObjectGetResponse.ObjectStreamContent.CopyTo(fileStream);
-                            fileStream.Close();    
+                            if (_swiftEnabled)
+                            {
+                                SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName);
+                                Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
+                                var fileStream =
+                                    File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
+                                swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
+                                swiftObjectGetResponse.ObjectStreamContent.CopyTo(fileStream);
+                                fileStream.Close();    
+                            }
+
+                            if (_s3Enabled)
+                            {
+                                GetObjectResponse fileFromS3Storage =
+                                    await GetFileFromS3Storage(fieldValue.UploadedDataObj.FileName);
+                                Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
+                                var fileStream =
+                                    File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
+                                fileFromS3Storage.ResponseStream.CopyTo(fileStream);
+                                fileStream.Close();
+                                fileStream.Dispose();
+                                fileFromS3Storage.ResponseStream.Close();
+                                fileFromS3Storage.ResponseStream.Dispose();
+                            }
+                            
                             if (imageFieldCountList.ContainsKey($"FCount_{fieldValue.FieldId}"))
                             {
                                 imageFieldCountList[$"FCount_{fieldValue.FieldId}"] += 1;
@@ -2193,13 +2211,31 @@ namespace eFormCore
                             check_lists checkList = await _sqlController.CheckListRead((int)field.CheckListId);
                         
                             signatures.Add(new KeyValuePair<string, string>($"F_{fieldValue.FieldId}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
-                            SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName);
-                            Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
-                            var fileStream =
-                                File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
-                            swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
-                            swiftObjectGetResponse.ObjectStreamContent.CopyTo(fileStream);
-                            fileStream.Close();
+                            if (_swiftEnabled)
+                            {
+                                SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName);
+                                Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
+                                var fileStream =
+                                    File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
+                                swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
+                                swiftObjectGetResponse.ObjectStreamContent.CopyTo(fileStream);
+                                fileStream.Close();    
+                            }
+
+                            if (_s3Enabled)
+                            {
+                                GetObjectResponse fileFromS3Storage =
+                                    await GetFileFromS3Storage(fieldValue.UploadedDataObj.FileName);
+                                Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
+                                var fileStream =
+                                    File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
+                                fileFromS3Storage.ResponseStream.CopyTo(fileStream);
+                                fileStream.Close();
+                                fileStream.Dispose();
+                                fileFromS3Storage.ResponseStream.Close();
+                                fileFromS3Storage.ResponseStream.Dispose();
+                            }
+                            
                             valuePairs.Remove($"F_{field.Id}");
                         }
                         break;
