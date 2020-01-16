@@ -3,6 +3,11 @@ language: csharp
 solution: eformSDK.sln
 mono: none
 dotnet: 2.2
+branches:
+  only:
+    - master
+    - stable
+    - netcore3
 services:
 - mysql
 script:
