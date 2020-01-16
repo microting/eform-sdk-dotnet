@@ -39,6 +39,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         public int TimeOut { get; set; }
         
+        public int QuestionSetId { get; set; }
+        
         [ForeignKey("survey_configuration")]
         public int SurveyConfigurationId { get; set; }
         

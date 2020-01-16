@@ -102,6 +102,8 @@
     <Compile Include="Infrastructure\Data\Entities\site_group_versions.cs" />
     <Compile Include="Infrastructure\Data\Entities\site_survey_configurations.cs" />
     <Compile Include="Infrastructure\Data\Entities\site_survey_configuration_versions.cs" />
+    <Compile Include="Infrastructure\Data\Entities\site_tags.cs" />
+    <Compile Include="Infrastructure\Data\Entities\site_tag_versions.cs" />
     <Compile Include="Infrastructure\Data\Entities\site_versions.cs" />
     <Compile Include="Infrastructure\Data\Entities\site_workers.cs" />
     <Compile Include="Infrastructure\Data\Entities\site_worker_versions.cs" />

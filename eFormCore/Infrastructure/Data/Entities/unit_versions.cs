@@ -26,29 +26,24 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class unit_versions : BaseEntity
     {
-//        [Key]
-//        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int id { get; set; }
-
         public int? MicrotingUid { get; set; }
 
         public int? OtpCode { get; set; }
 
         public int? CustomerNo { get; set; }
 
-//        public int? version { get; set; }
-//
-//        [StringLength(255)]
-//        public string workflow_state { get; set; }
-
         public int? UnitId { get; set; }
 
-
-//        public DateTime? created_at { get; set; }
-//
-//
-//        public DateTime? updated_at { get; set; }
-
         public int? SiteId { get; set; }
+
+        public string OsVersion { get; set; }
+        
+        public string SoftwareVersion { get; set; }
+        
+        public string Manufacturer { get; set; }
+        
+        public string Model { get; set; }
+        
+        public string Note { get; set; }
     }
 }

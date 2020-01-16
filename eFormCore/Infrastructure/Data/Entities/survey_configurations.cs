@@ -41,6 +41,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         public int TimeOut { get; set; }
 
+        public int QuestionSetId { get; set; }
 
         public async Task Create(MicrotingDbContext dbContext)
         {
@@ -108,20 +109,21 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         private survey_configuration_versions MapVersions(survey_configurations surveyConfiguration)
         {
-            survey_configuration_versions surveyConfigurationVersions = new survey_configuration_versions();
+            survey_configuration_versions surveyConfigurationVersions = new survey_configuration_versions
+            {
+                SurveyConfigurationId = surveyConfiguration.Id,
+                Name = surveyConfiguration.Name,
+                Stop = surveyConfiguration.Stop,
+                Start = surveyConfiguration.Start,
+                TimeOut = surveyConfiguration.TimeOut,
+                TimeToLive = surveyConfiguration.TimeToLive,
+                Version = surveyConfiguration.Version,
+                CreatedAt = surveyConfiguration.CreatedAt,
+                UpdatedAt = surveyConfiguration.UpdatedAt,
+                WorkflowState = surveyConfiguration.WorkflowState,
+                QuestionSetId = surveyConfiguration.QuestionSetId
+            };
 
-            surveyConfigurationVersions.SurveyConfigurationId = surveyConfiguration.Id;
-            surveyConfigurationVersions.Name = surveyConfiguration.Name;
-            surveyConfigurationVersions.Stop = surveyConfiguration.Stop;
-            surveyConfigurationVersions.Start = surveyConfiguration.Start;
-            surveyConfigurationVersions.TimeOut = surveyConfiguration.TimeOut;
-            surveyConfigurationVersions.TimeToLive = surveyConfiguration.TimeToLive;
-            surveyConfigurationVersions.Version = surveyConfiguration.Version;
-            surveyConfigurationVersions.CreatedAt = surveyConfiguration.CreatedAt;
-            surveyConfigurationVersions.UpdatedAt = surveyConfiguration.UpdatedAt;
-            surveyConfigurationVersions.WorkflowState = surveyConfiguration.WorkflowState;
-
-            
             return surveyConfigurationVersions;
         }
     }

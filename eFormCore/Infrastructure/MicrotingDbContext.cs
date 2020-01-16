@@ -99,6 +99,8 @@ namespace Microting.eForm.Infrastructure
         public virtual DbSet<site_group_versions> SiteGroupVersions { get; set; }
         public virtual DbSet<site_group_sites> SiteGroupSites { get; set; }
         public virtual DbSet<site_group_site_versions> SiteGroupSiteVersions { get; set; }
+        public virtual DbSet<site_tags> SiteTags { get; set; }
+        public virtual DbSet<site_tag_versions> SiteTagVersions { get; set; }
 
         public virtual Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade ContextDatabase
         {
