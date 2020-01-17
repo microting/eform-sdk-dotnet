@@ -916,10 +916,16 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    check_list_sites checkListSites = await db.check_list_sites.SingleAsync(x => x.MicrotingUid == microtingUId);
+                    List<check_list_sites> checkListSites = await db.check_list_sites.Where(x => x.MicrotingUid == microtingUId).ToListAsync();
 
-                    await checkListSites.Delete(db);
-
+                    if (checkListSites.Count == 1)
+                    {
+                        await checkListSites.First().Delete(db);    
+                    }
+                    else
+                    {
+                        throw new Exception("There is more than one instance.");
+                    }
                 }
             }
             catch (Exception ex)

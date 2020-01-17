@@ -1607,16 +1607,19 @@ namespace eFormCore
                     }
                     catch (Exception ex)
                     {
-                        await log.LogException(methodName, "(string microtingUId) failed", ex, false);
-                        throw ex;
-                    }
-                    
-                    cDto = await _sqlController.CaseReadByMUId(microtingUId);
-                    await FireHandleCaseDeleted(cDto);
-                    await log.LogStandard(methodName, cDto.ToString() + " has been removed");
-                    return result;
-
-//                    }                    
+                        if (ex.Message == "There is more than one instance.")
+                        {
+                            cDto = await _sqlController.CaseReadByMUId(microtingUId);
+                            await FireHandleCaseDeleted(cDto);
+                            await log.LogStandard(methodName, cDto.ToString() + " has been removed");
+                            return result;        
+                        }
+                        else
+                        {
+                            await log.LogException(methodName, "(string microtingUId) failed", ex, false);
+                            throw ex;    
+                        }
+                    }                  
                 }
                 catch (Exception ex)
                 {
