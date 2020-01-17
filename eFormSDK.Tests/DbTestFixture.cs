@@ -148,6 +148,8 @@ namespace eFormSDK.Tests
             modelNames.Add("workers");
             modelNames.Add("site_versions");
             modelNames.Add("sites");
+            modelNames.Add("SiteTags");
+            modelNames.Add("SiteTagVersions");
             modelNames.Add("uploaded_data");
             modelNames.Add("uploaded_data_versions");
             modelNames.Add("field_types");
