@@ -1940,7 +1940,7 @@ namespace eFormCore
                     string jasperXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
                         + Environment.NewLine + "<root>"
                         + Environment.NewLine + "<C" + reply.Id + " case_id=\"" + caseId + "\" case_name=\"" + reply.Label + "\" serial_number=\"" + caseId + "/" + cDto.MicrotingUId + "\" check_list_status=\"approved\">"
-                        + Environment.NewLine + "<worker>" + Advanced_WorkerNameRead(reply.DoneById) + "</worker>"
+                        + Environment.NewLine + "<worker>" + await Advanced_WorkerNameRead(reply.DoneById) + "</worker>"
                         + Environment.NewLine + "<check_id>" + reply.MicrotingUId + "</check_id>"
                         + Environment.NewLine + "<date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</date>"
                         + Environment.NewLine + "<check_date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</check_date>"
