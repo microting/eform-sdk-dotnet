@@ -1446,7 +1446,7 @@ namespace eFormCore
                     await log.LogVariable(methodName, nameof(templateId), templateId);
                     await log.LogVariable(methodName, nameof(siteUId), siteUId);
 
-                    return await CaseDelete(templateId, siteUId, "");
+                    return await CaseDelete(templateId, siteUId, Constants.WorkflowStates.NotRemoved);
                 }
                 else
                     throw new Exception("Core is not running");
