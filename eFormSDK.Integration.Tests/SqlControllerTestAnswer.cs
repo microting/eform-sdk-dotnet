@@ -97,7 +97,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dbAnswer.SurveyConfigurationId, answer.SurveyConfigurationId);
             Assert.AreEqual(dbAnswer.UnitId, answer.UnitId);
             Assert.AreEqual(dbAnswer.TimeZone, answer.TimeZone);
-            Assert.AreEqual(dbAnswer.FinishedAt, answer.FinishedAt);
+            Assert.AreEqual(dbAnswer.FinishedAt.ToString(), answer.FinishedAt.ToString());
             Assert.AreEqual(dbAnswer.LanguageId, answer.LanguageId);
             Assert.AreEqual(dbAnswer.AnswerDuration, answer.AnswerDuration);
             Assert.AreEqual(dbAnswer.UtcAdjusted, answer.UtcAdjusted);
@@ -156,7 +156,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dbAnswer.SurveyConfigurationId, answer.SurveyConfigurationId);
             Assert.AreEqual(dbAnswer.UnitId, answer.UnitId);
             Assert.AreEqual(dbAnswer.TimeZone, answer.TimeZone);
-            Assert.AreEqual(dbAnswer.FinishedAt, answer.FinishedAt);
+            Assert.AreEqual(dbAnswer.FinishedAt.ToString(), answer.FinishedAt.ToString());
             Assert.AreEqual(dbAnswer.LanguageId, answer.LanguageId);
             Assert.AreEqual(dbAnswer.AnswerDuration, answer.AnswerDuration);
             Assert.AreEqual(dbAnswer.UtcAdjusted, answer.UtcAdjusted);
@@ -253,7 +253,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dbAnswer.SurveyConfigurationId, answer.SurveyConfigurationId);
             Assert.AreEqual(dbAnswer.UnitId, answer.UnitId);
             Assert.AreEqual(dbAnswer.TimeZone, answer.TimeZone);
-            Assert.AreEqual(dbAnswer.FinishedAt, answer.FinishedAt);
+            Assert.AreEqual(dbAnswer.FinishedAt.ToString(), answer.FinishedAt.ToString());
             Assert.AreEqual(dbAnswer.LanguageId, answer.LanguageId);
             Assert.AreEqual(dbAnswer.AnswerDuration, answer.AnswerDuration);
             Assert.AreEqual(dbAnswer.UtcAdjusted, answer.UtcAdjusted);
@@ -349,7 +349,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dbAnswer.SurveyConfigurationId, answer.SurveyConfigurationId);
             Assert.AreEqual(dbAnswer.UnitId, answer.UnitId);
             Assert.AreEqual(dbAnswer.TimeZone, answer.TimeZone);
-            Assert.AreEqual(dbAnswer.FinishedAt, answer.FinishedAt);
+            Assert.AreEqual(dbAnswer.FinishedAt.ToString(), answer.FinishedAt.ToString());
             Assert.AreEqual(dbAnswer.LanguageId, answer.LanguageId);
             Assert.AreEqual(dbAnswer.AnswerDuration, answer.AnswerDuration);
             Assert.AreEqual(dbAnswer.UtcAdjusted, answer.UtcAdjusted);
@@ -410,7 +410,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dbAnswer.SurveyConfigurationId, answer.SurveyConfigurationId);
             Assert.AreEqual(dbAnswer.UnitId, answer.UnitId);
             Assert.AreEqual(dbAnswer.TimeZone, answer.TimeZone);
-            Assert.AreEqual(dbAnswer.FinishedAt, answer.FinishedAt);
+            Assert.AreEqual(dbAnswer.FinishedAt.ToString(), answer.FinishedAt.ToString());
             Assert.AreEqual(dbAnswer.LanguageId, answer.LanguageId);
             Assert.AreEqual(dbAnswer.AnswerDuration, answer.AnswerDuration);
             Assert.AreEqual(dbAnswer.UtcAdjusted, answer.UtcAdjusted);
@@ -472,7 +472,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(dbAnswer.SurveyConfigurationId, answer.SurveyConfigurationId);
             Assert.AreEqual(dbAnswer.UnitId, answer.UnitId);
             Assert.AreEqual(dbAnswer.TimeZone, answer.TimeZone);
-            Assert.AreEqual(dbAnswer.FinishedAt, answer.FinishedAt);
+            Assert.AreEqual(dbAnswer.FinishedAt.ToString(), answer.FinishedAt.ToString());
             Assert.AreEqual(dbAnswer.LanguageId, answer.LanguageId);
             Assert.AreEqual(dbAnswer.AnswerDuration, answer.AnswerDuration);
             Assert.AreEqual(dbAnswer.UtcAdjusted, answer.UtcAdjusted);
