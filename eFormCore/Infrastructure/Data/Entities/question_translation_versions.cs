@@ -14,5 +14,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int QuestionTranslationId { get; set; }
 
         public virtual question_translations QuestionTranslation { get; set; }
+        
+        public int? MicrotingUid { get; set; }
     }
 }

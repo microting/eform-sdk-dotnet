@@ -12,5 +12,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         [ForeignKey("option_translation")]
         public int OptionTranslationId { get; set; }
+        
+        public int? MicrotingUid { get; set; }
     }
 }

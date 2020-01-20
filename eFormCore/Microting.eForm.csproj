@@ -189,6 +189,8 @@
     <Compile Include="Migrations\20200120093951_CleanupInSight.Designer.cs" />
     <Compile Include="Migrations\20200120164857_AddingTranslationsToInSight.cs" />
     <Compile Include="Migrations\20200120164857_AddingTranslationsToInSight.Designer.cs" />
+    <Compile Include="Migrations\20200120171433_AddingMicrotingUidToInSight.cs" />
+    <Compile Include="Migrations\20200120171433_AddingMicrotingUidToInSight.Designer.cs" />
     <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Infrastructure\MicrotingDbContext.cs" />
     <Compile Include="Infrastructure\SqlController.cs" />
