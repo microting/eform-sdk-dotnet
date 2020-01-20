@@ -912,25 +912,22 @@ namespace Microting.eForm.Infrastructure
         public async Task CaseDeleteReversed(int microtingUId)
         {
             string methodName = "SqlController.CaseDeleteReversed";
-            try
+            using (var db = GetContext())
             {
-                using (var db = GetContext())
-                {
-                    List<check_list_sites> checkListSites = await db.check_list_sites.Where(x => x.MicrotingUid == microtingUId).ToListAsync();
+                List<check_list_sites> checkListSites = await db.check_list_sites.Where(x => x.MicrotingUid == microtingUId).ToListAsync();
 
-                    if (checkListSites.Count == 1)
-                    {
-                        await checkListSites.First().Delete(db);    
-                    }
-                    else
-                    {
-                        throw new Exception("There is more than one instance.");
-                    }
+                if (!checkListSites.Any())
+                {
+                    return;
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(methodName + " failed", ex);
+                if (checkListSites.Count == 1)
+                {
+                    await checkListSites.First().Delete(db);    
+                }
+                else
+                {
+                    throw new Exception("There is more than one instance.");
+                }
             }
         }
         #endregion
