@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
@@ -39,7 +40,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         public int SurveyConfigurationId { get; set; }
         
-        public int FinishedAt { get; set; }
+        public DateTime FinishedAt { get; set; }
         
         public int QuestionSetId { get; set; }
         
@@ -49,5 +50,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         [ForeignKey("answer")]
         public int AnswerId { get; set; }
+        
+        public int? MicrotingUid { get; set; }
     }
 }

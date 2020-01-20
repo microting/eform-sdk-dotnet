@@ -42,6 +42,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int TimeOut { get; set; }
 
         public int QuestionSetId { get; set; }
+        
+        public int? MicrotingUid { get; set; }
 
         public async Task Create(MicrotingDbContext dbContext)
         {
@@ -121,7 +123,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 CreatedAt = surveyConfiguration.CreatedAt,
                 UpdatedAt = surveyConfiguration.UpdatedAt,
                 WorkflowState = surveyConfiguration.WorkflowState,
-                QuestionSetId = surveyConfiguration.QuestionSetId
+                QuestionSetId = surveyConfiguration.QuestionSetId,
+                MicrotingUid = surveyConfiguration.MicrotingUid
             };
 
             return surveyConfigurationVersions;

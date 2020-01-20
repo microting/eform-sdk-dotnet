@@ -44,5 +44,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int OptionId { get; set; }
         
         public virtual options Option { get; set; }
+        
+        public int? MicrotingUid { get; set; }
     }
 }

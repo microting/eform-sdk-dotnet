@@ -39,7 +39,11 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int SurveyConfigurationId { get; set; }
 
         public virtual sites Site { get; set; }
+        
         public virtual survey_configurations SurveyConfiguration { get; set; }
+        
+        public int? MicrotingUid { get; set; }
+        
         public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
@@ -102,15 +106,18 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         private site_survey_configuration_versions MapVersions(site_survey_configurations siteSurveyConfiguration)
         {
-            site_survey_configuration_versions siteSurveyConfigurationVersion = new site_survey_configuration_versions();
-
-            siteSurveyConfigurationVersion.SurveyConfigurationId = siteSurveyConfiguration.SurveyConfigurationId;
-            siteSurveyConfigurationVersion.SiteId = siteSurveyConfiguration.SiteId;
-            siteSurveyConfigurationVersion.SiteSurveyConfigurationId = siteSurveyConfiguration.Id;
-            siteSurveyConfigurationVersion.CreatedAt = siteSurveyConfiguration.CreatedAt;
-            siteSurveyConfigurationVersion.UpdatedAt = siteSurveyConfiguration.UpdatedAt;
-            siteSurveyConfigurationVersion.WorkflowState = siteSurveyConfiguration.WorkflowState;
-            siteSurveyConfigurationVersion.Version = siteSurveyConfiguration.Version;
+            site_survey_configuration_versions siteSurveyConfigurationVersion =
+                new site_survey_configuration_versions
+                {
+                    SurveyConfigurationId = siteSurveyConfiguration.SurveyConfigurationId,
+                    SiteId = siteSurveyConfiguration.SiteId,
+                    SiteSurveyConfigurationId = siteSurveyConfiguration.Id,
+                    CreatedAt = siteSurveyConfiguration.CreatedAt,
+                    UpdatedAt = siteSurveyConfiguration.UpdatedAt,
+                    WorkflowState = siteSurveyConfiguration.WorkflowState,
+                    Version = siteSurveyConfiguration.Version,
+                    MicrotingUid = siteSurveyConfiguration.MicrotingUid
+                };
 
             return siteSurveyConfigurationVersion;
         }

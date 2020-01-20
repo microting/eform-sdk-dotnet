@@ -43,8 +43,12 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         public int Value { get; set; }
         
+        public int? MicrotingUid { get; set; }
+        
         public virtual answers Answer { get; set; }
+        
         public virtual questions Question { get; set; }
+        
         public virtual options Option { get; set; }
 
         public async Task Create(MicrotingDbContext dbContext)
@@ -107,18 +111,19 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         }
         private answer_value_versions MapVersions(answer_values answerValue)
         {
-            answer_value_versions answerValueVersion = new answer_value_versions();
-
-            answerValueVersion.QuestionId = answerValue.QuestionId;
-            answerValueVersion.Value = answerValue.Value;
-            answerValueVersion.OptionsId = answerValue.OptionsId;
-            answerValueVersion.AnswerId = answerValue.AnswerId;
-            answerValueVersion.AnswerValueId = answerValue.Id;
-            answerValueVersion.CreatedAt = answerValue.CreatedAt;
-            answerValueVersion.Version = answerValue.Version;
-            answerValueVersion.UpdatedAt = answerValue.UpdatedAt;
-            answerValueVersion.WorkflowState = answerValue.WorkflowState;
-            
+            answer_value_versions answerValueVersion = new answer_value_versions
+            {
+                QuestionId = answerValue.QuestionId,
+                Value = answerValue.Value,
+                OptionsId = answerValue.OptionsId,
+                AnswerId = answerValue.AnswerId,
+                AnswerValueId = answerValue.Id,
+                CreatedAt = answerValue.CreatedAt,
+                Version = answerValue.Version,
+                UpdatedAt = answerValue.UpdatedAt,
+                WorkflowState = answerValue.WorkflowState,
+                MicrotingUid = answerValue.MicrotingUid
+            };
 
             return answerValueVersion;
         }

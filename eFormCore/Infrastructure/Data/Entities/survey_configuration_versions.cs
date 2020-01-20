@@ -45,5 +45,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int SurveyConfigurationId { get; set; }
         
         public virtual survey_configurations SurveyConfiguration { get; set; }
+        
+        public int? MicrotingUid { get; set; }
     }
 }

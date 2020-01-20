@@ -40,6 +40,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         [ForeignKey("answer_value")]
         public int AnswerValueId { get; set; }
         
+        public int? MicrotingUid { get; set; }
+        
         public virtual answer_values AnswerValue { get; set; }
     }
 }

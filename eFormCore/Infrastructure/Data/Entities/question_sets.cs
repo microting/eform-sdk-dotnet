@@ -40,7 +40,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int ParentId { get; set; }
         
         public bool Share { get; set; }
-
+        
+        public int? MicrotingUid { get; set; }
 
         public async Task Create(MicrotingDbContext dbContext)
         {
@@ -105,19 +106,20 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         private question_set_versions MapVersions(question_sets questionSet)
         {
-            question_set_versions questionSetVersions = new question_set_versions();
+            question_set_versions questionSetVersions = new question_set_versions
+            {
+                QuestionSetId = questionSet.Id,
+                Name = questionSet.Name,
+                Share = questionSet.Share,
+                HasChild = questionSet.HasChild,
+                PossiblyDeployed = questionSet.PosiblyDeployed,
+                Version = questionSet.Version,
+                CreatedAt = questionSet.CreatedAt,
+                UpdatedAt = questionSet.UpdatedAt,
+                WorkflowState = questionSet.WorkflowState,
+                MicrotingUid = questionSet.MicrotingUid
+            };
 
-            questionSetVersions.QuestionSetId = questionSet.Id;
-            questionSetVersions.Name = questionSet.Name;
-            questionSetVersions.Share = questionSet.Share;
-            questionSetVersions.HasChild = questionSet.HasChild;
-            questionSetVersions.PossiblyDeployed = questionSet.PosiblyDeployed;
-            questionSetVersions.Version = questionSet.Version;
-            questionSetVersions.CreatedAt = questionSet.CreatedAt;
-            questionSetVersions.UpdatedAt = questionSet.UpdatedAt;
-            questionSetVersions.WorkflowState = questionSet.WorkflowState;
-
-            
             return questionSetVersions;
         }
     }

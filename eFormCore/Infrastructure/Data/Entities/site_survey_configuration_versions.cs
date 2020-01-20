@@ -36,5 +36,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int SiteSurveyConfigurationId { get; set; }
         
         public virtual site_survey_configurations SiteSurveyConfiguration { get; set; }
+        
+        public int? MicrotingUid { get; set; }
     }
 }

@@ -65,6 +65,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int MaxDuration { get; set; }
         
         public bool ValidDisplay { get; set; }
+        
+        public int? MicrotingUid { get; set; }
 
         public virtual question_sets QuestionSet { get; set; }
         public async Task Create(MicrotingDbContext dbContext)
@@ -142,30 +144,32 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public question_versions MapVersions(questions question)
         {
-            question_versions questionVersion = new question_versions();
+            question_versions questionVersion = new question_versions
+            {
+                QuestionSetId = question.QuestionSetId,
+                Type = question.Type,
+                Image = question.Image,
+                Maximum = question.Maximum,
+                Minimum = question.Minimum,
+                Prioritised = question.Prioritised,
+                RefId = question.RefId,
+                FontSize = question.FontSize,
+                QuestionId = question.Id,
+                MaxDuration = question.MaxDuration,
+                MinDuration = question.MinDuration,
+                ImagePosition = question.ImagePosition,
+                QuestionType = question.QuestionType,
+                ValidDisplay = question.ValidDisplay,
+                QuestionIndex = question.QuestionIndex,
+                BackButtonEnabled = question.BackButtonEnabled,
+                ContinuousQuestionId = question.ContinuousQuestionId,
+                CreatedAt = question.CreatedAt,
+                Version = question.Version,
+                UpdatedAt = question.UpdatedAt,
+                WorkflowState = question.WorkflowState,
+                MicrotingUid = question.MicrotingUid
+            };
 
-            questionVersion.QuestionSetId = question.QuestionSetId;
-            questionVersion.Type = question.Type;
-            questionVersion.Image = question.Image;
-            questionVersion.Maximum = question.Maximum;
-            questionVersion.Minimum = question.Minimum;
-            questionVersion.Prioritised = question.Prioritised;
-            questionVersion.RefId = question.RefId;
-            questionVersion.FontSize = question.FontSize;
-            questionVersion.QuestionId = question.Id;
-            questionVersion.MaxDuration = question.MaxDuration;
-            questionVersion.MinDuration = question.MinDuration;
-            questionVersion.ImagePosition = question.ImagePosition;
-            questionVersion.QuestionType = question.QuestionType;
-            questionVersion.ValidDisplay = question.ValidDisplay;
-            questionVersion.QuestionIndex = question.QuestionIndex;
-            questionVersion.BackButtonEnabled = question.BackButtonEnabled;
-            questionVersion.ContinuousQuestionId = question.ContinuousQuestionId;
-            questionVersion.CreatedAt = question.CreatedAt;
-            questionVersion.Version = question.Version;
-            questionVersion.UpdatedAt = question.UpdatedAt;
-            questionVersion.WorkflowState = question.WorkflowState;
-            
             return questionVersion;
         }
     }

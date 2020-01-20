@@ -61,7 +61,7 @@ namespace eFormSDK.Tests
              
              answers answer = new answers();
              answer.AnswerDuration = rnd.Next(1, 255);
-             answer.FinishedAt = rnd.Next(1, 255);
+             answer.FinishedAt = DateTime.Now;
              answer.LanguageId = language.Id;
              answer.QuestionSetId = questionSet.Id;
              answer.SiteId = site.Id;
@@ -217,7 +217,7 @@ namespace eFormSDK.Tests
              
              answers answer = new answers();
              answer.AnswerDuration = rnd.Next(1, 255);
-             answer.FinishedAt = rnd.Next(1, 255);
+             answer.FinishedAt = DateTime.Now;
              answer.LanguageId = language.Id;
              answer.SiteId = site.Id;
              answer.TimeZone = Guid.NewGuid().ToString();
@@ -390,7 +390,7 @@ namespace eFormSDK.Tests
              
              answers answer = new answers();
              answer.AnswerDuration = rnd.Next(1, 255);
-             answer.FinishedAt = rnd.Next(1, 255);
+             answer.FinishedAt = DateTime.Now;
              answer.LanguageId = language.Id;
              answer.SiteId = site.Id;
              answer.SurveyConfiguration = surveyConfiguration;

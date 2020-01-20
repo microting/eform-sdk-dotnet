@@ -47,7 +47,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         [ForeignKey("survey_configuration")]
         public int SurveyConfigurationId { get; set; }
         
-        public int FinishedAt { get; set; }
+        public DateTime FinishedAt { get; set; }
         
         [ForeignKey("question_set")]
         public int QuestionSetId { get; set; }
@@ -65,6 +65,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual survey_configurations SurveyConfiguration { get; set; }
         
         public virtual question_sets QuestionSet { get; set; }
+        
+        public int? MicrotingUid { get; set; }
 
         public async Task Create(MicrotingDbContext dbContext)
         {
@@ -131,23 +133,25 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         private answer_versions MapVersions(answers answer)
         {
-            answer_versions answerVersion = new answer_versions();
+            answer_versions answerVersion = new answer_versions
+            {
+                SiteId = answer.SiteId,
+                UnitId = answer.UnitId,
+                AnswerId = answer.Id,
+                TimeZone = answer.TimeZone,
+                FinishedAt = answer.FinishedAt,
+                LanguageId = answer.LanguageId,
+                AnswerDuration = answer.AnswerDuration,
+                QuestionSetId = answer.QuestionSetId,
+                SurveyConfigurationId = answer.SurveyConfigurationId,
+                UtcAdjusted = answer.UtcAdjusted,
+                MicrotingUid = answer.MicrotingUid,
+                UpdatedAt = answer.UpdatedAt,
+                CreatedAt = answer.CreatedAt,
+                Version = answer.Version,
+                WorkflowState = answer.WorkflowState
+            };
 
-            answerVersion.SiteId = answer.SiteId;
-            answerVersion.UnitId = answer.UnitId;
-            answerVersion.AnswerId = answer.Id;
-            answerVersion.TimeZone = answer.TimeZone;
-            answerVersion.FinishedAt = answer.FinishedAt;
-            answerVersion.LanguageId = answer.LanguageId;
-            answerVersion.AnswerDuration = answer.AnswerDuration;
-            answerVersion.QuestionSetId = answer.QuestionSetId;
-            answerVersion.SurveyConfigurationId = answer.SurveyConfigurationId;
-            answerVersion.UtcAdjusted = answer.UtcAdjusted;
-            answerVersion.UpdatedAt = answer.UpdatedAt;
-            answerVersion.CreatedAt = answer.CreatedAt;
-            answerVersion.Version = answer.Version;
-            answerVersion.WorkflowState = answer.WorkflowState;
-            
             return answerVersion;
         }
     }

@@ -84,7 +84,7 @@ namespace eFormSDK.Tests
              
              answers answer = new answers();
              answer.AnswerDuration = rnd.Next(1, 255);
-             answer.FinishedAt = rnd.Next(1, 255);
+             answer.FinishedAt = DateTime.Now;
              answer.LanguageId = language.Id;
              answer.Language = language;
              answer.SiteId = site.Id;
@@ -188,7 +188,7 @@ namespace eFormSDK.Tests
              
              answers answer = new answers();
              answer.AnswerDuration = rnd.Next(1, 255);
-             answer.FinishedAt = rnd.Next(1, 255);
+             answer.FinishedAt = DateTime.Now;
              answer.LanguageId = language.Id;
              answer.SiteId = site.Id;
              answer.SurveyConfiguration = surveyConfiguration;
@@ -203,12 +203,12 @@ namespace eFormSDK.Tests
 
             DateTime? oldUpdatedAt = answer.UpdatedAt;
             int oldAnswerDuration = answer.AnswerDuration;
-            int oldFinishedAt = answer.FinishedAt;
+            DateTime oldFinishedAt = answer.FinishedAt;
             string oldTimeZone = answer.TimeZone;
             bool oldUtcAdjusted = answer.UtcAdjusted;
             
             answer.AnswerDuration = rnd.Next(1, 255);
-            answer.FinishedAt = rnd.Next(1, 255);
+            answer.FinishedAt = DateTime.Now;
             answer.TimeZone = Guid.NewGuid().ToString();
             answer.UtcAdjusted = randomBool;
             
@@ -316,7 +316,7 @@ namespace eFormSDK.Tests
              
              answers answer = new answers();
              answer.AnswerDuration = rnd.Next(1, 255);
-             answer.FinishedAt = rnd.Next(1, 255);
+             answer.FinishedAt = DateTime.Now;
              answer.LanguageId = language.Id;
              answer.SiteId = site.Id;
              answer.TimeZone = Guid.NewGuid().ToString();

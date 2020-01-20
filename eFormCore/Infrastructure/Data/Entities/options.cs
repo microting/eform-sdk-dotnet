@@ -46,6 +46,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int OptionsIndex { get; set; }
         
         public virtual questions Question { get; set; }
+        
+        public int? MicrotingUid { get; set; }
 
         public async Task Create(MicrotingDbContext dbContext)
         {
@@ -113,20 +115,22 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         private option_versions MapVersions(options option)
         {
-            option_versions optionVersions = new option_versions();
-
-            optionVersions.QuestionId = option.QuestionId;
-            optionVersions.Weight = option.Weight;
-            optionVersions.WeightValue = option.WeightValue;
-            optionVersions.NextQuestionId = option.NextQuestionId;
-            optionVersions.ContinuousOptionId = option.ContinuousOptionId;
-            optionVersions.OptionsIndex = option.OptionsIndex;
-            optionVersions.OptionId = option.Id;
-            optionVersions.CreatedAt = option.CreatedAt;
-            optionVersions.Version = option.Version;
-            optionVersions.UpdatedAt = option.UpdatedAt;
-            optionVersions.WorkflowState = option.WorkflowState;
-
+            option_versions optionVersions = new option_versions
+            {
+                QuestionId = option.QuestionId,
+                Weight = option.Weight,
+                WeightValue = option.WeightValue,
+                NextQuestionId = option.NextQuestionId,
+                ContinuousOptionId = option.ContinuousOptionId,
+                OptionsIndex = option.OptionsIndex,
+                OptionId = option.Id,
+                CreatedAt = option.CreatedAt,
+                Version = option.Version,
+                UpdatedAt = option.UpdatedAt,
+                WorkflowState = option.WorkflowState,
+                MicrotingUid = option.MicrotingUid
+            };
+            
             return optionVersions;
 
         }

@@ -179,6 +179,8 @@
     <Compile Include="Migrations\20190924172326_AddingNewIndexOnCases.Designer.cs" />
     <Compile Include="Migrations\20200116074236_AddingSiteTaggins.cs" />
     <Compile Include="Migrations\20200116074236_AddingSiteTaggins.Designer.cs" />
+    <Compile Include="Migrations\20200120093951_CleanupInSight.cs" />
+    <Compile Include="Migrations\20200120093951_CleanupInSight.Designer.cs" />
     <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Infrastructure\MicrotingDbContext.cs" />
     <Compile Include="Infrastructure\SqlController.cs" />

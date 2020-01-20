@@ -81,7 +81,7 @@ namespace eFormSDK.Integration.Tests
             answer.SurveyConfigurationId = surveyConfiguration.Id;
             answer.UnitId = unit1.Id;
             answer.TimeZone = Guid.NewGuid().ToString();
-            answer.FinishedAt = rnd.Next(1, 255);
+            answer.FinishedAt = DateTime.Now;
             answer.LanguageId = language.Id;
             answer.AnswerDuration = rnd.Next(1, 255);
             answer.UtcAdjusted = true;
@@ -191,7 +191,7 @@ namespace eFormSDK.Integration.Tests
             answer.SurveyConfigurationId = surveyConfiguration.Id;
             answer.UnitId = unit1.Id;
             answer.TimeZone = Guid.NewGuid().ToString();
-            answer.FinishedAt = rnd.Next(1, 255);
+            answer.FinishedAt = DateTime.Now;
             answer.LanguageId = language.Id;
             answer.AnswerDuration = rnd.Next(1, 255);
             answer.UtcAdjusted = true;
@@ -244,7 +244,7 @@ namespace eFormSDK.Integration.Tests
             answer2.SurveyConfigurationId = surveyConfiguration.Id;
             answer2.UnitId = unit1.Id;
             answer2.TimeZone = Guid.NewGuid().ToString();
-            answer2.FinishedAt = rnd.Next(1, 255);
+            answer2.FinishedAt = DateTime.Now;
             answer2.LanguageId = language.Id;
             answer2.AnswerDuration = rnd.Next(1, 255);
             answer2.UtcAdjusted = true;
@@ -361,7 +361,7 @@ namespace eFormSDK.Integration.Tests
             answer.SurveyConfigurationId = surveyConfiguration.Id;
             answer.UnitId = unit1.Id;
             answer.TimeZone = Guid.NewGuid().ToString();
-            answer.FinishedAt = rnd.Next(1, 255);
+            answer.FinishedAt = DateTime.Now;
             answer.LanguageId = language.Id;
             answer.AnswerDuration = rnd.Next(1, 255);
             answer.UtcAdjusted = true;
