@@ -24,6 +24,7 @@ SOFTWARE.
 
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -69,6 +70,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int? MicrotingUid { get; set; }
 
         public virtual question_sets QuestionSet { get; set; }
+
+        public virtual ICollection<question_translations> QuestionTranslationses { get; set; }
+        
         public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;

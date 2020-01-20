@@ -63,16 +63,22 @@ namespace Microting.eForm.Infrastructure
         public virtual DbSet<fields> fields { get; set; }
         public virtual DbSet<languages> languages { get; set; }
         public virtual DbSet<language_versions> language_versions { get; set; }
+        public virtual DbSet<language_question_sets> LanguageQuestionSets { get; set; }
+        public virtual DbSet<language_question_set_versions> LanguageQuestionSetVersions { get; set; }
         public virtual DbSet<log_exceptions> log_exceptions { get; set; }
         public virtual DbSet<logs> logs { get; set; }
         public virtual DbSet<notifications> notifications { get; set; }
         public virtual DbSet<notification_versions> notification_versions { get; set; }
         public virtual DbSet<options> options { get; set; }
         public virtual DbSet<option_versions> option_versions { get; set; }
+        public virtual DbSet<option_translations> OptionTranslations { get; set; }
+        public virtual DbSet<option_translation_versions> OptionTranslationVersions { get; set; }
         public virtual DbSet<question_sets> question_sets { get; set; }
         public virtual DbSet<question_set_versions> question_set_versions { get; set; }
         public virtual DbSet<questions> questions { get; set; }
         public virtual DbSet<question_versions> question_versions { get; set; }
+        public virtual DbSet<question_translations> QuestionTranslations { get; set; }
+        public virtual DbSet<question_translation_versions> QuestionTranslationVersions { get; set; }
         public virtual DbSet<settings> settings { get; set; }
         public virtual DbSet<setting_versions> setting_versions { get; set; }
         public virtual DbSet<site_survey_configurations> site_survey_configurations { get; set; }

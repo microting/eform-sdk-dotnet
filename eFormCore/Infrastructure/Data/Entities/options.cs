@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -48,6 +49,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual questions Question { get; set; }
         
         public int? MicrotingUid { get; set; }
+
+        public virtual ICollection<option_translations> OptionTranslationses { get; set; }
 
         public async Task Create(MicrotingDbContext dbContext)
         {
