@@ -133,7 +133,12 @@ namespace Microting.eForm.Helpers
                 if (fieldValue.Value != null)
                 {  
                     Regex regexText = new Regex(fieldValue.Key);
-                    docText = regexText.Replace(docText, fieldValue.Value);  
+                    docText = regexText.Replace(docText, fieldValue.Value
+                        .Replace("&", "&amp;")
+                        .Replace("<", "&lt;")
+                        .Replace(">", "&gt;")
+                        .Replace("\"", "&quote;")
+                        .Replace("'", "&apos;"));  
                 }
                 else
                 {
