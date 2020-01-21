@@ -173,7 +173,7 @@ namespace eFormSDK.Tests
             // Assert
             Assert.NotNull(siteTags);
             Assert.NotNull(siteTagVersions);
-
+            
             Assert.AreEqual(siteTag.SiteId, siteTags[0].SiteId);
             Assert.AreEqual(siteTag.TagId, siteTags[0].TagId);
             Assert.AreEqual(siteTag.WorkflowState, Constants.WorkflowStates.Removed);

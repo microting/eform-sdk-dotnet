@@ -116,7 +116,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 MicrotingUid = questionTranslations.MicrotingUid,
                 LanguageId = questionTranslations.LanguageId,
                 QuestionId = questionTranslations.QuestionId,
-                Name = questionTranslations.Name
+                Name = questionTranslations.Name,
+                QuestionTranslationId = questionTranslations.Id
             };
         }
     }

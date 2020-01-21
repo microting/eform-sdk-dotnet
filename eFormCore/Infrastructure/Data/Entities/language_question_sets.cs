@@ -114,7 +114,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 Version = languageQuestionSets.Version,
                 MicrotingUid = languageQuestionSets.MicrotingUid,
                 LanguageId = languageQuestionSets.LanguageId,
-                QuestionSetId = languageQuestionSets.QuestionSetId
+                QuestionSetId = languageQuestionSets.QuestionSetId,
+                LanguageQuestionSetId = languageQuestionSets.Id
             };
         }
     }

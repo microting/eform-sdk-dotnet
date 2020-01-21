@@ -169,6 +169,12 @@ namespace eFormSDK.Tests
             modelNames.Add("answer_versions");
             modelNames.Add("answer_values");
             modelNames.Add("answer_value_versions");
+            modelNames.Add("QuestionTranslations");
+            modelNames.Add("QuestionTranslationVersions");
+            modelNames.Add("OptionTranslations");
+            modelNames.Add("OptionTranslationVersions");
+            modelNames.Add("LanguageQuestionSets");
+            modelNames.Add("LanguageQuestionSetVersions");
 
             foreach (var modelName in modelNames)
             {
