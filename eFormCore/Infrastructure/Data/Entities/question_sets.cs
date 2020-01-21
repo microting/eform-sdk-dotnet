@@ -46,6 +46,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         public virtual ICollection<language_question_sets> LanguageQuestionSetses { get; set; }
         
+        public virtual ICollection<questions> Questions { get; set; }
+        
         public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;

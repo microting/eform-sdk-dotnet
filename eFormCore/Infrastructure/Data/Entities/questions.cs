@@ -73,6 +73,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public virtual ICollection<question_translations> QuestionTranslationses { get; set; }
         
+        public virtual ICollection<options> Options { get; set; }
+        
         public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
