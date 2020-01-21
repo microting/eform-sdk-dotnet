@@ -31,6 +31,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int ParentId { get; set; }
         
         public int SiteGroupId { get; set; }
-        
     }
 }

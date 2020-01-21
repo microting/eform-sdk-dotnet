@@ -33,19 +33,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class check_list_sites : BaseEntity
     {
-//        [Key]
-//        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int Id { get; set; }
-//
-//        [StringLength(255)]
-//        public string workflow_state { get; set; }
-//
-//        public int? version { get; set; }
-//
-//        public DateTime? created_at { get; set; }
-//
-//        public DateTime? updated_at { get; set; }
-
         [ForeignKey("site")]
         public int? SiteId { get; set; }
 
@@ -59,8 +46,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual sites Site { get; set; }
 
         public virtual check_lists CheckList { get; set; }
-
-
+        
         public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
@@ -73,7 +59,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             dbContext.check_list_site_versions.Add(MapCheckListSiteVersions(this));
             await dbContext.SaveChangesAsync();
-
         }
 
         public async Task Update(MicrotingDbContext dbContext)
@@ -89,8 +74,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             checkListSites.CheckListId = CheckListId;
             checkListSites.MicrotingUid = MicrotingUid;
             checkListSites.LastCheckId = LastCheckId;
-
-
+            
             if (dbContext.ChangeTracker.HasChanges())
             {
                 checkListSites.Version += 1;
@@ -98,7 +82,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
                 dbContext.check_list_site_versions.Add(MapCheckListSiteVersions(checkListSites));
                 await dbContext.SaveChangesAsync();
-                
             }
         }
 
@@ -120,25 +103,23 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
                 dbContext.check_list_site_versions.Add(MapCheckListSiteVersions(checkListSites));
                 await dbContext.SaveChangesAsync();
-                
             }
         }
         
         private check_list_site_versions MapCheckListSiteVersions(check_list_sites checkListSite)
         {
-            check_list_site_versions checkListSiteVer = new check_list_site_versions();
-            checkListSiteVer.CheckListId = checkListSite.CheckListId;
-            checkListSiteVer.CreatedAt = checkListSite.CreatedAt;
-            checkListSiteVer.UpdatedAt = checkListSite.UpdatedAt;
-            checkListSiteVer.LastCheckId = checkListSite.LastCheckId;
-            checkListSiteVer.MicrotingUid = checkListSite.MicrotingUid;
-            checkListSiteVer.SiteId = checkListSite.SiteId;
-            checkListSiteVer.Version = checkListSite.Version;
-            checkListSiteVer.WorkflowState = checkListSite.WorkflowState;
-
-            checkListSiteVer.CheckListSiteId = checkListSite.Id; //<<--
-
-            return checkListSiteVer;
+            return new check_list_site_versions
+            {
+                CheckListId = checkListSite.CheckListId,
+                CreatedAt = checkListSite.CreatedAt,
+                UpdatedAt = checkListSite.UpdatedAt,
+                LastCheckId = checkListSite.LastCheckId,
+                MicrotingUid = checkListSite.MicrotingUid,
+                SiteId = checkListSite.SiteId,
+                Version = checkListSite.Version,
+                WorkflowState = checkListSite.WorkflowState,
+                CheckListSiteId = checkListSite.Id
+            };
         }
     }
 }

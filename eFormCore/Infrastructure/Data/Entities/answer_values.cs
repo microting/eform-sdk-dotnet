@@ -111,7 +111,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         }
         private answer_value_versions MapVersions(answer_values answerValue)
         {
-            answer_value_versions answerValueVersion = new answer_value_versions
+            return new answer_value_versions
             {
                 QuestionId = answerValue.QuestionId,
                 Value = answerValue.Value,
@@ -124,8 +124,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 WorkflowState = answerValue.WorkflowState,
                 MicrotingUid = answerValue.MicrotingUid
             };
-
-            return answerValueVersion;
         }
     }
 }

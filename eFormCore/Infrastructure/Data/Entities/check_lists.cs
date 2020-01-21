@@ -41,19 +41,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             this.Fields = new HashSet<fields>();
             this.Taggings = new HashSet<taggings>();
         }
-//
-//        [Key]
-//        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int Id { get; set; }
-//
-//        [StringLength(255)]
-//        public string workflow_state { get; set; }
-//
-//        public int? version { get; set; }
-//
-//        public DateTime? created_at { get; set; }
-//
-//        public DateTime? updated_at { get; set; }
 
         public string Label { get; set; }
 
@@ -215,52 +202,49 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 dbContext.check_list_versions.Add(MapCheckListVersions(checkList));
                 await dbContext.SaveChangesAsync();
             }
-            
         }
         
         private check_list_versions MapCheckListVersions(check_lists checkList)
         {
-            check_list_versions clv = new check_list_versions();
-            clv.CreatedAt = checkList.CreatedAt;
-            clv.UpdatedAt = checkList.UpdatedAt;
-            clv.Label = checkList.Label;
-            clv.Description = checkList.Description;
-            clv.Custom = checkList.Custom;
-            clv.WorkflowState = checkList.WorkflowState;
-            clv.ParentId = checkList.ParentId;
-            clv.Repeated = checkList.Repeated;
-            clv.Version = checkList.Version;
-            clv.CaseType = checkList.CaseType;
-            clv.FolderName = checkList.FolderName;
-            clv.DisplayIndex = checkList.DisplayIndex;
-            clv.ReviewEnabled = checkList.ReviewEnabled;
-            clv.ManualSync = checkList.ManualSync;
-            clv.ExtraFieldsEnabled = checkList.ExtraFieldsEnabled;
-            clv.DoneButtonEnabled = checkList.DoneButtonEnabled;
-            clv.ApprovalEnabled = checkList.ApprovalEnabled;
-            clv.MultiApproval = checkList.MultiApproval;
-            clv.FastNavigation = checkList.FastNavigation;
-            clv.DownloadEntities = checkList.DownloadEntities;
-            clv.Field1 = checkList.Field1;
-            clv.Field2 = checkList.Field2;
-            clv.Field3 = checkList.Field3;
-            clv.Field4 = checkList.Field4;
-            clv.Field5 = checkList.Field5;
-            clv.Field6 = checkList.Field6;
-            clv.Field7 = checkList.Field7;
-            clv.Field8 = checkList.Field8;
-            clv.Field9 = checkList.Field9;
-            clv.Field10 = checkList.Field10;
-            clv.Color = checkList.Color;
-            clv.QuickSyncEnabled = checkList.QuickSyncEnabled;
-            clv.OriginalId = checkList.OriginalId;
-            clv.JasperExportEnabled = checkList.JasperExportEnabled;
-            clv.DocxExportEnabled = checkList.DocxExportEnabled;
-
-            clv.CheckListId = checkList.Id; //<<--
-
-            return clv;
+            return new check_list_versions
+            {
+                CreatedAt = checkList.CreatedAt,
+                UpdatedAt = checkList.UpdatedAt,
+                Label = checkList.Label,
+                Description = checkList.Description,
+                Custom = checkList.Custom,
+                WorkflowState = checkList.WorkflowState,
+                ParentId = checkList.ParentId,
+                Repeated = checkList.Repeated,
+                Version = checkList.Version,
+                CaseType = checkList.CaseType,
+                FolderName = checkList.FolderName,
+                DisplayIndex = checkList.DisplayIndex,
+                ReviewEnabled = checkList.ReviewEnabled,
+                ManualSync = checkList.ManualSync,
+                ExtraFieldsEnabled = checkList.ExtraFieldsEnabled,
+                DoneButtonEnabled = checkList.DoneButtonEnabled,
+                ApprovalEnabled = checkList.ApprovalEnabled,
+                MultiApproval = checkList.MultiApproval,
+                FastNavigation = checkList.FastNavigation,
+                DownloadEntities = checkList.DownloadEntities,
+                Field1 = checkList.Field1,
+                Field2 = checkList.Field2,
+                Field3 = checkList.Field3,
+                Field4 = checkList.Field4,
+                Field5 = checkList.Field5,
+                Field6 = checkList.Field6,
+                Field7 = checkList.Field7,
+                Field8 = checkList.Field8,
+                Field9 = checkList.Field9,
+                Field10 = checkList.Field10,
+                Color = checkList.Color,
+                QuickSyncEnabled = checkList.QuickSyncEnabled,
+                OriginalId = checkList.OriginalId,
+                JasperExportEnabled = checkList.JasperExportEnabled,
+                DocxExportEnabled = checkList.DocxExportEnabled,
+                CheckListId = checkList.Id
+            };
         }
-
     }
 }

@@ -38,6 +38,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual sites Site { get; set; }
         
         public virtual site_groups SiteGroup { get; set; }
-        
     }
 }

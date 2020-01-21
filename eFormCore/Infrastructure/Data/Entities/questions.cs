@@ -148,7 +148,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public question_versions MapVersions(questions question)
         {
-            question_versions questionVersion = new question_versions
+            return new question_versions
             {
                 QuestionSetId = question.QuestionSetId,
                 Type = question.Type,
@@ -173,8 +173,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 WorkflowState = question.WorkflowState,
                 MicrotingUid = question.MicrotingUid
             };
-
-            return questionVersion;
         }
     }
 }

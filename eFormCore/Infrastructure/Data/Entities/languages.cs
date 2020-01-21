@@ -95,18 +95,16 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         private language_versions MapVersions(languages language)
         {
-            language_versions languageVersions = new language_versions();
-
-            languageVersions.LanguageId = language.Id;
-            languageVersions.Name = language.Name;
-            languageVersions.Description = language.Description;
-            languageVersions.Version = language.Version;
-            languageVersions.CreatedAt = language.CreatedAt;
-            languageVersions.UpdatedAt = language.UpdatedAt;
-            languageVersions.WorkflowState = language.WorkflowState;
-
-            
-            return languageVersions;
+            return new language_versions
+            {
+                LanguageId = language.Id,
+                Name = language.Name,
+                Description = language.Description,
+                Version = language.Version,
+                CreatedAt = language.CreatedAt,
+                UpdatedAt = language.UpdatedAt,
+                WorkflowState = language.WorkflowState
+            };
         }
     }
 }

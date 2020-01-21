@@ -134,7 +134,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             dbContext.field_versions.Add(MapFieldVersions(this));
             await dbContext.SaveChangesAsync();
-
         }
 
 
@@ -179,8 +178,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             field.Custom = Custom;
             field.EntityGroupId = EntityGroupId;
             field.OriginalId = OriginalId;
-
-
+            
             if (dbContext.ChangeTracker.HasChanges())
             {
                 field.Version += 1;
@@ -214,49 +212,46 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         private field_versions MapFieldVersions(fields field)
         {
-            field_versions fv = new field_versions();
-
-            fv.Version = field.Version;
-            fv.CreatedAt = field.CreatedAt;
-            fv.UpdatedAt = field.UpdatedAt;
-            fv.Custom = field.Custom;
-            fv.WorkflowState = field.WorkflowState;
-            fv.CheckListId = field.CheckListId;
-            fv.Label = field.Label;
-            fv.Description = field.Description;
-            fv.FieldTypeId = field.FieldTypeId;
-            fv.DisplayIndex = field.DisplayIndex;
-            fv.Dummy = field.Dummy;
-            fv.ParentFieldId = field.ParentFieldId;
-            fv.Optional = field.Optional;
-            fv.Multi = field.Multi;
-            fv.DefaultValue = field.DefaultValue;
-            fv.Selected = field.Selected;
-            fv.MinValue = field.MinValue;
-            fv.MaxValue = field.MaxValue;
-            fv.MaxLength = field.MaxLength;
-            fv.SplitScreen = field.SplitScreen;
-            fv.DecimalCount = field.DecimalCount;
-            fv.UnitName = field.UnitName;
-            fv.KeyValuePairList = field.KeyValuePairList;
-            fv.GeolocationEnabled = field.GeolocationEnabled;
-            fv.GeolocationForced = field.GeolocationForced;
-            fv.GeolocationHidden = field.GeolocationHidden;
-            fv.StopOnSave = field.StopOnSave;
-            fv.Mandatory = field.Mandatory;
-            fv.ReadOnly = field.ReadOnly;
-            fv.Color = field.Color;
-            fv.IsNum = field.IsNum;
-            fv.OriginalId = field.OriginalId;
-            fv.BarcodeEnabled = field.BarcodeEnabled;
-            fv.BarcodeType = field.BarcodeType;
-            fv.QueryType = field.QueryType;
-            fv.EntityGroupId = field.EntityGroupId;
-
-            fv.FieldId = field.Id; //<<--
-
-            return fv;
+            return new field_versions
+            {
+                Version = field.Version,
+                CreatedAt = field.CreatedAt,
+                UpdatedAt = field.UpdatedAt,
+                Custom = field.Custom,
+                WorkflowState = field.WorkflowState,
+                CheckListId = field.CheckListId,
+                Label = field.Label,
+                Description = field.Description,
+                FieldTypeId = field.FieldTypeId,
+                DisplayIndex = field.DisplayIndex,
+                Dummy = field.Dummy,
+                ParentFieldId = field.ParentFieldId,
+                Optional = field.Optional,
+                Multi = field.Multi,
+                DefaultValue = field.DefaultValue,
+                Selected = field.Selected,
+                MinValue = field.MinValue,
+                MaxValue = field.MaxValue,
+                MaxLength = field.MaxLength,
+                SplitScreen = field.SplitScreen,
+                DecimalCount = field.DecimalCount,
+                UnitName = field.UnitName,
+                KeyValuePairList = field.KeyValuePairList,
+                GeolocationEnabled = field.GeolocationEnabled,
+                GeolocationForced = field.GeolocationForced,
+                GeolocationHidden = field.GeolocationHidden,
+                StopOnSave = field.StopOnSave,
+                Mandatory = field.Mandatory,
+                ReadOnly = field.ReadOnly,
+                Color = field.Color,
+                IsNum = field.IsNum,
+                OriginalId = field.OriginalId,
+                BarcodeEnabled = field.BarcodeEnabled,
+                BarcodeType = field.BarcodeType,
+                QueryType = field.QueryType,
+                EntityGroupId = field.EntityGroupId,
+                FieldId = field.Id
+            };
         }
-
     }
 }

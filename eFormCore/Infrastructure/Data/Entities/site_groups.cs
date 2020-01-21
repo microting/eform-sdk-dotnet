@@ -28,7 +28,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class site_groups : BaseEntity
     {
-        
         public site_groups()
         {            
             Children = new HashSet<site_groups>();

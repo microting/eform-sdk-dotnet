@@ -35,29 +35,17 @@ namespace Microting.eForm.Infrastructure.Data.Entities
     {
         public sites()
         {
-            this.Cases = new HashSet<cases>();
-            this.Units = new HashSet<units>();
-            this.SiteWorkers = new HashSet<site_workers>();
-            this.CheckListSites = new HashSet<check_list_sites>();
+            Cases = new HashSet<cases>();
+            Units = new HashSet<units>();
+            SiteWorkers = new HashSet<site_workers>();
+            CheckListSites = new HashSet<check_list_sites>();
+            SiteTags = new List<site_tags>();
         }
-
-//        [Key]
-//        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int Id { get; set; }
-//
-//        public DateTime? created_at { get; set; }
-//
-//        public DateTime? updated_at { get; set; }
 
         [StringLength(255)]
         public string Name { get; set; }
 
         public int? MicrotingUid { get; set; }
-
-//        public int? version { get; set; }
-//
-//        [StringLength(255)]
-//        public string workflow_state { get; set; }
 
         public virtual ICollection<cases> Cases { get; set; }
 
@@ -67,6 +55,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public virtual ICollection<check_list_sites> CheckListSites { get; set; }
 
+        public virtual ICollection<site_tags> SiteTags { get; set; }
 
         public async Task Create(MicrotingDbContext dbContext)
         {
@@ -80,7 +69,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             dbContext.site_versions.Add(MapSiteVersions(this));
             await dbContext.SaveChangesAsync();
-            
         }
 
         public async Task Update(MicrotingDbContext dbContext)
@@ -90,25 +78,19 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             if (site == null)
             {
                 throw new NullReferenceException($"Could not find Site with Id: {Id}");
-
             }
 
             site.Name = Name;
             site.MicrotingUid = MicrotingUid;
-
-
-
+            
             if (dbContext.ChangeTracker.HasChanges())
             {
                 site.Version += 1;
                 site.UpdatedAt = DateTime.Now;
-
-
+                
                 dbContext.site_versions.Add(MapSiteVersions(site));
                 await dbContext.SaveChangesAsync();
-
             }
-           
         }
 
         public async Task Delete(MicrotingDbContext dbContext)
@@ -118,7 +100,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             if (site == null)
             {
                 throw new NullReferenceException($"Could not find Site with Id: {Id}");
-
             }
 
             site.WorkflowState = Constants.Constants.WorkflowStates.Removed;
@@ -127,28 +108,25 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             {
                 site.Version += 1;
                 site.UpdatedAt = DateTime.Now;
-
-
+                
                 dbContext.site_versions.Add(MapSiteVersions(site));
                 await dbContext.SaveChangesAsync();
 
             }
         }
-        
-        
+
         private site_versions MapSiteVersions(sites site)
         {
-            site_versions siteVer = new site_versions();
-            siteVer.WorkflowState = site.WorkflowState;
-            siteVer.Version = site.Version;
-            siteVer.CreatedAt = site.CreatedAt;
-            siteVer.UpdatedAt = site.UpdatedAt;
-            siteVer.MicrotingUid = site.MicrotingUid;
-            siteVer.Name = site.Name;
-
-            siteVer.SiteId = site.Id; //<<--
-
-            return siteVer;
+            return new site_versions
+            {
+                WorkflowState = site.WorkflowState,
+                Version = site.Version,
+                CreatedAt = site.CreatedAt,
+                UpdatedAt = site.UpdatedAt,
+                MicrotingUid = site.MicrotingUid,
+                Name = site.Name,
+                SiteId = site.Id
+            };
         }
     }
 }

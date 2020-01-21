@@ -36,30 +36,15 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public tags()
         {
             this.Taggings = new HashSet<taggings>();
-            //this.check_lists = new HashSet<check_lists>();
         }
-
-//        [Key]
-//        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int Id { get; set; }
-//
-//        public DateTime? created_at { get; set; }
-//
-//        public DateTime? updated_at { get; set; }
 
         [StringLength(255)]
         public string Name { get; set; }
 
         public int? TaggingsCount { get; set; }
 
-//        public int? version { get; set; }
-//
-//        [StringLength(255)]
-//        public string workflow_state { get; set; }
-
         public virtual ICollection<taggings> Taggings { get; set; }
 
-        //public virtual ICollection<check_lists> check_lists { get; set; }
         public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
@@ -72,7 +57,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             dbContext.tag_versions.Add(MapTagVersions(this));
             await dbContext.SaveChangesAsync();
-
         }
 
         public async Task Update(MicrotingDbContext dbContext)
@@ -123,15 +107,15 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         private tag_versions MapTagVersions(tags tags)
         {
-            tag_versions tagVer = new tag_versions();
-            tagVer.WorkflowState = tags.WorkflowState;
-            tagVer.Version = tags.Version;
-            tagVer.CreatedAt = tags.CreatedAt;
-            tagVer.UpdatedAt = tags.UpdatedAt;
-            tagVer.Name = tags.Name;
-            tagVer.TagId = tags.Id;
-
-            return tagVer;
+            return new tag_versions
+            {
+                WorkflowState = tags.WorkflowState,
+                Version = tags.Version,
+                CreatedAt = tags.CreatedAt,
+                UpdatedAt = tags.UpdatedAt,
+                Name = tags.Name,
+                TagId = tags.Id
+            };
         }
 
     }

@@ -28,7 +28,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class question_set_versions : BaseEntity
     {
-        
         public string Name { get; set; }
         
         public bool HasChild { get; set; }

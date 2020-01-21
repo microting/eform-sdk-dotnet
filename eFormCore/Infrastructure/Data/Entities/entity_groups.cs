@@ -54,7 +54,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             dbContext.entity_group_versions.Add(MapVersions(this));
             await dbContext.SaveChangesAsync();
-
         }
 
         public async Task Update(MicrotingDbContext dbContext)
@@ -100,7 +99,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 dbContext.entity_group_versions.Add(MapVersions(entityGroups));
                 await dbContext.SaveChangesAsync();
             }
-
         }
 
         public static async Task<EntityGroup> ReadSorted(MicrotingDbContext dbContext, string entityGroupMUId, string sort,
@@ -113,7 +111,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 return null;
 
             List<EntityItem> lst = new List<EntityItem>();
-//                    EntityGroup rtnEG = new EntityGroup(eG.Id, eG.Name, eG.Type, eG.MicrotingUid, lst, eG.WorkflowState, eG.CreatedAt, eG.UpdatedAt);
             EntityGroup rtnEG = new EntityGroup
             {
                 Id = eG.Id,
@@ -167,18 +164,17 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         private entity_group_versions MapVersions(entity_groups entityGroup)
         {
-            entity_group_versions entityGroupVer = new entity_group_versions();
-            entityGroupVer.CreatedAt = entityGroup.CreatedAt;
-            entityGroupVer.MicrotingUid = entityGroup.MicrotingUid;
-            entityGroupVer.Name = entityGroup.Name;
-            entityGroupVer.Type = entityGroup.Type;
-            entityGroupVer.UpdatedAt = entityGroup.UpdatedAt;
-            entityGroupVer.Version = entityGroup.Version;
-            entityGroupVer.WorkflowState = entityGroup.WorkflowState;
-
-            entityGroupVer.EntityGroupId = entityGroup.Id; //<<--
-
-            return entityGroupVer;
+            return new entity_group_versions
+            {
+                CreatedAt = entityGroup.CreatedAt,
+                MicrotingUid = entityGroup.MicrotingUid,
+                Name = entityGroup.Name,
+                Type = entityGroup.Type,
+                UpdatedAt = entityGroup.UpdatedAt,
+                Version = entityGroup.Version,
+                WorkflowState = entityGroup.WorkflowState,
+                EntityGroupId = entityGroup.Id
+            };
         }
     }
 }

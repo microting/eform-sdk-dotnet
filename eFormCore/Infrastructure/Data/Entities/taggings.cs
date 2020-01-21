@@ -99,17 +99,17 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         private tagging_versions MapTaggingVersions(taggings tagging)
         {
-            tagging_versions taggingVer = new tagging_versions();
-            taggingVer.WorkflowState = tagging.WorkflowState;
-            taggingVer.Version = tagging.Version;
-            taggingVer.CreatedAt = tagging.CreatedAt;
-            taggingVer.UpdatedAt = tagging.UpdatedAt;
-            taggingVer.CheckListId = tagging.CheckListId;
-            taggingVer.TagId = tagging.TagId;
-            taggingVer.TaggerId = tagging.TaggerId;
-            taggingVer.TaggingId = tagging.Id;
-
-            return taggingVer;
+            return new tagging_versions
+            {
+                WorkflowState = tagging.WorkflowState,
+                Version = tagging.Version,
+                CreatedAt = tagging.CreatedAt,
+                UpdatedAt = tagging.UpdatedAt,
+                CheckListId = tagging.CheckListId,
+                TagId = tagging.TagId,
+                TaggerId = tagging.TaggerId,
+                TaggingId = tagging.Id
+            };
         }
     }
 }

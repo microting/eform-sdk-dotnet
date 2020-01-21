@@ -77,7 +77,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         private site_tag_versions MapVersions(site_tags siteTags)
         {
-            site_tag_versions siteTagVersions = new site_tag_versions
+            return new site_tag_versions
             {
                 SiteId = siteTags.SiteId,
                 TagId = siteTags.TagId,
@@ -87,8 +87,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 UpdatedAt = siteTags.UpdatedAt,
                 SiteTagId = siteTags.Id
             };
-
-            return siteTagVersions;
         }
     }
 }

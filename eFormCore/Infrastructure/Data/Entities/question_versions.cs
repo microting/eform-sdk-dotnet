@@ -66,6 +66,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual questions Question { get; set; }
         
         public int? MicrotingUid { get; set; }
-        
     }
 }

@@ -109,7 +109,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         private question_set_versions MapVersions(question_sets questionSet)
         {
-            question_set_versions questionSetVersions = new question_set_versions
+            return new question_set_versions
             {
                 QuestionSetId = questionSet.Id,
                 Name = questionSet.Name,
@@ -122,8 +122,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 WorkflowState = questionSet.WorkflowState,
                 MicrotingUid = questionSet.MicrotingUid
             };
-
-            return questionSetVersions;
         }
     }
 }

@@ -32,7 +32,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class entity_items : BaseEntity
     {
-        
         public int EntityGroupId { get; set; }
 
         [StringLength(50)]
@@ -112,22 +111,21 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         private entity_item_versions MapEntityItemVersions(entity_items entityItem)
         {
-            entity_item_versions entityItemVer = new entity_item_versions();
-            entityItemVer.WorkflowState = entityItem.WorkflowState;
-            entityItemVer.Version = entityItem.Version;
-            entityItemVer.CreatedAt = entityItem.CreatedAt;
-            entityItemVer.UpdatedAt = entityItem.UpdatedAt;
-            entityItemVer.EntityItemUid = entityItem.EntityItemUid;
-            entityItemVer.MicrotingUid = entityItem.MicrotingUid;
-            entityItemVer.EntityGroupId = entityItem.EntityGroupId;
-            entityItemVer.Name = entityItem.Name;
-            entityItemVer.Description = entityItem.Description;
-            entityItemVer.Synced = entityItem.Synced;
-            entityItemVer.DisplayIndex = entityItem.DisplayIndex;
-
-            entityItemVer.EntityItemsId = entityItem.Id; //<<--
-
-            return entityItemVer;
+            return new entity_item_versions
+            {
+                WorkflowState = entityItem.WorkflowState,
+                Version = entityItem.Version,
+                CreatedAt = entityItem.CreatedAt,
+                UpdatedAt = entityItem.UpdatedAt,
+                EntityItemUid = entityItem.EntityItemUid,
+                MicrotingUid = entityItem.MicrotingUid,
+                EntityGroupId = entityItem.EntityGroupId,
+                Name = entityItem.Name,
+                Description = entityItem.Description,
+                Synced = entityItem.Synced,
+                DisplayIndex = entityItem.DisplayIndex,
+                EntityItemsId = entityItem.Id
+            };
         }
     }
 }

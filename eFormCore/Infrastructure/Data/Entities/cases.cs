@@ -33,21 +33,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class cases : BaseEntity
     {
-//        [Key]
-//        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int Id { get; set; }
-
-//        [StringLength(255)]
-//        public string workflow_state { get; set; }
-//
-//        public int? version { get; set; }
-
         public int? Status { get; set; }
-
-//        public DateTime? created_at { get; set; }
-//
-//        public DateTime? updated_at { get; set; }
-
 
         public DateTime? DoneAt { get; set; }
 
@@ -102,8 +88,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual units Unit { get; set; }
 
         public virtual workers Worker { get; set; }
-        
-            
+
         public async Task Create(MicrotingDbContext dbContext) 
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
@@ -179,43 +164,39 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 dbContext.case_versions.Add(MapVersions(cases));
                 await dbContext.SaveChangesAsync();
             }
-            
         }
         
         private case_versions MapVersions(cases aCase)
         {
-            case_versions caseVer = new case_versions();
-            caseVer.Status = aCase.Status;
-            caseVer.DoneAt = aCase.DoneAt;
-            caseVer.UpdatedAt = aCase.UpdatedAt;
-            caseVer.WorkerId = aCase.WorkerId;
-            caseVer.WorkflowState = aCase.WorkflowState;
-            caseVer.Version = aCase.Version;
-            caseVer.MicrotingCheckUid = aCase.MicrotingCheckUid;
-            caseVer.UnitId = aCase.UnitId;
-
-            caseVer.Type = aCase.Type;
-            caseVer.CreatedAt = aCase.CreatedAt;
-            caseVer.CheckListId = aCase.CheckListId;
-            caseVer.MicrotingUid = aCase.MicrotingUid;
-            caseVer.SiteId = aCase.SiteId;
-            caseVer.FieldValue1 = aCase.FieldValue1;
-            caseVer.FieldValue2 = aCase.FieldValue2;
-            caseVer.FieldValue3 = aCase.FieldValue3;
-            caseVer.FieldValue4 = aCase.FieldValue4;
-            caseVer.FieldValue5 = aCase.FieldValue5;
-            caseVer.FieldValue6 = aCase.FieldValue6;
-            caseVer.FieldValue7 = aCase.FieldValue7;
-            caseVer.FieldValue8 = aCase.FieldValue8;
-            caseVer.FieldValue9 = aCase.FieldValue9;
-            caseVer.FieldValue10 = aCase.FieldValue10;
-            caseVer.Custom = aCase.Custom;
-            caseVer.CaseUid = aCase.CaseUid;
-
-            caseVer.CaseId = aCase.Id; //<<--
-
-            return caseVer;
+            return new case_versions
+            {
+                Status = aCase.Status,
+                DoneAt = aCase.DoneAt,
+                UpdatedAt = aCase.UpdatedAt,
+                WorkerId = aCase.WorkerId,
+                WorkflowState = aCase.WorkflowState,
+                Version = aCase.Version,
+                MicrotingCheckUid = aCase.MicrotingCheckUid,
+                UnitId = aCase.UnitId,
+                Type = aCase.Type,
+                CreatedAt = aCase.CreatedAt,
+                CheckListId = aCase.CheckListId,
+                MicrotingUid = aCase.MicrotingUid,
+                SiteId = aCase.SiteId,
+                FieldValue1 = aCase.FieldValue1,
+                FieldValue2 = aCase.FieldValue2,
+                FieldValue3 = aCase.FieldValue3,
+                FieldValue4 = aCase.FieldValue4,
+                FieldValue5 = aCase.FieldValue5,
+                FieldValue6 = aCase.FieldValue6,
+                FieldValue7 = aCase.FieldValue7,
+                FieldValue8 = aCase.FieldValue8,
+                FieldValue9 = aCase.FieldValue9,
+                FieldValue10 = aCase.FieldValue10,
+                Custom = aCase.Custom,
+                CaseUid = aCase.CaseUid,
+                CaseId = aCase.Id
+            };
         }
     }
-
 }

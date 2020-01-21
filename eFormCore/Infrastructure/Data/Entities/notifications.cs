@@ -126,7 +126,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         private notification_versions MapVersions(notifications notification)
         {
-            notification_versions notificationVersion = new notification_versions()
+            return new notification_versions()
             {
                 WorkflowState = notification.WorkflowState,
                 CreatedAt = notification.CreatedAt,
@@ -140,8 +140,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 NotificationId = notification.Id,
                 Version = notification.Version
             };
-
-            return notificationVersion;
         }
     }
 }

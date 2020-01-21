@@ -33,19 +33,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class field_values : BaseEntity
     {
-//        [Key]
-//        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int Id { get; set; }
-
-//        [StringLength(255)]
-//        public string workflow_state { get; set; }
-//
-//        public int? version { get; set; }
-//
-//        public DateTime? created_at { get; set; }
-//
-//        public DateTime? updated_at { get; set; }
-
         public DateTime? DoneAt { get; set; }
 
         public DateTime? Date { get; set; }
@@ -91,7 +78,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public virtual uploaded_data UploadedData { get; set; }
 
-
         public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
@@ -104,7 +90,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             dbContext.field_value_versions.Add(MapFieldValueVersions(this));
             await dbContext.SaveChangesAsync();
-
         }
 
         public async Task Update(MicrotingDbContext dbContext)
@@ -139,7 +124,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 dbContext.field_value_versions.Add(MapFieldValueVersions(fieldValues));
                 await dbContext.SaveChangesAsync();
             }
-
         }
 
         public async Task Delete(MicrotingDbContext dbContext)
@@ -166,30 +150,28 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         private field_value_versions MapFieldValueVersions(field_values fieldValue)
         {
-            field_value_versions fvv = new field_value_versions();
-
-            fvv.CreatedAt = fieldValue.CreatedAt;
-            fvv.UpdatedAt = fieldValue.UpdatedAt;
-            fvv.Value = fieldValue.Value;
-            fvv.Latitude = fieldValue.Latitude;
-            fvv.Longitude = fieldValue.Longitude;
-            fvv.Altitude = fieldValue.Altitude;
-            fvv.Heading = fieldValue.Heading;
-            fvv.Date = fieldValue.Date;
-            fvv.Accuracy = fieldValue.Accuracy;
-            fvv.UploadedDataId = fieldValue.UploadedDataId;
-            fvv.Version = fieldValue.Version;
-            fvv.CaseId = fieldValue.CaseId;
-            fvv.FieldId = fieldValue.FieldId;
-            fvv.WorkerId = fieldValue.WorkerId;
-            fvv.WorkflowState = fieldValue.WorkflowState;
-            fvv.CheckListId = fieldValue.CheckListId;
-            fvv.CheckListDuplicateId = fieldValue.CheckListDuplicateId;
-            fvv.DoneAt = fieldValue.DoneAt;
-
-            fvv.FieldValueId = fieldValue.Id; //<<--
-
-            return fvv;
+            return new field_value_versions
+            {
+                CreatedAt = fieldValue.CreatedAt,
+                UpdatedAt = fieldValue.UpdatedAt,
+                Value = fieldValue.Value,
+                Latitude = fieldValue.Latitude,
+                Longitude = fieldValue.Longitude,
+                Altitude = fieldValue.Altitude,
+                Heading = fieldValue.Heading,
+                Date = fieldValue.Date,
+                Accuracy = fieldValue.Accuracy,
+                UploadedDataId = fieldValue.UploadedDataId,
+                Version = fieldValue.Version,
+                CaseId = fieldValue.CaseId,
+                FieldId = fieldValue.FieldId,
+                WorkerId = fieldValue.WorkerId,
+                WorkflowState = fieldValue.WorkflowState,
+                CheckListId = fieldValue.CheckListId,
+                CheckListDuplicateId = fieldValue.CheckListDuplicateId,
+                DoneAt = fieldValue.DoneAt,
+                FieldValueId = fieldValue.Id
+            };
         }
     }
 }

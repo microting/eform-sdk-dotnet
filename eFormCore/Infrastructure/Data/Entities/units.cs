@@ -32,7 +32,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class units : BaseEntity
     {
-
         public int? MicrotingUid { get; set; }
 
         public int? OtpCode { get; set; }
@@ -116,7 +115,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         private unit_versions MapVersions(units units)
         {
-            unit_versions unitVer = new unit_versions
+            return new unit_versions
             {
                 WorkflowState = units.WorkflowState,
                 Version = units.Version,
@@ -133,8 +132,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 SoftwareVersion = units.SoftwareVersion,
                 Note = units.Note
             };
-
-            return unitVer;
         }
     }
 }

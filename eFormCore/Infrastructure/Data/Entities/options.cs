@@ -118,7 +118,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         private option_versions MapVersions(options option)
         {
-            option_versions optionVersions = new option_versions
+            return new option_versions
             {
                 QuestionId = option.QuestionId,
                 Weight = option.Weight,
@@ -133,9 +133,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 WorkflowState = option.WorkflowState,
                 MicrotingUid = option.MicrotingUid
             };
-            
-            return optionVersions;
-
         }
     }
 }

@@ -34,7 +34,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public folders()
         {            
             this.Children = new HashSet<folders>();
-            
         }
         
         public string Name { get; set; }
@@ -61,8 +60,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             dbContext.folder_versions.Add(MapFolderVersions(dbContext, this));
             await dbContext.SaveChangesAsync();
-
-           
         }
 
         public async Task Update(MicrotingDbContext dbContext)
@@ -111,7 +108,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         private folder_versions MapFolderVersions(MicrotingDbContext _dbContext, folders folder)
         {
-            folder_versions folderVersions = new folder_versions
+            return new folder_versions
             {
                 Name = folder.Name,
                 Description = folder.Description,
@@ -123,8 +120,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 MicrotingUid = folder.MicrotingUid,
                 Version = folder.Version
             };
-
-            return folderVersions;
         }
     }
 }

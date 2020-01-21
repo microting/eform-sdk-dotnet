@@ -106,20 +106,17 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         private site_survey_configuration_versions MapVersions(site_survey_configurations siteSurveyConfiguration)
         {
-            site_survey_configuration_versions siteSurveyConfigurationVersion =
-                new site_survey_configuration_versions
-                {
-                    SurveyConfigurationId = siteSurveyConfiguration.SurveyConfigurationId,
-                    SiteId = siteSurveyConfiguration.SiteId,
-                    SiteSurveyConfigurationId = siteSurveyConfiguration.Id,
-                    CreatedAt = siteSurveyConfiguration.CreatedAt,
-                    UpdatedAt = siteSurveyConfiguration.UpdatedAt,
-                    WorkflowState = siteSurveyConfiguration.WorkflowState,
-                    Version = siteSurveyConfiguration.Version,
-                    MicrotingUid = siteSurveyConfiguration.MicrotingUid
-                };
-
-            return siteSurveyConfigurationVersion;
+            return new site_survey_configuration_versions
+            {
+                SurveyConfigurationId = siteSurveyConfiguration.SurveyConfigurationId,
+                SiteId = siteSurveyConfiguration.SiteId,
+                SiteSurveyConfigurationId = siteSurveyConfiguration.Id,
+                CreatedAt = siteSurveyConfiguration.CreatedAt,
+                UpdatedAt = siteSurveyConfiguration.UpdatedAt,
+                WorkflowState = siteSurveyConfiguration.WorkflowState,
+                Version = siteSurveyConfiguration.Version,
+                MicrotingUid = siteSurveyConfiguration.MicrotingUid
+            };
         }
     }
 }
