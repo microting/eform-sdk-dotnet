@@ -49,6 +49,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int? MicrotingUid { get; set; }
         
         public virtual ICollection<site_survey_configurations> SiteSurveyConfigurations { get; set; }
+        
+        public virtual question_sets QuestionSet { get; set; }
 
         public async Task Create(MicrotingDbContext dbContext)
         {
