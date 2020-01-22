@@ -24,12 +24,20 @@ namespace eFormSDK.Tests
             site.MicrotingUid = rnd.Next(1, 255);
             await site.Create(dbContext);
             
-            survey_configurations surveyConfiguration = new survey_configurations();
-            surveyConfiguration.Name = Guid.NewGuid().ToString();
-            surveyConfiguration.Start = DateTime.Now;
-            surveyConfiguration.Stop = DateTime.Now;
-            surveyConfiguration.TimeOut = rnd.Next(1, 255);
-            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
+            question_sets questionSet = new question_sets()
+            {
+                ParentId = 0
+            };
+
+            survey_configurations surveyConfiguration = new survey_configurations
+            {
+                Name = Guid.NewGuid().ToString(),
+                Start = DateTime.Now,
+                Stop = DateTime.Now,
+                TimeOut = rnd.Next(1, 255),
+                TimeToLive = rnd.Next(1, 255),
+                QuestionSetId = questionSet.Id 
+            };
             await surveyConfiguration.Create(dbContext);
 
             site_survey_configurations siteSurveyConfiguration = new site_survey_configurations();
@@ -81,12 +89,20 @@ namespace eFormSDK.Tests
             site.MicrotingUid = rnd.Next(1, 255);
             await site.Create(dbContext);
             
-            survey_configurations surveyConfiguration = new survey_configurations();
-            surveyConfiguration.Name = Guid.NewGuid().ToString();
-            surveyConfiguration.Start = DateTime.Now;
-            surveyConfiguration.Stop = DateTime.Now;
-            surveyConfiguration.TimeOut = rnd.Next(1, 255);
-            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
+            question_sets questionSet = new question_sets()
+            {
+                ParentId = 0
+            };
+
+            survey_configurations surveyConfiguration = new survey_configurations
+            {
+                Name = Guid.NewGuid().ToString(),
+                Start = DateTime.Now,
+                Stop = DateTime.Now,
+                TimeOut = rnd.Next(1, 255),
+                TimeToLive = rnd.Next(1, 255),
+                QuestionSetId = questionSet.Id
+            };
             await surveyConfiguration.Create(dbContext);
 
             site_survey_configurations siteSurveyConfiguration = new site_survey_configurations();
