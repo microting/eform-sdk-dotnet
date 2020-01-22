@@ -129,12 +129,12 @@ namespace eFormSDK.Integration.Tests
             
             answer_values answerValue = new answer_values();
             answerValue.QuestionId = question.Id;
-            answerValue.Value = rnd.Next(1, 255);
+            answerValue.Value = rnd.Next(1, 255).ToString();
             answerValue.Answer = answer;
             answerValue.Option = option;
             answerValue.AnswerId = answer.Id;
             answerValue.Question = question;
-            answerValue.OptionsId = option.Id;
+            answerValue.OptionId = option.Id;
             
             // Act
             await answerValue.Create(dbContext);
@@ -148,7 +148,7 @@ namespace eFormSDK.Integration.Tests
             
             Assert.AreEqual(dbAnswerValue.QuestionId, answerValue.QuestionId);
             Assert.AreEqual(dbAnswerValue.AnswerId, answerValue.AnswerId);
-            Assert.AreEqual(dbAnswerValue.OptionsId, answerValue.OptionsId);
+            Assert.AreEqual(dbAnswerValue.OptionId, answerValue.OptionId);
             Assert.AreEqual(dbAnswerValue.Value, answerValue.Value);
         }
        
@@ -290,22 +290,22 @@ namespace eFormSDK.Integration.Tests
             #endregion
             answer_values answerValue = new answer_values();
             answerValue.QuestionId = question.Id;
-            answerValue.Value = rnd.Next(1, 255);
+            answerValue.Value = rnd.Next(1, 255).ToString();
             answerValue.Answer = answer;
             answerValue.Option = option;
             answerValue.AnswerId = answer.Id;
             answerValue.Question = question;
-            answerValue.OptionsId = option.Id;
+            answerValue.OptionId = option.Id;
             
             await answerValue.Create(dbContext);
             // Act
             answerValue.QuestionId = question2.Id;
-            answerValue.Value = rnd.Next(1, 255);
+            answerValue.Value = rnd.Next(1, 255).ToString();
             answerValue.Answer = answer2;
             answerValue.Option = option2;
             answerValue.AnswerId = answer2.Id;
             answerValue.Question = question2;
-            answerValue.OptionsId = option2.Id;
+            answerValue.OptionId = option2.Id;
             
             await answerValue.Update(dbContext);
             
@@ -318,7 +318,7 @@ namespace eFormSDK.Integration.Tests
             
             Assert.AreEqual(dbAnswerValue.QuestionId, answerValue.QuestionId);
             Assert.AreEqual(dbAnswerValue.AnswerId, answerValue.AnswerId);
-            Assert.AreEqual(dbAnswerValue.OptionsId, answerValue.OptionsId);
+            Assert.AreEqual(dbAnswerValue.OptionId, answerValue.OptionId);
             Assert.AreEqual(dbAnswerValue.Value, answerValue.Value);
         }
 
@@ -409,12 +409,12 @@ namespace eFormSDK.Integration.Tests
             
             answer_values answerValue = new answer_values();
             answerValue.QuestionId = question.Id;
-            answerValue.Value = rnd.Next(1, 255);
+            answerValue.Value = rnd.Next(1, 255).ToString();
             answerValue.Answer = answer;
             answerValue.Option = option;
             answerValue.AnswerId = answer.Id;
             answerValue.Question = question;
-            answerValue.OptionsId = option.Id;
+            answerValue.OptionId = option.Id;
             await answerValue.Create(dbContext);
 
             // Act
@@ -430,7 +430,7 @@ namespace eFormSDK.Integration.Tests
             
             Assert.AreEqual(dbAnswerValue.QuestionId, answerValue.QuestionId);
             Assert.AreEqual(dbAnswerValue.AnswerId, answerValue.AnswerId);
-            Assert.AreEqual(dbAnswerValue.OptionsId, answerValue.OptionsId);
+            Assert.AreEqual(dbAnswerValue.OptionId, answerValue.OptionId);
             Assert.AreEqual(dbAnswerValue.Value, answerValue.Value);
             Assert.AreEqual(Constants.WorkflowStates.Removed, dbAnswerValue.WorkflowState);
         }

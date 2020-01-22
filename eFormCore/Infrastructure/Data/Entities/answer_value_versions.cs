@@ -32,9 +32,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         public int QuestionId { get; set; }
         
-        public int OptionsId { get; set; }
+        public int OptionId { get; set; }
         
-        public int Value { get; set; }
+        public string Value { get; set; }
         
         [ForeignKey("answer_value")]
         public int AnswerValueId { get; set; }

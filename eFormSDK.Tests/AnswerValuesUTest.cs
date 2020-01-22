@@ -127,9 +127,9 @@ namespace eFormSDK.Tests
              await questionForAnswerValue.Create(dbContext);
             
              answer_values answerValue = new answer_values();
-             answerValue.Value = rnd.Next(1, 255);
+             answerValue.Value = rnd.Next(1, 255).ToString();
              answerValue.AnswerId = answer.Id;
-             answerValue.OptionsId = option.Id;
+             answerValue.OptionId = option.Id;
              answerValue.QuestionId = question.Id;
              
              //Act
@@ -154,7 +154,7 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValue.Value, answerValues[0].Value);
              Assert.AreEqual(answerValue.Id, answerValues[0].Id);
              Assert.AreEqual(answer.Id, answerValue.AnswerId);
-             Assert.AreEqual(option.Id, answerValue.OptionsId);
+             Assert.AreEqual(option.Id, answerValue.OptionId);
              Assert.AreEqual(question.Id, answerValue.QuestionId);
              
              //Versions
@@ -165,7 +165,7 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValue.Id, answerValueVersions[0].AnswerValueId);
              Assert.AreEqual(answerValue.Value, answerValueVersions[0].Value);
              Assert.AreEqual(answer.Id, answerValueVersions[0].AnswerId);
-             Assert.AreEqual(option.Id, answerValueVersions[0].OptionsId);
+             Assert.AreEqual(option.Id, answerValueVersions[0].OptionId);
              Assert.AreEqual(question.Id, answerValueVersions[0].QuestionId);
         }
 
@@ -282,18 +282,18 @@ namespace eFormSDK.Tests
              await questionForAnswerValue.Create(dbContext);
             
              answer_values answerValue = new answer_values();
-             answerValue.Value = rnd.Next(1, 255);
+             answerValue.Value = rnd.Next(1, 255).ToString();
              answerValue.AnswerId = answer.Id;
-             answerValue.OptionsId = option.Id;
+             answerValue.OptionId = option.Id;
              answerValue.QuestionId = question.Id;
              await answerValue.Create(dbContext);
              
              //Act
              
              DateTime? oldUpdatedAt = answerValue.UpdatedAt;
-             int oldValue = answerValue.Value;
+             string oldValue = answerValue.Value;
 
-             answerValue.Value = rnd.Next(1, 255);
+             answerValue.Value = rnd.Next(1, 255).ToString();
              
              await answerValue.Update(dbContext);
              
@@ -316,7 +316,7 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValue.Value, answerValues[0].Value);
              Assert.AreEqual(answerValue.Id, answerValues[0].Id);
              Assert.AreEqual(answerValue.AnswerId, answer.Id);
-             Assert.AreEqual(answerValue.OptionsId, option.Id);
+             Assert.AreEqual(answerValue.OptionId, option.Id);
              Assert.AreEqual(answerValue.QuestionId, question.Id);
              
              //Old Version
@@ -327,7 +327,7 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValue.Id, answerValueVersions[0].AnswerValueId);
              Assert.AreEqual(oldValue, answerValueVersions[0].Value);
              Assert.AreEqual(answer.Id, answerValueVersions[0].AnswerId);
-             Assert.AreEqual(option.Id, answerValueVersions[0].OptionsId);
+             Assert.AreEqual(option.Id, answerValueVersions[0].OptionId);
              Assert.AreEqual(question.Id, answerValueVersions[0].QuestionId);
              
              //New Version
@@ -338,7 +338,7 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValue.Id, answerValueVersions[1].AnswerValueId);
              Assert.AreEqual(answerValue.Value, answerValueVersions[1].Value);
              Assert.AreEqual(answer.Id, answerValueVersions[1].AnswerId);
-             Assert.AreEqual(option.Id, answerValueVersions[1].OptionsId);
+             Assert.AreEqual(option.Id, answerValueVersions[1].OptionId);
              Assert.AreEqual(question.Id, answerValueVersions[1].QuestionId);
         }
 
@@ -455,9 +455,9 @@ namespace eFormSDK.Tests
              await questionForAnswerValue.Create(dbContext);
             
              answer_values answerValue = new answer_values();
-             answerValue.Value = rnd.Next(1, 255);
+             answerValue.Value = rnd.Next(1, 255).ToString();
              answerValue.AnswerId = answer.Id;
-             answerValue.OptionsId = option.Id;
+             answerValue.OptionId = option.Id;
              answerValue.QuestionId = question.Id;
              await answerValue.Create(dbContext);
              
@@ -486,7 +486,7 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValue.Value, answerValues[0].Value);
              Assert.AreEqual(answerValue.Id, answerValues[0].Id);
              Assert.AreEqual(answerValue.AnswerId, answer.Id);
-             Assert.AreEqual(answerValue.OptionsId, option.Id);
+             Assert.AreEqual(answerValue.OptionId, option.Id);
              Assert.AreEqual(answerValue.QuestionId, question.Id);
              
              //Old Version
@@ -497,7 +497,7 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValue.Id, answerValueVersions[0].AnswerValueId);
              Assert.AreEqual(answerValue.Value, answerValueVersions[0].Value);
              Assert.AreEqual(answer.Id, answerValueVersions[0].AnswerId);
-             Assert.AreEqual(option.Id, answerValueVersions[0].OptionsId);
+             Assert.AreEqual(option.Id, answerValueVersions[0].OptionId);
              Assert.AreEqual(question.Id, answerValueVersions[0].QuestionId);
              
              //New Version
@@ -508,7 +508,7 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValue.Id, answerValueVersions[1].AnswerValueId);
              Assert.AreEqual(answerValue.Value, answerValueVersions[1].Value);
              Assert.AreEqual(answer.Id, answerValueVersions[1].AnswerId);
-             Assert.AreEqual(option.Id, answerValueVersions[1].OptionsId);
+             Assert.AreEqual(option.Id, answerValueVersions[1].OptionId);
              Assert.AreEqual(question.Id, answerValueVersions[1].QuestionId);
         }
     }
