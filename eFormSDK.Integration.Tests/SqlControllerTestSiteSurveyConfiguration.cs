@@ -46,13 +46,23 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             Random rnd = new Random();
             
-            survey_configurations surveyConfiguration = new survey_configurations();
+            question_sets questionSet = new question_sets()
+            {
+                ParentId = 0
+            };
+            
+            await questionSet.Create(dbContext);
 
-            surveyConfiguration.Name = Guid.NewGuid().ToString();
-            surveyConfiguration.Stop = DateTime.Now;
-            surveyConfiguration.Start = DateTime.Now;
-            surveyConfiguration.TimeOut = rnd.Next(1, 255);
-            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
+            survey_configurations surveyConfiguration = new survey_configurations
+            {
+                Name = Guid.NewGuid().ToString(),
+                Stop = DateTime.Now,
+                Start = DateTime.Now,
+                TimeOut = rnd.Next(1, 255),
+                TimeToLive = rnd.Next(1, 255),
+                QuestionSetId = questionSet.Id
+            };
+
             await surveyConfiguration.Create(dbContext);
 
             sites site1 = await testHelpers.CreateSite("SiteName1", 88);
@@ -80,13 +90,23 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             Random rnd = new Random();
             
-            survey_configurations surveyConfiguration = new survey_configurations();
+            question_sets questionSet = new question_sets()
+            {
+                ParentId = 0
+            };
+            
+            await questionSet.Create(dbContext);
 
-            surveyConfiguration.Name = Guid.NewGuid().ToString();
-            surveyConfiguration.Stop = DateTime.Now;
-            surveyConfiguration.Start = DateTime.Now;
-            surveyConfiguration.TimeOut = rnd.Next(1, 255);
-            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
+            survey_configurations surveyConfiguration = new survey_configurations
+            {
+                Name = Guid.NewGuid().ToString(),
+                Stop = DateTime.Now,
+                Start = DateTime.Now,
+                TimeOut = rnd.Next(1, 255),
+                TimeToLive = rnd.Next(1, 255),
+                QuestionSetId = questionSet.Id
+            };
+
             await surveyConfiguration.Create(dbContext);
 
             sites site1 = await testHelpers.CreateSite("SiteName1", 88);
@@ -126,13 +146,23 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             Random rnd = new Random();
             
-            survey_configurations surveyConfiguration = new survey_configurations();
+            question_sets questionSet = new question_sets()
+            {
+                ParentId = 0
+            };
+            
+            await questionSet.Create(dbContext);
 
-            surveyConfiguration.Name = Guid.NewGuid().ToString();
-            surveyConfiguration.Stop = DateTime.Now;
-            surveyConfiguration.Start = DateTime.Now;
-            surveyConfiguration.TimeOut = rnd.Next(1, 255);
-            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
+            survey_configurations surveyConfiguration = new survey_configurations
+            {
+                Name = Guid.NewGuid().ToString(),
+                Stop = DateTime.Now,
+                Start = DateTime.Now,
+                TimeOut = rnd.Next(1, 255),
+                TimeToLive = rnd.Next(1, 255),
+                QuestionSetId = questionSet.Id
+            };
+
             await surveyConfiguration.Create(dbContext);
 
             sites site1 = await testHelpers.CreateSite("SiteName1", 88);
