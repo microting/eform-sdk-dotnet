@@ -15,10 +15,10 @@ namespace Microting.eForm.Migrations
                 table: "answer_values",
                 newName: "OptionId");
 
-            migrationBuilder.RenameIndex(
-                name: "IX_answer_values_OptionsId",
-                table: "answer_values",
-                newName: "IX_answer_values_OptionId");
+//            migrationBuilder.RenameIndex(
+//                name: "IX_answer_values_OptionsId",
+//                table: "answer_values",
+//                newName: "IX_answer_values_OptionId");
 
             migrationBuilder.RenameColumn(
                 name: "OptionsId",
