@@ -29,6 +29,8 @@ namespace eFormSDK.Tests
                 ParentId = 0
             };
 
+            await questionSet.Create(dbContext);
+
             survey_configurations surveyConfiguration = new survey_configurations
             {
                 Name = Guid.NewGuid().ToString(),
@@ -93,8 +95,6 @@ namespace eFormSDK.Tests
             {
                 ParentId = 0
             };
-            
-            await questionSet.Create(dbContext);
             
             await questionSet.Create(dbContext);
 
