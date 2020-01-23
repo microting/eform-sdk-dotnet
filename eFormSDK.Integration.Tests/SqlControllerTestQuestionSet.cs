@@ -46,13 +46,12 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
-            
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
+
             // Act
             await questionSet.Create(dbContext);
 
@@ -72,13 +71,12 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = true;
-            questionSet.HasChild = true;
-            questionSet.PosiblyDeployed = true;
-            
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = true, HasChild = true, PosiblyDeployed = true
+            };
+
             // Act
             await questionSet.Create(dbContext);
 
@@ -98,13 +96,12 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = true;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
-            
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = true, HasChild = false, PosiblyDeployed = false
+            };
+
             // Act
             await questionSet.Create(dbContext);
 
@@ -124,13 +121,12 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = true;
-            questionSet.PosiblyDeployed = false;
-            
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = true, PosiblyDeployed = false
+            };
+
             // Act
             await questionSet.Create(dbContext);
 
@@ -150,13 +146,12 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = true;
-            
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = true
+            };
+
             // Act
             await questionSet.Create(dbContext);
 
@@ -176,13 +171,12 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = true;
-            questionSet.HasChild = true;
-            questionSet.PosiblyDeployed = false;
-            
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = true, HasChild = true, PosiblyDeployed = false
+            };
+
             // Act
             await questionSet.Create(dbContext);
 
@@ -202,13 +196,12 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = true;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = true;
-            
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = true, HasChild = false, PosiblyDeployed = true
+            };
+
             // Act
             await questionSet.Create(dbContext);
 
@@ -228,13 +221,12 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = true;
-            questionSet.PosiblyDeployed = true;
-            
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = true, PosiblyDeployed = true
+            };
+
             // Act
             await questionSet.Create(dbContext);
 
@@ -254,12 +246,11 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = true;
-            questionSet.HasChild = true;
-            questionSet.PosiblyDeployed = true;
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = true, HasChild = true, PosiblyDeployed = true
+            };
 
             await questionSet.Create(dbContext);
             // Act
@@ -287,13 +278,12 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
-            
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
+
             await questionSet.Create(dbContext);
 
             // Act
@@ -319,13 +309,12 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
-            
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
+
             await questionSet.Create(dbContext);
             // Act
             questionSet.Name = name;
@@ -351,12 +340,11 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
 
             await questionSet.Create(dbContext);
             // Act
@@ -383,12 +371,11 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
 
             await questionSet.Create(dbContext);
             // Act
@@ -415,12 +402,11 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
 
             await questionSet.Create(dbContext);
             // Act
@@ -447,12 +433,11 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
 
             await questionSet.Create(dbContext);
             // Act
@@ -479,12 +464,11 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
 
             await questionSet.Create(dbContext);
             // Act
@@ -511,12 +495,11 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = true;
-            questionSet.HasChild = true;
-            questionSet.PosiblyDeployed = true;
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = true, HasChild = true, PosiblyDeployed = true
+            };
 
             await questionSet.Create(dbContext);
             // Act
@@ -545,13 +528,12 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
-            
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
+
             await questionSet.Create(dbContext);
 
             // Act
@@ -578,13 +560,12 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
-            
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
+
             await questionSet.Create(dbContext);
             // Act
             questionSet.Name = name;
@@ -611,12 +592,11 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
 
             await questionSet.Create(dbContext);
             // Act
@@ -644,12 +624,11 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
 
             await questionSet.Create(dbContext);
             // Act
@@ -677,12 +656,11 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
 
             await questionSet.Create(dbContext);
             // Act
@@ -710,12 +688,11 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
 
             await questionSet.Create(dbContext);
             // Act
@@ -743,12 +720,11 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             string name = Guid.NewGuid().ToString();
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
+
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
 
             await questionSet.Create(dbContext);
             // Act

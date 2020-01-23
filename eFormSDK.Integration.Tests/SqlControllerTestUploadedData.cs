@@ -55,20 +55,22 @@ namespace eFormSDK.Integration.Tests
             string fileName = "Hello.jpg";
 
             // Act
-            uploaded_data dU = new uploaded_data();
+            uploaded_data dU = new uploaded_data
+            {
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Extension = extension,
+                UploaderId = uploaderId,
+                UploaderType = Constants.UploaderTypes.System,
+                WorkflowState = Constants.WorkflowStates.PreCreated,
+                Version = 1,
+                Local = 0,
+                FileLocation = fileLocation,
+                FileName = fileName,
+                CurrentFile = currentFile,
+                Checksum = checksum
+            };
 
-            dU.CreatedAt = DateTime.Now;
-            dU.UpdatedAt = DateTime.Now;
-            dU.Extension = extension;
-            dU.UploaderId = uploaderId;
-            dU.UploaderType = Constants.UploaderTypes.System;
-            dU.WorkflowState = Constants.WorkflowStates.PreCreated;
-            dU.Version = 1;
-            dU.Local = 0;
-            dU.FileLocation = fileLocation;
-            dU.FileName = fileName;
-            dU.CurrentFile = currentFile;
-            dU.Checksum = checksum;
 
             dbContext.uploaded_data.Add(dU);
             await dbContext.SaveChangesAsync();
@@ -101,20 +103,22 @@ namespace eFormSDK.Integration.Tests
             string fileName = "Hello.jpg";
 
             // Act
-            uploaded_data dU = new uploaded_data();
+            uploaded_data dU = new uploaded_data
+            {
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Extension = extension,
+                UploaderId = uploaderId,
+                UploaderType = Constants.UploaderTypes.System,
+                WorkflowState = Constants.WorkflowStates.PreCreated,
+                Version = 1,
+                Local = 0,
+                FileLocation = fileLocation,
+                FileName = fileName,
+                CurrentFile = currentFile,
+                Checksum = checksum
+            };
 
-            dU.CreatedAt = DateTime.Now;
-            dU.UpdatedAt = DateTime.Now;
-            dU.Extension = extension;
-            dU.UploaderId = uploaderId;
-            dU.UploaderType = Constants.UploaderTypes.System;
-            dU.WorkflowState = Constants.WorkflowStates.PreCreated;
-            dU.Version = 1;
-            dU.Local = 0;
-            dU.FileLocation = fileLocation;
-            dU.FileName = fileName;
-            dU.CurrentFile = currentFile;
-            dU.Checksum = checksum;
 
             dbContext.uploaded_data.Add(dU);
             await dbContext.SaveChangesAsync();
@@ -141,18 +145,20 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public async Task SQL_File_FileRead_doesFileRead()
         {
-            uploaded_data ud = new uploaded_data();
+            uploaded_data ud = new uploaded_data
+            {
+                Checksum = "checksum1",
+                Extension = "extension",
+                CurrentFile = "currentFile1",
+                UploaderId = 223,
+                UploaderType = "uploader_type",
+                FileLocation = "file_location",
+                FileName = "fileName",
+                WorkflowState = Constants.WorkflowStates.PreCreated
+            };
 
-            ud.Checksum = "checksum1";
-            ud.Extension = "extension";
-            ud.CurrentFile = "currentFile1";
-            ud.UploaderId = 223;
-            ud.UploaderType = "uploader_type";
-            ud.FileLocation = "file_location";
-            ud.FileName = "fileName";
             //ud.Id = 111;
 
-            ud.WorkflowState = Constants.WorkflowStates.PreCreated;
 
 
 
@@ -208,17 +214,17 @@ namespace eFormSDK.Integration.Tests
                 c1_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site1, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
 
-            uploaded_data ud = new uploaded_data();
-
-            ud.Checksum = "checksum1";
-            ud.Extension = "extension";
-            ud.CurrentFile = "currentFile1";
-            ud.UploaderId = 223;
-            ud.UploaderType = "uploader_type";
-            ud.FileLocation = "url";
-            ud.FileName = "fileName";
-            //ud.Id = 111;
-
+            uploaded_data ud = new uploaded_data
+            {
+                Checksum = "checksum1",
+                Extension = "extension",
+                CurrentFile = "currentFile1",
+                UploaderId = 223,
+                UploaderType = "uploader_type",
+                FileLocation = "url",
+                FileName = "fileName"
+            };
+            
             dbContext.uploaded_data.Add(ud);
             await dbContext.SaveChangesAsync();
 
@@ -242,17 +248,14 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public async Task SQL_File_FileProcessed_isProcessed()
         {
-            uploaded_data ud = new uploaded_data();
-
-
-            ud.Local = 0;
-            ud.WorkflowState = Constants.WorkflowStates.PreCreated;
-            ud.Version = 1;
+            uploaded_data ud = new uploaded_data
+            {
+                Local = 0, WorkflowState = Constants.WorkflowStates.PreCreated, Version = 1
+            };
 
             dbContext.uploaded_data.Add(ud);
             await dbContext.SaveChangesAsync();
-
-
+            
             // Act
             await sut.FileProcessed("url", "myChecksum", "myFileLocation", "myFileName", ud.Id);
             List<uploaded_data> uploadedDataResult = dbContext.uploaded_data.AsNoTracking().ToList();
@@ -294,10 +297,8 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public async Task SQL_File_DeleteFile_doesFileGetDeleted()
         {
-            uploaded_data ud = new uploaded_data();
+            uploaded_data ud = new uploaded_data {WorkflowState = Constants.WorkflowStates.Created, Version = 1};
 
-            ud.WorkflowState = Constants.WorkflowStates.Created;
-            ud.Version = 1;
             dbContext.uploaded_data.Add(ud);
             await dbContext.SaveChangesAsync();
 

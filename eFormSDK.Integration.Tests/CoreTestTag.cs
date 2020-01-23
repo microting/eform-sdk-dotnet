@@ -1,4 +1,29 @@
-﻿using eFormCore;
+﻿/*
+The MIT License (MIT)
+
+Copyright (c) 2007 - 2020 Microting A/S
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+
+using eFormCore;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
@@ -73,9 +98,7 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             string tagName = "Tag1";
-            tags tag = new tags();
-            tag.Name = tagName;
-            tag.WorkflowState = Constants.WorkflowStates.Created;
+            tags tag = new tags {Name = tagName, WorkflowState = Constants.WorkflowStates.Created};
 
             dbContext.tags.Add(tag);
             await dbContext.SaveChangesAsync();
@@ -96,9 +119,7 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             string tagName = "Tag1";
-            tags tag = new tags();
-            tag.Name = tagName;
-            tag.WorkflowState = Constants.WorkflowStates.Removed;
+            tags tag = new tags {Name = tagName, WorkflowState = Constants.WorkflowStates.Removed};
 
             dbContext.tags.Add(tag);
             await dbContext.SaveChangesAsync();
@@ -119,26 +140,20 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             string tagName1 = "Tag1";
-            tags tag = new tags();
-            tag.Name = tagName1;
-            tag.WorkflowState = Constants.WorkflowStates.Removed;
+            tags tag = new tags {Name = tagName1, WorkflowState = Constants.WorkflowStates.Removed};
 
             dbContext.tags.Add(tag);
             await dbContext.SaveChangesAsync();
 
             string tagName2 = "Tag2";
-            tag = new tags();
+            tag = new tags {Name = tagName2, WorkflowState = Constants.WorkflowStates.Removed};
 
-            tag.Name = tagName2;
-            tag.WorkflowState = Constants.WorkflowStates.Removed;
 
             dbContext.tags.Add(tag);
             await dbContext.SaveChangesAsync();
             string tagName3 = "Tag3";
-            tag = new tags();
+            tag = new tags {Name = tagName3, WorkflowState = Constants.WorkflowStates.Removed};
 
-            tag.Name = tagName3;
-            tag.WorkflowState = Constants.WorkflowStates.Removed;
 
             dbContext.tags.Add(tag);
             await dbContext.SaveChangesAsync();
@@ -162,31 +177,30 @@ namespace eFormSDK.Integration.Tests
         public async Task Core_Tags_TemplateSetTags_DoesAssignTagToTemplate()
         {
             // Arrance
-            check_lists cl1 = new check_lists();
-            cl1.CreatedAt = DateTime.Now;
-            cl1.UpdatedAt = DateTime.Now;
-            cl1.Label = "A";
-            cl1.Description = "D";
-            cl1.WorkflowState = Constants.WorkflowStates.Created;
-            cl1.CaseType = "CheckList";
-            cl1.FolderName = "Template1FolderName";
-            cl1.DisplayIndex = 1;
-            cl1.Repeated = 1;
+            check_lists cl1 = new check_lists
+            {
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Label = "A",
+                Description = "D",
+                WorkflowState = Constants.WorkflowStates.Created,
+                CaseType = "CheckList",
+                FolderName = "Template1FolderName",
+                DisplayIndex = 1,
+                Repeated = 1
+            };
 
             dbContext.check_lists.Add(cl1);
             await dbContext.SaveChangesAsync();
 
             string tagName1 = "Tag1";
-            tags tag = new tags();
-            tag.Name = tagName1;
-            tag.WorkflowState = Constants.WorkflowStates.Created;
+            tags tag = new tags {Name = tagName1, WorkflowState = Constants.WorkflowStates.Created};
 
             dbContext.tags.Add(tag);
             await dbContext.SaveChangesAsync();
 
             // Act
-            List<int> tags = new List<int>();
-            tags.Add(tag.Id);
+            List<int> tags = new List<int> {tag.Id};
             await sut.TemplateSetTags(cl1.Id, tags);
 
 
@@ -204,16 +218,18 @@ namespace eFormSDK.Integration.Tests
         public async Task Core_Tags_TemplateSetTags_DoesAssignTagToTemplateWithoutDuplicates()
         {
             // Arrance
-            check_lists cl1 = new check_lists();
-            cl1.CreatedAt = DateTime.Now;
-            cl1.UpdatedAt = DateTime.Now;
-            cl1.Label = "A";
-            cl1.Description = "D";
-            cl1.WorkflowState = Constants.WorkflowStates.Created;
-            cl1.CaseType = "CheckList";
-            cl1.FolderName = "Template1FolderName";
-            cl1.DisplayIndex = 1;
-            cl1.Repeated = 1;
+            check_lists cl1 = new check_lists
+            {
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Label = "A",
+                Description = "D",
+                WorkflowState = Constants.WorkflowStates.Created,
+                CaseType = "CheckList",
+                FolderName = "Template1FolderName",
+                DisplayIndex = 1,
+                Repeated = 1
+            };
 
             dbContext.check_lists.Add(cl1);
             await dbContext.SaveChangesAsync();
@@ -255,9 +271,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             // Act
-            List<int> tags = new List<int>();
-            tags.Add(tag1.Id);
-            tags.Add(tag3.Id);
+            List<int> tags = new List<int> {tag1.Id, tag3.Id};
             await sut.TemplateSetTags(cl1.Id, tags);
             await sut.TemplateSetTags(cl1.Id, tags);
 

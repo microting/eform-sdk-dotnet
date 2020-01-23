@@ -1,3 +1,27 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2007 - 2020 Microting A/S
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 using eFormCore;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
@@ -49,9 +73,10 @@ namespace eFormSDK.Integration.Tests
             Random rnd = new Random();
             sites site1 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
             units unit1 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
-            languages language = new languages();
-            language.Name = Guid.NewGuid().ToString();
-            language.Description = Guid.NewGuid().ToString();
+            languages language = new languages
+            {
+                Name = Guid.NewGuid().ToString(), Description = Guid.NewGuid().ToString()
+            };
             await language.Create(dbContext);
             
             #region QuestionSet
@@ -78,16 +103,19 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Answer
-            answers answer = new answers();
-            answer.SiteId = site1.Id;
-            answer.QuestionSetId = questionSet.Id;
-            answer.SurveyConfigurationId = surveyConfiguration.Id;
-            answer.UnitId = unit1.Id;
-            answer.TimeZone = Guid.NewGuid().ToString();
-            answer.FinishedAt = DateTime.Now;
-            answer.LanguageId = language.Id;
-            answer.AnswerDuration = rnd.Next(1, 255);
-            answer.UtcAdjusted = true;
+
+            answers answer = new answers
+            {
+                SiteId = site1.Id,
+                QuestionSetId = questionSet.Id,
+                SurveyConfigurationId = surveyConfiguration.Id,
+                UnitId = unit1.Id,
+                TimeZone = Guid.NewGuid().ToString(),
+                FinishedAt = DateTime.Now,
+                LanguageId = language.Id,
+                AnswerDuration = rnd.Next(1, 255),
+                UtcAdjusted = true
+            };
             await answer.Create(dbContext);
             
 
@@ -98,47 +126,53 @@ namespace eFormSDK.Integration.Tests
             string questionType = Guid.NewGuid().ToString();
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
-            questions question = new questions();
-            question.Type = type;
-            question.QuestionType = questionType;
-            question.ImagePosition = imagePosition;
-            question.FontSize = fontSize;
-            question.QuestionSetId = questionSet.Id;
-            question.Maximum = rnd.Next(1, 255);
-            question.Minimum = rnd.Next(1, 255);
-            question.RefId = rnd.Next(1, 255);
-            question.MaxDuration = rnd.Next(1, 255);
-            question.MinDuration = rnd.Next(1, 255);
-            question.QuestionIndex = rnd.Next(1, 255);
-            question.ContinuousQuestionId = rnd.Next(1, 255);
-            question.Prioritised = false;
-            question.ValidDisplay = false;
-            question.BackButtonEnabled = false;
-            question.Image = false;
+            questions question = new questions
+            {
+                Type = type,
+                QuestionType = questionType,
+                ImagePosition = imagePosition,
+                FontSize = fontSize,
+                QuestionSetId = questionSet.Id,
+                Maximum = rnd.Next(1, 255),
+                Minimum = rnd.Next(1, 255),
+                RefId = rnd.Next(1, 255),
+                MaxDuration = rnd.Next(1, 255),
+                MinDuration = rnd.Next(1, 255),
+                QuestionIndex = rnd.Next(1, 255),
+                ContinuousQuestionId = rnd.Next(1, 255),
+                Prioritised = false,
+                ValidDisplay = false,
+                BackButtonEnabled = false,
+                Image = false
+            };
             await question.Create(dbContext);
             #endregion
             
             #region Option
-            
-            options option = new options();
-            option.WeightValue = rnd.Next(1, 255);
-            option.QuestionId = question.Id;
-            option.Weight = rnd.Next(1, 255);
-            option.OptionsIndex = rnd.Next(1, 255);
-            option.NextQuestionId = rnd.Next(1, 255);
-            option.ContinuousOptionId = rnd.Next(1, 255);
+
+            options option = new options
+            {
+                WeightValue = rnd.Next(1, 255),
+                QuestionId = question.Id,
+                Weight = rnd.Next(1, 255),
+                OptionsIndex = rnd.Next(1, 255),
+                NextQuestionId = rnd.Next(1, 255),
+                ContinuousOptionId = rnd.Next(1, 255)
+            };
             await option.Create(dbContext);
             #endregion
-            
-            answer_values answerValue = new answer_values();
-            answerValue.QuestionId = question.Id;
-            answerValue.Value = rnd.Next(1, 255).ToString();
-            answerValue.Answer = answer;
-            answerValue.Option = option;
-            answerValue.AnswerId = answer.Id;
-            answerValue.Question = question;
-            answerValue.OptionId = option.Id;
-            
+
+            answer_values answerValue = new answer_values
+            {
+                QuestionId = question.Id,
+                Value = rnd.Next(1, 255).ToString(),
+                Answer = answer,
+                Option = option,
+                AnswerId = answer.Id,
+                Question = question,
+                OptionId = option.Id
+            };
+
             // Act
             await answerValue.Create(dbContext);
 
@@ -162,9 +196,10 @@ namespace eFormSDK.Integration.Tests
             Random rnd = new Random();
             sites site1 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
             units unit1 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
-            languages language = new languages();
-            language.Name = Guid.NewGuid().ToString();
-            language.Description = Guid.NewGuid().ToString();
+            languages language = new languages
+            {
+                Name = Guid.NewGuid().ToString(), Description = Guid.NewGuid().ToString()
+            };
             await language.Create(dbContext);
             
             #region QuestionSet
@@ -191,16 +226,19 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Answer
-            answers answer = new answers();
-            answer.SiteId = site1.Id;
-            answer.QuestionSetId = questionSet.Id;
-            answer.SurveyConfigurationId = surveyConfiguration.Id;
-            answer.UnitId = unit1.Id;
-            answer.TimeZone = Guid.NewGuid().ToString();
-            answer.FinishedAt = DateTime.Now;
-            answer.LanguageId = language.Id;
-            answer.AnswerDuration = rnd.Next(1, 255);
-            answer.UtcAdjusted = true;
+
+            answers answer = new answers
+            {
+                SiteId = site1.Id,
+                QuestionSetId = questionSet.Id,
+                SurveyConfigurationId = surveyConfiguration.Id,
+                UnitId = unit1.Id,
+                TimeZone = Guid.NewGuid().ToString(),
+                FinishedAt = DateTime.Now,
+                LanguageId = language.Id,
+                AnswerDuration = rnd.Next(1, 255),
+                UtcAdjusted = true
+            };
             await answer.Create(dbContext);
             
 
@@ -211,49 +249,56 @@ namespace eFormSDK.Integration.Tests
             string questionType = Guid.NewGuid().ToString();
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
-            questions question = new questions();
-            question.Type = type;
-            question.QuestionType = questionType;
-            question.ImagePosition = imagePosition;
-            question.FontSize = fontSize;
-            question.QuestionSetId = questionSet.Id;
-            question.Maximum = rnd.Next(1, 255);
-            question.Minimum = rnd.Next(1, 255);
-            question.RefId = rnd.Next(1, 255);
-            question.MaxDuration = rnd.Next(1, 255);
-            question.MinDuration = rnd.Next(1, 255);
-            question.QuestionIndex = rnd.Next(1, 255);
-            question.ContinuousQuestionId = rnd.Next(1, 255);
-            question.Prioritised = false;
-            question.ValidDisplay = false;
-            question.BackButtonEnabled = false;
-            question.Image = false;
+            questions question = new questions
+            {
+                Type = type,
+                QuestionType = questionType,
+                ImagePosition = imagePosition,
+                FontSize = fontSize,
+                QuestionSetId = questionSet.Id,
+                Maximum = rnd.Next(1, 255),
+                Minimum = rnd.Next(1, 255),
+                RefId = rnd.Next(1, 255),
+                MaxDuration = rnd.Next(1, 255),
+                MinDuration = rnd.Next(1, 255),
+                QuestionIndex = rnd.Next(1, 255),
+                ContinuousQuestionId = rnd.Next(1, 255),
+                Prioritised = false,
+                ValidDisplay = false,
+                BackButtonEnabled = false,
+                Image = false
+            };
             await question.Create(dbContext);
             #endregion
             
             #region Option
-            
-            options option = new options();
-            option.WeightValue = rnd.Next(1, 255);
-            option.QuestionId = question.Id;
-            option.Weight = rnd.Next(1, 255);
-            option.OptionsIndex = rnd.Next(1, 255);
-            option.NextQuestionId = rnd.Next(1, 255);
-            option.ContinuousOptionId = rnd.Next(1, 255);
+
+            options option = new options
+            {
+                WeightValue = rnd.Next(1, 255),
+                QuestionId = question.Id,
+                Weight = rnd.Next(1, 255),
+                OptionsIndex = rnd.Next(1, 255),
+                NextQuestionId = rnd.Next(1, 255),
+                ContinuousOptionId = rnd.Next(1, 255)
+            };
             await option.Create(dbContext);
             #endregion
             
             #region Answer2
-            answers answer2 = new answers();
-            answer2.SiteId = site1.Id;
-            answer2.QuestionSetId = questionSet.Id;
-            answer2.SurveyConfigurationId = surveyConfiguration.Id;
-            answer2.UnitId = unit1.Id;
-            answer2.TimeZone = Guid.NewGuid().ToString();
-            answer2.FinishedAt = DateTime.Now;
-            answer2.LanguageId = language.Id;
-            answer2.AnswerDuration = rnd.Next(1, 255);
-            answer2.UtcAdjusted = true;
+
+            answers answer2 = new answers
+            {
+                SiteId = site1.Id,
+                QuestionSetId = questionSet.Id,
+                SurveyConfigurationId = surveyConfiguration.Id,
+                UnitId = unit1.Id,
+                TimeZone = Guid.NewGuid().ToString(),
+                FinishedAt = DateTime.Now,
+                LanguageId = language.Id,
+                AnswerDuration = rnd.Next(1, 255),
+                UtcAdjusted = true
+            };
             await answer2.Create(dbContext);
             
 
@@ -264,45 +309,53 @@ namespace eFormSDK.Integration.Tests
             string questionType2 = Guid.NewGuid().ToString();
             string imagePosition2 = Guid.NewGuid().ToString();
             string fontSize2 = Guid.NewGuid().ToString();
-            questions question2 = new questions();
-            question2.Type = type2;
-            question2.QuestionType = questionType2;
-            question2.ImagePosition = imagePosition2;
-            question2.FontSize = fontSize2;
-            question2.QuestionSetId = questionSet.Id;
-            question2.Maximum = rnd.Next(1, 255);
-            question2.Minimum = rnd.Next(1, 255);
-            question2.RefId = rnd.Next(1, 255);
-            question2.MaxDuration = rnd.Next(1, 255);
-            question2.MinDuration = rnd.Next(1, 255);
-            question2.QuestionIndex = rnd.Next(1, 255);
-            question2.ContinuousQuestionId = rnd.Next(1, 255);
-            question2.Prioritised = false;
-            question2.ValidDisplay = false;
-            question2.BackButtonEnabled = false;
-            question2.Image = false;
+            questions question2 = new questions
+            {
+                Type = type2,
+                QuestionType = questionType2,
+                ImagePosition = imagePosition2,
+                FontSize = fontSize2,
+                QuestionSetId = questionSet.Id,
+                Maximum = rnd.Next(1, 255),
+                Minimum = rnd.Next(1, 255),
+                RefId = rnd.Next(1, 255),
+                MaxDuration = rnd.Next(1, 255),
+                MinDuration = rnd.Next(1, 255),
+                QuestionIndex = rnd.Next(1, 255),
+                ContinuousQuestionId = rnd.Next(1, 255),
+                Prioritised = false,
+                ValidDisplay = false,
+                BackButtonEnabled = false,
+                Image = false
+            };
+
             #endregion
             
             #region Option2
-            
-            options option2 = new options();
-            option2.WeightValue = rnd.Next(1, 255);
-            option2.QuestionId = question.Id;
-            option2.Weight = rnd.Next(1, 255);
-            option2.OptionsIndex = rnd.Next(1, 255);
-            option2.NextQuestionId = rnd.Next(1, 255);
-            option2.ContinuousOptionId = rnd.Next(1, 255);
+
+            options option2 = new options
+            {
+                WeightValue = rnd.Next(1, 255),
+                QuestionId = question.Id,
+                Weight = rnd.Next(1, 255),
+                OptionsIndex = rnd.Next(1, 255),
+                NextQuestionId = rnd.Next(1, 255),
+                ContinuousOptionId = rnd.Next(1, 255)
+            };
             await option2.Create(dbContext);
             #endregion
-            answer_values answerValue = new answer_values();
-            answerValue.QuestionId = question.Id;
-            answerValue.Value = rnd.Next(1, 255).ToString();
-            answerValue.Answer = answer;
-            answerValue.Option = option;
-            answerValue.AnswerId = answer.Id;
-            answerValue.Question = question;
-            answerValue.OptionId = option.Id;
-            
+
+            answer_values answerValue = new answer_values
+            {
+                QuestionId = question.Id,
+                Value = rnd.Next(1, 255).ToString(),
+                Answer = answer,
+                Option = option,
+                AnswerId = answer.Id,
+                Question = question,
+                OptionId = option.Id
+            };
+
             await answerValue.Create(dbContext);
             // Act
             answerValue.QuestionId = question2.Id;
@@ -335,9 +388,10 @@ namespace eFormSDK.Integration.Tests
             Random rnd = new Random();
             sites site1 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
             units unit1 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
-            languages language = new languages();
-            language.Name = Guid.NewGuid().ToString();
-            language.Description = Guid.NewGuid().ToString();
+            languages language = new languages
+            {
+                Name = Guid.NewGuid().ToString(), Description = Guid.NewGuid().ToString()
+            };
             await language.Create(dbContext);
             
             #region QuestionSet
@@ -364,16 +418,19 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Answer
-            answers answer = new answers();
-            answer.SiteId = site1.Id;
-            answer.QuestionSetId = questionSet.Id;
-            answer.SurveyConfigurationId = surveyConfiguration.Id;
-            answer.UnitId = unit1.Id;
-            answer.TimeZone = Guid.NewGuid().ToString();
-            answer.FinishedAt = DateTime.Now;
-            answer.LanguageId = language.Id;
-            answer.AnswerDuration = rnd.Next(1, 255);
-            answer.UtcAdjusted = true;
+
+            answers answer = new answers
+            {
+                SiteId = site1.Id,
+                QuestionSetId = questionSet.Id,
+                SurveyConfigurationId = surveyConfiguration.Id,
+                UnitId = unit1.Id,
+                TimeZone = Guid.NewGuid().ToString(),
+                FinishedAt = DateTime.Now,
+                LanguageId = language.Id,
+                AnswerDuration = rnd.Next(1, 255),
+                UtcAdjusted = true
+            };
             await answer.Create(dbContext);
             
 
@@ -384,46 +441,52 @@ namespace eFormSDK.Integration.Tests
             string questionType = Guid.NewGuid().ToString();
             string imagePosition = Guid.NewGuid().ToString();
             string fontSize = Guid.NewGuid().ToString();
-            questions question = new questions();
-            question.Type = type;
-            question.QuestionType = questionType;
-            question.ImagePosition = imagePosition;
-            question.FontSize = fontSize;
-            question.QuestionSetId = questionSet.Id;
-            question.Maximum = rnd.Next(1, 255);
-            question.Minimum = rnd.Next(1, 255);
-            question.RefId = rnd.Next(1, 255);
-            question.MaxDuration = rnd.Next(1, 255);
-            question.MinDuration = rnd.Next(1, 255);
-            question.QuestionIndex = rnd.Next(1, 255);
-            question.ContinuousQuestionId = rnd.Next(1, 255);
-            question.Prioritised = false;
-            question.ValidDisplay = false;
-            question.BackButtonEnabled = false;
-            question.Image = false;
+            questions question = new questions
+            {
+                Type = type,
+                QuestionType = questionType,
+                ImagePosition = imagePosition,
+                FontSize = fontSize,
+                QuestionSetId = questionSet.Id,
+                Maximum = rnd.Next(1, 255),
+                Minimum = rnd.Next(1, 255),
+                RefId = rnd.Next(1, 255),
+                MaxDuration = rnd.Next(1, 255),
+                MinDuration = rnd.Next(1, 255),
+                QuestionIndex = rnd.Next(1, 255),
+                ContinuousQuestionId = rnd.Next(1, 255),
+                Prioritised = false,
+                ValidDisplay = false,
+                BackButtonEnabled = false,
+                Image = false
+            };
             await question.Create(dbContext);
             #endregion
             
             #region Option
-            
-            options option = new options();
-            option.WeightValue = rnd.Next(1, 255);
-            option.QuestionId = question.Id;
-            option.Weight = rnd.Next(1, 255);
-            option.OptionsIndex = rnd.Next(1, 255);
-            option.NextQuestionId = rnd.Next(1, 255);
-            option.ContinuousOptionId = rnd.Next(1, 255);
+
+            options option = new options
+            {
+                WeightValue = rnd.Next(1, 255),
+                QuestionId = question.Id,
+                Weight = rnd.Next(1, 255),
+                OptionsIndex = rnd.Next(1, 255),
+                NextQuestionId = rnd.Next(1, 255),
+                ContinuousOptionId = rnd.Next(1, 255)
+            };
             await option.Create(dbContext);
             #endregion
-            
-            answer_values answerValue = new answer_values();
-            answerValue.QuestionId = question.Id;
-            answerValue.Value = rnd.Next(1, 255).ToString();
-            answerValue.Answer = answer;
-            answerValue.Option = option;
-            answerValue.AnswerId = answer.Id;
-            answerValue.Question = question;
-            answerValue.OptionId = option.Id;
+
+            answer_values answerValue = new answer_values
+            {
+                QuestionId = question.Id,
+                Value = rnd.Next(1, 255).ToString(),
+                Answer = answer,
+                Option = option,
+                AnswerId = answer.Id,
+                Question = question,
+                OptionId = option.Id
+            };
             await answerValue.Create(dbContext);
 
             // Act

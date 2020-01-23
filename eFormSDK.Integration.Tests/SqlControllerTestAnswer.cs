@@ -1,3 +1,28 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2007 - 2020 Microting A/S
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+
 using eFormCore;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
@@ -51,9 +76,10 @@ namespace eFormSDK.Integration.Tests
             Random rnd = new Random();
             sites site1 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
             units unit1 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
-            languages language = new languages();
-            language.Name = Guid.NewGuid().ToString();
-            language.Description = Guid.NewGuid().ToString();
+            languages language = new languages
+            {
+                Name = Guid.NewGuid().ToString(), Description = Guid.NewGuid().ToString()
+            };
             await language.Create(dbContext);
             
             
@@ -76,16 +102,18 @@ namespace eFormSDK.Integration.Tests
             };
             await surveyConfiguration.Create(dbContext);
 
-            answers answer = new answers();
-            answer.SiteId = site1.Id;
-            answer.QuestionSetId = questionSet.Id;
-            answer.SurveyConfigurationId = surveyConfiguration.Id;
-            answer.UnitId = unit1.Id;
-            answer.TimeZone = Guid.NewGuid().ToString();
-            answer.FinishedAt = DateTime.Now;
-            answer.LanguageId = language.Id;
-            answer.AnswerDuration = rnd.Next(1, 255);
-            answer.UtcAdjusted = true;
+            answers answer = new answers
+            {
+                SiteId = site1.Id,
+                QuestionSetId = questionSet.Id,
+                SurveyConfigurationId = surveyConfiguration.Id,
+                UnitId = unit1.Id,
+                TimeZone = Guid.NewGuid().ToString(),
+                FinishedAt = DateTime.Now,
+                LanguageId = language.Id,
+                AnswerDuration = rnd.Next(1, 255),
+                UtcAdjusted = true
+            };
             // Act
             await answer.Create(dbContext);
 

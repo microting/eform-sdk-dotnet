@@ -67,9 +67,11 @@ namespace eFormSDK.Integration.Tests
 
             sites site1 = await testHelpers.CreateSite("SiteName1", 88);
 
-            site_survey_configurations siteSurveyConfiguration = new site_survey_configurations();
-            siteSurveyConfiguration.SiteId = site1.Id;
-            siteSurveyConfiguration.SurveyConfigurationId = surveyConfiguration.Id;
+            site_survey_configurations siteSurveyConfiguration = new site_survey_configurations
+            {
+                SiteId = site1.Id, 
+                SurveyConfigurationId = surveyConfiguration.Id
+            };
             // Act
             await siteSurveyConfiguration.Create(dbContext);
 
@@ -171,9 +173,11 @@ namespace eFormSDK.Integration.Tests
 
             sites site1 = await testHelpers.CreateSite("SiteName1", 88);
 
-            site_survey_configurations siteSurveyConfiguration = new site_survey_configurations();
-            siteSurveyConfiguration.SiteId = site1.Id;
-            siteSurveyConfiguration.SurveyConfigurationId = surveyConfiguration.Id;
+            site_survey_configurations siteSurveyConfiguration = new site_survey_configurations
+            {
+                SiteId = site1.Id,
+                SurveyConfigurationId = surveyConfiguration.Id
+            };
             await siteSurveyConfiguration.Create(dbContext);
             // Act
             await siteSurveyConfiguration.Delete(dbContext);
