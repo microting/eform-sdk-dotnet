@@ -39,9 +39,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int QuestionId { get; set; }
         
         [ForeignKey("options")]
-        public int OptionsId { get; set; }
+        public int OptionId { get; set; }
         
-        public int Value { get; set; }
+        public string Value { get; set; }
         
         public int? MicrotingUid { get; set; }
         
@@ -76,7 +76,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             answerValue.Value = Value;
             answerValue.AnswerId = AnswerId;
-            answerValue.OptionsId = OptionsId;
+            answerValue.OptionId = OptionId;
             answerValue.QuestionId = QuestionId;
 
             if (dbContext.ChangeTracker.HasChanges())
@@ -115,7 +115,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             {
                 QuestionId = answerValue.QuestionId,
                 Value = answerValue.Value,
-                OptionsId = answerValue.OptionsId,
+                OptionId = answerValue.OptionId,
                 AnswerId = answerValue.AnswerId,
                 AnswerValueId = answerValue.Id,
                 CreatedAt = answerValue.CreatedAt,

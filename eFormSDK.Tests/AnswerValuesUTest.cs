@@ -22,116 +22,123 @@ namespace eFormSDK.Tests
 
              bool randomBool = rnd.Next(0, 2) > 0;
 
-             sites site = new sites();
-             site.Name = Guid.NewGuid().ToString();
-             site.MicrotingUid = rnd.Next(1, 255);
+             sites site = new sites {Name = Guid.NewGuid().ToString(), MicrotingUid = rnd.Next(1, 255)};
              await site.Create(dbContext);
-             
-             sites siteForUnit = new sites();
-             siteForUnit.Name = Guid.NewGuid().ToString();
-             siteForUnit.MicrotingUid = rnd.Next(1, 255);
+
+             sites siteForUnit = new sites {Name = Guid.NewGuid().ToString(), MicrotingUid = rnd.Next(1, 255)};
              await siteForUnit.Create(dbContext);
-             
-             units unit = new units();
-             unit.CustomerNo = rnd.Next(1, 255);
-             unit.MicrotingUid = rnd.Next(1, 255);
-             unit.OtpCode = rnd.Next(1, 255);
-             unit.SiteId = siteForUnit.Id;
+
+             units unit = new units
+             {
+                 CustomerNo = rnd.Next(1, 255),
+                 MicrotingUid = rnd.Next(1, 255),
+                 OtpCode = rnd.Next(1, 255),
+                 SiteId = siteForUnit.Id
+             };
              await unit.Create(dbContext);
-             
-             languages language = new languages();
-             language.Description = Guid.NewGuid().ToString();
-             language.Name = Guid.NewGuid().ToString();
+
+             languages language = new languages
+             {
+                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+             };
              await language.Create(dbContext);
-             
-             question_sets questionSet = new question_sets();
-             questionSet.Name = Guid.NewGuid().ToString();
-             questionSet.Share = randomBool;
-             questionSet.HasChild = randomBool;
-             questionSet.PosiblyDeployed = randomBool;
+
+             question_sets questionSet = new question_sets
+             {
+                 Name = Guid.NewGuid().ToString(),
+                 Share = randomBool,
+                 HasChild = randomBool,
+                 PosiblyDeployed = randomBool
+             };
              await questionSet.Create(dbContext);
-             
-             survey_configurations surveyConfiguration = new survey_configurations();
-             surveyConfiguration.Name = Guid.NewGuid().ToString();
-             surveyConfiguration.Start = DateTime.Now;
-             surveyConfiguration.Stop = DateTime.Now;
-             surveyConfiguration.TimeOut = rnd.Next(1, 255);
-             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
+
+             survey_configurations surveyConfiguration = new survey_configurations
+             {
+                 Name = Guid.NewGuid().ToString(),
+                 Start = DateTime.Now,
+                 Stop = DateTime.Now,
+                 TimeOut = rnd.Next(1, 255),
+                 TimeToLive = rnd.Next(1, 255),
+                 QuestionSetId = questionSet.Id
+             };
              await surveyConfiguration.Create(dbContext);
-             
-             answers answer = new answers();
-             answer.AnswerDuration = rnd.Next(1, 255);
-             answer.FinishedAt = DateTime.Now;
-             answer.LanguageId = language.Id;
-             answer.QuestionSetId = questionSet.Id;
-             answer.SiteId = site.Id;
-             answer.TimeZone = Guid.NewGuid().ToString();
-             answer.UnitId = unit.Id;
-             answer.UtcAdjusted = randomBool;
+
+             answers answer = new answers
+             {
+                 AnswerDuration = rnd.Next(1, 255),
+                 FinishedAt = DateTime.Now,
+                 LanguageId = language.Id,
+                 QuestionSetId = questionSet.Id,
+                 SiteId = site.Id,
+                 TimeZone = Guid.NewGuid().ToString(),
+                 UnitId = unit.Id,
+                 UtcAdjusted = randomBool
+             };
              answer.QuestionSetId = questionSet.Id;
              answer.SurveyConfigurationId = surveyConfiguration.Id;
              await answer.Create(dbContext);
-             
-             question_sets questionSetForQuestion = new question_sets();
-             questionSetForQuestion.Name = Guid.NewGuid().ToString();
-             questionSetForQuestion.Share = randomBool;
-             questionSetForQuestion.HasChild = randomBool;
-             questionSetForQuestion.PosiblyDeployed = randomBool;
-             await questionSetForQuestion.Create(dbContext);
-             
-             questions question = new questions();
-             question.Image = randomBool;
-             question.Maximum = rnd.Next(1, 255);
-             question.Minimum = rnd.Next(1, 255);
-             question.Prioritised = randomBool;
-             question.Type = Guid.NewGuid().ToString();
-             question.FontSize = Guid.NewGuid().ToString();
-             question.ImagePosition = Guid.NewGuid().ToString();
-             question.MaxDuration = rnd.Next(1, 255);
-             question.MinDuration = rnd.Next(1, 255);
-             question.QuestionIndex = rnd.Next(1, 255);
-             question.QuestionType = Guid.NewGuid().ToString();
-             question.RefId = rnd.Next(1, 255);
-             question.ValidDisplay = randomBool;
-             question.BackButtonEnabled = randomBool;
-             question.ContinuousQuestionId = rnd.Next(1, 255);
-             question.QuestionSetId = questionSetForQuestion.Id;
+
+             questions question = new questions
+             {
+                 Image = randomBool,
+                 Maximum = rnd.Next(1, 255),
+                 Minimum = rnd.Next(1, 255),
+                 Prioritised = randomBool,
+                 Type = Guid.NewGuid().ToString(),
+                 FontSize = Guid.NewGuid().ToString(),
+                 ImagePosition = Guid.NewGuid().ToString(),
+                 MaxDuration = rnd.Next(1, 255),
+                 MinDuration = rnd.Next(1, 255),
+                 QuestionIndex = rnd.Next(1, 255),
+                 QuestionType = Guid.NewGuid().ToString(),
+                 RefId = rnd.Next(1, 255),
+                 ValidDisplay = randomBool,
+                 BackButtonEnabled = randomBool,
+                 ContinuousQuestionId = rnd.Next(1, 255),
+                 QuestionSetId = questionSet.Id
+             };
              await question.Create(dbContext);
-             
-             options option = new options();
-             option.Question = question;
-             option.Weight = rnd.Next(1, 255);
-             option.OptionsIndex = rnd.Next(1, 255);
-             option.QuestionId = question.Id;
-             option.WeightValue = rnd.Next(1, 255);
-             option.ContinuousOptionId = rnd.Next(1, 255);
+
+             options option = new options
+             {
+                 Question = question,
+                 Weight = rnd.Next(1, 255),
+                 OptionsIndex = rnd.Next(1, 255),
+                 QuestionId = question.Id,
+                 WeightValue = rnd.Next(1, 255),
+                 ContinuousOptionId = rnd.Next(1, 255)
+             };
              await option.Create(dbContext);
-             
-             questions questionForAnswerValue = new questions();
-             questionForAnswerValue.Image = randomBool;
-             questionForAnswerValue.Maximum = rnd.Next(1, 255);
-             questionForAnswerValue.Minimum = rnd.Next(1, 255);
-             questionForAnswerValue.Prioritised = randomBool;
-             questionForAnswerValue.Type = Guid.NewGuid().ToString();
-             questionForAnswerValue.FontSize = Guid.NewGuid().ToString();
-             questionForAnswerValue.ImagePosition = Guid.NewGuid().ToString();
-             questionForAnswerValue.MaxDuration = rnd.Next(1, 255);
-             questionForAnswerValue.MinDuration = rnd.Next(1, 255);
-             questionForAnswerValue.QuestionIndex = rnd.Next(1, 255);
-             questionForAnswerValue.QuestionType = Guid.NewGuid().ToString();
-             questionForAnswerValue.RefId = rnd.Next(1, 255);
-             questionForAnswerValue.ValidDisplay = randomBool;
-             questionForAnswerValue.BackButtonEnabled = randomBool;
-             questionForAnswerValue.ContinuousQuestionId = rnd.Next(1, 255);
-             questionForAnswerValue.QuestionSetId = questionSetForQuestion.Id;
+
+             questions questionForAnswerValue = new questions
+             {
+                 Image = randomBool,
+                 Maximum = rnd.Next(1, 255),
+                 Minimum = rnd.Next(1, 255),
+                 Prioritised = randomBool,
+                 Type = Guid.NewGuid().ToString(),
+                 FontSize = Guid.NewGuid().ToString(),
+                 ImagePosition = Guid.NewGuid().ToString(),
+                 MaxDuration = rnd.Next(1, 255),
+                 MinDuration = rnd.Next(1, 255),
+                 QuestionIndex = rnd.Next(1, 255),
+                 QuestionType = Guid.NewGuid().ToString(),
+                 RefId = rnd.Next(1, 255),
+                 ValidDisplay = randomBool,
+                 BackButtonEnabled = randomBool,
+                 ContinuousQuestionId = rnd.Next(1, 255),
+                 QuestionSetId = questionSet.Id
+             };
              await questionForAnswerValue.Create(dbContext);
-            
-             answer_values answerValue = new answer_values();
-             answerValue.Value = rnd.Next(1, 255);
-             answerValue.AnswerId = answer.Id;
-             answerValue.OptionsId = option.Id;
-             answerValue.QuestionId = question.Id;
-             
+
+             answer_values answerValue = new answer_values
+             {
+                 Value = rnd.Next(1, 255).ToString(),
+                 AnswerId = answer.Id,
+                 OptionId = option.Id,
+                 QuestionId = question.Id
+             };
+
              //Act
              
              await answerValue.Create(dbContext);
@@ -154,7 +161,7 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValue.Value, answerValues[0].Value);
              Assert.AreEqual(answerValue.Id, answerValues[0].Id);
              Assert.AreEqual(answer.Id, answerValue.AnswerId);
-             Assert.AreEqual(option.Id, answerValue.OptionsId);
+             Assert.AreEqual(option.Id, answerValue.OptionId);
              Assert.AreEqual(question.Id, answerValue.QuestionId);
              
              //Versions
@@ -165,7 +172,7 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValue.Id, answerValueVersions[0].AnswerValueId);
              Assert.AreEqual(answerValue.Value, answerValueVersions[0].Value);
              Assert.AreEqual(answer.Id, answerValueVersions[0].AnswerId);
-             Assert.AreEqual(option.Id, answerValueVersions[0].OptionsId);
+             Assert.AreEqual(option.Id, answerValueVersions[0].OptionId);
              Assert.AreEqual(question.Id, answerValueVersions[0].QuestionId);
         }
 
@@ -178,122 +185,129 @@ namespace eFormSDK.Tests
 
              bool randomBool = rnd.Next(0, 2) > 0;
 
-             sites site = new sites();
-             site.Name = Guid.NewGuid().ToString();
-             site.MicrotingUid = rnd.Next(1, 255);
+             sites site = new sites {Name = Guid.NewGuid().ToString(), MicrotingUid = rnd.Next(1, 255)};
              await site.Create(dbContext);
-             
-             sites siteForUnit = new sites();
-             siteForUnit.Name = Guid.NewGuid().ToString();
-             siteForUnit.MicrotingUid = rnd.Next(1, 255);
+
+             sites siteForUnit = new sites {Name = Guid.NewGuid().ToString(), MicrotingUid = rnd.Next(1, 255)};
              await siteForUnit.Create(dbContext);
-             
-             units unit = new units();
-             unit.CustomerNo = rnd.Next(1, 255);
-             unit.MicrotingUid = rnd.Next(1, 255);
-             unit.OtpCode = rnd.Next(1, 255);
-             unit.SiteId = siteForUnit.Id;
+
+             units unit = new units
+             {
+                 CustomerNo = rnd.Next(1, 255),
+                 MicrotingUid = rnd.Next(1, 255),
+                 OtpCode = rnd.Next(1, 255),
+                 SiteId = siteForUnit.Id
+             };
              await unit.Create(dbContext);
-             
-             languages language = new languages();
-             language.Description = Guid.NewGuid().ToString();
-             language.Name = Guid.NewGuid().ToString();
+
+             languages language = new languages
+             {
+                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+             };
              await language.Create(dbContext);
-             
-             question_sets questionSet = new question_sets();
-             questionSet.Name = Guid.NewGuid().ToString();
-             questionSet.Share = randomBool;
-             questionSet.HasChild = randomBool;
-             questionSet.PosiblyDeployed = randomBool;
+
+             question_sets questionSet = new question_sets
+             {
+                 Name = Guid.NewGuid().ToString(),
+                 Share = randomBool,
+                 HasChild = randomBool,
+                 PosiblyDeployed = randomBool
+             };
              await questionSet.Create(dbContext);
-             
-             survey_configurations surveyConfiguration = new survey_configurations();
-             surveyConfiguration.Name = Guid.NewGuid().ToString();
-             surveyConfiguration.Start = DateTime.Now;
-             surveyConfiguration.Stop = DateTime.Now;
-             surveyConfiguration.TimeOut = rnd.Next(1, 255);
-             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
+
+             survey_configurations surveyConfiguration = new survey_configurations
+             {
+                 Name = Guid.NewGuid().ToString(),
+                 Start = DateTime.Now,
+                 Stop = DateTime.Now,
+                 TimeOut = rnd.Next(1, 255),
+                 TimeToLive = rnd.Next(1, 255),
+                 QuestionSetId = questionSet.Id
+             };
              await surveyConfiguration.Create(dbContext);
-             
-             answers answer = new answers();
-             answer.AnswerDuration = rnd.Next(1, 255);
-             answer.FinishedAt = DateTime.Now;
-             answer.LanguageId = language.Id;
-             answer.SiteId = site.Id;
-             answer.TimeZone = Guid.NewGuid().ToString();
-             answer.UnitId = unit.Id;
-             answer.UtcAdjusted = randomBool;
-             answer.QuestionSetId = questionSet.Id;
-             answer.SurveyConfigurationId = surveyConfiguration.Id;
+
+             answers answer = new answers
+             {
+                 AnswerDuration = rnd.Next(1, 255),
+                 FinishedAt = DateTime.Now,
+                 LanguageId = language.Id,
+                 SiteId = site.Id,
+                 TimeZone = Guid.NewGuid().ToString(),
+                 UnitId = unit.Id,
+                 UtcAdjusted = randomBool,
+                 QuestionSetId = questionSet.Id,
+                 SurveyConfigurationId = surveyConfiguration.Id
+             };
              await answer.Create(dbContext);
-             
-             question_sets questionSetForQuestion = new question_sets();
-             questionSet.Name = Guid.NewGuid().ToString();
-             questionSet.Share = randomBool;
-             questionSet.HasChild = randomBool;
-             questionSet.PosiblyDeployed = randomBool;
-             await questionSetForQuestion.Create(dbContext);
-             
-             questions question = new questions();
-             question.Image = randomBool;
-             question.Maximum = rnd.Next(1, 255);
-             question.Minimum = rnd.Next(1, 255);
-             question.Prioritised = randomBool;
-             question.Type = Guid.NewGuid().ToString();
-             question.FontSize = Guid.NewGuid().ToString();
-             question.ImagePosition = Guid.NewGuid().ToString();
-             question.MaxDuration = rnd.Next(1, 255);
-             question.MinDuration = rnd.Next(1, 255);
-             question.QuestionIndex = rnd.Next(1, 255);
-             question.QuestionType = Guid.NewGuid().ToString();
-             question.RefId = rnd.Next(1, 255);
-             question.ValidDisplay = randomBool;
-             question.BackButtonEnabled = randomBool;
-             question.ContinuousQuestionId = rnd.Next(1, 255);
-             question.QuestionSetId = questionSetForQuestion.Id;
+
+             questions question = new questions
+             {
+                 Image = randomBool,
+                 Maximum = rnd.Next(1, 255),
+                 Minimum = rnd.Next(1, 255),
+                 Prioritised = randomBool,
+                 Type = Guid.NewGuid().ToString(),
+                 FontSize = Guid.NewGuid().ToString(),
+                 ImagePosition = Guid.NewGuid().ToString(),
+                 MaxDuration = rnd.Next(1, 255),
+                 MinDuration = rnd.Next(1, 255),
+                 QuestionIndex = rnd.Next(1, 255),
+                 QuestionType = Guid.NewGuid().ToString(),
+                 RefId = rnd.Next(1, 255),
+                 ValidDisplay = randomBool,
+                 BackButtonEnabled = randomBool,
+                 ContinuousQuestionId = rnd.Next(1, 255),
+                 QuestionSetId = questionSet.Id
+             };
              await question.Create(dbContext);
-             
-             options option = new options();
-             option.Question = question;
-             option.Weight = rnd.Next(1, 255);
-             option.OptionsIndex = rnd.Next(1, 255);
-             option.QuestionId = question.Id;
-             option.WeightValue = rnd.Next(1, 255);
-             option.ContinuousOptionId = rnd.Next(1, 255);
+
+             options option = new options
+             {
+                 Question = question,
+                 Weight = rnd.Next(1, 255),
+                 OptionsIndex = rnd.Next(1, 255),
+                 QuestionId = question.Id,
+                 WeightValue = rnd.Next(1, 255),
+                 ContinuousOptionId = rnd.Next(1, 255)
+             };
              await option.Create(dbContext);
-             
-             questions questionForAnswerValue = new questions();
-             questionForAnswerValue.Image = randomBool;
-             questionForAnswerValue.Maximum = rnd.Next(1, 255);
-             questionForAnswerValue.Minimum = rnd.Next(1, 255);
-             questionForAnswerValue.Prioritised = randomBool;
-             questionForAnswerValue.Type = Guid.NewGuid().ToString();
-             questionForAnswerValue.FontSize = Guid.NewGuid().ToString();
-             questionForAnswerValue.ImagePosition = Guid.NewGuid().ToString();
-             questionForAnswerValue.MaxDuration = rnd.Next(1, 255);
-             questionForAnswerValue.MinDuration = rnd.Next(1, 255);
-             questionForAnswerValue.QuestionIndex = rnd.Next(1, 255);
-             questionForAnswerValue.QuestionType = Guid.NewGuid().ToString();
-             questionForAnswerValue.RefId = rnd.Next(1, 255);
-             questionForAnswerValue.ValidDisplay = randomBool;
-             questionForAnswerValue.BackButtonEnabled = randomBool;
-             questionForAnswerValue.ContinuousQuestionId = rnd.Next(1, 255);
-             questionForAnswerValue.QuestionSetId = questionSetForQuestion.Id;
+
+             questions questionForAnswerValue = new questions
+             {
+                 Image = randomBool,
+                 Maximum = rnd.Next(1, 255),
+                 Minimum = rnd.Next(1, 255),
+                 Prioritised = randomBool,
+                 Type = Guid.NewGuid().ToString(),
+                 FontSize = Guid.NewGuid().ToString(),
+                 ImagePosition = Guid.NewGuid().ToString(),
+                 MaxDuration = rnd.Next(1, 255),
+                 MinDuration = rnd.Next(1, 255),
+                 QuestionIndex = rnd.Next(1, 255),
+                 QuestionType = Guid.NewGuid().ToString(),
+                 RefId = rnd.Next(1, 255),
+                 ValidDisplay = randomBool,
+                 BackButtonEnabled = randomBool,
+                 ContinuousQuestionId = rnd.Next(1, 255),
+                 QuestionSetId = questionSet.Id
+             };
              await questionForAnswerValue.Create(dbContext);
-            
-             answer_values answerValue = new answer_values();
-             answerValue.Value = rnd.Next(1, 255);
-             answerValue.AnswerId = answer.Id;
-             answerValue.OptionsId = option.Id;
-             answerValue.QuestionId = question.Id;
+
+             answer_values answerValue = new answer_values
+             {
+                 Value = rnd.Next(1, 255).ToString(),
+                 AnswerId = answer.Id,
+                 OptionId = option.Id,
+                 QuestionId = question.Id
+             };
              await answerValue.Create(dbContext);
              
              //Act
              
              DateTime? oldUpdatedAt = answerValue.UpdatedAt;
-             int oldValue = answerValue.Value;
+             string oldValue = answerValue.Value;
 
-             answerValue.Value = rnd.Next(1, 255);
+             answerValue.Value = rnd.Next(1, 255).ToString();
              
              await answerValue.Update(dbContext);
              
@@ -316,7 +330,7 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValue.Value, answerValues[0].Value);
              Assert.AreEqual(answerValue.Id, answerValues[0].Id);
              Assert.AreEqual(answerValue.AnswerId, answer.Id);
-             Assert.AreEqual(answerValue.OptionsId, option.Id);
+             Assert.AreEqual(answerValue.OptionId, option.Id);
              Assert.AreEqual(answerValue.QuestionId, question.Id);
              
              //Old Version
@@ -327,7 +341,7 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValue.Id, answerValueVersions[0].AnswerValueId);
              Assert.AreEqual(oldValue, answerValueVersions[0].Value);
              Assert.AreEqual(answer.Id, answerValueVersions[0].AnswerId);
-             Assert.AreEqual(option.Id, answerValueVersions[0].OptionsId);
+             Assert.AreEqual(option.Id, answerValueVersions[0].OptionId);
              Assert.AreEqual(question.Id, answerValueVersions[0].QuestionId);
              
              //New Version
@@ -338,7 +352,7 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValue.Id, answerValueVersions[1].AnswerValueId);
              Assert.AreEqual(answerValue.Value, answerValueVersions[1].Value);
              Assert.AreEqual(answer.Id, answerValueVersions[1].AnswerId);
-             Assert.AreEqual(option.Id, answerValueVersions[1].OptionsId);
+             Assert.AreEqual(option.Id, answerValueVersions[1].OptionId);
              Assert.AreEqual(question.Id, answerValueVersions[1].QuestionId);
         }
 
@@ -351,114 +365,121 @@ namespace eFormSDK.Tests
 
              bool randomBool = rnd.Next(0, 2) > 0;
 
-             sites site = new sites();
-             site.Name = Guid.NewGuid().ToString();
-             site.MicrotingUid = rnd.Next(1, 255);
+             sites site = new sites {Name = Guid.NewGuid().ToString(), MicrotingUid = rnd.Next(1, 255)};
              await site.Create(dbContext);
-             
-             sites siteForUnit = new sites();
-             siteForUnit.Name = Guid.NewGuid().ToString();
-             siteForUnit.MicrotingUid = rnd.Next(1, 255);
+
+             sites siteForUnit = new sites {Name = Guid.NewGuid().ToString(), MicrotingUid = rnd.Next(1, 255)};
              await siteForUnit.Create(dbContext);
-             
-             units unit = new units();
-             unit.CustomerNo = rnd.Next(1, 255);
-             unit.MicrotingUid = rnd.Next(1, 255);
-             unit.OtpCode = rnd.Next(1, 255);
-             unit.SiteId = siteForUnit.Id;
+
+             units unit = new units
+             {
+                 CustomerNo = rnd.Next(1, 255),
+                 MicrotingUid = rnd.Next(1, 255),
+                 OtpCode = rnd.Next(1, 255),
+                 SiteId = siteForUnit.Id
+             };
              await unit.Create(dbContext);
-             
-             languages language = new languages();
-             language.Description = Guid.NewGuid().ToString();
-             language.Name = Guid.NewGuid().ToString();
+
+             languages language = new languages
+             {
+                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+             };
              await language.Create(dbContext);
-             
-             question_sets questionSet = new question_sets();
-             questionSet.Name = Guid.NewGuid().ToString();
-             questionSet.Share = randomBool;
-             questionSet.HasChild = randomBool;
-             questionSet.PosiblyDeployed = randomBool;
+
+             question_sets questionSet = new question_sets
+             {
+                 Name = Guid.NewGuid().ToString(),
+                 Share = randomBool,
+                 HasChild = randomBool,
+                 PosiblyDeployed = randomBool
+             };
              await questionSet.Create(dbContext);
-             
-             survey_configurations surveyConfiguration = new survey_configurations();
-             surveyConfiguration.Name = Guid.NewGuid().ToString();
-             surveyConfiguration.Start = DateTime.Now;
-             surveyConfiguration.Stop = DateTime.Now;
-             surveyConfiguration.TimeOut = rnd.Next(1, 255);
-             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
+
+             survey_configurations surveyConfiguration = new survey_configurations
+             {
+                 Name = Guid.NewGuid().ToString(),
+                 Start = DateTime.Now,
+                 Stop = DateTime.Now,
+                 TimeOut = rnd.Next(1, 255),
+                 TimeToLive = rnd.Next(1, 255),
+                 QuestionSetId = questionSet.Id
+             };
              await surveyConfiguration.Create(dbContext);
-             
-             answers answer = new answers();
-             answer.AnswerDuration = rnd.Next(1, 255);
-             answer.FinishedAt = DateTime.Now;
-             answer.LanguageId = language.Id;
-             answer.SiteId = site.Id;
-             answer.SurveyConfiguration = surveyConfiguration;
-             answer.TimeZone = Guid.NewGuid().ToString();
-             answer.UnitId = unit.Id;
-             answer.UtcAdjusted = randomBool;
-             answer.QuestionSetId = questionSet.Id;
-             answer.SurveyConfigurationId = surveyConfiguration.Id;
+
+             answers answer = new answers
+             {
+                 AnswerDuration = rnd.Next(1, 255),
+                 FinishedAt = DateTime.Now,
+                 LanguageId = language.Id,
+                 SiteId = site.Id,
+                 SurveyConfiguration = surveyConfiguration,
+                 TimeZone = Guid.NewGuid().ToString(),
+                 UnitId = unit.Id,
+                 UtcAdjusted = randomBool,
+                 QuestionSetId = questionSet.Id,
+                 SurveyConfigurationId = surveyConfiguration.Id
+             };
              await answer.Create(dbContext);
-             
-             question_sets questionSetForQuestion = new question_sets();
-             questionSet.Name = Guid.NewGuid().ToString();
-             questionSet.Share = randomBool;
-             questionSet.HasChild = randomBool;
-             questionSet.PosiblyDeployed = randomBool;
-             await questionSetForQuestion.Create(dbContext);
-             
-             questions question = new questions();
-             question.Image = randomBool;
-             question.Maximum = rnd.Next(1, 255);
-             question.Minimum = rnd.Next(1, 255);
-             question.Prioritised = randomBool;
-             question.Type = Guid.NewGuid().ToString();
-             question.FontSize = Guid.NewGuid().ToString();
-             question.ImagePosition = Guid.NewGuid().ToString();
-             question.MaxDuration = rnd.Next(1, 255);
-             question.MinDuration = rnd.Next(1, 255);
-             question.QuestionIndex = rnd.Next(1, 255);
-             question.QuestionType = Guid.NewGuid().ToString();
-             question.RefId = rnd.Next(1, 255);
-             question.ValidDisplay = randomBool;
-             question.BackButtonEnabled = randomBool;
-             question.ContinuousQuestionId = rnd.Next(1, 255);
-             question.QuestionSetId = questionSetForQuestion.Id;
+
+             questions question = new questions
+             {
+                 Image = randomBool,
+                 Maximum = rnd.Next(1, 255),
+                 Minimum = rnd.Next(1, 255),
+                 Prioritised = randomBool,
+                 Type = Guid.NewGuid().ToString(),
+                 FontSize = Guid.NewGuid().ToString(),
+                 ImagePosition = Guid.NewGuid().ToString(),
+                 MaxDuration = rnd.Next(1, 255),
+                 MinDuration = rnd.Next(1, 255),
+                 QuestionIndex = rnd.Next(1, 255),
+                 QuestionType = Guid.NewGuid().ToString(),
+                 RefId = rnd.Next(1, 255),
+                 ValidDisplay = randomBool,
+                 BackButtonEnabled = randomBool,
+                 ContinuousQuestionId = rnd.Next(1, 255),
+                 QuestionSetId = questionSet.Id
+             };
              await question.Create(dbContext);
-             
-             options option = new options();
-             option.Weight = rnd.Next(1, 255);
-             option.OptionsIndex = rnd.Next(1, 255);
-             option.QuestionId = question.Id;
-             option.WeightValue = rnd.Next(1, 255);
-             option.ContinuousOptionId = rnd.Next(1, 255);
+
+             options option = new options
+             {
+                 Weight = rnd.Next(1, 255),
+                 OptionsIndex = rnd.Next(1, 255),
+                 QuestionId = question.Id,
+                 WeightValue = rnd.Next(1, 255),
+                 ContinuousOptionId = rnd.Next(1, 255)
+             };
              await option.Create(dbContext);
-             
-             questions questionForAnswerValue = new questions();
-             questionForAnswerValue.Image = randomBool;
-             questionForAnswerValue.Maximum = rnd.Next(1, 255);
-             questionForAnswerValue.Minimum = rnd.Next(1, 255);
-             questionForAnswerValue.Prioritised = randomBool;
-             questionForAnswerValue.Type = Guid.NewGuid().ToString();
-             questionForAnswerValue.FontSize = Guid.NewGuid().ToString();
-             questionForAnswerValue.ImagePosition = Guid.NewGuid().ToString();
-             questionForAnswerValue.MaxDuration = rnd.Next(1, 255);
-             questionForAnswerValue.MinDuration = rnd.Next(1, 255);
-             questionForAnswerValue.QuestionIndex = rnd.Next(1, 255);
-             questionForAnswerValue.QuestionType = Guid.NewGuid().ToString();
-             questionForAnswerValue.RefId = rnd.Next(1, 255);
-             questionForAnswerValue.ValidDisplay = randomBool;
-             questionForAnswerValue.BackButtonEnabled = randomBool;
-             questionForAnswerValue.ContinuousQuestionId = rnd.Next(1, 255);
-             questionForAnswerValue.QuestionSetId = questionSetForQuestion.Id;
+
+             questions questionForAnswerValue = new questions
+             {
+                 Image = randomBool,
+                 Maximum = rnd.Next(1, 255),
+                 Minimum = rnd.Next(1, 255),
+                 Prioritised = randomBool,
+                 Type = Guid.NewGuid().ToString(),
+                 FontSize = Guid.NewGuid().ToString(),
+                 ImagePosition = Guid.NewGuid().ToString(),
+                 MaxDuration = rnd.Next(1, 255),
+                 MinDuration = rnd.Next(1, 255),
+                 QuestionIndex = rnd.Next(1, 255),
+                 QuestionType = Guid.NewGuid().ToString(),
+                 RefId = rnd.Next(1, 255),
+                 ValidDisplay = randomBool,
+                 BackButtonEnabled = randomBool,
+                 ContinuousQuestionId = rnd.Next(1, 255),
+                 QuestionSetId = questionSet.Id
+             };
              await questionForAnswerValue.Create(dbContext);
-            
-             answer_values answerValue = new answer_values();
-             answerValue.Value = rnd.Next(1, 255);
-             answerValue.AnswerId = answer.Id;
-             answerValue.OptionsId = option.Id;
-             answerValue.QuestionId = question.Id;
+
+             answer_values answerValue = new answer_values
+             {
+                 Value = rnd.Next(1, 255).ToString(),
+                 AnswerId = answer.Id,
+                 OptionId = option.Id,
+                 QuestionId = question.Id
+             };
              await answerValue.Create(dbContext);
              
              //Act
@@ -486,7 +507,7 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValue.Value, answerValues[0].Value);
              Assert.AreEqual(answerValue.Id, answerValues[0].Id);
              Assert.AreEqual(answerValue.AnswerId, answer.Id);
-             Assert.AreEqual(answerValue.OptionsId, option.Id);
+             Assert.AreEqual(answerValue.OptionId, option.Id);
              Assert.AreEqual(answerValue.QuestionId, question.Id);
              
              //Old Version
@@ -497,7 +518,7 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValue.Id, answerValueVersions[0].AnswerValueId);
              Assert.AreEqual(answerValue.Value, answerValueVersions[0].Value);
              Assert.AreEqual(answer.Id, answerValueVersions[0].AnswerId);
-             Assert.AreEqual(option.Id, answerValueVersions[0].OptionsId);
+             Assert.AreEqual(option.Id, answerValueVersions[0].OptionId);
              Assert.AreEqual(question.Id, answerValueVersions[0].QuestionId);
              
              //New Version
@@ -508,7 +529,7 @@ namespace eFormSDK.Tests
              Assert.AreEqual(answerValue.Id, answerValueVersions[1].AnswerValueId);
              Assert.AreEqual(answerValue.Value, answerValueVersions[1].Value);
              Assert.AreEqual(answer.Id, answerValueVersions[1].AnswerId);
-             Assert.AreEqual(option.Id, answerValueVersions[1].OptionsId);
+             Assert.AreEqual(option.Id, answerValueVersions[1].OptionId);
              Assert.AreEqual(question.Id, answerValueVersions[1].QuestionId);
         }
     }

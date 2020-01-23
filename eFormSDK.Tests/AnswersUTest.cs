@@ -49,51 +49,59 @@ namespace eFormSDK.Tests
              site.Name = Guid.NewGuid().ToString();
              site.MicrotingUid = rnd.Next(1, 255);
              await site.Create(dbContext);
-             
-             sites siteForUnit = new sites();
-             siteForUnit.Name = Guid.NewGuid().ToString();
-             siteForUnit.MicrotingUid = rnd.Next(1, 255);
+
+             sites siteForUnit = new sites {Name = Guid.NewGuid().ToString(), MicrotingUid = rnd.Next(1, 255)};
              await siteForUnit.Create(dbContext);
-             
-             units unit = new units();
-             unit.SiteId = siteForUnit.Id;
-             unit.CustomerNo = rnd.Next(1, 255);
-             unit.MicrotingUid = rnd.Next(1, 255);
-             unit.OtpCode = rnd.Next(1, 255);
+
+             units unit = new units
+             {
+                 SiteId = siteForUnit.Id,
+                 CustomerNo = rnd.Next(1, 255),
+                 MicrotingUid = rnd.Next(1, 255),
+                 OtpCode = rnd.Next(1, 255)
+             };
              await unit.Create(dbContext);
 
-             languages language = new languages();
-             language.Description = Guid.NewGuid().ToString();
-             language.Name = Guid.NewGuid().ToString();
+             languages language = new languages
+             {
+                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+             };
              await language.Create(dbContext);
-             
-             question_sets questionSet = new question_sets();
-             questionSet.Name = Guid.NewGuid().ToString();
-             questionSet.Share = randomBool;
-             questionSet.HasChild = randomBool;
-             questionSet.PosiblyDeployed = randomBool;
+
+             question_sets questionSet = new question_sets
+             {
+                 Name = Guid.NewGuid().ToString(),
+                 Share = randomBool,
+                 HasChild = randomBool,
+                 PosiblyDeployed = randomBool
+             };
              await questionSet.Create(dbContext);
-             
-             survey_configurations surveyConfiguration = new survey_configurations();
-             surveyConfiguration.Name = Guid.NewGuid().ToString();
-             surveyConfiguration.Start = DateTime.Now;
-             surveyConfiguration.Stop = DateTime.Now;
-             surveyConfiguration.TimeOut = rnd.Next(1, 255);
-             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
+
+             survey_configurations surveyConfiguration = new survey_configurations
+             {
+                 Name = Guid.NewGuid().ToString(),
+                 Start = DateTime.Now,
+                 Stop = DateTime.Now,
+                 TimeOut = rnd.Next(1, 255),
+                 TimeToLive = rnd.Next(1, 255),
+                 QuestionSetId = questionSet.Id
+             };
              await surveyConfiguration.Create(dbContext);
-             
-             answers answer = new answers();
-             answer.AnswerDuration = rnd.Next(1, 255);
-             answer.FinishedAt = DateTime.Now;
-             answer.LanguageId = language.Id;
-             answer.Language = language;
-             answer.SiteId = site.Id;
-             answer.UnitId = unit.Id;
-             answer.QuestionSetId = questionSet.Id;
-             answer.SurveyConfigurationId = surveyConfiguration.Id;
-             answer.TimeZone = Guid.NewGuid().ToString();
-             answer.UtcAdjusted = randomBool;
-             
+
+             answers answer = new answers
+             {
+                 AnswerDuration = rnd.Next(1, 255),
+                 FinishedAt = DateTime.Now,
+                 LanguageId = language.Id,
+                 Language = language,
+                 SiteId = site.Id,
+                 UnitId = unit.Id,
+                 QuestionSetId = questionSet.Id,
+                 SurveyConfigurationId = surveyConfiguration.Id,
+                 TimeZone = Guid.NewGuid().ToString(),
+                 UtcAdjusted = randomBool
+             };
+
              //Act
             
              await answer.Create(dbContext);
@@ -149,54 +157,60 @@ namespace eFormSDK.Tests
 
              bool randomBool = rnd.Next(0, 2) > 0;
 
-             sites site = new sites();
-             site.Name = Guid.NewGuid().ToString();
-             site.MicrotingUid = rnd.Next(1, 255);
+             sites site = new sites {Name = Guid.NewGuid().ToString(), MicrotingUid = rnd.Next(1, 255)};
              await site.Create(dbContext);
-             
-             sites siteForUnit = new sites();
-             siteForUnit.Name = Guid.NewGuid().ToString();
-             siteForUnit.MicrotingUid = rnd.Next(1, 255);
+
+             sites siteForUnit = new sites {Name = Guid.NewGuid().ToString(), MicrotingUid = rnd.Next(1, 255)};
              await siteForUnit.Create(dbContext);
-             
-             units unit = new units();
-             unit.SiteId = siteForUnit.Id;
-             unit.CustomerNo = rnd.Next(1, 255);
-             unit.MicrotingUid = rnd.Next(1, 255);
-             unit.OtpCode = rnd.Next(1, 255);
+
+             units unit = new units
+             {
+                 SiteId = siteForUnit.Id,
+                 CustomerNo = rnd.Next(1, 255),
+                 MicrotingUid = rnd.Next(1, 255),
+                 OtpCode = rnd.Next(1, 255)
+             };
              await unit.Create(dbContext);
-             
-             languages language = new languages();
-             language.Description = Guid.NewGuid().ToString();
-             language.Name = Guid.NewGuid().ToString();
+
+             languages language = new languages
+             {
+                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+             };
              await language.Create(dbContext);
-             
-             question_sets questionSet = new question_sets();
-             questionSet.Name = Guid.NewGuid().ToString();
-             questionSet.Share = randomBool;
-             questionSet.HasChild = randomBool;
-             questionSet.PosiblyDeployed = randomBool;
+
+             question_sets questionSet = new question_sets
+             {
+                 Name = Guid.NewGuid().ToString(),
+                 Share = randomBool,
+                 HasChild = randomBool,
+                 PosiblyDeployed = randomBool
+             };
              await questionSet.Create(dbContext);
-             
-             survey_configurations surveyConfiguration = new survey_configurations();
-             surveyConfiguration.Name = Guid.NewGuid().ToString();
-             surveyConfiguration.Start = DateTime.Now;
-             surveyConfiguration.Stop = DateTime.Now;
-             surveyConfiguration.TimeOut = rnd.Next(1, 255);
-             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
+
+             survey_configurations surveyConfiguration = new survey_configurations
+             {
+                 Name = Guid.NewGuid().ToString(),
+                 Start = DateTime.Now,
+                 Stop = DateTime.Now,
+                 TimeOut = rnd.Next(1, 255),
+                 TimeToLive = rnd.Next(1, 255),
+                 QuestionSetId = questionSet.Id
+             };
              await surveyConfiguration.Create(dbContext);
-             
-             answers answer = new answers();
-             answer.AnswerDuration = rnd.Next(1, 255);
-             answer.FinishedAt = DateTime.Now;
-             answer.LanguageId = language.Id;
-             answer.SiteId = site.Id;
-             answer.SurveyConfiguration = surveyConfiguration;
-             answer.TimeZone = Guid.NewGuid().ToString();
-             answer.UnitId = unit.Id;
-             answer.UtcAdjusted = randomBool;
-             answer.QuestionSetId = questionSet.Id;
-             answer.SurveyConfigurationId = surveyConfiguration.Id;
+
+             answers answer = new answers
+             {
+                 AnswerDuration = rnd.Next(1, 255),
+                 FinishedAt = DateTime.Now,
+                 LanguageId = language.Id,
+                 SiteId = site.Id,
+                 SurveyConfiguration = surveyConfiguration,
+                 TimeZone = Guid.NewGuid().ToString(),
+                 UnitId = unit.Id,
+                 UtcAdjusted = randomBool,
+                 QuestionSetId = questionSet.Id,
+                 SurveyConfigurationId = surveyConfiguration.Id
+             };
              await answer.Create(dbContext);
             
             //Act
@@ -277,53 +291,60 @@ namespace eFormSDK.Tests
 
              bool randomBool = rnd.Next(0, 2) > 0;
 
-             sites site = new sites();
-             site.Name = Guid.NewGuid().ToString();
-             site.MicrotingUid = rnd.Next(1, 255);
+             sites site = new sites {Name = Guid.NewGuid().ToString(), MicrotingUid = rnd.Next(1, 255)};
              await site.Create(dbContext);
-             
-             sites siteForUnit = new sites();
-             siteForUnit.Name = Guid.NewGuid().ToString();
-             siteForUnit.MicrotingUid = rnd.Next(1, 255);
+
+             sites siteForUnit = new sites {Name = Guid.NewGuid().ToString(), MicrotingUid = rnd.Next(1, 255)};
              await siteForUnit.Create(dbContext);
-             
-             units unit = new units();
-             unit.CustomerNo = rnd.Next(1, 255);
-             unit.MicrotingUid = rnd.Next(1, 255);
-             unit.OtpCode = rnd.Next(1, 255);
-             unit.SiteId = siteForUnit.Id;
+
+             units unit = new units
+             {
+                 CustomerNo = rnd.Next(1, 255),
+                 MicrotingUid = rnd.Next(1, 255),
+                 OtpCode = rnd.Next(1, 255),
+                 SiteId = siteForUnit.Id
+             };
              await unit.Create(dbContext);
-             
-             languages language = new languages();
-             language.Description = Guid.NewGuid().ToString();
-             language.Name = Guid.NewGuid().ToString();
+
+             languages language = new languages
+             {
+                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+             };
              await language.Create(dbContext);
-             
-             question_sets questionSet = new question_sets();
-             questionSet.Name = Guid.NewGuid().ToString();
-             questionSet.Share = randomBool;
-             questionSet.HasChild = randomBool; 
-             questionSet.PosiblyDeployed = randomBool;
+
+             question_sets questionSet = new question_sets
+             {
+                 Name = Guid.NewGuid().ToString(),
+                 Share = randomBool,
+                 HasChild = randomBool,
+                 PosiblyDeployed = randomBool
+             };
+
              await questionSet.Create(dbContext);
-             
-             survey_configurations surveyConfiguration = new survey_configurations();
-             surveyConfiguration.Name = Guid.NewGuid().ToString();
-             surveyConfiguration.Start = DateTime.Now;
-             surveyConfiguration.Stop = DateTime.Now;
-             surveyConfiguration.TimeOut = rnd.Next(1, 255);
-             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
+
+             survey_configurations surveyConfiguration = new survey_configurations
+             {
+                 Name = Guid.NewGuid().ToString(),
+                 Start = DateTime.Now,
+                 Stop = DateTime.Now,
+                 TimeOut = rnd.Next(1, 255),
+                 TimeToLive = rnd.Next(1, 255),
+                 QuestionSetId = questionSet.Id
+             };
              await surveyConfiguration.Create(dbContext);
-             
-             answers answer = new answers();
-             answer.AnswerDuration = rnd.Next(1, 255);
-             answer.FinishedAt = DateTime.Now;
-             answer.LanguageId = language.Id;
-             answer.SiteId = site.Id;
-             answer.TimeZone = Guid.NewGuid().ToString();
-             answer.UnitId = unit.Id;
-             answer.UtcAdjusted = randomBool;
-             answer.QuestionSetId = questionSet.Id;
-             answer.SurveyConfigurationId = surveyConfiguration.Id;
+
+             answers answer = new answers
+             {
+                 AnswerDuration = rnd.Next(1, 255),
+                 FinishedAt = DateTime.Now,
+                 LanguageId = language.Id,
+                 SiteId = site.Id,
+                 TimeZone = Guid.NewGuid().ToString(),
+                 UnitId = unit.Id,
+                 UtcAdjusted = randomBool,
+                 QuestionSetId = questionSet.Id,
+                 SurveyConfigurationId = surveyConfiguration.Id
+             };
              await answer.Create(dbContext);
             
             //Act

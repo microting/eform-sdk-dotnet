@@ -56,23 +56,26 @@ namespace eFormSDK.Integration.Tests
             language.Description = Guid.NewGuid().ToString();
             await language.Create(dbContext);
             
-            survey_configurations surveyConfiguration = new survey_configurations();
-            surveyConfiguration.Name = Guid.NewGuid().ToString();
-            surveyConfiguration.Stop = DateTime.Now;
-            surveyConfiguration.Start = DateTime.Now;
-            surveyConfiguration.TimeOut = rnd.Next(1, 255);
-            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            await surveyConfiguration.Create(dbContext);
+            
 
             string name = Guid.NewGuid().ToString();
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
             await questionSet.Create(dbContext);
 
-            
+            survey_configurations surveyConfiguration = new survey_configurations
+            {
+                Name = Guid.NewGuid().ToString(),
+                Stop = DateTime.Now,
+                Start = DateTime.Now,
+                TimeOut = rnd.Next(1, 255),
+                TimeToLive = rnd.Next(1, 255),
+                QuestionSetId = questionSet.Id
+            };
+            await surveyConfiguration.Create(dbContext);
+
             answers answer = new answers();
             answer.SiteId = site1.Id;
             answer.QuestionSetId = questionSet.Id;
@@ -114,24 +117,25 @@ namespace eFormSDK.Integration.Tests
             language.Name = Guid.NewGuid().ToString();
             language.Description = Guid.NewGuid().ToString();
             await language.Create(dbContext);
-            
-            survey_configurations surveyConfiguration = new survey_configurations();
-            surveyConfiguration.Name = Guid.NewGuid().ToString();
-            surveyConfiguration.Stop = DateTime.Now;
-            surveyConfiguration.Start = DateTime.Now;
-            surveyConfiguration.TimeOut = rnd.Next(1, 255);
-            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            await surveyConfiguration.Create(dbContext);
 
             string name = Guid.NewGuid().ToString();
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
             await questionSet.Create(dbContext);
 
-            
+            survey_configurations surveyConfiguration = new survey_configurations
+            {
+                Name = Guid.NewGuid().ToString(),
+                Stop = DateTime.Now,
+                Start = DateTime.Now,
+                TimeOut = rnd.Next(1, 255),
+                TimeToLive = rnd.Next(1, 255),
+                QuestionSetId = questionSet.Id
+            };
+            await surveyConfiguration.Create(dbContext);
+
             answers answer = new answers();
             answer.SiteId = site1.Id;
             answer.QuestionSetId = questionSet.Id;
@@ -183,39 +187,41 @@ namespace eFormSDK.Integration.Tests
             language2.Description = Guid.NewGuid().ToString();
             await language2.Create(dbContext);
             
-            survey_configurations surveyConfiguration = new survey_configurations();
-            surveyConfiguration.Name = Guid.NewGuid().ToString();
-            surveyConfiguration.Stop = DateTime.Now;
-            surveyConfiguration.Start = DateTime.Now;
-            surveyConfiguration.TimeOut = rnd.Next(1, 255);
-            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            await surveyConfiguration.Create(dbContext);
-
-            survey_configurations surveyConfiguration2 = new survey_configurations();
-            surveyConfiguration2.Name = Guid.NewGuid().ToString();
-            surveyConfiguration2.Stop = DateTime.Now;
-            surveyConfiguration2.Start = DateTime.Now;
-            surveyConfiguration2.TimeOut = rnd.Next(1, 255);
-            surveyConfiguration2.TimeToLive = rnd.Next(1, 255);
-            await surveyConfiguration2.Create(dbContext);
-
-            
             string name = Guid.NewGuid().ToString();
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
             await questionSet.Create(dbContext);
             
             string name2 = Guid.NewGuid().ToString();
-            question_sets questionSet2 = new question_sets();
-            questionSet2.Name = name2;
-            questionSet2.Share = false;
-            questionSet2.HasChild = false;
-            questionSet2.PosiblyDeployed = false;
+            question_sets questionSet2 = new question_sets
+            {
+                Name = name2, Share = false, HasChild = false, PosiblyDeployed = false
+            };
             await questionSet2.Create(dbContext);
 
+            survey_configurations surveyConfiguration = new survey_configurations
+            {
+                Name = Guid.NewGuid().ToString(),
+                Stop = DateTime.Now,
+                Start = DateTime.Now,
+                TimeOut = rnd.Next(1, 255),
+                TimeToLive = rnd.Next(1, 255),
+                QuestionSetId = questionSet.Id
+            };
+            await surveyConfiguration.Create(dbContext);
+
+            survey_configurations surveyConfiguration2 = new survey_configurations
+            {
+                Name = Guid.NewGuid().ToString(),
+                Stop = DateTime.Now,
+                Start = DateTime.Now,
+                TimeOut = rnd.Next(1, 255),
+                TimeToLive = rnd.Next(1, 255),
+                QuestionSetId = questionSet2.Id
+            };
+            await surveyConfiguration2.Create(dbContext);
             
             answers answer = new answers();
             answer.SiteId = site1.Id;
@@ -280,50 +286,54 @@ namespace eFormSDK.Integration.Tests
             language2.Description = Guid.NewGuid().ToString();
             await language2.Create(dbContext);
             
-            survey_configurations surveyConfiguration = new survey_configurations();
-            surveyConfiguration.Name = Guid.NewGuid().ToString();
-            surveyConfiguration.Stop = DateTime.Now;
-            surveyConfiguration.Start = DateTime.Now;
-            surveyConfiguration.TimeOut = rnd.Next(1, 255);
-            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            await surveyConfiguration.Create(dbContext);
-
-            survey_configurations surveyConfiguration2 = new survey_configurations();
-            surveyConfiguration2.Name = Guid.NewGuid().ToString();
-            surveyConfiguration2.Stop = DateTime.Now;
-            surveyConfiguration2.Start = DateTime.Now;
-            surveyConfiguration2.TimeOut = rnd.Next(1, 255);
-            surveyConfiguration2.TimeToLive = rnd.Next(1, 255);
-            await surveyConfiguration2.Create(dbContext);
-
-            
             string name = Guid.NewGuid().ToString();
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
             await questionSet.Create(dbContext);
             
             string name2 = Guid.NewGuid().ToString();
-            question_sets questionSet2 = new question_sets();
-            questionSet2.Name = name2;
-            questionSet2.Share = false;
-            questionSet2.HasChild = false;
-            questionSet2.PosiblyDeployed = false;
+            question_sets questionSet2 = new question_sets
+            {
+                Name = name2, Share = false, HasChild = false, PosiblyDeployed = false
+            };
             await questionSet2.Create(dbContext);
 
+            survey_configurations surveyConfiguration = new survey_configurations
+            {
+                Name = Guid.NewGuid().ToString(),
+                Stop = DateTime.Now,
+                Start = DateTime.Now,
+                TimeOut = rnd.Next(1, 255),
+                TimeToLive = rnd.Next(1, 255),
+                QuestionSetId = questionSet.Id
+            };
+            await surveyConfiguration.Create(dbContext);
+
+            survey_configurations surveyConfiguration2 = new survey_configurations
+            {
+                Name = Guid.NewGuid().ToString(),
+                Stop = DateTime.Now,
+                Start = DateTime.Now,
+                TimeOut = rnd.Next(1, 255),
+                TimeToLive = rnd.Next(1, 255),
+                QuestionSetId = questionSet2.Id
+            };
+            await surveyConfiguration2.Create(dbContext);
             
-            answers answer = new answers();
-            answer.SiteId = site1.Id;
-            answer.QuestionSetId = questionSet.Id;
-            answer.SurveyConfigurationId = surveyConfiguration.Id;
-            answer.UnitId = unit1.Id;
-            answer.TimeZone = Guid.NewGuid().ToString();
-            answer.FinishedAt = DateTime.Now;
-            answer.LanguageId = language.Id;
-            answer.AnswerDuration = rnd.Next(1, 255);
-            answer.UtcAdjusted = true;
+            answers answer = new answers
+            {
+                SiteId = site1.Id,
+                QuestionSetId = questionSet.Id,
+                SurveyConfigurationId = surveyConfiguration.Id,
+                UnitId = unit1.Id,
+                TimeZone = Guid.NewGuid().ToString(),
+                FinishedAt = DateTime.Now,
+                LanguageId = language.Id,
+                AnswerDuration = rnd.Next(1, 255),
+                UtcAdjusted = true
+            };
             await answer.Create(dbContext);
             // Act
 
@@ -367,23 +377,24 @@ namespace eFormSDK.Integration.Tests
             language.Description = Guid.NewGuid().ToString();
             await language.Create(dbContext);
             
-            survey_configurations surveyConfiguration = new survey_configurations();
-            surveyConfiguration.Name = Guid.NewGuid().ToString();
-            surveyConfiguration.Stop = DateTime.Now;
-            surveyConfiguration.Start = DateTime.Now;
-            surveyConfiguration.TimeOut = rnd.Next(1, 255);
-            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            await surveyConfiguration.Create(dbContext);
-
             string name = Guid.NewGuid().ToString();
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
             await questionSet.Create(dbContext);
 
-            
+            survey_configurations surveyConfiguration = new survey_configurations
+            {
+                Name = Guid.NewGuid().ToString(),
+                Stop = DateTime.Now,
+                Start = DateTime.Now,
+                TimeOut = rnd.Next(1, 255),
+                TimeToLive = rnd.Next(1, 255),
+                QuestionSetId = questionSet.Id
+            };
+            await surveyConfiguration.Create(dbContext);
+
             answers answer = new answers();
             answer.SiteId = site1.Id;
             answer.QuestionSetId = questionSet.Id;
@@ -429,23 +440,24 @@ namespace eFormSDK.Integration.Tests
             language.Description = Guid.NewGuid().ToString();
             await language.Create(dbContext);
             
-            survey_configurations surveyConfiguration = new survey_configurations();
-            surveyConfiguration.Name = Guid.NewGuid().ToString();
-            surveyConfiguration.Stop = DateTime.Now;
-            surveyConfiguration.Start = DateTime.Now;
-            surveyConfiguration.TimeOut = rnd.Next(1, 255);
-            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            await surveyConfiguration.Create(dbContext);
-
             string name = Guid.NewGuid().ToString();
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
             await questionSet.Create(dbContext);
 
-            
+            survey_configurations surveyConfiguration = new survey_configurations
+            {
+                Name = Guid.NewGuid().ToString(),
+                Stop = DateTime.Now,
+                Start = DateTime.Now,
+                TimeOut = rnd.Next(1, 255),
+                TimeToLive = rnd.Next(1, 255),
+                QuestionSetId = questionSet.Id
+            };
+            await surveyConfiguration.Create(dbContext);
+
             answers answer = new answers();
             answer.SiteId = site1.Id;
             answer.QuestionSetId = questionSet.Id;

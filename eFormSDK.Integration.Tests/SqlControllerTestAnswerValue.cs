@@ -54,26 +54,29 @@ namespace eFormSDK.Integration.Tests
             language.Description = Guid.NewGuid().ToString();
             await language.Create(dbContext);
             
-            #region surveyConfiguration
-            survey_configurations surveyConfiguration = new survey_configurations();
-            surveyConfiguration.Name = Guid.NewGuid().ToString();
-            surveyConfiguration.Stop = DateTime.Now;
-            surveyConfiguration.Start = DateTime.Now;
-            surveyConfiguration.TimeOut = rnd.Next(1, 255);
-            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            await surveyConfiguration.Create(dbContext);
-            #endregion
-            
             #region QuestionSet
             string name = Guid.NewGuid().ToString();
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
             await questionSet.Create(dbContext);
             #endregion
             
+            #region surveyConfiguration
+
+            survey_configurations surveyConfiguration = new survey_configurations
+            {
+                Name = Guid.NewGuid().ToString(),
+                Stop = DateTime.Now,
+                Start = DateTime.Now,
+                TimeOut = rnd.Next(1, 255),
+                TimeToLive = rnd.Next(1, 255),
+                QuestionSetId = questionSet.Id
+            };
+            await surveyConfiguration.Create(dbContext);
+            #endregion
+
             #region Answer
             answers answer = new answers();
             answer.SiteId = site1.Id;
@@ -129,12 +132,12 @@ namespace eFormSDK.Integration.Tests
             
             answer_values answerValue = new answer_values();
             answerValue.QuestionId = question.Id;
-            answerValue.Value = rnd.Next(1, 255);
+            answerValue.Value = rnd.Next(1, 255).ToString();
             answerValue.Answer = answer;
             answerValue.Option = option;
             answerValue.AnswerId = answer.Id;
             answerValue.Question = question;
-            answerValue.OptionsId = option.Id;
+            answerValue.OptionId = option.Id;
             
             // Act
             await answerValue.Create(dbContext);
@@ -148,7 +151,7 @@ namespace eFormSDK.Integration.Tests
             
             Assert.AreEqual(dbAnswerValue.QuestionId, answerValue.QuestionId);
             Assert.AreEqual(dbAnswerValue.AnswerId, answerValue.AnswerId);
-            Assert.AreEqual(dbAnswerValue.OptionsId, answerValue.OptionsId);
+            Assert.AreEqual(dbAnswerValue.OptionId, answerValue.OptionId);
             Assert.AreEqual(dbAnswerValue.Value, answerValue.Value);
         }
        
@@ -164,26 +167,29 @@ namespace eFormSDK.Integration.Tests
             language.Description = Guid.NewGuid().ToString();
             await language.Create(dbContext);
             
-            #region surveyConfiguration
-            survey_configurations surveyConfiguration = new survey_configurations();
-            surveyConfiguration.Name = Guid.NewGuid().ToString();
-            surveyConfiguration.Stop = DateTime.Now;
-            surveyConfiguration.Start = DateTime.Now;
-            surveyConfiguration.TimeOut = rnd.Next(1, 255);
-            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            await surveyConfiguration.Create(dbContext);
-            #endregion
-            
             #region QuestionSet
             string name = Guid.NewGuid().ToString();
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
             await questionSet.Create(dbContext);
             #endregion
             
+            #region surveyConfiguration
+
+            survey_configurations surveyConfiguration = new survey_configurations
+            {
+                Name = Guid.NewGuid().ToString(),
+                Stop = DateTime.Now,
+                Start = DateTime.Now,
+                TimeOut = rnd.Next(1, 255),
+                TimeToLive = rnd.Next(1, 255),
+                QuestionSetId = questionSet.Id
+            };
+            await surveyConfiguration.Create(dbContext);
+            #endregion
+
             #region Answer
             answers answer = new answers();
             answer.SiteId = site1.Id;
@@ -290,22 +296,22 @@ namespace eFormSDK.Integration.Tests
             #endregion
             answer_values answerValue = new answer_values();
             answerValue.QuestionId = question.Id;
-            answerValue.Value = rnd.Next(1, 255);
+            answerValue.Value = rnd.Next(1, 255).ToString();
             answerValue.Answer = answer;
             answerValue.Option = option;
             answerValue.AnswerId = answer.Id;
             answerValue.Question = question;
-            answerValue.OptionsId = option.Id;
+            answerValue.OptionId = option.Id;
             
             await answerValue.Create(dbContext);
             // Act
             answerValue.QuestionId = question2.Id;
-            answerValue.Value = rnd.Next(1, 255);
+            answerValue.Value = rnd.Next(1, 255).ToString();
             answerValue.Answer = answer2;
             answerValue.Option = option2;
             answerValue.AnswerId = answer2.Id;
             answerValue.Question = question2;
-            answerValue.OptionsId = option2.Id;
+            answerValue.OptionId = option2.Id;
             
             await answerValue.Update(dbContext);
             
@@ -318,7 +324,7 @@ namespace eFormSDK.Integration.Tests
             
             Assert.AreEqual(dbAnswerValue.QuestionId, answerValue.QuestionId);
             Assert.AreEqual(dbAnswerValue.AnswerId, answerValue.AnswerId);
-            Assert.AreEqual(dbAnswerValue.OptionsId, answerValue.OptionsId);
+            Assert.AreEqual(dbAnswerValue.OptionId, answerValue.OptionId);
             Assert.AreEqual(dbAnswerValue.Value, answerValue.Value);
         }
 
@@ -334,26 +340,29 @@ namespace eFormSDK.Integration.Tests
             language.Description = Guid.NewGuid().ToString();
             await language.Create(dbContext);
             
-            #region surveyConfiguration
-            survey_configurations surveyConfiguration = new survey_configurations();
-            surveyConfiguration.Name = Guid.NewGuid().ToString();
-            surveyConfiguration.Stop = DateTime.Now;
-            surveyConfiguration.Start = DateTime.Now;
-            surveyConfiguration.TimeOut = rnd.Next(1, 255);
-            surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            await surveyConfiguration.Create(dbContext);
-            #endregion
-            
             #region QuestionSet
             string name = Guid.NewGuid().ToString();
-            question_sets questionSet = new question_sets();
-            questionSet.Name = name;
-            questionSet.Share = false;
-            questionSet.HasChild = false;
-            questionSet.PosiblyDeployed = false;
+            question_sets questionSet = new question_sets
+            {
+                Name = name, Share = false, HasChild = false, PosiblyDeployed = false
+            };
             await questionSet.Create(dbContext);
             #endregion
             
+            #region surveyConfiguration
+
+            survey_configurations surveyConfiguration = new survey_configurations
+            {
+                Name = Guid.NewGuid().ToString(),
+                Stop = DateTime.Now,
+                Start = DateTime.Now,
+                TimeOut = rnd.Next(1, 255),
+                TimeToLive = rnd.Next(1, 255),
+                QuestionSetId = questionSet.Id
+            };
+            await surveyConfiguration.Create(dbContext);
+            #endregion
+
             #region Answer
             answers answer = new answers();
             answer.SiteId = site1.Id;
@@ -409,12 +418,12 @@ namespace eFormSDK.Integration.Tests
             
             answer_values answerValue = new answer_values();
             answerValue.QuestionId = question.Id;
-            answerValue.Value = rnd.Next(1, 255);
+            answerValue.Value = rnd.Next(1, 255).ToString();
             answerValue.Answer = answer;
             answerValue.Option = option;
             answerValue.AnswerId = answer.Id;
             answerValue.Question = question;
-            answerValue.OptionsId = option.Id;
+            answerValue.OptionId = option.Id;
             await answerValue.Create(dbContext);
 
             // Act
@@ -430,7 +439,7 @@ namespace eFormSDK.Integration.Tests
             
             Assert.AreEqual(dbAnswerValue.QuestionId, answerValue.QuestionId);
             Assert.AreEqual(dbAnswerValue.AnswerId, answerValue.AnswerId);
-            Assert.AreEqual(dbAnswerValue.OptionsId, answerValue.OptionsId);
+            Assert.AreEqual(dbAnswerValue.OptionId, answerValue.OptionId);
             Assert.AreEqual(dbAnswerValue.Value, answerValue.Value);
             Assert.AreEqual(Constants.WorkflowStates.Removed, dbAnswerValue.WorkflowState);
         }
