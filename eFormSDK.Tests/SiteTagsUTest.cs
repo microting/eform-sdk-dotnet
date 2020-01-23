@@ -187,5 +187,61 @@ namespace eFormSDK.Tests
             Assert.AreEqual(siteTagVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
             
         }
+
+        [Test]
+        public async Task SiteTags_MultipleCreateAndDelete()
+        {
+            Random rnd = new Random();
+
+            sites site = new sites();
+            site.Name = Guid.NewGuid().ToString();
+            site.MicrotingUid = rnd.Next(1, 255);
+            await site.Create(dbContext);
+
+            tags tag = new tags();
+            tag.Name = Guid.NewGuid().ToString();
+            tag.TaggingsCount = rnd.Next(1, 255);
+            await tag.Create(dbContext);
+
+
+            site_tags siteTag = new site_tags
+            {
+                SiteId = site.Id,
+                TagId = tag.Id
+            };
+            // Act
+            await siteTag.Create(dbContext);
+            await siteTag.Delete(dbContext);
+            siteTag.WorkflowState = Constants.WorkflowStates.Created;
+            await siteTag.Update(dbContext);
+            await siteTag.Delete(dbContext);
+            
+            List<site_tags> siteTags = dbContext.SiteTags.AsNoTracking().ToList();
+            List<site_tag_versions> siteTagVersions = dbContext.SiteTagVersions.AsNoTracking().ToList();
+            // Assert
+            Assert.NotNull(siteTags);
+            Assert.NotNull(siteTagVersions);
+            
+            Assert.AreEqual(siteTag.SiteId, siteTags[0].SiteId);
+            Assert.AreEqual(siteTag.TagId, siteTags[0].TagId);
+            Assert.AreEqual(siteTag.WorkflowState, Constants.WorkflowStates.Removed);
+            
+            Assert.AreEqual(siteTag.SiteId, siteTagVersions[0].SiteId);
+            Assert.AreEqual(siteTag.TagId, siteTagVersions[0].TagId);
+            Assert.AreEqual(siteTagVersions[0].WorkflowState, Constants.WorkflowStates.Created);
+            
+            Assert.AreEqual(siteTag.SiteId, siteTagVersions[1].SiteId);
+            Assert.AreEqual(siteTag.TagId, siteTagVersions[1].TagId);
+            Assert.AreEqual(siteTagVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
+            
+            Assert.AreEqual(siteTag.SiteId, siteTagVersions[2].SiteId);
+            Assert.AreEqual(siteTag.TagId, siteTagVersions[2].TagId);
+            Assert.AreEqual(siteTagVersions[2].WorkflowState, Constants.WorkflowStates.Created);
+            
+            Assert.AreEqual(siteTag.SiteId, siteTagVersions[3].SiteId);
+            Assert.AreEqual(siteTag.TagId, siteTagVersions[3].TagId);
+            Assert.AreEqual(siteTagVersions[3].WorkflowState, Constants.WorkflowStates.Removed);
+
+        }
     }
 }

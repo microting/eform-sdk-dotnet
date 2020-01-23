@@ -66,6 +66,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             siteTags.SiteId = SiteId;
             siteTags.TagId = TagId;
+            siteTags.WorkflowState = WorkflowState;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
