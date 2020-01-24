@@ -45,12 +45,18 @@ namespace eFormSDK.Tests
 
              bool randomBool = rnd.Next(0, 2) > 0;
 
-             sites site = new sites();
-             site.Name = Guid.NewGuid().ToString();
-             site.MicrotingUid = rnd.Next(1, 255);
+             sites site = new sites
+             {
+                 Name = Guid.NewGuid().ToString(),
+                 MicrotingUid = rnd.Next(1, 255)
+             };
              await site.Create(dbContext);
 
-             sites siteForUnit = new sites {Name = Guid.NewGuid().ToString(), MicrotingUid = rnd.Next(1, 255)};
+             sites siteForUnit = new sites
+             {
+                 Name = Guid.NewGuid().ToString(),
+                 MicrotingUid = rnd.Next(1, 255)
+             };
              await siteForUnit.Create(dbContext);
 
              units unit = new units
@@ -157,10 +163,18 @@ namespace eFormSDK.Tests
 
              bool randomBool = rnd.Next(0, 2) > 0;
 
-             sites site = new sites {Name = Guid.NewGuid().ToString(), MicrotingUid = rnd.Next(1, 255)};
+             sites site = new sites
+             {
+                 Name = Guid.NewGuid().ToString(),
+                 MicrotingUid = rnd.Next(1, 255)
+             };
              await site.Create(dbContext);
 
-             sites siteForUnit = new sites {Name = Guid.NewGuid().ToString(), MicrotingUid = rnd.Next(1, 255)};
+             sites siteForUnit = new sites
+             {
+                 Name = Guid.NewGuid().ToString(),
+                 MicrotingUid = rnd.Next(1, 255)
+             };
              await siteForUnit.Create(dbContext);
 
              units unit = new units
@@ -174,7 +188,8 @@ namespace eFormSDK.Tests
 
              languages language = new languages
              {
-                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+                 Description = Guid.NewGuid().ToString(),
+                 Name = Guid.NewGuid().ToString()
              };
              await language.Create(dbContext);
 
@@ -291,10 +306,18 @@ namespace eFormSDK.Tests
 
              bool randomBool = rnd.Next(0, 2) > 0;
 
-             sites site = new sites {Name = Guid.NewGuid().ToString(), MicrotingUid = rnd.Next(1, 255)};
+             sites site = new sites
+             {
+                 Name = Guid.NewGuid().ToString(),
+                 MicrotingUid = rnd.Next(1, 255)
+             };
              await site.Create(dbContext);
 
-             sites siteForUnit = new sites {Name = Guid.NewGuid().ToString(), MicrotingUid = rnd.Next(1, 255)};
+             sites siteForUnit = new sites
+             {
+                 Name = Guid.NewGuid().ToString(),
+                 MicrotingUid = rnd.Next(1, 255)
+             };
              await siteForUnit.Create(dbContext);
 
              units unit = new units

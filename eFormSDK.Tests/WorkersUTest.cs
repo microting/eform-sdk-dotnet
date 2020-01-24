@@ -41,13 +41,15 @@ namespace eFormSDK.Tests
         {
             //Arrange
             Random rnd = new Random();
-            
 
-            workers worker = new workers();
-            worker.FirstName = Guid.NewGuid().ToString();
-            worker.LastName = Guid.NewGuid().ToString();
-            worker.Email = Guid.NewGuid().ToString();
-            worker.MicrotingUid = rnd.Next(1, 255);
+
+            workers worker = new workers
+            {
+                FirstName = Guid.NewGuid().ToString(),
+                LastName = Guid.NewGuid().ToString(),
+                Email = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
 
             //Act
 
@@ -92,13 +94,15 @@ namespace eFormSDK.Tests
             //Arrange
             
             Random rnd = new Random();
-            
 
-            workers worker = new workers();
-            worker.FirstName = Guid.NewGuid().ToString();
-            worker.LastName = Guid.NewGuid().ToString();
-            worker.Email = Guid.NewGuid().ToString();
-            worker.MicrotingUid = rnd.Next(1, 255);
+
+            workers worker = new workers
+            {
+                FirstName = Guid.NewGuid().ToString(),
+                LastName = Guid.NewGuid().ToString(),
+                Email = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
 
             await worker.Create(dbContext);
 
@@ -164,13 +168,15 @@ namespace eFormSDK.Tests
             //Arrange
             
             Random rnd = new Random();
-            
 
-            workers worker = new workers();
-            worker.FirstName = Guid.NewGuid().ToString();
-            worker.LastName = Guid.NewGuid().ToString();
-            worker.Email = Guid.NewGuid().ToString();
-            worker.MicrotingUid = rnd.Next(1, 255);
+
+            workers worker = new workers
+            {
+                FirstName = Guid.NewGuid().ToString(),
+                LastName = Guid.NewGuid().ToString(),
+                Email = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
 
             await worker.Create(dbContext);
             

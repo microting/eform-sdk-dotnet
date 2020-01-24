@@ -1,3 +1,27 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2007 - 2020 Microting A/S
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,22 +45,26 @@ namespace eFormSDK.Tests
             short shortmaxValue = Int16.MaxValue;
             
             Random rnd = new Random();
-            
-            entity_groups entityGroup = new entity_groups();
-            entityGroup.Name = Guid.NewGuid().ToString();
-            entityGroup.Type = Guid.NewGuid().ToString();
-            entityGroup.MicrotingUid = Guid.NewGuid().ToString();
+
+            entity_groups entityGroup = new entity_groups
+            {
+                Name = Guid.NewGuid().ToString(),
+                Type = Guid.NewGuid().ToString(),
+                MicrotingUid = Guid.NewGuid().ToString()
+            };
             await entityGroup.Create(dbContext);
-            
-            entity_items entityItem = new entity_items();
-            entityItem.Description = Guid.NewGuid().ToString();
-            entityItem.Name = Guid.NewGuid().ToString();
-            entityItem.Synced = (short)rnd.Next(shortMinValue, shortmaxValue);
-            entityItem.DisplayIndex = rnd.Next(1, 255);
-            entityItem.MicrotingUid = Guid.NewGuid().ToString();
-            entityItem.EntityItemUid = Guid.NewGuid().ToString();
-            entityItem.EntityGroupId = entityGroup.Id;
-            
+
+            entity_items entityItem = new entity_items
+            {
+                Description = Guid.NewGuid().ToString(),
+                Name = Guid.NewGuid().ToString(),
+                Synced = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DisplayIndex = rnd.Next(1, 255),
+                MicrotingUid = Guid.NewGuid().ToString(),
+                EntityItemUid = Guid.NewGuid().ToString(),
+                EntityGroupId = entityGroup.Id
+            };
+
             //Act
             
             await entityItem.Create(dbContext);
@@ -89,20 +117,24 @@ namespace eFormSDK.Tests
             short shortmaxValue = Int16.MaxValue;
             
             Random rnd = new Random();
-            
-            entity_groups entityGroup = new entity_groups();
-            entityGroup.Name = Guid.NewGuid().ToString();
-            entityGroup.Type = Guid.NewGuid().ToString();
-            entityGroup.MicrotingUid = Guid.NewGuid().ToString();
-            
-            entity_items entityItem = new entity_items();
-            entityItem.Description = Guid.NewGuid().ToString();
-            entityItem.Name = Guid.NewGuid().ToString();
-            entityItem.Synced = (short)rnd.Next(shortMinValue, shortmaxValue);
-            entityItem.DisplayIndex = rnd.Next(1, 255);
-            entityItem.MicrotingUid = Guid.NewGuid().ToString();
-            entityItem.EntityItemUid = Guid.NewGuid().ToString();
-            entityItem.EntityGroupId = entityGroup.Id;
+
+            entity_groups entityGroup = new entity_groups
+            {
+                Name = Guid.NewGuid().ToString(),
+                Type = Guid.NewGuid().ToString(),
+                MicrotingUid = Guid.NewGuid().ToString()
+            };
+
+            entity_items entityItem = new entity_items
+            {
+                Description = Guid.NewGuid().ToString(),
+                Name = Guid.NewGuid().ToString(),
+                Synced = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DisplayIndex = rnd.Next(1, 255),
+                MicrotingUid = Guid.NewGuid().ToString(),
+                EntityItemUid = Guid.NewGuid().ToString(),
+                EntityGroupId = entityGroup.Id
+            };
             await entityItem.Create(dbContext);
             
             //Act
@@ -186,20 +218,24 @@ namespace eFormSDK.Tests
             short shortmaxValue = Int16.MaxValue;
             
             Random rnd = new Random();
-            
-            entity_groups entityGroup = new entity_groups();
-            entityGroup.Name = Guid.NewGuid().ToString();
-            entityGroup.Type = Guid.NewGuid().ToString();
-            entityGroup.MicrotingUid = Guid.NewGuid().ToString();
-            
-            entity_items entityItem = new entity_items();
-            entityItem.Description = Guid.NewGuid().ToString();
-            entityItem.Name = Guid.NewGuid().ToString();
-            entityItem.Synced = (short)rnd.Next(shortMinValue, shortmaxValue);
-            entityItem.DisplayIndex = rnd.Next(1, 255);
-            entityItem.MicrotingUid = Guid.NewGuid().ToString();
-            entityItem.EntityItemUid = Guid.NewGuid().ToString();
-            entityItem.EntityGroupId = entityGroup.Id;
+
+            entity_groups entityGroup = new entity_groups
+            {
+                Name = Guid.NewGuid().ToString(),
+                Type = Guid.NewGuid().ToString(),
+                MicrotingUid = Guid.NewGuid().ToString()
+            };
+
+            entity_items entityItem = new entity_items
+            {
+                Description = Guid.NewGuid().ToString(),
+                Name = Guid.NewGuid().ToString(),
+                Synced = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DisplayIndex = rnd.Next(1, 255),
+                MicrotingUid = Guid.NewGuid().ToString(),
+                EntityItemUid = Guid.NewGuid().ToString(),
+                EntityGroupId = entityGroup.Id
+            };
             await entityItem.Create(dbContext);
             
             //Act

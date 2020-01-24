@@ -1,4 +1,27 @@
-﻿using eFormCore;
+﻿/*
+The MIT License (MIT)
+
+Copyright (c) 2007 - 2020 Microting A/S
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+using eFormCore;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
@@ -52,16 +75,19 @@ namespace eFormSDK.Integration.Tests
             // Arrance
 
             #region Template1
-            check_lists cl1 = new check_lists();
-            cl1.CreatedAt = DateTime.Now;
-            cl1.UpdatedAt = DateTime.Now;
-            cl1.Label = "A";
-            cl1.Description = "D";
-            cl1.WorkflowState = Constants.WorkflowStates.Created;
-            cl1.CaseType = "CheckList";
-            cl1.FolderName = "Template1FolderName";
-            cl1.DisplayIndex = 1;
-            cl1.Repeated = 1;
+
+            check_lists cl1 = new check_lists
+            {
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Label = "A",
+                Description = "D",
+                WorkflowState = Constants.WorkflowStates.Created,
+                CaseType = "CheckList",
+                FolderName = "Template1FolderName",
+                DisplayIndex = 1,
+                Repeated = 1
+            };
 
             dbContext.check_lists.Add(cl1);
             await dbContext.SaveChangesAsync();
@@ -69,16 +95,19 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Template2
-            check_lists cl2 = new check_lists();
-            cl2.CreatedAt = DateTime.Now;
-            cl2.UpdatedAt = DateTime.Now;
-            cl2.Label = "B";
-            cl2.Description = "C";
-            cl2.WorkflowState = Constants.WorkflowStates.Removed;
-            cl2.CaseType = "CheckList";
-            cl2.FolderName = "Template1FolderName";
-            cl2.DisplayIndex = 1;
-            cl2.Repeated = 1;
+
+            check_lists cl2 = new check_lists
+            {
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Label = "B",
+                Description = "C",
+                WorkflowState = Constants.WorkflowStates.Removed,
+                CaseType = "CheckList",
+                FolderName = "Template1FolderName",
+                DisplayIndex = 1,
+                Repeated = 1
+            };
 
             dbContext.check_lists.Add(cl2);
             await dbContext.SaveChangesAsync();
@@ -86,16 +115,19 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Template3
-            check_lists cl3 = new check_lists();
-            cl3.CreatedAt = DateTime.Now;
-            cl3.UpdatedAt = DateTime.Now;
-            cl3.Label = "D";
-            cl3.Description = "B";
-            cl3.WorkflowState = Constants.WorkflowStates.Created;
-            cl3.CaseType = "CheckList";
-            cl3.FolderName = "Template1FolderName";
-            cl3.DisplayIndex = 1;
-            cl3.Repeated = 1;
+
+            check_lists cl3 = new check_lists
+            {
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Label = "D",
+                Description = "B",
+                WorkflowState = Constants.WorkflowStates.Created,
+                CaseType = "CheckList",
+                FolderName = "Template1FolderName",
+                DisplayIndex = 1,
+                Repeated = 1
+            };
 
             dbContext.check_lists.Add(cl3);
             await dbContext.SaveChangesAsync();
@@ -103,16 +135,19 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Template4
-            check_lists cl4 = new check_lists();
-            cl4.CreatedAt = DateTime.Now;
-            cl4.UpdatedAt = DateTime.Now;
-            cl4.Label = "C";
-            cl4.Description = "A";
-            cl4.WorkflowState = Constants.WorkflowStates.Created;
-            cl4.CaseType = "CheckList";
-            cl4.FolderName = "Template1FolderName";
-            cl4.DisplayIndex = 1;
-            cl4.Repeated = 1;
+
+            check_lists cl4 = new check_lists
+            {
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Label = "C",
+                Description = "A",
+                WorkflowState = Constants.WorkflowStates.Created,
+                CaseType = "CheckList",
+                FolderName = "Template1FolderName",
+                DisplayIndex = 1,
+                Repeated = 1
+            };
 
             dbContext.check_lists.Add(cl4);
             await dbContext.SaveChangesAsync();
@@ -354,16 +389,18 @@ namespace eFormSDK.Integration.Tests
             // Arrance
             #region Template1
 
-            check_lists cl1 = new check_lists();
-            cl1.CreatedAt = DateTime.Now;
-            cl1.UpdatedAt = DateTime.Now;
-            cl1.Label = "A";
-            cl1.Description = "D";
-            cl1.WorkflowState = Constants.WorkflowStates.Created;
-            cl1.CaseType = "CheckList";
-            cl1.FolderName = "Template1FolderName";
-            cl1.DisplayIndex = 1;
-            cl1.Repeated = 1;
+            check_lists cl1 = new check_lists
+            {
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Label = "A",
+                Description = "D",
+                WorkflowState = Constants.WorkflowStates.Created,
+                CaseType = "CheckList",
+                FolderName = "Template1FolderName",
+                DisplayIndex = 1,
+                Repeated = 1
+            };
 
             dbContext.check_lists.Add(cl1);
             await dbContext.SaveChangesAsync();
@@ -1143,13 +1180,15 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
             // Act
-            List<int> taglist = new List<int>();
-            taglist.Add(tag1.Id);
-            taglist.Add(tag2.Id);
-            taglist.Add(tag3.Id);
-            taglist.Add(tag4.Id);
-            taglist.Add(tag5.Id);
-            taglist.Add(tag6.Id);
+            List<int> taglist = new List<int>
+            {
+                tag1.Id,
+                tag2.Id,
+                tag3.Id,
+                tag4.Id,
+                tag5.Id,
+                tag6.Id
+            };
 
             var match1 = await sut.TemplateSetTags(Template1.Id, taglist);
             var match2 = await sut.TemplateSetTags(Template2.Id, taglist);

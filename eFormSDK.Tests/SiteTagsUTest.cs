@@ -43,14 +43,18 @@ namespace eFormSDK.Tests
             // Arrange
             Random rnd = new Random();
 
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await site.Create(dbContext);
-            
-            tags tag = new tags();
-            tag.Name = Guid.NewGuid().ToString();
-            tag.TaggingsCount = rnd.Next(1, 255);
+
+            tags tag = new tags
+            {
+                Name = Guid.NewGuid().ToString(), 
+                TaggingsCount = rnd.Next(1, 255)
+            };
             await tag.Create(dbContext);
 
 
@@ -85,25 +89,33 @@ namespace eFormSDK.Tests
             // Arrange
             Random rnd = new Random();
 
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await site.Create(dbContext);
-            
-            sites site2 = new sites();
-            site2.Name = Guid.NewGuid().ToString();
-            site2.MicrotingUid = rnd.Next(1, 255);
+
+            sites site2 = new sites
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await site2.Create(dbContext);
-            
-            
-            tags tag = new tags();
-            tag.Name = Guid.NewGuid().ToString();
-            tag.TaggingsCount = rnd.Next(1, 255);
+
+
+            tags tag = new tags
+            {
+                Name = Guid.NewGuid().ToString(),
+                TaggingsCount = rnd.Next(1, 255)
+            };
             await tag.Create(dbContext);
-          
-            tags tag2 = new tags();
-            tag2.Name = Guid.NewGuid().ToString();
-            tag2.TaggingsCount = rnd.Next(1, 255);
+
+            tags tag2 = new tags
+            {
+                Name = Guid.NewGuid().ToString(), 
+                TaggingsCount = rnd.Next(1, 255)
+            };
             await tag2.Create(dbContext);
 
             
@@ -147,14 +159,18 @@ namespace eFormSDK.Tests
                         // Arrange
             Random rnd = new Random();
 
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await site.Create(dbContext);
 
-            tags tag = new tags();
-            tag.Name = Guid.NewGuid().ToString();
-            tag.TaggingsCount = rnd.Next(1, 255);
+            tags tag = new tags
+            {
+                Name = Guid.NewGuid().ToString(), 
+                TaggingsCount = rnd.Next(1, 255)
+            };
             await tag.Create(dbContext);
 
 
@@ -193,14 +209,18 @@ namespace eFormSDK.Tests
         {
             Random rnd = new Random();
 
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await site.Create(dbContext);
 
-            tags tag = new tags();
-            tag.Name = Guid.NewGuid().ToString();
-            tag.TaggingsCount = rnd.Next(1, 255);
+            tags tag = new tags
+            {
+                Name = Guid.NewGuid().ToString(),
+                TaggingsCount = rnd.Next(1, 255)
+            };
             await tag.Create(dbContext);
 
 

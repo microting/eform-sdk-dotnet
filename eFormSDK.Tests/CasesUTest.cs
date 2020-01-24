@@ -1,3 +1,27 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2007 - 2020 Microting A/S
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,83 +47,93 @@ namespace eFormSDK.Tests
             short shortmaxValue = Int16.MaxValue;
             
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
-            await site.Create(dbContext);
-            
-            units unit = new units();
-            unit.CustomerNo = rnd.Next(1, 255);
-            unit.MicrotingUid = rnd.Next(1, 255);
-            unit.OtpCode = rnd.Next(1, 255);
-            unit.SiteId = site.Id;
-            await unit.Create(dbContext);
-            
-            workers worker = new workers();
-            worker.Email = Guid.NewGuid().ToString();
-            worker.FirstName = Guid.NewGuid().ToString();
-            worker.LastName = Guid.NewGuid().ToString();
-            worker.MicrotingUid = rnd.Next(1, 255);
-            await worker.Create(dbContext);
-            
-            check_lists checklist = new check_lists();
-            checklist.Color = Guid.NewGuid().ToString();
-            checklist.Custom = Guid.NewGuid().ToString();
-            checklist.Description = Guid.NewGuid().ToString();
-            checklist.Field1 = rnd.Next(1, 255);
-            checklist.Field2 = rnd.Next(1, 255);
-            checklist.Field4 = rnd.Next(1, 255);
-            checklist.Field5 = rnd.Next(1, 255);
-            checklist.Field6 = rnd.Next(1, 255);
-            checklist.Field7 = rnd.Next(1, 255);
-            checklist.Field8 = rnd.Next(1, 255);
-            checklist.Field9 = rnd.Next(1, 255);
-            checklist.Field10 = rnd.Next(1, 255);
-            checklist.Label = Guid.NewGuid().ToString();
-            checklist.Repeated = rnd.Next(1, 255);
-            checklist.ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue);
-            checklist.CaseType = Guid.NewGuid().ToString();
-            checklist.DisplayIndex = rnd.Next(1, 255);
-            checklist.DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.FolderName = Guid.NewGuid().ToString();
-            checklist.ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.OriginalId = Guid.NewGuid().ToString();
-            checklist.ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.DocxExportEnabled = randomBool;
-            checklist.DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.JasperExportEnabled = randomBool;
-            checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            await checklist.Create(dbContext);
-            
-            cases theCase = new cases();
 
-            theCase.Custom = Guid.NewGuid().ToString();
-            theCase.Status = rnd.Next(1, 255);
-            theCase.Type = Guid.NewGuid().ToString();
-            theCase.CaseUid = Guid.NewGuid().ToString();
-            theCase.DoneAt = DateTime.Now;
-            theCase.FieldValue1 = Guid.NewGuid().ToString();
-            theCase.FieldValue2 = Guid.NewGuid().ToString();
-            theCase.FieldValue3 = Guid.NewGuid().ToString();
-            theCase.FieldValue4 = Guid.NewGuid().ToString();
-            theCase.FieldValue5 = Guid.NewGuid().ToString();
-            theCase.FieldValue6 = Guid.NewGuid().ToString();
-            theCase.FieldValue7 = Guid.NewGuid().ToString();
-            theCase.FieldValue8 = Guid.NewGuid().ToString();
-            theCase.FieldValue9 = Guid.NewGuid().ToString();
-            theCase.FieldValue10 = Guid.NewGuid().ToString();
-            theCase.MicrotingUid = rnd.Next(shortMinValue, shortmaxValue);
-            theCase.SiteId = site.Id;
-            theCase.UnitId = unit.Id;
-            theCase.WorkerId = worker.Id;
-            theCase.CheckListId = checklist.Id;
-            theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
-            
-            
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
+            await site.Create(dbContext);
+
+            units unit = new units
+            {
+                CustomerNo = rnd.Next(1, 255),
+                MicrotingUid = rnd.Next(1, 255),
+                OtpCode = rnd.Next(1, 255),
+                SiteId = site.Id
+            };
+            await unit.Create(dbContext);
+
+            workers worker = new workers
+            {
+                Email = Guid.NewGuid().ToString(),
+                FirstName = Guid.NewGuid().ToString(),
+                LastName = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
+            await worker.Create(dbContext);
+
+            check_lists checklist = new check_lists
+            {
+                Color = Guid.NewGuid().ToString(),
+                Custom = Guid.NewGuid().ToString(),
+                Description = Guid.NewGuid().ToString(),
+                Field1 = rnd.Next(1, 255),
+                Field2 = rnd.Next(1, 255),
+                Field4 = rnd.Next(1, 255),
+                Field5 = rnd.Next(1, 255),
+                Field6 = rnd.Next(1, 255),
+                Field7 = rnd.Next(1, 255),
+                Field8 = rnd.Next(1, 255),
+                Field9 = rnd.Next(1, 255),
+                Field10 = rnd.Next(1, 255),
+                Label = Guid.NewGuid().ToString(),
+                Repeated = rnd.Next(1, 255),
+                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                CaseType = Guid.NewGuid().ToString(),
+                DisplayIndex = rnd.Next(1, 255),
+                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                FolderName = Guid.NewGuid().ToString(),
+                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                OriginalId = Guid.NewGuid().ToString(),
+                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DocxExportEnabled = randomBool,
+                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                JasperExportEnabled = randomBool,
+                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
+            };
+            await checklist.Create(dbContext);
+
+            cases theCase = new cases
+            {
+                Custom = Guid.NewGuid().ToString(),
+                Status = rnd.Next(1, 255),
+                Type = Guid.NewGuid().ToString(),
+                CaseUid = Guid.NewGuid().ToString(),
+                DoneAt = DateTime.Now,
+                FieldValue1 = Guid.NewGuid().ToString(),
+                FieldValue2 = Guid.NewGuid().ToString(),
+                FieldValue3 = Guid.NewGuid().ToString(),
+                FieldValue4 = Guid.NewGuid().ToString(),
+                FieldValue5 = Guid.NewGuid().ToString(),
+                FieldValue6 = Guid.NewGuid().ToString(),
+                FieldValue7 = Guid.NewGuid().ToString(),
+                FieldValue8 = Guid.NewGuid().ToString(),
+                FieldValue9 = Guid.NewGuid().ToString(),
+                FieldValue10 = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(shortMinValue, shortmaxValue),
+                SiteId = site.Id,
+                UnitId = unit.Id,
+                WorkerId = worker.Id,
+                CheckListId = checklist.Id,
+                MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue)
+            };
+
+
+
             //Act
             
             await theCase.Create(dbContext);
@@ -182,81 +216,91 @@ namespace eFormSDK.Tests
             short shortmaxValue = Int16.MaxValue;
             
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
-            await site.Create(dbContext);
-            
-            units unit = new units();
-            unit.CustomerNo = rnd.Next(1, 255);
-            unit.MicrotingUid = rnd.Next(1, 255);
-            unit.OtpCode = rnd.Next(1, 255);
-            unit.SiteId = site.Id;
-            await unit.Create(dbContext);
-            
-            workers worker = new workers();
-            worker.Email = Guid.NewGuid().ToString();
-            worker.FirstName = Guid.NewGuid().ToString();
-            worker.LastName = Guid.NewGuid().ToString();
-            worker.MicrotingUid = rnd.Next(1, 255);
-            await worker.Create(dbContext);
-            
-            check_lists checklist = new check_lists();
-            checklist.Color = Guid.NewGuid().ToString();
-            checklist.Custom = Guid.NewGuid().ToString();
-            checklist.Description = Guid.NewGuid().ToString();
-            checklist.Field1 = rnd.Next(1, 255);
-            checklist.Field2 = rnd.Next(1, 255);
-            checklist.Field4 = rnd.Next(1, 255);
-            checklist.Field5 = rnd.Next(1, 255);
-            checklist.Field6 = rnd.Next(1, 255);
-            checklist.Field7 = rnd.Next(1, 255);
-            checklist.Field8 = rnd.Next(1, 255);
-            checklist.Field9 = rnd.Next(1, 255);
-            checklist.Field10 = rnd.Next(1, 255);
-            checklist.Label = Guid.NewGuid().ToString();
-            checklist.Repeated = rnd.Next(1, 255);
-            checklist.ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue);
-            checklist.CaseType = Guid.NewGuid().ToString();
-            checklist.DisplayIndex = rnd.Next(1, 255);
-            checklist.DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.FolderName = Guid.NewGuid().ToString();
-            checklist.ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.OriginalId = Guid.NewGuid().ToString();
-            checklist.ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.DocxExportEnabled = randomBool;
-            checklist.DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.JasperExportEnabled = randomBool;
-            checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            await checklist.Create(dbContext);
-            
-            cases theCase = new cases();
 
-            theCase.Custom = Guid.NewGuid().ToString();
-            theCase.Status = rnd.Next(1, 255);
-            theCase.Type = Guid.NewGuid().ToString();
-            theCase.CaseUid = Guid.NewGuid().ToString();
-            theCase.DoneAt = DateTime.Now;
-            theCase.FieldValue1 = Guid.NewGuid().ToString();
-            theCase.FieldValue2 = Guid.NewGuid().ToString();
-            theCase.FieldValue3 = Guid.NewGuid().ToString();
-            theCase.FieldValue4 = Guid.NewGuid().ToString();
-            theCase.FieldValue5 = Guid.NewGuid().ToString();
-            theCase.FieldValue6 = Guid.NewGuid().ToString();
-            theCase.FieldValue7 = Guid.NewGuid().ToString();
-            theCase.FieldValue8 = Guid.NewGuid().ToString();
-            theCase.FieldValue9 = Guid.NewGuid().ToString();
-            theCase.FieldValue10 = Guid.NewGuid().ToString();
-            theCase.MicrotingUid = rnd.Next(shortMinValue, shortmaxValue);
-            theCase.SiteId = site.Id;
-            theCase.UnitId = unit.Id;
-            theCase.WorkerId = worker.Id;
-            theCase.CheckListId = checklist.Id;
-            theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(), 
+                MicrotingUid = rnd.Next(1, 255)
+            };
+            await site.Create(dbContext);
+
+            units unit = new units
+            {
+                CustomerNo = rnd.Next(1, 255),
+                MicrotingUid = rnd.Next(1, 255),
+                OtpCode = rnd.Next(1, 255),
+                SiteId = site.Id
+            };
+            await unit.Create(dbContext);
+
+            workers worker = new workers
+            {
+                Email = Guid.NewGuid().ToString(),
+                FirstName = Guid.NewGuid().ToString(),
+                LastName = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
+            await worker.Create(dbContext);
+
+            check_lists checklist = new check_lists
+            {
+                Color = Guid.NewGuid().ToString(),
+                Custom = Guid.NewGuid().ToString(),
+                Description = Guid.NewGuid().ToString(),
+                Field1 = rnd.Next(1, 255),
+                Field2 = rnd.Next(1, 255),
+                Field4 = rnd.Next(1, 255),
+                Field5 = rnd.Next(1, 255),
+                Field6 = rnd.Next(1, 255),
+                Field7 = rnd.Next(1, 255),
+                Field8 = rnd.Next(1, 255),
+                Field9 = rnd.Next(1, 255),
+                Field10 = rnd.Next(1, 255),
+                Label = Guid.NewGuid().ToString(),
+                Repeated = rnd.Next(1, 255),
+                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                CaseType = Guid.NewGuid().ToString(),
+                DisplayIndex = rnd.Next(1, 255),
+                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                FolderName = Guid.NewGuid().ToString(),
+                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                OriginalId = Guid.NewGuid().ToString(),
+                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DocxExportEnabled = randomBool,
+                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                JasperExportEnabled = randomBool,
+                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
+            };
+            await checklist.Create(dbContext);
+
+            cases theCase = new cases
+            {
+                Custom = Guid.NewGuid().ToString(),
+                Status = rnd.Next(1, 255),
+                Type = Guid.NewGuid().ToString(),
+                CaseUid = Guid.NewGuid().ToString(),
+                DoneAt = DateTime.Now,
+                FieldValue1 = Guid.NewGuid().ToString(),
+                FieldValue2 = Guid.NewGuid().ToString(),
+                FieldValue3 = Guid.NewGuid().ToString(),
+                FieldValue4 = Guid.NewGuid().ToString(),
+                FieldValue5 = Guid.NewGuid().ToString(),
+                FieldValue6 = Guid.NewGuid().ToString(),
+                FieldValue7 = Guid.NewGuid().ToString(),
+                FieldValue8 = Guid.NewGuid().ToString(),
+                FieldValue9 = Guid.NewGuid().ToString(),
+                FieldValue10 = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(shortMinValue, shortmaxValue),
+                SiteId = site.Id,
+                UnitId = unit.Id,
+                WorkerId = worker.Id,
+                CheckListId = checklist.Id,
+                MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue)
+            };
+
             await theCase.Create(dbContext);
             
             //Act
@@ -406,81 +450,91 @@ namespace eFormSDK.Tests
             short shortmaxValue = Int16.MaxValue;
             
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
-            await site.Create(dbContext);
-            
-            units unit = new units();
-            unit.CustomerNo = rnd.Next(1, 255);
-            unit.MicrotingUid = rnd.Next(1, 255);
-            unit.OtpCode = rnd.Next(1, 255);
-            unit.SiteId = site.Id;
-            await unit.Create(dbContext);
-            
-            workers worker = new workers();
-            worker.Email = Guid.NewGuid().ToString();
-            worker.FirstName = Guid.NewGuid().ToString();
-            worker.LastName = Guid.NewGuid().ToString();
-            worker.MicrotingUid = rnd.Next(1, 255);
-            await worker.Create(dbContext);
-            
-            check_lists checklist = new check_lists();
-            checklist.Color = Guid.NewGuid().ToString();
-            checklist.Custom = Guid.NewGuid().ToString();
-            checklist.Description = Guid.NewGuid().ToString();
-            checklist.Field1 = rnd.Next(1, 255);
-            checklist.Field2 = rnd.Next(1, 255);
-            checklist.Field4 = rnd.Next(1, 255);
-            checklist.Field5 = rnd.Next(1, 255);
-            checklist.Field6 = rnd.Next(1, 255);
-            checklist.Field7 = rnd.Next(1, 255);
-            checklist.Field8 = rnd.Next(1, 255);
-            checklist.Field9 = rnd.Next(1, 255);
-            checklist.Field10 = rnd.Next(1, 255);
-            checklist.Label = Guid.NewGuid().ToString();
-            checklist.Repeated = rnd.Next(1, 255);
-            checklist.ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue);
-            checklist.CaseType = Guid.NewGuid().ToString();
-            checklist.DisplayIndex = rnd.Next(1, 255);
-            checklist.DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.FolderName = Guid.NewGuid().ToString();
-            checklist.ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.OriginalId = Guid.NewGuid().ToString();
-            checklist.ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.DocxExportEnabled = randomBool;
-            checklist.DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.JasperExportEnabled = randomBool;
-            checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            await checklist.Create(dbContext);
-            
-            cases theCase = new cases();
 
-            theCase.Custom = Guid.NewGuid().ToString();
-            theCase.Status = rnd.Next(1, 255);
-            theCase.Type = Guid.NewGuid().ToString();
-            theCase.CaseUid = Guid.NewGuid().ToString();
-            theCase.DoneAt = DateTime.Now;
-            theCase.FieldValue1 = Guid.NewGuid().ToString();
-            theCase.FieldValue2 = Guid.NewGuid().ToString();
-            theCase.FieldValue3 = Guid.NewGuid().ToString();
-            theCase.FieldValue4 = Guid.NewGuid().ToString();
-            theCase.FieldValue5 = Guid.NewGuid().ToString();
-            theCase.FieldValue6 = Guid.NewGuid().ToString();
-            theCase.FieldValue7 = Guid.NewGuid().ToString();
-            theCase.FieldValue8 = Guid.NewGuid().ToString();
-            theCase.FieldValue9 = Guid.NewGuid().ToString();
-            theCase.FieldValue10 = Guid.NewGuid().ToString();
-            theCase.MicrotingUid = rnd.Next(shortMinValue, shortmaxValue);
-            theCase.SiteId = site.Id;
-            theCase.UnitId = unit.Id;
-            theCase.WorkerId = worker.Id;
-            theCase.CheckListId = checklist.Id;
-            theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
+            await site.Create(dbContext);
+
+            units unit = new units
+            {
+                CustomerNo = rnd.Next(1, 255),
+                MicrotingUid = rnd.Next(1, 255),
+                OtpCode = rnd.Next(1, 255),
+                SiteId = site.Id
+            };
+            await unit.Create(dbContext);
+
+            workers worker = new workers
+            {
+                Email = Guid.NewGuid().ToString(),
+                FirstName = Guid.NewGuid().ToString(),
+                LastName = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
+            await worker.Create(dbContext);
+
+            check_lists checklist = new check_lists
+            {
+                Color = Guid.NewGuid().ToString(),
+                Custom = Guid.NewGuid().ToString(),
+                Description = Guid.NewGuid().ToString(),
+                Field1 = rnd.Next(1, 255),
+                Field2 = rnd.Next(1, 255),
+                Field4 = rnd.Next(1, 255),
+                Field5 = rnd.Next(1, 255),
+                Field6 = rnd.Next(1, 255),
+                Field7 = rnd.Next(1, 255),
+                Field8 = rnd.Next(1, 255),
+                Field9 = rnd.Next(1, 255),
+                Field10 = rnd.Next(1, 255),
+                Label = Guid.NewGuid().ToString(),
+                Repeated = rnd.Next(1, 255),
+                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                CaseType = Guid.NewGuid().ToString(),
+                DisplayIndex = rnd.Next(1, 255),
+                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                FolderName = Guid.NewGuid().ToString(),
+                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                OriginalId = Guid.NewGuid().ToString(),
+                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DocxExportEnabled = randomBool,
+                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                JasperExportEnabled = randomBool,
+                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
+            };
+            await checklist.Create(dbContext);
+
+            cases theCase = new cases
+            {
+                Custom = Guid.NewGuid().ToString(),
+                Status = rnd.Next(1, 255),
+                Type = Guid.NewGuid().ToString(),
+                CaseUid = Guid.NewGuid().ToString(),
+                DoneAt = DateTime.Now,
+                FieldValue1 = Guid.NewGuid().ToString(),
+                FieldValue2 = Guid.NewGuid().ToString(),
+                FieldValue3 = Guid.NewGuid().ToString(),
+                FieldValue4 = Guid.NewGuid().ToString(),
+                FieldValue5 = Guid.NewGuid().ToString(),
+                FieldValue6 = Guid.NewGuid().ToString(),
+                FieldValue7 = Guid.NewGuid().ToString(),
+                FieldValue8 = Guid.NewGuid().ToString(),
+                FieldValue9 = Guid.NewGuid().ToString(),
+                FieldValue10 = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(shortMinValue, shortmaxValue),
+                SiteId = site.Id,
+                UnitId = unit.Id,
+                WorkerId = worker.Id,
+                CheckListId = checklist.Id,
+                MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue)
+            };
+
             await theCase.Create(dbContext);
             
             

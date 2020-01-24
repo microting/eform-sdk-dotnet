@@ -1,3 +1,27 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2007 - 2020 Microting A/S
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,18 +43,22 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            question_sets questionSetForQuestion = new question_sets();
-            questionSetForQuestion.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion.Share = randomBool;
-            questionSetForQuestion.HasChild = randomBool;
-            questionSetForQuestion.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion.Create(dbContext);
-            
-            languages language = new languages();
-            language.Description = Guid.NewGuid().ToString();
-            language.Name = Guid.NewGuid().ToString();
+
+            languages language = new languages
+            {
+                Description = Guid.NewGuid().ToString(),
+                Name = Guid.NewGuid().ToString()
+            };
             await language.Create(dbContext);
 
             language_question_sets languageQuestionSet = new language_question_sets
@@ -71,18 +99,22 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            question_sets questionSetForQuestion = new question_sets();
-            questionSetForQuestion.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion.Share = randomBool;
-            questionSetForQuestion.HasChild = randomBool;
-            questionSetForQuestion.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion.Create(dbContext);
-            
-            languages language = new languages();
-            language.Description = Guid.NewGuid().ToString();
-            language.Name = Guid.NewGuid().ToString();
+
+            languages language = new languages
+            {
+                Description = Guid.NewGuid().ToString(),
+                Name = Guid.NewGuid().ToString()
+            };
             await language.Create(dbContext);
 
             language_question_sets languageQuestionSet = new language_question_sets
@@ -122,31 +154,39 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            question_sets questionSetForQuestion = new question_sets();
-            questionSetForQuestion.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion.Share = randomBool;
-            questionSetForQuestion.HasChild = randomBool;
-            questionSetForQuestion.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion.Create(dbContext);
-            
-            languages language = new languages();
-            language.Description = Guid.NewGuid().ToString();
-            language.Name = Guid.NewGuid().ToString();
+
+            languages language = new languages
+            {
+                Description = Guid.NewGuid().ToString(),
+                Name = Guid.NewGuid().ToString()
+            };
             await language.Create(dbContext);
-            
-            question_sets questionSetForQuestion2 = new question_sets();
-            questionSetForQuestion2.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion2.Share = randomBool;
-            questionSetForQuestion2.HasChild = randomBool;
-            questionSetForQuestion2.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion2.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion2 = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion2.Create(dbContext);
-            
-            languages language2 = new languages();
-            language2.Description = Guid.NewGuid().ToString();
-            language2.Name = Guid.NewGuid().ToString();
+
+            languages language2 = new languages
+            {
+                Description = Guid.NewGuid().ToString(),
+                Name = Guid.NewGuid().ToString()
+            };
             await language2.Create(dbContext);
 
             language_question_sets languageQuestionSet = new language_question_sets
@@ -202,31 +242,39 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            question_sets questionSetForQuestion = new question_sets();
-            questionSetForQuestion.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion.Share = randomBool;
-            questionSetForQuestion.HasChild = randomBool;
-            questionSetForQuestion.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion.Create(dbContext);
-            
-            languages language = new languages();
-            language.Description = Guid.NewGuid().ToString();
-            language.Name = Guid.NewGuid().ToString();
+
+            languages language = new languages
+            {
+                Description = Guid.NewGuid().ToString(),
+                Name = Guid.NewGuid().ToString()
+            };
             await language.Create(dbContext);
-           
-            question_sets questionSetForQuestion2 = new question_sets();
-            questionSetForQuestion2.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion2.Share = randomBool;
-            questionSetForQuestion2.HasChild = randomBool;
-            questionSetForQuestion2.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion2.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion2 = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion2.Create(dbContext);
-            
-            languages language2 = new languages();
-            language2.Description = Guid.NewGuid().ToString();
-            language2.Name = Guid.NewGuid().ToString();
+
+            languages language2 = new languages
+            {
+                Description = Guid.NewGuid().ToString(),
+                Name = Guid.NewGuid().ToString()
+            };
             await language2.Create(dbContext);
             
             language_question_sets languageQuestionSet = new language_question_sets
@@ -277,31 +325,39 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            question_sets questionSetForQuestion = new question_sets();
-            questionSetForQuestion.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion.Share = randomBool;
-            questionSetForQuestion.HasChild = randomBool;
-            questionSetForQuestion.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion.Create(dbContext);
-            
-            languages language = new languages();
-            language.Description = Guid.NewGuid().ToString();
-            language.Name = Guid.NewGuid().ToString();
+
+            languages language = new languages
+            {
+                Description = Guid.NewGuid().ToString(), 
+                Name = Guid.NewGuid().ToString()
+            };
             await language.Create(dbContext);
-            
-            question_sets questionSetForQuestion2 = new question_sets();
-            questionSetForQuestion2.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion2.Share = randomBool;
-            questionSetForQuestion2.HasChild = randomBool;
-            questionSetForQuestion2.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion2.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion2 = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion2.Create(dbContext);
-            
-            languages language2 = new languages();
-            language2.Description = Guid.NewGuid().ToString();
-            language2.Name = Guid.NewGuid().ToString();
+
+            languages language2 = new languages
+            {
+                Description = Guid.NewGuid().ToString(), 
+                Name = Guid.NewGuid().ToString()
+            };
             await language2.Create(dbContext);
 
             language_question_sets languageQuestionSet = new language_question_sets
@@ -357,31 +413,37 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            question_sets questionSetForQuestion = new question_sets();
-            questionSetForQuestion.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion.Share = randomBool;
-            questionSetForQuestion.HasChild = randomBool;
-            questionSetForQuestion.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion.Create(dbContext);
-            
-            languages language = new languages();
-            language.Description = Guid.NewGuid().ToString();
-            language.Name = Guid.NewGuid().ToString();
+
+            languages language = new languages
+            {
+                Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+            };
             await language.Create(dbContext);
-           
-            question_sets questionSetForQuestion2 = new question_sets();
-            questionSetForQuestion2.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion2.Share = randomBool;
-            questionSetForQuestion2.HasChild = randomBool;
-            questionSetForQuestion2.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion2.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion2 = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion2.Create(dbContext);
-            
-            languages language2 = new languages();
-            language2.Description = Guid.NewGuid().ToString();
-            language2.Name = Guid.NewGuid().ToString();
+
+            languages language2 = new languages
+            {
+                Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+            };
             await language2.Create(dbContext);
             
             language_question_sets languageQuestionSet = new language_question_sets
@@ -433,18 +495,22 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            question_sets questionSetForQuestion = new question_sets();
-            questionSetForQuestion.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion.Share = randomBool;
-            questionSetForQuestion.HasChild = randomBool;
-            questionSetForQuestion.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion.Create(dbContext);
-            
-            languages language = new languages();
-            language.Description = Guid.NewGuid().ToString();
-            language.Name = Guid.NewGuid().ToString();
+
+            languages language = new languages
+            {
+                Description = Guid.NewGuid().ToString(),
+                Name = Guid.NewGuid().ToString()
+            };
             await language.Create(dbContext);
 
             language_question_sets languageQuestionSet = new language_question_sets

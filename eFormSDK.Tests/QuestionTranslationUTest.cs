@@ -18,37 +18,43 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            question_sets questionSetForQuestion = new question_sets();
-            questionSetForQuestion.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion.Share = randomBool;
-            questionSetForQuestion.HasChild = randomBool;
-            questionSetForQuestion.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion.Create(dbContext);
-            
-            questions question = new questions();
-            question.Image = randomBool;
-            question.Maximum = rnd.Next(1, 255);
-            question.Minimum = rnd.Next(1, 255);
-            question.Prioritised = randomBool;
-            question.Type = Guid.NewGuid().ToString();
-            question.FontSize = Guid.NewGuid().ToString();
-            question.ImagePosition = Guid.NewGuid().ToString();
-            question.MaxDuration = rnd.Next(1, 255);
-            question.MinDuration = rnd.Next(1, 255);
-            question.QuestionIndex = rnd.Next(1, 255);
-            question.QuestionType = Guid.NewGuid().ToString();
-            question.RefId = rnd.Next(1, 255);
-            question.ValidDisplay = randomBool;
-            question.BackButtonEnabled = randomBool;
-            question.ContinuousQuestionId = rnd.Next(1, 255);
-            question.QuestionSetId = questionSetForQuestion.Id;
+
+            questions question = new questions
+            {
+                Image = randomBool,
+                Maximum = rnd.Next(1, 255),
+                Minimum = rnd.Next(1, 255),
+                Prioritised = randomBool,
+                Type = Guid.NewGuid().ToString(),
+                FontSize = Guid.NewGuid().ToString(),
+                ImagePosition = Guid.NewGuid().ToString(),
+                MaxDuration = rnd.Next(1, 255),
+                MinDuration = rnd.Next(1, 255),
+                QuestionIndex = rnd.Next(1, 255),
+                QuestionType = Guid.NewGuid().ToString(),
+                RefId = rnd.Next(1, 255),
+                ValidDisplay = randomBool,
+                BackButtonEnabled = randomBool,
+                ContinuousQuestionId = rnd.Next(1, 255),
+                QuestionSetId = questionSetForQuestion.Id
+            };
             await question.Create(dbContext);
-            
-            languages language = new languages();
-            language.Description = Guid.NewGuid().ToString();
-            language.Name = Guid.NewGuid().ToString();
+
+            languages language = new languages
+            {
+                Description = Guid.NewGuid().ToString(),
+                Name = Guid.NewGuid().ToString()
+            };
             await language.Create(dbContext);
 
             question_translations questionTranslation = new question_translations
@@ -91,37 +97,43 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            question_sets questionSetForQuestion = new question_sets();
-            questionSetForQuestion.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion.Share = randomBool;
-            questionSetForQuestion.HasChild = randomBool;
-            questionSetForQuestion.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion.Create(dbContext);
-            
-            questions question = new questions();
-            question.Image = randomBool;
-            question.Maximum = rnd.Next(1, 255);
-            question.Minimum = rnd.Next(1, 255);
-            question.Prioritised = randomBool;
-            question.Type = Guid.NewGuid().ToString();
-            question.FontSize = Guid.NewGuid().ToString();
-            question.ImagePosition = Guid.NewGuid().ToString();
-            question.MaxDuration = rnd.Next(1, 255);
-            question.MinDuration = rnd.Next(1, 255);
-            question.QuestionIndex = rnd.Next(1, 255);
-            question.QuestionType = Guid.NewGuid().ToString();
-            question.RefId = rnd.Next(1, 255);
-            question.ValidDisplay = randomBool;
-            question.BackButtonEnabled = randomBool;
-            question.ContinuousQuestionId = rnd.Next(1, 255);
-            question.QuestionSetId = questionSetForQuestion.Id;
+
+            questions question = new questions
+            {
+                Image = randomBool,
+                Maximum = rnd.Next(1, 255),
+                Minimum = rnd.Next(1, 255),
+                Prioritised = randomBool,
+                Type = Guid.NewGuid().ToString(),
+                FontSize = Guid.NewGuid().ToString(),
+                ImagePosition = Guid.NewGuid().ToString(),
+                MaxDuration = rnd.Next(1, 255),
+                MinDuration = rnd.Next(1, 255),
+                QuestionIndex = rnd.Next(1, 255),
+                QuestionType = Guid.NewGuid().ToString(),
+                RefId = rnd.Next(1, 255),
+                ValidDisplay = randomBool,
+                BackButtonEnabled = randomBool,
+                ContinuousQuestionId = rnd.Next(1, 255),
+                QuestionSetId = questionSetForQuestion.Id
+            };
             await question.Create(dbContext);
-            
-            languages language = new languages();
-            language.Description = Guid.NewGuid().ToString();
-            language.Name = Guid.NewGuid().ToString();
+
+            languages language = new languages
+            {
+                Description = Guid.NewGuid().ToString(), 
+                Name = Guid.NewGuid().ToString()
+            };
             await language.Create(dbContext);
 
             question_translations questionTranslation = new question_translations
@@ -163,69 +175,79 @@ namespace eFormSDK.Tests
                         Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            question_sets questionSetForQuestion = new question_sets();
-            questionSetForQuestion.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion.Share = randomBool;
-            questionSetForQuestion.HasChild = randomBool;
-            questionSetForQuestion.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion.Create(dbContext);
-            
-            question_sets questionSetForQuestion2 = new question_sets();
-            questionSetForQuestion2.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion2.Share = randomBool;
-            questionSetForQuestion2.HasChild = randomBool;
-            questionSetForQuestion2.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion2.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion2 = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion2.Create(dbContext);
-            
-            questions question = new questions();
-            question.Image = randomBool;
-            question.Maximum = rnd.Next(1, 255);
-            question.Minimum = rnd.Next(1, 255);
-            question.Prioritised = randomBool;
-            question.Type = Guid.NewGuid().ToString();
-            question.FontSize = Guid.NewGuid().ToString();
-            question.ImagePosition = Guid.NewGuid().ToString();
-            question.MaxDuration = rnd.Next(1, 255);
-            question.MinDuration = rnd.Next(1, 255);
-            question.QuestionIndex = rnd.Next(1, 255);
-            question.QuestionType = Guid.NewGuid().ToString();
-            question.RefId = rnd.Next(1, 255);
-            question.ValidDisplay = randomBool;
-            question.BackButtonEnabled = randomBool;
-            question.ContinuousQuestionId = rnd.Next(1, 255);
-            question.QuestionSetId = questionSetForQuestion.Id;
+
+            questions question = new questions
+            {
+                Image = randomBool,
+                Maximum = rnd.Next(1, 255),
+                Minimum = rnd.Next(1, 255),
+                Prioritised = randomBool,
+                Type = Guid.NewGuid().ToString(),
+                FontSize = Guid.NewGuid().ToString(),
+                ImagePosition = Guid.NewGuid().ToString(),
+                MaxDuration = rnd.Next(1, 255),
+                MinDuration = rnd.Next(1, 255),
+                QuestionIndex = rnd.Next(1, 255),
+                QuestionType = Guid.NewGuid().ToString(),
+                RefId = rnd.Next(1, 255),
+                ValidDisplay = randomBool,
+                BackButtonEnabled = randomBool,
+                ContinuousQuestionId = rnd.Next(1, 255),
+                QuestionSetId = questionSetForQuestion.Id
+            };
             await question.Create(dbContext);
-            
-            questions question2 = new questions();
-            question2.Image = randomBool;
-            question2.Maximum = rnd.Next(1, 255);
-            question2.Minimum = rnd.Next(1, 255);
-            question2.Prioritised = randomBool;
-            question2.Type = Guid.NewGuid().ToString();
-            question2.FontSize = Guid.NewGuid().ToString();
-            question2.ImagePosition = Guid.NewGuid().ToString();
-            question2.MaxDuration = rnd.Next(1, 255);
-            question2.MinDuration = rnd.Next(1, 255);
-            question2.QuestionIndex = rnd.Next(1, 255);
-            question2.QuestionType = Guid.NewGuid().ToString();
-            question2.RefId = rnd.Next(1, 255);
-            question2.ValidDisplay = randomBool;
-            question2.BackButtonEnabled = randomBool;
-            question2.ContinuousQuestionId = rnd.Next(1, 255);
-            question2.QuestionSetId = questionSetForQuestion2.Id;
+
+            questions question2 = new questions
+            {
+                Image = randomBool,
+                Maximum = rnd.Next(1, 255),
+                Minimum = rnd.Next(1, 255),
+                Prioritised = randomBool,
+                Type = Guid.NewGuid().ToString(),
+                FontSize = Guid.NewGuid().ToString(),
+                ImagePosition = Guid.NewGuid().ToString(),
+                MaxDuration = rnd.Next(1, 255),
+                MinDuration = rnd.Next(1, 255),
+                QuestionIndex = rnd.Next(1, 255),
+                QuestionType = Guid.NewGuid().ToString(),
+                RefId = rnd.Next(1, 255),
+                ValidDisplay = randomBool,
+                BackButtonEnabled = randomBool,
+                ContinuousQuestionId = rnd.Next(1, 255),
+                QuestionSetId = questionSetForQuestion2.Id
+            };
             await question2.Create(dbContext);
-            
-            languages language = new languages();
-            language.Description = Guid.NewGuid().ToString();
-            language.Name = Guid.NewGuid().ToString();
+
+            languages language = new languages
+            {
+                Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+            };
             await language.Create(dbContext);
-            
-            languages language2 = new languages();
-            language2.Description = Guid.NewGuid().ToString();
-            language2.Name = Guid.NewGuid().ToString();
+
+            languages language2 = new languages
+            {
+                Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+            };
             await language2.Create(dbContext);
 
             question_translations questionTranslation = new question_translations
@@ -283,69 +305,79 @@ namespace eFormSDK.Tests
                         Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            question_sets questionSetForQuestion = new question_sets();
-            questionSetForQuestion.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion.Share = randomBool;
-            questionSetForQuestion.HasChild = randomBool;
-            questionSetForQuestion.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion.Create(dbContext);
-            
-            question_sets questionSetForQuestion2 = new question_sets();
-            questionSetForQuestion2.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion2.Share = randomBool;
-            questionSetForQuestion2.HasChild = randomBool;
-            questionSetForQuestion2.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion2.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion2 = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion2.Create(dbContext);
-            
-            questions question = new questions();
-            question.Image = randomBool;
-            question.Maximum = rnd.Next(1, 255);
-            question.Minimum = rnd.Next(1, 255);
-            question.Prioritised = randomBool;
-            question.Type = Guid.NewGuid().ToString();
-            question.FontSize = Guid.NewGuid().ToString();
-            question.ImagePosition = Guid.NewGuid().ToString();
-            question.MaxDuration = rnd.Next(1, 255);
-            question.MinDuration = rnd.Next(1, 255);
-            question.QuestionIndex = rnd.Next(1, 255);
-            question.QuestionType = Guid.NewGuid().ToString();
-            question.RefId = rnd.Next(1, 255);
-            question.ValidDisplay = randomBool;
-            question.BackButtonEnabled = randomBool;
-            question.ContinuousQuestionId = rnd.Next(1, 255);
-            question.QuestionSetId = questionSetForQuestion.Id;
+
+            questions question = new questions
+            {
+                Image = randomBool,
+                Maximum = rnd.Next(1, 255),
+                Minimum = rnd.Next(1, 255),
+                Prioritised = randomBool,
+                Type = Guid.NewGuid().ToString(),
+                FontSize = Guid.NewGuid().ToString(),
+                ImagePosition = Guid.NewGuid().ToString(),
+                MaxDuration = rnd.Next(1, 255),
+                MinDuration = rnd.Next(1, 255),
+                QuestionIndex = rnd.Next(1, 255),
+                QuestionType = Guid.NewGuid().ToString(),
+                RefId = rnd.Next(1, 255),
+                ValidDisplay = randomBool,
+                BackButtonEnabled = randomBool,
+                ContinuousQuestionId = rnd.Next(1, 255),
+                QuestionSetId = questionSetForQuestion.Id
+            };
             await question.Create(dbContext);
-            
-            questions question2 = new questions();
-            question2.Image = randomBool;
-            question2.Maximum = rnd.Next(1, 255);
-            question2.Minimum = rnd.Next(1, 255);
-            question2.Prioritised = randomBool;
-            question2.Type = Guid.NewGuid().ToString();
-            question2.FontSize = Guid.NewGuid().ToString();
-            question2.ImagePosition = Guid.NewGuid().ToString();
-            question2.MaxDuration = rnd.Next(1, 255);
-            question2.MinDuration = rnd.Next(1, 255);
-            question2.QuestionIndex = rnd.Next(1, 255);
-            question2.QuestionType = Guid.NewGuid().ToString();
-            question2.RefId = rnd.Next(1, 255);
-            question2.ValidDisplay = randomBool;
-            question2.BackButtonEnabled = randomBool;
-            question2.ContinuousQuestionId = rnd.Next(1, 255);
-            question2.QuestionSetId = questionSetForQuestion2.Id;
+
+            questions question2 = new questions
+            {
+                Image = randomBool,
+                Maximum = rnd.Next(1, 255),
+                Minimum = rnd.Next(1, 255),
+                Prioritised = randomBool,
+                Type = Guid.NewGuid().ToString(),
+                FontSize = Guid.NewGuid().ToString(),
+                ImagePosition = Guid.NewGuid().ToString(),
+                MaxDuration = rnd.Next(1, 255),
+                MinDuration = rnd.Next(1, 255),
+                QuestionIndex = rnd.Next(1, 255),
+                QuestionType = Guid.NewGuid().ToString(),
+                RefId = rnd.Next(1, 255),
+                ValidDisplay = randomBool,
+                BackButtonEnabled = randomBool,
+                ContinuousQuestionId = rnd.Next(1, 255),
+                QuestionSetId = questionSetForQuestion2.Id
+            };
             await question2.Create(dbContext);
-            
-            languages language = new languages();
-            language.Description = Guid.NewGuid().ToString();
-            language.Name = Guid.NewGuid().ToString();
+
+            languages language = new languages
+            {
+                Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+            };
             await language.Create(dbContext);
-            
-            languages language2 = new languages();
-            language2.Description = Guid.NewGuid().ToString();
-            language2.Name = Guid.NewGuid().ToString();
+
+            languages language2 = new languages
+            {
+                Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+            };
             await language2.Create(dbContext);
 
             question_translations questionTranslation = new question_translations
@@ -400,69 +432,81 @@ namespace eFormSDK.Tests
                         Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            question_sets questionSetForQuestion = new question_sets();
-            questionSetForQuestion.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion.Share = randomBool;
-            questionSetForQuestion.HasChild = randomBool;
-            questionSetForQuestion.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion.Create(dbContext);
-            
-            question_sets questionSetForQuestion2 = new question_sets();
-            questionSetForQuestion2.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion2.Share = randomBool;
-            questionSetForQuestion2.HasChild = randomBool;
-            questionSetForQuestion2.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion2.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion2 = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion2.Create(dbContext);
-            
-            questions question = new questions();
-            question.Image = randomBool;
-            question.Maximum = rnd.Next(1, 255);
-            question.Minimum = rnd.Next(1, 255);
-            question.Prioritised = randomBool;
-            question.Type = Guid.NewGuid().ToString();
-            question.FontSize = Guid.NewGuid().ToString();
-            question.ImagePosition = Guid.NewGuid().ToString();
-            question.MaxDuration = rnd.Next(1, 255);
-            question.MinDuration = rnd.Next(1, 255);
-            question.QuestionIndex = rnd.Next(1, 255);
-            question.QuestionType = Guid.NewGuid().ToString();
-            question.RefId = rnd.Next(1, 255);
-            question.ValidDisplay = randomBool;
-            question.BackButtonEnabled = randomBool;
-            question.ContinuousQuestionId = rnd.Next(1, 255);
-            question.QuestionSetId = questionSetForQuestion.Id;
+
+            questions question = new questions
+            {
+                Image = randomBool,
+                Maximum = rnd.Next(1, 255),
+                Minimum = rnd.Next(1, 255),
+                Prioritised = randomBool,
+                Type = Guid.NewGuid().ToString(),
+                FontSize = Guid.NewGuid().ToString(),
+                ImagePosition = Guid.NewGuid().ToString(),
+                MaxDuration = rnd.Next(1, 255),
+                MinDuration = rnd.Next(1, 255),
+                QuestionIndex = rnd.Next(1, 255),
+                QuestionType = Guid.NewGuid().ToString(),
+                RefId = rnd.Next(1, 255),
+                ValidDisplay = randomBool,
+                BackButtonEnabled = randomBool,
+                ContinuousQuestionId = rnd.Next(1, 255),
+                QuestionSetId = questionSetForQuestion.Id
+            };
             await question.Create(dbContext);
-            
-            questions question2 = new questions();
-            question2.Image = randomBool;
-            question2.Maximum = rnd.Next(1, 255);
-            question2.Minimum = rnd.Next(1, 255);
-            question2.Prioritised = randomBool;
-            question2.Type = Guid.NewGuid().ToString();
-            question2.FontSize = Guid.NewGuid().ToString();
-            question2.ImagePosition = Guid.NewGuid().ToString();
-            question2.MaxDuration = rnd.Next(1, 255);
-            question2.MinDuration = rnd.Next(1, 255);
-            question2.QuestionIndex = rnd.Next(1, 255);
-            question2.QuestionType = Guid.NewGuid().ToString();
-            question2.RefId = rnd.Next(1, 255);
-            question2.ValidDisplay = randomBool;
-            question2.BackButtonEnabled = randomBool;
-            question2.ContinuousQuestionId = rnd.Next(1, 255);
-            question2.QuestionSetId = questionSetForQuestion2.Id;
+
+            questions question2 = new questions
+            {
+                Image = randomBool,
+                Maximum = rnd.Next(1, 255),
+                Minimum = rnd.Next(1, 255),
+                Prioritised = randomBool,
+                Type = Guid.NewGuid().ToString(),
+                FontSize = Guid.NewGuid().ToString(),
+                ImagePosition = Guid.NewGuid().ToString(),
+                MaxDuration = rnd.Next(1, 255),
+                MinDuration = rnd.Next(1, 255),
+                QuestionIndex = rnd.Next(1, 255),
+                QuestionType = Guid.NewGuid().ToString(),
+                RefId = rnd.Next(1, 255),
+                ValidDisplay = randomBool,
+                BackButtonEnabled = randomBool,
+                ContinuousQuestionId = rnd.Next(1, 255),
+                QuestionSetId = questionSetForQuestion2.Id
+            };
             await question2.Create(dbContext);
-            
-            languages language = new languages();
-            language.Description = Guid.NewGuid().ToString();
-            language.Name = Guid.NewGuid().ToString();
+
+            languages language = new languages
+            {
+                Description = Guid.NewGuid().ToString(),
+                Name = Guid.NewGuid().ToString()
+            };
             await language.Create(dbContext);
-            
-            languages language2 = new languages();
-            language2.Description = Guid.NewGuid().ToString();
-            language2.Name = Guid.NewGuid().ToString();
+
+            languages language2 = new languages
+            {
+                Description = Guid.NewGuid().ToString(), 
+                Name = Guid.NewGuid().ToString()
+            };
             await language2.Create(dbContext);
 
             question_translations questionTranslation = new question_translations
@@ -520,69 +564,81 @@ namespace eFormSDK.Tests
                         Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            question_sets questionSetForQuestion = new question_sets();
-            questionSetForQuestion.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion.Share = randomBool;
-            questionSetForQuestion.HasChild = randomBool;
-            questionSetForQuestion.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion.Create(dbContext);
-            
-            question_sets questionSetForQuestion2 = new question_sets();
-            questionSetForQuestion2.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion2.Share = randomBool;
-            questionSetForQuestion2.HasChild = randomBool;
-            questionSetForQuestion2.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion2.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion2 = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion2.Create(dbContext);
-            
-            questions question = new questions();
-            question.Image = randomBool;
-            question.Maximum = rnd.Next(1, 255);
-            question.Minimum = rnd.Next(1, 255);
-            question.Prioritised = randomBool;
-            question.Type = Guid.NewGuid().ToString();
-            question.FontSize = Guid.NewGuid().ToString();
-            question.ImagePosition = Guid.NewGuid().ToString();
-            question.MaxDuration = rnd.Next(1, 255);
-            question.MinDuration = rnd.Next(1, 255);
-            question.QuestionIndex = rnd.Next(1, 255);
-            question.QuestionType = Guid.NewGuid().ToString();
-            question.RefId = rnd.Next(1, 255);
-            question.ValidDisplay = randomBool;
-            question.BackButtonEnabled = randomBool;
-            question.ContinuousQuestionId = rnd.Next(1, 255);
-            question.QuestionSetId = questionSetForQuestion.Id;
+
+            questions question = new questions
+            {
+                Image = randomBool,
+                Maximum = rnd.Next(1, 255),
+                Minimum = rnd.Next(1, 255),
+                Prioritised = randomBool,
+                Type = Guid.NewGuid().ToString(),
+                FontSize = Guid.NewGuid().ToString(),
+                ImagePosition = Guid.NewGuid().ToString(),
+                MaxDuration = rnd.Next(1, 255),
+                MinDuration = rnd.Next(1, 255),
+                QuestionIndex = rnd.Next(1, 255),
+                QuestionType = Guid.NewGuid().ToString(),
+                RefId = rnd.Next(1, 255),
+                ValidDisplay = randomBool,
+                BackButtonEnabled = randomBool,
+                ContinuousQuestionId = rnd.Next(1, 255),
+                QuestionSetId = questionSetForQuestion.Id
+            };
             await question.Create(dbContext);
-            
-            questions question2 = new questions();
-            question2.Image = randomBool;
-            question2.Maximum = rnd.Next(1, 255);
-            question2.Minimum = rnd.Next(1, 255);
-            question2.Prioritised = randomBool;
-            question2.Type = Guid.NewGuid().ToString();
-            question2.FontSize = Guid.NewGuid().ToString();
-            question2.ImagePosition = Guid.NewGuid().ToString();
-            question2.MaxDuration = rnd.Next(1, 255);
-            question2.MinDuration = rnd.Next(1, 255);
-            question2.QuestionIndex = rnd.Next(1, 255);
-            question2.QuestionType = Guid.NewGuid().ToString();
-            question2.RefId = rnd.Next(1, 255);
-            question2.ValidDisplay = randomBool;
-            question2.BackButtonEnabled = randomBool;
-            question2.ContinuousQuestionId = rnd.Next(1, 255);
-            question2.QuestionSetId = questionSetForQuestion2.Id;
+
+            questions question2 = new questions
+            {
+                Image = randomBool,
+                Maximum = rnd.Next(1, 255),
+                Minimum = rnd.Next(1, 255),
+                Prioritised = randomBool,
+                Type = Guid.NewGuid().ToString(),
+                FontSize = Guid.NewGuid().ToString(),
+                ImagePosition = Guid.NewGuid().ToString(),
+                MaxDuration = rnd.Next(1, 255),
+                MinDuration = rnd.Next(1, 255),
+                QuestionIndex = rnd.Next(1, 255),
+                QuestionType = Guid.NewGuid().ToString(),
+                RefId = rnd.Next(1, 255),
+                ValidDisplay = randomBool,
+                BackButtonEnabled = randomBool,
+                ContinuousQuestionId = rnd.Next(1, 255),
+                QuestionSetId = questionSetForQuestion2.Id
+            };
             await question2.Create(dbContext);
-            
-            languages language = new languages();
-            language.Description = Guid.NewGuid().ToString();
-            language.Name = Guid.NewGuid().ToString();
+
+            languages language = new languages
+            {
+                Description = Guid.NewGuid().ToString(),
+                Name = Guid.NewGuid().ToString()
+            };
             await language.Create(dbContext);
-            
-            languages language2 = new languages();
-            language2.Description = Guid.NewGuid().ToString();
-            language2.Name = Guid.NewGuid().ToString();
+
+            languages language2 = new languages
+            {
+                Description = Guid.NewGuid().ToString(), 
+                Name = Guid.NewGuid().ToString()
+            };
             await language2.Create(dbContext);
 
             question_translations questionTranslation = new question_translations
@@ -638,37 +694,42 @@ namespace eFormSDK.Tests
                                     Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            question_sets questionSetForQuestion = new question_sets();
-            questionSetForQuestion.Name = Guid.NewGuid().ToString();
-            questionSetForQuestion.Share = randomBool;
-            questionSetForQuestion.HasChild = randomBool;
-            questionSetForQuestion.ParentId = rnd.Next(1, 255);
-            questionSetForQuestion.PosiblyDeployed = randomBool;
+
+            question_sets questionSetForQuestion = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                ParentId = rnd.Next(1, 255),
+                PosiblyDeployed = randomBool
+            };
             await questionSetForQuestion.Create(dbContext);
 
-            questions question = new questions();
-            question.Image = randomBool;
-            question.Maximum = rnd.Next(1, 255);
-            question.Minimum = rnd.Next(1, 255);
-            question.Prioritised = randomBool;
-            question.Type = Guid.NewGuid().ToString();
-            question.FontSize = Guid.NewGuid().ToString();
-            question.ImagePosition = Guid.NewGuid().ToString();
-            question.MaxDuration = rnd.Next(1, 255);
-            question.MinDuration = rnd.Next(1, 255);
-            question.QuestionIndex = rnd.Next(1, 255);
-            question.QuestionType = Guid.NewGuid().ToString();
-            question.RefId = rnd.Next(1, 255);
-            question.ValidDisplay = randomBool;
-            question.BackButtonEnabled = randomBool;
-            question.ContinuousQuestionId = rnd.Next(1, 255);
-            question.QuestionSetId = questionSetForQuestion.Id;
+            questions question = new questions
+            {
+                Image = randomBool,
+                Maximum = rnd.Next(1, 255),
+                Minimum = rnd.Next(1, 255),
+                Prioritised = randomBool,
+                Type = Guid.NewGuid().ToString(),
+                FontSize = Guid.NewGuid().ToString(),
+                ImagePosition = Guid.NewGuid().ToString(),
+                MaxDuration = rnd.Next(1, 255),
+                MinDuration = rnd.Next(1, 255),
+                QuestionIndex = rnd.Next(1, 255),
+                QuestionType = Guid.NewGuid().ToString(),
+                RefId = rnd.Next(1, 255),
+                ValidDisplay = randomBool,
+                BackButtonEnabled = randomBool,
+                ContinuousQuestionId = rnd.Next(1, 255),
+                QuestionSetId = questionSetForQuestion.Id
+            };
             await question.Create(dbContext);
-            
-            languages language = new languages();
-            language.Description = Guid.NewGuid().ToString();
-            language.Name = Guid.NewGuid().ToString();
+
+            languages language = new languages
+            {
+                Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+            };
             await language.Create(dbContext);
             
             question_translations questionTranslation = new question_translations

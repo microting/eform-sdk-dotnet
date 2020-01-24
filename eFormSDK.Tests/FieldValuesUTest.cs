@@ -1,3 +1,27 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2007 - 2020 Microting A/S
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,156 +45,175 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
             
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
+
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await site.Create(dbContext);
-            
-            units unit = new units();
-            unit.CustomerNo = rnd.Next(1, 255);
-            unit.MicrotingUid = rnd.Next(1, 255);
-            unit.OtpCode = rnd.Next(1, 255);
-            unit.SiteId = site.Id;
+
+            units unit = new units
+            {
+                CustomerNo = rnd.Next(1, 255),
+                MicrotingUid = rnd.Next(1, 255),
+                OtpCode = rnd.Next(1, 255),
+                SiteId = site.Id
+            };
             await unit.Create(dbContext);
-            
-            check_lists checklist = new check_lists();
-            checklist.Color = Guid.NewGuid().ToString();
-            checklist.Custom = Guid.NewGuid().ToString();
-            checklist.Description = Guid.NewGuid().ToString();
-            checklist.Field1 = rnd.Next(1, 255);
-            checklist.Field2 = rnd.Next(1, 255);
-            checklist.Field4 = rnd.Next(1, 255);
-            checklist.Field5 = rnd.Next(1, 255);
-            checklist.Field6 = rnd.Next(1, 255);
-            checklist.Field7 = rnd.Next(1, 255);
-            checklist.Field8 = rnd.Next(1, 255);
-            checklist.Field9 = rnd.Next(1, 255);
-            checklist.Field10 = rnd.Next(1, 255);
-            checklist.Label = Guid.NewGuid().ToString();
-            checklist.Repeated = rnd.Next(1, 255);
-            checklist.ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue);
-            checklist.CaseType = Guid.NewGuid().ToString();
-            checklist.DisplayIndex = rnd.Next(1, 255);
-            checklist.DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.FolderName = Guid.NewGuid().ToString();
-            checklist.ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.OriginalId = Guid.NewGuid().ToString();
-            checklist.ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.DocxExportEnabled = randomBool;
-            checklist.DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.JasperExportEnabled = randomBool;
-            checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
+
+            check_lists checklist = new check_lists
+            {
+                Color = Guid.NewGuid().ToString(),
+                Custom = Guid.NewGuid().ToString(),
+                Description = Guid.NewGuid().ToString(),
+                Field1 = rnd.Next(1, 255),
+                Field2 = rnd.Next(1, 255),
+                Field4 = rnd.Next(1, 255),
+                Field5 = rnd.Next(1, 255),
+                Field6 = rnd.Next(1, 255),
+                Field7 = rnd.Next(1, 255),
+                Field8 = rnd.Next(1, 255),
+                Field9 = rnd.Next(1, 255),
+                Field10 = rnd.Next(1, 255),
+                Label = Guid.NewGuid().ToString(),
+                Repeated = rnd.Next(1, 255),
+                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                CaseType = Guid.NewGuid().ToString(),
+                DisplayIndex = rnd.Next(1, 255),
+                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                FolderName = Guid.NewGuid().ToString(),
+                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                OriginalId = Guid.NewGuid().ToString(),
+                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DocxExportEnabled = randomBool,
+                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                JasperExportEnabled = randomBool,
+                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
+            };
             await checklist.Create(dbContext);
-            
-            entity_groups entityGroup = new entity_groups();
-            entityGroup.Name = Guid.NewGuid().ToString();
-            entityGroup.Type = Guid.NewGuid().ToString();
-            entityGroup.MicrotingUid = Guid.NewGuid().ToString();
+
+            entity_groups entityGroup = new entity_groups
+            {
+                Name = Guid.NewGuid().ToString(),
+                Type = Guid.NewGuid().ToString(),
+                MicrotingUid = Guid.NewGuid().ToString()
+            };
             await entityGroup.Create(dbContext);
-            
-            field_types fieldType = new field_types();
-            fieldType.Description = Guid.NewGuid().ToString();
-            fieldType.FieldType = Guid.NewGuid().ToString();
+
+            field_types fieldType = new field_types
+            {
+                Description = Guid.NewGuid().ToString(), FieldType = Guid.NewGuid().ToString()
+            };
             await fieldType.Create(dbContext);
-            
-            fields field = new fields();
-            field.Color = Guid.NewGuid().ToString();
-            field.Custom = Guid.NewGuid().ToString();
-            field.Description = Guid.NewGuid().ToString();
-            field.Dummy = (short)rnd.Next(shortMinValue, shortmaxValue);
-            field.Label = Guid.NewGuid().ToString();
-            field.Mandatory = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.Multi = rnd.Next(1, 255);
-            field.Optional = (short)rnd.Next(shortMinValue, shortmaxValue);
-            field.Selected = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.BarcodeEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.BarcodeType = Guid.NewGuid().ToString();
-            field.DecimalCount = rnd.Next(1, 255);
-            field.DefaultValue = Guid.NewGuid().ToString();
-            field.DisplayIndex = rnd.Next(1, 255);
-            field.GeolocationEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.GeolocationForced = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.GeolocationHidden = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.IsNum = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.MaxLength = rnd.Next(1, 255);
-            field.MaxValue = Guid.NewGuid().ToString();
-            field.MinValue = Guid.NewGuid().ToString();
-            field.OriginalId = Guid.NewGuid().ToString();
-            field.QueryType = Guid.NewGuid().ToString();
-            field.ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.SplitScreen = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.UnitName = Guid.NewGuid().ToString();
-            field.StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.KeyValuePairList = Guid.NewGuid().ToString();
-            field.CheckListId = checklist.Id;
-            field.EntityGroupId = entityGroup.Id;
-            field.FieldTypeId = fieldType.Id;
+
+            fields field = new fields
+            {
+                Color = Guid.NewGuid().ToString(),
+                Custom = Guid.NewGuid().ToString(),
+                Description = Guid.NewGuid().ToString(),
+                Dummy = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Label = Guid.NewGuid().ToString(),
+                Mandatory = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Multi = rnd.Next(1, 255),
+                Optional = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Selected = (short) rnd.Next(shortMinValue, shortmaxValue),
+                BarcodeEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                BarcodeType = Guid.NewGuid().ToString(),
+                DecimalCount = rnd.Next(1, 255),
+                DefaultValue = Guid.NewGuid().ToString(),
+                DisplayIndex = rnd.Next(1, 255),
+                GeolocationEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationForced = (short) rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationHidden = (short) rnd.Next(shortMinValue, shortmaxValue),
+                IsNum = (short) rnd.Next(shortMinValue, shortmaxValue),
+                MaxLength = rnd.Next(1, 255),
+                MaxValue = Guid.NewGuid().ToString(),
+                MinValue = Guid.NewGuid().ToString(),
+                OriginalId = Guid.NewGuid().ToString(),
+                QueryType = Guid.NewGuid().ToString(),
+                ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue),
+                SplitScreen = (short) rnd.Next(shortMinValue, shortmaxValue),
+                UnitName = Guid.NewGuid().ToString(),
+                StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue),
+                KeyValuePairList = Guid.NewGuid().ToString(),
+                CheckListId = checklist.Id,
+                EntityGroupId = entityGroup.Id,
+                FieldTypeId = fieldType.Id
+            };
             await field.Create(dbContext);
-            
-            
-            
-            workers worker = new workers();
-            worker.Email = Guid.NewGuid().ToString();
-            worker.FirstName = Guid.NewGuid().ToString();
-            worker.LastName = Guid.NewGuid().ToString();
-            worker.MicrotingUid = rnd.Next(1, 255);
+
+
+
+            workers worker = new workers
+            {
+                Email = Guid.NewGuid().ToString(),
+                FirstName = Guid.NewGuid().ToString(),
+                LastName = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await worker.Create(dbContext);
-            
-            cases theCase = new cases();
-            theCase.Custom = Guid.NewGuid().ToString();
-            theCase.Status = rnd.Next(1, 255);
-            theCase.Type = Guid.NewGuid().ToString();
-            theCase.CaseUid = Guid.NewGuid().ToString();
-            theCase.DoneAt = DateTime.Now;
-            theCase.FieldValue1 = Guid.NewGuid().ToString();
-            theCase.FieldValue2 = Guid.NewGuid().ToString();
-            theCase.FieldValue3 = Guid.NewGuid().ToString();
-            theCase.FieldValue4 = Guid.NewGuid().ToString();
-            theCase.FieldValue5 = Guid.NewGuid().ToString();
-            theCase.FieldValue6 = Guid.NewGuid().ToString();
-            theCase.FieldValue7 = Guid.NewGuid().ToString();
-            theCase.FieldValue8 = Guid.NewGuid().ToString();
-            theCase.FieldValue9 = Guid.NewGuid().ToString();
-            theCase.FieldValue10 = Guid.NewGuid().ToString();
-            theCase.MicrotingUid = rnd.Next(shortMinValue, shortmaxValue);
-            theCase.SiteId = site.Id;
-            theCase.UnitId = unit.Id;
-            theCase.WorkerId = worker.Id;
-            theCase.CheckListId = checklist.Id;
-            theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
+
+            cases theCase = new cases
+            {
+                Custom = Guid.NewGuid().ToString(),
+                Status = rnd.Next(1, 255),
+                Type = Guid.NewGuid().ToString(),
+                CaseUid = Guid.NewGuid().ToString(),
+                DoneAt = DateTime.Now,
+                FieldValue1 = Guid.NewGuid().ToString(),
+                FieldValue2 = Guid.NewGuid().ToString(),
+                FieldValue3 = Guid.NewGuid().ToString(),
+                FieldValue4 = Guid.NewGuid().ToString(),
+                FieldValue5 = Guid.NewGuid().ToString(),
+                FieldValue6 = Guid.NewGuid().ToString(),
+                FieldValue7 = Guid.NewGuid().ToString(),
+                FieldValue8 = Guid.NewGuid().ToString(),
+                FieldValue9 = Guid.NewGuid().ToString(),
+                FieldValue10 = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(shortMinValue, shortmaxValue),
+                SiteId = site.Id,
+                UnitId = unit.Id,
+                WorkerId = worker.Id,
+                CheckListId = checklist.Id,
+                MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue)
+            };
             await theCase.Create(dbContext);
-            
-            uploaded_data uploadedData = new uploaded_data();
-            uploadedData.Checksum = Guid.NewGuid().ToString();
-            uploadedData.Extension = Guid.NewGuid().ToString();
-            uploadedData.Local = (short)rnd.Next(shortMinValue, shortmaxValue);
-            uploadedData.CurrentFile = Guid.NewGuid().ToString();
-            uploadedData.ExpirationDate = DateTime.Now;
-            uploadedData.FileLocation = Guid.NewGuid().ToString();
-            uploadedData.FileName = Guid.NewGuid().ToString();
-            uploadedData.TranscriptionId = rnd.Next(1, 255);
-            uploadedData.UploaderId = rnd.Next(1, 255);
-            uploadedData.UploaderType = Guid.NewGuid().ToString();
+
+            uploaded_data uploadedData = new uploaded_data
+            {
+                Checksum = Guid.NewGuid().ToString(),
+                Extension = Guid.NewGuid().ToString(),
+                Local = (short) rnd.Next(shortMinValue, shortmaxValue),
+                CurrentFile = Guid.NewGuid().ToString(),
+                ExpirationDate = DateTime.Now,
+                FileLocation = Guid.NewGuid().ToString(),
+                FileName = Guid.NewGuid().ToString(),
+                TranscriptionId = rnd.Next(1, 255),
+                UploaderId = rnd.Next(1, 255),
+                UploaderType = Guid.NewGuid().ToString()
+            };
             await uploadedData.Create(dbContext);
 
-            field_values fieldValue = new field_values();
-            fieldValue.Accuracy = Guid.NewGuid().ToString();
-            fieldValue.Altitude = Guid.NewGuid().ToString();
-            fieldValue.Date = DateTime.Now;
-            fieldValue.Heading = Guid.NewGuid().ToString();
-            fieldValue.Latitude = Guid.NewGuid().ToString();
-            fieldValue.Longitude = Guid.NewGuid().ToString();
-            fieldValue.Value = Guid.NewGuid().ToString();
-            fieldValue.CaseId = theCase.Id;
-            fieldValue.DoneAt = DateTime.Now;
-            fieldValue.FieldId = field.Id;
-            fieldValue.WorkerId = worker.Id;
-            fieldValue.CheckListId = checklist.Id;
-            fieldValue.UploadedDataId = uploadedData.Id;
+            field_values fieldValue = new field_values
+            {
+                Accuracy = Guid.NewGuid().ToString(),
+                Altitude = Guid.NewGuid().ToString(),
+                Date = DateTime.Now,
+                Heading = Guid.NewGuid().ToString(),
+                Latitude = Guid.NewGuid().ToString(),
+                Longitude = Guid.NewGuid().ToString(),
+                Value = Guid.NewGuid().ToString(),
+                CaseId = theCase.Id,
+                DoneAt = DateTime.Now,
+                FieldId = field.Id,
+                WorkerId = worker.Id,
+                CheckListId = checklist.Id,
+                UploadedDataId = uploadedData.Id
+            };
 
             //Act
             
@@ -232,154 +275,174 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
             
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
+
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await site.Create(dbContext);
-            
-            units unit = new units();
-            unit.CustomerNo = rnd.Next(1, 255);
-            unit.MicrotingUid = rnd.Next(1, 255);
-            unit.OtpCode = rnd.Next(1, 255);
-            unit.SiteId = site.Id;
+
+            units unit = new units
+            {
+                CustomerNo = rnd.Next(1, 255),
+                MicrotingUid = rnd.Next(1, 255),
+                OtpCode = rnd.Next(1, 255),
+                SiteId = site.Id
+            };
             await unit.Create(dbContext);
-            
-            check_lists checklist = new check_lists();
-            checklist.Color = Guid.NewGuid().ToString();
-            checklist.Custom = Guid.NewGuid().ToString();
-            checklist.Description = Guid.NewGuid().ToString();
-            checklist.Field1 = rnd.Next(1, 255);
-            checklist.Field2 = rnd.Next(1, 255);
-            checklist.Field4 = rnd.Next(1, 255);
-            checklist.Field5 = rnd.Next(1, 255);
-            checklist.Field6 = rnd.Next(1, 255);
-            checklist.Field7 = rnd.Next(1, 255);
-            checklist.Field8 = rnd.Next(1, 255);
-            checklist.Field9 = rnd.Next(1, 255);
-            checklist.Field10 = rnd.Next(1, 255);
-            checklist.Label = Guid.NewGuid().ToString();
-            checklist.Repeated = rnd.Next(1, 255);
-            checklist.ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue);
-            checklist.CaseType = Guid.NewGuid().ToString();
-            checklist.DisplayIndex = rnd.Next(1, 255);
-            checklist.DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.FolderName = Guid.NewGuid().ToString();
-            checklist.ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.OriginalId = Guid.NewGuid().ToString();
-            checklist.ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.DocxExportEnabled = randomBool;
-            checklist.DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.JasperExportEnabled = randomBool;
-            checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
+
+            check_lists checklist = new check_lists
+            {
+                Color = Guid.NewGuid().ToString(),
+                Custom = Guid.NewGuid().ToString(),
+                Description = Guid.NewGuid().ToString(),
+                Field1 = rnd.Next(1, 255),
+                Field2 = rnd.Next(1, 255),
+                Field4 = rnd.Next(1, 255),
+                Field5 = rnd.Next(1, 255),
+                Field6 = rnd.Next(1, 255),
+                Field7 = rnd.Next(1, 255),
+                Field8 = rnd.Next(1, 255),
+                Field9 = rnd.Next(1, 255),
+                Field10 = rnd.Next(1, 255),
+                Label = Guid.NewGuid().ToString(),
+                Repeated = rnd.Next(1, 255),
+                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                CaseType = Guid.NewGuid().ToString(),
+                DisplayIndex = rnd.Next(1, 255),
+                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                FolderName = Guid.NewGuid().ToString(),
+                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                OriginalId = Guid.NewGuid().ToString(),
+                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DocxExportEnabled = randomBool,
+                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                JasperExportEnabled = randomBool,
+                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
+            };
             await checklist.Create(dbContext);
-            
-            entity_groups entityGroup = new entity_groups();
-            entityGroup.Name = Guid.NewGuid().ToString();
-            entityGroup.Type = Guid.NewGuid().ToString();
-            entityGroup.MicrotingUid = Guid.NewGuid().ToString();
+
+            entity_groups entityGroup = new entity_groups
+            {
+                Name = Guid.NewGuid().ToString(),
+                Type = Guid.NewGuid().ToString(),
+                MicrotingUid = Guid.NewGuid().ToString()
+            };
             await entityGroup.Create(dbContext);
-            
-            field_types fieldType = new field_types();
-            fieldType.Description = Guid.NewGuid().ToString();
-            fieldType.FieldType = Guid.NewGuid().ToString();
+
+            field_types fieldType = new field_types
+            {
+                Description = Guid.NewGuid().ToString(),
+                FieldType = Guid.NewGuid().ToString()
+            };
             await fieldType.Create(dbContext);
-            
-            fields field = new fields();
-            field.Color = Guid.NewGuid().ToString();
-            field.Custom = Guid.NewGuid().ToString();
-            field.Description = Guid.NewGuid().ToString();
-            field.Dummy = (short)rnd.Next(shortMinValue, shortmaxValue);
-            field.Label = Guid.NewGuid().ToString();
-            field.Mandatory = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.Multi = rnd.Next(1, 255);
-            field.Optional = (short)rnd.Next(shortMinValue, shortmaxValue);
-            field.Selected = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.BarcodeEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.BarcodeType = Guid.NewGuid().ToString();
-            field.DecimalCount = rnd.Next(1, 255);
-            field.DefaultValue = Guid.NewGuid().ToString();
-            field.DisplayIndex = rnd.Next(1, 255);
-            field.GeolocationEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.GeolocationForced = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.GeolocationHidden = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.IsNum = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.MaxLength = rnd.Next(1, 255);
-            field.MaxValue = Guid.NewGuid().ToString();
-            field.MinValue = Guid.NewGuid().ToString();
-            field.OriginalId = Guid.NewGuid().ToString();
-            field.QueryType = Guid.NewGuid().ToString();
-            field.ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.SplitScreen = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.UnitName = Guid.NewGuid().ToString();
-            field.StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.KeyValuePairList = Guid.NewGuid().ToString();
-            field.CheckListId = checklist.Id;
-            field.EntityGroupId = entityGroup.Id;
-            field.FieldTypeId = fieldType.Id;
+
+            fields field = new fields
+            {
+                Color = Guid.NewGuid().ToString(),
+                Custom = Guid.NewGuid().ToString(),
+                Description = Guid.NewGuid().ToString(),
+                Dummy = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Label = Guid.NewGuid().ToString(),
+                Mandatory = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Multi = rnd.Next(1, 255),
+                Optional = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Selected = (short) rnd.Next(shortMinValue, shortmaxValue),
+                BarcodeEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                BarcodeType = Guid.NewGuid().ToString(),
+                DecimalCount = rnd.Next(1, 255),
+                DefaultValue = Guid.NewGuid().ToString(),
+                DisplayIndex = rnd.Next(1, 255),
+                GeolocationEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationForced = (short) rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationHidden = (short) rnd.Next(shortMinValue, shortmaxValue),
+                IsNum = (short) rnd.Next(shortMinValue, shortmaxValue),
+                MaxLength = rnd.Next(1, 255),
+                MaxValue = Guid.NewGuid().ToString(),
+                MinValue = Guid.NewGuid().ToString(),
+                OriginalId = Guid.NewGuid().ToString(),
+                QueryType = Guid.NewGuid().ToString(),
+                ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue),
+                SplitScreen = (short) rnd.Next(shortMinValue, shortmaxValue),
+                UnitName = Guid.NewGuid().ToString(),
+                StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue),
+                KeyValuePairList = Guid.NewGuid().ToString(),
+                CheckListId = checklist.Id,
+                EntityGroupId = entityGroup.Id,
+                FieldTypeId = fieldType.Id
+            };
             await field.Create(dbContext);
-            
-            workers worker = new workers();
-            worker.Email = Guid.NewGuid().ToString();
-            worker.FirstName = Guid.NewGuid().ToString();
-            worker.LastName = Guid.NewGuid().ToString();
-            worker.MicrotingUid = rnd.Next(1, 255);
+
+            workers worker = new workers
+            {
+                Email = Guid.NewGuid().ToString(),
+                FirstName = Guid.NewGuid().ToString(),
+                LastName = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await worker.Create(dbContext);
-            
-            cases theCase = new cases();
-            theCase.Custom = Guid.NewGuid().ToString();
-            theCase.Status = rnd.Next(1, 255);
-            theCase.Type = Guid.NewGuid().ToString();
-            theCase.CaseUid = Guid.NewGuid().ToString();
-            theCase.DoneAt = DateTime.Now;
-            theCase.FieldValue1 = Guid.NewGuid().ToString();
-            theCase.FieldValue2 = Guid.NewGuid().ToString();
-            theCase.FieldValue3 = Guid.NewGuid().ToString();
-            theCase.FieldValue4 = Guid.NewGuid().ToString();
-            theCase.FieldValue5 = Guid.NewGuid().ToString();
-            theCase.FieldValue6 = Guid.NewGuid().ToString();
-            theCase.FieldValue7 = Guid.NewGuid().ToString();
-            theCase.FieldValue8 = Guid.NewGuid().ToString();
-            theCase.FieldValue9 = Guid.NewGuid().ToString();
-            theCase.FieldValue10 = Guid.NewGuid().ToString();
-            theCase.MicrotingUid = rnd.Next(shortMinValue, shortmaxValue);
-            theCase.SiteId = site.Id;
-            theCase.UnitId = unit.Id;
-            theCase.WorkerId = worker.Id;
-            theCase.CheckListId = checklist.Id;
-            theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
+
+            cases theCase = new cases
+            {
+                Custom = Guid.NewGuid().ToString(),
+                Status = rnd.Next(1, 255),
+                Type = Guid.NewGuid().ToString(),
+                CaseUid = Guid.NewGuid().ToString(),
+                DoneAt = DateTime.Now,
+                FieldValue1 = Guid.NewGuid().ToString(),
+                FieldValue2 = Guid.NewGuid().ToString(),
+                FieldValue3 = Guid.NewGuid().ToString(),
+                FieldValue4 = Guid.NewGuid().ToString(),
+                FieldValue5 = Guid.NewGuid().ToString(),
+                FieldValue6 = Guid.NewGuid().ToString(),
+                FieldValue7 = Guid.NewGuid().ToString(),
+                FieldValue8 = Guid.NewGuid().ToString(),
+                FieldValue9 = Guid.NewGuid().ToString(),
+                FieldValue10 = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(shortMinValue, shortmaxValue),
+                SiteId = site.Id,
+                UnitId = unit.Id,
+                WorkerId = worker.Id,
+                CheckListId = checklist.Id,
+                MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue)
+            };
             await theCase.Create(dbContext);
-            
-            uploaded_data uploadedData = new uploaded_data();
-            uploadedData.Checksum = Guid.NewGuid().ToString();
-            uploadedData.Extension = Guid.NewGuid().ToString();
-            uploadedData.Local = (short)rnd.Next(shortMinValue, shortmaxValue);
-            uploadedData.CurrentFile = Guid.NewGuid().ToString();
-            uploadedData.ExpirationDate = DateTime.Now;
-            uploadedData.FileLocation = Guid.NewGuid().ToString();
-            uploadedData.FileName = Guid.NewGuid().ToString();
-            uploadedData.TranscriptionId = rnd.Next(1, 255);
-            uploadedData.UploaderId = rnd.Next(1, 255);
-            uploadedData.UploaderType = Guid.NewGuid().ToString();
+
+            uploaded_data uploadedData = new uploaded_data
+            {
+                Checksum = Guid.NewGuid().ToString(),
+                Extension = Guid.NewGuid().ToString(),
+                Local = (short) rnd.Next(shortMinValue, shortmaxValue),
+                CurrentFile = Guid.NewGuid().ToString(),
+                ExpirationDate = DateTime.Now,
+                FileLocation = Guid.NewGuid().ToString(),
+                FileName = Guid.NewGuid().ToString(),
+                TranscriptionId = rnd.Next(1, 255),
+                UploaderId = rnd.Next(1, 255),
+                UploaderType = Guid.NewGuid().ToString()
+            };
             await uploadedData.Create(dbContext);
 
-            field_values fieldValue = new field_values();
-            fieldValue.Accuracy = Guid.NewGuid().ToString();
-            fieldValue.Altitude = Guid.NewGuid().ToString();
-            fieldValue.Date = DateTime.Now;
-            fieldValue.Heading = Guid.NewGuid().ToString();
-            fieldValue.Latitude = Guid.NewGuid().ToString();
-            fieldValue.Longitude = Guid.NewGuid().ToString();
-            fieldValue.Value = Guid.NewGuid().ToString();
-            fieldValue.CaseId = theCase.Id;
-            fieldValue.DoneAt = DateTime.Now;
-            fieldValue.FieldId = field.Id;
-            fieldValue.WorkerId = worker.Id;
-            fieldValue.CheckListId = checklist.Id;
-            fieldValue.UploadedDataId = uploadedData.Id;
+            field_values fieldValue = new field_values
+            {
+                Accuracy = Guid.NewGuid().ToString(),
+                Altitude = Guid.NewGuid().ToString(),
+                Date = DateTime.Now,
+                Heading = Guid.NewGuid().ToString(),
+                Latitude = Guid.NewGuid().ToString(),
+                Longitude = Guid.NewGuid().ToString(),
+                Value = Guid.NewGuid().ToString(),
+                CaseId = theCase.Id,
+                DoneAt = DateTime.Now,
+                FieldId = field.Id,
+                WorkerId = worker.Id,
+                CheckListId = checklist.Id,
+                UploadedDataId = uploadedData.Id
+            };
             await fieldValue.Create(dbContext);
 
             //Act
@@ -480,154 +543,174 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
             
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
+
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await site.Create(dbContext);
-            
-            units unit = new units();
-            unit.CustomerNo = rnd.Next(1, 255);
-            unit.MicrotingUid = rnd.Next(1, 255);
-            unit.OtpCode = rnd.Next(1, 255);
-            unit.SiteId = site.Id;
+
+            units unit = new units
+            {
+                CustomerNo = rnd.Next(1, 255),
+                MicrotingUid = rnd.Next(1, 255),
+                OtpCode = rnd.Next(1, 255),
+                SiteId = site.Id
+            };
             await unit.Create(dbContext);
-            
-            check_lists checklist = new check_lists();
-            checklist.Color = Guid.NewGuid().ToString();
-            checklist.Custom = Guid.NewGuid().ToString();
-            checklist.Description = Guid.NewGuid().ToString();
-            checklist.Field1 = rnd.Next(1, 255);
-            checklist.Field2 = rnd.Next(1, 255);
-            checklist.Field4 = rnd.Next(1, 255);
-            checklist.Field5 = rnd.Next(1, 255);
-            checklist.Field6 = rnd.Next(1, 255);
-            checklist.Field7 = rnd.Next(1, 255);
-            checklist.Field8 = rnd.Next(1, 255);
-            checklist.Field9 = rnd.Next(1, 255);
-            checklist.Field10 = rnd.Next(1, 255);
-            checklist.Label = Guid.NewGuid().ToString();
-            checklist.Repeated = rnd.Next(1, 255);
-            checklist.ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue);
-            checklist.CaseType = Guid.NewGuid().ToString();
-            checklist.DisplayIndex = rnd.Next(1, 255);
-            checklist.DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.FolderName = Guid.NewGuid().ToString();
-            checklist.ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.OriginalId = Guid.NewGuid().ToString();
-            checklist.ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.DocxExportEnabled = randomBool;
-            checklist.DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.JasperExportEnabled = randomBool;
-            checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
+
+            check_lists checklist = new check_lists
+            {
+                Color = Guid.NewGuid().ToString(),
+                Custom = Guid.NewGuid().ToString(),
+                Description = Guid.NewGuid().ToString(),
+                Field1 = rnd.Next(1, 255),
+                Field2 = rnd.Next(1, 255),
+                Field4 = rnd.Next(1, 255),
+                Field5 = rnd.Next(1, 255),
+                Field6 = rnd.Next(1, 255),
+                Field7 = rnd.Next(1, 255),
+                Field8 = rnd.Next(1, 255),
+                Field9 = rnd.Next(1, 255),
+                Field10 = rnd.Next(1, 255),
+                Label = Guid.NewGuid().ToString(),
+                Repeated = rnd.Next(1, 255),
+                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                CaseType = Guid.NewGuid().ToString(),
+                DisplayIndex = rnd.Next(1, 255),
+                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                FolderName = Guid.NewGuid().ToString(),
+                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                OriginalId = Guid.NewGuid().ToString(),
+                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DocxExportEnabled = randomBool,
+                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                JasperExportEnabled = randomBool,
+                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
+            };
             await checklist.Create(dbContext);
-            
-            entity_groups entityGroup = new entity_groups();
-            entityGroup.Name = Guid.NewGuid().ToString();
-            entityGroup.Type = Guid.NewGuid().ToString();
-            entityGroup.MicrotingUid = Guid.NewGuid().ToString();
+
+            entity_groups entityGroup = new entity_groups
+            {
+                Name = Guid.NewGuid().ToString(),
+                Type = Guid.NewGuid().ToString(),
+                MicrotingUid = Guid.NewGuid().ToString()
+            };
             await entityGroup.Create(dbContext);
-            
-            field_types fieldType = new field_types();
-            fieldType.Description = Guid.NewGuid().ToString();
-            fieldType.FieldType = Guid.NewGuid().ToString();
+
+            field_types fieldType = new field_types
+            {
+                Description = Guid.NewGuid().ToString(),
+                FieldType = Guid.NewGuid().ToString()
+            };
             await fieldType.Create(dbContext);
-            
-            fields field = new fields();
-            field.Color = Guid.NewGuid().ToString();
-            field.Custom = Guid.NewGuid().ToString();
-            field.Description = Guid.NewGuid().ToString();
-            field.Dummy = (short)rnd.Next(shortMinValue, shortmaxValue);
-            field.Label = Guid.NewGuid().ToString();
-            field.Mandatory = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.Multi = rnd.Next(1, 255);
-            field.Optional = (short)rnd.Next(shortMinValue, shortmaxValue);
-            field.Selected = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.BarcodeEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.BarcodeType = Guid.NewGuid().ToString();
-            field.DecimalCount = rnd.Next(1, 255);
-            field.DefaultValue = Guid.NewGuid().ToString();
-            field.DisplayIndex = rnd.Next(1, 255);
-            field.GeolocationEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.GeolocationForced = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.GeolocationHidden = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.IsNum = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.MaxLength = rnd.Next(1, 255);
-            field.MaxValue = Guid.NewGuid().ToString();
-            field.MinValue = Guid.NewGuid().ToString();
-            field.OriginalId = Guid.NewGuid().ToString();
-            field.QueryType = Guid.NewGuid().ToString();
-            field.ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.SplitScreen = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.UnitName = Guid.NewGuid().ToString();
-            field.StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.KeyValuePairList = Guid.NewGuid().ToString();
-            field.CheckListId = checklist.Id;
-            field.EntityGroupId = entityGroup.Id;
-            field.FieldTypeId = fieldType.Id;
+
+            fields field = new fields
+            {
+                Color = Guid.NewGuid().ToString(),
+                Custom = Guid.NewGuid().ToString(),
+                Description = Guid.NewGuid().ToString(),
+                Dummy = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Label = Guid.NewGuid().ToString(),
+                Mandatory = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Multi = rnd.Next(1, 255),
+                Optional = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Selected = (short) rnd.Next(shortMinValue, shortmaxValue),
+                BarcodeEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                BarcodeType = Guid.NewGuid().ToString(),
+                DecimalCount = rnd.Next(1, 255),
+                DefaultValue = Guid.NewGuid().ToString(),
+                DisplayIndex = rnd.Next(1, 255),
+                GeolocationEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationForced = (short) rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationHidden = (short) rnd.Next(shortMinValue, shortmaxValue),
+                IsNum = (short) rnd.Next(shortMinValue, shortmaxValue),
+                MaxLength = rnd.Next(1, 255),
+                MaxValue = Guid.NewGuid().ToString(),
+                MinValue = Guid.NewGuid().ToString(),
+                OriginalId = Guid.NewGuid().ToString(),
+                QueryType = Guid.NewGuid().ToString(),
+                ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue),
+                SplitScreen = (short) rnd.Next(shortMinValue, shortmaxValue),
+                UnitName = Guid.NewGuid().ToString(),
+                StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue),
+                KeyValuePairList = Guid.NewGuid().ToString(),
+                CheckListId = checklist.Id,
+                EntityGroupId = entityGroup.Id,
+                FieldTypeId = fieldType.Id
+            };
             await field.Create(dbContext);
-            
-            workers worker = new workers();
-            worker.Email = Guid.NewGuid().ToString();
-            worker.FirstName = Guid.NewGuid().ToString();
-            worker.LastName = Guid.NewGuid().ToString();
-            worker.MicrotingUid = rnd.Next(1, 255);
+
+            workers worker = new workers
+            {
+                Email = Guid.NewGuid().ToString(),
+                FirstName = Guid.NewGuid().ToString(),
+                LastName = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await worker.Create(dbContext);
-            
-            cases theCase = new cases();
-            theCase.Custom = Guid.NewGuid().ToString();
-            theCase.Status = rnd.Next(1, 255);
-            theCase.Type = Guid.NewGuid().ToString();
-            theCase.CaseUid = Guid.NewGuid().ToString();
-            theCase.DoneAt = DateTime.Now;
-            theCase.FieldValue1 = Guid.NewGuid().ToString();
-            theCase.FieldValue2 = Guid.NewGuid().ToString();
-            theCase.FieldValue3 = Guid.NewGuid().ToString();
-            theCase.FieldValue4 = Guid.NewGuid().ToString();
-            theCase.FieldValue5 = Guid.NewGuid().ToString();
-            theCase.FieldValue6 = Guid.NewGuid().ToString();
-            theCase.FieldValue7 = Guid.NewGuid().ToString();
-            theCase.FieldValue8 = Guid.NewGuid().ToString();
-            theCase.FieldValue9 = Guid.NewGuid().ToString();
-            theCase.FieldValue10 = Guid.NewGuid().ToString();
-            theCase.MicrotingUid = rnd.Next(shortMinValue, shortmaxValue);
-            theCase.SiteId = site.Id;
-            theCase.UnitId = unit.Id;
-            theCase.WorkerId = worker.Id;
-            theCase.CheckListId = checklist.Id;
-            theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
+
+            cases theCase = new cases
+            {
+                Custom = Guid.NewGuid().ToString(),
+                Status = rnd.Next(1, 255),
+                Type = Guid.NewGuid().ToString(),
+                CaseUid = Guid.NewGuid().ToString(),
+                DoneAt = DateTime.Now,
+                FieldValue1 = Guid.NewGuid().ToString(),
+                FieldValue2 = Guid.NewGuid().ToString(),
+                FieldValue3 = Guid.NewGuid().ToString(),
+                FieldValue4 = Guid.NewGuid().ToString(),
+                FieldValue5 = Guid.NewGuid().ToString(),
+                FieldValue6 = Guid.NewGuid().ToString(),
+                FieldValue7 = Guid.NewGuid().ToString(),
+                FieldValue8 = Guid.NewGuid().ToString(),
+                FieldValue9 = Guid.NewGuid().ToString(),
+                FieldValue10 = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(shortMinValue, shortmaxValue),
+                SiteId = site.Id,
+                UnitId = unit.Id,
+                WorkerId = worker.Id,
+                CheckListId = checklist.Id,
+                MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue)
+            };
             await theCase.Create(dbContext);
-            
-            uploaded_data uploadedData = new uploaded_data();
-            uploadedData.Checksum = Guid.NewGuid().ToString();
-            uploadedData.Extension = Guid.NewGuid().ToString();
-            uploadedData.Local = (short)rnd.Next(shortMinValue, shortmaxValue);
-            uploadedData.CurrentFile = Guid.NewGuid().ToString();
-            uploadedData.ExpirationDate = DateTime.Now;
-            uploadedData.FileLocation = Guid.NewGuid().ToString();
-            uploadedData.FileName = Guid.NewGuid().ToString();
-            uploadedData.TranscriptionId = rnd.Next(1, 255);
-            uploadedData.UploaderId = rnd.Next(1, 255);
-            uploadedData.UploaderType = Guid.NewGuid().ToString();
+
+            uploaded_data uploadedData = new uploaded_data
+            {
+                Checksum = Guid.NewGuid().ToString(),
+                Extension = Guid.NewGuid().ToString(),
+                Local = (short) rnd.Next(shortMinValue, shortmaxValue),
+                CurrentFile = Guid.NewGuid().ToString(),
+                ExpirationDate = DateTime.Now,
+                FileLocation = Guid.NewGuid().ToString(),
+                FileName = Guid.NewGuid().ToString(),
+                TranscriptionId = rnd.Next(1, 255),
+                UploaderId = rnd.Next(1, 255),
+                UploaderType = Guid.NewGuid().ToString()
+            };
             await uploadedData.Create(dbContext);
 
-            field_values fieldValue = new field_values();
-            fieldValue.Accuracy = Guid.NewGuid().ToString();
-            fieldValue.Altitude = Guid.NewGuid().ToString();
-            fieldValue.Date = DateTime.Now;
-            fieldValue.Heading = Guid.NewGuid().ToString();
-            fieldValue.Latitude = Guid.NewGuid().ToString();
-            fieldValue.Longitude = Guid.NewGuid().ToString();
-            fieldValue.Value = Guid.NewGuid().ToString();
-            fieldValue.CaseId = theCase.Id;
-            fieldValue.DoneAt = DateTime.Now;
-            fieldValue.FieldId = field.Id;
-            fieldValue.WorkerId = worker.Id;
-            fieldValue.CheckListId = checklist.Id;
-            fieldValue.UploadedDataId = uploadedData.Id;
+            field_values fieldValue = new field_values
+            {
+                Accuracy = Guid.NewGuid().ToString(),
+                Altitude = Guid.NewGuid().ToString(),
+                Date = DateTime.Now,
+                Heading = Guid.NewGuid().ToString(),
+                Latitude = Guid.NewGuid().ToString(),
+                Longitude = Guid.NewGuid().ToString(),
+                Value = Guid.NewGuid().ToString(),
+                CaseId = theCase.Id,
+                DoneAt = DateTime.Now,
+                FieldId = field.Id,
+                WorkerId = worker.Id,
+                CheckListId = checklist.Id,
+                UploadedDataId = uploadedData.Id
+            };
             await fieldValue.Create(dbContext);
 
             //Act

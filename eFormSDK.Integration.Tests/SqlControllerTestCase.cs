@@ -1279,7 +1279,7 @@ namespace eFormSDK.Integration.Tests
         }
 
         [Test]
-        public async Task SQL_Postcase_CaseReadByCaseUId_Returns_lstDto()
+        public async Task SQL_PostCase_CaseReadByCaseUId_Returns_lstDto()
         {
             // Arrance
             #region Arrance

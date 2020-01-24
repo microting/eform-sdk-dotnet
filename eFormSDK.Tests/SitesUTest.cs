@@ -42,11 +42,13 @@ namespace eFormSDK.Tests
         {
             //Arrange
             Random rnd = new Random();
-            
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
-            
+
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(), 
+                MicrotingUid = rnd.Next(1, 255)
+            };
+
             //Act
             
             await site.Create(dbContext);
@@ -72,9 +74,11 @@ namespace eFormSDK.Tests
         public async Task Sites_Update_DoesUpdate()
         {
             //Arrange
-            
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
+
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString()
+            };
 
             dbContext.sites.Add(site);
             await dbContext.SaveChangesAsync();
@@ -107,8 +111,10 @@ namespace eFormSDK.Tests
         {
             //Arrange
 
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString()
+            };
 
             dbContext.sites.Add(site);
             await dbContext.SaveChangesAsync();

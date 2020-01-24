@@ -42,24 +42,28 @@ namespace eFormSDK.Tests
             //Arrange
             
             Random rnd = new Random();
-            
-            
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
+
+
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await site.Create(dbContext);
-            
-            units unit = new units();
-            unit.CustomerNo = rnd.Next(1, 255);
-            unit.MicrotingUid = rnd.Next(1, 255);
-            unit.OtpCode = rnd.Next(1, 255);
-            unit.Site = site;
-            unit.SiteId = site.Id;
-            unit.Manufacturer = Guid.NewGuid().ToString();
-            unit.Model = Guid.NewGuid().ToString();
-            unit.Note = Guid.NewGuid().ToString();
-            unit.SoftwareVersion = Guid.NewGuid().ToString();
-            
+
+            units unit = new units
+            {
+                CustomerNo = rnd.Next(1, 255),
+                MicrotingUid = rnd.Next(1, 255),
+                OtpCode = rnd.Next(1, 255),
+                Site = site,
+                SiteId = site.Id,
+                Manufacturer = Guid.NewGuid().ToString(),
+                Model = Guid.NewGuid().ToString(),
+                Note = Guid.NewGuid().ToString(),
+                SoftwareVersion = Guid.NewGuid().ToString()
+            };
+
             //Act
             
             await unit.Create(dbContext);
@@ -113,24 +117,28 @@ namespace eFormSDK.Tests
             //Arrange
             
             Random rnd = new Random();
-            
-            
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
+
+
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await site.Create(dbContext);
-            
-            units unit = new units();
-            unit.CustomerNo = rnd.Next(1, 255);
-            unit.MicrotingUid = rnd.Next(1, 255);
-            unit.OtpCode = rnd.Next(1, 255);
-            unit.Site = site;
-            unit.SiteId = site.Id;
-            unit.Manufacturer = Guid.NewGuid().ToString();
-            unit.Model = Guid.NewGuid().ToString();
-            unit.Note = Guid.NewGuid().ToString();
-            unit.SoftwareVersion = Guid.NewGuid().ToString();
-            
+
+            units unit = new units
+            {
+                CustomerNo = rnd.Next(1, 255),
+                MicrotingUid = rnd.Next(1, 255),
+                OtpCode = rnd.Next(1, 255),
+                Site = site,
+                SiteId = site.Id,
+                Manufacturer = Guid.NewGuid().ToString(),
+                Model = Guid.NewGuid().ToString(),
+                Note = Guid.NewGuid().ToString(),
+                SoftwareVersion = Guid.NewGuid().ToString()
+            };
+
             await unit.Create(dbContext);
             
             //Act
@@ -212,24 +220,28 @@ namespace eFormSDK.Tests
             //Arrange
             
             Random rnd = new Random();
-            
-            
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
+
+
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await site.Create(dbContext);
 
-            units unit = new units();
-            unit.CustomerNo = rnd.Next(1, 255);
-            unit.MicrotingUid = rnd.Next(1, 255);
-            unit.OtpCode = rnd.Next(1, 255);
-            unit.Site = site;
-            unit.SiteId = site.Id;
-            unit.Manufacturer = Guid.NewGuid().ToString();
-            unit.Model = Guid.NewGuid().ToString();
-            unit.Note = Guid.NewGuid().ToString();
-            unit.SoftwareVersion = Guid.NewGuid().ToString();
-            
+            units unit = new units
+            {
+                CustomerNo = rnd.Next(1, 255),
+                MicrotingUid = rnd.Next(1, 255),
+                OtpCode = rnd.Next(1, 255),
+                Site = site,
+                SiteId = site.Id,
+                Manufacturer = Guid.NewGuid().ToString(),
+                Model = Guid.NewGuid().ToString(),
+                Note = Guid.NewGuid().ToString(),
+                SoftwareVersion = Guid.NewGuid().ToString()
+            };
+
             await unit.Create(dbContext);
             
             //Act

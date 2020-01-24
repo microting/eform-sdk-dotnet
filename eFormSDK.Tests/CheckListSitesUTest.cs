@@ -1,3 +1,27 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2007 - 2020 Microting A/S
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,50 +47,56 @@ namespace eFormSDK.Tests
             short shortmaxValue = Int16.MaxValue;
             
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
+
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await site.Create(dbContext);
-            
-            check_lists checklist = new check_lists();
-            checklist.Color = Guid.NewGuid().ToString();
-            checklist.Custom = Guid.NewGuid().ToString();
-            checklist.Description = Guid.NewGuid().ToString();
-            checklist.Field1 = rnd.Next(1, 255);
-            checklist.Field2 = rnd.Next(1, 255);
-            checklist.Field4 = rnd.Next(1, 255);
-            checklist.Field5 = rnd.Next(1, 255);
-            checklist.Field6 = rnd.Next(1, 255);
-            checklist.Field7 = rnd.Next(1, 255);
-            checklist.Field8 = rnd.Next(1, 255);
-            checklist.Field9 = rnd.Next(1, 255);
-            checklist.Field10 = rnd.Next(1, 255);
-            checklist.Label = Guid.NewGuid().ToString();
-            checklist.Repeated = rnd.Next(1, 255);
-            checklist.ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue);
-            checklist.CaseType = Guid.NewGuid().ToString();
-            checklist.DisplayIndex = rnd.Next(1, 255);
-            checklist.DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.FolderName = Guid.NewGuid().ToString();
-            checklist.ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.OriginalId = Guid.NewGuid().ToString();
-            checklist.ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.DocxExportEnabled = randomBool;
-            checklist.DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.JasperExportEnabled = randomBool;
-            checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
+
+            check_lists checklist = new check_lists
+            {
+                Color = Guid.NewGuid().ToString(),
+                Custom = Guid.NewGuid().ToString(),
+                Description = Guid.NewGuid().ToString(),
+                Field1 = rnd.Next(1, 255),
+                Field2 = rnd.Next(1, 255),
+                Field4 = rnd.Next(1, 255),
+                Field5 = rnd.Next(1, 255),
+                Field6 = rnd.Next(1, 255),
+                Field7 = rnd.Next(1, 255),
+                Field8 = rnd.Next(1, 255),
+                Field9 = rnd.Next(1, 255),
+                Field10 = rnd.Next(1, 255),
+                Label = Guid.NewGuid().ToString(),
+                Repeated = rnd.Next(1, 255),
+                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                CaseType = Guid.NewGuid().ToString(),
+                DisplayIndex = rnd.Next(1, 255),
+                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                FolderName = Guid.NewGuid().ToString(),
+                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                OriginalId = Guid.NewGuid().ToString(),
+                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DocxExportEnabled = randomBool,
+                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                JasperExportEnabled = randomBool,
+                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
+            };
             await checklist.Create(dbContext);
 
-            check_list_sites checkListSite = new check_list_sites();
-            checkListSite.MicrotingUid = rnd.Next(1, 255);
-            checkListSite.SiteId = site.Id;
-            checkListSite.CheckListId = checklist.Id;
-            checkListSite.LastCheckId = rnd.Next(1, 255);
-            
+            check_list_sites checkListSite = new check_list_sites
+            {
+                MicrotingUid = rnd.Next(1, 255),
+                SiteId = site.Id,
+                CheckListId = checklist.Id,
+                LastCheckId = rnd.Next(1, 255)
+            };
+
             //Act
             
             await checkListSite.Create(dbContext);
@@ -115,49 +145,55 @@ namespace eFormSDK.Tests
             short shortmaxValue = Int16.MaxValue;
             
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
+
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(), 
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await site.Create(dbContext);
-            
-            check_lists checklist = new check_lists();
-            checklist.Color = Guid.NewGuid().ToString();
-            checklist.Custom = Guid.NewGuid().ToString();
-            checklist.Description = Guid.NewGuid().ToString();
-            checklist.Field1 = rnd.Next(1, 255);
-            checklist.Field2 = rnd.Next(1, 255);
-            checklist.Field4 = rnd.Next(1, 255);
-            checklist.Field5 = rnd.Next(1, 255);
-            checklist.Field6 = rnd.Next(1, 255);
-            checklist.Field7 = rnd.Next(1, 255);
-            checklist.Field8 = rnd.Next(1, 255);
-            checklist.Field9 = rnd.Next(1, 255);
-            checklist.Field10 = rnd.Next(1, 255);
-            checklist.Label = Guid.NewGuid().ToString();
-            checklist.Repeated = rnd.Next(1, 255);
-            checklist.ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue);
-            checklist.CaseType = Guid.NewGuid().ToString();
-            checklist.DisplayIndex = rnd.Next(1, 255);
-            checklist.DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.FolderName = Guid.NewGuid().ToString();
-            checklist.ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.OriginalId = Guid.NewGuid().ToString();
-            checklist.ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.DocxExportEnabled = randomBool;
-            checklist.DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.JasperExportEnabled = randomBool;
-            checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
+
+            check_lists checklist = new check_lists
+            {
+                Color = Guid.NewGuid().ToString(),
+                Custom = Guid.NewGuid().ToString(),
+                Description = Guid.NewGuid().ToString(),
+                Field1 = rnd.Next(1, 255),
+                Field2 = rnd.Next(1, 255),
+                Field4 = rnd.Next(1, 255),
+                Field5 = rnd.Next(1, 255),
+                Field6 = rnd.Next(1, 255),
+                Field7 = rnd.Next(1, 255),
+                Field8 = rnd.Next(1, 255),
+                Field9 = rnd.Next(1, 255),
+                Field10 = rnd.Next(1, 255),
+                Label = Guid.NewGuid().ToString(),
+                Repeated = rnd.Next(1, 255),
+                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                CaseType = Guid.NewGuid().ToString(),
+                DisplayIndex = rnd.Next(1, 255),
+                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                FolderName = Guid.NewGuid().ToString(),
+                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                OriginalId = Guid.NewGuid().ToString(),
+                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DocxExportEnabled = randomBool,
+                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                JasperExportEnabled = randomBool,
+                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
+            };
             await checklist.Create(dbContext);
 
-            check_list_sites checkListSite = new check_list_sites();
-            checkListSite.MicrotingUid = rnd.Next(1, 255);
-            checkListSite.SiteId = site.Id;
-            checkListSite.CheckListId = checklist.Id;
-            checkListSite.LastCheckId = rnd.Next(1, 255);
+            check_list_sites checkListSite = new check_list_sites
+            {
+                MicrotingUid = rnd.Next(1, 255),
+                SiteId = site.Id,
+                CheckListId = checklist.Id,
+                LastCheckId = rnd.Next(1, 255)
+            };
             await checkListSite.Create(dbContext);
             
             //Act
@@ -226,49 +262,55 @@ namespace eFormSDK.Tests
             short shortmaxValue = Int16.MaxValue;
             
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
+
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await site.Create(dbContext);
-            
-            check_lists checklist = new check_lists();
-            checklist.Color = Guid.NewGuid().ToString();
-            checklist.Custom = Guid.NewGuid().ToString();
-            checklist.Description = Guid.NewGuid().ToString();
-            checklist.Field1 = rnd.Next(1, 255);
-            checklist.Field2 = rnd.Next(1, 255);
-            checklist.Field4 = rnd.Next(1, 255);
-            checklist.Field5 = rnd.Next(1, 255);
-            checklist.Field6 = rnd.Next(1, 255);
-            checklist.Field7 = rnd.Next(1, 255);
-            checklist.Field8 = rnd.Next(1, 255);
-            checklist.Field9 = rnd.Next(1, 255);
-            checklist.Field10 = rnd.Next(1, 255);
-            checklist.Label = Guid.NewGuid().ToString();
-            checklist.Repeated = rnd.Next(1, 255);
-            checklist.ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue);
-            checklist.CaseType = Guid.NewGuid().ToString();
-            checklist.DisplayIndex = rnd.Next(1, 255);
-            checklist.DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.FolderName = Guid.NewGuid().ToString();
-            checklist.ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.OriginalId = Guid.NewGuid().ToString();
-            checklist.ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.DocxExportEnabled = randomBool;
-            checklist.DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.JasperExportEnabled = randomBool;
-            checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
+
+            check_lists checklist = new check_lists
+            {
+                Color = Guid.NewGuid().ToString(),
+                Custom = Guid.NewGuid().ToString(),
+                Description = Guid.NewGuid().ToString(),
+                Field1 = rnd.Next(1, 255),
+                Field2 = rnd.Next(1, 255),
+                Field4 = rnd.Next(1, 255),
+                Field5 = rnd.Next(1, 255),
+                Field6 = rnd.Next(1, 255),
+                Field7 = rnd.Next(1, 255),
+                Field8 = rnd.Next(1, 255),
+                Field9 = rnd.Next(1, 255),
+                Field10 = rnd.Next(1, 255),
+                Label = Guid.NewGuid().ToString(),
+                Repeated = rnd.Next(1, 255),
+                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                CaseType = Guid.NewGuid().ToString(),
+                DisplayIndex = rnd.Next(1, 255),
+                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                FolderName = Guid.NewGuid().ToString(),
+                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                OriginalId = Guid.NewGuid().ToString(),
+                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DocxExportEnabled = randomBool,
+                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                JasperExportEnabled = randomBool,
+                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
+            };
             await checklist.Create(dbContext);
 
-            check_list_sites checkListSite = new check_list_sites();
-            checkListSite.MicrotingUid = rnd.Next(1, 255);
-            checkListSite.SiteId = site.Id;
-            checkListSite.CheckListId = checklist.Id;
-            checkListSite.LastCheckId = rnd.Next(1, 255);
+            check_list_sites checkListSite = new check_list_sites
+            {
+                MicrotingUid = rnd.Next(1, 255),
+                SiteId = site.Id,
+                CheckListId = checklist.Id,
+                LastCheckId = rnd.Next(1, 255)
+            };
             await checkListSite.Create(dbContext);
             
             //Act

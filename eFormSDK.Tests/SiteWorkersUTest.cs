@@ -1,3 +1,27 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2007 - 2020 Microting A/S
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,23 +43,29 @@ namespace eFormSDK.Tests
 
             Random rnd = new Random();
 
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await site.Create(dbContext);
 
-            workers worker = new workers();
-            worker.Email = Guid.NewGuid().ToString();
-            worker.FirstName = Guid.NewGuid().ToString();
-            worker.LastName = Guid.NewGuid().ToString();
-            worker.MicrotingUid = rnd.Next(1, 255);
+            workers worker = new workers
+            {
+                Email = Guid.NewGuid().ToString(),
+                FirstName = Guid.NewGuid().ToString(),
+                LastName = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await worker.Create(dbContext);
 
-            site_workers siteWorker = new site_workers();
-            siteWorker.MicrotingUid = rnd.Next(1, 255);
-            siteWorker.SiteId = site.Id;
-            siteWorker.WorkerId = worker.Id;
-            
+            site_workers siteWorker = new site_workers
+            {
+                MicrotingUid = rnd.Next(1, 255),
+                SiteId = site.Id,
+                WorkerId = worker.Id
+            };
+
             //Act
             
             await siteWorker.Create(dbContext);
@@ -77,22 +107,28 @@ namespace eFormSDK.Tests
 
             Random rnd = new Random();
 
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(), 
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await site.Create(dbContext);
 
-            workers worker = new workers();
-            worker.Email = Guid.NewGuid().ToString();
-            worker.FirstName = Guid.NewGuid().ToString();
-            worker.LastName = Guid.NewGuid().ToString();
-            worker.MicrotingUid = rnd.Next(1, 255);
+            workers worker = new workers
+            {
+                Email = Guid.NewGuid().ToString(),
+                FirstName = Guid.NewGuid().ToString(),
+                LastName = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await worker.Create(dbContext);
 
-            site_workers siteWorker = new site_workers();
-            siteWorker.MicrotingUid = rnd.Next(1, 255);
-            siteWorker.SiteId = site.Id;
-            siteWorker.WorkerId = worker.Id;
+            site_workers siteWorker = new site_workers
+            {
+                MicrotingUid = rnd.Next(1, 255),
+                SiteId = site.Id, 
+                WorkerId = worker.Id
+            };
             await siteWorker.Create(dbContext);
 
             
@@ -154,22 +190,28 @@ namespace eFormSDK.Tests
 
             Random rnd = new Random();
 
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await site.Create(dbContext);
 
-            workers worker = new workers();
-            worker.Email = Guid.NewGuid().ToString();
-            worker.FirstName = Guid.NewGuid().ToString();
-            worker.LastName = Guid.NewGuid().ToString();
-            worker.MicrotingUid = rnd.Next(1, 255);
+            workers worker = new workers
+            {
+                Email = Guid.NewGuid().ToString(),
+                FirstName = Guid.NewGuid().ToString(),
+                LastName = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
             await worker.Create(dbContext);
 
-            site_workers siteWorker = new site_workers();
-            siteWorker.MicrotingUid = rnd.Next(1, 255);
-            siteWorker.SiteId = site.Id;
-            siteWorker.WorkerId = worker.Id;
+            site_workers siteWorker = new site_workers
+            {
+                MicrotingUid = rnd.Next(1, 255),
+                SiteId = site.Id, 
+                WorkerId = worker.Id
+            };
             await siteWorker.Create(dbContext);
 
             
