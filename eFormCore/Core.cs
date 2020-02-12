@@ -45,6 +45,7 @@ using Amazon.S3.Model;
 using Amazon.S3.Util;
 using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using Microsoft.EntityFrameworkCore;
 using Microting.eForm;
 using Microting.eForm.Communication;
 using Microting.eForm.Dto;
@@ -3181,6 +3182,26 @@ namespace eFormCore
 
         #endregion
 
+        #region InSight
+
+        public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
+        {
+            using (var dbContext = dbContextHelper.GetDbContext())
+            {
+                site_survey_configurations siteSurveyConfiguration =
+                    await dbContext.site_survey_configurations.SingleOrDefaultAsync(x => x.SiteId == siteId && x.SurveyConfigurationId == id);
+
+                if (siteSurveyConfiguration == null)
+                {
+                    
+                }
+            }
+            
+            return true;
+        }
+
+        #endregion
+        
         #region public advanced actions
         #region templat
         public async Task<bool> Advanced_TemplateDisplayIndexChangeDb(int templateId, int newDisplayIndex)

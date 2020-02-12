@@ -101,11 +101,15 @@ namespace Microting.eForm.Communication
 
         Task<string> UnitDelete(int id);
 
+        Task<string> UnitMove(int unitId, int siteId);
+
         Task<string> OrganizationLoadAllFromRemote();
 
         Task<int> SpeechToText(string pathToAudioFile, string language);
 
         Task<JToken> SpeechToText(int requestId);
+
+        Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite);
 
     }
 }

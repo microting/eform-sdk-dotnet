@@ -150,6 +150,26 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
+        public bool IsSmiley()
+        {
+            switch (this.QuestionType)
+            {
+                case Constants.Constants.QuestionTypes.Smiley:
+                case Constants.Constants.QuestionTypes.Smiley2:
+                case Constants.Constants.QuestionTypes.Smiley3:
+                case Constants.Constants.QuestionTypes.Smiley4:
+                case Constants.Constants.QuestionTypes.Smiley5:
+                case Constants.Constants.QuestionTypes.Smiley6:
+                case Constants.Constants.QuestionTypes.Smiley7:
+                case Constants.Constants.QuestionTypes.Smiley8:
+                case Constants.Constants.QuestionTypes.Smiley9:
+                case Constants.Constants.QuestionTypes.Smiley10:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         private async Task GenerateSmileyOptions(MicrotingDbContext dbContext, int languageId)
         {
             string[] smileys = new []{""};
