@@ -2151,7 +2151,7 @@ namespace eFormCore
                 {
                     case Constants.FieldTypes.MultiSelect:
                         valuePairs[$"F_{fieldValue.FieldId}"] =
-                            fieldValue.ValueReadable.Replace("|", @"</w:t><w:br/><w:t>").Replace("&", "&amp;");
+                            fieldValue.ValueReadable.Replace("|", @"</w:t><w:br/><w:t>");
                         break;
                     case Constants.FieldTypes.Picture:
                         imageFieldCountList[$"FCount_{fieldValue.FieldId}"] = 0;
@@ -2159,11 +2159,7 @@ namespace eFormCore
                         {
                             fields field = await _sqlController.FieldReadRaw(fieldValue.FieldId);
                             check_lists checkList = await _sqlController.CheckListRead((int)field.CheckListId);
-                        
-                            
-//                            var item = new KeyValuePair<string, List<string>>();
-//                            item.Key = $"{checkList.Label.Replace("&", "&amp;")} - {field.Label.Replace("&", "&amp;")}";
-//                            item.Value
+
                             string geoTag = "";
                             if (fieldValue.Latitude != null)
                             {
@@ -2267,7 +2263,7 @@ namespace eFormCore
                                 fieldValue.ValueReadable = fieldValue.ValueReadable.Replace("\t", @"</w:t><w:tab/><w:t>"); 
                                fieldValue.ValueReadable =
                                     fieldValue.ValueReadable.Replace("|||", @"</w:t><w:br/><w:t>");
-                                valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable.Replace("&", "&amp;");;
+                                valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable;
                             }
                         }
                         break;
