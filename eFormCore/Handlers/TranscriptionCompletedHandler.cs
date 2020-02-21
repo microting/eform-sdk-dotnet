@@ -67,7 +67,7 @@ namespace Microting.eForm.Handlers
                 if (ud.FileName.Contains("3gp"))
                 {
                     await log.LogStandard("TranscriptionCompletedHandler.Handle", "file_name contains 3gp");
-                    string urlStr = sqlController.SettingRead(Settings.comSpeechToText) + "/download_file/" + message.MicrotringUUID + ".wav?token=" + sqlController.SettingRead(Settings.token);
+                    string urlStr = sqlController.SettingRead(Settings.comSpeechToText).Result + "/download_file/" + message.MicrotringUUID + ".wav?token=" + sqlController.SettingRead(Settings.token);
                     string fileLocationPicture = await sqlController.SettingRead(Settings.fileLocationPicture);
                     using (var client = new System.Net.WebClient())
                     {
