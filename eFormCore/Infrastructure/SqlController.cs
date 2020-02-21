@@ -592,7 +592,6 @@ namespace Microting.eForm.Infrastructure
 
         public async Task SetJasperExportEnabled(int eFormId, bool isEnabled)
         {
-            string methodName = "SqlController.SetJasperExportEnabled";
             using (var db = GetContext())
             {
                 check_lists checkList = await db.check_lists.SingleOrDefaultAsync(x => x.Id == eFormId);
@@ -606,7 +605,6 @@ namespace Microting.eForm.Infrastructure
 
         public async Task SetDocxExportEnabled(int eFormId, bool isEnabled)
         {
-            string methodName = "SqlController.SetDocxExportEnabled";
             using (var db = GetContext())
             {
                 check_lists checkList = await db.check_lists.SingleOrDefaultAsync(x => x.Id == eFormId);
@@ -911,7 +909,6 @@ namespace Microting.eForm.Infrastructure
         //TODO
         public async Task CaseDeleteReversed(int microtingUId)
         {
-            string methodName = "SqlController.CaseDeleteReversed";
             using (var db = GetContext())
             {
                 List<check_list_sites> checkListSites = await db.check_list_sites.Where(x => x.MicrotingUid == microtingUId).ToListAsync();
@@ -3201,7 +3198,6 @@ namespace Microting.eForm.Infrastructure
         /// <returns></returns>
         public async Task<List<SiteNameDto>> SiteGetAll(bool includeRemoved)
         {
-            string methodName = "SqlController.SiteGetAll";
             List<SiteNameDto> siteList = new List<SiteNameDto>();
             using (var db = GetContext())
             {
@@ -3224,7 +3220,6 @@ namespace Microting.eForm.Infrastructure
         //TODO
         public async Task<List<SiteDto>> SimpleSiteGetAll(string workflowState, int? offSet, int? limit)
         {
-            string methodName = "SqlController.SimpleSiteGetAll";
             List<SiteDto> siteList = new List<SiteDto>();
             using (var db = GetContext())
             {
@@ -4205,7 +4200,6 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="NullReferenceException"></exception>
         public async Task<EntityGroup> EntityGroupRead(int Id) 
         {
-            string methodName = "SqlController.EntityGroupRead";
             using (var db = GetContext()) {
                 entity_groups eg = await db.entity_groups.SingleOrDefaultAsync(x => x.Id == Id);
                 if (eg != null) {
@@ -4372,7 +4366,6 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="NullReferenceException"></exception>
         public async Task<EntityItem> EntityItemRead(int id)
         {
-            string methodName = "SqlController.EntityItemRead";
             using (var db = GetContext())
             {
                 entity_items et = await db.entity_items.FirstOrDefaultAsync(x => x.Id == id);
@@ -4410,7 +4403,6 @@ namespace Microting.eForm.Infrastructure
         /// <returns></returns>
         public async Task<EntityItem> EntityItemRead(int entityItemGroupId, string name, string description)
         {
-            string methodName = "SqlController.EntityItemRead";
             using (var db = GetContext())
             {
                 entity_items et = await db.entity_items.SingleOrDefaultAsync(x => x.Name == name 
@@ -4440,7 +4432,6 @@ namespace Microting.eForm.Infrastructure
         public async Task<EntityItem> EntityItemCreate(int entityItemGroupId, EntityItem entityItem)
         {
 
-            string methodName = "SqlController.EntityItemCreate";
             using (var db = GetContext())
             {
                 entity_items eI = new entity_items();
@@ -4462,7 +4453,6 @@ namespace Microting.eForm.Infrastructure
         /// <param name="entityItem"></param>
         public async Task EntityItemUpdate(EntityItem entityItem)
         {
-            string methodName = "SqlController.EntityItemUpdate";
             using (var db = GetContext())
             {
                 var match = await db.entity_items.SingleOrDefaultAsync(x => x.Id == entityItem.Id);
@@ -4483,7 +4473,6 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="NullReferenceException"></exception>
         public async Task EntityItemDelete(int Id)
         {
-            string methodName = "SqlController.EntityItemDelete";
             using (var db = GetContext())
             {
                 entity_items et = await db.entity_items.SingleOrDefaultAsync(x => x.Id == Id);
@@ -4511,7 +4500,6 @@ namespace Microting.eForm.Infrastructure
         /// <returns></returns>
         public async Task<List<FolderDto>> FolderGetAll(bool includeRemoved)
         {
-            string methodName = "SqlController.FolderGetAll";
             List<FolderDto> folderDtos = new List<FolderDto>();
             using (var db = GetContext())
             {
@@ -4535,7 +4523,6 @@ namespace Microting.eForm.Infrastructure
         /// <returns></returns>
         public async Task<FolderDto> FolderReadByMicrotingUUID(int microting_uid)
         {
-            string methodName = "SqlController.FolderReadByMicrotingUUID";
             using (var db = GetContext())
             {
                 folders folder = await db.folders.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid);
@@ -4558,7 +4545,6 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="NullReferenceException"></exception>
         public async Task<FolderDto> FolderRead(int Id)
         {
-            string methodName = "SqlController.FolderRead";
             using (var db = GetContext())
             {
                 folders folder = await db.folders.SingleOrDefaultAsync(x => x.Id == Id);
@@ -4606,7 +4592,6 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="NullReferenceException"></exception>
         public async Task FolderUpdate(int Id, string name, string description, int? parent_id)
         {
-            string methodName = "SqlController.FolderUpdate";
             using (var db = GetContext())
             {
                 folders folder = await db.folders.SingleOrDefaultAsync(x => x.Id == Id);
@@ -4631,7 +4616,6 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="NullReferenceException"></exception>
         public async Task FolderDelete(int Id)
         {
-            string methodName = "SqlController.FolderDelete";
             using (var db = GetContext())
             {
                 folders folder = await db.folders.SingleOrDefaultAsync(x => x.Id == Id);
@@ -4700,7 +4684,6 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="IndexOutOfRangeException"></exception>
         public async Task<bool> SettingCreate(Settings name)
         {
-            string methodName = "SqlController.SettingCreate";
             using (var db = GetContext())
             {
                 //key point
@@ -5856,7 +5839,6 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         private string Find(int fieldTypeId)
         {
-            string methodName = "SqlController.Find";
             foreach (var holder in converter)
             {
                 if (holder.Index == fieldTypeId)
@@ -5873,7 +5855,6 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         private int Find(string typeStr)
         {
-            string methodName = "SqlController.Find";
             foreach (var holder in converter)
             {
                 if (holder.FieldType == typeStr)
@@ -5889,7 +5870,6 @@ namespace Microting.eForm.Infrastructure
             string inderStr;
             int index = 1;
 
-            string methodName = "SqlController.PairBuild";
             foreach (KeyValuePair kVP in lst)
             {
                 inderStr = "<" + index + ">";

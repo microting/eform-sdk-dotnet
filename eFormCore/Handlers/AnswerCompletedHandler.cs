@@ -73,7 +73,7 @@ namespace Microting.eForm.Handlers
 
         private async Task GetAnswer(int microtingUid)
         {
-            
+            await Task.Run(() => { });
         }
     }
 }

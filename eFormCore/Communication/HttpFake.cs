@@ -430,6 +430,7 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
         {
+            await Task.Run(() => { });
             return true;
         }
 
