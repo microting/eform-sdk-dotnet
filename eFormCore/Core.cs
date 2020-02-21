@@ -2244,6 +2244,9 @@ namespace eFormCore
                         break;
                     case Constants.FieldTypes.FieldGroup:
                         break;
+                    case Constants.FieldTypes.Timer:
+                        valuePairs[$"F_{fieldValue.FieldId}"] = TimeSpan.FromMilliseconds(Double.Parse(fieldValue.Value.Split('|')[3])).ToString();
+                        break;
                     default:
                         if (fieldValue.ValueReadable == "null")
                         {
