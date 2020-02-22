@@ -49,6 +49,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual questions Question { get; set; }
         
         public int? MicrotingUid { get; set; }
+        
+        public int DisplayIndex { get; set; }
 
         public virtual ICollection<option_translations> OptionTranslationses { get; set; }
 
@@ -83,6 +85,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             option.NextQuestionId = NextQuestionId;
             option.ContinuousOptionId = ContinuousOptionId;
             option.OptionsIndex = OptionsIndex;
+            option.DisplayIndex = DisplayIndex;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
@@ -131,7 +134,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 Version = option.Version,
                 UpdatedAt = option.UpdatedAt,
                 WorkflowState = option.WorkflowState,
-                MicrotingUid = option.MicrotingUid
+                MicrotingUid = option.MicrotingUid,
+                DisplayIndex = option.DisplayIndex
             };
         }
     }
