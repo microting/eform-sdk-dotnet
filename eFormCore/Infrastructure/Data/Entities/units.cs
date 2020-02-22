@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,31 +32,28 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class units : BaseEntity
     {
-//        [Key]
-//        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int Id { get; set; }
-
         public int? MicrotingUid { get; set; }
 
         public int? OtpCode { get; set; }
 
         public int? CustomerNo { get; set; }
-//
-//        public int? version { get; set; }
-//
-//        [StringLength(255)]
-//        public string workflow_state { get; set; }
-//
-//        public DateTime? created_at { get; set; }
-//
-//        public DateTime? updated_at { get; set; }
 
         [ForeignKey("site")]
         public int? SiteId { get; set; }
 
         public virtual sites Site { get; set; }
         
-        public async Task Create(MicrotingDbAnySql dbContext)
+        public string OsVersion { get; set; }
+        
+        public string SoftwareVersion { get; set; }
+        
+        public string Manufacturer { get; set; }
+        
+        public string Model { get; set; }
+        
+        public string Note { get; set; }
+        
+        public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             Version = 1;
@@ -66,11 +63,11 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             dbContext.units.Add(this);
             await dbContext.SaveChangesAsync();
 
-            dbContext.unit_versions.Add(MapUnitVersions(this));
+            dbContext.unit_versions.Add(MapVersions(this));
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbContext dbContext)
         {
             units unit = await dbContext.units.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -89,12 +86,12 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 unit.Version += 1;
                 unit.UpdatedAt = DateTime.Now;
 
-                dbContext.unit_versions.Add(MapUnitVersions(unit));
+                dbContext.unit_versions.Add(MapVersions(unit));
                 await dbContext.SaveChangesAsync();
             }
         }
 
-        public async Task Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbContext dbContext)
         {
             
             units unit = await dbContext.units.FirstOrDefaultAsync(x => x.Id == Id);
@@ -111,28 +108,30 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 unit.Version += 1;
                 unit.UpdatedAt = DateTime.Now;
 
-                dbContext.unit_versions.Add(MapUnitVersions(unit));
+                dbContext.unit_versions.Add(MapVersions(unit));
                 await dbContext.SaveChangesAsync();
             }
         }
-
         
-        
-        private unit_versions MapUnitVersions(units units)
+        private unit_versions MapVersions(units units)
         {
-            unit_versions unitVer = new unit_versions();
-            unitVer.WorkflowState = units.WorkflowState;
-            unitVer.Version = units.Version;
-            unitVer.CreatedAt = units.CreatedAt;
-            unitVer.UpdatedAt = units.UpdatedAt;
-            unitVer.MicrotingUid = units.MicrotingUid;
-            unitVer.SiteId = units.SiteId;
-            unitVer.CustomerNo = units.CustomerNo;
-            unitVer.OtpCode = units.OtpCode;
-
-            unitVer.UnitId = units.Id; //<<--
-
-            return unitVer;
+            return new unit_versions
+            {
+                WorkflowState = units.WorkflowState,
+                Version = units.Version,
+                CreatedAt = units.CreatedAt,
+                UpdatedAt = units.UpdatedAt,
+                MicrotingUid = units.MicrotingUid,
+                SiteId = units.SiteId,
+                CustomerNo = units.CustomerNo,
+                OtpCode = units.OtpCode,
+                UnitId = units.Id,
+                Manufacturer = units.Manufacturer,
+                Model = units.Model,
+                OsVersion = units.OsVersion,
+                SoftwareVersion = units.SoftwareVersion,
+                Note = units.Note
+            };
         }
     }
 }

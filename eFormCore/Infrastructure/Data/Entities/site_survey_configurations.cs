@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -39,8 +39,12 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int SurveyConfigurationId { get; set; }
 
         public virtual sites Site { get; set; }
+        
         public virtual survey_configurations SurveyConfiguration { get; set; }
-        public async Task Create(MicrotingDbAnySql dbContext)
+        
+        public int? MicrotingUid { get; set; }
+        
+        public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             CreatedAt = DateTime.Now;
@@ -54,7 +58,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbContext dbContext)
         {
             site_survey_configurations siteSurveyConfiguration =
                 await dbContext.site_survey_configurations.FirstOrDefaultAsync(x => x.Id == Id);
@@ -77,7 +81,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public async Task Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbContext dbContext)
         {
             
             site_survey_configurations siteSurveyConfiguration =
@@ -102,17 +106,17 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         private site_survey_configuration_versions MapVersions(site_survey_configurations siteSurveyConfiguration)
         {
-            site_survey_configuration_versions siteSurveyConfigurationVersion = new site_survey_configuration_versions();
-
-            siteSurveyConfigurationVersion.SurveyConfigurationId = siteSurveyConfiguration.SurveyConfigurationId;
-            siteSurveyConfigurationVersion.SiteId = siteSurveyConfiguration.SiteId;
-            siteSurveyConfigurationVersion.SiteSurveyConfigurationId = siteSurveyConfiguration.Id;
-            siteSurveyConfigurationVersion.CreatedAt = siteSurveyConfiguration.CreatedAt;
-            siteSurveyConfigurationVersion.UpdatedAt = siteSurveyConfiguration.UpdatedAt;
-            siteSurveyConfigurationVersion.WorkflowState = siteSurveyConfiguration.WorkflowState;
-            siteSurveyConfigurationVersion.Version = siteSurveyConfiguration.Version;
-
-            return siteSurveyConfigurationVersion;
+            return new site_survey_configuration_versions
+            {
+                SurveyConfigurationId = siteSurveyConfiguration.SurveyConfigurationId,
+                SiteId = siteSurveyConfiguration.SiteId,
+                SiteSurveyConfigurationId = siteSurveyConfiguration.Id,
+                CreatedAt = siteSurveyConfiguration.CreatedAt,
+                UpdatedAt = siteSurveyConfiguration.UpdatedAt,
+                WorkflowState = siteSurveyConfiguration.WorkflowState,
+                Version = siteSurveyConfiguration.Version,
+                MicrotingUid = siteSurveyConfiguration.MicrotingUid
+            };
         }
     }
 }

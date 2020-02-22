@@ -1,16 +1,43 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2007 - 2020 Microting A/S
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+
 using System;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using eFormCore;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
+using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
+using Microting.eForm.Infrastructure.Helpers;
 using NUnit.Framework;
 
-namespace eFormSDK.Integration.CoreTests
+namespace eFormSDK.Integration.Tests
 {
     [TestFixture]
     public class CoreTestFolders : DbTestFixture
@@ -21,18 +48,23 @@ namespace eFormSDK.Integration.CoreTests
         
         public override async Task DoSetup()
         {
+            #region Setup SettingsTableContent
 
-            if (sut == null)
-            {
-                sut = new Core();
-                sut.HandleCaseCreated += EventCaseCreated;
-                sut.HandleCaseRetrived += EventCaseRetrived;
-                sut.HandleCaseCompleted += EventCaseCompleted;
-                sut.HandleCaseDeleted += EventCaseDeleted;
-                sut.HandleFileDownloaded += EventFileDownloaded;
-                sut.HandleSiteActivated += EventSiteActivated;
-                await sut.StartSqlOnly(ConnectionString);
-            }
+            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
+            SqlController sql = new SqlController(dbContextHelper);
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
+            #endregion
+
+            sut = new Core();
+            sut.HandleCaseCreated += EventCaseCreated;
+            sut.HandleCaseRetrived += EventCaseRetrived;
+            sut.HandleCaseCompleted += EventCaseCompleted;
+            sut.HandleCaseDeleted += EventCaseDeleted;
+            sut.HandleFileDownloaded += EventFileDownloaded;
+            sut.HandleSiteActivated += EventSiteActivated;
+            await sut.StartSqlOnly(ConnectionString);
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
@@ -88,7 +120,7 @@ namespace eFormSDK.Integration.CoreTests
             
             await sut.FolderCreate(folderName, folderDescription, null);
 
-            int firstFolderId = dbContext.folders.AsNoTracking().First().Id;
+            int firstFolderId = dbContext.folders.First().Id;
             
             string subFolderName = Guid.NewGuid().ToString();
             string subFolderDescription = Guid.NewGuid().ToString();
@@ -128,13 +160,11 @@ namespace eFormSDK.Integration.CoreTests
             
             string folderName = Guid.NewGuid().ToString();
             string folderDescription = Guid.NewGuid().ToString();
-            folders folder = new folders
-            {
-                Name = folderName,
-                Description = folderDescription,
-                WorkflowState = Constants.WorkflowStates.Created,
-                MicrotingUid = 23123
-            };
+            folders folder = new folders();
+            folder.Name = folderName;
+            folder.Description = folderDescription;
+            folder.WorkflowState = Constants.WorkflowStates.Created;
+            folder.MicrotingUid = 23123;
 
             await folder.Create(dbContext);
 
@@ -175,13 +205,11 @@ namespace eFormSDK.Integration.CoreTests
             
             string folderName = Guid.NewGuid().ToString();
             string folderDescription = Guid.NewGuid().ToString();
-            folders folder = new folders
-            {
-                Name = folderName,
-                Description = folderDescription,
-                WorkflowState = Constants.WorkflowStates.Created,
-                MicrotingUid = 23123
-            };
+            folders folder = new folders();
+            folder.Name = folderName;
+            folder.Description = folderDescription;
+            folder.WorkflowState = Constants.WorkflowStates.Created;
+            folder.MicrotingUid = 23123;
 
             await folder.Create(dbContext);
 

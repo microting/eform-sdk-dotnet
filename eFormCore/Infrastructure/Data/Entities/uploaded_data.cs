@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -58,8 +58,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public int? TranscriptionId { get; set; }
         
-        
-        public async Task Create(MicrotingDbAnySql dbContext)
+        public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             Version = 1;
@@ -69,11 +68,11 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             dbContext.uploaded_data.Add(this);
             await dbContext.SaveChangesAsync();
 
-            dbContext.uploaded_data_versions.Add(MapUploadedDataVersions(this));
+            dbContext.uploaded_data_versions.Add(MapVersions(this));
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbContext dbContext)
         {
             uploaded_data uploadedData = await dbContext.uploaded_data.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -93,18 +92,17 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             uploadedData.ExpirationDate = ExpirationDate;
             uploadedData.TranscriptionId = TranscriptionId;
 
-
             if (dbContext.ChangeTracker.HasChanges())
             {
                 uploadedData.Version += 1;
                 uploadedData.UpdatedAt = DateTime.Now;
 
-                dbContext.uploaded_data_versions.Add(MapUploadedDataVersions(uploadedData));
+                dbContext.uploaded_data_versions.Add(MapVersions(uploadedData));
                 await dbContext.SaveChangesAsync();
             }
         }
 
-        public async Task Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbContext dbContext)
         {
             uploaded_data uploadedData = await dbContext.uploaded_data.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -115,40 +113,37 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             uploadedData.WorkflowState = Constants.Constants.WorkflowStates.Removed;
 
-
             if (dbContext.ChangeTracker.HasChanges())
             {
                 uploadedData.Version += 1;
                 uploadedData.UpdatedAt = DateTime.Now;
 
-                dbContext.uploaded_data_versions.Add(MapUploadedDataVersions(uploadedData));
+                dbContext.uploaded_data_versions.Add(MapVersions(uploadedData));
                 await dbContext.SaveChangesAsync();
             }
-            
         }
 
         
-        private uploaded_data_versions MapUploadedDataVersions(uploaded_data uploadedData)
+        private uploaded_data_versions MapVersions(uploaded_data uploadedData)
         {
-            uploaded_data_versions udv = new uploaded_data_versions();
-
-            udv.CreatedAt = uploadedData.CreatedAt;
-            udv.UpdatedAt = uploadedData.UpdatedAt;
-            udv.Checksum = uploadedData.Checksum;
-            udv.Extension = uploadedData.Extension;
-            udv.CurrentFile = uploadedData.CurrentFile;
-            udv.UploaderId = uploadedData.UploaderId;
-            udv.UploaderType = uploadedData.UploaderType;
-            udv.WorkflowState = uploadedData.WorkflowState;
-            udv.ExpirationDate = uploadedData.ExpirationDate;
-            udv.Version = uploadedData.Version;
-            udv.Local = uploadedData.Local;
-            udv.FileLocation = uploadedData.FileLocation;
-            udv.FileName = uploadedData.FileName;
-            udv.TranscriptionId = uploadedData.TranscriptionId;
-            udv.DataUploadedId = uploadedData.Id; //<<--
-
-            return udv;
+            return new uploaded_data_versions
+            {
+                CreatedAt = uploadedData.CreatedAt,
+                UpdatedAt = uploadedData.UpdatedAt,
+                Checksum = uploadedData.Checksum,
+                Extension = uploadedData.Extension,
+                CurrentFile = uploadedData.CurrentFile,
+                UploaderId = uploadedData.UploaderId,
+                UploaderType = uploadedData.UploaderType,
+                WorkflowState = uploadedData.WorkflowState,
+                ExpirationDate = uploadedData.ExpirationDate,
+                Version = uploadedData.Version,
+                Local = uploadedData.Local,
+                FileLocation = uploadedData.FileLocation,
+                FileName = uploadedData.FileName,
+                TranscriptionId = uploadedData.TranscriptionId,
+                DataUploadedId = uploadedData.Id
+            };
         }
     }
 }

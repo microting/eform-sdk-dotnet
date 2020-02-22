@@ -1,18 +1,45 @@
-﻿using System;
+﻿/*
+The MIT License (MIT)
+
+Copyright (c) 2007 - 2020 Microting A/S
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+
+using eFormCore;
+using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using eFormCore;
-using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
+using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Models;
-using NUnit.Framework;
+using Microting.eForm.Infrastructure.Helpers;
 
-namespace eFormSDK.Integration.CoreTests
+namespace eFormSDK.Integration.Tests
 {
     [TestFixture]
     public class CoreTestEntity : DbTestFixture
@@ -23,18 +50,23 @@ namespace eFormSDK.Integration.CoreTests
 
         public override async Task DoSetup()
         {
+            #region Setup SettingsTableContent
 
-            if (sut == null)
-            {
-                sut = new Core();
-                sut.HandleCaseCreated += EventCaseCreated;
-                sut.HandleCaseRetrived += EventCaseRetrived;
-                sut.HandleCaseCompleted += EventCaseCompleted;
-                sut.HandleCaseDeleted += EventCaseDeleted;
-                sut.HandleFileDownloaded += EventFileDownloaded;
-                sut.HandleSiteActivated += EventSiteActivated;
-                await sut.StartSqlOnly(ConnectionString);
-            }
+            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
+            SqlController sql = new SqlController(dbContextHelper);
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
+            #endregion
+
+            sut = new Core();
+            sut.HandleCaseCreated += EventCaseCreated;
+            sut.HandleCaseRetrived += EventCaseRetrived;
+            sut.HandleCaseCompleted += EventCaseCompleted;
+            sut.HandleCaseDeleted += EventCaseDeleted;
+            sut.HandleFileDownloaded += EventFileDownloaded;
+            sut.HandleSiteActivated += EventSiteActivated;
+            await sut.StartSqlOnly(ConnectionString);
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
@@ -1757,7 +1789,7 @@ namespace eFormSDK.Integration.CoreTests
             // Act
             await sut.EntitySearchItemCreate(eG1.Id, "Jon Doe", "", "");
 
-            List<entity_items> items = dbContext.entity_items.AsNoTracking().ToList();
+            List<entity_items> items = dbContext.entity_items.ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());
@@ -1772,7 +1804,7 @@ namespace eFormSDK.Integration.CoreTests
 
             // Act
             await sut.EntityItemDelete(et.Id);
-            List<entity_items> items = dbContext.entity_items.AsNoTracking().ToList();
+            List<entity_items> items = dbContext.entity_items.ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());
@@ -1784,11 +1816,11 @@ namespace eFormSDK.Integration.CoreTests
         {
             // Arrance
             entity_groups eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-//            entity_items et = await testHelpers.CreateEntityItem("", 0, eG1.Id, "", "", "Jon Doe", 1, 0, Constants.WorkflowStates.Removed);
+            entity_items et = await testHelpers.CreateEntityItem("", 0, eG1.Id, "", "", "Jon Doe", 1, 0, Constants.WorkflowStates.Removed);
 
             // Act
             EntityItem result_item = await sut.EntitySearchItemCreate(eG1.Id, "Jon Doe", "", "");
-            List<entity_items> items = dbContext.entity_items.AsNoTracking().ToList();
+            List<entity_items> items = dbContext.entity_items.ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());
@@ -1805,7 +1837,7 @@ namespace eFormSDK.Integration.CoreTests
             // Act
             await sut.EntitySelectItemCreate(eG1.Id, "Jon Doe", 0, "");
 
-            List<entity_items> items = dbContext.entity_items.AsNoTracking().ToList();
+            List<entity_items> items = dbContext.entity_items.ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());
@@ -1820,7 +1852,7 @@ namespace eFormSDK.Integration.CoreTests
 
             // Act
             await sut.EntityItemDelete(et.Id);
-            List<entity_items> items = dbContext.entity_items.AsNoTracking().ToList();
+            List<entity_items> items = dbContext.entity_items.ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());
@@ -1836,7 +1868,7 @@ namespace eFormSDK.Integration.CoreTests
 
             // Act
             EntityItem result_item = await sut.EntitySelectItemCreate(eG1.Id, "Jon Doe", 0, "");
-            List<entity_items> items = dbContext.entity_items.AsNoTracking().ToList();
+            List<entity_items> items = dbContext.entity_items.ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());

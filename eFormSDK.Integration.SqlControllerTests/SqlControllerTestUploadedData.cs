@@ -1,38 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿/*
+The MIT License (MIT)
+
+Copyright (c) 2007 - 2020 Microting A/S
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+using eFormCore;
 using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
+using Microting.eForm.Infrastructure.Helpers;
 using Microting.eForm.Infrastructure.Models;
-using NUnit.Framework;
 
-namespace eFormSDK.Integration.SqlControllerTests
+namespace eFormSDK.Integration.Tests
 {
     [TestFixture]
     public class SqlControllerTestUploadedData : DbTestFixture
     {
         private SqlController sut;
         private TestHelpers testHelpers;
-        string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:", "");
 
         public override async Task DoSetup()
         {
-            if (sut == null)
-            {
-                sut = new SqlController(ConnectionString);
-                await sut.StartLog(new CoreBase());
-            }
+            #region Setup SettingsTableContent
+
+            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
+            SqlController sql = new SqlController(dbContextHelper);
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
+            #endregion
+
+            sut = new SqlController(dbContextHelper);
+            await sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
-            await sut.SettingUpdate(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
-            await sut.SettingUpdate(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
-            await sut.SettingUpdate(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
+            await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
+            await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
+            await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
         }
 
         #region uploaded_data
@@ -48,20 +79,22 @@ namespace eFormSDK.Integration.SqlControllerTests
             string fileName = "Hello.jpg";
 
             // Act
-            uploaded_data dU = new uploaded_data();
+            uploaded_data dU = new uploaded_data
+            {
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Extension = extension,
+                UploaderId = uploaderId,
+                UploaderType = Constants.UploaderTypes.System,
+                WorkflowState = Constants.WorkflowStates.PreCreated,
+                Version = 1,
+                Local = 0,
+                FileLocation = fileLocation,
+                FileName = fileName,
+                CurrentFile = currentFile,
+                Checksum = checksum
+            };
 
-            dU.CreatedAt = DateTime.Now;
-            dU.UpdatedAt = DateTime.Now;
-            dU.Extension = extension;
-            dU.UploaderId = uploaderId;
-            dU.UploaderType = Constants.UploaderTypes.System;
-            dU.WorkflowState = Constants.WorkflowStates.PreCreated;
-            dU.Version = 1;
-            dU.Local = 0;
-            dU.FileLocation = fileLocation;
-            dU.FileName = fileName;
-            dU.CurrentFile = currentFile;
-            dU.Checksum = checksum;
 
             dbContext.uploaded_data.Add(dU);
             await dbContext.SaveChangesAsync();
@@ -94,20 +127,22 @@ namespace eFormSDK.Integration.SqlControllerTests
             string fileName = "Hello.jpg";
 
             // Act
-            uploaded_data dU = new uploaded_data();
+            uploaded_data dU = new uploaded_data
+            {
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Extension = extension,
+                UploaderId = uploaderId,
+                UploaderType = Constants.UploaderTypes.System,
+                WorkflowState = Constants.WorkflowStates.PreCreated,
+                Version = 1,
+                Local = 0,
+                FileLocation = fileLocation,
+                FileName = fileName,
+                CurrentFile = currentFile,
+                Checksum = checksum
+            };
 
-            dU.CreatedAt = DateTime.Now;
-            dU.UpdatedAt = DateTime.Now;
-            dU.Extension = extension;
-            dU.UploaderId = uploaderId;
-            dU.UploaderType = Constants.UploaderTypes.System;
-            dU.WorkflowState = Constants.WorkflowStates.PreCreated;
-            dU.Version = 1;
-            dU.Local = 0;
-            dU.FileLocation = fileLocation;
-            dU.FileName = fileName;
-            dU.CurrentFile = currentFile;
-            dU.Checksum = checksum;
 
             dbContext.uploaded_data.Add(dU);
             await dbContext.SaveChangesAsync();
@@ -134,29 +169,24 @@ namespace eFormSDK.Integration.SqlControllerTests
         [Test]
         public async Task SQL_File_FileRead_doesFileRead()
         {
-            uploaded_data ud = new uploaded_data();
-
-            ud.Checksum = "checksum1";
-            ud.Extension = "extension";
-            ud.CurrentFile = "currentFile1";
-            ud.UploaderId = 223;
-            ud.UploaderType = "uploader_type";
-            ud.FileLocation = "file_location";
-            ud.FileName = "fileName";
-            //ud.Id = 111;
-
-            ud.WorkflowState = Constants.WorkflowStates.PreCreated;
-
-
+            uploaded_data ud = new uploaded_data
+            {
+                Checksum = "checksum1",
+                Extension = "extension",
+                CurrentFile = "currentFile1",
+                UploaderId = 223,
+                UploaderType = "uploader_type",
+                FileLocation = "file_location",
+                FileName = "fileName",
+                WorkflowState = Constants.WorkflowStates.PreCreated
+            };
 
             dbContext.uploaded_data.Add(ud);
             await dbContext.SaveChangesAsync();
-
-
+            
             // Act
             UploadedData Ud = await sut.FileRead();
-
-
+            
             // Assert
 
             Assert.NotNull(ud);
@@ -185,7 +215,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             DateTime cl1_Ua = DateTime.Now;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template1", "template_desc", "", "", 1, 1);
 
-//            string guid = Guid.NewGuid().ToString();
+            string guid = Guid.NewGuid().ToString();
 
 
             DateTime c1_ca = DateTime.Now.AddDays(-9);
@@ -195,29 +225,31 @@ namespace eFormSDK.Integration.SqlControllerTests
             site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker);
             units unit = await testHelpers.CreateUnit(48, 49, site1, 348);
 
-//            string microtingUId = Guid.NewGuid().ToString();
-//            string microtingCheckId = Guid.NewGuid().ToString();
+            string microtingUId = Guid.NewGuid().ToString();
+            string microtingCheckId = Guid.NewGuid().ToString();
             cases aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
                 c1_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site1, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
 
-            uploaded_data ud = new uploaded_data();
-
-            ud.Checksum = "checksum1";
-            ud.Extension = "extension";
-            ud.CurrentFile = "currentFile1";
-            ud.UploaderId = 223;
-            ud.UploaderType = "uploader_type";
-            ud.FileLocation = "url";
-            ud.FileName = "fileName";
-            //ud.Id = 111;
-
+            uploaded_data ud = new uploaded_data
+            {
+                Checksum = "checksum1",
+                Extension = "extension",
+                CurrentFile = "currentFile1",
+                UploaderId = 223,
+                UploaderType = "uploader_type",
+                FileLocation = "url",
+                FileName = "fileName"
+            };
+            
             dbContext.uploaded_data.Add(ud);
             await dbContext.SaveChangesAsync();
 
-            field_values fVs = new field_values();
-            fVs.UploadedDataId = ud.Id;
-            fVs.CaseId = aCase1.Id;
+            field_values fVs = new field_values
+            {
+                UploadedDataId = ud.Id,
+                CaseId = aCase1.Id
+            };
 
             dbContext.field_values.Add(fVs);
             await dbContext.SaveChangesAsync();
@@ -235,17 +267,14 @@ namespace eFormSDK.Integration.SqlControllerTests
         [Test]
         public async Task SQL_File_FileProcessed_isProcessed()
         {
-            uploaded_data ud = new uploaded_data();
-
-
-            ud.Local = 0;
-            ud.WorkflowState = Constants.WorkflowStates.PreCreated;
-            ud.Version = 1;
+            uploaded_data ud = new uploaded_data
+            {
+                Local = 0, WorkflowState = Constants.WorkflowStates.PreCreated, Version = 1
+            };
 
             dbContext.uploaded_data.Add(ud);
             await dbContext.SaveChangesAsync();
-
-
+            
             // Act
             await sut.FileProcessed("url", "myChecksum", "myFileLocation", "myFileName", ud.Id);
             List<uploaded_data> uploadedDataResult = dbContext.uploaded_data.AsNoTracking().ToList();
@@ -287,10 +316,8 @@ namespace eFormSDK.Integration.SqlControllerTests
         [Test]
         public async Task SQL_File_DeleteFile_doesFileGetDeleted()
         {
-            uploaded_data ud = new uploaded_data();
+            uploaded_data ud = new uploaded_data {WorkflowState = Constants.WorkflowStates.Created, Version = 1};
 
-            ud.WorkflowState = Constants.WorkflowStates.Created;
-            ud.Version = 1;
             dbContext.uploaded_data.Add(ud);
             await dbContext.SaveChangesAsync();
 

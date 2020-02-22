@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -38,6 +38,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual sites Site { get; set; }
         
         public virtual site_groups SiteGroup { get; set; }
-        
     }
 }

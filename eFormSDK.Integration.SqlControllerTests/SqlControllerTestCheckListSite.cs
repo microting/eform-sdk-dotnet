@@ -1,37 +1,68 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿/*
+The MIT License (MIT)
+
+Copyright (c) 2007 - 2020 Microting A/S
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+using eFormCore;
 using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
-using NUnit.Framework;
+using Microting.eForm.Infrastructure.Helpers;
 
-namespace eFormSDK.Integration.SqlControllerTests
+namespace eFormSDK.Integration.Tests
 {
     [TestFixture]
     public class SqlControllerTestCheckListSite : DbTestFixture
     {
         private SqlController sut;
         private TestHelpers testHelpers;
-        string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:", "");
 
         public override async Task DoSetup()
         {
-            if (sut == null)
-            {
-                sut = new SqlController(ConnectionString);
-                await sut.StartLog(new CoreBase());
-            }
+            #region Setup SettingsTableContent
+
+            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
+            SqlController sql = new SqlController(dbContextHelper);
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
+            #endregion
+
+            sut = new SqlController(dbContextHelper);
+            await sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
-            await sut.SettingUpdate(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
-            await sut.SettingUpdate(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
-            await sut.SettingUpdate(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
+            await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
+            await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
+            await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
         }
 
         [Test]
@@ -67,8 +98,8 @@ namespace eFormSDK.Integration.SqlControllerTests
             DateTime cl1_Ua = DateTime.Now;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template2", "template_desc", "", "", 1, 1);
 
-//            string guid = Guid.NewGuid().ToString();
-//            string guid2 = Guid.NewGuid().ToString();
+            string guid = Guid.NewGuid().ToString();
+            string guid2 = Guid.NewGuid().ToString();
             int lastCheckUid1 = rnd.Next(1, 255);
             int lastCheckUid2 = rnd.Next(1, 255);
 
@@ -78,8 +109,8 @@ namespace eFormSDK.Integration.SqlControllerTests
             // Act
             List<int> matches = await sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, Constants.WorkflowStates.NotRemoved);
             List<int> matches2 = await sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, null);
-//            List<check_list_sites> checkListSiteResult1 = dbContext.check_list_sites.AsNoTracking().ToList();
-//            var versionedMatches1 = dbContext.check_list_site_versions.AsNoTracking().ToList();
+            List<check_list_sites> checkListSiteResult1 = dbContext.check_list_sites.AsNoTracking().ToList();
+            var versionedMatches1 = dbContext.check_list_site_versions.AsNoTracking().ToList();
 
 
             // Assert
@@ -102,7 +133,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             DateTime cl1_Ua = DateTime.Now;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "bla", "bla_desc", "", "", 0, 0);
 
-//            string guid = Guid.NewGuid().ToString();
+            string guid = Guid.NewGuid().ToString();
             int lastCheckUid1 = rnd.Next(1, 255);
 
 

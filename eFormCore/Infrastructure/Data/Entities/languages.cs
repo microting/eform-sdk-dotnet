@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         public string Description { get; set; }
 
-        public async Task Create(MicrotingDbAnySql dbContext)
+        public async Task Create(MicrotingDbContext dbContext)
         {
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
@@ -49,7 +49,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbContext dbContext)
         {
             languages languages = await dbContext.languages.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -72,7 +72,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         }
 
-        public async Task Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbContext dbContext)
         {
             languages language = await dbContext.languages.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -95,18 +95,16 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         private language_versions MapVersions(languages language)
         {
-            language_versions languageVersions = new language_versions();
-
-            languageVersions.LanguageId = language.Id;
-            languageVersions.Name = language.Name;
-            languageVersions.Description = language.Description;
-            languageVersions.Version = language.Version;
-            languageVersions.CreatedAt = language.CreatedAt;
-            languageVersions.UpdatedAt = language.UpdatedAt;
-            languageVersions.WorkflowState = language.WorkflowState;
-
-            
-            return languageVersions;
+            return new language_versions
+            {
+                LanguageId = language.Id,
+                Name = language.Name,
+                Description = language.Description,
+                Version = language.Version,
+                CreatedAt = language.CreatedAt,
+                UpdatedAt = language.UpdatedAt,
+                WorkflowState = language.WorkflowState
+            };
         }
     }
 }

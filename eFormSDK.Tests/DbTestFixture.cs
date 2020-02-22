@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -40,10 +40,10 @@ namespace eFormSDK.Tests
     public abstract class DbTestFixture
     {
 
-        protected MicrotingDbAnySql dbContext;
+        protected MicrotingDbContext dbContext;
         protected string ConnectionString;
 
-        private MicrotingDbAnySql GetContext(string connectionStr)
+        private MicrotingDbContext GetContext(string connectionStr)
         {
             
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
@@ -57,7 +57,7 @@ namespace eFormSDK.Tests
                 dbContextOptionsBuilder.UseSqlServer(connectionStr);          
             }
             dbContextOptionsBuilder.UseLazyLoadingProxies(true);
-            return new MicrotingDbAnySql(dbContextOptionsBuilder.Options);            
+            return new MicrotingDbContext(dbContextOptionsBuilder.Options);            
 
         }
 
@@ -153,6 +153,8 @@ namespace eFormSDK.Tests
             modelNames.Add("workers");
             modelNames.Add("site_versions");
             modelNames.Add("sites");
+            modelNames.Add("SiteTags");
+            modelNames.Add("SiteTagVersions");
             modelNames.Add("uploaded_data");
             modelNames.Add("uploaded_data_versions");
 //            modelNames.Add("field_types");
@@ -172,6 +174,12 @@ namespace eFormSDK.Tests
             modelNames.Add("answer_versions");
             modelNames.Add("answer_values");
             modelNames.Add("answer_value_versions");
+            modelNames.Add("QuestionTranslations");
+            modelNames.Add("QuestionTranslationVersions");
+            modelNames.Add("OptionTranslations");
+            modelNames.Add("OptionTranslationVersions");
+            modelNames.Add("LanguageQuestionSets");
+            modelNames.Add("LanguageQuestionSetVersions");
 
             foreach (var modelName in modelNames)
             {

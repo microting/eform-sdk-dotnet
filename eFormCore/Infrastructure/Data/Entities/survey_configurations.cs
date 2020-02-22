@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,8 @@ SOFTWARE.
 */
 
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -40,9 +42,17 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public string Name { get; set; }
         
         public int TimeOut { get; set; }
+        
+        [ForeignKey("question_set")]
+        public int QuestionSetId { get; set; }
+        
+        public int? MicrotingUid { get; set; }
+        
+        public virtual ICollection<site_survey_configurations> SiteSurveyConfigurations { get; set; }
+        
+        public virtual question_sets QuestionSet { get; set; }
 
-
-        public async Task Create(MicrotingDbAnySql dbContext)
+        public async Task Create(MicrotingDbContext dbContext)
         {
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
@@ -56,7 +66,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbContext dbContext)
         {
             survey_configurations surveyConfigurations =
                 await dbContext.survey_configurations.FirstOrDefaultAsync(x => x.Id == Id);
@@ -83,7 +93,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public async Task Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbContext dbContext)
         {
             survey_configurations surveyConfigurations =
                 await dbContext.survey_configurations.FirstOrDefaultAsync(x => x.Id == Id);
@@ -108,20 +118,22 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         private survey_configuration_versions MapVersions(survey_configurations surveyConfiguration)
         {
-            survey_configuration_versions surveyConfigurationVersions = new survey_configuration_versions();
+            survey_configuration_versions surveyConfigurationVersions = new survey_configuration_versions
+            {
+                SurveyConfigurationId = surveyConfiguration.Id,
+                Name = surveyConfiguration.Name,
+                Stop = surveyConfiguration.Stop,
+                Start = surveyConfiguration.Start,
+                TimeOut = surveyConfiguration.TimeOut,
+                TimeToLive = surveyConfiguration.TimeToLive,
+                Version = surveyConfiguration.Version,
+                CreatedAt = surveyConfiguration.CreatedAt,
+                UpdatedAt = surveyConfiguration.UpdatedAt,
+                WorkflowState = surveyConfiguration.WorkflowState,
+                QuestionSetId = surveyConfiguration.QuestionSetId,
+                MicrotingUid = surveyConfiguration.MicrotingUid
+            };
 
-            surveyConfigurationVersions.SurveyConfigurationId = surveyConfiguration.Id;
-            surveyConfigurationVersions.Name = surveyConfiguration.Name;
-            surveyConfigurationVersions.Stop = surveyConfiguration.Stop;
-            surveyConfigurationVersions.Start = surveyConfiguration.Start;
-            surveyConfigurationVersions.TimeOut = surveyConfiguration.TimeOut;
-            surveyConfigurationVersions.TimeToLive = surveyConfiguration.TimeToLive;
-            surveyConfigurationVersions.Version = surveyConfiguration.Version;
-            surveyConfigurationVersions.CreatedAt = surveyConfiguration.CreatedAt;
-            surveyConfigurationVersions.UpdatedAt = surveyConfiguration.UpdatedAt;
-            surveyConfigurationVersions.WorkflowState = surveyConfiguration.WorkflowState;
-
-            
             return surveyConfigurationVersions;
         }
     }

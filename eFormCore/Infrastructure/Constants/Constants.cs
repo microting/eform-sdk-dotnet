@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +34,9 @@ namespace Microting.eForm.Infrastructure.Constants
             public const string EformParsedByServer = "eform_parsed_by_server";
             public const string EformParsingError = "eform_parsing_error";
             public const string SpeechToTextCompleted = "speech_to_text_completed";
+            public const string InSightAnswerDone = "insight_answer_done";
+            public const string InSightSurveyConfigurationCreated = "insight_survey_configuration_created";
+            public const string InSightSurveyConfigurationChanged = "insight_survey_configuration_changed";
         }
 
         public static class WorkflowStates
@@ -169,8 +172,26 @@ namespace Microting.eForm.Infrastructure.Constants
         }
         public static class QuestionTypes
         {
-            public const string Number = "Number";
-            public const string Text = "Text";
+            public const string Smiley = "smiley";
+            public const string Smiley2 = "smiley2";
+            public const string Smiley3 = "smiley3";
+            public const string Smiley4 = "smiley4";
+            public const string Smiley5 = "smiley5";
+            public const string Smiley6 = "smiley6";
+            public const string Smiley7 = "smiley7";
+            public const string Smiley8 = "smiley8";
+            public const string Smiley9 = "smiley9";
+            public const string Smiley10 = "smiley10";
+
+            public const string Buttons = "buttons";
+            public const string List = "list";
+            public const string Multi = "multi";
+            public const string Text = "text";
+            public const string Number = "number";
+            public const string InfoText = "info_text";
+            public const string Picture = "picture";
+            public const string ZipCode = "zipcode";
+            public const string TextEamil = "text_email";
         }
     }
 }

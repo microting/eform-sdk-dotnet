@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class entity_items : BaseEntity
     {
-        
         public int EntityGroupId { get; set; }
 
         [StringLength(50)]
@@ -48,7 +47,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public int DisplayIndex { get; set; }
         
-        public async Task Create(MicrotingDbAnySql dbContext)
+        public async Task Create(MicrotingDbContext dbContext)
         {
             
             WorkflowState = Constants.Constants.WorkflowStates.Created;
@@ -63,7 +62,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbContext dbContext)
         {
             entity_items entityItem = await dbContext.entity_items.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -89,7 +88,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public async Task Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbContext dbContext)
         {
             entity_items entityItem = await dbContext.entity_items.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -112,22 +111,21 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         private entity_item_versions MapEntityItemVersions(entity_items entityItem)
         {
-            entity_item_versions entityItemVer = new entity_item_versions();
-            entityItemVer.WorkflowState = entityItem.WorkflowState;
-            entityItemVer.Version = entityItem.Version;
-            entityItemVer.CreatedAt = entityItem.CreatedAt;
-            entityItemVer.UpdatedAt = entityItem.UpdatedAt;
-            entityItemVer.EntityItemUid = entityItem.EntityItemUid;
-            entityItemVer.MicrotingUid = entityItem.MicrotingUid;
-            entityItemVer.EntityGroupId = entityItem.EntityGroupId;
-            entityItemVer.Name = entityItem.Name;
-            entityItemVer.Description = entityItem.Description;
-            entityItemVer.Synced = entityItem.Synced;
-            entityItemVer.DisplayIndex = entityItem.DisplayIndex;
-
-            entityItemVer.EntityItemsId = entityItem.Id; //<<--
-
-            return entityItemVer;
+            return new entity_item_versions
+            {
+                WorkflowState = entityItem.WorkflowState,
+                Version = entityItem.Version,
+                CreatedAt = entityItem.CreatedAt,
+                UpdatedAt = entityItem.UpdatedAt,
+                EntityItemUid = entityItem.EntityItemUid,
+                MicrotingUid = entityItem.MicrotingUid,
+                EntityGroupId = entityItem.EntityGroupId,
+                Name = entityItem.Name,
+                Description = entityItem.Description,
+                Synced = entityItem.Synced,
+                DisplayIndex = entityItem.DisplayIndex,
+                EntityItemsId = entityItem.Id
+            };
         }
     }
 }

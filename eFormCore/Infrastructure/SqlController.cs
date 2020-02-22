@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,6 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -33,13 +32,9 @@ using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Extensions;
+using Microting.eForm.Infrastructure.Helpers;
 using Microting.eForm.Infrastructure.Models;
 using Microting.eForm.Infrastructure.Models.reply;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using Pomelo.EntityFrameworkCore.MySql.Internal;
-using CharSet = Pomelo.EntityFrameworkCore.MySql.Storage.CharSet;
-using KeyValuePair = Microting.eForm.Dto.KeyValuePair;
-
 //using eFormSqlController.Migrations;
 
 namespace Microting.eForm.Infrastructure
@@ -54,27 +49,26 @@ namespace Microting.eForm.Infrastructure
         private List<Holder> converter = null;
         private readonly bool isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         private int logLimit = 0;
-        private bool migrated = false;
+        private readonly DbContextHelper dbContextHelper;
         #endregion
 
         #region con
-        public SqlController(string connectionString)
+        public SqlController(DbContextHelper dbContextHelper)
         {
+            this.dbContextHelper = dbContextHelper;
+//            dbContextHelper = new DbContextHelper(connectionString);
             string methodName = "SqlController.SqlController";
-            connectionStr = connectionString;          
+//            connectionStr = connectionString;          
 
             #region migrate if needed
             try
             {
-                if (!migrated)
+                using (var db = GetContext())
                 {
-                    using (var db = GetContext())
+                    if (db.Database.GetPendingMigrations().Any())
                     {
-                        if (db.Database.GetPendingMigrations().Any())
-                        {
-                            WriteDebugConsoleLogEntry(new LogEntry(2, methodName, "db.Database.Migrate() called"));
-                            db.Database.Migrate();
-                        }
+                        WriteDebugConsoleLogEntry(new LogEntry(2, methodName, "db.Database.Migrate() called"));
+                        db.Database.Migrate();   
                     }
                 }
             }
@@ -94,26 +88,22 @@ namespace Microting.eForm.Infrastructure
             logLimit = int.Parse(SettingRead(Settings.logLimit).Result);
         }
 
-        private MicrotingDbAnySql GetContext()
+        private MicrotingDbContext GetContext()
         {
 
-            DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
-
-            if (connectionStr.ToLower().Contains("convert zero datetime"))
-            {
-                dbContextOptionsBuilder.UseMySql(connectionStr, MySqlOptions =>
-                    {
-                        MySqlOptions
-                            .CharSet(CharSet.Utf8Mb4)
-                            .ServerVersion(new Version(10, 3, 20), ServerType.MariaDb);
-                    });
-            }
-            else
-            {
-                dbContextOptionsBuilder.UseSqlServer(connectionStr);
-            }
-            dbContextOptionsBuilder.UseLazyLoadingProxies(true);
-            return new MicrotingDbAnySql(dbContextOptionsBuilder.Options);
+            return dbContextHelper.GetDbContext();
+//            DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
+//
+//            if (connectionStr.ToLower().Contains("convert zero datetime"))
+//            {
+//                dbContextOptionsBuilder.UseMySql(connectionStr);
+//            }
+//            else
+//            {
+//                dbContextOptionsBuilder.UseSqlServer(connectionStr);
+//            }
+//            dbContextOptionsBuilder.UseLazyLoadingProxies(true);
+//            return new MicrotingDbContext(dbContextOptionsBuilder.Options);
 
         }
         #endregion
@@ -133,7 +123,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -169,7 +159,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -267,7 +257,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -396,7 +386,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
 
 
@@ -435,7 +425,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -461,7 +451,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -496,7 +486,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -531,7 +521,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -596,13 +586,12 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         public async Task SetJasperExportEnabled(int eFormId, bool isEnabled)
         {
-            string methodName = "SqlController.SetJasperExportEnabled";
             using (var db = GetContext())
             {
                 check_lists checkList = await db.check_lists.SingleOrDefaultAsync(x => x.Id == eFormId);
@@ -616,7 +605,6 @@ namespace Microting.eForm.Infrastructure
 
         public async Task SetDocxExportEnabled(int eFormId, bool isEnabled)
         {
-            string methodName = "SqlController.SetDocxExportEnabled";
             using (var db = GetContext())
             {
                 check_lists checkList = await db.check_lists.SingleOrDefaultAsync(x => x.Id == eFormId);
@@ -652,7 +640,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -675,7 +663,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception( methodName + " failed", ex);
             }
         }
 #pragma warning restore 1998
@@ -747,7 +735,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -773,7 +761,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -796,7 +784,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -835,7 +823,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -855,7 +843,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -887,7 +875,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -914,27 +902,29 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
         //TODO
         public async Task CaseDeleteReversed(int microtingUId)
         {
-            string methodName = "SqlController.CaseDeleteReversed";
-            try
+            using (var db = GetContext())
             {
-                using (var db = GetContext())
+                List<check_list_sites> checkListSites = await db.check_list_sites.Where(x => x.MicrotingUid == microtingUId).ToListAsync();
+
+                if (!checkListSites.Any())
                 {
-                    check_list_sites checkListSites = await db.check_list_sites.SingleAsync(x => x.MicrotingUid == microtingUId);
-
-                    await checkListSites.Delete(db);
-
+                    return;
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"{methodName} failed", ex);
+                if (checkListSites.Count == 1)
+                {
+                    await checkListSites.First().Delete(db);    
+                }
+                else
+                {
+                    throw new Exception("There is more than one instance.");
+                }
             }
         }
         #endregion
@@ -1261,7 +1251,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -1357,7 +1347,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -1411,7 +1401,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -1522,7 +1512,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -1542,7 +1532,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception( methodName + " failed", ex);
             }
         }
 
@@ -1607,7 +1597,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -1755,7 +1745,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -1776,7 +1766,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -1802,7 +1792,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -1825,7 +1815,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -1847,7 +1837,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         
@@ -1876,7 +1866,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 #pragma warning restore 1998
@@ -1897,7 +1887,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName +" failed", ex);
             }
         }
 
@@ -1956,7 +1946,7 @@ namespace Microting.eForm.Infrastructure
                                                         kvp.Value = customPathForUploadedData + item.UploadedData.FileName;
                                                 else
                                                     if (kvp.Value.Contains("jpg") || kvp.Value.Contains("jpeg") || kvp.Value.Contains("png"))
-                                                        kvp.Value = kvp.Value + "|" + item.UploadedData.FileLocation + item.UploadedData.FileName;
+                                                    kvp.Value = kvp.Value + "|" + item.UploadedData.FileLocation + item.UploadedData.FileName;
                                                 else
                                                     kvp.Value = item.UploadedData.FileLocation + item.UploadedData.FileName;
                                             }
@@ -2113,7 +2103,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2130,7 +2120,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2149,7 +2139,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -2166,12 +2156,12 @@ namespace Microting.eForm.Infrastructure
         public async Task<notifications> NotificationCreate(string notificationUId, int microtingUId, string activity)
         {
             string methodName = "SqlController.NotificationCreate";
-            
+
             using (var db = GetContext())
             {
                 if (!db.notifications.Any(x => x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId))
                 {
-                    await log.LogStandard("SqlController.NotificationCreate", "SAVING notificationUId : " + notificationUId + " microtingUId : " + microtingUId + " action : " + activity);
+                    await log.LogStandard(methodName, "SAVING notificationUId : " + notificationUId + " microtingUId : " + microtingUId + " action : " + activity);
 
                     notifications aNote = new notifications();
 
@@ -2216,7 +2206,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2248,7 +2238,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -2284,7 +2274,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2312,7 +2302,8 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+//                await log.LogCritical(t.GetMethodName("Core"), ex.Message);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2336,7 +2327,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2358,7 +2349,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2379,7 +2370,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2408,7 +2399,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2426,7 +2417,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2452,7 +2443,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -2479,7 +2470,7 @@ namespace Microting.eForm.Infrastructure
                 }
             } catch  (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         
@@ -2535,13 +2526,13 @@ namespace Microting.eForm.Infrastructure
                     }
                     catch(Exception ex1)
                     {
-                        throw new Exception($"{methodName} failed", ex1);
+                        throw new Exception(methodName + " failed", ex1);
                     }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2596,7 +2587,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2612,11 +2603,10 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 if (caseUId == "")
-                    throw new Exception($"{methodName} failed. Due invalid input:''. This would return incorrect data");
+                    throw new Exception(methodName + " failed. Due invalid input:''. This would return incorrect data");
 
                 if (caseUId == "ReversedCase")
-                    throw new Exception(
-                        $"{methodName} failed. Due invalid input:'ReversedCase'. This would return incorrect data");
+                    throw new Exception(methodName + " failed. Due invalid input:'ReversedCase'. This would return incorrect data");
 
                 using (var db = GetContext())
                 {
@@ -2631,7 +2621,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         
@@ -2662,7 +2652,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2711,13 +2701,13 @@ namespace Microting.eForm.Infrastructure
                         return sub_query.First().Id;
                     } catch (Exception ex)
                     {
-                        throw new Exception($"{methodName} failed", ex);
+                        throw new Exception(methodName + " failed", ex);
                     }
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -2986,7 +2976,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -3052,7 +3042,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -3193,7 +3183,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName +  " failed", ex);
             }
         }
         #endregion
@@ -3208,7 +3198,6 @@ namespace Microting.eForm.Infrastructure
         /// <returns></returns>
         public async Task<List<SiteNameDto>> SiteGetAll(bool includeRemoved)
         {
-            string methodName = "SqlController.SiteGetAll";
             List<SiteNameDto> siteList = new List<SiteNameDto>();
             using (var db = GetContext())
             {
@@ -3231,7 +3220,6 @@ namespace Microting.eForm.Infrastructure
         //TODO
         public async Task<List<SiteDto>> SimpleSiteGetAll(string workflowState, int? offSet, int? limit)
         {
-            string methodName = "SqlController.SimpleSiteGetAll";
             List<SiteDto> siteList = new List<SiteDto>();
             using (var db = GetContext())
             {
@@ -3334,7 +3322,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -3361,7 +3349,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -3392,7 +3380,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -3435,7 +3423,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -3477,7 +3465,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -3529,7 +3517,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
 
         }
@@ -3564,7 +3552,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -3591,7 +3579,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -3618,7 +3606,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -3658,7 +3646,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         
@@ -3692,7 +3680,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -3742,7 +3730,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -3784,7 +3772,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -3829,7 +3817,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -3870,7 +3858,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -3912,7 +3900,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         
@@ -3950,7 +3938,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -3989,7 +3977,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -4028,7 +4016,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         
@@ -4062,7 +4050,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -4074,13 +4062,12 @@ namespace Microting.eForm.Infrastructure
         //TODO
         public async Task<EntityGroupList> EntityGroupAll(string sort, string nameFilter, int offSet, int pageSize, string entityType, bool desc, string workflowState)
         {
-            string methodName = "SqlController.EntityGroupAll";
 
             if (entityType != Constants.Constants.FieldTypes.EntitySearch && entityType != Constants.Constants.FieldTypes.EntitySelect)
-                throw new Exception($"{methodName} failed. EntityType: {entityType} is not an known type");
+                throw new Exception("EntityGroupAll failed. EntityType:" + entityType + " is not an known type");
             if (workflowState != Constants.Constants.WorkflowStates.NotRemoved && workflowState != Constants.Constants.WorkflowStates.Created && workflowState != Constants.Constants.WorkflowStates.Removed)
-
-                throw new Exception($"{methodName} failed. workflowState:  {workflowState} is not an known workflow state");
+                throw new Exception("EntityGroupAll failed. workflowState:" + workflowState + " is not an known workflow state");
+            string methodName = "SqlController.EntityGroupAll";
 
             List<entity_groups> eG = null;
             List<EntityGroup> e_G = new List<EntityGroup>();
@@ -4099,7 +4086,7 @@ namespace Microting.eForm.Infrastructure
                             source = source.OrderBy(x => x.Id);
                     else
                         if (desc)
-                            source = source.OrderByDescending(x => x.Name);
+                        source = source.OrderByDescending(x => x.Name);
                     else
                         source = source.OrderBy(x => x.Id);
 
@@ -4147,7 +4134,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -4164,8 +4151,7 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 if (entityType != Constants.Constants.FieldTypes.EntitySearch && entityType != Constants.Constants.FieldTypes.EntitySelect)
-                    throw new Exception(
-                        $"SqlController.EntityGroupCreate failed. EntityType:{entityType} is not an known type");
+                    throw new Exception("EntityGroupCreate failed. EntityType:" + entityType + " is not an known type");
 
                 using (var db = GetContext())
                 {
@@ -4188,7 +4174,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -4198,69 +4184,11 @@ namespace Microting.eForm.Infrastructure
             string methodName = "SqlController.EntityGroupReadSorted";
             try
             {
-                using (var db = GetContext())
-                {
-                    entity_groups eG = await db.entity_groups.SingleOrDefaultAsync(x => x.MicrotingUid == entityGroupMUId);
-
-                    if (eG == null)
-                        return null;
-
-                    List<EntityItem> lst = new List<EntityItem>();
-//                    EntityGroup rtnEG = new EntityGroup(eG.Id, eG.Name, eG.Type, eG.MicrotingUid, lst, eG.WorkflowState, eG.CreatedAt, eG.UpdatedAt);
-                    EntityGroup rtnEG = new EntityGroup
-                    {
-                        Id = eG.Id,
-                        Name = eG.Name,
-                        Type = eG.Type,
-                        MicrotingUUID = eG.MicrotingUid,
-                        EntityGroupItemLst = lst,
-                        WorkflowState = eG.WorkflowState,
-                        CreatedAt = eG.CreatedAt,
-                        UpdatedAt = eG.UpdatedAt
-                    };
-
-                    List<entity_items> eILst = null;
-
-                    if (string.IsNullOrEmpty(nameFilter))
-                    {
-                        eILst = db.entity_items.
-                            Where(x => x.EntityGroupId == eG.Id 
-                                       && x.WorkflowState != Constants.Constants.WorkflowStates.Removed 
-                                       && x.WorkflowState != Constants.Constants.WorkflowStates.FailedToSync).
-                            CustomOrderBy(sort).ToList();
-                    }
-                    else
-                    {
-                        eILst = db.entity_items.
-                            Where(x => x.EntityGroupId == eG.Id 
-                                       && x.WorkflowState != Constants.Constants.WorkflowStates.Removed 
-                                       && x.WorkflowState != Constants.Constants.WorkflowStates.FailedToSync 
-                                       && x.Name.Contains(nameFilter)).
-                            CustomOrderBy(sort).ToList();
-                    }
-
-                    if (eILst.Count > 0)
-                        foreach (entity_items item in eILst)
-                        {
-                            EntityItem eI = new EntityItem
-                            {
-                                Id = item.Id,
-                                Name = item.Name,
-                                Description = item.Description,
-                                EntityItemUId = item.EntityItemUid,
-                                MicrotingUUID = item.MicrotingUid,
-                                WorkflowState = item.WorkflowState,
-                                DisplayIndex = item.DisplayIndex
-                            };
-                            lst.Add(eI);
-                        }
-
-                    return rtnEG;
-                }
+                return await entity_groups.ReadSorted(GetContext(), entityGroupMUId, sort, nameFilter);
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -4272,7 +4200,6 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="NullReferenceException"></exception>
         public async Task<EntityGroup> EntityGroupRead(int Id) 
         {
-            string methodName = "SqlController.EntityGroupRead";
             using (var db = GetContext()) {
                 entity_groups eg = await db.entity_groups.SingleOrDefaultAsync(x => x.Id == Id);
                 if (eg != null) {
@@ -4287,7 +4214,7 @@ namespace Microting.eForm.Infrastructure
                     };
 //                    return new EntityGroup(eg.Id, eg.Name, eg.Type, eg.MicrotingUid, egl);
                 } else {
-                    throw new NullReferenceException($"No EntityGroup found by Id {Id}");
+                    throw new NullReferenceException("No EntityGroup found by Id " + Id.ToString());
                 }
             }
         }
@@ -4325,7 +4252,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -4356,7 +4283,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -4402,7 +4329,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -4427,7 +4354,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -4439,7 +4366,6 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="NullReferenceException"></exception>
         public async Task<EntityItem> EntityItemRead(int id)
         {
-            string methodName = "SqlController.EntityItemRead";
             using (var db = GetContext())
             {
                 entity_items et = await db.entity_items.FirstOrDefaultAsync(x => x.Id == id);
@@ -4462,7 +4388,7 @@ namespace Microting.eForm.Infrastructure
                 }
                 else
                 {
-                    throw new NullReferenceException($"No EntityItem found for Id {id}");
+                    throw new NullReferenceException("No EntityItem found for Id " + id.ToString());
                 }
             }
         }
@@ -4477,7 +4403,6 @@ namespace Microting.eForm.Infrastructure
         /// <returns></returns>
         public async Task<EntityItem> EntityItemRead(int entityItemGroupId, string name, string description)
         {
-            string methodName = "SqlController.EntityItemRead";
             using (var db = GetContext())
             {
                 entity_items et = await db.entity_items.SingleOrDefaultAsync(x => x.Name == name 
@@ -4507,7 +4432,6 @@ namespace Microting.eForm.Infrastructure
         public async Task<EntityItem> EntityItemCreate(int entityItemGroupId, EntityItem entityItem)
         {
 
-            string methodName = "SqlController.EntityItemCreate";
             using (var db = GetContext())
             {
                 entity_items eI = new entity_items();
@@ -4529,7 +4453,6 @@ namespace Microting.eForm.Infrastructure
         /// <param name="entityItem"></param>
         public async Task EntityItemUpdate(EntityItem entityItem)
         {
-            string methodName = "SqlController.EntityItemUpdate";
             using (var db = GetContext())
             {
                 var match = await db.entity_items.SingleOrDefaultAsync(x => x.Id == entityItem.Id);
@@ -4550,13 +4473,12 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="NullReferenceException"></exception>
         public async Task EntityItemDelete(int Id)
         {
-            string methodName = "SqlController.EntityItemDelete";
             using (var db = GetContext())
             {
                 entity_items et = await db.entity_items.SingleOrDefaultAsync(x => x.Id == Id);
                 if (et == null)
                 {
-                    throw new NullReferenceException($"EntityItem not found with Id {Id}");
+                    throw new NullReferenceException("EntityItem not found with Id " + Id.ToString());
                 }
                 else
                 {
@@ -4578,7 +4500,6 @@ namespace Microting.eForm.Infrastructure
         /// <returns></returns>
         public async Task<List<FolderDto>> FolderGetAll(bool includeRemoved)
         {
-            string methodName = "SqlController.FolderGetAll";
             List<FolderDto> folderDtos = new List<FolderDto>();
             using (var db = GetContext())
             {
@@ -4602,7 +4523,6 @@ namespace Microting.eForm.Infrastructure
         /// <returns></returns>
         public async Task<FolderDto> FolderReadByMicrotingUUID(int microting_uid)
         {
-            string methodName = "SqlController.FolderReadByMicrotingUUID";
             using (var db = GetContext())
             {
                 folders folder = await db.folders.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid);
@@ -4625,7 +4545,6 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="NullReferenceException"></exception>
         public async Task<FolderDto> FolderRead(int Id)
         {
-            string methodName = "SqlController.FolderRead";
             using (var db = GetContext())
             {
                 folders folder = await db.folders.SingleOrDefaultAsync(x => x.Id == Id);
@@ -4673,7 +4592,6 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="NullReferenceException"></exception>
         public async Task FolderUpdate(int Id, string name, string description, int? parent_id)
         {
-            string methodName = "SqlController.FolderUpdate";
             using (var db = GetContext())
             {
                 folders folder = await db.folders.SingleOrDefaultAsync(x => x.Id == Id);
@@ -4698,7 +4616,6 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="NullReferenceException"></exception>
         public async Task FolderDelete(int Id)
         {
-            string methodName = "SqlController.FolderDelete";
             using (var db = GetContext())
             {
                 folders folder = await db.folders.SingleOrDefaultAsync(x => x.Id == Id);
@@ -4754,6 +4671,7 @@ namespace Microting.eForm.Infrastructure
             await SettingCreate(Settings.s3AccessKeyId);
             await SettingCreate(Settings.s3SecrectAccessKey);
             await SettingCreate(Settings.s3Endpoint);
+            await SettingCreate(Settings.s3BucketName);
 
             return true;
         }
@@ -4766,7 +4684,6 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="IndexOutOfRangeException"></exception>
         public async Task<bool> SettingCreate(Settings name)
         {
-            string methodName = "SqlController.SettingCreate";
             using (var db = GetContext())
             {
                 //key point
@@ -4837,7 +4754,8 @@ namespace Microting.eForm.Infrastructure
                     case Settings.s3Enabled: Id = 27; defaultValue = "false"; break;
                     case Settings.s3AccessKeyId: Id = 28; defaultValue = "XXX"; break;
                     case Settings.s3SecrectAccessKey: Id = 29; defaultValue = "XXX"; break;
-                    case Settings.s3Endpoint: Id = 30; defaultValue = "XXX"; break;
+                    case Settings.s3Endpoint: Id = 30; defaultValue = "https://s3.eu-central-1.amazonaws.com"; break;
+                    case Settings.s3BucketName: Id = 31; defaultValue = "microting-uploaded-data"; break;
 
                     default:
                         throw new IndexOutOfRangeException(name.ToString() + " is not a known/mapped Settings type");
@@ -4878,9 +4796,10 @@ namespace Microting.eForm.Infrastructure
                     }
                     db.SaveChanges();
                 }
-                else
-                    if (string.IsNullOrEmpty(matchName.Value))
-                        matchName.Value = defaultValue;
+                else if (string.IsNullOrEmpty(matchName.Value))
+                {
+                    matchName.Value = defaultValue;   
+                }
             }
 
             return true;
@@ -4909,7 +4828,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -4940,7 +4859,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -4995,11 +4914,11 @@ namespace Microting.eForm.Infrastructure
                         {
                             string readSetting = await SettingRead((Settings)setting);
                             if (string.IsNullOrEmpty(readSetting))
-                                result.Add($"{setting} has an empty value!");
+                                result.Add(setting.ToString() + " has an empty value!");
                         }
                         catch
                         {
-                            result.Add($"There is no setting for {setting}! You need to add one");
+                            result.Add("There is no setting for " + setting + "! You need to add one");
                         }
                     }
                     return result;
@@ -5007,7 +4926,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -5033,7 +4952,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -5082,7 +5001,7 @@ namespace Microting.eForm.Infrastructure
                 }
                 catch (Exception ex)
                 {
-                    return t.PrintException($"{methodName} failed", ex);
+                    return t.PrintException(methodName + " failed", ex);
                 }
                 
             }
@@ -5144,7 +5063,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                return t.PrintException($"{methodName} failed", ex);
+                return t.PrintException(methodName + " failed", ex);
             }
         }
 
@@ -5220,7 +5139,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -5276,7 +5195,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -5319,7 +5238,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -5543,7 +5462,7 @@ namespace Microting.eForm.Infrastructure
                             break;
 
                         default:
-                            throw new IndexOutOfRangeException(dataItem.GetType() + " is not a known/mapped DataItem type");
+                            throw new IndexOutOfRangeException(dataItem.GetType().ToString() + " is not a known/mapped DataItem type");
                     }
                     #endregion
                     if (!isSaved)
@@ -5555,7 +5474,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -5611,7 +5530,7 @@ namespace Microting.eForm.Infrastructure
                         }
                         catch (Exception ex)
                         {
-                            throw new Exception($"{methodName} failed to find check_list with Id:" + elementId, ex);
+                            throw new Exception("Failed to find check_list with Id:" + elementId, ex);
                         }
                     }
                     else //DataElement
@@ -5651,7 +5570,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -5779,7 +5698,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -5805,7 +5724,7 @@ namespace Microting.eForm.Infrastructure
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception($"{methodName} failed", ex);
+                    throw new Exception(methodName + " failed", ex);
                 }                
             }
         }
@@ -5843,7 +5762,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -5878,7 +5797,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
 
@@ -5905,7 +5824,7 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                throw new Exception($"{methodName} failed", ex);
+                throw new Exception(methodName + " failed", ex);
             }
         }
         #endregion
@@ -5920,13 +5839,12 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         private string Find(int fieldTypeId)
         {
-            string methodName = "SqlController.Find";
             foreach (var holder in converter)
             {
                 if (holder.Index == fieldTypeId)
                     return holder.FieldType;
             }
-            throw new Exception($"{methodName} failed. Not known fieldType for fieldTypeId: " + fieldTypeId);
+            throw new Exception("Find failed. Not known fieldType for fieldTypeId: " + fieldTypeId);
         }
 
         /// <summary>
@@ -5937,13 +5855,12 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         private int Find(string typeStr)
         {
-            string methodName = "SqlController.Find";
             foreach (var holder in converter)
             {
                 if (holder.FieldType == typeStr)
                     return holder.Index;
             }
-            throw new Exception($"{methodName} failed. Not known fieldTypeId for typeStr: " + typeStr);
+            throw new Exception("Find failed. Not known fieldTypeId for typeStr: " + typeStr);
         }
 
         //TODO
@@ -5953,7 +5870,6 @@ namespace Microting.eForm.Infrastructure
             string inderStr;
             int index = 1;
 
-            string methodName = "SqlController.PairBuild";
             foreach (KeyValuePair kVP in lst)
             {
                 inderStr = "<" + index + ">";
@@ -6026,15 +5942,15 @@ namespace Microting.eForm.Infrastructure
         /// <param name="description"></param>
         private async Task FieldTypeAdd(int Id, string fieldType, string description)
         {
-            await using var db = GetContext();
-            if (db.field_types.Count(x => x.FieldType == fieldType) == 0)
+            using (var db = GetContext())
             {
-                field_types fT = new field_types
+                if (db.field_types.Count(x => x.FieldType == fieldType) == 0)
                 {
-                    FieldType = fieldType, 
-                    Description = description
-                };
-                await fT.Create(db);
+                    field_types fT = new field_types();
+                    fT.FieldType = fieldType;
+                    fT.Description = description;
+                    await fT.Create(db);
+                }                
             }
         }
     }    

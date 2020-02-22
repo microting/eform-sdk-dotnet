@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,21 +32,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class check_list_values : BaseEntity
     {
-//        [Key]
-//        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int Id { get; set; }
-//
-//        [StringLength(255)]
-//        public string workflow_state { get; set; }
-//
-//        public int? version { get; set; }
-
         [StringLength(255)]
         public string Status { get; set; }
-
-//        public DateTime? created_at { get; set; }
-//
-//        public DateTime? updated_at { get; set; }
 
         public int? UserId { get; set; }
 
@@ -56,8 +43,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public int? CheckListDuplicateId { get; set; }
 
-
-        public async Task Create(MicrotingDbAnySql dbContext)
+        public async Task Create(MicrotingDbContext dbContext)
         {
             
             WorkflowState = Constants.Constants.WorkflowStates.Created;
@@ -70,10 +56,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             dbContext.check_list_value_versions.Add(MapCheckListValueVersions(this));
             await dbContext.SaveChangesAsync();
-
         }
 
-        public async Task Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbContext dbContext)
         {
             check_list_values clv = await dbContext.check_list_values.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -99,7 +84,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public async Task Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbContext dbContext)
         {
             check_list_values clv = await dbContext.check_list_values.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -123,20 +108,19 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         private check_list_value_versions MapCheckListValueVersions(check_list_values checkListValue)
         {
-            check_list_value_versions clvv = new check_list_value_versions();
-            clvv.Version = checkListValue.Version;
-            clvv.CreatedAt = checkListValue.CreatedAt;
-            clvv.UpdatedAt = checkListValue.UpdatedAt;
-            clvv.CheckListId = checkListValue.CheckListId;
-            clvv.CaseId = checkListValue.CaseId;
-            clvv.Status = checkListValue.Status;
-            clvv.UserId = checkListValue.UserId;
-            clvv.WorkflowState = checkListValue.WorkflowState;
-            clvv.CheckListDuplicateId = checkListValue.CheckListDuplicateId;
-
-            clvv.CheckListValueId = checkListValue.Id; //<<--
-
-            return clvv;
+            return new check_list_value_versions
+            {
+                Version = checkListValue.Version,
+                CreatedAt = checkListValue.CreatedAt,
+                UpdatedAt = checkListValue.UpdatedAt,
+                CheckListId = checkListValue.CheckListId,
+                CaseId = checkListValue.CaseId,
+                Status = checkListValue.Status,
+                UserId = checkListValue.UserId,
+                WorkflowState = checkListValue.WorkflowState,
+                CheckListDuplicateId = checkListValue.CheckListDuplicateId,
+                CheckListValueId = checkListValue.Id
+            };
         }
     }
 }

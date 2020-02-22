@@ -8,7 +8,7 @@ using Microting.eForm.Infrastructure;
 
 namespace Microting.eForm.Migrations
 {
-    [DbContext(typeof(MicrotingDbAnySql))]
+    [DbContext(typeof(MicrotingDbContext))]
     partial class MicrotingDbAnySqlModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -38,13 +38,15 @@ namespace Microting.eForm.Migrations
 
                     b.Property<DateTime?>("CreatedAt");
 
-                    b.Property<int>("OptionsId");
+                    b.Property<int?>("MicrotingUid");
+
+                    b.Property<int>("OptionId");
 
                     b.Property<int>("QuestionId");
 
                     b.Property<DateTime?>("UpdatedAt");
 
-                    b.Property<int>("Value");
+                    b.Property<string>("Value");
 
                     b.Property<int?>("Version");
 
@@ -68,13 +70,15 @@ namespace Microting.eForm.Migrations
 
                     b.Property<DateTime?>("CreatedAt");
 
-                    b.Property<int>("OptionsId");
+                    b.Property<int?>("MicrotingUid");
+
+                    b.Property<int>("OptionId");
 
                     b.Property<int>("QuestionId");
 
                     b.Property<DateTime?>("UpdatedAt");
 
-                    b.Property<int>("Value");
+                    b.Property<string>("Value");
 
                     b.Property<int?>("Version");
 
@@ -85,7 +89,7 @@ namespace Microting.eForm.Migrations
 
                     b.HasIndex("AnswerId");
 
-                    b.HasIndex("OptionsId");
+                    b.HasIndex("OptionId");
 
                     b.HasIndex("QuestionId");
 
@@ -104,9 +108,11 @@ namespace Microting.eForm.Migrations
 
                     b.Property<DateTime?>("CreatedAt");
 
-                    b.Property<int>("FinishedAt");
+                    b.Property<DateTime>("FinishedAt");
 
                     b.Property<int>("LanguageId");
+
+                    b.Property<int?>("MicrotingUid");
 
                     b.Property<int>("QuestionSetId");
 
@@ -142,9 +148,11 @@ namespace Microting.eForm.Migrations
 
                     b.Property<DateTime?>("CreatedAt");
 
-                    b.Property<int>("FinishedAt");
+                    b.Property<DateTime>("FinishedAt");
 
                     b.Property<int>("LanguageId");
+
+                    b.Property<int?>("MicrotingUid");
 
                     b.Property<int>("QuestionSetId");
 
@@ -1127,6 +1135,66 @@ namespace Microting.eForm.Migrations
                     b.ToTable("folders");
                 });
 
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.language_question_set_versions", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
+                    b.Property<DateTime?>("CreatedAt");
+
+                    b.Property<int>("LanguageId");
+
+                    b.Property<int>("LanguageQuestionSetId");
+
+                    b.Property<int?>("MicrotingUid");
+
+                    b.Property<int>("QuestionSetId");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<int?>("Version");
+
+                    b.Property<string>("WorkflowState")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LanguageQuestionSetId");
+
+                    b.ToTable("LanguageQuestionSetVersions");
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.language_question_sets", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
+                    b.Property<DateTime?>("CreatedAt");
+
+                    b.Property<int>("LanguageId");
+
+                    b.Property<int?>("MicrotingUid");
+
+                    b.Property<int>("QuestionSetId");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<int?>("Version");
+
+                    b.Property<string>("WorkflowState")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LanguageId");
+
+                    b.HasIndex("QuestionSetId");
+
+                    b.ToTable("LanguageQuestionSets");
+                });
+
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.language_versions", b =>
                 {
                     b.Property<int>("Id")
@@ -1285,6 +1353,68 @@ namespace Microting.eForm.Migrations
                     b.ToTable("notifications");
                 });
 
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.option_translation_versions", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
+                    b.Property<DateTime?>("CreatedAt");
+
+                    b.Property<int>("LanguageId");
+
+                    b.Property<int?>("MicrotingUid");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("OptionId");
+
+                    b.Property<int>("OptionTranslationId");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<int?>("Version");
+
+                    b.Property<string>("WorkflowState")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OptionTranslationVersions");
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.option_translations", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
+                    b.Property<DateTime?>("CreatedAt");
+
+                    b.Property<int>("LanguageId");
+
+                    b.Property<int?>("MicrotingUid");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("OptionId");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<int?>("Version");
+
+                    b.Property<string>("WorkflowState")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LanguageId");
+
+                    b.HasIndex("OptionId");
+
+                    b.ToTable("OptionTranslations");
+                });
+
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.option_versions", b =>
                 {
                     b.Property<int>("Id")
@@ -1294,6 +1424,8 @@ namespace Microting.eForm.Migrations
                     b.Property<int>("ContinuousOptionId");
 
                     b.Property<DateTime?>("CreatedAt");
+
+                    b.Property<int?>("MicrotingUid");
 
                     b.Property<int>("NextQuestionId");
 
@@ -1331,6 +1463,8 @@ namespace Microting.eForm.Migrations
 
                     b.Property<DateTime?>("CreatedAt");
 
+                    b.Property<int?>("MicrotingUid");
+
                     b.Property<int>("NextQuestionId");
 
                     b.Property<int>("OptionsIndex");
@@ -1364,6 +1498,8 @@ namespace Microting.eForm.Migrations
                     b.Property<DateTime?>("CreatedAt");
 
                     b.Property<bool>("HasChild");
+
+                    b.Property<int?>("MicrotingUid");
 
                     b.Property<string>("Name");
 
@@ -1399,6 +1535,8 @@ namespace Microting.eForm.Migrations
 
                     b.Property<bool>("HasChild");
 
+                    b.Property<int?>("MicrotingUid");
+
                     b.Property<string>("Name");
 
                     b.Property<int>("ParentId");
@@ -1417,6 +1555,70 @@ namespace Microting.eForm.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("question_sets");
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.question_translation_versions", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
+                    b.Property<DateTime?>("CreatedAt");
+
+                    b.Property<int>("LanguageId");
+
+                    b.Property<int?>("MicrotingUid");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("QuestionId");
+
+                    b.Property<int>("QuestionTranslationId");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<int?>("Version");
+
+                    b.Property<string>("WorkflowState")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionTranslationId");
+
+                    b.ToTable("QuestionTranslationVersions");
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.question_translations", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
+                    b.Property<DateTime?>("CreatedAt");
+
+                    b.Property<int>("LanguageId");
+
+                    b.Property<int?>("MicrotingUid");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("QuestionId");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<int?>("Version");
+
+                    b.Property<string>("WorkflowState")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LanguageId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("QuestionTranslations");
                 });
 
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.question_versions", b =>
@@ -1440,6 +1642,8 @@ namespace Microting.eForm.Migrations
                     b.Property<int>("MaxDuration");
 
                     b.Property<int>("Maximum");
+
+                    b.Property<int?>("MicrotingUid");
 
                     b.Property<int>("MinDuration");
 
@@ -1496,6 +1700,8 @@ namespace Microting.eForm.Migrations
                     b.Property<int>("MaxDuration");
 
                     b.Property<int>("Maximum");
+
+                    b.Property<int?>("MicrotingUid");
 
                     b.Property<int>("MinDuration");
 
@@ -1691,6 +1897,8 @@ namespace Microting.eForm.Migrations
 
                     b.Property<DateTime?>("CreatedAt");
 
+                    b.Property<int?>("MicrotingUid");
+
                     b.Property<int>("SiteId");
 
                     b.Property<int>("SiteSurveyConfigurationId");
@@ -1719,6 +1927,8 @@ namespace Microting.eForm.Migrations
 
                     b.Property<DateTime?>("CreatedAt");
 
+                    b.Property<int?>("MicrotingUid");
+
                     b.Property<int>("SiteId");
 
                     b.Property<int>("SurveyConfigurationId");
@@ -1737,6 +1947,60 @@ namespace Microting.eForm.Migrations
                     b.HasIndex("SurveyConfigurationId");
 
                     b.ToTable("site_survey_configurations");
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.site_tag_versions", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
+                    b.Property<DateTime?>("CreatedAt");
+
+                    b.Property<int?>("SiteId");
+
+                    b.Property<int>("SiteTagId");
+
+                    b.Property<int?>("TagId");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<int?>("Version");
+
+                    b.Property<string>("WorkflowState")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SiteTagVersions");
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.site_tags", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation(autoIDGenStrategy, autoIDGenStrategyValue);
+
+                    b.Property<DateTime?>("CreatedAt");
+
+                    b.Property<int?>("SiteId");
+
+                    b.Property<int?>("TagId");
+
+                    b.Property<DateTime?>("UpdatedAt");
+
+                    b.Property<int?>("Version");
+
+                    b.Property<string>("WorkflowState")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SiteId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("SiteTags");
                 });
 
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.site_versions", b =>
@@ -1857,7 +2121,11 @@ namespace Microting.eForm.Migrations
 
                     b.Property<DateTime?>("CreatedAt");
 
+                    b.Property<int?>("MicrotingUid");
+
                     b.Property<string>("Name");
+
+                    b.Property<int>("QuestionSetId");
 
                     b.Property<DateTime>("Start");
 
@@ -1891,7 +2159,11 @@ namespace Microting.eForm.Migrations
 
                     b.Property<DateTime?>("CreatedAt");
 
+                    b.Property<int?>("MicrotingUid");
+
                     b.Property<string>("Name");
+
+                    b.Property<int>("QuestionSetId");
 
                     b.Property<DateTime>("Start");
 
@@ -1909,6 +2181,8 @@ namespace Microting.eForm.Migrations
                         .HasMaxLength(255);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("QuestionSetId");
 
                     b.ToTable("survey_configurations");
                 });
@@ -2033,11 +2307,21 @@ namespace Microting.eForm.Migrations
 
                     b.Property<int?>("CustomerNo");
 
+                    b.Property<string>("Manufacturer");
+
                     b.Property<int?>("MicrotingUid");
+
+                    b.Property<string>("Model");
+
+                    b.Property<string>("Note");
+
+                    b.Property<string>("OsVersion");
 
                     b.Property<int?>("OtpCode");
 
                     b.Property<int?>("SiteId");
+
+                    b.Property<string>("SoftwareVersion");
 
                     b.Property<int?>("UnitId");
 
@@ -2063,11 +2347,21 @@ namespace Microting.eForm.Migrations
 
                     b.Property<int?>("CustomerNo");
 
+                    b.Property<string>("Manufacturer");
+
                     b.Property<int?>("MicrotingUid");
+
+                    b.Property<string>("Model");
+
+                    b.Property<string>("Note");
+
+                    b.Property<string>("OsVersion");
 
                     b.Property<int?>("OtpCode");
 
                     b.Property<int?>("SiteId");
+
+                    b.Property<string>("SoftwareVersion");
 
                     b.Property<DateTime?>("UpdatedAt");
 
@@ -2258,7 +2552,7 @@ namespace Microting.eForm.Migrations
 
                     b.HasOne("Microting.eForm.Infrastructure.Data.Entities.options", "Option")
                         .WithMany()
-                        .HasForeignKey("OptionsId")
+                        .HasForeignKey("OptionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Microting.eForm.Infrastructure.Data.Entities.questions", "Question")
@@ -2373,11 +2667,45 @@ namespace Microting.eForm.Migrations
                         .HasForeignKey("ParentId");
                 });
 
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.language_question_set_versions", b =>
+                {
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.language_question_sets", "LanguageQuestionSet")
+                        .WithMany()
+                        .HasForeignKey("LanguageQuestionSetId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.language_question_sets", b =>
+                {
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.languages", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.question_sets", "QuestionSet")
+                        .WithMany("LanguageQuestionSetses")
+                        .HasForeignKey("QuestionSetId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.language_versions", b =>
                 {
                     b.HasOne("Microting.eForm.Infrastructure.Data.Entities.languages", "Language")
                         .WithMany()
                         .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.option_translations", b =>
+                {
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.languages", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.options", "option")
+                        .WithMany("OptionTranslationses")
+                        .HasForeignKey("OptionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -2392,7 +2720,7 @@ namespace Microting.eForm.Migrations
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.options", b =>
                 {
                     b.HasOne("Microting.eForm.Infrastructure.Data.Entities.questions", "Question")
-                        .WithMany()
+                        .WithMany("Options")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -2402,6 +2730,27 @@ namespace Microting.eForm.Migrations
                     b.HasOne("Microting.eForm.Infrastructure.Data.Entities.question_sets", "QuestionSet")
                         .WithMany()
                         .HasForeignKey("QuestionSetId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.question_translation_versions", b =>
+                {
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.question_translations", "QuestionTranslation")
+                        .WithMany()
+                        .HasForeignKey("QuestionTranslationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.question_translations", b =>
+                {
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.languages", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.questions", "Question")
+                        .WithMany("QuestionTranslationses")
+                        .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -2416,7 +2765,7 @@ namespace Microting.eForm.Migrations
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.questions", b =>
                 {
                     b.HasOne("Microting.eForm.Infrastructure.Data.Entities.question_sets", "QuestionSet")
-                        .WithMany()
+                        .WithMany("Questions")
                         .HasForeignKey("QuestionSetId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -2457,9 +2806,20 @@ namespace Microting.eForm.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Microting.eForm.Infrastructure.Data.Entities.survey_configurations", "SurveyConfiguration")
-                        .WithMany()
+                        .WithMany("SiteSurveyConfigurations")
                         .HasForeignKey("SurveyConfigurationId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.site_tags", b =>
+                {
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.sites", "Site")
+                        .WithMany("SiteTags")
+                        .HasForeignKey("SiteId");
+
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.tags", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId");
                 });
 
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.site_workers", b =>
@@ -2478,6 +2838,14 @@ namespace Microting.eForm.Migrations
                     b.HasOne("Microting.eForm.Infrastructure.Data.Entities.survey_configurations", "SurveyConfiguration")
                         .WithMany()
                         .HasForeignKey("SurveyConfigurationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.survey_configurations", b =>
+                {
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.question_sets", "QuestionSet")
+                        .WithMany()
+                        .HasForeignKey("QuestionSetId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

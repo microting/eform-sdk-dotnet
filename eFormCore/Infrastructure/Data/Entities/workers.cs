@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,20 +33,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class workers : BaseEntity
     {
-//        [Key]
-//        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int Id { get; set; }
-//
-//        public DateTime? created_at { get; set; }
-//
-//        public DateTime? updated_at { get; set; }
-
         public int MicrotingUid { get; set; }
-
-//        [StringLength(255)]
-//        public string workflow_state { get; set; }
-//
-//        public int? version { get; set; }
 
         [StringLength(255)]
         public string FirstName { get; set; }
@@ -64,8 +51,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             return this.FirstName + " " + this.LastName;
         }
         
-        
-        public async Task Create(MicrotingDbAnySql dbContext)
+        public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             Version = 1;
@@ -79,7 +65,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbContext dbContext)
         {
             workers worker = await dbContext.workers.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -103,7 +89,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public async Task Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbContext dbContext)
         {
             workers worker = await dbContext.workers.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -127,19 +113,18 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         private worker_versions MapWorkerVersions(workers workers)
         {
-            worker_versions workerVer = new worker_versions();
-            workerVer.WorkflowState = workers.WorkflowState;
-            workerVer.Version = workers.Version;
-            workerVer.CreatedAt = workers.CreatedAt;
-            workerVer.UpdatedAt = workers.UpdatedAt;
-            workerVer.MicrotingUid = workers.MicrotingUid;
-            workerVer.FirstName = workers.FirstName;
-            workerVer.LastName = workers.LastName;
-            workerVer.Email = workers.Email;
-
-            workerVer.WorkerId = workers.Id; //<<--
-
-            return workerVer;
+            return new worker_versions
+            {
+                WorkflowState = workers.WorkflowState,
+                Version = workers.Version,
+                CreatedAt = workers.CreatedAt,
+                UpdatedAt = workers.UpdatedAt,
+                MicrotingUid = workers.MicrotingUid,
+                FirstName = workers.FirstName,
+                LastName = workers.LastName,
+                Email = workers.Email,
+                WorkerId = workers.Id
+            };
         }
     }
 }

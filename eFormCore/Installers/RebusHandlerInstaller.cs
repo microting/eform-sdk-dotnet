@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -44,6 +44,9 @@ namespace Microting.eForm.Installers
             container.Register(Component.For<IHandleMessages<TranscribeAudioFile>>().ImplementedBy<TranscribeAudioFileHandler>().LifestyleTransient());
             container.Register(Component.For<IHandleMessages<TranscriptionCompleted>>().ImplementedBy<TranscriptionCompletedHandler>().LifestyleTransient());
             container.Register(Component.For<IHandleMessages<UnitActivated>>().ImplementedBy<UnitActivatedHandler>().LifestyleTransient());
+            container.Register(Component.For<IHandleMessages<AnswerCompleted>>().ImplementedBy<AnswerCompletedHandler>().LifestyleTransient());
+            container.Register(Component.For<IHandleMessages<SurveyConfigurationCreated>>().ImplementedBy<SurveyConfigurationCreatedHandler>().LifestyleTransient());
+            container.Register(Component.For<IHandleMessages<SurveyConfigurationChanged>>().ImplementedBy<SurveyConfigurationChangedHandler>().LifestyleTransient());
         }
     }
 }

@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class question_set_versions : BaseEntity
     {
-        
         public string Name { get; set; }
         
         public bool HasChild { get; set; }
@@ -43,5 +42,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int QuestionSetId { get; set; }
         
         public virtual question_sets QuestionSet { get; set; }
+        
+        public int? MicrotingUid { get; set; }
     }
 }

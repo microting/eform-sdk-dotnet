@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -40,9 +41,14 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int ParentId { get; set; }
         
         public bool Share { get; set; }
-
-
-        public async Task Create(MicrotingDbAnySql dbContext)
+        
+        public int? MicrotingUid { get; set; }
+        
+        public virtual ICollection<language_question_sets> LanguageQuestionSetses { get; set; }
+        
+        public virtual ICollection<questions> Questions { get; set; }
+        
+        public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             CreatedAt = DateTime.Now;
@@ -56,7 +62,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbContext dbContext)
         {
             question_sets questionSet = await dbContext.question_sets.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -81,7 +87,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public async Task Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbContext dbContext)
         {
             question_sets questionSet = await dbContext.question_sets.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -105,20 +111,19 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         private question_set_versions MapVersions(question_sets questionSet)
         {
-            question_set_versions questionSetVersions = new question_set_versions();
-
-            questionSetVersions.QuestionSetId = questionSet.Id;
-            questionSetVersions.Name = questionSet.Name;
-            questionSetVersions.Share = questionSet.Share;
-            questionSetVersions.HasChild = questionSet.HasChild;
-            questionSetVersions.PossiblyDeployed = questionSet.PosiblyDeployed;
-            questionSetVersions.Version = questionSet.Version;
-            questionSetVersions.CreatedAt = questionSet.CreatedAt;
-            questionSetVersions.UpdatedAt = questionSet.UpdatedAt;
-            questionSetVersions.WorkflowState = questionSet.WorkflowState;
-
-            
-            return questionSetVersions;
+            return new question_set_versions
+            {
+                QuestionSetId = questionSet.Id,
+                Name = questionSet.Name,
+                Share = questionSet.Share,
+                HasChild = questionSet.HasChild,
+                PossiblyDeployed = questionSet.PosiblyDeployed,
+                Version = questionSet.Version,
+                CreatedAt = questionSet.CreatedAt,
+                UpdatedAt = questionSet.UpdatedAt,
+                WorkflowState = questionSet.WorkflowState,
+                MicrotingUid = questionSet.MicrotingUid
+            };
         }
     }
 }

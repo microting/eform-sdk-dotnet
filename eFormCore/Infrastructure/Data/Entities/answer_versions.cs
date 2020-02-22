@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
@@ -39,7 +40,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         public int SurveyConfigurationId { get; set; }
         
-        public int FinishedAt { get; set; }
+        public DateTime FinishedAt { get; set; }
         
         public int QuestionSetId { get; set; }
         
@@ -49,5 +50,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         [ForeignKey("answer")]
         public int AnswerId { get; set; }
+        
+        public int? MicrotingUid { get; set; }
     }
 }

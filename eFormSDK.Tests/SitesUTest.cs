@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,11 +42,13 @@ namespace eFormSDK.Tests
         {
             //Arrange
             Random rnd = new Random();
-            
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
-            
+
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString(), 
+                MicrotingUid = rnd.Next(1, 255)
+            };
+
             //Act
             
             await site.Create(dbContext);
@@ -72,9 +74,11 @@ namespace eFormSDK.Tests
         public async Task Sites_Update_DoesUpdate()
         {
             //Arrange
-            
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
+
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString()
+            };
 
             dbContext.sites.Add(site);
             await dbContext.SaveChangesAsync();
@@ -107,8 +111,10 @@ namespace eFormSDK.Tests
         {
             //Arrange
 
-            sites site = new sites();
-            site.Name = Guid.NewGuid().ToString();
+            sites site = new sites
+            {
+                Name = Guid.NewGuid().ToString()
+            };
 
             dbContext.sites.Add(site);
             await dbContext.SaveChangesAsync();

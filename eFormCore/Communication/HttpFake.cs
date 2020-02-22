@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -370,6 +370,13 @@ namespace Microting.eForm.Communication
             JObject content_to_microting = JObject.FromObject(new { workflow_state = Constants.WorkflowStates.Removed });
             return content_to_microting.ToString();
         }
+
+        public async Task<string> UnitMove(int unitId, int siteId)
+        {
+            await Task.Run(() => { });
+            JObject content_to_microting = JObject.FromObject(new { workflow_state = Constants.WorkflowStates.Created });
+            return content_to_microting.ToString();
+        }
         #endregion
 
         #region public Organization
@@ -418,6 +425,17 @@ namespace Microting.eForm.Communication
             throw new NotImplementedException();
         }
         #endregion
+
+        #region InSight
+
+        public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
+        {
+            await Task.Run(() => { });
+            return true;
+        }
+
+        #endregion
+        
         #endregion
 
         #region private

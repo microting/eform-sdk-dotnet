@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -44,19 +44,21 @@ namespace eFormSDK.Tests
             
             short minValue = Int16.MinValue;
             short maxValue = Int16.MaxValue;
-            
-            uploaded_data uploadedData = new uploaded_data();
-            uploadedData.Checksum = Guid.NewGuid().ToString();
-            uploadedData.Extension = Guid.NewGuid().ToString();
-            uploadedData.Local = (short)rnd.Next(minValue, maxValue);
-            uploadedData.CurrentFile = Guid.NewGuid().ToString();
-            uploadedData.ExpirationDate = DateTime.Now;
-            uploadedData.FileLocation = Guid.NewGuid().ToString();
-            uploadedData.FileName = Guid.NewGuid().ToString();
-            uploadedData.TranscriptionId = rnd.Next(1, 255);
-            uploadedData.UploaderId = rnd.Next(1, 255);
-            uploadedData.UploaderType = Guid.NewGuid().ToString();
-            
+
+            uploaded_data uploadedData = new uploaded_data
+            {
+                Checksum = Guid.NewGuid().ToString(),
+                Extension = Guid.NewGuid().ToString(),
+                Local = (short) rnd.Next(minValue, maxValue),
+                CurrentFile = Guid.NewGuid().ToString(),
+                ExpirationDate = DateTime.Now,
+                FileLocation = Guid.NewGuid().ToString(),
+                FileName = Guid.NewGuid().ToString(),
+                TranscriptionId = rnd.Next(1, 255),
+                UploaderId = rnd.Next(1, 255),
+                UploaderType = Guid.NewGuid().ToString()
+            };
+
             //Act
             
             await uploadedData.Create(dbContext);
@@ -116,18 +118,20 @@ namespace eFormSDK.Tests
 
             short minValue = Int16.MinValue;
             short maxValue = Int16.MaxValue;
-            
-            uploaded_data uploadedData = new uploaded_data();
-            uploadedData.Checksum = Guid.NewGuid().ToString();
-            uploadedData.Extension = Guid.NewGuid().ToString();
-            uploadedData.Local = (short)rnd.Next(minValue, maxValue);
-            uploadedData.CurrentFile = Guid.NewGuid().ToString();
-            uploadedData.ExpirationDate = DateTime.Now;
-            uploadedData.FileLocation = Guid.NewGuid().ToString();
-            uploadedData.FileName = Guid.NewGuid().ToString();
-            uploadedData.TranscriptionId = rnd.Next(1, 255);
-            uploadedData.UploaderId = rnd.Next(1, 255);
-            uploadedData.UploaderType = Guid.NewGuid().ToString();
+
+            uploaded_data uploadedData = new uploaded_data
+            {
+                Checksum = Guid.NewGuid().ToString(),
+                Extension = Guid.NewGuid().ToString(),
+                Local = (short) rnd.Next(minValue, maxValue),
+                CurrentFile = Guid.NewGuid().ToString(),
+                ExpirationDate = DateTime.Now,
+                FileLocation = Guid.NewGuid().ToString(),
+                FileName = Guid.NewGuid().ToString(),
+                TranscriptionId = rnd.Next(1, 255),
+                UploaderId = rnd.Next(1, 255),
+                UploaderType = Guid.NewGuid().ToString()
+            };
 
             await uploadedData.Create(dbContext);
 
@@ -226,18 +230,20 @@ namespace eFormSDK.Tests
             
             short minValue = Int16.MinValue;
             short maxValue = Int16.MaxValue;
-            
-            uploaded_data uploadedData = new uploaded_data();
-            uploadedData.Checksum = Guid.NewGuid().ToString();
-            uploadedData.Extension = Guid.NewGuid().ToString();
-            uploadedData.Local = (short)rnd.Next(minValue, maxValue);
-            uploadedData.CurrentFile = Guid.NewGuid().ToString();
-            uploadedData.ExpirationDate = DateTime.Now;
-            uploadedData.FileLocation = Guid.NewGuid().ToString();
-            uploadedData.FileName = Guid.NewGuid().ToString();
-            uploadedData.TranscriptionId = rnd.Next(1, 255);
-            uploadedData.UploaderId = rnd.Next(1, 255);
-            uploadedData.UploaderType = Guid.NewGuid().ToString();
+
+            uploaded_data uploadedData = new uploaded_data
+            {
+                Checksum = Guid.NewGuid().ToString(),
+                Extension = Guid.NewGuid().ToString(),
+                Local = (short) rnd.Next(minValue, maxValue),
+                CurrentFile = Guid.NewGuid().ToString(),
+                ExpirationDate = DateTime.Now,
+                FileLocation = Guid.NewGuid().ToString(),
+                FileName = Guid.NewGuid().ToString(),
+                TranscriptionId = rnd.Next(1, 255),
+                UploaderId = rnd.Next(1, 255),
+                UploaderType = Guid.NewGuid().ToString()
+            };
 
             await uploadedData.Create(dbContext);
             //Act

@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -39,15 +39,19 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int QuestionId { get; set; }
         
         [ForeignKey("options")]
-        public int OptionsId { get; set; }
+        public int OptionId { get; set; }
         
-        public int Value { get; set; }
+        public string Value { get; set; }
+        
+        public int? MicrotingUid { get; set; }
         
         public virtual answers Answer { get; set; }
+        
         public virtual questions Question { get; set; }
+        
         public virtual options Option { get; set; }
 
-        public async Task Create(MicrotingDbAnySql dbContext)
+        public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             Version = 1;
@@ -61,7 +65,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbContext dbContext)
         {
             answer_values answerValue = await dbContext.answer_values.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -72,7 +76,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             answerValue.Value = Value;
             answerValue.AnswerId = AnswerId;
-            answerValue.OptionsId = OptionsId;
+            answerValue.OptionId = OptionId;
             answerValue.QuestionId = QuestionId;
 
             if (dbContext.ChangeTracker.HasChanges())
@@ -85,7 +89,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public async Task Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbContext dbContext)
         {
             answer_values answerValue = await dbContext.answer_values.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -107,20 +111,19 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         }
         private answer_value_versions MapVersions(answer_values answerValue)
         {
-            answer_value_versions answerValueVersion = new answer_value_versions();
-
-            answerValueVersion.QuestionId = answerValue.QuestionId;
-            answerValueVersion.Value = answerValue.Value;
-            answerValueVersion.OptionsId = answerValue.OptionsId;
-            answerValueVersion.AnswerId = answerValue.AnswerId;
-            answerValueVersion.AnswerValueId = answerValue.Id;
-            answerValueVersion.CreatedAt = answerValue.CreatedAt;
-            answerValueVersion.Version = answerValue.Version;
-            answerValueVersion.UpdatedAt = answerValue.UpdatedAt;
-            answerValueVersion.WorkflowState = answerValue.WorkflowState;
-            
-
-            return answerValueVersion;
+            return new answer_value_versions
+            {
+                QuestionId = answerValue.QuestionId,
+                Value = answerValue.Value,
+                OptionId = answerValue.OptionId,
+                AnswerId = answerValue.AnswerId,
+                AnswerValueId = answerValue.Id,
+                CreatedAt = answerValue.CreatedAt,
+                Version = answerValue.Version,
+                UpdatedAt = answerValue.UpdatedAt,
+                WorkflowState = answerValue.WorkflowState,
+                MicrotingUid = answerValue.MicrotingUid
+            };
         }
     }
 }

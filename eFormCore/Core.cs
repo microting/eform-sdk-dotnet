@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +32,7 @@ using System.Linq;
 using System.Globalization;
 using System.Text;
 using System.Xml;
+//using OfficeOpenXml;
 using Castle.Windsor;
 using Castle.MicroKernel.Registration;
 using Rebus.Bus;
@@ -42,6 +43,9 @@ using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Util;
+using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using Microsoft.EntityFrameworkCore;
 using Microting.eForm;
 using Microting.eForm.Communication;
 using Microting.eForm.Dto;
@@ -49,13 +53,15 @@ using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
+using Microting.eForm.Infrastructure.Helpers;
 using Microting.eForm.Infrastructure.Models;
 using Microting.eForm.Infrastructure.Models.reply;
 using Microting.eForm.Installers;
 using Microting.eForm.Services;
 using OpenStack.NetCoreSwiftClient;
 using OpenStack.NetCoreSwiftClient.Infrastructure.Models;
-using KeyValuePair = Microting.eForm.Dto.KeyValuePair;
+using Field = Microting.eForm.Infrastructure.Models.Field;
+using Path = System.IO.Path;
 using Tag = Microting.eForm.Dto.Tag;
 
 
@@ -78,6 +84,7 @@ namespace eFormCore
         private Subscriber _subscriber;
         private Communicator _communicator;
         private SqlController _sqlController;
+        public DbContextHelper dbContextHelper;
         private readonly Tools t = new Tools();
 
         private IWindsorContainer _container;
@@ -210,7 +217,8 @@ namespace eFormCore
                         throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
 
                     //sqlController
-                    _sqlController = new SqlController(connectionString);
+                    dbContextHelper = new DbContextHelper(connectionString);
+                    _sqlController = new SqlController(dbContextHelper);
 
                     //check settings
                     if (_sqlController.SettingCheckAll().Result.Count > 0)
@@ -310,10 +318,18 @@ namespace eFormCore
                             _s3SecretAccessKey = await _sqlController.SettingRead(Settings.s3SecrectAccessKey);
                             _s3Endpoint = await _sqlController.SettingRead(Settings.s3Endpoint);
 
-                            _s3Client = new AmazonS3Client(_s3AccessKeyId, _s3SecretAccessKey, new AmazonS3Config()
+                            if (_s3Endpoint.Contains("https"))
                             {
-                                ServiceURL = _s3Endpoint,
-                            });
+                                _s3Client = new AmazonS3Client(_s3AccessKeyId, _s3SecretAccessKey, new AmazonS3Config()
+                                {
+                                    ServiceURL = _s3Endpoint,
+                                });
+                            }
+                            else
+                            {
+                                _s3Client = new AmazonS3Client(_s3AccessKeyId, _s3SecretAccessKey, RegionEndpoint.EUCentral1);
+                                
+                            }
 
                             _container.Register(Component.For<AmazonS3Client>().Instance(_s3Client));
                         }
@@ -323,6 +339,9 @@ namespace eFormCore
                         }
                         
                     }
+
+
+
                     await log.LogStandard(methodName, "Communicator started");
 
                     await log.LogCritical(methodName, "started");
@@ -406,21 +425,20 @@ namespace eFormCore
             {
                 if (_coreAvailable && !_coreStatChanging)
                 {
-//                    lock (_lockMain) //Will let sending Cases sending finish, before closing
-//                    {
+                    lock (_lockMain) //Will let sending Cases sending finish, before closing
+                    {
                         _coreStatChanging = true;
 
                         _coreAvailable = false;
-
-                        await log.LogCritical(methodName, "called");
+                        log.LogCritical(methodName, "called").RunSynchronously();
 
                         try
                         {
                             if (_subscriber != null)
                             {
-                                await log.LogEverything(methodName, "Subscriber requested to close connection");
-                                await _subscriber.Close();
-                                await log.LogEverything(methodName, "Subscriber closed");
+                                log.LogEverything(methodName, "Subscriber requested to close connection").RunSynchronously();
+                                _subscriber.Close().RunSynchronously();
+                                log.LogEverything(methodName, "Subscriber closed").RunSynchronously();
                                 _bus.Advanced.Workers.SetNumberOfWorkers(0);
                                 _bus.Dispose();
                                 _coreThreadRunning = false;
@@ -428,7 +446,7 @@ namespace eFormCore
                         }
                         catch (Exception ex)
                         {
-                            await log.LogException(methodName, "Subscriber failed to close", ex, false);
+                            log.LogException(methodName, "Subscriber failed to close", ex, false).RunSynchronously();
                         }
 
                         int tries = 0;
@@ -438,13 +456,12 @@ namespace eFormCore
                             tries++;
 
                             if (tries > 600)
-                                await FatalExpection("Failed to close Core correct after 60 secs", new Exception());
+                                FatalExpection("Failed to close Core correct after 60 secs", new Exception()).RunSynchronously();
                         }
 
                         _updateIsRunningEntities = false;
 
-                        await log.LogStandard(methodName, "Core closed");
-
+                        log.LogStandard(methodName, "Core closed").RunSynchronously();
                         _subscriber = null;
                         _communicator = null;
                         _sqlController = null;
@@ -452,7 +469,7 @@ namespace eFormCore
 
                         _coreStatChanging = false;
                     }
-//                }
+                }
             }
             catch (ThreadAbortException)
             {
@@ -461,7 +478,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await FatalExpection(methodName + " failed. Core failed to close", ex);
+                FatalExpection(methodName + " failed. Core failed to close", ex).RunSynchronously();
             }
             return true;
         }
@@ -1110,8 +1127,8 @@ namespace eFormCore
                     await log.LogVariable(methodName, nameof(custom), custom);
 
                     #region check input
-                    DateTime start = DateTime.Parse(mainElement.StartDate.ToShortDateString());
-                    DateTime end = DateTime.Parse(mainElement.EndDate.ToShortDateString());
+                    DateTime start = DateTime.Parse(mainElement.StartDate.ToLongDateString());
+                    DateTime end = DateTime.Parse(mainElement.EndDate.ToLongDateString());
 
                     if (end < DateTime.Now)
                     {
@@ -1430,7 +1447,7 @@ namespace eFormCore
                     await log.LogVariable(methodName, nameof(templateId), templateId);
                     await log.LogVariable(methodName, nameof(siteUId), siteUId);
 
-                    return await CaseDelete(templateId, siteUId, "");
+                    return await CaseDelete(templateId, siteUId, Constants.WorkflowStates.NotRemoved);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1591,16 +1608,19 @@ namespace eFormCore
                     }
                     catch (Exception ex)
                     {
-                        await log.LogException(methodName, "(string microtingUId) failed", ex, false);
-                        throw ex;
-                    }
-                    
-                    cDto = await _sqlController.CaseReadByMUId(microtingUId);
-                    await FireHandleCaseDeleted(cDto);
-                    await log.LogStandard(methodName, cDto.ToString() + " has been removed");
-                    return result;
-
-//                    }                    
+                        if (ex.Message == "There is more than one instance.")
+                        {
+                            cDto = await _sqlController.CaseReadByMUId(microtingUId);
+                            await FireHandleCaseDeleted(cDto);
+                            await log.LogStandard(methodName, cDto.ToString() + " has been removed");
+                            return result;        
+                        }
+                        else
+                        {
+                            await log.LogException(methodName, "(string microtingUId) failed", ex, false);
+                            throw ex;    
+                        }
+                    }                  
                 }
                 catch (Exception ex)
                 {
@@ -1924,7 +1944,7 @@ namespace eFormCore
                     string jasperXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
                         + Environment.NewLine + "<root>"
                         + Environment.NewLine + "<C" + reply.Id + " case_id=\"" + caseId + "\" case_name=\"" + reply.Label + "\" serial_number=\"" + caseId + "/" + cDto.MicrotingUId + "\" check_list_status=\"approved\">"
-                        + Environment.NewLine + "<worker>" + Advanced_WorkerNameRead(reply.DoneById) + "</worker>"
+                        + Environment.NewLine + "<worker>" + await Advanced_WorkerNameRead(reply.DoneById) + "</worker>"
                         + Environment.NewLine + "<check_id>" + reply.MicrotingUId + "</check_id>"
                         + Environment.NewLine + "<date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</date>"
                         + Environment.NewLine + "<check_date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</check_date>"
@@ -2131,7 +2151,7 @@ namespace eFormCore
                 {
                     case Constants.FieldTypes.MultiSelect:
                         valuePairs[$"F_{fieldValue.FieldId}"] =
-                            fieldValue.ValueReadable.Replace("|", @"</w:t><w:br/><w:t>").Replace("&", "&amp;");
+                            fieldValue.ValueReadable.Replace("|", @"</w:t><w:br/><w:t>");
                         break;
                     case Constants.FieldTypes.Picture:
                         imageFieldCountList[$"FCount_{fieldValue.FieldId}"] = 0;
@@ -2139,11 +2159,7 @@ namespace eFormCore
                         {
                             fields field = await _sqlController.FieldReadRaw(fieldValue.FieldId);
                             check_lists checkList = await _sqlController.CheckListRead((int)field.CheckListId);
-                        
-                            
-//                            var item = new KeyValuePair<string, List<string>>();
-//                            item.Key = $"{checkList.Label.Replace("&", "&amp;")} - {field.Label.Replace("&", "&amp;")}";
-//                            item.Value
+
                             string geoTag = "";
                             if (fieldValue.Latitude != null)
                             {
@@ -2157,13 +2173,31 @@ namespace eFormCore
 //                            if (fieldValue.Latitude != null) {
 //                                pictureGeotags.Add(new KeyValuePair<string, string>($"{checkList.Label.Replace("&", "&amp;")} - {field.Label.Replace("&", "&amp;")}", ));
 //                            }
-                            SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName);
-                            Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
-                            var fileStream =
-                                File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
-                            swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
-                            swiftObjectGetResponse.ObjectStreamContent.CopyTo(fileStream);
-                            fileStream.Close();    
+                            if (_swiftEnabled)
+                            {
+                                SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName);
+                                Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
+                                var fileStream =
+                                    File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
+                                swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
+                                swiftObjectGetResponse.ObjectStreamContent.CopyTo(fileStream);
+                                fileStream.Close();    
+                            }
+
+                            if (_s3Enabled)
+                            {
+                                GetObjectResponse fileFromS3Storage =
+                                    await GetFileFromS3Storage(fieldValue.UploadedDataObj.FileName);
+                                Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
+                                var fileStream =
+                                    File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
+                                fileFromS3Storage.ResponseStream.CopyTo(fileStream);
+                                fileStream.Close();
+                                fileStream.Dispose();
+                                fileFromS3Storage.ResponseStream.Close();
+                                fileFromS3Storage.ResponseStream.Dispose();
+                            }
+                            
                             if (imageFieldCountList.ContainsKey($"FCount_{fieldValue.FieldId}"))
                             {
                                 imageFieldCountList[$"FCount_{fieldValue.FieldId}"] += 1;
@@ -2177,13 +2211,31 @@ namespace eFormCore
                             check_lists checkList = await _sqlController.CheckListRead((int)field.CheckListId);
                         
                             signatures.Add(new KeyValuePair<string, string>($"F_{fieldValue.FieldId}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
-                            SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName);
-                            Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
-                            var fileStream =
-                                File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
-                            swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
-                            swiftObjectGetResponse.ObjectStreamContent.CopyTo(fileStream);
-                            fileStream.Close();
+                            if (_swiftEnabled)
+                            {
+                                SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName);
+                                Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
+                                var fileStream =
+                                    File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
+                                swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
+                                swiftObjectGetResponse.ObjectStreamContent.CopyTo(fileStream);
+                                fileStream.Close();    
+                            }
+
+                            if (_s3Enabled)
+                            {
+                                GetObjectResponse fileFromS3Storage =
+                                    await GetFileFromS3Storage(fieldValue.UploadedDataObj.FileName);
+                                Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
+                                var fileStream =
+                                    File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
+                                fileFromS3Storage.ResponseStream.CopyTo(fileStream);
+                                fileStream.Close();
+                                fileStream.Dispose();
+                                fileFromS3Storage.ResponseStream.Close();
+                                fileFromS3Storage.ResponseStream.Dispose();
+                            }
+                            
                             valuePairs.Remove($"F_{field.Id}");
                         }
                         break;
@@ -2191,6 +2243,9 @@ namespace eFormCore
                         valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable.ToLower() == "checked" ? "&#10004;" : "";
                         break;
                     case Constants.FieldTypes.FieldGroup:
+                        break;
+                    case Constants.FieldTypes.Timer:
+                        valuePairs[$"F_{fieldValue.FieldId}"] = TimeSpan.FromMilliseconds(Double.Parse(fieldValue.Value.Split('|')[3])).ToString();
                         break;
                     default:
                         if (fieldValue.ValueReadable == "null")
@@ -2211,7 +2266,7 @@ namespace eFormCore
                                 fieldValue.ValueReadable = fieldValue.ValueReadable.Replace("\t", @"</w:t><w:tab/><w:t>"); 
                                fieldValue.ValueReadable =
                                     fieldValue.ValueReadable.Replace("|||", @"</w:t><w:br/><w:t>");
-                                valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable.Replace("&", "&amp;");;
+                                valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable;
                             }
                         }
                         break;
@@ -3126,6 +3181,26 @@ namespace eFormCore
 
         #endregion
 
+        #region InSight
+
+        public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
+        {
+            using (var dbContext = dbContextHelper.GetDbContext())
+            {
+                site_survey_configurations siteSurveyConfiguration =
+                    await dbContext.site_survey_configurations.SingleOrDefaultAsync(x => x.SiteId == siteId && x.SurveyConfigurationId == id);
+
+                if (siteSurveyConfiguration == null)
+                {
+                    
+                }
+            }
+            
+            return true;
+        }
+
+        #endregion
+        
         #region public advanced actions
         #region templat
         public async Task<bool> Advanced_TemplateDisplayIndexChangeDb(int templateId, int newDisplayIndex)
@@ -4511,29 +4586,29 @@ namespace eFormCore
 
                 await _sqlController.FileProcessed(urlStr, chechSum, _fileLocationPicture, fileName, uploadedData.Id);
 
-                if (_swiftEnabled)
-                {
-                    await log.LogStandard(methodName, $"Swift enabled, so trying to upload file {fileName}");
+//                if (_swiftEnabled || _s3Enabled)
+//                {
+                    await log.LogStandard(methodName, $"Trying to upload file {fileName}");
                     string filePath = Path.Combine(_fileLocationPicture, fileName);
                     if (File.Exists(filePath))
                     {
                         await log.LogStandard(methodName, $"File exists at path {filePath}");
-                        try
-                        {
+//                        try
+//                        {
                             await PutFileToStorageSystem(filePath, fileName);
-                        }
-                        catch (UnauthorizedAccessException)
-                        {
-                            await log.LogStandard(methodName, "Trying to reauthenticate before putting file again");
-                            _swiftClient.AuthenticateAsyncV2(_keystoneEndpoint, _swiftUserName, _swiftPassword);
-                            await PutFileToStorageSystem(filePath, fileName);                                                        
-                        }                        
+//                        }
+//                        catch (UnauthorizedAccessException)
+//                        {
+//                            await log.LogStandard(methodName, "Trying to reauthenticate before putting file again");
+//                            _swiftClient.AuthenticateAsyncV2(_keystoneEndpoint, _swiftUserName, _swiftPassword);
+//                            await PutFileToStorageSystem(filePath, fileName);                                                        
+//                        }                        
                     }
                     else
                     {
                         await log.LogWarning(methodName, $"File could not be found at filepath {filePath}");
                     }
-                }
+//                }
                 
                 return true;
             } else
@@ -4546,12 +4621,11 @@ namespace eFormCore
         {
             GetObjectRequest request = new GetObjectRequest
             {
-                BucketName = $"{_customerNo}-uploaded-data",
+                BucketName = $"{await _sqlController.SettingRead(Settings.s3BucketName)}/{_customerNo}",
                 Key = fileName
             };
 
             return await _s3Client.GetObjectAsync(request);
-//            return response;
         }
 
         public async Task<SwiftObjectGetResponse> GetFileFromSwiftStorage(string fileName)
@@ -4674,31 +4748,13 @@ namespace eFormCore
         private async Task PutFileToS3Storage(string filePath, string fileName, int tryCount)
         {
             string methodName = "Core.PutFileToS3Storage";
-            await log.LogStandard(methodName, $"Trying to upload file {fileName} to {_customerNo}_uploaded_data");
+            string bucketName = await _sqlController.SettingRead(Settings.s3BucketName);
+            await log.LogStandard(methodName, $"Trying to upload file {fileName} to {bucketName}");
 
-            if (!(await AmazonS3Util.DoesS3BucketExistV2Async(_s3Client, $"{_customerNo}-uploaded-data")))
-            {
-                var putBucketRequest = new PutBucketRequest()
-                {
-                    BucketName = $"{_customerNo}-uploaded-data",
-                    UseClientRegion = true,
-                };
-
-                try
-                {
-                    PutBucketResponse putBucketResponse = await _s3Client.PutBucketAsync(putBucketRequest);
-                }
-                catch (Exception ex)
-                {
-                    await log.LogWarning(methodName, $"Something went wrong, message was {ex.Message}");
-
-                }
-            }
-            
             var fileStream = new FileStream(filePath, FileMode.Open);
             PutObjectRequest putObjectRequest = new PutObjectRequest
             {
-                BucketName = $"{_customerNo}-uploaded-data",
+                BucketName = $"{await _sqlController.SettingRead(Settings.s3BucketName)}/{_customerNo}",
                 Key = fileName,
                 FilePath = filePath
             };
@@ -4709,10 +4765,8 @@ namespace eFormCore
             catch (Exception ex)
             {
                 await log.LogWarning(methodName, $"Something went wrong, message was {ex.Message}");
-//                await _s3Client.PutBucketAsync($"{_customerNo}_uploaded_data");
             }
             
-//            if (!response.)
         }
         
         public async Task<bool> CheckStatusByMicrotingUid(int microtingUid)

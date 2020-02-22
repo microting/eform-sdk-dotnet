@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,11 +42,13 @@ namespace eFormSDK.Tests
             //Arrange
             
             Random rnd = new Random();
-            
-            tags tag = new tags();
-            tag.Name = Guid.NewGuid().ToString();
-            tag.TaggingsCount = rnd.Next(1, 255);
-            
+
+            tags tag = new tags
+            {
+                Name = Guid.NewGuid().ToString(),
+                TaggingsCount = rnd.Next(1, 255)
+            };
+
             //Act
             
             await tag.Create(dbContext);
@@ -82,10 +84,12 @@ namespace eFormSDK.Tests
         public async Task Tags_Update_DoesUpdate()
         {
             Random rnd = new Random();
-            
-            tags tag = new tags();
-            tag.Name = Guid.NewGuid().ToString();
-            tag.TaggingsCount = rnd.Next(1, 255);
+
+            tags tag = new tags
+            {
+                Name = Guid.NewGuid().ToString(),
+                TaggingsCount = rnd.Next(1, 255)
+            };
 
             await tag.Create(dbContext);
             
@@ -140,10 +144,12 @@ namespace eFormSDK.Tests
         public async Task Tags_Delete_DoesSetWorkflowStateToRemoved()
         {
             Random rnd = new Random();
-            
-            tags tag = new tags();
-            tag.Name = Guid.NewGuid().ToString();
-            tag.TaggingsCount = rnd.Next(1, 255);
+
+            tags tag = new tags
+            {
+                Name = Guid.NewGuid().ToString(),
+                TaggingsCount = rnd.Next(1, 255)
+            };
 
             await tag.Create(dbContext);
             

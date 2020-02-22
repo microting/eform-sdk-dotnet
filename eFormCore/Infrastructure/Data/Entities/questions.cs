@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@ SOFTWARE.
 
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -65,9 +66,16 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int MaxDuration { get; set; }
         
         public bool ValidDisplay { get; set; }
+        
+        public int? MicrotingUid { get; set; }
 
         public virtual question_sets QuestionSet { get; set; }
-        public async Task Create(MicrotingDbAnySql dbContext)
+
+        public virtual ICollection<question_translations> QuestionTranslationses { get; set; }
+        
+        public virtual ICollection<options> Options { get; set; }
+
+        public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             Version = 1;
@@ -80,10 +88,12 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             dbContext.question_versions.Add(MapVersions(this));
             await dbContext.SaveChangesAsync();
 
+            await GenerateSpecialQuestionTypes(dbContext, 1);
+
             Id = Id;
         }
 
-        public async Task Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbContext dbContext)
         {
             questions question = await dbContext.questions.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -119,7 +129,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public async Task Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbContext dbContext)
         {
             questions question = await dbContext.questions.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -140,33 +150,199 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public question_versions MapVersions(questions question)
+        public bool IsSmiley()
         {
-            question_versions questionVersion = new question_versions();
+            switch (this.QuestionType)
+            {
+                case Constants.Constants.QuestionTypes.Smiley:
+                case Constants.Constants.QuestionTypes.Smiley2:
+                case Constants.Constants.QuestionTypes.Smiley3:
+                case Constants.Constants.QuestionTypes.Smiley4:
+                case Constants.Constants.QuestionTypes.Smiley5:
+                case Constants.Constants.QuestionTypes.Smiley6:
+                case Constants.Constants.QuestionTypes.Smiley7:
+                case Constants.Constants.QuestionTypes.Smiley8:
+                case Constants.Constants.QuestionTypes.Smiley9:
+                case Constants.Constants.QuestionTypes.Smiley10:
+                    return true;
+                default:
+                    return false;
+            }
+        }
 
-            questionVersion.QuestionSetId = question.QuestionSetId;
-            questionVersion.Type = question.Type;
-            questionVersion.Image = question.Image;
-            questionVersion.Maximum = question.Maximum;
-            questionVersion.Minimum = question.Minimum;
-            questionVersion.Prioritised = question.Prioritised;
-            questionVersion.RefId = question.RefId;
-            questionVersion.FontSize = question.FontSize;
-            questionVersion.QuestionId = question.Id;
-            questionVersion.MaxDuration = question.MaxDuration;
-            questionVersion.MinDuration = question.MinDuration;
-            questionVersion.ImagePosition = question.ImagePosition;
-            questionVersion.QuestionType = question.QuestionType;
-            questionVersion.ValidDisplay = question.ValidDisplay;
-            questionVersion.QuestionIndex = question.QuestionIndex;
-            questionVersion.BackButtonEnabled = question.BackButtonEnabled;
-            questionVersion.ContinuousQuestionId = question.ContinuousQuestionId;
-            questionVersion.CreatedAt = question.CreatedAt;
-            questionVersion.Version = question.Version;
-            questionVersion.UpdatedAt = question.UpdatedAt;
-            questionVersion.WorkflowState = question.WorkflowState;
-            
-            return questionVersion;
+        private async Task GenerateSmileyOptions(MicrotingDbContext dbContext, int languageId)
+        {
+            string[] smileys = new []{""};
+            switch (this.QuestionType)  
+            {
+                case Constants.Constants.QuestionTypes.Smiley:
+                    smileys = new[] {"smiley1", "smiley2", "smiley3", "smiley5", "smiley6"};
+                    break;
+                case Constants.Constants.QuestionTypes.Smiley2:
+                    smileys = new[] {"smiley1", "smiley2", "smiley3","smiley4", "smiley5", "smiley6"};
+                    break;
+                case Constants.Constants.QuestionTypes.Smiley3:
+                    smileys = new[] {"smiley1", "smiley5"};
+                    break;
+                case Constants.Constants.QuestionTypes.Smiley4:
+                    smileys = new[] {"smiley1", "smiley5", "smiley6"};
+                    break;
+                case Constants.Constants.QuestionTypes.Smiley5:
+                    smileys = new[] {"smiley1", "smiley3", "smiley5"};
+                    break;
+                case Constants.Constants.QuestionTypes.Smiley6:
+                    smileys = new[] {"smiley1", "smiley3", "smiley5", "smiley6"};
+                    break;
+                case Constants.Constants.QuestionTypes.Smiley7:
+                    smileys = new[] {"smiley1", "smiley2", "smiley3", "smiley5"};
+                    break;
+                case Constants.Constants.QuestionTypes.Smiley8:
+                    smileys = new[] {"smiley1", "smiley2", "smiley4", "smiley5"};
+                    break;
+                case Constants.Constants.QuestionTypes.Smiley9:
+                    smileys = new[] {"smiley1", "smiley2", "smiley4", "smiley5", "smiley6"};
+                    break;
+                case Constants.Constants.QuestionTypes.Smiley10:
+                    smileys = new[] {"smiley1", "smiley2", "smiley3", "smiley4", "smiley5"};
+                    break;
+            }
+
+            int i = 0;
+            foreach (string smiley in smileys)
+            {
+                await CreateSmileyOption(dbContext, smiley, languageId, i);
+                i++;
+            }
+        }
+
+        private async Task CreateSmileyOption(MicrotingDbContext dbContext, string smiley, int languageId, int index)
+        {
+            switch (smiley)
+            {
+                case "smiley1":
+                    await CreateSpecialOption(dbContext, 5, 100, smiley, languageId, index);
+                    break;
+                case "smiley2":
+                    await CreateSpecialOption(dbContext, 4, 75, smiley, languageId, index);
+                    break;
+                case "smiley3":
+                    await CreateSpecialOption(dbContext, 3, 50, smiley, languageId, index);
+                    break;
+                case "smiley4":
+                    await CreateSpecialOption(dbContext, 2, 25, smiley, languageId, index);
+                    break;
+                case "smiley5":
+                    await CreateSpecialOption(dbContext, 1, 0, smiley, languageId, index);
+                    break;
+                case "smiley6":
+                    await CreateSpecialOption(dbContext, 0, 999, smiley, languageId, index);
+                    break;
+            }
+        }
+
+        private async Task GenerateSpecialQuestionTypes(MicrotingDbContext dbContext, int languageId)
+        {
+            switch (this.QuestionType)
+            {
+                case Constants.Constants.QuestionTypes.Number:
+                    await CreateSpecialOption(dbContext, 1, 0, "number", languageId, 1);
+                    await CreateSpecialOption(dbContext, 1, 0, "na", languageId, 2);
+                    break;
+                case Constants.Constants.QuestionTypes.Text:
+                    await CreateSpecialOption(dbContext, 1, 0, "text", languageId, 1);
+                    await CreateSpecialOption(dbContext, 1, 0, "na", languageId, 2);
+                    break;
+                case Constants.Constants.QuestionTypes.Picture:
+                    await CreateSpecialOption(dbContext, 1, 0, "next", languageId, 1);
+                    break;
+                case Constants.Constants.QuestionTypes.InfoText:
+                    await CreateSpecialOption(dbContext, 1, 0, "next", languageId, 1);
+                    break;
+                case Constants.Constants.QuestionTypes.TextEamil:
+                    await CreateSpecialOption(dbContext, 1, 0, "text", languageId, 1);
+                    break;
+                case Constants.Constants.QuestionTypes.ZipCode:
+                    await CreateSpecialOption(dbContext, 1, 0, "text", languageId, 1);
+                    break;
+                case Constants.Constants.QuestionTypes.Smiley:
+                case Constants.Constants.QuestionTypes.Smiley2:
+                case Constants.Constants.QuestionTypes.Smiley3:
+                case Constants.Constants.QuestionTypes.Smiley4:
+                case Constants.Constants.QuestionTypes.Smiley5:
+                case Constants.Constants.QuestionTypes.Smiley6:
+                case Constants.Constants.QuestionTypes.Smiley7:
+                case Constants.Constants.QuestionTypes.Smiley8:
+                case Constants.Constants.QuestionTypes.Smiley9:
+                case Constants.Constants.QuestionTypes.Smiley10:
+                    await GenerateSmileyOptions(dbContext, languageId);
+                    break;;
+            }
+        }
+
+        private async Task CreateSpecialOption(MicrotingDbContext dbContext, int weight, int weightedValue, string text, int languageId, int optionIndex)
+        {
+            var result = (from ot in dbContext.OptionTranslations
+                join o in dbContext.options
+                    on ot.OptionId equals o.Id
+                    where o.Weight == weight 
+                          && o.WeightValue == weightedValue
+                          && ot.Name == text
+                          && ot.LanguageId == languageId
+                          && o.QuestionId == this.Id
+                select new
+                {
+                    Id = o.Id
+                }).ToList();
+
+            if (!result.Any())
+            {
+                options option = new options()
+                {
+                    Weight = weight,
+                    WeightValue = weightedValue,
+                    OptionsIndex = optionIndex,
+                    QuestionId = this.Id
+                };
+
+                await option.Create(dbContext);
+                
+                option_translations optionTranslation = new option_translations()
+                {
+                    OptionId = option.Id,
+                    Name = text,
+                    LanguageId = languageId
+                };
+                await optionTranslation.Create(dbContext);
+            }
+        }
+
+        private question_versions MapVersions(questions question)
+        {
+            return new question_versions
+            {
+                QuestionSetId = question.QuestionSetId,
+                Type = question.Type,
+                Image = question.Image,
+                Maximum = question.Maximum,
+                Minimum = question.Minimum,
+                Prioritised = question.Prioritised,
+                RefId = question.RefId,
+                FontSize = question.FontSize,
+                QuestionId = question.Id,
+                MaxDuration = question.MaxDuration,
+                MinDuration = question.MinDuration,
+                ImagePosition = question.ImagePosition,
+                QuestionType = question.QuestionType,
+                ValidDisplay = question.ValidDisplay,
+                QuestionIndex = question.QuestionIndex,
+                BackButtonEnabled = question.BackButtonEnabled,
+                ContinuousQuestionId = question.ContinuousQuestionId,
+                CreatedAt = question.CreatedAt,
+                Version = question.Version,
+                UpdatedAt = question.UpdatedAt,
+                WorkflowState = question.WorkflowState,
+                MicrotingUid = question.MicrotingUid
+            };
         }
     }
 }

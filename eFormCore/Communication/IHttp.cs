@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -101,11 +101,15 @@ namespace Microting.eForm.Communication
 
         Task<string> UnitDelete(int id);
 
+        Task<string> UnitMove(int unitId, int siteId);
+
         Task<string> OrganizationLoadAllFromRemote();
 
         Task<int> SpeechToText(string pathToAudioFile, string language);
 
         Task<JToken> SpeechToText(int requestId);
+
+        Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite);
 
     }
 }

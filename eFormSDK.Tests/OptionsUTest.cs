@@ -1,3 +1,27 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2007 - 2020 Microting A/S
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,38 +43,44 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = Guid.NewGuid().ToString();
-            questionSet.Share = randomBool;
-            questionSet.HasChild = randomBool;
-            questionSet.PosiblyDeployed = randomBool;
+
+            question_sets questionSet = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                PosiblyDeployed = randomBool
+            };
             await questionSet.Create(dbContext);
-            
-            questions question = new questions();
-            question.Image = randomBool;
-            question.Maximum = rnd.Next(1, 255);
-            question.Minimum = rnd.Next(1, 255);
-            question.Prioritised = randomBool;
-            question.Type = Guid.NewGuid().ToString();
-            question.FontSize = Guid.NewGuid().ToString();
-            question.ImagePosition = Guid.NewGuid().ToString();
-            question.MaxDuration = rnd.Next(1, 255);
-            question.MinDuration = rnd.Next(1, 255);
-            question.QuestionIndex = rnd.Next(1, 255);
-            question.QuestionType = Guid.NewGuid().ToString();
-            question.RefId = rnd.Next(1, 255);
-            question.ValidDisplay = randomBool;
-            question.BackButtonEnabled = randomBool;
-            question.QuestionSetId = questionSet.Id;
+
+            questions question = new questions
+            {
+                Image = randomBool,
+                Maximum = rnd.Next(1, 255),
+                Minimum = rnd.Next(1, 255),
+                Prioritised = randomBool,
+                Type = Guid.NewGuid().ToString(),
+                FontSize = Guid.NewGuid().ToString(),
+                ImagePosition = Guid.NewGuid().ToString(),
+                MaxDuration = rnd.Next(1, 255),
+                MinDuration = rnd.Next(1, 255),
+                QuestionIndex = rnd.Next(1, 255),
+                QuestionType = Guid.NewGuid().ToString(),
+                RefId = rnd.Next(1, 255),
+                ValidDisplay = randomBool,
+                BackButtonEnabled = randomBool,
+                QuestionSetId = questionSet.Id
+            };
             await question.Create(dbContext);
-            
-            options option = new options();
-            option.Weight = rnd.Next(1, 255);
-            option.OptionsIndex = rnd.Next(1, 255);
-            option.WeightValue = rnd.Next(1, 255);
-            option.QuestionId = question.Id;
-            
+
+            options option = new options
+            {
+                Weight = rnd.Next(1, 255),
+                OptionsIndex = rnd.Next(1, 255),
+                WeightValue = rnd.Next(1, 255),
+                QuestionId = question.Id
+            };
+
             //Act
             
             await option.Create(dbContext);
@@ -91,37 +121,43 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
             
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = Guid.NewGuid().ToString();
-            questionSet.Share = randomBool;
-            questionSet.HasChild = randomBool;
-            questionSet.PosiblyDeployed = randomBool;
+
+            question_sets questionSet = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                PosiblyDeployed = randomBool
+            };
             await questionSet.Create(dbContext);
-            
-            questions question = new questions();
-            question.Image = randomBool;
-            question.Maximum = rnd.Next(1, 255);
-            question.Minimum = rnd.Next(1, 255);
-            question.Prioritised = randomBool;
-            question.Type = Guid.NewGuid().ToString();
-            question.FontSize = Guid.NewGuid().ToString();
-            question.ImagePosition = Guid.NewGuid().ToString();
-            question.MaxDuration = rnd.Next(1, 255);
-            question.MinDuration = rnd.Next(1, 255);
-            question.QuestionIndex = rnd.Next(1, 255);
-            question.QuestionType = Guid.NewGuid().ToString();
-            question.RefId = rnd.Next(1, 255);
-            question.ValidDisplay = randomBool;
-            question.BackButtonEnabled = randomBool;
-            question.QuestionSetId = questionSet.Id;
+
+            questions question = new questions
+            {
+                Image = randomBool,
+                Maximum = rnd.Next(1, 255),
+                Minimum = rnd.Next(1, 255),
+                Prioritised = randomBool,
+                Type = Guid.NewGuid().ToString(),
+                FontSize = Guid.NewGuid().ToString(),
+                ImagePosition = Guid.NewGuid().ToString(),
+                MaxDuration = rnd.Next(1, 255),
+                MinDuration = rnd.Next(1, 255),
+                QuestionIndex = rnd.Next(1, 255),
+                QuestionType = Guid.NewGuid().ToString(),
+                RefId = rnd.Next(1, 255),
+                ValidDisplay = randomBool,
+                BackButtonEnabled = randomBool,
+                QuestionSetId = questionSet.Id
+            };
             await question.Create(dbContext);
-            
-            options option = new options();
-            option.Weight = rnd.Next(1, 255);
-            option.OptionsIndex = rnd.Next(1, 255);
-            option.WeightValue = rnd.Next(1, 255);
-            option.QuestionId = question.Id;
+
+            options option = new options
+            {
+                Weight = rnd.Next(1, 255),
+                OptionsIndex = rnd.Next(1, 255),
+                WeightValue = rnd.Next(1, 255),
+                QuestionId = question.Id
+            };
             await option.Create(dbContext);
             
             //Act
@@ -184,37 +220,43 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
             
             bool randomBool = rnd.Next(0, 2) > 0;
-            
-            question_sets questionSet = new question_sets();
-            questionSet.Name = Guid.NewGuid().ToString();
-            questionSet.Share = randomBool;
-            questionSet.HasChild = randomBool;
-            questionSet.PosiblyDeployed = randomBool;
+
+            question_sets questionSet = new question_sets
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                PosiblyDeployed = randomBool
+            };
             await questionSet.Create(dbContext);
-            
-            questions question = new questions();
-            question.Image = randomBool;
-            question.Maximum = rnd.Next(1, 255);
-            question.Minimum = rnd.Next(1, 255);
-            question.Prioritised = randomBool;
-            question.Type = Guid.NewGuid().ToString();
-            question.FontSize = Guid.NewGuid().ToString();
-            question.ImagePosition = Guid.NewGuid().ToString();
-            question.MaxDuration = rnd.Next(1, 255);
-            question.MinDuration = rnd.Next(1, 255);
-            question.QuestionIndex = rnd.Next(1, 255);
-            question.QuestionType = Guid.NewGuid().ToString();
-            question.RefId = rnd.Next(1, 255);
-            question.ValidDisplay = randomBool;
-            question.BackButtonEnabled = randomBool;
-            question.QuestionSetId = questionSet.Id;
+
+            questions question = new questions
+            {
+                Image = randomBool,
+                Maximum = rnd.Next(1, 255),
+                Minimum = rnd.Next(1, 255),
+                Prioritised = randomBool,
+                Type = Guid.NewGuid().ToString(),
+                FontSize = Guid.NewGuid().ToString(),
+                ImagePosition = Guid.NewGuid().ToString(),
+                MaxDuration = rnd.Next(1, 255),
+                MinDuration = rnd.Next(1, 255),
+                QuestionIndex = rnd.Next(1, 255),
+                QuestionType = Guid.NewGuid().ToString(),
+                RefId = rnd.Next(1, 255),
+                ValidDisplay = randomBool,
+                BackButtonEnabled = randomBool,
+                QuestionSetId = questionSet.Id
+            };
             await question.Create(dbContext);
-            
-            options option = new options();
-            option.Weight = rnd.Next(1, 255);
-            option.OptionsIndex = rnd.Next(1, 255);
-            option.WeightValue = rnd.Next(1, 255);
-            option.QuestionId = question.Id;
+
+            options option = new options
+            {
+                Weight = rnd.Next(1, 255),
+                OptionsIndex = rnd.Next(1, 255),
+                WeightValue = rnd.Next(1, 255),
+                QuestionId = question.Id
+            };
             await option.Create(dbContext);
             
             //Act

@@ -1,37 +1,68 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿/*
+The MIT License (MIT)
+
+Copyright (c) 2007 - 2020 Microting A/S
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+using eFormCore;
 using Microsoft.EntityFrameworkCore;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
-using NUnit.Framework;
+using Microting.eForm.Infrastructure.Helpers;
 
-namespace eFormSDK.Integration.SqlControllerTests
+namespace eFormSDK.Integration.Tests
 {
     [TestFixture]
     public class SqlControllerTestTag : DbTestFixture
     {
         private SqlController sut;
         private TestHelpers testHelpers;
-        string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:", "");
 
         public override async Task DoSetup()
         {
-            if (sut == null)
-            {
-                sut = new SqlController(ConnectionString);
-                await sut.StartLog(new CoreBase());
-            }
+            #region Setup SettingsTableContent
+
+            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
+            SqlController sql = new SqlController(dbContextHelper);
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
+            #endregion
+
+            sut = new SqlController(dbContextHelper);
+            await sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
-            await sut.SettingUpdate(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
-            await sut.SettingUpdate(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
-            await sut.SettingUpdate(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
+            await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
+            await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
+            await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
         }
 
 
@@ -57,9 +88,11 @@ namespace eFormSDK.Integration.SqlControllerTests
         {
             // Arrance
             string tagName = "Tag1";
-            tags tag = new tags();
-            tag.Name = tagName;
-            tag.WorkflowState = Constants.WorkflowStates.Created;
+            tags tag = new tags
+            {
+                Name = tagName,
+                WorkflowState = Constants.WorkflowStates.Created
+            };
 
             dbContext.tags.Add(tag);
             await dbContext.SaveChangesAsync();
@@ -80,9 +113,11 @@ namespace eFormSDK.Integration.SqlControllerTests
         {
             // Arrance
             string tagName = "Tag1";
-            tags tag = new tags();
-            tag.Name = tagName;
-            tag.WorkflowState = Constants.WorkflowStates.Removed;
+            tags tag = new tags
+            {
+                Name = tagName,
+                WorkflowState = Constants.WorkflowStates.Removed
+            };
 
             dbContext.tags.Add(tag);
             await dbContext.SaveChangesAsync();
@@ -103,26 +138,32 @@ namespace eFormSDK.Integration.SqlControllerTests
         {
             // Arrance
             string tagName1 = "Tag1";
-            tags tag = new tags();
-            tag.Name = tagName1;
-            tag.WorkflowState = Constants.WorkflowStates.Removed;
+            tags tag = new tags
+            {
+                Name = tagName1,
+                WorkflowState = Constants.WorkflowStates.Removed
+            };
 
             dbContext.tags.Add(tag);
             await dbContext.SaveChangesAsync();
 
             string tagName2 = "Tag2";
-            tag = new tags();
+            tag = new tags
+            {
+                Name = tagName2,
+                WorkflowState = Constants.WorkflowStates.Removed
+            };
 
-            tag.Name = tagName2;
-            tag.WorkflowState = Constants.WorkflowStates.Removed;
 
             dbContext.tags.Add(tag);
             await dbContext.SaveChangesAsync();
             string tagName3 = "Tag3";
-            tag = new tags();
+            tag = new tags
+            {
+                Name = tagName3,
+                WorkflowState = Constants.WorkflowStates.Removed
+            };
 
-            tag.Name = tagName3;
-            tag.WorkflowState = Constants.WorkflowStates.Removed;
 
             dbContext.tags.Add(tag);
             await dbContext.SaveChangesAsync();
@@ -146,31 +187,34 @@ namespace eFormSDK.Integration.SqlControllerTests
         public async Task SQL_Tags_TemplateSetTags_DoesAssignTagToTemplate()
         {
             // Arrance
-            check_lists cl1 = new check_lists();
-            cl1.CreatedAt = DateTime.Now;
-            cl1.UpdatedAt = DateTime.Now;
-            cl1.Label = "A";
-            cl1.Description = "D";
-            cl1.WorkflowState = Constants.WorkflowStates.Created;
-            cl1.CaseType = "CheckList";
-            cl1.FolderName = "Template1FolderName";
-            cl1.DisplayIndex = 1;
-            cl1.Repeated = 1;
+            check_lists cl1 = new check_lists
+            {
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                Label = "A",
+                Description = "D",
+                WorkflowState = Constants.WorkflowStates.Created,
+                CaseType = "CheckList",
+                FolderName = "Template1FolderName",
+                DisplayIndex = 1,
+                Repeated = 1
+            };
 
             dbContext.check_lists.Add(cl1);
             await dbContext.SaveChangesAsync();
 
             string tagName1 = "Tag1";
-            tags tag = new tags();
-            tag.Name = tagName1;
-            tag.WorkflowState = Constants.WorkflowStates.Created;
+            tags tag = new tags
+            {
+                Name = tagName1, 
+                WorkflowState = Constants.WorkflowStates.Created
+            };
 
             dbContext.tags.Add(tag);
             await dbContext.SaveChangesAsync();
 
             // Act
-            List<int> tags = new List<int>();
-            tags.Add(tag.Id);
+            List<int> tags = new List<int> {tag.Id};
             await sut.TemplateSetTags(cl1.Id, tags);
 
 

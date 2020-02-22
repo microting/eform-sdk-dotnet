@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -41,13 +41,15 @@ namespace eFormSDK.Tests
         {
             //Arrange
             Random rnd = new Random();
-            
 
-            workers worker = new workers();
-            worker.FirstName = Guid.NewGuid().ToString();
-            worker.LastName = Guid.NewGuid().ToString();
-            worker.Email = Guid.NewGuid().ToString();
-            worker.MicrotingUid = rnd.Next(1, 255);
+
+            workers worker = new workers
+            {
+                FirstName = Guid.NewGuid().ToString(),
+                LastName = Guid.NewGuid().ToString(),
+                Email = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
 
             //Act
 
@@ -92,13 +94,15 @@ namespace eFormSDK.Tests
             //Arrange
             
             Random rnd = new Random();
-            
 
-            workers worker = new workers();
-            worker.FirstName = Guid.NewGuid().ToString();
-            worker.LastName = Guid.NewGuid().ToString();
-            worker.Email = Guid.NewGuid().ToString();
-            worker.MicrotingUid = rnd.Next(1, 255);
+
+            workers worker = new workers
+            {
+                FirstName = Guid.NewGuid().ToString(),
+                LastName = Guid.NewGuid().ToString(),
+                Email = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
 
             await worker.Create(dbContext);
 
@@ -164,13 +168,15 @@ namespace eFormSDK.Tests
             //Arrange
             
             Random rnd = new Random();
-            
 
-            workers worker = new workers();
-            worker.FirstName = Guid.NewGuid().ToString();
-            worker.LastName = Guid.NewGuid().ToString();
-            worker.Email = Guid.NewGuid().ToString();
-            worker.MicrotingUid = rnd.Next(1, 255);
+
+            workers worker = new workers
+            {
+                FirstName = Guid.NewGuid().ToString(),
+                LastName = Guid.NewGuid().ToString(),
+                Email = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
 
             await worker.Create(dbContext);
             

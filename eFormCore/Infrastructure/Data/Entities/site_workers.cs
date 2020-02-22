@@ -1,7 +1,7 @@
 /*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2019 Microting A/S
+Copyright (c) 2007 - 2020 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,10 +32,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class site_workers : BaseEntity
     {
-//        [Key]
-//        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-//        public int Id { get; set; }
-
         [ForeignKey("site")]
         public int? SiteId { get; set; }
 
@@ -44,20 +40,11 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public int? MicrotingUid { get; set; }
 
-//        public int? version { get; set; }
-//
-//        [StringLength(255)]
-//        public string workflow_state { get; set; }
-//
-//        public DateTime? created_at { get; set; }
-//
-//        public DateTime? updated_at { get; set; }
-
         public virtual sites Site { get; set; }
 
         public virtual workers Worker { get; set; }
 
-        public async Task Create(MicrotingDbAnySql dbContext)
+        public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             Version = 1;
@@ -71,7 +58,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task Update(MicrotingDbAnySql dbContext)
+        public async Task Update(MicrotingDbContext dbContext)
         {
             site_workers siteWorkers = await dbContext.site_workers.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -94,7 +81,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        public async Task Delete(MicrotingDbAnySql dbContext)
+        public async Task Delete(MicrotingDbContext dbContext)
         {
             site_workers siteWorkers = await dbContext.site_workers.FirstOrDefaultAsync(x => x.Id == Id);
 
@@ -118,19 +105,17 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         private site_worker_versions MapSiteWorkerVersions(site_workers site_workers)
         {
-            site_worker_versions siteWorkerVer = new site_worker_versions();
-            siteWorkerVer.WorkflowState = site_workers.WorkflowState;
-            siteWorkerVer.Version = site_workers.Version;
-            siteWorkerVer.CreatedAt = site_workers.CreatedAt;
-            siteWorkerVer.UpdatedAt = site_workers.UpdatedAt;
-            siteWorkerVer.MicrotingUid = site_workers.MicrotingUid;
-            siteWorkerVer.SiteId = site_workers.SiteId;
-            siteWorkerVer.WorkerId = site_workers.WorkerId;
-
-            siteWorkerVer.SiteWorkerId = site_workers.Id; //<<--
-
-            return siteWorkerVer;
+            return new site_worker_versions
+            {
+                WorkflowState = site_workers.WorkflowState,
+                Version = site_workers.Version,
+                CreatedAt = site_workers.CreatedAt,
+                UpdatedAt = site_workers.UpdatedAt,
+                MicrotingUid = site_workers.MicrotingUid,
+                SiteId = site_workers.SiteId,
+                WorkerId = site_workers.WorkerId,
+                SiteWorkerId = site_workers.Id
+            };
         }
-
     }
 }
