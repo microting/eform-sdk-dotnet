@@ -143,8 +143,8 @@ namespace eFormSDK.Tests
             modelNames.Add("logs");
             modelNames.Add("notification_versions");
             modelNames.Add("notifications");
-//            modelNames.Add("setting_versions");
-//            modelNames.Add("settings");
+            modelNames.Add("setting_versions");
+            modelNames.Add("settings");
             modelNames.Add("unit_versions");
             modelNames.Add("units");
             modelNames.Add("site_worker_versions");
@@ -157,7 +157,7 @@ namespace eFormSDK.Tests
             modelNames.Add("SiteTagVersions");
             modelNames.Add("uploaded_data");
             modelNames.Add("uploaded_data_versions");
-//            modelNames.Add("field_types");
+            modelNames.Add("field_types");
             modelNames.Add("survey_configurations");
             modelNames.Add("survey_configuration_versions");
             modelNames.Add("site_survey_configurations");

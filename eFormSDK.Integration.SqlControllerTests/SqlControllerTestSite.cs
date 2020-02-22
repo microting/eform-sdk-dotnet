@@ -23,15 +23,17 @@ namespace eFormSDK.Integration.SqlControllerTests
 
         public override async Task DoSetup()
         {
-            if (sut == null)
-            {
-                DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
-                SqlController sql = new SqlController(dbContextHelper);
-                await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-                await sql.SettingUpdate(Settings.firstRunDone, "true");
-                await sql.SettingUpdate(Settings.knownSitesDone, "true");
-            }
+            
+            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
+            SqlController sql = new SqlController(dbContextHelper);
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+            await sql.SettingUpdate(Settings.firstRunDone, "true");
+            await sql.SettingUpdate(Settings.knownSitesDone, "true");
             testHelpers = new TestHelpers();
+            
+            sut = new SqlController(dbContextHelper);
+            await sut.StartLog(new CoreBase());
+            
             await sut.SettingUpdate(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SettingUpdate(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SettingUpdate(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
