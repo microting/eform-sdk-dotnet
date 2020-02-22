@@ -11,7 +11,7 @@ if [ $ARCH = $ARMARCH ]; then
 	echo $HOME
 	echo $PATH
 	ls -lah /usr/share/dotnet
-else
+	#else
 	#wget -q https://packages.microsoft.com/config/ubuntu/19.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 	#sudo dpkg -i packages-microsoft-prod.deb
 	#sudo apt-get update

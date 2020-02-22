@@ -3,8 +3,8 @@ language: csharp
 solution: eformSDK.sln
 mono: none
 dotnet: 3.0.100
-services:
-- mysql
+addons:
+	mariadb: '10.3'
 jobs:
   include:
     - stage: testing
