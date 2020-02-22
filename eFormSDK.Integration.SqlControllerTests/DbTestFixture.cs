@@ -1,6 +1,30 @@
-﻿using System;
+﻿/*
+The MIT License (MIT)
+
+Copyright (c) 2007 - 2020 Microting A/S
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+
+using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -15,11 +39,10 @@ namespace eFormSDK.Integration.SqlControllerTests
     public abstract class DbTestFixture
     {
 
-        protected MicrotingDbAnySql dbContext;
+        protected MicrotingDbContext dbContext;
         protected string ConnectionString;
-        protected bool firstRunDone = false;
 
-        private MicrotingDbAnySql GetContext(string connectionStr)
+        private MicrotingDbContext GetContext(string connectionStr)
         {
             
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
@@ -33,25 +56,26 @@ namespace eFormSDK.Integration.SqlControllerTests
                 dbContextOptionsBuilder.UseSqlServer(connectionStr);          
             }
             dbContextOptionsBuilder.UseLazyLoadingProxies(true);
-            return new MicrotingDbAnySql(dbContextOptionsBuilder.Options);            
+            return new MicrotingDbContext(dbContextOptionsBuilder.Options);            
 
         }
 
         [SetUp]
         public async Task Setup()
         {
-            Console.WriteLine($"Starting Setup {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                ConnectionString = @"data source=(Local)\SQL2017;Initial catalog=eformsdk-tests;User ID=sa;Password=Password12!";
-            }
-            else
-            {
+//            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+//            {
+//                ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
+//            }
+//            else
+//            {
                 ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
-            }
-            
+//            }
+
             dbContext = GetContext(ConnectionString);
+
+
             dbContext.Database.SetCommandTimeout(300);
 
             try
@@ -61,44 +85,33 @@ namespace eFormSDK.Integration.SqlControllerTests
             catch
             {
             }
-
-            if (!firstRunDone)
+            try
             {
-                try
-                {
-                    Core core = new Core();
-                    await core.StartSqlOnly(ConnectionString);
-                    await core.Close();
-                } catch
-                {
-                    AdminTools adminTools = new AdminTools(ConnectionString);
-                    await adminTools.DbSetup("abc1234567890abc1234567890abcdef");
-                }
-
-                firstRunDone = true;
+                Core core = new Core();
+                await core.StartSqlOnly(ConnectionString);
+                await core.Close();
+            } catch
+            {
+                AdminTools adminTools = new AdminTools(ConnectionString);
+                await adminTools.DbSetup("abc1234567890abc1234567890abcdef");
             }
-            
 
             await DoSetup();
-            Console.WriteLine($"End Setup {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
-
         }
       
         [TearDown]
-        public void TearDown()
+        public async Task TearDown()
         {
-            Console.WriteLine($"Starting TearDown {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
 
-//            await ClearDb();
+            await ClearDb();
 
             ClearFile();
-            Console.WriteLine($"End TearDown {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
 
+            dbContext.Dispose();
         }
 
         private async Task ClearDb()
         {
-            Console.WriteLine($"Starting ClearDb {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
 
             List<string> modelNames = new List<string>();
             modelNames.Add("case_versions");
@@ -127,8 +140,8 @@ namespace eFormSDK.Integration.SqlControllerTests
             modelNames.Add("logs");
             modelNames.Add("notification_versions");
             modelNames.Add("notifications");
-//            modelNames.Add("setting_versions");
-//            modelNames.Add("settings");
+            modelNames.Add("setting_versions");
+            modelNames.Add("settings");
             modelNames.Add("unit_versions");
             modelNames.Add("units");
             modelNames.Add("site_worker_versions");
@@ -139,7 +152,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             modelNames.Add("sites");
             modelNames.Add("uploaded_data");
             modelNames.Add("uploaded_data_versions");
-//            modelNames.Add("field_types");
+            modelNames.Add("field_types");
             modelNames.Add("survey_configurations");
             modelNames.Add("survey_configuration_versions");
             modelNames.Add("site_survey_configurations");
@@ -171,26 +184,19 @@ namespace eFormSDK.Integration.SqlControllerTests
                         sqlCmd = $"DELETE FROM [{modelName}]";
                     }
 #pragma warning disable EF1000 // Possible SQL injection vulnerability.
-                    await dbContext.Database.ExecuteSqlRawAsync(sqlCmd);
+                    await dbContext.Database.ExecuteSqlCommandAsync(sqlCmd);
 #pragma warning restore EF1000 // Possible SQL injection vulnerability.
                 }
                 catch (Exception ex)
                 {
-                    if (!ex.Message.Contains("Unknown database"))
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
+                    Console.WriteLine(ex.Message);
                 }
             }
-            Console.WriteLine($"End ClearDb {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
-
         }
         private string path;
 
         private void ClearFile()
         {
-            Console.WriteLine($"Starting ClearFile {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
-
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
 
@@ -217,7 +223,6 @@ namespace eFormSDK.Integration.SqlControllerTests
             }
             catch { }
 
-            Console.WriteLine($"End ClearFile {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
 
         }
 #pragma warning disable 1998

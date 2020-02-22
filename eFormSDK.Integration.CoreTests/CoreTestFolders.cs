@@ -28,6 +28,7 @@ using System.IO;
 using System.Linq;
 using eFormCore;
 using System.Threading.Tasks;
+using eFormSDK.Integration.CoreTests;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;

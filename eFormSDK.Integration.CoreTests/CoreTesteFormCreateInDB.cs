@@ -39,6 +39,7 @@ using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Models;
 using KeyValuePair = Microting.eForm.Dto.KeyValuePair;
 using System.IO;
+using eFormSDK.Integration.CoreTests;
 using Microting.eForm.Infrastructure.Helpers;
 
 namespace eFormSDK.Integration.Tests

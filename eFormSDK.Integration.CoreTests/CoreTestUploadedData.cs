@@ -36,6 +36,7 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Models;
 using System.IO;
+using eFormSDK.Integration.CoreTests;
 using Microting.eForm.Infrastructure.Helpers;
 
 namespace eFormSDK.Integration.Tests
