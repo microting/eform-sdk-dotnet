@@ -2,7 +2,7 @@ dist: bionic
 language: csharp
 solution: eformSDK.sln
 mono: none
-dotnet: 3.0.0
+dotnet: 3.0.100
 services:
 - mysql
 jobs:
