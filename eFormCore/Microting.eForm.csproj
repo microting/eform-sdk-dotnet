@@ -187,6 +187,16 @@
     <Compile Include="Migrations\20190923100451_ChangeStringToInt.Designer.cs" />
     <Compile Include="Migrations\20190924172326_AddingNewIndexOnCases.cs" />
     <Compile Include="Migrations\20190924172326_AddingNewIndexOnCases.Designer.cs" />
+    <Compile Include="Migrations\20200116074236_AddingSiteTaggins.cs" />
+    <Compile Include="Migrations\20200116074236_AddingSiteTaggins.Designer.cs" />
+    <Compile Include="Migrations\20200120093951_CleanupInSight.cs" />
+    <Compile Include="Migrations\20200120093951_CleanupInSight.Designer.cs" />
+    <Compile Include="Migrations\20200120164857_AddingTranslationsToInSight.cs" />
+    <Compile Include="Migrations\20200120164857_AddingTranslationsToInSight.Designer.cs" />
+    <Compile Include="Migrations\20200120171433_AddingMicrotingUidToInSight.cs" />
+    <Compile Include="Migrations\20200120171433_AddingMicrotingUidToInSight.Designer.cs" />
+    <Compile Include="Migrations\20200122103229_ChangingValueToBeStringForAnswerValue.cs" />
+    <Compile Include="Migrations\20200122103229_ChangingValueToBeStringForAnswerValue.Designer.cs" />
     <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Infrastructure\SqlController.cs" />
     <Compile Include="Services\Subscriber.cs" />
