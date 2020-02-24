@@ -43,9 +43,13 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public virtual sites Site { get; set; }
         
+        public string Os { get; set; }
+        
         public string OsVersion { get; set; }
         
-        public string SoftwareVersion { get; set; }
+        public string eFormVersion { get; set; }
+        
+        public string InSightVersion { get; set; }
         
         public string Manufacturer { get; set; }
         
@@ -79,6 +83,13 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             unit.SiteId = SiteId;
             unit.MicrotingUid = MicrotingUid;
             unit.OtpCode = OtpCode;
+            unit.Model = Model;
+            unit.Manufacturer = Manufacturer;
+            unit.eFormVersion = eFormVersion;
+            unit.InSightVersion = InSightVersion;
+            unit.Os = Os;
+            unit.OsVersion = OsVersion;
+            unit.Note = Note;
             unit.CustomerNo = CustomerNo;
 
             if (dbContext.ChangeTracker.HasChanges())
@@ -113,24 +124,26 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
         
-        private unit_versions MapVersions(units units)
+        private unit_versions MapVersions(units unit)
         {
             return new unit_versions
             {
-                WorkflowState = units.WorkflowState,
-                Version = units.Version,
-                CreatedAt = units.CreatedAt,
-                UpdatedAt = units.UpdatedAt,
-                MicrotingUid = units.MicrotingUid,
-                SiteId = units.SiteId,
-                CustomerNo = units.CustomerNo,
-                OtpCode = units.OtpCode,
-                UnitId = units.Id,
-                Manufacturer = units.Manufacturer,
-                Model = units.Model,
-                OsVersion = units.OsVersion,
-                SoftwareVersion = units.SoftwareVersion,
-                Note = units.Note
+                WorkflowState = unit.WorkflowState,
+                Version = unit.Version,
+                CreatedAt = unit.CreatedAt,
+                UpdatedAt = unit.UpdatedAt,
+                MicrotingUid = unit.MicrotingUid,
+                SiteId = unit.SiteId,
+                CustomerNo = unit.CustomerNo,
+                OtpCode = unit.OtpCode,
+                UnitId = unit.Id,
+                Manufacturer = unit.Manufacturer,
+                Model = unit.Model,
+                Os = unit.Os,
+                OsVersion = unit.OsVersion,
+                eFormVersion = unit.eFormVersion,
+                InSightVersion = unit.InSightVersion,
+                Note = unit.Note
             };
         }
     }

@@ -36,9 +36,13 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public int? SiteId { get; set; }
 
+        public string Os { get; set; }
+        
         public string OsVersion { get; set; }
         
-        public string SoftwareVersion { get; set; }
+        public string eFormVersion { get; set; }
+        
+        public string InSightVersion { get; set; }
         
         public string Manufacturer { get; set; }
         

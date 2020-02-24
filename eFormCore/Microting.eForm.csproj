@@ -199,6 +199,8 @@
     <Compile Include="Migrations\20200122103229_ChangingValueToBeStringForAnswerValue.Designer.cs" />
     <Compile Include="Migrations\20200222140656_AddinDisplayIndexToOptions.cs" />
     <Compile Include="Migrations\20200222140656_AddinDisplayIndexToOptions.Designer.cs" />
+    <Compile Include="Migrations\20200224084023_AddingAttributesToUnits.cs" />
+    <Compile Include="Migrations\20200224084023_AddingAttributesToUnits.Designer.cs" />
     <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Infrastructure\MicrotingDbContext.cs" />
     <Compile Include="Infrastructure\SqlController.cs" />
