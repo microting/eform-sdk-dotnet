@@ -49,5 +49,23 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public string Model { get; set; }
         
         public string Note { get; set; }
+        
+        public string SerialNumber { get; set; }
+        
+        public string LastIp { get; set; }
+        
+        public bool SeparateFetchSend { get; set; }
+        
+        public bool LeftMenuEnabled { get; set; }
+        
+        public bool SyncDialog { get; set; }
+        
+        public bool PushEnabled { get; set; }
+        
+        public bool SyncDelayEnabled { get; set; }
+        
+        public int SyncDefaultDelay { get; set; }
+        
+        public int SyncDelayPrCheckList { get; set; }
     }
 }

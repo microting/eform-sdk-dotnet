@@ -57,6 +57,24 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         public string Note { get; set; }
         
+        public string SerialNumber { get; set; }
+        
+        public string LastIp { get; set; }
+        
+        public bool SeparateFetchSend { get; set; }
+        
+        public bool LeftMenuEnabled { get; set; }
+        
+        public bool SyncDialog { get; set; }
+        
+        public bool PushEnabled { get; set; }
+        
+        public bool SyncDelayEnabled { get; set; }
+        
+        public int SyncDefaultDelay { get; set; }
+        
+        public int SyncDelayPrCheckList { get; set; }
+        
         public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
@@ -91,6 +109,15 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             unit.OsVersion = OsVersion;
             unit.Note = Note;
             unit.CustomerNo = CustomerNo;
+            unit.SerialNumber = SerialNumber;
+            unit.LastIp = LastIp;
+            unit.SeparateFetchSend = SeparateFetchSend;
+            unit.LeftMenuEnabled = LeftMenuEnabled;
+            unit.SyncDialog = SyncDialog;
+            unit.PushEnabled = PushEnabled;
+            unit.SyncDelayEnabled = SyncDelayEnabled;
+            unit.SyncDefaultDelay = SyncDefaultDelay;
+            unit.SyncDelayPrCheckList = SyncDelayPrCheckList;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
@@ -143,7 +170,16 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 OsVersion = unit.OsVersion,
                 eFormVersion = unit.eFormVersion,
                 InSightVersion = unit.InSightVersion,
-                Note = unit.Note
+                Note = unit.Note,
+                SerialNumber = unit.SerialNumber,
+                LastIp = unit.LastIp,
+                SeparateFetchSend = unit.SeparateFetchSend,
+                LeftMenuEnabled = unit.LeftMenuEnabled,
+                SyncDialog = unit.SyncDialog,
+                PushEnabled = unit.PushEnabled,
+                SyncDelayEnabled = unit.SyncDelayEnabled,
+                SyncDefaultDelay = unit.SyncDefaultDelay,
+                SyncDelayPrCheckList = unit.SyncDelayPrCheckList
             };
         }
     }
