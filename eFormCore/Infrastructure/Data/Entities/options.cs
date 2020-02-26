@@ -33,7 +33,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class options : BaseEntity
     {
-        public int NextQuestionId { get; set; }
+        public int? NextQuestionId { get; set; }
         
         public int Weight { get; set; }
         

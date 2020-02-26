@@ -885,6 +885,106 @@ namespace Microting.eForm.Communication
         }
         #endregion
 
+        #region InSight
+        
+        #region SurveyConfiguration
+
+        public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
+        {
+            await log.LogEverything(t.GetMethodName("Communicator"), "called");
+
+            try
+            {
+                return await http.SetSurveyConfiguration(id, siteId, addSite);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName("Communicator") + " failed", ex);
+            }
+        }
+
+        public async Task<string> GetAllSurveyConfigurations()
+        {
+            await log.LogEverything(t.GetMethodName("Communicator"), "called");
+
+            try
+            {
+                return await http.GetAllSurveyConfigurations();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName("Communicator") + " failed", ex);
+            }
+        }
+
+        public async Task<string> GetSurveyConfiguration(int id)
+        {
+            await log.LogEverything(t.GetMethodName("Communicator"), "called");
+
+            try
+            {
+                return await http.GetSurveyConfiguration(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName("Communicator") + " failed", ex);
+            }
+        } 
+        
+        #endregion
+        
+        #region QuestionSet
+
+        public async Task<string> GetAllQuestionSets()
+        {
+            await log.LogEverything(t.GetMethodName("Communicator"), "called");
+
+            try
+            {
+                return await http.GetAllQuestionSets();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName("Communicator") + " failed", ex);
+            }
+        }
+
+        public async Task<string> GetQuestionSet(int id)
+        {
+            await log.LogEverything(t.GetMethodName("Communicator"), "called");
+
+            try
+            {
+                return await http.GetQuestionSet(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName("Communicator") + " failed", ex);
+            }
+        }
+        
+        #endregion
+        
+        #region Answer
+        
+        public async Task<string> GetLastAnswer(int lastAnswerId)
+        {
+            await log.LogEverything(t.GetMethodName("Communicator"), "called");
+
+            try
+            {
+                return await http.GetLastAnswer(lastAnswerId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName("Communicator") + " failed", ex);
+            }
+        }
+        
+        #endregion
+        
+        #endregion
+        
         #region remove unwanted/uneeded methods from finished DLL
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override bool Equals(object obj)

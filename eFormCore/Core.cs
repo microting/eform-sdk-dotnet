@@ -58,6 +58,8 @@ using Microting.eForm.Infrastructure.Models;
 using Microting.eForm.Infrastructure.Models.reply;
 using Microting.eForm.Installers;
 using Microting.eForm.Services;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using OpenStack.NetCoreSwiftClient;
 using OpenStack.NetCoreSwiftClient.Infrastructure.Models;
 using Field = Microting.eForm.Infrastructure.Models.Field;
@@ -3183,6 +3185,8 @@ namespace eFormCore
 
         #region InSight
 
+        #region SurveyConfiguration
+        
         public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
         {
             using (var dbContext = dbContextHelper.GetDbContext())
@@ -3199,6 +3203,218 @@ namespace eFormCore
             return true;
         }
 
+        public async Task<bool> GetAllSurveyConfigurations()
+        {
+            var parsedData = JObject.Parse(await _communicator.GetAllSurveyConfigurations());
+
+            foreach (var item in parsedData)
+            {
+                foreach (JToken subItem in item.Value)
+                {
+                    using (var db = dbContextHelper.GetDbContext())
+                    {
+                        string name = subItem["name"].ToString();
+                        int microtingUid = int.Parse(subItem["id"].ToString());
+                        var innerParsedData = JObject.Parse(await _communicator.GetSurveyConfiguration(microtingUid));
+
+                        JToken parsedQuestionSet = innerParsedData.GetValue("question_set");
+
+                        int questionSetMicrotingUid = int.Parse(parsedQuestionSet["id"].ToString());
+                        var questionSet = await db.question_sets.SingleOrDefaultAsync(x => x.MicrotingUid == questionSetMicrotingUid);
+                        if (questionSet != null)
+                        {
+                            questionSet.Name = parsedQuestionSet["name"].ToString();
+                            await questionSet.Update(db);
+                        }
+                        else
+                        {
+                            questionSet = new question_sets()
+                            {
+                                Name = parsedQuestionSet["name"].ToString(),
+                                MicrotingUid = questionSetMicrotingUid
+                            };
+                            await questionSet.Create(db);
+                        }
+
+                        var surveyConfiguration = 
+                            await db.survey_configurations.SingleOrDefaultAsync(x => 
+                                x.MicrotingUid == microtingUid);
+                        if (surveyConfiguration != null)
+                        {
+                            surveyConfiguration.Name = name;
+                            if (subItem["workflow_state"].ToString().Equals("active"))
+                            {
+                                surveyConfiguration.WorkflowState = Constants.WorkflowStates.Active;
+                            }
+                            else
+                            {
+                                surveyConfiguration.WorkflowState = Constants.WorkflowStates.Created;
+                            }
+                            await surveyConfiguration.Update(db);
+                        }
+                        else
+                        {
+                            surveyConfiguration = new survey_configurations()
+                            {
+                                MicrotingUid = microtingUid,
+                                Name = name,
+                                QuestionSetId = questionSet.Id,
+                                WorkflowState = subItem["workflow_state"].ToString().Equals("active") 
+                                    ? Constants.WorkflowStates.Active : Constants.WorkflowStates.Created
+                            };
+                            await surveyConfiguration.Create(db);
+                        }
+
+                        foreach (JToken child in innerParsedData.GetValue("sites").Children())
+                        {
+                            var site = await db.sites.SingleOrDefaultAsync(x => x.MicrotingUid == int.Parse(child["id"].ToString()));
+                            if (site != null)
+                            {
+                                var siteSurveyConfiguration =
+                                    await db.site_survey_configurations.SingleOrDefaultAsync(x => 
+                                        x.SiteId == site.Id && x.SurveyConfigurationId == surveyConfiguration.Id);
+                                if (siteSurveyConfiguration == null)
+                                {
+                                    siteSurveyConfiguration = new site_survey_configurations()
+                                    {
+                                        SiteId = site.Id,
+                                        SurveyConfigurationId = surveyConfiguration.Id
+                                    };
+                                    await siteSurveyConfiguration.Create(db);
+                                }
+                                else
+                                {
+                                    siteSurveyConfiguration.WorkflowState = Constants.WorkflowStates.Created;
+                                    await siteSurveyConfiguration.Update(db);
+                                }
+                            }
+                        }
+                    }
+                }
+                
+            }
+            
+            return true;
+
+        }
+
+        #endregion
+        
+        #region QuestionSet
+
+        public async Task<bool> GetAllQuestionSets()
+        {
+            var parsedData = JObject.Parse(await _communicator.GetAllQuestionSets());
+
+            using (var db = dbContextHelper.GetDbContext())
+            {
+                var language = await db.languages.SingleOrDefaultAsync(x => x.Name == "Danish");
+                if (language == null)
+                {
+                    language = new languages()
+                    {
+                        Name = "Danish"
+                    };
+                    await language.Create(db);
+                }
+                
+                foreach (var item in parsedData)
+                {
+                    foreach (JToken subItem in item.Value)
+                    {
+                        int questionSetMicrotingUid = int.Parse(subItem["id"].ToString());
+                        var questionSet = await db.question_sets.SingleOrDefaultAsync(x => x.MicrotingUid == questionSetMicrotingUid);
+                        if (questionSet != null)
+                        {
+                            questionSet.Name = subItem["name"].ToString();
+                            await questionSet.Update(db);
+                        }
+                        else
+                        {
+                            questionSet = new question_sets()
+                            {
+                                Name = subItem["name"].ToString(),
+                                MicrotingUid = questionSetMicrotingUid
+                            };
+                            await questionSet.Create(db);
+                        }
+                        
+                        var innerParsedData = JObject.Parse(await _communicator.GetQuestionSet(questionSetMicrotingUid));
+                        
+                        JToken parsedQuestions = innerParsedData.GetValue("Questions");
+                        foreach (JToken child in parsedQuestions.Children())
+                        {
+                            var question = await db.questions.SingleOrDefaultAsync(x =>
+                                x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString()));
+                            if (question == null)
+                            {
+                                var result = JsonConvert.DeserializeObject<questions>(child.ToString());
+                                result.QuestionSetId = questionSet.Id;
+                                await result.Create(db, false);
+                            }
+                        }
+                        JToken parsedQuestionTranslations = innerParsedData.GetValue("QuestionTranslations");
+                        foreach (JToken child in parsedQuestionTranslations.Children())
+                        {
+                            var questionTranslation =
+                                await db.QuestionTranslations.SingleOrDefaultAsync(x =>
+                                    x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString()));
+                            if (questionTranslation == null)
+                            {
+                                var result = JsonConvert.DeserializeObject<question_translations>(child.ToString());
+                                result.QuestionId = db.questions.Single(x => x.MicrotingUid == result.QuestionId).Id;
+                                result.LanguageId = language.Id;
+                                await result.Create(db);
+
+                            }
+                        }
+                        
+                        JToken parsedOptions = innerParsedData.GetValue("Options");
+                        foreach (JToken child in parsedOptions.Children())
+                        {
+                            var option = await db.options.SingleOrDefaultAsync(x =>
+                                x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString()));
+                            if (option == null)
+                            {
+                                var result = JsonConvert.DeserializeObject<options>(child.ToString());
+                                var nextQuestionId =
+                                    db.questions.SingleOrDefault(x => x.MicrotingUid == result.NextQuestionId);
+                                result.QuestionId = db.questions.Single(x => x.MicrotingUid == result.QuestionId).Id;
+                                result.NextQuestionId = nextQuestionId?.Id;
+                                await result.Create(db);
+                            }
+                        }
+                        
+                        JToken parsedOptionTranslations = innerParsedData.GetValue("OptionTranslations");
+                        foreach (JToken child in parsedOptionTranslations.Children())
+                        {
+                            var optionTranslation =
+                                await db.OptionTranslations.SingleOrDefaultAsync(x =>
+                                    x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString()));
+                            if (optionTranslation == null)
+                            {
+                                var result = JsonConvert.DeserializeObject<option_translations>(child.ToString());
+                                result.OptionId = db.options.Single(x => x.MicrotingUid == result.OptionId).Id;
+                                result.LanguageId = language.Id;
+                                await result.Create(db);
+
+                            }
+                        }
+
+
+
+                    }
+                }
+            }
+            return true;
+        }
+        
+        #endregion
+        
+        #region Answer
+        
+        #endregion
+        
         #endregion
         
         #region public advanced actions

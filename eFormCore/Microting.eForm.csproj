@@ -203,6 +203,8 @@
     <Compile Include="Migrations\20200224084023_AddingAttributesToUnits.Designer.cs" />
     <Compile Include="Migrations\20200224092512_AddingMoreAttributesToUnits.cs" />
     <Compile Include="Migrations\20200224092512_AddingMoreAttributesToUnits.Designer.cs" />
+    <Compile Include="Migrations\20200226182616_MakingNextQuestionIdNullable.cs" />
+    <Compile Include="Migrations\20200226182616_MakingNextQuestionIdNullable.Designer.cs" />
     <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Infrastructure\MicrotingDbContext.cs" />
     <Compile Include="Infrastructure\SqlController.cs" />

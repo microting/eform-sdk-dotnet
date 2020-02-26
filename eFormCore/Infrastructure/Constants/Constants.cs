@@ -41,6 +41,7 @@ namespace Microting.eForm.Infrastructure.Constants
 
         public static class WorkflowStates
         {
+            public const string Active = "active";
             public const string Created = "created";
             public const string Processed = "processed";
             public const string PreCreated = "pre_created";

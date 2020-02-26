@@ -890,15 +890,80 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
         {
-            WebRequest request = WebRequest.Create(
-                $"{addressBasic}/v1/survey_configurations/{id}?token={token}&remove_site={addSite}&site_id={siteId}&sdk_ver={dllVersion}");
-            request.Method = "GET";
+            if (addSite)
+            {
+                WebRequest request = WebRequest.Create(
+                    $"{addressBasic}/v1/survey_configurations/{id}?token={token}&add_site=true&site_id={siteId}&sdk_ver={dllVersion}");
+                request.Method = "GET";
 
-            await PostToServer(request);
+                await PostToServer(request);
+            }
+            else
+            {
+                WebRequest request = WebRequest.Create(
+                    $"{addressBasic}/v1/survey_configurations/{id}?token={token}&remove_site=true&site_id={siteId}&sdk_ver={dllVersion}");
+                request.Method = "GET";
+
+                await PostToServer(request);
+            }
             
             return true;
         }
+
+        public async Task<string> GetAllSurveyConfigurations()
+        {
+            WebRequest request = WebRequest.Create(
+                $"{addressBasic}/v1/survey_configurations?token={token}&sdk_ver={dllVersion}");
+            request.Method = "GET";
+
+            return await PostToServer(request);
+        }
+
+        public async Task<string> GetSurveyConfiguration(int id)
+        {
+            WebRequest request = WebRequest.Create(
+                $"{addressBasic}/v1/survey_configurations/{id}?token={token}&sdk_ver={dllVersion}");
+            request.Method = "GET";
+
+            return await PostToServer(request);
+        }
         
+        
+        #endregion
+        
+        #region QuestionSet
+
+        public async Task<string> GetAllQuestionSets()
+        {
+            
+            WebRequest request = WebRequest.Create(
+                $"{addressBasic}/v1/question_sets?token={token}&sdk_ver={dllVersion}");
+            request.Method = "GET";
+
+            return await PostToServer(request);
+        }
+
+        public async Task<string> GetQuestionSet(int id)
+        {
+            WebRequest request = WebRequest.Create(
+                $"{addressBasic}/v1/question_sets/{id}?token={token}&sdk_ver={dllVersion}");
+            request.Method = "GET";
+
+            return await PostToServer(request);
+        }
+        
+        #endregion
+        
+        #region Answer
+
+        public async Task<string> GetLastAnswer(int lastAnswerId)
+        {
+            WebRequest request = WebRequest.Create(
+                $"{addressBasic}/v1/answers?token={token}&sdk_ver={dllVersion}&last_answer_id={lastAnswerId}");
+            request.Method = "GET";
+
+            return await PostToServer(request);
+        }
         
         #endregion
         

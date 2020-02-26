@@ -57,7 +57,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
             Version = 1;
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
+            if (WorkflowState != null)
+            {
+                WorkflowState = Constants.Constants.WorkflowStates.Created; 
+            }
 
             dbContext.survey_configurations.Add(this);
             await dbContext.SaveChangesAsync();

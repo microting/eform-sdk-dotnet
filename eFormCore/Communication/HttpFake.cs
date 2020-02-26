@@ -434,6 +434,31 @@ namespace Microting.eForm.Communication
             return true;
         }
 
+        public Task<string> GetAllSurveyConfigurations()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GetSurveyConfiguration(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GetAllQuestionSets()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GetQuestionSet(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GetLastAnswer(int lastAnswerId)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
         
         #endregion
