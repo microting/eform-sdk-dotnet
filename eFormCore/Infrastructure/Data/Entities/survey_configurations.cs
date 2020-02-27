@@ -57,7 +57,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
             Version = 1;
-            if (WorkflowState != null)
+            if (WorkflowState == null)
             {
                 WorkflowState = Constants.Constants.WorkflowStates.Created; 
             }
