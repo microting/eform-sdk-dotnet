@@ -956,10 +956,10 @@ namespace Microting.eForm.Communication
         
         #region Answer
 
-        public async Task<string> GetLastAnswer(int lastAnswerId)
+        public async Task<string> GetLastAnswer(int questionSetId, int lastAnswerId)
         {
             WebRequest request = WebRequest.Create(
-                $"{addressBasic}/v1/answers?token={token}&sdk_ver={dllVersion}&last_answer_id={lastAnswerId}");
+                $"{addressBasic}/v1/answers/{questionSetId}?token={token}&sdk_ver={dllVersion}&last_answer_id={lastAnswerId}");
             request.Method = "GET";
 
             return await PostToServer(request);
@@ -974,198 +974,192 @@ namespace Microting.eForm.Communication
         #region private
         private async Task<string> PostToServer(WebRequest request, byte[] content)
         {
-//            lock (_lock)
-//            {
-                // Hack for ignoring certificate validation.
-                DateTime start = DateTime.Now;
-                WriteDebugConsoleLogEntry("Http.PostToServer", $"Called at {start}");
-                ServicePointManager.ServerCertificateValidationCallback = Validator;
-                Stream dataRequestStream = request.GetRequestStream();
-                dataRequestStream.Write(content, 0, content.Length);
-                dataRequestStream.Close();
+            Console.WriteLine($"[DBG] Http.PostToServer: Calling {request.RequestUri}");
+            
+            // Hack for ignoring certificate validation.
+            DateTime start = DateTime.Now;
+            WriteDebugConsoleLogEntry("Http.PostToServer", $"Called at {start}");
+            ServicePointManager.ServerCertificateValidationCallback = Validator;
+            Stream dataRequestStream = request.GetRequestStream();
+            dataRequestStream.Write(content, 0, content.Length);
+            dataRequestStream.Close();
 
-                WebResponse response = request.GetResponse();
+            WebResponse response = request.GetResponse();
 
-                Stream dataResponseStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataResponseStream);
-                string responseFromServer = await reader.ReadToEndAsync();
+            Stream dataResponseStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(dataResponseStream);
+            string responseFromServer = await reader.ReadToEndAsync();
 
-                // Clean up the streams.
-                try
-                {
-                    reader.Close();
-                    dataResponseStream.Close();
-                    response.Close();
-                }
-                catch
-                {
+            // Clean up the streams.
+            try
+            {
+                reader.Close();
+                dataResponseStream.Close();
+                response.Close();
+            }
+            catch
+            {
 
-                }
+            }
 
-                WriteDebugConsoleLogEntry("Http.PostToServer", $"Finished at {DateTime.Now} - took {(start - DateTime.Now).ToString()}");
-                return responseFromServer;
-//            }
+            WriteDebugConsoleLogEntry("Http.PostToServer", $"Finished at {DateTime.Now} - took {(start - DateTime.Now).ToString()}");
+            return responseFromServer;
         }
 
         private async Task<string> PostToServerGetRedirect(WebRequest request, byte[] content)
         {
-//            lock (_lock)
-//            {
-                // Hack for ignoring certificate validation.
-                ServicePointManager.ServerCertificateValidationCallback = Validator;
+            Console.WriteLine($"[DBG] Http.PostToServerGetRedirect: Calling {request.RequestUri}");
 
-                Stream dataRequestStream = request.GetRequestStream();
-                dataRequestStream.Write(content, 0, content.Length);
-                dataRequestStream.Close();
+            // Hack for ignoring certificate validation.
+            ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-                HttpWebRequest httpRequest = (HttpWebRequest)request;
-                httpRequest.CookieContainer = new CookieContainer();
-                httpRequest.AllowAutoRedirect = false;
+            Stream dataRequestStream = request.GetRequestStream();
+            dataRequestStream.Write(content, 0, content.Length);
+            dataRequestStream.Close();
 
-                WebResponse response;
-                
-                string newUrl = "";
-                try
+            HttpWebRequest httpRequest = (HttpWebRequest)request;
+            httpRequest.CookieContainer = new CookieContainer();
+            httpRequest.AllowAutoRedirect = false;
+
+            WebResponse response;
+            
+            string newUrl = "";
+            try
+            {
+                response = (HttpWebResponse) await httpRequest.GetResponseAsync();
+            }
+            catch (WebException ex)
+            {
+                if (ex.Message.Contains("302") || ex.Message.Contains("301"))
                 {
-                    response = (HttpWebResponse) await httpRequest.GetResponseAsync();
+                    response = ex.Response;
+                    newUrl = response.Headers["Location"];
                 }
-                catch (WebException ex)
-                {
-                    if (ex.Message.Contains("302") || ex.Message.Contains("301"))
-                    {
-                        response = ex.Response;
-                        newUrl = response.Headers["Location"];
-                    }
-                }
-                return newUrl;
-//            }
+            }
+            return newUrl;
         }
 
         private async Task<string> PostToServerGetRedirect(WebRequest request)
         {
-//            lock (_lock)
-//            {
-                // Hack for ignoring certificate validation.
-                ServicePointManager.ServerCertificateValidationCallback = Validator;
+            Console.WriteLine($"[DBG] Http.PostToServerGetRedirect: Calling {request.RequestUri}");
+            
+            // Hack for ignoring certificate validation.
+            ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-                HttpWebRequest httpRequest = (HttpWebRequest)request;
-                httpRequest.CookieContainer = new CookieContainer();
-                httpRequest.AllowAutoRedirect = false;
+            HttpWebRequest httpRequest = (HttpWebRequest)request;
+            httpRequest.CookieContainer = new CookieContainer();
+            httpRequest.AllowAutoRedirect = false;
 
-                WebResponse response;
-                
-                string newUrl = "";
-                try
+            WebResponse response;
+            
+            string newUrl = "";
+            try
+            {
+                response = (HttpWebResponse) await httpRequest.GetResponseAsync();
+            }
+            catch (WebException ex)
+            {
+                if (ex.Message.Contains("302") || ex.Message.Contains("301"))
                 {
-                    response = (HttpWebResponse) await httpRequest.GetResponseAsync();
+                    response = ex.Response;
+                    newUrl = response.Headers["Location"];
                 }
-                catch (WebException ex)
-                {
-                    if (ex.Message.Contains("302") || ex.Message.Contains("301"))
-                    {
-                        response = ex.Response;
-                        newUrl = response.Headers["Location"];
-                    }
-                }
+            }
 
-                return newUrl;
-//            }
+            return newUrl;
         }
 
         private async Task<string> PostToServerNoRedirect(WebRequest request, byte[] content)
         {
-//            lock (_lock)
-//            {
-                // Hack for ignoring certificate validation.
-                ServicePointManager.ServerCertificateValidationCallback = Validator;
+            Console.WriteLine($"[DBG] Http.PostToServerNoRedirect: Calling {request.RequestUri}");
 
-                Stream dataRequestStream = request.GetRequestStream();
-                dataRequestStream.Write(content, 0, content.Length);
-                dataRequestStream.Close();
+            // Hack for ignoring certificate validation.
+            ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-                HttpWebRequest httpRequest = (HttpWebRequest)request;
-                httpRequest.CookieContainer = new CookieContainer();
-                httpRequest.AllowAutoRedirect = false;
+            Stream dataRequestStream = request.GetRequestStream();
+            dataRequestStream.Write(content, 0, content.Length);
+            dataRequestStream.Close();
 
-                HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
-                Stream dataResponseStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataResponseStream);
-                string responseFromServer = await reader.ReadToEndAsync();
+            HttpWebRequest httpRequest = (HttpWebRequest)request;
+            httpRequest.CookieContainer = new CookieContainer();
+            httpRequest.AllowAutoRedirect = false;
 
-                // Clean up the streams.
-                try
-                {
-                    reader.Close();
-                    dataResponseStream.Close();
-                    response.Close();
-                }
-                catch
-                {
+            HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
+            Stream dataResponseStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(dataResponseStream);
+            string responseFromServer = await reader.ReadToEndAsync();
 
-                }
+            // Clean up the streams.
+            try
+            {
+                reader.Close();
+                dataResponseStream.Close();
+                response.Close();
+            }
+            catch
+            {
 
-                return responseFromServer;
-//            }
+            }
+
+            return responseFromServer;
         }
 
         private async Task<string> PostToServer(WebRequest request)
         {
-//            lock (_lock)
-//            {
-                // Hack for ignoring certificate validation.
-                ServicePointManager.ServerCertificateValidationCallback = Validator;
+            Console.WriteLine($"[DBG] Http.PostToServer: Calling {request.RequestUri}");
+            // Hack for ignoring certificate validation.
+            
+            ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-                WebResponse response = request.GetResponse();
-                Stream dataResponseStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataResponseStream);
-                string responseFromServer = await reader.ReadToEndAsync();
+            WebResponse response = request.GetResponse();
+            Stream dataResponseStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(dataResponseStream);
+            string responseFromServer = await reader.ReadToEndAsync();
 
-                // Clean up the streams.
-                try
-                {
-                    reader.Close();
-                    dataResponseStream.Close();
-                    response.Close();
-                }
-                catch
-                {
+            // Clean up the streams.
+            try
+            {
+                reader.Close();
+                dataResponseStream.Close();
+                response.Close();
+            }
+            catch
+            {
 
-                }
+            }
 
-                return responseFromServer;
-//            }
+            return responseFromServer;
         }
 
         private async Task<string> PostToServerNoRedirect(WebRequest request)
         {
-//            lock (_lock)
-//            {
-                // Hack for ignoring certificate validation.
-                ServicePointManager.ServerCertificateValidationCallback = Validator;
+            Console.WriteLine($"[DBG] Http.PostToServerNoRedirect: Calling {request.RequestUri}");
 
-                HttpWebRequest httpRequest = (HttpWebRequest)request;
-                httpRequest.CookieContainer = new CookieContainer();
-                httpRequest.AllowAutoRedirect = false;
+            // Hack for ignoring certificate validation.
+            ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-                HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
-                Stream dataResponseStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataResponseStream);
-                string responseFromServer = await reader.ReadToEndAsync();
+            HttpWebRequest httpRequest = (HttpWebRequest)request;
+            httpRequest.CookieContainer = new CookieContainer();
+            httpRequest.AllowAutoRedirect = false;
 
-                // Clean up the streams.
-                try
-                {
-                    reader.Close();
-                    dataResponseStream.Close();
-                    response.Close();
-                }
-                catch
-                {
+            HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
+            Stream dataResponseStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(dataResponseStream);
+            string responseFromServer = await reader.ReadToEndAsync();
 
-                }
+            // Clean up the streams.
+            try
+            {
+                reader.Close();
+                dataResponseStream.Close();
+                response.Close();
+            }
+            catch
+            {
 
-                return responseFromServer;
-//            }
+            }
+
+            return responseFromServer;
         }
 
         /// <summary>

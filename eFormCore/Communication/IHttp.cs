@@ -119,6 +119,6 @@ namespace Microting.eForm.Communication
 
         Task<string> GetQuestionSet(int id);
 
-        Task<string> GetLastAnswer(int lastAnswerId);
+        Task<string> GetLastAnswer(int questionSetId, int lastAnswerId);
     }
 }

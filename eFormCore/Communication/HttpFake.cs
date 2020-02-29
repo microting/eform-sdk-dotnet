@@ -454,7 +454,7 @@ namespace Microting.eForm.Communication
             throw new NotImplementedException();
         }
 
-        public Task<string> GetLastAnswer(int lastAnswerId)
+        public Task<string> GetLastAnswer(int questionSetId, int lastAnswerId)
         {
             throw new NotImplementedException();
         }

@@ -3213,24 +3213,24 @@ namespace eFormCore
                 {
                     using (var db = dbContextHelper.GetDbContext())
                     {
-                        string name = subItem["name"].ToString();
-                        int microtingUid = int.Parse(subItem["id"].ToString());
+                        string name = subItem["Name"].ToString();
+                        int microtingUid = int.Parse(subItem["MicrotingUid"].ToString());
                         var innerParsedData = JObject.Parse(await _communicator.GetSurveyConfiguration(microtingUid));
 
-                        JToken parsedQuestionSet = innerParsedData.GetValue("question_set");
+                        JToken parsedQuestionSet = innerParsedData.GetValue("QuestionSet");
 
-                        int questionSetMicrotingUid = int.Parse(parsedQuestionSet["id"].ToString());
+                        int questionSetMicrotingUid = int.Parse(parsedQuestionSet["MicrotingUid"].ToString());
                         var questionSet = await db.question_sets.SingleOrDefaultAsync(x => x.MicrotingUid == questionSetMicrotingUid);
                         if (questionSet != null)
                         {
-                            questionSet.Name = parsedQuestionSet["name"].ToString();
+                            questionSet.Name = parsedQuestionSet["Name"].ToString();
                             await questionSet.Update(db);
                         }
                         else
                         {
                             questionSet = new question_sets()
                             {
-                                Name = parsedQuestionSet["name"].ToString(),
+                                Name = parsedQuestionSet["Name"].ToString(),
                                 MicrotingUid = questionSetMicrotingUid
                             };
                             await questionSet.Create(db);
@@ -3242,7 +3242,7 @@ namespace eFormCore
                         if (surveyConfiguration != null)
                         {
                             surveyConfiguration.Name = name;
-                            if (subItem["workflow_state"].ToString().Equals("active"))
+                            if (subItem["WorkflowState"].ToString().Equals("active"))
                             {
                                 surveyConfiguration.WorkflowState = Constants.WorkflowStates.Active;
                             }
@@ -3259,15 +3259,15 @@ namespace eFormCore
                                 MicrotingUid = microtingUid,
                                 Name = name,
                                 QuestionSetId = questionSet.Id,
-                                WorkflowState = subItem["workflow_state"].ToString().Equals("active") 
+                                WorkflowState = subItem["WorkflowState"].ToString().Equals("active") 
                                     ? Constants.WorkflowStates.Active : Constants.WorkflowStates.Created
                             };
                             await surveyConfiguration.Create(db);
                         }
 
-                        foreach (JToken child in innerParsedData.GetValue("sites").Children())
+                        foreach (JToken child in innerParsedData.GetValue("Sites").Children())
                         {
-                            var site = await db.sites.SingleOrDefaultAsync(x => x.MicrotingUid == int.Parse(child["id"].ToString()));
+                            var site = await db.sites.SingleOrDefaultAsync(x => x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString()));
                             if (site != null)
                             {
                                 var siteSurveyConfiguration =
@@ -3322,18 +3322,18 @@ namespace eFormCore
                 {
                     foreach (JToken subItem in item.Value)
                     {
-                        int questionSetMicrotingUid = int.Parse(subItem["id"].ToString());
+                        int questionSetMicrotingUid = int.Parse(subItem["MicrotingUid"].ToString());
                         var questionSet = await db.question_sets.SingleOrDefaultAsync(x => x.MicrotingUid == questionSetMicrotingUid);
                         if (questionSet != null)
                         {
-                            questionSet.Name = subItem["name"].ToString();
+                            questionSet.Name = subItem["Name"].ToString();
                             await questionSet.Update(db);
                         }
                         else
                         {
                             questionSet = new question_sets()
                             {
-                                Name = subItem["name"].ToString(),
+                                Name = subItem["Name"].ToString(),
                                 MicrotingUid = questionSetMicrotingUid
                             };
                             await questionSet.Create(db);
@@ -3412,6 +3412,83 @@ namespace eFormCore
         #endregion
         
         #region Answer
+
+        public async Task<bool> GetAllAnswers()
+        {
+
+            using (var db = dbContextHelper.GetDbContext())
+            {
+                foreach (question_sets questionSet in await db.question_sets.ToListAsync())
+                {
+                    await GetAnswersForQuestionSet((int)questionSet.MicrotingUid);
+                }
+            }
+
+            return true;
+        }
+
+        public async Task<bool> GetAnswersForQuestionSet(int id)
+        {
+            var settings = new JsonSerializerSettings { Error = (se, ev) => { ev.ErrorContext.Handled = true; } };
+
+            using (var db = dbContextHelper.GetDbContext())
+            {
+                var lastAnswer = await db.answers.LastOrDefaultAsync(x => x.QuestionSetId == id);
+                JObject parsedData = null;
+                if (lastAnswer != null)
+                {
+                    parsedData = JObject.Parse(await _communicator.GetLastAnswer(id, (int)lastAnswer.MicrotingUid));
+                }
+                else
+                {
+                    parsedData = JObject.Parse(await _communicator.GetLastAnswer(id, 0));
+                }
+
+                foreach (var item in parsedData)
+                {
+                    foreach (JToken subItem in item.Value)
+                    {
+
+                        answers answer = JsonConvert.DeserializeObject<answers>(subItem.ToString(), settings);
+
+                        var result = db.answers.SingleOrDefault(x => x.MicrotingUid == answer.MicrotingUid);
+                        if (result != null)
+                        {
+                            answer.Id = result.Id;
+                        }
+
+                        if (result == null)
+                        {
+                            answer.UnitId = db.units.Single(x => x.MicrotingUid == answer.UnitId).Id;
+                            answer.SiteId = db.sites.Single(x => x.MicrotingUid == answer.SiteId).Id;
+                            answer.SurveyConfigurationId = db.survey_configurations
+                                .Single(x => x.MicrotingUid == answer.SurveyConfigurationId).Id;
+                            answer.QuestionSetId = db.question_sets.Single(x => x.MicrotingUid == answer.QuestionSet.MicrotingUid).Id;
+                            answer.QuestionSet = null;
+                            answer.LanguageId = db.languages.Single(x => x.Name == "Danish").Id;
+                            await answer.Create(db);
+                        }
+
+                        foreach (JToken avItem in subItem["AnswerValues"])
+                        {
+                            answer_values answerValue =
+                                JsonConvert.DeserializeObject<answer_values>(avItem.ToString(), settings);
+                            if (db.answer_values.SingleOrDefault(x => x.MicrotingUid == answerValue.MicrotingUid) ==
+                                null)
+                            {
+                                answerValue.AnswerId = answer.Id;
+                                answerValue.QuestionId =
+                                    db.questions.Single(x => x.MicrotingUid == answerValue.QuestionId).Id;
+                                answerValue.OptionId = db.options.Single(x => x.MicrotingUid == answerValue.OptionId).Id;
+                                await answerValue.Create(db);    
+                            }
+                        }
+                    }
+                }
+                
+            }
+            return true;
+        }
         
         #endregion
         

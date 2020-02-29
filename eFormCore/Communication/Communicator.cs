@@ -967,13 +967,13 @@ namespace Microting.eForm.Communication
         
         #region Answer
         
-        public async Task<string> GetLastAnswer(int lastAnswerId)
+        public async Task<string> GetLastAnswer(int questionSetId, int lastAnswerId)
         {
             await log.LogEverything(t.GetMethodName("Communicator"), "called");
 
             try
             {
-                return await http.GetLastAnswer(lastAnswerId);
+                return await http.GetLastAnswer(questionSetId, lastAnswerId);
             }
             catch (Exception ex)
             {
