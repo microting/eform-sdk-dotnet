@@ -223,7 +223,7 @@ namespace eFormCore
                     _sqlController = new SqlController(dbContextHelper);
 
                     //check settings
-                    if (_sqlController.SettingCheckAll().Result.Count > 0)
+                    if (_sqlController.SettingCheckAll().GetAwaiter().GetResult().Count > 0)
                         throw new ArgumentException("Use AdminTool to setup database correctly. 'SettingCheckAll()' returned with errors");
 
                     if (await _sqlController.SettingRead(Settings.token) == "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
@@ -273,13 +273,13 @@ namespace eFormCore
 
                     try
 				    {
-				        _swiftEnabled = (_sqlController.SettingRead(Settings.swiftEnabled).Result.ToLower() == "true");
+				        _swiftEnabled = (_sqlController.SettingRead(Settings.swiftEnabled).GetAwaiter().GetResult().ToLower() == "true");
 
 				    } catch {}
 
                     try
                     {
-                        _s3Enabled = (_sqlController.SettingRead(Settings.s3Enabled).Result.ToLower() == "true");
+                        _s3Enabled = (_sqlController.SettingRead(Settings.s3Enabled).GetAwaiter().GetResult().ToLower() == "true");
 
                     } catch {}
 
@@ -813,7 +813,7 @@ namespace eFormCore
                         {
                             ShowPdf showPdf = (ShowPdf)dataItem;
 
-                            if (PdfValidate(showPdf.Value, showPdf.Id).Result.Count != 0)
+                            if (PdfValidate(showPdf.Value, showPdf.Id).GetAwaiter().GetResult().Count != 0)
                             {
                                 try
                                 {
@@ -1950,7 +1950,7 @@ namespace eFormCore
                         + Environment.NewLine + "<check_id>" + reply.MicrotingUId + "</check_id>"
                         + Environment.NewLine + "<date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</date>"
                         + Environment.NewLine + "<check_date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</check_date>"
-                        + Environment.NewLine + "<site_name>" + Advanced_SiteItemRead(reply.SiteMicrotingUuid).Result.SiteName + "</site_name>"
+                        + Environment.NewLine + "<site_name>" + Advanced_SiteItemRead(reply.SiteMicrotingUuid).GetAwaiter().GetResult().SiteName + "</site_name>"
                         + Environment.NewLine + "<check_lists>"
 
                         + clsLst
@@ -2127,10 +2127,10 @@ namespace eFormCore
             // get base values
             valuePairs.Add("F_CaseName", reply.Label.Replace("&", "&amp;"));
             valuePairs.Add("F_SerialNumber", $"{caseId}/{cDto.MicrotingUId}");
-            valuePairs.Add("F_Worker", _sqlController.WorkerNameRead(reply.DoneById).Result.Replace("&", "&amp;"));
+            valuePairs.Add("F_Worker", _sqlController.WorkerNameRead(reply.DoneById).GetAwaiter().GetResult().Replace("&", "&amp;"));
             valuePairs.Add("F_CheckId", reply.MicrotingUId.ToString());
             valuePairs.Add("F_CheckDate", reply.DoneAt.ToString("yyyy-MM-dd HH:mm:ss"));
-            valuePairs.Add("F_SiteName", _sqlController.SiteRead(reply.SiteMicrotingUuid).Result.SiteName.Replace("&", "&amp;"));
+            valuePairs.Add("F_SiteName", _sqlController.SiteRead(reply.SiteMicrotingUuid).GetAwaiter().GetResult().SiteName.Replace("&", "&amp;"));
             
             // get field_values
             List<KeyValuePair<string, List<string>>> pictures = new List<KeyValuePair<string, List<string>>>();
@@ -2410,7 +2410,7 @@ namespace eFormCore
                     Tuple<SiteDto, UnitDto> siteResult = await _communicator.SiteCreate(name);
 
                     string token = await _sqlController.SettingRead(Settings.token);
-                    int customerNo = _communicator.OrganizationLoadAllFromRemote(token).Result.CustomerNo;
+                    int customerNo = _communicator.OrganizationLoadAllFromRemote(token).GetAwaiter().GetResult().CustomerNo;
 
                     string siteName = siteResult.Item1.SiteName;
                     int siteId = siteResult.Item1.SiteId;
@@ -2959,7 +2959,7 @@ namespace eFormCore
                     int apiParentId = 0;
                     if (parent_id != null)
                     {
-                        apiParentId = (int)FolderRead((int) parent_id).Result.MicrotingUId;
+                        apiParentId = (int)FolderRead((int) parent_id).GetAwaiter().GetResult().MicrotingUId;
                     }
                     int id = await _communicator.FolderCreate(name, description, apiParentId);
                     int result = await _sqlController.FolderCreate(name, description, parent_id, id);
@@ -2986,7 +2986,7 @@ namespace eFormCore
                     int apiParentId = 0;
                     if (parent_id != null)
                     {
-                        apiParentId = (int)FolderRead((int) parent_id).Result.MicrotingUId;
+                        apiParentId = (int)FolderRead((int) parent_id).GetAwaiter().GetResult().MicrotingUId;
                     }
                     await _communicator.FolderUpdate((int)folder.MicrotingUId, name, description, apiParentId);
                     await _sqlController.FolderUpdate(id, name, description, parent_id);
@@ -4757,7 +4757,7 @@ namespace eFormCore
                             Field field = (Field)item;
                             foreach (FieldValue answer in field.FieldValues)
                             {
-                                jasperFieldXml += GetJasperFieldValue(field, answer, customPathForUploadedData).Result;
+                                jasperFieldXml += GetJasperFieldValue(field, answer, customPathForUploadedData).GetAwaiter().GetResult();
                             }
                         } else if (item is FieldContainer)
                         {
@@ -4768,7 +4768,7 @@ namespace eFormCore
                                 jasperFieldXml += Environment.NewLine + "<F" + field.Id + " name=\"" + field.Label + "\" parent=\"" + dataE.Label + "\">";
                                 foreach (FieldValue answer in field.FieldValues)
                                 {                                    
-                                    jasperFieldXml += GetJasperFieldValue(field, answer, customPathForUploadedData).Result;
+                                    jasperFieldXml += GetJasperFieldValue(field, answer, customPathForUploadedData).GetAwaiter().GetResult();
                                 }
 
                                 jasperFieldXml += Environment.NewLine + "</F" + field.Id + ">";
@@ -5017,7 +5017,7 @@ namespace eFormCore
                 var fileStream = new FileStream(filePath, FileMode.Open);
 
                 SwiftBaseResponse response = _swiftClient
-                    .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).Result;
+                    .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).GetAwaiter().GetResult();
 
                 if (!response.IsSuccess)
                 {
@@ -5031,11 +5031,11 @@ namespace eFormCore
 
                     await log.LogWarning(methodName, $"Something went wrong, message was {response.Reason}");
 
-                    response = _swiftClient.ContainerPutAsync(_customerNo + "_uploaded_data").Result;
+                    response = _swiftClient.ContainerPutAsync(_customerNo + "_uploaded_data").GetAwaiter().GetResult();
                     if (response.IsSuccess)
                     {
                         response = _swiftClient
-                            .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).Result;
+                            .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).GetAwaiter().GetResult();
                         if (!response.IsSuccess)
                         {
                             fileStream.Close();
@@ -5125,9 +5125,9 @@ namespace eFormCore
                             foreach (Check check in resp.Checks)
                             {
 
-                                int unitUId = _sqlController.UnitRead(int.Parse(check.UnitId)).Result.UnitUId;
+                                int unitUId = _sqlController.UnitRead(int.Parse(check.UnitId)).GetAwaiter().GetResult().UnitUId;
                                 await log.LogVariable(methodName, nameof(unitUId), unitUId);
-                                int workerUId = _sqlController.WorkerRead(int.Parse(check.WorkerId)).Result.WorkerUId;
+                                int workerUId = _sqlController.WorkerRead(int.Parse(check.WorkerId)).GetAwaiter().GetResult().WorkerUId;
                                 await log.LogVariable(methodName, nameof(workerUId), workerUId);
 
                                 await _sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml.ToString(), i);

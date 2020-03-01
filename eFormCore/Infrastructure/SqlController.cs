@@ -80,30 +80,18 @@ namespace Microting.eForm.Infrastructure
             #endregion
 
             //region set default for settings if needed
-            if (SettingCheckAll().Result.Count > 0)
+            if (SettingCheckAll().GetAwaiter().GetResult().Count > 0)
             {
-                bool result = SettingCreateDefaults().Result;
+                bool result = SettingCreateDefaults().GetAwaiter().GetResult();
             }
             
-            logLimit = int.Parse(SettingRead(Settings.logLimit).Result);
+            logLimit = int.Parse(SettingRead(Settings.logLimit).GetAwaiter().GetResult());
         }
 
         private MicrotingDbContext GetContext()
         {
 
             return dbContextHelper.GetDbContext();
-//            DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
-//
-//            if (connectionStr.ToLower().Contains("convert zero datetime"))
-//            {
-//                dbContextOptionsBuilder.UseMySql(connectionStr);
-//            }
-//            else
-//            {
-//                dbContextOptionsBuilder.UseSqlServer(connectionStr);
-//            }
-//            dbContextOptionsBuilder.UseLazyLoadingProxies(true);
-//            return new MicrotingDbContext(dbContextOptionsBuilder.Options);
 
         }
         #endregion
@@ -628,7 +616,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    int siteId = db.sites.SingleAsync(x => x.MicrotingUid == siteUId).Result.Id;
+                    int siteId = db.sites.SingleAsync(x => x.MicrotingUid == siteUId).GetAwaiter().GetResult().Id;
 
                     check_list_sites cLS = new check_list_sites();
                     cLS.CheckListId = checkListId;
@@ -690,9 +678,9 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    string caseType = db.check_lists.SingleAsync(x => x.Id == checkListId).Result.CaseType;
+                    string caseType = db.check_lists.SingleAsync(x => x.Id == checkListId).GetAwaiter().GetResult().CaseType;
                     await log.LogStandard(methodName, $"caseType is {caseType}");
-                    int siteId = db.sites.SingleAsync(x => x.MicrotingUid == siteUId).Result.Id;
+                    int siteId = db.sites.SingleAsync(x => x.MicrotingUid == siteUId).GetAwaiter().GetResult().Id;
                     await log.LogStandard(methodName, $"siteId is {siteId}");
 
                     cases aCase = null;
@@ -801,8 +789,8 @@ namespace Microting.eForm.Infrastructure
                     if (caseStd == null)
                         caseStd = await db.cases.SingleAsync(x => x.MicrotingUid == microtingUId);
 
-                    int userId = db.workers.SingleAsync(x => x.MicrotingUid == workerMicrotingUId).Result.Id;
-                    int unitId = db.units.SingleAsync(x => x.MicrotingUid == unitMicrotingUid).Result.Id;
+                    int userId = db.workers.SingleAsync(x => x.MicrotingUid == workerMicrotingUId).GetAwaiter().GetResult().Id;
+                    int unitId = db.units.SingleAsync(x => x.MicrotingUid == unitMicrotingUid).GetAwaiter().GetResult().Id;
 
                     caseStd.Status = 100;
                     caseStd.DoneAt = doneAt;
@@ -943,7 +931,7 @@ namespace Microting.eForm.Infrastructure
                 {
                     int elementId;
                     int userUId = int.Parse(response.Checks[xmlIndex].WorkerId);
-                    int userId = db.workers.SingleAsync(x => x.MicrotingUid == userUId).Result.Id;
+                    int userId = db.workers.SingleAsync(x => x.MicrotingUid == userUId).GetAwaiter().GetResult().Id;
                     List<string> elements = t.LocateList(xmlString, "<ElementList>", "</ElementList>");
                     List<FieldDto> TemplatFieldLst = null;
                     cases responseCase = null;
@@ -1071,7 +1059,7 @@ namespace Microting.eForm.Infrastructure
                                     {
                                         if (!string.IsNullOrEmpty(extractedValue) && extractedValue != "null")
                                         {
-                                            int Id = EntityItemRead(extractedValue).Result.Id;
+                                            int Id = EntityItemRead(extractedValue).GetAwaiter().GetResult().Id;
                                             fieldV.Value = Id.ToString();
                                         }
                                     }
@@ -1095,7 +1083,7 @@ namespace Microting.eForm.Infrastructure
                                     #region update case field_values
                                     if (case_fields.Contains(fieldV.FieldId))
                                     {
-                                        field_types field_type = db.fields.FirstAsync(x => x.Id == fieldV.FieldId).Result.FieldType;
+                                        field_types field_type = db.fields.FirstAsync(x => x.Id == fieldV.FieldId).GetAwaiter().GetResult().FieldType;
                                         string new_value = fieldV.Value;
 
                                         if (field_type.FieldType == Constants.Constants.FieldTypes.EntitySearch || field_type.FieldType == Constants.Constants.FieldTypes.EntitySelect)
@@ -2508,7 +2496,7 @@ namespace Microting.eForm.Infrastructure
                             stat = "Deleted";
                         #endregion
 
-                        int remoteSiteId = (int)db.sites.SingleAsync(x => x.Id == (int)cls.SiteId).Result.MicrotingUid;
+                        int remoteSiteId = (int)db.sites.SingleAsync(x => x.Id == (int)cls.SiteId).GetAwaiter().GetResult().MicrotingUid;
                         CaseDto returnCase = new CaseDto()
                         {
                             CaseId = null,
@@ -2567,7 +2555,7 @@ namespace Microting.eForm.Infrastructure
                         stat = "Deleted";
                     #endregion
 
-                    int remoteSiteId = (int)db.sites.SingleAsync(x => x.Id == (int)aCase.SiteId).Result.MicrotingUid;
+                    int remoteSiteId = (int)db.sites.SingleAsync(x => x.Id == (int)aCase.SiteId).GetAwaiter().GetResult().MicrotingUid;
                     CaseDto caseDto = new CaseDto()
                     {
                         CaseId = aCase.Id,
@@ -2640,13 +2628,13 @@ namespace Microting.eForm.Infrastructure
                 using (var db = GetContext())
                 {
                     cases match = await db.cases.AsNoTracking().SingleOrDefaultAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
-                    match.SiteId = db.sites.SingleOrDefaultAsync(x => x.Id == match.SiteId).Result.MicrotingUid;
+                    match.SiteId = db.sites.SingleOrDefaultAsync(x => x.Id == match.SiteId).GetAwaiter().GetResult().MicrotingUid;
 
                     if (match.UnitId != null)
-                        match.UnitId = db.units.SingleOrDefaultAsync(x => x.Id == match.UnitId).Result.MicrotingUid;
+                        match.UnitId = db.units.SingleOrDefaultAsync(x => x.Id == match.UnitId).GetAwaiter().GetResult().MicrotingUid;
 
                     if (match.WorkerId != null)
-                        match.WorkerId = db.workers.SingleOrDefaultAsync(x => x.Id == match.WorkerId).Result.MicrotingUid;
+                        match.WorkerId = db.workers.SingleOrDefaultAsync(x => x.Id == match.WorkerId).GetAwaiter().GetResult().MicrotingUid;
                     return match;
                 }
             }
@@ -3704,8 +3692,8 @@ namespace Microting.eForm.Infrastructure
                 {
                     //logger.LogEverything(methodName + " called");
 
-                    int localSiteId = db.sites.SingleAsync(x => x.MicrotingUid == siteUId).Result.Id;
-                    int localWorkerId = db.workers.SingleAsync(x => x.MicrotingUid == workerUId).Result.Id;
+                    int localSiteId = db.sites.SingleAsync(x => x.MicrotingUid == siteUId).GetAwaiter().GetResult().Id;
+                    int localWorkerId = db.workers.SingleAsync(x => x.MicrotingUid == workerUId).GetAwaiter().GetResult().Id;
 
                     site_workers siteWorker = new site_workers();
 //                    site_worker.WorkflowState = Constants.Constants.WorkflowStates.Created;
@@ -3922,7 +3910,7 @@ namespace Microting.eForm.Infrastructure
                 using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
-                    int localSiteId = db.sites.SingleAsync(x => x.MicrotingUid == siteUId).Result.Id;
+                    int localSiteId = db.sites.SingleAsync(x => x.MicrotingUid == siteUId).GetAwaiter().GetResult().Id;
 
                     units unit = new units();
                     unit.MicrotingUid = microtingUid;
