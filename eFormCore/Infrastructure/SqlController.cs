@@ -43,7 +43,6 @@ namespace Microting.eForm.Infrastructure
     {
         #region var
 
-        private readonly string connectionStr;
         private Log log;
         private readonly Tools t = new Tools();
         private List<Holder> converter = null;
