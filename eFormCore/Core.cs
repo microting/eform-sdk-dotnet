@@ -2007,6 +2007,7 @@ namespace eFormCore
             {
                 return _sqlController.SetJasperExportEnabled(eFormId, isEnabled);
             }
+            throw new Exception("Core is not running");
         }
 
         public Task SetDocxExportEnabled(int eFormId, bool isEnabled)
@@ -2015,6 +2016,7 @@ namespace eFormCore
             {
                 return _sqlController.SetDocxExportEnabled(eFormId, isEnabled);
             }
+            throw new Exception("Core is not running");
         }
         
         public Task<string> CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData, string customXmlContent)
