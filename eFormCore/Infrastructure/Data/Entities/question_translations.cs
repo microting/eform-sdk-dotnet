@@ -53,15 +53,15 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             UpdatedAt = DateTime.UtcNow;
 
             dbContext.QuestionTranslations.Add(this);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             dbContext.QuestionTranslationVersions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
         public async Task Update(MicrotingDbContext dbContext)
         {
             question_translations questionTranslation = 
-                await dbContext.QuestionTranslations.SingleOrDefaultAsync(x => x.Id == Id);
+                await dbContext.QuestionTranslations.SingleOrDefaultAsync(x => x.Id == Id).ConfigureAwait(false);
 
             if (questionTranslation == null)
             {
@@ -80,13 +80,13 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 questionTranslation.Version += 1;
 
                 dbContext.QuestionTranslationVersions.Add(MapVersions(questionTranslation));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
         public async Task Delete(MicrotingDbContext dbContext)
         {
             question_translations questionTranslation = 
-                await dbContext.QuestionTranslations.SingleOrDefaultAsync(x => x.Id == Id);
+                await dbContext.QuestionTranslations.SingleOrDefaultAsync(x => x.Id == Id).ConfigureAwait(false);
 
             if (questionTranslation == null)
             {
@@ -101,7 +101,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 questionTranslation.Version += 1;
 
                 dbContext.QuestionTranslationVersions.Add(MapVersions(questionTranslation));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
 
