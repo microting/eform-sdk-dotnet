@@ -51,16 +51,16 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             UpdatedAt = DateTime.UtcNow;
 
             dbContext.LanguageQuestionSets.Add(this);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             dbContext.LanguageQuestionSetVersions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public async Task Update(MicrotingDbContext dbContext)
         {
             language_question_sets languageQuestionSet = 
-                await dbContext.LanguageQuestionSets.SingleOrDefaultAsync(x => x.Id == Id);
+                await dbContext.LanguageQuestionSets.SingleOrDefaultAsync(x => x.Id == Id).ConfigureAwait(false);
 
             if (languageQuestionSet == null)
             {
@@ -78,14 +78,14 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 languageQuestionSet.Version += 1;
 
                 dbContext.LanguageQuestionSetVersions.Add(MapVersions(languageQuestionSet));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
 
         public async Task Delete(MicrotingDbContext dbContext)
         {
             language_question_sets languageQuestionSet = 
-                await dbContext.LanguageQuestionSets.SingleOrDefaultAsync(x => x.Id == Id);
+                await dbContext.LanguageQuestionSets.SingleOrDefaultAsync(x => x.Id == Id).ConfigureAwait(false);
 
             if (languageQuestionSet == null)
             {
@@ -100,7 +100,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 languageQuestionSet.Version += 1;
 
                 dbContext.LanguageQuestionSetVersions.Add(MapVersions(languageQuestionSet));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
 

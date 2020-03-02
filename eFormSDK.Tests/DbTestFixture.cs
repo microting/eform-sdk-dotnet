@@ -156,6 +156,8 @@ namespace eFormSDK.Tests
             modelNames.Add("survey_configuration_versions");
             modelNames.Add("site_survey_configurations");
             modelNames.Add("site_survey_configuration_versions");
+            modelNames.Add("SiteTagVersions");
+            modelNames.Add("SiteTags");
             modelNames.Add("languages");
             modelNames.Add("language_versions");
             modelNames.Add("question_sets");
@@ -168,6 +170,12 @@ namespace eFormSDK.Tests
             modelNames.Add("answer_versions");
             modelNames.Add("answer_values");
             modelNames.Add("answer_value_versions");
+            modelNames.Add("QuestionTranslationVersion");
+            modelNames.Add("QuestionTranslations");
+            modelNames.Add("OptionTranslationVersions");
+            modelNames.Add("OptionTranslations");
+            modelNames.Add("LanguageQuestionSetVersions");
+            modelNames.Add("LanguageQuestionSets");
 
             foreach (var modelName in modelNames)
             {

@@ -157,6 +157,8 @@ namespace eFormSDK.Integration.Tests
             modelNames.Add("survey_configuration_versions");
             modelNames.Add("site_survey_configurations");
             modelNames.Add("site_survey_configuration_versions");
+            modelNames.Add("site_tag_versions");
+            modelNames.Add("site_tags");
             modelNames.Add("languages");
             modelNames.Add("language_versions");
             modelNames.Add("question_sets");
