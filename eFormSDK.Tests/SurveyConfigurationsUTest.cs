@@ -47,7 +47,7 @@ namespace eFormSDK.Tests
                 ParentId = 0
             };
             
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             survey_configurations surveyConfiguration = new survey_configurations
             {
@@ -61,7 +61,7 @@ namespace eFormSDK.Tests
             
             //Act
             
-            await surveyConfiguration.Create(dbContext);
+            await surveyConfiguration.Create(dbContext).ConfigureAwait(false);
             
             List<survey_configurations> surveyConfigurations = dbContext.survey_configurations.AsNoTracking().ToList();
             List<survey_configuration_versions> surveyConfigurationVersions = dbContext.survey_configuration_versions.AsNoTracking().ToList();
@@ -108,7 +108,7 @@ namespace eFormSDK.Tests
                 ParentId = 0
             };
             
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             
             survey_configurations surveyConfiguration = new survey_configurations
             {
@@ -120,7 +120,7 @@ namespace eFormSDK.Tests
                 QuestionSetId = questionSet.Id
             };
             
-            await surveyConfiguration.Create(dbContext);
+            await surveyConfiguration.Create(dbContext).ConfigureAwait(false);
             
             //Act
 
@@ -136,7 +136,7 @@ namespace eFormSDK.Tests
             surveyConfiguration.Stop = DateTime.Now;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            await surveyConfiguration.Update(dbContext);
+            await surveyConfiguration.Update(dbContext).ConfigureAwait(false);
             
             List<survey_configurations> surveyConfigurations = dbContext.survey_configurations.AsNoTracking().ToList();
             List<survey_configuration_versions> surveyConfigurationVersions = dbContext.survey_configuration_versions.AsNoTracking().ToList();
@@ -196,7 +196,7 @@ namespace eFormSDK.Tests
                 ParentId = 0
             };
             
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             survey_configurations surveyConfiguration = new survey_configurations
             {
@@ -207,7 +207,7 @@ namespace eFormSDK.Tests
                 TimeToLive = rnd.Next(1, 255),
                 QuestionSetId = questionSet.Id
             };
-            await surveyConfiguration.Create(dbContext);
+            await surveyConfiguration.Create(dbContext).ConfigureAwait(false);
 
             
             //Act

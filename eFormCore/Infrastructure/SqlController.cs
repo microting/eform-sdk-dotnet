@@ -4564,7 +4564,7 @@ namespace Microting.eForm.Infrastructure
                 MicrotingUid = microtingUUID
             };
 
-            await folder.Create(GetContext());
+            await folder.Create(GetContext()).ConfigureAwait(false);
             
             return folder.Id;
         }
@@ -4581,7 +4581,7 @@ namespace Microting.eForm.Infrastructure
         {
             using (var db = GetContext())
             {
-                folders folder = await db.folders.SingleOrDefaultAsync(x => x.Id == Id);
+                folders folder = await db.folders.SingleOrDefaultAsync(x => x.Id == Id).ConfigureAwait(false);
 
                 if (folder == null)
                 {
@@ -4592,7 +4592,7 @@ namespace Microting.eForm.Infrastructure
                 folder.Description = description;
                 folder.ParentId = parent_id;
 
-                await folder.Update(db);
+                await folder.Update(db).ConfigureAwait(false);
             }
         }
 
@@ -4605,14 +4605,14 @@ namespace Microting.eForm.Infrastructure
         {
             using (var db = GetContext())
             {
-                folders folder = await db.folders.SingleOrDefaultAsync(x => x.Id == Id);
+                folders folder = await db.folders.SingleOrDefaultAsync(x => x.Id == Id).ConfigureAwait(false);
 
                 if (folder == null)
                 {
                     throw new NullReferenceException($"Could not find area with Id: {Id}");
                 }
 
-                await folder.Delete(db);
+                await folder.Delete(db).ConfigureAwait(false);
             }
         }
         

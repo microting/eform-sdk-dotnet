@@ -79,7 +79,7 @@ namespace eFormSDK.Tests
 
             try
             {
-                ClearDb();
+                await ClearDb().ConfigureAwait(false);
             }
             catch
             {
@@ -87,28 +87,29 @@ namespace eFormSDK.Tests
             try
             {
                 Core core = new Core();
-                await core.StartSqlOnly(ConnectionString);
-                await core.Close();
+                await core.StartSqlOnly(ConnectionString).ConfigureAwait(false);
+                await core.Close().ConfigureAwait(false);
             } catch
             {
                 AdminTools adminTools = new AdminTools(ConnectionString);
-                await adminTools.DbSetup("abc1234567890abc1234567890abcdef");
+                await adminTools.DbSetup("abc1234567890abc1234567890abcdef").ConfigureAwait(false);
             }
 
-            DoSetup();
+            await DoSetup().ConfigureAwait(false);
         }
       
         [TearDown]
         public async Task TearDown()
         {
-            await Task.Run(() => {
-                ClearDb();
-                ClearFile();
-                dbContext.Dispose();
-            });
+
+            await ClearDb().ConfigureAwait(false);
+
+            ClearFile();
+
+            dbContext.Dispose();
         }
 
-        public void ClearDb()
+        private async Task ClearDb()
         {
 
             List<string> modelNames = new List<string>();
@@ -148,8 +149,6 @@ namespace eFormSDK.Tests
             modelNames.Add("workers");
             modelNames.Add("site_versions");
             modelNames.Add("sites");
-            modelNames.Add("SiteTags");
-            modelNames.Add("SiteTagVersions");
             modelNames.Add("uploaded_data");
             modelNames.Add("uploaded_data_versions");
             modelNames.Add("field_types");
@@ -169,12 +168,6 @@ namespace eFormSDK.Tests
             modelNames.Add("answer_versions");
             modelNames.Add("answer_values");
             modelNames.Add("answer_value_versions");
-            modelNames.Add("QuestionTranslations");
-            modelNames.Add("QuestionTranslationVersions");
-            modelNames.Add("OptionTranslations");
-            modelNames.Add("OptionTranslationVersions");
-            modelNames.Add("LanguageQuestionSets");
-            modelNames.Add("LanguageQuestionSetVersions");
 
             foreach (var modelName in modelNames)
             {
@@ -183,14 +176,14 @@ namespace eFormSDK.Tests
                     string sqlCmd = string.Empty;
                     if(dbContext.Database.IsMySql())
                     {
-                        sqlCmd = string.Format("SET FOREIGN_KEY_CHECKS = 0;TRUNCATE `{0}`.`{1}`", "eformsdk-tests", modelName);
+                        sqlCmd = $"SET FOREIGN_KEY_CHECKS = 0;TRUNCATE `eformsdk-tests`.`{modelName}`";
                     }
                     else
                     {
-                        sqlCmd = string.Format("DELETE FROM [{0}]", modelName);
+                        sqlCmd = $"DELETE FROM [{modelName}]";
                     }
 #pragma warning disable EF1000 // Possible SQL injection vulnerability.
-                    dbContext.Database.ExecuteSqlCommand(sqlCmd);
+                    await dbContext.Database.ExecuteSqlCommandAsync(sqlCmd).ConfigureAwait(false);
 #pragma warning restore EF1000 // Possible SQL injection vulnerability.
                 }
                 catch (Exception ex)
@@ -201,7 +194,7 @@ namespace eFormSDK.Tests
         }
         private string path;
 
-        public void ClearFile()
+        private void ClearFile()
         {
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
@@ -231,7 +224,9 @@ namespace eFormSDK.Tests
 
 
         }
-        public virtual void DoSetup() { }
+#pragma warning disable 1998
+        public virtual async Task DoSetup() { }
+#pragma warning restore 1998
 
     }
 }

@@ -80,7 +80,7 @@ namespace eFormSDK.Integration.Tests
 
             try
             {
-                await ClearDb();
+                await ClearDb().ConfigureAwait(false);
             }
             catch
             {
@@ -88,22 +88,22 @@ namespace eFormSDK.Integration.Tests
             try
             {
                 Core core = new Core();
-                await core.StartSqlOnly(ConnectionString);
-                await core.Close();
+                await core.StartSqlOnly(ConnectionString).ConfigureAwait(false);
+                await core.Close().ConfigureAwait(false);
             } catch
             {
                 AdminTools adminTools = new AdminTools(ConnectionString);
-                await adminTools.DbSetup("abc1234567890abc1234567890abcdef");
+                await adminTools.DbSetup("abc1234567890abc1234567890abcdef").ConfigureAwait(false);
             }
 
-            await DoSetup();
+            await DoSetup().ConfigureAwait(false);
         }
       
         [TearDown]
         public async Task TearDown()
         {
 
-            await ClearDb();
+            await ClearDb().ConfigureAwait(false);
 
             ClearFile();
 
@@ -184,7 +184,7 @@ namespace eFormSDK.Integration.Tests
                         sqlCmd = $"DELETE FROM [{modelName}]";
                     }
 #pragma warning disable EF1000 // Possible SQL injection vulnerability.
-                    await dbContext.Database.ExecuteSqlCommandAsync(sqlCmd);
+                    await dbContext.Database.ExecuteSqlCommandAsync(sqlCmd).ConfigureAwait(false);
 #pragma warning restore EF1000 // Possible SQL injection vulnerability.
                 }
                 catch (Exception ex)

@@ -56,10 +56,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             Version = 1;
 
             dbContext.question_sets.Add(this);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             dbContext.question_set_versions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public async Task Update(MicrotingDbContext dbContext)

@@ -518,7 +518,7 @@ namespace Microting.eForm.Communication
         {
             await log.LogEverything(t.GetMethodName("Communicator"), "called");
 
-            string rawData = await http.FolderLoadAllFromRemote();
+            string rawData = await http.FolderLoadAllFromRemote().ConfigureAwait(false);
             
             List<FolderDto> list = new List<FolderDto>();
             if (!string.IsNullOrEmpty(rawData))
@@ -548,21 +548,21 @@ namespace Microting.eForm.Communication
         
         public async Task<int> FolderCreate(string name, string description, int? parentId)
         {
-            var parsedData = JRaw.Parse(await http.FolderCreate(name, description, parentId));
+            var parsedData = JRaw.Parse(await http.FolderCreate(name, description, parentId).ConfigureAwait(false));
 
             int microtingUUID  = int.Parse(parsedData["id"].ToString());
 
             return microtingUUID;
         }
 
-        public async Task FolderUpdate(int id, string name, string description, int? parentId)
+        public Task FolderUpdate(int id, string name, string description, int? parentId)
         {
-            await http.FolderUpdate(id, name, description, parentId);
+            return http.FolderUpdate(id, name, description, parentId);
         }
 
         public async Task<bool> FolderDelete(int id)
         {
-            string response = await http.FolderDelete(id);
+            string response = await http.FolderDelete(id).ConfigureAwait(false);
             var parsedData = JRaw.Parse(response);
 
             if (parsedData["workflow_state"].ToString() == Constants.WorkflowStates.Removed)
