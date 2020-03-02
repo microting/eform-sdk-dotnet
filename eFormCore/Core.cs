@@ -3372,76 +3372,77 @@ namespace eFormCore
 
             using (var db = dbContextHelper.GetDbContext())
             {
-                var lastAnswer = await db.answers.LastOrDefaultAsync(x => x.QuestionSetId == questionSetId).ConfigureAwait(false);
-                JObject parsedData = null;
-                if (lastAnswer != null)
+                question_sets questionSet =
+                    await db.question_sets.SingleOrDefaultAsync(x => x.MicrotingUid == questionSetId).ConfigureAwait(false);
+                if (questionSet != null)
                 {
-                    parsedData = JObject.Parse(await _communicator.GetLastAnswer(questionSetId, (int)lastAnswer.MicrotingUid).ConfigureAwait(false));
-                }
-                else
-                {
-                    parsedData = JObject.Parse(await _communicator.GetLastAnswer(questionSetId, 0).ConfigureAwait(false));
-                }
-
-                foreach (var item in parsedData)
-                {
-                    foreach (JToken subItem in item.Value)
+                    var lastAnswer = await db.answers.LastOrDefaultAsync(x => x.QuestionSetId == questionSet.Id).ConfigureAwait(false);
+                    JObject parsedData = null;
+                    if (lastAnswer != null)
                     {
+                        parsedData = JObject.Parse(await _communicator.GetLastAnswer(questionSetId, (int)lastAnswer.MicrotingUid).ConfigureAwait(false));
+                    }
+                    else
+                    {
+                        parsedData = JObject.Parse(await _communicator.GetLastAnswer(questionSetId, 0).ConfigureAwait(false));
+                    }
 
-                        answers answer = JsonConvert.DeserializeObject<answers>(subItem.ToString(), settings);
-
-                        var result = db.answers.SingleOrDefault(x => x.MicrotingUid == answer.MicrotingUid);
-                        if (result != null)
+                    foreach (var item in parsedData)
+                    {
+                        foreach (JToken subItem in item.Value)
                         {
-                            answer.Id = result.Id;
-                        }
 
-                        if (result == null)
-                        {
-                            answer.UnitId = db.units.Single(x => x.MicrotingUid == answer.UnitId).Id;
-                            answer.SiteId = db.sites.Single(x => x.MicrotingUid == answer.SiteId).Id;
-                            question_sets questionSet =
-                                await db.question_sets.SingleOrDefaultAsync(x =>
-                                    x.MicrotingUid == answer.QuestionSet.MicrotingUid).ConfigureAwait(false);
-                            if (questionSet == null)
+                            answers answer = JsonConvert.DeserializeObject<answers>(subItem.ToString(), settings);
+
+                            var result = db.answers.SingleOrDefault(x => x.MicrotingUid == answer.MicrotingUid);
+                            if (result != null)
                             {
-                                await GetAllSurveyConfigurations().ConfigureAwait(false);
-                                questionSet =
-                                    await db.question_sets.SingleOrDefaultAsync(x =>
-                                        x.MicrotingUid == answer.QuestionSet.MicrotingUid).ConfigureAwait(false);
+                                answer.Id = result.Id;
                             }
-                            answer.QuestionSetId = questionSet.Id;
-                            survey_configurations surveyConfiguration = await db.survey_configurations
-                                .SingleOrDefaultAsync(x => x.MicrotingUid == answer.SurveyConfigurationId).ConfigureAwait(false);
-                            if (surveyConfiguration == null)
+
+                            if (result == null)
                             {
-                                await GetAllSurveyConfigurations().ConfigureAwait(false);
-                                surveyConfiguration = await db.survey_configurations
+                                answer.UnitId = db.units.Single(x => x.MicrotingUid == answer.UnitId).Id;
+                                answer.SiteId = db.sites.Single(x => x.MicrotingUid == answer.SiteId).Id;
+                                if (questionSet == null)
+                                {
+                                    await GetAllSurveyConfigurations().ConfigureAwait(false);
+                                    questionSet =
+                                        await db.question_sets.SingleOrDefaultAsync(x =>
+                                            x.MicrotingUid == answer.QuestionSet.MicrotingUid).ConfigureAwait(false);
+                                }
+                                answer.QuestionSetId = questionSet.Id;
+                                survey_configurations surveyConfiguration = await db.survey_configurations
                                     .SingleOrDefaultAsync(x => x.MicrotingUid == answer.SurveyConfigurationId).ConfigureAwait(false);
+                                if (surveyConfiguration == null)
+                                {
+                                    await GetAllSurveyConfigurations().ConfigureAwait(false);
+                                    surveyConfiguration = await db.survey_configurations
+                                        .SingleOrDefaultAsync(x => x.MicrotingUid == answer.SurveyConfigurationId).ConfigureAwait(false);
+                                }
+                                answer.SurveyConfigurationId = surveyConfiguration.Id;
+                                answer.QuestionSet = null;
+                                answer.LanguageId = db.languages.Single(x => x.Name == "Danish").Id;
+                                await answer.Create(db).ConfigureAwait(false);
                             }
-                            answer.SurveyConfigurationId = surveyConfiguration.Id;
-                            answer.QuestionSet = null;
-                            answer.LanguageId = db.languages.Single(x => x.Name == "Danish").Id;
-                            await answer.Create(db).ConfigureAwait(false);
-                        }
 
-                        foreach (JToken avItem in subItem["AnswerValues"])
-                        {
-                            answer_values answerValue =
-                                JsonConvert.DeserializeObject<answer_values>(avItem.ToString(), settings);
-                            if (db.answer_values.SingleOrDefault(x => x.MicrotingUid == answerValue.MicrotingUid) ==
-                                null)
+                            foreach (JToken avItem in subItem["AnswerValues"])
                             {
-                                answerValue.AnswerId = answer.Id;
-                                answerValue.QuestionId =
-                                    db.questions.Single(x => x.MicrotingUid == answerValue.QuestionId).Id;
-                                answerValue.OptionId = db.options.Single(x => x.MicrotingUid == answerValue.OptionId).Id;
-                                await answerValue.Create(db).ConfigureAwait(false);    
+                                answer_values answerValue =
+                                    JsonConvert.DeserializeObject<answer_values>(avItem.ToString(), settings);
+                                if (db.answer_values.SingleOrDefault(x => x.MicrotingUid == answerValue.MicrotingUid) ==
+                                    null)
+                                {
+                                    answerValue.AnswerId = answer.Id;
+                                    answerValue.QuestionId =
+                                        db.questions.Single(x => x.MicrotingUid == answerValue.QuestionId).Id;
+                                    answerValue.OptionId = db.options.Single(x => x.MicrotingUid == answerValue.OptionId).Id;
+                                    await answerValue.Create(db).ConfigureAwait(false);    
+                                }
                             }
                         }
                     }
                 }
-                
             }
             return true;
         }

@@ -51,12 +51,12 @@ namespace Microting.eForm.Handlers
         {
             try
             {
-                await core.GetAnswersForQuestionSet(message.MicrotringUUID);
+                await core.GetAnswersForQuestionSet(message.MicrotringUUID).ConfigureAwait(false);
                 await sqlController.NotificationUpdate(message.NotificationUId, 
                     message.MicrotringUUID,
                     Constants.WorkflowStates.Processed, 
                     "", 
-                    "");
+                    "").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -64,7 +64,7 @@ namespace Microting.eForm.Handlers
                     message.MicrotringUUID, 
                     Constants.WorkflowStates.NotFound, 
                     ex.Message, 
-                    ex.StackTrace.ToString());
+                    ex.StackTrace.ToString()).ConfigureAwait(false);
             }
         }
 
