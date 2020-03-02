@@ -58,9 +58,9 @@ namespace eFormSDK.Integration.Tests
             
             DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
             SqlController sql = new SqlController(dbContextHelper);
-            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            await sql.SettingUpdate(Settings.firstRunDone, "true");
-            await sql.SettingUpdate(Settings.knownSitesDone, "true");
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef").ConfigureAwait(false);
+            await sql.SettingUpdate(Settings.firstRunDone, "true").ConfigureAwait(false);
+            await sql.SettingUpdate(Settings.knownSitesDone, "true").ConfigureAwait(false);
             #endregion
 
             sut = new Core();
@@ -70,7 +70,7 @@ namespace eFormSDK.Integration.Tests
             sut.HandleCaseDeleted += EventCaseDeleted;
             sut.HandleFileDownloaded += EventFileDownloaded;
             sut.HandleSiteActivated += EventSiteActivated;
-            await sut.StartSqlOnly(ConnectionString);
+            await sut.StartSqlOnly(ConnectionString).ConfigureAwait(false);
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
@@ -93,11 +93,11 @@ namespace eFormSDK.Integration.Tests
 
             DateTime cl1_ca = DateTime.Now;
             DateTime cl1_ua = DateTime.Now;
-            check_lists cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+            check_lists cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1).ConfigureAwait(false);
 
             #endregion
             // Act
-            bool match = await sut.Advanced_TemplateDisplayIndexChangeDb(cl1.Id, 5);
+            bool match = await sut.Advanced_TemplateDisplayIndexChangeDb(cl1.Id, 5).ConfigureAwait(false);
             // Assert
             Assert.NotNull(match);
             Assert.True(match);
@@ -137,67 +137,67 @@ namespace eFormSDK.Integration.Tests
             #region Template1
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
-            check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+            check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1).ConfigureAwait(false);
 
             #endregion
 
             #region subtemplates
             #region SubTemplate1
-            check_lists cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+            check_lists cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1).ConfigureAwait(false);
 
 
             #endregion
 
             #region SubTemplate1
-            check_lists cl3 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+            check_lists cl3 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1).ConfigureAwait(false);
 
 
             #endregion
 
             #region SubTemplate1
-            check_lists cl4 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+            check_lists cl4 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1).ConfigureAwait(false);
 
 
             #endregion
 
             #region SubTemplate1
-            check_lists cl5 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+            check_lists cl5 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1).ConfigureAwait(false);
 
 
             #endregion
 
             #region SubTemplate1
-            check_lists cl6 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+            check_lists cl6 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1).ConfigureAwait(false);
 
 
             #endregion
 
             #region SubTemplate1
-            check_lists cl7 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+            check_lists cl7 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1).ConfigureAwait(false);
 
 
             #endregion
 
             #region SubTemplate1
-            check_lists cl8 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+            check_lists cl8 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1).ConfigureAwait(false);
 
 
             #endregion
 
             #region SubTemplate1
-            check_lists cl9 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+            check_lists cl9 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1).ConfigureAwait(false);
 
 
             #endregion
 
             #region SubTemplate1
-            check_lists cl10 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+            check_lists cl10 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1).ConfigureAwait(false);
 
 
             #endregion
 
             #region SubTemplate1
-            check_lists cl11 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+            check_lists cl11 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1).ConfigureAwait(false);
 
 
             #endregion
@@ -209,7 +209,7 @@ namespace eFormSDK.Integration.Tests
 
             fields f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
                 5, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
-                0, 0, "", 49);
+                0, 0, "", 49).ConfigureAwait(false);
 
             #endregion
 
@@ -218,7 +218,7 @@ namespace eFormSDK.Integration.Tests
 
             fields f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
                 45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
-                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9).ConfigureAwait(false);
 
 
             #endregion
@@ -227,7 +227,7 @@ namespace eFormSDK.Integration.Tests
 
             fields f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
                 83, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0,
-                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1).ConfigureAwait(false);
 
 
             #endregion
@@ -237,7 +237,7 @@ namespace eFormSDK.Integration.Tests
 
             fields f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
                 84, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0,
-                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1).ConfigureAwait(false);
 
 
             #endregion
@@ -246,7 +246,7 @@ namespace eFormSDK.Integration.Tests
 
             fields f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
                 85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1).ConfigureAwait(false);
 
 
             #endregion
@@ -255,7 +255,7 @@ namespace eFormSDK.Integration.Tests
 
             fields f6 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
                 86, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1).ConfigureAwait(false);
 
 
             #endregion
@@ -264,7 +264,7 @@ namespace eFormSDK.Integration.Tests
 
             fields f7 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
                 87, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1).ConfigureAwait(false);
 
 
             #endregion
@@ -273,7 +273,7 @@ namespace eFormSDK.Integration.Tests
 
             fields f8 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
                 88, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1).ConfigureAwait(false);
 
 
             #endregion
@@ -282,7 +282,7 @@ namespace eFormSDK.Integration.Tests
 
             fields f9 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
                 89, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1).ConfigureAwait(false);
 
 
             #endregion
@@ -291,7 +291,7 @@ namespace eFormSDK.Integration.Tests
 
             fields f10 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
                 90, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1).ConfigureAwait(false);
 
 
             #endregion
@@ -299,7 +299,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             // Act
-            bool match = await sut.Advanced_TemplateUpdateFieldIdsForColumns(cl1.Id, f1.Id, f2.Id, f3.Id, f4.Id, f5.Id, f6.Id, f7.Id, f8.Id, f9.Id, f10.Id);
+            bool match = await sut.Advanced_TemplateUpdateFieldIdsForColumns(cl1.Id, f1.Id, f2.Id, f3.Id, f4.Id, f5.Id, f6.Id, f7.Id, f8.Id, f9.Id, f10.Id).ConfigureAwait(false);
 
             // Assert
             Assert.NotNull(match);

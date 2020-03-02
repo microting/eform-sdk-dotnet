@@ -2911,6 +2911,7 @@ namespace eFormCore
                     }
                     int id = await _communicator.FolderCreate(name, description, apiParentId).ConfigureAwait(false);
                     int result = await _sqlController.FolderCreate(name, description, parent_id, id).ConfigureAwait(false);
+                    return;
 
                 }
                 throw new Exception("Core is not running");
@@ -2937,6 +2938,7 @@ namespace eFormCore
                     }
                     await _communicator.FolderUpdate((int)folder.MicrotingUId, name, description, apiParentId).ConfigureAwait(false);
                     await _sqlController.FolderUpdate(id, name, description, parent_id).ConfigureAwait(false);
+                    return;
                 }
                 throw new Exception("Core is not running");
             }
@@ -2960,6 +2962,8 @@ namespace eFormCore
                     {
                         await _sqlController.FolderDelete(id).ConfigureAwait(false);
                     }
+
+                    return;
                 }
                 throw new Exception("Core is not running");
             }
