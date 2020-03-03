@@ -4275,7 +4275,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         /// <summary>
-        /// Deletes Entity Group in DB with given entitygROUPMUId
+        /// Deletes Entity Group in DB with given entityGroupMUId
         /// </summary>
         /// <param name="entityGroupMUId"></param>
         /// <returns></returns>

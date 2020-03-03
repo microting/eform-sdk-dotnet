@@ -2670,11 +2670,10 @@ namespace eFormCore
             {
                 if (Running())
                 {
-
                     bool isUpdated = await _communicator.EntityGroupUpdate(entityGroup.Type, entityGroup.Name, entityGroup.Id, entityGroup.MicrotingUUID).ConfigureAwait(false);
 
                     if (isUpdated)
-                        await _sqlController.EntityGroupUpdateName(entityGroup.Name, entityGroup.MicrotingUUID).ConfigureAwait(false);
+                        return await _sqlController.EntityGroupUpdateName(entityGroup.Name, entityGroup.MicrotingUUID).ConfigureAwait(false);
                 }
                 
                 throw new Exception("Core is not running");
@@ -2703,7 +2702,7 @@ namespace eFormCore
                     EntityGroup entityGroup = await _sqlController.EntityGroupRead(entityGroupMUId).ConfigureAwait(false);
                     await _communicator.EntityGroupDelete(entityGroup.Type, entityGroupMUId).ConfigureAwait(false);
                     string type = await _sqlController.EntityGroupDelete(entityGroupMUId).ConfigureAwait(false);
-
+                    return true;
                 }
                 throw new Exception("Core is not running");
             }
