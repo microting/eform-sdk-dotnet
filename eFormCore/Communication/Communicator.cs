@@ -476,6 +476,46 @@ namespace Microting.eForm.Communication
                 return false;
             }
         }
+
+        public async Task<string> UnitCreate(int siteMicrotingUid)
+        {
+            string methodName = "Communicator.UnitCreate";
+
+            await log.LogEverything(methodName, "called");
+            await log.LogVariable(methodName, nameof(siteMicrotingUid), siteMicrotingUid);
+
+            string response = await http.UnitCreate(siteMicrotingUid);
+
+            if (response.Contains(Constants.WorkflowStates.Active))
+            {
+                return response;
+            }
+            else
+            {
+                throw new Exception("Unable to create the unit");
+            }
+        }
+
+        public Task<string> UnitMove(int unitMicrotingUid, int siteMicrotingUid)
+        {
+            string methodName = "Communicator.UnitMove";
+
+            log.LogEverything(methodName, "called");
+            log.LogVariable(methodName, nameof(unitMicrotingUid), unitMicrotingUid);
+            log.LogVariable(methodName, nameof(siteMicrotingUid), siteMicrotingUid);
+
+            return http.UnitMove(unitMicrotingUid, siteMicrotingUid);
+
+            // if (response.Contains(siteMicrotingUid.ToString()))
+            // {
+                // return response;
+            // }
+            // else
+            // {
+                // throw new Exception("Unable to move the unit");
+            // }
+        }
+        
         #endregion
 
         #region public organization      

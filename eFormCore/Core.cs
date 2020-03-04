@@ -2366,58 +2366,79 @@ namespace eFormCore
         #endregion
 
         #region site
+
         public async Task<SiteDto> SiteCreate(string name, string userFirstName, string userLastName, string userEmail)
         {
             string methodName = "Core.SiteCreate";
-            try
+            using (var db = dbContextHelper.GetDbContext())
             {
-                if (Running())
+                try
                 {
-                    await log.LogStandard(methodName, "called").ConfigureAwait(false);
-                    await log.LogVariable(methodName, nameof(name), name).ConfigureAwait(false);
-                    await log.LogVariable(methodName, nameof(userFirstName), userFirstName).ConfigureAwait(false);
-                    await log.LogVariable(methodName, nameof(userLastName), userLastName).ConfigureAwait(false);
-                    await log.LogVariable(methodName, nameof(userEmail), userEmail).ConfigureAwait(false);
-
-                    Tuple<SiteDto, UnitDto> siteResult = await _communicator.SiteCreate(name);
-
-                    string token = await _sqlController.SettingRead(Settings.token).ConfigureAwait(false);
-                    int customerNo = _communicator.OrganizationLoadAllFromRemote(token).GetAwaiter().GetResult().CustomerNo;
-
-                    string siteName = siteResult.Item1.SiteName;
-                    int siteId = siteResult.Item1.SiteId;
-                    int unitUId = siteResult.Item2.UnitUId;
-                    int otpCode = siteResult.Item2.OtpCode;
-                    SiteNameDto siteDto = await _sqlController.SiteRead(siteResult.Item1.SiteId).ConfigureAwait(false);
-                    if (siteDto == null)
+                    if (Running())
                     {
-                        await _sqlController.SiteCreate((int)siteId, siteName).ConfigureAwait(false);
-                    }
-                    siteDto = await _sqlController.SiteRead(siteId).ConfigureAwait(false);
-                    UnitDto unitDto = await _sqlController.UnitRead(unitUId).ConfigureAwait(false);
-                    if (unitDto == null)
-                    {
-                        await _sqlController.UnitCreate(unitUId, customerNo, otpCode, siteDto.SiteUId).ConfigureAwait(false);
+                        await log.LogStandard(methodName, "called").ConfigureAwait(false);
+                        await log.LogVariable(methodName, nameof(name), name).ConfigureAwait(false);
+                        await log.LogVariable(methodName, nameof(userFirstName), userFirstName).ConfigureAwait(false);
+                        await log.LogVariable(methodName, nameof(userLastName), userLastName).ConfigureAwait(false);
+                        await log.LogVariable(methodName, nameof(userEmail), userEmail).ConfigureAwait(false);
+
+                        Tuple<SiteDto, UnitDto> siteResult = await _communicator.SiteCreate(name);
+
+                        string token = await _sqlController.SettingRead(Settings.token).ConfigureAwait(false);
+                        int customerNo = _communicator.OrganizationLoadAllFromRemote(token).GetAwaiter().GetResult()
+                            .CustomerNo;
+
+                        string siteName = siteResult.Item1.SiteName;
+                        int siteId = siteResult.Item1.SiteId;
+                        int unitUId = siteResult.Item2.UnitUId;
+                        int otpCode = siteResult.Item2.OtpCode;
+                        sites site =
+                            await db.sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteResult.Item1.SiteId).ConfigureAwait(false);
+                        if (site == null)
+                        {
+                            site = new sites
+                            {
+                                MicrotingUid = siteId,
+                                Name = siteName
+                            };
+                            await site.Create(db).ConfigureAwait(false);
+                        }
+
+                        SiteNameDto siteDto = await _sqlController.SiteRead(siteId).ConfigureAwait(false);
+                        units unit = await db.units.SingleOrDefaultAsync(x => x.MicrotingUid == unitUId).ConfigureAwait(false);
+                        if (unit == null)
+                        {
+                            unit = new units
+                            {
+                                MicrotingUid = unitUId,
+                                CustomerNo = customerNo,
+                                OtpCode = otpCode,
+                                SiteId = site.Id
+                            };
+
+                            await unit.Create(db).ConfigureAwait(false);
+                        }
+
+                        if (string.IsNullOrEmpty(userEmail))
+                        {
+                            Random rdn = new Random();
+                            userEmail = siteId + "." + customerNo + "@invalid.invalid";
+                        }
+
+                        WorkerDto workerDto = await Advanced_WorkerCreate(userFirstName, userLastName, userEmail)
+                            .ConfigureAwait(false);
+                        await Advanced_SiteWorkerCreate(siteDto, workerDto).ConfigureAwait(false);
+
+                        return await SiteRead(siteId).ConfigureAwait(false);
                     }
 
-                    if (string.IsNullOrEmpty(userEmail))
-                    {
-                        Random rdn = new Random();
-                        userEmail = siteId + "." + customerNo + "@invalid.invalid";
-                    }
-
-                    WorkerDto workerDto = await Advanced_WorkerCreate(userFirstName, userLastName, userEmail).ConfigureAwait(false);
-                    await Advanced_SiteWorkerCreate(siteDto, workerDto).ConfigureAwait(false);
-
-                    return await SiteRead(siteId).ConfigureAwait(false);
+                    throw new Exception("Core is not running");
                 }
-
-                throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
-                throw new Exception("failed", ex);
+                catch (Exception ex)
+                {
+                    await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                    throw new Exception("failed", ex);
+                }
             }
         }
 
@@ -4036,6 +4057,79 @@ namespace eFormCore
                     return await _sqlController.UnitDelete(unitId).ConfigureAwait(false);
                 }
 
+                throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                throw new Exception("failed", ex);
+            }
+        }
+
+        public async Task<bool> Advanced_UnitCreate(int siteMicrotingUid)
+        {
+            string methodName = "Core.Advanced_UnitCreate";
+            try
+            {
+                if (Running())
+                {
+                    using (var dbContext = dbContextHelper.GetDbContext())
+                    {
+                        await log.LogStandard(methodName, "called").ConfigureAwait(false);
+                        await log.LogVariable(methodName, nameof(siteMicrotingUid), siteMicrotingUid).ConfigureAwait(false);
+
+                        sites site = await dbContext.sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteMicrotingUid);
+
+                        string result = await _communicator.UnitCreate((int)site.MicrotingUid).ConfigureAwait(false);
+                        if (result != null)
+                        {
+                            units  unit = JsonConvert.DeserializeObject<units>(result);
+                            unit.SiteId = dbContext.sites.Single(x => x.MicrotingUid == unit.SiteId).Id;
+                            await unit.Create(dbContext).ConfigureAwait(false);
+                            return true;
+                        }
+
+                        return false;
+                    }
+                }
+                
+                throw new Exception("Core is not running");
+            }
+            catch (Exception ex)
+            {
+                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                throw new Exception("failed", ex);
+            }
+        }
+
+        public async Task<bool> Advanced_UnitMove(int unitId, int siteId)
+        {
+            string methodName = "Core.Advanced_UnitMove";
+            try
+            {
+                if (Running())
+                {
+                    using (var dbContext = dbContextHelper.GetDbContext())
+                    {
+                        await log.LogStandard(methodName, "called").ConfigureAwait(false);
+                        await log.LogVariable(methodName, nameof(unitId), unitId).ConfigureAwait(false);
+                        await log.LogVariable(methodName, nameof(siteId), siteId).ConfigureAwait(false);
+
+                        units unit = await dbContext.units.SingleOrDefaultAsync(x => x.Id == unitId);
+                        sites site = await dbContext.sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteId);
+
+                        string result = await _communicator.UnitMove((int)unit.MicrotingUid, (int)site.MicrotingUid).ConfigureAwait(false);
+                        if (result != null)
+                        {
+                            unit.SiteId = site.Id;
+                            await unit.Update(dbContext).ConfigureAwait(false);
+                            return true;
+                        }
+
+                        return false;
+                    }
+                }
+                
                 throw new Exception("Core is not running");
             }
             catch (Exception ex)

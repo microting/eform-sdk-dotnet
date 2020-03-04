@@ -3214,16 +3214,16 @@ namespace Microting.eForm.Infrastructure
                 switch (workflowState)
                 {
                     case Constants.Constants.WorkflowStates.NotRemoved:
-                        matches = await db.sites.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToListAsync();
+                        matches = await db.sites.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToListAsync().ConfigureAwait(false);
                         break;
                     case Constants.Constants.WorkflowStates.Removed:
-                        matches = await db.sites.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed).ToListAsync();
+                        matches = await db.sites.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed).ToListAsync().ConfigureAwait(false);
                         break;
                     case Constants.Constants.WorkflowStates.Created:
-                        matches = await db.sites.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToListAsync();
+                        matches = await db.sites.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created).ToListAsync().ConfigureAwait(false);
                         break;
                     default:
-                        matches = await db.sites.ToListAsync();
+                        matches = await db.sites.ToListAsync().ConfigureAwait(false);
                         break;
                 }
                 foreach (sites aSite in matches)
@@ -3284,24 +3284,12 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    //logger.LogEverything(methodName + " called");
-                    //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
-
-                    sites site = new sites();
-//                    site.WorkflowState = Constants.Constants.WorkflowStates.Created;
-//                    site.Version = 1;
-//                    site.CreatedAt = DateTime.Now;
-//                    site.UpdatedAt = DateTime.Now;
-                    site.MicrotingUid = microtingUid;
-                    site.Name = name;
+                    sites site = new sites
+                    {
+                        MicrotingUid = microtingUid, 
+                        Name = name
+                    };
                     await site.Create(db);
-
-
-//                    db.sites.Add(site);
-//                    db.SaveChanges();
-
-//                    db.site_versions.Add(MapSiteVersions(site));
-//                    db.SaveChanges();
 
                     return site.Id;
                 }
@@ -3911,11 +3899,13 @@ namespace Microting.eForm.Infrastructure
                     //logger.LogEverything(methodName + " called");
                     int localSiteId = db.sites.SingleAsync(x => x.MicrotingUid == siteUId).GetAwaiter().GetResult().Id;
 
-                    units unit = new units();
-                    unit.MicrotingUid = microtingUid;
-                    unit.CustomerNo = customerNo;
-                    unit.OtpCode = otpCode;
-                    unit.SiteId = localSiteId;
+                    units unit = new units
+                    {
+                        MicrotingUid = microtingUid,
+                        CustomerNo = customerNo,
+                        OtpCode = otpCode,
+                        SiteId = localSiteId
+                    };
 
                     await unit.Create(db);
 
@@ -4020,8 +4010,6 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    //logger.LogEverything(methodName + " called");
-
                     units unit = await db.units.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUid);
 
                     if (unit != null)
@@ -4036,7 +4024,6 @@ namespace Microting.eForm.Infrastructure
             }
             catch (Exception ex)
             {
-                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }

@@ -107,7 +107,7 @@ namespace Microting.eForm.Communication
                     $"{addressApi}/gwt/inspection_app/integration/{elementId}?token={token}&protocol={protocolXml}&site_id={siteId}&download=false&delete=false&sdk_ver={dllVersion}");
                 request.Method = "GET";
 
-                return await PostToServer(request);
+                return await PostToServer(request).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -128,7 +128,7 @@ namespace Microting.eForm.Communication
                     $"{addressApi}/gwt/inspection_app/integration/{microtingUuid}?token={token}&protocol={protocolXml}&site_id={siteId}&download=true&delete=false&last_check_id={microtingCheckUuid}&sdk_ver={dllVersion}");
                 request.Method = "GET";
 
-                return await PostToServer(request);
+                return await PostToServer(request).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -148,12 +148,12 @@ namespace Microting.eForm.Communication
                     $"{addressApi}/gwt/inspection_app/integration/{elementId}?token={token}&protocol={protocolXml}&site_id={siteId}&download=false&delete=true&sdk_ver={dllVersion}");
                 request.Method = "GET";
 
-                string result = await PostToServer(request);
+                string result = await PostToServer(request).ConfigureAwait(false);
 
                 if (result.Contains("No database connection information was found"))
                 {
                     Thread.Sleep(5000);
-                    result = await PostToServer(request);
+                    result = await PostToServer(request).ConfigureAwait(false);
                 }
 
                 return result;
@@ -221,7 +221,7 @@ namespace Microting.eForm.Communication
                 request.Method = "DELETE";
                 request.ContentType = "application/x-www-form-urlencoded";  //-- ?
 
-                string responseXml = await PostToServer(request);
+                string responseXml = await PostToServer(request).ConfigureAwait(false);
 
                 if (responseXml.Contains("Value type=\"success"))
                     return true;
@@ -277,7 +277,7 @@ namespace Microting.eForm.Communication
             request = WebRequest.Create($"{newUrl}?token={token}");
             request.Method = "GET";
 
-            string response = await PostToServer(request);
+            string response = await PostToServer(request).ConfigureAwait(false);
             
             return response.Contains("workflow_state\": \"created");
         }
@@ -289,7 +289,7 @@ namespace Microting.eForm.Communication
             request.Method = "DELETE";
             request.ContentType = "application/x-www-form-urlencoded";  //-- ?
 
-            string responseXml = await PostToServer(request);
+            string responseXml = await PostToServer(request).ConfigureAwait(false);
 
             if (responseXml.Contains("Value type=\"success"))
                 return true;
@@ -342,7 +342,7 @@ namespace Microting.eForm.Communication
             request = WebRequest.Create($"{newUrl}?token={token}");
             request.Method = "GET";
 
-            string response = await PostToServer(request);
+            string response = await PostToServer(request).ConfigureAwait(false);
             
             return response.Contains("workflow_state\": \"created");
         }
@@ -356,12 +356,12 @@ namespace Microting.eForm.Communication
                 request.Method = "DELETE";
                 request.ContentType = "application/json; charset=utf-8";
 
-                string newUrl = await PostToServerGetRedirect(request);
+                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
                 request = WebRequest.Create($"{newUrl}?token={token}");
                 request.Method = "GET";
 
-                string responseXml = await PostToServer(request);
+                string responseXml = await PostToServer(request).ConfigureAwait(false);
                 
                 return responseXml.Contains("workflow_state\": \"removed");
             }
@@ -406,7 +406,7 @@ namespace Microting.eForm.Communication
 			request = WebRequest.Create($"{newUrl}?token={token}");
 			request.Method = "GET";
 
-			string responseXml = await PostToServer(request);
+			string responseXml = await PostToServer(request).ConfigureAwait(false);
 			if (responseXml.Contains("workflow_state\": \"created"))
 				return true;
 			else
@@ -436,14 +436,14 @@ namespace Microting.eForm.Communication
             request.Method = "DELETE";
             request.ContentType = "application/json; charset=utf-8";
 
-            //string responseXml = PostToServerGetRedirect(request);
+            //string responseXml = PostToServerGetRedirect(request).ConfigureAwait(false);
 
-			string newUrl = await PostToServerGetRedirect(request);
+			string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
 			request = WebRequest.Create($"{newUrl}?token={token}");
 			request.Method = "GET";
 
-			string responseXml = await PostToServer(request);
+			string responseXml = await PostToServer(request).ConfigureAwait(false);
 			if (responseXml.Contains("workflow_state\": \"removed"))
 				return true;
 			else
@@ -496,7 +496,7 @@ namespace Microting.eForm.Communication
                     $"{addressApi}/gwt/inspection_app/integration/{microtingUId}?token={token}&protocol={protocolXml}&site_id={siteId}&download=false&delete=false&update_attributes=true&display_order={newDisplayIndex}&sdk_ver={dllVersion}");
                 request.Method = "GET";
 
-                return await PostToServer(request);
+                return await PostToServer(request).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -522,7 +522,7 @@ namespace Microting.eForm.Communication
             request = WebRequest.Create($"{newUrl}?token={token}");
             request.Method = "GET";
 
-            string response = await PostToServer(request);
+            string response = await PostToServer(request).ConfigureAwait(false);
 
             return response;
         }
@@ -551,12 +551,12 @@ namespace Microting.eForm.Communication
                 request.Method = "DELETE";
                 request.ContentType = "application/x-www-form-urlencoded";  //-- ?
 
-                string newUrl = await PostToServerGetRedirect(request);
+                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
                 request = WebRequest.Create($"{newUrl}?token={token}");
                 request.Method = "GET";
 
-                return await PostToServer(request);
+                return await PostToServer(request).ConfigureAwait(false);
 
             }
             catch (Exception ex)
@@ -570,7 +570,7 @@ namespace Microting.eForm.Communication
             WebRequest request = WebRequest.Create($"{addressBasic}/v1/sites?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            return await PostToServer(request);
+            return await PostToServer(request).ConfigureAwait(false);
         }
         #endregion
 
@@ -590,7 +590,7 @@ namespace Microting.eForm.Communication
             request = WebRequest.Create($"{newUrl}?token={token}");
             request.Method = "GET";
 
-            string response = await PostToServer(request);
+            string response = await PostToServer(request).ConfigureAwait(false);
 
             return response;
         }
@@ -619,12 +619,12 @@ namespace Microting.eForm.Communication
                 request.Method = "DELETE";
                 request.ContentType = "application/x-www-form-urlencoded";  //-- ?
 
-                string newUrl = await PostToServerGetRedirect(request);
+                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
                 request = WebRequest.Create($"{newUrl}?token={token}");
                 request.Method = "GET";
 
-                return await PostToServer(request);
+                return await PostToServer(request).ConfigureAwait(false);
 
             }
             catch (Exception ex)
@@ -638,7 +638,7 @@ namespace Microting.eForm.Communication
             WebRequest request = WebRequest.Create($"{addressBasic}/v1/users?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            return await PostToServer(request);
+            return await PostToServer(request).ConfigureAwait(false);
         }
         #endregion
 
@@ -658,7 +658,7 @@ namespace Microting.eForm.Communication
             request = WebRequest.Create($"{newUrl}?token={token}");
             request.Method = "GET";
 
-            string response = await PostToServer(request);
+            string response = await PostToServer(request).ConfigureAwait(false);
 
             return response;
         }
@@ -672,12 +672,12 @@ namespace Microting.eForm.Communication
                 request.Method = "DELETE";
                 request.ContentType = "application/x-www-form-urlencoded";  //-- ?
 
-                string newUrl = await PostToServerGetRedirect(request);
+                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
                 request = WebRequest.Create($"{newUrl}?token={token}");
                 request.Method = "GET";
 
-                return await PostToServer(request);
+                return await PostToServer(request).ConfigureAwait(false);
 
             }
             catch (Exception ex)
@@ -691,7 +691,7 @@ namespace Microting.eForm.Communication
             WebRequest request = WebRequest.Create($"{addressBasic}/v1/workers?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            return await PostToServer(request);
+            return await PostToServer(request).ConfigureAwait(false);
         }
 
         #endregion
@@ -705,7 +705,7 @@ namespace Microting.eForm.Communication
             WebRequest request = WebRequest.Create($"{addressBasic}/v1/folders?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            return await PostToServer(request);
+            return await PostToServer(request).ConfigureAwait(false);
         }
         
         public async Task<string> FolderCreate(string name, string description, int? parent_id)
@@ -723,7 +723,7 @@ namespace Microting.eForm.Communication
             request = WebRequest.Create($"{newUrl}?token={token}");
             request.Method = "GET";
 
-            string response = await PostToServer(request);
+            string response = await PostToServer(request).ConfigureAwait(false);
 
             return response;
         }
@@ -751,12 +751,12 @@ namespace Microting.eForm.Communication
                 request.Method = "DELETE";
                 request.ContentType = "application/x-www-form-urlencoded";
 
-                string newUrl = await PostToServerGetRedirect(request);
+                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
                 request = WebRequest.Create($"{newUrl}?token={token}");
                 request.Method = "GET";
                 
-                return await PostToServer(request);
+                return await PostToServer(request).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -791,7 +791,7 @@ namespace Microting.eForm.Communication
             WebRequest request = WebRequest.Create($"{addressBasic}/v1/units?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            return await PostToServer(request);
+            return await PostToServer(request).ConfigureAwait(false);
         }
         
         public async Task<string> UnitDelete(int id)
@@ -803,12 +803,12 @@ namespace Microting.eForm.Communication
                 request.Method = "DELETE";
                 request.ContentType = "application/x-www-form-urlencoded";  //-- ?
 
-                string newUrl = await PostToServerGetRedirect(request);
+                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
                 request = WebRequest.Create($"{newUrl}?token={token}");
                 request.Method = "GET";
 
-                return await PostToServer(request);
+                return await PostToServer(request).ConfigureAwait(false);
 
             }
             catch (Exception ex)
@@ -821,22 +821,45 @@ namespace Microting.eForm.Communication
         {
             try
             {
-                JObject content_to_microting = JObject.FromObject(new { model = new { site_id = siteId } });
+                JObject contentToMicroting = JObject.FromObject(new { site_id = siteId });
                 WebRequest request = WebRequest.Create(
-                    $"{addressBasic}/v1/units/{unitId}?token={token}&sdk_ver={dllVersion}&model={content_to_microting}");
+                    $"{addressBasic}/v1/units/{unitId}?token={token}&sdk_ver={dllVersion}&model={contentToMicroting}");
                 request.Method = "PUT";
                 request.ContentType = "application/x-www-form-urlencoded";
                 
-                string newUrl = await PostToServerGetRedirect(request);
+                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
                 request = WebRequest.Create($"{newUrl}?token={token}");
                 request.Method = "GET";
 
-                return await PostToServer(request);
+                return await PostToServer(request).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 throw new Exception("UnitDelete failed", ex);
+            }
+        }
+
+        public async Task<string> UnitCreate(int siteMicrotingUid)
+        {
+            try
+            {
+                JObject contentToMicroting = JObject.FromObject(new { site_id = siteMicrotingUid } );
+                WebRequest request = WebRequest.Create(
+                    $"{addressBasic}/v2/units/?token={token}&sdk_ver={dllVersion}&model={contentToMicroting}");
+                request.Method = "POST";
+                request.ContentType = "application/x-www-form-urlencoded";
+                
+                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
+
+                request = WebRequest.Create($"{newUrl}?token={token}");
+                request.Method = "GET";
+
+                return await PostToServer(request).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("UnitCreate failed", ex);
             }
         }
         
@@ -848,7 +871,7 @@ namespace Microting.eForm.Communication
             WebRequest request = WebRequest.Create(addressBasic + "/v1/organizations?token=" + token + "&sdk_ver=" + dllVersion);
             request.Method = "GET";
 
-            return await PostToServer(request);
+            return await PostToServer(request).ConfigureAwait(false);
         }
         #endregion
 
@@ -878,7 +901,7 @@ namespace Microting.eForm.Communication
                 $"{addressSpeechToText}/audio/{requestId}?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            string result = await PostToServer(request);
+            string result = await PostToServer(request).ConfigureAwait(false);
             JToken parsedData = JRaw.Parse(result);
             return parsedData;
         }
@@ -896,7 +919,7 @@ namespace Microting.eForm.Communication
                     $"{addressBasic}/v1/survey_configurations/{id}?token={token}&add_site=true&site_id={siteId}&sdk_ver={dllVersion}");
                 request.Method = "GET";
 
-                await PostToServer(request);
+                await PostToServer(request).ConfigureAwait(false);
             }
             else
             {
@@ -904,7 +927,7 @@ namespace Microting.eForm.Communication
                     $"{addressBasic}/v1/survey_configurations/{id}?token={token}&remove_site=true&site_id={siteId}&sdk_ver={dllVersion}");
                 request.Method = "GET";
 
-                await PostToServer(request);
+                await PostToServer(request).ConfigureAwait(false);
             }
             
             return true;
@@ -916,7 +939,7 @@ namespace Microting.eForm.Communication
                 $"{addressBasic}/v1/survey_configurations?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            return await PostToServer(request);
+            return await PostToServer(request).ConfigureAwait(false);
         }
 
         public async Task<string> GetSurveyConfiguration(int id)
@@ -925,7 +948,7 @@ namespace Microting.eForm.Communication
                 $"{addressBasic}/v1/survey_configurations/{id}?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            return await PostToServer(request);
+            return await PostToServer(request).ConfigureAwait(false);
         }
         
         
@@ -940,7 +963,7 @@ namespace Microting.eForm.Communication
                 $"{addressBasic}/v1/question_sets?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            return await PostToServer(request);
+            return await PostToServer(request).ConfigureAwait(false);
         }
 
         public async Task<string> GetQuestionSet(int id)
@@ -949,7 +972,7 @@ namespace Microting.eForm.Communication
                 $"{addressBasic}/v1/question_sets/{id}?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            return await PostToServer(request);
+            return await PostToServer(request).ConfigureAwait(false);
         }
         
         #endregion
@@ -962,7 +985,7 @@ namespace Microting.eForm.Communication
                 $"{addressBasic}/v1/answers/{questionSetId}?token={token}&sdk_ver={dllVersion}&last_answer_id={lastAnswerId}");
             request.Method = "GET";
 
-            return await PostToServer(request);
+            return await PostToServer(request).ConfigureAwait(false);
         }
         
         #endregion
@@ -1063,6 +1086,10 @@ namespace Microting.eForm.Communication
                 {
                     response = ex.Response;
                     newUrl = response.Headers["Location"];
+                }
+                else
+                {
+                    throw;
                 }
             }
 
