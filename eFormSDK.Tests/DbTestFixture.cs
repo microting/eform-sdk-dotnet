@@ -102,12 +102,12 @@ namespace eFormSDK.Tests
         }
       
         [TearDown]
-        public void TearDown()
+        public async Task TearDown()
         {
 
             Console.WriteLine($"Starting TearDown {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
 
-            ClearDb().ConfigureAwait(false);
+            await ClearDb().ConfigureAwait(false);
 
             ClearFile();
 
