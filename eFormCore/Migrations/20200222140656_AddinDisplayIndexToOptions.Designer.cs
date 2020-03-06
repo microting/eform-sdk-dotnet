@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microting.eForm.Infrastructure;
 
 namespace Microting.eForm.Migrations
 {
     [DbContext(typeof(MicrotingDbContext))]
-    partial class MicrotingDbAnySqlModelSnapshot : ModelSnapshot
+    [Migration("20200222140656_AddinDisplayIndexToOptions")]
+    partial class AddinDisplayIndexToOptions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             string autoIDGenStrategy = "SqlServer:ValueGenerationStrategy";
@@ -1429,7 +1431,7 @@ namespace Microting.eForm.Migrations
 
                     b.Property<int?>("MicrotingUid");
 
-                    b.Property<int?>("NextQuestionId");
+                    b.Property<int>("NextQuestionId");
 
                     b.Property<int>("OptionId");
 
@@ -1469,7 +1471,7 @@ namespace Microting.eForm.Migrations
 
                     b.Property<int?>("MicrotingUid");
 
-                    b.Property<int?>("NextQuestionId");
+                    b.Property<int>("NextQuestionId");
 
                     b.Property<int>("OptionsIndex");
 
@@ -2311,12 +2313,6 @@ namespace Microting.eForm.Migrations
 
                     b.Property<int?>("CustomerNo");
 
-                    b.Property<string>("InSightVersion");
-
-                    b.Property<string>("LastIp");
-
-                    b.Property<bool>("LeftMenuEnabled");
-
                     b.Property<string>("Manufacturer");
 
                     b.Property<int?>("MicrotingUid");
@@ -2325,27 +2321,13 @@ namespace Microting.eForm.Migrations
 
                     b.Property<string>("Note");
 
-                    b.Property<string>("Os");
-
                     b.Property<string>("OsVersion");
 
                     b.Property<int?>("OtpCode");
 
-                    b.Property<bool>("PushEnabled");
-
-                    b.Property<bool>("SeparateFetchSend");
-
-                    b.Property<string>("SerialNumber");
-
                     b.Property<int?>("SiteId");
 
-                    b.Property<int>("SyncDefaultDelay");
-
-                    b.Property<bool>("SyncDelayEnabled");
-
-                    b.Property<int>("SyncDelayPrCheckList");
-
-                    b.Property<bool>("SyncDialog");
+                    b.Property<string>("SoftwareVersion");
 
                     b.Property<int?>("UnitId");
 
@@ -2355,8 +2337,6 @@ namespace Microting.eForm.Migrations
 
                     b.Property<string>("WorkflowState")
                         .HasMaxLength(255);
-
-                    b.Property<string>("eFormVersion");
 
                     b.HasKey("Id");
 
@@ -2373,12 +2353,6 @@ namespace Microting.eForm.Migrations
 
                     b.Property<int?>("CustomerNo");
 
-                    b.Property<string>("InSightVersion");
-
-                    b.Property<string>("LastIp");
-
-                    b.Property<bool>("LeftMenuEnabled");
-
                     b.Property<string>("Manufacturer");
 
                     b.Property<int?>("MicrotingUid");
@@ -2387,27 +2361,13 @@ namespace Microting.eForm.Migrations
 
                     b.Property<string>("Note");
 
-                    b.Property<string>("Os");
-
                     b.Property<string>("OsVersion");
 
                     b.Property<int?>("OtpCode");
 
-                    b.Property<bool>("PushEnabled");
-
-                    b.Property<bool>("SeparateFetchSend");
-
-                    b.Property<string>("SerialNumber");
-
                     b.Property<int?>("SiteId");
 
-                    b.Property<int>("SyncDefaultDelay");
-
-                    b.Property<bool>("SyncDelayEnabled");
-
-                    b.Property<int>("SyncDelayPrCheckList");
-
-                    b.Property<bool>("SyncDialog");
+                    b.Property<string>("SoftwareVersion");
 
                     b.Property<DateTime?>("UpdatedAt");
 
@@ -2415,8 +2375,6 @@ namespace Microting.eForm.Migrations
 
                     b.Property<string>("WorkflowState")
                         .HasMaxLength(255);
-
-                    b.Property<string>("eFormVersion");
 
                     b.HasKey("Id");
 

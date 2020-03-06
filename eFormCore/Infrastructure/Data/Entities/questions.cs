@@ -75,6 +75,15 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         public virtual ICollection<options> Options { get; set; }
 
+        public async Task Create(MicrotingDbContext dbContext, bool CreateSpecialQuestionTypes)
+        {
+            await Create(dbContext);
+            if (CreateSpecialQuestionTypes)
+            {
+                await GenerateSpecialQuestionTypes(dbContext, 1);
+            }
+        }
+
         public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
@@ -87,8 +96,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             dbContext.question_versions.Add(MapVersions(this));
             await dbContext.SaveChangesAsync();
-
-            await GenerateSpecialQuestionTypes(dbContext, 1);
 
             Id = Id;
         }

@@ -53,9 +53,9 @@ namespace eFormSDK.Integration.Tests
 
             DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
             SqlController sql = new SqlController(dbContextHelper);
-            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            await sql.SettingUpdate(Settings.firstRunDone, "true");
-            await sql.SettingUpdate(Settings.knownSitesDone, "true");
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef").ConfigureAwait(false);
+            await sql.SettingUpdate(Settings.firstRunDone, "true").ConfigureAwait(false);
+            await sql.SettingUpdate(Settings.knownSitesDone, "true").ConfigureAwait(false);
             #endregion
 
             sut = new Core();
@@ -65,7 +65,7 @@ namespace eFormSDK.Integration.Tests
             sut.HandleCaseDeleted += EventCaseDeleted;
             sut.HandleFileDownloaded += EventFileDownloaded;
             sut.HandleSiteActivated += EventSiteActivated;
-            await sut.StartSqlOnly(ConnectionString);
+            await sut.StartSqlOnly(ConnectionString).ConfigureAwait(false);
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
@@ -87,7 +87,7 @@ namespace eFormSDK.Integration.Tests
 
             //Act
             
-            await sut.FolderCreate(folderName, folderDescription, null);
+            await sut.FolderCreate(folderName, folderDescription, null).ConfigureAwait(false);
             
             //Assert
 
@@ -119,7 +119,7 @@ namespace eFormSDK.Integration.Tests
             string folderName = Guid.NewGuid().ToString();
             string folderDescription = Guid.NewGuid().ToString();
             
-            await sut.FolderCreate(folderName, folderDescription, null);
+            await sut.FolderCreate(folderName, folderDescription, null).ConfigureAwait(false);
 
             int firstFolderId = dbContext.folders.First().Id;
             
@@ -128,7 +128,7 @@ namespace eFormSDK.Integration.Tests
             
             
             // Act
-            await sut.FolderCreate(subFolderName, subFolderDescription, firstFolderId);
+            await sut.FolderCreate(subFolderName, subFolderDescription, firstFolderId).ConfigureAwait(false);
 
             var folderVersions = dbContext.folder_versions.AsNoTracking().ToList();
             var folders = dbContext.folders.AsNoTracking().ToList();
@@ -167,7 +167,7 @@ namespace eFormSDK.Integration.Tests
             folder.WorkflowState = Constants.WorkflowStates.Created;
             folder.MicrotingUid = 23123;
 
-            await folder.Create(dbContext);
+            await folder.Create(dbContext).ConfigureAwait(false);
 
             //Act
             
@@ -212,14 +212,14 @@ namespace eFormSDK.Integration.Tests
             folder.WorkflowState = Constants.WorkflowStates.Created;
             folder.MicrotingUid = 23123;
 
-            await folder.Create(dbContext);
+            await folder.Create(dbContext).ConfigureAwait(false);
 
             //Act
 
             string newFolderName = Guid.NewGuid().ToString();
             string newDescription = Guid.NewGuid().ToString();
             
-            await sut.FolderUpdate(folder.Id, newFolderName, newDescription, null);
+            await sut.FolderUpdate(folder.Id, newFolderName, newDescription, null).ConfigureAwait(false);
             
             var folderVersions = dbContext.folder_versions.AsNoTracking().ToList();
             var folders = dbContext.folders.AsNoTracking().ToList();

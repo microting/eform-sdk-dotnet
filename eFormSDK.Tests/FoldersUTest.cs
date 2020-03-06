@@ -50,7 +50,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await parentFolder.Create(dbContext);
+            await parentFolder.Create(dbContext).ConfigureAwait(false);
 
             folders folder = new folders
             {
@@ -62,7 +62,7 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await folder.Create(dbContext);
+            await folder.Create(dbContext).ConfigureAwait(false);
             
             List<folders> folders = dbContext.folders.AsNoTracking().ToList();
             List<folder_versions> folderVersions = dbContext.folder_versions.AsNoTracking().ToList();
@@ -107,7 +107,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await parentFolder.Create(dbContext);
+            await parentFolder.Create(dbContext).ConfigureAwait(false);
 
             folders folder = new folders
             {
@@ -116,7 +116,7 @@ namespace eFormSDK.Tests
                 MicrotingUid = rnd.Next(1, 255),
                 ParentId = parentFolder.Id
             };
-            await folder.Create(dbContext);
+            await folder.Create(dbContext).ConfigureAwait(false);
 
             //Act
             DateTime? oldUpdatedAt = folder.UpdatedAt;
@@ -127,7 +127,7 @@ namespace eFormSDK.Tests
             folder.Description = Guid.NewGuid().ToString();
             folder.Name = Guid.NewGuid().ToString();
             folder.MicrotingUid = rnd.Next(1, 255);
-            await folder.Update(dbContext);
+            await folder.Update(dbContext).ConfigureAwait(false);
             
             List<folders> folders = dbContext.folders.AsNoTracking().ToList();
             List<folder_versions> folderVersions = dbContext.folder_versions.AsNoTracking().ToList();
@@ -183,7 +183,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await parentFolder.Create(dbContext);
+            await parentFolder.Create(dbContext).ConfigureAwait(false);
 
             folders folder = new folders
             {
@@ -192,7 +192,7 @@ namespace eFormSDK.Tests
                 MicrotingUid = rnd.Next(1, 255),
                 ParentId = parentFolder.Id
             };
-            await folder.Create(dbContext);
+            await folder.Create(dbContext).ConfigureAwait(false);
 
             //Act
             

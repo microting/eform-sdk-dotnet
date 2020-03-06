@@ -51,49 +51,49 @@ namespace Microting.eForm
         }
 
         #region public
-        public async Task LogEverything(string type, string message)
+        public Task LogEverything(string type, string message)
         {
-            await LogLogic(new LogEntry(4, type, message));
+            return LogLogic(new LogEntry(4, type, message));
         }
 
         #region public void     LogVariable (string type, ... variableName, string variableContent)
-        public async Task LogVariable(string type, string variableName, string variableContent)
+        public  Task LogVariable(string type, string variableName, string variableContent)
         {
             if (variableContent == null)
                 variableContent = "[null]";
 
-            await LogLogic(new LogEntry(3, type, "Variable Name:" + variableName.ToString() + " / Content:" + variableContent.ToString()));
+            return LogLogic(new LogEntry(3, type, "Variable Name:" + variableName.ToString() + " / Content:" + variableContent.ToString()));
         }
 
-        public async Task LogVariable(string type, string variableName, int? variableContent)
+        public Task LogVariable(string type, string variableName, int? variableContent)
         {
-            await LogVariable(type, variableName, variableContent.ToString());
+            return LogVariable(type, variableName, variableContent.ToString());
         }
 
-        public async Task LogVariable(string type, string variableName, bool? variableContent)
+        public Task LogVariable(string type, string variableName, bool? variableContent)
         {
-            await LogVariable(type, variableName, variableContent.ToString());
+            return LogVariable(type, variableName, variableContent.ToString());
         }
 
-        public async Task LogVariable(string type, string variableName, DateTime? variableContent)
+        public Task LogVariable(string type, string variableName, DateTime? variableContent)
         {
-            await LogVariable(type, variableName, variableContent.ToString());
+            return LogVariable(type, variableName, variableContent.ToString());
         }
         #endregion
 
-        public async Task LogStandard(string type, string message)
+        public Task LogStandard(string type, string message)
         {
-            await LogLogic(new LogEntry(2, type, message));
+            return LogLogic(new LogEntry(2, type, message));
         }
 
-        public async Task LogCritical(string type, string message)
+        public Task LogCritical(string type, string message)
         {
-            await LogLogic(new LogEntry(1, type, message));
+            return LogLogic(new LogEntry(1, type, message));
         }
 
-        public async Task LogWarning(string type, string message)
+        public Task LogWarning(string type, string message)
         {
-            await LogLogic(new LogEntry(0, type, message));
+            return LogLogic(new LogEntry(0, type, message));
         }
 
         public async Task LogException(string type, string exceptionDescription, Exception exception, bool restartCore)

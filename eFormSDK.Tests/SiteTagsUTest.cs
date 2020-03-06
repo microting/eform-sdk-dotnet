@@ -48,15 +48,14 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             tags tag = new tags
             {
                 Name = Guid.NewGuid().ToString(), 
                 TaggingsCount = rnd.Next(1, 255)
             };
-            await tag.Create(dbContext);
-
+            await tag.Create(dbContext).ConfigureAwait(false);
 
             site_tags siteTag = new site_tags
             {
@@ -65,7 +64,7 @@ namespace eFormSDK.Tests
             };
 
             // Act
-            await siteTag.Create(dbContext);
+            await siteTag.Create(dbContext).ConfigureAwait(false);
 
 
             List<site_tags> siteTags = dbContext.SiteTags.AsNoTracking().ToList();
@@ -94,14 +93,14 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             sites site2 = new sites
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site2.Create(dbContext);
+            await site2.Create(dbContext).ConfigureAwait(false);
 
 
             tags tag = new tags
@@ -109,14 +108,14 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 TaggingsCount = rnd.Next(1, 255)
             };
-            await tag.Create(dbContext);
+            await tag.Create(dbContext).ConfigureAwait(false);
 
             tags tag2 = new tags
             {
                 Name = Guid.NewGuid().ToString(), 
                 TaggingsCount = rnd.Next(1, 255)
             };
-            await tag2.Create(dbContext);
+            await tag2.Create(dbContext).ConfigureAwait(false);
 
             
 
@@ -125,7 +124,7 @@ namespace eFormSDK.Tests
                 SiteId = site.Id,
                 TagId = tag.Id
             };
-            await siteTag.Create(dbContext);
+            await siteTag.Create(dbContext).ConfigureAwait(false);
 
             int? oldSiteId = siteTag.SiteId;
             int? oldTagId = siteTag.TagId;
@@ -134,7 +133,7 @@ namespace eFormSDK.Tests
             siteTag.TagId = tag2.Id;
             
             // Act
-            await siteTag.Update(dbContext);
+            await siteTag.Update(dbContext).ConfigureAwait(false);
 
             List<site_tags> siteTags = dbContext.SiteTags.AsNoTracking().ToList();
             List<site_tag_versions> siteTagVersions = dbContext.SiteTagVersions.AsNoTracking().ToList();
@@ -164,14 +163,14 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             tags tag = new tags
             {
                 Name = Guid.NewGuid().ToString(), 
                 TaggingsCount = rnd.Next(1, 255)
             };
-            await tag.Create(dbContext);
+            await tag.Create(dbContext).ConfigureAwait(false);
 
 
             site_tags siteTag = new site_tags
@@ -179,10 +178,10 @@ namespace eFormSDK.Tests
                 SiteId = site.Id,
                 TagId = tag.Id
             };
-            await siteTag.Create(dbContext);
+            await siteTag.Create(dbContext).ConfigureAwait(false);
 
             // Act
-            await siteTag.Delete(dbContext);
+            await siteTag.Delete(dbContext).ConfigureAwait(false);
 
             List<site_tags> siteTags = dbContext.SiteTags.AsNoTracking().ToList();
             List<site_tag_versions> siteTagVersions = dbContext.SiteTagVersions.AsNoTracking().ToList();
@@ -214,14 +213,14 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             tags tag = new tags
             {
                 Name = Guid.NewGuid().ToString(),
                 TaggingsCount = rnd.Next(1, 255)
             };
-            await tag.Create(dbContext);
+            await tag.Create(dbContext).ConfigureAwait(false);
 
 
             site_tags siteTag = new site_tags
@@ -230,11 +229,11 @@ namespace eFormSDK.Tests
                 TagId = tag.Id
             };
             // Act
-            await siteTag.Create(dbContext);
-            await siteTag.Delete(dbContext);
+            await siteTag.Create(dbContext).ConfigureAwait(false);
+            await siteTag.Delete(dbContext).ConfigureAwait(false);
             siteTag.WorkflowState = Constants.WorkflowStates.Created;
-            await siteTag.Update(dbContext);
-            await siteTag.Delete(dbContext);
+            await siteTag.Update(dbContext).ConfigureAwait(false);
+            await siteTag.Delete(dbContext).ConfigureAwait(false);
             
             List<site_tags> siteTags = dbContext.SiteTags.AsNoTracking().ToList();
             List<site_tag_versions> siteTagVersions = dbContext.SiteTagVersions.AsNoTracking().ToList();

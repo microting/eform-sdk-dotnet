@@ -29,5 +29,11 @@ namespace Microting.eForm.Messages
         
         public string NotificationUId { get; protected set; }
         public int MicrotringUUID { get; protected set; }
+
+        public AnswerCompleted(string notificationUId, int microtringUuid)
+        {
+            NotificationUId = notificationUId;
+            MicrotringUUID = microtringUuid;
+        }
     }
 }

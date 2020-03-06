@@ -57,13 +57,16 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             CreatedAt = DateTime.Now;
             UpdatedAt = DateTime.Now;
             Version = 1;
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
+            if (WorkflowState == null)
+            {
+                WorkflowState = Constants.Constants.WorkflowStates.Created; 
+            }
 
             dbContext.survey_configurations.Add(this);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             dbContext.survey_configuration_versions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public async Task Update(MicrotingDbContext dbContext)

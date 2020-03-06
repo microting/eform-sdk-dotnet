@@ -103,6 +103,8 @@ namespace Microting.eForm.Communication
 
         Task<string> UnitMove(int unitId, int siteId);
 
+        Task<string> UnitCreate(int siteMicrotingUid);
+
         Task<string> OrganizationLoadAllFromRemote();
 
         Task<int> SpeechToText(string pathToAudioFile, string language);
@@ -111,5 +113,14 @@ namespace Microting.eForm.Communication
 
         Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite);
 
+        Task<string> GetAllSurveyConfigurations();
+
+        Task<string> GetSurveyConfiguration(int id);
+
+        Task<string> GetAllQuestionSets();
+
+        Task<string> GetQuestionSet(int id);
+
+        Task<string> GetLastAnswer(int questionSetId, int lastAnswerId);
     }
 }

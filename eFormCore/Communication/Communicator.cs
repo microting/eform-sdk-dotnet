@@ -100,11 +100,9 @@ namespace Microting.eForm.Communication
         /// </summary>
         /// <param name="xmlString">XML encoded eForm string.</param>
         /// <param name="siteId">Your device's Microting ID.</param>
-        public async Task<string> PostXml(string xmlString, int siteId)
+        public Task<string> PostXml(string xmlString, int siteId)
         {
-//            lock (_lockSending)
-//            {
-            await log.LogEverything("Communicator.PostXml", "called");
+            log.LogEverything("Communicator.PostXml", "called");
 
             //TODO - ALL xml hacks
             //XML HACK
@@ -117,11 +115,10 @@ namespace Microting.eForm.Communication
             //Missing serverside.
             //XML HACK
 
-            await log.LogVariable("Communicator.PostXml", nameof(xmlString), xmlString);
-            await log.LogVariable("Communicator.PostXml", nameof(siteId), siteId);
+            log.LogVariable("Communicator.PostXml", nameof(xmlString), xmlString);
+            log.LogVariable("Communicator.PostXml", nameof(siteId), siteId);
 
-            return await http.Post(xmlString, siteId.ToString());
-//            }
+            return http.Post(xmlString, siteId.ToString());
         }
 
         /// <summary>
@@ -129,16 +126,13 @@ namespace Microting.eForm.Communication
         /// </summary>
         /// <param name="eFormId">Identifier of the eForm to retrieve status of.</param>
         /// <param name="siteId">Your device's Microting ID.</param>
-        public async Task<string> CheckStatus(string eFormId, int siteId)
+        public Task<string> CheckStatus(string eFormId, int siteId)
         {
-//            lock (_lockSending)
-//            {
-            await log.LogEverything("Communicator.CheckStatus", "called");
-            await log.LogVariable("Communicator.CheckStatus", nameof(eFormId), eFormId);
-            await log.LogVariable("Communicator.CheckStatus", nameof(siteId), siteId);
+            log.LogEverything("Communicator.CheckStatus", "called");
+            log.LogVariable("Communicator.CheckStatus", nameof(eFormId), eFormId);
+            log.LogVariable("Communicator.CheckStatus", nameof(siteId), siteId);
 
-            return await http.Status(eFormId, siteId.ToString());
-//            }
+            return http.Status(eFormId, siteId.ToString());
         }
 
         //public bool CheckStatusUpdateIfNeeded(string microtingUId)
@@ -195,16 +189,13 @@ namespace Microting.eForm.Communication
         /// </summary>
         /// <param name="eFormId">Identifier of the eForm to retrieve results from.</param>
         /// <param name="siteId">Your device's Microting ID.</param>
-        public async Task<string> Retrieve(string eFormId, int siteId)
+        public Task<string> Retrieve(string eFormId, int siteId)
         {
-//            lock (_lockSending)
-//            {
-            await log.LogEverything("Communicator.Retrieve", "called");
-            await log.LogVariable("Communicator.Retrieve", nameof(eFormId), eFormId);
-            await log.LogVariable("Communicator.Retrieve", nameof(siteId), siteId);
+            log.LogEverything("Communicator.Retrieve", "called");
+            log.LogVariable("Communicator.Retrieve", nameof(eFormId), eFormId);
+            log.LogVariable("Communicator.Retrieve", nameof(siteId), siteId);
 
-            return await http.Retrieve(eFormId, "0", siteId); //Always gets the first
-//            }
+            return http.Retrieve(eFormId, "0", siteId); //Always gets the first
         }
 
         /// <summary>
@@ -213,17 +204,14 @@ namespace Microting.eForm.Communication
         /// <param name="eFormId">Identifier of the eForm to retrieve results from.</param>
         /// <param name="siteId">Your device's Microting ID.</param>
         /// <param name="eFormCheckId">Identifier of the check to begin from.</param>
-        public async Task<string> RetrieveFromId(string eFormId, int siteId, string eFormCheckId)
+        public Task<string> RetrieveFromId(string eFormId, int siteId, string eFormCheckId)
         {
-//            lock (_lockSending)
-//            {
-            await log.LogEverything("Communicator.RetrieveFromId", "called");
-            await log.LogVariable("Communicator.RetrieveFromId", nameof(eFormId), eFormId);
-            await log.LogVariable("Communicator.RetrieveFromId", nameof(siteId), siteId);
-            await log.LogVariable("Communicator.RetrieveFromId", nameof(eFormCheckId), eFormCheckId);
+            log.LogEverything("Communicator.RetrieveFromId", "called");
+            log.LogVariable("Communicator.RetrieveFromId", nameof(eFormId), eFormId);
+            log.LogVariable("Communicator.RetrieveFromId", nameof(siteId), siteId);
+            log.LogVariable("Communicator.RetrieveFromId", nameof(eFormCheckId), eFormCheckId);
 
-            return await http.Retrieve(eFormId, eFormCheckId, siteId);
-//            }
+            return http.Retrieve(eFormId, eFormCheckId, siteId);
         }
 
         /// <summary>
@@ -231,16 +219,14 @@ namespace Microting.eForm.Communication
         /// </summary>
         /// <param name="eFormId">Identifier of the eForm to mark for deletion.</param>
         /// <param name="siteId">Your device's Microting ID.</param>
-        public async Task<string> Delete(string eFormId, int siteId)
+        public Task<string> Delete(string eFormId, int siteId)
         {
-//            lock (_lockSending)
-//            {
-            await log.LogEverything("Communicator.Delete", "called");
-            await log.LogVariable("Communicator.Delete", nameof(eFormId), eFormId);
-            await log.LogVariable("Communicator.Delete", nameof(siteId), siteId);
 
-            return await http.Delete(eFormId, siteId.ToString());
-//            }
+            log.LogEverything("Communicator.Delete", "called");
+            log.LogVariable("Communicator.Delete", nameof(eFormId), eFormId);
+            log.LogVariable("Communicator.Delete", nameof(siteId), siteId);
+
+            return http.Delete(eFormId, siteId.ToString());
         }
         #endregion
 
@@ -272,13 +258,13 @@ namespace Microting.eForm.Communication
             return result;
         }
 
-        public async Task<bool> SiteUpdate(int siteId, string name)
+        public Task<bool> SiteUpdate(int siteId, string name)
         {
-            await log.LogEverything("Communicator.SiteUpdate", "called");
-            await log.LogVariable("Communicator.SiteUpdate", nameof(siteId), siteId);
-            await log.LogVariable("Communicator.SiteUpdate", nameof(name), name);
+            log.LogEverything("Communicator.SiteUpdate", "called");
+            log.LogVariable("Communicator.SiteUpdate", nameof(siteId), siteId);
+            log.LogVariable("Communicator.SiteUpdate", nameof(name), name);
 
-            return await http.SiteUpdate(siteId, name);
+            return http.SiteUpdate(siteId, name);
         }
 
         public async Task<bool> SiteDelete(int siteId)
@@ -335,15 +321,15 @@ namespace Microting.eForm.Communication
             return new WorkerDto(workerUid, firstName, lastName, email, createdAt, updatedAt);
         }
 
-        public async Task<bool> WorkerUpdate(int workerId, string firstName, string lastName, string email)
+        public Task<bool> WorkerUpdate(int workerId, string firstName, string lastName, string email)
         {
-            await log.LogEverything("Communicator.WorkerUpdate", "called");
-            await log.LogVariable("Communicator.WorkerUpdate", nameof(workerId), workerId);
-            await log.LogVariable("Communicator.WorkerUpdate", nameof(firstName), firstName);
-            await log.LogVariable("Communicator.WorkerUpdate", nameof(lastName), lastName);
-            await log.LogVariable("Communicator.WorkerUpdate", nameof(email), email);
+            log.LogEverything("Communicator.WorkerUpdate", "called");
+            log.LogVariable("Communicator.WorkerUpdate", nameof(workerId), workerId);
+            log.LogVariable("Communicator.WorkerUpdate", nameof(firstName), firstName);
+            log.LogVariable("Communicator.WorkerUpdate", nameof(lastName), lastName);
+            log.LogVariable("Communicator.WorkerUpdate", nameof(email), email);
 
-            return await http.WorkerUpdate(workerId, firstName, lastName, email);
+            return http.WorkerUpdate(workerId, firstName, lastName, email);
         }
 
         public async Task<bool> WorkerDelete(int workerId)
@@ -429,12 +415,12 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region public unit      
-        public async Task<int> UnitRequestOtp(int microtingUid)
+        public Task<int> UnitRequestOtp(int microtingUid)
         {
-            await log.LogEverything("Communicator.UnitRequestOtp", "called");
-            await log.LogVariable("Communicator.UnitRequestOtp", nameof(microtingUid), microtingUid);
+            log.LogEverything("Communicator.UnitRequestOtp", "called");
+            log.LogVariable("Communicator.UnitRequestOtp", nameof(microtingUid), microtingUid);
 
-            return await http.UnitRequestOtp(microtingUid);
+            return http.UnitRequestOtp(microtingUid);
         }
 
         public async Task<List<UnitDto>> UnitLoadAllFromRemote(int customerNo)
@@ -491,6 +477,38 @@ namespace Microting.eForm.Communication
                 return false;
             }
         }
+
+        public async Task<string> UnitCreate(int siteMicrotingUid)
+        {
+            string methodName = "Communicator.UnitCreate";
+
+            await log.LogEverything(methodName, "called");
+            await log.LogVariable(methodName, nameof(siteMicrotingUid), siteMicrotingUid);
+
+            string response = await http.UnitCreate(siteMicrotingUid);
+
+            if (response.Contains(Constants.WorkflowStates.Active))
+            {
+                return response;
+            }
+            else
+            {
+                throw new Exception("Unable to create the unit");
+            }
+        }
+
+        public Task<string> UnitMove(int unitMicrotingUid, int siteMicrotingUid)
+        {
+            string methodName = "Communicator.UnitMove";
+
+            log.LogEverything(methodName, "called");
+            log.LogVariable(methodName, nameof(unitMicrotingUid), unitMicrotingUid);
+            log.LogVariable(methodName, nameof(siteMicrotingUid), siteMicrotingUid);
+
+            return http.UnitMove(unitMicrotingUid, siteMicrotingUid);
+
+        }
+        
         #endregion
 
         #region public organization      
@@ -533,7 +551,7 @@ namespace Microting.eForm.Communication
         {
             await log.LogEverything("Communicator.FolderLoadAllFromRemote", "called");
 
-            string rawData = await http.FolderLoadAllFromRemote();
+            string rawData = await http.FolderLoadAllFromRemote().ConfigureAwait(false);
             
             List<FolderDto> list = new List<FolderDto>();
             if (!string.IsNullOrEmpty(rawData))
@@ -563,21 +581,21 @@ namespace Microting.eForm.Communication
         
         public async Task<int> FolderCreate(string name, string description, int? parentId)
         {
-            var parsedData = JRaw.Parse(await http.FolderCreate(name, description, parentId));
+            var parsedData = JRaw.Parse(await http.FolderCreate(name, description, parentId).ConfigureAwait(false));
 
             int microtingUUID  = int.Parse(parsedData["id"].ToString());
 
             return microtingUUID;
         }
 
-        public async Task FolderUpdate(int id, string name, string description, int? parentId)
+        public Task FolderUpdate(int id, string name, string description, int? parentId)
         {
-            await http.FolderUpdate(id, name, description, parentId);
+            return http.FolderUpdate(id, name, description, parentId);
         }
 
         public async Task<bool> FolderDelete(int id)
         {
-            string response = await http.FolderDelete(id);
+            string response = await http.FolderDelete(id).ConfigureAwait(false);
             var parsedData = JRaw.Parse(response);
 
             if (parsedData["workflow_state"].ToString() == Constants.WorkflowStates.Removed)
@@ -729,23 +747,16 @@ namespace Microting.eForm.Communication
             }
         }
 
-        public async Task<bool> EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
+        public Task<bool> EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
         {
-            await log.LogEverything("Communicator.EntitySearchItemUpdate", "called");
-            await log.LogVariable("Communicator.EntitySearchItemUpdate", nameof(entitySearchGroupId), entitySearchGroupId);
-            await log.LogVariable("Communicator.EntitySearchItemUpdate", nameof(entitySearchItemId), entitySearchItemId);
-            await log.LogVariable("Communicator.EntitySearchItemUpdate", nameof(name), name);
-            await log.LogVariable("Communicator.EntitySearchItemUpdate", nameof(id), id);
-            await log.LogVariable("Communicator.EntitySearchItemUpdate", nameof(description), description);
+            log.LogEverything("Communicator.EntitySearchItemUpdate", "called");
+            log.LogVariable("Communicator.EntitySearchItemUpdate", nameof(entitySearchGroupId), entitySearchGroupId);
+            log.LogVariable("Communicator.EntitySearchItemUpdate", nameof(entitySearchItemId), entitySearchItemId);
+            log.LogVariable("Communicator.EntitySearchItemUpdate", nameof(name), name);
+            log.LogVariable("Communicator.EntitySearchItemUpdate", nameof(id), id);
+            log.LogVariable("Communicator.EntitySearchItemUpdate", nameof(description), description);
 
-            //try
-            //{
-            return await http.EntitySearchItemUpdate(entitySearchGroupId, entitySearchItemId, name, description, id);
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new Exception("EntitySearchItemUpdate failed", ex);
-            //}
+            return http.EntitySearchItemUpdate(entitySearchGroupId, entitySearchItemId, name, description, id);
         }
 
         public async Task<bool> EntitySearchItemDelete(string entitySearchItemId)
@@ -783,23 +794,16 @@ namespace Microting.eForm.Communication
             }
         }
 
-        public async Task<bool> EntitySelectItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, int displayOrder, string ownUUID)
+        public Task<bool> EntitySelectItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, int displayOrder, string ownUUID)
         {
-            await log.LogEverything("Communicator.EntitySelectItemUpdate", "called");
-            await log.LogVariable("Communicator.EntitySelectItemUpdate", nameof(entitySearchGroupId), entitySearchGroupId);
-            await log.LogVariable("Communicator.EntitySelectItemUpdate", nameof(entitySearchItemId), entitySearchItemId);
-            await log.LogVariable("Communicator.EntitySelectItemUpdate", nameof(name), name);
-            await log.LogVariable("Communicator.EntitySelectItemUpdate", nameof(displayOrder), displayOrder);
-            await log.LogVariable("Communicator.EntitySelectItemUpdate", nameof(ownUUID), ownUUID);
+            log.LogEverything("Communicator.EntitySelectItemUpdate", "called");
+            log.LogVariable("Communicator.EntitySelectItemUpdate", nameof(entitySearchGroupId), entitySearchGroupId);
+            log.LogVariable("Communicator.EntitySelectItemUpdate", nameof(entitySearchItemId), entitySearchItemId);
+            log.LogVariable("Communicator.EntitySelectItemUpdate", nameof(name), name);
+            log.LogVariable("Communicator.EntitySelectItemUpdate", nameof(displayOrder), displayOrder);
+            log.LogVariable("Communicator.EntitySelectItemUpdate", nameof(ownUUID), ownUUID);
 
-            //try
-            //{
-            return await http.EntitySelectItemUpdate(entitySearchGroupId, entitySearchItemId, name, displayOrder, ownUUID);
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new Exception("EntitySearchItemUpdate failed", ex);
-            //}
+            return http.EntitySelectItemUpdate(entitySearchGroupId, entitySearchItemId, name, displayOrder, ownUUID);
         }
 
         public async Task<bool> EntitySelectItemDelete(string entitySearchItemId)
@@ -885,6 +889,106 @@ namespace Microting.eForm.Communication
         }
         #endregion
 
+        #region InSight
+        
+        #region SurveyConfiguration
+
+        public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
+        {
+            await log.LogEverything(t.GetMethodName("Communicator"), "called");
+
+            try
+            {
+                return await http.SetSurveyConfiguration(id, siteId, addSite);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName("Communicator") + " failed", ex);
+            }
+        }
+
+        public async Task<string> GetAllSurveyConfigurations()
+        {
+            await log.LogEverything(t.GetMethodName("Communicator"), "called");
+
+            try
+            {
+                return await http.GetAllSurveyConfigurations();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName("Communicator") + " failed", ex);
+            }
+        }
+
+        public async Task<string> GetSurveyConfiguration(int id)
+        {
+            await log.LogEverything(t.GetMethodName("Communicator"), "called");
+
+            try
+            {
+                return await http.GetSurveyConfiguration(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName("Communicator") + " failed", ex);
+            }
+        } 
+        
+        #endregion
+        
+        #region QuestionSet
+
+        public async Task<string> GetAllQuestionSets()
+        {
+            await log.LogEverything(t.GetMethodName("Communicator"), "called");
+
+            try
+            {
+                return await http.GetAllQuestionSets();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName("Communicator") + " failed", ex);
+            }
+        }
+
+        public async Task<string> GetQuestionSet(int id)
+        {
+            await log.LogEverything(t.GetMethodName("Communicator"), "called");
+
+            try
+            {
+                return await http.GetQuestionSet(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName("Communicator") + " failed", ex);
+            }
+        }
+        
+        #endregion
+        
+        #region Answer
+        
+        public async Task<string> GetLastAnswer(int questionSetId, int lastAnswerId)
+        {
+            await log.LogEverything(t.GetMethodName("Communicator"), "called");
+
+            try
+            {
+                return await http.GetLastAnswer(questionSetId, lastAnswerId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(t.GetMethodName("Communicator") + " failed", ex);
+            }
+        }
+        
+        #endregion
+        
+        #endregion
+        
         #region remove unwanted/uneeded methods from finished DLL
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override bool Equals(object obj)

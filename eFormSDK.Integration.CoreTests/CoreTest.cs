@@ -54,9 +54,9 @@ namespace eFormSDK.Integration.Tests
             
             DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
             SqlController sql = new SqlController(dbContextHelper);
-            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            await sql.SettingUpdate(Settings.firstRunDone, "true");
-            await sql.SettingUpdate(Settings.knownSitesDone, "true");
+            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef").ConfigureAwait(false);
+            await sql.SettingUpdate(Settings.firstRunDone, "true").ConfigureAwait(false);
+            await sql.SettingUpdate(Settings.knownSitesDone, "true").ConfigureAwait(false);
             #endregion
 
             sut = new Core();
@@ -66,7 +66,7 @@ namespace eFormSDK.Integration.Tests
             sut.HandleCaseDeleted += EventCaseDeleted;
             sut.HandleFileDownloaded += EventFileDownloaded;
             sut.HandleSiteActivated += EventSiteActivated;
-            await sut.StartSqlOnly(ConnectionString);
+            await sut.StartSqlOnly(ConnectionString).ConfigureAwait(false);
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
             path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
@@ -84,7 +84,7 @@ namespace eFormSDK.Integration.Tests
             string microtingUuid = await testHelperReturnXml.CreateMultiPictureXMLResult(true);
             
             // Act
-            await sut.CheckStatusByMicrotingUid(int.Parse(microtingUuid));
+            await sut.CheckStatusByMicrotingUid(int.Parse(microtingUuid)).ConfigureAwait(false);
 
             // Assert
             List<cases> caseMatches = dbContext.cases.AsNoTracking().ToList();

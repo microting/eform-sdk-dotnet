@@ -43,15 +43,37 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public virtual sites Site { get; set; }
         
+        public string Os { get; set; }
+        
         public string OsVersion { get; set; }
         
-        public string SoftwareVersion { get; set; }
+        public string eFormVersion { get; set; }
+        
+        public string InSightVersion { get; set; }
         
         public string Manufacturer { get; set; }
         
         public string Model { get; set; }
         
         public string Note { get; set; }
+        
+        public string SerialNumber { get; set; }
+        
+        public string LastIp { get; set; }
+        
+        public bool SeparateFetchSend { get; set; }
+        
+        public bool LeftMenuEnabled { get; set; }
+        
+        public bool SyncDialog { get; set; }
+        
+        public bool PushEnabled { get; set; }
+        
+        public bool SyncDelayEnabled { get; set; }
+        
+        public int SyncDefaultDelay { get; set; }
+        
+        public int SyncDelayPrCheckList { get; set; }
         
         public async Task Create(MicrotingDbContext dbContext)
         {
@@ -79,7 +101,23 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             unit.SiteId = SiteId;
             unit.MicrotingUid = MicrotingUid;
             unit.OtpCode = OtpCode;
+            unit.Model = Model;
+            unit.Manufacturer = Manufacturer;
+            unit.eFormVersion = eFormVersion;
+            unit.InSightVersion = InSightVersion;
+            unit.Os = Os;
+            unit.OsVersion = OsVersion;
+            unit.Note = Note;
             unit.CustomerNo = CustomerNo;
+            unit.SerialNumber = SerialNumber;
+            unit.LastIp = LastIp;
+            unit.SeparateFetchSend = SeparateFetchSend;
+            unit.LeftMenuEnabled = LeftMenuEnabled;
+            unit.SyncDialog = SyncDialog;
+            unit.PushEnabled = PushEnabled;
+            unit.SyncDelayEnabled = SyncDelayEnabled;
+            unit.SyncDefaultDelay = SyncDefaultDelay;
+            unit.SyncDelayPrCheckList = SyncDelayPrCheckList;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
@@ -113,24 +151,35 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
         
-        private unit_versions MapVersions(units units)
+        private unit_versions MapVersions(units unit)
         {
             return new unit_versions
             {
-                WorkflowState = units.WorkflowState,
-                Version = units.Version,
-                CreatedAt = units.CreatedAt,
-                UpdatedAt = units.UpdatedAt,
-                MicrotingUid = units.MicrotingUid,
-                SiteId = units.SiteId,
-                CustomerNo = units.CustomerNo,
-                OtpCode = units.OtpCode,
-                UnitId = units.Id,
-                Manufacturer = units.Manufacturer,
-                Model = units.Model,
-                OsVersion = units.OsVersion,
-                SoftwareVersion = units.SoftwareVersion,
-                Note = units.Note
+                WorkflowState = unit.WorkflowState,
+                Version = unit.Version,
+                CreatedAt = unit.CreatedAt,
+                UpdatedAt = unit.UpdatedAt,
+                MicrotingUid = unit.MicrotingUid,
+                SiteId = unit.SiteId,
+                CustomerNo = unit.CustomerNo,
+                OtpCode = unit.OtpCode,
+                UnitId = unit.Id,
+                Manufacturer = unit.Manufacturer,
+                Model = unit.Model,
+                Os = unit.Os,
+                OsVersion = unit.OsVersion,
+                eFormVersion = unit.eFormVersion,
+                InSightVersion = unit.InSightVersion,
+                Note = unit.Note,
+                SerialNumber = unit.SerialNumber,
+                LastIp = unit.LastIp,
+                SeparateFetchSend = unit.SeparateFetchSend,
+                LeftMenuEnabled = unit.LeftMenuEnabled,
+                SyncDialog = unit.SyncDialog,
+                PushEnabled = unit.PushEnabled,
+                SyncDelayEnabled = unit.SyncDelayEnabled,
+                SyncDefaultDelay = unit.SyncDefaultDelay,
+                SyncDelayPrCheckList = unit.SyncDelayPrCheckList
             };
         }
     }

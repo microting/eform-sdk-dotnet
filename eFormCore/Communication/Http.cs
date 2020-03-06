@@ -107,7 +107,7 @@ namespace Microting.eForm.Communication
                     $"{addressApi}/gwt/inspection_app/integration/{elementId}?token={token}&protocol={protocolXml}&site_id={siteId}&download=false&delete=false&sdk_ver={dllVersion}");
                 request.Method = "GET";
 
-                return await PostToServer(request);
+                return await PostToServer(request).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -128,7 +128,7 @@ namespace Microting.eForm.Communication
                     $"{addressApi}/gwt/inspection_app/integration/{microtingUuid}?token={token}&protocol={protocolXml}&site_id={siteId}&download=true&delete=false&last_check_id={microtingCheckUuid}&sdk_ver={dllVersion}");
                 request.Method = "GET";
 
-                return await PostToServer(request);
+                return await PostToServer(request).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -148,12 +148,12 @@ namespace Microting.eForm.Communication
                     $"{addressApi}/gwt/inspection_app/integration/{elementId}?token={token}&protocol={protocolXml}&site_id={siteId}&download=false&delete=true&sdk_ver={dllVersion}");
                 request.Method = "GET";
 
-                string result = await PostToServer(request);
+                string result = await PostToServer(request).ConfigureAwait(false);
 
                 if (result.Contains("No database connection information was found"))
                 {
                     Thread.Sleep(5000);
-                    result = await PostToServer(request);
+                    result = await PostToServer(request).ConfigureAwait(false);
                 }
 
                 return result;
@@ -221,7 +221,7 @@ namespace Microting.eForm.Communication
                 request.Method = "DELETE";
                 request.ContentType = "application/x-www-form-urlencoded";  //-- ?
 
-                string responseXml = await PostToServer(request);
+                string responseXml = await PostToServer(request).ConfigureAwait(false);
 
                 if (responseXml.Contains("Value type=\"success"))
                     return true;
@@ -277,7 +277,7 @@ namespace Microting.eForm.Communication
             request = WebRequest.Create($"{newUrl}?token={token}");
             request.Method = "GET";
 
-            string response = await PostToServer(request);
+            string response = await PostToServer(request).ConfigureAwait(false);
             
             return response.Contains("workflow_state\": \"created");
         }
@@ -289,7 +289,7 @@ namespace Microting.eForm.Communication
             request.Method = "DELETE";
             request.ContentType = "application/x-www-form-urlencoded";  //-- ?
 
-            string responseXml = await PostToServer(request);
+            string responseXml = await PostToServer(request).ConfigureAwait(false);
 
             if (responseXml.Contains("Value type=\"success"))
                 return true;
@@ -342,7 +342,7 @@ namespace Microting.eForm.Communication
             request = WebRequest.Create($"{newUrl}?token={token}");
             request.Method = "GET";
 
-            string response = await PostToServer(request);
+            string response = await PostToServer(request).ConfigureAwait(false);
             
             return response.Contains("workflow_state\": \"created");
         }
@@ -356,12 +356,12 @@ namespace Microting.eForm.Communication
                 request.Method = "DELETE";
                 request.ContentType = "application/json; charset=utf-8";
 
-                string newUrl = await PostToServerGetRedirect(request);
+                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
                 request = WebRequest.Create($"{newUrl}?token={token}");
                 request.Method = "GET";
 
-                string responseXml = await PostToServer(request);
+                string responseXml = await PostToServer(request).ConfigureAwait(false);
                 
                 return responseXml.Contains("workflow_state\": \"removed");
             }
@@ -406,7 +406,7 @@ namespace Microting.eForm.Communication
 			request = WebRequest.Create($"{newUrl}?token={token}");
 			request.Method = "GET";
 
-			string responseXml = await PostToServer(request);
+			string responseXml = await PostToServer(request).ConfigureAwait(false);
 			if (responseXml.Contains("workflow_state\": \"created"))
 				return true;
 			else
@@ -436,14 +436,14 @@ namespace Microting.eForm.Communication
             request.Method = "DELETE";
             request.ContentType = "application/json; charset=utf-8";
 
-            //string responseXml = PostToServerGetRedirect(request);
+            //string responseXml = PostToServerGetRedirect(request).ConfigureAwait(false);
 
-			string newUrl = await PostToServerGetRedirect(request);
+			string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
 			request = WebRequest.Create($"{newUrl}?token={token}");
 			request.Method = "GET";
 
-			string responseXml = await PostToServer(request);
+			string responseXml = await PostToServer(request).ConfigureAwait(false);
 			if (responseXml.Contains("workflow_state\": \"removed"))
 				return true;
 			else
@@ -496,7 +496,7 @@ namespace Microting.eForm.Communication
                     $"{addressApi}/gwt/inspection_app/integration/{microtingUId}?token={token}&protocol={protocolXml}&site_id={siteId}&download=false&delete=false&update_attributes=true&display_order={newDisplayIndex}&sdk_ver={dllVersion}");
                 request.Method = "GET";
 
-                return await PostToServer(request);
+                return await PostToServer(request).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -522,7 +522,7 @@ namespace Microting.eForm.Communication
             request = WebRequest.Create($"{newUrl}?token={token}");
             request.Method = "GET";
 
-            string response = await PostToServer(request);
+            string response = await PostToServer(request).ConfigureAwait(false);
 
             return response;
         }
@@ -551,12 +551,12 @@ namespace Microting.eForm.Communication
                 request.Method = "DELETE";
                 request.ContentType = "application/x-www-form-urlencoded";  //-- ?
 
-                string newUrl = await PostToServerGetRedirect(request);
+                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
                 request = WebRequest.Create($"{newUrl}?token={token}");
                 request.Method = "GET";
 
-                return await PostToServer(request);
+                return await PostToServer(request).ConfigureAwait(false);
 
             }
             catch (Exception ex)
@@ -570,7 +570,7 @@ namespace Microting.eForm.Communication
             WebRequest request = WebRequest.Create($"{addressBasic}/v1/sites?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            return await PostToServer(request);
+            return await PostToServer(request).ConfigureAwait(false);
         }
         #endregion
 
@@ -590,7 +590,7 @@ namespace Microting.eForm.Communication
             request = WebRequest.Create($"{newUrl}?token={token}");
             request.Method = "GET";
 
-            string response = await PostToServer(request);
+            string response = await PostToServer(request).ConfigureAwait(false);
 
             return response;
         }
@@ -619,12 +619,12 @@ namespace Microting.eForm.Communication
                 request.Method = "DELETE";
                 request.ContentType = "application/x-www-form-urlencoded";  //-- ?
 
-                string newUrl = await PostToServerGetRedirect(request);
+                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
                 request = WebRequest.Create($"{newUrl}?token={token}");
                 request.Method = "GET";
 
-                return await PostToServer(request);
+                return await PostToServer(request).ConfigureAwait(false);
 
             }
             catch (Exception ex)
@@ -638,7 +638,7 @@ namespace Microting.eForm.Communication
             WebRequest request = WebRequest.Create($"{addressBasic}/v1/users?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            return await PostToServer(request);
+            return await PostToServer(request).ConfigureAwait(false);
         }
         #endregion
 
@@ -658,7 +658,7 @@ namespace Microting.eForm.Communication
             request = WebRequest.Create($"{newUrl}?token={token}");
             request.Method = "GET";
 
-            string response = await PostToServer(request);
+            string response = await PostToServer(request).ConfigureAwait(false);
 
             return response;
         }
@@ -672,12 +672,12 @@ namespace Microting.eForm.Communication
                 request.Method = "DELETE";
                 request.ContentType = "application/x-www-form-urlencoded";  //-- ?
 
-                string newUrl = await PostToServerGetRedirect(request);
+                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
                 request = WebRequest.Create($"{newUrl}?token={token}");
                 request.Method = "GET";
 
-                return await PostToServer(request);
+                return await PostToServer(request).ConfigureAwait(false);
 
             }
             catch (Exception ex)
@@ -691,7 +691,7 @@ namespace Microting.eForm.Communication
             WebRequest request = WebRequest.Create($"{addressBasic}/v1/workers?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            return await PostToServer(request);
+            return await PostToServer(request).ConfigureAwait(false);
         }
 
         #endregion
@@ -705,7 +705,7 @@ namespace Microting.eForm.Communication
             WebRequest request = WebRequest.Create($"{addressBasic}/v1/folders?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            return await PostToServer(request);
+            return await PostToServer(request).ConfigureAwait(false);
         }
         
         public async Task<string> FolderCreate(string name, string description, int? parent_id)
@@ -723,7 +723,7 @@ namespace Microting.eForm.Communication
             request = WebRequest.Create($"{newUrl}?token={token}");
             request.Method = "GET";
 
-            string response = await PostToServer(request);
+            string response = await PostToServer(request).ConfigureAwait(false);
 
             return response;
         }
@@ -751,12 +751,12 @@ namespace Microting.eForm.Communication
                 request.Method = "DELETE";
                 request.ContentType = "application/x-www-form-urlencoded";
 
-                string newUrl = await PostToServerGetRedirect(request);
+                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
                 request = WebRequest.Create($"{newUrl}?token={token}");
                 request.Method = "GET";
                 
-                return await PostToServer(request);
+                return await PostToServer(request).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -791,7 +791,7 @@ namespace Microting.eForm.Communication
             WebRequest request = WebRequest.Create($"{addressBasic}/v1/units?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            return await PostToServer(request);
+            return await PostToServer(request).ConfigureAwait(false);
         }
         
         public async Task<string> UnitDelete(int id)
@@ -803,12 +803,12 @@ namespace Microting.eForm.Communication
                 request.Method = "DELETE";
                 request.ContentType = "application/x-www-form-urlencoded";  //-- ?
 
-                string newUrl = await PostToServerGetRedirect(request);
+                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
                 request = WebRequest.Create($"{newUrl}?token={token}");
                 request.Method = "GET";
 
-                return await PostToServer(request);
+                return await PostToServer(request).ConfigureAwait(false);
 
             }
             catch (Exception ex)
@@ -821,22 +821,45 @@ namespace Microting.eForm.Communication
         {
             try
             {
-                JObject content_to_microting = JObject.FromObject(new { model = new { site_id = siteId } });
+                JObject contentToMicroting = JObject.FromObject(new { site_id = siteId });
                 WebRequest request = WebRequest.Create(
-                    $"{addressBasic}/v1/units/{unitId}?token={token}&sdk_ver={dllVersion}&model={content_to_microting}");
+                    $"{addressBasic}/v1/units/{unitId}?token={token}&sdk_ver={dllVersion}&model={contentToMicroting}");
                 request.Method = "PUT";
                 request.ContentType = "application/x-www-form-urlencoded";
                 
-                string newUrl = await PostToServerGetRedirect(request);
+                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
                 request = WebRequest.Create($"{newUrl}?token={token}");
                 request.Method = "GET";
 
-                return await PostToServer(request);
+                return await PostToServer(request).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 throw new Exception("UnitDelete failed", ex);
+            }
+        }
+
+        public async Task<string> UnitCreate(int siteMicrotingUid)
+        {
+            try
+            {
+                JObject contentToMicroting = JObject.FromObject(new { site_id = siteMicrotingUid } );
+                WebRequest request = WebRequest.Create(
+                    $"{addressBasic}/v2/units/?token={token}&sdk_ver={dllVersion}&model={contentToMicroting}");
+                request.Method = "POST";
+                request.ContentType = "application/x-www-form-urlencoded";
+                
+                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
+
+                request = WebRequest.Create($"{newUrl}?token={token}");
+                request.Method = "GET";
+
+                return await PostToServer(request).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("UnitCreate failed", ex);
             }
         }
         
@@ -848,7 +871,7 @@ namespace Microting.eForm.Communication
             WebRequest request = WebRequest.Create(addressBasic + "/v1/organizations?token=" + token + "&sdk_ver=" + dllVersion);
             request.Method = "GET";
 
-            return await PostToServer(request);
+            return await PostToServer(request).ConfigureAwait(false);
         }
         #endregion
 
@@ -878,7 +901,7 @@ namespace Microting.eForm.Communication
                 $"{addressSpeechToText}/audio/{requestId}?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            string result = await PostToServer(request);
+            string result = await PostToServer(request).ConfigureAwait(false);
             JToken parsedData = JRaw.Parse(result);
             return parsedData;
         }
@@ -890,15 +913,80 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
         {
-            WebRequest request = WebRequest.Create(
-                $"{addressBasic}/v1/survey_configurations/{id}?token={token}&remove_site={addSite}&site_id={siteId}&sdk_ver={dllVersion}");
-            request.Method = "GET";
+            if (addSite)
+            {
+                WebRequest request = WebRequest.Create(
+                    $"{addressBasic}/v1/survey_configurations/{id}?token={token}&add_site=true&site_id={siteId}&sdk_ver={dllVersion}");
+                request.Method = "GET";
 
-            await PostToServer(request);
+                await PostToServer(request).ConfigureAwait(false);
+            }
+            else
+            {
+                WebRequest request = WebRequest.Create(
+                    $"{addressBasic}/v1/survey_configurations/{id}?token={token}&remove_site=true&site_id={siteId}&sdk_ver={dllVersion}");
+                request.Method = "GET";
+
+                await PostToServer(request).ConfigureAwait(false);
+            }
             
             return true;
         }
+
+        public async Task<string> GetAllSurveyConfigurations()
+        {
+            WebRequest request = WebRequest.Create(
+                $"{addressBasic}/v1/survey_configurations?token={token}&sdk_ver={dllVersion}");
+            request.Method = "GET";
+
+            return await PostToServer(request).ConfigureAwait(false);
+        }
+
+        public async Task<string> GetSurveyConfiguration(int id)
+        {
+            WebRequest request = WebRequest.Create(
+                $"{addressBasic}/v1/survey_configurations/{id}?token={token}&sdk_ver={dllVersion}");
+            request.Method = "GET";
+
+            return await PostToServer(request).ConfigureAwait(false);
+        }
         
+        
+        #endregion
+        
+        #region QuestionSet
+
+        public async Task<string> GetAllQuestionSets()
+        {
+            
+            WebRequest request = WebRequest.Create(
+                $"{addressBasic}/v1/question_sets?token={token}&sdk_ver={dllVersion}");
+            request.Method = "GET";
+
+            return await PostToServer(request).ConfigureAwait(false);
+        }
+
+        public async Task<string> GetQuestionSet(int id)
+        {
+            WebRequest request = WebRequest.Create(
+                $"{addressBasic}/v1/question_sets/{id}?token={token}&sdk_ver={dllVersion}");
+            request.Method = "GET";
+
+            return await PostToServer(request).ConfigureAwait(false);
+        }
+        
+        #endregion
+        
+        #region Answer
+
+        public async Task<string> GetLastAnswer(int questionSetId, int lastAnswerId)
+        {
+            WebRequest request = WebRequest.Create(
+                $"{addressBasic}/v1/answers/{questionSetId}?token={token}&sdk_ver={dllVersion}&last_answer_id={lastAnswerId}");
+            request.Method = "GET";
+
+            return await PostToServer(request).ConfigureAwait(false);
+        }
         
         #endregion
         
@@ -909,198 +997,196 @@ namespace Microting.eForm.Communication
         #region private
         private async Task<string> PostToServer(WebRequest request, byte[] content)
         {
-//            lock (_lock)
-//            {
-                // Hack for ignoring certificate validation.
-                DateTime start = DateTime.Now;
-                WriteDebugConsoleLogEntry("Http.PostToServer", $"Called at {start}");
-                ServicePointManager.ServerCertificateValidationCallback = Validator;
-                Stream dataRequestStream = request.GetRequestStream();
-                dataRequestStream.Write(content, 0, content.Length);
-                dataRequestStream.Close();
+            Console.WriteLine($"[DBG] Http.PostToServer: Calling {request.RequestUri}");
+            
+            // Hack for ignoring certificate validation.
+            DateTime start = DateTime.Now;
+            WriteDebugConsoleLogEntry("Http.PostToServer", $"Called at {start}");
+            ServicePointManager.ServerCertificateValidationCallback = Validator;
+            Stream dataRequestStream = request.GetRequestStream();
+            dataRequestStream.Write(content, 0, content.Length);
+            dataRequestStream.Close();
 
-                WebResponse response = request.GetResponse();
+            WebResponse response = request.GetResponse();
 
-                Stream dataResponseStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataResponseStream);
-                string responseFromServer = await reader.ReadToEndAsync();
+            Stream dataResponseStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(dataResponseStream);
+            string responseFromServer = await reader.ReadToEndAsync();
 
-                // Clean up the streams.
-                try
-                {
-                    reader.Close();
-                    dataResponseStream.Close();
-                    response.Close();
-                }
-                catch
-                {
+            // Clean up the streams.
+            try
+            {
+                reader.Close();
+                dataResponseStream.Close();
+                response.Close();
+            }
+            catch
+            {
 
-                }
+            }
 
-                WriteDebugConsoleLogEntry("Http.PostToServer", $"Finished at {DateTime.Now} - took {(start - DateTime.Now).ToString()}");
-                return responseFromServer;
-//            }
+            WriteDebugConsoleLogEntry("Http.PostToServer", $"Finished at {DateTime.Now} - took {(start - DateTime.Now).ToString()}");
+            return responseFromServer;
         }
 
         private async Task<string> PostToServerGetRedirect(WebRequest request, byte[] content)
         {
-//            lock (_lock)
-//            {
-                // Hack for ignoring certificate validation.
-                ServicePointManager.ServerCertificateValidationCallback = Validator;
+            Console.WriteLine($"[DBG] Http.PostToServerGetRedirect: Calling {request.RequestUri}");
 
-                Stream dataRequestStream = request.GetRequestStream();
-                dataRequestStream.Write(content, 0, content.Length);
-                dataRequestStream.Close();
+            // Hack for ignoring certificate validation.
+            ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-                HttpWebRequest httpRequest = (HttpWebRequest)request;
-                httpRequest.CookieContainer = new CookieContainer();
-                httpRequest.AllowAutoRedirect = false;
+            Stream dataRequestStream = request.GetRequestStream();
+            dataRequestStream.Write(content, 0, content.Length);
+            dataRequestStream.Close();
 
-                WebResponse response;
-                
-                string newUrl = "";
-                try
+            HttpWebRequest httpRequest = (HttpWebRequest)request;
+            httpRequest.CookieContainer = new CookieContainer();
+            httpRequest.AllowAutoRedirect = false;
+
+            WebResponse response;
+            
+            string newUrl = "";
+            try
+            {
+                response = (HttpWebResponse) await httpRequest.GetResponseAsync();
+            }
+            catch (WebException ex)
+            {
+                if (ex.Message.Contains("302") || ex.Message.Contains("301"))
                 {
-                    response = (HttpWebResponse) await httpRequest.GetResponseAsync();
+                    response = ex.Response;
+                    newUrl = response.Headers["Location"];
                 }
-                catch (WebException ex)
-                {
-                    if (ex.Message.Contains("302") || ex.Message.Contains("301"))
-                    {
-                        response = ex.Response;
-                        newUrl = response.Headers["Location"];
-                    }
-                }
-                return newUrl;
-//            }
+            }
+            return newUrl;
         }
 
         private async Task<string> PostToServerGetRedirect(WebRequest request)
         {
-//            lock (_lock)
-//            {
-                // Hack for ignoring certificate validation.
-                ServicePointManager.ServerCertificateValidationCallback = Validator;
+            Console.WriteLine($"[DBG] Http.PostToServerGetRedirect: Calling {request.RequestUri}");
+            
+            // Hack for ignoring certificate validation.
+            ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-                HttpWebRequest httpRequest = (HttpWebRequest)request;
-                httpRequest.CookieContainer = new CookieContainer();
-                httpRequest.AllowAutoRedirect = false;
+            HttpWebRequest httpRequest = (HttpWebRequest)request;
+            httpRequest.CookieContainer = new CookieContainer();
+            httpRequest.AllowAutoRedirect = false;
 
-                WebResponse response;
-                
-                string newUrl = "";
-                try
+            WebResponse response;
+            
+            string newUrl = "";
+            try
+            {
+                response = (HttpWebResponse) await httpRequest.GetResponseAsync();
+            }
+            catch (WebException ex)
+            {
+                if (ex.Message.Contains("302") || ex.Message.Contains("301"))
                 {
-                    response = (HttpWebResponse) await httpRequest.GetResponseAsync();
+                    response = ex.Response;
+                    newUrl = response.Headers["Location"];
                 }
-                catch (WebException ex)
+                else
                 {
-                    if (ex.Message.Contains("302") || ex.Message.Contains("301"))
-                    {
-                        response = ex.Response;
-                        newUrl = response.Headers["Location"];
-                    }
+                    throw;
                 }
+            }
 
-                return newUrl;
-//            }
+            return newUrl;
         }
 
         private async Task<string> PostToServerNoRedirect(WebRequest request, byte[] content)
         {
-//            lock (_lock)
-//            {
-                // Hack for ignoring certificate validation.
-                ServicePointManager.ServerCertificateValidationCallback = Validator;
+            Console.WriteLine($"[DBG] Http.PostToServerNoRedirect: Calling {request.RequestUri}");
 
-                Stream dataRequestStream = request.GetRequestStream();
-                dataRequestStream.Write(content, 0, content.Length);
-                dataRequestStream.Close();
+            // Hack for ignoring certificate validation.
+            ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-                HttpWebRequest httpRequest = (HttpWebRequest)request;
-                httpRequest.CookieContainer = new CookieContainer();
-                httpRequest.AllowAutoRedirect = false;
+            Stream dataRequestStream = request.GetRequestStream();
+            dataRequestStream.Write(content, 0, content.Length);
+            dataRequestStream.Close();
 
-                HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
-                Stream dataResponseStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataResponseStream);
-                string responseFromServer = await reader.ReadToEndAsync();
+            HttpWebRequest httpRequest = (HttpWebRequest)request;
+            httpRequest.CookieContainer = new CookieContainer();
+            httpRequest.AllowAutoRedirect = false;
 
-                // Clean up the streams.
-                try
-                {
-                    reader.Close();
-                    dataResponseStream.Close();
-                    response.Close();
-                }
-                catch
-                {
+            HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
+            Stream dataResponseStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(dataResponseStream);
+            string responseFromServer = await reader.ReadToEndAsync();
 
-                }
+            // Clean up the streams.
+            try
+            {
+                reader.Close();
+                dataResponseStream.Close();
+                response.Close();
+            }
+            catch
+            {
 
-                return responseFromServer;
-//            }
+            }
+
+            return responseFromServer;
         }
 
         private async Task<string> PostToServer(WebRequest request)
         {
-//            lock (_lock)
-//            {
-                // Hack for ignoring certificate validation.
-                ServicePointManager.ServerCertificateValidationCallback = Validator;
+            Console.WriteLine($"[DBG] Http.PostToServer: Calling {request.RequestUri}");
+            // Hack for ignoring certificate validation.
+            
+            ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-                WebResponse response = request.GetResponse();
-                Stream dataResponseStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataResponseStream);
-                string responseFromServer = await reader.ReadToEndAsync();
+            WebResponse response = request.GetResponse();
+            Stream dataResponseStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(dataResponseStream);
+            string responseFromServer = await reader.ReadToEndAsync();
 
-                // Clean up the streams.
-                try
-                {
-                    reader.Close();
-                    dataResponseStream.Close();
-                    response.Close();
-                }
-                catch
-                {
+            // Clean up the streams.
+            try
+            {
+                reader.Close();
+                dataResponseStream.Close();
+                response.Close();
+            }
+            catch
+            {
 
-                }
+            }
 
-                return responseFromServer;
-//            }
+            return responseFromServer;
         }
 
         private async Task<string> PostToServerNoRedirect(WebRequest request)
         {
-//            lock (_lock)
-//            {
-                // Hack for ignoring certificate validation.
-                ServicePointManager.ServerCertificateValidationCallback = Validator;
+            Console.WriteLine($"[DBG] Http.PostToServerNoRedirect: Calling {request.RequestUri}");
 
-                HttpWebRequest httpRequest = (HttpWebRequest)request;
-                httpRequest.CookieContainer = new CookieContainer();
-                httpRequest.AllowAutoRedirect = false;
+            // Hack for ignoring certificate validation.
+            ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-                HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
-                Stream dataResponseStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(dataResponseStream);
-                string responseFromServer = await reader.ReadToEndAsync();
+            HttpWebRequest httpRequest = (HttpWebRequest)request;
+            httpRequest.CookieContainer = new CookieContainer();
+            httpRequest.AllowAutoRedirect = false;
 
-                // Clean up the streams.
-                try
-                {
-                    reader.Close();
-                    dataResponseStream.Close();
-                    response.Close();
-                }
-                catch
-                {
+            HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
+            Stream dataResponseStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(dataResponseStream);
+            string responseFromServer = await reader.ReadToEndAsync();
 
-                }
+            // Clean up the streams.
+            try
+            {
+                reader.Close();
+                dataResponseStream.Close();
+                response.Close();
+            }
+            catch
+            {
 
-                return responseFromServer;
-//            }
+            }
+
+            return responseFromServer;
         }
 
         /// <summary>

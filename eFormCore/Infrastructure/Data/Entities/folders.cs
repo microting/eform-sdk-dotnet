@@ -56,10 +56,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             
             dbContext.folders.Add(this);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             dbContext.folder_versions.Add(MapFolderVersions(dbContext, this));
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public async Task Update(MicrotingDbContext dbContext)
@@ -81,7 +81,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 folder.Version += 1;
 
                 dbContext.folder_versions.Add(MapFolderVersions(dbContext, folder));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
 

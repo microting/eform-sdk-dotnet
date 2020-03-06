@@ -49,15 +49,15 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             UpdatedAt = DateTime.Now;
 
             dbContext.SiteTags.Add(this);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             dbContext.SiteTagVersions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public async Task Update(MicrotingDbContext dbContext)
         {
-            site_tags siteTags = await dbContext.SiteTags.FirstOrDefaultAsync(x => x.Id == Id);
+            site_tags siteTags = await dbContext.SiteTags.FirstOrDefaultAsync(x => x.Id == Id).ConfigureAwait(false);
 
             if (siteTags == null)
             {
@@ -74,14 +74,14 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 siteTags.UpdatedAt = DateTime.Now;
 
                 dbContext.SiteTagVersions.Add(MapVersions(siteTags));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
             
         }
 
         public async Task Delete(MicrotingDbContext dbContext)
         {
-            site_tags siteTags = await dbContext.SiteTags.FirstOrDefaultAsync(x => x.Id == Id);
+            site_tags siteTags = await dbContext.SiteTags.FirstOrDefaultAsync(x => x.Id == Id).ConfigureAwait(false);
 
             if (siteTags == null)
             {
@@ -96,7 +96,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 siteTags.UpdatedAt = DateTime.Now;
 
                 dbContext.SiteTagVersions.Add(MapVersions(siteTags));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
 

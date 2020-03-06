@@ -81,7 +81,7 @@ namespace eFormSDK.Integration.Tests
 
             try
             {
-                await ClearDb();
+                await ClearDb().ConfigureAwait(false);
             }
             catch
             {
@@ -102,19 +102,15 @@ namespace eFormSDK.Integration.Tests
 
                 firstRunDone = true;
             }
-            
-
-            await DoSetup();
+            await DoSetup().ConfigureAwait(false);            
             Console.WriteLine($"End Setup {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
-
         }
       
         [TearDown]
         public void TearDown()
         {
             Console.WriteLine($"Starting TearDown {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
-
-//            await ClearDb();
+            await ClearDb().ConfigureAwait(false);
 
             ClearFile();
             Console.WriteLine($"End TearDown {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
@@ -169,6 +165,8 @@ namespace eFormSDK.Integration.Tests
             modelNames.Add("survey_configuration_versions");
             modelNames.Add("site_survey_configurations");
             modelNames.Add("site_survey_configuration_versions");
+            modelNames.Add("site_tag_versions");
+            modelNames.Add("site_tags");
             modelNames.Add("languages");
             modelNames.Add("language_versions");
             modelNames.Add("question_sets");
@@ -181,6 +179,12 @@ namespace eFormSDK.Integration.Tests
             modelNames.Add("answer_versions");
             modelNames.Add("answer_values");
             modelNames.Add("answer_value_versions");
+            modelNames.Add("QuestionTranslationVersions");
+            modelNames.Add("QuestionTranslations");
+            modelNames.Add("OptionTranslationVersions");
+            modelNames.Add("OptionTranslations");
+            modelNames.Add("LanguageQuestionSetVersions");
+            modelNames.Add("LanguageQuestionSets");
 
             foreach (var modelName in modelNames)
             {
@@ -196,7 +200,7 @@ namespace eFormSDK.Integration.Tests
                         sqlCmd = $"DELETE FROM [{modelName}]";
                     }
 #pragma warning disable EF1000 // Possible SQL injection vulnerability.
-                    await dbContext.Database.ExecuteSqlRawAsync(sqlCmd);
+                    await dbContext.Database.ExecuteSqlCommandAsync(sqlCmd).ConfigureAwait(false);
 #pragma warning restore EF1000 // Possible SQL injection vulnerability.
                 }
                 catch (Exception ex)

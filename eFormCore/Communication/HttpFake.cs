@@ -377,6 +377,13 @@ namespace Microting.eForm.Communication
             JObject content_to_microting = JObject.FromObject(new { workflow_state = Constants.WorkflowStates.Created });
             return content_to_microting.ToString();
         }
+        
+        public async Task<string> UnitCreate(int siteId)
+        {
+            await Task.Run(() => { });
+            JObject content_to_microting = JObject.FromObject(new { workflow_state = Constants.WorkflowStates.Created });
+            return content_to_microting.ToString();
+        }
         #endregion
 
         #region public Organization
@@ -432,6 +439,31 @@ namespace Microting.eForm.Communication
         {
             await Task.Run(() => { });
             return true;
+        }
+
+        public Task<string> GetAllSurveyConfigurations()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GetSurveyConfiguration(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GetAllQuestionSets()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GetQuestionSet(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<string> GetLastAnswer(int questionSetId, int lastAnswerId)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -3,17 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microting.eForm.Infrastructure;
 
 namespace Microting.eForm.Migrations
 {
     [DbContext(typeof(MicrotingDbContext))]
-    partial class MicrotingDbAnySqlModelSnapshot : ModelSnapshot
+    [Migration("20200224084023_AddingAttributesToUnits")]
+    partial class AddingAttributesToUnits
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
-#pragma warning disable 612, 618
+#pragma warning disable 612, 
             string autoIDGenStrategy = "SqlServer:ValueGenerationStrategy";
             object autoIDGenStrategyValue = SqlServerValueGenerationStrategy.IdentityColumn;
             if (DbConfig.IsMySQL)
@@ -1429,7 +1431,7 @@ namespace Microting.eForm.Migrations
 
                     b.Property<int?>("MicrotingUid");
 
-                    b.Property<int?>("NextQuestionId");
+                    b.Property<int>("NextQuestionId");
 
                     b.Property<int>("OptionId");
 
@@ -1469,7 +1471,7 @@ namespace Microting.eForm.Migrations
 
                     b.Property<int?>("MicrotingUid");
 
-                    b.Property<int?>("NextQuestionId");
+                    b.Property<int>("NextQuestionId");
 
                     b.Property<int>("OptionsIndex");
 
@@ -2313,10 +2315,6 @@ namespace Microting.eForm.Migrations
 
                     b.Property<string>("InSightVersion");
 
-                    b.Property<string>("LastIp");
-
-                    b.Property<bool>("LeftMenuEnabled");
-
                     b.Property<string>("Manufacturer");
 
                     b.Property<int?>("MicrotingUid");
@@ -2331,21 +2329,7 @@ namespace Microting.eForm.Migrations
 
                     b.Property<int?>("OtpCode");
 
-                    b.Property<bool>("PushEnabled");
-
-                    b.Property<bool>("SeparateFetchSend");
-
-                    b.Property<string>("SerialNumber");
-
                     b.Property<int?>("SiteId");
-
-                    b.Property<int>("SyncDefaultDelay");
-
-                    b.Property<bool>("SyncDelayEnabled");
-
-                    b.Property<int>("SyncDelayPrCheckList");
-
-                    b.Property<bool>("SyncDialog");
 
                     b.Property<int?>("UnitId");
 
@@ -2375,10 +2359,6 @@ namespace Microting.eForm.Migrations
 
                     b.Property<string>("InSightVersion");
 
-                    b.Property<string>("LastIp");
-
-                    b.Property<bool>("LeftMenuEnabled");
-
                     b.Property<string>("Manufacturer");
 
                     b.Property<int?>("MicrotingUid");
@@ -2393,21 +2373,7 @@ namespace Microting.eForm.Migrations
 
                     b.Property<int?>("OtpCode");
 
-                    b.Property<bool>("PushEnabled");
-
-                    b.Property<bool>("SeparateFetchSend");
-
-                    b.Property<string>("SerialNumber");
-
                     b.Property<int?>("SiteId");
-
-                    b.Property<int>("SyncDefaultDelay");
-
-                    b.Property<bool>("SyncDelayEnabled");
-
-                    b.Property<int>("SyncDelayPrCheckList");
-
-                    b.Property<bool>("SyncDialog");
 
                     b.Property<DateTime?>("UpdatedAt");
 

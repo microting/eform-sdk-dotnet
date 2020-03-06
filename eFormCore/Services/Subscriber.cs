@@ -191,6 +191,11 @@ namespace Microting.eForm.Services
                                             Constants.Notifications.SpeechToTextCompleted).Result;
                                         bus.SendLocal(new TranscriptionCompleted(notificationUId, microtingUId));
                                         break;
+                                    case Constants.Notifications.InSightAnswerDone:
+                                        result = sqlController.NotificationCreate(notificationUId, microtingUId,
+                                            Constants.Notifications.InSightAnswerDone).Result;
+                                        bus.SendLocal(new AnswerCompleted(notificationUId, microtingUId));
+                                        break;
                                 }
 
                                 sqsClient.DeleteMessageAsync(awsQueueUrl, message.ReceiptHandle);

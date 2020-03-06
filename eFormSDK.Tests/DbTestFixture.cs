@@ -80,7 +80,7 @@ namespace eFormSDK.Tests
 
             try
             {
-                await ClearDb();
+                await ClearDb().ConfigureAwait(false);
             }
             catch
             {
@@ -88,15 +88,15 @@ namespace eFormSDK.Tests
             try
             {
                 Core core = new Core();
-                await core.StartSqlOnly(ConnectionString);
-                await core.Close();
+                await core.StartSqlOnly(ConnectionString).ConfigureAwait(false);
+                await core.Close().ConfigureAwait(false);
             } catch
             {
                 AdminTools adminTools = new AdminTools(ConnectionString);
-                await adminTools.DbSetup("abc1234567890abc1234567890abcdef");
+                await adminTools.DbSetup("abc1234567890abc1234567890abcdef").ConfigureAwait(false);
             }
 
-            await DoSetup();
+            await DoSetup().ConfigureAwait(false);
             Console.WriteLine($"End Setup {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
 
         }
@@ -104,11 +104,14 @@ namespace eFormSDK.Tests
         [TearDown]
         public void TearDown()
         {
+
             Console.WriteLine($"Starting TearDown {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
 
-//            await ClearDb();
+            ClearDb().ConfigureAwait(false);
 
             ClearFile();
+
+            dbContext.Dispose();
             Console.WriteLine($"End TearDown {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
 
         }
@@ -153,8 +156,6 @@ namespace eFormSDK.Tests
             modelNames.Add("workers");
             modelNames.Add("site_versions");
             modelNames.Add("sites");
-            modelNames.Add("SiteTags");
-            modelNames.Add("SiteTagVersions");
             modelNames.Add("uploaded_data");
             modelNames.Add("uploaded_data_versions");
             modelNames.Add("field_types");
@@ -162,6 +163,8 @@ namespace eFormSDK.Tests
             modelNames.Add("survey_configuration_versions");
             modelNames.Add("site_survey_configurations");
             modelNames.Add("site_survey_configuration_versions");
+            modelNames.Add("SiteTagVersions");
+            modelNames.Add("SiteTags");
             modelNames.Add("languages");
             modelNames.Add("language_versions");
             modelNames.Add("question_sets");
@@ -174,12 +177,12 @@ namespace eFormSDK.Tests
             modelNames.Add("answer_versions");
             modelNames.Add("answer_values");
             modelNames.Add("answer_value_versions");
-            modelNames.Add("QuestionTranslations");
             modelNames.Add("QuestionTranslationVersions");
-            modelNames.Add("OptionTranslations");
+            modelNames.Add("QuestionTranslations");
             modelNames.Add("OptionTranslationVersions");
-            modelNames.Add("LanguageQuestionSets");
+            modelNames.Add("OptionTranslations");
             modelNames.Add("LanguageQuestionSetVersions");
+            modelNames.Add("LanguageQuestionSets");
 
             foreach (var modelName in modelNames)
             {
@@ -195,7 +198,7 @@ namespace eFormSDK.Tests
                         sqlCmd = $"DELETE FROM [{modelName}]";
                     }
 #pragma warning disable EF1000 // Possible SQL injection vulnerability.
-                    await dbContext.Database.ExecuteSqlRawAsync(sqlCmd);
+                    await dbContext.Database.ExecuteSqlCommandAsync(sqlCmd).ConfigureAwait(false);
 #pragma warning restore EF1000 // Possible SQL injection vulnerability.
                 }
                 catch (Exception ex)

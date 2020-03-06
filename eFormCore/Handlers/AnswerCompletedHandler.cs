@@ -24,6 +24,7 @@ SOFTWARE.
 
 using System;
 using System.Threading.Tasks;
+using eFormCore;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Messages;
@@ -34,30 +35,28 @@ namespace Microting.eForm.Handlers
     public class AnswerCompletedHandler : IHandleMessages<AnswerCompleted>
     {
         private readonly SqlController sqlController;
-        //private readonly Communicator communicator;
         private readonly Log log;
-        //private readonly Core core;
+        private readonly Core core;
         Tools t = new Tools();
 
-        public AnswerCompletedHandler(SqlController sqlController, Log log)
+        public AnswerCompletedHandler(SqlController sqlController, Log log, Core core)
         {
             this.sqlController = sqlController;
             //this.communicator = communicator;
             this.log = log;
-            //this.core = core;
+            this.core = core;
         }
-
         
         public async Task Handle(AnswerCompleted message)
         {
             try
             {
-                await GetAnswer(message.MicrotringUUID);
+                await core.GetAnswersForQuestionSet(message.MicrotringUUID).ConfigureAwait(false);
                 await sqlController.NotificationUpdate(message.NotificationUId, 
                     message.MicrotringUUID,
                     Constants.WorkflowStates.Processed, 
                     "", 
-                    "");
+                    "").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -65,15 +64,9 @@ namespace Microting.eForm.Handlers
                     message.MicrotringUUID, 
                     Constants.WorkflowStates.NotFound, 
                     ex.Message, 
-                    ex.StackTrace.ToString());
+                    ex.StackTrace.ToString()).ConfigureAwait(false);
             }
-            
-            
         }
 
-        private async Task GetAnswer(int microtingUid)
-        {
-            await Task.Run(() => { });
-        }
     }
 }
