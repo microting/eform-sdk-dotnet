@@ -58,7 +58,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             sut = new SqlController(dbContextHelper);
-            await sut.StartLog(new CoreBase());
+            sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
@@ -95,7 +95,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.tags.Add(tag);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             await sut.TagDelete(tag.Id);
@@ -120,7 +120,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.tags.Add(tag);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             await sut.TagCreate(tagName);
@@ -145,7 +145,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.tags.Add(tag);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName2 = "Tag2";
             tag = new tags
@@ -156,7 +156,7 @@ namespace eFormSDK.Integration.Tests
 
 
             dbContext.tags.Add(tag);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             string tagName3 = "Tag3";
             tag = new tags
             {
@@ -166,7 +166,7 @@ namespace eFormSDK.Integration.Tests
 
 
             dbContext.tags.Add(tag);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             //int tagId3 = await sut.TagCreate(tagName3);
 
             // Act
@@ -201,7 +201,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.check_lists.Add(cl1);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName1 = "Tag1";
             tags tag = new tags
@@ -211,7 +211,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.tags.Add(tag);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             List<int> tags = new List<int> {tag.Id};

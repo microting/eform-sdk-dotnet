@@ -92,10 +92,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             UpdatedAt = DateTime.Now;
 
             dbContext.questions.Add(this);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             dbContext.question_versions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             Id = Id;
         }
@@ -132,7 +132,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 UpdatedAt = DateTime.Now;
 
                 dbContext.question_versions.Add(MapVersions(question));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
 
@@ -153,7 +153,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 UpdatedAt = DateTime.Now;
 
                 dbContext.question_versions.Add(MapVersions(question));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
 
@@ -311,7 +311,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                     QuestionId = this.Id
                 };
 
-                await option.Create(dbContext);
+                await option.Create(dbContext).ConfigureAwait(false);
                 
                 option_translations optionTranslation = new option_translations()
                 {
@@ -319,7 +319,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                     Name = text,
                     LanguageId = languageId
                 };
-                await optionTranslation.Create(dbContext);
+                await optionTranslation.Create(dbContext).ConfigureAwait(false);
             }
         }
 

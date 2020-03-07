@@ -58,7 +58,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             sut = new SqlController(dbContextHelper);
-            await sut.StartLog(new CoreBase());
+            sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
@@ -77,7 +77,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             // Act
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
             question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
@@ -102,7 +102,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             // Act
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
             question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
@@ -127,7 +127,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             // Act
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
             question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
@@ -152,7 +152,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             // Act
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
             question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
@@ -177,7 +177,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             // Act
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
             question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
@@ -202,7 +202,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             // Act
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
             question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
@@ -227,7 +227,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             // Act
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
             question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
@@ -252,7 +252,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             // Act
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
             question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
@@ -276,14 +276,14 @@ namespace eFormSDK.Integration.Tests
                 Name = name, Share = true, HasChild = true, PosiblyDeployed = true
             };
 
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             // Act
 
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
 
-            await questionSet.Update(dbContext);
+            await questionSet.Update(dbContext).ConfigureAwait(false);
             
             question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
             question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
@@ -308,14 +308,14 @@ namespace eFormSDK.Integration.Tests
                 Name = name, Share = false, HasChild = false, PosiblyDeployed = false
             };
 
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             // Act
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
 
-            await questionSet.Update(dbContext);
+            await questionSet.Update(dbContext).ConfigureAwait(false);
             question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
             question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
@@ -339,14 +339,14 @@ namespace eFormSDK.Integration.Tests
                 Name = name, Share = false, HasChild = false, PosiblyDeployed = false
             };
 
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             // Act
             questionSet.Name = name;
             questionSet.Share = true;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = false;
             
-            await questionSet.Update(dbContext);
+            await questionSet.Update(dbContext).ConfigureAwait(false);
             question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
             question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
@@ -370,14 +370,14 @@ namespace eFormSDK.Integration.Tests
                 Name = name, Share = false, HasChild = false, PosiblyDeployed = false
             };
 
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             // Act
             questionSet.Name = name;
             questionSet.Share = false;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = false;
             
-            await questionSet.Update(dbContext);
+            await questionSet.Update(dbContext).ConfigureAwait(false);
             question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
             question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
@@ -401,14 +401,14 @@ namespace eFormSDK.Integration.Tests
                 Name = name, Share = false, HasChild = false, PosiblyDeployed = false
             };
 
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             // Act
             questionSet.Name = name;
             questionSet.Share = false;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = true;
             
-            await questionSet.Update(dbContext);
+            await questionSet.Update(dbContext).ConfigureAwait(false);
             question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
             question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
@@ -432,14 +432,14 @@ namespace eFormSDK.Integration.Tests
                 Name = name, Share = false, HasChild = false, PosiblyDeployed = false
             };
 
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             // Act
             questionSet.Name = name;
             questionSet.Share = true;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = false;
             
-            await questionSet.Update(dbContext);
+            await questionSet.Update(dbContext).ConfigureAwait(false);
             question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
             question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
@@ -463,14 +463,14 @@ namespace eFormSDK.Integration.Tests
                 Name = name, Share = false, HasChild = false, PosiblyDeployed = false
             };
 
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             // Act
             questionSet.Name = name;
             questionSet.Share = true;
             questionSet.HasChild = false;
             questionSet.PosiblyDeployed = true;
             
-            await questionSet.Update(dbContext);
+            await questionSet.Update(dbContext).ConfigureAwait(false);
             question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
             question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
@@ -494,14 +494,14 @@ namespace eFormSDK.Integration.Tests
                 Name = name, Share = false, HasChild = false, PosiblyDeployed = false
             };
 
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             // Act
             questionSet.Name = name;
             questionSet.Share = false;
             questionSet.HasChild = true;
             questionSet.PosiblyDeployed = true;
             
-            await questionSet.Update(dbContext);
+            await questionSet.Update(dbContext).ConfigureAwait(false);
             question_sets dbQuestionSet = dbContext.question_sets.AsNoTracking().First();
             question_set_versions dbQuestionSetVersion = dbContext.question_set_versions.AsNoTracking().First();
             // Assert
@@ -525,7 +525,7 @@ namespace eFormSDK.Integration.Tests
                 Name = name, Share = true, HasChild = true, PosiblyDeployed = true
             };
 
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             // Act
 
             questionSet.Share = false;
@@ -558,7 +558,7 @@ namespace eFormSDK.Integration.Tests
                 Name = name, Share = false, HasChild = false, PosiblyDeployed = false
             };
 
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             // Act
             questionSet.Share = true;
@@ -590,7 +590,7 @@ namespace eFormSDK.Integration.Tests
                 Name = name, Share = false, HasChild = false, PosiblyDeployed = false
             };
 
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             // Act
             questionSet.Name = name;
             questionSet.Share = true;
@@ -622,7 +622,7 @@ namespace eFormSDK.Integration.Tests
                 Name = name, Share = false, HasChild = false, PosiblyDeployed = false
             };
 
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             // Act
             questionSet.Name = name;
             questionSet.Share = false;
@@ -654,7 +654,7 @@ namespace eFormSDK.Integration.Tests
                 Name = name, Share = false, HasChild = false, PosiblyDeployed = false
             };
 
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             // Act
             questionSet.Name = name;
             questionSet.Share = false;
@@ -686,7 +686,7 @@ namespace eFormSDK.Integration.Tests
                 Name = name, Share = false, HasChild = false, PosiblyDeployed = false
             };
 
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             // Act
             questionSet.Name = name;
             questionSet.Share = true;
@@ -718,7 +718,7 @@ namespace eFormSDK.Integration.Tests
                 Name = name, Share = false, HasChild = false, PosiblyDeployed = false
             };
 
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             // Act
             questionSet.Name = name;
             questionSet.Share = true;
@@ -750,7 +750,7 @@ namespace eFormSDK.Integration.Tests
                 Name = name, Share = false, HasChild = false, PosiblyDeployed = false
             };
 
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             // Act
             questionSet.Name = name;
             questionSet.Share = false;

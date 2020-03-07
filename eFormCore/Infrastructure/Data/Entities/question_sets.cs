@@ -82,7 +82,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 Version += 1;
 
                 dbContext.question_set_versions.Add(MapVersions(questionSet));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
               
             }
         }
@@ -104,7 +104,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 Version += 1;
 
                 dbContext.question_set_versions.Add(MapVersions(questionSet));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
               
             }
         }

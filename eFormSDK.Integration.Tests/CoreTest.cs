@@ -73,7 +73,7 @@ namespace eFormSDK.Integration.Tests
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
             testHelperReturnXml = new TestHelperReturnXML();
-            //await sut.StartLog(new CoreBase());
+            //sut.StartLog(new CoreBase());
         }
         
         [Test]

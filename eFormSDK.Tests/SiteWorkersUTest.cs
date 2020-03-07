@@ -48,7 +48,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             workers worker = new workers
             {
@@ -57,7 +57,7 @@ namespace eFormSDK.Tests
                 LastName = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await worker.Create(dbContext);
+            await worker.Create(dbContext).ConfigureAwait(false);
 
             site_workers siteWorker = new site_workers
             {
@@ -68,7 +68,7 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await siteWorker.Create(dbContext);
+            await siteWorker.Create(dbContext).ConfigureAwait(false);
             
             List<site_workers> siteWorkers = dbContext.site_workers.AsNoTracking().ToList();
             List<site_worker_versions> siteWorkerVersions = dbContext.site_worker_versions.AsNoTracking().ToList();
@@ -112,7 +112,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(), 
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             workers worker = new workers
             {
@@ -121,7 +121,7 @@ namespace eFormSDK.Tests
                 LastName = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await worker.Create(dbContext);
+            await worker.Create(dbContext).ConfigureAwait(false);
 
             site_workers siteWorker = new site_workers
             {
@@ -129,7 +129,7 @@ namespace eFormSDK.Tests
                 SiteId = site.Id, 
                 WorkerId = worker.Id
             };
-            await siteWorker.Create(dbContext);
+            await siteWorker.Create(dbContext).ConfigureAwait(false);
 
             
             //Act
@@ -139,7 +139,7 @@ namespace eFormSDK.Tests
 
             siteWorker.MicrotingUid = rnd.Next(1, 255);
             
-            await siteWorker.Update(dbContext);
+            await siteWorker.Update(dbContext).ConfigureAwait(false);
 
             
             List<site_workers> siteWorkers = dbContext.site_workers.AsNoTracking().ToList();
@@ -195,7 +195,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             workers worker = new workers
             {
@@ -204,7 +204,7 @@ namespace eFormSDK.Tests
                 LastName = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await worker.Create(dbContext);
+            await worker.Create(dbContext).ConfigureAwait(false);
 
             site_workers siteWorker = new site_workers
             {
@@ -212,7 +212,7 @@ namespace eFormSDK.Tests
                 SiteId = site.Id, 
                 WorkerId = worker.Id
             };
-            await siteWorker.Create(dbContext);
+            await siteWorker.Create(dbContext).ConfigureAwait(false);
 
             
             //Act

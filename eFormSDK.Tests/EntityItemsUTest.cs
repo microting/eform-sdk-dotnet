@@ -52,7 +52,7 @@ namespace eFormSDK.Tests
                 Type = Guid.NewGuid().ToString(),
                 MicrotingUid = Guid.NewGuid().ToString()
             };
-            await entityGroup.Create(dbContext);
+            await entityGroup.Create(dbContext).ConfigureAwait(false);
 
             entity_items entityItem = new entity_items
             {
@@ -67,7 +67,7 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await entityItem.Create(dbContext);
+            await entityItem.Create(dbContext).ConfigureAwait(false);
             
             List<entity_items> entityItems = dbContext.entity_items.AsNoTracking().ToList();
             List<entity_item_versions> entityItemVersion= dbContext.entity_item_versions.AsNoTracking().ToList();
@@ -135,7 +135,7 @@ namespace eFormSDK.Tests
                 EntityItemUid = Guid.NewGuid().ToString(),
                 EntityGroupId = entityGroup.Id
             };
-            await entityItem.Create(dbContext);
+            await entityItem.Create(dbContext).ConfigureAwait(false);
             
             //Act
 
@@ -154,7 +154,7 @@ namespace eFormSDK.Tests
             entityItem.MicrotingUid = Guid.NewGuid().ToString();
             entityItem.EntityItemUid = Guid.NewGuid().ToString();
 
-            await entityItem.Update(dbContext);
+            await entityItem.Update(dbContext).ConfigureAwait(false);
             
             List<entity_items> entityItems = dbContext.entity_items.AsNoTracking().ToList();
             List<entity_item_versions> entityItemVersion= dbContext.entity_item_versions.AsNoTracking().ToList();
@@ -236,7 +236,7 @@ namespace eFormSDK.Tests
                 EntityItemUid = Guid.NewGuid().ToString(),
                 EntityGroupId = entityGroup.Id
             };
-            await entityItem.Create(dbContext);
+            await entityItem.Create(dbContext).ConfigureAwait(false);
             
             //Act
 

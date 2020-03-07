@@ -47,7 +47,7 @@ namespace Microting.eForm.Infrastructure
         private readonly Tools t = new Tools();
         private List<Holder> converter = null;
         private readonly bool isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
-        private int logLimit = 0;
+        //private int logLimit = 0;
         private readonly DbContextHelper dbContextHelper;
         #endregion
 
@@ -84,7 +84,7 @@ namespace Microting.eForm.Infrastructure
                 bool result = SettingCreateDefaults().GetAwaiter().GetResult();
             }
             
-            logLimit = int.Parse(SettingRead(Settings.logLimit).GetAwaiter().GetResult());
+            //logLimit = int.Parse(SettingRead(Settings.logLimit).GetAwaiter().GetResult());
         }
 
         private MicrotingDbContext GetContext()
@@ -4901,13 +4901,11 @@ namespace Microting.eForm.Infrastructure
         /// <param name="core"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<Log> StartLog(CoreBase core)
+        public Log StartLog(CoreBase core)
         {
             string methodName = "SqlController.StartLog";
             try
             {
-                //string logLevel = await SettingRead(Settings.logLevel);
-                //int logLevelInt = int.Parse(logLevel);
                 if (log == null)
                     log = new Log(this);
                 return log;
@@ -4996,30 +4994,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    log_exceptions newLog = new log_exceptions();
-                    newLog.CreatedAt = logEntry.Time;
-                    newLog.Level = logEntry.Level;
-                    newLog.Message = logEntry.Message;
-                    newLog.Type = logEntry.Type;
-
-                    db.log_exceptions.Add(newLog);
-                    await db.SaveChangesAsync();
-
                     WriteErrorConsoleLogEntry(logEntry);
-
-                    #region clean up of log exception table
-                    int limit = t.Int(logLimit);
-                    if (limit > 0)
-                    {
-                        List<log_exceptions> killList = db.log_exceptions.Where(x => x.Id <= newLog.Id - limit).ToList();
-
-                        if (killList.Count > 0)
-                        {
-                            db.log_exceptions.RemoveRange(killList);
-                            await db.SaveChangesAsync();
-                        }
-                    }
-                    #endregion
                 }
                 return "";
             }

@@ -396,7 +396,7 @@ namespace eFormSDK.Tests
             questionTranslation.Name = Guid.NewGuid().ToString();
             questionTranslation.QuestionId = question2.Id;
             // Act
-            await questionTranslation.Update(dbContext);
+            await questionTranslation.Update(dbContext).ConfigureAwait(false);
             
             List<question_translations> questionTranslations = dbContext.QuestionTranslations.AsNoTracking().ToList();
             List<question_translation_versions> questionTranslationVersions =

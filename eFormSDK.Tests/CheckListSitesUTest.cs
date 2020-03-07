@@ -53,7 +53,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             check_lists checklist = new check_lists
             {
@@ -87,7 +87,7 @@ namespace eFormSDK.Tests
                 JasperExportEnabled = randomBool,
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
             };
-            await checklist.Create(dbContext);
+            await checklist.Create(dbContext).ConfigureAwait(false);
 
             check_list_sites checkListSite = new check_list_sites
             {
@@ -99,7 +99,7 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await checkListSite.Create(dbContext);
+            await checkListSite.Create(dbContext).ConfigureAwait(false);
             
             List<check_list_sites> checkListSites = dbContext.check_list_sites.AsNoTracking().ToList();
             List<check_list_site_versions> checkListSitesVersion = dbContext.check_list_site_versions.AsNoTracking().ToList();
@@ -151,7 +151,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(), 
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             check_lists checklist = new check_lists
             {
@@ -185,7 +185,7 @@ namespace eFormSDK.Tests
                 JasperExportEnabled = randomBool,
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
             };
-            await checklist.Create(dbContext);
+            await checklist.Create(dbContext).ConfigureAwait(false);
 
             check_list_sites checkListSite = new check_list_sites
             {
@@ -194,7 +194,7 @@ namespace eFormSDK.Tests
                 CheckListId = checklist.Id,
                 LastCheckId = rnd.Next(1, 255)
             };
-            await checkListSite.Create(dbContext);
+            await checkListSite.Create(dbContext).ConfigureAwait(false);
             
             //Act
 
@@ -205,7 +205,7 @@ namespace eFormSDK.Tests
             checkListSite.MicrotingUid = rnd.Next(1, 255);
             checkListSite.LastCheckId = rnd.Next(1, 255);
             
-            await checkListSite.Update(dbContext);
+            await checkListSite.Update(dbContext).ConfigureAwait(false);
             
             List<check_list_sites> checkListSites = dbContext.check_list_sites.AsNoTracking().ToList();
             List<check_list_site_versions> checkListSitesVersion = dbContext.check_list_site_versions.AsNoTracking().ToList();
@@ -268,7 +268,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             check_lists checklist = new check_lists
             {
@@ -302,7 +302,7 @@ namespace eFormSDK.Tests
                 JasperExportEnabled = randomBool,
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
             };
-            await checklist.Create(dbContext);
+            await checklist.Create(dbContext).ConfigureAwait(false);
 
             check_list_sites checkListSite = new check_list_sites
             {
@@ -311,7 +311,7 @@ namespace eFormSDK.Tests
                 CheckListId = checklist.Id,
                 LastCheckId = rnd.Next(1, 255)
             };
-            await checkListSite.Create(dbContext);
+            await checkListSite.Create(dbContext).ConfigureAwait(false);
             
             //Act
 

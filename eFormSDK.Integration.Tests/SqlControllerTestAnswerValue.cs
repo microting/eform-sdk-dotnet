@@ -59,7 +59,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             sut = new SqlController(dbContextHelper);
-            await sut.StartLog(new CoreBase());
+            sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf,  @"\output\dataFolder\pdf\");
@@ -77,7 +77,7 @@ namespace eFormSDK.Integration.Tests
             {
                 Name = Guid.NewGuid().ToString(), Description = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext);
+            await language.Create(dbContext).ConfigureAwait(false);
             
             #region QuestionSet
             string name = Guid.NewGuid().ToString();
@@ -85,7 +85,7 @@ namespace eFormSDK.Integration.Tests
             {
                 Name = name, Share = false, HasChild = false, PosiblyDeployed = false
             };
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             #endregion
             
             #region surveyConfiguration
@@ -99,7 +99,7 @@ namespace eFormSDK.Integration.Tests
                 TimeToLive = rnd.Next(1, 255),
                 QuestionSetId = questionSet.Id
             };
-            await surveyConfiguration.Create(dbContext);
+            await surveyConfiguration.Create(dbContext).ConfigureAwait(false);
             #endregion
 
             #region Answer
@@ -116,7 +116,7 @@ namespace eFormSDK.Integration.Tests
                 AnswerDuration = rnd.Next(1, 255),
                 UtcAdjusted = true
             };
-            await answer.Create(dbContext);
+            await answer.Create(dbContext).ConfigureAwait(false);
             
 
             #endregion
@@ -145,7 +145,7 @@ namespace eFormSDK.Integration.Tests
                 BackButtonEnabled = false,
                 Image = false
             };
-            await question.Create(dbContext);
+            await question.Create(dbContext).ConfigureAwait(false);
             #endregion
             
             #region Option
@@ -159,7 +159,7 @@ namespace eFormSDK.Integration.Tests
                 NextQuestionId = rnd.Next(1, 255),
                 ContinuousOptionId = rnd.Next(1, 255)
             };
-            await option.Create(dbContext);
+            await option.Create(dbContext).ConfigureAwait(false);
             #endregion
 
             answer_values answerValue = new answer_values
@@ -174,7 +174,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             // Act
-            await answerValue.Create(dbContext);
+            await answerValue.Create(dbContext).ConfigureAwait(false);
 
             answer_values dbAnswerValue = dbContext.answer_values.AsNoTracking().First();
             answer_value_versions dbVersion = dbContext.answer_value_versions.AsNoTracking().First();
@@ -200,7 +200,7 @@ namespace eFormSDK.Integration.Tests
             {
                 Name = Guid.NewGuid().ToString(), Description = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext);
+            await language.Create(dbContext).ConfigureAwait(false);
             
             #region QuestionSet
             string name = Guid.NewGuid().ToString();
@@ -208,7 +208,7 @@ namespace eFormSDK.Integration.Tests
             {
                 Name = name, Share = false, HasChild = false, PosiblyDeployed = false
             };
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             #endregion
             
             #region surveyConfiguration
@@ -222,7 +222,7 @@ namespace eFormSDK.Integration.Tests
                 TimeToLive = rnd.Next(1, 255),
                 QuestionSetId = questionSet.Id
             };
-            await surveyConfiguration.Create(dbContext);
+            await surveyConfiguration.Create(dbContext).ConfigureAwait(false);
             #endregion
 
             #region Answer
@@ -239,7 +239,7 @@ namespace eFormSDK.Integration.Tests
                 AnswerDuration = rnd.Next(1, 255),
                 UtcAdjusted = true
             };
-            await answer.Create(dbContext);
+            await answer.Create(dbContext).ConfigureAwait(false);
             
 
             #endregion
@@ -268,7 +268,7 @@ namespace eFormSDK.Integration.Tests
                 BackButtonEnabled = false,
                 Image = false
             };
-            await question.Create(dbContext);
+            await question.Create(dbContext).ConfigureAwait(false);
             #endregion
             
             #region Option
@@ -282,7 +282,7 @@ namespace eFormSDK.Integration.Tests
                 NextQuestionId = rnd.Next(1, 255),
                 ContinuousOptionId = rnd.Next(1, 255)
             };
-            await option.Create(dbContext);
+            await option.Create(dbContext).ConfigureAwait(false);
             #endregion
             
             #region Answer2
@@ -299,7 +299,7 @@ namespace eFormSDK.Integration.Tests
                 AnswerDuration = rnd.Next(1, 255),
                 UtcAdjusted = true
             };
-            await answer2.Create(dbContext);
+            await answer2.Create(dbContext).ConfigureAwait(false);
             
 
             #endregion
@@ -342,7 +342,7 @@ namespace eFormSDK.Integration.Tests
                 NextQuestionId = rnd.Next(1, 255),
                 ContinuousOptionId = rnd.Next(1, 255)
             };
-            await option2.Create(dbContext);
+            await option2.Create(dbContext).ConfigureAwait(false);
             #endregion
 
             answer_values answerValue = new answer_values
@@ -356,7 +356,7 @@ namespace eFormSDK.Integration.Tests
                 OptionId = option.Id
             };
 
-            await answerValue.Create(dbContext);
+            await answerValue.Create(dbContext).ConfigureAwait(false);
             // Act
             answerValue.QuestionId = question2.Id;
             answerValue.Value = rnd.Next(1, 255).ToString();
@@ -366,7 +366,7 @@ namespace eFormSDK.Integration.Tests
             answerValue.Question = question2;
             answerValue.OptionId = option2.Id;
             
-            await answerValue.Update(dbContext);
+            await answerValue.Update(dbContext).ConfigureAwait(false);
             
             answer_values dbAnswerValue = dbContext.answer_values.AsNoTracking().First();
             answer_value_versions dbVersion = dbContext.answer_value_versions.AsNoTracking().First();
@@ -392,7 +392,7 @@ namespace eFormSDK.Integration.Tests
             {
                 Name = Guid.NewGuid().ToString(), Description = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext);
+            await language.Create(dbContext).ConfigureAwait(false);
             
             #region QuestionSet
             string name = Guid.NewGuid().ToString();
@@ -400,7 +400,7 @@ namespace eFormSDK.Integration.Tests
             {
                 Name = name, Share = false, HasChild = false, PosiblyDeployed = false
             };
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             #endregion
             
             #region surveyConfiguration
@@ -414,7 +414,7 @@ namespace eFormSDK.Integration.Tests
                 TimeToLive = rnd.Next(1, 255),
                 QuestionSetId = questionSet.Id
             };
-            await surveyConfiguration.Create(dbContext);
+            await surveyConfiguration.Create(dbContext).ConfigureAwait(false);
             #endregion
 
             #region Answer
@@ -431,7 +431,7 @@ namespace eFormSDK.Integration.Tests
                 AnswerDuration = rnd.Next(1, 255),
                 UtcAdjusted = true
             };
-            await answer.Create(dbContext);
+            await answer.Create(dbContext).ConfigureAwait(false);
             
 
             #endregion
@@ -460,7 +460,7 @@ namespace eFormSDK.Integration.Tests
                 BackButtonEnabled = false,
                 Image = false
             };
-            await question.Create(dbContext);
+            await question.Create(dbContext).ConfigureAwait(false);
             #endregion
             
             #region Option
@@ -474,7 +474,7 @@ namespace eFormSDK.Integration.Tests
                 NextQuestionId = rnd.Next(1, 255),
                 ContinuousOptionId = rnd.Next(1, 255)
             };
-            await option.Create(dbContext);
+            await option.Create(dbContext).ConfigureAwait(false);
             #endregion
 
             answer_values answerValue = new answer_values
@@ -487,7 +487,7 @@ namespace eFormSDK.Integration.Tests
                 Question = question,
                 OptionId = option.Id
             };
-            await answerValue.Create(dbContext);
+            await answerValue.Create(dbContext).ConfigureAwait(false);
 
             // Act
 

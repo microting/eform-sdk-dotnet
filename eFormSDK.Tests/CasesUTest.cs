@@ -53,7 +53,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             units unit = new units
             {
@@ -62,7 +62,7 @@ namespace eFormSDK.Tests
                 OtpCode = rnd.Next(1, 255),
                 SiteId = site.Id
             };
-            await unit.Create(dbContext);
+            await unit.Create(dbContext).ConfigureAwait(false);
 
             workers worker = new workers
             {
@@ -71,7 +71,7 @@ namespace eFormSDK.Tests
                 LastName = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await worker.Create(dbContext);
+            await worker.Create(dbContext).ConfigureAwait(false);
 
             check_lists checklist = new check_lists
             {
@@ -105,7 +105,7 @@ namespace eFormSDK.Tests
                 JasperExportEnabled = randomBool,
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
             };
-            await checklist.Create(dbContext);
+            await checklist.Create(dbContext).ConfigureAwait(false);
 
             cases theCase = new cases
             {
@@ -136,7 +136,7 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await theCase.Create(dbContext);
+            await theCase.Create(dbContext).ConfigureAwait(false);
             
             List<cases> cases = dbContext.cases.AsNoTracking().ToList();
             List<case_versions> caseVersions = dbContext.case_versions.AsNoTracking().ToList();
@@ -222,7 +222,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(), 
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             units unit = new units
             {
@@ -231,7 +231,7 @@ namespace eFormSDK.Tests
                 OtpCode = rnd.Next(1, 255),
                 SiteId = site.Id
             };
-            await unit.Create(dbContext);
+            await unit.Create(dbContext).ConfigureAwait(false);
 
             workers worker = new workers
             {
@@ -240,7 +240,7 @@ namespace eFormSDK.Tests
                 LastName = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await worker.Create(dbContext);
+            await worker.Create(dbContext).ConfigureAwait(false);
 
             check_lists checklist = new check_lists
             {
@@ -274,7 +274,7 @@ namespace eFormSDK.Tests
                 JasperExportEnabled = randomBool,
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
             };
-            await checklist.Create(dbContext);
+            await checklist.Create(dbContext).ConfigureAwait(false);
 
             cases theCase = new cases
             {
@@ -301,7 +301,7 @@ namespace eFormSDK.Tests
                 MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue)
             };
 
-            await theCase.Create(dbContext);
+            await theCase.Create(dbContext).ConfigureAwait(false);
             
             //Act
 
@@ -342,7 +342,7 @@ namespace eFormSDK.Tests
             theCase.MicrotingUid = rnd.Next(shortMinValue, shortmaxValue);
             theCase.MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue);
             
-            await theCase.Update(dbContext);
+            await theCase.Update(dbContext).ConfigureAwait(false);
             
             List<cases> cases = dbContext.cases.AsNoTracking().ToList();
             List<case_versions> caseVersions = dbContext.case_versions.AsNoTracking().ToList();
@@ -456,7 +456,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             units unit = new units
             {
@@ -465,7 +465,7 @@ namespace eFormSDK.Tests
                 OtpCode = rnd.Next(1, 255),
                 SiteId = site.Id
             };
-            await unit.Create(dbContext);
+            await unit.Create(dbContext).ConfigureAwait(false);
 
             workers worker = new workers
             {
@@ -474,7 +474,7 @@ namespace eFormSDK.Tests
                 LastName = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await worker.Create(dbContext);
+            await worker.Create(dbContext).ConfigureAwait(false);
 
             check_lists checklist = new check_lists
             {
@@ -508,7 +508,7 @@ namespace eFormSDK.Tests
                 JasperExportEnabled = randomBool,
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
             };
-            await checklist.Create(dbContext);
+            await checklist.Create(dbContext).ConfigureAwait(false);
 
             cases theCase = new cases
             {
@@ -535,7 +535,7 @@ namespace eFormSDK.Tests
                 MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue)
             };
 
-            await theCase.Create(dbContext);
+            await theCase.Create(dbContext).ConfigureAwait(false);
             
             
             //Act

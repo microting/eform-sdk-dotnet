@@ -59,7 +59,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             sut = new SqlController(dbContextHelper);
-            await sut.StartLog(new CoreBase());
+            sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
@@ -145,7 +145,7 @@ namespace eFormSDK.Integration.Tests
                 Name = "SiteName"
             };
             dbContext.sites.Add(site);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             check_lists cl = new check_lists
             {
@@ -153,7 +153,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.check_lists.Add(cl);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             cases aCase = new cases
             {
@@ -166,7 +166,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.cases.Add(aCase);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             await sut.CaseUpdateRetrieved((int)aCase.MicrotingUid);
@@ -250,7 +250,7 @@ namespace eFormSDK.Integration.Tests
                 Name = "SiteName"
             };
             dbContext.sites.Add(site);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             check_lists cl = new check_lists
             {
@@ -258,7 +258,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.check_lists.Add(cl);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             cases aCase = new cases
             {
@@ -270,7 +270,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.cases.Add(aCase);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             await sut.CaseRetract((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid);
@@ -295,12 +295,12 @@ namespace eFormSDK.Integration.Tests
             Random rnd = new Random();
             sites site = new sites {Name = "SiteName"};
             dbContext.sites.Add(site);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             check_lists cl = new check_lists {Label = "label"};
 
             dbContext.check_lists.Add(cl);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             cases aCase = new cases
             {
@@ -312,7 +312,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.cases.Add(aCase);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             await sut.CaseDelete((int)aCase.MicrotingUid);
@@ -336,12 +336,12 @@ namespace eFormSDK.Integration.Tests
             Random rnd = new Random();
             sites site = new sites {Name = "SiteName"};
             dbContext.sites.Add(site);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             check_lists cl = new check_lists {Label = "label"};
 
             dbContext.check_lists.Add(cl);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             cases aCase = new cases
             {
@@ -353,7 +353,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.cases.Add(aCase);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             await sut.CaseDeleteResult(aCase.Id);

@@ -72,7 +72,7 @@ namespace eFormSDK.Integration.Tests
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
-            //await sut.StartLog(new CoreBase());
+            //sut.StartLog(new CoreBase());
         }
 
         #region uploaded_datas
@@ -106,7 +106,7 @@ namespace eFormSDK.Integration.Tests
 
 
             dbContext.uploaded_data.Add(dU);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             UploadedData ud = await sut.Advanced_UploadedDataRead(dU.Id);
 

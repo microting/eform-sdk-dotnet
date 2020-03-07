@@ -50,14 +50,14 @@ namespace eFormSDK.Tests
                  Name = Guid.NewGuid().ToString(),
                  MicrotingUid = rnd.Next(1, 255)
              };
-             await site.Create(dbContext);
+             await site.Create(dbContext).ConfigureAwait(false);
 
              sites siteForUnit = new sites
              {
                  Name = Guid.NewGuid().ToString(),
                  MicrotingUid = rnd.Next(1, 255)
              };
-             await siteForUnit.Create(dbContext);
+             await siteForUnit.Create(dbContext).ConfigureAwait(false);
 
              units unit = new units
              {
@@ -66,13 +66,13 @@ namespace eFormSDK.Tests
                  MicrotingUid = rnd.Next(1, 255),
                  OtpCode = rnd.Next(1, 255)
              };
-             await unit.Create(dbContext);
+             await unit.Create(dbContext).ConfigureAwait(false);
 
              languages language = new languages
              {
                  Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
              };
-             await language.Create(dbContext);
+             await language.Create(dbContext).ConfigureAwait(false);
 
              question_sets questionSet = new question_sets
              {
@@ -81,7 +81,7 @@ namespace eFormSDK.Tests
                  HasChild = randomBool,
                  PosiblyDeployed = randomBool
              };
-             await questionSet.Create(dbContext);
+             await questionSet.Create(dbContext).ConfigureAwait(false);
 
              survey_configurations surveyConfiguration = new survey_configurations
              {
@@ -92,7 +92,7 @@ namespace eFormSDK.Tests
                  TimeToLive = rnd.Next(1, 255),
                  QuestionSetId = questionSet.Id
              };
-             await surveyConfiguration.Create(dbContext);
+             await surveyConfiguration.Create(dbContext).ConfigureAwait(false);
 
              answers answer = new answers
              {
@@ -110,7 +110,7 @@ namespace eFormSDK.Tests
 
              //Act
             
-             await answer.Create(dbContext);
+             await answer.Create(dbContext).ConfigureAwait(false);
 
              List<answers> answers = dbContext.answers.AsNoTracking().ToList();
              List<answer_versions> answerVersions = dbContext.answer_versions.AsNoTracking().ToList();
@@ -168,14 +168,14 @@ namespace eFormSDK.Tests
                  Name = Guid.NewGuid().ToString(),
                  MicrotingUid = rnd.Next(1, 255)
              };
-             await site.Create(dbContext);
+             await site.Create(dbContext).ConfigureAwait(false);
 
              sites siteForUnit = new sites
              {
                  Name = Guid.NewGuid().ToString(),
                  MicrotingUid = rnd.Next(1, 255)
              };
-             await siteForUnit.Create(dbContext);
+             await siteForUnit.Create(dbContext).ConfigureAwait(false);
 
              units unit = new units
              {
@@ -184,14 +184,14 @@ namespace eFormSDK.Tests
                  MicrotingUid = rnd.Next(1, 255),
                  OtpCode = rnd.Next(1, 255)
              };
-             await unit.Create(dbContext);
+             await unit.Create(dbContext).ConfigureAwait(false);
 
              languages language = new languages
              {
                  Description = Guid.NewGuid().ToString(),
                  Name = Guid.NewGuid().ToString()
              };
-             await language.Create(dbContext);
+             await language.Create(dbContext).ConfigureAwait(false);
 
              question_sets questionSet = new question_sets
              {
@@ -200,7 +200,7 @@ namespace eFormSDK.Tests
                  HasChild = randomBool,
                  PosiblyDeployed = randomBool
              };
-             await questionSet.Create(dbContext);
+             await questionSet.Create(dbContext).ConfigureAwait(false);
 
              survey_configurations surveyConfiguration = new survey_configurations
              {
@@ -211,7 +211,7 @@ namespace eFormSDK.Tests
                  TimeToLive = rnd.Next(1, 255),
                  QuestionSetId = questionSet.Id
              };
-             await surveyConfiguration.Create(dbContext);
+             await surveyConfiguration.Create(dbContext).ConfigureAwait(false);
 
              answers answer = new answers
              {
@@ -226,7 +226,7 @@ namespace eFormSDK.Tests
                  QuestionSetId = questionSet.Id,
                  SurveyConfigurationId = surveyConfiguration.Id
              };
-             await answer.Create(dbContext);
+             await answer.Create(dbContext).ConfigureAwait(false);
             
             //Act
 
@@ -241,7 +241,7 @@ namespace eFormSDK.Tests
             answer.TimeZone = Guid.NewGuid().ToString();
             answer.UtcAdjusted = randomBool;
             
-            await answer.Update(dbContext);
+            await answer.Update(dbContext).ConfigureAwait(false);
             
             List<answers> answers = dbContext.answers.AsNoTracking().ToList();                            
             List<answer_versions> answerVersions = dbContext.answer_versions.AsNoTracking().ToList(); 
@@ -311,14 +311,14 @@ namespace eFormSDK.Tests
                  Name = Guid.NewGuid().ToString(),
                  MicrotingUid = rnd.Next(1, 255)
              };
-             await site.Create(dbContext);
+             await site.Create(dbContext).ConfigureAwait(false);
 
              sites siteForUnit = new sites
              {
                  Name = Guid.NewGuid().ToString(),
                  MicrotingUid = rnd.Next(1, 255)
              };
-             await siteForUnit.Create(dbContext);
+             await siteForUnit.Create(dbContext).ConfigureAwait(false);
 
              units unit = new units
              {
@@ -327,13 +327,13 @@ namespace eFormSDK.Tests
                  OtpCode = rnd.Next(1, 255),
                  SiteId = siteForUnit.Id
              };
-             await unit.Create(dbContext);
+             await unit.Create(dbContext).ConfigureAwait(false);
 
              languages language = new languages
              {
                  Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
              };
-             await language.Create(dbContext);
+             await language.Create(dbContext).ConfigureAwait(false);
 
              question_sets questionSet = new question_sets
              {
@@ -343,7 +343,7 @@ namespace eFormSDK.Tests
                  PosiblyDeployed = randomBool
              };
 
-             await questionSet.Create(dbContext);
+             await questionSet.Create(dbContext).ConfigureAwait(false);
 
              survey_configurations surveyConfiguration = new survey_configurations
              {
@@ -354,7 +354,7 @@ namespace eFormSDK.Tests
                  TimeToLive = rnd.Next(1, 255),
                  QuestionSetId = questionSet.Id
              };
-             await surveyConfiguration.Create(dbContext);
+             await surveyConfiguration.Create(dbContext).ConfigureAwait(false);
 
              answers answer = new answers
              {
@@ -368,7 +368,7 @@ namespace eFormSDK.Tests
                  QuestionSetId = questionSet.Id,
                  SurveyConfigurationId = surveyConfiguration.Id
              };
-             await answer.Create(dbContext);
+             await answer.Create(dbContext).ConfigureAwait(false);
             
             //Act
             

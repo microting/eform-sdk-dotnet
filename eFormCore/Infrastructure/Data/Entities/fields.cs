@@ -130,10 +130,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             UpdatedAt = DateTime.Now;
 
             dbContext.fields.Add(this);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             dbContext.field_versions.Add(MapFieldVersions(this));
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
 
@@ -185,7 +185,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 field.UpdatedAt = DateTime.Now;
 
                 dbContext.field_versions.Add(MapFieldVersions(field));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
 
@@ -206,7 +206,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 field.UpdatedAt = DateTime.Now;
 
                 dbContext.field_versions.Add(MapFieldVersions(field));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
 

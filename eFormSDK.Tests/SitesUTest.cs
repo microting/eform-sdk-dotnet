@@ -51,7 +51,7 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             sites dbSites = dbContext.sites.AsNoTracking().First();
             List<sites> sitesList = dbContext.sites.AsNoTracking().ToList();
@@ -81,12 +81,12 @@ namespace eFormSDK.Tests
             };
 
             dbContext.sites.Add(site);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             
             //Act
 
             site.Name = Guid.NewGuid().ToString();
-            await site.Update(dbContext);
+            await site.Update(dbContext).ConfigureAwait(false);
 
             sites dbSites = dbContext.sites.AsNoTracking().First();
             List<sites> sitesList = dbContext.sites.AsNoTracking().ToList();
@@ -117,7 +117,7 @@ namespace eFormSDK.Tests
             };
 
             dbContext.sites.Add(site);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             //Act
 

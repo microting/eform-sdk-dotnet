@@ -53,7 +53,7 @@ namespace eFormSDK.Tests
 
             //Act
 
-            await worker.Create(dbContext);                                                             
+            await worker.Create(dbContext).ConfigureAwait(false);                                                             
 
             List<workers> workers = dbContext.workers.AsNoTracking().ToList();                            
             List<worker_versions> workersVersion = dbContext.worker_versions.AsNoTracking().ToList();                
@@ -104,7 +104,7 @@ namespace eFormSDK.Tests
                 MicrotingUid = rnd.Next(1, 255)
             };
 
-            await worker.Create(dbContext);
+            await worker.Create(dbContext).ConfigureAwait(false);
 
             //Act
 
@@ -119,7 +119,7 @@ namespace eFormSDK.Tests
             worker.Email = Guid.NewGuid().ToString();
             worker.MicrotingUid = rnd.Next(1, 255);
 
-            await worker.Update(dbContext);
+            await worker.Update(dbContext).ConfigureAwait(false);
 
             List<workers> workers = dbContext.workers.AsNoTracking().ToList();                            
             List<worker_versions> workersVersion = dbContext.worker_versions.AsNoTracking().ToList(); 
@@ -178,7 +178,7 @@ namespace eFormSDK.Tests
                 MicrotingUid = rnd.Next(1, 255)
             };
 
-            await worker.Create(dbContext);
+            await worker.Create(dbContext).ConfigureAwait(false);
             
             //Act
 

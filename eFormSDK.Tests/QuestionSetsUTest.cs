@@ -54,7 +54,7 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             
             List<question_sets> questionSets = dbContext.question_sets.AsNoTracking().ToList();
             List<question_set_versions> questionSetVersions = dbContext.question_set_versions.AsNoTracking().ToList();
@@ -103,7 +103,7 @@ namespace eFormSDK.Tests
                 HasChild = randomBool,
                 PosiblyDeployed = randomBool
             };
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             
             //Act
 
@@ -118,7 +118,7 @@ namespace eFormSDK.Tests
             questionSet.HasChild = randomBool;
             questionSet.PosiblyDeployed = randomBool;
             
-            await questionSet.Update(dbContext);
+            await questionSet.Update(dbContext).ConfigureAwait(false);
 
             List<question_sets> questionSets = dbContext.question_sets.AsNoTracking().ToList();
             List<question_set_versions> questionSetVersions = dbContext.question_set_versions.AsNoTracking().ToList();
@@ -178,7 +178,7 @@ namespace eFormSDK.Tests
                 HasChild = randomBool,
                 PosiblyDeployed = randomBool
             };
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
             
             //Act
 

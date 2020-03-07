@@ -74,7 +74,7 @@ namespace eFormSDK.Integration.Tests
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
-            //await sut.StartLog(new CoreBase());
+            //sut.StartLog(new CoreBase());
         }
 
         [Test] // Core_Template_TemplateFromXml_ReturnsTemplate()
@@ -197,7 +197,7 @@ namespace eFormSDK.Integration.Tests
             check_lists cl_ud = await dbContext.check_lists.SingleAsync(x => x.Id == cl1.Id);
             //DbContext.check_lists.Add(cl1);
             cl_ud.QuickSyncEnabled = 1;
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             #endregion
 

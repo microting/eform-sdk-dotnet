@@ -233,7 +233,7 @@ namespace eFormCore
 
                     //log
                     if (log == null)
-                        log = await _sqlController.StartLog(this).ConfigureAwait(false);
+                        log = _sqlController.StartLog(this);
 
                     await log.LogCritical(methodName, "###########################################################################").ConfigureAwait(false);
                     await log.LogCritical(methodName, "called").ConfigureAwait(false);

@@ -51,7 +51,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 TaggingsCount = rnd.Next(1, 255)
             };
-            await tag.Create(dbContext);
+            await tag.Create(dbContext).ConfigureAwait(false);
 
             check_lists checklist = new check_lists
             {
@@ -87,7 +87,7 @@ namespace eFormSDK.Tests
                 JasperExportEnabled = randomBool,
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
             };
-            await checklist.Create(dbContext);
+            await checklist.Create(dbContext).ConfigureAwait(false);
 
             taggings tagging = new taggings
             {
@@ -101,7 +101,7 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await tagging.Create(dbContext);
+            await tagging.Create(dbContext).ConfigureAwait(false);
 
             List<taggings> taggings = dbContext.taggings.AsNoTracking().ToList();
             List<tagging_versions> taggingVersions = dbContext.tagging_versions.AsNoTracking().ToList();
@@ -152,7 +152,7 @@ namespace eFormSDK.Tests
                 TaggingsCount = rnd.Next(1, 255)
             };
             dbContext.tags.Add(tag);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             check_lists checklist = new check_lists
             {
@@ -188,7 +188,7 @@ namespace eFormSDK.Tests
                 JasperExportEnabled = randomBool,
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
             };
-            await checklist.Create(dbContext);
+            await checklist.Create(dbContext).ConfigureAwait(false);
 
             taggings tagging = new taggings
             {
@@ -198,7 +198,7 @@ namespace eFormSDK.Tests
                 TagId = rnd.Next(1, 255),
                 CheckListId = checklist.Id
             };
-            await tagging.Create(dbContext);
+            await tagging.Create(dbContext).ConfigureAwait(false);
 
             //Act
 

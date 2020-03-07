@@ -53,7 +53,7 @@ namespace eFormSDK.Tests
                 ParentId = rnd.Next(1, 255),
                 PosiblyDeployed = randomBool
             };
-            await questionSetForQuestion.Create(dbContext);
+            await questionSetForQuestion.Create(dbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -77,7 +77,7 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await question.Create(dbContext);
+            await question.Create(dbContext).ConfigureAwait(false);
             
             List<questions> questions = dbContext.questions.AsNoTracking().ToList();
             List<question_versions> questionVersions = dbContext.question_versions.AsNoTracking().ToList();
@@ -149,7 +149,7 @@ namespace eFormSDK.Tests
                 ParentId = rnd.Next(1, 255),
                 PosiblyDeployed = randomBool
             };
-            await questionSetForQuestion.Create(dbContext);
+            await questionSetForQuestion.Create(dbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -170,7 +170,7 @@ namespace eFormSDK.Tests
                 ContinuousQuestionId = rnd.Next(1, 255),
                 QuestionSetId = questionSetForQuestion.Id
             };
-            await question.Create(dbContext);
+            await question.Create(dbContext).ConfigureAwait(false);
 
             //Act
 
@@ -206,7 +206,7 @@ namespace eFormSDK.Tests
             question.BackButtonEnabled = randomBool;
             question.ContinuousQuestionId = rnd.Next(1, 255);
             
-            await question.Update(dbContext);
+            await question.Update(dbContext).ConfigureAwait(false);
 
             List<questions> questions = dbContext.questions.AsNoTracking().ToList();
             List<question_versions> questionVersions = dbContext.question_versions.AsNoTracking().ToList();
@@ -300,7 +300,7 @@ namespace eFormSDK.Tests
                 ParentId = rnd.Next(1, 255),
                 PosiblyDeployed = randomBool
             };
-            await questionSetForQuestion.Create(dbContext);
+            await questionSetForQuestion.Create(dbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -321,7 +321,7 @@ namespace eFormSDK.Tests
                 ContinuousQuestionId = rnd.Next(1, 255),
                 QuestionSetId = questionSetForQuestion.Id
             };
-            await question.Create(dbContext);
+            await question.Create(dbContext).ConfigureAwait(false);
 
             //Act
 
