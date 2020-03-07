@@ -64,17 +64,9 @@ namespace eFormSDK.Integration.Tests
         public async Task Setup()
         {
 
-//            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-//            {
-//                ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
-//            }
-//            else
-//            {
-                ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
-//            }
+            ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
 
             dbContext = GetContext(ConnectionString);
-
 
             dbContext.Database.SetCommandTimeout(300);
 
@@ -87,13 +79,10 @@ namespace eFormSDK.Integration.Tests
             }
             try
             {
-                Core core = new Core();
-                await core.StartSqlOnly(ConnectionString).ConfigureAwait(false);
-                await core.Close().ConfigureAwait(false);
-            } catch
-            {
                 AdminTools adminTools = new AdminTools(ConnectionString);
                 await adminTools.DbSetup("abc1234567890abc1234567890abcdef").ConfigureAwait(false);
+            } catch
+            {
             }
 
             await DoSetup().ConfigureAwait(false);
@@ -102,9 +91,7 @@ namespace eFormSDK.Integration.Tests
         [TearDown]
         public async Task TearDown()
         {
-
-            await ClearDb().ConfigureAwait(false);
-
+            
             ClearFile();
 
             dbContext.Dispose();
@@ -157,8 +144,8 @@ namespace eFormSDK.Integration.Tests
             modelNames.Add("survey_configuration_versions");
             modelNames.Add("site_survey_configurations");
             modelNames.Add("site_survey_configuration_versions");
-            modelNames.Add("site_tag_versions");
-            modelNames.Add("site_tags");
+            modelNames.Add("SiteTagVersions");
+            modelNames.Add("SiteTags");
             modelNames.Add("languages");
             modelNames.Add("language_versions");
             modelNames.Add("question_sets");
