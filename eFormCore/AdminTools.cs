@@ -48,7 +48,7 @@ namespace eFormCore
             connectionString = serverConnectionString;
             DbContextHelper dbContextHelper = new DbContextHelper(serverConnectionString);
             sqlController = new SqlController(dbContextHelper);
-            log = new Log(new CoreBase(), sqlController, 4);
+            log = new Log(sqlController);
         }
         #endregion
 

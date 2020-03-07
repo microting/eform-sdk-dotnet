@@ -340,7 +340,7 @@ namespace Microting.eForm.Infrastructure
                                 sites.Add(site);
                             } catch (Exception innerEx)
                             {
-                                await log.LogException(methodName, "could not add the site to the sites for site.Id : " + check_list_site.Site.Id.ToString() + " and got exception : " + innerEx.Message, innerEx, false);
+                                await log.LogException(methodName, "could not add the site to the sites for site.Id : " + check_list_site.Site.Id.ToString() + " and got exception : " + innerEx.Message, innerEx);
                                 throw new Exception("Error adding site to sites for site.Id : " + check_list_site.Site.Id.ToString(), innerEx);
                             }
                             
@@ -364,7 +364,7 @@ namespace Microting.eForm.Infrastructure
                         }
                         catch (Exception innerEx)
                         {
-                            await log.LogException(methodName, "could not add the templateDto to the templateList for templateId : " + checkList.Id.ToString() + " and got exception : " + innerEx.Message, innerEx, false);
+                            await log.LogException(methodName, "could not add the templateDto to the templateList for templateId : " + checkList.Id.ToString() + " and got exception : " + innerEx.Message, innerEx);
                             throw new Exception("Error adding template to templateList for templateId : " + checkList.Id.ToString(), innerEx);
                         }
                     }
@@ -4352,14 +4352,10 @@ namespace Microting.eForm.Infrastructure
                         EntityItemGroupId = et.EntityGroupId,
                         WorkflowState = et.WorkflowState
                     };
-//                    entityItem.EntityItemGroupId = et.EntityGroupId;
-//                    entityItem.Id = et.Id;
                     return entityItem;
                 }
-                else
-                {
-                    throw new NullReferenceException("No EntityItem found for Id " + id.ToString());
-                }
+
+                throw new NullReferenceException("No EntityItem found for Id " + id.ToString());
             }
         }
 
@@ -4390,10 +4386,8 @@ namespace Microting.eForm.Infrastructure
                         WorkflowState = et.WorkflowState
                     };
                 }
-                else
-                {
-                    return null;
-                }
+
+                return null;
             }
         }
 
@@ -4450,12 +4444,10 @@ namespace Microting.eForm.Infrastructure
                 {
                     throw new NullReferenceException("EntityItem not found with Id " + Id.ToString());
                 }
-                else
-                {
-                    et.Synced = t.Bool(true);
-                    await et.Update(db);
-                    await et.Delete(db);
-                }
+
+                et.Synced = t.Bool(true);
+                await et.Update(db);
+                await et.Delete(db);
             }
         }
         #endregion
@@ -4914,10 +4906,10 @@ namespace Microting.eForm.Infrastructure
             string methodName = "SqlController.StartLog";
             try
             {
-                string logLevel = await SettingRead(Settings.logLevel);
-                int logLevelInt = int.Parse(logLevel);
+                //string logLevel = await SettingRead(Settings.logLevel);
+                //int logLevelInt = int.Parse(logLevel);
                 if (log == null)
-                    log = new Log(core, this, logLevelInt);
+                    log = new Log(this);
                 return log;
             }
             catch (Exception ex)
@@ -4937,44 +4929,44 @@ namespace Microting.eForm.Infrastructure
             if (logEntry.Level < 0)
                 await WriteLogExceptionEntry(logEntry);
             
-            if (!isLinux)
-            {
-                try
-                {
-                    using (var db = GetContext())
-                    {
-                        logs newLog = new logs();
-                        newLog.CreatedAt = logEntry.Time;
-                        newLog.Level = logEntry.Level;
-                        newLog.Message = logEntry.Message;
-                        newLog.Type = logEntry.Type;
-
-                        db.logs.Add(newLog);
-                        await db.SaveChangesAsync();
-                        
-
-                        #region clean up of log table
-                        int limit = t.Int(logLimit);
-                        if (limit > 0)
-                        {
-                            List<logs> killList = db.logs.Where(x => x.Id <= newLog.Id - limit).ToList();
-
-                            if (killList.Count > 0)
-                            {
-                                db.logs.RemoveRange(killList);
-                                await db.SaveChangesAsync();
-                            }
-                        }
-                        #endregion
-                    }
-                    return "";
-                }
-                catch (Exception ex)
-                {
-                    return t.PrintException(methodName + " failed", ex);
-                }
-                
-            }
+//            if (!isLinux)
+//            {
+//                try
+//                {
+//                    using (var db = GetContext())
+//                    {
+//                        logs newLog = new logs();
+//                        newLog.CreatedAt = logEntry.Time;
+//                        newLog.Level = logEntry.Level;
+//                        newLog.Message = logEntry.Message;
+//                        newLog.Type = logEntry.Type;
+//
+//                        db.logs.Add(newLog);
+//                        await db.SaveChangesAsync();
+//                        
+//
+//                        #region clean up of log table
+//                        int limit = t.Int(logLimit);
+//                        if (limit > 0)
+//                        {
+//                            List<logs> killList = db.logs.Where(x => x.Id <= newLog.Id - limit).ToList();
+//
+//                            if (killList.Count > 0)
+//                            {
+//                                db.logs.RemoveRange(killList);
+//                                await db.SaveChangesAsync();
+//                            }
+//                        }
+//                        #endregion
+//                    }
+//                    return "";
+//                }
+//                catch (Exception ex)
+//                {
+//                    return t.PrintException(methodName + " failed", ex);
+//                }
+//                
+//            }
 
             return "";
         }

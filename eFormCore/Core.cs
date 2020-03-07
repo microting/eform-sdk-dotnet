@@ -150,9 +150,7 @@ namespace eFormCore
 			{
 				if (!_coreAvailable && !_coreStatChanging)
 				{
-
-
-					if (!await StartSqlOnly(connectionString).ConfigureAwait(false))
+                    if (!await StartSqlOnly(connectionString).ConfigureAwait(false))
 					{
 						return false;
 					}
@@ -163,9 +161,7 @@ namespace eFormCore
                         _numberOfWorkers = int.Parse(await _sqlController.SettingRead(Settings.numberOfWorkers));
                     }
                     catch { }
-
-				    
-
+                    
                     _container.Install(
 						new RebusHandlerInstaller()
 						, new RebusInstaller(connectionString, _maxParallelism, _numberOfWorkers)
@@ -448,7 +444,7 @@ namespace eFormCore
                         }
                         catch (Exception ex)
                         {
-                            log.LogException(methodName, "Subscriber failed to close", ex, false).RunSynchronously();
+                            log.LogException(methodName, "Subscriber failed to close", ex).RunSynchronously();
                         }
 
                         int tries = 0;
@@ -657,7 +653,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 if (ex.InnerException != null)
                 {
                     if (ex.InnerException.InnerException != null)
@@ -705,7 +701,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -872,7 +868,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -908,7 +904,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -934,7 +930,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -960,7 +956,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -988,11 +984,11 @@ namespace eFormCore
             {
                 try
                 {
-                    await log.LogException(methodName, "(int " + templateId.ToString() + ") failed", ex, false).ConfigureAwait(false);
+                    await log.LogException(methodName, "(int " + templateId.ToString() + ") failed", ex).ConfigureAwait(false);
                 }
                 catch
                 {
-                    await log.LogException(methodName, "(int templateId) failed", ex, false).ConfigureAwait(false);
+                    await log.LogException(methodName, "(int templateId) failed", ex).ConfigureAwait(false);
                 }
                 throw new Exception("failed", ex);
             }
@@ -1021,11 +1017,11 @@ namespace eFormCore
             {
                 try
                 {
-                    await log.LogException(methodName, "(bool " + includeRemoved.ToString() + ") failed", ex, false).ConfigureAwait(false);
+                    await log.LogException(methodName, "(bool " + includeRemoved.ToString() + ") failed", ex).ConfigureAwait(false);
                 }
                 catch
                 {
-                    await log.LogException(methodName, "(bool includeRemoved) failed", ex, false).ConfigureAwait(false);
+                    await log.LogException(methodName, "(bool includeRemoved) failed", ex).ConfigureAwait(false);
                 }
                 throw new Exception("failed", ex);
             }
@@ -1052,7 +1048,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -1075,7 +1071,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -1173,7 +1169,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return null;
             }
         }
@@ -1199,7 +1195,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return null;
             }
         }
@@ -1240,7 +1236,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return null;
             }
         }
@@ -1262,7 +1258,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return null;
             }
         }
@@ -1285,7 +1281,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return null;
             }
         }
@@ -1315,7 +1311,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return null;
             }
         }
@@ -1342,7 +1338,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return null;
             }
         }
@@ -1373,7 +1369,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return null;
             }
         }
@@ -1423,7 +1419,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return false;
             }
         }
@@ -1448,11 +1444,11 @@ namespace eFormCore
             {
                 try
                 {
-                    await log.LogException(methodName, $"(int {templateId}, int {siteUId}) failed", ex, false).ConfigureAwait(false);
+                    await log.LogException(methodName, $"(int {templateId}, int {siteUId}) failed", ex).ConfigureAwait(false);
                 }
                 catch
                 {
-                    await log.LogException(methodName, "(int templateId, int siteUId) failed", ex, false).ConfigureAwait(false);
+                    await log.LogException(methodName, "(int templateId, int siteUId) failed", ex).ConfigureAwait(false);
                 }
                 return false;
             }
@@ -1494,13 +1490,12 @@ namespace eFormCore
                 try
                 {
                     await log.LogException(methodName,
-                        $"(int {templateId}, int {siteUId}, string {workflowState}) failed", ex, false)
+                        $"(int {templateId}, int {siteUId}, string {workflowState}) failed", ex)
                         .ConfigureAwait(false);
                 }
                 catch
                 {
-                    await log.LogException(methodName, "(int templateId, int siteUId, string workflowState) failed", ex,
-                        false).ConfigureAwait(false);
+                    await log.LogException(methodName, "(int templateId, int siteUId, string workflowState) failed", ex).ConfigureAwait(false);
                 }
                 return false;
             }
@@ -1534,20 +1529,20 @@ namespace eFormCore
                 {
                     resp = resp.XmlToClass(xmlResponse);
                     await log.LogException(methodName, "failed", new Exception(
-                        $"Error from Microting server: {resp.Value}"), false).ConfigureAwait(false);
+                        $"Error from Microting server: {resp.Value}")).ConfigureAwait(false);
                     return false;
                 }
                 catch (Exception ex)
                 {
                     try
                     {
-                        await log.LogException(methodName, $"(string {microtingUId}) failed", ex, false)
+                        await log.LogException(methodName, $"(string {microtingUId}) failed", ex)
                             .ConfigureAwait(false);
                         throw ex;
                     }
                     catch
                     {
-                        await log.LogException(methodName, "(string microtingUId) failed", ex, false)
+                        await log.LogException(methodName, "(string microtingUId) failed", ex)
                             .ConfigureAwait(false);
                         throw ex;
                     }
@@ -1609,13 +1604,13 @@ namespace eFormCore
                             return result;        
                         }
 
-                        await log.LogException(methodName, "(string microtingUId) failed", ex, false).ConfigureAwait(false);
+                        await log.LogException(methodName, "(string microtingUId) failed", ex).ConfigureAwait(false);
                         throw ex;
                     }                  
                 }
                 catch (Exception ex)
                 {
-                    await log.LogException(methodName, "(string microtingUId) failed", ex, false).ConfigureAwait(false);
+                    await log.LogException(methodName, "(string microtingUId) failed", ex).ConfigureAwait(false);
                 }
             }
             return false;
@@ -1634,11 +1629,11 @@ namespace eFormCore
             {
                 try
                 {
-                    await log.LogException(methodName, $"(int {caseId}) failed", ex, false).ConfigureAwait(false);
+                    await log.LogException(methodName, $"(int {caseId}) failed", ex).ConfigureAwait(false);
                 }
                 catch
                 {
-                    await log.LogException(methodName, "(int caseId) failed", ex, false).ConfigureAwait(false);
+                    await log.LogException(methodName, "(int caseId) failed", ex).ConfigureAwait(false);
                 }
 
                 return false;
@@ -1656,7 +1651,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return false;
             }
         }
@@ -1679,7 +1674,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return null;
             }
         }
@@ -1705,7 +1700,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return null;
             }
         }
@@ -1732,7 +1727,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return null;
             }
         }
@@ -1758,7 +1753,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return null;
             }
         }
@@ -1797,7 +1792,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return null;
             }
         }
@@ -1878,7 +1873,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return null;
             }
         }
@@ -1955,7 +1950,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return null;
             }
         }
@@ -1972,7 +1967,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return "N/A";
             }
         }
@@ -1995,7 +1990,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -2359,7 +2354,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return null;
             }
         }
@@ -2436,7 +2431,7 @@ namespace eFormCore
                 }
                 catch (Exception ex)
                 {
-                    await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                    await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                     throw new Exception("failed", ex);
                 }
             }
@@ -2465,7 +2460,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -2487,7 +2482,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -2512,7 +2507,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -2549,7 +2544,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -2589,7 +2584,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -2632,7 +2627,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "EntityListCreate failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "EntityListCreate failed", ex).ConfigureAwait(false);
                 throw new Exception("EntityListCreate failed", ex);
             }
         }
@@ -2669,11 +2664,11 @@ namespace eFormCore
             {
                 try
                 {
-                    await log.LogException(methodName, "(string entityGroupMUId " + entityGroupMuId + ", string sort " + sort + ", string nameFilter " + nameFilter + ") failed", ex, false).ConfigureAwait(false);
+                    await log.LogException(methodName, "(string entityGroupMUId " + entityGroupMuId + ", string sort " + sort + ", string nameFilter " + nameFilter + ") failed", ex).ConfigureAwait(false);
                 }
                 catch
                 {
-                    await log.LogException(methodName, "(string entityGroupMUId, string sort, string nameFilter) failed", ex, false).ConfigureAwait(false);
+                    await log.LogException(methodName, "(string entityGroupMUId, string sort, string nameFilter) failed", ex).ConfigureAwait(false);
                 }
                 throw new Exception("failed", ex);
 
@@ -2701,7 +2696,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "EntityGroupRead failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "EntityGroupRead failed", ex).ConfigureAwait(false);
                 throw new Exception("EntityGroupRead failed", ex);
             }
         }
@@ -2729,7 +2724,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "EntityGroupDelete failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "EntityGroupDelete failed", ex).ConfigureAwait(false);
                 throw new Exception("EntityGroupDelete failed", ex);
             }
         }
@@ -2866,7 +2861,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -2890,7 +2885,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "FolderGetAll failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "FolderGetAll failed", ex).ConfigureAwait(false);
                 throw new Exception("FolderGetAll failed", ex);
             }
         }
@@ -2911,7 +2906,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "FolderRead failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "FolderRead failed", ex).ConfigureAwait(false);
                 throw new Exception("FolderRead failed", ex);
             }
         }
@@ -2938,7 +2933,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "FolderCreate failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "FolderCreate failed", ex).ConfigureAwait(false);
                 throw new Exception("FolderCreate failed", ex);
             }
         }
@@ -2964,7 +2959,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "FolderUpdate failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "FolderUpdate failed", ex).ConfigureAwait(false);
                 throw new Exception("FolderUpdate failed", ex);
             }
         }
@@ -2989,7 +2984,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "FolderDelete failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "FolderDelete failed", ex).ConfigureAwait(false);
                 throw new Exception("FolderDelete failed", ex);
             }
         }
@@ -3012,7 +3007,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3040,7 +3035,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3061,7 +3056,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3101,7 +3096,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3120,7 +3115,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3140,7 +3135,7 @@ namespace eFormCore
 //            }
 //            catch (Exception ex)
 //            {
-//                await log.LogException(methodName, "failed", ex, false);
+//                await log.LogException(methodName, "failed", ex);
 //                throw new Exception("failed", ex);
 //            }
 //        }
@@ -3491,7 +3486,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3532,7 +3527,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3566,7 +3561,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false);
+                await log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -3588,7 +3583,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return null;
             }
         }
@@ -3613,7 +3608,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3635,7 +3630,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3659,7 +3654,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3689,7 +3684,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3715,7 +3710,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3751,7 +3746,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3773,7 +3768,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3795,7 +3790,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3819,7 +3814,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3851,7 +3846,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3877,7 +3872,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3912,7 +3907,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3936,7 +3931,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3962,7 +3957,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -3986,7 +3981,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return null;
             }
         }
@@ -4007,7 +4002,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 return null;
             }
         }
@@ -4035,7 +4030,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw ex;
             }
         }
@@ -4061,7 +4056,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -4097,7 +4092,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -4134,7 +4129,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -4158,7 +4153,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -4187,7 +4182,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -4210,7 +4205,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -4232,7 +4227,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -4253,7 +4248,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -4274,7 +4269,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -4311,7 +4306,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -4342,7 +4337,8 @@ namespace eFormCore
                     }
                     catch (Exception exd)
                     {
-                        await log.LogException(methodName, "failed", exd, true).ConfigureAwait(false);
+                        await log.LogException(methodName, "failed", exd).ConfigureAwait(false);
+                        // TODO write code to handel the restart needed scenario!!!
                         throw new Exception("failed", exd);
                     }
 
@@ -4353,7 +4349,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }
@@ -4374,7 +4370,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
+                await log.LogException(methodName, "failed", ex).ConfigureAwait(false);
                 throw new Exception("failed", ex);
             }
         }

@@ -106,7 +106,7 @@ namespace Microting.eForm.Services
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Subscriber"), "failed", ex, false);
+                await log.LogException(t.GetMethodName("Subscriber"), "failed", ex);
             }
         }
 
@@ -222,7 +222,8 @@ namespace Microting.eForm.Services
                         if (DateTime.Compare(lastException.AddMinutes(5), DateTime.Now) > 0)
                         {
                             keepSubscribed = false;
-                            log.LogException(t.GetMethodName("Subscriber"), "failed, twice in the last 5 minuts", ex, true);
+                            log.LogException(t.GetMethodName("Subscriber"), "failed, twice in the last 5 minuts", ex);
+                            // TODO handle crash so we could restart!!!
                         }
 
                         lastException = DateTime.Now;

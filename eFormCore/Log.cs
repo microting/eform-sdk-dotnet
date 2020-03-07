@@ -33,21 +33,16 @@ namespace Microting.eForm
     public class Log
     {
         #region var
-        CoreBase core;
-        LogWriter logWriter;
-        int logLevel;
-        Queue logQue;
-        Tools t = new Tools();
-        List<ExceptionClass> exceptionLst = new List<ExceptionClass>();
+
+        private readonly LogWriter logWriter;
+        private readonly Tools t = new Tools();
+        private readonly List<ExceptionClass> exceptionLst = new List<ExceptionClass>();
         #endregion
 
         // con
-        public Log(CoreBase core, LogWriter logWriter, int logLevel)
+        public Log(LogWriter logWriter)
         {
-            this.core = core;
             this.logWriter = logWriter;
-            this.logLevel = logLevel;
-            logQue = new Queue();
         }
 
         #region public
@@ -96,7 +91,7 @@ namespace Microting.eForm
             return LogLogic(new LogEntry(0, type, message));
         }
 
-        public async Task LogException(string type, string exceptionDescription, Exception exception, bool restartCore)
+        public async Task LogException(string type, string exceptionDescription, Exception exception)
         {
             try
             {
@@ -105,7 +100,6 @@ namespace Microting.eForm
                     return;
 
                 await LogLogic(new LogEntry(-1, type, fullExceptionDescription));
-                await LogVariable(type, nameof(restartCore), restartCore);
 
                 ExceptionClass exCls = new ExceptionClass(fullExceptionDescription, DateTime.Now);
                 exceptionLst.Add(exCls);
@@ -116,9 +110,6 @@ namespace Microting.eForm
                 foreach (var item in exceptionLst)
                     if (sameExceptionCountMax < item.Occurrence)
                         sameExceptionCountMax = item.Occurrence;
-
-                if (restartCore)
-                    await core.Restart(sameExceptionCount, sameExceptionCountMax);
             }
             catch { }
         }
@@ -127,27 +118,11 @@ namespace Microting.eForm
         {
             try
             {
-                string fullExceptionDescription = t.PrintException(exceptionDescription, exception);
-                await LogLogic(new LogEntry(-3, "FatalException", PrintCache(-3, fullExceptionDescription)));
+                await LogLogic(new LogEntry(-3, "FatalException", t.PrintException(exceptionDescription, exception)));
             }
             catch { }
         }
 
-        public string PrintCache(int level, string initialMessage)
-        {
-            string text = "";
-
-            foreach (LogEntry item in logQue)
-                text = item.Time + " // " + "L:" + item.Level + " // " + item.Message + Environment.NewLine + text;
-
-            text = DateTime.Now + " // L:" + level + " // ###########################################################################" + Environment.NewLine +
-                    initialMessage + Environment.NewLine +
-                    Environment.NewLine +
-                    text + Environment.NewLine +
-                    DateTime.Now + " // L:" + level + " // ###########################################################################";
-
-            return text;
-        }
         #endregion
 
         #region private
@@ -188,34 +163,11 @@ namespace Microting.eForm
             return count;
         }
 
-        private async Task LogLogic(LogEntry logEntry)
+        private Task LogLogic(LogEntry logEntry)
         {
-            try
-            {
-                string reply = "";
-
-                LogCache(logEntry);
-                if (logLevel >= logEntry.Level)
-                    reply = await logWriter.WriteLogEntry(logEntry);
-
-                //if prime log writer failed
-                if (reply != "")
-                    logWriter.WriteIfFailed(PrintCache(-2, reply));
-            }
-            catch { }
+            return logWriter.WriteLogEntry(logEntry);
         }
-
-        private void LogCache(LogEntry logEntry)
-        {
-            try
-            {
-                if (logQue.Count == 12)
-                    logQue.Dequeue();
-
-                logQue.Enqueue(logEntry);
-            }
-            catch { }
-        }
+        
         #endregion
     }
 
