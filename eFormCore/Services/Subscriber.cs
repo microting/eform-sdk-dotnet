@@ -106,7 +106,7 @@ namespace Microting.eForm.Services
             }
             catch (Exception ex)
             {
-                await log.LogException(t.GetMethodName("Subscriber"), "failed", ex);
+                log.LogException(t.GetMethodName("Subscriber"), "failed", ex);
             }
         }
 
@@ -239,7 +239,7 @@ namespace Microting.eForm.Services
             else
             #region unit test
             {
-                log.LogStandard(t.GetMethodName("Subscriber"), "Subscriber faked").RunSynchronously();
+                log.LogStandard(t.GetMethodName("Subscriber"), "Subscriber faked");
                 isActive = true;
                 keepSubscribed = true;
 
