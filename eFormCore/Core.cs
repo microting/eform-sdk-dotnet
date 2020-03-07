@@ -2473,23 +2473,15 @@ namespace eFormCore
         public async Task<List<SiteDto>> SiteReadAll(bool includeRemoved)
         {
             string methodName = "Core.SiteReadAll";
-            try
+            if (Running())
             {
-                if (Running())
-                {
-                    if (includeRemoved)
-                        return await Advanced_SiteReadAll(null, null, null).ConfigureAwait(false);
-                    else
-                        return await Advanced_SiteReadAll(Constants.WorkflowStates.NotRemoved, null, null).ConfigureAwait(false);
-                }
+                if (includeRemoved)
+                    return await Advanced_SiteReadAll(null, null, null).ConfigureAwait(false);
+                else
+                    return await Advanced_SiteReadAll(Constants.WorkflowStates.NotRemoved, null, null).ConfigureAwait(false);
+            }
 
-                throw new Exception("Core is not running");
-            }
-            catch (Exception ex)
-            {
-                await log.LogException(methodName, "failed", ex, false).ConfigureAwait(false);
-                throw new Exception("failed", ex);
-            }
+            throw new Exception("Core is not running");
         }
 
         public async Task<SiteDto> SiteReset(int siteId)
