@@ -52,10 +52,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             Version = 1;
 
             dbContext.site_survey_configurations.Add(this);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             dbContext.site_survey_configuration_versions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public async Task Update(MicrotingDbContext dbContext)
@@ -77,7 +77,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 UpdatedAt = DateTime.Now;
 
                 dbContext.site_survey_configuration_versions.Add(MapVersions(siteSurveyConfiguration));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
 
@@ -100,7 +100,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 UpdatedAt = DateTime.Now;
 
                 dbContext.site_survey_configuration_versions.Add(MapVersions(siteSurveyConfiguration));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
 

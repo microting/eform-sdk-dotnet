@@ -75,10 +75,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             Version = 1;
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             dbContext.answers.Add(this);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             dbContext.answer_versions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public async Task Update(MicrotingDbContext dbContext)
@@ -106,7 +106,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 answer.Version += 1;
 
                 dbContext.answer_versions.Add(MapVersions(answer));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
 
@@ -127,7 +127,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 answer.Version += 1;
 
                 dbContext.answer_versions.Add(MapVersions(answer));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
 

@@ -35,7 +35,7 @@ SOFTWARE.
 //        {
 //            string methodName = "Core.FieldValidation";
 //
-//            await log.LogStandard(methodName, "called");
+//            log.LogStandard(methodName, "called");
 //
 //            List<string> errorLst = new List<string>();
 //            var dataItems = mainElement.DataItemGetAll();
@@ -96,7 +96,7 @@ SOFTWARE.
 //        private async Task<List<string>> CheckListValidation(MainElement mainElement)
 //        {
 //            string methodName = "Core.CheckListValidation";
-//            await log.LogStandard(methodName, "called");
+//            log.LogStandard(methodName, "called");
 //            List<string> errorLst = new List<string>();
 //            
 //            List<string> acceptedColors = new List<string>();

@@ -52,10 +52,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             
             dbContext.taggings.Add(this);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             dbContext.tagging_versions.Add(MapTaggingVersions(this));
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public async Task Update(MicrotingDbContext dbContext)
@@ -72,10 +72,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             tagging.TaggerId = TaggerId;
             tagging.Version += 1;
 
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             dbContext.tagging_versions.Add(MapTaggingVersions(tagging));
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public async Task Delete(MicrotingDbContext dbContext)
@@ -91,10 +91,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             tagging.UpdatedAt = DateTime.Now;
             tagging.Version += 1;
 
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             dbContext.tagging_versions.Add(MapTaggingVersions(tagging));
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
         
         private tagging_versions MapTaggingVersions(taggings tagging)

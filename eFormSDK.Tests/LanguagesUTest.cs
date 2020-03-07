@@ -49,7 +49,7 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await language.Create(dbContext);
+            await language.Create(dbContext).ConfigureAwait(false);
             
             List<languages> languages = dbContext.languages.AsNoTracking().ToList();
             List<language_versions> languageVersions = dbContext.language_versions.AsNoTracking().ToList();
@@ -87,7 +87,7 @@ namespace eFormSDK.Tests
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext);
+            await language.Create(dbContext).ConfigureAwait(false);
             
             //Act
             DateTime? oldUpdatedAt = language.UpdatedAt;
@@ -96,7 +96,7 @@ namespace eFormSDK.Tests
             
             language.Description = Guid.NewGuid().ToString();
             language.Name = Guid.NewGuid().ToString();
-            await language.Update(dbContext);
+            await language.Update(dbContext).ConfigureAwait(false);
             
             
             List<languages> languages = dbContext.languages.AsNoTracking().ToList();
@@ -144,7 +144,7 @@ namespace eFormSDK.Tests
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext);
+            await language.Create(dbContext).ConfigureAwait(false);
             
             //Act
             DateTime? oldUpdatedAt = language.UpdatedAt;

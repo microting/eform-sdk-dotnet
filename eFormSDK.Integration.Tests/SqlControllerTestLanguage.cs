@@ -58,7 +58,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             sut = new SqlController(dbContextHelper);
-            await sut.StartLog(new CoreBase());
+            sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
@@ -80,7 +80,7 @@ namespace eFormSDK.Integration.Tests
 
 
             // Act
-            await language.Create(dbContext);
+            await language.Create(dbContext).ConfigureAwait(false);
 
             languages dbLanguage = dbContext.languages.AsNoTracking().First();
             language_versions dbLanguageVersion = dbContext.language_versions.AsNoTracking().First();
@@ -106,7 +106,7 @@ namespace eFormSDK.Integration.Tests
             };
 
 
-            await language.Create(dbContext);
+            await language.Create(dbContext).ConfigureAwait(false);
             // Act
 
             string newName = Guid.NewGuid().ToString();
@@ -114,7 +114,7 @@ namespace eFormSDK.Integration.Tests
 
             language.Name = newName;
             language.Description = newDescription;
-            await language.Update(dbContext);
+            await language.Update(dbContext).ConfigureAwait(false);
 
             languages dbLanguage = dbContext.languages.AsNoTracking().First();
             language_versions dbLanguageVersion = dbContext.language_versions.AsNoTracking().First();
@@ -143,7 +143,7 @@ namespace eFormSDK.Integration.Tests
             };
 
 
-            await language.Create(dbContext);
+            await language.Create(dbContext).ConfigureAwait(false);
 
             // Act
 

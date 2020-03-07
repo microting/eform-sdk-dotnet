@@ -66,14 +66,14 @@ namespace Microting.eForm.Handlers
 
                 if (ud.FileName.Contains("3gp"))
                 {
-                    await log.LogStandard("TranscriptionCompletedHandler.Handle", "file_name contains 3gp");
+                    log.LogStandard("TranscriptionCompletedHandler.Handle", "file_name contains 3gp");
                     string urlStr = sqlController.SettingRead(Settings.comSpeechToText).Result + "/download_file/" + message.MicrotringUUID + ".wav?token=" + sqlController.SettingRead(Settings.token);
                     string fileLocationPicture = await sqlController.SettingRead(Settings.fileLocationPicture);
                     using (var client = new System.Net.WebClient())
                     {
                         try
                         {
-                            await log.LogStandard("TranscriptionCompletedHandler.Handle", "Trying to download file from : " + urlStr);
+                            log.LogStandard("TranscriptionCompletedHandler.Handle", "Trying to download file from : " + urlStr);
                             client.DownloadFile(urlStr, fileLocationPicture + ud.FileName.Replace(".3gp", ".wav"));
                             await core.PutFileToStorageSystem(fileLocationPicture + ud.FileName.Replace(".3gp", ".wav"),
                                 ud.FileName.Replace("3gp", "wav"));
@@ -88,7 +88,7 @@ namespace Microting.eForm.Handlers
 
                 await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
 
-                await log.LogStandard("TranscriptionCompletedHandler.Handle", "Transcription with id " + message.MicrotringUUID + " has been transcribed");
+                log.LogStandard("TranscriptionCompletedHandler.Handle", "Transcription with id " + message.MicrotringUUID + " has been transcribed");
             }
             catch (Exception ex)
             {

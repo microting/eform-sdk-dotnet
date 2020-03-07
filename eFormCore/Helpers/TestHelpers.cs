@@ -84,7 +84,7 @@ namespace Microting.eForm.Helpers
             worker.WorkflowState = Constants.WorkflowStates.Created;
             worker.Version = 69;
             dbContext.workers.Add(worker);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             return worker;
         }
@@ -99,7 +99,7 @@ namespace Microting.eForm.Helpers
             site.Version = 64;
             site.WorkflowState = Constants.WorkflowStates.Created;
             dbContext.sites.Add(site);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             return site;
         }
@@ -118,7 +118,7 @@ namespace Microting.eForm.Helpers
             unit.WorkflowState = Constants.WorkflowStates.Created;
 
             dbContext.units.Add(unit);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             return unit;
         }
@@ -136,7 +136,7 @@ namespace Microting.eForm.Helpers
             site_workers.WorkflowState = Constants.WorkflowStates.Created;
 
             dbContext.site_workers.Add(site_workers);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             return site_workers;
         }
@@ -156,7 +156,7 @@ namespace Microting.eForm.Helpers
             cl1.ParentId = 0;
             
             dbContext.check_lists.Add(cl1);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             return cl1;
         }
         public async Task<check_lists> CreateSubTemplate(string label, string description, string caseType, int displayIndex, int repeated, check_lists parentId)
@@ -173,7 +173,7 @@ namespace Microting.eForm.Helpers
             cl2.ParentId = parentId.Id;
 
             dbContext.check_lists.Add(cl2);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             return cl2;
         }
         public async Task<fields> CreateField(short? barcodeEnabled, string barcodeType, check_lists checkList, string color, string custom, int? decimalCount, string defaultValue, string description, int? displayIndex, short? dummy, field_types ft, short? geolocationEnabled, short? geolocationForced, short? geolocationHidden, short? isNum, string label, short? mandatory, int maxLength, string maxValue, string minValue, short? multi, short? optional, string queryType, short? readOnly, short? selected, short? splitScreen, short? stopOnSave, string unitName, int version)
@@ -215,7 +215,7 @@ namespace Microting.eForm.Helpers
             f.WorkflowState = Constants.WorkflowStates.Created;
 
             dbContext.fields.Add(f);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             Thread.Sleep(2000);
 
             return f;
@@ -245,7 +245,7 @@ namespace Microting.eForm.Helpers
             aCase.Worker = worker;
             aCase.WorkflowState = WorkFlowState;
             dbContext.cases.Add(aCase);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             return aCase;
         }
@@ -272,7 +272,7 @@ namespace Microting.eForm.Helpers
             fv.WorkflowState = Constants.WorkflowStates.Created;
 
             dbContext.field_values.Add(fv);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             return fv;
         }
         public async Task<check_list_values> CreateCheckListValue(cases aCase, check_lists checkList, string status, int? userId, int? version)
@@ -289,7 +289,7 @@ namespace Microting.eForm.Helpers
             CLV.WorkflowState = Constants.WorkflowStates.Created;
             
             dbContext.check_list_values.Add(CLV);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             return CLV;
 
         }
@@ -312,7 +312,7 @@ namespace Microting.eForm.Helpers
             UD.WorkflowState = Constants.WorkflowStates.Created;
 
             dbContext.uploaded_data.Add(UD);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
 
             string path = System.IO.Path.Combine(fileLocation, fileName);
@@ -352,7 +352,7 @@ namespace Microting.eForm.Helpers
                 eG.WorkflowState = workflowState;
 
                 dbContext.entity_groups.Add(eG);
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
                 return eG;
             } else {
                 throw new ArgumentException("microtingUId already exists: " + microtingUId);
@@ -375,7 +375,7 @@ namespace Microting.eForm.Helpers
             eI.WorkflowState = workflowState;
 
             dbContext.entity_items.Add(eI);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             return eI;
         }
@@ -385,10 +385,10 @@ namespace Microting.eForm.Helpers
             tag.Name = name;
             tag.WorkflowState = workflowState;
             tag.Version = version;
-            await tag.Create(dbContext);
+            await tag.Create(dbContext).ConfigureAwait(false);
 
 //            DbContext.tags.Add(tag);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             return tag;
         }
@@ -403,9 +403,9 @@ namespace Microting.eForm.Helpers
             cls.Version = version;
             cls.WorkflowState = workflowState;
             cls.MicrotingUid = microting_uid;
-            await cls.Create(dbContext);
+            await cls.Create(dbContext).ConfigureAwait(false);
 //            DbContext.check_list_sites.Add(cls);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             return cls;
         }
 

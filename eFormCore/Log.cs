@@ -33,70 +33,65 @@ namespace Microting.eForm
     public class Log
     {
         #region var
-        CoreBase core;
-        LogWriter logWriter;
-        int logLevel;
-        Queue logQue;
-        Tools t = new Tools();
-        List<ExceptionClass> exceptionLst = new List<ExceptionClass>();
+
+        private readonly LogWriter logWriter;
+        private readonly Tools t = new Tools();
+        private readonly List<ExceptionClass> exceptionLst = new List<ExceptionClass>();
         #endregion
 
         // con
-        public Log(CoreBase core, LogWriter logWriter, int logLevel)
+        public Log(LogWriter logWriter)
         {
-            this.core = core;
             this.logWriter = logWriter;
-            this.logLevel = logLevel;
-            logQue = new Queue();
         }
 
         #region public
-        public Task LogEverything(string type, string message)
+        public void LogEverything(string type, string message)
         {
-            return LogLogic(new LogEntry(4, type, message));
+            LogLogic(new LogEntry(4, type, message));
         }
 
         #region public void     LogVariable (string type, ... variableName, string variableContent)
-        public  Task LogVariable(string type, string variableName, string variableContent)
+        public void LogVariable(string type, string variableName, string variableContent)
         {
             if (variableContent == null)
                 variableContent = "[null]";
 
-            return LogLogic(new LogEntry(3, type, "Variable Name:" + variableName.ToString() + " / Content:" + variableContent.ToString()));
+            LogLogic(new LogEntry(3, type, "Variable Name:" + variableName.ToString() + " / Content:" + variableContent.ToString()));
         }
 
-        public Task LogVariable(string type, string variableName, int? variableContent)
+        public void LogVariable(string type, string variableName, int? variableContent)
         {
-            return LogVariable(type, variableName, variableContent.ToString());
+            LogVariable(type, variableName, variableContent.ToString());
         }
 
-        public Task LogVariable(string type, string variableName, bool? variableContent)
+        public void LogVariable(string type, string variableName, bool? variableContent)
         {
-            return LogVariable(type, variableName, variableContent.ToString());
+            LogVariable(type, variableName, variableContent.ToString());
         }
 
-        public Task LogVariable(string type, string variableName, DateTime? variableContent)
+        public void LogVariable(string type, string variableName, DateTime? variableContent)
         {
-            return LogVariable(type, variableName, variableContent.ToString());
+            LogVariable(type, variableName, variableContent.ToString());
         }
         #endregion
 
-        public Task LogStandard(string type, string message)
+        public void LogStandard(string type, string message)
         {
-            return LogLogic(new LogEntry(2, type, message));
+            LogLogic(new LogEntry(2, type, message));
         }
 
-        public Task LogCritical(string type, string message)
+        public void LogCritical(string type, string message)
         {
-            return LogLogic(new LogEntry(1, type, message));
+            LogLogic(new LogEntry(1, type, message));
         }
 
-        public Task LogWarning(string type, string message)
+        public void LogWarning(string type, string message)
         {
-            return LogLogic(new LogEntry(0, type, message));
+            LogLogic(new LogEntry(0, type, message));
         }
 
-        public async Task LogException(string type, string exceptionDescription, Exception exception, bool restartCore)
+        public void LogException(string type, string exceptionDescription, Exception exception)
         {
             try
             {
@@ -104,54 +99,34 @@ namespace Microting.eForm
                 if (fullExceptionDescription.Contains("Message    :Core is not running"))
                     return;
 
-                await LogLogic(new LogEntry(-1, type, fullExceptionDescription));
-                await LogVariable(type, nameof(restartCore), restartCore);
+                LogLogic(new LogEntry(-1, type, fullExceptionDescription));
 
                 ExceptionClass exCls = new ExceptionClass(fullExceptionDescription, DateTime.Now);
                 exceptionLst.Add(exCls);
 
-                int sameExceptionCount = await CheckExceptionLst(exCls);
+                int sameExceptionCount = CheckExceptionLst(exCls);
                 int sameExceptionCountMax = 0;
 
                 foreach (var item in exceptionLst)
                     if (sameExceptionCountMax < item.Occurrence)
                         sameExceptionCountMax = item.Occurrence;
-
-                if (restartCore)
-                    await core.Restart(sameExceptionCount, sameExceptionCountMax);
             }
             catch { }
         }
 
-        public async Task LogFatalException(string exceptionDescription, Exception exception)
+        public void LogFatalException(string exceptionDescription, Exception exception)
         {
             try
             {
-                string fullExceptionDescription = t.PrintException(exceptionDescription, exception);
-                await LogLogic(new LogEntry(-3, "FatalException", PrintCache(-3, fullExceptionDescription)));
+                LogLogic(new LogEntry(-3, "FatalException", t.PrintException(exceptionDescription, exception)));
             }
             catch { }
         }
 
-        public string PrintCache(int level, string initialMessage)
-        {
-            string text = "";
-
-            foreach (LogEntry item in logQue)
-                text = item.Time + " // " + "L:" + item.Level + " // " + item.Message + Environment.NewLine + text;
-
-            text = DateTime.Now + " // L:" + level + " // ###########################################################################" + Environment.NewLine +
-                    initialMessage + Environment.NewLine +
-                    Environment.NewLine +
-                    text + Environment.NewLine +
-                    DateTime.Now + " // L:" + level + " // ###########################################################################";
-
-            return text;
-        }
         #endregion
 
         #region private
-        private async Task<int> CheckExceptionLst(ExceptionClass exceptionClass)
+        private int CheckExceptionLst(ExceptionClass exceptionClass)
         {
             int count = 0;
             #region find count
@@ -184,38 +159,15 @@ namespace Microting.eForm
             #endregion
 
             exceptionClass.Occurrence = count;
-            await LogStandard(t.GetMethodName("Log"), count + ". time the same Exception, within the last hour");
+            LogStandard(t.GetMethodName("Log"), count + ". time the same Exception, within the last hour");
             return count;
         }
 
-        private async Task LogLogic(LogEntry logEntry)
+        private void LogLogic(LogEntry logEntry)
         {
-            try
-            {
-                string reply = "";
-
-                LogCache(logEntry);
-                if (logLevel >= logEntry.Level)
-                    reply = await logWriter.WriteLogEntry(logEntry);
-
-                //if prime log writer failed
-                if (reply != "")
-                    logWriter.WriteIfFailed(PrintCache(-2, reply));
-            }
-            catch { }
+            logWriter.WriteLogEntry(logEntry);
         }
-
-        private void LogCache(LogEntry logEntry)
-        {
-            try
-            {
-                if (logQue.Count == 12)
-                    logQue.Dequeue();
-
-                logQue.Enqueue(logEntry);
-            }
-            catch { }
-        }
+        
         #endregion
     }
 
@@ -230,7 +182,7 @@ namespace Microting.eForm
     public class LogWriter
     {
 #pragma warning disable 1998
-        public virtual async Task<string> WriteLogEntry(LogEntry logEntry)
+        public virtual void WriteLogEntry(LogEntry logEntry)
         {
             throw new Exception("SqlControllerBase." + "LogText" + " method should never actually be called. SqlController should override");
         }

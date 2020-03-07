@@ -73,7 +73,7 @@ namespace eFormSDK.Integration.Tests
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
-            //await sut.StartLog(new CoreBase());
+            //sut.StartLog(new CoreBase());
         }
 
         #region tag
@@ -101,7 +101,7 @@ namespace eFormSDK.Integration.Tests
             tags tag = new tags {Name = tagName, WorkflowState = Constants.WorkflowStates.Created};
 
             dbContext.tags.Add(tag);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             await sut.TagDelete(tag.Id);
@@ -122,7 +122,7 @@ namespace eFormSDK.Integration.Tests
             tags tag = new tags {Name = tagName, WorkflowState = Constants.WorkflowStates.Removed};
 
             dbContext.tags.Add(tag);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             await sut.TagCreate(tagName);
@@ -143,20 +143,20 @@ namespace eFormSDK.Integration.Tests
             tags tag = new tags {Name = tagName1, WorkflowState = Constants.WorkflowStates.Removed};
 
             dbContext.tags.Add(tag);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName2 = "Tag2";
             tag = new tags {Name = tagName2, WorkflowState = Constants.WorkflowStates.Removed};
 
 
             dbContext.tags.Add(tag);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             string tagName3 = "Tag3";
             tag = new tags {Name = tagName3, WorkflowState = Constants.WorkflowStates.Removed};
 
 
             dbContext.tags.Add(tag);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             //int tagId3 = await sut.TagCreate(tagName3);
 
             // Act
@@ -191,13 +191,13 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.check_lists.Add(cl1);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName1 = "Tag1";
             tags tag = new tags {Name = tagName1, WorkflowState = Constants.WorkflowStates.Created};
 
             dbContext.tags.Add(tag);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             List<int> tags = new List<int> {tag.Id};
@@ -232,7 +232,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.check_lists.Add(cl1);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             #region Tags
 
@@ -242,7 +242,7 @@ namespace eFormSDK.Integration.Tests
             tag1.WorkflowState = Constants.WorkflowStates.Created;
 
             dbContext.tags.Add(tag1);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName2 = "TagFor2CLs";
             tags tag2 = new tags();
@@ -250,7 +250,7 @@ namespace eFormSDK.Integration.Tests
             tag2.WorkflowState = Constants.WorkflowStates.Created;
 
             dbContext.tags.Add(tag2);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName3 = "Tag3";
             tags tag3 = new tags();
@@ -258,7 +258,7 @@ namespace eFormSDK.Integration.Tests
             tag3.WorkflowState = Constants.WorkflowStates.Created;
 
             dbContext.tags.Add(tag3);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName4 = "Tag4";
             tags tag4 = new tags();
@@ -266,7 +266,7 @@ namespace eFormSDK.Integration.Tests
             tag4.WorkflowState = Constants.WorkflowStates.Created;
 
             dbContext.tags.Add(tag4);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             #endregion
 

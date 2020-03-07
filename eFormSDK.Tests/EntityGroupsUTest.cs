@@ -48,7 +48,7 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await entityGroup.Create(dbContext);
+            await entityGroup.Create(dbContext).ConfigureAwait(false);
             
             List<entity_groups> entityGroups = dbContext.entity_groups.AsNoTracking().ToList();
             List<entity_group_versions> entityGroupVersion = dbContext.entity_group_versions.AsNoTracking().ToList();
@@ -90,7 +90,7 @@ namespace eFormSDK.Tests
                 Type = Guid.NewGuid().ToString(),
                 MicrotingUid = Guid.NewGuid().ToString()
             };
-            await entityGroup.Create(dbContext);
+            await entityGroup.Create(dbContext).ConfigureAwait(false);
             
             //Act
 
@@ -103,7 +103,7 @@ namespace eFormSDK.Tests
             entityGroup.Type = Guid.NewGuid().ToString();
             entityGroup.MicrotingUid = Guid.NewGuid().ToString();
             
-            await entityGroup.Update(dbContext);
+            await entityGroup.Update(dbContext).ConfigureAwait(false);
             
             List<entity_groups> entityGroups = dbContext.entity_groups.AsNoTracking().ToList();
             List<entity_group_versions> entityGroupVersion = dbContext.entity_group_versions.AsNoTracking().ToList();
@@ -155,7 +155,7 @@ namespace eFormSDK.Tests
                 Type = Guid.NewGuid().ToString(),
                 MicrotingUid = Guid.NewGuid().ToString()
             };
-            await entityGroup.Create(dbContext);
+            await entityGroup.Create(dbContext).ConfigureAwait(false);
             
             //Act
 

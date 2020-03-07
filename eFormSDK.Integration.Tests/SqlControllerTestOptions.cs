@@ -51,7 +51,7 @@ namespace eFormSDK.Integration.Tests
                 HasChild = false, 
                 PosiblyDeployed = false
             };
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             #endregion
             
@@ -81,7 +81,7 @@ namespace eFormSDK.Integration.Tests
                 Image = false
             };
 
-            await question.Create(dbContext);
+            await question.Create(dbContext).ConfigureAwait(false);
             #endregion
             
             #region Option
@@ -99,7 +99,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             // Act
-            await option.Create(dbContext);
+            await option.Create(dbContext).ConfigureAwait(false);
 
             options dbOption = dbContext.options.AsNoTracking().First();
             option_versions dbVersions = dbContext.option_versions.AsNoTracking().First();
@@ -128,7 +128,7 @@ namespace eFormSDK.Integration.Tests
                 HasChild = false, 
                 PosiblyDeployed = false
             };
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             #endregion
             
@@ -157,7 +157,7 @@ namespace eFormSDK.Integration.Tests
                 BackButtonEnabled = false,
                 Image = false
             };
-            await question.Create(dbContext);
+            await question.Create(dbContext).ConfigureAwait(false);
             #endregion
             #region Question2
             string type2 = Guid.NewGuid().ToString();
@@ -184,7 +184,7 @@ namespace eFormSDK.Integration.Tests
                 Image = false
             };
 
-            await question2.Create(dbContext);
+            await question2.Create(dbContext).ConfigureAwait(false);
             #endregion
             #region Option
 
@@ -198,7 +198,7 @@ namespace eFormSDK.Integration.Tests
                 ContinuousOptionId = rnd.Next(1, 255)
             };
 
-            await option.Create(dbContext);
+            await option.Create(dbContext).ConfigureAwait(false);
 
             #endregion
 
@@ -211,7 +211,7 @@ namespace eFormSDK.Integration.Tests
             option.NextQuestionId = rnd.Next(1, 550);
             option.ContinuousOptionId = rnd.Next(1, 550);
 
-            await option.Update(dbContext);
+            await option.Update(dbContext).ConfigureAwait(false);
             
             options dbOption = dbContext.options.AsNoTracking().First();
             option_versions dbVersions = dbContext.option_versions.AsNoTracking().First();
@@ -240,7 +240,7 @@ namespace eFormSDK.Integration.Tests
                 HasChild = false, 
                 PosiblyDeployed = false
             };
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             #endregion
             
@@ -270,7 +270,7 @@ namespace eFormSDK.Integration.Tests
                 Image = false
             };
 
-            await question.Create(dbContext);
+            await question.Create(dbContext).ConfigureAwait(false);
             #endregion
             
             #region Option
@@ -284,7 +284,7 @@ namespace eFormSDK.Integration.Tests
                 NextQuestionId = rnd.Next(1, 255),
                 ContinuousOptionId = rnd.Next(1, 255)
             };
-            await option.Create(dbContext);
+            await option.Create(dbContext).ConfigureAwait(false);
 
             #endregion
 
