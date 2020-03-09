@@ -57,7 +57,7 @@ namespace eFormSDK.Tests
             
             //Assert after creating new field type
             
-            await fieldType.Create(dbContext);
+            await fieldType.Create(dbContext).ConfigureAwait(false);
             fieldTypes = dbContext.field_types.AsNoTracking().ToList();
             Assert.AreEqual(20, fieldTypes.Count());
             
@@ -76,14 +76,14 @@ namespace eFormSDK.Tests
                 Description = Guid.NewGuid().ToString(),
                 FieldType = Guid.NewGuid().ToString()
             };
-            await fieldType.Create(dbContext);
+            await fieldType.Create(dbContext).ConfigureAwait(false);
             
             //Act
 
             fieldType.Description = Guid.NewGuid().ToString();
             fieldType.FieldType = Guid.NewGuid().ToString();
             
-            await fieldType.Update(dbContext);
+            await fieldType.Update(dbContext).ConfigureAwait(false);
 
             
             List<field_types> fieldTypes = dbContext.field_types.AsNoTracking().ToList();
@@ -108,7 +108,7 @@ namespace eFormSDK.Tests
                 Description = Guid.NewGuid().ToString(),
                 FieldType = Guid.NewGuid().ToString()
             };
-            await fieldType.Create(dbContext);
+            await fieldType.Create(dbContext).ConfigureAwait(false);
             
             //Act
 

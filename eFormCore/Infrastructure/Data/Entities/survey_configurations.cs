@@ -91,7 +91,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 surveyConfigurations.UpdatedAt = DateTime.Now;
 
                 dbContext.survey_configuration_versions.Add(MapVersions(surveyConfigurations));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
                 
             }
         }
@@ -114,7 +114,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 surveyConfigurations.UpdatedAt = DateTime.Now;
 
                 dbContext.survey_configuration_versions.Add(MapVersions(surveyConfigurations));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
                 
             }
         }

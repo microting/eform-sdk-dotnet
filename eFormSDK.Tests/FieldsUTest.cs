@@ -51,7 +51,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             units unit = new units
             {
@@ -60,7 +60,7 @@ namespace eFormSDK.Tests
                 OtpCode = rnd.Next(1, 255),
                 SiteId = site.Id
             };
-            await unit.Create(dbContext);
+            await unit.Create(dbContext).ConfigureAwait(false);
 
             check_lists checklist = new check_lists
             {
@@ -94,7 +94,7 @@ namespace eFormSDK.Tests
                 JasperExportEnabled = randomBool,
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
             };
-            await checklist.Create(dbContext);
+            await checklist.Create(dbContext).ConfigureAwait(false);
 
             entity_groups entityGroup = new entity_groups
             {
@@ -102,14 +102,14 @@ namespace eFormSDK.Tests
                 Type = Guid.NewGuid().ToString(),
                 MicrotingUid = Guid.NewGuid().ToString()
             };
-            await entityGroup.Create(dbContext);
+            await entityGroup.Create(dbContext).ConfigureAwait(false);
 
             field_types fieldType = new field_types
             {
                 Description = Guid.NewGuid().ToString(), 
                 FieldType = Guid.NewGuid().ToString()
             };
-            await fieldType.Create(dbContext);
+            await fieldType.Create(dbContext).ConfigureAwait(false);
 
             fields parentFIeld = new fields
             {
@@ -145,7 +145,7 @@ namespace eFormSDK.Tests
                 EntityGroupId = entityGroup.Id,
                 FieldTypeId = fieldType.Id
             };
-            await parentFIeld.Create(dbContext);
+            await parentFIeld.Create(dbContext).ConfigureAwait(false);
 
             fields field = new fields
             {
@@ -185,7 +185,7 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await field.Create(dbContext);
+            await field.Create(dbContext).ConfigureAwait(false);
             
             List<fields> fields = dbContext.fields.AsNoTracking().ToList();
             List<field_versions> fieldVersion = dbContext.field_versions.AsNoTracking().ToList();
@@ -290,7 +290,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             units unit = new units
             {
@@ -299,7 +299,7 @@ namespace eFormSDK.Tests
                 OtpCode = rnd.Next(1, 255),
                 SiteId = site.Id
             };
-            await unit.Create(dbContext);
+            await unit.Create(dbContext).ConfigureAwait(false);
 
             check_lists checklist = new check_lists
             {
@@ -333,7 +333,7 @@ namespace eFormSDK.Tests
                 JasperExportEnabled = randomBool,
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
             };
-            await checklist.Create(dbContext);
+            await checklist.Create(dbContext).ConfigureAwait(false);
 
             entity_groups entityGroup = new entity_groups
             {
@@ -341,13 +341,13 @@ namespace eFormSDK.Tests
                 Type = Guid.NewGuid().ToString(),
                 MicrotingUid = Guid.NewGuid().ToString()
             };
-            await entityGroup.Create(dbContext);
+            await entityGroup.Create(dbContext).ConfigureAwait(false);
 
             field_types fieldType = new field_types
             {
                 Description = Guid.NewGuid().ToString(), FieldType = Guid.NewGuid().ToString()
             };
-            await fieldType.Create(dbContext);
+            await fieldType.Create(dbContext).ConfigureAwait(false);
 
             fields parentFIeld = new fields
             {
@@ -383,7 +383,7 @@ namespace eFormSDK.Tests
                 EntityGroupId = entityGroup.Id,
                 FieldTypeId = fieldType.Id
             };
-            await parentFIeld.Create(dbContext);
+            await parentFIeld.Create(dbContext).ConfigureAwait(false);
 
             fields field = new fields
             {
@@ -420,7 +420,7 @@ namespace eFormSDK.Tests
                 FieldTypeId = fieldType.Id,
                 ParentFieldId = parentFIeld.Id
             };
-            await field.Create(dbContext);
+            await field.Create(dbContext).ConfigureAwait(false);
             
             //Act
 
@@ -483,7 +483,7 @@ namespace eFormSDK.Tests
             field.StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue);
             field.KeyValuePairList = Guid.NewGuid().ToString();
 
-            await field.Update(dbContext);
+            await field.Update(dbContext).ConfigureAwait(false);
 
             List<fields> fields = dbContext.fields.AsNoTracking().ToList();
             List<field_versions> fieldVersion = dbContext.field_versions.AsNoTracking().ToList();
@@ -627,7 +627,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             units unit = new units
             {
@@ -636,7 +636,7 @@ namespace eFormSDK.Tests
                 OtpCode = rnd.Next(1, 255),
                 SiteId = site.Id
             };
-            await unit.Create(dbContext);
+            await unit.Create(dbContext).ConfigureAwait(false);
 
             check_lists checklist = new check_lists
             {
@@ -670,7 +670,7 @@ namespace eFormSDK.Tests
                 JasperExportEnabled = randomBool,
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
             };
-            await checklist.Create(dbContext);
+            await checklist.Create(dbContext).ConfigureAwait(false);
 
             entity_groups entityGroup = new entity_groups
             {
@@ -678,13 +678,13 @@ namespace eFormSDK.Tests
                 Type = Guid.NewGuid().ToString(),
                 MicrotingUid = Guid.NewGuid().ToString()
             };
-            await entityGroup.Create(dbContext);
+            await entityGroup.Create(dbContext).ConfigureAwait(false);
 
             field_types fieldType = new field_types
             {
                 Description = Guid.NewGuid().ToString(), FieldType = Guid.NewGuid().ToString()
             };
-            await fieldType.Create(dbContext);
+            await fieldType.Create(dbContext).ConfigureAwait(false);
 
             fields parentFIeld = new fields
             {
@@ -720,7 +720,7 @@ namespace eFormSDK.Tests
                 EntityGroupId = entityGroup.Id,
                 FieldTypeId = fieldType.Id
             };
-            await parentFIeld.Create(dbContext);
+            await parentFIeld.Create(dbContext).ConfigureAwait(false);
 
             fields field = new fields
             {
@@ -757,7 +757,7 @@ namespace eFormSDK.Tests
                 FieldTypeId = fieldType.Id,
                 ParentFieldId = parentFIeld.Id
             };
-            await field.Create(dbContext);
+            await field.Create(dbContext).ConfigureAwait(false);
             
             //Act
 

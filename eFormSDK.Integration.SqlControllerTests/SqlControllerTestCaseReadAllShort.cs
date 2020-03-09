@@ -61,7 +61,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             sut = new SqlController(dbContextHelper);
-            await sut.StartLog(new CoreBase());
+            sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
@@ -91,7 +91,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.check_lists.Add(cl1);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             Thread.Sleep(1000);
             #endregion
 
@@ -111,7 +111,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.check_lists.Add(cl2);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             Thread.Sleep(1000);
             #endregion
 
@@ -131,7 +131,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.check_lists.Add(cl3);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             Thread.Sleep(1000);
             #endregion
 
@@ -151,7 +151,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.check_lists.Add(cl4);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             #endregion
 
 
@@ -404,7 +404,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.check_lists.Add(cl1);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             #endregion
             // Act
 

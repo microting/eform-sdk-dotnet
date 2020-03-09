@@ -57,7 +57,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             sut = new SqlController(dbContextHelper);
-            await sut.StartLog(new CoreBase());
+            sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
@@ -76,7 +76,7 @@ namespace eFormSDK.Integration.Tests
                 ParentId = 0
             };
             
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             survey_configurations surveyConfigurations = new survey_configurations
             {
@@ -89,7 +89,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             // Act
-            await surveyConfigurations.Create(dbContext);
+            await surveyConfigurations.Create(dbContext).ConfigureAwait(false);
 
             survey_configurations dbSurveyConfigurations = dbContext.survey_configurations.AsNoTracking().First();
             survey_configuration_versions dbSurveyConfigurationVersions =
@@ -116,7 +116,7 @@ namespace eFormSDK.Integration.Tests
                 ParentId = 0
             };
             
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             string oldName = Guid.NewGuid().ToString();
             survey_configurations surveyConfiguration = new survey_configurations
@@ -129,12 +129,12 @@ namespace eFormSDK.Integration.Tests
                 QuestionSetId = questionSet.Id
             };
             
-            await surveyConfiguration.Create(dbContext);
+            await surveyConfiguration.Create(dbContext).ConfigureAwait(false);
             // Act
             
             string newName = Guid.NewGuid().ToString();
             surveyConfiguration.Name = newName;
-            await surveyConfiguration.Update(dbContext);
+            await surveyConfiguration.Update(dbContext).ConfigureAwait(false);
 
             survey_configurations dbSurveyConfigurations = dbContext.survey_configurations.AsNoTracking().First();
             survey_configuration_versions dbSurveyConfigurationVersions =
@@ -162,7 +162,7 @@ namespace eFormSDK.Integration.Tests
                 ParentId = 0
             };
             
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             string oldName = Guid.NewGuid().ToString();
             survey_configurations surveyConfiguration = new survey_configurations
@@ -175,7 +175,7 @@ namespace eFormSDK.Integration.Tests
                 QuestionSetId = questionSet.Id
             };
             
-            await surveyConfiguration.Create(dbContext);
+            await surveyConfiguration.Create(dbContext).ConfigureAwait(false);
             // Act
 
             await surveyConfiguration.Delete(dbContext);

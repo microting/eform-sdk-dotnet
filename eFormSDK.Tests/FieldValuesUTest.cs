@@ -51,7 +51,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             units unit = new units
             {
@@ -60,7 +60,7 @@ namespace eFormSDK.Tests
                 OtpCode = rnd.Next(1, 255),
                 SiteId = site.Id
             };
-            await unit.Create(dbContext);
+            await unit.Create(dbContext).ConfigureAwait(false);
 
             check_lists checklist = new check_lists
             {
@@ -94,7 +94,7 @@ namespace eFormSDK.Tests
                 JasperExportEnabled = randomBool,
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
             };
-            await checklist.Create(dbContext);
+            await checklist.Create(dbContext).ConfigureAwait(false);
 
             entity_groups entityGroup = new entity_groups
             {
@@ -102,13 +102,13 @@ namespace eFormSDK.Tests
                 Type = Guid.NewGuid().ToString(),
                 MicrotingUid = Guid.NewGuid().ToString()
             };
-            await entityGroup.Create(dbContext);
+            await entityGroup.Create(dbContext).ConfigureAwait(false);
 
             field_types fieldType = new field_types
             {
                 Description = Guid.NewGuid().ToString(), FieldType = Guid.NewGuid().ToString()
             };
-            await fieldType.Create(dbContext);
+            await fieldType.Create(dbContext).ConfigureAwait(false);
 
             fields field = new fields
             {
@@ -144,7 +144,7 @@ namespace eFormSDK.Tests
                 EntityGroupId = entityGroup.Id,
                 FieldTypeId = fieldType.Id
             };
-            await field.Create(dbContext);
+            await field.Create(dbContext).ConfigureAwait(false);
 
 
 
@@ -155,7 +155,7 @@ namespace eFormSDK.Tests
                 LastName = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await worker.Create(dbContext);
+            await worker.Create(dbContext).ConfigureAwait(false);
 
             cases theCase = new cases
             {
@@ -181,7 +181,7 @@ namespace eFormSDK.Tests
                 CheckListId = checklist.Id,
                 MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue)
             };
-            await theCase.Create(dbContext);
+            await theCase.Create(dbContext).ConfigureAwait(false);
 
             uploaded_data uploadedData = new uploaded_data
             {
@@ -196,7 +196,7 @@ namespace eFormSDK.Tests
                 UploaderId = rnd.Next(1, 255),
                 UploaderType = Guid.NewGuid().ToString()
             };
-            await uploadedData.Create(dbContext);
+            await uploadedData.Create(dbContext).ConfigureAwait(false);
 
             field_values fieldValue = new field_values
             {
@@ -217,7 +217,7 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await fieldValue.Create(dbContext);
+            await fieldValue.Create(dbContext).ConfigureAwait(false);
             
             List<field_values> fieldValues = dbContext.field_values.AsNoTracking().ToList();
             List<field_value_versions> fieldValueVersions = dbContext.field_value_versions.AsNoTracking().ToList();
@@ -281,7 +281,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             units unit = new units
             {
@@ -290,7 +290,7 @@ namespace eFormSDK.Tests
                 OtpCode = rnd.Next(1, 255),
                 SiteId = site.Id
             };
-            await unit.Create(dbContext);
+            await unit.Create(dbContext).ConfigureAwait(false);
 
             check_lists checklist = new check_lists
             {
@@ -324,7 +324,7 @@ namespace eFormSDK.Tests
                 JasperExportEnabled = randomBool,
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
             };
-            await checklist.Create(dbContext);
+            await checklist.Create(dbContext).ConfigureAwait(false);
 
             entity_groups entityGroup = new entity_groups
             {
@@ -332,14 +332,14 @@ namespace eFormSDK.Tests
                 Type = Guid.NewGuid().ToString(),
                 MicrotingUid = Guid.NewGuid().ToString()
             };
-            await entityGroup.Create(dbContext);
+            await entityGroup.Create(dbContext).ConfigureAwait(false);
 
             field_types fieldType = new field_types
             {
                 Description = Guid.NewGuid().ToString(),
                 FieldType = Guid.NewGuid().ToString()
             };
-            await fieldType.Create(dbContext);
+            await fieldType.Create(dbContext).ConfigureAwait(false);
 
             fields field = new fields
             {
@@ -375,7 +375,7 @@ namespace eFormSDK.Tests
                 EntityGroupId = entityGroup.Id,
                 FieldTypeId = fieldType.Id
             };
-            await field.Create(dbContext);
+            await field.Create(dbContext).ConfigureAwait(false);
 
             workers worker = new workers
             {
@@ -384,7 +384,7 @@ namespace eFormSDK.Tests
                 LastName = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await worker.Create(dbContext);
+            await worker.Create(dbContext).ConfigureAwait(false);
 
             cases theCase = new cases
             {
@@ -410,7 +410,7 @@ namespace eFormSDK.Tests
                 CheckListId = checklist.Id,
                 MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue)
             };
-            await theCase.Create(dbContext);
+            await theCase.Create(dbContext).ConfigureAwait(false);
 
             uploaded_data uploadedData = new uploaded_data
             {
@@ -425,7 +425,7 @@ namespace eFormSDK.Tests
                 UploaderId = rnd.Next(1, 255),
                 UploaderType = Guid.NewGuid().ToString()
             };
-            await uploadedData.Create(dbContext);
+            await uploadedData.Create(dbContext).ConfigureAwait(false);
 
             field_values fieldValue = new field_values
             {
@@ -443,7 +443,7 @@ namespace eFormSDK.Tests
                 CheckListId = checklist.Id,
                 UploadedDataId = uploadedData.Id
             };
-            await fieldValue.Create(dbContext);
+            await fieldValue.Create(dbContext).ConfigureAwait(false);
 
             //Act
 
@@ -466,7 +466,7 @@ namespace eFormSDK.Tests
             fieldValue.Value = Guid.NewGuid().ToString();
             fieldValue.DoneAt = DateTime.Now;
 
-            await fieldValue.Update(dbContext);
+            await fieldValue.Update(dbContext).ConfigureAwait(false);
             
             List<field_values> fieldValues = dbContext.field_values.AsNoTracking().ToList();
             List<field_value_versions> fieldValueVersions = dbContext.field_value_versions.AsNoTracking().ToList();
@@ -549,7 +549,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             units unit = new units
             {
@@ -558,7 +558,7 @@ namespace eFormSDK.Tests
                 OtpCode = rnd.Next(1, 255),
                 SiteId = site.Id
             };
-            await unit.Create(dbContext);
+            await unit.Create(dbContext).ConfigureAwait(false);
 
             check_lists checklist = new check_lists
             {
@@ -592,7 +592,7 @@ namespace eFormSDK.Tests
                 JasperExportEnabled = randomBool,
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
             };
-            await checklist.Create(dbContext);
+            await checklist.Create(dbContext).ConfigureAwait(false);
 
             entity_groups entityGroup = new entity_groups
             {
@@ -600,14 +600,14 @@ namespace eFormSDK.Tests
                 Type = Guid.NewGuid().ToString(),
                 MicrotingUid = Guid.NewGuid().ToString()
             };
-            await entityGroup.Create(dbContext);
+            await entityGroup.Create(dbContext).ConfigureAwait(false);
 
             field_types fieldType = new field_types
             {
                 Description = Guid.NewGuid().ToString(),
                 FieldType = Guid.NewGuid().ToString()
             };
-            await fieldType.Create(dbContext);
+            await fieldType.Create(dbContext).ConfigureAwait(false);
 
             fields field = new fields
             {
@@ -643,7 +643,7 @@ namespace eFormSDK.Tests
                 EntityGroupId = entityGroup.Id,
                 FieldTypeId = fieldType.Id
             };
-            await field.Create(dbContext);
+            await field.Create(dbContext).ConfigureAwait(false);
 
             workers worker = new workers
             {
@@ -652,7 +652,7 @@ namespace eFormSDK.Tests
                 LastName = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await worker.Create(dbContext);
+            await worker.Create(dbContext).ConfigureAwait(false);
 
             cases theCase = new cases
             {
@@ -678,7 +678,7 @@ namespace eFormSDK.Tests
                 CheckListId = checklist.Id,
                 MicrotingCheckUid = rnd.Next(shortMinValue, shortmaxValue)
             };
-            await theCase.Create(dbContext);
+            await theCase.Create(dbContext).ConfigureAwait(false);
 
             uploaded_data uploadedData = new uploaded_data
             {
@@ -693,7 +693,7 @@ namespace eFormSDK.Tests
                 UploaderId = rnd.Next(1, 255),
                 UploaderType = Guid.NewGuid().ToString()
             };
-            await uploadedData.Create(dbContext);
+            await uploadedData.Create(dbContext).ConfigureAwait(false);
 
             field_values fieldValue = new field_values
             {
@@ -711,7 +711,7 @@ namespace eFormSDK.Tests
                 CheckListId = checklist.Id,
                 UploadedDataId = uploadedData.Id
             };
-            await fieldValue.Create(dbContext);
+            await fieldValue.Create(dbContext).ConfigureAwait(false);
 
             //Act
 

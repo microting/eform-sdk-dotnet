@@ -31,7 +31,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             testHelpers = new TestHelpers();
 
             sut = new SqlController(dbContextHelper);
-            await sut.StartLog(new CoreBase());
+            sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
             await sut.SettingUpdate(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SettingUpdate(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));

@@ -102,7 +102,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 folder.Version += 1;
 
                 dbContext.folder_versions.Add(MapFolderVersions(dbContext, folder));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
 

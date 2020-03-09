@@ -58,7 +58,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             sut = new SqlController(dbContextHelper);
-            await sut.StartLog(new CoreBase());
+            sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
@@ -75,7 +75,7 @@ namespace eFormSDK.Integration.Tests
                 ParentId = 0
             };
             
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             survey_configurations surveyConfiguration = new survey_configurations
             {
@@ -87,7 +87,7 @@ namespace eFormSDK.Integration.Tests
                 QuestionSetId = questionSet.Id
             };
 
-            await surveyConfiguration.Create(dbContext);
+            await surveyConfiguration.Create(dbContext).ConfigureAwait(false);
 
             sites site1 = await testHelpers.CreateSite("SiteName1", 88);
 
@@ -97,7 +97,7 @@ namespace eFormSDK.Integration.Tests
                 SurveyConfigurationId = surveyConfiguration.Id
             };
             // Act
-            await siteSurveyConfiguration.Create(dbContext);
+            await siteSurveyConfiguration.Create(dbContext).ConfigureAwait(false);
 
             site_survey_configurations dbSiteSurveyConfiguration =
                 dbContext.site_survey_configurations.AsNoTracking().First();
@@ -121,7 +121,7 @@ namespace eFormSDK.Integration.Tests
                 ParentId = 0
             };
             
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             survey_configurations surveyConfiguration = new survey_configurations
             {
@@ -133,7 +133,7 @@ namespace eFormSDK.Integration.Tests
                 QuestionSetId = questionSet.Id
             };
 
-            await surveyConfiguration.Create(dbContext);
+            await surveyConfiguration.Create(dbContext).ConfigureAwait(false);
 
             sites site1 = await testHelpers.CreateSite("SiteName1", 88);
 
@@ -141,7 +141,7 @@ namespace eFormSDK.Integration.Tests
             {
                 SiteId = site1.Id, SurveyConfigurationId = surveyConfiguration.Id
             };
-            await siteSurveyConfiguration.Create(dbContext);
+            await siteSurveyConfiguration.Create(dbContext).ConfigureAwait(false);
             // Act
             sites site2 = await testHelpers.CreateSite("siteName2", 666);
             survey_configurations surveyConfiguration2 = new survey_configurations
@@ -153,12 +153,12 @@ namespace eFormSDK.Integration.Tests
                 TimeToLive = rnd.Next(1, 255),
                 QuestionSetId = questionSet.Id
             };
-            await surveyConfiguration2.Create(dbContext);
+            await surveyConfiguration2.Create(dbContext).ConfigureAwait(false);
 
             siteSurveyConfiguration.SiteId = site2.Id;
             siteSurveyConfiguration.SurveyConfigurationId = surveyConfiguration2.Id;
             
-            await siteSurveyConfiguration.Update(dbContext);
+            await siteSurveyConfiguration.Update(dbContext).ConfigureAwait(false);
             site_survey_configurations dbSiteSurveyConfiguration =
                 dbContext.site_survey_configurations.AsNoTracking().First();
             site_survey_configuration_versions dbSiteSurveyConfigurationVersion =
@@ -181,7 +181,7 @@ namespace eFormSDK.Integration.Tests
                 ParentId = 0
             };
             
-            await questionSet.Create(dbContext);
+            await questionSet.Create(dbContext).ConfigureAwait(false);
 
             survey_configurations surveyConfiguration = new survey_configurations
             {
@@ -193,7 +193,7 @@ namespace eFormSDK.Integration.Tests
                 QuestionSetId = questionSet.Id
             };
 
-            await surveyConfiguration.Create(dbContext);
+            await surveyConfiguration.Create(dbContext).ConfigureAwait(false);
 
             sites site1 = await testHelpers.CreateSite("SiteName1", 88);
 
@@ -202,7 +202,7 @@ namespace eFormSDK.Integration.Tests
                 SiteId = site1.Id,
                 SurveyConfigurationId = surveyConfiguration.Id
             };
-            await siteSurveyConfiguration.Create(dbContext);
+            await siteSurveyConfiguration.Create(dbContext).ConfigureAwait(false);
             // Act
             await siteSurveyConfiguration.Delete(dbContext);
             site_survey_configurations dbSiteSurveyConfiguration =

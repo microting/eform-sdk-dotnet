@@ -59,10 +59,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             UpdatedAt = DateTime.Now;
 
             dbContext.answer_values.Add(this);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             dbContext.answer_value_versions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public async Task Update(MicrotingDbContext dbContext)
@@ -85,7 +85,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 answerValue.UpdatedAt = DateTime.Now;
 
                 dbContext.answer_value_versions.Add(MapVersions(answerValue));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
 
@@ -106,7 +106,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 answerValue.UpdatedAt = DateTime.Now;
 
                 dbContext.answer_value_versions.Add(MapVersions(answerValue));
-                await dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
         private answer_value_versions MapVersions(answer_values answerValue)

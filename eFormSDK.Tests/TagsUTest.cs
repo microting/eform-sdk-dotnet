@@ -51,7 +51,7 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await tag.Create(dbContext);
+            await tag.Create(dbContext).ConfigureAwait(false);
 
             List<tags> tags = dbContext.tags.AsNoTracking().ToList();                            
             List<tag_versions> tagVersions = dbContext.tag_versions.AsNoTracking().ToList(); 
@@ -91,7 +91,7 @@ namespace eFormSDK.Tests
                 TaggingsCount = rnd.Next(1, 255)
             };
 
-            await tag.Create(dbContext);
+            await tag.Create(dbContext).ConfigureAwait(false);
             
             //Act
 
@@ -103,7 +103,7 @@ namespace eFormSDK.Tests
             tag.Name = Guid.NewGuid().ToString();
             tag.TaggingsCount = rnd.Next(1, 255);
             
-            await tag.Update(dbContext);
+            await tag.Update(dbContext).ConfigureAwait(false);
             
             List<tags> tags = dbContext.tags.AsNoTracking().ToList();                            
             List<tag_versions> tagVersions = dbContext.tag_versions.AsNoTracking().ToList(); 
@@ -151,7 +151,7 @@ namespace eFormSDK.Tests
                 TaggingsCount = rnd.Next(1, 255)
             };
 
-            await tag.Create(dbContext);
+            await tag.Create(dbContext).ConfigureAwait(false);
             
             //Act
 

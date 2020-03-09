@@ -65,16 +65,9 @@ namespace eFormSDK.Tests
         public async Task Setup()
         {
             Console.WriteLine($"Starting Setup {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                ConnectionString = @"data source=(Local)\SQL2017;Initial catalog=eformsdk-tests;User ID=sa;Password=Password12!";
-            }
-            else
-            {
-                ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
-            }
             
+            ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
+
             dbContext = GetContext(ConnectionString);
             dbContext.Database.SetCommandTimeout(300);
 
@@ -87,13 +80,10 @@ namespace eFormSDK.Tests
             }
             try
             {
-                Core core = new Core();
-                await core.StartSqlOnly(ConnectionString).ConfigureAwait(false);
-                await core.Close().ConfigureAwait(false);
-            } catch
-            {
                 AdminTools adminTools = new AdminTools(ConnectionString);
                 await adminTools.DbSetup("abc1234567890abc1234567890abcdef").ConfigureAwait(false);
+            } catch
+            {
             }
 
             await DoSetup().ConfigureAwait(false);
@@ -107,7 +97,7 @@ namespace eFormSDK.Tests
 
             Console.WriteLine($"Starting TearDown {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
 
-            await ClearDb().ConfigureAwait(false);
+//            await ClearDb().ConfigureAwait(false);
 
             ClearFile();
 

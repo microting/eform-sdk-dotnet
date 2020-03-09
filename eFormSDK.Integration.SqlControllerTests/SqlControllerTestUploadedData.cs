@@ -60,7 +60,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             sut = new SqlController(dbContextHelper);
-            await sut.StartLog(new CoreBase());
+            sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
@@ -98,7 +98,7 @@ namespace eFormSDK.Integration.Tests
 
 
             dbContext.uploaded_data.Add(dU);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             UploadedData ud = await sut.FileRead();
 
@@ -146,7 +146,7 @@ namespace eFormSDK.Integration.Tests
 
 
             dbContext.uploaded_data.Add(dU);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             uploaded_data ud = await sut.GetUploadedData(dU.Id);
 
@@ -183,7 +183,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.uploaded_data.Add(ud);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             
             // Act
             UploadedData Ud = await sut.FileRead();
@@ -244,7 +244,7 @@ namespace eFormSDK.Integration.Tests
             };
             
             dbContext.uploaded_data.Add(ud);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             field_values fVs = new field_values
             {
@@ -253,7 +253,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.field_values.Add(fVs);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
 
             // Act
@@ -274,7 +274,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.uploaded_data.Add(ud);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             
             // Act
             await sut.FileProcessed("url", "myChecksum", "myFileLocation", "myFileName", ud.Id);
@@ -301,7 +301,7 @@ namespace eFormSDK.Integration.Tests
             uploaded_data ud = new uploaded_data();
 
             dbContext.uploaded_data.Add(ud);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
 
             await sut.GetUploadedData(ud.Id);
@@ -320,7 +320,7 @@ namespace eFormSDK.Integration.Tests
             uploaded_data ud = new uploaded_data {WorkflowState = Constants.WorkflowStates.Created, Version = 1};
 
             dbContext.uploaded_data.Add(ud);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             await sut.DeleteFile(ud.Id);

@@ -78,7 +78,7 @@ namespace eFormSDK.Integration.Tests
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
-            //await sut.StartLog(new CoreBase());
+            //sut.StartLog(new CoreBase());
         }
 
         #region public advanced actions

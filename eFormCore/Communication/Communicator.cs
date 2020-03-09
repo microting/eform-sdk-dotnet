@@ -234,8 +234,8 @@ namespace Microting.eForm.Communication
         #region public siteName
         public async Task<Tuple<SiteDto, UnitDto>> SiteCreate(string name)
         {
-            await log.LogEverything("Communicator.SiteCreate", "called");
-            await log.LogVariable("Communicator.SiteCreate", nameof(name), name);
+            log.LogEverything("Communicator.SiteCreate", "called");
+            log.LogVariable("Communicator.SiteCreate", nameof(name), name);
 
             string response = await http.SiteCreate(name);
             var parsedData = JRaw.Parse(response);
@@ -269,8 +269,8 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> SiteDelete(int siteId)
         {
-            await log.LogEverything("Communicator.SiteDelete", "called");
-            await log.LogVariable("Communicator.SiteDelete", nameof(siteId), siteId);
+            log.LogEverything("Communicator.SiteDelete", "called");
+            log.LogVariable("Communicator.SiteDelete", nameof(siteId), siteId);
 
             string response = await http.SiteDelete(siteId);
             var parsedData = JRaw.Parse(response);
@@ -287,7 +287,7 @@ namespace Microting.eForm.Communication
 
         public async Task<List<SiteNameDto>> SiteLoadAllFromRemote()
         {
-            await log.LogEverything("Communicator.SiteLoadAllFromRemote", "called");
+            log.LogEverything("Communicator.SiteLoadAllFromRemote", "called");
 
             var parsedData = JRaw.Parse(await http.SiteLoadAllFromRemote());
             List<SiteNameDto> lst = new List<SiteNameDto>();
@@ -308,10 +308,10 @@ namespace Microting.eForm.Communication
         #region public worker
         public async Task<WorkerDto> WorkerCreate(string firstName, string lastName, string email)
         {
-            await log.LogEverything("Communicator.WorkerCreate", "called");
-            await log.LogVariable("Communicator.WorkerCreate", nameof(firstName), firstName);
-            await log.LogVariable("Communicator.WorkerCreate", nameof(lastName), lastName);
-            await log.LogVariable("Communicator.WorkerCreate", nameof(email), email);
+            log.LogEverything("Communicator.WorkerCreate", "called");
+            log.LogVariable("Communicator.WorkerCreate", nameof(firstName), firstName);
+            log.LogVariable("Communicator.WorkerCreate", nameof(lastName), lastName);
+            log.LogVariable("Communicator.WorkerCreate", nameof(email), email);
 
             string result = await http.WorkerCreate(firstName, lastName, email);
             var parsedData = JRaw.Parse(result);
@@ -334,8 +334,8 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> WorkerDelete(int workerId)
         {
-            await log.LogEverything("Communicator.WorkerDelete", "called");
-            await log.LogVariable("Communicator.WorkerDelete", nameof(workerId), workerId);
+            log.LogEverything("Communicator.WorkerDelete", "called");
+            log.LogVariable("Communicator.WorkerDelete", nameof(workerId), workerId);
 
             string response = await http.WorkerDelete(workerId);
             var parsedData = JRaw.Parse(response);
@@ -348,7 +348,7 @@ namespace Microting.eForm.Communication
 
         public async Task<List<WorkerDto>> WorkerLoadAllFromRemote()
         {
-            await log.LogEverything("Communicator.WorkerLoadAllFromRemote", "called");
+            log.LogEverything("Communicator.WorkerLoadAllFromRemote", "called");
 
             var parsedData = JRaw.Parse(await http.WorkerLoadAllFromRemote());
             List<WorkerDto> lst = new List<WorkerDto>();
@@ -371,9 +371,9 @@ namespace Microting.eForm.Communication
         #region public site_worker
         public async Task<SiteWorkerDto> SiteWorkerCreate(int siteId, int workerId)
         {
-            await log.LogEverything("Communicator.SiteWorkerCreate", "called");
-            await log.LogVariable("Communicator.SiteWorkerCreate", nameof(siteId), siteId);
-            await log.LogVariable("Communicator.SiteWorkerCreate", nameof(workerId), workerId);
+            log.LogEverything("Communicator.SiteWorkerCreate", "called");
+            log.LogVariable("Communicator.SiteWorkerCreate", nameof(siteId), siteId);
+            log.LogVariable("Communicator.SiteWorkerCreate", nameof(workerId), workerId);
 
             string result = await http.SiteWorkerCreate(siteId, workerId);
             var parsedData = JRaw.Parse(result);
@@ -383,8 +383,8 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> SiteWorkerDelete(int workerId)
         {
-            await log.LogEverything("Communicator.SiteWorkerDelete", "called");
-            await log.LogVariable("Communicator.SiteWorkerDelete", nameof(workerId), workerId);
+            log.LogEverything("Communicator.SiteWorkerDelete", "called");
+            log.LogVariable("Communicator.SiteWorkerDelete", nameof(workerId), workerId);
 
             string response = await http.SiteWorkerDelete(workerId);
             var parsedData = JRaw.Parse(response);
@@ -397,7 +397,7 @@ namespace Microting.eForm.Communication
 
         public async Task<List<SiteWorkerDto>> SiteWorkerLoadAllFromRemote()
         {
-            await log.LogEverything("Communicator.SiteWorkerLoadAllFromRemote", "called");
+            log.LogEverything("Communicator.SiteWorkerLoadAllFromRemote", "called");
 
             var parsedData = JRaw.Parse(await http.SiteWorkerLoadAllFromRemote());
             List<SiteWorkerDto> lst = new List<SiteWorkerDto>();
@@ -425,8 +425,8 @@ namespace Microting.eForm.Communication
 
         public async Task<List<UnitDto>> UnitLoadAllFromRemote(int customerNo)
         {
-            await log.LogEverything("Communicator.UnitLoadAllFromRemote", "called");
-            await log.LogVariable("Communicator.UnitLoadAllFromRemote", nameof(customerNo), customerNo);
+            log.LogEverything("Communicator.UnitLoadAllFromRemote", "called");
+            log.LogVariable("Communicator.UnitLoadAllFromRemote", nameof(customerNo), customerNo);
 
             var parsedData = JRaw.Parse(await http.UnitLoadAllFromRemote());
             List<UnitDto> lst = new List<UnitDto>();
@@ -462,8 +462,8 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> UnitDelete(int unitId)
         {
-            await log.LogEverything("Communicator.UnitDelete", "called");
-            await log.LogVariable("Communicator.UnitDelete", nameof(unitId), unitId);
+            log.LogEverything("Communicator.UnitDelete", "called");
+            log.LogVariable("Communicator.UnitDelete", nameof(unitId), unitId);
 
             string response = await http.UnitDelete(unitId);
             var parsedData = JRaw.Parse(response);
@@ -482,8 +482,8 @@ namespace Microting.eForm.Communication
         {
             string methodName = "Communicator.UnitCreate";
 
-            await log.LogEverything(methodName, "called");
-            await log.LogVariable(methodName, nameof(siteMicrotingUid), siteMicrotingUid);
+            log.LogEverything(methodName, "called");
+            log.LogVariable(methodName, nameof(siteMicrotingUid), siteMicrotingUid);
 
             string response = await http.UnitCreate(siteMicrotingUid);
 
@@ -514,8 +514,9 @@ namespace Microting.eForm.Communication
         #region public organization      
         public async Task<OrganizationDto> OrganizationLoadAllFromRemote(string token)
         {
-            await log.LogEverything("Communicator.OrganizationLoadAllFromRemote", "called");
-            await log.LogVariable("Communicator.OrganizationLoadAllFromRemote", nameof(token), token);
+            log.LogEverything("Communicator.OrganizationLoadAllFromRemote", "called");
+            log.LogVariable("Communicator.OrganizationLoadAllFromRemote", nameof(token), token);
+
             IHttp specialHttp;
             if (token == "abc1234567890abc1234567890abcdef")
             {
@@ -549,7 +550,7 @@ namespace Microting.eForm.Communication
 
         public async Task<List<FolderDto>> FolderLoadAllFromRemote()
         {
-            await log.LogEverything("Communicator.FolderLoadAllFromRemote", "called");
+            log.LogEverything("Communicator.FolderLoadAllFromRemote", "called");
 
             string rawData = await http.FolderLoadAllFromRemote().ConfigureAwait(false);
             
@@ -626,10 +627,10 @@ namespace Microting.eForm.Communication
         #region public entity
         public async Task<string> EntityGroupCreate(string entityType, string name, string id)
         {
-            await log.LogEverything("Communicator.EntityGroupCreate", "called");
-            await log.LogVariable("Communicator.EntityGroupCreate", nameof(entityType), entityType);
-            await log.LogVariable("Communicator.EntityGroupCreate", nameof(name), name);
-            await log.LogVariable("Communicator.EntityGroupCreate", nameof(id), id);
+            log.LogEverything("Communicator.EntityGroupCreate", "called");
+            log.LogVariable("Communicator.EntityGroupCreate", nameof(entityType), entityType);
+            log.LogVariable("Communicator.EntityGroupCreate", nameof(name), name);
+            log.LogVariable("Communicator.EntityGroupCreate", nameof(id), id);
 
             try
             {
@@ -663,11 +664,11 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> EntityGroupUpdate(string entityType, string name, int id, string entityGroupMUId)
         {
-            await log.LogEverything("Communicator.EntityGroupUpdate", "called");
-            await log.LogVariable("Communicator.EntityGroupUpdate", nameof(entityType), entityType);
-            await log.LogVariable("Communicator.EntityGroupUpdate", nameof(name), name);
-            await log.LogVariable("Communicator.EntityGroupUpdate", nameof(id), id);
-            await log.LogVariable("Communicator.EntityGroupUpdate", nameof(entityGroupMUId), entityGroupMUId);
+            log.LogEverything("Communicator.EntityGroupUpdate", "called");
+            log.LogVariable("Communicator.EntityGroupUpdate", nameof(entityType), entityType);
+            log.LogVariable("Communicator.EntityGroupUpdate", nameof(name), name);
+            log.LogVariable("Communicator.EntityGroupUpdate", nameof(id), id);
+            log.LogVariable("Communicator.EntityGroupUpdate", nameof(entityGroupMUId), entityGroupMUId);
 
             try
             {
@@ -697,9 +698,9 @@ namespace Microting.eForm.Communication
 
         public async Task EntityGroupDelete(string entityType, string entityGroupId)
         {
-            await log.LogEverything("Communicator.EntityGroupDelete", "called");
-            await log.LogVariable("Communicator.EntityGroupDelete", nameof(entityType), entityType);
-            await log.LogVariable("Communicator.EntityGroupDelete", nameof(entityGroupId), entityGroupId);
+            log.LogEverything("Communicator.EntityGroupDelete", "called");
+            log.LogVariable("Communicator.EntityGroupDelete", nameof(entityType), entityType);
+            log.LogVariable("Communicator.EntityGroupDelete", nameof(entityGroupId), entityGroupId);
 
             try
             {
@@ -731,11 +732,11 @@ namespace Microting.eForm.Communication
 
         public async Task<string> EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id)
         {
-            await log.LogEverything("Communicator.EntitySearchItemCreate", "called");
-            await log.LogVariable("Communicator.EntitySearchItemCreate", nameof(entitySearchGroupId), entitySearchGroupId);
-            await log.LogVariable("Communicator.EntitySearchItemCreate", nameof(name), name);
-            await log.LogVariable("Communicator.EntitySearchItemCreate", nameof(id), id);
-            await log.LogVariable("Communicator.EntitySearchItemCreate", nameof(description), description);
+            log.LogEverything("Communicator.EntitySearchItemCreate", "called");
+            log.LogVariable("Communicator.EntitySearchItemCreate", nameof(entitySearchGroupId), entitySearchGroupId);
+            log.LogVariable("Communicator.EntitySearchItemCreate", nameof(name), name);
+            log.LogVariable("Communicator.EntitySearchItemCreate", nameof(id), id);
+            log.LogVariable("Communicator.EntitySearchItemCreate", nameof(description), description);
 
             try
             {
@@ -761,8 +762,8 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> EntitySearchItemDelete(string entitySearchItemId)
         {
-            await log.LogEverything("Communicator.EntitySearchItemDelete", "called");
-            await log.LogVariable("Communicator.EntitySearchItemDelete", nameof(entitySearchItemId), entitySearchItemId);
+            log.LogEverything("Communicator.EntitySearchItemDelete", "called");
+            log.LogVariable("Communicator.EntitySearchItemDelete", nameof(entitySearchItemId), entitySearchItemId);
 
             try
             {
@@ -778,11 +779,11 @@ namespace Microting.eForm.Communication
 
         public async Task<string> EntitySelectItemCreate(string entitySearchGroupId, string name, int displayOrder, string ownUUID)
         {
-            await log.LogEverything("Communicator.EntitySelectItemCreate", "called");
-            await log.LogVariable("Communicator.EntitySelectItemCreate", nameof(entitySearchGroupId), entitySearchGroupId);
-            await log.LogVariable("Communicator.EntitySelectItemCreate", nameof(name), name);
-            await log.LogVariable("Communicator.EntitySelectItemCreate", nameof(displayOrder), displayOrder);
-            await log.LogVariable("Communicator.EntitySelectItemCreate", nameof(ownUUID), ownUUID);
+            log.LogEverything("Communicator.EntitySelectItemCreate", "called"); 
+            log.LogVariable("Communicator.EntitySelectItemCreate", nameof(entitySearchGroupId), entitySearchGroupId);
+            log.LogVariable("Communicator.EntitySelectItemCreate", nameof(name), name);
+            log.LogVariable("Communicator.EntitySelectItemCreate", nameof(displayOrder), displayOrder);
+            log.LogVariable("Communicator.EntitySelectItemCreate", nameof(ownUUID), ownUUID);
 
             try
             {
@@ -808,8 +809,8 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> EntitySelectItemDelete(string entitySearchItemId)
         {
-            await log.LogEverything("Communicator.EntitySelectItemDelete", "called");
-            await log.LogVariable("Communicator.EntitySelectItemDelete", nameof(entitySearchItemId), entitySearchItemId);
+            log.LogEverything("Communicator.EntitySelectItemDelete", "called");
+            log.LogVariable("Communicator.EntitySelectItemDelete", nameof(entitySearchItemId), entitySearchItemId);
 
             try
             {
@@ -825,9 +826,9 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> PdfUpload(string localPath, string hash)
         {
-            await log.LogEverything("Communicator.PdfUpload", "called");
-            await log.LogVariable("Communicator.PdfUpload", nameof(localPath), localPath);
-            await log.LogVariable("Communicator.PdfUpload", nameof(hash), hash);
+            log.LogEverything("Communicator.PdfUpload", "called");
+            log.LogVariable("Communicator.PdfUpload", nameof(localPath), localPath);
+            log.LogVariable("Communicator.PdfUpload", nameof(hash), hash);
 
             try
             {
@@ -841,10 +842,10 @@ namespace Microting.eForm.Communication
 
         public async Task<string> TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex)
         {
-            await log.LogEverything("Communicator.TemplateDisplayIndexChange", "called");
-            await log.LogVariable("Communicator.TemplateDisplayIndexChange", nameof(microtingUId), microtingUId);
-            await log.LogVariable("Communicator.TemplateDisplayIndexChange", nameof(siteId), siteId);
-            await log.LogVariable("Communicator.TemplateDisplayIndexChange", nameof(newDisplayIndex), newDisplayIndex);
+            log.LogEverything("Communicator.TemplateDisplayIndexChange", "called");
+            log.LogVariable("Communicator.TemplateDisplayIndexChange", nameof(microtingUId), microtingUId);
+            log.LogVariable("Communicator.TemplateDisplayIndexChange", nameof(siteId), siteId);
+            log.LogVariable("Communicator.TemplateDisplayIndexChange", nameof(newDisplayIndex), newDisplayIndex);
 
             try
             {
@@ -860,8 +861,8 @@ namespace Microting.eForm.Communication
         #region public speechToText
         public async Task<int> SpeechToText(string pathToAudioFile)
         {
-            await log.LogEverything("Communicator.SpeechToText", "called");
-            await log.LogVariable("Communicator.SpeechToText", nameof(pathToAudioFile), pathToAudioFile);
+            log.LogEverything("Communicator.SpeechToText", "called");
+            log.LogVariable("Communicator.SpeechToText", nameof(pathToAudioFile), pathToAudioFile);
 
             try
             {
@@ -875,8 +876,8 @@ namespace Microting.eForm.Communication
 
         public async Task<JToken> SpeechToText(int requestId)
         {
-            await log.LogEverything("Communicator.SpeechToText", "called");
-            await log.LogVariable("Communicator.SpeechToText", nameof(requestId), requestId);
+            log.LogEverything("Communicator.SpeechToText", "called");
+            log.LogVariable("Communicator.SpeechToText", nameof(requestId), requestId);
 
             try
             {
@@ -895,7 +896,7 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
         {
-            await log.LogEverything(t.GetMethodName("Communicator"), "called");
+            log.LogEverything(t.GetMethodName("Communicator"), "called");
 
             try
             {
@@ -909,7 +910,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> GetAllSurveyConfigurations()
         {
-            await log.LogEverything(t.GetMethodName("Communicator"), "called");
+            log.LogEverything(t.GetMethodName("Communicator"), "called");
 
             try
             {
@@ -923,7 +924,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> GetSurveyConfiguration(int id)
         {
-            await log.LogEverything(t.GetMethodName("Communicator"), "called");
+            log.LogEverything(t.GetMethodName("Communicator"), "called");
 
             try
             {
@@ -941,7 +942,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> GetAllQuestionSets()
         {
-            await log.LogEverything(t.GetMethodName("Communicator"), "called");
+            log.LogEverything(t.GetMethodName("Communicator"), "called");
 
             try
             {
@@ -955,7 +956,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> GetQuestionSet(int id)
         {
-            await log.LogEverything(t.GetMethodName("Communicator"), "called");
+            log.LogEverything(t.GetMethodName("Communicator"), "called");
 
             try
             {
@@ -973,7 +974,7 @@ namespace Microting.eForm.Communication
         
         public async Task<string> GetLastAnswer(int questionSetId, int lastAnswerId)
         {
-            await log.LogEverything(t.GetMethodName("Communicator"), "called");
+            log.LogEverything(t.GetMethodName("Communicator"), "called");
 
             try
             {

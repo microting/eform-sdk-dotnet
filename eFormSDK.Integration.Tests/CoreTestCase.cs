@@ -76,7 +76,7 @@ namespace eFormSDK.Integration.Tests
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
-            //await sut.StartLog(new CoreBase());
+            //sut.StartLog(new CoreBase());
         }
 
         #region case
@@ -91,7 +91,7 @@ namespace eFormSDK.Integration.Tests
                 MicrotingUid = 1234
             };
             dbContext.sites.Add(site);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             check_lists cl = new check_lists
             {
@@ -99,7 +99,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.check_lists.Add(cl);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             cases aCase = new cases
             {
@@ -111,7 +111,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.cases.Add(aCase);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             await sut.CaseDeleteResult(aCase.Id);
@@ -239,7 +239,7 @@ namespace eFormSDK.Integration.Tests
             //check_List_Values.workflow_state = Constants.WorkflowStates.Created;
 
             //DbContext.check_list_values.Add(check_List_Values);
-            //await dbContext.SaveChangesAsync();
+            //await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             #endregion
 
@@ -263,7 +263,7 @@ namespace eFormSDK.Integration.Tests
             //field_Values1.workflow_state = Constants.WorkflowStates.Created;
 
             //DbContext.field_values.Add(field_Values1);
-            //await dbContext.SaveChangesAsync();
+            //await dbContext.SaveChangesAsync().ConfigureAwait(false);
             #endregion
 
             #region fv2
@@ -285,7 +285,7 @@ namespace eFormSDK.Integration.Tests
             //field_Values2.workflow_state = Constants.WorkflowStates.Created;
 
             //DbContext.field_values.Add(field_Values2);
-            //await dbContext.SaveChangesAsync();
+            //await dbContext.SaveChangesAsync().ConfigureAwait(false);
             #endregion
 
             #region fv3
@@ -307,7 +307,7 @@ namespace eFormSDK.Integration.Tests
             //field_Values3.workflow_state = Constants.WorkflowStates.Created;
 
             //DbContext.field_values.Add(field_Values3);
-            //await dbContext.SaveChangesAsync();
+            //await dbContext.SaveChangesAsync().ConfigureAwait(false);
             #endregion
 
             #region fv4
@@ -329,7 +329,7 @@ namespace eFormSDK.Integration.Tests
             //field_Values4.workflow_state = Constants.WorkflowStates.Created;
 
             //DbContext.field_values.Add(field_Values4);
-            //await dbContext.SaveChangesAsync();
+            //await dbContext.SaveChangesAsync().ConfigureAwait(false);
             #endregion
 
             #region fv5
@@ -351,7 +351,7 @@ namespace eFormSDK.Integration.Tests
             //field_Values5.workflow_state = Constants.WorkflowStates.Created;
 
             //DbContext.field_values.Add(field_Values5);
-            //await dbContext.SaveChangesAsync();
+            //await dbContext.SaveChangesAsync().ConfigureAwait(false);
             #endregion
 
 

@@ -60,7 +60,7 @@ namespace Microting.eForm.Handlers
                 await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
 
                 CaseDto cDto = await sqlController.CaseReadByMUId(message.MicrotringUUID);
-                await log.LogStandard(t.GetMethodName("EformRetrievedHandler"), cDto.ToString() + " has been retrieved");
+                log.LogStandard(t.GetMethodName("EformRetrievedHandler"), cDto.ToString() + " has been retrieved");
                 await core.FireHandleCaseRetrived(cDto);
             }
             catch (Exception ex)

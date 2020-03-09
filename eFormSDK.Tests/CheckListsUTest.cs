@@ -80,7 +80,7 @@ namespace eFormSDK.Tests
                 JasperExportEnabled = randomBool,
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
             };
-            await checklistParent.Create(dbContext);
+            await checklistParent.Create(dbContext).ConfigureAwait(false);
 
             check_lists checklist = new check_lists
             {
@@ -118,7 +118,7 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await checklist.Create(dbContext);
+            await checklist.Create(dbContext).ConfigureAwait(false);
             
             List<check_lists> checkLists = dbContext.check_lists.AsNoTracking().ToList();
             List<check_list_versions> checkListVersion = dbContext.check_list_versions.AsNoTracking().ToList();
@@ -251,7 +251,7 @@ namespace eFormSDK.Tests
                 JasperExportEnabled = randomBool,
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
             };
-            await checklistParent.Create(dbContext);
+            await checklistParent.Create(dbContext).ConfigureAwait(false);
 
             check_lists checklist = new check_lists
             {
@@ -286,7 +286,7 @@ namespace eFormSDK.Tests
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
                 ParentId = checklistParent.Id
             };
-            await checklist.Create(dbContext);
+            await checklist.Create(dbContext).ConfigureAwait(false);
             
             //Act
 
@@ -352,7 +352,7 @@ namespace eFormSDK.Tests
             checklist.JasperExportEnabled = randomBool;
             checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             
-            await checklist.Update(dbContext);
+            await checklist.Update(dbContext).ConfigureAwait(false);
 
 
             List<check_lists> checkLists = dbContext.check_lists.AsNoTracking().ToList();
@@ -524,7 +524,7 @@ namespace eFormSDK.Tests
                 JasperExportEnabled = randomBool,
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
             };
-            await checklistParent.Create(dbContext);
+            await checklistParent.Create(dbContext).ConfigureAwait(false);
 
             check_lists checklist = new check_lists
             {
@@ -559,7 +559,7 @@ namespace eFormSDK.Tests
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
                 ParentId = checklistParent.Id
             };
-            await checklist.Create(dbContext);
+            await checklist.Create(dbContext).ConfigureAwait(false);
             
             //Act
 

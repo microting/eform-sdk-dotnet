@@ -49,7 +49,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             units unit = new units
             {
@@ -67,7 +67,7 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await unit.Create(dbContext);
+            await unit.Create(dbContext).ConfigureAwait(false);
 
             List<units> units = dbContext.units.AsNoTracking().ToList();                            
             List<unit_versions> unitsVersions = dbContext.unit_versions.AsNoTracking().ToList(); 
@@ -127,7 +127,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             units unit = new units
             {
@@ -143,7 +143,7 @@ namespace eFormSDK.Tests
                 InSightVersion = Guid.NewGuid().ToString()
             };
 
-            await unit.Create(dbContext);
+            await unit.Create(dbContext).ConfigureAwait(false);
             
             //Act
 
@@ -164,7 +164,7 @@ namespace eFormSDK.Tests
             unit.MicrotingUid = rnd.Next(1, 255);
             unit.OtpCode = rnd.Next(1, 255);
 
-            await unit.Update(dbContext);
+            await unit.Update(dbContext).ConfigureAwait(false);
 
             List<units> units = dbContext.units.AsNoTracking().ToList();                            
             List<unit_versions> unitsVersions = dbContext.unit_versions.AsNoTracking().ToList();
@@ -235,7 +235,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext);
+            await site.Create(dbContext).ConfigureAwait(false);
 
             units unit = new units
             {
@@ -251,7 +251,7 @@ namespace eFormSDK.Tests
                 InSightVersion = Guid.NewGuid().ToString()
             };
 
-            await unit.Create(dbContext);
+            await unit.Create(dbContext).ConfigureAwait(false);
             
             //Act
             DateTime? oldUpdatedAt = unit.UpdatedAt;

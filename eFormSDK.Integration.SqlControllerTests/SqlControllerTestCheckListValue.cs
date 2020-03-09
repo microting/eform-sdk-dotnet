@@ -31,7 +31,7 @@ namespace eFormSDK.Integration.SqlControllerTests
                 await sql.SettingUpdate(Settings.knownSitesDone, "true");
 
                 sut = new SqlController(dbContextHelper);
-                await sut.StartLog(new CoreBase());
+                sut.StartLog(new CoreBase());
             }
             testHelpers = new TestHelpers();
             await sut.SettingUpdate(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));

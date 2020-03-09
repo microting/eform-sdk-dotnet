@@ -74,7 +74,7 @@ namespace eFormSDK.Integration.Tests
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
-            //await sut.StartLog(new CoreBase());
+            //sut.StartLog(new CoreBase());
         }
 
         #region template
@@ -92,7 +92,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.tags.Add(tag1);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName2 = "TagFor2CLs";
             tags tag2 = new tags
@@ -101,7 +101,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.tags.Add(tag2);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName3 = "Tag3";
             tags tag3 = new tags
@@ -110,7 +110,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.tags.Add(tag3);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName4 = "Tag4";
             tags tag4 = new tags
@@ -119,7 +119,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.tags.Add(tag4);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             #endregion
 
@@ -140,7 +140,7 @@ namespace eFormSDK.Integration.Tests
 
 
             dbContext.check_lists.Add(cl1);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             Thread.Sleep(1000);
             #endregion
 
@@ -160,7 +160,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.check_lists.Add(cl2);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             Thread.Sleep(1000);
             #endregion
 
@@ -180,7 +180,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.check_lists.Add(cl3);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             Thread.Sleep(1000);
             #endregion
 
@@ -200,7 +200,7 @@ namespace eFormSDK.Integration.Tests
             };
 
             dbContext.check_lists.Add(cl4);
-            await dbContext.SaveChangesAsync();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             #endregion
 
             #region assigning Tags

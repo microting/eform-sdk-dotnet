@@ -55,7 +55,7 @@ namespace eFormSDK.Integration.Tests
         {
             DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
             SqlController sut = new SqlController(dbContextHelper);
-            await sut.StartLog(new CoreBase());
+            sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
             await sut.SettingUpdate(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SettingUpdate(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
@@ -89,7 +89,7 @@ namespace eFormSDK.Integration.Tests
 //             cl1.repeated = 1;
 //
 //             DbContext.check_lists.Add(cl1);
-//             await dbContext.SaveChangesAsync();
+//             await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //             */
 //            #endregion
 //
@@ -106,7 +106,7 @@ namespace eFormSDK.Integration.Tests
 //            cl2.parent_id = cl1.Id;
 //
 //            DbContext.check_lists.Add(cl2);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //            */
 //            #endregion
 //
@@ -121,7 +121,7 @@ namespace eFormSDK.Integration.Tests
 //            f1.check_list_id = cl2.Id;
 //
 //            DbContext.fields.Add(f1);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //            */
 //            #endregion
 //
@@ -137,7 +137,7 @@ namespace eFormSDK.Integration.Tests
 //            worker.workflow_state = Constants.WorkflowStates.Created;
 //            worker.version = 69;
 //            DbContext.workers.Add(worker);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //            */
 //            #endregion
 //
@@ -151,7 +151,7 @@ namespace eFormSDK.Integration.Tests
 //            site.version = 64;
 //            site.workflow_state = Constants.WorkflowStates.Created;
 //            DbContext.sites.Add(site);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //            */
 //            #endregion
 //
@@ -169,7 +169,7 @@ namespace eFormSDK.Integration.Tests
 //            unit.workflow_state = Constants.WorkflowStates.Created;
 //
 //            DbContext.units.Add(unit);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //            */
 //            #endregion
 //
@@ -185,7 +185,7 @@ namespace eFormSDK.Integration.Tests
 //             site_workers.worker_id = worker.Id;
 //             site_workers.workflow_state = Constants.WorkflowStates.Created;
 //             DbContext.site_workers.Add(site_workers);
-//             await dbContext.SaveChangesAsync();
+//             await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //             */
 //            #endregion
 //
@@ -194,13 +194,13 @@ namespace eFormSDK.Integration.Tests
 //            sites site = new sites();
 //            site.name = "SiteName";
 //            DbContext.sites.Add(site);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //
 //            check_lists cl = new check_lists();
 //            cl.label = "label";
 //
 //            DbContext.check_lists.Add(cl);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //
 //
 //
@@ -227,7 +227,7 @@ namespace eFormSDK.Integration.Tests
 //            aCase.custom = custom;
 //
 //            DbContext.cases.Add(aCase);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //            */
 //            #endregion
 //
@@ -245,7 +245,7 @@ namespace eFormSDK.Integration.Tests
 //            check_List_Values.workflow_state = Constants.WorkflowStates.Created;
 //
 //            DbContext.check_list_values.Add(check_List_Values);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //            */
 //            #endregion
 //
@@ -268,7 +268,7 @@ namespace eFormSDK.Integration.Tests
 //            field_Values1.workflow_state = Constants.WorkflowStates.Created;
 //
 //            DbContext.field_values.Add(field_Values1);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //
 //            field_values field_Values2 = new field_values();
 //            field_Values2.case_id = aCase.Id;
@@ -287,7 +287,7 @@ namespace eFormSDK.Integration.Tests
 //            field_Values2.workflow_state = Constants.WorkflowStates.Created;
 //
 //            DbContext.field_values.Add(field_Values2);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //
 //            field_values field_Values3 = new field_values();
 //            field_Values3.case_id = aCase.Id;
@@ -306,7 +306,7 @@ namespace eFormSDK.Integration.Tests
 //            field_Values3.workflow_state = Constants.WorkflowStates.Created;
 //
 //            DbContext.field_values.Add(field_Values3);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //
 //            field_values field_Values4 = new field_values();
 //            field_Values4.case_id = aCase.Id;
@@ -325,7 +325,7 @@ namespace eFormSDK.Integration.Tests
 //            field_Values4.workflow_state = Constants.WorkflowStates.Created;
 //
 //            DbContext.field_values.Add(field_Values4);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //
 //            field_values field_Values5 = new field_values();
 //            field_Values5.case_id = aCase.Id;
@@ -344,7 +344,7 @@ namespace eFormSDK.Integration.Tests
 //            field_Values5.workflow_state = Constants.WorkflowStates.Created;
 //
 //            DbContext.field_values.Add(field_Values5);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //            */
 //            #endregion
 //
@@ -378,7 +378,7 @@ namespace eFormSDK.Integration.Tests
         //    cl1.repeated = 1;
 
         //    DbContext.check_lists.Add(cl1);
-        //    await dbContext.SaveChangesAsync();
+        //    await dbContext.SaveChangesAsync().ConfigureAwait(false);
         //    #endregion
 
         //    #region SubTemplate1
@@ -394,7 +394,7 @@ namespace eFormSDK.Integration.Tests
         //    cl2.parent_id = cl1.Id;
 
         //    DbContext.check_lists.Add(cl2);
-        //    await dbContext.SaveChangesAsync();
+        //    await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
         //    #endregion
 
@@ -442,7 +442,7 @@ namespace eFormSDK.Integration.Tests
         //    //f1.workflow_state = Constants.WorkflowStates.Created;
 
         //    //DbContext.fields.Add(f1);
-        //    //await dbContext.SaveChangesAsync();
+        //    //await dbContext.SaveChangesAsync().ConfigureAwait(false);
         //    //Thread.Sleep(2000);
         //    #endregion
 
@@ -486,7 +486,7 @@ namespace eFormSDK.Integration.Tests
         //    //f2.workflow_state = Constants.WorkflowStates.Created;
 
         //    //DbContext.fields.Add(f2);
-        //    //await dbContext.SaveChangesAsync();
+        //    //await dbContext.SaveChangesAsync().ConfigureAwait(false);
         //    //Thread.Sleep(2000);
 
         //    #endregion
@@ -536,7 +536,7 @@ namespace eFormSDK.Integration.Tests
 
 
         //    //DbContext.fields.Add(f3);
-        //    //await dbContext.SaveChangesAsync();
+        //    //await dbContext.SaveChangesAsync().ConfigureAwait(false);
         //    //Thread.Sleep(2000);
 
         //    #endregion
@@ -585,7 +585,7 @@ namespace eFormSDK.Integration.Tests
 
 
         //    //DbContext.fields.Add(f4);
-        //    //await dbContext.SaveChangesAsync();
+        //    //await dbContext.SaveChangesAsync().ConfigureAwait(false);
         //    //Thread.Sleep(2000);
 
         //    #endregion
@@ -632,7 +632,7 @@ namespace eFormSDK.Integration.Tests
         //    //f5.workflow_state = Constants.WorkflowStates.Created;
 
         //    //DbContext.fields.Add(f5);
-        //    //await dbContext.SaveChangesAsync();
+        //    //await dbContext.SaveChangesAsync().ConfigureAwait(false);
         //    //Thread.Sleep(2000);
 
         //    #endregion
@@ -731,7 +731,7 @@ namespace eFormSDK.Integration.Tests
 //            worker.WorkflowState = Constants.WorkflowStates.Created;
 //            worker.Version = 69;
 //            dbContext.workers.Add(worker);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //
 //            return worker;
 //        }
@@ -746,7 +746,7 @@ namespace eFormSDK.Integration.Tests
 //            site.Version = 64;
 //            site.WorkflowState = Constants.WorkflowStates.Created;
 //            dbContext.sites.Add(site);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //
 //            return site;
 //        }
@@ -765,7 +765,7 @@ namespace eFormSDK.Integration.Tests
 //            unit.WorkflowState = Constants.WorkflowStates.Created;
 //
 //            dbContext.units.Add(unit);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //
 //            return unit;
 //        }
@@ -782,7 +782,7 @@ namespace eFormSDK.Integration.Tests
 //            site_workers.WorkerId = worker.Id;
 //            site_workers.WorkflowState = Constants.WorkflowStates.Created;
 //            dbContext.site_workers.Add(site_workers);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //            return site_workers;
 //        }
 //        public check_lists CreateTemplate(string label, string description, string caseType, string folderName, int displayIndex, int repeated)
@@ -799,7 +799,7 @@ namespace eFormSDK.Integration.Tests
 //            cl1.Repeated = repeated;
 //
 //            dbContext.check_lists.Add(cl1);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //            return cl1;
 //        }
 //        public check_lists CreateSubTemplate(string label, string description, string caseType, int displayIndex, int repeated, check_lists parentId)
@@ -816,7 +816,7 @@ namespace eFormSDK.Integration.Tests
 //            cl2.ParentId = parentId.Id;
 //
 //            dbContext.check_lists.Add(cl2);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //            return cl2;
 //        }
 //        public fields CreateField(short? barcodeEnabled, string barcodeType, check_lists checkList, string color, string custom, int? decimalCount, string defaultValue, string description, int? displayIndex, short? dummy, field_types ft, short? geolocationEnabled, short? geolocationForced, short? geolocationHidden, short? isNum, string label, short? mandatory, int maxLength, string maxValue, string minValue, short? multi, short? optional, string queryType, short? readOnly, short? selected, short? splitScreen, short? stopOnSave, string unitName, int version)
@@ -858,7 +858,7 @@ namespace eFormSDK.Integration.Tests
 //            f.WorkflowState = Constants.WorkflowStates.Created;
 //
 //            dbContext.fields.Add(f);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //            Thread.Sleep(2000);
 //
 //            return f;
@@ -890,7 +890,7 @@ namespace eFormSDK.Integration.Tests
 //            aCase.Worker = worker;
 //            aCase.WorkflowState = WorkFlowState;
 //            dbContext.cases.Add(aCase);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //
 //            return aCase;
 //        }
@@ -917,7 +917,7 @@ namespace eFormSDK.Integration.Tests
 //            fv.WorkflowState = Constants.WorkflowStates.Created;
 //
 //            dbContext.field_values.Add(fv);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //            return fv;
 //        }
 //        public check_list_values CreateCheckListValue(cases aCase, check_lists checkList, string status, int? userId, int? version)
@@ -934,7 +934,7 @@ namespace eFormSDK.Integration.Tests
 //            CLV.WorkflowState = Constants.WorkflowStates.Created;
 //
 //            dbContext.check_list_values.Add(CLV);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //            return CLV;
 //
 //        }
@@ -957,7 +957,7 @@ namespace eFormSDK.Integration.Tests
 //            UD.WorkflowState = Constants.WorkflowStates.Created;
 //
 //            dbContext.uploaded_data.Add(UD);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //            return UD;
 //        }
 //
@@ -973,7 +973,7 @@ namespace eFormSDK.Integration.Tests
 //            cls.WorkflowState = workflowState;
 //
 //            dbContext.check_list_sites.Add(cls);
-//            await dbContext.SaveChangesAsync();
+//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 //            return cls;
 //        }
 
