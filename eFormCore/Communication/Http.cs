@@ -272,14 +272,9 @@ namespace Microting.eForm.Communication
             request.ContentType = "application/x-www-form-urlencoded";
             request.ContentLength = content.Length;
 
-            string newUrl = await PostToServerGetRedirect(request, content);
+            string newUrl = await PostToServer(request, content);
 
-            request = WebRequest.Create($"{newUrl}?token={token}");
-            request.Method = "GET";
-
-            string response = await PostToServer(request).ConfigureAwait(false);
-            
-            return response.Contains("workflow_state\": \"created");
+            return true;
         }
 
         public async Task<bool> EntitySearchItemDelete(string entitySearchItemId)
