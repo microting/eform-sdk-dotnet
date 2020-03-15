@@ -165,9 +165,10 @@ namespace Microting.eForm
                 if (!textStr.Contains(endStr))
                     return "";
 
-                int startIndex = textStr.IndexOf(startStr) + startStr.Length;
-                int lenght = textStr.IndexOf(endStr, startIndex) - startIndex;
-                return textStr.Substring(startIndex, lenght);
+                int startIndex = textStr.IndexOf(startStr, StringComparison.Ordinal) + startStr.Length;
+                int length = textStr.IndexOf(endStr, startIndex, StringComparison.Ordinal) - startIndex;
+                //return textStr.Substring(startIndex, lenght);
+                return textStr.AsSpan().Slice(start: startIndex, length).ToString();
             }
             catch
             {
@@ -233,8 +234,10 @@ namespace Microting.eForm
                     if (!temp.Contains(oldStrLower))
                         break;
 
-                    startIndex = textStrLower.IndexOf(oldStrLower, marker);
-                    textStr = textStr.Substring(0, startIndex) + newStr + textStr.Substring(startIndex + oldStrLower.Length);
+                    startIndex = textStrLower.IndexOf(oldStrLower, marker, StringComparison.Ordinal);
+                    //textStr = textStr.Substring(0, startIndex) + newStr + textStr.Substring(startIndex + oldStrLower.Length);
+                    textStr = textStr.AsSpan().Slice(0, startIndex).ToString() + newStr +
+                              textStr.AsSpan().Slice(startIndex + oldStrLower.Length).ToString();
 
                     newMarker = startIndex + newStr.Length;
 
@@ -265,7 +268,9 @@ namespace Microting.eForm
 
                     int startIndex = textStr.IndexOf(startStr) + startStr.Length;
                     int lenght = textStr.IndexOf(endStr, startIndex) - startIndex;
-                    textStr = textStr.Substring(0, startIndex) + newStr + textStr.Substring(startIndex + lenght);
+                    //textStr = textStr.Substring(0, startIndex) + newStr + textStr.Substring(startIndex + lenght);
+                    textStr = textStr.AsSpan().Slice(0, startIndex).ToString() + newStr +
+                              textStr.AsSpan().Slice(startIndex + lenght).ToString();
                     return textStr;
                 }
                 else
@@ -282,7 +287,9 @@ namespace Microting.eForm
 
                     int startIndex = textStrLower.IndexOf(startStrLower) + startStrLower.Length;
                     int lenght = textStrLower.IndexOf(endStrLower, startIndex) - startIndex;
-                    textStr = textStr.Substring(0, startIndex) + newStr + textStr.Substring(startIndex + lenght);
+                    //textStr = textStr.Substring(0, startIndex) + newStr + textStr.Substring(startIndex + lenght);
+                    textStr = textStr.AsSpan().Slice(0, startIndex).ToString() + newStr +
+                              textStr.AsSpan().Slice(startIndex + lenght).ToString();
                     return textStr;
                 }
             }
@@ -305,7 +312,9 @@ namespace Microting.eForm
                 while (txtToBeProcessed.ToLower().Contains(startStrLow) && txtToBeProcessed.ToLower().Contains(endStrLow))
                 {
                     marker = txtToBeProcessed.ToLower().IndexOf(endStrLow) + endStrLow.Length;
-                    string txtBit = txtToBeProcessed.Substring(0, marker);
+
+                    //string txtBit = txtToBeProcessed.Substring(0, marker);
+                    string txtBit = textStr.AsSpan().Slice(0, marker).ToString();
 
                     returnStr += ReplaceAtLocation(txtBit, startStr, endStr, newStr, caseSensitive);
                     txtToBeProcessed = txtToBeProcessed.Remove(0, marker);

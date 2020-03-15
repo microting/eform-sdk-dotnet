@@ -240,7 +240,8 @@ namespace Microting.eForm.Infrastructure.Models
             get
             {
                 if (pushMessageTitle.Length > 255)
-                    return pushMessageTitle.Substring(0, 255);
+                    //return pushMessageTitle.Substring(0, 255);
+                    return pushMessageTitle.AsSpan().Slice(0, 255).ToString();
                 return pushMessageTitle;
             }
             set
