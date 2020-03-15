@@ -4491,8 +4491,9 @@ namespace eFormCore
                     colume2.Add(time.ToString("yyyy.MM.dd"));
                     colume3.Add(time.ToString("HH:mm:ss"));
                     colume4.Add(time.DayOfWeek.ToString());
-                    colume5.Add(time.Year.ToString() + "." + cal.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday));
-                    colume6.Add(time.Year.ToString() + "." + time.ToString("MMMM").Substring(0, 3));
+                    colume5.Add(time.Year + "." + cal.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday));
+                    //colume6.Add(time.Year.ToString() + "." + time.ToString("MMMM").Substring(0, 3));
+                    colume6.Add(time.Year + "." + time.ToString("MMMM").AsSpan().Slice(0,3).ToString());
                     colume7.Add(time.Year.ToString());
                     colume8.Add(aCase.CreatedAt.Value.ToString("yyyy.MM.dd HH:mm:ss"));
                     colume9.Add(aCase.SiteName);
@@ -4865,7 +4866,8 @@ namespace eFormCore
                 #endregion
 
                 #region checks checkSum
-                if (chechSum != fileName.Substring(fileName.LastIndexOf(".") - 32, 32))
+                if (chechSum != fileName.AsSpan().Slice(fileName.LastIndexOf(".") - 32, 32).ToString()) 
+                //.Substring(fileName.LastIndexOf(".") - 32, 32))
                     log.LogWarning(methodName, $"Download of '{urlStr}' failed. Check sum did not match");
                 #endregion
 

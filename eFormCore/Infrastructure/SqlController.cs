@@ -1034,8 +1034,10 @@ namespace Microting.eForm.Infrastructure
                                     {
                                         if (extractedValue.StartsWith(@"<![CDATA["))
                                         {
-                                            extractedValue = extractedValue.Substring(9);
-                                            extractedValue = extractedValue.Substring(0, extractedValue.Length - 3);
+                                            extractedValue = extractedValue.AsSpan(9).ToString();
+                                            //extractedValue = extractedValue.Substring(9);
+                                            extractedValue = extractedValue.AsSpan(0, extractedValue.Length - 3).ToString();
+                                            //extractedValue = extractedValue.Substring(0, extractedValue.Length - 3);
                                         }
                                     }
 
