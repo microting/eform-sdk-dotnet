@@ -30,6 +30,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Validation;
 using DocumentFormat.OpenXml.Wordprocessing;
 using A = DocumentFormat.OpenXml.Drawing;
 using Break = DocumentFormat.OpenXml.Wordprocessing.Break;
@@ -199,15 +200,15 @@ namespace Microting.eForm.Helpers
             {
                 if (currentHeader != keyValuePair.Key)
                 {
-                    if (currentHeader != "")
-                    {
+                    // if (currentHeader != "")
+                    // {
                         Body body = wordDoc.MainDocumentPart.Document.Body;
 
                         Paragraph para = body.AppendChild(new Paragraph());
                         Run run = para.AppendChild(new Run());
                         Break pageBreak = run.AppendChild(new Break());
                         pageBreak.Type = BreakValues.Page;
-                    }
+                    // }
                     InsertHeader(keyValuePair.Key, wordDoc, currentHeader);
                 }
                 
@@ -254,16 +255,15 @@ namespace Microting.eForm.Helpers
             if (header != currentHeader)
             {
                 currentHeader = header;
-                Body body = wordDoc.MainDocumentPart.Document.Body;
-
-                Paragraph para = body.AppendChild(new Paragraph());
-                Run run = para.AppendChild(new Run());
-                run.AppendChild(new Text(currentHeader));
-                RunProperties runProperties = new RunProperties();
-                runProperties.Append(new Bold());
-                runProperties.Append(new RunFonts { Ascii = "Tahoma"});
-                run.RunProperties = runProperties;
-
+                wordDoc.MainDocumentPart.Document.Body.AppendChild(new Paragraph(
+                    new Run(
+                        new RunProperties(
+                            new RunFonts() { Ascii = "Roboto", HighAnsi = "Roboto"}
+                            ),
+                        new Text(currentHeader)
+                        )
+                    )
+                );
             }
         }
 
@@ -315,9 +315,10 @@ namespace Microting.eForm.Helpers
                         new Hyperlink(
                                 new Run(
                                     new RunProperties(
-                                        new RunStyle() { Val = "Hyperlink"},
-                                        new Underline() { Val = UnderlineValues.Single},
-                                        new Color() { ThemeColor = ThemeColorValues.Hyperlink}
+                                        new RunStyle() { Val = "InternetLink"},
+                                        new RunFonts() { Ascii = "Roboto", HighAnsi = "Roboto"},
+                                        new Color() { Val = "365F91", ThemeColor = ThemeColorValues.Accent1, ThemeShade = "BF" },
+                                        new Underline() { Val = UnderlineValues.Single}
                                     ),
                                     new Text(values[1])
                                 )
@@ -328,6 +329,40 @@ namespace Microting.eForm.Helpers
             }
             
             AddImageToBody(wordDoc, mainPart.GetIdOfPart(imagePart), iWidth, iHeight);
+        }
+
+        public static void ValidateWordDocument(string filepath)
+        {
+            using (WordprocessingDocument wordprocessingDocument =
+                WordprocessingDocument.Open(filepath, true))
+            {
+                try
+                {
+                    OpenXmlValidator validator = new OpenXmlValidator();
+                    int count = 0;
+                    foreach (ValidationErrorInfo error in
+                        validator.Validate(wordprocessingDocument))
+                    {
+                        count++;
+                        Console.WriteLine("Error " + count);
+                        Console.WriteLine("Description: " + error.Description);
+                        Console.WriteLine("ErrorType: " + error.ErrorType);
+                        Console.WriteLine("Node: " + error.Node);
+                        Console.WriteLine("Path: " + error.Path.XPath);
+                        Console.WriteLine("Part: " + error.Part.Uri);
+                        Console.WriteLine("-------------------------------------------");
+                    }
+
+                    Console.WriteLine("count={0}", count);
+                }
+
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
+                wordprocessingDocument.Close();
+            }
         }
 
         private static void AddImageToBody(WordprocessingDocument wordDoc, string relationshipId, Int64Value cx, Int64Value cy)
