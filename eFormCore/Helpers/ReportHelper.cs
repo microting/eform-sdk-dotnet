@@ -145,6 +145,8 @@ namespace Microting.eForm.Helpers
                     docText = regexText.Replace(docText, "");  
                 }
             }
+            Regex regexText2 = new Regex("FreeSans");
+            docText = regexText2.Replace(docText, "Arial");
 
             return docText;
         }
@@ -200,15 +202,18 @@ namespace Microting.eForm.Helpers
             {
                 if (currentHeader != keyValuePair.Key)
                 {
-                    // if (currentHeader != "")
-                    // {
-                        Body body = wordDoc.MainDocumentPart.Document.Body;
+                    if (currentHeader != "")
+                    {
+                        SectionProperties sectPr = (SectionProperties)wordDoc.MainDocumentPart.Document.Body.ChildElements.Last();
 
-                        Paragraph para = body.AppendChild(new Paragraph());
-                        Run run = para.AppendChild(new Run());
-                        Break pageBreak = run.AppendChild(new Break());
-                        pageBreak.Type = BreakValues.Page;
-                    // }
+                        wordDoc.MainDocumentPart.Document.Body.InsertBefore(
+                            new Paragraph(
+                                new Run(
+                                    new Break() {Type = BreakValues.Page}
+                                    )),
+                            sectPr
+                            );
+                    }
                     InsertHeader(keyValuePair.Key, wordDoc, currentHeader);
                 }
                 
@@ -255,14 +260,17 @@ namespace Microting.eForm.Helpers
             if (header != currentHeader)
             {
                 currentHeader = header;
-                wordDoc.MainDocumentPart.Document.Body.AppendChild(new Paragraph(
+                SectionProperties sectPr = (SectionProperties)wordDoc.MainDocumentPart.Document.Body.ChildElements.Last();
+
+                wordDoc.MainDocumentPart.Document.Body.InsertBefore(new Paragraph(
                     new Run(
                         new RunProperties(
-                            new RunFonts() { Ascii = "Roboto", HighAnsi = "Roboto"}
+                            new RunFonts() { Ascii = "Arial", HighAnsi = "Arial"}
                             ),
                         new Text(currentHeader)
                         )
-                    )
+                    ),
+                    sectPr
                 );
             }
         }
@@ -310,13 +318,14 @@ namespace Microting.eForm.Helpers
             if (!string.IsNullOrEmpty(values[1]))
             {
                 var rel = wordDoc.MainDocumentPart.AddHyperlinkRelationship(new Uri(values[1]), true);
-            
-                wordDoc.MainDocumentPart.Document.Body.AppendChild(new Paragraph(
+                SectionProperties sectPr = (SectionProperties)wordDoc.MainDocumentPart.Document.Body.ChildElements.Last();
+
+                wordDoc.MainDocumentPart.Document.Body.InsertBefore(new Paragraph(
                         new Hyperlink(
                                 new Run(
                                     new RunProperties(
                                         new RunStyle() { Val = "InternetLink"},
-                                        new RunFonts() { Ascii = "Roboto", HighAnsi = "Roboto"},
+                                        new RunFonts() { Ascii = "Arial", HighAnsi = "Arial"},
                                         new Color() { Val = "365F91", ThemeColor = ThemeColorValues.Accent1, ThemeShade = "BF" },
                                         new Underline() { Val = UnderlineValues.Single}
                                     ),
@@ -324,7 +333,8 @@ namespace Microting.eForm.Helpers
                                 )
                             )
                             {History = OnOffValue.FromBoolean(true), Id = rel.Id}
-                    )
+                    ),
+                    sectPr
                 );
             }
             
@@ -347,7 +357,10 @@ namespace Microting.eForm.Helpers
                         Console.WriteLine("Error " + count);
                         Console.WriteLine("Description: " + error.Description);
                         Console.WriteLine("ErrorType: " + error.ErrorType);
+                        Console.WriteLine("Id: " + error.Id);
                         Console.WriteLine("Node: " + error.Node);
+                        // Console.WriteLine("Node InnerXML: " + error.Node.InnerXml);
+                        // Console.WriteLine("Node InnerText: " + error.Node.InnerText);
                         Console.WriteLine("Path: " + error.Path.XPath);
                         Console.WriteLine("Part: " + error.Part.Uri);
                         Console.WriteLine("-------------------------------------------");
@@ -413,7 +426,9 @@ namespace Microting.eForm.Helpers
                          DistanceFromRight = (UInt32Value)0U, EditId = "50D07946" });
             
             // Append the reference to body, the element should be in a Run.
-           wordDoc.MainDocumentPart.Document.Body.AppendChild(new Paragraph(new Run(element)));
+            SectionProperties sectPr = (SectionProperties)wordDoc.MainDocumentPart.Document.Body.ChildElements.Last();
+
+           wordDoc.MainDocumentPart.Document.Body.InsertBefore(new Paragraph(new Run(element)),sectPr);
         }
 
         private static void AddSignatureToParagraph(WordprocessingDocument wordDoc, string relationshipId,

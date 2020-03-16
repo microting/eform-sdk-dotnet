@@ -2270,7 +2270,9 @@ namespace eFormCore
             ReportHelper.SearchAndReplace(templateFile, valuePairs, resultDocument);
             
             ReportHelper.InsertImages(resultDocument, pictures);
+
             ReportHelper.InsertSignature(resultDocument, signatures);
+            ReportHelper.ValidateWordDocument(resultDocument);
             
             if (fileType == "pdf")
             {
