@@ -3370,12 +3370,91 @@ namespace eFormCore
             return true;
         }
 
-        public async Task<bool> GetAnswersForQuestionSet(int questionSetId)
+        private async Task<int> SaveAnswers(question_sets questionSet, JObject parsedData)
         {
             var settings = new JsonSerializerSettings { Error = (se, ev) => { ev.ErrorContext.Handled = true; } };
+            int numAnswers = 0;
 
             using (var db = dbContextHelper.GetDbContext())
             {
+                foreach (var item in parsedData)
+                {
+                    foreach (JToken subItem in item.Value)
+                    {
+                        answers answer = JsonConvert.DeserializeObject<answers>(subItem.ToString(), settings);
+
+                        var result = db.answers.SingleOrDefault(x => x.MicrotingUid == answer.MicrotingUid);
+                        if (result != null)
+                        {
+                            answer.Id = result.Id;
+                        }
+
+                        if (result == null)
+                        {
+                            units unit = await db.units.SingleOrDefaultAsync(x => x.MicrotingUid == answer.UnitId).ConfigureAwait(false);
+                            if (unit != null)
+                            {
+                                answer.UnitId = unit.Id;
+                            }
+                            else
+                            {
+                                answer.UnitId = null;
+                            }
+                            answer.SiteId = db.sites.Single(x => x.MicrotingUid == answer.SiteId).Id;
+                            if (questionSet == null)
+                            {
+                                await GetAllSurveyConfigurations().ConfigureAwait(false);
+                                questionSet =
+                                    await db.question_sets.SingleOrDefaultAsync(x =>
+                                        x.MicrotingUid == answer.QuestionSet.MicrotingUid).ConfigureAwait(false);
+                            }
+
+                            answer.QuestionSetId = questionSet.Id;
+                            survey_configurations surveyConfiguration = await db.survey_configurations
+                                .SingleOrDefaultAsync(x => x.MicrotingUid == answer.SurveyConfigurationId)
+                                .ConfigureAwait(false);
+                            if (surveyConfiguration == null)
+                            {
+                                await GetAllSurveyConfigurations().ConfigureAwait(false);
+                                surveyConfiguration = await db.survey_configurations
+                                    .SingleOrDefaultAsync(x => x.MicrotingUid == answer.SurveyConfigurationId)
+                                    .ConfigureAwait(false);
+                            }
+
+                            answer.SurveyConfigurationId = surveyConfiguration.Id;
+                            answer.QuestionSet = null;
+                            answer.LanguageId = db.languages.Single(x => x.Name == "Danish").Id;
+                            await answer.Create(db).ConfigureAwait(false);
+                            numAnswers ++;
+                        }
+
+                        foreach (JToken avItem in subItem["AnswerValues"])
+                        {
+                            answer_values answerValue =
+                                JsonConvert.DeserializeObject<answer_values>(avItem.ToString(), settings);
+                            if (db.answer_values.SingleOrDefault(x => x.MicrotingUid == answerValue.MicrotingUid) ==
+                                null)
+                            {
+                                answerValue.AnswerId = answer.Id;
+                                answerValue.QuestionId =
+                                    db.questions.Single(x => x.MicrotingUid == answerValue.QuestionId).Id;
+                                answerValue.OptionId =
+                                    db.options.Single(x => x.MicrotingUid == answerValue.OptionId).Id;
+                                await answerValue.Create(db).ConfigureAwait(false);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return numAnswers;
+        }
+
+        public async Task GetAnswersForQuestionSet(int questionSetId)
+        {
+            using (var db = dbContextHelper.GetDbContext())
+            {
+                int numAnswers = 10;
                 question_sets questionSet =
                     await db.question_sets.SingleOrDefaultAsync(x => x.MicrotingUid == questionSetId).ConfigureAwait(false);
                 if (questionSet != null)
@@ -3384,71 +3463,27 @@ namespace eFormCore
                     JObject parsedData = null;
                     if (lastAnswer != null)
                     {
-                        parsedData = JObject.Parse(await _communicator.GetLastAnswer(questionSetId, (int)lastAnswer.MicrotingUid).ConfigureAwait(false));
+                        while (numAnswers > 9)
+                        {
+                            lastAnswer = await db.answers.LastOrDefaultAsync(x => x.QuestionSetId == questionSet.Id).ConfigureAwait(false);
+                            parsedData = JObject.Parse(await _communicator.GetLastAnswer(questionSetId, (int)lastAnswer.MicrotingUid).ConfigureAwait(false));
+                            numAnswers = await SaveAnswers(questionSet, parsedData).ConfigureAwait(false);
+                        }
                     }
                     else
                     {
                         parsedData = JObject.Parse(await _communicator.GetLastAnswer(questionSetId, 0).ConfigureAwait(false));
-                    }
+                        numAnswers = await SaveAnswers(questionSet, parsedData).ConfigureAwait(false);
 
-                    foreach (var item in parsedData)
-                    {
-                        foreach (JToken subItem in item.Value)
+                        while (numAnswers > 9)
                         {
-
-                            answers answer = JsonConvert.DeserializeObject<answers>(subItem.ToString(), settings);
-
-                            var result = db.answers.SingleOrDefault(x => x.MicrotingUid == answer.MicrotingUid);
-                            if (result != null)
-                            {
-                                answer.Id = result.Id;
-                            }
-
-                            if (result == null)
-                            {
-                                answer.UnitId = db.units.Single(x => x.MicrotingUid == answer.UnitId).Id;
-                                answer.SiteId = db.sites.Single(x => x.MicrotingUid == answer.SiteId).Id;
-                                if (questionSet == null)
-                                {
-                                    await GetAllSurveyConfigurations().ConfigureAwait(false);
-                                    questionSet =
-                                        await db.question_sets.SingleOrDefaultAsync(x =>
-                                            x.MicrotingUid == answer.QuestionSet.MicrotingUid).ConfigureAwait(false);
-                                }
-                                answer.QuestionSetId = questionSet.Id;
-                                survey_configurations surveyConfiguration = await db.survey_configurations
-                                    .SingleOrDefaultAsync(x => x.MicrotingUid == answer.SurveyConfigurationId).ConfigureAwait(false);
-                                if (surveyConfiguration == null)
-                                {
-                                    await GetAllSurveyConfigurations().ConfigureAwait(false);
-                                    surveyConfiguration = await db.survey_configurations
-                                        .SingleOrDefaultAsync(x => x.MicrotingUid == answer.SurveyConfigurationId).ConfigureAwait(false);
-                                }
-                                answer.SurveyConfigurationId = surveyConfiguration.Id;
-                                answer.QuestionSet = null;
-                                answer.LanguageId = db.languages.Single(x => x.Name == "Danish").Id;
-                                await answer.Create(db).ConfigureAwait(false);
-                            }
-
-                            foreach (JToken avItem in subItem["AnswerValues"])
-                            {
-                                answer_values answerValue =
-                                    JsonConvert.DeserializeObject<answer_values>(avItem.ToString(), settings);
-                                if (db.answer_values.SingleOrDefault(x => x.MicrotingUid == answerValue.MicrotingUid) ==
-                                    null)
-                                {
-                                    answerValue.AnswerId = answer.Id;
-                                    answerValue.QuestionId =
-                                        db.questions.Single(x => x.MicrotingUid == answerValue.QuestionId).Id;
-                                    answerValue.OptionId = db.options.Single(x => x.MicrotingUid == answerValue.OptionId).Id;
-                                    await answerValue.Create(db).ConfigureAwait(false);    
-                                }
-                            }
+                            lastAnswer = await db.answers.LastOrDefaultAsync(x => x.QuestionSetId == questionSet.Id).ConfigureAwait(false);
+                            parsedData = JObject.Parse(await _communicator.GetLastAnswer(questionSetId, (int)lastAnswer.MicrotingUid).ConfigureAwait(false));
+                            numAnswers = await SaveAnswers(questionSet, parsedData).ConfigureAwait(false);
                         }
                     }
                 }
             }
-            return true;
         }
         
         #endregion

@@ -30,7 +30,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class answer_versions : BaseEntity
     {
-        public int UnitId { get; set; }
+        public int? UnitId { get; set; }
         
         public int SiteId { get; set; }
         

@@ -928,22 +928,22 @@ namespace Microting.eForm.Communication
             return true;
         }
 
-        public async Task<string> GetAllSurveyConfigurations()
+        public Task<string> GetAllSurveyConfigurations()
         {
             WebRequest request = WebRequest.Create(
                 $"{addressBasic}/v1/survey_configurations?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            return await PostToServer(request).ConfigureAwait(false);
+            return PostToServer(request);
         }
 
-        public async Task<string> GetSurveyConfiguration(int id)
+        public Task<string> GetSurveyConfiguration(int id)
         {
             WebRequest request = WebRequest.Create(
                 $"{addressBasic}/v1/survey_configurations/{id}?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            return await PostToServer(request).ConfigureAwait(false);
+            return PostToServer(request);
         }
         
         
@@ -951,36 +951,36 @@ namespace Microting.eForm.Communication
         
         #region QuestionSet
 
-        public async Task<string> GetAllQuestionSets()
+        public Task<string> GetAllQuestionSets()
         {
             
             WebRequest request = WebRequest.Create(
                 $"{addressBasic}/v1/question_sets?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            return await PostToServer(request).ConfigureAwait(false);
+            return PostToServer(request);
         }
 
-        public async Task<string> GetQuestionSet(int id)
+        public Task<string> GetQuestionSet(int id)
         {
             WebRequest request = WebRequest.Create(
                 $"{addressBasic}/v1/question_sets/{id}?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
-            return await PostToServer(request).ConfigureAwait(false);
+            return PostToServer(request);
         }
         
         #endregion
         
         #region Answer
 
-        public async Task<string> GetLastAnswer(int questionSetId, int lastAnswerId)
+        public Task<string> GetLastAnswer(int questionSetId, int lastAnswerId)
         {
             WebRequest request = WebRequest.Create(
                 $"{addressBasic}/v1/answers/{questionSetId}?token={token}&sdk_ver={dllVersion}&last_answer_id={lastAnswerId}");
             request.Method = "GET";
 
-            return await PostToServer(request).ConfigureAwait(false);
+            return PostToServer(request);
         }
         
         #endregion

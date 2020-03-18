@@ -34,7 +34,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
     {
         
         [ForeignKey("unit")]
-        public int UnitId { get; set; }
+        public int? UnitId { get; set; }
         
         [ForeignKey("site")]
         public int SiteId { get; set; }
