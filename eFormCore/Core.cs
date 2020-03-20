@@ -46,6 +46,7 @@ using Amazon.S3.Util;
 using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microting.eForm;
 using Microting.eForm.Communication;
 using Microting.eForm.Dto;
@@ -3254,6 +3255,9 @@ namespace eFormCore
         {
             var parsedData = JObject.Parse(await _communicator.GetAllQuestionSets().ConfigureAwait(false));
 
+            if (!parsedData.Any())
+                return false;
+
             using (var db = dbContextHelper.GetDbContext())
             {
                 var language = await db.languages.SingleOrDefaultAsync(x => x.Name == "Danish").ConfigureAwait(false);
@@ -3363,7 +3367,7 @@ namespace eFormCore
             {
                 foreach (question_sets questionSet in await db.question_sets.ToListAsync())
                 {
-                    await GetAnswersForQuestionSet((int)questionSet.MicrotingUid).ConfigureAwait(false);
+                    await GetAnswersForQuestionSet(questionSet.MicrotingUid).ConfigureAwait(false);
                 }
             }
 
@@ -3450,8 +3454,11 @@ namespace eFormCore
             return numAnswers;
         }
 
-        public async Task GetAnswersForQuestionSet(int questionSetId)
+        public async Task GetAnswersForQuestionSet(int? questionSetId)
         {
+            if (questionSetId == null)
+                return;
+            
             using (var db = dbContextHelper.GetDbContext())
             {
                 int numAnswers = 10;
@@ -3466,19 +3473,19 @@ namespace eFormCore
                         while (numAnswers > 9)
                         {
                             lastAnswer = await db.answers.LastOrDefaultAsync(x => x.QuestionSetId == questionSet.Id).ConfigureAwait(false);
-                            parsedData = JObject.Parse(await _communicator.GetLastAnswer(questionSetId, (int)lastAnswer.MicrotingUid).ConfigureAwait(false));
+                            parsedData = JObject.Parse(await _communicator.GetLastAnswer((int)questionSetId, (int)lastAnswer.MicrotingUid).ConfigureAwait(false));
                             numAnswers = await SaveAnswers(questionSet, parsedData).ConfigureAwait(false);
                         }
                     }
                     else
                     {
-                        parsedData = JObject.Parse(await _communicator.GetLastAnswer(questionSetId, 0).ConfigureAwait(false));
+                        parsedData = JObject.Parse(await _communicator.GetLastAnswer((int)questionSetId, 0).ConfigureAwait(false));
                         numAnswers = await SaveAnswers(questionSet, parsedData).ConfigureAwait(false);
 
                         while (numAnswers > 9)
                         {
                             lastAnswer = await db.answers.LastOrDefaultAsync(x => x.QuestionSetId == questionSet.Id).ConfigureAwait(false);
-                            parsedData = JObject.Parse(await _communicator.GetLastAnswer(questionSetId, (int)lastAnswer.MicrotingUid).ConfigureAwait(false));
+                            parsedData = JObject.Parse(await _communicator.GetLastAnswer((int)questionSetId, (int)lastAnswer.MicrotingUid).ConfigureAwait(false));
                             numAnswers = await SaveAnswers(questionSet, parsedData).ConfigureAwait(false);
                         }
                     }

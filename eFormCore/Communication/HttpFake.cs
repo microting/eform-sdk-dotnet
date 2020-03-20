@@ -441,29 +441,37 @@ namespace Microting.eForm.Communication
             return true;
         }
 
-        public Task<string> GetAllSurveyConfigurations()
+        public async Task<string> GetAllSurveyConfigurations()
         {
-            throw new NotImplementedException();
+            await Task.Run(() => {
+            });
+            return "{}";        }
+
+        public async Task<string> GetSurveyConfiguration(int id)
+        {
+            await Task.Run(() => {
+            });
+            return "{}";        }
+
+        public async Task<string> GetAllQuestionSets()
+        {
+            await Task.Run(() => {
+            });
+            return "{}";
         }
 
-        public Task<string> GetSurveyConfiguration(int id)
+        public async Task<string> GetQuestionSet(int id)
         {
-            throw new NotImplementedException();
+            await Task.Run(() => {
+            });
+            return "{}";
         }
 
-        public Task<string> GetAllQuestionSets()
+        public async Task<string> GetLastAnswer(int questionSetId, int lastAnswerId)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> GetQuestionSet(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> GetLastAnswer(int questionSetId, int lastAnswerId)
-        {
-            throw new NotImplementedException();
+            await Task.Run(() => {
+            });
+            return "{}";
         }
 
         #endregion
