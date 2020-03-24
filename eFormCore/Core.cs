@@ -3304,6 +3304,14 @@ namespace eFormCore
                                 result.QuestionSetId = questionSet.Id;
                                 await result.Create(db, false).ConfigureAwait(false);
                             }
+                            else
+                            {
+                                if (question.WorkflowState != child["WorkflowState"].ToString())
+                                {
+                                    question.WorkflowState = child["WorkflowState"].ToString();
+                                    await question.Update(db);
+                                }
+                            }
                         }
                         JToken parsedQuestionTranslations = innerParsedData.GetValue("QuestionTranslations");
                         foreach (JToken child in parsedQuestionTranslations.Children())
@@ -3318,6 +3326,15 @@ namespace eFormCore
                                 result.LanguageId = language.Id;
                                 await result.Create(db).ConfigureAwait(false);
 
+                            }
+                            else
+                            {
+                                if (questionTranslation.Name != child["Name"].ToString() || questionTranslation.WorkflowState != child["WorkflowState"].ToString())
+                                {
+                                    questionTranslation.Name = child["Name"].ToString();
+                                    questionTranslation.WorkflowState = child["WorkflowState"].ToString();
+                                    await questionTranslation.Update(db);
+                                }
                             }
                         }
                         
@@ -3335,6 +3352,14 @@ namespace eFormCore
                                 result.NextQuestionId = nextQuestionId?.Id;
                                 await result.Create(db).ConfigureAwait(false);
                             }
+                            else
+                            {
+                                if (option.WorkflowState != child["WorkflowState"].ToString())
+                                {
+                                    option.WorkflowState = child["WorkflowState"].ToString();
+                                    await option.Update(db);
+                                }
+                            }
                         }
                         
                         JToken parsedOptionTranslations = innerParsedData.GetValue("OptionTranslations");
@@ -3349,6 +3374,15 @@ namespace eFormCore
                                 result.OptionId = db.options.Single(x => x.MicrotingUid == result.OptionId).Id;
                                 result.LanguageId = language.Id;
                                 await result.Create(db).ConfigureAwait(false);
+                            }
+                            else
+                            {
+                                if (optionTranslation.Name != child["Name"].ToString() || optionTranslation.WorkflowState != child["WorkflowState"].ToString())
+                                {
+                                    optionTranslation.Name = child["Name"].ToString();
+                                    optionTranslation.WorkflowState = child["WorkflowState"].ToString();
+                                    await optionTranslation.Update(db);
+                                }
                             }
                         }
                     }
