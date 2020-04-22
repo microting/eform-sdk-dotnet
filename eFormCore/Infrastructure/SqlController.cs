@@ -2937,16 +2937,16 @@ namespace Microting.eForm.Infrastructure
                             Version = dbCase.Version,
                             WorkerName = worker.FirstName + " " + worker.LastName,
                             WorkflowState = dbCase.WorkflowState,
-                            FieldValue1 = dbCase.FieldValue1,
-                            FieldValue2 = dbCase.FieldValue2,
-                            FieldValue3 = dbCase.FieldValue3,
-                            FieldValue4 = dbCase.FieldValue4,
-                            FieldValue5 = dbCase.FieldValue5,
-                            FieldValue6 = dbCase.FieldValue6,
-                            FieldValue7 = dbCase.FieldValue7,
-                            FieldValue8 = dbCase.FieldValue8,
-                            FieldValue9 = dbCase.FieldValue9,
-                            FieldValue10 = dbCase.FieldValue10
+                            FieldValue1 = dbCase.FieldValue1 ?? "",
+                            FieldValue2 = dbCase.FieldValue2 ?? "",
+                            FieldValue3 = dbCase.FieldValue3 ?? "",
+                            FieldValue4 = dbCase.FieldValue4 ?? "",
+                            FieldValue5 = dbCase.FieldValue5 ?? "",
+                            FieldValue6 = dbCase.FieldValue6 ?? "",
+                            FieldValue7 = dbCase.FieldValue7 ?? "",
+                            FieldValue8 = dbCase.FieldValue8 ?? "",
+                            FieldValue9 = dbCase.FieldValue9 ?? "",
+                            FieldValue10 = dbCase.FieldValue10 ?? ""
                         };
 
                         rtrnLst.Add(nCase);
