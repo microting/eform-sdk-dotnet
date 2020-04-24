@@ -2768,29 +2768,41 @@ namespace eFormCore
 
         public async Task EntityItemUpdate(int id, string name, string description, string ownUUID, int displayIndex)
         {
-            EntityItem et = await _sqlController.EntityItemRead(id).ConfigureAwait(false);
-            if (et == null) {
-                throw new NullReferenceException("EntityItem not found with id " + id);
-            }
-
-            if (et.Name != name || et.Description != description || et.DisplayIndex != displayIndex || et.EntityItemUId != ownUUID)
+            using (var dbContext = dbContextHelper.GetDbContext())
             {
-                EntityGroup eg = await _sqlController.EntityGroupRead(et.EntityItemGroupId).ConfigureAwait(false);
-                bool result = false;
-                if (eg.Type == Constants.FieldTypes.EntitySearch)
-                {
-                    result = await _communicator.EntitySearchItemUpdate(eg.MicrotingUUID, et.MicrotingUUID, name, description, ownUUID).ConfigureAwait(false);
-                } else {
-                    result = await _communicator.EntitySelectItemUpdate(eg.MicrotingUUID, et.MicrotingUUID, name, displayIndex, ownUUID).ConfigureAwait(false);
+                entity_items et = await dbContext.entity_items.SingleOrDefaultAsync(x => x.Id == id);
+                if (et == null) {
+                    throw new NullReferenceException("EntityItem not found with id " + id);
                 }
-                if (result) {
-                    et.DisplayIndex = displayIndex;
-                    et.Name = name;
-                    et.Description = description;
 
-                    await _sqlController.EntityItemUpdate(et).ConfigureAwait(false);
-                } else {
-                    throw new Exception("Unable to update entityItem with id " + id.ToString());
+                if (et.Name != name || et.Description != description || et.DisplayIndex != displayIndex ||
+                    et.EntityItemUid != ownUUID)
+                {
+                    entity_groups eg =
+                        await dbContext.entity_groups.SingleOrDefaultAsync(x =>
+                            x.Id == et.EntityGroupId);
+                    bool result = false;
+                    if (eg.Type == Constants.FieldTypes.EntitySearch)
+                    {
+                        result = await _communicator
+                            .EntitySearchItemUpdate(eg.MicrotingUid, et.MicrotingUid,
+                                name, description, ownUUID)
+                            .ConfigureAwait(false);
+                    } else {
+                        result = await _communicator
+                            .EntitySelectItemUpdate(eg.MicrotingUid, et.MicrotingUid,
+                                name, displayIndex, ownUUID)
+                            .ConfigureAwait(false);
+                    }
+                    if (result) {
+                        et.DisplayIndex = displayIndex;
+                        et.Name = name;
+                        et.Description = description;
+                        et.EntityItemUid = ownUUID;
+                        await et.Update(dbContext);
+                    } else {
+                        throw new Exception("Unable to update entityItem with id " + id.ToString());
+                    }
                 }
             }
         }
