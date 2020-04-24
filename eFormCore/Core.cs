@@ -2773,7 +2773,7 @@ namespace eFormCore
                 throw new NullReferenceException("EntityItem not found with id " + id);
             }
 
-            if (et.Name != name || et.Description != description || et.DisplayIndex != displayIndex)
+            if (et.Name != name || et.Description != description || et.DisplayIndex != displayIndex || et.EntityItemUId != ownUUID)
             {
                 EntityGroup eg = await _sqlController.EntityGroupRead(et.EntityItemGroupId).ConfigureAwait(false);
                 bool result = false;
