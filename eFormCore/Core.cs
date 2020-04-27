@@ -1800,8 +1800,14 @@ namespace eFormCore
         /// <param name="start">Only cases from after this time limit. Null will remove this limit</param>
         /// <param name="end">Only cases from before this time limit. Null will remove this limit</param>
         /// <param name="pathAndName">Location where fil is to be placed, along with fil name. No extension needed. Relative or absolut</param>
+        /// <param name="customPathForUploadedData"></param>
+        /// <param name="decimalSeparator"></param>
+        /// <param name="thousandSeparator"></param>
+        /// <param name="utcTime"></param>
+        /// <param name="cultureInfo"></param>
+        /// <param name="timeZoneInfo"></param>
         public async Task<string> CasesToCsv(int templateId, DateTime? start, DateTime? end, string pathAndName,
-            string customPathForUploadedData, string decimalSeparator, string thousandSeparator)
+            string customPathForUploadedData, string decimalSeparator, string thousandSeparator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo)
         {
             string methodName = "Core.CasesToCsv";
             try
@@ -1815,13 +1821,14 @@ namespace eFormCore
                     log.LogVariable(methodName, nameof(pathAndName), pathAndName);
                     log.LogVariable(methodName, nameof(customPathForUploadedData), customPathForUploadedData);
 
-                    List<List<string>> dataSet = await GenerateDataSetFromCases(templateId, start, end, customPathForUploadedData, decimalSeparator, thousandSeparator).ConfigureAwait(false);
+                    List<List<string>> dataSet = await GenerateDataSetFromCases(templateId, start, end, customPathForUploadedData, decimalSeparator, thousandSeparator, utcTime, cultureInfo, timeZoneInfo).ConfigureAwait(false);
 
                     if (dataSet == null)
                         return "";
 
                     List<string> temp;
                     string text = "";
+                    StringBuilder stringBuilder = new StringBuilder();
 
                     for (int rowN = 0; rowN < dataSet[0].Count; rowN++)
                     {
@@ -1836,12 +1843,12 @@ namespace eFormCore
                             }
                             catch
                             {
-                                try
+                                DateTime date;
+                                if (DateTime.TryParse(lst[rowN], out date))
                                 {
-                                    DateTime.Parse(lst[rowN]);
                                     temp.Add(lst[rowN]);
                                 }
-                                catch
+                                else
                                 {
                                     try
                                     {
@@ -1855,13 +1862,17 @@ namespace eFormCore
                             }
                         }
 
-                        text += string.Join(";", temp.ToArray()) + Environment.NewLine;
+                        stringBuilder.AppendLine(string.Join(";", temp.ToArray()));
                     }
 
                     if (!pathAndName.Contains(".csv"))
                         pathAndName = pathAndName + ".csv";
 
-                    File.WriteAllText(pathAndName, text.Trim(), Encoding.UTF8);
+                    TextWriter textWriter = new StreamWriter(pathAndName, true);
+                    textWriter.Write(stringBuilder.ToString());
+                    textWriter.Flush();
+                    textWriter.Close();
+                    textWriter.Dispose();
                     return Path.GetFullPath(pathAndName);
                 }
 
@@ -1883,7 +1894,9 @@ namespace eFormCore
         /// <param name="pathAndName">Location where fil is to be placed, along with fil name. No extension needed. Relative or absolut</param>
         public Task<string> CasesToCsv(int templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
         {
-            return CasesToCsv(templateId, start, end, pathAndName, customPathForUploadedData, ".", "");
+            CultureInfo cultureInfo = new CultureInfo("de-DE");
+            TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
+            return CasesToCsv(templateId, start, end, pathAndName, customPathForUploadedData, ".", "", false, cultureInfo, timeZoneInfo);
         }
 
         public async Task<string> CaseToJasperXml(CaseDto cDto, ReplyElement reply, int caseId, string timeStamp, string customPathForUploadedData, string customXMLContent)
@@ -4545,7 +4558,7 @@ namespace eFormCore
             throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + xmlStrResponse);
         }
 
-        private async Task<List<List<string>>> GenerateDataSetFromCases(int? templateId, DateTime? start, DateTime? end, string customPathForUploadedData, string decimalSeparator, string thousandSaperator)
+        private async Task<List<List<string>>> GenerateDataSetFromCases(int? templateId, DateTime? start, DateTime? end, string customPathForUploadedData, string decimalSeparator, string thousandSaperator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo)
         {
             List<List<string>> dataSet = new List<List<string>>();
             List<string> colume1CaseIds = new List<string> { "Id" };
@@ -4575,6 +4588,12 @@ namespace eFormCore
                 foreach (var aCase in caseList)
                 {
                     DateTime time = (DateTime)aCase.DoneAt;
+                    DateTime createdAt = (DateTime) aCase.CreatedAt;
+                    if (!utcTime)
+                    {
+                        time = TimeZoneInfo.ConvertTimeFromUtc(time, timeZoneInfo);
+                        createdAt = TimeZoneInfo.ConvertTimeFromUtc(createdAt, timeZoneInfo);
+                    }
                     colume1CaseIds.Add(aCase.Id.ToString());
                     caseIds.Add(aCase.Id);
 
@@ -4585,7 +4604,7 @@ namespace eFormCore
                     //colume6.Add(time.Year.ToString() + "." + time.ToString("MMMM").Substring(0, 3));
                     colume6.Add(time.Year + "." + time.ToString("MMMM").AsSpan().Slice(0,3).ToString());
                     colume7.Add(time.Year.ToString());
-                    colume8.Add(aCase.CreatedAt.Value.ToString("yyyy.MM.dd HH:mm:ss"));
+                    colume8.Add(createdAt.ToString("yyyy.MM.dd HH:mm:ss"));
                     colume9.Add(aCase.SiteName);
                     colume10.Add(aCase.WorkerName);
                     colume11.Add(aCase.UnitId.ToString());

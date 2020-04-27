@@ -78,8 +78,8 @@ namespace Microting.eForm.Helpers
             worker.FirstName = firstName;
             worker.LastName = lastName;
             worker.Email = email;
-            worker.CreatedAt = DateTime.Now;
-            worker.UpdatedAt = DateTime.Now;
+            worker.CreatedAt = DateTime.UtcNow;
+            worker.UpdatedAt = DateTime.UtcNow;
             worker.MicrotingUid = microtingUId;
             worker.WorkflowState = Constants.WorkflowStates.Created;
             worker.Version = 69;
@@ -94,8 +94,8 @@ namespace Microting.eForm.Helpers
             sites site = new sites();
             site.Name = name;
             site.MicrotingUid = microtingUId;
-            site.UpdatedAt = DateTime.Now;
-            site.CreatedAt = DateTime.Now;
+            site.UpdatedAt = DateTime.UtcNow;
+            site.CreatedAt = DateTime.UtcNow;
             site.Version = 64;
             site.WorkflowState = Constants.WorkflowStates.Created;
             dbContext.sites.Add(site);
@@ -111,9 +111,9 @@ namespace Microting.eForm.Helpers
             unit.OtpCode = otpCode;
             unit.Site = site;
             unit.SiteId = site.Id;
-            unit.CreatedAt = DateTime.Now;
+            unit.CreatedAt = DateTime.UtcNow;
             unit.CustomerNo = customerNo;
-            unit.UpdatedAt = DateTime.Now;
+            unit.UpdatedAt = DateTime.UtcNow;
             unit.Version = 9;
             unit.WorkflowState = Constants.WorkflowStates.Created;
 
@@ -125,9 +125,9 @@ namespace Microting.eForm.Helpers
         public async Task<site_workers> CreateSiteWorker(int microtingUId, sites site, workers worker)
         {
             site_workers site_workers = new site_workers();
-            site_workers.CreatedAt = DateTime.Now;
+            site_workers.CreatedAt = DateTime.UtcNow;
             site_workers.MicrotingUid = microtingUId;
-            site_workers.UpdatedAt = DateTime.Now;
+            site_workers.UpdatedAt = DateTime.UtcNow;
             site_workers.Version = 63;
             site_workers.Site = site;
             site_workers.SiteId = site.Id;
@@ -162,8 +162,8 @@ namespace Microting.eForm.Helpers
         public async Task<check_lists> CreateSubTemplate(string label, string description, string caseType, int displayIndex, int repeated, check_lists parentId)
         {
             check_lists cl2 = new check_lists();
-            cl2.CreatedAt = DateTime.Now;
-            cl2.UpdatedAt = DateTime.Now;
+            cl2.CreatedAt = DateTime.UtcNow;
+            cl2.UpdatedAt = DateTime.UtcNow;
             cl2.Label = label;
             cl2.Description = description;
             cl2.WorkflowState = Constants.WorkflowStates.Created;
@@ -186,7 +186,7 @@ namespace Microting.eForm.Helpers
             f.BarcodeType = barcodeType;
             f.CheckListId = checkList.Id;
             f.Color = color;
-            f.CreatedAt = DateTime.Now;
+            f.CreatedAt = DateTime.UtcNow;
             f.Custom = custom;
             f.DecimalCount = decimalCount;
             f.DefaultValue = defaultValue;
@@ -210,7 +210,7 @@ namespace Microting.eForm.Helpers
             f.SplitScreen = splitScreen;
             f.StopOnSave = stopOnSave;
             f.UnitName = unitName;
-            f.UpdatedAt = DateTime.Now;
+            f.UpdatedAt = DateTime.UtcNow;
             f.Version = version;
             f.WorkflowState = Constants.WorkflowStates.Created;
 
@@ -255,12 +255,12 @@ namespace Microting.eForm.Helpers
             fv.CaseId = aCase.Id;
             fv.CheckList = checkList;
             fv.CheckListId = checkList.Id;
-            fv.CreatedAt = DateTime.Now;
+            fv.CreatedAt = DateTime.UtcNow;
             fv.Date = DateTime.Now;
             fv.DoneAt = DateTime.Now;
             fv.Field = f;
             fv.FieldId = f.Id;
-            fv.UpdatedAt = DateTime.Now;
+            fv.UpdatedAt = DateTime.UtcNow;
             if (ud_id != null)
             {
                 fv.UploadedDataId = ud_id;
@@ -281,9 +281,9 @@ namespace Microting.eForm.Helpers
 
             CLV.CaseId = aCase.Id;
             CLV.CheckListId = checkList.Id;
-            CLV.CreatedAt = DateTime.Now;
+            CLV.CreatedAt = DateTime.UtcNow;
             CLV.Status = status;
-            CLV.UpdatedAt = DateTime.Now;
+            CLV.UpdatedAt = DateTime.UtcNow;
             CLV.UserId = userId;
             CLV.Version = version;
             CLV.WorkflowState = Constants.WorkflowStates.Created;
@@ -298,14 +298,14 @@ namespace Microting.eForm.Helpers
             uploaded_data UD = new uploaded_data();
                
             UD.Checksum = checkSum;
-            UD.CreatedAt = DateTime.Now;
+            UD.CreatedAt = DateTime.UtcNow;
             UD.CurrentFile = currentFile;
             UD.ExpirationDate = DateTime.Now.AddYears(1);
             UD.Extension = extension;
             UD.FileLocation = fileLocation;
             UD.FileName = fileName;
             UD.Local = local;
-            UD.UpdatedAt = DateTime.Now;
+            UD.UpdatedAt = DateTime.UtcNow;
             UD.UploaderId = worker.Id;
             UD.UploaderType = uploaderType;
             UD.Version = version;
@@ -342,12 +342,12 @@ namespace Microting.eForm.Helpers
             {
                 entity_groups eG = new entity_groups();
 
-                eG.CreatedAt = DateTime.Now;
+                eG.CreatedAt = DateTime.UtcNow;
                 //eG.Id = xxx;
                 eG.MicrotingUid = microtingUId;
                 eG.Name = name;
                 eG.Type = entityType;
-                eG.UpdatedAt = DateTime.Now;
+                eG.UpdatedAt = DateTime.UtcNow;
                 eG.Version = 1;
                 eG.WorkflowState = workflowState;
 
@@ -362,7 +362,7 @@ namespace Microting.eForm.Helpers
         public async Task<entity_items> CreateEntityItem(string description, int displayIndex, int entityGroupId, string entityItemUId, string microtingUId, string name, short? synced, int version, string workflowState)
         {
             entity_items eI = new entity_items();
-            eI.CreatedAt = DateTime.Now;
+            eI.CreatedAt = DateTime.UtcNow;
             eI.Description = description;
             eI.DisplayIndex = displayIndex;
             eI.EntityGroupId = entityGroupId;
@@ -370,7 +370,7 @@ namespace Microting.eForm.Helpers
             eI.MicrotingUid = microtingUId;
             eI.Name = name;
             eI.Synced = synced;
-            eI.UpdatedAt = DateTime.Now;
+            eI.UpdatedAt = DateTime.UtcNow;
             eI.Version = version;
             eI.WorkflowState = workflowState;
 

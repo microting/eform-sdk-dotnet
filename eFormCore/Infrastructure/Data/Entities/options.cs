@@ -60,8 +60,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             Version = 1;
             
             QuestionId = QuestionId;
-            CreatedAt = DateTime.Now;
-            UpdatedAt = DateTime.Now;
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
 
             dbContext.options.Add(this);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -90,7 +90,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             if (dbContext.ChangeTracker.HasChanges())
             {
                 Version += 1;
-                UpdatedAt = DateTime.Now;
+                UpdatedAt = DateTime.UtcNow;
 
                 dbContext.option_versions.Add(MapVersions(option));
                 await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -112,7 +112,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             if (dbContext.ChangeTracker.HasChanges())
             {
                 Version += 1;
-                UpdatedAt = DateTime.Now;
+                UpdatedAt = DateTime.UtcNow;
 
                 dbContext.option_versions.Add(MapVersions(option));
                 await dbContext.SaveChangesAsync().ConfigureAwait(false);

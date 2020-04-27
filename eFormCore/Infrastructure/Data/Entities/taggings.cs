@@ -46,8 +46,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public async Task Create(MicrotingDbContext dbContext)
         {
-            CreatedAt = DateTime.Now;
-            UpdatedAt = DateTime.Now;
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
             Version = 1;
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             
@@ -68,7 +68,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
 
             tagging.WorkflowState = WorkflowState;
-            tagging.UpdatedAt = DateTime.Now;
+            tagging.UpdatedAt = DateTime.UtcNow;
             tagging.TaggerId = TaggerId;
             tagging.Version += 1;
 
@@ -88,7 +88,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
 
             tagging.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-            tagging.UpdatedAt = DateTime.Now;
+            tagging.UpdatedAt = DateTime.UtcNow;
             tagging.Version += 1;
 
             await dbContext.SaveChangesAsync().ConfigureAwait(false);

@@ -54,8 +54,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public async Task Create(MicrotingDbContext dbContext)
         {
-            CreatedAt = DateTime.Now;
-            UpdatedAt = DateTime.Now;
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
             Version = 1;
             if (WorkflowState == null)
             {
@@ -88,7 +88,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             if (dbContext.ChangeTracker.HasChanges())
             {
                 surveyConfigurations.Version += 1;
-                surveyConfigurations.UpdatedAt = DateTime.Now;
+                surveyConfigurations.UpdatedAt = DateTime.UtcNow;
 
                 dbContext.survey_configuration_versions.Add(MapVersions(surveyConfigurations));
                 await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -111,7 +111,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             if (dbContext.ChangeTracker.HasChanges())
             {
                 surveyConfigurations.Version += 1;
-                surveyConfigurations.UpdatedAt = DateTime.Now;
+                surveyConfigurations.UpdatedAt = DateTime.UtcNow;
 
                 dbContext.survey_configuration_versions.Add(MapVersions(surveyConfigurations));
                 await dbContext.SaveChangesAsync().ConfigureAwait(false);

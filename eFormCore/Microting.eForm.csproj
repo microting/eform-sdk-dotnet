@@ -207,6 +207,8 @@
     <Compile Include="Migrations\20200226182616_MakingNextQuestionIdNullable.Designer.cs" />
     <Compile Include="Migrations\20200318150742_MakingUnitIdNullableForAnswers.cs" />
     <Compile Include="Migrations\20200318150742_MakingUnitIdNullableForAnswers.Designer.cs" />
+    <Compile Include="Migrations\20200427095029_AdjustTimeToUTC.cs" />
+    <Compile Include="Migrations\20200427095029_AdjustTimeToUTC.Designer.cs" />
     <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Infrastructure\MicrotingDbContext.cs" />
     <Compile Include="Infrastructure\SqlController.cs" />

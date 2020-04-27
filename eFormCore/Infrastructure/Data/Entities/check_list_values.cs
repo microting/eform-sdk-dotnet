@@ -48,8 +48,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             Version = 1;
-            CreatedAt = DateTime.Now;
-            UpdatedAt = DateTime.Now;
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
 
             dbContext.check_list_values.Add(this);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -76,7 +76,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                clv.UpdatedAt = DateTime.Now;
+                clv.UpdatedAt = DateTime.UtcNow;
                 clv.Version += 1;
 
                 dbContext.check_list_value_versions.Add(MapCheckListValueVersions(clv));
@@ -97,7 +97,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             
             if (dbContext.ChangeTracker.HasChanges())
             {
-                clv.UpdatedAt = DateTime.Now;
+                clv.UpdatedAt = DateTime.UtcNow;
                 clv.Version += 1;
 
                 dbContext.check_list_value_versions.Add(MapCheckListValueVersions(clv));
