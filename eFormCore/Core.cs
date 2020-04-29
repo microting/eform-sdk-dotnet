@@ -4558,123 +4558,109 @@ namespace eFormCore
             throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + xmlStrResponse);
         }
 
-        private async Task<List<List<string>>> GenerateDataSetFromCases(int? templateId, DateTime? start, DateTime? end, string customPathForUploadedData, string decimalSeparator, string thousandSaperator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo)
+        private async Task<List<List<string>>> GenerateDataSetFromCases(int? checkListId, DateTime? start, DateTime? end, string customPathForUploadedData, string decimalSeparator, string thousandSaperator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo)
         {
-            List<List<string>> dataSet = new List<List<string>>();
-            List<string> colume1CaseIds = new List<string> { "Id" };
-            List<int> caseIds = new List<int>();
-
-            List<Case> caseList = await _sqlController.CaseReadAll(templateId, start, end, Constants.WorkflowStates.NotRemoved, null, false, "").ConfigureAwait(false);
-            var template = await _sqlController.TemplateItemRead((int)templateId).ConfigureAwait(false);
-
-            if (caseList.Count == 0)
-                return null;
-
-            #region firstColumes generate
+            using (MicrotingDbContext dbContext = dbContextHelper.GetDbContext())
             {
-                List<string> colume2 = new List<string> { "Date" };
-                List<string> colume3 = new List<string> { "Time" };
-                List<string> colume4 = new List<string> { "Day" };
-                List<string> colume5 = new List<string> { "Week" };
-                List<string> colume6 = new List<string> { "Month" };
-                List<string> colume7 = new List<string> { "Year" };
-                List<string> colume8 = new List<string> { "Created At" };
-                List<string> colume9 = new List<string> { "Site" };
-                List<string> colume10 = new List<string> { "Device User" };
-                List<string> colume11 = new List<string> { "Device Id" };
-                List<string> colume12 = new List<string> { "eForm Name" };
+                List<List<string>> dataSet = new List<List<string>>();
+                List<string> colume1CaseIds = new List<string> { "Id" };
+                List<int> caseIds = new List<int>();
 
-                var cal = DateTimeFormatInfo.CurrentInfo.Calendar;
-                foreach (var aCase in caseList)
+                if (start == null)
+                    start = DateTime.MinValue;
+                if (end == null)
+                    end = DateTime.MaxValue;
+                List<cases> cases = await dbContext.cases.Where(x =>
+                    x.DoneAt > start && x.DoneAt < end
+                                     && x.WorkflowState != Constants.WorkflowStates.Removed
+                                     && x.CheckListId == checkListId).ToListAsync();
+
+                check_lists checkList = await dbContext.check_lists.SingleAsync(x => x.Id == (int) checkListId);
+
+                if (cases.Count == 0)
+                    return null;
+
+                #region firstColumes generate
                 {
-                    DateTime time = (DateTime)aCase.DoneAt;
-                    DateTime createdAt = (DateTime) aCase.CreatedAt;
-                    if (!utcTime)
+                    List<string> colume2 = new List<string> { "Date" };
+                    List<string> colume3 = new List<string> { "Time" };
+                    List<string> colume4 = new List<string> { "Day" };
+                    List<string> colume5 = new List<string> { "Week" };
+                    List<string> colume6 = new List<string> { "Month" };
+                    List<string> colume7 = new List<string> { "Year" };
+                    List<string> colume8 = new List<string> { "Created At" };
+                    List<string> colume9 = new List<string> { "Site" };
+                    List<string> colume10 = new List<string> { "Device User" };
+                    List<string> colume11 = new List<string> { "Device Id" };
+                    List<string> colume12 = new List<string> { "eForm Name" };
+
+                    var cal = DateTimeFormatInfo.CurrentInfo.Calendar;
+                    foreach (var aCase in cases)
                     {
-                        time = TimeZoneInfo.ConvertTimeFromUtc(time, timeZoneInfo);
-                        createdAt = TimeZoneInfo.ConvertTimeFromUtc(createdAt, timeZoneInfo);
-                    }
-                    colume1CaseIds.Add(aCase.Id.ToString());
-                    caseIds.Add(aCase.Id);
-
-                    colume2.Add(time.ToString("yyyy.MM.dd"));
-                    colume3.Add(time.ToString("HH:mm:ss"));
-                    colume4.Add(time.DayOfWeek.ToString());
-                    colume5.Add(time.Year + "." + cal.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday));
-                    //colume6.Add(time.Year.ToString() + "." + time.ToString("MMMM").Substring(0, 3));
-                    colume6.Add(time.Year + "." + time.ToString("MMMM").AsSpan().Slice(0,3).ToString());
-                    colume7.Add(time.Year.ToString());
-                    colume8.Add(createdAt.ToString("yyyy.MM.dd HH:mm:ss"));
-                    colume9.Add(aCase.SiteName);
-                    colume10.Add(aCase.WorkerName);
-                    colume11.Add(aCase.UnitId.ToString());
-                    colume12.Add(template.Label);
-                }
-
-                dataSet.Add(colume1CaseIds);
-                dataSet.Add(colume2);
-                dataSet.Add(colume3);
-                dataSet.Add(colume4);
-                dataSet.Add(colume5);
-                dataSet.Add(colume6);
-                dataSet.Add(colume7);
-                dataSet.Add(colume8);
-                dataSet.Add(colume9);
-                dataSet.Add(colume10);
-                dataSet.Add(colume11);
-                dataSet.Add(colume12);
-            }
-            #endregion
-
-            #region fieldValue generate
-            {
-                if (templateId != null)
-                {
-                    MainElement templateData = await _sqlController.TemplateRead((int)templateId).ConfigureAwait(false);
-
-                    List<string> lstReturn = new List<string>();
-                    lstReturn = await GenerateDataSetFromCasesSubSet(lstReturn, templateData.ElementList, "").ConfigureAwait(false);
-
-                    List<string> newRow;
-                    foreach (string set in lstReturn)
-                    {
-                        int fieldId = int.Parse(t.SplitToList(set, 0, false));
-                        string label = t.SplitToList(set, 1, false);
-
-                        List<List<KeyValuePair>> result = await _sqlController.FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData, decimalSeparator, thousandSaperator).ConfigureAwait(false);
-
-                        if (result.Count == 1)
+                        DateTime time = (DateTime)aCase.DoneAt;
+                        DateTime createdAt = (DateTime) aCase.CreatedAt;
+                        if (!utcTime)
                         {
-                            newRow = new List<string>();
-                            newRow.Insert(0, label);
-                            List<KeyValuePair> tempList = result[0];
-                            foreach (int i in caseIds)
-                            {
-                                string value = "";
-                                foreach (KeyValuePair KvP in tempList)
-                                {
-                                    if (KvP.Key == i.ToString())
-                                    {
-                                        value = KvP.Value;
-                                    }
-                                }
-                                newRow.Add(value);
-                            }
-                            dataSet.Add(newRow);
+                            time = TimeZoneInfo.ConvertTimeFromUtc(time, timeZoneInfo);
+                            createdAt = TimeZoneInfo.ConvertTimeFromUtc(createdAt, timeZoneInfo);
                         }
-                        else
+                        colume1CaseIds.Add(aCase.Id.ToString());
+                        caseIds.Add(aCase.Id);
+
+                        colume2.Add(time.ToString("yyyy.MM.dd"));
+                        colume3.Add(time.ToString("HH:mm:ss"));
+                        colume4.Add(time.DayOfWeek.ToString());
+                        colume5.Add(time.Year + "." + cal.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday));
+                        //colume6.Add(time.Year.ToString() + "." + time.ToString("MMMM").Substring(0, 3));
+                        colume6.Add(time.Year + "." + time.ToString("MMMM").AsSpan().Slice(0,3).ToString());
+                        colume7.Add(time.Year.ToString());
+                        colume8.Add(createdAt.ToString("yyyy.MM.dd HH:mm:ss"));
+                        colume9.Add(aCase.Site.Name);
+                        colume10.Add(aCase.Worker.full_name());
+                        colume11.Add(aCase.UnitId.ToString());
+                        colume12.Add(checkList.Label);
+                    }
+
+                    dataSet.Add(colume1CaseIds);
+                    dataSet.Add(colume2);
+                    dataSet.Add(colume3);
+                    dataSet.Add(colume4);
+                    dataSet.Add(colume5);
+                    dataSet.Add(colume6);
+                    dataSet.Add(colume7);
+                    dataSet.Add(colume8);
+                    dataSet.Add(colume9);
+                    dataSet.Add(colume10);
+                    dataSet.Add(colume11);
+                    dataSet.Add(colume12);
+                }
+                #endregion
+
+                #region fieldValue generate
+                {
+                    if (checkListId != null)
+                    {
+
+                        List<string> lstReturn = new List<string>();
+                        lstReturn = await GenerateDataSetFromCasesSubSet(lstReturn, checkListId, "");
+
+                        List<string> newRow;
+                        foreach (string set in lstReturn)
                         {
-                            int option = 0;
-                            Field field = await _sqlController.FieldRead(fieldId).ConfigureAwait(false);
-                            foreach (var lst in result)
+                            int fieldId = int.Parse(t.SplitToList(set, 0, false));
+                            string label = t.SplitToList(set, 1, false);
+
+                            List<List<KeyValuePair>> result = await _sqlController.FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData, decimalSeparator, thousandSaperator).ConfigureAwait(false);
+
+                            if (result.Count == 1)
                             {
                                 newRow = new List<string>();
-                                List<KeyValuePair> fieldKvP = field.KeyValuePairList;
-                                newRow.Insert(0, label + " | " + fieldKvP.ElementAt(option).Value);
+                                newRow.Insert(0, label);
+                                List<KeyValuePair> tempList = result[0];
                                 foreach (int i in caseIds)
                                 {
                                     string value = "";
-                                    foreach (KeyValuePair KvP in lst)
+                                    foreach (KeyValuePair KvP in tempList)
                                     {
                                         if (KvP.Key == i.ToString())
                                         {
@@ -4684,80 +4670,94 @@ namespace eFormCore
                                     newRow.Add(value);
                                 }
                                 dataSet.Add(newRow);
-                                option++;
+                            }
+                            else
+                            {
+                                int option = 0;
+                                Field field = await _sqlController.FieldRead(fieldId).ConfigureAwait(false);
+                                foreach (var lst in result)
+                                {
+                                    newRow = new List<string>();
+                                    List<KeyValuePair> fieldKvP = field.KeyValuePairList;
+                                    newRow.Insert(0, label + " | " + fieldKvP.ElementAt(option).Value);
+                                    foreach (int i in caseIds)
+                                    {
+                                        string value = "";
+                                        foreach (KeyValuePair KvP in lst)
+                                        {
+                                            if (KvP.Key == i.ToString())
+                                            {
+                                                value = KvP.Value;
+                                            }
+                                        }
+                                        newRow.Add(value);
+                                    }
+                                    dataSet.Add(newRow);
+                                    option++;
+                                }
                             }
                         }
                     }
                 }
-            }
-            #endregion
-
-            return dataSet;
-        }
-
-        private async Task<List<string>> GenerateDataSetFromCasesSubSet(List<string> lstReturn, List<Element> elementList, string preLabel)
-        {
-            foreach (Element element in elementList)
-            {
-                string sep = " / ";
-
-                #region if DataElement
-                if (element.GetType() == typeof(DataElement))
-                {
-                    DataElement dataE = (DataElement)element;
-
-                    if (preLabel != "")
-                        preLabel = preLabel + sep + dataE.Label;
-
-                    foreach (FieldContainer dataItemGroup in dataE.DataItemGroupList)
-                    {
-                        foreach (DataItem dataItem in dataItemGroup.DataItemList)
-                        {
-                            if (dataItem.GetType() == typeof(SaveButton))
-                                continue;
-                            if (dataItem.GetType() == typeof(None))
-                                continue;
-
-                            if (preLabel != "")
-                                lstReturn.Add(dataItem.Id + "|" + preLabel.Remove(0, sep.Length) + sep + dataItemGroup.Label + sep + dataItem.Label);
-                            else
-                                lstReturn.Add(dataItem.Id + "|" + dataItemGroup.Label + sep + dataItem.Label);
-                        }
-                    }
-
-                    foreach (DataItem dataItem in dataE.DataItemList)
-                    {
-                        if (dataItem.GetType() == typeof(SaveButton))
-                            continue;
-                        if (dataItem.GetType() == typeof(None))
-                            continue;
-
-                        if (preLabel != "")
-                            lstReturn.Add(dataItem.Id + "|" + preLabel.Remove(0, sep.Length) + sep + dataItem.Label);
-                        else
-                            lstReturn.Add(dataItem.Id + "|" + dataItem.Label);
-                    }
-                }
                 #endregion
 
-                #region if GroupElement
-                if (element.GetType() == typeof(GroupElement))
-                {
-                    GroupElement groupE = (GroupElement)element;
+                return dataSet;
+            }
+        }
 
-                    if (preLabel != "")
+        private async Task<List<string>> GenerateDataSetFromCasesSubSet(List<string> lstReturn, int? checkListId, string preLabel)
+        {
+            string sep = " / ";
+            using (MicrotingDbContext dbContext = dbContextHelper.GetDbContext())
+            {
+                if (checkListId != null)
+                {
+                    if (dbContext.check_lists.Any(x => x.ParentId == checkListId))
                     {
-                        await GenerateDataSetFromCasesSubSet(lstReturn, groupE.ElementList, preLabel + sep + groupE.Label).ConfigureAwait(false);
+                        foreach (check_lists checkList in dbContext.check_lists.Where(x => x.ParentId == checkListId))
+                        {
+                            check_lists parentCheckList = dbContext.check_lists.Single(x => x.Id == checkListId);
+                            if (parentCheckList.ParentId != null)
+                            {
+                                if (preLabel != "")
+                                    preLabel = preLabel + sep + parentCheckList.Label;
+                            }
+                            await GenerateDataSetFromCasesSubSet(lstReturn, checkList.Id, preLabel);
+                        }
                     }
                     else
                     {
-                        await GenerateDataSetFromCasesSubSet(lstReturn, groupE.ElementList, groupE.Label).ConfigureAwait(false);
+                        foreach (fields field in dbContext.fields.Where(x => x.CheckListId == checkListId && x.ParentFieldId == null).OrderBy(x => x.DisplayIndex))
+                        {
+                            if (dbContext.fields.Any(x => x.ParentFieldId == field.Id))
+                            {
+                                foreach (var subField in dbContext.fields.Where(x => x.ParentFieldId == field.Id))
+                                {
+                                    if (field.FieldTypeId != 3 && field.FieldTypeId != 18)
+                                    {
+                                        if (preLabel != "")
+                                            lstReturn.Add(subField.Id + "|" + preLabel + sep + field.Label + sep +
+                                                          subField.Label);
+                                        else
+                                            lstReturn.Add(subField.Id + "|" + field.Label + sep + subField.Label);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (field.FieldTypeId != 3 && field.FieldTypeId != 18)
+                                {
+                                    if (preLabel != "")
+                                        lstReturn.Add(field.Id + "|" + preLabel + sep + field.Label);
+                                    else
+                                        lstReturn.Add(field.Id + "|" + field.Label);
+                                }
+                            }
+                        }
                     }
                 }
-                #endregion
+                return lstReturn;
             }
-
-            return lstReturn;
         }
 
         private async Task<List<string>> PdfValidate(string pdfString, int pdfId)
