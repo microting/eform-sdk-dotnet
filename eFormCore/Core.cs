@@ -1868,7 +1868,7 @@ namespace eFormCore
                     if (!pathAndName.Contains(".csv"))
                         pathAndName = pathAndName + ".csv";
 
-                    TextWriter textWriter = new StreamWriter(pathAndName, true);
+                    TextWriter textWriter = new StreamWriter(pathAndName, true, Encoding.UTF8);
                     textWriter.Write(stringBuilder.ToString());
                     textWriter.Flush();
                     textWriter.Close();
