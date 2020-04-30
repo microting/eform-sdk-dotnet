@@ -4714,7 +4714,7 @@ namespace eFormCore
                 {
                     if (dbContext.check_lists.Any(x => x.ParentId == checkListId))
                     {
-                        foreach (check_lists checkList in dbContext.check_lists.Where(x => x.ParentId == checkListId))
+                        foreach (check_lists checkList in dbContext.check_lists.Where(x => x.ParentId == checkListId).OrderBy(x => x.DisplayIndex))
                         {
                             check_lists parentCheckList = dbContext.check_lists.Single(x => x.Id == checkListId);
                             if (parentCheckList.ParentId != null)
@@ -4731,7 +4731,7 @@ namespace eFormCore
                         {
                             if (dbContext.fields.Any(x => x.ParentFieldId == field.Id))
                             {
-                                foreach (var subField in dbContext.fields.Where(x => x.ParentFieldId == field.Id))
+                                foreach (var subField in dbContext.fields.Where(x => x.ParentFieldId == field.Id).OrderBy(x => x.DisplayIndex))
                                 {
                                     if (field.FieldTypeId != 3 && field.FieldTypeId != 18)
                                     {
