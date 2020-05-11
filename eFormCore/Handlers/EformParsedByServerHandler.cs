@@ -25,6 +25,7 @@ SOFTWARE.
 using System.Threading.Tasks;
 using eFormCore;
 using Microting.eForm.Communication;
+using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Messages;
@@ -52,6 +53,8 @@ namespace Microting.eForm.Handlers
         {
             await sqlController.NotificationCreate(message.NotificationId, message.MicrotringUUID, Constants.Notifications.EformParsedByServer);
 
+            CaseDto cDto = await sqlController.CaseReadByMUId(message.MicrotringUUID);
+            await core.FireHandleCaseProcessedByServer(cDto);
             // Potentially send new message onto local queue
         }
     }

@@ -34,7 +34,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
     {
         
         [ForeignKey("unit")]
-        public int UnitId { get; set; }
+        public int? UnitId { get; set; }
         
         [ForeignKey("site")]
         public int SiteId { get; set; }
@@ -70,8 +70,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public async Task Create(MicrotingDbContext dbContext)
         {
-            CreatedAt = DateTime.Now;
-            UpdatedAt = DateTime.Now;
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
             Version = 1;
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             dbContext.answers.Add(this);
@@ -102,7 +102,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                answer.UpdatedAt = DateTime.Now;
+                answer.UpdatedAt = DateTime.UtcNow;
                 answer.Version += 1;
 
                 dbContext.answer_versions.Add(MapVersions(answer));
@@ -123,7 +123,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             
             if (dbContext.ChangeTracker.HasChanges())
             {
-                answer.UpdatedAt = DateTime.Now;
+                answer.UpdatedAt = DateTime.UtcNow;
                 answer.Version += 1;
 
                 dbContext.answer_versions.Add(MapVersions(answer));

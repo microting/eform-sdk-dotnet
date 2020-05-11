@@ -50,8 +50,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public async Task Create(MicrotingDbContext dbContext)
         {
-            CreatedAt = DateTime.Now;
-            UpdatedAt = DateTime.Now;
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
             Version = 1;
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             
@@ -77,7 +77,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                folder.UpdatedAt = DateTime.Now;
+                folder.UpdatedAt = DateTime.UtcNow;
                 folder.Version += 1;
 
                 dbContext.folder_versions.Add(MapFolderVersions(dbContext, folder));
@@ -98,7 +98,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                folder.UpdatedAt = DateTime.Now;
+                folder.UpdatedAt = DateTime.UtcNow;
                 folder.Version += 1;
 
                 dbContext.folder_versions.Add(MapFolderVersions(dbContext, folder));

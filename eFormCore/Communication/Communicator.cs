@@ -221,7 +221,6 @@ namespace Microting.eForm.Communication
         /// <param name="siteId">Your device's Microting ID.</param>
         public Task<string> Delete(string eFormId, int siteId)
         {
-
             log.LogEverything("Communicator.Delete", "called");
             log.LogVariable("Communicator.Delete", nameof(eFormId), eFormId);
             log.LogVariable("Communicator.Delete", nameof(siteId), siteId);
@@ -516,7 +515,6 @@ namespace Microting.eForm.Communication
         {
             log.LogEverything("Communicator.OrganizationLoadAllFromRemote", "called");
             log.LogVariable("Communicator.OrganizationLoadAllFromRemote", nameof(token), token);
-
             IHttp specialHttp;
             if (token == "abc1234567890abc1234567890abcdef")
             {
@@ -779,7 +777,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> EntitySelectItemCreate(string entitySearchGroupId, string name, int displayOrder, string ownUUID)
         {
-            log.LogEverything("Communicator.EntitySelectItemCreate", "called"); 
+            log.LogEverything("Communicator.EntitySelectItemCreate", "called");
             log.LogVariable("Communicator.EntitySelectItemCreate", nameof(entitySearchGroupId), entitySearchGroupId);
             log.LogVariable("Communicator.EntitySelectItemCreate", nameof(name), name);
             log.LogVariable("Communicator.EntitySelectItemCreate", nameof(displayOrder), displayOrder);
@@ -896,7 +894,7 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
         {
-            log.LogEverything(t.GetMethodName("Communicator"), "called");
+            log.LogEverything("Communicator.SetSurveyConfiguration", "called");
 
             try
             {
@@ -904,13 +902,13 @@ namespace Microting.eForm.Communication
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName("Communicator") + " failed", ex);
+                throw new Exception("Communicator.SetSurveyConfiguration" + " failed", ex);
             }
         }
 
         public async Task<string> GetAllSurveyConfigurations()
         {
-            log.LogEverything(t.GetMethodName("Communicator"), "called");
+            log.LogEverything("Communicator.GetAllSurveyConfigurations", "called");
 
             try
             {
@@ -918,13 +916,13 @@ namespace Microting.eForm.Communication
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName("Communicator") + " failed", ex);
+                throw new Exception("Communicator.GetAllSurveyConfigurations" + " failed", ex);
             }
         }
 
         public async Task<string> GetSurveyConfiguration(int id)
         {
-            log.LogEverything(t.GetMethodName("Communicator"), "called");
+            log.LogEverything("Communicator.GetSurveyConfiguration", "called");
 
             try
             {
@@ -932,7 +930,7 @@ namespace Microting.eForm.Communication
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName("Communicator") + " failed", ex);
+                throw new Exception("Communicator.GetSurveyConfiguration" + " failed", ex);
             }
         } 
         
@@ -942,7 +940,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> GetAllQuestionSets()
         {
-            log.LogEverything(t.GetMethodName("Communicator"), "called");
+            log.LogEverything("Communicator.GetAllQuestionSets", "called");
 
             try
             {
@@ -950,13 +948,13 @@ namespace Microting.eForm.Communication
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName("Communicator") + " failed", ex);
+                throw new Exception("Communicator.GetAllQuestionSets" + " failed", ex);
             }
         }
 
         public async Task<string> GetQuestionSet(int id)
         {
-            log.LogEverything(t.GetMethodName("Communicator"), "called");
+            log.LogEverything("Communicator.GetQuestionSet", "called");
 
             try
             {
@@ -964,7 +962,7 @@ namespace Microting.eForm.Communication
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName("Communicator") + " failed", ex);
+                throw new Exception("Communicator.GetQuestionSet" + " failed", ex);
             }
         }
         
@@ -974,7 +972,7 @@ namespace Microting.eForm.Communication
         
         public async Task<string> GetLastAnswer(int questionSetId, int lastAnswerId)
         {
-            log.LogEverything(t.GetMethodName("Communicator"), "called");
+            log.LogEverything("Communicator.GetLastAnswer", "called");
 
             try
             {
@@ -982,7 +980,7 @@ namespace Microting.eForm.Communication
             }
             catch (Exception ex)
             {
-                throw new Exception(t.GetMethodName("Communicator") + " failed", ex);
+                throw new Exception("Communicator.GetLastAnswer" + " failed", ex);
             }
         }
         

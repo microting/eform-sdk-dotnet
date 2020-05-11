@@ -1206,8 +1206,8 @@ namespace Microting.eForm.Infrastructure
                         if (fieldV == null)
                         {
                             fieldV = new field_values();
-                            fieldV.CreatedAt = DateTime.Now;
-                            fieldV.UpdatedAt = DateTime.Now;
+                            fieldV.CreatedAt = DateTime.UtcNow;
+                            fieldV.UpdatedAt = DateTime.UtcNow;
 
                             fieldV.Value = null;
 
@@ -1318,7 +1318,7 @@ namespace Microting.eForm.Infrastructure
 
                         await match.Update(db).ConfigureAwait(false);
 //                        match.Version += 1;
-//                        match.UpdatedAt = DateTime.Now;
+//                        match.UpdatedAt = DateTime.UtcNow;
 //                        //TODO! THIS part need to be redone in some form in EF Core!
 //                        //db.cases.AddOrUpdate(match);
 //                        db.SaveChanges();
@@ -2215,7 +2215,7 @@ namespace Microting.eForm.Infrastructure
                 {
                     notifications aNoti = await db.notifications.SingleAsync(x => x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId);
                     aNoti.WorkflowState = workflowState;
-//                    aNoti.UpdatedAt = DateTime.Now;
+//                    aNoti.UpdatedAt = DateTime.UtcNow;
                     aNoti.Exception = exception;
                     aNoti.Stacktrace = stacktrace;
                     await aNoti.Update(db).ConfigureAwait(false);
@@ -2939,16 +2939,16 @@ namespace Microting.eForm.Infrastructure
                             Version = dbCase.Version,
                             WorkerName = worker.FirstName + " " + worker.LastName,
                             WorkflowState = dbCase.WorkflowState,
-                            FieldValue1 = dbCase.FieldValue1,
-                            FieldValue2 = dbCase.FieldValue2,
-                            FieldValue3 = dbCase.FieldValue3,
-                            FieldValue4 = dbCase.FieldValue4,
-                            FieldValue5 = dbCase.FieldValue5,
-                            FieldValue6 = dbCase.FieldValue6,
-                            FieldValue7 = dbCase.FieldValue7,
-                            FieldValue8 = dbCase.FieldValue8,
-                            FieldValue9 = dbCase.FieldValue9,
-                            FieldValue10 = dbCase.FieldValue10
+                            FieldValue1 = dbCase.FieldValue1 == null || dbCase.FieldValue1 == "null" ? "" : dbCase.FieldValue1,
+                            FieldValue2 = dbCase.FieldValue2 == null || dbCase.FieldValue2 == "null" ? "" : dbCase.FieldValue2,
+                            FieldValue3 = dbCase.FieldValue3 == null || dbCase.FieldValue3 == "null" ? "" : dbCase.FieldValue3,
+                            FieldValue4 = dbCase.FieldValue4 == null || dbCase.FieldValue4 == "null" ? "" : dbCase.FieldValue4,
+                            FieldValue5 = dbCase.FieldValue5 == null || dbCase.FieldValue5 == "null" ? "" : dbCase.FieldValue5,
+                            FieldValue6 = dbCase.FieldValue6 == null || dbCase.FieldValue6 == "null" ? "" : dbCase.FieldValue6,
+                            FieldValue7 = dbCase.FieldValue7 == null || dbCase.FieldValue7 == "null" ? "" : dbCase.FieldValue7,
+                            FieldValue8 = dbCase.FieldValue8 == null || dbCase.FieldValue8 == "null" ? "" : dbCase.FieldValue8,
+                            FieldValue9 = dbCase.FieldValue9 == null || dbCase.FieldValue9 == "null" ? "" : dbCase.FieldValue9,
+                            FieldValue10 = dbCase.FieldValue10 == null || dbCase.FieldValue10 == "null" ? "" : dbCase.FieldValue10
                         };
 
                         rtrnLst.Add(nCase);
@@ -3046,7 +3046,7 @@ namespace Microting.eForm.Infrastructure
                     if (lstMatchs == null)
                         return false;
 
-                    lstMatchs.UpdatedAt = DateTime.Now;
+                    lstMatchs.UpdatedAt = DateTime.UtcNow;
                     lstMatchs.Version = lstMatchs.Version + 1;
                     List<int?> case_fields = new List<int?>();
                     check_lists cl = lstMatchs.CheckList;
@@ -3381,7 +3381,7 @@ namespace Microting.eForm.Infrastructure
                     if (site != null)
                     {
 //                        site.Version = site.Version + 1;
-//                        site.UpdatedAt = DateTime.Now;
+//                        site.UpdatedAt = DateTime.UtcNow;
 
                         site.Name = name;
                         await site.Update(db).ConfigureAwait(false);
@@ -3424,7 +3424,7 @@ namespace Microting.eForm.Infrastructure
                     {
                         await site.Delete(db);
 //                        site.Version = site.Version + 1;
-//                        site.UpdatedAt = DateTime.Now;
+//                        site.UpdatedAt = DateTime.UtcNow;
 
 //                        site.WorkflowState = Constants.Constants.WorkflowStates.Removed;
 
@@ -3685,8 +3685,8 @@ namespace Microting.eForm.Infrastructure
                     site_workers siteWorker = new site_workers();
 //                    site_worker.WorkflowState = Constants.Constants.WorkflowStates.Created;
 //                    site_worker.Version = 1;
-//                    site_worker.CreatedAt = DateTime.Now;
-//                    site_worker.UpdatedAt = DateTime.Now;
+//                    site_worker.CreatedAt = DateTime.UtcNow;
+//                    site_worker.UpdatedAt = DateTime.UtcNow;
                     siteWorker.MicrotingUid = microtingUId;
                     siteWorker.SiteId = localSiteId;
                     siteWorker.WorkerId = localWorkerId;
@@ -3773,7 +3773,7 @@ namespace Microting.eForm.Infrastructure
                     if (site_worker != null)
                     {
 //                        site_worker.Version = site_worker.Version + 1;
-//                        site_worker.UpdatedAt = DateTime.Now;
+//                        site_worker.UpdatedAt = DateTime.UtcNow;
 
                         site_worker.SiteId = siteId;
                         site_worker.WorkerId = workerId;
@@ -3817,7 +3817,7 @@ namespace Microting.eForm.Infrastructure
                     {
                         await site_worker.Delete(db);
 //                        site_worker.Version = site_worker.Version + 1;
-//                        site_worker.UpdatedAt = DateTime.Now;
+//                        site_worker.UpdatedAt = DateTime.UtcNow;
 
 //                        site_worker.WorkflowState = Constants.Constants.WorkflowStates.Removed;
 
@@ -5076,8 +5076,8 @@ namespace Microting.eForm.Infrastructure
                 using (var db = GetContext())
                 {
                     check_lists cl = new check_lists();
-                    cl.CreatedAt = DateTime.Now;
-                    cl.UpdatedAt = DateTime.Now;
+                    cl.CreatedAt = DateTime.UtcNow;
+                    cl.UpdatedAt = DateTime.UtcNow;
                     cl.Label = groupElement.Label;
                     if (groupElement.Description != null)
                         cl.Description = groupElement.Description.InderValue;
@@ -5111,8 +5111,8 @@ namespace Microting.eForm.Infrastructure
                 using (var db = GetContext())
                 {
                     check_lists cl = new check_lists();
-                    cl.CreatedAt = DateTime.Now;
-                    cl.UpdatedAt = DateTime.Now;
+                    cl.CreatedAt = DateTime.UtcNow;
+                    cl.UpdatedAt = DateTime.UtcNow;
                     cl.Label = dataElement.Label;
                     if (dataElement.Description != null)
                         cl.Description = dataElement.Description.InderValue;
@@ -5165,8 +5165,8 @@ namespace Microting.eForm.Infrastructure
 //                    field.DisplayIndex = fieldGroup.DisplayOrder;
 //                    field.Label = fieldGroup.Label;
 //
-//                    field.CreatedAt = DateTime.Now;
-//                    field.UpdatedAt = DateTime.Now;
+//                    field.CreatedAt = DateTime.UtcNow;
+//                    field.UpdatedAt = DateTime.UtcNow;
 //                    field.WorkflowState = Constants.Constants.WorkflowStates.Created;
 //                    field.CheckListId = elementId;
 //                    field.FieldTypeId = fieldTypeId;
@@ -5227,8 +5227,8 @@ namespace Microting.eForm.Infrastructure
                     field.ReadOnly = t.Bool(dataItem.ReadOnly);
                     field.Dummy = t.Bool(dataItem.Dummy);
 
-                    field.CreatedAt = DateTime.Now;
-                    field.UpdatedAt = DateTime.Now;
+                    field.CreatedAt = DateTime.UtcNow;
+                    field.UpdatedAt = DateTime.UtcNow;
                     field.WorkflowState = Constants.Constants.WorkflowStates.Created;
                     field.CheckListId = elementId;
                     field.FieldTypeId = fieldTypeId;

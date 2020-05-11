@@ -120,8 +120,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public async Task Create(MicrotingDbContext dbContext)
         {
-            CreatedAt = DateTime.Now;
-            UpdatedAt = DateTime.Now;
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
             Version = 1;
             WorkflowState = Constants.Constants.WorkflowStates.Created;
 
@@ -175,7 +175,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             if (dbContext.ChangeTracker.HasChanges())
             {
-                checkList.UpdatedAt = DateTime.Now;
+                checkList.UpdatedAt = DateTime.UtcNow;
                 checkList.Version += 1;
 
                 dbContext.check_list_versions.Add(MapCheckListVersions(checkList));
@@ -196,7 +196,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             
             if (dbContext.ChangeTracker.HasChanges())
             {
-                checkList.UpdatedAt = DateTime.Now;
+                checkList.UpdatedAt = DateTime.UtcNow;
                 checkList.Version += 1;
 
                 dbContext.check_list_versions.Add(MapCheckListVersions(checkList));

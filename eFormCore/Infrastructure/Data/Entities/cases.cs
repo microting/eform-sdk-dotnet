@@ -93,8 +93,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
             Version = 1;
-            CreatedAt = DateTime.Now;
-            UpdatedAt = DateTime.Now;
+            CreatedAt = DateTime.UtcNow;
+            UpdatedAt = DateTime.UtcNow;
 
             dbContext.cases.Add(this);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -138,7 +138,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             if (dbContext.ChangeTracker.HasChanges())
             {
                 cases.Version += 1;
-                cases.UpdatedAt = DateTime.Now;
+                cases.UpdatedAt = DateTime.UtcNow;
 
                 dbContext.case_versions.Add(MapVersions(cases));
                 await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -159,7 +159,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             if (dbContext.ChangeTracker.HasChanges())
             {
                 cases.Version += 1;
-                cases.UpdatedAt = DateTime.Now;
+                cases.UpdatedAt = DateTime.UtcNow;
 
                 dbContext.case_versions.Add(MapVersions(cases));
                 await dbContext.SaveChangesAsync().ConfigureAwait(false);
