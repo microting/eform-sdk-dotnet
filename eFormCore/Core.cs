@@ -76,6 +76,8 @@ namespace eFormCore
         public event EventHandler HandleCaseCreated;
         public event EventHandler HandleCaseRetrived;
         public event EventHandler HandleCaseCompleted;
+        public event EventHandler HandleeFormProcessedByServer;
+        public event EventHandler HandleeFormProsessingError;
         public event EventHandler HandleCaseDeleted;
         public event EventHandler HandleFileDownloaded;
         public event EventHandler HandleSiteActivated;
@@ -5299,6 +5301,32 @@ namespace eFormCore
             string methodName = "Core.FireHandleSiteActivated";
             try { HandleSiteActivated?.Invoke(notification, EventArgs.Empty); }
             catch { log.LogWarning(methodName, "HandleSiteActivated event's external logic suffered an Expection"); }
+        }
+
+        public async Task FireHandleCaseProcessedByServer(CaseDto caseDto)
+        {
+            string methodName = "Core.FireHandleCaseProcessedByServer";
+            log.LogStandard(methodName, $"HandleCaseProcessedByServer for MicrotingUId {caseDto.MicrotingUId}");
+
+            try { HandleeFormProcessedByServer.Invoke(caseDto, EventArgs.Empty); }
+            catch (Exception ex)
+            {
+                log.LogWarning(methodName, "HandleCaseProcessedByServer event's external logic suffered an Expection");
+                throw ex;
+            }
+        }
+
+        public async Task FireHandleCaseProcessingError(CaseDto caseDto)
+        {
+            string methodName = "Core.FireHandleCaseProcessingError";
+            log.LogStandard(methodName, $"HandleCaseProcessingError for MicrotingUId {caseDto.MicrotingUId}");
+
+            try { HandleeFormProsessingError.Invoke(caseDto, EventArgs.Empty); }
+            catch (Exception ex)
+            {
+                log.LogWarning(methodName, "HandleCaseProcessingError event's external logic suffered an Expection");
+                throw ex;
+            }
         }
 
 		public async Task FireHandleCaseRetrived(CaseDto caseDto)
