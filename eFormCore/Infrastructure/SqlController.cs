@@ -326,6 +326,7 @@ namespace Microting.eForm.Infrastructure
                     {
                         List<SiteNameDto> sites = new List<SiteNameDto>();
                         List<check_list_sites> check_list_sites = null;
+                        int? folderId = null;
 
                         if (siteWorkflowState == Constants.Constants.WorkflowStates.Removed)
                             check_list_sites = checkList.CheckListSites.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed).ToList();
@@ -338,6 +339,7 @@ namespace Microting.eForm.Infrastructure
                             {
                                 SiteNameDto site = new SiteNameDto((int)check_list_site.Site.MicrotingUid, check_list_site.Site.Name, check_list_site.Site.CreatedAt, check_list_site.Site.UpdatedAt);
                                 sites.Add(site);
+                                folderId = check_list_site.FolderId;
                             } catch (Exception innerEx)
                             {
                                 log.LogException(methodName, "could not add the site to the sites for site.Id : " + check_list_site.Site.Id.ToString() + " and got exception : " + innerEx.Message, innerEx);
@@ -346,7 +348,12 @@ namespace Microting.eForm.Infrastructure
                             
                         }
 
-                        bool hasCases = db.cases.Where(x => x.CheckListId == checkList.Id).AsQueryable().Count() != 0;
+                        var cases = db.cases.Where(x => x.CheckListId == checkList.Id).AsQueryable();
+                        bool hasCases = cases.Count() != 0;
+                        if (hasCases)
+                        {
+                            folderId = cases.Last().FolderId;
+                        }
                         
                         #region loadtags
                         List<taggings> tagging_matches = checkList.Taggings.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList();
@@ -359,7 +366,22 @@ namespace Microting.eForm.Infrastructure
                         #endregion
                         try
                         {
-                            Template_Dto templateDto = new Template_Dto(checkList.Id, checkList.CreatedAt, checkList.UpdatedAt, checkList.Label, checkList.Description, (int)checkList.Repeated, checkList.FolderName, checkList.WorkflowState, sites, hasCases, checkList.DisplayIndex, check_list_tags);
+                            Template_Dto templateDto = new Template_Dto()
+                            {
+                                Id = checkList.Id,
+                                CreatedAt = checkList.CreatedAt,
+                                UpdatedAt = checkList.UpdatedAt,
+                                Label = checkList.Label,
+                                Description = checkList.Description,
+                                Repeated = (int)checkList.Repeated,
+                                FolderName = checkList.FolderName,
+                                WorkflowState = checkList.WorkflowState,
+                                DeployedSites = sites,
+                                HasCases = hasCases,
+                                DisplayIndex = checkList.DisplayIndex,
+                                Tags = check_list_tags,
+                                FolderId = folderId
+                            };
                             templateList.Add(templateDto);
                         }
                         catch (Exception innerEx)
@@ -607,7 +629,7 @@ namespace Microting.eForm.Infrastructure
         #region public (pre)case
 
         //TODO
-        public async Task CheckListSitesCreate(int checkListId, int siteUId, int microtingUId)
+        public async Task CheckListSitesCreate(int checkListId, int siteUId, int microtingUId, int? folderId)
         {
             string methodName = "SqlController.CheckListSitesCreate";
             try
@@ -621,6 +643,7 @@ namespace Microting.eForm.Infrastructure
                     cLS.LastCheckId = 0;
                     cLS.MicrotingUid = microtingUId;
                     cLS.SiteId = siteId;
+                    cLS.FolderId = folderId;
                     await cLS.Create(db).ConfigureAwait(false);
                 }
             }
@@ -668,7 +691,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="createdAt"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<int> CaseCreate(int checkListId, int siteUId, int? microtingUId, int? microtingCheckId, string caseUId, string custom, DateTime createdAt)
+        public async Task<int> CaseCreate(int checkListId, int siteUId, int? microtingUId, int? microtingCheckId, string caseUId, string custom, DateTime createdAt, int? folderId)
         {
             string methodName = "SqlController.CaseCreate";
             log.LogStandard(methodName, "called");
@@ -698,7 +721,8 @@ namespace Microting.eForm.Infrastructure
                             MicrotingCheckUid = microtingCheckId,
                             CaseUid = caseUId,
                             SiteId = siteId,
-                            Custom = custom
+                            Custom = custom,
+                            FolderId = folderId
                         };
                         
                         await aCase.Create(db).ConfigureAwait(false);
@@ -713,6 +737,7 @@ namespace Microting.eForm.Infrastructure
                         aCase.CaseUid = caseUId;
                         aCase.SiteId = siteId;
                         aCase.Custom = custom;
+                        aCase.FolderId = folderId;
                         await aCase.Update(db).ConfigureAwait(false);
                     }
                     log.LogStandard(methodName, $"aCase is created in db");
@@ -936,7 +961,7 @@ namespace Microting.eForm.Infrastructure
                     try //if a reversed case, case needs to be created
                     {
                         check_list_sites cLS = await db.check_list_sites.SingleAsync(x => x.MicrotingUid == int.Parse(response.Value));
-                        int caseId = await CaseCreate((int)cLS.CheckListId, (int)cLS.Site.MicrotingUid, int.Parse(response.Value), response.Checks[xmlIndex].Id, "ReversedCase", "", DateTime.Now);
+                        int caseId = await CaseCreate((int)cLS.CheckListId, (int)cLS.Site.MicrotingUid, int.Parse(response.Value), response.Checks[xmlIndex].Id, "ReversedCase", "", DateTime.Now, cLS.FolderId);
                         responseCase = await db.cases.SingleAsync(x => x.Id == caseId);
                     }
                     catch //already created case Id retrived

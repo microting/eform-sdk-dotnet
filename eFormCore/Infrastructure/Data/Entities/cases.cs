@@ -81,6 +81,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public string FieldValue10 { get; set; }
 
+        [ForeignKey("folder")]
+        public int? FolderId { get; set; }
+
         public virtual check_lists CheckList { get; set; }
 
         public virtual sites Site { get; set; }
@@ -88,6 +91,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual units Unit { get; set; }
 
         public virtual workers Worker { get; set; }
+
+        public virtual folders Folder { get; set; }
 
         public async Task Create(MicrotingDbContext dbContext) 
         {
@@ -133,6 +138,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             cases.MicrotingUid = MicrotingUid;
             cases.WorkerId = WorkerId;
             cases.MicrotingCheckUid = MicrotingCheckUid;
+            cases.FolderId = FolderId;
             cases.WorkflowState = WorkflowState; // TODO extend tests to include WorkflowState
 
             if (dbContext.ChangeTracker.HasChanges())
@@ -195,7 +201,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 FieldValue10 = aCase.FieldValue10,
                 Custom = aCase.Custom,
                 CaseUid = aCase.CaseUid,
-                CaseId = aCase.Id
+                CaseId = aCase.Id,
+                FolderId = aCase.FolderId
             };
         }
     }

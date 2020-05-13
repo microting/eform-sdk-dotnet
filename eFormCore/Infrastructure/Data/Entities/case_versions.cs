@@ -74,5 +74,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public string FieldValue9 { get; set; }
 
         public string FieldValue10 { get; set; }
+
+        public int? FolderId { get; set; }
     }
 }

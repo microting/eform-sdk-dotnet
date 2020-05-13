@@ -1093,7 +1093,7 @@ namespace eFormCore
         {
             List<int> siteUids = new List<int>();
             siteUids.Add(siteUid);
-            List<int> lst = await CaseCreate(mainElement, caseUId, siteUids, "").ConfigureAwait(false);
+            List<int> lst = await CaseCreate(mainElement, caseUId, siteUids, "", null).ConfigureAwait(false);
 
             try
             {
@@ -1112,7 +1112,7 @@ namespace eFormCore
         /// <param name="caseUId">NEEDS TO BE UNIQUE IF ASSIGNED. The unique identifier that you can assign yourself to the set of case(s). If used (not blank or null), the cases are connected. Meaning that if one is completed, all in the set is retracted. If you wish to use caseUId and not have the cases connected, use this method multiple times, each with a unique caseUId</param>
         /// <param name="siteIds">List of siteIds that case(s) will be sent to</param>
         /// <param name="custom">Custom extended parameter</param>
-        public async Task<List<int>> CaseCreate(MainElement mainElement, string caseUId, List<int> siteUids, string custom)
+        public async Task<List<int>> CaseCreate(MainElement mainElement, string caseUId, List<int> siteUids, string custom, int? folderId)
         {
             string methodName = "Core.CaseCreate";
             try
@@ -1153,9 +1153,9 @@ namespace eFormCore
                         int mUId = await SendXml(mainElement, siteUid);
 
                         if (mainElement.Repeated == 1)
-                            await _sqlController.CaseCreate(mainElement.Id, siteUid, mUId, null, caseUId, custom, DateTime.Now).ConfigureAwait(false);
+                            await _sqlController.CaseCreate(mainElement.Id, siteUid, mUId, null, caseUId, custom, DateTime.Now, folderId).ConfigureAwait(false);
                         else
-                            await _sqlController.CheckListSitesCreate(mainElement.Id, siteUid, mUId).ConfigureAwait(false);
+                            await _sqlController.CheckListSitesCreate(mainElement.Id, siteUid, mUId, folderId).ConfigureAwait(false);
 
                         CaseDto cDto = await _sqlController.CaseReadByMUId(mUId);
                         //InteractionCaseUpdate(cDto);
