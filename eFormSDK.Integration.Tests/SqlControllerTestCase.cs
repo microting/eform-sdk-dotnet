@@ -91,7 +91,7 @@ namespace eFormSDK.Integration.Tests
         
 
             // Act
-            int matches = await sut.CaseCreate(cl1.Id, (int)site1.MicrotingUid, microtingUId, microtingCheckId, "", "", c1_ca);
+            int matches = await sut.CaseCreate(cl1.Id, (int)site1.MicrotingUid, microtingUId, microtingCheckId, "", "", c1_ca, null);
             List<check_list_sites> checkListSiteResult1 = dbContext.check_list_sites.AsNoTracking().ToList();
             var versionedMatches1 = dbContext.check_list_site_versions.AsNoTracking().ToList();
 
