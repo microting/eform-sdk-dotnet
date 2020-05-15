@@ -162,7 +162,7 @@ namespace eFormSDK.Integration.Tests
                 "Type1", "Push", "TextForBody", false,
                 CElement.ElementList, "Blue");
             // Act
-            var match = await sut.CaseCreate(main, "", (int)site.MicrotingUid);
+            var match = await sut.CaseCreate(main, "", (int)site.MicrotingUid, null);
             // Assert
              Assert.NotNull(match);
         }

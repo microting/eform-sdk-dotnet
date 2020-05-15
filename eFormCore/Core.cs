@@ -1089,11 +1089,11 @@ namespace eFormCore
         /// <param name="caseUId">Optional own id</param>
         /// <param name="siteUid">API id of the site to deploy the eForm at</param>
         /// <returns>Microting API ID</returns>
-        public async Task<int?> CaseCreate(MainElement mainElement, string caseUId, int siteUid)
+        public async Task<int?> CaseCreate(MainElement mainElement, string caseUId, int siteUid, int? folderId)
         {
             List<int> siteUids = new List<int>();
             siteUids.Add(siteUid);
-            List<int> lst = await CaseCreate(mainElement, caseUId, siteUids, "", null).ConfigureAwait(false);
+            List<int> lst = await CaseCreate(mainElement, caseUId, siteUids, "", folderId).ConfigureAwait(false);
 
             try
             {
