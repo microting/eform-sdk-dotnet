@@ -2220,7 +2220,8 @@ namespace eFormCore
                         }
                         break;
                     case Constants.FieldTypes.CheckBox:
-                        valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable.ToLower() == "checked" ? "&#10004;" : "";
+                        valuePairs[$"F_{fieldValue.FieldId}"] = !string.IsNullOrEmpty(fieldValue.ValueReadable) ? (
+                            fieldValue.ValueReadable.ToLower() == "checked" ? "&#10004;" : "") : "";
                         break;
                     case Constants.FieldTypes.FieldGroup:
                         break;
