@@ -56,7 +56,7 @@ namespace Microting.eForm.Communication
 
         #region public
         #region public API
-        public async Task<string> Post(string xmlData, string siteId)
+        public async Task<string> Post(string xmlData, string siteId, string contentType = "application/x-www-form-urlencoded")
         {
             await Task.Run(() => { });
             if (xmlData.Contains("throw new Exception"))

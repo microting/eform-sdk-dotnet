@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -274,6 +275,18 @@ namespace Microting.eForm.Infrastructure.Models
             }
         }
 
+        public MainElement JsonToClass(string json)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<MainElement>(json);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("MainElement failed, to convert Json", ex);
+            }
+        }
+
         public string ClassToXml()
         {
             try
@@ -286,6 +299,19 @@ namespace Microting.eForm.Infrastructure.Models
                     xmlStr = writer.ToString();
                 }
                 return xmlStr;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("MainElement failed to convert Class", ex);
+            }
+        }
+
+        public string ClassToJson()
+        {
+            try
+            {
+                return JsonConvert.SerializeObject(this);
+                
             }
             catch (Exception ex)
             {

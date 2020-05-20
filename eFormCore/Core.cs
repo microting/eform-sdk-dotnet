@@ -684,6 +684,59 @@ namespace eFormCore
             }
         }
 
+        /// <summary>
+        /// Converts XML from ex. eForm Builder or other sources, into a MainElement
+        /// </summary>
+        /// <param name="json">json string to be converted</param>
+        public MainElement TemplateFromJson(string json)
+        {
+            if (string.IsNullOrEmpty(json))
+                throw new ArgumentNullException("json cannot be null or empty");
+            string methodName = "Core.TemplateFromXml";
+            try
+            {
+                log.LogStandard(methodName, "called");
+                log.LogEverything(methodName, "json to transform:");
+                log.LogEverything(methodName, json);
+
+                #region xmlString = corrected xml if needed
+                // check with json Payload
+                //string temp = t.Locate(xmlString, "<DoneButtonDisabled>", "</DoneButtonDisabled>");
+                //if (temp == "false")
+                //{
+                //    xmlString = xmlString.Replace("DoneButtonDisabled", "DoneButtonEnabled");
+                //    xmlString = xmlString.Replace("<DoneButtonEnabled>false", "<DoneButtonEnabled>true");
+                //}
+                //if (temp == "true")
+                //{
+                //    xmlString = xmlString.Replace("DoneButtonDisabled", "DoneButtonEnabled");
+                //    xmlString = xmlString.Replace("<DoneButtonEnabled>true", "<DoneButtonEnabled>false");
+                //}
+                #endregion
+
+                MainElement mainElement = new MainElement();
+                mainElement = mainElement.JsonToClass(json);
+
+                //XML HACK
+                mainElement.CaseType = "";
+                mainElement.PushMessageTitle = "";
+                mainElement.PushMessageBody = "";
+                if (mainElement.Repeated < 1)
+                {
+                    log.LogCritical(methodName, "mainElement.Repeated = 1 // enforced");
+                    mainElement.Repeated = 1;
+                }
+
+                return mainElement;
+            }
+            catch (Exception ex)
+            {
+                log.LogException(methodName, "failed", ex);
+                throw new Exception("Could not parse XML, got error: " + ex.Message, ex);
+            }
+        }
+
+
         public async Task<List<string>> TemplateValidation(MainElement mainElement)
         {
             string methodName = "Core.TemplateValidation";
@@ -1151,7 +1204,7 @@ namespace eFormCore
 
                     foreach (int siteUid in siteUids)
                     {
-                        int mUId = await SendXml(mainElement, siteUid);
+                        int mUId = await SendJson(mainElement, siteUid);
 
                         if (mainElement.Repeated == 1)
                             await _sqlController.CaseCreate(mainElement.Id, siteUid, mUId, null, caseUId, custom, DateTime.Now).ConfigureAwait(false);
@@ -4559,6 +4612,30 @@ namespace eFormCore
             }
 
             throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + xmlStrResponse);
+        }
+
+        private async Task<int> SendJson(MainElement mainElement, int siteId)
+        {
+            string methodName = "Core.SendJson";
+            log.LogEverything(methodName, "siteId:" + siteId + ", requested sent eForm");
+
+            string request = mainElement.ClassToJson();
+
+            log.LogEverything(methodName, "siteId:" + siteId + ", ClassToJson done");
+            string jsonStringResponse = await _communicator.PostJson(request, siteId);
+            log.LogEverything(methodName, "siteId:" + siteId + ", PostJson done");
+
+            Response response = new Response();
+            response = response.JsonToClass(jsonStringResponse);
+            log.LogEverything(methodName, "siteId:" + siteId + ", JsonToClass done");
+
+            //if reply is "success", it's created
+            if (response.Type.ToString().ToLower() == "success")
+            {
+                return int.Parse(response.Value);
+            }
+
+            throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + jsonStringResponse);
         }
 
         private async Task<List<List<string>>> GenerateDataSetFromCases(int? checkListId, DateTime? start, DateTime? end, string customPathForUploadedData, string decimalSeparator, string thousandSaperator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo)
