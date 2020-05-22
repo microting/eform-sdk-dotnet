@@ -75,22 +75,24 @@ namespace Microting.eForm.Communication
         /// Posts the element to Microting and returns the XML encoded restponse.
         /// </summary>
         /// <param name="xmlData">Element converted to a xml encoded string.</param>
-        public async Task<string> Post(string xmlData, string siteId)
+        public async Task<string> Post(string data, string siteId, string contentType = "application/x-www-form-urlencoded")
         {
             try
             {
+                // to do update protocol to json
                 WriteDebugConsoleLogEntry("Http.Post", $"called at {DateTime.Now}");
                 WebRequest request = WebRequest.Create(
                     $"{addressApi}/gwt/inspection_app/integration/?token={token}&protocol={protocolXml}&site_id={siteId}&sdk_ver={dllVersion}");
                 request.Method = "POST";
-                byte[] content = Encoding.UTF8.GetBytes(xmlData);
-                request.ContentType = "application/x-www-form-urlencoded";
+                byte[] content = Encoding.UTF8.GetBytes(data);
+                request.ContentType = contentType;
                 request.ContentLength = content.Length;
 
                 return await PostToServer(request, content);
             }
             catch (Exception ex)
             {
+                // to do update exception
                 return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='converterError'>" + ex.Message + "</Value>\n\t</Response>";
             }
         }

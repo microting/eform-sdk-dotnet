@@ -29,7 +29,7 @@ namespace Microting.eForm.Communication
 {
     internal interface IHttp
     {
-        Task<string> Post(string xmlData, string siteId);
+        Task<string> Post(string xmlData, string siteId, string contentType = "application/x-www-form-urlencoded");
 
         Task<string> Status(string elementId, string siteId);
 

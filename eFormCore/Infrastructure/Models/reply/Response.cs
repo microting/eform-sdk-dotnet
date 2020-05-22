@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -229,6 +231,66 @@ namespace Microting.eForm.Infrastructure.Models.reply
                 throw new Exception("Response failed to convert XML", ex);
             }
         }
+
+        public Response JsonToClass(string json)
+        {
+            try
+            {
+                string value = "";
+                ResponseTypes rType = ResponseTypes.Invalid;
+
+                #region value type
+
+                var jObject = JObject.Parse(json);
+                if (jObject["ValueObj"]?["Type"] != null)
+                {
+                    value = jObject["ValueObj"]["Value"]?.ToString();
+                    var parsed = Enum.TryParse(jObject["ValueObj"]["Type"].ToString(), true, out rType);
+                    if (!parsed)
+                        throw new IndexOutOfRangeException("ResponseType:'" + jObject["ValueObj"]["Type"].ToString() + "' is not known. " + json);
+                }
+                #endregion
+
+                Response resp = new Response(rType, value);
+
+                #region Unit fetched
+                if (jObject["Unit"] != null)
+                {
+                    resp.UnitFetchedAt = jObject["Unit"]["FatchedAt"]?.ToString();
+                    resp.UnitId = jObject["Unit"]["Id"]?.ToString();
+                }
+                #endregion
+
+                #region checks
+                if (jObject["Checks"] != null)
+                {
+                    foreach (var item in jObject["Checks"])
+                    {
+                        Check check = new Check()
+                        {
+                            UnitId = item["UnitId"]?.ToString(),
+                            Date = item["Date"]?.ToString(),
+                            Worker = item["Worker"]?.ToString(),
+                            Id = item["Id"]?.ToObject<int>(),
+                            WorkerId = item["WorkerId"]?.ToString()
+                        };
+
+                        foreach (var el in item["ElementList"])
+                            check.ElementList.Add(el.ToObject<ElementList>());
+
+                        resp.Checks.Add(check);
+                    }
+                }
+                #endregion
+
+                return resp;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Response failed to convert Json", ex);
+            }
+        }
+
 
         public string ClassToXml()
         {
