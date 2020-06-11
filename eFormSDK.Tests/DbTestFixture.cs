@@ -89,7 +89,9 @@ namespace eFormSDK.Tests
         }
       
         [TearDown]
+#pragma warning disable 1998
         public async Task TearDown()
+#pragma warning restore 1998
         {
 
             // await ClearDb().ConfigureAwait(false);

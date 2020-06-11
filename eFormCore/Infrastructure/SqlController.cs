@@ -320,7 +320,7 @@ namespace Microting.eForm.Infrastructure
                             break;
                     }
 
-                    matches = sub_query.ToList();
+                    matches = await sub_query.ToListAsync().ConfigureAwait(false);
 
                     foreach (check_lists checkList in matches)
                     {
@@ -2684,23 +2684,23 @@ namespace Microting.eForm.Infrastructure
                 using (var db = GetContext())
                 {
                     //cases dbCase = null;
-                    IQueryable<cases> sub_query = db.cases.Where(x => x.CheckListId == templateId && x.Status == 100);
+                    IQueryable<cases> subQuery = db.cases.Where(x => x.CheckListId == templateId && x.Status == 100);
                     switch (workflowState)
                     {
                         case Constants.Constants.WorkflowStates.NotRetracted:
-                            sub_query = sub_query.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Retracted);
+                            subQuery = subQuery.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Retracted);
                             break;
                         case Constants.Constants.WorkflowStates.NotRemoved:
-                            sub_query = sub_query.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
+                            subQuery = subQuery.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
                             break;
                         case Constants.Constants.WorkflowStates.Created:
-                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created);
+                            subQuery = subQuery.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created);
                             break;
                         case Constants.Constants.WorkflowStates.Retracted:
-                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Retracted);
+                            subQuery = subQuery.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Retracted);
                             break;
                         case Constants.Constants.WorkflowStates.Removed:
-                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed);
+                            subQuery = subQuery.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed);
                             break;
                         default:
                             break;
@@ -2708,7 +2708,13 @@ namespace Microting.eForm.Infrastructure
 
                     try
                     {
-                        return sub_query.First().Id;
+                        var result = await subQuery.FirstOrDefaultAsync().ConfigureAwait(false);
+                        if (result != null)
+                        {
+                            return result.Id;
+                        }
+
+                        return null;
                     } catch (Exception ex)
                     {
                         throw new Exception(methodName + " failed", ex);
@@ -4979,7 +4985,7 @@ namespace Microting.eForm.Infrastructure
                     WriteErrorConsoleLogEntry(logEntry);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //t.PrintException(methodName + " failed", ex);
             }

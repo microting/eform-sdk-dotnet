@@ -88,7 +88,9 @@ namespace Microting.eForm.Services
         /// <summary>
         /// Sends the close command to the Notification Subscriber
         /// </summary>
+#pragma warning disable 1998
         public async Task Close()
+#pragma warning restore 1998
         {
             try
             {

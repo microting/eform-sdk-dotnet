@@ -418,7 +418,9 @@ namespace eFormCore
         /// <summary>
         /// Closes the Core and disables Events
         /// </summary>
+#pragma warning disable 1998
         public async Task<bool> Close()
+#pragma warning restore 1998
         {
             string methodName = "Core.Close";
             log.LogStandard(methodName, "Close called");
@@ -492,7 +494,9 @@ namespace eFormCore
             return _coreAvailable;
         }
 
+#pragma warning disable 1998
         public async Task FatalExpection(string reason, Exception exception)
+#pragma warning restore 1998
         {
             string methodName = "Core.FatalExpection";
             _coreAvailable = false;
@@ -518,7 +522,9 @@ namespace eFormCore
         /// Converts XML from ex. eForm Builder or other sources, into a MainElement
         /// </summary>
         /// <param name="xmlString">XML string to be converted</param>
+#pragma warning disable 1998
         public async Task<MainElement> TemplateFromXml(string xmlString)
+#pragma warning restore 1998
         {
             if (string.IsNullOrEmpty(xmlString))
                 throw new ArgumentNullException("xmlString cannot be null or empty");
@@ -771,7 +777,9 @@ namespace eFormCore
 
         }
 
+#pragma warning disable 1998
         private async Task<List<string>> CheckListValidation(MainElement mainElement)
+#pragma warning restore 1998
         {
             string methodName = "Core.CheckListValidation";
             log.LogStandard(methodName, "called");
@@ -1828,13 +1836,12 @@ namespace eFormCore
                     if (dataSet == null)
                         return "";
 
-                    List<string> temp;
-                    string text = "";
+                    // string text = "";
                     StringBuilder stringBuilder = new StringBuilder();
 
                     for (int rowN = 0; rowN < dataSet[0].Count; rowN++)
                     {
-                        temp = new List<string>();
+                        var temp = new List<string>();
 
                         foreach (List<string> lst in dataSet)
                         {
@@ -2481,7 +2488,6 @@ namespace eFormCore
 
         public async Task<List<SiteDto>> SiteReadAll(bool includeRemoved)
         {
-            string methodName = "Core.SiteReadAll";
             if (Running())
             {
                 if (includeRemoved)
@@ -5091,7 +5097,9 @@ namespace eFormCore
             }
         }
 
+#pragma warning disable 1998
         private async Task PutFileToSwiftStorage(string filePath, string fileName, int tryCount)
+#pragma warning restore 1998
         {
             string methodName = "Core.PutFileToSwiftStorage";
             log.LogStandard(methodName, $"Trying to upload file {fileName} to {_customerNo}_uploaded_data");
@@ -5271,8 +5279,10 @@ namespace eFormCore
 
         #region fireEvents
 
+#pragma warning disable 1998
         public async Task FireHandleCaseCompleted(CaseDto caseDto)
-		{
+#pragma warning restore 1998
+        {
             string methodName = "Core.FireHandleCaseCompleted";
 		    log.LogStandard(methodName, $"FireHandleCaseCompleted for MicrotingUId {caseDto.MicrotingUId}");
 			try { HandleCaseCompleted.Invoke(caseDto, EventArgs.Empty); }
@@ -5283,28 +5293,36 @@ namespace eFormCore
 			}
 		}
 
+#pragma warning disable 1998
         public async Task FireHandleCaseDeleted(CaseDto caseDto)
+#pragma warning restore 1998
         {
             string methodName = "Core.FireHandleCaseDeleted";
             try { HandleCaseDeleted?.Invoke(caseDto, EventArgs.Empty); }
             catch { log.LogWarning(methodName, "HandleCaseCompleted event's external logic suffered an Expection"); }
         }
 
+#pragma warning disable 1998
         public async Task FireHandleNotificationNotFound(NoteDto notification)
+#pragma warning restore 1998
         {
             string methodName = "Core.FireHandleNotificationNotFound";
             try { HandleNotificationNotFound?.Invoke(notification, EventArgs.Empty); }
             catch { log.LogWarning(methodName, "HandleNotificationNotFound event's external logic suffered an Expection"); }
         }
 
+#pragma warning disable 1998
         public async Task FireHandleSiteActivated(NoteDto notification)
+#pragma warning restore 1998
         {
             string methodName = "Core.FireHandleSiteActivated";
             try { HandleSiteActivated?.Invoke(notification, EventArgs.Empty); }
             catch { log.LogWarning(methodName, "HandleSiteActivated event's external logic suffered an Expection"); }
         }
 
+#pragma warning disable 1998
         public async Task FireHandleCaseProcessedByServer(CaseDto caseDto)
+#pragma warning restore 1998
         {
             string methodName = "Core.FireHandleCaseProcessedByServer";
             log.LogStandard(methodName, $"HandleCaseProcessedByServer for MicrotingUId {caseDto.MicrotingUId}");
@@ -5317,7 +5335,9 @@ namespace eFormCore
             }
         }
 
+#pragma warning disable 1998
         public async Task FireHandleCaseProcessingError(CaseDto caseDto)
+#pragma warning restore 1998
         {
             string methodName = "Core.FireHandleCaseProcessingError";
             log.LogStandard(methodName, $"HandleCaseProcessingError for MicrotingUId {caseDto.MicrotingUId}");
@@ -5330,8 +5350,10 @@ namespace eFormCore
             }
         }
 
-		public async Task FireHandleCaseRetrived(CaseDto caseDto)
-		{
+#pragma warning disable 1998
+        public async Task FireHandleCaseRetrived(CaseDto caseDto)
+#pragma warning restore 1998
+        {
             string methodName = "Core.FireHandleCaseRetrived";
 		    log.LogStandard(methodName, $"FireHandleCaseRetrived for MicrotingUId {caseDto.MicrotingUId}");
 

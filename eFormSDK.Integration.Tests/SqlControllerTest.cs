@@ -43,8 +43,8 @@ namespace eFormSDK.Integration.Tests
     [TestFixture]
     public class SqlControllerTest : DbTestFixture
     {
-        private SqlController sut;
-        private TestHelpers testHelpers;
+        // private SqlController sut;
+        // private TestHelpers testHelpers;
         string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:", "");
         //path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
 
@@ -55,7 +55,7 @@ namespace eFormSDK.Integration.Tests
             DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
             SqlController sut = new SqlController(dbContextHelper);
             sut.StartLog(new CoreBase());
-            testHelpers = new TestHelpers();
+            // testHelpers = new TestHelpers();
             await sut.SettingUpdate(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SettingUpdate(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SettingUpdate(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
