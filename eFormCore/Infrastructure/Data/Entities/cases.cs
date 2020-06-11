@@ -104,8 +104,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             dbContext.cases.Add(this);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
-            dbContext.case_versions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            // dbContext.case_versions.Add(MapVersions(this));
+            // await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public async Task Update(MicrotingDbContext dbContext)

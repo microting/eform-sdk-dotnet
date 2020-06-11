@@ -223,27 +223,29 @@ namespace Microting.eForm.Helpers
         public async Task<cases> CreateCase(string caseUId, check_lists checkList, DateTime created_at, string custom, DateTime done_at, workers doneByUserId, int microtingCheckId, int microtingUId, sites site, int? status, string caseType, units unit, DateTime updated_at, int version, workers worker, string WorkFlowState)
         {
 
-            cases aCase = new cases();
+            cases aCase = new cases
+            {
+                CaseUid = caseUId,
+                CheckList = checkList,
+                CheckListId = checkList.Id,
+                CreatedAt = created_at,
+                Custom = custom,
+                DoneAt = done_at,
+                WorkerId = worker.Id,
+                MicrotingCheckUid = microtingCheckId,
+                MicrotingUid = microtingUId,
+                Site = site,
+                SiteId = site.Id,
+                Status = status,
+                Type = caseType,
+                Unit = unit,
+                UnitId = unit.Id,
+                UpdatedAt = updated_at,
+                Version = version,
+                Worker = worker,
+                WorkflowState = WorkFlowState
+            };
 
-            aCase.CaseUid = caseUId;
-            aCase.CheckList = checkList;
-            aCase.CheckListId = checkList.Id;
-            aCase.CreatedAt = created_at;
-            aCase.Custom = custom;
-            aCase.DoneAt = done_at;
-            aCase.WorkerId = worker.Id;
-            aCase.MicrotingCheckUid = microtingCheckId;
-            aCase.MicrotingUid = microtingUId;
-            aCase.Site = site;
-            aCase.SiteId = site.Id;
-            aCase.Status = status;
-            aCase.Type = caseType;
-            aCase.Unit = unit;
-            aCase.UnitId = unit.Id;
-            aCase.UpdatedAt = updated_at;
-            aCase.Version = version;
-            aCase.Worker = worker;
-            aCase.WorkflowState = WorkFlowState;
             dbContext.cases.Add(aCase);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
 

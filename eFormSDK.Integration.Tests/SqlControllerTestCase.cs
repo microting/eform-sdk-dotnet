@@ -27,6 +27,7 @@ using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -45,13 +46,14 @@ namespace eFormSDK.Integration.Tests
     {
         private SqlController sut;
         private TestHelpers testHelpers;
+        private DbContextHelper dbContextHelper;
 //        private string path;
 
         public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
 
-            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
+            dbContextHelper = new DbContextHelper(ConnectionString);
             SqlController sql = new SqlController(dbContextHelper);
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
             await sql.SettingUpdate(Settings.firstRunDone, "true");
@@ -189,6 +191,8 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public async Task SQL_Case_CaseUpdateCompleted_DoesCaseGetUpdated()
         {
+
+            MicrotingDbContext ldbContext = dbContextHelper.GetDbContext();
             Random rnd = new Random();
             sites site1 = await testHelpers.CreateSite("MySite", 22);
             DateTime cl1_Ca = DateTime.Now;
@@ -200,20 +204,21 @@ namespace eFormSDK.Integration.Tests
 
             //Case aCase = CreateCase("caseUID", cl1, )
             DateTime c1_ca = DateTime.Now.AddDays(-9);
-            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
+            string date = "2020-06-11 10:08:16 +0200";
+            string Date = date.AsSpan(0, 19).ToString();
+            CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
+            DateTime c1_da = DateTime.ParseExact(Date, "yyyy-MM-dd HH:mm:ss", culture).ToUniversalTime();
             DateTime c1_ua = DateTime.Now.AddDays(-8);
             workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
             site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker);
             units unit = await testHelpers.CreateUnit(48, 49, site1, 348);
 
-
-
             string microtingUId = Guid.NewGuid().ToString();
             string microtingCheckId = Guid.NewGuid().ToString();
+
             cases aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
                 c1_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
               site1, 66, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
-
 
             // Act
             //sut.CaseUpdateCompleted(aCase1.microting_uid, aCase1.microting_check_uid, c1_ua, aCase1.Id, aCase1.Id);
@@ -225,7 +230,7 @@ namespace eFormSDK.Integration.Tests
 
             await sut.CaseUpdateCompleted((int)aCase1.MicrotingUid, (int)aCase1.MicrotingCheckUid, c1_da, aCase1.Worker.MicrotingUid, (int)unit.MicrotingUid);
             caseResults = dbContext.cases.AsNoTracking().Where(x => x.MicrotingUid == aCase1.MicrotingUid).ToList();
-            var versionedMatches1 = dbContext.check_list_site_versions.AsNoTracking().Where(x => x.MicrotingUid == aCase1.MicrotingUid).ToList();
+            var versionedMatches1 = dbContext.case_versions.AsNoTracking().Where(x => x.MicrotingUid == aCase1.MicrotingUid).ToList();
             //DbContext.cases
 
             // Assert
@@ -233,9 +238,13 @@ namespace eFormSDK.Integration.Tests
 
             Assert.NotNull(caseResults);
             Assert.AreEqual(1, caseResults.Count());
+            Assert.AreEqual(1, versionedMatches1.Count());
             Assert.AreEqual(Constants.WorkflowStates.Created, caseResults[0].WorkflowState);
+            Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches1[0].WorkflowState);
             Assert.AreEqual(100, caseResults[0].Status);
+            Assert.AreEqual(100, versionedMatches1[0].Status);
             Assert.AreEqual(c1_da.ToString(), caseResults[0].DoneAt.ToString());
+            Assert.AreEqual(c1_da.ToString(), versionedMatches1[0].DoneAt.ToString());
 
         }
 
