@@ -133,7 +133,7 @@ namespace Microting.eForm.Handlers
                                 }
                                 CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
 
-                                await sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, DateTime.ParseExact(check.Date, "yyyy-MM-dd HH:mm:ss", culture).ToUniversalTime(), workerUId, unitUId);
+                                await sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, DateTime.ParseExact(check.Date, "yyyy-MM-dd HH:mm:ss zzz", culture).ToUniversalTime(), workerUId, unitUId);
                                 // await sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, DateTime.Parse(check.Date).ToUniversalTime(), workerUId, unitUId);
                                 log.LogEverything(t.GetMethodName("EformCompletedHandler"), "sqlController.CaseUpdateCompleted(...)");
 
