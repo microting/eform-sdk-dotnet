@@ -132,8 +132,12 @@ namespace Microting.eForm.Handlers
                                     }
                                 }
                                 CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
+                                DateTime dateTime = DateTime.ParseExact(check.Date, "yyyy-MM-dd HH:mm:ss zzz", culture)
+                                    .ToUniversalTime();
+                                log.LogEverything(t.GetMethodName("EformCompletedHandler"), $"XML date is {check.Date}");
+                                log.LogEverything(t.GetMethodName("EformCompletedHandler"), $"Parsed date is {dateTime.ToString()}");
 
-                                await sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, DateTime.ParseExact(check.Date, "yyyy-MM-dd HH:mm:ss zzz", culture).ToUniversalTime(), workerUId, unitUId);
+                                await sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, dateTime, workerUId, unitUId);
                                 // await sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, DateTime.Parse(check.Date).ToUniversalTime(), workerUId, unitUId);
                                 log.LogEverything(t.GetMethodName("EformCompletedHandler"), "sqlController.CaseUpdateCompleted(...)");
 

@@ -205,9 +205,9 @@ namespace eFormSDK.Integration.Tests
             //Case aCase = CreateCase("caseUID", cl1, )
             DateTime c1_ca = DateTime.Now.AddDays(-9);
             string date = "2020-06-11 10:08:16 +0200";
-            string Date = date.AsSpan(0, 19).ToString();
+            // string Date = date.AsSpan(0, 19).ToString();
             CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
-            DateTime c1_da = DateTime.ParseExact(Date, "yyyy-MM-dd HH:mm:ss", culture).ToUniversalTime();
+            DateTime c1_da = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm:ss zzz", culture).ToUniversalTime();
             DateTime c1_ua = DateTime.Now.AddDays(-8);
             workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
             site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker);
@@ -217,7 +217,7 @@ namespace eFormSDK.Integration.Tests
             string microtingCheckId = Guid.NewGuid().ToString();
 
             cases aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
-                c1_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
+                DateTime.UtcNow, worker, rnd.Next(1, 255), rnd.Next(1, 255),
               site1, 66, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
 
             // Act
