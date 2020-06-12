@@ -132,8 +132,7 @@ namespace Microting.eForm.Handlers
                                     }
                                 }
                                 CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
-                                DateTime dateTime = DateTime.ParseExact(check.Date, "yyyy-MM-dd HH:mm:ss zzz", culture)
-                                    .ToUniversalTime();
+                                DateTime dateTime = DateTime.ParseExact(check.Date, "yyyy-MM-dd HH:mm:ss", culture);
                                 log.LogEverything(t.GetMethodName("EformCompletedHandler"), $"XML date is {check.Date}");
                                 log.LogEverything(t.GetMethodName("EformCompletedHandler"), $"Parsed date is {dateTime.ToString()}");
 

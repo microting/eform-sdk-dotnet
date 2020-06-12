@@ -204,10 +204,10 @@ namespace eFormSDK.Integration.Tests
 
             //Case aCase = CreateCase("caseUID", cl1, )
             DateTime c1_ca = DateTime.Now.AddDays(-9);
-            string date = "2020-06-11 10:08:16 +0200";
+            string date = "2020-06-11 10:08:16";
             // string Date = date.AsSpan(0, 19).ToString();
             CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
-            DateTime c1_da = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm:ss zzz", culture).ToUniversalTime();
+            DateTime c1_da = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm:ss", culture);
             DateTime c1_ua = DateTime.Now.AddDays(-8);
             workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
             site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker);
@@ -243,8 +243,8 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches1[0].WorkflowState);
             Assert.AreEqual(100, caseResults[0].Status);
             Assert.AreEqual(100, versionedMatches1[0].Status);
-            Assert.AreEqual(c1_da.ToString(), caseResults[0].DoneAt.ToString());
-            Assert.AreEqual(c1_da.ToString(), versionedMatches1[0].DoneAt.ToString());
+            Assert.AreEqual("6/11/20 10:08:16 AM", caseResults[0].DoneAt.ToString());
+            Assert.AreEqual("6/11/20 10:08:16 AM", versionedMatches1[0].DoneAt.ToString());
 
         }
 
