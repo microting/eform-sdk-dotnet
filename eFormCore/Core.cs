@@ -3202,85 +3202,84 @@ namespace eFormCore
 
                         JToken parsedQuestionSet = innerParsedData.GetValue("QuestionSet");
 
-                        int questionSetMicrotingUid = int.Parse(parsedQuestionSet["MicrotingUid"].ToString());
-                        var questionSet = await db.question_sets.SingleOrDefaultAsync(x => x.MicrotingUid == questionSetMicrotingUid).ConfigureAwait(false);
-                        if (questionSet != null)
+                        if (parsedQuestionSet != null)
                         {
-                            questionSet.Name = parsedQuestionSet["Name"].ToString();
-                            await questionSet.Update(db);
-                        }
-                        else
-                        {
-                            questionSet = new question_sets()
+                            int questionSetMicrotingUid = int.Parse(parsedQuestionSet["MicrotingUid"].ToString());
+                            var questionSet = await db.question_sets.SingleOrDefaultAsync(x => x.MicrotingUid == questionSetMicrotingUid).ConfigureAwait(false);
+                            if (questionSet != null)
                             {
-                                Name = parsedQuestionSet["Name"].ToString(),
-                                MicrotingUid = questionSetMicrotingUid
-                            };
-                            await questionSet.Create(db);
-                        }
-
-                        var surveyConfiguration = 
-                            await db.survey_configurations.SingleOrDefaultAsync(x => 
-                                x.MicrotingUid == microtingUid).ConfigureAwait(false);
-                        if (surveyConfiguration != null)
-                        {
-                            surveyConfiguration.Name = name;
-                            if (subItem["WorkflowState"].ToString().Equals("active"))
-                            {
-                                surveyConfiguration.WorkflowState = Constants.WorkflowStates.Active;
+                                questionSet.Name = parsedQuestionSet["Name"].ToString();
+                                await questionSet.Update(db);
                             }
                             else
                             {
-                                surveyConfiguration.WorkflowState = Constants.WorkflowStates.Created;
-                            }
-                            await surveyConfiguration.Update(db).ConfigureAwait(false);
-                        }
-                        else
-                        {
-                            surveyConfiguration = new survey_configurations()
-                            {
-                                MicrotingUid = microtingUid,
-                                Name = name,
-                                QuestionSetId = questionSet.Id,
-                                WorkflowState = subItem["WorkflowState"].ToString().Equals("active") 
-                                    ? Constants.WorkflowStates.Active : Constants.WorkflowStates.Created
-                            };
-                            await surveyConfiguration.Create(db).ConfigureAwait(false);
-                        }
-
-                        foreach (JToken child in innerParsedData.GetValue("Sites").Children())
-                        {
-                            var site = await db.sites.SingleOrDefaultAsync(x => x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString())).ConfigureAwait(false);
-                            if (site != null)
-                            {
-                                var siteSurveyConfiguration =
-                                    await db.site_survey_configurations.SingleOrDefaultAsync(x => 
-                                        x.SiteId == site.Id && x.SurveyConfigurationId == surveyConfiguration.Id).ConfigureAwait(false);
-                                if (siteSurveyConfiguration == null)
+                                questionSet = new question_sets()
                                 {
-                                    siteSurveyConfiguration = new site_survey_configurations()
-                                    {
-                                        SiteId = site.Id,
-                                        SurveyConfigurationId = surveyConfiguration.Id
-                                    };
-                                    await siteSurveyConfiguration.Create(db).ConfigureAwait(false);
+                                    Name = parsedQuestionSet["Name"].ToString(),
+                                    MicrotingUid = questionSetMicrotingUid
+                                };
+                                await questionSet.Create(db);
+                            }
+
+                            var surveyConfiguration = 
+                                await db.survey_configurations.SingleOrDefaultAsync(x =>
+                                    x.MicrotingUid == microtingUid).ConfigureAwait(false);
+                            if (surveyConfiguration != null)
+                            {
+                                surveyConfiguration.Name = name;
+                                if (subItem["WorkflowState"].ToString().Equals("active"))
+                                {
+                                    surveyConfiguration.WorkflowState = Constants.WorkflowStates.Active;
                                 }
                                 else
                                 {
-                                    siteSurveyConfiguration.WorkflowState = Constants.WorkflowStates.Created;
-                                    await siteSurveyConfiguration.Update(db).ConfigureAwait(false);
+                                    surveyConfiguration.WorkflowState = Constants.WorkflowStates.Created;
+                                }
+                                await surveyConfiguration.Update(db).ConfigureAwait(false);
+                            }
+                            else
+                            {
+                                surveyConfiguration = new survey_configurations()
+                                {
+                                    MicrotingUid = microtingUid,
+                                    Name = name,
+                                    QuestionSetId = questionSet.Id,
+                                    WorkflowState = subItem["WorkflowState"].ToString().Equals("active")
+                                        ? Constants.WorkflowStates.Active : Constants.WorkflowStates.Created
+                                };
+                                await surveyConfiguration.Create(db).ConfigureAwait(false);
+                            }
+
+                            foreach (JToken child in innerParsedData.GetValue("Sites").Children())
+                            {
+                                var site = await db.sites.SingleOrDefaultAsync(x => x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString())).ConfigureAwait(false);
+                                if (site != null)
+                                {
+                                    var siteSurveyConfiguration =
+                                        await db.site_survey_configurations.SingleOrDefaultAsync(x =>
+                                            x.SiteId == site.Id && x.SurveyConfigurationId == surveyConfiguration.Id).ConfigureAwait(false);
+                                    if (siteSurveyConfiguration == null)
+                                    {
+                                        siteSurveyConfiguration = new site_survey_configurations()
+                                        {
+                                            SiteId = site.Id,
+                                            SurveyConfigurationId = surveyConfiguration.Id
+                                        };
+                                        await siteSurveyConfiguration.Create(db).ConfigureAwait(false);
+                                    }
+                                    else
+                                    {
+                                        siteSurveyConfiguration.WorkflowState = Constants.WorkflowStates.Created;
+                                        await siteSurveyConfiguration.Update(db).ConfigureAwait(false);
+                                    }
                                 }
                             }
                         }
                     }
                 }
-                
             }
-            
             return true;
-
         }
-
         #endregion
         
         #region QuestionSet
