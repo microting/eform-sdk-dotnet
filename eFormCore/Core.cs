@@ -3372,6 +3372,7 @@ namespace eFormCore
                         }
                         
                         JToken parsedOptions = innerParsedData.GetValue("Options");
+                        int i = 0;
                         foreach (JToken child in parsedOptions.Children())
                         {
                             var option = await db.options.SingleOrDefaultAsync(x =>
@@ -3381,7 +3382,14 @@ namespace eFormCore
                                 var result = JsonConvert.DeserializeObject<options>(child.ToString());
                                 var nextQuestionId =
                                     db.questions.SingleOrDefault(x => x.MicrotingUid == result.NextQuestionId);
-                                result.QuestionId = db.questions.Single(x => x.MicrotingUid == result.QuestionId).Id;
+                                var question = db.questions.Single(x => x.MicrotingUid == result.QuestionId);
+                                if (question.QuestionType == Constants.QuestionTypes.Multi ||
+                                    question.QuestionType == Constants.QuestionTypes.Buttons ||
+                                    question.QuestionType == Constants.QuestionTypes.List)
+                                {
+                                    result.WeightValue = i;
+                                }
+                                result.QuestionId = question.Id;
                                 result.NextQuestionId = nextQuestionId?.Id;
                                 await result.Create(db).ConfigureAwait(false);
                             }
@@ -3393,6 +3401,8 @@ namespace eFormCore
                                     await option.Update(db);
                                 }
                             }
+
+                            i += 1;
                         }
                         
                         JToken parsedOptionTranslations = innerParsedData.GetValue("OptionTranslations");
@@ -3506,11 +3516,17 @@ namespace eFormCore
                             if (db.answer_values.SingleOrDefault(x => x.MicrotingUid == answerValue.MicrotingUid) ==
                                 null)
                             {
+                                var question = db.questions.Single(x => x.MicrotingUid == answerValue.QuestionId);
+                                var option = db.options.Single(x => x.MicrotingUid == answerValue.OptionId);
+                                if (question.QuestionType == Constants.QuestionTypes.Buttons || question.QuestionType == Constants.QuestionTypes.List || question.QuestionType == Constants.QuestionTypes.Multi)
+                                {
+                                    answerValue.Value = option.OptionTranslationses.First().Name;
+                                }
                                 answerValue.AnswerId = answer.Id;
                                 answerValue.QuestionId =
-                                    db.questions.Single(x => x.MicrotingUid == answerValue.QuestionId).Id;
+                                    question.Id;
                                 answerValue.OptionId =
-                                    db.options.Single(x => x.MicrotingUid == answerValue.OptionId).Id;
+                                    option.Id;
                                 await answerValue.Create(db).ConfigureAwait(false);
                             }
                         }

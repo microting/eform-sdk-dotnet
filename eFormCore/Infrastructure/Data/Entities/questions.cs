@@ -307,7 +307,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 {
                     Weight = weight,
                     WeightValue = weightedValue,
-                    OptionsIndex = optionIndex,
+                    OptionIndex = optionIndex,
                     QuestionId = this.Id
                 };
 

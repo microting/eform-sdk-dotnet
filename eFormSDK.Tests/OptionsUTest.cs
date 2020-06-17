@@ -76,7 +76,7 @@ namespace eFormSDK.Tests
             options option = new options
             {
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
@@ -100,7 +100,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(options[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(option.Id, options[0].Id);
             Assert.AreEqual(option.Weight, options[0].Weight);
-            Assert.AreEqual(option.OptionsIndex, options[0].OptionsIndex);
+            Assert.AreEqual(option.OptionIndex, options[0].OptionIndex);
             Assert.AreEqual(option.WeightValue, options[0].WeightValue);
             Assert.AreEqual(option.QuestionId, question.Id);
             
@@ -110,7 +110,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(optionVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(option.Id, optionVersions[0].OptionId);
             Assert.AreEqual(option.Weight, optionVersions[0].Weight);
-            Assert.AreEqual(option.OptionsIndex, optionVersions[0].OptionsIndex);
+            Assert.AreEqual(option.OptionIndex, optionVersions[0].OptionIndex);
             Assert.AreEqual(option.WeightValue, optionVersions[0].WeightValue);
             Assert.AreEqual(question.Id, optionVersions[0].QuestionId);
         }
@@ -154,7 +154,7 @@ namespace eFormSDK.Tests
             options option = new options
             {
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
@@ -164,11 +164,11 @@ namespace eFormSDK.Tests
 
             DateTime? oldUpdatedAt = option.UpdatedAt;
             int oldWeight = option.Weight;
-            int oldOptionsIndex = option.OptionsIndex;
+            int oldOptionsIndex = option.OptionIndex;
             int oldWeightValue = option.WeightValue;
             
             option.Weight = rnd.Next(1, 255);
-            option.OptionsIndex = rnd.Next(1, 255);
+            option.OptionIndex = rnd.Next(1, 255);
             option.WeightValue = rnd.Next(1, 255);
             await option.Update(dbContext).ConfigureAwait(false);
 
@@ -187,7 +187,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(options[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(option.Id, options[0].Id);
             Assert.AreEqual(option.Weight, options[0].Weight);
-            Assert.AreEqual(option.OptionsIndex, options[0].OptionsIndex);
+            Assert.AreEqual(option.OptionIndex, options[0].OptionIndex);
             Assert.AreEqual(option.WeightValue, options[0].WeightValue);
             Assert.AreEqual(option.QuestionId, question.Id);
             
@@ -198,7 +198,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(optionVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(option.Id, optionVersions[0].OptionId);
             Assert.AreEqual(oldWeight, optionVersions[0].Weight);
-            Assert.AreEqual(oldOptionsIndex, optionVersions[0].OptionsIndex);
+            Assert.AreEqual(oldOptionsIndex, optionVersions[0].OptionIndex);
             Assert.AreEqual(oldWeightValue, optionVersions[0].WeightValue);
             Assert.AreEqual(question.Id, optionVersions[0].QuestionId); 
             
@@ -209,7 +209,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(optionVersions[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(option.Id, optionVersions[1].OptionId);
             Assert.AreEqual(option.Weight, optionVersions[1].Weight);
-            Assert.AreEqual(option.OptionsIndex, optionVersions[1].OptionsIndex);
+            Assert.AreEqual(option.OptionIndex, optionVersions[1].OptionIndex);
             Assert.AreEqual(option.WeightValue, optionVersions[1].WeightValue);
             Assert.AreEqual(question.Id, optionVersions[1].QuestionId);
         }
@@ -253,7 +253,7 @@ namespace eFormSDK.Tests
             options option = new options
             {
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
@@ -280,7 +280,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(options[0].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(option.Id, options[0].Id);
             Assert.AreEqual(option.Weight, options[0].Weight);
-            Assert.AreEqual(option.OptionsIndex, options[0].OptionsIndex);
+            Assert.AreEqual(option.OptionIndex, options[0].OptionIndex);
             Assert.AreEqual(option.WeightValue, options[0].WeightValue);
             Assert.AreEqual(option.QuestionId, question.Id);
             
@@ -291,7 +291,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(optionVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(option.Id, optionVersions[0].OptionId);
             Assert.AreEqual(option.Weight, optionVersions[0].Weight);
-            Assert.AreEqual(option.OptionsIndex, optionVersions[0].OptionsIndex);
+            Assert.AreEqual(option.OptionIndex, optionVersions[0].OptionIndex);
             Assert.AreEqual(option.WeightValue, optionVersions[0].WeightValue);
             Assert.AreEqual(question.Id, optionVersions[0].QuestionId); 
             
@@ -302,7 +302,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(optionVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(option.Id, optionVersions[1].OptionId);
             Assert.AreEqual(option.Weight, optionVersions[1].Weight);
-            Assert.AreEqual(option.OptionsIndex, optionVersions[1].OptionsIndex);
+            Assert.AreEqual(option.OptionIndex, optionVersions[1].OptionIndex);
             Assert.AreEqual(option.WeightValue, optionVersions[1].WeightValue);
             Assert.AreEqual(question.Id, optionVersions[1].QuestionId);
         }

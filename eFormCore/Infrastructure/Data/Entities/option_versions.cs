@@ -38,7 +38,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         public int QuestionId { get; set; }
         
-        public int OptionsIndex { get; set; }
+        public int OptionIndex { get; set; }
         
         [ForeignKey("option")]
         public int OptionId { get; set; }
