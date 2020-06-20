@@ -120,7 +120,7 @@ namespace eFormCore
         private int _numberOfWorkers = 1;
         private string _customerNo;
         private IBus _bus;
-        
+
         #region swift
         private bool _swiftEnabled = false;
         private string _swiftUserName = "";
@@ -129,7 +129,7 @@ namespace eFormCore
         private string _keystoneEndpoint = "";
         private SwiftClientService _swiftClient;
         #endregion
-        
+
         #region s3
         private bool _s3Enabled = false;
         private string _s3AccessKeyId = "";
@@ -149,7 +149,7 @@ namespace eFormCore
         public async Task<bool> Start(string connectionString)
 		{
             string methodName = "Core.Start";
-            
+
             try
 			{
 				if (!_coreAvailable && !_coreStatChanging)
@@ -165,7 +165,7 @@ namespace eFormCore
                         _numberOfWorkers = int.Parse(await _sqlController.SettingRead(Settings.numberOfWorkers));
                     }
                     catch { }
-                    
+
                     _container.Install(
 						new RebusHandlerInstaller()
 						, new RebusInstaller(connectionString, _maxParallelism, _numberOfWorkers)
@@ -263,8 +263,8 @@ namespace eFormCore
                     _container.Register(Component.For<Communicator>().Instance(_communicator));
                     _container.Register(Component.For<Log>().Instance(log));
                     _container.Register(Component.For<Core>().Instance(this));
-                    
-                    
+
+
                     try
                     {
                         _customerNo = await _sqlController.SettingRead(Settings.customerNo).ConfigureAwait(false);
@@ -307,8 +307,8 @@ namespace eFormCore
 				        {
 				            log.LogWarning(methodName, ex.Message);
 				        }
-				        
-				        
+
+
 				        _container.Register(Component.For<SwiftClientService>().Instance(_swiftClient));
 				    }
 
@@ -330,7 +330,7 @@ namespace eFormCore
                             else
                             {
                                 _s3Client = new AmazonS3Client(_s3AccessKeyId, _s3SecretAccessKey, RegionEndpoint.EUCentral1);
-                                
+
                             }
 
                             _container.Register(Component.For<AmazonS3Client>().Instance(_s3Client));
@@ -339,7 +339,7 @@ namespace eFormCore
                         {
                             log.LogWarning(methodName, ex.Message);
                         }
-                        
+
                     }
 
 
@@ -809,7 +809,7 @@ namespace eFormCore
                     ShowPdf showPdf = (ShowPdf) dataItem;
                     errorLst.AddRange(await PdfValidate(showPdf.Value, showPdf.Id));
                 }
-                
+
                 List<string> acceptedColors = new List<string>();
                 acceptedColors.Add(Constants.FieldColors.Grey);
                 acceptedColors.Add(Constants.FieldColors.Red);
@@ -838,7 +838,7 @@ namespace eFormCore
             string methodName = "Core.CheckListValidation";
             log.LogStandard(methodName, "called");
             List<string> errorLst = new List<string>();
-            
+
             List<string> acceptedColors = new List<string>();
             acceptedColors.Add(Constants.CheckListColors.Grey);
             acceptedColors.Add(Constants.CheckListColors.Red);
@@ -848,7 +848,7 @@ namespace eFormCore
             {
                 errorLst.Add($"mainElement with label {mainElement.Label} did supply color {mainElement.Color}, but the only allowed colors are: grey, red, green or leave it blank.");
             }
-            
+
             return errorLst;
         }
 
@@ -1014,7 +1014,7 @@ namespace eFormCore
                     log.LogStandard(methodName, "called");
                     log.LogVariable(methodName, nameof(templateId), templateId);
 
-                    return await _sqlController.TemplateDelete(templateId).ConfigureAwait(false);                    
+                    return await _sqlController.TemplateDelete(templateId).ConfigureAwait(false);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1350,7 +1350,7 @@ namespace eFormCore
                 return null;
             }
         }
-        
+
         public Task<List<Case>> CaseReadAll(int? templateId, DateTime? start, DateTime? end)
         {
             return CaseReadAll(templateId, start, end, Constants.WorkflowStates.NotRemoved, null);
@@ -1408,7 +1408,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<CaseList> CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, 
+        public async Task<CaseList> CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState,
             string searchKey, bool descendingSort, string sortParameter, int pageIndex, int pageSize)
         {
             string methodName = "Core.CaseReadAll";
@@ -1625,7 +1625,7 @@ namespace eFormCore
                                     cDto.ToString() +
                                     $" has been removed from server in retry loop with i being : {i.ToString()}");
                             break;
-                        }                            
+                        }
                         else
                         {
                             log.LogEverything(methodName,
@@ -1661,12 +1661,12 @@ namespace eFormCore
                             cDto = await _sqlController.CaseReadByMUId(microtingUId);
                             await FireHandleCaseDeleted(cDto).ConfigureAwait(false);
                             log.LogStandard(methodName, $"{cDto} has been removed");
-                            return result;        
+                            return result;
                         }
 
                         log.LogException(methodName, "(string microtingUId) failed", ex);
                         throw ex;
-                    }                  
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -2028,7 +2028,7 @@ namespace eFormCore
         }
 
         #region sdkSettings
-        
+
         public async Task<string> GetSdkSetting(Settings settingName)
         {
             string methodName = "Core.GetSdkSetting";
@@ -2068,24 +2068,6 @@ namespace eFormCore
         }
         #endregion
 
-        public Task SetJasperExportEnabled(int eFormId, bool isEnabled)
-        {
-            if (Running())
-            {
-                return _sqlController.SetJasperExportEnabled(eFormId, isEnabled);
-            }
-            throw new Exception("Core is not running");
-        }
-
-        public Task SetDocxExportEnabled(int eFormId, bool isEnabled)
-        {
-            if (Running())
-            {
-                return _sqlController.SetDocxExportEnabled(eFormId, isEnabled);
-            }
-            throw new Exception("Core is not running");
-        }
-        
         public Task<string> CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData, string customXmlContent)
         {
             return CaseToPdf(caseId, jasperTemplate, timeStamp, customPathForUploadedData, "pdf", customXmlContent);
@@ -2112,7 +2094,7 @@ namespace eFormCore
             }
 
             string _templateFile = Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "templates", jasperTemplate, "compact",
-                $"{jasperTemplate}.jrxml");                    
+                $"{jasperTemplate}.jrxml");
             if (!File.Exists(_templateFile))
             {
                 throw new FileNotFoundException($"jrxml template was not found at {_templateFile}");
@@ -2161,7 +2143,7 @@ namespace eFormCore
 
         private async Task<string> DocxToPdf(int caseId, string jasperTemplate, string timeStamp, ReplyElement reply, CaseDto cDto, string customPathForUploadedData, string customXmlContent, string fileType)
         {
-            
+
             SortedDictionary<string, string> valuePairs = new SortedDictionary<string, string>();
             // get base values
             valuePairs.Add("F_CaseName", reply.Label.Replace("&", "&amp;"));
@@ -2170,7 +2152,7 @@ namespace eFormCore
             valuePairs.Add("F_CheckId", reply.MicrotingUId.ToString());
             valuePairs.Add("F_CheckDate", reply.DoneAt.ToString("yyyy-MM-dd HH:mm:ss"));
             valuePairs.Add("F_SiteName", _sqlController.SiteRead(reply.SiteMicrotingUuid).GetAwaiter().GetResult().SiteName.Replace("&", "&amp;"));
-            
+
             // get field_values
             List<KeyValuePair<string, List<string>>> pictures = new List<KeyValuePair<string, List<string>>>();
             List<KeyValuePair<string, string>> pictureGeotags = new List<KeyValuePair<string, string>>();
@@ -2184,7 +2166,7 @@ namespace eFormCore
             {
                 valuePairs.Add($"F_{field.Id}", "");
             }
-            
+
             SortedDictionary<string, int> imageFieldCountList = new SortedDictionary<string, int>();
             foreach (FieldValue fieldValue in fieldValues)
             {
@@ -2222,7 +2204,7 @@ namespace eFormCore
                                     File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
                                 swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
                                 swiftObjectGetResponse.ObjectStreamContent.CopyTo(fileStream);
-                                fileStream.Close();    
+                                fileStream.Close();
                             }
 
                             if (_s3Enabled)
@@ -2238,7 +2220,7 @@ namespace eFormCore
                                 fileFromS3Storage.ResponseStream.Close();
                                 fileFromS3Storage.ResponseStream.Dispose();
                             }
-                            
+
                             if (imageFieldCountList.ContainsKey($"FCount_{fieldValue.FieldId}"))
                             {
                                 imageFieldCountList[$"FCount_{fieldValue.FieldId}"] += 1;
@@ -2250,7 +2232,7 @@ namespace eFormCore
                         {
                             fields field = await _sqlController.FieldReadRaw(fieldValue.FieldId).ConfigureAwait(false);
                             check_lists checkList = await _sqlController.CheckListRead((int)field.CheckListId).ConfigureAwait(false);
-                        
+
                             signatures.Add(new KeyValuePair<string, string>($"F_{fieldValue.FieldId}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
                             if (_swiftEnabled)
                             {
@@ -2260,7 +2242,7 @@ namespace eFormCore
                                     File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
                                 swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
                                 swiftObjectGetResponse.ObjectStreamContent.CopyTo(fileStream);
-                                fileStream.Close();    
+                                fileStream.Close();
                             }
 
                             if (_s3Enabled)
@@ -2276,7 +2258,7 @@ namespace eFormCore
                                 fileFromS3Storage.ResponseStream.Close();
                                 fileFromS3Storage.ResponseStream.Dispose();
                             }
-                            
+
                             valuePairs.Remove($"F_{field.Id}");
                         }
                         break;
@@ -2303,9 +2285,9 @@ namespace eFormCore
                             else
                             {
                                 fieldValue.ValueReadable = fieldValue.ValueReadable.Replace("<br>", "|||");
-                                fieldValue.ValueReadable = Regex.Replace(fieldValue.ValueReadable, "<.*?>", 
+                                fieldValue.ValueReadable = Regex.Replace(fieldValue.ValueReadable, "<.*?>",
                                     string.Empty);
-                                fieldValue.ValueReadable = fieldValue.ValueReadable.Replace("\t", @"</w:t><w:tab/><w:t>"); 
+                                fieldValue.ValueReadable = fieldValue.ValueReadable.Replace("\t", @"</w:t><w:tab/><w:t>");
                                fieldValue.ValueReadable =
                                     fieldValue.ValueReadable.Replace("|||", @"</w:t><w:br/><w:t>");
                                 valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable;
@@ -2319,7 +2301,7 @@ namespace eFormCore
             {
                 valuePairs.Add(keyValuePair.Key, keyValuePair.Value.ToString());
             }
-            
+
             // get check_list_values
             List<CheckListValue> checkListValues = await _sqlController.CheckListValueReadList(caseIds);
             foreach (CheckListValue checkListValue in checkListValues)
@@ -2333,39 +2315,39 @@ namespace eFormCore
                 foreach (KeyValuePair<string,string> keyValuePair in ParseCustomXmlContent(customXmlContent))
                 {
                     valuePairs.Add(keyValuePair.Key, keyValuePair.Value);
-                }    
+                }
             }
 
             string templateFile = Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "templates", jasperTemplate, "compact",
-                $"{jasperTemplate}.docx");  
-            
+                $"{jasperTemplate}.docx");
+
             // Try to create the results directory first
             Directory.CreateDirectory(Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "results"));
-            
+
             string resultDocument = Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "results",
                 $"{timeStamp}_{caseId}.docx");
 
             ReportHelper.SearchAndReplace(templateFile, valuePairs, resultDocument);
-            
+
             ReportHelper.InsertImages(resultDocument, pictures);
 
             ReportHelper.InsertSignature(resultDocument, signatures);
             ReportHelper.ValidateWordDocument(resultDocument);
-            
+
             if (fileType == "pdf")
             {
                 string outputFolder = Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "results");
-            
+
                 ReportHelper.ConvertToPdf(resultDocument, outputFolder);
                 return Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "results",
-                    $"{timeStamp}_{caseId}.pdf");    
+                    $"{timeStamp}_{caseId}.pdf");
             }
             else
             {
                 return Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "results",
                     $"{timeStamp}_{caseId}.docx");
             }
-            
+
         }
 
         private Dictionary<string, string> ParseCustomXmlContent(string customXmlContent)
@@ -2375,7 +2357,7 @@ namespace eFormCore
             XmlElement root = xmlDocument.DocumentElement;
 
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
-            
+
             foreach (XmlNode node in root.ChildNodes)
             {
                 dictionary.Add($"F_{node.Name}", node.InnerText);
@@ -2388,9 +2370,9 @@ namespace eFormCore
         {
             if (fileType != "pdf" && fileType != "docx" && fileType != "pptx")
             {
-                throw new ArgumentException($"Filetypes allowed are only: pdf, docx, pptx, currently specified was {fileType}");    
-            }            
-            
+                throw new ArgumentException($"Filetypes allowed are only: pdf, docx, pptx, currently specified was {fileType}");
+            }
+
             string methodName = "Core.CaseToPdf";
             try
             {
@@ -2403,10 +2385,10 @@ namespace eFormCore
 
                     if (timeStamp == null)
                         timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
-                    
+
                     CaseDto cDto = await CaseLookupCaseId(caseId).ConfigureAwait(false);
                     ReplyElement reply = await CaseRead((int)cDto.MicrotingUId, (int)cDto.CheckUId).ConfigureAwait(false);
-                    
+
                     string resultDocument = "";
 
                     if (reply.JasperExportEnabled)
@@ -2513,7 +2495,7 @@ namespace eFormCore
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="microtingUid"></param>
         /// <returns></returns>
@@ -2546,7 +2528,7 @@ namespace eFormCore
             {
                 if (includeRemoved)
                     return await Advanced_SiteReadAll(null, null, null).ConfigureAwait(false);
-                
+
                 return await Advanced_SiteReadAll(Constants.WorkflowStates.NotRemoved, null, null).ConfigureAwait(false);
             }
 
@@ -2579,7 +2561,7 @@ namespace eFormCore
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="siteMicrotingUid"></param>
         /// <param name="siteName"></param>
@@ -2757,7 +2739,7 @@ namespace eFormCore
                     if (isUpdated)
                         return await _sqlController.EntityGroupUpdateName(entityGroup.Name, entityGroup.MicrotingUUID).ConfigureAwait(false);
                 }
-                
+
                 throw new Exception("Core is not running");
             }
             catch (Exception ex)
@@ -2944,7 +2926,7 @@ namespace eFormCore
             }
         }
         #endregion
-        
+
         #region folder
 
         public async Task<List<FolderDto>> FolderGetAll(bool includeRemoved)
@@ -3067,7 +3049,7 @@ namespace eFormCore
             }
         }
         #endregion
-        
+
         #endregion
 
         #region tags
@@ -3223,7 +3205,7 @@ namespace eFormCore
         #region InSight
 
         #region SurveyConfiguration
-        
+
         public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
         {
             using (var dbContext = dbContextHelper.GetDbContext())
@@ -3233,10 +3215,10 @@ namespace eFormCore
 
                 if (siteSurveyConfiguration == null)
                 {
-                    
+
                 }
             }
-            
+
             return true;
         }
 
@@ -3275,7 +3257,7 @@ namespace eFormCore
                                 await questionSet.Create(db);
                             }
 
-                            var surveyConfiguration = 
+                            var surveyConfiguration =
                                 await db.survey_configurations.SingleOrDefaultAsync(x =>
                                     x.MicrotingUid == microtingUid).ConfigureAwait(false);
                             if (surveyConfiguration != null)
@@ -3335,7 +3317,7 @@ namespace eFormCore
             return true;
         }
         #endregion
-        
+
         #region QuestionSet
 
         public async Task<bool> GetAllQuestionSets()
@@ -3356,7 +3338,7 @@ namespace eFormCore
                     };
                     await language.Create(db);
                 }
-                
+
                 foreach (var item in parsedData)
                 {
                     foreach (JToken subItem in item.Value)
@@ -3377,9 +3359,9 @@ namespace eFormCore
                             };
                             await questionSet.Create(db).ConfigureAwait(false);
                         }
-                        
+
                         var innerParsedData = JObject.Parse(await _communicator.GetQuestionSet(questionSetMicrotingUid).ConfigureAwait(false));
-                        
+
                         JToken parsedQuestions = innerParsedData.GetValue("Questions");
                         foreach (JToken child in parsedQuestions.Children())
                         {
@@ -3424,7 +3406,7 @@ namespace eFormCore
                                 }
                             }
                         }
-                        
+
                         JToken parsedOptions = innerParsedData.GetValue("Options");
                         int i = 0;
                         foreach (JToken child in parsedOptions.Children())
@@ -3458,7 +3440,7 @@ namespace eFormCore
 
                             i += 1;
                         }
-                        
+
                         JToken parsedOptionTranslations = innerParsedData.GetValue("OptionTranslations");
                         foreach (JToken child in parsedOptionTranslations.Children())
                         {
@@ -3487,9 +3469,9 @@ namespace eFormCore
             }
             return true;
         }
-        
+
         #endregion
-        
+
         #region Answer
 
         public async Task<bool> GetAllAnswers()
@@ -3595,7 +3577,7 @@ namespace eFormCore
         {
             if (questionSetId == null)
                 return;
-            
+
             using (var db = dbContextHelper.GetDbContext())
             {
                 int numAnswers = 10;
@@ -3629,11 +3611,11 @@ namespace eFormCore
                 }
             }
         }
-        
+
         #endregion
-        
+
         #endregion
-        
+
         #region public advanced actions
         #region templat
         public async Task<bool> Advanced_TemplateDisplayIndexChangeDb(int templateId, int newDisplayIndex)
@@ -4049,7 +4031,7 @@ namespace eFormCore
 
         #region site_workers
         public async Task<SiteWorkerDto> Advanced_SiteWorkerCreate(SiteNameDto siteDto, WorkerDto workerDto)
-        {   
+        {
             string methodName = "Core.Advanced_SiteWorkerCreate";
             try
             {
@@ -4202,7 +4184,7 @@ namespace eFormCore
                 throw ex;
             }
         }
-        
+
         public async Task<bool> Advanced_UnitDelete(int unitId)
         {
             string methodName = "Core.Advanced_UnitDelete";
@@ -4255,7 +4237,7 @@ namespace eFormCore
                         return false;
                     }
                 }
-                
+
                 throw new Exception("Core is not running");
             }
             catch (Exception ex)
@@ -4292,7 +4274,7 @@ namespace eFormCore
                         return false;
                     }
                 }
-                
+
                 throw new Exception("Core is not running");
             }
             catch (Exception ex)
@@ -4377,7 +4359,7 @@ namespace eFormCore
                 throw new Exception("failed", ex);
             }
         }
-        
+
         public async Task<List<FieldValue>> Advanced_FieldValueReadList(int fieldId, List<int> caseIds)
         {
             string methodName = "Core.Advanced_FieldValueReadList";
@@ -4618,7 +4600,7 @@ namespace eFormCore
             log.LogEverything(methodName, "siteId:" + siteId + ", requested sent eForm");
 
             string xmlStrRequest = mainElement.ClassToXml();
-            
+
             log.LogEverything(methodName, "siteId:" + siteId + ", ClassToXml done");
             string xmlStrResponse = await _communicator.PostXml(xmlStrRequest, siteId);
             log.LogEverything(methodName, "siteId:" + siteId + ", PostXml done");
@@ -4660,7 +4642,7 @@ namespace eFormCore
             throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + jsonStringResponse);
         }
 
-        private async Task<List<List<string>>> GenerateDataSetFromCases(int? checkListId, DateTime? start, DateTime? end, string customPathForUploadedData, string decimalSeparator, string thousandSaperator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo)
+        public async Task<List<List<string>>> GenerateDataSetFromCases(int? checkListId, DateTime? start, DateTime? end, string customPathForUploadedData, string decimalSeparator, string thousandSaperator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo)
         {
             using (MicrotingDbContext dbContext = dbContextHelper.GetDbContext())
             {
@@ -4919,7 +4901,7 @@ namespace eFormCore
                     break;
                 case Constants.FieldTypes.Number:
                 case Constants.FieldTypes.NumberStepper:
-                    
+
                     jasperFieldXml += Environment.NewLine + "<F" + field.Id +
                                       "_value field_value_id=\"" + answer.Id + "\" " + gps + "><![CDATA[" +
                                       (answer.ValueReadable.Replace(",",".") ?? string.Empty) + "]]></F" + field.Id +
@@ -4937,7 +4919,7 @@ namespace eFormCore
 
             return jasperFieldXml;
         }
-        
+
         private void GetChecksAndFields(ref string clsLst, ref string fldLst, List<Element> elementLst, string customPathForUploadedData)
 
         {
@@ -4971,7 +4953,7 @@ namespace eFormCore
                             {
                                 jasperFieldXml += Environment.NewLine + "<F" + field.Id + " name=\"" + field.Label + "\" parent=\"" + dataE.Label + "\">";
                                 foreach (FieldValue answer in field.FieldValues)
-                                {                                    
+                                {
                                     jasperFieldXml += GetJasperFieldValue(field, answer, customPathForUploadedData).GetAwaiter().GetResult();
                                 }
 
@@ -5077,7 +5059,7 @@ namespace eFormCore
                 #endregion
 
                 #region checks checkSum
-                if (chechSum != fileName.AsSpan().Slice(fileName.LastIndexOf(".") - 32, 32).ToString()) 
+                if (chechSum != fileName.AsSpan().Slice(fileName.LastIndexOf(".") - 32, 32).ToString())
                 //.Substring(fileName.LastIndexOf(".") - 32, 32))
                     log.LogWarning(methodName, $"Download of '{urlStr}' failed. Check sum did not match");
                 #endregion
@@ -5104,7 +5086,7 @@ namespace eFormCore
                         log.LogWarning(methodName, $"File could not be found at filepath {filePath}");
                     }
                 }
-                
+
                 return true;
             }
 
@@ -5131,7 +5113,7 @@ namespace eFormCore
             catch (UnauthorizedAccessException)
             {
                 _swiftClient.AuthenticateAsyncV2(_keystoneEndpoint, _swiftUserName, _swiftPassword);
-                
+
                 return await GetFileFromSwiftStorage(fileName, 0).ConfigureAwait(false);
             }
         }
@@ -5140,7 +5122,7 @@ namespace eFormCore
         {
             string methodName = "Core.GetFileFromSwiftStorage";
             if (_swiftEnabled)
-            {                
+            {
                 log.LogStandard(methodName, $"Trying to get file {fileName} from {_customerNo}_uploaded_data");
                 SwiftObjectGetResponse response = await _swiftClient.ObjectGetAsync(_customerNo + "_uploaded_data", fileName).ConfigureAwait(false);
                 if (response.IsSuccess)
@@ -5154,7 +5136,7 @@ namespace eFormCore
                         log.LogWarning(methodName, "Check swift credentials : Unauthorized");
                         throw new UnauthorizedAccessException();
                     }
-                    
+
                     log.LogCritical(methodName, $"Could not get file {fileName}, reason is {response.Reason}");
                     throw new Exception($"Could not get file {fileName}");
                 }
@@ -5174,7 +5156,7 @@ namespace eFormCore
                 _swiftClient.AuthenticateAsyncV2(_keystoneEndpoint, _swiftUserName, _swiftPassword);
                 await PutFileToStorageSystem(filePath, fileName, 0).ConfigureAwait(false);
             }
-            
+
         }
 
         private async Task PutFileToStorageSystem(String filePath, string fileName, int tryCount)
@@ -5236,7 +5218,7 @@ namespace eFormCore
             {
                 log.LogCritical(methodName, $"File not found at {filePath}");
                 log.LogCritical(methodName, ex.Message);
-            }   
+            }
         }
 
         private async Task PutFileToS3Storage(string filePath, string fileName, int tryCount)
@@ -5260,9 +5242,9 @@ namespace eFormCore
             {
                 log.LogWarning(methodName, $"Something went wrong, message was {ex.Message}");
             }
-            
+
         }
-        
+
         public async Task<bool> CheckStatusByMicrotingUid(int microtingUid)
         {
             string methodName = "Core.CheckStatusByMicrotingUid";
@@ -5361,7 +5343,7 @@ namespace eFormCore
                 }
             }
             return true;
-        }        
+        }
         #endregion
 
 

@@ -93,5 +93,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public bool JasperExportEnabled { get; set; }
         
         public bool DocxExportEnabled { get; set; }
+
+        public bool ExcelExportEnabled { get; set; }
     }
 }

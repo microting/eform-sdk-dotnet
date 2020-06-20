@@ -599,32 +599,6 @@ namespace Microting.eForm.Infrastructure
                 throw new Exception(methodName + " failed", ex);
             }
         }
-
-        public async Task SetJasperExportEnabled(int eFormId, bool isEnabled)
-        {
-            using (var db = GetContext())
-            {
-                check_lists checkList = await db.check_lists.SingleOrDefaultAsync(x => x.Id == eFormId);
-                if (checkList != null)
-                {
-                    checkList.JasperExportEnabled = isEnabled;
-                    await checkList.Update(db).ConfigureAwait(false);
-                }
-            }
-        }
-
-        public async Task SetDocxExportEnabled(int eFormId, bool isEnabled)
-        {
-            using (var db = GetContext())
-            {
-                check_lists checkList = await db.check_lists.SingleOrDefaultAsync(x => x.Id == eFormId);
-                if (checkList != null)
-                {
-                    checkList.DocxExportEnabled = isEnabled;
-                    await checkList.Update(db).ConfigureAwait(false);
-                }
-            }
-        }
         
         #endregion
 
