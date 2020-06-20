@@ -242,12 +242,12 @@ namespace Microting.eForm.Infrastructure.Models.reply
                 #region value type
 
                 var jObject = JObject.Parse(json);
-                if (jObject["ValueObj"]?["Type"] != null)
+                if (jObject["Value"]?["Type"] != null)
                 {
-                    value = jObject["ValueObj"]["Value"]?.ToString();
-                    var parsed = Enum.TryParse(jObject["ValueObj"]["Type"].ToString(), true, out rType);
+                    value = jObject["Value"]["Value"]?.ToString();
+                    var parsed = Enum.TryParse(jObject["Value"]["Type"].ToString(), true, out rType);
                     if (!parsed)
-                        throw new IndexOutOfRangeException("ResponseType:'" + jObject["ValueObj"]["Type"].ToString() + "' is not known. " + json);
+                        throw new IndexOutOfRangeException("ResponseType:'" + jObject["Value"]["Type"].ToString() + "' is not known. " + json);
                 }
                 #endregion
 

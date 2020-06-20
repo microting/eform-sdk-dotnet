@@ -92,8 +92,18 @@ namespace Microting.eForm.Communication
             }
             catch (Exception ex)
             {
-                // to do update exception
-                return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='converterError'>" + ex.Message + "</Value>\n\t</Response>";
+                if (contentType == "application/x-www-form-urlencoded")
+                {
+                    return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='converterError'>" + ex.Message + "</Value>\n\t</Response>";
+
+                }
+                return  @"{
+                        Value: {
+                            Type: ""success"",
+                            Value: """ + ex.Message + @"""
+                        }
+
+                    }";
             }
         }
 

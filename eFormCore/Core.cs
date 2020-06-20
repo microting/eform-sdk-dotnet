@@ -507,7 +507,7 @@ namespace eFormCore
 
             try
             {
-                log.LogFatalException(methodName + " called for reason:'" + reason + "'", exception);
+                log?.LogFatalException(methodName + " called for reason:'" + reason + "'", exception);
             }
             catch { }
 

@@ -38,7 +38,9 @@ namespace eFormSDK.Integration.CoreTests
                 await sut.StartSqlOnly(ConnectionString);
             }
             path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
+            UriBuilder uri = new UriBuilder(path);
+            path = Uri.UnescapeDataString(uri.Path);
+            path = Path.GetDirectoryName(path);
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
