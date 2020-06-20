@@ -4582,7 +4582,7 @@ namespace eFormCore
             throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + xmlStrResponse);
         }
 
-        private async Task<List<List<string>>> GenerateDataSetFromCases(int? checkListId, DateTime? start, DateTime? end, string customPathForUploadedData, string decimalSeparator, string thousandSaperator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo)
+        public async Task<List<List<string>>> GenerateDataSetFromCases(int? checkListId, DateTime? start, DateTime? end, string customPathForUploadedData, string decimalSeparator, string thousandSaperator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo)
         {
             using (MicrotingDbContext dbContext = dbContextHelper.GetDbContext())
             {
