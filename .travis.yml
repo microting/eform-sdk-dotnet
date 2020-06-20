@@ -46,7 +46,9 @@ jobs:
     #    - arm64
     #  script: ./integration-tests-sqlcontroller.sh
     - stage: "Deploy"
-      if: branch = master
       os: linux
       arch: amd64
       script: ./deploy.sh
+      on:
+        all_branches: true
+        condition: $TRAVIS_BRANCH =~ ^(master|netcore3)$
