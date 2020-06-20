@@ -106,6 +106,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         public bool DocxExportEnabled { get; set; }
 
+        public bool ExcelExportEnabled { get; set; }
+
         public virtual ICollection<cases> Cases { get; set; }
 
         public virtual ICollection<check_list_sites> CheckListSites { get; set; }
@@ -128,7 +130,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             dbContext.check_lists.Add(this);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
-            dbContext.check_list_versions.Add(MapCheckListVersions(this));
+            dbContext.check_list_versions.Add(MapVersions(this));
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
@@ -172,13 +174,14 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             checkList.OriginalId = OriginalId;
             checkList.JasperExportEnabled = JasperExportEnabled;
             checkList.DocxExportEnabled = DocxExportEnabled;
+            checkList.ExcelExportEnabled = ExcelExportEnabled;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
                 checkList.UpdatedAt = DateTime.UtcNow;
                 checkList.Version += 1;
 
-                dbContext.check_list_versions.Add(MapCheckListVersions(checkList));
+                dbContext.check_list_versions.Add(MapVersions(checkList));
                 await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
@@ -199,12 +202,12 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 checkList.UpdatedAt = DateTime.UtcNow;
                 checkList.Version += 1;
 
-                dbContext.check_list_versions.Add(MapCheckListVersions(checkList));
+                dbContext.check_list_versions.Add(MapVersions(checkList));
                 await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
         
-        private check_list_versions MapCheckListVersions(check_lists checkList)
+        private check_list_versions MapVersions(check_lists checkList)
         {
             return new check_list_versions
             {
@@ -243,7 +246,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 OriginalId = checkList.OriginalId,
                 JasperExportEnabled = checkList.JasperExportEnabled,
                 DocxExportEnabled = checkList.DocxExportEnabled,
-                CheckListId = checkList.Id
+                CheckListId = checkList.Id,
+                ExcelExportEnabled = checkList.ExcelExportEnabled
             };
         }
     }
