@@ -244,8 +244,8 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches1[0].WorkflowState);
             Assert.AreEqual(100, caseResults[0].Status);
             Assert.AreEqual(100, versionedMatches1[0].Status);
-            Assert.AreEqual("6/11/20 10:08:16 AM", caseResults[0].DoneAt.ToString());
-            Assert.AreEqual("6/11/20 10:08:16 AM", versionedMatches1[0].DoneAt.ToString());
+            Assert.AreEqual("6/11/2020 10:08:16 AM", caseResults[0].DoneAt.ToString());
+            Assert.AreEqual("6/11/2020 10:08:16 AM", versionedMatches1[0].DoneAt.ToString());
 
         }
 
