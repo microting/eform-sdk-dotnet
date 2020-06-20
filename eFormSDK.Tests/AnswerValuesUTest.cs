@@ -136,7 +136,7 @@ namespace eFormSDK.Tests
              {
                  Question = question,
                  Weight = rnd.Next(1, 255),
-                 OptionsIndex = rnd.Next(1, 255),
+                 OptionIndex = rnd.Next(1, 255),
                  QuestionId = question.Id,
                  WeightValue = rnd.Next(1, 255),
                  ContinuousOptionId = rnd.Next(1, 255)
@@ -307,7 +307,7 @@ namespace eFormSDK.Tests
              {
                  Question = question,
                  Weight = rnd.Next(1, 255),
-                 OptionsIndex = rnd.Next(1, 255),
+                 OptionIndex = rnd.Next(1, 255),
                  QuestionId = question.Id,
                  WeightValue = rnd.Next(1, 255),
                  ContinuousOptionId = rnd.Next(1, 255)
@@ -497,7 +497,7 @@ namespace eFormSDK.Tests
              options option = new options
              {
                  Weight = rnd.Next(1, 255),
-                 OptionsIndex = rnd.Next(1, 255),
+                 OptionIndex = rnd.Next(1, 255),
                  QuestionId = question.Id,
                  WeightValue = rnd.Next(1, 255),
                  ContinuousOptionId = rnd.Next(1, 255)

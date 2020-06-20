@@ -43,10 +43,15 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public int LastCheckId { get; set; }
 
+        [ForeignKey("folder")]
+        public int? FolderId { get; set; }
+
         public virtual sites Site { get; set; }
 
         public virtual check_lists CheckList { get; set; }
-        
+
+        public virtual folders Folder { get; set; }
+
         public async Task Create(MicrotingDbContext dbContext)
         {
             WorkflowState = Constants.Constants.WorkflowStates.Created;
@@ -74,7 +79,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             checkListSites.CheckListId = CheckListId;
             checkListSites.MicrotingUid = MicrotingUid;
             checkListSites.LastCheckId = LastCheckId;
-            
+            checkListSites.FolderId = FolderId;
+
             if (dbContext.ChangeTracker.HasChanges())
             {
                 checkListSites.Version += 1;
@@ -118,7 +124,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 SiteId = checkListSite.SiteId,
                 Version = checkListSite.Version,
                 WorkflowState = checkListSite.WorkflowState,
-                CheckListSiteId = checkListSite.Id
+                CheckListSiteId = checkListSite.Id,
+                FolderId = checkListSite.FolderId
             };
         }
     }

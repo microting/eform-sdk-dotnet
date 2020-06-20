@@ -322,12 +322,13 @@ namespace Microting.eForm.Infrastructure
                             break;
                     }
 
-                    matches = sub_query.ToList();
+                    matches = await sub_query.ToListAsync().ConfigureAwait(false);
 
                     foreach (check_lists checkList in matches)
                     {
                         List<SiteNameDto> sites = new List<SiteNameDto>();
                         List<check_list_sites> check_list_sites = null;
+                        int? folderId = null;
 
                         if (siteWorkflowState == Constants.Constants.WorkflowStates.Removed)
                             check_list_sites = checkList.CheckListSites.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed).ToList();
@@ -340,6 +341,7 @@ namespace Microting.eForm.Infrastructure
                             {
                                 SiteNameDto site = new SiteNameDto((int)check_list_site.Site.MicrotingUid, check_list_site.Site.Name, check_list_site.Site.CreatedAt, check_list_site.Site.UpdatedAt);
                                 sites.Add(site);
+                                folderId = check_list_site.FolderId;
                             } catch (Exception innerEx)
                             {
                                 log.LogException(methodName, "could not add the site to the sites for site.Id : " + check_list_site.Site.Id.ToString() + " and got exception : " + innerEx.Message, innerEx);
@@ -348,7 +350,12 @@ namespace Microting.eForm.Infrastructure
                             
                         }
 
-                        bool hasCases = db.cases.Where(x => x.CheckListId == checkList.Id).AsQueryable().Count() != 0;
+                        var cases = db.cases.Where(x => x.CheckListId == checkList.Id).AsQueryable();
+                        bool hasCases = cases.Count() != 0;
+                        if (hasCases)
+                        {
+                            folderId = cases.Last().FolderId;
+                        }
                         
                         #region loadtags
                         List<taggings> tagging_matches = checkList.Taggings.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList();
@@ -361,7 +368,22 @@ namespace Microting.eForm.Infrastructure
                         #endregion
                         try
                         {
-                            Template_Dto templateDto = new Template_Dto(checkList.Id, checkList.CreatedAt, checkList.UpdatedAt, checkList.Label, checkList.Description, (int)checkList.Repeated, checkList.FolderName, checkList.WorkflowState, sites, hasCases, checkList.DisplayIndex, check_list_tags);
+                            Template_Dto templateDto = new Template_Dto()
+                            {
+                                Id = checkList.Id,
+                                CreatedAt = checkList.CreatedAt,
+                                UpdatedAt = checkList.UpdatedAt,
+                                Label = checkList.Label,
+                                Description = checkList.Description,
+                                Repeated = (int)checkList.Repeated,
+                                FolderName = checkList.FolderName,
+                                WorkflowState = checkList.WorkflowState,
+                                DeployedSites = sites,
+                                HasCases = hasCases,
+                                DisplayIndex = checkList.DisplayIndex,
+                                Tags = check_list_tags,
+                                FolderId = folderId
+                            };
                             templateList.Add(templateDto);
                         }
                         catch (Exception innerEx)
@@ -609,7 +631,7 @@ namespace Microting.eForm.Infrastructure
         #region public (pre)case
 
         //TODO
-        public async Task CheckListSitesCreate(int checkListId, int siteUId, int microtingUId)
+        public async Task CheckListSitesCreate(int checkListId, int siteUId, int microtingUId, int? folderId)
         {
             string methodName = "SqlController.CheckListSitesCreate";
             try
@@ -623,6 +645,7 @@ namespace Microting.eForm.Infrastructure
                     cLS.LastCheckId = 0;
                     cLS.MicrotingUid = microtingUId;
                     cLS.SiteId = siteId;
+                    cLS.FolderId = folderId;
                     await cLS.Create(db).ConfigureAwait(false);
                 }
             }
@@ -670,7 +693,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="createdAt"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<int> CaseCreate(int checkListId, int siteUId, int? microtingUId, int? microtingCheckId, string caseUId, string custom, DateTime createdAt)
+        public async Task<int> CaseCreate(int checkListId, int siteUId, int? microtingUId, int? microtingCheckId, string caseUId, string custom, DateTime createdAt, int? folderId)
         {
             string methodName = "SqlController.CaseCreate";
             log.LogStandard(methodName, "called");
@@ -700,7 +723,8 @@ namespace Microting.eForm.Infrastructure
                             MicrotingCheckUid = microtingCheckId,
                             CaseUid = caseUId,
                             SiteId = siteId,
-                            Custom = custom
+                            Custom = custom,
+                            FolderId = folderId
                         };
                         
                         await aCase.Create(db).ConfigureAwait(false);
@@ -715,6 +739,7 @@ namespace Microting.eForm.Infrastructure
                         aCase.CaseUid = caseUId;
                         aCase.SiteId = siteId;
                         aCase.Custom = custom;
+                        aCase.FolderId = folderId;
                         await aCase.Update(db).ConfigureAwait(false);
                     }
                     log.LogStandard(methodName, $"aCase is created in db");
@@ -938,7 +963,7 @@ namespace Microting.eForm.Infrastructure
                     try //if a reversed case, case needs to be created
                     {
                         check_list_sites cLS = await db.check_list_sites.SingleAsync(x => x.MicrotingUid == int.Parse(response.Value));
-                        int caseId = await CaseCreate((int)cLS.CheckListId, (int)cLS.Site.MicrotingUid, int.Parse(response.Value), response.Checks[xmlIndex].Id, "ReversedCase", "", DateTime.Now);
+                        int caseId = await CaseCreate((int)cLS.CheckListId, (int)cLS.Site.MicrotingUid, int.Parse(response.Value), response.Checks[xmlIndex].Id, "ReversedCase", "", DateTime.Now, cLS.FolderId);
                         responseCase = await db.cases.SingleAsync(x => x.Id == caseId);
                     }
                     catch //already created case Id retrived
@@ -2661,23 +2686,23 @@ namespace Microting.eForm.Infrastructure
                 using (var db = GetContext())
                 {
                     //cases dbCase = null;
-                    IQueryable<cases> sub_query = db.cases.Where(x => x.CheckListId == templateId && x.Status == 100);
+                    IQueryable<cases> subQuery = db.cases.Where(x => x.CheckListId == templateId && x.Status == 100);
                     switch (workflowState)
                     {
                         case Constants.Constants.WorkflowStates.NotRetracted:
-                            sub_query = sub_query.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Retracted);
+                            subQuery = subQuery.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Retracted);
                             break;
                         case Constants.Constants.WorkflowStates.NotRemoved:
-                            sub_query = sub_query.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
+                            subQuery = subQuery.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
                             break;
                         case Constants.Constants.WorkflowStates.Created:
-                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created);
+                            subQuery = subQuery.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created);
                             break;
                         case Constants.Constants.WorkflowStates.Retracted:
-                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Retracted);
+                            subQuery = subQuery.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Retracted);
                             break;
                         case Constants.Constants.WorkflowStates.Removed:
-                            sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed);
+                            subQuery = subQuery.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed);
                             break;
                         default:
                             break;
@@ -2685,7 +2710,13 @@ namespace Microting.eForm.Infrastructure
 
                     try
                     {
-                        return sub_query.First().Id;
+                        var result = await subQuery.FirstOrDefaultAsync().ConfigureAwait(false);
+                        if (result != null)
+                        {
+                            return result.Id;
+                        }
+
+                        return null;
                     } catch (Exception ex)
                     {
                         throw new Exception(methodName + " failed", ex);
@@ -4956,7 +4987,7 @@ namespace Microting.eForm.Infrastructure
                     WriteErrorConsoleLogEntry(logEntry);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //t.PrintException(methodName + " failed", ex);
             }

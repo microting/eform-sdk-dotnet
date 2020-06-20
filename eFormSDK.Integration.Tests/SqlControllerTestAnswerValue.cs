@@ -155,7 +155,7 @@ namespace eFormSDK.Integration.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id,
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 NextQuestionId = rnd.Next(1, 255),
                 ContinuousOptionId = rnd.Next(1, 255)
             };
@@ -278,7 +278,7 @@ namespace eFormSDK.Integration.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id,
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 NextQuestionId = rnd.Next(1, 255),
                 ContinuousOptionId = rnd.Next(1, 255)
             };
@@ -338,7 +338,7 @@ namespace eFormSDK.Integration.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id,
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 NextQuestionId = rnd.Next(1, 255),
                 ContinuousOptionId = rnd.Next(1, 255)
             };
@@ -470,7 +470,7 @@ namespace eFormSDK.Integration.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id,
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 NextQuestionId = rnd.Next(1, 255),
                 ContinuousOptionId = rnd.Next(1, 255)
             };

@@ -419,7 +419,9 @@ namespace eFormCore
         /// <summary>
         /// Closes the Core and disables Events
         /// </summary>
+#pragma warning disable 1998
         public async Task<bool> Close()
+#pragma warning restore 1998
         {
             string methodName = "Core.Close";
             log.LogStandard(methodName, "Close called");
@@ -493,7 +495,9 @@ namespace eFormCore
             return _coreAvailable;
         }
 
+#pragma warning disable 1998
         public async Task FatalExpection(string reason, Exception exception)
+#pragma warning restore 1998
         {
             string methodName = "Core.FatalExpection";
             _coreAvailable = false;
@@ -519,7 +523,9 @@ namespace eFormCore
         /// Converts XML from ex. eForm Builder or other sources, into a MainElement
         /// </summary>
         /// <param name="xmlString">XML string to be converted</param>
+#pragma warning disable 1998
         public async Task<MainElement> TemplateFromXml(string xmlString)
+#pragma warning restore 1998
         {
             if (string.IsNullOrEmpty(xmlString))
                 throw new ArgumentNullException("xmlString cannot be null or empty");
@@ -825,7 +831,9 @@ namespace eFormCore
 
         }
 
+#pragma warning disable 1998
         private async Task<List<string>> CheckListValidation(MainElement mainElement)
+#pragma warning restore 1998
         {
             string methodName = "Core.CheckListValidation";
             log.LogStandard(methodName, "called");
@@ -1143,11 +1151,11 @@ namespace eFormCore
         /// <param name="caseUId">Optional own id</param>
         /// <param name="siteUid">API id of the site to deploy the eForm at</param>
         /// <returns>Microting API ID</returns>
-        public async Task<int?> CaseCreate(MainElement mainElement, string caseUId, int siteUid)
+        public async Task<int?> CaseCreate(MainElement mainElement, string caseUId, int siteUid, int? folderId)
         {
             List<int> siteUids = new List<int>();
             siteUids.Add(siteUid);
-            List<int> lst = await CaseCreate(mainElement, caseUId, siteUids, "").ConfigureAwait(false);
+            List<int> lst = await CaseCreate(mainElement, caseUId, siteUids, "", folderId).ConfigureAwait(false);
 
             try
             {
@@ -1166,7 +1174,7 @@ namespace eFormCore
         /// <param name="caseUId">NEEDS TO BE UNIQUE IF ASSIGNED. The unique identifier that you can assign yourself to the set of case(s). If used (not blank or null), the cases are connected. Meaning that if one is completed, all in the set is retracted. If you wish to use caseUId and not have the cases connected, use this method multiple times, each with a unique caseUId</param>
         /// <param name="siteIds">List of siteIds that case(s) will be sent to</param>
         /// <param name="custom">Custom extended parameter</param>
-        public async Task<List<int>> CaseCreate(MainElement mainElement, string caseUId, List<int> siteUids, string custom)
+        public async Task<List<int>> CaseCreate(MainElement mainElement, string caseUId, List<int> siteUids, string custom, int? folderId)
         {
             string methodName = "Core.CaseCreate";
             try
@@ -1207,9 +1215,9 @@ namespace eFormCore
                         int mUId = await SendJson(mainElement, siteUid);
 
                         if (mainElement.Repeated == 1)
-                            await _sqlController.CaseCreate(mainElement.Id, siteUid, mUId, null, caseUId, custom, DateTime.Now).ConfigureAwait(false);
+                            await _sqlController.CaseCreate(mainElement.Id, siteUid, mUId, null, caseUId, custom, DateTime.Now, folderId).ConfigureAwait(false);
                         else
-                            await _sqlController.CheckListSitesCreate(mainElement.Id, siteUid, mUId).ConfigureAwait(false);
+                            await _sqlController.CheckListSitesCreate(mainElement.Id, siteUid, mUId, folderId).ConfigureAwait(false);
 
                         CaseDto cDto = await _sqlController.CaseReadByMUId(mUId);
                         //InteractionCaseUpdate(cDto);
@@ -1882,13 +1890,12 @@ namespace eFormCore
                     if (dataSet == null)
                         return "";
 
-                    List<string> temp;
-                    string text = "";
+                    // string text = "";
                     StringBuilder stringBuilder = new StringBuilder();
 
                     for (int rowN = 0; rowN < dataSet[0].Count; rowN++)
                     {
-                        temp = new List<string>();
+                        var temp = new List<string>();
 
                         foreach (List<string> lst in dataSet)
                         {
@@ -2274,7 +2281,8 @@ namespace eFormCore
                         }
                         break;
                     case Constants.FieldTypes.CheckBox:
-                        valuePairs[$"F_{fieldValue.FieldId}"] = fieldValue.ValueReadable.ToLower() == "checked" ? "&#10004;" : "";
+                        valuePairs[$"F_{fieldValue.FieldId}"] = !string.IsNullOrEmpty(fieldValue.ValueReadable) ? (
+                            fieldValue.ValueReadable.ToLower() == "checked" ? "&#10004;" : "") : "";
                         break;
                     case Constants.FieldTypes.FieldGroup:
                         break;
@@ -2534,7 +2542,6 @@ namespace eFormCore
 
         public async Task<List<SiteDto>> SiteReadAll(bool includeRemoved)
         {
-            string methodName = "Core.SiteReadAll";
             if (Running())
             {
                 if (includeRemoved)
@@ -3249,85 +3256,84 @@ namespace eFormCore
 
                         JToken parsedQuestionSet = innerParsedData.GetValue("QuestionSet");
 
-                        int questionSetMicrotingUid = int.Parse(parsedQuestionSet["MicrotingUid"].ToString());
-                        var questionSet = await db.question_sets.SingleOrDefaultAsync(x => x.MicrotingUid == questionSetMicrotingUid).ConfigureAwait(false);
-                        if (questionSet != null)
+                        if (parsedQuestionSet != null)
                         {
-                            questionSet.Name = parsedQuestionSet["Name"].ToString();
-                            await questionSet.Update(db);
-                        }
-                        else
-                        {
-                            questionSet = new question_sets()
+                            int questionSetMicrotingUid = int.Parse(parsedQuestionSet["MicrotingUid"].ToString());
+                            var questionSet = await db.question_sets.SingleOrDefaultAsync(x => x.MicrotingUid == questionSetMicrotingUid).ConfigureAwait(false);
+                            if (questionSet != null)
                             {
-                                Name = parsedQuestionSet["Name"].ToString(),
-                                MicrotingUid = questionSetMicrotingUid
-                            };
-                            await questionSet.Create(db);
-                        }
-
-                        var surveyConfiguration = 
-                            await db.survey_configurations.SingleOrDefaultAsync(x => 
-                                x.MicrotingUid == microtingUid).ConfigureAwait(false);
-                        if (surveyConfiguration != null)
-                        {
-                            surveyConfiguration.Name = name;
-                            if (subItem["WorkflowState"].ToString().Equals("active"))
-                            {
-                                surveyConfiguration.WorkflowState = Constants.WorkflowStates.Active;
+                                questionSet.Name = parsedQuestionSet["Name"].ToString();
+                                await questionSet.Update(db);
                             }
                             else
                             {
-                                surveyConfiguration.WorkflowState = Constants.WorkflowStates.Created;
-                            }
-                            await surveyConfiguration.Update(db).ConfigureAwait(false);
-                        }
-                        else
-                        {
-                            surveyConfiguration = new survey_configurations()
-                            {
-                                MicrotingUid = microtingUid,
-                                Name = name,
-                                QuestionSetId = questionSet.Id,
-                                WorkflowState = subItem["WorkflowState"].ToString().Equals("active") 
-                                    ? Constants.WorkflowStates.Active : Constants.WorkflowStates.Created
-                            };
-                            await surveyConfiguration.Create(db).ConfigureAwait(false);
-                        }
-
-                        foreach (JToken child in innerParsedData.GetValue("Sites").Children())
-                        {
-                            var site = await db.sites.SingleOrDefaultAsync(x => x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString())).ConfigureAwait(false);
-                            if (site != null)
-                            {
-                                var siteSurveyConfiguration =
-                                    await db.site_survey_configurations.SingleOrDefaultAsync(x => 
-                                        x.SiteId == site.Id && x.SurveyConfigurationId == surveyConfiguration.Id).ConfigureAwait(false);
-                                if (siteSurveyConfiguration == null)
+                                questionSet = new question_sets()
                                 {
-                                    siteSurveyConfiguration = new site_survey_configurations()
-                                    {
-                                        SiteId = site.Id,
-                                        SurveyConfigurationId = surveyConfiguration.Id
-                                    };
-                                    await siteSurveyConfiguration.Create(db).ConfigureAwait(false);
+                                    Name = parsedQuestionSet["Name"].ToString(),
+                                    MicrotingUid = questionSetMicrotingUid
+                                };
+                                await questionSet.Create(db);
+                            }
+
+                            var surveyConfiguration = 
+                                await db.survey_configurations.SingleOrDefaultAsync(x =>
+                                    x.MicrotingUid == microtingUid).ConfigureAwait(false);
+                            if (surveyConfiguration != null)
+                            {
+                                surveyConfiguration.Name = name;
+                                if (subItem["WorkflowState"].ToString().Equals("active"))
+                                {
+                                    surveyConfiguration.WorkflowState = Constants.WorkflowStates.Active;
                                 }
                                 else
                                 {
-                                    siteSurveyConfiguration.WorkflowState = Constants.WorkflowStates.Created;
-                                    await siteSurveyConfiguration.Update(db).ConfigureAwait(false);
+                                    surveyConfiguration.WorkflowState = Constants.WorkflowStates.Created;
+                                }
+                                await surveyConfiguration.Update(db).ConfigureAwait(false);
+                            }
+                            else
+                            {
+                                surveyConfiguration = new survey_configurations()
+                                {
+                                    MicrotingUid = microtingUid,
+                                    Name = name,
+                                    QuestionSetId = questionSet.Id,
+                                    WorkflowState = subItem["WorkflowState"].ToString().Equals("active")
+                                        ? Constants.WorkflowStates.Active : Constants.WorkflowStates.Created
+                                };
+                                await surveyConfiguration.Create(db).ConfigureAwait(false);
+                            }
+
+                            foreach (JToken child in innerParsedData.GetValue("Sites").Children())
+                            {
+                                var site = await db.sites.SingleOrDefaultAsync(x => x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString())).ConfigureAwait(false);
+                                if (site != null)
+                                {
+                                    var siteSurveyConfiguration =
+                                        await db.site_survey_configurations.SingleOrDefaultAsync(x =>
+                                            x.SiteId == site.Id && x.SurveyConfigurationId == surveyConfiguration.Id).ConfigureAwait(false);
+                                    if (siteSurveyConfiguration == null)
+                                    {
+                                        siteSurveyConfiguration = new site_survey_configurations()
+                                        {
+                                            SiteId = site.Id,
+                                            SurveyConfigurationId = surveyConfiguration.Id
+                                        };
+                                        await siteSurveyConfiguration.Create(db).ConfigureAwait(false);
+                                    }
+                                    else
+                                    {
+                                        siteSurveyConfiguration.WorkflowState = Constants.WorkflowStates.Created;
+                                        await siteSurveyConfiguration.Update(db).ConfigureAwait(false);
+                                    }
                                 }
                             }
                         }
                     }
                 }
-                
             }
-            
             return true;
-
         }
-
         #endregion
         
         #region QuestionSet
@@ -3420,6 +3426,7 @@ namespace eFormCore
                         }
                         
                         JToken parsedOptions = innerParsedData.GetValue("Options");
+                        int i = 0;
                         foreach (JToken child in parsedOptions.Children())
                         {
                             var option = await db.options.SingleOrDefaultAsync(x =>
@@ -3429,7 +3436,14 @@ namespace eFormCore
                                 var result = JsonConvert.DeserializeObject<options>(child.ToString());
                                 var nextQuestionId =
                                     db.questions.SingleOrDefault(x => x.MicrotingUid == result.NextQuestionId);
-                                result.QuestionId = db.questions.Single(x => x.MicrotingUid == result.QuestionId).Id;
+                                var question = db.questions.Single(x => x.MicrotingUid == result.QuestionId);
+                                if (question.QuestionType == Constants.QuestionTypes.Multi ||
+                                    question.QuestionType == Constants.QuestionTypes.Buttons ||
+                                    question.QuestionType == Constants.QuestionTypes.List)
+                                {
+                                    result.WeightValue = i;
+                                }
+                                result.QuestionId = question.Id;
                                 result.NextQuestionId = nextQuestionId?.Id;
                                 await result.Create(db).ConfigureAwait(false);
                             }
@@ -3441,6 +3455,8 @@ namespace eFormCore
                                     await option.Update(db);
                                 }
                             }
+
+                            i += 1;
                         }
                         
                         JToken parsedOptionTranslations = innerParsedData.GetValue("OptionTranslations");
@@ -3554,11 +3570,17 @@ namespace eFormCore
                             if (db.answer_values.SingleOrDefault(x => x.MicrotingUid == answerValue.MicrotingUid) ==
                                 null)
                             {
+                                var question = db.questions.Single(x => x.MicrotingUid == answerValue.QuestionId);
+                                var option = db.options.Single(x => x.MicrotingUid == answerValue.OptionId);
+                                if (question.QuestionType == Constants.QuestionTypes.Buttons || question.QuestionType == Constants.QuestionTypes.List || question.QuestionType == Constants.QuestionTypes.Multi)
+                                {
+                                    answerValue.Value = option.OptionTranslationses.First().Name;
+                                }
                                 answerValue.AnswerId = answer.Id;
                                 answerValue.QuestionId =
-                                    db.questions.Single(x => x.MicrotingUid == answerValue.QuestionId).Id;
+                                    question.Id;
                                 answerValue.OptionId =
-                                    db.options.Single(x => x.MicrotingUid == answerValue.OptionId).Id;
+                                    option.Id;
                                 await answerValue.Create(db).ConfigureAwait(false);
                             }
                         }
@@ -5168,7 +5190,9 @@ namespace eFormCore
             }
         }
 
+#pragma warning disable 1998
         private async Task PutFileToSwiftStorage(string filePath, string fileName, int tryCount)
+#pragma warning restore 1998
         {
             string methodName = "Core.PutFileToSwiftStorage";
             log.LogStandard(methodName, $"Trying to upload file {fileName} to {_customerNo}_uploaded_data");
@@ -5348,8 +5372,10 @@ namespace eFormCore
 
         #region fireEvents
 
+#pragma warning disable 1998
         public async Task FireHandleCaseCompleted(CaseDto caseDto)
-		{
+#pragma warning restore 1998
+        {
             string methodName = "Core.FireHandleCaseCompleted";
 		    log.LogStandard(methodName, $"FireHandleCaseCompleted for MicrotingUId {caseDto.MicrotingUId}");
 			try { HandleCaseCompleted.Invoke(caseDto, EventArgs.Empty); }
@@ -5360,28 +5386,36 @@ namespace eFormCore
 			}
 		}
 
+#pragma warning disable 1998
         public async Task FireHandleCaseDeleted(CaseDto caseDto)
+#pragma warning restore 1998
         {
             string methodName = "Core.FireHandleCaseDeleted";
             try { HandleCaseDeleted?.Invoke(caseDto, EventArgs.Empty); }
             catch { log.LogWarning(methodName, "HandleCaseCompleted event's external logic suffered an Expection"); }
         }
 
+#pragma warning disable 1998
         public async Task FireHandleNotificationNotFound(NoteDto notification)
+#pragma warning restore 1998
         {
             string methodName = "Core.FireHandleNotificationNotFound";
             try { HandleNotificationNotFound?.Invoke(notification, EventArgs.Empty); }
             catch { log.LogWarning(methodName, "HandleNotificationNotFound event's external logic suffered an Expection"); }
         }
 
+#pragma warning disable 1998
         public async Task FireHandleSiteActivated(NoteDto notification)
+#pragma warning restore 1998
         {
             string methodName = "Core.FireHandleSiteActivated";
             try { HandleSiteActivated?.Invoke(notification, EventArgs.Empty); }
             catch { log.LogWarning(methodName, "HandleSiteActivated event's external logic suffered an Expection"); }
         }
 
+#pragma warning disable 1998
         public async Task FireHandleCaseProcessedByServer(CaseDto caseDto)
+#pragma warning restore 1998
         {
             string methodName = "Core.FireHandleCaseProcessedByServer";
             log.LogStandard(methodName, $"HandleCaseProcessedByServer for MicrotingUId {caseDto.MicrotingUId}");
@@ -5394,7 +5428,9 @@ namespace eFormCore
             }
         }
 
+#pragma warning disable 1998
         public async Task FireHandleCaseProcessingError(CaseDto caseDto)
+#pragma warning restore 1998
         {
             string methodName = "Core.FireHandleCaseProcessingError";
             log.LogStandard(methodName, $"HandleCaseProcessingError for MicrotingUId {caseDto.MicrotingUId}");
@@ -5407,8 +5443,10 @@ namespace eFormCore
             }
         }
 
-		public async Task FireHandleCaseRetrived(CaseDto caseDto)
-		{
+#pragma warning disable 1998
+        public async Task FireHandleCaseRetrived(CaseDto caseDto)
+#pragma warning restore 1998
+        {
             string methodName = "Core.FireHandleCaseRetrived";
 		    log.LogStandard(methodName, $"FireHandleCaseRetrived for MicrotingUId {caseDto.MicrotingUId}");
 

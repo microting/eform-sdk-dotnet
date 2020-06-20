@@ -46,19 +46,19 @@ namespace eFormSDK.Integration.Tests
 
         private MicrotingDbContext GetContext(string connectionStr)
         {
-            
+
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
-         
+
             if (ConnectionString.ToLower().Contains("convert zero datetime"))
             {
                 dbContextOptionsBuilder.UseMySql(connectionStr);
             }
             else
             {
-                dbContextOptionsBuilder.UseSqlServer(connectionStr);          
+                dbContextOptionsBuilder.UseSqlServer(connectionStr);
             }
             dbContextOptionsBuilder.UseLazyLoadingProxies(true);
-            return new MicrotingDbContext(dbContextOptionsBuilder.Options);            
+            return new MicrotingDbContext(dbContextOptionsBuilder.Options);
 
         }
 
@@ -66,7 +66,7 @@ namespace eFormSDK.Integration.Tests
         public async Task Setup()
         {
             Console.WriteLine($"Starting Setup {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
-            
+
             ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
 
             dbContext = GetContext(ConnectionString);
@@ -93,12 +93,14 @@ namespace eFormSDK.Integration.Tests
 
             firstRunDone = true;
             }
-            await DoSetup().ConfigureAwait(false);            
+            await DoSetup().ConfigureAwait(false);
             Console.WriteLine($"End Setup {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
         }
-      
+
         [TearDown]
-        public void TearDown()
+#pragma warning disable 1998
+        public async Task TearDown()
+#pragma warning restore 1998
         {
             Console.WriteLine($"Starting TearDown {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
             await ClearDb().ConfigureAwait(false);

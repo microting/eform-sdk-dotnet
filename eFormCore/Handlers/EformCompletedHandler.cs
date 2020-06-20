@@ -24,6 +24,7 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Xml;
 using eFormCore;
@@ -130,8 +131,13 @@ namespace Microting.eForm.Handlers
                                         log.LogEverything(t.GetMethodName("Core"), "downloadUploadedData failed for uploadedDataid :" + uploadedDataid.ToString());
                                     }
                                 }
+                                CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
+                                DateTime dateTime = DateTime.ParseExact(check.Date, "yyyy-MM-dd HH:mm:ss", culture);
+                                log.LogEverything(t.GetMethodName("EformCompletedHandler"), $"XML date is {check.Date}");
+                                log.LogEverything(t.GetMethodName("EformCompletedHandler"), $"Parsed date is {dateTime.ToString()}");
 
-                                await sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, DateTime.Parse(check.Date).ToUniversalTime(), workerUId, unitUId);
+                                await sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, dateTime, workerUId, unitUId);
+                                // await sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, DateTime.Parse(check.Date).ToUniversalTime(), workerUId, unitUId);
                                 log.LogEverything(t.GetMethodName("EformCompletedHandler"), "sqlController.CaseUpdateCompleted(...)");
 
                                 #region IF needed retract case, thereby completing the process

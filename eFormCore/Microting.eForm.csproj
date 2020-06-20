@@ -209,6 +209,10 @@
     <Compile Include="Migrations\20200318150742_MakingUnitIdNullableForAnswers.Designer.cs" />
     <Compile Include="Migrations\20200427095029_AdjustTimeToUTC.cs" />
     <Compile Include="Migrations\20200427095029_AdjustTimeToUTC.Designer.cs" />
+    <Compile Include="Migrations\20200513142551_AddingFolderIdToCasesAndCheckListSites.cs" />
+    <Compile Include="Migrations\20200513142551_AddingFolderIdToCasesAndCheckListSites.Designer.cs" />
+    <Compile Include="Migrations\20200617160004_ChangingOptionsIndexToOptionIndex.cs" />
+    <Compile Include="Migrations\20200617160004_ChangingOptionsIndexToOptionIndex.Designer.cs" />
     <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Infrastructure\SqlController.cs" />
     <Compile Include="Services\Subscriber.cs" />

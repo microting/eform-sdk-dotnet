@@ -37,5 +37,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int MicrotingUid { get; set; }
 
         public int LastCheckId { get; set; }
+
+        public int? FolderId { get; set; }
     }
 }

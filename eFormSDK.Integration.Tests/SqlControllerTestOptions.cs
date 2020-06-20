@@ -91,7 +91,7 @@ namespace eFormSDK.Integration.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id,
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 NextQuestionId = rnd.Next(1, 255),
                 ContinuousOptionId = rnd.Next(1, 255)
             };
@@ -110,7 +110,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(option.WeightValue , dbOption.WeightValue);
             Assert.AreEqual(option.Weight , dbOption.Weight);
             Assert.AreEqual(option.QuestionId , dbOption.QuestionId);
-            Assert.AreEqual(option.OptionsIndex , dbOption.OptionsIndex);
+            Assert.AreEqual(option.OptionIndex , dbOption.OptionIndex);
             Assert.AreEqual(option.NextQuestionId , dbOption.NextQuestionId);
             Assert.AreEqual(option.ContinuousOptionId , dbOption.ContinuousOptionId);
 
@@ -193,7 +193,7 @@ namespace eFormSDK.Integration.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id,
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 NextQuestionId = rnd.Next(1, 255),
                 ContinuousOptionId = rnd.Next(1, 255)
             };
@@ -207,7 +207,7 @@ namespace eFormSDK.Integration.Tests
             option.WeightValue = rnd.Next(1, 550);
             option.QuestionId = question2.Id;
             option.Weight = rnd.Next(1, 550);
-            option.OptionsIndex = rnd.Next(1, 550);
+            option.OptionIndex = rnd.Next(1, 550);
             option.NextQuestionId = rnd.Next(1, 550);
             option.ContinuousOptionId = rnd.Next(1, 550);
 
@@ -222,7 +222,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(option.WeightValue , dbOption.WeightValue);
             Assert.AreEqual(option.Weight , dbOption.Weight);
             Assert.AreEqual(option.QuestionId , dbOption.QuestionId);
-            Assert.AreEqual(option.OptionsIndex , dbOption.OptionsIndex);
+            Assert.AreEqual(option.OptionIndex , dbOption.OptionIndex);
             Assert.AreEqual(option.NextQuestionId , dbOption.NextQuestionId);
             Assert.AreEqual(option.ContinuousOptionId , dbOption.ContinuousOptionId);
 
@@ -280,7 +280,7 @@ namespace eFormSDK.Integration.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id,
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 NextQuestionId = rnd.Next(1, 255),
                 ContinuousOptionId = rnd.Next(1, 255)
             };
@@ -301,7 +301,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(option.WeightValue , dbOption.WeightValue);
             Assert.AreEqual(option.Weight , dbOption.Weight);
             Assert.AreEqual(option.QuestionId , dbOption.QuestionId);
-            Assert.AreEqual(option.OptionsIndex , dbOption.OptionsIndex);
+            Assert.AreEqual(option.OptionIndex , dbOption.OptionIndex);
             Assert.AreEqual(option.NextQuestionId , dbOption.NextQuestionId);
             Assert.AreEqual(option.ContinuousOptionId , dbOption.ContinuousOptionId);
             Assert.AreEqual(Constants.WorkflowStates.Removed, dbOption.WorkflowState);

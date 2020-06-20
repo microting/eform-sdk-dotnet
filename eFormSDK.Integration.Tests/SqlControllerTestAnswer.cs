@@ -44,8 +44,8 @@ namespace eFormSDK.Integration.Tests
     [TestFixture]
     public class SqlControllerTestAnswer : DbTestFixture
     {
-        private SqlController sut;
-        private TestHelpers testHelpers;
+        // private SqlController sut;
+        private TestHelpers _testHelpers;
 //        private readonly string _path;
 
 
@@ -63,7 +63,7 @@ namespace eFormSDK.Integration.Tests
 //            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
             SqlController sut = new SqlController(dbContextHelper);
             sut.StartLog(new CoreBase());
-            testHelpers = new TestHelpers();
+            _testHelpers = new TestHelpers();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
             await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
@@ -74,8 +74,8 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             Random rnd = new Random();
-            sites site1 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
-            units unit1 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
+            sites site1 = await _testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
+            units unit1 = await _testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
             languages language = new languages
             {
                 Name = Guid.NewGuid().ToString(), Description = Guid.NewGuid().ToString()
@@ -139,8 +139,8 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             Random rnd = new Random();
-            sites site1 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
-            units unit1 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
+            sites site1 = await _testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
+            units unit1 = await _testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
             languages language = new languages();
             language.Name = Guid.NewGuid().ToString();
             language.Description = Guid.NewGuid().ToString();
@@ -200,11 +200,11 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             Random rnd = new Random();
             
-            sites site1 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
-            sites site2 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
+            sites site1 = await _testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
+            sites site2 = await _testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
             
-            units unit1 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
-            units unit2 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
+            units unit1 = await _testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
+            units unit2 = await _testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
            
             languages language = new languages();
             language.Name = Guid.NewGuid().ToString();
@@ -299,11 +299,11 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             Random rnd = new Random();
                        
-            sites site1 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
-            sites site2 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
+            sites site1 = await _testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
+            sites site2 = await _testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
             
-            units unit1 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
-            units unit2 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
+            units unit1 = await _testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
+            units unit2 = await _testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
            
             languages language = new languages();
             language.Name = Guid.NewGuid().ToString();
@@ -398,8 +398,8 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             Random rnd = new Random();
-            sites site1 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
-            units unit1 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
+            sites site1 = await _testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
+            units unit1 = await _testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
             languages language = new languages();
             language.Name = Guid.NewGuid().ToString();
             language.Description = Guid.NewGuid().ToString();
@@ -461,8 +461,8 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             Random rnd = new Random();
-            sites site1 = await testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
-            units unit1 = await testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
+            sites site1 = await _testHelpers.CreateSite(Guid.NewGuid().ToString(), rnd.Next(1, 255));
+            units unit1 = await _testHelpers.CreateUnit(rnd.Next(1, 255), rnd.Next(1, 255), site1, rnd.Next(1, 255));
             languages language = new languages();
             language.Name = Guid.NewGuid().ToString();
             language.Description = Guid.NewGuid().ToString();

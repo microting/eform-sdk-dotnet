@@ -41,9 +41,10 @@ namespace Microting.eForm.Infrastructure.Models.reply
         #region var
         public string UnitId { get; set; }
         #region public string Date { get; set; }
-        private string date = "";
+        // private string date = "";
         //public string Date { get { return date.Substring(0, 19); } set { date = value; } }
-        public string Date { get { return date.AsSpan(0, 19).ToString(); } set { date = value; } }
+        // public string Date { get { return date.AsSpan(0, 19).ToString(); } set { date = value; } }
+        public string Date { get; set; }
         #endregion
         public string Worker { get; set; }
         public int? Id { get; set; }

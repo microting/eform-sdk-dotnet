@@ -44,7 +44,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         [ForeignKey("question")]
         public int QuestionId { get; set; }
         
-        public int OptionsIndex { get; set; }
+        public int OptionIndex { get; set; }
         
         public virtual questions Question { get; set; }
         
@@ -84,7 +84,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             option.WeightValue = WeightValue;
             option.NextQuestionId = NextQuestionId;
             option.ContinuousOptionId = ContinuousOptionId;
-            option.OptionsIndex = OptionsIndex;
+            option.OptionIndex = OptionIndex;
             option.DisplayIndex = DisplayIndex;
 
             if (dbContext.ChangeTracker.HasChanges())
@@ -128,7 +128,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 WeightValue = option.WeightValue,
                 NextQuestionId = option.NextQuestionId,
                 ContinuousOptionId = option.ContinuousOptionId,
-                OptionsIndex = option.OptionsIndex,
+                OptionIndex = option.OptionIndex,
                 OptionId = option.Id,
                 CreatedAt = option.CreatedAt,
                 Version = option.Version,

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microting.eForm.Infrastructure;
 
 namespace Microting.eForm.Migrations
 {
     [DbContext(typeof(MicrotingDbContext))]
-    partial class MicrotingDbAnySqlModelSnapshot : ModelSnapshot
+    [Migration("20200513142551_AddingFolderIdToCasesAndCheckListSites")]
+    partial class AddingFolderIdToCasesAndCheckListSites
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             string autoIDGenStrategy = "SqlServer:ValueGenerationStrategy";
@@ -1445,7 +1447,7 @@ namespace Microting.eForm.Migrations
 
                     b.Property<int>("OptionId");
 
-                    b.Property<int>("OptionIndex");
+                    b.Property<int>("OptionsIndex");
 
                     b.Property<int>("QuestionId");
 
@@ -1483,7 +1485,7 @@ namespace Microting.eForm.Migrations
 
                     b.Property<int?>("NextQuestionId");
 
-                    b.Property<int>("OptionIndex");
+                    b.Property<int>("OptionsIndex");
 
                     b.Property<int>("QuestionId");
 

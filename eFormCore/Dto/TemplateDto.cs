@@ -53,8 +53,6 @@ namespace Microting.eForm.Dto
             Tags = tags;
         }
 
-
-
         public Template_Dto(int id, 
             DateTime? createdAt, 
             DateTime? updatedAt, 
@@ -111,107 +109,109 @@ namespace Microting.eForm.Dto
         /// <summary>
         /// Id
         /// </summary>
-        public int Id { get; }
+        public int Id { get; set; }
 
         /// <summary>
         ///...
         /// </summary>
-        public DateTime? CreatedAt { get; }
+        public DateTime? CreatedAt { get; set; }
 
         /// <summary>
         ///...
         /// </summary>
-        public DateTime? UpdatedAt { get; }
+        public DateTime? UpdatedAt { get; set; }
 
         /// <summary>
         /// Label
         /// </summary>
-        public string Label { get; }
+        public string Label { get; set; }
 
         /// <summary>
         /// Descrition
         /// </summary>
-        public string Description { get; }
+        public string Description { get; set; }
 
         /// <summary>
         /// Repeated
         /// </summary>
-        public int Repeated { get; }
+        public int Repeated { get; set; }
 
         /// <summary>
         /// FolderName
         /// </summary>
-        public string FolderName { get; }
+        public string FolderName { get; set; }
 
         /// <summary>
         /// WorkflowState
         /// </summary>
-        public string WorkflowState { get; }
+        public string WorkflowState { get; set; }
 
         /// <summary>
         /// WorkflowState
         /// </summary>
-        public List<SiteNameDto> DeployedSites { get; }
+        public List<SiteNameDto> DeployedSites { get; set; }
 
         /// <summary>
         /// WorkflowState
         /// </summary>
-        public bool HasCases { get; }
+        public bool HasCases { get; set; }
 
         /// <summary>
         /// DiplayIndex
         /// </summary>
-        public int? DisplayIndex { get; }
+        public int? DisplayIndex { get; set; }
 
         /// <summary>
         /// Field1
         /// </summary>
-        public FieldDto Field1 { get; }
+        public FieldDto Field1 { get; set; }
 
         /// <summary>
         /// Field2
         /// </summary>
-        public FieldDto Field2 { get; }
+        public FieldDto Field2 { get; set; }
 
         /// <summary>
         /// Field3
         /// </summary>
-        public FieldDto Field3 { get; }
+        public FieldDto Field3 { get; set; }
 
         /// <summary>
         /// Field4
         /// </summary>
-        public FieldDto Field4 { get; }
+        public FieldDto Field4 { get; set; }
 
         /// <summary>
         /// Field5
         /// </summary>
-        public FieldDto Field5 { get; }
+        public FieldDto Field5 { get; set; }
 
         /// <summary>
         /// Field6
         /// </summary>
-        public FieldDto Field6 { get; }
+        public FieldDto Field6 { get; set; }
 
         /// <summary>
         /// Field7
         /// </summary>
-        public FieldDto Field7 { get; }
+        public FieldDto Field7 { get; set; }
 
         /// <summary>
         /// Field8
         /// </summary>
-        public FieldDto Field8 { get; }
+        public FieldDto Field8 { get; set; }
 
         /// <summary>
         /// Field9
         /// </summary>
-        public FieldDto Field9 { get; }
+        public FieldDto Field9 { get; set; }
 
         /// <summary>
         /// Field10
         /// </summary>
-        public FieldDto Field10 { get; }
+        public FieldDto Field10 { get; set; }
+
+        public int? FolderId { get; set; }
 
         public bool JasperExportEnabled { get; set; }
         
@@ -220,7 +220,8 @@ namespace Microting.eForm.Dto
         /// <summary>
         /// Tags
         /// </summary>
-        public List<KeyValuePair<int, string>> Tags { get; } 
+        public List<KeyValuePair<int, string>> Tags { get; set; }
+
         #endregion
     }
     #endregion

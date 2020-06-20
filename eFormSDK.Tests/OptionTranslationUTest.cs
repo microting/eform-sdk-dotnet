@@ -78,7 +78,7 @@ namespace eFormSDK.Tests
             options option = new options
             {
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
@@ -166,7 +166,7 @@ namespace eFormSDK.Tests
             options option = new options
             {
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
@@ -281,7 +281,7 @@ namespace eFormSDK.Tests
             options option = new options
             {
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
@@ -290,7 +290,7 @@ namespace eFormSDK.Tests
             options option2 = new options
             {
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
@@ -430,7 +430,7 @@ namespace eFormSDK.Tests
             options option = new options
             {
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
@@ -439,7 +439,7 @@ namespace eFormSDK.Tests
             options option2 = new options
             {
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
@@ -575,7 +575,7 @@ namespace eFormSDK.Tests
             options option = new options
             {
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
@@ -584,7 +584,7 @@ namespace eFormSDK.Tests
             options option2 = new options
             {
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
@@ -724,7 +724,7 @@ namespace eFormSDK.Tests
             options option = new options
             {
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
@@ -733,7 +733,7 @@ namespace eFormSDK.Tests
             options option2 = new options
             {
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
@@ -843,7 +843,7 @@ namespace eFormSDK.Tests
             options option = new options
             {
                 Weight = rnd.Next(1, 255),
-                OptionsIndex = rnd.Next(1, 255),
+                OptionIndex = rnd.Next(1, 255),
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };

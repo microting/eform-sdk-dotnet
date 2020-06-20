@@ -77,7 +77,7 @@ namespace eFormSDK.Integration.Tests
 
 
             // Act
-            await sut.CheckListSitesCreate(cl1.Id, (int)site.MicrotingUid, rnd.Next(1, 255));
+            await sut.CheckListSitesCreate(cl1.Id, (int)site.MicrotingUid, rnd.Next(1, 255), null);
             List<check_list_sites> checkListSiteResult = dbContext.check_list_sites.AsNoTracking().ToList();
             var versionedMatches = dbContext.check_list_site_versions.AsNoTracking().ToList();
 
