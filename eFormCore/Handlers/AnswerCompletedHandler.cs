@@ -37,12 +37,10 @@ namespace Microting.eForm.Handlers
         private readonly SqlController sqlController;
         private readonly Log log;
         private readonly Core core;
-        Tools t = new Tools();
 
         public AnswerCompletedHandler(SqlController sqlController, Log log, Core core)
         {
             this.sqlController = sqlController;
-            //this.communicator = communicator;
             this.log = log;
             this.core = core;
         }
@@ -51,6 +49,7 @@ namespace Microting.eForm.Handlers
         {
             try
             {
+                log.LogEverything("AnswerCompletedHandler.Handle", $"Parsing answer for id {message.MicrotringUUID}");
                 await core.GetAnswersForQuestionSet(message.MicrotringUUID).ConfigureAwait(false);
                 await sqlController.NotificationUpdate(message.NotificationUId, 
                     message.MicrotringUUID,
@@ -60,6 +59,7 @@ namespace Microting.eForm.Handlers
             }
             catch (Exception ex)
             {
+                log.LogException("AnswerCompletedHandler.Handle", $"Could not parse answer for id {message.MicrotringUUID}, got exception {ex.Message}", ex);
                 await sqlController.NotificationUpdate(message.NotificationUId, 
                     message.MicrotringUUID, 
                     Constants.WorkflowStates.NotFound, 
