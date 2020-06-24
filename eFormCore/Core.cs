@@ -3321,11 +3321,8 @@ namespace eFormCore
                             }
                             else
                             {
-                                if (question.WorkflowState != child["WorkflowState"].ToString())
-                                {
-                                    question.WorkflowState = child["WorkflowState"].ToString();
-                                    await question.Update(db);
-                                }
+                                question.WorkflowState = child["WorkflowState"].ToString();
+                                await question.Update(db).ConfigureAwait(false);
                             }
                         }
                         JToken parsedQuestionTranslations = innerParsedData.GetValue("QuestionTranslations");
@@ -3344,12 +3341,9 @@ namespace eFormCore
                             }
                             else
                             {
-                                if (questionTranslation.Name != child["Name"].ToString() || questionTranslation.WorkflowState != child["WorkflowState"].ToString())
-                                {
-                                    questionTranslation.Name = child["Name"].ToString();
-                                    questionTranslation.WorkflowState = child["WorkflowState"].ToString();
-                                    await questionTranslation.Update(db);
-                                }
+                                questionTranslation.Name = child["Name"].ToString();
+                                questionTranslation.WorkflowState = child["WorkflowState"].ToString();
+                                await questionTranslation.Update(db);
                             }
                         }
                         
@@ -3365,23 +3359,20 @@ namespace eFormCore
                                 var nextQuestionId =
                                     db.questions.SingleOrDefault(x => x.MicrotingUid == result.NextQuestionId);
                                 var question = db.questions.Single(x => x.MicrotingUid == result.QuestionId);
-                                if (question.QuestionType == Constants.QuestionTypes.Multi ||
-                                    question.QuestionType == Constants.QuestionTypes.Buttons ||
-                                    question.QuestionType == Constants.QuestionTypes.List)
-                                {
-                                    result.WeightValue = i;
-                                }
                                 result.QuestionId = question.Id;
                                 result.NextQuestionId = nextQuestionId?.Id;
                                 await result.Create(db).ConfigureAwait(false);
                             }
                             else
                             {
-                                if (option.WorkflowState != child["WorkflowState"].ToString())
-                                {
-                                    option.WorkflowState = child["WorkflowState"].ToString();
-                                    await option.Update(db);
-                                }
+                                option.WorkflowState = child["WorkflowState"].ToString();
+                                option.WeightValue = int.Parse(child["WeightValue"].ToString());
+                                option.OptionIndex = int.Parse(child["OptionIndex"].ToString());
+
+                                var nextQuestionId =
+                                    db.questions.SingleOrDefault(x => x.MicrotingUid == int.Parse(child["NextQuestionId"].ToString()));
+                                option.NextQuestionId = nextQuestionId?.Id;
+                                await option.Update(db).ConfigureAwait(false);
                             }
 
                             i += 1;
@@ -3402,12 +3393,9 @@ namespace eFormCore
                             }
                             else
                             {
-                                if (optionTranslation.Name != child["Name"].ToString() || optionTranslation.WorkflowState != child["WorkflowState"].ToString())
-                                {
-                                    optionTranslation.Name = child["Name"].ToString();
-                                    optionTranslation.WorkflowState = child["WorkflowState"].ToString();
-                                    await optionTranslation.Update(db);
-                                }
+                                optionTranslation.Name = child["Name"].ToString();
+                                optionTranslation.WorkflowState = child["WorkflowState"].ToString();
+                                await optionTranslation.Update(db).ConfigureAwait(false);
                             }
                         }
                     }
