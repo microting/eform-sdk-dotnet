@@ -2,7 +2,7 @@ dist: xenial
 language: csharp
 solution: eformSDK.sln
 mono: none
-dotnet: 2.2
+dotnet: 2.2.207
 branches:
   only:
     - master
