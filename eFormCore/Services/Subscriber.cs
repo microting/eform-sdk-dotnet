@@ -198,6 +198,12 @@ namespace Microting.eForm.Services
                                             Constants.Notifications.InSightAnswerDone).Result;
                                         bus.SendLocal(new AnswerCompleted(notificationUId, microtingUId));
                                         break;
+                                    case Constants.Notifications.InSightSurveyConfigurationChanged:
+                                    case Constants.Notifications.InSightSurveyConfigurationCreated:
+                                        result = sqlController.NotificationCreate(notificationUId, microtingUId,
+                                            Constants.Notifications.InSightSurveyConfigurationChanged).Result;
+                                        bus.SendLocal(new SurveyConfigurationChanged(notificationUId, microtingUId));
+                                        break;
                                 }
 
                                 sqsClient.DeleteMessageAsync(awsQueueUrl, message.ReceiptHandle);
