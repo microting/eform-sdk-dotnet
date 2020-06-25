@@ -3272,6 +3272,11 @@ namespace eFormCore
 
             if (!parsedData.Any())
                 return false;
+            var jsonSerializerSettings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
 
             using (var db = dbContextHelper.GetDbContext())
             {
@@ -3315,7 +3320,7 @@ namespace eFormCore
                                 x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString())).ConfigureAwait(false);
                             if (question == null)
                             {
-                                var result = JsonConvert.DeserializeObject<questions>(child.ToString());
+                                var result = JsonConvert.DeserializeObject<questions>(child.ToString(), jsonSerializerSettings);
                                 result.QuestionSetId = questionSet.Id;
                                 await result.Create(db, false).ConfigureAwait(false);
                             }
