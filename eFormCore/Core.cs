@@ -3481,20 +3481,43 @@ namespace eFormCore
                                 survey_configurations surveyConfiguration = await db.survey_configurations
                                     .SingleOrDefaultAsync(x => x.MicrotingUid == answer.SurveyConfigurationId)
                                     .ConfigureAwait(false);
-                                // if (surveyConfiguration == null)
-                                // {
-                                //     await GetAllSurveyConfigurations().ConfigureAwait(false);
-                                //     surveyConfiguration = await db.survey_configurations
-                                //         .SingleOrDefaultAsync(x => x.MicrotingUid == answer.SurveyConfigurationId)
-                                //         .ConfigureAwait(false);
-                                // }
+                                if (surveyConfiguration == null)
+                                {
+                                    await GetAllSurveyConfigurations().ConfigureAwait(false);
+                                    surveyConfiguration = await db.survey_configurations
+                                                         .SingleOrDefaultAsync(x => x.MicrotingUid == answer.SurveyConfigurationId)
+                                                         .ConfigureAwait(false);
+                                }
+
                                 if (surveyConfiguration != null)
                                 {
                                     answer.SurveyConfigurationId = surveyConfiguration.Id;
                                     answer.QuestionSet = null;
                                     answer.LanguageId = db.languages.Single(x => x.Name == "Danish").Id;
                                     await answer.Create(db).ConfigureAwait(false);
+                                    foreach (JToken avItem in subItem["AnswerValues"])
+                                    {
+                                        answer_values answerValue =
+                                            JsonConvert.DeserializeObject<answer_values>(avItem.ToString(), settings);
+                                        if (db.answer_values.SingleOrDefault(x => x.MicrotingUid == answerValue.MicrotingUid) ==
+                                            null)
+                                        {
+                                            var question = db.questions.Single(x => x.MicrotingUid == answerValue.QuestionId);
+                                            var option = db.options.Single(x => x.MicrotingUid == answerValue.OptionId);
+                                            if (question.QuestionType == Constants.QuestionTypes.Buttons || question.QuestionType == Constants.QuestionTypes.List || question.QuestionType == Constants.QuestionTypes.Multi)
+                                            {
+                                                answerValue.Value = option.OptionTranslationses.First().Name;
+                                            }
+                                            answerValue.AnswerId = answer.Id;
+                                            answerValue.QuestionId =
+                                                question.Id;
+                                            answerValue.OptionId =
+                                                option.Id;
+                                            await answerValue.Create(db).ConfigureAwait(false);
+                                        }
+                                    }
                                 }
+                                
                             }
                             catch (Exception ex)
                             {
@@ -3504,27 +3527,7 @@ namespace eFormCore
                             numAnswers ++;
                         }
 
-                        foreach (JToken avItem in subItem["AnswerValues"])
-                        {
-                            answer_values answerValue =
-                                JsonConvert.DeserializeObject<answer_values>(avItem.ToString(), settings);
-                            if (db.answer_values.SingleOrDefault(x => x.MicrotingUid == answerValue.MicrotingUid) ==
-                                null)
-                            {
-                                var question = db.questions.Single(x => x.MicrotingUid == answerValue.QuestionId);
-                                var option = db.options.Single(x => x.MicrotingUid == answerValue.OptionId);
-                                if (question.QuestionType == Constants.QuestionTypes.Buttons || question.QuestionType == Constants.QuestionTypes.List || question.QuestionType == Constants.QuestionTypes.Multi)
-                                {
-                                    answerValue.Value = option.OptionTranslationses.First().Name;
-                                }
-                                answerValue.AnswerId = answer.Id;
-                                answerValue.QuestionId =
-                                    question.Id;
-                                answerValue.OptionId =
-                                    option.Id;
-                                await answerValue.Create(db).ConfigureAwait(false);
-                            }
-                        }
+                        
                     }
                 }
             }
@@ -3550,9 +3553,26 @@ namespace eFormCore
                     {
                         while (numAnswers > 9)
                         {
-                            lastAnswer = await db.answers.LastOrDefaultAsync(x => x.QuestionSetId == questionSet.Id).ConfigureAwait(false);
-                            parsedData = JObject.Parse(await _communicator.GetLastAnswer((int)questionSetId, (int)lastAnswer.MicrotingUid).ConfigureAwait(false));
-                            numAnswers = await SaveAnswers(questionSet, parsedData).ConfigureAwait(false);
+                            try
+                            {
+                                lastAnswer = await db.answers.LastOrDefaultAsync(x => x.QuestionSetId == questionSet.Id)
+                                    .ConfigureAwait(false);
+                                if (lastAnswer != null)
+                                {
+                                    parsedData = JObject.Parse(await _communicator
+                                        .GetLastAnswer((int) questionSetId, (int) lastAnswer.MicrotingUid)
+                                        .ConfigureAwait(false));
+                                    numAnswers = await SaveAnswers(questionSet, parsedData).ConfigureAwait(false);
+                                }
+                                else
+                                {
+                                    numAnswers = 0;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
                         }
                     }
                     else
@@ -3562,9 +3582,26 @@ namespace eFormCore
 
                         while (numAnswers > 9)
                         {
-                            lastAnswer = await db.answers.LastOrDefaultAsync(x => x.QuestionSetId == questionSet.Id).ConfigureAwait(false);
-                            parsedData = JObject.Parse(await _communicator.GetLastAnswer((int)questionSetId, (int)lastAnswer.MicrotingUid).ConfigureAwait(false));
-                            numAnswers = await SaveAnswers(questionSet, parsedData).ConfigureAwait(false);
+                            try
+                            {
+                                lastAnswer = await db.answers.LastOrDefaultAsync(x => x.QuestionSetId == questionSet.Id)
+                                    .ConfigureAwait(false);
+                                if (lastAnswer != null)
+                                {
+                                    parsedData = JObject.Parse(await _communicator
+                                        .GetLastAnswer((int) questionSetId, (int) lastAnswer.MicrotingUid)
+                                        .ConfigureAwait(false));
+                                    numAnswers = await SaveAnswers(questionSet, parsedData).ConfigureAwait(false);
+                                }
+                                else
+                                {
+                                    numAnswers = 0;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
                         }
                     }
                 }
