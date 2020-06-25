@@ -3370,14 +3370,25 @@ namespace eFormCore
                             }
                             else
                             {
-                                option.WorkflowState = child["WorkflowState"].ToString();
-                                option.WeightValue = int.Parse(child["WeightValue"].ToString());
-                                option.OptionIndex = int.Parse(child["OptionIndex"].ToString());
+                                try
+                                {
+                                    option.WorkflowState = child["WorkflowState"].ToString();
+                                    option.WeightValue = int.Parse(child["WeightValue"].ToString());
+                                    option.OptionIndex = int.Parse(child["OptionIndex"].ToString());
 
-                                var nextQuestionId =
-                                    db.questions.SingleOrDefault(x => x.MicrotingUid == int.Parse(child["NextQuestionId"].ToString()));
-                                option.NextQuestionId = nextQuestionId?.Id;
-                                await option.Update(db).ConfigureAwait(false);
+                                    int? nextQuestionId = null;
+                                    if (!string.IsNullOrEmpty(child["NextQuestionId"].ToString()))
+                                    {
+                                        nextQuestionId = db.questions.SingleOrDefault(x =>
+                                            x.MicrotingUid == int.Parse(child["NextQuestionId"].ToString()))?.Id;
+                                    }
+                                    option.NextQuestionId = nextQuestionId;
+                                    await option.Update(db).ConfigureAwait(false);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine(ex.Message);
+                                }
                             }
 
                             i += 1;
@@ -3457,30 +3468,39 @@ namespace eFormCore
                                 answer.UnitId = null;
                             }
                             answer.SiteId = db.sites.Single(x => x.MicrotingUid == answer.SiteId).Id;
-                            if (questionSet == null)
+                            try
                             {
-                                await GetAllSurveyConfigurations().ConfigureAwait(false);
-                                questionSet =
-                                    await db.question_sets.SingleOrDefaultAsync(x =>
-                                        x.MicrotingUid == answer.QuestionSet.MicrotingUid).ConfigureAwait(false);
-                            }
-
-                            answer.QuestionSetId = questionSet.Id;
-                            survey_configurations surveyConfiguration = await db.survey_configurations
-                                .SingleOrDefaultAsync(x => x.MicrotingUid == answer.SurveyConfigurationId)
-                                .ConfigureAwait(false);
-                            if (surveyConfiguration == null)
-                            {
-                                await GetAllSurveyConfigurations().ConfigureAwait(false);
-                                surveyConfiguration = await db.survey_configurations
+                                if (questionSet == null)
+                                {
+                                    await GetAllSurveyConfigurations().ConfigureAwait(false);
+                                    questionSet =
+                                        await db.question_sets.SingleOrDefaultAsync(x =>
+                                            x.MicrotingUid == answer.QuestionSet.MicrotingUid).ConfigureAwait(false);
+                                }
+                                answer.QuestionSetId = questionSet.Id;
+                                survey_configurations surveyConfiguration = await db.survey_configurations
                                     .SingleOrDefaultAsync(x => x.MicrotingUid == answer.SurveyConfigurationId)
                                     .ConfigureAwait(false);
+                                // if (surveyConfiguration == null)
+                                // {
+                                //     await GetAllSurveyConfigurations().ConfigureAwait(false);
+                                //     surveyConfiguration = await db.survey_configurations
+                                //         .SingleOrDefaultAsync(x => x.MicrotingUid == answer.SurveyConfigurationId)
+                                //         .ConfigureAwait(false);
+                                // }
+                                if (surveyConfiguration != null)
+                                {
+                                    answer.SurveyConfigurationId = surveyConfiguration.Id;
+                                    answer.QuestionSet = null;
+                                    answer.LanguageId = db.languages.Single(x => x.Name == "Danish").Id;
+                                    await answer.Create(db).ConfigureAwait(false);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
                             }
 
-                            answer.SurveyConfigurationId = surveyConfiguration.Id;
-                            answer.QuestionSet = null;
-                            answer.LanguageId = db.languages.Single(x => x.Name == "Danish").Id;
-                            await answer.Create(db).ConfigureAwait(false);
                             numAnswers ++;
                         }
 
