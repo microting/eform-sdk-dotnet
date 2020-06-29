@@ -1,7 +1,5 @@
 # eform-sdk-dotnet 
 
-![C# Build status on Windows](https://microtingas2017.visualstudio.com/_apis/public/build/definitions/5f551ab2-01ab-4204-8efa-06be93328bc1/1/badge) Azure pipeline currently disabled
-
 [![Build Status on Linux](https://travis-ci.org/microting/eform-sdk-dotnet.svg?branch=master)](https://travis-ci.org/microting/eform-sdk-dotnet)
 [![NuGet Badge](https://buildstats.info/nuget/Microting.eForm)](https://www.nuget.org/packages/Microting.eForm/)
 [![Maintainability](https://api.codeclimate.com/v1/badges/72013d4897452b0e305c/maintainability)](https://codeclimate.com/github/microting/eform-sdk-dotnet/maintainability)
@@ -10,13 +8,16 @@ A .NET SDK for integrating with the Microting eForm API v1.
 
 ## Supported Platforms
 
-| OS        | .Net Standard 2.0 | NET Framework 4.6.1 | MS SQL 2016+ | MySQL/MariaDB  |
-| ------------- |:-----:|:-----:|:-----:|:-----:|
-| OSX 10.14.2     | X |  | X | X |
-| Windows 10     | X | X | X | X |
-| Windows Server 2016     | X| X | X | X |
-| Ubuntu 18.04     | X |  | X | X |
-| Ubuntu 16.04     | X |  | X | X |
+| OS        | .Net Standard 2.0 | MySQL/MariaDB  |
+| ------------- |:-----:|:-----:|
+| OSX 10.15.5     | X | X |
+| OSX 10.14.2     | X | X |
+| Ubuntu 20.04     | X | X |
+| Ubuntu 19.10     | X | X |
+| Ubuntu 19.04     | X | X |
+| Ubuntu 18.10     | X | X |
+| Ubuntu 18.04     | X | X |
+| Ubuntu 16.04     | X | X |
 
 ## Setup
 
