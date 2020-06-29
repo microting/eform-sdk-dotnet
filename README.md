@@ -3,21 +3,22 @@
 [![Build Status on Linux](https://travis-ci.org/microting/eform-sdk-dotnet.svg?branch=master)](https://travis-ci.org/microting/eform-sdk-dotnet)
 [![NuGet Badge](https://buildstats.info/nuget/Microting.eForm)](https://www.nuget.org/packages/Microting.eForm/)
 [![Maintainability](https://api.codeclimate.com/v1/badges/72013d4897452b0e305c/maintainability)](https://codeclimate.com/github/microting/eform-sdk-dotnet/maintainability)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/fb06e7e105ea4189a42e9205d971431b)](https://www.codacy.com/gh/microting/eform-sdk-dotnet?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=microting/eform-sdk-dotnet&amp;utm_campaign=Badge_Grade)
 
 A .NET SDK for integrating with the Microting eForm API v1.
 
 ## Supported Platforms
 
-| OS        | .Net Standard 2.0 | MySQL/MariaDB  |
-| ------------- |:-----:|:-----:|
-| OSX 10.15.5     | X | X |
-| OSX 10.14.2     | X | X |
-| Ubuntu 20.04     | X | X |
-| Ubuntu 19.10     | X | X |
-| Ubuntu 19.04     | X | X |
-| Ubuntu 18.10     | X | X |
-| Ubuntu 18.04     | X | X |
-| Ubuntu 16.04     | X | X |
+| OS | .Net Standard 2.0 | .Net Core 3.1 | MySQL 5.5+ / MariaDB 10.4  |
+| ------------- |:-----:|:-----:|:-----:|
+| OSX 10.15.5 | X | X | X |
+| OSX 10.14.2 | X | X | X |
+| Ubuntu 20.04 | X | X | X |
+| Ubuntu 19.10 | X | X | X |
+| Ubuntu 19.04 | X | X | X |
+| Ubuntu 18.10 | X |  | X |
+| Ubuntu 18.04 | X |  | X |
+| Ubuntu 16.04 | X |  | X |
 
 ## Setup
 
@@ -29,7 +30,8 @@ PM> Install-Package Microting.eForm
 
 [We also recommend you to have a look at the reference Angular/C# web frontend](https://github.com/microting/eform-angular-frontend)
 
-At this project you will be able to see best practice for using our SDK.
+For implementing solutions using Microting.eForm we highly recommend that you use our angular-frontend and debian-service as foundation for your integration.
+If you have any specific needs, please contact us or create an issue.
 
 ## Get access token
 
@@ -39,19 +41,14 @@ You need to create an account for Microting API and get your access credentials.
 
 ## Docs
 
-[SDK documentation can be found here (beta)](https://microting.github.io/eform-sdk-documentation/?csharp#)
+[NEW SDK documentation can be found here](https://docs.microting.com/sdk-documentation/introduction)
 
-## Examples, demonstrating different use cases.
-
-Several examples can be found in the Program.cs file:
-* method Sample1 : Used for simple work orders, a work order is generated and an eForm is send to one device, when the device returns the result, the eForm is no longer visible on the device.
-* method Sample2 : Used for letting multiple people receive the same work order, but only use the first returned. An eForm is send to several devices, when one device returns a result, the eForm is no longer visible on that device, and results from other devices are stored, but marked as retracted.
-* method Sample3 : Used for ordering a service and let handlers bit on being the handler. An ordering eForm is send to several devices. One devices returns a result with an order, this sends out eForm's to handlers, the first handler to accept, will receive the order. The winning handler gets the next eForm. The loosing handlers gets information about they didn't win. And those who didn't bit will have their eForm's retracted.
+[old SDK documentation can be found here (beta)](https://microting.github.io/eform-sdk-documentation/?csharp#)
 
 ## Development recommendations
 
   - Visual Studio 2017 / Rider
-  - MS SQL Server Management Studio / MySQL 5.5+
+  - MySQL 5.5+ / MariaDB 10.4
   
 ## Known bugs as of February 21st 2017
 
@@ -104,7 +101,7 @@ This project has adopted the [Microting Open Source Code of Conduct](https://www
 
 The MIT License (MIT)
 
-Copyright (c) 2007-2018 microting
+Copyright (c) 2007-2020 microting
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
