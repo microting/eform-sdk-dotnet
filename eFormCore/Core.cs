@@ -1932,6 +1932,10 @@ namespace eFormCore
                     log.LogVariable(methodName, nameof(fldLst), fldLst);
 
                     #region convert to jasperXml
+
+                    // TODO make this dynamic, so it can be defined by user, which timezone to show data in.
+                    TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
+                    reply.DoneAt = TimeZoneInfo.ConvertTimeFromUtc(reply.DoneAt, timeZoneInfo);
                     string jasperXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
                         + Environment.NewLine + "<root>"
                         + Environment.NewLine + "<C" + reply.Id + " case_id=\"" + caseId + "\" case_name=\"" + reply.Label + "\" serial_number=\"" + caseId + "/" + cDto.MicrotingUId + "\" check_list_status=\"approved\">"
@@ -2092,7 +2096,6 @@ namespace eFormCore
             
             SortedDictionary<string, string> valuePairs = new SortedDictionary<string, string>();
             // TODO make this dynamic, so it can be defined by user, which timezone to show data in.
-            CultureInfo cultureInfo = new CultureInfo("de-DE");
             TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
 
             reply.DoneAt = TimeZoneInfo.ConvertTimeFromUtc(reply.DoneAt, timeZoneInfo);
