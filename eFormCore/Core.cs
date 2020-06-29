@@ -2091,6 +2091,11 @@ namespace eFormCore
         {
             
             SortedDictionary<string, string> valuePairs = new SortedDictionary<string, string>();
+            // TODO make this dynamic, so it can be defined by user, which timezone to show data in.
+            CultureInfo cultureInfo = new CultureInfo("de-DE");
+            TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
+
+            reply.DoneAt = TimeZoneInfo.ConvertTimeFromUtc(reply.DoneAt, timeZoneInfo);
             // get base values
             valuePairs.Add("F_CaseName", reply.Label.Replace("&", "&amp;"));
             valuePairs.Add("F_SerialNumber", $"{caseId}/{cDto.MicrotingUId}");
