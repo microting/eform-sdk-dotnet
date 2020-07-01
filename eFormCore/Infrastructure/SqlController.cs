@@ -380,7 +380,10 @@ namespace Microting.eForm.Infrastructure
                                 HasCases = hasCases,
                                 DisplayIndex = checkList.DisplayIndex,
                                 Tags = check_list_tags,
-                                FolderId = folderId
+                                FolderId = folderId,
+                                DocxExportEnabled =  checkList.DocxExportEnabled,
+                                JasperExportEnabled = checkList.JasperExportEnabled,
+                                ExcelExportEnabled = checkList.ExcelExportEnabled
                             };
                             templateList.Add(templateDto);
                         }

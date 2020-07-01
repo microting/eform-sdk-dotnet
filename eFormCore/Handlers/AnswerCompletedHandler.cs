@@ -50,6 +50,7 @@ namespace Microting.eForm.Handlers
             try
             {
                 log.LogEverything("AnswerCompletedHandler.Handle", $"Parsing answer for id {message.MicrotringUUID}");
+                await core.GetAllSurveyConfigurations().ConfigureAwait(false);
                 await core.GetAnswersForQuestionSet(message.MicrotringUUID).ConfigureAwait(false);
                 await sqlController.NotificationUpdate(message.NotificationUId, 
                     message.MicrotringUUID,
