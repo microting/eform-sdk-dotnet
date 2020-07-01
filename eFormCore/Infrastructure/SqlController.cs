@@ -238,7 +238,7 @@ namespace Microting.eForm.Infrastructure
                     Template_Dto templateDto = new Template_Dto(checkList.Id, checkList.CreatedAt, checkList.UpdatedAt,
                         checkList.Label, checkList.Description, (int) checkList.Repeated, checkList.FolderName,
                         checkList.WorkflowState, sites, hasCases, checkList.DisplayIndex, fd1, fd2, fd3, fd4, fd5, fd6,
-                        fd7, fd8, fd9, fd10, check_list_tags, checkList.JasperExportEnabled, checkList.DocxExportEnabled);
+                        fd7, fd8, fd9, fd10, check_list_tags, checkList.JasperExportEnabled, checkList.DocxExportEnabled, checkList.ExcelExportEnabled);
                     return templateDto;
                 }
             }
