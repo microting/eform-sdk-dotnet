@@ -47,6 +47,7 @@ namespace eFormSDK.Integration.Tests
         private Core sut;
         private TestHelpers testHelpers;
         private string path;
+        TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
 
         public override async Task DoSetup()
         {
@@ -227,37 +228,37 @@ namespace eFormSDK.Integration.Tests
             List<int> emptyList = new List<int>();
 
             // Default sorting including removed
-            List<Template_Dto> templateListId = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, "", emptyList);
-            List<Template_Dto> templateListLabel = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Label, emptyList);
-            List<Template_Dto> templateListDescription = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Description, emptyList);
-            List<Template_Dto> templateListCreatedAt = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.CreatedAt, emptyList);
-            List<Template_Dto> templateListTag = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Tags, emptyList);
-            List<Template_Dto> templateListSpecificTag = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Tags, tagIds2);
+            List<Template_Dto> templateListId = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, "", emptyList, timeZoneInfo);
+            List<Template_Dto> templateListLabel = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Label, emptyList, timeZoneInfo);
+            List<Template_Dto> templateListDescription = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Description, emptyList, timeZoneInfo);
+            List<Template_Dto> templateListCreatedAt = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.CreatedAt, emptyList, timeZoneInfo);
+            List<Template_Dto> templateListTag = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Tags, emptyList, timeZoneInfo);
+            List<Template_Dto> templateListSpecificTag = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Tags, tagIds2, timeZoneInfo);
 
 
             // Descending including removed
-            List<Template_Dto> templateListDescengingId = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, "", emptyList);
-            List<Template_Dto> templateListDescengingLabel = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Label, emptyList);
-            List<Template_Dto> templateListDescengingDescription = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Description, emptyList);
-            List<Template_Dto> templateListDescengingCreatedAt = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.CreatedAt, emptyList);
-            List<Template_Dto> templateListDescendingTag = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, emptyList);
-            List<Template_Dto> templateListDescendingSpecificTag = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, tagIds2);
+            List<Template_Dto> templateListDescengingId = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, "", emptyList, timeZoneInfo);
+            List<Template_Dto> templateListDescengingLabel = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Label, emptyList, timeZoneInfo);
+            List<Template_Dto> templateListDescengingDescription = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Description, emptyList, timeZoneInfo);
+            List<Template_Dto> templateListDescengingCreatedAt = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.CreatedAt, emptyList, timeZoneInfo);
+            List<Template_Dto> templateListDescendingTag = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, emptyList, timeZoneInfo);
+            List<Template_Dto> templateListDescendingSpecificTag = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, tagIds2, timeZoneInfo);
 
             // Default sorting excluding removed
-            List<Template_Dto> templateListIdNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, "", emptyList);
-            List<Template_Dto> templateListLabelNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Label, emptyList);
-            List<Template_Dto> templateListDescriptionNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Description, emptyList);
-            List<Template_Dto> templateListCreatedAtNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.CreatedAt, emptyList);
-            List<Template_Dto> templateListTagNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Tags, emptyList);
-            List<Template_Dto> templateListSpecificTagNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Tags, tagIds2);
+            List<Template_Dto> templateListIdNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, "", emptyList, timeZoneInfo);
+            List<Template_Dto> templateListLabelNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Label, emptyList, timeZoneInfo);
+            List<Template_Dto> templateListDescriptionNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Description, emptyList, timeZoneInfo);
+            List<Template_Dto> templateListCreatedAtNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.CreatedAt, emptyList, timeZoneInfo);
+            List<Template_Dto> templateListTagNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Tags, emptyList, timeZoneInfo);
+            List<Template_Dto> templateListSpecificTagNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Tags, tagIds2, timeZoneInfo);
 
             // Descending excluding removed
-            List<Template_Dto> templateListDescengingIdNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, "", emptyList);
-            List<Template_Dto> templateListDescengingLabelNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Label, emptyList);
-            List<Template_Dto> templateListDescengingDescriptionNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Description, emptyList);
-            List<Template_Dto> templateListDescengingCreatedAtNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.CreatedAt, emptyList);
-            List<Template_Dto> templateListDescendingTagNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, emptyList);
-            List<Template_Dto> templateListDescendingSpecificTagNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, tagIds2);
+            List<Template_Dto> templateListDescengingIdNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, "", emptyList, timeZoneInfo);
+            List<Template_Dto> templateListDescengingLabelNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Label, emptyList, timeZoneInfo);
+            List<Template_Dto> templateListDescengingDescriptionNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Description, emptyList, timeZoneInfo);
+            List<Template_Dto> templateListDescengingCreatedAtNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.CreatedAt, emptyList, timeZoneInfo);
+            List<Template_Dto> templateListDescendingTagNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, emptyList, timeZoneInfo);
+            List<Template_Dto> templateListDescendingSpecificTagNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, tagIds2, timeZoneInfo);
 
             // Assert
 
