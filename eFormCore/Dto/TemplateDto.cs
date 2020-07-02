@@ -76,7 +76,7 @@ namespace Microting.eForm.Dto
             FieldDto field10, 
             List<KeyValuePair<int, string>> tags,
             bool jasperExportEnabled,
-            bool docxExportEnabled)
+            bool docxExportEnabled, bool excelExportEnabled)
         {
             Id = id;
             Label = label;
@@ -102,6 +102,7 @@ namespace Microting.eForm.Dto
             Tags = tags;
             JasperExportEnabled = jasperExportEnabled;
             DocxExportEnabled = docxExportEnabled;
+            ExcelExportEnabled = excelExportEnabled;
         }
         #endregion
 
@@ -216,6 +217,8 @@ namespace Microting.eForm.Dto
         public bool JasperExportEnabled { get; set; }
         
         public bool DocxExportEnabled { get; set; }
+
+        public bool ExcelExportEnabled { get; set; }
 
         /// <summary>
         /// Tags

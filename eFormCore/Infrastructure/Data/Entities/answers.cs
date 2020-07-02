@@ -45,7 +45,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int LanguageId { get; set; }
         
         [ForeignKey("survey_configuration")]
-        public int SurveyConfigurationId { get; set; }
+        public int? SurveyConfigurationId { get; set; }
         
         public DateTime FinishedAt { get; set; }
         
