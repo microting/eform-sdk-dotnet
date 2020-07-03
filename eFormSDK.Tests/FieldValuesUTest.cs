@@ -163,7 +163,7 @@ namespace eFormSDK.Tests
                 Status = rnd.Next(1, 255),
                 Type = Guid.NewGuid().ToString(),
                 CaseUid = Guid.NewGuid().ToString(),
-                DoneAt = DateTime.Now,
+                DoneAt = DateTime.UtcNow,
                 FieldValue1 = Guid.NewGuid().ToString(),
                 FieldValue2 = Guid.NewGuid().ToString(),
                 FieldValue3 = Guid.NewGuid().ToString(),
@@ -189,7 +189,7 @@ namespace eFormSDK.Tests
                 Extension = Guid.NewGuid().ToString(),
                 Local = (short) rnd.Next(shortMinValue, shortmaxValue),
                 CurrentFile = Guid.NewGuid().ToString(),
-                ExpirationDate = DateTime.Now,
+                ExpirationDate = DateTime.UtcNow,
                 FileLocation = Guid.NewGuid().ToString(),
                 FileName = Guid.NewGuid().ToString(),
                 TranscriptionId = rnd.Next(1, 255),
@@ -202,13 +202,13 @@ namespace eFormSDK.Tests
             {
                 Accuracy = Guid.NewGuid().ToString(),
                 Altitude = Guid.NewGuid().ToString(),
-                Date = DateTime.Now,
+                Date = DateTime.UtcNow,
                 Heading = Guid.NewGuid().ToString(),
                 Latitude = Guid.NewGuid().ToString(),
                 Longitude = Guid.NewGuid().ToString(),
                 Value = Guid.NewGuid().ToString(),
                 CaseId = theCase.Id,
-                DoneAt = DateTime.Now,
+                DoneAt = DateTime.UtcNow,
                 FieldId = field.Id,
                 WorkerId = worker.Id,
                 CheckListId = checklist.Id,
@@ -392,7 +392,7 @@ namespace eFormSDK.Tests
                 Status = rnd.Next(1, 255),
                 Type = Guid.NewGuid().ToString(),
                 CaseUid = Guid.NewGuid().ToString(),
-                DoneAt = DateTime.Now,
+                DoneAt = DateTime.UtcNow,
                 FieldValue1 = Guid.NewGuid().ToString(),
                 FieldValue2 = Guid.NewGuid().ToString(),
                 FieldValue3 = Guid.NewGuid().ToString(),
@@ -418,7 +418,7 @@ namespace eFormSDK.Tests
                 Extension = Guid.NewGuid().ToString(),
                 Local = (short) rnd.Next(shortMinValue, shortmaxValue),
                 CurrentFile = Guid.NewGuid().ToString(),
-                ExpirationDate = DateTime.Now,
+                ExpirationDate = DateTime.UtcNow,
                 FileLocation = Guid.NewGuid().ToString(),
                 FileName = Guid.NewGuid().ToString(),
                 TranscriptionId = rnd.Next(1, 255),
@@ -431,13 +431,13 @@ namespace eFormSDK.Tests
             {
                 Accuracy = Guid.NewGuid().ToString(),
                 Altitude = Guid.NewGuid().ToString(),
-                Date = DateTime.Now,
+                Date = DateTime.UtcNow,
                 Heading = Guid.NewGuid().ToString(),
                 Latitude = Guid.NewGuid().ToString(),
                 Longitude = Guid.NewGuid().ToString(),
                 Value = Guid.NewGuid().ToString(),
                 CaseId = theCase.Id,
-                DoneAt = DateTime.Now,
+                DoneAt = DateTime.UtcNow,
                 FieldId = field.Id,
                 WorkerId = worker.Id,
                 CheckListId = checklist.Id,
@@ -459,12 +459,12 @@ namespace eFormSDK.Tests
             
             fieldValue.Accuracy = Guid.NewGuid().ToString();
             fieldValue.Altitude = Guid.NewGuid().ToString();
-            fieldValue.Date = DateTime.Now;
+            fieldValue.Date = DateTime.UtcNow;
             fieldValue.Heading = Guid.NewGuid().ToString();
             fieldValue.Latitude = Guid.NewGuid().ToString();
             fieldValue.Longitude = Guid.NewGuid().ToString();
             fieldValue.Value = Guid.NewGuid().ToString();
-            fieldValue.DoneAt = DateTime.Now;
+            fieldValue.DoneAt = DateTime.UtcNow;
 
             await fieldValue.Update(dbContext).ConfigureAwait(false);
             
@@ -660,7 +660,7 @@ namespace eFormSDK.Tests
                 Status = rnd.Next(1, 255),
                 Type = Guid.NewGuid().ToString(),
                 CaseUid = Guid.NewGuid().ToString(),
-                DoneAt = DateTime.Now,
+                DoneAt = DateTime.UtcNow,
                 FieldValue1 = Guid.NewGuid().ToString(),
                 FieldValue2 = Guid.NewGuid().ToString(),
                 FieldValue3 = Guid.NewGuid().ToString(),
@@ -686,7 +686,7 @@ namespace eFormSDK.Tests
                 Extension = Guid.NewGuid().ToString(),
                 Local = (short) rnd.Next(shortMinValue, shortmaxValue),
                 CurrentFile = Guid.NewGuid().ToString(),
-                ExpirationDate = DateTime.Now,
+                ExpirationDate = DateTime.UtcNow,
                 FileLocation = Guid.NewGuid().ToString(),
                 FileName = Guid.NewGuid().ToString(),
                 TranscriptionId = rnd.Next(1, 255),
@@ -699,13 +699,13 @@ namespace eFormSDK.Tests
             {
                 Accuracy = Guid.NewGuid().ToString(),
                 Altitude = Guid.NewGuid().ToString(),
-                Date = DateTime.Now,
+                Date = DateTime.UtcNow,
                 Heading = Guid.NewGuid().ToString(),
                 Latitude = Guid.NewGuid().ToString(),
                 Longitude = Guid.NewGuid().ToString(),
                 Value = Guid.NewGuid().ToString(),
                 CaseId = theCase.Id,
-                DoneAt = DateTime.Now,
+                DoneAt = DateTime.UtcNow,
                 FieldId = field.Id,
                 WorkerId = worker.Id,
                 CheckListId = checklist.Id,

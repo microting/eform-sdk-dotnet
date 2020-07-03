@@ -119,8 +119,8 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
 //            #region Template1
-//            DateTime cl1_Ca = DateTime.Now;
-//            DateTime cl1_Ua = DateTime.Now;
+//            DateTime cl1_Ca = DateTime.UtcNow;
+//            DateTime cl1_Ua = DateTime.UtcNow;
 //            check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 //
 //            #endregion
@@ -320,8 +320,8 @@ namespace eFormSDK.Integration.Tests
 
             // Arrange
 //            #region Template1
-//            DateTime cl1_Ca = DateTime.Now;
-//            DateTime cl1_Ua = DateTime.Now;
+//            DateTime cl1_Ca = DateTime.UtcNow;
+//            DateTime cl1_Ua = DateTime.UtcNow;
 //            check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 //
 //            #endregion

@@ -258,8 +258,8 @@ namespace Microting.eForm.Helpers
             fv.CheckList = checkList;
             fv.CheckListId = checkList.Id;
             fv.CreatedAt = DateTime.UtcNow;
-            fv.Date = DateTime.Now;
-            fv.DoneAt = DateTime.Now;
+            fv.Date = DateTime.UtcNow;
+            fv.DoneAt = DateTime.UtcNow;
             fv.Field = f;
             fv.FieldId = f.Id;
             fv.UpdatedAt = DateTime.UtcNow;
@@ -302,7 +302,7 @@ namespace Microting.eForm.Helpers
             UD.Checksum = checkSum;
             UD.CreatedAt = DateTime.UtcNow;
             UD.CurrentFile = currentFile;
-            UD.ExpirationDate = DateTime.Now.AddYears(1);
+            UD.ExpirationDate = DateTime.UtcNow.AddYears(1);
             UD.Extension = extension;
             UD.FileLocation = fileLocation;
             UD.FileName = fileName;

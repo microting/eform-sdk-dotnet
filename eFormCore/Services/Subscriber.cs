@@ -129,7 +129,7 @@ namespace Microting.eForm.Services
             #region amazon
             {
                 
-                log.LogStandard(t.GetMethodName("Subscriber"), $"{DateTime.Now.ToString()} - Starting up");
+                log.LogStandard(t.GetMethodName("Subscriber"), $"{DateTime.UtcNow.ToString()} - Starting up");
 
                 #region setup
                 isActive = true;
@@ -211,7 +211,7 @@ namespace Microting.eForm.Services
                         else
                         {
                             log.LogStandard(t.GetMethodName("Subscriber"),
-                                $"{DateTime.Now.ToString()} -  No messages for us right now!");
+                                $"{DateTime.UtcNow.ToString()} -  No messages for us right now!");
                         }
 
                     }
@@ -227,14 +227,14 @@ namespace Microting.eForm.Services
                         // Log exception
                         log.LogWarning(t.GetMethodName("Subscriber"), t.PrintException(t.GetMethodName("Subscriber") + " failed", ex));
 
-                        if (DateTime.Compare(lastException.AddMinutes(5), DateTime.Now) > 0)
+                        if (DateTime.Compare(lastException.AddMinutes(5), DateTime.UtcNow) > 0)
                         {
                             keepSubscribed = false;
                             log.LogException(t.GetMethodName("Subscriber"), "failed, twice in the last 5 minuts", ex);
                             // TODO handle crash so we could restart!!!
                         }
 
-                        lastException = DateTime.Now;
+                        lastException = DateTime.UtcNow;
                     }
                 }
                 log.LogStandard(t.GetMethodName("Subscriber"), "--- WE WHERE TOLD NOT TO CONTINUE TO SUBSCRIBE ---");

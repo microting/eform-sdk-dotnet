@@ -79,7 +79,7 @@ namespace Microting.eForm.Communication
         {
             try
             {
-                WriteDebugConsoleLogEntry("Http.Post", $"called at {DateTime.Now}");
+                WriteDebugConsoleLogEntry("Http.Post", $"called at {DateTime.UtcNow}");
                 WebRequest request = WebRequest.Create(
                     $"{addressApi}/gwt/inspection_app/integration/?token={token}&protocol={protocolXml}&site_id={siteId}&sdk_ver={dllVersion}");
                 request.Method = "POST";
@@ -995,7 +995,7 @@ namespace Microting.eForm.Communication
             Console.WriteLine($"[DBG] Http.PostToServer: Calling {request.RequestUri}");
             
             // Hack for ignoring certificate validation.
-            DateTime start = DateTime.Now;
+            DateTime start = DateTime.UtcNow;
             WriteDebugConsoleLogEntry("Http.PostToServer", $"Called at {start}");
             ServicePointManager.ServerCertificateValidationCallback = Validator;
             Stream dataRequestStream = request.GetRequestStream();
@@ -1020,7 +1020,7 @@ namespace Microting.eForm.Communication
 
             }
 
-            WriteDebugConsoleLogEntry("Http.PostToServer", $"Finished at {DateTime.Now} - took {(start - DateTime.Now).ToString()}");
+            WriteDebugConsoleLogEntry("Http.PostToServer", $"Finished at {DateTime.UtcNow} - took {(start - DateTime.UtcNow).ToString()}");
             return responseFromServer;
         }
 

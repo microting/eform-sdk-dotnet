@@ -181,8 +181,8 @@ namespace eFormSDK.Integration.Tests
             notifications aNote1 = new notifications
             {
                 WorkflowState = Constants.WorkflowStates.Created,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 NotificationUid = "0",
                 MicrotingUid = rnd.Next(1, 255),
                 Activity = Constants.Notifications.UnitActivate
@@ -211,8 +211,8 @@ namespace eFormSDK.Integration.Tests
             notifications aNote1 = new notifications
             {
                 WorkflowState = Constants.WorkflowStates.Created,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 NotificationUid = "0",
                 MicrotingUid = rnd.Next(1, 255),
                 Activity = Constants.Notifications.UnitActivate

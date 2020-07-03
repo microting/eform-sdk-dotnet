@@ -90,8 +90,8 @@ namespace eFormSDK.Integration.Tests
             // Act
             uploaded_data dU = new uploaded_data
             {
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 Extension = extension,
                 UploaderId = uploaderId,
                 UploaderType = Constants.UploaderTypes.System,

@@ -70,8 +70,8 @@ namespace eFormSDK.Integration.Tests
         {
             Random rnd = new Random();
             sites site = await testHelpers.CreateSite("mySite", 987);
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template", "template_desc", "", "", 0, 0);
 
 
@@ -94,8 +94,8 @@ namespace eFormSDK.Integration.Tests
         {
             Random rnd = new Random();
             sites site1 = await testHelpers.CreateSite("mySite2", 331);
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template2", "template_desc", "", "", 1, 1);
 
             string guid = Guid.NewGuid().ToString();
@@ -129,8 +129,8 @@ namespace eFormSDK.Integration.Tests
             // Arrance
             Random rnd = new Random();
             sites site = await testHelpers.CreateSite("mySite", 987);
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "bla", "bla_desc", "", "", 0, 0);
 
             string guid = Guid.NewGuid().ToString();

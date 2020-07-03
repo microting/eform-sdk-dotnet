@@ -826,7 +826,7 @@ namespace eFormCore
                                 {
                                     //download file
                                     string downloadPath = await _sqlController.SettingRead(Settings.fileLocationPdf);
-                                    long ticks = DateTime.Now.Ticks;
+                                    long ticks = DateTime.UtcNow.Ticks;
                                     string tempFileName = $"{ticks}_temp.pdf";
                                     string filePathAndFileName = Path.Combine(downloadPath, tempFileName);
                                     try
@@ -1137,7 +1137,7 @@ namespace eFormCore
                     DateTime start = DateTime.Parse(mainElement.StartDate.ToLongDateString());
                     DateTime end = DateTime.Parse(mainElement.EndDate.ToLongDateString());
 
-                    if (end < DateTime.Now)
+                    if (end < DateTime.UtcNow)
                     {
                         log.LogStandard(methodName, $"mainElement.EndDate is set to {end}");
                         throw new ArgumentException("mainElement.EndDate needs to be a future date");
@@ -1161,7 +1161,7 @@ namespace eFormCore
                         int mUId = await SendXml(mainElement, siteUid);
 
                         if (mainElement.Repeated == 1)
-                            await _sqlController.CaseCreate(mainElement.Id, siteUid, mUId, null, caseUId, custom, DateTime.Now, folderId).ConfigureAwait(false);
+                            await _sqlController.CaseCreate(mainElement.Id, siteUid, mUId, null, caseUId, custom, DateTime.UtcNow, folderId).ConfigureAwait(false);
                         else
                             await _sqlController.CheckListSitesCreate(mainElement.Id, siteUid, mUId, folderId).ConfigureAwait(false);
 
@@ -1926,7 +1926,7 @@ namespace eFormCore
                     log.LogVariable(methodName, nameof(timeStamp), timeStamp);
 
                     if (timeStamp == null)
-                        timeStamp = $"{DateTime.Now:yyyyMMdd}_{DateTime.Now:hhmmss}";
+                        timeStamp = $"{DateTime.UtcNow:yyyyMMdd}_{DateTime.UtcNow:hhmmss}";
 
                     //get needed data
 //                    CaseDto cDto = CaseLookupCaseId(caseId);
@@ -2346,7 +2346,7 @@ namespace eFormCore
                     log.LogVariable(methodName, nameof(jasperTemplate), jasperTemplate);
 
                     if (timeStamp == null)
-                        timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
+                        timeStamp = DateTime.UtcNow.ToString("yyyyMMdd") + "_" + DateTime.UtcNow.ToString("hhmmss");
                     
                     CaseDto cDto = await CaseLookupCaseId(caseId).ConfigureAwait(false);
                     ReplyElement reply = await CaseRead((int)cDto.MicrotingUId, (int)cDto.CheckUId).ConfigureAwait(false);

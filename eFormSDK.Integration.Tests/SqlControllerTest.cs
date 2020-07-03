@@ -77,8 +77,8 @@ namespace eFormSDK.Integration.Tests
 //            // Arrance
 //            #region Template1
 //            /* check_lists cl1 = new check_lists();
-//             cl1.created_at = DateTime.Now;
-//             cl1.updated_at = DateTime.Now;
+//             cl1.created_at = DateTime.UtcNow;
+//             cl1.updated_at = DateTime.UtcNow;
 //             cl1.label = "A";
 //             cl1.description = "D";
 //             cl1.workflow_state = Constants.WorkflowStates.Created;
@@ -94,8 +94,8 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region SubTemplate1
 //            /*check_lists cl2 = new check_lists();
-//            cl2.created_at = DateTime.Now;
-//            cl2.updated_at = DateTime.Now;
+//            cl2.created_at = DateTime.UtcNow;
+//            cl2.updated_at = DateTime.UtcNow;
 //            cl2.label = "A.1";
 //            cl2.description = "D.1";
 //            cl2.workflow_state = Constants.WorkflowStates.Created;
@@ -130,8 +130,8 @@ namespace eFormSDK.Integration.Tests
 //            worker.first_name = "Arne";
 //            worker.last_name = "Jensen";
 //            worker.email = "aa@tak.dk";
-//            worker.created_at = DateTime.Now;
-//            worker.updated_at = DateTime.Now;
+//            worker.created_at = DateTime.UtcNow;
+//            worker.updated_at = DateTime.UtcNow;
 //            worker.microting_uid = 21;
 //            worker.workflow_state = Constants.WorkflowStates.Created;
 //            worker.version = 69;
@@ -145,8 +145,8 @@ namespace eFormSDK.Integration.Tests
 //            sites site = new sites();
 //            site.name = "SiteName";
 //            site.microting_uid = 88;
-//            site.updated_at = DateTime.Now;
-//            site.created_at = DateTime.Now;
+//            site.updated_at = DateTime.UtcNow;
+//            site.created_at = DateTime.UtcNow;
 //            site.version = 64;
 //            site.workflow_state = Constants.WorkflowStates.Created;
 //            DbContext.sites.Add(site);
@@ -161,9 +161,9 @@ namespace eFormSDK.Integration.Tests
 //            unit.otp_code = 49;
 //            unit.site = site;
 //            unit.site_id = site.Id;
-//            unit.created_at = DateTime.Now;
+//            unit.created_at = DateTime.UtcNow;
 //            unit.customer_no = 348;
-//            unit.updated_at = DateTime.Now;
+//            unit.updated_at = DateTime.UtcNow;
 //            unit.version = 9;
 //            unit.workflow_state = Constants.WorkflowStates.Created;
 //
@@ -174,9 +174,9 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region site_workers
 //            /* site_workers site_workers = new site_workers();
-//             site_workers.created_at = DateTime.Now;
+//             site_workers.created_at = DateTime.UtcNow;
 //             site_workers.microting_uid = 55;
-//             site_workers.updated_at = DateTime.Now;
+//             site_workers.updated_at = DateTime.UtcNow;
 //             site_workers.version = 63;
 //             site_workers.site = site;
 //             site_workers.site_id = site.Id;
@@ -204,7 +204,7 @@ namespace eFormSDK.Integration.Tests
 //
 //
 //            string caseType = "AAKKAA";
-//            DateTime createdAt = DateTime.Now;
+//            DateTime createdAt = DateTime.UtcNow;
 //            int checkListId = 1;
 //            string microtingUId = "microting_UId";
 //            string microtingCheckId = "microting_Check_Id";
@@ -236,9 +236,9 @@ namespace eFormSDK.Integration.Tests
 //
 //            check_List_Values.case_id = aCase.Id;
 //            check_List_Values.check_list_id = cl2.Id;
-//            check_List_Values.created_at = DateTime.Now;
+//            check_List_Values.created_at = DateTime.UtcNow;
 //            check_List_Values.status = "completed";
-//            check_List_Values.updated_at = DateTime.Now;
+//            check_List_Values.updated_at = DateTime.UtcNow;
 //            check_List_Values.user_id = null;
 //            check_List_Values.version = 865;
 //            check_List_Values.workflow_state = Constants.WorkflowStates.Created;
@@ -254,12 +254,12 @@ namespace eFormSDK.Integration.Tests
 //            field_Values1.case_id = aCase.Id;
 //            field_Values1.check_list = cl2;
 //            field_Values1.check_list_id = cl2.Id;
-//            field_Values1.created_at = DateTime.Now;
-//            field_Values1.date = DateTime.Now;
-//            field_Values1.done_at = DateTime.Now;
+//            field_Values1.created_at = DateTime.UtcNow;
+//            field_Values1.date = DateTime.UtcNow;
+//            field_Values1.done_at = DateTime.UtcNow;
 //            field_Values1.field = f1;
 //            field_Values1.field_id = f1.Id;
-//            field_Values1.updated_at = DateTime.Now;
+//            field_Values1.updated_at = DateTime.UtcNow;
 //            field_Values1.user_id = null;
 //            field_Values1.value = "tomt1";
 //            field_Values1.version = 61234;
@@ -273,12 +273,12 @@ namespace eFormSDK.Integration.Tests
 //            field_Values2.case_id = aCase.Id;
 //            field_Values2.check_list = cl2;
 //            field_Values2.check_list_id = cl2.Id;
-//            field_Values2.created_at = DateTime.Now;
-//            field_Values2.date = DateTime.Now;
-//            field_Values2.done_at = DateTime.Now;
+//            field_Values2.created_at = DateTime.UtcNow;
+//            field_Values2.date = DateTime.UtcNow;
+//            field_Values2.done_at = DateTime.UtcNow;
 //            field_Values2.field = f2;
 //            field_Values2.field_id = f2.Id;
-//            field_Values2.updated_at = DateTime.Now;
+//            field_Values2.updated_at = DateTime.UtcNow;
 //            field_Values2.user_id = null;
 //            field_Values2.value = "tomt2";
 //            field_Values2.version = 61234;
@@ -292,12 +292,12 @@ namespace eFormSDK.Integration.Tests
 //            field_Values3.case_id = aCase.Id;
 //            field_Values3.check_list = cl2;
 //            field_Values3.check_list_id = cl2.Id;
-//            field_Values3.created_at = DateTime.Now;
-//            field_Values3.date = DateTime.Now;
-//            field_Values3.done_at = DateTime.Now;
+//            field_Values3.created_at = DateTime.UtcNow;
+//            field_Values3.date = DateTime.UtcNow;
+//            field_Values3.done_at = DateTime.UtcNow;
 //            field_Values3.field = f3;
 //            field_Values3.field_id = f3.Id;
-//            field_Values3.updated_at = DateTime.Now;
+//            field_Values3.updated_at = DateTime.UtcNow;
 //            field_Values3.user_id = null;
 //            field_Values3.value = "tomt3";
 //            field_Values3.version = 61234;
@@ -311,12 +311,12 @@ namespace eFormSDK.Integration.Tests
 //            field_Values4.case_id = aCase.Id;
 //            field_Values4.check_list = cl2;
 //            field_Values4.check_list_id = cl2.Id;
-//            field_Values4.created_at = DateTime.Now;
-//            field_Values4.date = DateTime.Now;
-//            field_Values4.done_at = DateTime.Now;
+//            field_Values4.created_at = DateTime.UtcNow;
+//            field_Values4.date = DateTime.UtcNow;
+//            field_Values4.done_at = DateTime.UtcNow;
 //            field_Values4.field = f4;
 //            field_Values4.field_id = f4.Id;
-//            field_Values4.updated_at = DateTime.Now;
+//            field_Values4.updated_at = DateTime.UtcNow;
 //            field_Values4.user_id = null;
 //            field_Values4.value = "tomt4";
 //            field_Values4.version = 61234;
@@ -330,12 +330,12 @@ namespace eFormSDK.Integration.Tests
 //            field_Values5.case_id = aCase.Id;
 //            field_Values5.check_list = cl2;
 //            field_Values5.check_list_id = cl2.Id;
-//            field_Values5.created_at = DateTime.Now;
-//            field_Values5.date = DateTime.Now;
-//            field_Values5.done_at = DateTime.Now;
+//            field_Values5.created_at = DateTime.UtcNow;
+//            field_Values5.date = DateTime.UtcNow;
+//            field_Values5.done_at = DateTime.UtcNow;
 //            field_Values5.field = f5;
 //            field_Values5.field_id = f5.Id;
-//            field_Values5.updated_at = DateTime.Now;
+//            field_Values5.updated_at = DateTime.UtcNow;
 //            field_Values5.user_id = null;
 //            field_Values5.value = "tomt5";
 //            field_Values5.version = 61234;
@@ -366,8 +366,8 @@ namespace eFormSDK.Integration.Tests
         //    // Arrance
         //    #region Template1
         //    check_lists cl1 = new check_lists();
-        //    cl1.created_at = DateTime.Now;
-        //    cl1.updated_at = DateTime.Now;
+        //    cl1.created_at = DateTime.UtcNow;
+        //    cl1.updated_at = DateTime.UtcNow;
         //    cl1.label = "A";
         //    cl1.description = "D";
         //    cl1.workflow_state = Constants.WorkflowStates.Created;
@@ -382,8 +382,8 @@ namespace eFormSDK.Integration.Tests
 
         //    #region SubTemplate1
         //    check_lists cl2 = new check_lists();
-        //    cl2.created_at = DateTime.Now;
-        //    cl2.updated_at = DateTime.Now;
+        //    cl2.created_at = DateTime.UtcNow;
+        //    cl2.updated_at = DateTime.UtcNow;
         //    cl2.label = "A.1";
         //    cl2.description = "D.1";
         //    cl2.workflow_state = Constants.WorkflowStates.Created;
@@ -412,7 +412,7 @@ namespace eFormSDK.Integration.Tests
         //    //f1.barcode_type = "barcode";
         //    //f1.check_list_id = cl2.Id;
         //    //f1.color = "e2f4fb";
-        //    //f1.created_at = DateTime.Now;
+        //    //f1.created_at = DateTime.UtcNow;
         //    //f1.custom = "custom";
         //    //f1.decimal_count = null;
         //    //f1.default_value = "";
@@ -436,7 +436,7 @@ namespace eFormSDK.Integration.Tests
         //    //f1.split_screen = 0;
         //    //f1.stop_on_save = 0;
         //    //f1.unit_name = "";
-        //    //f1.updated_at = DateTime.Now;
+        //    //f1.updated_at = DateTime.UtcNow;
         //    //f1.version = 49;
         //    //f1.workflow_state = Constants.WorkflowStates.Created;
 
@@ -480,7 +480,7 @@ namespace eFormSDK.Integration.Tests
         //    //f2.split_screen = 0;
         //    //f2.stop_on_save = 0;
         //    //f2.unit_name = "";
-        //    //f2.updated_at = DateTime.Now;
+        //    //f2.updated_at = DateTime.UtcNow;
         //    //f2.version = 9;
         //    //f2.workflow_state = Constants.WorkflowStates.Created;
 
@@ -504,7 +504,7 @@ namespace eFormSDK.Integration.Tests
         //    //f3.barcode_type = "barcode";
         //    //f3.check_list_id = cl2.Id;
         //    //f3.color = "f0f8db";
-        //    //f3.created_at = DateTime.Now;
+        //    //f3.created_at = DateTime.UtcNow;
         //    //f3.custom = "custom";
         //    //f3.decimal_count = 3;
         //    //f3.default_value = "";
@@ -528,7 +528,7 @@ namespace eFormSDK.Integration.Tests
         //    //f3.split_screen = 0;
         //    //f3.stop_on_save = 0;
         //    //f3.unit_name = "";
-        //    //f3.updated_at = DateTime.Now;
+        //    //f3.updated_at = DateTime.UtcNow;
         //    //f3.version = 1;
         //    //f3.workflow_state = Constants.WorkflowStates.Created;
 
@@ -554,7 +554,7 @@ namespace eFormSDK.Integration.Tests
         //    //f4.barcode_type = "barcode";
         //    //f4.check_list_id = cl2.Id;
         //    //f4.color = "fff6df";
-        //    //f4.created_at = DateTime.Now;
+        //    //f4.created_at = DateTime.UtcNow;
         //    //f4.custom = "custom";
         //    //f4.decimal_count = null;
         //    //f4.default_value = "";
@@ -578,7 +578,7 @@ namespace eFormSDK.Integration.Tests
         //    //f4.split_screen = 0;
         //    //f4.stop_on_save = 0;
         //    //f4.unit_name = "";
-        //    //f4.updated_at = DateTime.Now;
+        //    //f4.updated_at = DateTime.UtcNow;
         //    //f4.version = 1;
         //    //f4.workflow_state = Constants.WorkflowStates.Created;
 
@@ -602,7 +602,7 @@ namespace eFormSDK.Integration.Tests
         //    //f5.barcode_type = "barcode";
         //    //f5.check_list_id = cl2.Id;
         //    //f5.color = "ffe4e4";
-        //    //f5.created_at = DateTime.Now;
+        //    //f5.created_at = DateTime.UtcNow;
         //    //f5.custom = "custom";
         //    //f5.decimal_count = null;
         //    //f5.default_value = "";
@@ -626,7 +626,7 @@ namespace eFormSDK.Integration.Tests
         //    //f5.split_screen = 0;
         //    //f5.stop_on_save = 0;
         //    //f5.unit_name = "";
-        //    //f5.updated_at = DateTime.Now;
+        //    //f5.updated_at = DateTime.UtcNow;
         //    //f5.version = 1;
         //    //f5.workflow_state = Constants.WorkflowStates.Created;
 
@@ -724,8 +724,8 @@ namespace eFormSDK.Integration.Tests
 //            worker.FirstName = firstName;
 //            worker.LastName = lastName;
 //            worker.Email = email;
-//            worker.CreatedAt = DateTime.Now;
-//            worker.UpdatedAt = DateTime.Now;
+//            worker.CreatedAt = DateTime.UtcNow;
+//            worker.UpdatedAt = DateTime.UtcNow;
 //            worker.MicrotingUid = microtingUId;
 //            worker.WorkflowState = Constants.WorkflowStates.Created;
 //            worker.Version = 69;
@@ -740,8 +740,8 @@ namespace eFormSDK.Integration.Tests
 //            sites site = new sites();
 //            site.Name = name;
 //            site.MicrotingUid = microtingUId;
-//            site.UpdatedAt = DateTime.Now;
-//            site.CreatedAt = DateTime.Now;
+//            site.UpdatedAt = DateTime.UtcNow;
+//            site.CreatedAt = DateTime.UtcNow;
 //            site.Version = 64;
 //            site.WorkflowState = Constants.WorkflowStates.Created;
 //            dbContext.sites.Add(site);
@@ -757,9 +757,9 @@ namespace eFormSDK.Integration.Tests
 //            unit.OtpCode = otpCode;
 //            unit.Site = site;
 //            unit.SiteId = site.Id;
-//            unit.CreatedAt = DateTime.Now;
+//            unit.CreatedAt = DateTime.UtcNow;
 //            unit.CustomerNo = customerNo;
-//            unit.UpdatedAt = DateTime.Now;
+//            unit.UpdatedAt = DateTime.UtcNow;
 //            unit.Version = 9;
 //            unit.WorkflowState = Constants.WorkflowStates.Created;
 //
@@ -771,9 +771,9 @@ namespace eFormSDK.Integration.Tests
 //        public async Task<site_workers> CreateSiteWorker(int microtingUId, sites site, workers worker)
 //        {
 //            site_workers site_workers = new site_workers();
-//            site_workers.CreatedAt = DateTime.Now;
+//            site_workers.CreatedAt = DateTime.UtcNow;
 //            site_workers.MicrotingUid = microtingUId;
-//            site_workers.UpdatedAt = DateTime.Now;
+//            site_workers.UpdatedAt = DateTime.UtcNow;
 //            site_workers.Version = 63;
 //            site_workers.Site = site;
 //            site_workers.SiteId = site.Id;
@@ -787,8 +787,8 @@ namespace eFormSDK.Integration.Tests
 //        public check_lists CreateTemplate(string label, string description, string caseType, string folderName, int displayIndex, int repeated)
 //        {
 //            check_lists cl1 = new check_lists();
-//            cl1.CreatedAt = DateTime.Now;
-//            cl1.UpdatedAt = DateTime.Now;
+//            cl1.CreatedAt = DateTime.UtcNow;
+//            cl1.UpdatedAt = DateTime.UtcNow;
 //            cl1.Label = label;
 //            cl1.Description = description;
 //            cl1.WorkflowState = Constants.WorkflowStates.Created;
@@ -804,8 +804,8 @@ namespace eFormSDK.Integration.Tests
 //        public check_lists CreateSubTemplate(string label, string description, string caseType, int displayIndex, int repeated, check_lists parentId)
 //        {
 //            check_lists cl2 = new check_lists();
-//            cl2.CreatedAt = DateTime.Now;
-//            cl2.UpdatedAt = DateTime.Now;
+//            cl2.CreatedAt = DateTime.UtcNow;
+//            cl2.UpdatedAt = DateTime.UtcNow;
 //            cl2.Label = label;
 //            cl2.Description = description;
 //            cl2.WorkflowState = Constants.WorkflowStates.Created;
@@ -828,7 +828,7 @@ namespace eFormSDK.Integration.Tests
 //            f.BarcodeType = barcodeType;
 //            f.CheckListId = checkList.Id;
 //            f.Color = color;
-//            f.CreatedAt = DateTime.Now;
+//            f.CreatedAt = DateTime.UtcNow;
 //            f.Custom = custom;
 //            f.DecimalCount = decimalCount;
 //            f.DefaultValue = defaultValue;
@@ -852,7 +852,7 @@ namespace eFormSDK.Integration.Tests
 //            f.SplitScreen = splitScreen;
 //            f.StopOnSave = stopOnSave;
 //            f.UnitName = unitName;
-//            f.UpdatedAt = DateTime.Now;
+//            f.UpdatedAt = DateTime.UtcNow;
 //            f.Version = version;
 //            f.WorkflowState = Constants.WorkflowStates.Created;
 //
@@ -899,12 +899,12 @@ namespace eFormSDK.Integration.Tests
 //            fv.CaseId = aCase.Id;
 //            fv.CheckList = checkList;
 //            fv.CheckListId = checkList.Id;
-//            fv.CreatedAt = DateTime.Now;
-//            fv.Date = DateTime.Now;
-//            fv.DoneAt = DateTime.Now;
+//            fv.CreatedAt = DateTime.UtcNow;
+//            fv.Date = DateTime.UtcNow;
+//            fv.DoneAt = DateTime.UtcNow;
 //            fv.Field = f;
 //            fv.FieldId = f.Id;
-//            fv.UpdatedAt = DateTime.Now;
+//            fv.UpdatedAt = DateTime.UtcNow;
 //            if (ud_id != null)
 //            {
 //                fv.UploadedDataId = ud_id;
@@ -925,9 +925,9 @@ namespace eFormSDK.Integration.Tests
 //
 //            CLV.CaseId = aCase.Id;
 //            CLV.CheckListId = checkList.Id;
-//            CLV.CreatedAt = DateTime.Now;
+//            CLV.CreatedAt = DateTime.UtcNow;
 //            CLV.Status = status;
-//            CLV.UpdatedAt = DateTime.Now;
+//            CLV.UpdatedAt = DateTime.UtcNow;
 //            CLV.UserId = userId;
 //            CLV.Version = version;
 //            CLV.WorkflowState = Constants.WorkflowStates.Created;
@@ -942,14 +942,14 @@ namespace eFormSDK.Integration.Tests
 //            uploaded_data UD = new uploaded_data();
 //
 //            UD.Checksum = checkSum;
-//            UD.CreatedAt = DateTime.Now;
+//            UD.CreatedAt = DateTime.UtcNow;
 //            UD.CurrentFile = currentFile;
-//            UD.ExpirationDate = DateTime.Now.AddYears(1);
+//            UD.ExpirationDate = DateTime.UtcNow.AddYears(1);
 //            UD.Extension = extension;
 //            UD.FileLocation = fileLocation;
 //            UD.FileName = fileName;
 //            UD.Local = local;
-//            UD.UpdatedAt = DateTime.Now;
+//            UD.UpdatedAt = DateTime.UtcNow;
 //            UD.UploaderId = worker.Id;
 //            UD.UploaderType = uploaderType;
 //            UD.Version = version;
@@ -967,8 +967,8 @@ namespace eFormSDK.Integration.Tests
 //            cls.CheckListId = checkListId;
 //            cls.MicrotingUid = microtingUId;
 //            cls.LastCheckId = lastCheckUid;
-//            cls.CreatedAt = DateTime.Now;
-//            cls.UpdatedAt = DateTime.Now;
+//            cls.CreatedAt = DateTime.UtcNow;
+//            cls.UpdatedAt = DateTime.UtcNow;
 //            cls.WorkflowState = workflowState;
 //
 //            dbContext.check_list_sites.Add(cls);

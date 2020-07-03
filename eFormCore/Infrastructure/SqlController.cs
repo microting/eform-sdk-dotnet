@@ -130,7 +130,7 @@ namespace Microting.eForm.Infrastructure
                     if (mainCl == null)
                         return null;
 
-                    mainElement = new MainElement(mainCl.Id, mainCl.Label, t.Int(mainCl.DisplayIndex), mainCl.FolderName, t.Int(mainCl.Repeated), DateTime.Now, DateTime.Now.AddDays(2), "da",
+                    mainElement = new MainElement(mainCl.Id, mainCl.Label, t.Int(mainCl.DisplayIndex), mainCl.FolderName, t.Int(mainCl.Repeated), DateTime.UtcNow, DateTime.UtcNow.AddDays(2), "da",
                         t.Bool(mainCl.MultiApproval), t.Bool(mainCl.FastNavigation), t.Bool(mainCl.DownloadEntities), t.Bool(mainCl.ManualSync), mainCl.CaseType, "", "", t.Bool(mainCl.QuickSyncEnabled), new List<Element>(), mainCl.Color);
 
                     //getting elements
@@ -938,7 +938,7 @@ namespace Microting.eForm.Infrastructure
                     try //if a reversed case, case needs to be created
                     {
                         check_list_sites cLS = await db.check_list_sites.SingleAsync(x => x.MicrotingUid == int.Parse(response.Value));
-                        int caseId = await CaseCreate((int)cLS.CheckListId, (int)cLS.Site.MicrotingUid, int.Parse(response.Value), response.Checks[xmlIndex].Id, "ReversedCase", "", DateTime.Now, cLS.FolderId);
+                        int caseId = await CaseCreate((int)cLS.CheckListId, (int)cLS.Site.MicrotingUid, int.Parse(response.Value), response.Checks[xmlIndex].Id, "ReversedCase", "", DateTime.UtcNow, cLS.FolderId);
                         responseCase = await db.cases.SingleAsync(x => x.Id == caseId);
                     }
                     catch //already created case Id retrived
@@ -4979,7 +4979,7 @@ namespace Microting.eForm.Infrastructure
                 try
                 {
                     File.AppendAllText(@"expection.txt",
-                        DateTime.Now.ToString() + " // " + "L:" + "-22" + " // " + "Write logic failed" + " // " + Environment.NewLine
+                        DateTime.UtcNow.ToString() + " // " + "L:" + "-22" + " // " + "Write logic failed" + " // " + Environment.NewLine
                         + logEntries + Environment.NewLine);
                 }
                 catch
@@ -5008,8 +5008,8 @@ namespace Microting.eForm.Infrastructure
 
                     check_lists cl = new check_lists
                     {
-                        CreatedAt = DateTime.Now,
-                        UpdatedAt = DateTime.Now,
+                        CreatedAt = DateTime.UtcNow,
+                        UpdatedAt = DateTime.UtcNow,
                         Label = mainElement.Label,
                         WorkflowState = Constants.Constants.WorkflowStates.Created,
                         ParentId = null,

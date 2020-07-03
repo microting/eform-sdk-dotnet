@@ -127,8 +127,8 @@ namespace eFormSDK.Integration.Tests
 
             check_lists cl1 = new check_lists
             {
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 Label = "A",
                 Description = "D",
                 WorkflowState = Constants.WorkflowStates.Created,
@@ -148,8 +148,8 @@ namespace eFormSDK.Integration.Tests
 
             check_lists cl2 = new check_lists
             {
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 Label = "B",
                 Description = "C",
                 WorkflowState = Constants.WorkflowStates.Removed,
@@ -168,8 +168,8 @@ namespace eFormSDK.Integration.Tests
 
             check_lists cl3 = new check_lists
             {
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 Label = "D",
                 Description = "B",
                 WorkflowState = Constants.WorkflowStates.Created,
@@ -188,8 +188,8 @@ namespace eFormSDK.Integration.Tests
 
             check_lists cl4 = new check_lists
             {
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 Label = "C",
                 Description = "A",
                 WorkflowState = Constants.WorkflowStates.Created,
@@ -571,8 +571,8 @@ namespace eFormSDK.Integration.Tests
             CoreElement CElement = new CoreElement();
             //CElement.ElementList = new List<Element>();
 
-            DateTime startDt = DateTime.Now;
-            DateTime endDt = DateTime.Now;
+            DateTime startDt = DateTime.UtcNow;
+            DateTime endDt = DateTime.UtcNow;
             MainElement main = new MainElement(1, "label1", 4, "folderWithList", 1, startDt,
                 endDt, "Swahili", false, true, false, true, "type1", "MessageTitle",
                 "MessageBody", false, CElement.ElementList, "");
@@ -589,8 +589,8 @@ namespace eFormSDK.Integration.Tests
             CoreElement CElement = new CoreElement();
             //CElement.ElementList = new List<Element>();
 
-            DateTime startDt = DateTime.Now;
-            DateTime endDt = DateTime.Now;
+            DateTime startDt = DateTime.UtcNow;
+            DateTime endDt = DateTime.UtcNow;
             MainElement main = new MainElement(1, "label1", 0, "folderWithList", 1, startDt,
                 endDt, "Swahili", false, true, true, true, "type1", "MessageTitle",
                 "MessageBody", false, CElement.ElementList, "");
@@ -629,8 +629,8 @@ namespace eFormSDK.Integration.Tests
             CoreElement CElement = new CoreElement();
             //CElement.ElementList = new List<Element>();
 
-            DateTime startDt = DateTime.Now;
-            DateTime endDt = DateTime.Now;
+            DateTime startDt = DateTime.UtcNow;
+            DateTime endDt = DateTime.UtcNow;
             MainElement main = new MainElement(1, "label1", 0, "folderWithList", 1, startDt,
                 endDt, "Swahili", false, true, true, true, "type1", "MessageTitle",
                 "MessageBody", false, CElement.ElementList, "");
@@ -648,8 +648,8 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             #region Tempalte
 
-            DateTime cl1_ca = DateTime.Now;
-            DateTime cl1_ua = DateTime.Now;
+            DateTime cl1_ca = DateTime.UtcNow;
+            DateTime cl1_ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -676,29 +676,29 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             #region Tempalte1
 
-            DateTime cl1_ca = DateTime.Now;
-            DateTime cl1_ua = DateTime.Now;
+            DateTime cl1_ca = DateTime.UtcNow;
+            DateTime cl1_ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
             #region Tempalte2
 
-            DateTime cl2_ca = DateTime.Now;
-            DateTime cl2_ua = DateTime.Now;
+            DateTime cl2_ca = DateTime.UtcNow;
+            DateTime cl2_ua = DateTime.UtcNow;
             check_lists cl2 = await testHelpers.CreateTemplate(cl2_ca, cl2_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
             #region Tempalte3
 
-            DateTime cl3_ca = DateTime.Now;
-            DateTime cl3_ua = DateTime.Now;
+            DateTime cl3_ca = DateTime.UtcNow;
+            DateTime cl3_ua = DateTime.UtcNow;
             check_lists cl3 = await testHelpers.CreateTemplate(cl3_ca, cl3_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
             #region Tempalte4
 
-            DateTime cl4_ca = DateTime.Now;
-            DateTime cl4_ua = DateTime.Now;
+            DateTime cl4_ca = DateTime.UtcNow;
+            DateTime cl4_ua = DateTime.UtcNow;
             check_lists cl4 = await testHelpers.CreateTemplate(cl4_ca, cl4_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -725,32 +725,32 @@ namespace eFormSDK.Integration.Tests
             #region Templates
 
             #region template1
-            DateTime cl1_ca = DateTime.Now;
-            DateTime cl1_ua = DateTime.Now;
+            DateTime cl1_ca = DateTime.UtcNow;
+            DateTime cl1_ua = DateTime.UtcNow;
             check_lists Template1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "Label1", "Description1",
                 "CaseType1", "FolderWithTemplate", 1, 0);
 
             #endregion
 
             #region template2
-            DateTime cl2_ca = DateTime.Now;
-            DateTime cl2_ua = DateTime.Now;
+            DateTime cl2_ca = DateTime.UtcNow;
+            DateTime cl2_ua = DateTime.UtcNow;
             check_lists Template2 = await testHelpers.CreateTemplate(cl2_ca, cl2_ua, "Label2", "Description2",
                 "CaseType2", "FolderWithTemplate", 0, 1);
 
             #endregion
 
             #region template3
-            DateTime cl3_ca = DateTime.Now;
-            DateTime cl3_ua = DateTime.Now;
+            DateTime cl3_ca = DateTime.UtcNow;
+            DateTime cl3_ua = DateTime.UtcNow;
             check_lists Template3 = await testHelpers.CreateTemplate(cl3_ca, cl3_ua, "Label3", "Description3",
                 "CaseType3", "FolderWithTemplate", 1, 1);
 
             #endregion
 
             #region template4
-            DateTime cl4_ca = DateTime.Now;
-            DateTime cl4_ua = DateTime.Now;
+            DateTime cl4_ca = DateTime.UtcNow;
+            DateTime cl4_ua = DateTime.UtcNow;
             check_lists Template4 = await testHelpers.CreateTemplate(cl4_ca, cl4_ua, "Label4", "Description4",
                 "CaseType4", "FolderWithTemplate", 0, 0);
 

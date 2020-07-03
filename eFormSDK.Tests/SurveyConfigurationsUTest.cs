@@ -52,8 +52,8 @@ namespace eFormSDK.Tests
             survey_configurations surveyConfiguration = new survey_configurations
             {
                 Name = Guid.NewGuid().ToString(),
-                Start = DateTime.Now,
-                Stop = DateTime.Now,
+                Start = DateTime.UtcNow,
+                Stop = DateTime.UtcNow,
                 TimeOut = rnd.Next(1, 255),
                 TimeToLive = rnd.Next(1, 255),
                 QuestionSetId = questionSet.Id
@@ -113,8 +113,8 @@ namespace eFormSDK.Tests
             survey_configurations surveyConfiguration = new survey_configurations
             {
                 Name = Guid.NewGuid().ToString(),
-                Start = DateTime.Now,
-                Stop = DateTime.Now,
+                Start = DateTime.UtcNow,
+                Stop = DateTime.UtcNow,
                 TimeOut = rnd.Next(1, 255),
                 TimeToLive = rnd.Next(1, 255),
                 QuestionSetId = questionSet.Id
@@ -132,8 +132,8 @@ namespace eFormSDK.Tests
             int? oldTimeToLive = surveyConfiguration.TimeToLive;
             
             surveyConfiguration.Name = Guid.NewGuid().ToString();
-            surveyConfiguration.Start = DateTime.Now;
-            surveyConfiguration.Stop = DateTime.Now;
+            surveyConfiguration.Start = DateTime.UtcNow;
+            surveyConfiguration.Stop = DateTime.UtcNow;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
             await surveyConfiguration.Update(dbContext).ConfigureAwait(false);
@@ -201,8 +201,8 @@ namespace eFormSDK.Tests
             survey_configurations surveyConfiguration = new survey_configurations
             {
                 Name = Guid.NewGuid().ToString(),
-                Start = DateTime.Now,
-                Stop = DateTime.Now,
+                Start = DateTime.UtcNow,
+                Stop = DateTime.UtcNow,
                 TimeOut = rnd.Next(1, 255),
                 TimeToLive = rnd.Next(1, 255),
                 QuestionSetId = questionSet.Id

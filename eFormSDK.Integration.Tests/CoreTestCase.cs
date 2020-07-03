@@ -135,8 +135,8 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             #region Arrance
             #region Template1
-            DateTime c1_Ca = DateTime.Now;
-            DateTime c1_Ua = DateTime.Now;
+            DateTime c1_Ca = DateTime.UtcNow;
+            DateTime c1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(c1_Ca, c1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -219,9 +219,9 @@ namespace eFormSDK.Integration.Tests
 
             #region Case1
 
-            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
+            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
                 worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
-                site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
+                site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
 
@@ -231,9 +231,9 @@ namespace eFormSDK.Integration.Tests
 
             //check_List_Values.case_id = aCase.Id;
             //check_List_Values.check_list_id = cl2.Id;
-            //check_List_Values.created_at = DateTime.Now;
+            //check_List_Values.created_at = DateTime.UtcNow;
             //check_List_Values.status = "completed";
-            //check_List_Values.updated_at = DateTime.Now;
+            //check_List_Values.updated_at = DateTime.UtcNow;
             //check_List_Values.user_id = null;
             //check_List_Values.version = 865;
             //check_List_Values.workflow_state = Constants.WorkflowStates.Created;
@@ -250,12 +250,12 @@ namespace eFormSDK.Integration.Tests
             //field_Values1.case_id = aCase.Id;
             //field_Values1.check_list = cl2;
             //field_Values1.check_list_id = cl2.Id;
-            //field_Values1.created_at = DateTime.Now;
-            //field_Values1.date = DateTime.Now;
-            //field_Values1.done_at = DateTime.Now;
+            //field_Values1.created_at = DateTime.UtcNow;
+            //field_Values1.date = DateTime.UtcNow;
+            //field_Values1.done_at = DateTime.UtcNow;
             //field_Values1.field = f1;
             //field_Values1.field_id = f1.Id;
-            //field_Values1.updated_at = DateTime.Now;
+            //field_Values1.updated_at = DateTime.UtcNow;
             //field_Values1.user_id = null;
             //field_Values1.value = "tomt1";
             //field_Values1.version = 61234;
@@ -272,12 +272,12 @@ namespace eFormSDK.Integration.Tests
             //field_Values2.case_id = aCase.Id;
             //field_Values2.check_list = cl2;
             //field_Values2.check_list_id = cl2.Id;
-            //field_Values2.created_at = DateTime.Now;
-            //field_Values2.date = DateTime.Now;
-            //field_Values2.done_at = DateTime.Now;
+            //field_Values2.created_at = DateTime.UtcNow;
+            //field_Values2.date = DateTime.UtcNow;
+            //field_Values2.done_at = DateTime.UtcNow;
             //field_Values2.field = f2;
             //field_Values2.field_id = f2.Id;
-            //field_Values2.updated_at = DateTime.Now;
+            //field_Values2.updated_at = DateTime.UtcNow;
             //field_Values2.user_id = null;
             //field_Values2.value = "tomt2";
             //field_Values2.version = 61234;
@@ -294,12 +294,12 @@ namespace eFormSDK.Integration.Tests
             //field_Values3.case_id = aCase.Id;
             //field_Values3.check_list = cl2;
             //field_Values3.check_list_id = cl2.Id;
-            //field_Values3.created_at = DateTime.Now;
-            //field_Values3.date = DateTime.Now;
-            //field_Values3.done_at = DateTime.Now;
+            //field_Values3.created_at = DateTime.UtcNow;
+            //field_Values3.date = DateTime.UtcNow;
+            //field_Values3.done_at = DateTime.UtcNow;
             //field_Values3.field = f3;
             //field_Values3.field_id = f3.Id;
-            //field_Values3.updated_at = DateTime.Now;
+            //field_Values3.updated_at = DateTime.UtcNow;
             //field_Values3.user_id = null;
             //field_Values3.value = "tomt3";
             //field_Values3.version = 61234;
@@ -316,12 +316,12 @@ namespace eFormSDK.Integration.Tests
             //field_Values4.case_id = aCase.Id;
             //field_Values4.check_list = cl2;
             //field_Values4.check_list_id = cl2.Id;
-            //field_Values4.created_at = DateTime.Now;
-            //field_Values4.date = DateTime.Now;
-            //field_Values4.done_at = DateTime.Now;
+            //field_Values4.created_at = DateTime.UtcNow;
+            //field_Values4.date = DateTime.UtcNow;
+            //field_Values4.done_at = DateTime.UtcNow;
             //field_Values4.field = f4;
             //field_Values4.field_id = f4.Id;
-            //field_Values4.updated_at = DateTime.Now;
+            //field_Values4.updated_at = DateTime.UtcNow;
             //field_Values4.user_id = null;
             //field_Values4.value = "tomt4";
             //field_Values4.version = 61234;
@@ -338,12 +338,12 @@ namespace eFormSDK.Integration.Tests
             //field_Values5.case_id = aCase.Id;
             //field_Values5.check_list = cl2;
             //field_Values5.check_list_id = cl2.Id;
-            //field_Values5.created_at = DateTime.Now;
-            //field_Values5.date = DateTime.Now;
-            //field_Values5.done_at = DateTime.Now;
+            //field_Values5.created_at = DateTime.UtcNow;
+            //field_Values5.date = DateTime.UtcNow;
+            //field_Values5.done_at = DateTime.UtcNow;
             //field_Values5.field = f5;
             //field_Values5.field_id = f5.Id;
-            //field_Values5.updated_at = DateTime.Now;
+            //field_Values5.updated_at = DateTime.UtcNow;
             //field_Values5.user_id = null;
             //field_Values5.value = "tomt5";
             //field_Values5.version = 61234;
@@ -375,8 +375,8 @@ namespace eFormSDK.Integration.Tests
             // Arrance
             #region Arrance
             #region Template1
-            DateTime c1_Ca = DateTime.Now;
-            DateTime c1_Ua = DateTime.Now;
+            DateTime c1_Ca = DateTime.UtcNow;
+            DateTime c1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(c1_Ca, c1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -459,9 +459,9 @@ namespace eFormSDK.Integration.Tests
 
             #region Case1
 
-            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
+            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
                 worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
-                site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
+                site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
 
@@ -483,8 +483,8 @@ namespace eFormSDK.Integration.Tests
             // Arrance
             #region Arrance
             #region Template1
-            DateTime c1_Ca = DateTime.Now;
-            DateTime c1_Ua = DateTime.Now;
+            DateTime c1_Ca = DateTime.UtcNow;
+            DateTime c1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(c1_Ca, c1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -567,9 +567,9 @@ namespace eFormSDK.Integration.Tests
 
             #region Case1
 
-            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
+            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
                 worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
-                site, 100, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
+                site, 100, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
 
@@ -586,8 +586,8 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             #region Arrance
             #region Template1
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -774,9 +774,9 @@ namespace eFormSDK.Integration.Tests
             #region cases created
             #region Case1
 
-            DateTime c1_ca = DateTime.Now.AddDays(-9);
-            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
-            DateTime c1_ua = DateTime.Now.AddDays(-8);
+            DateTime c1_ca = DateTime.UtcNow.AddDays(-9);
+            DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
 
             cases aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
                 c1_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -786,18 +786,18 @@ namespace eFormSDK.Integration.Tests
 
             #region Case2
 
-            DateTime c2_ca = DateTime.Now.AddDays(-7);
-            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
-            DateTime c2_ua = DateTime.Now.AddDays(-6);
+            DateTime c2_ca = DateTime.UtcNow.AddDays(-7);
+            DateTime c2_da = DateTime.UtcNow.AddDays(-6).AddHours(-12);
+            DateTime c2_ua = DateTime.UtcNow.AddDays(-6);
             cases aCase2 = await testHelpers.CreateCase("case2UId", cl3, c2_ca, "custom2",
              c2_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
                site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
             #endregion
 
             #region Case3
-            DateTime c3_ca = DateTime.Now.AddDays(-10);
-            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
-            DateTime c3_ua = DateTime.Now.AddDays(-9);
+            DateTime c3_ca = DateTime.UtcNow.AddDays(-10);
+            DateTime c3_da = DateTime.UtcNow.AddDays(-9).AddHours(-12);
+            DateTime c3_ua = DateTime.UtcNow.AddDays(-9);
 
             cases aCase3 = await testHelpers.CreateCase("case3UId", cl4, c3_ca, "custom3",
               c3_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -805,9 +805,9 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Case4
-            DateTime c4_ca = DateTime.Now.AddDays(-8);
-            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
-            DateTime c4_ua = DateTime.Now.AddDays(-7);
+            DateTime c4_ca = DateTime.UtcNow.AddDays(-8);
+            DateTime c4_da = DateTime.UtcNow.AddDays(-7).AddHours(-12);
+            DateTime c4_ua = DateTime.UtcNow.AddDays(-7);
 
             cases aCase4 = await testHelpers.CreateCase("case4UId", cl5, c4_ca, "custom4",
                 c4_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -1006,8 +1006,8 @@ namespace eFormSDK.Integration.Tests
             //// Arrange
             //#region Arrance
             //#region Template1
-            //DateTime cl1_Ca = DateTime.Now;
-            //DateTime cl1_Ua = DateTime.Now;
+            //DateTime cl1_Ca = DateTime.UtcNow;
+            //DateTime cl1_Ua = DateTime.UtcNow;
             //check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             //#endregion
@@ -1194,9 +1194,9 @@ namespace eFormSDK.Integration.Tests
             //#region cases created
             //#region Case1
 
-            //DateTime c1_ca = DateTime.Now.AddDays(-9);
-            //DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
-            //DateTime c1_ua = DateTime.Now.AddDays(-8);
+            //DateTime c1_ca = DateTime.UtcNow.AddDays(-9);
+            //DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
+            //DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
 
             //cases aCase1 = await testHelpers.CreateCase("case1UId", cl2, c1_ca, "custom1",
             //    c1_da, worker, "microtingCheckUId1", "microtingUId1",
@@ -1360,8 +1360,8 @@ namespace eFormSDK.Integration.Tests
             //#endregion
 
             //#region checkListSites
-            // DateTime cls_ca = DateTime.Now;
-            // DateTime cls_ua = DateTime.Now;
+            // DateTime cls_ca = DateTime.UtcNow;
+            // DateTime cls_ua = DateTime.UtcNow;
             // check_list_sites cls1 = await testHelpers.CreateCheckListSite(cl2, cls_ca, site,
             //    cls_ua, 5, Constants.WorkflowStates.Removed);
 
@@ -1383,8 +1383,8 @@ namespace eFormSDK.Integration.Tests
             //// Arrange
             //#region Arrance
             //#region Template1
-            //DateTime cl1_Ca = DateTime.Now;
-            //DateTime cl1_Ua = DateTime.Now;
+            //DateTime cl1_Ca = DateTime.UtcNow;
+            //DateTime cl1_Ua = DateTime.UtcNow;
             //check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             //#endregion
@@ -1571,9 +1571,9 @@ namespace eFormSDK.Integration.Tests
             //#region cases created
             //#region Case1
 
-            //DateTime c1_ca = DateTime.Now.AddDays(-9);
-            //DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
-            //DateTime c1_ua = DateTime.Now.AddDays(-8);
+            //DateTime c1_ca = DateTime.UtcNow.AddDays(-9);
+            //DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
+            //DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
 
             //cases aCase1 = await testHelpers.CreateCase("case1UId", cl2, c1_ca, "custom1",
             //    c1_da, worker, "microtingCheckUId1", "microtingUId1",
@@ -1737,8 +1737,8 @@ namespace eFormSDK.Integration.Tests
             //#endregion
 
             //#region checkListSites
-            //DateTime cls_ca = DateTime.Now;
-            //DateTime cls_ua = DateTime.Now;
+            //DateTime cls_ca = DateTime.UtcNow;
+            //DateTime cls_ua = DateTime.UtcNow;
             //check_list_sites cls1 = await testHelpers.CreateCheckListSite(cl2, cls_ca, site,
             //   cls_ua, 5, Constants.WorkflowStates.Created);
 
@@ -1761,8 +1761,8 @@ namespace eFormSDK.Integration.Tests
             // Arrance
             #region Arrance
             #region Template1
-            DateTime cl1_ca = DateTime.Now;
-            DateTime cl1_ua = DateTime.Now;
+            DateTime cl1_ca = DateTime.UtcNow;
+            DateTime cl1_ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -1896,9 +1896,9 @@ namespace eFormSDK.Integration.Tests
             #region cases created
             #region Case1
 
-            DateTime c1_ca = DateTime.Now.AddDays(-9);
-            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
-            DateTime c1_ua = DateTime.Now.AddDays(-8);
+            DateTime c1_ca = DateTime.UtcNow.AddDays(-9);
+            DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
 
             cases aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
                 c1_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -1908,18 +1908,18 @@ namespace eFormSDK.Integration.Tests
 
             #region Case2
 
-            DateTime c2_ca = DateTime.Now.AddDays(-7);
-            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
-            DateTime c2_ua = DateTime.Now.AddDays(-6);
+            DateTime c2_ca = DateTime.UtcNow.AddDays(-7);
+            DateTime c2_da = DateTime.UtcNow.AddDays(-6).AddHours(-12);
+            DateTime c2_ua = DateTime.UtcNow.AddDays(-6);
             cases aCase2 = await testHelpers.CreateCase("case2UId", cl3, c2_ca, "custom2",
              c2_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
                site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
             #endregion
 
             #region Case3
-            DateTime c3_ca = DateTime.Now.AddDays(-10);
-            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
-            DateTime c3_ua = DateTime.Now.AddDays(-9);
+            DateTime c3_ca = DateTime.UtcNow.AddDays(-10);
+            DateTime c3_da = DateTime.UtcNow.AddDays(-9).AddHours(-12);
+            DateTime c3_ua = DateTime.UtcNow.AddDays(-9);
 
             cases aCase3 = await testHelpers.CreateCase("case3UId", cl4, c3_ca, "custom3",
               c3_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -1927,9 +1927,9 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Case4
-            DateTime c4_ca = DateTime.Now.AddDays(-8);
-            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
-            DateTime c4_ua = DateTime.Now.AddDays(-7);
+            DateTime c4_ca = DateTime.UtcNow.AddDays(-8);
+            DateTime c4_da = DateTime.UtcNow.AddDays(-7).AddHours(-12);
+            DateTime c4_ua = DateTime.UtcNow.AddDays(-7);
 
             cases aCase4 = await testHelpers.CreateCase("case4UId", cl5, c4_ca, "custom4",
                 c4_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -2112,8 +2112,8 @@ namespace eFormSDK.Integration.Tests
             // Arrance
             #region Arrance
             #region Template1
-            DateTime cl1_ca = DateTime.Now;
-            DateTime cl1_ua = DateTime.Now;
+            DateTime cl1_ca = DateTime.UtcNow;
+            DateTime cl1_ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -2196,9 +2196,9 @@ namespace eFormSDK.Integration.Tests
 
             #region Case1
 
-            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
+            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
                 worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
-                site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
+                site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
 
@@ -2284,8 +2284,8 @@ namespace eFormSDK.Integration.Tests
             // Arrance
             #region Arrance
             #region Template1
-            DateTime cl1_ca = DateTime.Now;
-            DateTime cl1_ua = DateTime.Now;
+            DateTime cl1_ca = DateTime.UtcNow;
+            DateTime cl1_ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -2368,9 +2368,9 @@ namespace eFormSDK.Integration.Tests
 
             #region Case1
 
-            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
+            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
                 worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
-                site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
+                site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
 
@@ -2392,8 +2392,8 @@ namespace eFormSDK.Integration.Tests
             // Arrance
             #region Arrance
             #region Template1
-            DateTime cl1_ca = DateTime.Now;
-            DateTime cl1_ua = DateTime.Now;
+            DateTime cl1_ca = DateTime.UtcNow;
+            DateTime cl1_ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -2476,9 +2476,9 @@ namespace eFormSDK.Integration.Tests
 
             #region Case1
 
-            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
+            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
                 worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
-               site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
+               site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
 
@@ -2502,8 +2502,8 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             #region Arrance
             #region Template1
-            DateTime cl1_ca = DateTime.Now;
-            DateTime cl1_ua = DateTime.Now;
+            DateTime cl1_ca = DateTime.UtcNow;
+            DateTime cl1_ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -2591,9 +2591,9 @@ namespace eFormSDK.Integration.Tests
             #region cases created
             #region Case1
 
-            DateTime c1_ca = DateTime.Now.AddDays(-9);
-            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
-            DateTime c1_ua = DateTime.Now.AddDays(-8);
+            DateTime c1_ca = DateTime.UtcNow.AddDays(-9);
+            DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
 
             cases aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
                 c1_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -2603,18 +2603,18 @@ namespace eFormSDK.Integration.Tests
 
             #region Case2
 
-            DateTime c2_ca = DateTime.Now.AddDays(-7);
-            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
-            DateTime c2_ua = DateTime.Now.AddDays(-6);
+            DateTime c2_ca = DateTime.UtcNow.AddDays(-7);
+            DateTime c2_da = DateTime.UtcNow.AddDays(-6).AddHours(-12);
+            DateTime c2_ua = DateTime.UtcNow.AddDays(-6);
             cases aCase2 = await testHelpers.CreateCase("case2UId", cl3, c2_ca, "custom2",
              c2_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
                site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
             #endregion
 
             #region Case3
-            DateTime c3_ca = DateTime.Now.AddDays(-10);
-            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
-            DateTime c3_ua = DateTime.Now.AddDays(-9);
+            DateTime c3_ca = DateTime.UtcNow.AddDays(-10);
+            DateTime c3_da = DateTime.UtcNow.AddDays(-9).AddHours(-12);
+            DateTime c3_ua = DateTime.UtcNow.AddDays(-9);
 
             cases aCase3 = await testHelpers.CreateCase("case3UId", cl4, c3_ca, "custom3",
               c3_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -2622,9 +2622,9 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Case4
-            DateTime c4_ca = DateTime.Now.AddDays(-8);
-            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
-            DateTime c4_ua = DateTime.Now.AddDays(-7);
+            DateTime c4_ca = DateTime.UtcNow.AddDays(-8);
+            DateTime c4_da = DateTime.UtcNow.AddDays(-7).AddHours(-12);
+            DateTime c4_ua = DateTime.UtcNow.AddDays(-7);
 
             cases aCase4 = await testHelpers.CreateCase("case4UId", cl5, c4_ca, "custom4",
                 c4_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -2649,8 +2649,8 @@ namespace eFormSDK.Integration.Tests
 //            // Arrange
 //            #region Arrance
 //            #region Template1
-//            DateTime cl1_Ca = DateTime.Now;
-//            DateTime cl1_Ua = DateTime.Now;
+//            DateTime cl1_Ca = DateTime.UtcNow;
+//            DateTime cl1_Ua = DateTime.UtcNow;
 //            check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 //
 //            #endregion
@@ -2837,9 +2837,9 @@ namespace eFormSDK.Integration.Tests
 //            #region cases created
 //            #region Case1
 //
-//            DateTime c1_ca = DateTime.Now.AddDays(-9);
-//            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
-//            DateTime c1_ua = DateTime.Now.AddDays(-8);
+//            DateTime c1_ca = DateTime.UtcNow.AddDays(-9);
+//            DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
+//            DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
 //
 //            cases aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
 //                c1_da, worker, "microtingCheckUId1", "microtingUId1",
@@ -2849,18 +2849,18 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region Case2
 //
-//            DateTime c2_ca = DateTime.Now.AddDays(-7);
-//            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
-//            DateTime c2_ua = DateTime.Now.AddDays(-6);
+//            DateTime c2_ca = DateTime.UtcNow.AddDays(-7);
+//            DateTime c2_da = DateTime.UtcNow.AddDays(-6).AddHours(-12);
+//            DateTime c2_ua = DateTime.UtcNow.AddDays(-6);
 //            cases aCase2 = await testHelpers.CreateCase("case2UId", cl3, c2_ca, "custom2",
 //             c2_da, worker, "microtingCheck2UId", "microting2UId",
 //               site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
 //            #endregion
 //
 //            #region Case3
-//            DateTime c3_ca = DateTime.Now.AddDays(-10);
-//            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
-//            DateTime c3_ua = DateTime.Now.AddDays(-9);
+//            DateTime c3_ca = DateTime.UtcNow.AddDays(-10);
+//            DateTime c3_da = DateTime.UtcNow.AddDays(-9).AddHours(-12);
+//            DateTime c3_ua = DateTime.UtcNow.AddDays(-9);
 //
 //            cases aCase3 = await testHelpers.CreateCase("case3UId", cl4, c3_ca, "custom3",
 //              c3_da, worker, "microtingCheck3UId", "microtin3gUId",
@@ -2868,9 +2868,9 @@ namespace eFormSDK.Integration.Tests
 //            #endregion
 //
 //            #region Case4
-//            DateTime c4_ca = DateTime.Now.AddDays(-8);
-//            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
-//            DateTime c4_ua = DateTime.Now.AddDays(-7);
+//            DateTime c4_ca = DateTime.UtcNow.AddDays(-8);
+//            DateTime c4_da = DateTime.UtcNow.AddDays(-7).AddHours(-12);
+//            DateTime c4_ua = DateTime.UtcNow.AddDays(-7);
 //
 //            cases aCase4 = await testHelpers.CreateCase("case4UId", cl5, c4_ca, "custom4",
 //                c4_da, worker, "microtingCheck4UId", "microting4UId",
@@ -3031,8 +3031,8 @@ namespace eFormSDK.Integration.Tests
 //            #endregion
 //
 //            #region checkListSites
-//            DateTime cls_ca = DateTime.Now;
-//            DateTime cls_ua = DateTime.Now;
+//            DateTime cls_ca = DateTime.UtcNow;
+//            DateTime cls_ua = DateTime.UtcNow;
 //            string microtingUid = Guid.NewGuid().ToString();
 //            check_list_sites cls1 = await testHelpers.CreateCheckListSite(cl2, cls_ca, site,
 //               cls_ua, 5, Constants.WorkflowStates.Created, microtingUid);
@@ -3041,7 +3041,7 @@ namespace eFormSDK.Integration.Tests
 //            #endregion
 //            // Act
 //
-//            //var match = await sut.CasesToExcel(aCase1.check_list_id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(1), ud1.file_location + ud1.file_name, "mappe/");
+//            //var match = await sut.CasesToExcel(aCase1.check_list_id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(1), ud1.file_location + ud1.file_name, "mappe/");
 //
 //            //// Assert
 //            // Assert.NotNull(match);
@@ -3057,8 +3057,8 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             #region Arrance
             #region Template1
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -3245,9 +3245,9 @@ namespace eFormSDK.Integration.Tests
             #region cases created
             #region Case1
 
-            DateTime c1_ca = DateTime.Now.AddDays(-9);
-            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
-            DateTime c1_ua = DateTime.Now.AddDays(-8);
+            DateTime c1_ca = DateTime.UtcNow.AddDays(-9);
+            DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
 
             cases aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
                 c1_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -3257,18 +3257,18 @@ namespace eFormSDK.Integration.Tests
 
             #region Case2
 
-            DateTime c2_ca = DateTime.Now.AddDays(-7);
-            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
-            DateTime c2_ua = DateTime.Now.AddDays(-6);
+            DateTime c2_ca = DateTime.UtcNow.AddDays(-7);
+            DateTime c2_da = DateTime.UtcNow.AddDays(-6).AddHours(-12);
+            DateTime c2_ua = DateTime.UtcNow.AddDays(-6);
             cases aCase2 = await testHelpers.CreateCase("case2UId", cl3, c2_ca, "custom2",
              c2_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
                site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
             #endregion
 
             #region Case3
-            DateTime c3_ca = DateTime.Now.AddDays(-10);
-            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
-            DateTime c3_ua = DateTime.Now.AddDays(-9);
+            DateTime c3_ca = DateTime.UtcNow.AddDays(-10);
+            DateTime c3_da = DateTime.UtcNow.AddDays(-9).AddHours(-12);
+            DateTime c3_ua = DateTime.UtcNow.AddDays(-9);
 
             cases aCase3 = await testHelpers.CreateCase("case3UId", cl4, c3_ca, "custom3",
               c3_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -3276,9 +3276,9 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Case4
-            DateTime c4_ca = DateTime.Now.AddDays(-8);
-            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
-            DateTime c4_ua = DateTime.Now.AddDays(-7);
+            DateTime c4_ca = DateTime.UtcNow.AddDays(-8);
+            DateTime c4_da = DateTime.UtcNow.AddDays(-7).AddHours(-12);
+            DateTime c4_ua = DateTime.UtcNow.AddDays(-7);
 
             cases aCase4 = await testHelpers.CreateCase("case4UId", cl5, c4_ca, "custom4",
                 c4_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -3439,8 +3439,8 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region checkListSites
-            DateTime cls_ca = DateTime.Now;
-            DateTime cls_ua = DateTime.Now;
+            DateTime cls_ca = DateTime.UtcNow;
+            DateTime cls_ua = DateTime.UtcNow;
             int microtingUid = rnd.Next(1,255);
             check_list_sites cls1 = await testHelpers.CreateCheckListSite(cl2, cls_ca, site,
                cls_ua, 5, Constants.WorkflowStates.Created, microtingUid);
@@ -3449,7 +3449,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            //var match = await sut.CasesToCsv(aCase1.check_list_id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(1), ud1.file_location + ud1.file_name, "mappe/");
+            //var match = await sut.CasesToCsv(aCase1.check_list_id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(1), ud1.file_location + ud1.file_name, "mappe/");
 
             // Assert
             // Assert.NotNull(match);
@@ -3463,8 +3463,8 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             #region Arrance
             #region Template1
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -3651,9 +3651,9 @@ namespace eFormSDK.Integration.Tests
             #region cases created
             #region Case1
 
-            DateTime c1_ca = DateTime.Now.AddDays(-9);
-            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
-            DateTime c1_ua = DateTime.Now.AddDays(-8);
+            DateTime c1_ca = DateTime.UtcNow.AddDays(-9);
+            DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
 
             cases aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
                 c1_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -3663,18 +3663,18 @@ namespace eFormSDK.Integration.Tests
 
             #region Case2
 
-            DateTime c2_ca = DateTime.Now.AddDays(-7);
-            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
-            DateTime c2_ua = DateTime.Now.AddDays(-6);
+            DateTime c2_ca = DateTime.UtcNow.AddDays(-7);
+            DateTime c2_da = DateTime.UtcNow.AddDays(-6).AddHours(-12);
+            DateTime c2_ua = DateTime.UtcNow.AddDays(-6);
             cases aCase2 = await testHelpers.CreateCase("case2UId", cl3, c2_ca, "custom2",
              c2_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
                site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
             #endregion
 
             #region Case3
-            DateTime c3_ca = DateTime.Now.AddDays(-10);
-            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
-            DateTime c3_ua = DateTime.Now.AddDays(-9);
+            DateTime c3_ca = DateTime.UtcNow.AddDays(-10);
+            DateTime c3_da = DateTime.UtcNow.AddDays(-9).AddHours(-12);
+            DateTime c3_ua = DateTime.UtcNow.AddDays(-9);
 
             cases aCase3 = await testHelpers.CreateCase("case3UId", cl4, c3_ca, "custom3",
               c3_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -3682,9 +3682,9 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Case4
-            DateTime c4_ca = DateTime.Now.AddDays(-8);
-            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
-            DateTime c4_ua = DateTime.Now.AddDays(-7);
+            DateTime c4_ca = DateTime.UtcNow.AddDays(-8);
+            DateTime c4_da = DateTime.UtcNow.AddDays(-7).AddHours(-12);
+            DateTime c4_ua = DateTime.UtcNow.AddDays(-7);
 
             cases aCase4 = await testHelpers.CreateCase("case4UId", cl5, c4_ca, "custom4",
                 c4_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -3845,8 +3845,8 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region checkListSites
-            DateTime cls_ca = DateTime.Now;
-            DateTime cls_ua = DateTime.Now;
+            DateTime cls_ca = DateTime.UtcNow;
+            DateTime cls_ua = DateTime.UtcNow;
             check_list_sites cls1 = await testHelpers.CreateCheckListSite(cl2, cls_ca, site,
                cls_ua, 5, Constants.WorkflowStates.Created, rnd.Next(1,255));
 
@@ -3854,7 +3854,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
             // Act
 
-            string timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
+            string timeStamp = DateTime.UtcNow.ToString("yyyyMMdd") + "_" + DateTime.UtcNow.ToString("hhmmss");
             string pdfPath = Path.Combine(path, "output","dataFolder","reports", "results",
                 $"{timeStamp}_{aCase2.Id}.xml");
             CaseDto cDto = await sut.CaseLookupCaseId(aCase2.Id);
@@ -3872,8 +3872,8 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             #region Arrance
             #region Template1
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -4060,9 +4060,9 @@ namespace eFormSDK.Integration.Tests
             #region cases created
             #region Case1
 
-            DateTime c1_ca = DateTime.Now.AddDays(-9);
-            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
-            DateTime c1_ua = DateTime.Now.AddDays(-8);
+            DateTime c1_ca = DateTime.UtcNow.AddDays(-9);
+            DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
 
             cases aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
                 c1_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -4072,18 +4072,18 @@ namespace eFormSDK.Integration.Tests
 
             #region Case2
 
-            DateTime c2_ca = DateTime.Now.AddDays(-7);
-            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
-            DateTime c2_ua = DateTime.Now.AddDays(-6);
+            DateTime c2_ca = DateTime.UtcNow.AddDays(-7);
+            DateTime c2_da = DateTime.UtcNow.AddDays(-6).AddHours(-12);
+            DateTime c2_ua = DateTime.UtcNow.AddDays(-6);
             cases aCase2 = await testHelpers.CreateCase("case2UId", cl3, c2_ca, "custom2",
              c2_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
                site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
             #endregion
 
             #region Case3
-            DateTime c3_ca = DateTime.Now.AddDays(-10);
-            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
-            DateTime c3_ua = DateTime.Now.AddDays(-9);
+            DateTime c3_ca = DateTime.UtcNow.AddDays(-10);
+            DateTime c3_da = DateTime.UtcNow.AddDays(-9).AddHours(-12);
+            DateTime c3_ua = DateTime.UtcNow.AddDays(-9);
 
             cases aCase3 = await testHelpers.CreateCase("case3UId", cl4, c3_ca, "custom3",
               c3_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -4091,9 +4091,9 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Case4
-            DateTime c4_ca = DateTime.Now.AddDays(-8);
-            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
-            DateTime c4_ua = DateTime.Now.AddDays(-7);
+            DateTime c4_ca = DateTime.UtcNow.AddDays(-8);
+            DateTime c4_da = DateTime.UtcNow.AddDays(-7).AddHours(-12);
+            DateTime c4_ua = DateTime.UtcNow.AddDays(-7);
 
             cases aCase4 = await testHelpers.CreateCase("case4UId", cl5, c4_ca, "custom4",
                 c4_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -4254,8 +4254,8 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region checkListSites
-            DateTime cls_ca = DateTime.Now;
-            DateTime cls_ua = DateTime.Now;
+            DateTime cls_ca = DateTime.UtcNow;
+            DateTime cls_ua = DateTime.UtcNow;
             check_list_sites cls1 = await testHelpers.CreateCheckListSite(cl2, cls_ca, site,
                cls_ua, 5, Constants.WorkflowStates.Created, rnd.Next(1, 255));
 
@@ -4290,8 +4290,8 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             #region Arrance
             #region Template1
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -4478,9 +4478,9 @@ namespace eFormSDK.Integration.Tests
             #region cases created
             #region Case1
 
-            DateTime c1_ca = DateTime.Now.AddDays(-9);
-            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
-            DateTime c1_ua = DateTime.Now.AddDays(-8);
+            DateTime c1_ca = DateTime.UtcNow.AddDays(-9);
+            DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
 
             cases aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
                 c1_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -4490,18 +4490,18 @@ namespace eFormSDK.Integration.Tests
 
             #region Case2
 
-            DateTime c2_ca = DateTime.Now.AddDays(-7);
-            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
-            DateTime c2_ua = DateTime.Now.AddDays(-6);
+            DateTime c2_ca = DateTime.UtcNow.AddDays(-7);
+            DateTime c2_da = DateTime.UtcNow.AddDays(-6).AddHours(-12);
+            DateTime c2_ua = DateTime.UtcNow.AddDays(-6);
             cases aCase2 = await testHelpers.CreateCase("case2UId", cl3, c2_ca, "custom2",
              c2_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
                site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
             #endregion
 
             #region Case3
-            DateTime c3_ca = DateTime.Now.AddDays(-10);
-            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
-            DateTime c3_ua = DateTime.Now.AddDays(-9);
+            DateTime c3_ca = DateTime.UtcNow.AddDays(-10);
+            DateTime c3_da = DateTime.UtcNow.AddDays(-9).AddHours(-12);
+            DateTime c3_ua = DateTime.UtcNow.AddDays(-9);
 
             cases aCase3 = await testHelpers.CreateCase("case3UId", cl4, c3_ca, "custom3",
               c3_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -4509,9 +4509,9 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Case4
-            DateTime c4_ca = DateTime.Now.AddDays(-8);
-            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
-            DateTime c4_ua = DateTime.Now.AddDays(-7);
+            DateTime c4_ca = DateTime.UtcNow.AddDays(-8);
+            DateTime c4_da = DateTime.UtcNow.AddDays(-7).AddHours(-12);
+            DateTime c4_ua = DateTime.UtcNow.AddDays(-7);
 
             cases aCase4 = await testHelpers.CreateCase("case4UId", cl5, c4_ca, "custom4",
                 c4_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -4672,8 +4672,8 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region checkListSites
-            DateTime cls_ca = DateTime.Now;
-            DateTime cls_ua = DateTime.Now;
+            DateTime cls_ca = DateTime.UtcNow;
+            DateTime cls_ua = DateTime.UtcNow;
             check_list_sites cls1 = await testHelpers.CreateCheckListSite(cl2, cls_ca, site,
                cls_ua, 5, Constants.WorkflowStates.Created, rnd.Next(1, 255));
 
@@ -4707,8 +4707,8 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             #region Arrance
             #region Template1
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -4895,9 +4895,9 @@ namespace eFormSDK.Integration.Tests
             #region cases created
             #region Case1
 
-            DateTime c1_ca = DateTime.Now.AddDays(-9);
-            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
-            DateTime c1_ua = DateTime.Now.AddDays(-8);
+            DateTime c1_ca = DateTime.UtcNow.AddDays(-9);
+            DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
 
             cases aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
                 c1_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -4907,18 +4907,18 @@ namespace eFormSDK.Integration.Tests
 
             #region Case2
 
-            DateTime c2_ca = DateTime.Now.AddDays(-7);
-            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
-            DateTime c2_ua = DateTime.Now.AddDays(-6);
+            DateTime c2_ca = DateTime.UtcNow.AddDays(-7);
+            DateTime c2_da = DateTime.UtcNow.AddDays(-6).AddHours(-12);
+            DateTime c2_ua = DateTime.UtcNow.AddDays(-6);
             cases aCase2 = await testHelpers.CreateCase("case2UId", cl3, c2_ca, "custom2",
              c2_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
                site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
             #endregion
 
             #region Case3
-            DateTime c3_ca = DateTime.Now.AddDays(-10);
-            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
-            DateTime c3_ua = DateTime.Now.AddDays(-9);
+            DateTime c3_ca = DateTime.UtcNow.AddDays(-10);
+            DateTime c3_da = DateTime.UtcNow.AddDays(-9).AddHours(-12);
+            DateTime c3_ua = DateTime.UtcNow.AddDays(-9);
 
             cases aCase3 = await testHelpers.CreateCase("case3UId", cl4, c3_ca, "custom3",
               c3_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -4926,9 +4926,9 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Case4
-            DateTime c4_ca = DateTime.Now.AddDays(-8);
-            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
-            DateTime c4_ua = DateTime.Now.AddDays(-7);
+            DateTime c4_ca = DateTime.UtcNow.AddDays(-8);
+            DateTime c4_da = DateTime.UtcNow.AddDays(-7).AddHours(-12);
+            DateTime c4_ua = DateTime.UtcNow.AddDays(-7);
 
             cases aCase4 = await testHelpers.CreateCase("case4UId", cl5, c4_ca, "custom4",
                 c4_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -5089,8 +5089,8 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region checkListSites
-            DateTime cls_ca = DateTime.Now;
-            DateTime cls_ua = DateTime.Now;
+            DateTime cls_ca = DateTime.UtcNow;
+            DateTime cls_ua = DateTime.UtcNow;
             check_list_sites cls1 = await testHelpers.CreateCheckListSite(cl2, cls_ca, site,
                cls_ua, 5, Constants.WorkflowStates.Created, rnd.Next(1, 255));
 
@@ -5111,8 +5111,8 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             #region Arrance
             #region Template1
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -5299,9 +5299,9 @@ namespace eFormSDK.Integration.Tests
             #region cases created
             #region Case1
 
-            DateTime c1_ca = DateTime.Now.AddDays(-9);
-            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
-            DateTime c1_ua = DateTime.Now.AddDays(-8);
+            DateTime c1_ca = DateTime.UtcNow.AddDays(-9);
+            DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
 
             cases aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
                 c1_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -5311,18 +5311,18 @@ namespace eFormSDK.Integration.Tests
 
             #region Case2
 
-            DateTime c2_ca = DateTime.Now.AddDays(-7);
-            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
-            DateTime c2_ua = DateTime.Now.AddDays(-6);
+            DateTime c2_ca = DateTime.UtcNow.AddDays(-7);
+            DateTime c2_da = DateTime.UtcNow.AddDays(-6).AddHours(-12);
+            DateTime c2_ua = DateTime.UtcNow.AddDays(-6);
             cases aCase2 = await testHelpers.CreateCase("case2UId", cl3, c2_ca, "custom2",
              c2_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
                site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
             #endregion
 
             #region Case3
-            DateTime c3_ca = DateTime.Now.AddDays(-10);
-            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
-            DateTime c3_ua = DateTime.Now.AddDays(-9);
+            DateTime c3_ca = DateTime.UtcNow.AddDays(-10);
+            DateTime c3_da = DateTime.UtcNow.AddDays(-9).AddHours(-12);
+            DateTime c3_ua = DateTime.UtcNow.AddDays(-9);
 
             cases aCase3 = await testHelpers.CreateCase("case3UId", cl4, c3_ca, "custom3",
               c3_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -5330,9 +5330,9 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Case4
-            DateTime c4_ca = DateTime.Now.AddDays(-8);
-            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
-            DateTime c4_ua = DateTime.Now.AddDays(-7);
+            DateTime c4_ca = DateTime.UtcNow.AddDays(-8);
+            DateTime c4_da = DateTime.UtcNow.AddDays(-7).AddHours(-12);
+            DateTime c4_ua = DateTime.UtcNow.AddDays(-7);
 
             cases aCase4 = await testHelpers.CreateCase("case4UId", cl5, c4_ca, "custom4",
                 c4_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
@@ -5493,8 +5493,8 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region checkListSites
-            DateTime cls_ca = DateTime.Now;
-            DateTime cls_ua = DateTime.Now;
+            DateTime cls_ca = DateTime.UtcNow;
+            DateTime cls_ua = DateTime.UtcNow;
             check_list_sites cls1 = await testHelpers.CreateCheckListSite(cl2, cls_ca, site,
                cls_ua, 5, Constants.WorkflowStates.Created, rnd.Next(1, 255));
 

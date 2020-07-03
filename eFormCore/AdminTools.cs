@@ -178,9 +178,13 @@ namespace eFormCore
             sqlController = new SqlController(dbContextHelper);
 
                 if (string.IsNullOrEmpty(token))
+                {
                     token = await sqlController.SettingRead(Settings.token);
-                
-                await sqlController.SettingUpdate(Settings.token, token);
+                }
+                else
+                {
+                    await sqlController.SettingUpdate(Settings.token, token);
+                }
 
                 // configure db
                 await DbSettingsReloadRemote();
