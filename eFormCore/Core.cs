@@ -1009,7 +1009,7 @@ namespace eFormCore
         /// Tries to retrieve all templates meta data from the Microting DB
         /// </summary>
         /// <param name="includeRemoved">Filters list to only show all active or all including removed</param>
-        public async Task<List<Template_Dto>> TemplateItemReadAll(bool includeRemoved)
+        public async Task<List<Template_Dto>> TemplateItemReadAll(bool includeRemoved, TimeZoneInfo timeZoneInfo)
         {
             string methodName = "Core.TemplateItemReadAll";
             try
@@ -1019,7 +1019,7 @@ namespace eFormCore
                     log.LogStandard(methodName, "called");
                     log.LogVariable(methodName, nameof(includeRemoved), includeRemoved);
 
-                    return await TemplateItemReadAll(includeRemoved, Constants.WorkflowStates.Created, "", true, "", new List<int>()).ConfigureAwait(false);
+                    return await TemplateItemReadAll(includeRemoved, Constants.WorkflowStates.Created, "", true, "", new List<int>(), timeZoneInfo).ConfigureAwait(false);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1038,7 +1038,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<List<Template_Dto>> TemplateItemReadAll(bool includeRemoved, string siteWorkflowState, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds)
+        public async Task<List<Template_Dto>> TemplateItemReadAll(bool includeRemoved, string siteWorkflowState, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds, TimeZoneInfo timeZoneInfo)
         {
             string methodName = "Core.TemplateItemReadAll";
             try
@@ -1052,7 +1052,7 @@ namespace eFormCore
                     log.LogVariable(methodName, nameof(sortParameter), sortParameter);
                     log.LogVariable(methodName, nameof(tagIds), tagIds.ToString());
 
-                    return await _sqlController.TemplateItemReadAll(includeRemoved, siteWorkflowState, searchKey, descendingSort, sortParameter, tagIds).ConfigureAwait(false);
+                    return await _sqlController.TemplateItemReadAll(includeRemoved, siteWorkflowState, searchKey, descendingSort, sortParameter, tagIds, timeZoneInfo).ConfigureAwait(false);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1297,12 +1297,12 @@ namespace eFormCore
             }
         }
         
-        public Task<List<Case>> CaseReadAll(int? templateId, DateTime? start, DateTime? end)
+        public Task<List<Case>> CaseReadAll(int? templateId, DateTime? start, DateTime? end, TimeZoneInfo timeZoneInfo)
         {
-            return CaseReadAll(templateId, start, end, Constants.WorkflowStates.NotRemoved, null);
+            return CaseReadAll(templateId, start, end, Constants.WorkflowStates.NotRemoved, null, timeZoneInfo);
         }
 
-        public async Task<List<Case>> CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, string searchKey)
+        public async Task<List<Case>> CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, string searchKey, TimeZoneInfo timeZoneInfo)
         {
             string methodName = "Core.CaseReadAll";
             try
@@ -1315,7 +1315,7 @@ namespace eFormCore
                     log.LogVariable(methodName, nameof(end), end);
                     log.LogVariable(methodName, nameof(workflowState), workflowState);
 
-                    return await CaseReadAll(templateId, start, end, workflowState, searchKey, false, null).ConfigureAwait(false);
+                    return await CaseReadAll(templateId, start, end, workflowState, searchKey, false, null, timeZoneInfo).ConfigureAwait(false);
                 }
 
                 throw new Exception("Core is not running");
@@ -1327,7 +1327,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<List<Case>> CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter)
+        public async Task<List<Case>> CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter, TimeZoneInfo timeZoneInfo)
         {
             string methodName = "Core.CaseReadAll";
             try
@@ -1342,7 +1342,7 @@ namespace eFormCore
                     log.LogVariable(methodName, nameof(descendingSort), descendingSort);
                     log.LogVariable(methodName, nameof(sortParameter), sortParameter);
 
-                    return await _sqlController.CaseReadAll(templateId, start, end, workflowState, searchKey, descendingSort, sortParameter).ConfigureAwait(false);
+                    return await _sqlController.CaseReadAll(templateId, start, end, workflowState, searchKey, descendingSort, sortParameter, timeZoneInfo).ConfigureAwait(false);
                 }
 
                 throw new Exception("Core is not running");
@@ -1354,8 +1354,16 @@ namespace eFormCore
             }
         }
 
-        public async Task<CaseList> CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, 
+        public Task<CaseList> CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState,
             string searchKey, bool descendingSort, string sortParameter, int pageIndex, int pageSize)
+        {
+            TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
+            return CaseReadAll(templateId, start, end, workflowState, searchKey, descendingSort, sortParameter,
+                pageIndex, pageSize, timeZoneInfo);
+        }
+
+        public async Task<CaseList> CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState,
+            string searchKey, bool descendingSort, string sortParameter, int pageIndex, int pageSize, TimeZoneInfo timeZoneInfo)
         {
             string methodName = "Core.CaseReadAll";
             try
@@ -1373,7 +1381,7 @@ namespace eFormCore
                     log.LogVariable(methodName, nameof(pageSize), pageSize);
                     log.LogVariable(methodName, nameof(searchKey), searchKey);
 
-                    return await _sqlController.CaseReadAll(templateId, start, end, workflowState, searchKey, descendingSort, sortParameter, pageIndex, pageSize).ConfigureAwait(false);
+                    return await _sqlController.CaseReadAll(templateId, start, end, workflowState, searchKey, descendingSort, sortParameter, pageIndex, pageSize, timeZoneInfo).ConfigureAwait(false);
                 }
 
                 throw new Exception("Core is not running");

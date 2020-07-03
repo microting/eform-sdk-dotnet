@@ -249,7 +249,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public async Task<List<Template_Dto>> TemplateItemReadAll(bool includeRemoved, string siteWorkflowState, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds)
+        public async Task<List<Template_Dto>> TemplateItemReadAll(bool includeRemoved, string siteWorkflowState, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds, TimeZoneInfo timeZoneInfo)
         {
             string methodName = "SqlController.TemplateItemReadAll";
             log.LogStandard(methodName, "called");
@@ -369,8 +369,8 @@ namespace Microting.eForm.Infrastructure
                             Template_Dto templateDto = new Template_Dto()
                             {
                                 Id = checkList.Id,
-                                CreatedAt = checkList.CreatedAt,
-                                UpdatedAt = checkList.UpdatedAt,
+                                CreatedAt = TimeZoneInfo.ConvertTimeFromUtc((DateTime)checkList.CreatedAt, timeZoneInfo),
+                                UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc((DateTime)checkList.UpdatedAt, timeZoneInfo),
                                 Label = checkList.Label,
                                 Description = checkList.Description,
                                 Repeated = (int)checkList.Repeated,
@@ -2706,7 +2706,7 @@ namespace Microting.eForm.Infrastructure
 
         //TODO
         public async Task<CaseList> CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState,
-            string searchKey, bool descendingSort, string sortParameter, int offSet, int pageSize)
+            string searchKey, bool descendingSort, string sortParameter, int offSet, int pageSize, TimeZoneInfo timeZoneInfo)
         {
                         
             string methodName = "SqlController.CaseReadAll";
@@ -2931,9 +2931,9 @@ namespace Microting.eForm.Infrastructure
                             CaseType = dbCase.Type,
                             CaseUId = dbCase.CaseUid,
                             CheckUIid = dbCase.MicrotingCheckUid,
-                            CreatedAt = dbCase.CreatedAt,
+                            CreatedAt = TimeZoneInfo.ConvertTimeFromUtc((DateTime)dbCase.CreatedAt, timeZoneInfo),
                             Custom = dbCase.Custom,
-                            DoneAt = dbCase.DoneAt,
+                            DoneAt = TimeZoneInfo.ConvertTimeFromUtc((DateTime)dbCase.DoneAt, timeZoneInfo),
                             Id = dbCase.Id,
                             MicrotingUId = dbCase.MicrotingUid,
                             SiteId = site.MicrotingUid,
@@ -2984,7 +2984,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="descendingSort"></param>
         /// <param name="sortParameter"></param>
         /// <returns></returns>
-        public async Task<List<Case>> CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter)
+        public async Task<List<Case>> CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter, TimeZoneInfo timeZoneInfo)
         {            
             string methodName = "SqlController.CaseReadAll";
             log.LogStandard(methodName, "called");
@@ -2997,7 +2997,7 @@ namespace Microting.eForm.Infrastructure
             log.LogVariable(methodName, nameof(sortParameter), sortParameter);
 
             CaseList cl = await CaseReadAll(templatId, start, end, workflowState, searchKey, descendingSort, sortParameter, 0,
-                10000000);
+                10000000, timeZoneInfo);
             
             List<Case> rtnCaseList = new List<Case>();
             
