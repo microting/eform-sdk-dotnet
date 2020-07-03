@@ -24,12 +24,18 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microting.eForm;
 using Microting.eForm.Communication;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure;
+using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace eFormCore
 {
@@ -171,14 +177,13 @@ namespace eFormCore
             DbContextHelper dbContextHelper = new DbContextHelper(connectionString);
             sqlController = new SqlController(dbContextHelper);
 
-                if (token == null)
+                if (string.IsNullOrEmpty(token))
                     token = await sqlController.SettingRead(Settings.token);
                 
                 await sqlController.SettingUpdate(Settings.token, token);
 
                 // configure db
                 await DbSettingsReloadRemote();
-
 
                 string comAddressApi = await sqlController.SettingRead(Settings.comAddressApi);
                 string comAddressBasic = await sqlController.SettingRead(Settings.comAddressBasic);
@@ -188,96 +193,152 @@ namespace eFormCore
                 Communicator communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId, ComAddressPdfUpload, log, ComSpeechToText);
 
                 #region add site's data to db
-                if (!bool.Parse(await sqlController.SettingRead(Settings.knownSitesDone)))
+                var settings = new JsonSerializerSettings { Error = (se, ev) => { ev.ErrorContext.Handled = true; } };
+                var parsedData = JRaw.Parse(await communicator.SiteLoadAllFromRemote());
+                using (var dbContext = dbContextHelper.GetDbContext())
                 {
-                    foreach (var item in await communicator.SiteLoadAllFromRemote())
+                    foreach (JToken item in parsedData)
                     {
-                        SiteNameDto siteDto = await sqlController.SiteRead(item.SiteUId);
-                        if (siteDto == null)
+
+                        sites site = JsonConvert.DeserializeObject<sites>(item.ToString(), settings);
+                        if (!dbContext.sites.Any(x => x.MicrotingUid == site.MicrotingUid))
                         {
-                            await sqlController.SiteCreate(item.SiteUId, item.SiteName);
+                            site.WorkflowState = site.WorkflowState == "active" ? "created" : site.WorkflowState;
+                            site.WorkflowState = site.WorkflowState == "inactive" ? "removed" : site.WorkflowState;
+                            await site.Create(dbContext);
+                        }
+                        else
+                        {
+                            site = await dbContext.sites.SingleAsync(x => x.MicrotingUid == site.MicrotingUid);
+                            site.WorkflowState = item["WorkflowState"].ToString();
+                            site.WorkflowState = site.WorkflowState == "active" ? "created" : site.WorkflowState;
+                            site.WorkflowState = site.WorkflowState == "inactive" ? "removed" : site.WorkflowState;
+                            site.Name = item["Name"].ToString();
+                            await site.Update(dbContext);
                         }
                     }
 
-                    foreach (var item in await communicator.WorkerLoadAllFromRemote())
+                    parsedData = JRaw.Parse(await communicator.WorkerLoadAllFromRemote());
+                    foreach (JToken item in parsedData)
                     {
-                        WorkerDto workerDto = await sqlController.WorkerRead(item.WorkerUId);
-                        if (workerDto == null)
+                        workers worker = JsonConvert.DeserializeObject<workers>(item.ToString(), settings);
+
+                        if (!dbContext.workers.Any(x => x.MicrotingUid == worker.MicrotingUid))
                         {
-                            await sqlController.WorkerCreate(item.WorkerUId, item.FirstName, item.LastName, item.Email);
+                            worker.WorkflowState = worker.WorkflowState == "active" ? "created" : worker.WorkflowState;
+                            worker.WorkflowState = worker.WorkflowState == "inactive" ? "removed" : worker.WorkflowState;
+                            await worker.Create(dbContext);
+                        }
+                        else
+                        {
+                            worker = await dbContext.workers.SingleAsync(x => x.MicrotingUid == worker.MicrotingUid);
+                            worker.WorkflowState = item["WorkflowState"].ToString();
+                            worker.WorkflowState = worker.WorkflowState == "active" ? "created" : worker.WorkflowState;
+                            worker.WorkflowState = worker.WorkflowState == "inactive" ? "removed" : worker.WorkflowState;
+                            worker.FirstName = item["FirstName"].ToString();
+                            worker.LastName = item["LastName"].ToString();
+                            worker.Email = item["Email"].ToString();
+                            await worker.Update(dbContext);
                         }
                     }
 
-                    foreach (var item in await communicator.SiteWorkerLoadAllFromRemote())
+                    parsedData = JRaw.Parse(await communicator.SiteWorkerLoadAllFromRemote());
+                    foreach (JToken item in parsedData)
                     {
-                        SiteWorkerDto siteWorkerDto = await sqlController.SiteWorkerRead(item.MicrotingUId, null, null);
-                        if (siteWorkerDto == null)
-                        {
-                            try
-                            {
-                                await sqlController.SiteWorkerCreate(item.MicrotingUId, item.SiteUId, item.WorkerUId);
-                            }
-                            catch
-                            {
-                                // We do catch this because right now we a descripency at the API side.
-                            }
+                        int siteUId = int.Parse(item["SiteId"].ToString());
+                        int workerUId = int.Parse(item["UserId"].ToString());
+                        item["SiteId"].Parent.Remove();
+                        item["UserId"].Parent.Remove();
 
+                        site_workers siteWorker = JsonConvert.DeserializeObject<site_workers>(item.ToString(), settings);
+
+                        int localSiteId = dbContext.sites.SingleAsync(x => x.MicrotingUid == siteUId).GetAwaiter().GetResult().Id;
+                        int localWorkerId = dbContext.workers.SingleAsync(x => x.MicrotingUid == workerUId).GetAwaiter().GetResult().Id;
+
+                        if (!dbContext.workers.Any(x => x.MicrotingUid == siteWorker.MicrotingUid))
+                        {
+                            siteWorker.SiteId = localSiteId;
+                            siteWorker.WorkerId = localWorkerId;
+                            siteWorker.WorkflowState = siteWorker.WorkflowState == "active" ? "created" : siteWorker.WorkflowState;
+                            siteWorker.WorkflowState = siteWorker.WorkflowState == "inactive" ? "removed" : siteWorker.WorkflowState;
+                            await siteWorker.Create(dbContext);
+                        }
+                        else
+                        {
+                            siteWorker = await dbContext.site_workers.SingleAsync(x => x.MicrotingUid == siteWorker.MicrotingUid);
+                            siteWorker.WorkflowState = item["WorkflowState"].ToString();
+                            siteWorker.WorkflowState = siteWorker.WorkflowState == "active" ? "created" : siteWorker.WorkflowState;
+                            siteWorker.WorkflowState = siteWorker.WorkflowState == "inactive" ? "removed" : siteWorker.WorkflowState;
+                            siteWorker.SiteId = localSiteId;
+                            siteWorker.WorkerId = localWorkerId;
+                            await siteWorker.Update(dbContext);
                         }
                     }
-
                     int customerNo = communicator.OrganizationLoadAllFromRemote(token).Result.CustomerNo;
 
-                    foreach (var item in await communicator.UnitLoadAllFromRemote(customerNo))
+                    parsedData = JRaw.Parse(await communicator.UnitLoadAllFromRemote(customerNo));
+                    foreach (JToken item in parsedData)
                     {
-                        UnitDto unitDto = await sqlController.UnitRead(item.UnitUId);
-                        if (unitDto == null)
-                        {
-                            try
-                            {
-                                await sqlController.UnitCreate(item.UnitUId, item.CustomerNo, item.OtpCode, item.SiteUId);
-                            }
-                            catch
-                            {
-                                // We do catch this because right now we a descripency at the API side.
-                            }
+                        units unit = JsonConvert.DeserializeObject<units>(item.ToString(), settings);
 
+                        int localSiteId = dbContext.sites.SingleAsync(x => x.MicrotingUid == unit.SiteId).GetAwaiter().GetResult().Id;
+
+                        if (!dbContext.workers.Any(x => x.MicrotingUid == unit.MicrotingUid))
+                        {
+                            unit.SiteId = localSiteId;
+                            unit.WorkflowState = unit.WorkflowState == "active" ? "created" : unit.WorkflowState;
+                            unit.WorkflowState = unit.WorkflowState == "new" ? "created" : unit.WorkflowState;
+                            unit.WorkflowState = unit.WorkflowState == "inactive" ? "removed" : unit.WorkflowState;
+                            await unit.Create(dbContext);
+                        }
+                        else
+                        {
+                            unit = await dbContext.units.SingleAsync(x => x.MicrotingUid == unit.MicrotingUid);
+                            unit.WorkflowState = item["WorkflowState"].ToString();
+                            unit.WorkflowState = unit.WorkflowState == "active" ? "created" : unit.WorkflowState;
+                            unit.WorkflowState = unit.WorkflowState == "new" ? "created" : unit.WorkflowState;
+                            unit.WorkflowState = unit.WorkflowState == "inactive" ? "removed" : unit.WorkflowState;
+                            unit.SiteId = localSiteId;
+                            unit.OsVersion = item["OsVersion"].ToString();
+                            unit.Manufacturer = item["Manufacturer"].ToString();
+                            unit.Model = item["Model"].ToString();
+                            unit.CustomerNo = customerNo;
+                            await unit.Update(dbContext);
                         }
                     }
-
-                    foreach (FolderDto folderDto in await communicator.FolderLoadAllFromRemote())
-                    {
-                        if (folderDto.MicrotingUId != null)
-                        {
-                            FolderDto folder = await sqlController.FolderReadByMicrotingUUID((int)folderDto.MicrotingUId);
-
-                            if (folder == null)
-                            {
-                                if (folderDto.ParentId == 0)
-                                {
-                                    await sqlController.FolderCreate(folderDto.Name, folderDto.Description, null,
-                                        (int)folderDto.MicrotingUId);    
-
-                                }
-                                else
-                                {
-                                    if (folderDto.ParentId != null)
-                                    {
-                                        FolderDto parenFolder =
-                                            await sqlController.FolderReadByMicrotingUUID((int) folderDto.ParentId);
-                                    
-                                        await sqlController.FolderCreate(folderDto.Name, folderDto.Description, parenFolder.Id,
-                                            (int)folderDto.MicrotingUId);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    await sqlController.SettingUpdate(Settings.knownSitesDone, "true");
                 }
-                #endregion
 
+                foreach (FolderDto folderDto in await communicator.FolderLoadAllFromRemote())
+                {
+                    if (folderDto.MicrotingUId != null)
+                    {
+                        FolderDto folder = await sqlController.FolderReadByMicrotingUUID((int)folderDto.MicrotingUId);
+
+                        if (folder == null)
+                        {
+                            if (folderDto.ParentId == 0)
+                            {
+                                await sqlController.FolderCreate(folderDto.Name, folderDto.Description, null,
+                                    (int)folderDto.MicrotingUId);
+                            }
+                            else
+                            {
+                                if (folderDto.ParentId != null)
+                                {
+                                    FolderDto parenFolder =
+                                        await sqlController.FolderReadByMicrotingUUID((int) folderDto.ParentId);
+
+                                    await sqlController.FolderCreate(folderDto.Name, folderDto.Description, parenFolder.Id,
+                                        (int)folderDto.MicrotingUId);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                await sqlController.SettingUpdate(Settings.knownSitesDone, "true");
                 await sqlController.SettingUpdate(Settings.firstRunDone, "true");
+                #endregion
 
                 return "";
 //            }

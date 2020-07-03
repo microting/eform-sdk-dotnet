@@ -562,7 +562,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> SiteLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create($"{addressBasic}/v1/sites?token={token}&sdk_ver={dllVersion}");
+            WebRequest request = WebRequest.Create($"{addressBasic}/v2/sites?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
             return await PostToServer(request).ConfigureAwait(false);
@@ -630,7 +630,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> WorkerLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create($"{addressBasic}/v1/users?token={token}&sdk_ver={dllVersion}");
+            WebRequest request = WebRequest.Create($"{addressBasic}/v2/users?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
             return await PostToServer(request).ConfigureAwait(false);
@@ -683,7 +683,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> SiteWorkerLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create($"{addressBasic}/v1/workers?token={token}&sdk_ver={dllVersion}");
+            WebRequest request = WebRequest.Create($"{addressBasic}/v2/workers?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
             return await PostToServer(request).ConfigureAwait(false);
@@ -783,7 +783,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> UnitLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create($"{addressBasic}/v1/units?token={token}&sdk_ver={dllVersion}");
+            WebRequest request = WebRequest.Create($"{addressBasic}/v2/units?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
             return await PostToServer(request).ConfigureAwait(false);
