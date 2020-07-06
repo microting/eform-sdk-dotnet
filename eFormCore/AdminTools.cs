@@ -259,7 +259,7 @@ namespace eFormCore
                         int localSiteId = dbContext.sites.SingleAsync(x => x.MicrotingUid == siteUId).GetAwaiter().GetResult().Id;
                         int localWorkerId = dbContext.workers.SingleAsync(x => x.MicrotingUid == workerUId).GetAwaiter().GetResult().Id;
 
-                        if (!dbContext.workers.Any(x => x.MicrotingUid == siteWorker.MicrotingUid))
+                        if (!dbContext.site_workers.Any(x => x.MicrotingUid == siteWorker.MicrotingUid))
                         {
                             siteWorker.SiteId = localSiteId;
                             siteWorker.WorkerId = localWorkerId;
@@ -287,7 +287,7 @@ namespace eFormCore
 
                         int localSiteId = dbContext.sites.SingleAsync(x => x.MicrotingUid == unit.SiteId).GetAwaiter().GetResult().Id;
 
-                        if (!dbContext.workers.Any(x => x.MicrotingUid == unit.MicrotingUid))
+                        if (!dbContext.units.Any(x => x.MicrotingUid == unit.MicrotingUid))
                         {
                             unit.SiteId = localSiteId;
                             unit.WorkflowState = unit.WorkflowState == "active" ? "created" : unit.WorkflowState;

@@ -3455,106 +3455,103 @@ namespace eFormCore
 
         private async Task<int> SaveAnswers(question_sets questionSet, JObject parsedData)
         {
-            var settings = new JsonSerializerSettings { Error = (se, ev) => { ev.ErrorContext.Handled = true; } };
-            int numAnswers = 0;
+            Task[] tasks = new Task[int.Parse(parsedData["NumAnswers"].ToString())];
 
+            int i = 0;
+            foreach (JToken item in parsedData["Answers"])
+            {
+                tasks[i] = SaveAnswer(item, questionSet.Id);
+                i += 1;
+            }
+
+            await Task.WhenAll(tasks);
+
+            return int.Parse(parsedData["NumAnswers"].ToString());
+        }
+
+        private async Task SaveAnswer(JToken subItem, int questionSetId)
+        {
+            log.LogStandard("Core.SaveAnswer", $"called {DateTime.UtcNow}");
+            var settings = new JsonSerializerSettings { Error = (se, ev) => { ev.ErrorContext.Handled = true; } };
             using (var db = dbContextHelper.GetDbContext())
             {
-                foreach (var item in parsedData)
+                answers answer = JsonConvert.DeserializeObject<answers>(subItem.ToString(), settings);
+
+                var result = await db.answers.SingleOrDefaultAsync(x => x.MicrotingUid == answer.MicrotingUid).ConfigureAwait(false);
+                if (result != null)
                 {
-                    foreach (JToken subItem in item.Value)
+                    answer.Id = result.Id;
+                }
+
+                if (result == null)
+                {
+                    units unit = await db.units.SingleOrDefaultAsync(x => x.MicrotingUid == answer.UnitId)
+                        .ConfigureAwait(false);
+                    if (unit != null)
                     {
-                        answers answer = JsonConvert.DeserializeObject<answers>(subItem.ToString(), settings);
+                        answer.UnitId = unit.Id;
+                    }
+                    else
+                    {
+                        answer.UnitId = null;
+                    }
 
-                        var result = db.answers.SingleOrDefault(x => x.MicrotingUid == answer.MicrotingUid);
-                        if (result != null)
+                    try
+                    {
+                        answer.SiteId = db.sites.Single(x => x.MicrotingUid == answer.SiteId).Id;
+                        answer.QuestionSetId = questionSetId;
+                        survey_configurations surveyConfiguration = await db.survey_configurations
+                            .SingleOrDefaultAsync(x => x.MicrotingUid == answer.SurveyConfigurationId)
+                            .ConfigureAwait(false);
+
+                        if (surveyConfiguration != null)
                         {
-                            answer.Id = result.Id;
+                            answer.SurveyConfigurationId = surveyConfiguration.Id;
+                        }
+                        else
+                        {
+                            answer.SurveyConfigurationId = null;
                         }
 
-                        if (result == null)
+                        answer.QuestionSet = null;
+                        answer.LanguageId = db.languages.Single(x => x.Name == "Danish").Id;
+                        await answer.Create(db).ConfigureAwait(false);
+                        foreach (JToken avItem in subItem["AnswerValues"])
                         {
-                            units unit = await db.units.SingleOrDefaultAsync(x => x.MicrotingUid == answer.UnitId).ConfigureAwait(false);
-                            if (unit != null)
+                            // log.LogStandard("Core.SaveAnswer", $"AnswerValues parsing started {DateTime.UtcNow}");
+                            answer_values answerValue =
+                                JsonConvert.DeserializeObject<answer_values>(avItem.ToString(), settings);
+                            if (db.answer_values.SingleOrDefault(x => x.MicrotingUid == answerValue.MicrotingUid) ==
+                                null)
                             {
-                                answer.UnitId = unit.Id;
-                            }
-                            else
-                            {
-                                answer.UnitId = null;
-                            }
-                            try
-                            {
-                                answer.SiteId = db.sites.Single(x => x.MicrotingUid == answer.SiteId).Id;
-
-                                if (questionSet == null)
+                                var question = await db.questions.SingleAsync(x => x.MicrotingUid == answerValue.QuestionId).ConfigureAwait(false);
+                                var option = await db.options.SingleAsync(x => x.MicrotingUid == answerValue.OptionId).ConfigureAwait(false);
+                                if (question.QuestionType == Constants.QuestionTypes.Buttons ||
+                                    question.QuestionType == Constants.QuestionTypes.List ||
+                                    question.QuestionType == Constants.QuestionTypes.Multi)
                                 {
-                                    // await GetAllSurveyConfigurations().ConfigureAwait(false);
-                                    questionSet =
-                                        await db.question_sets.SingleOrDefaultAsync(x =>
-                                            x.MicrotingUid == answer.QuestionSet.MicrotingUid).ConfigureAwait(false);
-                                }
-                                answer.QuestionSetId = questionSet.Id;
-                                survey_configurations surveyConfiguration = await db.survey_configurations
-                                    .SingleOrDefaultAsync(x => x.MicrotingUid == answer.SurveyConfigurationId)
-                                    .ConfigureAwait(false);
-                                // if (surveyConfiguration == null)
-                                // {
-                                //     await GetAllSurveyConfigurations().ConfigureAwait(false);
-                                //     surveyConfiguration = await db.survey_configurations
-                                //                          .SingleOrDefaultAsync(x => x.MicrotingUid == answer.SurveyConfigurationId)
-                                //                          .ConfigureAwait(false);
-                                // }
-
-                                if (surveyConfiguration != null)
-                                {
-                                    answer.SurveyConfigurationId = surveyConfiguration.Id;
-                                }
-                                else
-                                {
-                                    answer.SurveyConfigurationId = null;
+                                    answerValue.Value = option.OptionTranslationses.First().Name;
                                 }
 
-                                answer.QuestionSet = null;
-                                answer.LanguageId = db.languages.Single(x => x.Name == "Danish").Id;
-                                await answer.Create(db).ConfigureAwait(false);
-                                foreach (JToken avItem in subItem["AnswerValues"])
-                                {
-                                    answer_values answerValue =
-                                        JsonConvert.DeserializeObject<answer_values>(avItem.ToString(), settings);
-                                    if (db.answer_values.SingleOrDefault(x => x.MicrotingUid == answerValue.MicrotingUid) ==
-                                        null)
-                                    {
-                                        var question = db.questions.Single(x => x.MicrotingUid == answerValue.QuestionId);
-                                        var option = db.options.Single(x => x.MicrotingUid == answerValue.OptionId);
-                                        if (question.QuestionType == Constants.QuestionTypes.Buttons || question.QuestionType == Constants.QuestionTypes.List || question.QuestionType == Constants.QuestionTypes.Multi)
-                                        {
-                                            answerValue.Value = option.OptionTranslationses.First().Name;
-                                        }
-                                        answerValue.AnswerId = answer.Id;
-                                        answerValue.QuestionId =
-                                            question.Id;
-                                        answerValue.OptionId =
-                                            option.Id;
-                                        await answerValue.Create(db).ConfigureAwait(false);
-                                    }
-                                }
+                                answerValue.AnswerId = answer.Id;
+                                answerValue.QuestionId =
+                                    question.Id;
+                                answerValue.OptionId =
+                                    option.Id;
+                                await answerValue.Create(db).ConfigureAwait(false);
                                 
+                                // log.LogStandard("Core.SaveAnswer", $"AnswerValues parsing done {DateTime.UtcNow}");
                             }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine(ex.Message);
-                            }
-
-                            numAnswers ++;
                         }
 
-                        
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
                     }
                 }
             }
-
-            return numAnswers;
+            log.LogStandard("Core.SaveAnswer", $"ended {DateTime.UtcNow}");
         }
 
         public async Task GetAnswersForQuestionSet(int? questionSetId)
