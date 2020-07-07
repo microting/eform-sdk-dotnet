@@ -207,9 +207,18 @@ namespace eFormCore
                         sites site = JsonConvert.DeserializeObject<sites>(item.ToString(), settings);
                         if (!dbContext.sites.Any(x => x.MicrotingUid == site.MicrotingUid))
                         {
+                            bool removed = false;
                             site.WorkflowState = site.WorkflowState == "active" ? "created" : site.WorkflowState;
                             site.WorkflowState = site.WorkflowState == "inactive" ? "removed" : site.WorkflowState;
+                            if (site.WorkflowState == "removed")
+                            {
+                                removed = true;
+                            }
                             await site.Create(dbContext);
+                            if (removed)
+                            {
+                                await site.Delete(dbContext);
+                            }
                         }
                         else
                         {
@@ -229,9 +238,18 @@ namespace eFormCore
 
                         if (!dbContext.workers.Any(x => x.MicrotingUid == worker.MicrotingUid))
                         {
+                            bool removed = false;
                             worker.WorkflowState = worker.WorkflowState == "active" ? "created" : worker.WorkflowState;
                             worker.WorkflowState = worker.WorkflowState == "inactive" ? "removed" : worker.WorkflowState;
+                            if (worker.WorkflowState == "removed")
+                            {
+                                removed = true;
+                            }
                             await worker.Create(dbContext);
+                            if (removed)
+                            {
+                                await worker.Delete(dbContext);
+                            }
                         }
                         else
                         {
@@ -261,11 +279,20 @@ namespace eFormCore
 
                         if (!dbContext.site_workers.Any(x => x.MicrotingUid == siteWorker.MicrotingUid))
                         {
+                            bool removed = false;
                             siteWorker.SiteId = localSiteId;
                             siteWorker.WorkerId = localWorkerId;
                             siteWorker.WorkflowState = siteWorker.WorkflowState == "active" ? "created" : siteWorker.WorkflowState;
                             siteWorker.WorkflowState = siteWorker.WorkflowState == "inactive" ? "removed" : siteWorker.WorkflowState;
+                            if (siteWorker.WorkflowState == "removed")
+                            {
+                                removed = true;
+                            }
                             await siteWorker.Create(dbContext);
+                            if (removed)
+                            {
+                                await siteWorker.Delete(dbContext);
+                            }
                         }
                         else
                         {
@@ -289,11 +316,20 @@ namespace eFormCore
 
                         if (!dbContext.units.Any(x => x.MicrotingUid == unit.MicrotingUid))
                         {
+                            bool removed = false;
                             unit.SiteId = localSiteId;
                             unit.WorkflowState = unit.WorkflowState == "active" ? "created" : unit.WorkflowState;
                             unit.WorkflowState = unit.WorkflowState == "new" ? "created" : unit.WorkflowState;
                             unit.WorkflowState = unit.WorkflowState == "inactive" ? "removed" : unit.WorkflowState;
+                            if (unit.WorkflowState == "removed")
+                            {
+                                removed = true;
+                            }
                             await unit.Create(dbContext);
+                            if (removed)
+                            {
+                                await unit.Delete(dbContext);
+                            }
                         }
                         else
                         {
