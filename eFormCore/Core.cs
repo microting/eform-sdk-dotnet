@@ -3231,7 +3231,14 @@ namespace eFormCore
                                 }
                                 else
                                 {
-                                    surveyConfiguration.WorkflowState = Constants.WorkflowStates.Created;
+                                    if (subItem["WorkflowState"].ToString().Equals("removed"))
+                                    {
+                                        surveyConfiguration.WorkflowState = Constants.WorkflowStates.Removed;
+                                    }
+                                    else
+                                    {
+                                        surveyConfiguration.WorkflowState = Constants.WorkflowStates.Created;
+                                    }
                                 }
                                 await surveyConfiguration.Update(db).ConfigureAwait(false);
                             }
@@ -3326,6 +3333,11 @@ namespace eFormCore
                             };
                             await questionSet.Create(db).ConfigureAwait(false);
                         }
+
+                        if (subItem["WorkflowState"].ToString().Equals("removed"))
+                        {
+                            await questionSet.Delete(db);
+                        }
                         
                         var innerParsedData = JObject.Parse(await _communicator.GetQuestionSet(questionSetMicrotingUid).ConfigureAwait(false));
                         
@@ -3344,6 +3356,10 @@ namespace eFormCore
                             {
                                 question.WorkflowState = child["WorkflowState"].ToString();
                                 await question.Update(db).ConfigureAwait(false);
+                            }
+                            if (child["WorkflowState"].ToString().Equals("removed"))
+                            {
+                                await question.Delete(db);
                             }
                         }
                         JToken parsedQuestionTranslations = innerParsedData.GetValue("QuestionTranslations");
@@ -3405,6 +3421,10 @@ namespace eFormCore
                                 {
                                     Console.WriteLine(ex.Message);
                                 }
+                            }
+                            if (child["WorkflowState"].ToString().Equals("removed"))
+                            {
+                                await option.Delete(db);
                             }
 
                             i += 1;
