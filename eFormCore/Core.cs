@@ -3348,9 +3348,9 @@ namespace eFormCore
                                 x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString())).ConfigureAwait(false);
                             if (question == null)
                             {
-                                var result = JsonConvert.DeserializeObject<questions>(child.ToString(), jsonSerializerSettings);
-                                result.QuestionSetId = questionSet.Id;
-                                await result.Create(db, false).ConfigureAwait(false);
+                                question = JsonConvert.DeserializeObject<questions>(child.ToString(), jsonSerializerSettings);
+                                question.QuestionSetId = questionSet.Id;
+                                await question.Create(db, false).ConfigureAwait(false);
                             }
                             else
                             {
@@ -3392,13 +3392,13 @@ namespace eFormCore
                                 x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString())).ConfigureAwait(false);
                             if (option == null)
                             {
-                                var result = JsonConvert.DeserializeObject<options>(child.ToString());
+                                option = JsonConvert.DeserializeObject<options>(child.ToString());
                                 var nextQuestionId =
-                                    db.questions.SingleOrDefault(x => x.MicrotingUid == result.NextQuestionId);
-                                var question = db.questions.Single(x => x.MicrotingUid == result.QuestionId);
-                                result.QuestionId = question.Id;
-                                result.NextQuestionId = nextQuestionId?.Id;
-                                await result.Create(db).ConfigureAwait(false);
+                                    db.questions.SingleOrDefault(x => x.MicrotingUid == option.NextQuestionId);
+                                var question = db.questions.Single(x => x.MicrotingUid == option.QuestionId);
+                                option.QuestionId = question.Id;
+                                option.NextQuestionId = nextQuestionId?.Id;
+                                await option.Create(db).ConfigureAwait(false);
                             }
                             else
                             {
