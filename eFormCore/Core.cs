@@ -3188,6 +3188,11 @@ namespace eFormCore
         {
             var parsedData = JObject.Parse(await _communicator.GetAllSurveyConfigurations().ConfigureAwait(false));
 
+            var jsonSerializerSettings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
             foreach (var item in parsedData)
             {
                 foreach (JToken subItem in item.Value)
@@ -3197,7 +3202,6 @@ namespace eFormCore
                         string name = subItem["Name"].ToString();
                         int microtingUid = int.Parse(subItem["MicrotingUid"].ToString());
                         var innerParsedData = JObject.Parse(await _communicator.GetSurveyConfiguration(microtingUid).ConfigureAwait(false));
-
                         JToken parsedQuestionSet = innerParsedData.GetValue("QuestionSet");
 
                         if (parsedQuestionSet != null)
@@ -3219,40 +3223,24 @@ namespace eFormCore
                                 await questionSet.Create(db);
                             }
 
-                            var surveyConfiguration = 
-                                await db.survey_configurations.SingleOrDefaultAsync(x =>
-                                    x.MicrotingUid == microtingUid).ConfigureAwait(false);
-                            if (surveyConfiguration != null)
+                            var surveyConfiguration = JsonConvert.DeserializeObject<survey_configurations>(subItem.ToString());
+                            bool removed = surveyConfiguration.WorkflowState == Constants.WorkflowStates.Removed;
+                            if (!await db.survey_configurations.AnyAsync(x =>
+                                x.MicrotingUid == surveyConfiguration.MicrotingUid))
                             {
-                                surveyConfiguration.Name = name;
-                                if (subItem["WorkflowState"].ToString().Equals("active"))
-                                {
-                                    surveyConfiguration.WorkflowState = Constants.WorkflowStates.Active;
-                                }
-                                else
-                                {
-                                    if (subItem["WorkflowState"].ToString().Equals("removed"))
-                                    {
-                                        surveyConfiguration.WorkflowState = Constants.WorkflowStates.Removed;
-                                    }
-                                    else
-                                    {
-                                        surveyConfiguration.WorkflowState = Constants.WorkflowStates.Created;
-                                    }
-                                }
-                                await surveyConfiguration.Update(db).ConfigureAwait(false);
+                                surveyConfiguration.QuestionSetId = questionSet.Id;
+                                await surveyConfiguration.Create(db);
                             }
                             else
                             {
-                                surveyConfiguration = new survey_configurations()
-                                {
-                                    MicrotingUid = microtingUid,
-                                    Name = name,
-                                    QuestionSetId = questionSet.Id,
-                                    WorkflowState = subItem["WorkflowState"].ToString().Equals("active")
-                                        ? Constants.WorkflowStates.Active : Constants.WorkflowStates.Created
-                                };
-                                await surveyConfiguration.Create(db).ConfigureAwait(false);
+                                surveyConfiguration = await db.survey_configurations.SingleAsync(x =>
+                                    x.MicrotingUid == surveyConfiguration.MicrotingUid);
+                                surveyConfiguration.Name = subItem["Name"].ToString();
+                                await surveyConfiguration.Update(db);
+                            }
+                            if (removed)
+                            {
+                                await surveyConfiguration.Delete(db);
                             }
 
                             foreach (JToken child in innerParsedData.GetValue("Sites").Children())
@@ -3317,47 +3305,54 @@ namespace eFormCore
                 {
                     foreach (JToken subItem in item.Value)
                     {
-                        int questionSetMicrotingUid = int.Parse(subItem["MicrotingUid"].ToString());
-                        var questionSet = await db.question_sets.SingleOrDefaultAsync(x => x.MicrotingUid == questionSetMicrotingUid).ConfigureAwait(false);
-                        if (questionSet != null)
+                        var questionSet = JsonConvert.DeserializeObject<question_sets>(subItem.ToString(), jsonSerializerSettings);
+
+                        bool removed = questionSet.WorkflowState == Constants.WorkflowStates.Removed;
+                        if (!await db.question_sets.AnyAsync(x => x.MicrotingUid == questionSet.MicrotingUid))
                         {
-                            questionSet.Name = subItem["Name"].ToString();
-                            await questionSet.Update(db).ConfigureAwait(false);
+                            await questionSet.Create(db);
                         }
                         else
                         {
-                            questionSet = new question_sets()
-                            {
-                                Name = subItem["Name"].ToString(),
-                                MicrotingUid = questionSetMicrotingUid
-                            };
-                            await questionSet.Create(db).ConfigureAwait(false);
+                            questionSet =
+                                await db.question_sets.SingleAsync(x => x.MicrotingUid == questionSet.MicrotingUid);
+                            questionSet.Name = subItem["Name"].ToString();
+                            await questionSet.Update(db);
                         }
 
-                        if (subItem["WorkflowState"].ToString().Equals("removed"))
+                        if (removed)
                         {
                             await questionSet.Delete(db);
                         }
-                        
-                        var innerParsedData = JObject.Parse(await _communicator.GetQuestionSet(questionSetMicrotingUid).ConfigureAwait(false));
-                        
+
+                        var innerParsedData = JObject.Parse(await _communicator.GetQuestionSet((int)questionSet.MicrotingUid).ConfigureAwait(false));
+
                         JToken parsedQuestions = innerParsedData.GetValue("Questions");
                         foreach (JToken child in parsedQuestions.Children())
                         {
-                            var question = await db.questions.SingleOrDefaultAsync(x =>
-                                x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString())).ConfigureAwait(false);
-                            if (question == null)
+                            var question = JsonConvert.DeserializeObject<questions>(child.ToString(), jsonSerializerSettings);
+                            removed = question.WorkflowState == Constants.WorkflowStates.Removed;
+                            log.LogStandard("Core.GetAllQuestionSets", $"Parsing question {question.MicrotingUid}");
+                            if (!await db.questions.AnyAsync(x => x.MicrotingUid == question.MicrotingUid))
                             {
-                                question = JsonConvert.DeserializeObject<questions>(child.ToString(), jsonSerializerSettings);
                                 question.QuestionSetId = questionSet.Id;
-                                await question.Create(db, false).ConfigureAwait(false);
+                                await question.Create(db);
                             }
                             else
                             {
-                                question.WorkflowState = child["WorkflowState"].ToString();
-                                await question.Update(db).ConfigureAwait(false);
+                                question = await db.questions.SingleAsync(x => x.MicrotingUid == question.MicrotingUid);
+                                question.QuestionIndex = int.Parse(child["QuestionIndex"].ToString());
+                                question.BackButtonEnabled = child["BackButtonEnabled"].ToString() == "true";
+                                question.Image = child["Image"].ToString() == "true";
+                                question.ImagePosition = child["ImagePosition"].ToString();
+                                question.MaxDuration = int.Parse(child["MaxDuration"].ToString());
+                                var bla = child["Maximum"].ToString();
+                                question.Maximum = string.IsNullOrEmpty(child["Maximum"].ToString()) ? 0 : int.Parse(child["Maximum"].ToString());
+                                question.ValidDisplay = child["ValidDisplay"].ToString() == "true";
+                                await question.Update(db);
                             }
-                            if (child["WorkflowState"].ToString().Equals("removed"))
+
+                            if (removed)
                             {
                                 await question.Delete(db);
                             }
@@ -3365,89 +3360,94 @@ namespace eFormCore
                         JToken parsedQuestionTranslations = innerParsedData.GetValue("QuestionTranslations");
                         foreach (JToken child in parsedQuestionTranslations.Children())
                         {
-                            var questionTranslation =
-                                await db.QuestionTranslations.SingleOrDefaultAsync(x =>
-                                    x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString())).ConfigureAwait(false);
-                            if (questionTranslation == null)
+                            var questionTranslation = JsonConvert.DeserializeObject<question_translations>(child.ToString(), jsonSerializerSettings);
+                            log.LogStandard("Core.GetAllQuestionSets", $"Parsing question translation {questionTranslation.Name}");
+                            removed = questionTranslation.WorkflowState == Constants.WorkflowStates.Removed;
+                            if (!await db.QuestionTranslations.AnyAsync(x =>
+                                x.MicrotingUid == questionTranslation.MicrotingUid))
                             {
-                                var result = JsonConvert.DeserializeObject<question_translations>(child.ToString());
-                                result.QuestionId = db.questions.Single(x => x.MicrotingUid == result.QuestionId).Id;
-                                result.LanguageId = language.Id;
-                                await result.Create(db).ConfigureAwait(false);
-
+                                questionTranslation.QuestionId = db.questions
+                                    .Single(x => x.MicrotingUid == questionTranslation.QuestionId).Id;
+                                await questionTranslation.Create(db);
                             }
                             else
                             {
+                                questionTranslation = await db.QuestionTranslations.SingleAsync(x =>
+                                    x.MicrotingUid == questionTranslation.MicrotingUid);
                                 questionTranslation.Name = child["Name"].ToString();
-                                questionTranslation.WorkflowState = child["WorkflowState"].ToString();
                                 await questionTranslation.Update(db);
+                            }
+
+                            if (removed)
+                            {
+                                await questionTranslation.Delete(db);
                             }
                         }
                         
                         JToken parsedOptions = innerParsedData.GetValue("Options");
-                        int i = 0;
+                        //int i = 0;
                         foreach (JToken child in parsedOptions.Children())
                         {
-                            var option = await db.options.SingleOrDefaultAsync(x =>
-                                x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString())).ConfigureAwait(false);
-                            if (option == null)
+                            var option = JsonConvert.DeserializeObject<options>(child.ToString(), jsonSerializerSettings);
+                            log.LogStandard("Core.GetAllQuestionSets", $"Parsing option {option.MicrotingUid}");
+                            removed = option.WorkflowState == Constants.WorkflowStates.Removed;
+                            if (!await db.options.AnyAsync(x => x.MicrotingUid == option.MicrotingUid))
                             {
-                                option = JsonConvert.DeserializeObject<options>(child.ToString());
-                                var nextQuestionId =
-                                    db.questions.SingleOrDefault(x => x.MicrotingUid == option.NextQuestionId);
-                                var question = db.questions.Single(x => x.MicrotingUid == option.QuestionId);
-                                option.QuestionId = question.Id;
-                                option.NextQuestionId = nextQuestionId?.Id;
-                                await option.Create(db).ConfigureAwait(false);
+                                int? nextQuestionId = null;
+                                if (!string.IsNullOrEmpty(option.NextQuestionId.ToString()))
+                                {
+                                    nextQuestionId = db.questions.SingleOrDefault(x =>
+                                        x.MicrotingUid == int.Parse(option.NextQuestionId.ToString()))?.Id;
+                                }
+                                option.NextQuestionId = nextQuestionId;
+                                option.QuestionId = db.questions.Single(x => x.MicrotingUid == option.QuestionId).Id;
+                                await option.Create(db);
                             }
                             else
                             {
-                                try
+                                option = await db.options.SingleAsync(x => x.MicrotingUid == option.MicrotingUid);
+                                option.WeightValue = int.Parse(child["WeightValue"].ToString());
+                                option.Weight = int.Parse(child["Weight"].ToString());
+                                option.OptionIndex = int.Parse(child["OptionIndex"].ToString());
+                                int? nextQuestionId = null;
+                                if (!string.IsNullOrEmpty(child["NextQuestionId"].ToString()))
                                 {
-                                    option.WorkflowState = child["WorkflowState"].ToString();
-                                    option.WeightValue = int.Parse(child["WeightValue"].ToString());
-                                    option.OptionIndex = int.Parse(child["OptionIndex"].ToString());
-
-                                    int? nextQuestionId = null;
-                                    if (!string.IsNullOrEmpty(child["NextQuestionId"].ToString()))
-                                    {
-                                        nextQuestionId = db.questions.SingleOrDefault(x =>
-                                            x.MicrotingUid == int.Parse(child["NextQuestionId"].ToString()))?.Id;
-                                    }
-                                    option.NextQuestionId = nextQuestionId;
-                                    await option.Update(db).ConfigureAwait(false);
+                                    nextQuestionId = db.questions.SingleOrDefault(x =>
+                                        x.MicrotingUid == int.Parse(child["NextQuestionId"].ToString()))?.Id;
                                 }
-                                catch (Exception ex)
-                                {
-                                    Console.WriteLine(ex.Message);
-                                }
+                                option.NextQuestionId = nextQuestionId;
+                                await option.Update(db);
                             }
-                            if (child["WorkflowState"].ToString().Equals("removed"))
+
+                            if (removed)
                             {
                                 await option.Delete(db);
                             }
-
-                            i += 1;
                         }
                         
                         JToken parsedOptionTranslations = innerParsedData.GetValue("OptionTranslations");
                         foreach (JToken child in parsedOptionTranslations.Children())
                         {
-                            var optionTranslation =
-                                await db.OptionTranslations.SingleOrDefaultAsync(x =>
-                                    x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString())).ConfigureAwait(false);
-                            if (optionTranslation == null)
+                            var optionTranslation = JsonConvert.DeserializeObject<option_translations>(child.ToString(), jsonSerializerSettings);
+                            log.LogStandard("Core.GetAllQuestionSets", $"Parsing option translation {optionTranslation.Name}");
+                            removed = optionTranslation.WorkflowState == Constants.WorkflowStates.Removed;
+                            if (!await db.OptionTranslations.AnyAsync(x =>
+                                x.MicrotingUid == optionTranslation.MicrotingUid))
                             {
-                                var result = JsonConvert.DeserializeObject<option_translations>(child.ToString());
-                                result.OptionId = db.options.Single(x => x.MicrotingUid == result.OptionId).Id;
-                                result.LanguageId = language.Id;
-                                await result.Create(db).ConfigureAwait(false);
+                                optionTranslation.OptionId = db.options.Single(x => x.MicrotingUid == optionTranslation.OptionId).Id;
+                                await optionTranslation.Create(db);
                             }
                             else
                             {
+                                optionTranslation = await db.OptionTranslations.SingleAsync(x =>
+                                    x.MicrotingUid == optionTranslation.MicrotingUid);
                                 optionTranslation.Name = child["Name"].ToString();
-                                optionTranslation.WorkflowState = child["WorkflowState"].ToString();
-                                await optionTranslation.Update(db).ConfigureAwait(false);
+                                await optionTranslation.Update(db);
+                            }
+
+                            if (removed)
+                            {
+                                await optionTranslation.Delete(db);
                             }
                         }
                     }
