@@ -101,7 +101,7 @@ namespace Microting.eForm
 
                 LogLogic(new LogEntry(-1, type, fullExceptionDescription));
 
-                ExceptionClass exCls = new ExceptionClass(fullExceptionDescription, DateTime.Now);
+                ExceptionClass exCls = new ExceptionClass(fullExceptionDescription, DateTime.UtcNow);
                 exceptionLst.Add(exCls);
 
                 int sameExceptionCount = CheckExceptionLst(exCls);
@@ -134,7 +134,7 @@ namespace Microting.eForm
             {
                 //remove Exceptions older than an hour
                 for (int i = exceptionLst.Count; i < 0; i--)
-                    if (exceptionLst[i].Time < DateTime.Now.AddHours(-1))
+                    if (exceptionLst[i].Time < DateTime.UtcNow.AddHours(-1))
                         exceptionLst.RemoveAt(i);
 
                 //keep only the last 12 Exceptions
@@ -198,7 +198,7 @@ namespace Microting.eForm
     {
         public LogEntry(int level, string type, string message)
         {
-            Time = DateTime.Now;
+            Time = DateTime.UtcNow;
             Level = level;
             Type = type;
             Message = message;

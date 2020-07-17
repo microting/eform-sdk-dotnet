@@ -191,8 +191,8 @@ namespace eFormSDK.Integration.Tests
             // Arrange
             #region Tempalte
 
-            DateTime cl1_ca = DateTime.Now;
-            DateTime cl1_ua = DateTime.Now;
+            DateTime cl1_ca = DateTime.UtcNow;
+            DateTime cl1_ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
             //cl1.quick_sync_enabled = 1;
             check_lists cl_ud = await dbContext.check_lists.SingleAsync(x => x.Id == cl1.Id);

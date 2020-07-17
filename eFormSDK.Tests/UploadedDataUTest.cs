@@ -51,7 +51,7 @@ namespace eFormSDK.Tests
                 Extension = Guid.NewGuid().ToString(),
                 Local = (short) rnd.Next(minValue, maxValue),
                 CurrentFile = Guid.NewGuid().ToString(),
-                ExpirationDate = DateTime.Now,
+                ExpirationDate = DateTime.UtcNow,
                 FileLocation = Guid.NewGuid().ToString(),
                 FileName = Guid.NewGuid().ToString(),
                 TranscriptionId = rnd.Next(1, 255),
@@ -125,7 +125,7 @@ namespace eFormSDK.Tests
                 Extension = Guid.NewGuid().ToString(),
                 Local = (short) rnd.Next(minValue, maxValue),
                 CurrentFile = Guid.NewGuid().ToString(),
-                ExpirationDate = DateTime.Now,
+                ExpirationDate = DateTime.UtcNow,
                 FileLocation = Guid.NewGuid().ToString(),
                 FileName = Guid.NewGuid().ToString(),
                 TranscriptionId = rnd.Next(1, 255),
@@ -155,7 +155,7 @@ namespace eFormSDK.Tests
             uploadedData.Extension = Guid.NewGuid().ToString();
             uploadedData.Local = (short)rnd.Next(minValue, maxValue);
             uploadedData.CurrentFile = Guid.NewGuid().ToString();
-            uploadedData.ExpirationDate = DateTime.Now;
+            uploadedData.ExpirationDate = DateTime.UtcNow;
             uploadedData.FileLocation = Guid.NewGuid().ToString();
             uploadedData.FileName = Guid.NewGuid().ToString();
             uploadedData.TranscriptionId = rnd.Next(1, 255);
@@ -237,7 +237,7 @@ namespace eFormSDK.Tests
                 Extension = Guid.NewGuid().ToString(),
                 Local = (short) rnd.Next(minValue, maxValue),
                 CurrentFile = Guid.NewGuid().ToString(),
-                ExpirationDate = DateTime.Now,
+                ExpirationDate = DateTime.UtcNow,
                 FileLocation = Guid.NewGuid().ToString(),
                 FileName = Guid.NewGuid().ToString(),
                 TranscriptionId = rnd.Next(1, 255),

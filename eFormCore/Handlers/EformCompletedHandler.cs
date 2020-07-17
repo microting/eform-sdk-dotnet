@@ -76,7 +76,7 @@ namespace Microting.eForm.Handlers
             MainElement mainElement = new MainElement();
 
             CaseDto concreteCase = await sqlController.CaseReadByMUId(microtingUid);
-            log.LogEverything(t.GetMethodName("EformCompletedHandler"), concreteCase.ToString() + " has been matched");
+            log.LogEverything("EformCompletedHandler.CheckStatusByMicrotingUid", concreteCase.ToString() + " has been matched");
 
             if (concreteCase.CaseUId == "" || concreteCase.CaseUId == "ReversedCase")
                 lstCase.Add(concreteCase);

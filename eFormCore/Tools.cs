@@ -420,7 +420,7 @@ namespace Microting.eForm
             fullExceptionDescription =
                 "" + Environment.NewLine +
                 "######## " + exceptionDescription + Environment.NewLine +
-                "######## " + DateTime.Now.ToString("yyyy MM/dd HH.mm:ss") + Environment.NewLine +
+                "######## " + DateTime.UtcNow.ToString("yyyy MM/dd HH.mm:ss") + Environment.NewLine +
                 "######## EXCEPTION FOUND; BEGIN ########" + Environment.NewLine +
                 PrintInnerException(ex, 1) + Environment.NewLine +
                 "######## EXCEPTION FOUND; ENDED ########" + Environment.NewLine +

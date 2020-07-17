@@ -93,8 +93,8 @@ namespace eFormSDK.Integration.Tests
             survey_configurations surveyConfiguration = new survey_configurations
             {
                 Name = Guid.NewGuid().ToString(),
-                Stop = DateTime.Now,
-                Start = DateTime.Now,
+                Stop = DateTime.UtcNow,
+                Start = DateTime.UtcNow,
                 TimeOut = rnd.Next(1, 255),
                 TimeToLive = rnd.Next(1, 255),
                 QuestionSetId = questionSet.Id
@@ -111,7 +111,7 @@ namespace eFormSDK.Integration.Tests
                 SurveyConfigurationId = surveyConfiguration.Id,
                 UnitId = unit1.Id,
                 TimeZone = Guid.NewGuid().ToString(),
-                FinishedAt = DateTime.Now,
+                FinishedAt = DateTime.UtcNow,
                 LanguageId = language.Id,
                 AnswerDuration = rnd.Next(1, 255),
                 UtcAdjusted = true
@@ -216,8 +216,8 @@ namespace eFormSDK.Integration.Tests
             survey_configurations surveyConfiguration = new survey_configurations
             {
                 Name = Guid.NewGuid().ToString(),
-                Stop = DateTime.Now,
-                Start = DateTime.Now,
+                Stop = DateTime.UtcNow,
+                Start = DateTime.UtcNow,
                 TimeOut = rnd.Next(1, 255),
                 TimeToLive = rnd.Next(1, 255),
                 QuestionSetId = questionSet.Id
@@ -234,7 +234,7 @@ namespace eFormSDK.Integration.Tests
                 SurveyConfigurationId = surveyConfiguration.Id,
                 UnitId = unit1.Id,
                 TimeZone = Guid.NewGuid().ToString(),
-                FinishedAt = DateTime.Now,
+                FinishedAt = DateTime.UtcNow,
                 LanguageId = language.Id,
                 AnswerDuration = rnd.Next(1, 255),
                 UtcAdjusted = true
@@ -294,7 +294,7 @@ namespace eFormSDK.Integration.Tests
                 SurveyConfigurationId = surveyConfiguration.Id,
                 UnitId = unit1.Id,
                 TimeZone = Guid.NewGuid().ToString(),
-                FinishedAt = DateTime.Now,
+                FinishedAt = DateTime.UtcNow,
                 LanguageId = language.Id,
                 AnswerDuration = rnd.Next(1, 255),
                 UtcAdjusted = true
@@ -408,8 +408,8 @@ namespace eFormSDK.Integration.Tests
             survey_configurations surveyConfiguration = new survey_configurations
             {
                 Name = Guid.NewGuid().ToString(),
-                Stop = DateTime.Now,
-                Start = DateTime.Now,
+                Stop = DateTime.UtcNow,
+                Start = DateTime.UtcNow,
                 TimeOut = rnd.Next(1, 255),
                 TimeToLive = rnd.Next(1, 255),
                 QuestionSetId = questionSet.Id
@@ -426,7 +426,7 @@ namespace eFormSDK.Integration.Tests
                 SurveyConfigurationId = surveyConfiguration.Id,
                 UnitId = unit1.Id,
                 TimeZone = Guid.NewGuid().ToString(),
-                FinishedAt = DateTime.Now,
+                FinishedAt = DateTime.UtcNow,
                 LanguageId = language.Id,
                 AnswerDuration = rnd.Next(1, 255),
                 UtcAdjusted = true

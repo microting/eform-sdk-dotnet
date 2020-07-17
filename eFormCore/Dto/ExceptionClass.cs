@@ -31,7 +31,7 @@ namespace Microting.eForm.Dto
         private ExceptionClass()
         {
             Description = "";
-            Time = DateTime.Now;
+            Time = DateTime.UtcNow;
             Occurrence = 1;
         }
 

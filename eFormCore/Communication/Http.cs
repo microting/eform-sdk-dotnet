@@ -79,8 +79,7 @@ namespace Microting.eForm.Communication
         {
             try
             {
-                // to do update protocol to json
-                WriteDebugConsoleLogEntry("Http.Post", $"called at {DateTime.Now}");
+                WriteDebugConsoleLogEntry("Http.Post", $"called at {DateTime.UtcNow}");
                 WebRequest request = WebRequest.Create(
                     $"{addressApi}/gwt/inspection_app/integration/?token={token}&protocol={protocolXml}&site_id={siteId}&sdk_ver={dllVersion}");
                 request.Method = "POST";
@@ -574,7 +573,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> SiteLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create($"{addressBasic}/v1/sites?token={token}&sdk_ver={dllVersion}");
+            WebRequest request = WebRequest.Create($"{addressBasic}/v2/sites?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
             return await PostToServer(request).ConfigureAwait(false);
@@ -642,7 +641,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> WorkerLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create($"{addressBasic}/v1/users?token={token}&sdk_ver={dllVersion}");
+            WebRequest request = WebRequest.Create($"{addressBasic}/v2/users?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
             return await PostToServer(request).ConfigureAwait(false);
@@ -695,7 +694,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> SiteWorkerLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create($"{addressBasic}/v1/workers?token={token}&sdk_ver={dllVersion}");
+            WebRequest request = WebRequest.Create($"{addressBasic}/v2/workers?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
             return await PostToServer(request).ConfigureAwait(false);
@@ -795,7 +794,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> UnitLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create($"{addressBasic}/v1/units?token={token}&sdk_ver={dllVersion}");
+            WebRequest request = WebRequest.Create($"{addressBasic}/v2/units?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
 
             return await PostToServer(request).ConfigureAwait(false);
@@ -1007,7 +1006,7 @@ namespace Microting.eForm.Communication
             Console.WriteLine($"[DBG] Http.PostToServer: Calling {request.RequestUri}");
             
             // Hack for ignoring certificate validation.
-            DateTime start = DateTime.Now;
+            DateTime start = DateTime.UtcNow;
             WriteDebugConsoleLogEntry("Http.PostToServer", $"Called at {start}");
             ServicePointManager.ServerCertificateValidationCallback = Validator;
             Stream dataRequestStream = request.GetRequestStream();
@@ -1032,7 +1031,7 @@ namespace Microting.eForm.Communication
 
             }
 
-            WriteDebugConsoleLogEntry("Http.PostToServer", $"Finished at {DateTime.Now} - took {(start - DateTime.Now).ToString()}");
+            WriteDebugConsoleLogEntry("Http.PostToServer", $"Finished at {DateTime.UtcNow} - took {(start - DateTime.UtcNow).ToString()}");
             return responseFromServer;
         }
 

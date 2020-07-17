@@ -88,8 +88,8 @@ namespace eFormSDK.Tests
              survey_configurations surveyConfiguration = new survey_configurations
              {
                  Name = Guid.NewGuid().ToString(),
-                 Start = DateTime.Now,
-                 Stop = DateTime.Now,
+                 Start = DateTime.UtcNow,
+                 Stop = DateTime.UtcNow,
                  TimeOut = rnd.Next(1, 255),
                  TimeToLive = rnd.Next(1, 255),
                  QuestionSetId = questionSet.Id
@@ -99,7 +99,7 @@ namespace eFormSDK.Tests
              answers answer = new answers
              {
                  AnswerDuration = rnd.Next(1, 255),
-                 FinishedAt = DateTime.Now,
+                 FinishedAt = DateTime.UtcNow,
                  LanguageId = language.Id,
                  QuestionSetId = questionSet.Id,
                  SiteId = site.Id,
@@ -260,8 +260,8 @@ namespace eFormSDK.Tests
              survey_configurations surveyConfiguration = new survey_configurations
              {
                  Name = Guid.NewGuid().ToString(),
-                 Start = DateTime.Now,
-                 Stop = DateTime.Now,
+                 Start = DateTime.UtcNow,
+                 Stop = DateTime.UtcNow,
                  TimeOut = rnd.Next(1, 255),
                  TimeToLive = rnd.Next(1, 255),
                  QuestionSetId = questionSet.Id
@@ -271,7 +271,7 @@ namespace eFormSDK.Tests
              answers answer = new answers
              {
                  AnswerDuration = rnd.Next(1, 255),
-                 FinishedAt = DateTime.Now,
+                 FinishedAt = DateTime.UtcNow,
                  LanguageId = language.Id,
                  SiteId = site.Id,
                  TimeZone = Guid.NewGuid().ToString(),
@@ -450,8 +450,8 @@ namespace eFormSDK.Tests
              survey_configurations surveyConfiguration = new survey_configurations
              {
                  Name = Guid.NewGuid().ToString(),
-                 Start = DateTime.Now,
-                 Stop = DateTime.Now,
+                 Start = DateTime.UtcNow,
+                 Stop = DateTime.UtcNow,
                  TimeOut = rnd.Next(1, 255),
                  TimeToLive = rnd.Next(1, 255),
                  QuestionSetId = questionSet.Id
@@ -461,7 +461,7 @@ namespace eFormSDK.Tests
              answers answer = new answers
              {
                  AnswerDuration = rnd.Next(1, 255),
-                 FinishedAt = DateTime.Now,
+                 FinishedAt = DateTime.UtcNow,
                  LanguageId = language.Id,
                  SiteId = site.Id,
                  SurveyConfiguration = surveyConfiguration,

@@ -113,7 +113,7 @@ namespace eFormSDK.Tests
                 Status = rnd.Next(1, 255),
                 Type = Guid.NewGuid().ToString(),
                 CaseUid = Guid.NewGuid().ToString(),
-                DoneAt = DateTime.Now,
+                DoneAt = DateTime.UtcNow,
                 FieldValue1 = Guid.NewGuid().ToString(),
                 FieldValue2 = Guid.NewGuid().ToString(),
                 FieldValue3 = Guid.NewGuid().ToString(),
@@ -282,7 +282,7 @@ namespace eFormSDK.Tests
                 Status = rnd.Next(1, 255),
                 Type = Guid.NewGuid().ToString(),
                 CaseUid = Guid.NewGuid().ToString(),
-                DoneAt = DateTime.Now,
+                DoneAt = DateTime.UtcNow,
                 FieldValue1 = Guid.NewGuid().ToString(),
                 FieldValue2 = Guid.NewGuid().ToString(),
                 FieldValue3 = Guid.NewGuid().ToString(),
@@ -328,7 +328,7 @@ namespace eFormSDK.Tests
             theCase.Status = rnd.Next(1, 255);
             theCase.Type = Guid.NewGuid().ToString();
             theCase.CaseUid = Guid.NewGuid().ToString();
-            theCase.DoneAt = DateTime.Now;
+            theCase.DoneAt = DateTime.UtcNow;
             theCase.FieldValue1 = Guid.NewGuid().ToString();
             theCase.FieldValue2 = Guid.NewGuid().ToString();
             theCase.FieldValue3 = Guid.NewGuid().ToString();
@@ -516,7 +516,7 @@ namespace eFormSDK.Tests
                 Status = rnd.Next(1, 255),
                 Type = Guid.NewGuid().ToString(),
                 CaseUid = Guid.NewGuid().ToString(),
-                DoneAt = DateTime.Now,
+                DoneAt = DateTime.UtcNow,
                 FieldValue1 = Guid.NewGuid().ToString(),
                 FieldValue2 = Guid.NewGuid().ToString(),
                 FieldValue3 = Guid.NewGuid().ToString(),

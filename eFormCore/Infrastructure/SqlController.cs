@@ -132,7 +132,7 @@ namespace Microting.eForm.Infrastructure
                     if (mainCl == null)
                         return null;
 
-                    mainElement = new MainElement(mainCl.Id, mainCl.Label, t.Int(mainCl.DisplayIndex), mainCl.FolderName, t.Int(mainCl.Repeated), DateTime.Now, DateTime.Now.AddDays(2), "da",
+                    mainElement = new MainElement(mainCl.Id, mainCl.Label, t.Int(mainCl.DisplayIndex), mainCl.FolderName, t.Int(mainCl.Repeated), DateTime.UtcNow, DateTime.UtcNow.AddDays(2), "da",
                         t.Bool(mainCl.MultiApproval), t.Bool(mainCl.FastNavigation), t.Bool(mainCl.DownloadEntities), t.Bool(mainCl.ManualSync), mainCl.CaseType, "", "", t.Bool(mainCl.QuickSyncEnabled), new List<Element>(), mainCl.Color);
 
                     //getting elements
@@ -240,7 +240,7 @@ namespace Microting.eForm.Infrastructure
                     Template_Dto templateDto = new Template_Dto(checkList.Id, checkList.CreatedAt, checkList.UpdatedAt,
                         checkList.Label, checkList.Description, (int) checkList.Repeated, checkList.FolderName,
                         checkList.WorkflowState, sites, hasCases, checkList.DisplayIndex, fd1, fd2, fd3, fd4, fd5, fd6,
-                        fd7, fd8, fd9, fd10, check_list_tags, checkList.JasperExportEnabled, checkList.DocxExportEnabled);
+                        fd7, fd8, fd9, fd10, check_list_tags, checkList.JasperExportEnabled, checkList.DocxExportEnabled, checkList.ExcelExportEnabled);
                     return templateDto;
                 }
             }
@@ -251,7 +251,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public async Task<List<Template_Dto>> TemplateItemReadAll(bool includeRemoved, string siteWorkflowState, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds)
+        public async Task<List<Template_Dto>> TemplateItemReadAll(bool includeRemoved, string siteWorkflowState, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds, TimeZoneInfo timeZoneInfo)
         {
             string methodName = "SqlController.TemplateItemReadAll";
             log.LogStandard(methodName, "called");
@@ -371,8 +371,8 @@ namespace Microting.eForm.Infrastructure
                             Template_Dto templateDto = new Template_Dto()
                             {
                                 Id = checkList.Id,
-                                CreatedAt = checkList.CreatedAt,
-                                UpdatedAt = checkList.UpdatedAt,
+                                CreatedAt = TimeZoneInfo.ConvertTimeFromUtc((DateTime)checkList.CreatedAt, timeZoneInfo),
+                                UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc((DateTime)checkList.UpdatedAt, timeZoneInfo),
                                 Label = checkList.Label,
                                 Description = checkList.Description,
                                 Repeated = (int)checkList.Repeated,
@@ -382,7 +382,10 @@ namespace Microting.eForm.Infrastructure
                                 HasCases = hasCases,
                                 DisplayIndex = checkList.DisplayIndex,
                                 Tags = check_list_tags,
-                                FolderId = folderId
+                                FolderId = folderId,
+                                DocxExportEnabled =  checkList.DocxExportEnabled,
+                                JasperExportEnabled = checkList.JasperExportEnabled,
+                                ExcelExportEnabled = checkList.ExcelExportEnabled
                             };
                             templateList.Add(templateDto);
                         }
@@ -937,7 +940,7 @@ namespace Microting.eForm.Infrastructure
                     try //if a reversed case, case needs to be created
                     {
                         check_list_sites cLS = await db.check_list_sites.SingleAsync(x => x.MicrotingUid == int.Parse(response.Value));
-                        int caseId = await CaseCreate((int)cLS.CheckListId, (int)cLS.Site.MicrotingUid, int.Parse(response.Value), response.Checks[xmlIndex].Id, "ReversedCase", "", DateTime.Now, cLS.FolderId);
+                        int caseId = await CaseCreate((int)cLS.CheckListId, (int)cLS.Site.MicrotingUid, int.Parse(response.Value), response.Checks[xmlIndex].Id, "ReversedCase", "", DateTime.UtcNow, cLS.FolderId);
                         responseCase = await db.cases.SingleAsync(x => x.Id == caseId);
                     }
                     catch //already created case Id retrived
@@ -2705,7 +2708,7 @@ namespace Microting.eForm.Infrastructure
 
         //TODO
         public async Task<CaseList> CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState,
-            string searchKey, bool descendingSort, string sortParameter, int offSet, int pageSize)
+            string searchKey, bool descendingSort, string sortParameter, int offSet, int pageSize, TimeZoneInfo timeZoneInfo)
         {
                         
             string methodName = "SqlController.CaseReadAll";
@@ -2930,9 +2933,9 @@ namespace Microting.eForm.Infrastructure
                             CaseType = dbCase.Type,
                             CaseUId = dbCase.CaseUid,
                             CheckUIid = dbCase.MicrotingCheckUid,
-                            CreatedAt = dbCase.CreatedAt,
+                            CreatedAt = TimeZoneInfo.ConvertTimeFromUtc((DateTime)dbCase.CreatedAt, timeZoneInfo),
                             Custom = dbCase.Custom,
-                            DoneAt = dbCase.DoneAt,
+                            DoneAt = TimeZoneInfo.ConvertTimeFromUtc((DateTime)dbCase.DoneAt, timeZoneInfo),
                             Id = dbCase.Id,
                             MicrotingUId = dbCase.MicrotingUid,
                             SiteId = site.MicrotingUid,
@@ -2983,7 +2986,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="descendingSort"></param>
         /// <param name="sortParameter"></param>
         /// <returns></returns>
-        public async Task<List<Case>> CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter)
+        public async Task<List<Case>> CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter, TimeZoneInfo timeZoneInfo)
         {            
             string methodName = "SqlController.CaseReadAll";
             log.LogStandard(methodName, "called");
@@ -2996,7 +2999,7 @@ namespace Microting.eForm.Infrastructure
             log.LogVariable(methodName, nameof(sortParameter), sortParameter);
 
             CaseList cl = await CaseReadAll(templatId, start, end, workflowState, searchKey, descendingSort, sortParameter, 0,
-                10000000);
+                10000000, timeZoneInfo);
             
             List<Case> rtnCaseList = new List<Case>();
             
@@ -4978,7 +4981,7 @@ namespace Microting.eForm.Infrastructure
                 try
                 {
                     File.AppendAllText(@"expection.txt",
-                        DateTime.Now.ToString() + " // " + "L:" + "-22" + " // " + "Write logic failed" + " // " + Environment.NewLine
+                        DateTime.UtcNow.ToString() + " // " + "L:" + "-22" + " // " + "Write logic failed" + " // " + Environment.NewLine
                         + logEntries + Environment.NewLine);
                 }
                 catch
@@ -5007,8 +5010,8 @@ namespace Microting.eForm.Infrastructure
 
                     check_lists cl = new check_lists
                     {
-                        CreatedAt = DateTime.Now,
-                        UpdatedAt = DateTime.Now,
+                        CreatedAt = DateTime.UtcNow,
+                        UpdatedAt = DateTime.UtcNow,
                         Label = mainElement.Label,
                         WorkflowState = Constants.Constants.WorkflowStates.Created,
                         ParentId = null,

@@ -79,8 +79,8 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrange
             #region Template1
-            DateTime c1_Ca = DateTime.Now;
-            DateTime c1_Ua = DateTime.Now;
+            DateTime c1_Ca = DateTime.UtcNow;
+            DateTime c1_Ua = DateTime.UtcNow;
 
             check_lists cl1 = await testHelpers.CreateTemplate(c1_Ca, c1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
@@ -157,7 +157,7 @@ namespace eFormSDK.Integration.Tests
             //CElement.ElementList = new List<Element>();
 
             MainElement main = new MainElement(1, "label1", 1, "FolderWithList",
-                0, DateTime.Now, DateTime.Now.AddDays(2),
+                0, DateTime.UtcNow, DateTime.UtcNow.AddDays(2),
                 "Swahili", false, false, false, false, 
                 "Type1", "Push", "TextForBody", false,
                 CElement.ElementList, "Blue");

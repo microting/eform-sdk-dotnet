@@ -75,8 +75,8 @@ namespace eFormSDK.Integration.Tests
             #region Arrance
 
             #region Checklist
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
             #endregion
@@ -321,8 +321,8 @@ namespace eFormSDK.Integration.Tests
             #region Arrance
 
             #region Checklist
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
             #endregion
@@ -572,8 +572,8 @@ namespace eFormSDK.Integration.Tests
             #region Arrance
 
             #region Checklist
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
             #endregion
@@ -820,8 +820,8 @@ namespace eFormSDK.Integration.Tests
             #region Arrance
 
             #region Checklist
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
             #endregion

@@ -74,8 +74,8 @@ namespace eFormSDK.Integration.Tests
             #region Arrance
             Random rnd = new Random();
             #region Template1
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);      
             #endregion
 
@@ -142,9 +142,9 @@ namespace eFormSDK.Integration.Tests
 
             #region Case1
 
-            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
+            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
                 worker, rnd.Next(1, 255), rnd.Next(1, 255),
-               site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
+               site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
             #endregion
 
             #region Check List Values
@@ -229,8 +229,8 @@ namespace eFormSDK.Integration.Tests
             #region Arrance
             Random rnd = new Random();
             #region Template1
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
             #endregion
 
@@ -305,9 +305,9 @@ namespace eFormSDK.Integration.Tests
 
             #region Case1
 
-            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
+            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
                 worker, rnd.Next(1, 255), rnd.Next(1, 255),
-               site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
+               site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
  
             #endregion
 
@@ -394,8 +394,8 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region Arrance
 //            #region Template1
-//            DateTime cl1_Ca = DateTime.Now;
-//            DateTime cl1_Ua = DateTime.Now;
+//            DateTime cl1_Ca = DateTime.UtcNow;
+//            DateTime cl1_Ua = DateTime.UtcNow;
 //            check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 //
 //            #endregion
@@ -478,9 +478,9 @@ namespace eFormSDK.Integration.Tests
 //
 //            #region Case1
 //
-//            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
+//            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
 //                worker, "microtingCheckUId", "microtingUId",
-//               site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
+//               site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
 //
 //            #endregion
 //
@@ -536,8 +536,8 @@ namespace eFormSDK.Integration.Tests
             #region Arrance
             Random rnd = new Random();
             #region Template1
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -620,9 +620,9 @@ namespace eFormSDK.Integration.Tests
 
             #region Case1
 
-            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
+            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
                 worker, rnd.Next(1, 255), rnd.Next(1, 255),
-               site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
+               site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
 
@@ -678,8 +678,8 @@ namespace eFormSDK.Integration.Tests
             #region Arrance
             Random rnd = new Random();
             #region Template1
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -762,9 +762,9 @@ namespace eFormSDK.Integration.Tests
 
             #region Case1
 
-            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
+            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
                 worker, rnd.Next(1, 255), rnd.Next(1, 255),
-               site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
+               site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
 
@@ -825,8 +825,8 @@ namespace eFormSDK.Integration.Tests
             #region Arrance
             Random rnd = new Random();
             #region Template1
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
@@ -909,9 +909,9 @@ namespace eFormSDK.Integration.Tests
 
             #region Case1
 
-            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
+            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
                 worker, rnd.Next(1, 255), rnd.Next(1, 255),
-               site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
+               site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
 
@@ -1005,8 +1005,8 @@ namespace eFormSDK.Integration.Tests
             #region Arrance
             Random rnd = new Random();
             #region Template1
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
   
             #endregion
@@ -1088,9 +1088,9 @@ namespace eFormSDK.Integration.Tests
 
             #region Case1
 
-            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
+            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
                 worker, rnd.Next(1, 255), rnd.Next(1, 255),
-               site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
+               site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
 

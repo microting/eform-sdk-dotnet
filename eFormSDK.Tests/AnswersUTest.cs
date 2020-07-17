@@ -86,8 +86,8 @@ namespace eFormSDK.Tests
              survey_configurations surveyConfiguration = new survey_configurations
              {
                  Name = Guid.NewGuid().ToString(),
-                 Start = DateTime.Now,
-                 Stop = DateTime.Now,
+                 Start = DateTime.UtcNow,
+                 Stop = DateTime.UtcNow,
                  TimeOut = rnd.Next(1, 255),
                  TimeToLive = rnd.Next(1, 255),
                  QuestionSetId = questionSet.Id
@@ -97,7 +97,7 @@ namespace eFormSDK.Tests
              answers answer = new answers
              {
                  AnswerDuration = rnd.Next(1, 255),
-                 FinishedAt = DateTime.Now,
+                 FinishedAt = DateTime.UtcNow,
                  LanguageId = language.Id,
                  Language = language,
                  SiteId = site.Id,
@@ -205,8 +205,8 @@ namespace eFormSDK.Tests
              survey_configurations surveyConfiguration = new survey_configurations
              {
                  Name = Guid.NewGuid().ToString(),
-                 Start = DateTime.Now,
-                 Stop = DateTime.Now,
+                 Start = DateTime.UtcNow,
+                 Stop = DateTime.UtcNow,
                  TimeOut = rnd.Next(1, 255),
                  TimeToLive = rnd.Next(1, 255),
                  QuestionSetId = questionSet.Id
@@ -216,7 +216,7 @@ namespace eFormSDK.Tests
              answers answer = new answers
              {
                  AnswerDuration = rnd.Next(1, 255),
-                 FinishedAt = DateTime.Now,
+                 FinishedAt = DateTime.UtcNow,
                  LanguageId = language.Id,
                  SiteId = site.Id,
                  SurveyConfiguration = surveyConfiguration,
@@ -237,7 +237,7 @@ namespace eFormSDK.Tests
             bool oldUtcAdjusted = answer.UtcAdjusted;
             
             answer.AnswerDuration = rnd.Next(1, 255);
-            answer.FinishedAt = DateTime.Now;
+            answer.FinishedAt = DateTime.UtcNow;
             answer.TimeZone = Guid.NewGuid().ToString();
             answer.UtcAdjusted = randomBool;
             
@@ -348,8 +348,8 @@ namespace eFormSDK.Tests
              survey_configurations surveyConfiguration = new survey_configurations
              {
                  Name = Guid.NewGuid().ToString(),
-                 Start = DateTime.Now,
-                 Stop = DateTime.Now,
+                 Start = DateTime.UtcNow,
+                 Stop = DateTime.UtcNow,
                  TimeOut = rnd.Next(1, 255),
                  TimeToLive = rnd.Next(1, 255),
                  QuestionSetId = questionSet.Id
@@ -359,7 +359,7 @@ namespace eFormSDK.Tests
              answers answer = new answers
              {
                  AnswerDuration = rnd.Next(1, 255),
-                 FinishedAt = DateTime.Now,
+                 FinishedAt = DateTime.UtcNow,
                  LanguageId = language.Id,
                  SiteId = site.Id,
                  TimeZone = Guid.NewGuid().ToString(),

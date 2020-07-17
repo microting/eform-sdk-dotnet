@@ -190,8 +190,8 @@ namespace eFormSDK.Integration.Tests
             // Arrance
             check_lists cl1 = new check_lists
             {
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 Label = "A",
                 Description = "D",
                 WorkflowState = Constants.WorkflowStates.Created,

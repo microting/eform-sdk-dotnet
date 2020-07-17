@@ -82,8 +82,8 @@ namespace eFormSDK.Integration.Tests
             // Act
             uploaded_data dU = new uploaded_data
             {
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 Extension = extension,
                 UploaderId = uploaderId,
                 UploaderType = Constants.UploaderTypes.System,
@@ -130,8 +130,8 @@ namespace eFormSDK.Integration.Tests
             // Act
             uploaded_data dU = new uploaded_data
             {
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
                 Extension = extension,
                 UploaderId = uploaderId,
                 UploaderType = Constants.UploaderTypes.System,
@@ -212,16 +212,16 @@ namespace eFormSDK.Integration.Tests
         {
             Random rnd = new Random();
             sites site1 = await testHelpers.CreateSite("MySite", 22);
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
+            DateTime cl1_Ca = DateTime.UtcNow;
+            DateTime cl1_Ua = DateTime.UtcNow;
             check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template1", "template_desc", "", "", 1, 1);
 
             string guid = Guid.NewGuid().ToString();
 
 
-            DateTime c1_ca = DateTime.Now.AddDays(-9);
-            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
-            DateTime c1_ua = DateTime.Now.AddDays(-8);
+            DateTime c1_ca = DateTime.UtcNow.AddDays(-9);
+            DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
+            DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
             workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
             site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker);
             units unit = await testHelpers.CreateUnit(48, 49, site1, 348);

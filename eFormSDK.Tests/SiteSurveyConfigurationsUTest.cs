@@ -58,8 +58,8 @@ namespace eFormSDK.Tests
             survey_configurations surveyConfiguration = new survey_configurations
             {
                 Name = Guid.NewGuid().ToString(),
-                Start = DateTime.Now,
-                Stop = DateTime.Now,
+                Start = DateTime.UtcNow,
+                Stop = DateTime.UtcNow,
                 TimeOut = rnd.Next(1, 255),
                 TimeToLive = rnd.Next(1, 255),
                 QuestionSetId = questionSet.Id 
@@ -129,8 +129,8 @@ namespace eFormSDK.Tests
             survey_configurations surveyConfiguration = new survey_configurations
             {
                 Name = Guid.NewGuid().ToString(),
-                Start = DateTime.Now,
-                Stop = DateTime.Now,
+                Start = DateTime.UtcNow,
+                Stop = DateTime.UtcNow,
                 TimeOut = rnd.Next(1, 255),
                 TimeToLive = rnd.Next(1, 255),
                 QuestionSetId = questionSet.Id

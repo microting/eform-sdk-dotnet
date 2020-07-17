@@ -89,8 +89,8 @@ namespace Microting.eForm.Helpers
                 units unit = await testHelpers.CreateUnit(20934, 234234, site, 24234);
                 workers worker = await testHelpers.CreateWorker("sfsdfsdf23ref@invalid.com", "John", "Doe", 2342341);
                 site_workers sw = await testHelpers.CreateSiteWorker(242345, site, worker);
-                DateTime cl1_ca = DateTime.Now;
-                DateTime cl1_ua = DateTime.Now;
+                DateTime cl1_ca = DateTime.UtcNow;
+                DateTime cl1_ua = DateTime.UtcNow;
                 check_lists cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "MultiPictureXMLResult", "MultiPictureXMLResult_Description", "", "", 0, 0);
                 check_lists cl2 = await testHelpers.CreateSubTemplate("Sub1", "Sub1Description", "", 0, 0, cl1);
                 fields f1 = await testHelpers.CreateField(0, "", cl2, Constants.FieldColors.Blue, "", null, "", "PictureDescription", 0, 0, testHelpers.dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 0, 0, "Take picture", 0, 0, "", "", 0, 0, "", 0, 0, 0, 0, "", 0);
