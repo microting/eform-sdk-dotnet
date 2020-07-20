@@ -267,14 +267,11 @@ namespace eFormCore
                     parsedData = JRaw.Parse(await communicator.SiteWorkerLoadAllFromRemote());
                     foreach (JToken item in parsedData)
                     {
-                        int siteUId = int.Parse(item["SiteId"].ToString());
                         int workerUId = int.Parse(item["UserId"].ToString());
-                        item["SiteId"].Parent.Remove();
-                        item["UserId"].Parent.Remove();
 
                         site_workers siteWorker = JsonConvert.DeserializeObject<site_workers>(item.ToString(), settings);
 
-                        int localSiteId = dbContext.sites.SingleAsync(x => x.MicrotingUid == siteUId).GetAwaiter().GetResult().Id;
+                        int localSiteId = dbContext.sites.SingleAsync(x => x.MicrotingUid == siteWorker.SiteId).GetAwaiter().GetResult().Id;
                         int localWorkerId = dbContext.workers.SingleAsync(x => x.MicrotingUid == workerUId).GetAwaiter().GetResult().Id;
 
                         if (!dbContext.site_workers.Any(x => x.MicrotingUid == siteWorker.MicrotingUid))
