@@ -1212,7 +1212,7 @@ namespace eFormCore
 
                     foreach (int siteUid in siteUids)
                     {
-                        int mUId = await SendJson(mainElement, siteUid);
+                        int mUId = await SendXml(mainElement, siteUid);
 
                         if (mainElement.Repeated == 1)
                             await _sqlController.CaseCreate(mainElement.Id, siteUid, mUId, null, caseUId, custom, DateTime.UtcNow, folderId).ConfigureAwait(false);
