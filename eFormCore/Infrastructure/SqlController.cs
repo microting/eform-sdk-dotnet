@@ -354,7 +354,8 @@ namespace Microting.eForm.Infrastructure
                         bool hasCases = cases.Count() != 0;
                         if (hasCases)
                         {
-                            folderId = cases.Last().FolderId;
+                            var result = await cases.OrderBy(x => x.Id).LastAsync();
+                            folderId = result.FolderId;
                         }
                         
                         #region loadtags
