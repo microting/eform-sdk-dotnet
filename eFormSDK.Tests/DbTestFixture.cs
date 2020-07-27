@@ -33,6 +33,7 @@ using Microsoft.EntityFrameworkCore;
 using Microting.eForm;
 using Microting.eForm.Infrastructure;
 using NUnit.Framework;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace eFormSDK.Tests
 {
@@ -47,15 +48,11 @@ namespace eFormSDK.Tests
         {
             
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
-         
-            if (ConnectionString.ToLower().Contains("convert zero datetime"))
+
+            dbContextOptionsBuilder.UseMySql(connectionStr, mysqlOptions =>
             {
-                dbContextOptionsBuilder.UseMySql(connectionStr);
-            }
-            else
-            {
-                dbContextOptionsBuilder.UseSqlServer(connectionStr);          
-            }
+                mysqlOptions.ServerVersion(new Version(10, 4, 0), ServerType.MariaDb);
+            });
             dbContextOptionsBuilder.UseLazyLoadingProxies(true);
             return new MicrotingDbContext(dbContextOptionsBuilder.Options);            
 

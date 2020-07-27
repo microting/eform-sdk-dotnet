@@ -32,6 +32,7 @@ using eFormCore;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure;
 using NUnit.Framework;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace eFormSDK.Integration.CoreTests
 {
@@ -46,15 +47,11 @@ namespace eFormSDK.Integration.CoreTests
         {
             
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
-         
-            if (ConnectionString.ToLower().Contains("convert zero datetime"))
+
+            dbContextOptionsBuilder.UseMySql(connectionStr, mysqlOptions =>
             {
-                dbContextOptionsBuilder.UseMySql(connectionStr);
-            }
-            else
-            {
-                dbContextOptionsBuilder.UseSqlServer(connectionStr);          
-            }
+                mysqlOptions.ServerVersion(new Version(10, 4, 0), ServerType.MariaDb);
+            });
             dbContextOptionsBuilder.UseLazyLoadingProxies(true);
             return new MicrotingDbContext(dbContextOptionsBuilder.Options);            
 
@@ -63,15 +60,7 @@ namespace eFormSDK.Integration.CoreTests
         [SetUp]
         public async Task Setup()
         {
-
-//            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-//            {
-//                ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
-//            }
-//            else
-//            {
-                ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
-//            }
+            ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
 
             dbContext = GetContext(ConnectionString);
 

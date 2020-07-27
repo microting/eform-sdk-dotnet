@@ -25,6 +25,7 @@ SOFTWARE.
 using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace Microting.eForm.Infrastructure.Factories
 {
@@ -32,26 +33,17 @@ namespace Microting.eForm.Infrastructure.Factories
     {
         public MicrotingDbContext CreateDbContext(string[] args)
         {
+            var defaultCs = "Server = localhost; port = 3306; Database = eform-sdk; user = root; Convert Zero Datetime = true;";
             var optionsBuilder = new DbContextOptionsBuilder<MicrotingDbContext>();
-            if (args.Any())
+            optionsBuilder.UseMySql(args.Any() ? args[0] : defaultCs, mysqlOptions =>
             {
-                if (args.FirstOrDefault().ToLower().Contains("convert zero datetime"))
-                {
-                    optionsBuilder.UseMySql(args.FirstOrDefault());
-                }
-                else
-                {
-                    optionsBuilder.UseSqlServer(args.FirstOrDefault());
-                }
-            }
-            else
-            {
-                throw new ArgumentNullException("Connection string not present");
-            }
-//            optionsBuilder.UseSqlServer(@"data source=(LocalDb)\SharedInstance;Initial catalog=installationchecking-base-tests;Integrated Security=True");
-            //dotnet ef migrations add InitialCreate --project eFormCore --startup-project DBMigrator
+                mysqlOptions.ServerVersion(new Version(10, 4, 0), ServerType.MariaDb);
+            });
             optionsBuilder.UseLazyLoadingProxies(true);
+
             return new MicrotingDbContext(optionsBuilder.Options);
+            // dotnet ef migrations add InitialCreate --project eFormCore --startup-project DBMigrator
+
         }
     }
 }
