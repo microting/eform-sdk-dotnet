@@ -89,7 +89,7 @@ namespace eFormSDK.Integration.Tests
             var match = await sut.SiteCreate("John Noname Doe", "John Noname", "Doe", "some_email@invalid.com");
 
             // Assert
-            var sites = dbContext.sites.AsNoTracking().ToList();
+            var sites = DbContext.sites.AsNoTracking().ToList();
 
             Assert.NotNull(sites);
 

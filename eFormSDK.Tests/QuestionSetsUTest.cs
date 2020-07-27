@@ -54,10 +54,10 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await questionSet.Create(dbContext).ConfigureAwait(false);
+            await questionSet.Create(DbContext).ConfigureAwait(false);
             
-            List<question_sets> questionSets = dbContext.question_sets.AsNoTracking().ToList();
-            List<question_set_versions> questionSetVersions = dbContext.question_set_versions.AsNoTracking().ToList();
+            List<question_sets> questionSets = DbContext.question_sets.AsNoTracking().ToList();
+            List<question_set_versions> questionSetVersions = DbContext.question_set_versions.AsNoTracking().ToList();
             
             Assert.NotNull(questionSets);                                                             
             Assert.NotNull(questionSetVersions);                                                             
@@ -103,7 +103,7 @@ namespace eFormSDK.Tests
                 HasChild = randomBool,
                 PosiblyDeployed = randomBool
             };
-            await questionSet.Create(dbContext).ConfigureAwait(false);
+            await questionSet.Create(DbContext).ConfigureAwait(false);
             
             //Act
 
@@ -118,10 +118,10 @@ namespace eFormSDK.Tests
             questionSet.HasChild = randomBool;
             questionSet.PosiblyDeployed = randomBool;
             
-            await questionSet.Update(dbContext).ConfigureAwait(false);
+            await questionSet.Update(DbContext).ConfigureAwait(false);
 
-            List<question_sets> questionSets = dbContext.question_sets.AsNoTracking().ToList();
-            List<question_set_versions> questionSetVersions = dbContext.question_set_versions.AsNoTracking().ToList();
+            List<question_sets> questionSets = DbContext.question_sets.AsNoTracking().ToList();
+            List<question_set_versions> questionSetVersions = DbContext.question_set_versions.AsNoTracking().ToList();
             
             Assert.NotNull(questionSets);                                                             
             Assert.NotNull(questionSetVersions);                                                             
@@ -178,16 +178,16 @@ namespace eFormSDK.Tests
                 HasChild = randomBool,
                 PosiblyDeployed = randomBool
             };
-            await questionSet.Create(dbContext).ConfigureAwait(false);
+            await questionSet.Create(DbContext).ConfigureAwait(false);
             
             //Act
 
             DateTime? oldUpdatedAt = questionSet.UpdatedAt;
             
-            await questionSet.Delete(dbContext);
+            await questionSet.Delete(DbContext);
 
-            List<question_sets> questionSets = dbContext.question_sets.AsNoTracking().ToList();
-            List<question_set_versions> questionSetVersions = dbContext.question_set_versions.AsNoTracking().ToList();
+            List<question_sets> questionSets = DbContext.question_sets.AsNoTracking().ToList();
+            List<question_set_versions> questionSetVersions = DbContext.question_set_versions.AsNoTracking().ToList();
             
             Assert.NotNull(questionSets);                                                             
             Assert.NotNull(questionSetVersions);                                                             

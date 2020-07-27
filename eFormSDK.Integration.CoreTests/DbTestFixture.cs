@@ -40,7 +40,7 @@ namespace eFormSDK.Integration.CoreTests
     public abstract class DbTestFixture
     {
 
-        protected MicrotingDbContext dbContext;
+        protected MicrotingDbContext DbContext;
         protected string ConnectionString;
 
         private MicrotingDbContext GetContext(string connectionStr)
@@ -62,10 +62,9 @@ namespace eFormSDK.Integration.CoreTests
         {
             ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
 
-            dbContext = GetContext(ConnectionString);
+            DbContext = GetContext(ConnectionString);
 
-
-            dbContext.Database.SetCommandTimeout(300);
+            DbContext.Database.SetCommandTimeout(300);
 
             try
             {
@@ -96,7 +95,7 @@ namespace eFormSDK.Integration.CoreTests
 
             ClearFile();
 
-            dbContext.Dispose();
+            DbContext.Dispose();
         }
 
         private async Task ClearDb()
@@ -146,6 +145,8 @@ namespace eFormSDK.Integration.CoreTests
             modelNames.Add("survey_configuration_versions");
             modelNames.Add("site_survey_configurations");
             modelNames.Add("site_survey_configuration_versions");
+            modelNames.Add("SiteTagVersions");
+            modelNames.Add("SiteTags");
             modelNames.Add("languages");
             modelNames.Add("language_versions");
             modelNames.Add("question_sets");
@@ -158,23 +159,18 @@ namespace eFormSDK.Integration.CoreTests
             modelNames.Add("answer_versions");
             modelNames.Add("answer_values");
             modelNames.Add("answer_value_versions");
+            modelNames.Add("QuestionTranslationVersions");
+            modelNames.Add("QuestionTranslations");
+            modelNames.Add("OptionTranslationVersions");
+            modelNames.Add("OptionTranslations");
+            modelNames.Add("LanguageQuestionSetVersions");
+            modelNames.Add("LanguageQuestionSets");
 
             foreach (var modelName in modelNames)
             {
                 try
                 {
-                    string sqlCmd = string.Empty;
-                    if(dbContext.Database.IsMySql())
-                    {
-                        sqlCmd = $"SET FOREIGN_KEY_CHECKS = 0;TRUNCATE `eformsdk-tests`.`{modelName}`";
-                    }
-                    else
-                    {
-                        sqlCmd = $"DELETE FROM [{modelName}]";
-                    }
-#pragma warning disable EF1000 // Possible SQL injection vulnerability.
-                    await dbContext.Database.ExecuteSqlCommandAsync(sqlCmd);
-#pragma warning restore EF1000 // Possible SQL injection vulnerability.
+                    await DbContext.Database.ExecuteSqlRawAsync($"SET FOREIGN_KEY_CHECKS = 0;TRUNCATE `eformsdk-tests`.`{modelName}`");
                 }
                 catch (Exception ex)
                 {
@@ -182,23 +178,23 @@ namespace eFormSDK.Integration.CoreTests
                 }
             }
         }
-        private string path;
+        private string _path;
 
         private void ClearFile()
         {
-            path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
+            _path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+            _path = System.IO.Path.GetDirectoryName(_path).Replace(@"file:", "");
 
             string picturePath;
 
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                picturePath = path + @"\output\dataFolder\picture\Deleted";
+                picturePath = _path + @"\output\dataFolder\picture\Deleted";
             }
             else
             {
-                picturePath = path + @"/output/dataFolder/picture/Deleted";
+                picturePath = _path + @"/output/dataFolder/picture/Deleted";
             }
 
             DirectoryInfo diPic = new DirectoryInfo(picturePath);

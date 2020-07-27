@@ -3325,7 +3325,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             await sut.EntityItemCreate(eG1.Id, eT);
 
-            List<entity_items> items = dbContext.entity_items.ToList();
+            List<entity_items> items = DbContext.entity_items.ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());
@@ -3340,7 +3340,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             await sut.EntityItemDelete(et.Id);
-            List<entity_items> items = dbContext.entity_items.ToList();
+            List<entity_items> items = DbContext.entity_items.ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());
@@ -3364,7 +3364,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             await sut.EntityItemCreate(eG1.Id, eT);
 
-            List<entity_items> items = dbContext.entity_items.ToList();
+            List<entity_items> items = DbContext.entity_items.ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());
@@ -3379,7 +3379,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             await sut.EntityItemDelete(et.Id);
-            List<entity_items> items = dbContext.entity_items.ToList();
+            List<entity_items> items = DbContext.entity_items.ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());

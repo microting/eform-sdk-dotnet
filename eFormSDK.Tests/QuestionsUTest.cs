@@ -53,7 +53,7 @@ namespace eFormSDK.Tests
                 ParentId = rnd.Next(1, 255),
                 PosiblyDeployed = randomBool
             };
-            await questionSetForQuestion.Create(dbContext).ConfigureAwait(false);
+            await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -77,10 +77,10 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
             
-            List<questions> questions = dbContext.questions.AsNoTracking().ToList();
-            List<question_versions> questionVersions = dbContext.question_versions.AsNoTracking().ToList();
+            List<questions> questions = DbContext.questions.AsNoTracking().ToList();
+            List<question_versions> questionVersions = DbContext.question_versions.AsNoTracking().ToList();
             
             Assert.NotNull(questions);                                                             
             Assert.NotNull(questionVersions);                                                             
@@ -149,7 +149,7 @@ namespace eFormSDK.Tests
                 ParentId = rnd.Next(1, 255),
                 PosiblyDeployed = randomBool
             };
-            await questionSetForQuestion.Create(dbContext).ConfigureAwait(false);
+            await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -170,7 +170,7 @@ namespace eFormSDK.Tests
                 ContinuousQuestionId = rnd.Next(1, 255),
                 QuestionSetId = questionSetForQuestion.Id
             };
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
 
             //Act
 
@@ -206,10 +206,10 @@ namespace eFormSDK.Tests
             question.BackButtonEnabled = randomBool;
             question.ContinuousQuestionId = rnd.Next(1, 255);
             
-            await question.Update(dbContext).ConfigureAwait(false);
+            await question.Update(DbContext).ConfigureAwait(false);
 
-            List<questions> questions = dbContext.questions.AsNoTracking().ToList();
-            List<question_versions> questionVersions = dbContext.question_versions.AsNoTracking().ToList();
+            List<questions> questions = DbContext.questions.AsNoTracking().ToList();
+            List<question_versions> questionVersions = DbContext.question_versions.AsNoTracking().ToList();
             
             Assert.NotNull(questions);                                                             
             Assert.NotNull(questionVersions);                                                             
@@ -300,7 +300,7 @@ namespace eFormSDK.Tests
                 ParentId = rnd.Next(1, 255),
                 PosiblyDeployed = randomBool
             };
-            await questionSetForQuestion.Create(dbContext).ConfigureAwait(false);
+            await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -321,16 +321,16 @@ namespace eFormSDK.Tests
                 ContinuousQuestionId = rnd.Next(1, 255),
                 QuestionSetId = questionSetForQuestion.Id
             };
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
 
             //Act
 
             DateTime? oldUpdatedAt = question.UpdatedAt;
 
-            await question.Delete(dbContext);
+            await question.Delete(DbContext);
 
-            List<questions> questions = dbContext.questions.AsNoTracking().ToList();
-            List<question_versions> questionVersions = dbContext.question_versions.AsNoTracking().ToList();
+            List<questions> questions = DbContext.questions.AsNoTracking().ToList();
+            List<question_versions> questionVersions = DbContext.question_versions.AsNoTracking().ToList();
             
             Assert.NotNull(questions);                                                             
             Assert.NotNull(questionVersions);                                                             

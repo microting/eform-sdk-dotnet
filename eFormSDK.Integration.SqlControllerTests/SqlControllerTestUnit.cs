@@ -560,7 +560,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             // Act
             var match = await sut.UnitCreate(5, 654, 88, (int)site1.MicrotingUid);
             // Assert
-            var units = dbContext.units.AsNoTracking().ToList();
+            var units = DbContext.units.AsNoTracking().ToList();
 
             Assert.NotNull(match);
             Assert.AreEqual(1, units.Count());

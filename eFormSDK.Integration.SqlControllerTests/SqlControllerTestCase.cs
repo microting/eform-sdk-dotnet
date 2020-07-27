@@ -95,8 +95,8 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             int matches = await sut.CaseCreate(cl1.Id, (int)site1.MicrotingUid, microtingUId, microtingCheckId, "", "", c1_ca, null);
-            List<check_list_sites> checkListSiteResult1 = dbContext.check_list_sites.AsNoTracking().ToList();
-            var versionedMatches1 = dbContext.check_list_site_versions.AsNoTracking().ToList();
+            List<check_list_sites> checkListSiteResult1 = DbContext.check_list_sites.AsNoTracking().ToList();
+            var versionedMatches1 = DbContext.check_list_site_versions.AsNoTracking().ToList();
 
             // Assert
 
@@ -127,8 +127,8 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             int? matches = await sut.CaseReadLastCheckIdByMicrotingUId(cls1.MicrotingUid);
-            List<check_list_sites> checkListSiteResult1 = dbContext.check_list_sites.AsNoTracking().ToList();
-            var versionedMatches1 = dbContext.check_list_site_versions.AsNoTracking().ToList();
+            List<check_list_sites> checkListSiteResult1 = DbContext.check_list_sites.AsNoTracking().ToList();
+            var versionedMatches1 = DbContext.check_list_site_versions.AsNoTracking().ToList();
 
 
             // Assert
@@ -147,16 +147,16 @@ namespace eFormSDK.Integration.Tests
             {
                 Name = "SiteName"
             };
-            dbContext.sites.Add(site);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.sites.Add(site);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             check_lists cl = new check_lists
             {
                 Label = "label"
             };
 
-            dbContext.check_lists.Add(cl);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.check_lists.Add(cl);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             cases aCase = new cases
             {
@@ -168,13 +168,13 @@ namespace eFormSDK.Integration.Tests
                 Status = 66
             };
 
-            dbContext.cases.Add(aCase);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.cases.Add(aCase);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             await sut.CaseUpdateRetrieved((int)aCase.MicrotingUid);
             //CaseDto caseResult = await sut.CaseFindCustomMatchs(aCase.microting_uid);
-            List<cases> caseResults = dbContext.cases.AsNoTracking().ToList();
+            List<cases> caseResults = DbContext.cases.AsNoTracking().ToList();
 
 
             // Assert
@@ -223,15 +223,15 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             //sut.CaseUpdateCompleted(aCase1.microting_uid, aCase1.microting_check_uid, c1_ua, aCase1.Id, aCase1.Id);
-            List<cases> caseResults = dbContext.cases.AsNoTracking().Where(x => x.MicrotingUid == aCase1.MicrotingUid).ToList();
+            List<cases> caseResults = DbContext.cases.AsNoTracking().Where(x => x.MicrotingUid == aCase1.MicrotingUid).ToList();
             Assert.NotNull(caseResults);
             Assert.AreEqual(1, caseResults.Count());
             Assert.AreEqual(Constants.WorkflowStates.Created, caseResults[0].WorkflowState);
             Assert.AreEqual(66, caseResults[0].Status);
 
             await sut.CaseUpdateCompleted((int)aCase1.MicrotingUid, (int)aCase1.MicrotingCheckUid, c1_da, aCase1.Worker.MicrotingUid, (int)unit.MicrotingUid);
-            caseResults = dbContext.cases.AsNoTracking().Where(x => x.MicrotingUid == aCase1.MicrotingUid).ToList();
-            var versionedMatches1 = dbContext.case_versions.AsNoTracking().Where(x => x.MicrotingUid == aCase1.MicrotingUid).ToList();
+            caseResults = DbContext.cases.AsNoTracking().Where(x => x.MicrotingUid == aCase1.MicrotingUid).ToList();
+            var versionedMatches1 = DbContext.case_versions.AsNoTracking().Where(x => x.MicrotingUid == aCase1.MicrotingUid).ToList();
             //DbContext.cases
 
             // Assert
@@ -259,16 +259,16 @@ namespace eFormSDK.Integration.Tests
             {
                 Name = "SiteName"
             };
-            dbContext.sites.Add(site);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.sites.Add(site);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             check_lists cl = new check_lists
             {
                 Label = "label"
             };
 
-            dbContext.check_lists.Add(cl);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.check_lists.Add(cl);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             cases aCase = new cases
             {
@@ -279,14 +279,14 @@ namespace eFormSDK.Integration.Tests
                 SiteId = site.Id
             };
 
-            dbContext.cases.Add(aCase);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.cases.Add(aCase);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             await sut.CaseRetract((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid);
             //cases theCase = await sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
-            var match = dbContext.cases.AsNoTracking().ToList();
-            var versionedMatches = dbContext.case_versions.AsNoTracking().ToList();
+            var match = DbContext.cases.AsNoTracking().ToList();
+            var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(match);
@@ -304,13 +304,13 @@ namespace eFormSDK.Integration.Tests
             // Arrance
             Random rnd = new Random();
             sites site = new sites {Name = "SiteName"};
-            dbContext.sites.Add(site);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.sites.Add(site);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             check_lists cl = new check_lists {Label = "label"};
 
-            dbContext.check_lists.Add(cl);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.check_lists.Add(cl);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             cases aCase = new cases
             {
@@ -321,14 +321,14 @@ namespace eFormSDK.Integration.Tests
                 SiteId = site.Id
             };
 
-            dbContext.cases.Add(aCase);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.cases.Add(aCase);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             await sut.CaseDelete((int)aCase.MicrotingUid);
             //cases theCase = await sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
-            var match = dbContext.cases.AsNoTracking().ToList();
-            var versionedMatches = dbContext.case_versions.AsNoTracking().ToList();
+            var match = DbContext.cases.AsNoTracking().ToList();
+            var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(match);
@@ -345,13 +345,13 @@ namespace eFormSDK.Integration.Tests
             // Arrance
             Random rnd = new Random();
             sites site = new sites {Name = "SiteName"};
-            dbContext.sites.Add(site);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.sites.Add(site);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             check_lists cl = new check_lists {Label = "label"};
 
-            dbContext.check_lists.Add(cl);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.check_lists.Add(cl);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             cases aCase = new cases
             {
@@ -362,14 +362,14 @@ namespace eFormSDK.Integration.Tests
                 SiteId = site.Id
             };
 
-            dbContext.cases.Add(aCase);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.cases.Add(aCase);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             await sut.CaseDeleteResult(aCase.Id);
             //cases theCase = await sut.CaseReadFull(aCase.microting_uid, aCase.microting_check_uid);
-            var match = dbContext.cases.AsNoTracking().ToList();
-            var versionedMatches = dbContext.case_versions.AsNoTracking().ToList();
+            var match = DbContext.cases.AsNoTracking().ToList();
+            var versionedMatches = DbContext.case_versions.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(match);
@@ -403,7 +403,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                5, 1, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
 
             #endregion
@@ -412,7 +412,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
+                45, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
 
@@ -421,7 +421,7 @@ namespace eFormSDK.Integration.Tests
             #region field3
 
             fields f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+                83, 0, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
 
 
@@ -431,7 +431,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+                84, 0, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -440,7 +440,7 @@ namespace eFormSDK.Integration.Tests
             #region field5
 
             fields f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+                85, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -510,7 +510,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                5, 1, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
 
             #endregion
@@ -519,7 +519,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
+                45, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
 
@@ -528,7 +528,7 @@ namespace eFormSDK.Integration.Tests
             #region field3
 
             fields f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+                83, 0, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
 
 
@@ -538,7 +538,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+                84, 0, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -547,7 +547,7 @@ namespace eFormSDK.Integration.Tests
             #region field5
 
             fields f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+                85, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -665,7 +665,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                5, 1, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
 
             #endregion
@@ -674,7 +674,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
+                45, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
 
@@ -683,7 +683,7 @@ namespace eFormSDK.Integration.Tests
             #region field3
 
             fields f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+                83, 0, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
 
 
@@ -693,7 +693,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+                84, 0, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -702,7 +702,7 @@ namespace eFormSDK.Integration.Tests
             #region field5
 
             fields f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+                85, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -711,7 +711,7 @@ namespace eFormSDK.Integration.Tests
             #region field6
 
             fields f6 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                86, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+                86, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -720,7 +720,7 @@ namespace eFormSDK.Integration.Tests
             #region field7
 
             fields f7 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                87, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+                87, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -729,7 +729,7 @@ namespace eFormSDK.Integration.Tests
             #region field8
 
             fields f8 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                88, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+                88, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -738,7 +738,7 @@ namespace eFormSDK.Integration.Tests
             #region field9
 
             fields f9 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                89, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+                89, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -747,7 +747,7 @@ namespace eFormSDK.Integration.Tests
             #region field10
 
             fields f10 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                90, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+                90, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -945,9 +945,9 @@ namespace eFormSDK.Integration.Tests
             #endregion
             #endregion
             // Act
-            cases theCase = dbContext.cases.First();
+            cases theCase = DbContext.cases.First();
             Assert.NotNull(theCase);
-            check_lists theCheckList = dbContext.check_lists.First();
+            check_lists theCheckList = DbContext.check_lists.First();
 
             theCheckList.Field1 = f1.Id;
             theCheckList.Field2 = f2.Id;
@@ -974,7 +974,7 @@ namespace eFormSDK.Integration.Tests
             var testThis = await sut.CaseUpdateFieldValues(aCase1.Id);
 
             // Assert
-            cases theCaseAfter = dbContext.cases.AsNoTracking().First();
+            cases theCaseAfter = DbContext.cases.AsNoTracking().First();
 
             Assert.NotNull(theCaseAfter);
 
@@ -1029,7 +1029,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                5, 1, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
 
             #endregion
@@ -1038,7 +1038,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
+                45, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
 
@@ -1047,7 +1047,7 @@ namespace eFormSDK.Integration.Tests
             #region field3
 
             fields f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+                83, 0, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
 
 
@@ -1057,7 +1057,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+                84, 0, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -1066,7 +1066,7 @@ namespace eFormSDK.Integration.Tests
             #region field5
 
             fields f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+                85, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -1202,7 +1202,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                5, 1, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
 
             #endregion
@@ -1211,7 +1211,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
+                45, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
 
@@ -1220,7 +1220,7 @@ namespace eFormSDK.Integration.Tests
             #region field3
 
             fields f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+                83, 0, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
 
 
@@ -1230,7 +1230,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+                84, 0, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -1239,7 +1239,7 @@ namespace eFormSDK.Integration.Tests
             #region field5
 
             fields f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+                85, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -1312,7 +1312,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                5, 1, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
 
             #endregion
@@ -1321,7 +1321,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
+                45, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
 
@@ -1330,7 +1330,7 @@ namespace eFormSDK.Integration.Tests
             #region field3
 
             fields f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+                83, 0, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
 
 
@@ -1340,7 +1340,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+                84, 0, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -1349,7 +1349,7 @@ namespace eFormSDK.Integration.Tests
             #region field5
 
             fields f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+                85, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -1423,7 +1423,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+                5, 1, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
 
             #endregion
@@ -1432,7 +1432,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
+                45, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
 
@@ -1441,7 +1441,7 @@ namespace eFormSDK.Integration.Tests
             #region field3
 
             fields f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+                83, 0, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
 
 
@@ -1451,7 +1451,7 @@ namespace eFormSDK.Integration.Tests
 
 
             fields f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, dbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
+                84, 0, DbContext.field_types.Where(x => x.FieldType == "picture").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 
@@ -1460,7 +1460,7 @@ namespace eFormSDK.Integration.Tests
             #region field5
 
             fields f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, dbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+                85, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
 

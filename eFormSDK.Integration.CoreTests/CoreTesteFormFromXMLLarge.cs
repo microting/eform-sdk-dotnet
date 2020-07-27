@@ -11646,8 +11646,8 @@ namespace eFormSDK.Integration.Tests
             MainElement mainelement = await sut.TemplateFromXml(xmlstring);
             var match = await sut.TemplateCreate(mainelement);
 
-            List<check_lists> listOfCL = dbContext.check_lists.AsNoTracking().ToList();
-            List<fields> listOfFields = dbContext.fields.ToList();
+            List<check_lists> listOfCL = DbContext.check_lists.AsNoTracking().ToList();
+            List<fields> listOfFields = DbContext.fields.ToList();
 
             // Assert
             Assert.NotNull(mainelement);

@@ -53,10 +53,10 @@ namespace eFormSDK.Tests
 
             //Act
 
-            await worker.Create(dbContext).ConfigureAwait(false);                                                             
+            await worker.Create(DbContext).ConfigureAwait(false);                                                             
 
-            List<workers> workers = dbContext.workers.AsNoTracking().ToList();                            
-            List<worker_versions> workersVersion = dbContext.worker_versions.AsNoTracking().ToList();                
+            List<workers> workers = DbContext.workers.AsNoTracking().ToList();                            
+            List<worker_versions> workersVersion = DbContext.worker_versions.AsNoTracking().ToList();                
 
             //Assert                                                                            
 
@@ -104,7 +104,7 @@ namespace eFormSDK.Tests
                 MicrotingUid = rnd.Next(1, 255)
             };
 
-            await worker.Create(dbContext).ConfigureAwait(false);
+            await worker.Create(DbContext).ConfigureAwait(false);
 
             //Act
 
@@ -119,10 +119,10 @@ namespace eFormSDK.Tests
             worker.Email = Guid.NewGuid().ToString();
             worker.MicrotingUid = rnd.Next(1, 255);
 
-            await worker.Update(dbContext).ConfigureAwait(false);
+            await worker.Update(DbContext).ConfigureAwait(false);
 
-            List<workers> workers = dbContext.workers.AsNoTracking().ToList();                            
-            List<worker_versions> workersVersion = dbContext.worker_versions.AsNoTracking().ToList(); 
+            List<workers> workers = DbContext.workers.AsNoTracking().ToList();                            
+            List<worker_versions> workersVersion = DbContext.worker_versions.AsNoTracking().ToList(); 
 
             //Assert                                                                            
 
@@ -178,16 +178,16 @@ namespace eFormSDK.Tests
                 MicrotingUid = rnd.Next(1, 255)
             };
 
-            await worker.Create(dbContext).ConfigureAwait(false);
+            await worker.Create(DbContext).ConfigureAwait(false);
             
             //Act
 
             DateTime? oldUpdatedAt = worker.UpdatedAt;
             
-            await worker.Delete(dbContext);
+            await worker.Delete(DbContext);
             
-            List<workers> workers = dbContext.workers.AsNoTracking().ToList();                            
-            List<worker_versions> workersVersion = dbContext.worker_versions.AsNoTracking().ToList(); 
+            List<workers> workers = DbContext.workers.AsNoTracking().ToList();                            
+            List<worker_versions> workersVersion = DbContext.worker_versions.AsNoTracking().ToList(); 
             
             //Assert
             

@@ -49,10 +49,10 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await language.Create(dbContext).ConfigureAwait(false);
+            await language.Create(DbContext).ConfigureAwait(false);
             
-            List<languages> languages = dbContext.languages.AsNoTracking().ToList();
-            List<language_versions> languageVersions = dbContext.language_versions.AsNoTracking().ToList();
+            List<languages> languages = DbContext.languages.AsNoTracking().ToList();
+            List<language_versions> languageVersions = DbContext.language_versions.AsNoTracking().ToList();
             
             Assert.NotNull(languages);                                                             
             Assert.NotNull(languageVersions);                                                             
@@ -87,7 +87,7 @@ namespace eFormSDK.Tests
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext).ConfigureAwait(false);
+            await language.Create(DbContext).ConfigureAwait(false);
             
             //Act
             DateTime? oldUpdatedAt = language.UpdatedAt;
@@ -96,11 +96,11 @@ namespace eFormSDK.Tests
             
             language.Description = Guid.NewGuid().ToString();
             language.Name = Guid.NewGuid().ToString();
-            await language.Update(dbContext).ConfigureAwait(false);
+            await language.Update(DbContext).ConfigureAwait(false);
             
             
-            List<languages> languages = dbContext.languages.AsNoTracking().ToList();
-            List<language_versions> languageVersions = dbContext.language_versions.AsNoTracking().ToList();
+            List<languages> languages = DbContext.languages.AsNoTracking().ToList();
+            List<language_versions> languageVersions = DbContext.language_versions.AsNoTracking().ToList();
             
             Assert.NotNull(languages);                                                             
             Assert.NotNull(languageVersions);                                                             
@@ -144,16 +144,16 @@ namespace eFormSDK.Tests
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext).ConfigureAwait(false);
+            await language.Create(DbContext).ConfigureAwait(false);
             
             //Act
             DateTime? oldUpdatedAt = language.UpdatedAt;
             
-            await language.Delete(dbContext);
+            await language.Delete(DbContext);
             
             
-            List<languages> languages = dbContext.languages.AsNoTracking().ToList();
-            List<language_versions> languageVersions = dbContext.language_versions.AsNoTracking().ToList();
+            List<languages> languages = DbContext.languages.AsNoTracking().ToList();
+            List<language_versions> languageVersions = DbContext.language_versions.AsNoTracking().ToList();
             
             Assert.NotNull(languages);                                                             
             Assert.NotNull(languageVersions);                                                             

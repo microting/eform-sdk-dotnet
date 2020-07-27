@@ -48,7 +48,7 @@ namespace eFormSDK.Tests
 
             //Act
             
-            List<field_types> fieldTypes = dbContext.field_types.AsNoTracking().ToList();
+            List<field_types> fieldTypes = DbContext.field_types.AsNoTracking().ToList();
             
             //Assert Before creating new field type
             
@@ -57,8 +57,8 @@ namespace eFormSDK.Tests
             
             //Assert after creating new field type
             
-            await fieldType.Create(dbContext).ConfigureAwait(false);
-            fieldTypes = dbContext.field_types.AsNoTracking().ToList();
+            await fieldType.Create(DbContext).ConfigureAwait(false);
+            fieldTypes = DbContext.field_types.AsNoTracking().ToList();
             Assert.AreEqual(20, fieldTypes.Count());
             
             Assert.AreEqual(fieldType.Description, fieldTypes[19].Description);
@@ -76,17 +76,17 @@ namespace eFormSDK.Tests
                 Description = Guid.NewGuid().ToString(),
                 FieldType = Guid.NewGuid().ToString()
             };
-            await fieldType.Create(dbContext).ConfigureAwait(false);
+            await fieldType.Create(DbContext).ConfigureAwait(false);
             
             //Act
 
             fieldType.Description = Guid.NewGuid().ToString();
             fieldType.FieldType = Guid.NewGuid().ToString();
             
-            await fieldType.Update(dbContext).ConfigureAwait(false);
+            await fieldType.Update(DbContext).ConfigureAwait(false);
 
             
-            List<field_types> fieldTypes = dbContext.field_types.AsNoTracking().ToList();
+            List<field_types> fieldTypes = DbContext.field_types.AsNoTracking().ToList();
             
             //Assert
             
@@ -108,11 +108,11 @@ namespace eFormSDK.Tests
                 Description = Guid.NewGuid().ToString(),
                 FieldType = Guid.NewGuid().ToString()
             };
-            await fieldType.Create(dbContext).ConfigureAwait(false);
+            await fieldType.Create(DbContext).ConfigureAwait(false);
             
             //Act
 
-            List<field_types> fieldTypes = dbContext.field_types.AsNoTracking().ToList();
+            List<field_types> fieldTypes = DbContext.field_types.AsNoTracking().ToList();
             
             //Assert before delete
             
@@ -121,9 +121,9 @@ namespace eFormSDK.Tests
             
             //Assert after delete
             
-            await fieldType.Delete(dbContext);
+            await fieldType.Delete(DbContext);
             
-            fieldTypes = dbContext.field_types.AsNoTracking().ToList();
+            fieldTypes = DbContext.field_types.AsNoTracking().ToList();
             
             Assert.AreEqual(19, fieldTypes.Count());
         }

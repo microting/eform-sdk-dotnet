@@ -41,7 +41,7 @@ namespace eFormSDK.Tests
     public abstract class DbTestFixture
     {
 
-        protected MicrotingDbContext dbContext;
+        protected MicrotingDbContext DbContext;
         protected string ConnectionString;
 
         private MicrotingDbContext GetContext(string connectionStr)
@@ -61,53 +61,47 @@ namespace eFormSDK.Tests
         [SetUp]
         public async Task Setup()
         {
-            Console.WriteLine($"Starting Setup {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
-            
             ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
 
-            dbContext = GetContext(ConnectionString);
-            dbContext.Database.SetCommandTimeout(300);
+            DbContext = GetContext(ConnectionString);
+
+            DbContext.Database.SetCommandTimeout(300);
 
             try
             {
-                await ClearDb().ConfigureAwait(false);
+                await ClearDb();
             }
             catch
             {
             }
             try
             {
-                AdminTools adminTools = new AdminTools(ConnectionString);
-                await adminTools.DbSetup("abc1234567890abc1234567890abcdef").ConfigureAwait(false);
+                Core core = new Core();
+                await core.StartSqlOnly(ConnectionString);
+                await core.Close();
             } catch
             {
+                AdminTools adminTools = new AdminTools(ConnectionString);
+                await adminTools.DbSetup("abc1234567890abc1234567890abcdef");
             }
 
-            await DoSetup().ConfigureAwait(false);
-            Console.WriteLine($"End Setup {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
-
+            await DoSetup();
         }
       
         [TearDown]
-#pragma warning disable 1998
         public async Task TearDown()
-#pragma warning restore 1998
         {
 
-            Console.WriteLine($"Starting TearDown {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
-
-//            await ClearDb().ConfigureAwait(false);
+            await ClearDb();
 
             ClearFile();
 
-            dbContext.Dispose();
-            Console.WriteLine($"End TearDown {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
-
+            DbContext.Dispose();
         }
 
         private async Task ClearDb()
         {
-            Console.WriteLine($"Starting CleanDb {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
+
             List<string> modelNames = new List<string>();
             modelNames.Add("case_versions");
             modelNames.Add("cases");
@@ -177,46 +171,31 @@ namespace eFormSDK.Tests
             {
                 try
                 {
-                    string sqlCmd = string.Empty;
-                    if(dbContext.Database.IsMySql())
-                    {
-                        sqlCmd = $"SET FOREIGN_KEY_CHECKS = 0;TRUNCATE `eformsdk-tests`.`{modelName}`";
-                    }
-                    else
-                    {
-                        sqlCmd = $"DELETE FROM [{modelName}]";
-                    }
-#pragma warning disable EF1000 // Possible SQL injection vulnerability.
-                    await dbContext.Database.ExecuteSqlCommandAsync(sqlCmd).ConfigureAwait(false);
-#pragma warning restore EF1000 // Possible SQL injection vulnerability.
+                    await DbContext.Database.ExecuteSqlRawAsync($"SET FOREIGN_KEY_CHECKS = 0;TRUNCATE `eformsdk-tests`.`{modelName}`");
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
             }
-            
-            Console.WriteLine($"Done CleanDb {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
         }
-        private string path;
+        private string _path;
 
         private void ClearFile()
         {
-            
-            Console.WriteLine($"Starting ClearFile {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
-            path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
+            _path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+            _path = System.IO.Path.GetDirectoryName(_path).Replace(@"file:", "");
 
             string picturePath;
 
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                picturePath = path + @"\output\dataFolder\picture\Deleted";
+                picturePath = _path + @"\output\dataFolder\picture\Deleted";
             }
             else
             {
-                picturePath = path + @"/output/dataFolder/picture/Deleted";
+                picturePath = _path + @"/output/dataFolder/picture/Deleted";
             }
 
             DirectoryInfo diPic = new DirectoryInfo(picturePath);
@@ -231,7 +210,6 @@ namespace eFormSDK.Tests
             catch { }
 
 
-            Console.WriteLine($"End ClearFile {DateTime.Now.ToString(CultureInfo.CurrentCulture)}");
         }
 #pragma warning disable 1998
         public virtual async Task DoSetup() { }

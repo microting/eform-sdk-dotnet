@@ -51,7 +51,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 TaggingsCount = rnd.Next(1, 255)
             };
-            await tag.Create(dbContext).ConfigureAwait(false);
+            await tag.Create(DbContext).ConfigureAwait(false);
 
             check_lists checklist = new check_lists
             {
@@ -87,7 +87,7 @@ namespace eFormSDK.Tests
                 JasperExportEnabled = randomBool,
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
             };
-            await checklist.Create(dbContext).ConfigureAwait(false);
+            await checklist.Create(DbContext).ConfigureAwait(false);
 
             taggings tagging = new taggings
             {
@@ -101,10 +101,10 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await tagging.Create(dbContext).ConfigureAwait(false);
+            await tagging.Create(DbContext).ConfigureAwait(false);
 
-            List<taggings> taggings = dbContext.taggings.AsNoTracking().ToList();
-            List<tagging_versions> taggingVersions = dbContext.tagging_versions.AsNoTracking().ToList();
+            List<taggings> taggings = DbContext.taggings.AsNoTracking().ToList();
+            List<tagging_versions> taggingVersions = DbContext.tagging_versions.AsNoTracking().ToList();
             
             //Assert
             
@@ -151,8 +151,8 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 TaggingsCount = rnd.Next(1, 255)
             };
-            dbContext.tags.Add(tag);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.tags.Add(tag);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             check_lists checklist = new check_lists
             {
@@ -188,7 +188,7 @@ namespace eFormSDK.Tests
                 JasperExportEnabled = randomBool,
                 QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
             };
-            await checklist.Create(dbContext).ConfigureAwait(false);
+            await checklist.Create(DbContext).ConfigureAwait(false);
 
             taggings tagging = new taggings
             {
@@ -198,16 +198,16 @@ namespace eFormSDK.Tests
                 TagId = rnd.Next(1, 255),
                 CheckListId = checklist.Id
             };
-            await tagging.Create(dbContext).ConfigureAwait(false);
+            await tagging.Create(DbContext).ConfigureAwait(false);
 
             //Act
 
             DateTime? oldUpdatedAt = tagging.UpdatedAt;
 
-            await tagging.Delete(dbContext);
+            await tagging.Delete(DbContext);
             
-            List<taggings> taggings = dbContext.taggings.AsNoTracking().ToList();
-            List<tagging_versions> taggingVersions = dbContext.tagging_versions.AsNoTracking().ToList();
+            List<taggings> taggings = DbContext.taggings.AsNoTracking().ToList();
+            List<tagging_versions> taggingVersions = DbContext.tagging_versions.AsNoTracking().ToList();
             
             //Assert
             

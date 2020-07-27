@@ -51,10 +51,10 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await site.Create(dbContext).ConfigureAwait(false);
+            await site.Create(DbContext).ConfigureAwait(false);
 
-            sites dbSites = dbContext.sites.AsNoTracking().First();
-            List<sites> sitesList = dbContext.sites.AsNoTracking().ToList();
+            sites dbSites = DbContext.sites.AsNoTracking().First();
+            List<sites> sitesList = DbContext.sites.AsNoTracking().ToList();
             
             //Assert
             
@@ -80,17 +80,17 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString()
             };
 
-            dbContext.sites.Add(site);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.sites.Add(site);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
             
             //Act
 
             site.Name = Guid.NewGuid().ToString();
-            await site.Update(dbContext).ConfigureAwait(false);
+            await site.Update(DbContext).ConfigureAwait(false);
 
-            sites dbSites = dbContext.sites.AsNoTracking().First();
-            List<sites> sitesList = dbContext.sites.AsNoTracking().ToList();
-            List<site_versions> sitesVersions = dbContext.site_versions.AsNoTracking().ToList();
+            sites dbSites = DbContext.sites.AsNoTracking().First();
+            List<sites> sitesList = DbContext.sites.AsNoTracking().ToList();
+            List<site_versions> sitesVersions = DbContext.site_versions.AsNoTracking().ToList();
             
             //Assert
             
@@ -116,16 +116,16 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString()
             };
 
-            dbContext.sites.Add(site);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.sites.Add(site);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             //Act
 
-            await site.Delete(dbContext);
+            await site.Delete(DbContext);
 
-            sites dbSites = dbContext.sites.AsNoTracking().First();                               
-            List<sites> sitesList = dbContext.sites.AsNoTracking().ToList();
-            List<site_versions> sitesVersions = dbContext.site_versions.AsNoTracking().ToList();
+            sites dbSites = DbContext.sites.AsNoTracking().First();                               
+            List<sites> sitesList = DbContext.sites.AsNoTracking().ToList();
+            List<site_versions> sitesVersions = DbContext.site_versions.AsNoTracking().ToList();
 
             //Assert                                                                            
 

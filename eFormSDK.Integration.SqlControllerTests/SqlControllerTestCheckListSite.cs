@@ -78,8 +78,8 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             await sut.CheckListSitesCreate(cl1.Id, (int)site.MicrotingUid, rnd.Next(1, 255), null);
-            List<check_list_sites> checkListSiteResult = dbContext.check_list_sites.AsNoTracking().ToList();
-            var versionedMatches = dbContext.check_list_site_versions.AsNoTracking().ToList();
+            List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
+            var versionedMatches = DbContext.check_list_site_versions.AsNoTracking().ToList();
 
             // Assert
 
@@ -110,8 +110,8 @@ namespace eFormSDK.Integration.Tests
             // Act
             List<int> matches = await sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, Constants.WorkflowStates.NotRemoved);
             List<int> matches2 = await sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, null);
-            List<check_list_sites> checkListSiteResult1 = dbContext.check_list_sites.AsNoTracking().ToList();
-            var versionedMatches1 = dbContext.check_list_site_versions.AsNoTracking().ToList();
+            List<check_list_sites> checkListSiteResult1 = DbContext.check_list_sites.AsNoTracking().ToList();
+            var versionedMatches1 = DbContext.check_list_site_versions.AsNoTracking().ToList();
 
 
             // Assert
@@ -142,7 +142,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             await sut.CaseDeleteReversed(cls1.MicrotingUid);
-            List<check_list_sites> checkListSiteResult = dbContext.check_list_sites.AsNoTracking().ToList();
+            List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
 
             // Assert
 

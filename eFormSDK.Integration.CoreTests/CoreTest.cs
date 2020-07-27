@@ -87,9 +87,9 @@ namespace eFormSDK.Integration.Tests
             await sut.CheckStatusByMicrotingUid(int.Parse(microtingUuid)).ConfigureAwait(false);
 
             // Assert
-            List<cases> caseMatches = dbContext.cases.AsNoTracking().ToList();
-            List<uploaded_data> udMatches = dbContext.uploaded_data.AsNoTracking().ToList();
-            List<field_values> fvMatches = dbContext.field_values.AsNoTracking().ToList();
+            List<cases> caseMatches = DbContext.cases.AsNoTracking().ToList();
+            List<uploaded_data> udMatches = DbContext.uploaded_data.AsNoTracking().ToList();
+            List<field_values> fvMatches = DbContext.field_values.AsNoTracking().ToList();
 
             Assert.NotNull(caseMatches);
             Assert.NotNull(udMatches);

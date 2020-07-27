@@ -277,7 +277,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             var match = await sut.SiteWorkerCreate(5, (int)site1.MicrotingUid, (int)worker1.MicrotingUid);
 
             // Assert
-            var siteWorkers = dbContext.site_workers.AsNoTracking().ToList();
+            var siteWorkers = DbContext.site_workers.AsNoTracking().ToList();
 
             Assert.NotNull(match);
             Assert.AreEqual(1, siteWorkers.Count());

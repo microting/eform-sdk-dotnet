@@ -49,7 +49,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext).ConfigureAwait(false);
+            await site.Create(DbContext).ConfigureAwait(false);
 
             units unit = new units
             {
@@ -67,10 +67,10 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await unit.Create(dbContext).ConfigureAwait(false);
+            await unit.Create(DbContext).ConfigureAwait(false);
 
-            List<units> units = dbContext.units.AsNoTracking().ToList();                            
-            List<unit_versions> unitsVersions = dbContext.unit_versions.AsNoTracking().ToList(); 
+            List<units> units = DbContext.units.AsNoTracking().ToList();                            
+            List<unit_versions> unitsVersions = DbContext.unit_versions.AsNoTracking().ToList(); 
             
             //Assert
             
@@ -127,7 +127,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext).ConfigureAwait(false);
+            await site.Create(DbContext).ConfigureAwait(false);
 
             units unit = new units
             {
@@ -143,7 +143,7 @@ namespace eFormSDK.Tests
                 InSightVersion = Guid.NewGuid().ToString()
             };
 
-            await unit.Create(dbContext).ConfigureAwait(false);
+            await unit.Create(DbContext).ConfigureAwait(false);
             
             //Act
 
@@ -164,10 +164,10 @@ namespace eFormSDK.Tests
             unit.MicrotingUid = rnd.Next(1, 255);
             unit.OtpCode = rnd.Next(1, 255);
 
-            await unit.Update(dbContext).ConfigureAwait(false);
+            await unit.Update(DbContext).ConfigureAwait(false);
 
-            List<units> units = dbContext.units.AsNoTracking().ToList();                            
-            List<unit_versions> unitsVersions = dbContext.unit_versions.AsNoTracking().ToList();
+            List<units> units = DbContext.units.AsNoTracking().ToList();                            
+            List<unit_versions> unitsVersions = DbContext.unit_versions.AsNoTracking().ToList();
             
             //Assert
             
@@ -235,7 +235,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext).ConfigureAwait(false);
+            await site.Create(DbContext).ConfigureAwait(false);
 
             units unit = new units
             {
@@ -251,15 +251,15 @@ namespace eFormSDK.Tests
                 InSightVersion = Guid.NewGuid().ToString()
             };
 
-            await unit.Create(dbContext).ConfigureAwait(false);
+            await unit.Create(DbContext).ConfigureAwait(false);
             
             //Act
             DateTime? oldUpdatedAt = unit.UpdatedAt;
             
-            await unit.Delete(dbContext);
+            await unit.Delete(DbContext);
             
-            List<units> units = dbContext.units.AsNoTracking().ToList();                            
-            List<unit_versions> unitsVersions = dbContext.unit_versions.AsNoTracking().ToList();
+            List<units> units = DbContext.units.AsNoTracking().ToList();                            
+            List<unit_versions> unitsVersions = DbContext.unit_versions.AsNoTracking().ToList();
             
             //Assert
             

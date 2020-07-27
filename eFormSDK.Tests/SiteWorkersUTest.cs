@@ -48,7 +48,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext).ConfigureAwait(false);
+            await site.Create(DbContext).ConfigureAwait(false);
 
             workers worker = new workers
             {
@@ -57,7 +57,7 @@ namespace eFormSDK.Tests
                 LastName = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await worker.Create(dbContext).ConfigureAwait(false);
+            await worker.Create(DbContext).ConfigureAwait(false);
 
             site_workers siteWorker = new site_workers
             {
@@ -68,10 +68,10 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await siteWorker.Create(dbContext).ConfigureAwait(false);
+            await siteWorker.Create(DbContext).ConfigureAwait(false);
             
-            List<site_workers> siteWorkers = dbContext.site_workers.AsNoTracking().ToList();
-            List<site_worker_versions> siteWorkerVersions = dbContext.site_worker_versions.AsNoTracking().ToList();
+            List<site_workers> siteWorkers = DbContext.site_workers.AsNoTracking().ToList();
+            List<site_worker_versions> siteWorkerVersions = DbContext.site_worker_versions.AsNoTracking().ToList();
             
             Assert.NotNull(siteWorkers);                                                             
             Assert.NotNull(siteWorkerVersions);                                                             
@@ -112,7 +112,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(), 
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext).ConfigureAwait(false);
+            await site.Create(DbContext).ConfigureAwait(false);
 
             workers worker = new workers
             {
@@ -121,7 +121,7 @@ namespace eFormSDK.Tests
                 LastName = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await worker.Create(dbContext).ConfigureAwait(false);
+            await worker.Create(DbContext).ConfigureAwait(false);
 
             site_workers siteWorker = new site_workers
             {
@@ -129,7 +129,7 @@ namespace eFormSDK.Tests
                 SiteId = site.Id, 
                 WorkerId = worker.Id
             };
-            await siteWorker.Create(dbContext).ConfigureAwait(false);
+            await siteWorker.Create(DbContext).ConfigureAwait(false);
 
             
             //Act
@@ -139,11 +139,11 @@ namespace eFormSDK.Tests
 
             siteWorker.MicrotingUid = rnd.Next(1, 255);
             
-            await siteWorker.Update(dbContext).ConfigureAwait(false);
+            await siteWorker.Update(DbContext).ConfigureAwait(false);
 
             
-            List<site_workers> siteWorkers = dbContext.site_workers.AsNoTracking().ToList();
-            List<site_worker_versions> siteWorkerVersions = dbContext.site_worker_versions.AsNoTracking().ToList();
+            List<site_workers> siteWorkers = DbContext.site_workers.AsNoTracking().ToList();
+            List<site_worker_versions> siteWorkerVersions = DbContext.site_worker_versions.AsNoTracking().ToList();
             
             Assert.NotNull(siteWorkers);                                                             
             Assert.NotNull(siteWorkerVersions);                                                             
@@ -195,7 +195,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await site.Create(dbContext).ConfigureAwait(false);
+            await site.Create(DbContext).ConfigureAwait(false);
 
             workers worker = new workers
             {
@@ -204,7 +204,7 @@ namespace eFormSDK.Tests
                 LastName = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await worker.Create(dbContext).ConfigureAwait(false);
+            await worker.Create(DbContext).ConfigureAwait(false);
 
             site_workers siteWorker = new site_workers
             {
@@ -212,18 +212,18 @@ namespace eFormSDK.Tests
                 SiteId = site.Id, 
                 WorkerId = worker.Id
             };
-            await siteWorker.Create(dbContext).ConfigureAwait(false);
+            await siteWorker.Create(DbContext).ConfigureAwait(false);
 
             
             //Act
 
             DateTime? oldUpdatedAt = siteWorker.UpdatedAt;
             
-            await siteWorker.Delete(dbContext);
+            await siteWorker.Delete(DbContext);
 
             
-            List<site_workers> siteWorkers = dbContext.site_workers.AsNoTracking().ToList();
-            List<site_worker_versions> siteWorkerVersions = dbContext.site_worker_versions.AsNoTracking().ToList();
+            List<site_workers> siteWorkers = DbContext.site_workers.AsNoTracking().ToList();
+            List<site_worker_versions> siteWorkerVersions = DbContext.site_worker_versions.AsNoTracking().ToList();
             
             Assert.NotNull(siteWorkers);                                                             
             Assert.NotNull(siteWorkerVersions);                                                             

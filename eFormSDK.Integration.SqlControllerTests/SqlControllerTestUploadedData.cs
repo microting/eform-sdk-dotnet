@@ -97,8 +97,8 @@ namespace eFormSDK.Integration.Tests
             };
 
 
-            dbContext.uploaded_data.Add(dU);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.uploaded_data.Add(dU);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             UploadedData ud = await sut.FileRead();
 
@@ -145,8 +145,8 @@ namespace eFormSDK.Integration.Tests
             };
 
 
-            dbContext.uploaded_data.Add(dU);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.uploaded_data.Add(dU);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             uploaded_data ud = await sut.GetUploadedData(dU.Id);
 
@@ -182,8 +182,8 @@ namespace eFormSDK.Integration.Tests
                 WorkflowState = Constants.WorkflowStates.PreCreated
             };
 
-            dbContext.uploaded_data.Add(ud);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.uploaded_data.Add(ud);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
             
             // Act
             UploadedData Ud = await sut.FileRead();
@@ -243,8 +243,8 @@ namespace eFormSDK.Integration.Tests
                 FileName = "fileName"
             };
             
-            dbContext.uploaded_data.Add(ud);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.uploaded_data.Add(ud);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             field_values fVs = new field_values
             {
@@ -252,8 +252,8 @@ namespace eFormSDK.Integration.Tests
                 CaseId = aCase1.Id
             };
 
-            dbContext.field_values.Add(fVs);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.field_values.Add(fVs);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
 
             // Act
@@ -273,12 +273,12 @@ namespace eFormSDK.Integration.Tests
                 Local = 0, WorkflowState = Constants.WorkflowStates.PreCreated, Version = 1
             };
 
-            dbContext.uploaded_data.Add(ud);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.uploaded_data.Add(ud);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
             
             // Act
             await sut.FileProcessed("url", "myChecksum", "myFileLocation", "myFileName", ud.Id);
-            List<uploaded_data> uploadedDataResult = dbContext.uploaded_data.AsNoTracking().ToList();
+            List<uploaded_data> uploadedDataResult = DbContext.uploaded_data.AsNoTracking().ToList();
             //var versionedMatches = DbContext.uploaded_data_versions.AsNoTracking().ToList(); TODO 05/01/2018
 
             // Assert
@@ -300,12 +300,12 @@ namespace eFormSDK.Integration.Tests
         {
             uploaded_data ud = new uploaded_data();
 
-            dbContext.uploaded_data.Add(ud);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.uploaded_data.Add(ud);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
 
             await sut.GetUploadedData(ud.Id);
-            List<uploaded_data> uploadedDataResult = dbContext.uploaded_data.AsNoTracking().ToList();
+            List<uploaded_data> uploadedDataResult = DbContext.uploaded_data.AsNoTracking().ToList();
 
 
             Assert.NotNull(ud);
@@ -319,12 +319,12 @@ namespace eFormSDK.Integration.Tests
         {
             uploaded_data ud = new uploaded_data {WorkflowState = Constants.WorkflowStates.Created, Version = 1};
 
-            dbContext.uploaded_data.Add(ud);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.uploaded_data.Add(ud);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             await sut.DeleteFile(ud.Id);
-            List<uploaded_data> uploadedDataResult = dbContext.uploaded_data.AsNoTracking().ToList();
+            List<uploaded_data> uploadedDataResult = DbContext.uploaded_data.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(ud);

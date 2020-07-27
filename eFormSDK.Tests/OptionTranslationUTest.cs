@@ -53,7 +53,7 @@ namespace eFormSDK.Tests
                 HasChild = randomBool,
                 PosiblyDeployed = randomBool
             };
-            await questionSet.Create(dbContext).ConfigureAwait(false);
+            await questionSet.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -73,7 +73,7 @@ namespace eFormSDK.Tests
                 BackButtonEnabled = randomBool,
                 QuestionSetId = questionSet.Id
             };
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
 
             options option = new options
             {
@@ -82,14 +82,14 @@ namespace eFormSDK.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
-            await option.Create(dbContext).ConfigureAwait(false);
+            await option.Create(DbContext).ConfigureAwait(false);
 
             languages language = new languages
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext).ConfigureAwait(false);
+            await language.Create(DbContext).ConfigureAwait(false);
 
             option_translations optionTranslation = new option_translations
             {
@@ -100,11 +100,11 @@ namespace eFormSDK.Tests
             };
             // Act
 
-            await optionTranslation.Create(dbContext).ConfigureAwait(false);
+            await optionTranslation.Create(DbContext).ConfigureAwait(false);
 
-            List<option_translations> optionTranslations = dbContext.OptionTranslations.AsNoTracking().ToList();
+            List<option_translations> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
             List<option_translation_versions> optionTranslationVersions =
-                dbContext.OptionTranslationVersions.AsNoTracking().ToList();
+                DbContext.OptionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
             
@@ -141,7 +141,7 @@ namespace eFormSDK.Tests
                 HasChild = randomBool,
                 PosiblyDeployed = randomBool
             };
-            await questionSet.Create(dbContext).ConfigureAwait(false);
+            await questionSet.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -161,7 +161,7 @@ namespace eFormSDK.Tests
                 BackButtonEnabled = randomBool,
                 QuestionSetId = questionSet.Id
             };
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
 
             options option = new options
             {
@@ -170,13 +170,13 @@ namespace eFormSDK.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
-            await option.Create(dbContext).ConfigureAwait(false);
+            await option.Create(DbContext).ConfigureAwait(false);
 
             languages language = new languages
             {
                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext).ConfigureAwait(false);
+            await language.Create(DbContext).ConfigureAwait(false);
 
             option_translations optionTranslation = new option_translations
             {
@@ -186,11 +186,11 @@ namespace eFormSDK.Tests
             };
             // Act
 
-            await optionTranslation.Create(dbContext).ConfigureAwait(false);
+            await optionTranslation.Create(DbContext).ConfigureAwait(false);
 
-            List<option_translations> optionTranslations = dbContext.OptionTranslations.AsNoTracking().ToList();
+            List<option_translations> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
             List<option_translation_versions> optionTranslationVersions =
-                dbContext.OptionTranslationVersions.AsNoTracking().ToList();
+                DbContext.OptionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
             
@@ -227,7 +227,7 @@ namespace eFormSDK.Tests
                 HasChild = randomBool,
                 PosiblyDeployed = randomBool
             };
-            await questionSet.Create(dbContext).ConfigureAwait(false);
+            await questionSet.Create(DbContext).ConfigureAwait(false);
 
             question_sets questionSet2 = new question_sets
             {
@@ -236,7 +236,7 @@ namespace eFormSDK.Tests
                 HasChild = randomBool,
                 PosiblyDeployed = randomBool
             };
-            await questionSet2.Create(dbContext).ConfigureAwait(false);
+            await questionSet2.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -256,7 +256,7 @@ namespace eFormSDK.Tests
                 BackButtonEnabled = randomBool,
                 QuestionSetId = questionSet.Id
             };
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
 
             questions question2 = new questions
             {
@@ -276,7 +276,7 @@ namespace eFormSDK.Tests
                 BackButtonEnabled = randomBool,
                 QuestionSetId = questionSet.Id
             };
-            await question2.Create(dbContext).ConfigureAwait(false);
+            await question2.Create(DbContext).ConfigureAwait(false);
 
             options option = new options
             {
@@ -285,7 +285,7 @@ namespace eFormSDK.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
-            await option.Create(dbContext).ConfigureAwait(false);
+            await option.Create(DbContext).ConfigureAwait(false);
 
             options option2 = new options
             {
@@ -294,21 +294,21 @@ namespace eFormSDK.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
-            await option2.Create(dbContext).ConfigureAwait(false);
+            await option2.Create(DbContext).ConfigureAwait(false);
 
             languages language = new languages
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext).ConfigureAwait(false);
+            await language.Create(DbContext).ConfigureAwait(false);
 
             languages language2 = new languages
             {
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
-            await language2.Create(dbContext).ConfigureAwait(false);
+            await language2.Create(DbContext).ConfigureAwait(false);
 
             option_translations optionTranslation = new option_translations
             {
@@ -317,7 +317,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await optionTranslation.Create(dbContext).ConfigureAwait(false);
+            await optionTranslation.Create(DbContext).ConfigureAwait(false);
 
             var oldLanguageId = optionTranslation.LanguageId;
             var oldOptionId = optionTranslation.OptionId;
@@ -330,11 +330,11 @@ namespace eFormSDK.Tests
             optionTranslation.OptionId = option2.Id;
             
             // Act
-            await optionTranslation.Update(dbContext).ConfigureAwait(false);
+            await optionTranslation.Update(DbContext).ConfigureAwait(false);
 
-            List<option_translations> optionTranslations = dbContext.OptionTranslations.AsNoTracking().ToList();
+            List<option_translations> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
             List<option_translation_versions> optionTranslationVersions =
-                dbContext.OptionTranslationVersions.AsNoTracking().ToList();
+                DbContext.OptionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
             
@@ -376,7 +376,7 @@ namespace eFormSDK.Tests
                 HasChild = randomBool,
                 PosiblyDeployed = randomBool
             };
-            await questionSet.Create(dbContext).ConfigureAwait(false);
+            await questionSet.Create(DbContext).ConfigureAwait(false);
 
             question_sets questionSet2 = new question_sets
             {
@@ -385,7 +385,7 @@ namespace eFormSDK.Tests
                 HasChild = randomBool,
                 PosiblyDeployed = randomBool
             };
-            await questionSet2.Create(dbContext).ConfigureAwait(false);
+            await questionSet2.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -405,7 +405,7 @@ namespace eFormSDK.Tests
                 BackButtonEnabled = randomBool,
                 QuestionSetId = questionSet.Id
             };
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
 
             questions question2 = new questions
             {
@@ -425,7 +425,7 @@ namespace eFormSDK.Tests
                 BackButtonEnabled = randomBool,
                 QuestionSetId = questionSet.Id
             };
-            await question2.Create(dbContext).ConfigureAwait(false);
+            await question2.Create(DbContext).ConfigureAwait(false);
 
             options option = new options
             {
@@ -434,7 +434,7 @@ namespace eFormSDK.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
-            await option.Create(dbContext).ConfigureAwait(false);
+            await option.Create(DbContext).ConfigureAwait(false);
 
             options option2 = new options
             {
@@ -443,20 +443,20 @@ namespace eFormSDK.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
-            await option2.Create(dbContext).ConfigureAwait(false);
+            await option2.Create(DbContext).ConfigureAwait(false);
 
             languages language = new languages
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext).ConfigureAwait(false);
+            await language.Create(DbContext).ConfigureAwait(false);
 
             languages language2 = new languages
             {
                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
-            await language2.Create(dbContext).ConfigureAwait(false);
+            await language2.Create(DbContext).ConfigureAwait(false);
 
             option_translations optionTranslation = new option_translations
             {
@@ -464,7 +464,7 @@ namespace eFormSDK.Tests
                 OptionId = option.Id,
                 Name = Guid.NewGuid().ToString()
             };
-            await optionTranslation.Create(dbContext).ConfigureAwait(false);
+            await optionTranslation.Create(DbContext).ConfigureAwait(false);
 
             var oldLanguageId = optionTranslation.LanguageId;
             var oldOptionId = optionTranslation.OptionId;
@@ -475,11 +475,11 @@ namespace eFormSDK.Tests
             optionTranslation.OptionId = option2.Id;
             
             // Act
-            await optionTranslation.Update(dbContext).ConfigureAwait(false);
+            await optionTranslation.Update(DbContext).ConfigureAwait(false);
 
-            List<option_translations> optionTranslations = dbContext.OptionTranslations.AsNoTracking().ToList();
+            List<option_translations> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
             List<option_translation_versions> optionTranslationVersions =
-                dbContext.OptionTranslationVersions.AsNoTracking().ToList();
+                DbContext.OptionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
             
@@ -521,7 +521,7 @@ namespace eFormSDK.Tests
                 HasChild = randomBool,
                 PosiblyDeployed = randomBool
             };
-            await questionSet.Create(dbContext).ConfigureAwait(false);
+            await questionSet.Create(DbContext).ConfigureAwait(false);
 
             question_sets questionSet2 = new question_sets
             {
@@ -530,7 +530,7 @@ namespace eFormSDK.Tests
                 HasChild = randomBool,
                 PosiblyDeployed = randomBool
             };
-            await questionSet2.Create(dbContext).ConfigureAwait(false);
+            await questionSet2.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -550,7 +550,7 @@ namespace eFormSDK.Tests
                 BackButtonEnabled = randomBool,
                 QuestionSetId = questionSet.Id
             };
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
 
             questions question2 = new questions
             {
@@ -570,7 +570,7 @@ namespace eFormSDK.Tests
                 BackButtonEnabled = randomBool,
                 QuestionSetId = questionSet.Id
             };
-            await question2.Create(dbContext).ConfigureAwait(false);
+            await question2.Create(DbContext).ConfigureAwait(false);
 
             options option = new options
             {
@@ -579,7 +579,7 @@ namespace eFormSDK.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
-            await option.Create(dbContext).ConfigureAwait(false);
+            await option.Create(DbContext).ConfigureAwait(false);
 
             options option2 = new options
             {
@@ -588,21 +588,21 @@ namespace eFormSDK.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
-            await option2.Create(dbContext).ConfigureAwait(false);
+            await option2.Create(DbContext).ConfigureAwait(false);
 
             languages language = new languages
             {
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext).ConfigureAwait(false);
+            await language.Create(DbContext).ConfigureAwait(false);
 
             languages language2 = new languages
             {
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
-            await language2.Create(dbContext).ConfigureAwait(false);
+            await language2.Create(DbContext).ConfigureAwait(false);
 
             option_translations optionTranslation = new option_translations
             {
@@ -611,7 +611,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await optionTranslation.Create(dbContext).ConfigureAwait(false);
+            await optionTranslation.Create(DbContext).ConfigureAwait(false);
 
             var oldLanguageId = optionTranslation.LanguageId;
             var oldOptionId = optionTranslation.OptionId;
@@ -624,11 +624,11 @@ namespace eFormSDK.Tests
             optionTranslation.OptionId = option2.Id;
             
             // Act
-            await optionTranslation.Update(dbContext).ConfigureAwait(false);
+            await optionTranslation.Update(DbContext).ConfigureAwait(false);
 
-            List<option_translations> optionTranslations = dbContext.OptionTranslations.AsNoTracking().ToList();
+            List<option_translations> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
             List<option_translation_versions> optionTranslationVersions =
-                dbContext.OptionTranslationVersions.AsNoTracking().ToList();
+                DbContext.OptionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
             
@@ -670,7 +670,7 @@ namespace eFormSDK.Tests
                 HasChild = randomBool,
                 PosiblyDeployed = randomBool
             };
-            await questionSet.Create(dbContext).ConfigureAwait(false);
+            await questionSet.Create(DbContext).ConfigureAwait(false);
 
             question_sets questionSet2 = new question_sets
             {
@@ -679,7 +679,7 @@ namespace eFormSDK.Tests
                 HasChild = randomBool,
                 PosiblyDeployed = randomBool
             };
-            await questionSet2.Create(dbContext).ConfigureAwait(false);
+            await questionSet2.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -699,7 +699,7 @@ namespace eFormSDK.Tests
                 BackButtonEnabled = randomBool,
                 QuestionSetId = questionSet.Id
             };
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
 
             questions question2 = new questions
             {
@@ -719,7 +719,7 @@ namespace eFormSDK.Tests
                 BackButtonEnabled = randomBool,
                 QuestionSetId = questionSet.Id
             };
-            await question2.Create(dbContext).ConfigureAwait(false);
+            await question2.Create(DbContext).ConfigureAwait(false);
 
             options option = new options
             {
@@ -728,7 +728,7 @@ namespace eFormSDK.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
-            await option.Create(dbContext).ConfigureAwait(false);
+            await option.Create(DbContext).ConfigureAwait(false);
 
             options option2 = new options
             {
@@ -737,21 +737,21 @@ namespace eFormSDK.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
-            await option2.Create(dbContext).ConfigureAwait(false);
+            await option2.Create(DbContext).ConfigureAwait(false);
 
             languages language = new languages
             {
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext).ConfigureAwait(false);
+            await language.Create(DbContext).ConfigureAwait(false);
 
             languages language2 = new languages
             {
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
-            await language2.Create(dbContext).ConfigureAwait(false);
+            await language2.Create(DbContext).ConfigureAwait(false);
 
             option_translations optionTranslation = new option_translations
             {
@@ -759,7 +759,7 @@ namespace eFormSDK.Tests
                 OptionId = option.Id,
                 Name = Guid.NewGuid().ToString()
             };
-            await optionTranslation.Create(dbContext).ConfigureAwait(false);
+            await optionTranslation.Create(DbContext).ConfigureAwait(false);
 
             var oldLanguageId = optionTranslation.LanguageId;
             var oldOptionId = optionTranslation.OptionId;
@@ -771,11 +771,11 @@ namespace eFormSDK.Tests
             optionTranslation.MicrotingUid = rnd.Next(1, 255);
             
             // Act
-            await optionTranslation.Update(dbContext).ConfigureAwait(false);
+            await optionTranslation.Update(DbContext).ConfigureAwait(false);
 
-            List<option_translations> optionTranslations = dbContext.OptionTranslations.AsNoTracking().ToList();
+            List<option_translations> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
             List<option_translation_versions> optionTranslationVersions =
-                dbContext.OptionTranslationVersions.AsNoTracking().ToList();
+                DbContext.OptionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
             
@@ -817,7 +817,7 @@ namespace eFormSDK.Tests
                 HasChild = randomBool,
                 PosiblyDeployed = randomBool
             };
-            await questionSet.Create(dbContext).ConfigureAwait(false);
+            await questionSet.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -837,7 +837,7 @@ namespace eFormSDK.Tests
                 BackButtonEnabled = randomBool,
                 QuestionSetId = questionSet.Id
             };
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
 
 
             options option = new options
@@ -847,14 +847,14 @@ namespace eFormSDK.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
-            await option.Create(dbContext).ConfigureAwait(false);
+            await option.Create(DbContext).ConfigureAwait(false);
 
 
             languages language = new languages
             {
                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext).ConfigureAwait(false);
+            await language.Create(DbContext).ConfigureAwait(false);
        
 
             option_translations optionTranslation = new option_translations
@@ -864,7 +864,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await optionTranslation.Create(dbContext).ConfigureAwait(false);
+            await optionTranslation.Create(DbContext).ConfigureAwait(false);
 
             var oldLanguageId = optionTranslation.LanguageId;
             var oldOptionId = optionTranslation.OptionId;
@@ -872,11 +872,11 @@ namespace eFormSDK.Tests
             var oldMicrotingUid = optionTranslation.MicrotingUid;
 
             // Act
-            await optionTranslation.Delete(dbContext);
+            await optionTranslation.Delete(DbContext);
 
-            List<option_translations> optionTranslations = dbContext.OptionTranslations.AsNoTracking().ToList();
+            List<option_translations> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
             List<option_translation_versions> optionTranslationVersions =
-                dbContext.OptionTranslationVersions.AsNoTracking().ToList();
+                DbContext.OptionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
             

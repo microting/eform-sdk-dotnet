@@ -47,7 +47,7 @@ namespace eFormSDK.Tests
                 ParentId = 0
             };
             
-            await questionSet.Create(dbContext).ConfigureAwait(false);
+            await questionSet.Create(DbContext).ConfigureAwait(false);
 
             survey_configurations surveyConfiguration = new survey_configurations
             {
@@ -61,10 +61,10 @@ namespace eFormSDK.Tests
             
             //Act
             
-            await surveyConfiguration.Create(dbContext).ConfigureAwait(false);
+            await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
             
-            List<survey_configurations> surveyConfigurations = dbContext.survey_configurations.AsNoTracking().ToList();
-            List<survey_configuration_versions> surveyConfigurationVersions = dbContext.survey_configuration_versions.AsNoTracking().ToList();
+            List<survey_configurations> surveyConfigurations = DbContext.survey_configurations.AsNoTracking().ToList();
+            List<survey_configuration_versions> surveyConfigurationVersions = DbContext.survey_configuration_versions.AsNoTracking().ToList();
             
             Assert.NotNull(surveyConfigurations);                                                             
             Assert.NotNull(surveyConfigurationVersions);                                                             
@@ -108,7 +108,7 @@ namespace eFormSDK.Tests
                 ParentId = 0
             };
             
-            await questionSet.Create(dbContext).ConfigureAwait(false);
+            await questionSet.Create(DbContext).ConfigureAwait(false);
             
             survey_configurations surveyConfiguration = new survey_configurations
             {
@@ -120,7 +120,7 @@ namespace eFormSDK.Tests
                 QuestionSetId = questionSet.Id
             };
             
-            await surveyConfiguration.Create(dbContext).ConfigureAwait(false);
+            await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
             
             //Act
 
@@ -136,10 +136,10 @@ namespace eFormSDK.Tests
             surveyConfiguration.Stop = DateTime.UtcNow;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
-            await surveyConfiguration.Update(dbContext).ConfigureAwait(false);
+            await surveyConfiguration.Update(DbContext).ConfigureAwait(false);
             
-            List<survey_configurations> surveyConfigurations = dbContext.survey_configurations.AsNoTracking().ToList();
-            List<survey_configuration_versions> surveyConfigurationVersions = dbContext.survey_configuration_versions.AsNoTracking().ToList();
+            List<survey_configurations> surveyConfigurations = DbContext.survey_configurations.AsNoTracking().ToList();
+            List<survey_configuration_versions> surveyConfigurationVersions = DbContext.survey_configuration_versions.AsNoTracking().ToList();
             
             Assert.NotNull(surveyConfigurations);                                                             
             Assert.NotNull(surveyConfigurationVersions);                                                             
@@ -196,7 +196,7 @@ namespace eFormSDK.Tests
                 ParentId = 0
             };
             
-            await questionSet.Create(dbContext).ConfigureAwait(false);
+            await questionSet.Create(DbContext).ConfigureAwait(false);
 
             survey_configurations surveyConfiguration = new survey_configurations
             {
@@ -207,17 +207,17 @@ namespace eFormSDK.Tests
                 TimeToLive = rnd.Next(1, 255),
                 QuestionSetId = questionSet.Id
             };
-            await surveyConfiguration.Create(dbContext).ConfigureAwait(false);
+            await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
 
             
             //Act
 
             DateTime? oldUpdatedAt = surveyConfiguration.UpdatedAt;
          
-            await surveyConfiguration.Delete(dbContext);
+            await surveyConfiguration.Delete(DbContext);
             
-            List<survey_configurations> surveyConfigurations = dbContext.survey_configurations.AsNoTracking().ToList();
-            List<survey_configuration_versions> surveyConfigurationVersions = dbContext.survey_configuration_versions.AsNoTracking().ToList();
+            List<survey_configurations> surveyConfigurations = DbContext.survey_configurations.AsNoTracking().ToList();
+            List<survey_configuration_versions> surveyConfigurationVersions = DbContext.survey_configuration_versions.AsNoTracking().ToList();
             
             Assert.NotNull(surveyConfigurations);                                                             
             Assert.NotNull(surveyConfigurationVersions);                                                             

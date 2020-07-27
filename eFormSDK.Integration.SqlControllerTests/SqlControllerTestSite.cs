@@ -468,7 +468,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             var match = await sut.SiteCreate(88, "siteName1");
 
             // Assert
-            var sites = dbContext.sites.AsNoTracking().ToList();
+            var sites = DbContext.sites.AsNoTracking().ToList();
 
             Assert.NotNull(match);
 

@@ -91,8 +91,8 @@ namespace eFormSDK.Integration.Tests
             
             //Assert
 
-            var folderVersions = dbContext.folder_versions.AsNoTracking().ToList();
-            var folders = dbContext.folders.AsNoTracking().ToList();
+            var folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
+            var folders = DbContext.folders.AsNoTracking().ToList();
             
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
@@ -121,7 +121,7 @@ namespace eFormSDK.Integration.Tests
             
             await sut.FolderCreate(folderName, folderDescription, null).ConfigureAwait(false);
 
-            int firstFolderId = dbContext.folders.First().Id;
+            int firstFolderId = DbContext.folders.First().Id;
             
             string subFolderName = Guid.NewGuid().ToString();
             string subFolderDescription = Guid.NewGuid().ToString();
@@ -130,8 +130,8 @@ namespace eFormSDK.Integration.Tests
             // Act
             await sut.FolderCreate(subFolderName, subFolderDescription, firstFolderId).ConfigureAwait(false);
 
-            var folderVersions = dbContext.folder_versions.AsNoTracking().ToList();
-            var folders = dbContext.folders.AsNoTracking().ToList();
+            var folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
+            var folders = DbContext.folders.AsNoTracking().ToList();
             
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
@@ -167,14 +167,14 @@ namespace eFormSDK.Integration.Tests
             folder.WorkflowState = Constants.WorkflowStates.Created;
             folder.MicrotingUid = 23123;
 
-            await folder.Create(dbContext).ConfigureAwait(false);
+            await folder.Create(DbContext).ConfigureAwait(false);
 
             //Act
             
             await sut.FolderDelete(folder.Id);
             
-            var folderVersions = dbContext.folder_versions.AsNoTracking().ToList();
-            var folders = dbContext.folders.AsNoTracking().ToList();
+            var folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
+            var folders = DbContext.folders.AsNoTracking().ToList();
             
             //Assert
             
@@ -212,7 +212,7 @@ namespace eFormSDK.Integration.Tests
             folder.WorkflowState = Constants.WorkflowStates.Created;
             folder.MicrotingUid = 23123;
 
-            await folder.Create(dbContext).ConfigureAwait(false);
+            await folder.Create(DbContext).ConfigureAwait(false);
 
             //Act
 
@@ -221,8 +221,8 @@ namespace eFormSDK.Integration.Tests
             
             await sut.FolderUpdate(folder.Id, newFolderName, newDescription, null).ConfigureAwait(false);
             
-            var folderVersions = dbContext.folder_versions.AsNoTracking().ToList();
-            var folders = dbContext.folders.AsNoTracking().ToList();
+            var folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
+            var folders = DbContext.folders.AsNoTracking().ToList();
             
             //Assert
             

@@ -48,10 +48,10 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await entityGroup.Create(dbContext).ConfigureAwait(false);
+            await entityGroup.Create(DbContext).ConfigureAwait(false);
             
-            List<entity_groups> entityGroups = dbContext.entity_groups.AsNoTracking().ToList();
-            List<entity_group_versions> entityGroupVersion = dbContext.entity_group_versions.AsNoTracking().ToList();
+            List<entity_groups> entityGroups = DbContext.entity_groups.AsNoTracking().ToList();
+            List<entity_group_versions> entityGroupVersion = DbContext.entity_group_versions.AsNoTracking().ToList();
             
             //Assert
             
@@ -90,7 +90,7 @@ namespace eFormSDK.Tests
                 Type = Guid.NewGuid().ToString(),
                 MicrotingUid = Guid.NewGuid().ToString()
             };
-            await entityGroup.Create(dbContext).ConfigureAwait(false);
+            await entityGroup.Create(DbContext).ConfigureAwait(false);
             
             //Act
 
@@ -103,10 +103,10 @@ namespace eFormSDK.Tests
             entityGroup.Type = Guid.NewGuid().ToString();
             entityGroup.MicrotingUid = Guid.NewGuid().ToString();
             
-            await entityGroup.Update(dbContext).ConfigureAwait(false);
+            await entityGroup.Update(DbContext).ConfigureAwait(false);
             
-            List<entity_groups> entityGroups = dbContext.entity_groups.AsNoTracking().ToList();
-            List<entity_group_versions> entityGroupVersion = dbContext.entity_group_versions.AsNoTracking().ToList();
+            List<entity_groups> entityGroups = DbContext.entity_groups.AsNoTracking().ToList();
+            List<entity_group_versions> entityGroupVersion = DbContext.entity_group_versions.AsNoTracking().ToList();
             
             //Assert
             
@@ -155,16 +155,16 @@ namespace eFormSDK.Tests
                 Type = Guid.NewGuid().ToString(),
                 MicrotingUid = Guid.NewGuid().ToString()
             };
-            await entityGroup.Create(dbContext).ConfigureAwait(false);
+            await entityGroup.Create(DbContext).ConfigureAwait(false);
             
             //Act
 
             DateTime? oldUpdatedAt = entityGroup.UpdatedAt;
 
-            await entityGroup.Delete(dbContext);
+            await entityGroup.Delete(DbContext);
             
-            List<entity_groups> entityGroups = dbContext.entity_groups.AsNoTracking().ToList();
-            List<entity_group_versions> entityGroupVersion = dbContext.entity_group_versions.AsNoTracking().ToList();
+            List<entity_groups> entityGroups = DbContext.entity_groups.AsNoTracking().ToList();
+            List<entity_group_versions> entityGroupVersion = DbContext.entity_group_versions.AsNoTracking().ToList();
             
             //Assert
             

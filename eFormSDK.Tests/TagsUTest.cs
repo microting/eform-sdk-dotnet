@@ -51,10 +51,10 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await tag.Create(dbContext).ConfigureAwait(false);
+            await tag.Create(DbContext).ConfigureAwait(false);
 
-            List<tags> tags = dbContext.tags.AsNoTracking().ToList();                            
-            List<tag_versions> tagVersions = dbContext.tag_versions.AsNoTracking().ToList(); 
+            List<tags> tags = DbContext.tags.AsNoTracking().ToList();                            
+            List<tag_versions> tagVersions = DbContext.tag_versions.AsNoTracking().ToList(); 
             
             //Assert
             
@@ -91,7 +91,7 @@ namespace eFormSDK.Tests
                 TaggingsCount = rnd.Next(1, 255)
             };
 
-            await tag.Create(dbContext).ConfigureAwait(false);
+            await tag.Create(DbContext).ConfigureAwait(false);
             
             //Act
 
@@ -103,10 +103,10 @@ namespace eFormSDK.Tests
             tag.Name = Guid.NewGuid().ToString();
             tag.TaggingsCount = rnd.Next(1, 255);
             
-            await tag.Update(dbContext).ConfigureAwait(false);
+            await tag.Update(DbContext).ConfigureAwait(false);
             
-            List<tags> tags = dbContext.tags.AsNoTracking().ToList();                            
-            List<tag_versions> tagVersions = dbContext.tag_versions.AsNoTracking().ToList(); 
+            List<tags> tags = DbContext.tags.AsNoTracking().ToList();                            
+            List<tag_versions> tagVersions = DbContext.tag_versions.AsNoTracking().ToList(); 
             
             //Assert
             
@@ -151,16 +151,16 @@ namespace eFormSDK.Tests
                 TaggingsCount = rnd.Next(1, 255)
             };
 
-            await tag.Create(dbContext).ConfigureAwait(false);
+            await tag.Create(DbContext).ConfigureAwait(false);
             
             //Act
 
             DateTime? oldUpdatedAt = tag.UpdatedAt;
             
-            await tag.Delete(dbContext);
+            await tag.Delete(DbContext);
             
-            List<tags> tags = dbContext.tags.AsNoTracking().ToList();                            
-            List<tag_versions> tagVersions = dbContext.tag_versions.AsNoTracking().ToList(); 
+            List<tags> tags = DbContext.tags.AsNoTracking().ToList();                            
+            List<tag_versions> tagVersions = DbContext.tag_versions.AsNoTracking().ToList(); 
             
             //Assert
             

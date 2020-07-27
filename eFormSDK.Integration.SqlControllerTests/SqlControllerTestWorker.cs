@@ -318,7 +318,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             var match = await sut.WorkerCreate(55, "Arne", "Jensen", "aa@tak.dk");
             // Assert
 
-            var workers = dbContext.workers.AsNoTracking().ToList();
+            var workers = DbContext.workers.AsNoTracking().ToList();
 
             Assert.NotNull(match);
             Assert.AreEqual(1, workers.Count());

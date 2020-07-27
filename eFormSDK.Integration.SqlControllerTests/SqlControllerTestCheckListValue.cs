@@ -372,7 +372,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             await sut.CheckListValueStatusUpdate(aCase.Id, cl2.Id, "not_approved");
 
             // Assert
-            var newValue = await dbContext.check_list_values.AsNoTracking().SingleOrDefaultAsync(x => x.Id == check_List_Values.Id);
+            var newValue = await DbContext.check_list_values.AsNoTracking().SingleOrDefaultAsync(x => x.Id == check_List_Values.Id);
 
             Assert.AreEqual(newValue.Status, "not_approved");
 

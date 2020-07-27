@@ -106,8 +106,8 @@ namespace eFormSDK.Integration.Tests
             };
 
 
-            dbContext.uploaded_data.Add(dU);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            DbContext.uploaded_data.Add(dU);
+            await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             UploadedData ud = await sut.Advanced_UploadedDataRead(dU.Id);
 

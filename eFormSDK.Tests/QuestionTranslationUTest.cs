@@ -27,7 +27,7 @@ namespace eFormSDK.Tests
                 ParentId = rnd.Next(1, 255),
                 PosiblyDeployed = randomBool
             };
-            await questionSetForQuestion.Create(dbContext).ConfigureAwait(false);
+            await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -48,14 +48,14 @@ namespace eFormSDK.Tests
                 ContinuousQuestionId = rnd.Next(1, 255),
                 QuestionSetId = questionSetForQuestion.Id
             };
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
 
             languages language = new languages
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext).ConfigureAwait(false);
+            await language.Create(DbContext).ConfigureAwait(false);
 
             question_translations questionTranslation = new question_translations
             {
@@ -66,11 +66,11 @@ namespace eFormSDK.Tests
             };
             
             // Act
-            await questionTranslation.Create(dbContext).ConfigureAwait(false);
+            await questionTranslation.Create(DbContext).ConfigureAwait(false);
 
-            List<question_translations> questionTranslations = dbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<question_translation_versions> questionTranslationVersions =
-                dbContext.QuestionTranslationVersions.AsNoTracking().ToList();
+                DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
             
@@ -106,7 +106,7 @@ namespace eFormSDK.Tests
                 ParentId = rnd.Next(1, 255),
                 PosiblyDeployed = randomBool
             };
-            await questionSetForQuestion.Create(dbContext).ConfigureAwait(false);
+            await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -127,14 +127,14 @@ namespace eFormSDK.Tests
                 ContinuousQuestionId = rnd.Next(1, 255),
                 QuestionSetId = questionSetForQuestion.Id
             };
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
 
             languages language = new languages
             {
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext).ConfigureAwait(false);
+            await language.Create(DbContext).ConfigureAwait(false);
 
             question_translations questionTranslation = new question_translations
             {
@@ -144,11 +144,11 @@ namespace eFormSDK.Tests
             };
             
             // Act
-            await questionTranslation.Create(dbContext).ConfigureAwait(false);
+            await questionTranslation.Create(DbContext).ConfigureAwait(false);
 
-            List<question_translations> questionTranslations = dbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<question_translation_versions> questionTranslationVersions =
-                dbContext.QuestionTranslationVersions.AsNoTracking().ToList();
+                DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
             
@@ -184,7 +184,7 @@ namespace eFormSDK.Tests
                 ParentId = rnd.Next(1, 255),
                 PosiblyDeployed = randomBool
             };
-            await questionSetForQuestion.Create(dbContext).ConfigureAwait(false);
+            await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
             question_sets questionSetForQuestion2 = new question_sets
             {
@@ -194,7 +194,7 @@ namespace eFormSDK.Tests
                 ParentId = rnd.Next(1, 255),
                 PosiblyDeployed = randomBool
             };
-            await questionSetForQuestion2.Create(dbContext).ConfigureAwait(false);
+            await questionSetForQuestion2.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -215,7 +215,7 @@ namespace eFormSDK.Tests
                 ContinuousQuestionId = rnd.Next(1, 255),
                 QuestionSetId = questionSetForQuestion.Id
             };
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
 
             questions question2 = new questions
             {
@@ -236,19 +236,19 @@ namespace eFormSDK.Tests
                 ContinuousQuestionId = rnd.Next(1, 255),
                 QuestionSetId = questionSetForQuestion2.Id
             };
-            await question2.Create(dbContext).ConfigureAwait(false);
+            await question2.Create(DbContext).ConfigureAwait(false);
 
             languages language = new languages
             {
                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext).ConfigureAwait(false);
+            await language.Create(DbContext).ConfigureAwait(false);
 
             languages language2 = new languages
             {
                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
-            await language2.Create(dbContext).ConfigureAwait(false);
+            await language2.Create(DbContext).ConfigureAwait(false);
 
             question_translations questionTranslation = new question_translations
             {
@@ -257,7 +257,7 @@ namespace eFormSDK.Tests
                 QuestionId = question.Id,
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await questionTranslation.Create(dbContext).ConfigureAwait(false);
+            await questionTranslation.Create(DbContext).ConfigureAwait(false);
 
             var oldLanguageId = questionTranslation.LanguageId;
             var oldName = questionTranslation.Name;
@@ -269,11 +269,11 @@ namespace eFormSDK.Tests
             questionTranslation.QuestionId = question2.Id;
             questionTranslation.MicrotingUid = rnd.Next(1, 255);
             // Act
-            await questionTranslation.Update(dbContext).ConfigureAwait(false);
+            await questionTranslation.Update(DbContext).ConfigureAwait(false);
             
-            List<question_translations> questionTranslations = dbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<question_translation_versions> questionTranslationVersions =
-                dbContext.QuestionTranslationVersions.AsNoTracking().ToList();
+                DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
             
@@ -314,7 +314,7 @@ namespace eFormSDK.Tests
                 ParentId = rnd.Next(1, 255),
                 PosiblyDeployed = randomBool
             };
-            await questionSetForQuestion.Create(dbContext).ConfigureAwait(false);
+            await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
             question_sets questionSetForQuestion2 = new question_sets
             {
@@ -324,7 +324,7 @@ namespace eFormSDK.Tests
                 ParentId = rnd.Next(1, 255),
                 PosiblyDeployed = randomBool
             };
-            await questionSetForQuestion2.Create(dbContext).ConfigureAwait(false);
+            await questionSetForQuestion2.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -345,7 +345,7 @@ namespace eFormSDK.Tests
                 ContinuousQuestionId = rnd.Next(1, 255),
                 QuestionSetId = questionSetForQuestion.Id
             };
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
 
             questions question2 = new questions
             {
@@ -366,19 +366,19 @@ namespace eFormSDK.Tests
                 ContinuousQuestionId = rnd.Next(1, 255),
                 QuestionSetId = questionSetForQuestion2.Id
             };
-            await question2.Create(dbContext).ConfigureAwait(false);
+            await question2.Create(DbContext).ConfigureAwait(false);
 
             languages language = new languages
             {
                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext).ConfigureAwait(false);
+            await language.Create(DbContext).ConfigureAwait(false);
 
             languages language2 = new languages
             {
                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
-            await language2.Create(dbContext).ConfigureAwait(false);
+            await language2.Create(DbContext).ConfigureAwait(false);
 
             question_translations questionTranslation = new question_translations
             {
@@ -386,7 +386,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 QuestionId = question.Id
             };
-            await questionTranslation.Create(dbContext).ConfigureAwait(false);
+            await questionTranslation.Create(DbContext).ConfigureAwait(false);
 
             var oldLanguageId = questionTranslation.LanguageId;
             var oldName = questionTranslation.Name;
@@ -396,11 +396,11 @@ namespace eFormSDK.Tests
             questionTranslation.Name = Guid.NewGuid().ToString();
             questionTranslation.QuestionId = question2.Id;
             // Act
-            await questionTranslation.Update(dbContext).ConfigureAwait(false);
+            await questionTranslation.Update(DbContext).ConfigureAwait(false);
             
-            List<question_translations> questionTranslations = dbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<question_translation_versions> questionTranslationVersions =
-                dbContext.QuestionTranslationVersions.AsNoTracking().ToList();
+                DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
             
@@ -441,7 +441,7 @@ namespace eFormSDK.Tests
                 ParentId = rnd.Next(1, 255),
                 PosiblyDeployed = randomBool
             };
-            await questionSetForQuestion.Create(dbContext).ConfigureAwait(false);
+            await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
             question_sets questionSetForQuestion2 = new question_sets
             {
@@ -451,7 +451,7 @@ namespace eFormSDK.Tests
                 ParentId = rnd.Next(1, 255),
                 PosiblyDeployed = randomBool
             };
-            await questionSetForQuestion2.Create(dbContext).ConfigureAwait(false);
+            await questionSetForQuestion2.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -472,7 +472,7 @@ namespace eFormSDK.Tests
                 ContinuousQuestionId = rnd.Next(1, 255),
                 QuestionSetId = questionSetForQuestion.Id
             };
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
 
             questions question2 = new questions
             {
@@ -493,21 +493,21 @@ namespace eFormSDK.Tests
                 ContinuousQuestionId = rnd.Next(1, 255),
                 QuestionSetId = questionSetForQuestion2.Id
             };
-            await question2.Create(dbContext).ConfigureAwait(false);
+            await question2.Create(DbContext).ConfigureAwait(false);
 
             languages language = new languages
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext).ConfigureAwait(false);
+            await language.Create(DbContext).ConfigureAwait(false);
 
             languages language2 = new languages
             {
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
-            await language2.Create(dbContext).ConfigureAwait(false);
+            await language2.Create(DbContext).ConfigureAwait(false);
 
             question_translations questionTranslation = new question_translations
             {
@@ -516,7 +516,7 @@ namespace eFormSDK.Tests
                 QuestionId = question.Id,
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await questionTranslation.Create(dbContext).ConfigureAwait(false);
+            await questionTranslation.Create(DbContext).ConfigureAwait(false);
 
             var oldLanguageId = questionTranslation.LanguageId;
             var oldName = questionTranslation.Name;
@@ -528,11 +528,11 @@ namespace eFormSDK.Tests
             questionTranslation.QuestionId = question2.Id;
             questionTranslation.MicrotingUid = null;
             // Act
-            await questionTranslation.Update(dbContext).ConfigureAwait(false);
+            await questionTranslation.Update(DbContext).ConfigureAwait(false);
             
-            List<question_translations> questionTranslations = dbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<question_translation_versions> questionTranslationVersions =
-                dbContext.QuestionTranslationVersions.AsNoTracking().ToList();
+                DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
             
@@ -573,7 +573,7 @@ namespace eFormSDK.Tests
                 ParentId = rnd.Next(1, 255),
                 PosiblyDeployed = randomBool
             };
-            await questionSetForQuestion.Create(dbContext).ConfigureAwait(false);
+            await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
             question_sets questionSetForQuestion2 = new question_sets
             {
@@ -583,7 +583,7 @@ namespace eFormSDK.Tests
                 ParentId = rnd.Next(1, 255),
                 PosiblyDeployed = randomBool
             };
-            await questionSetForQuestion2.Create(dbContext).ConfigureAwait(false);
+            await questionSetForQuestion2.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -604,7 +604,7 @@ namespace eFormSDK.Tests
                 ContinuousQuestionId = rnd.Next(1, 255),
                 QuestionSetId = questionSetForQuestion.Id
             };
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
 
             questions question2 = new questions
             {
@@ -625,21 +625,21 @@ namespace eFormSDK.Tests
                 ContinuousQuestionId = rnd.Next(1, 255),
                 QuestionSetId = questionSetForQuestion2.Id
             };
-            await question2.Create(dbContext).ConfigureAwait(false);
+            await question2.Create(DbContext).ConfigureAwait(false);
 
             languages language = new languages
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext).ConfigureAwait(false);
+            await language.Create(DbContext).ConfigureAwait(false);
 
             languages language2 = new languages
             {
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
-            await language2.Create(dbContext).ConfigureAwait(false);
+            await language2.Create(DbContext).ConfigureAwait(false);
 
             question_translations questionTranslation = new question_translations
             {
@@ -647,7 +647,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 QuestionId = question.Id,
             };
-            await questionTranslation.Create(dbContext).ConfigureAwait(false);
+            await questionTranslation.Create(DbContext).ConfigureAwait(false);
 
             var oldLanguageId = questionTranslation.LanguageId;
             var oldName = questionTranslation.Name;
@@ -658,11 +658,11 @@ namespace eFormSDK.Tests
             questionTranslation.QuestionId = question2.Id;
             questionTranslation.MicrotingUid = rnd.Next(1, 255);
             // Act
-            await questionTranslation.Update(dbContext).ConfigureAwait(false);
+            await questionTranslation.Update(DbContext).ConfigureAwait(false);
             
-            List<question_translations> questionTranslations = dbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<question_translation_versions> questionTranslationVersions =
-                dbContext.QuestionTranslationVersions.AsNoTracking().ToList();
+                DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
             
@@ -703,7 +703,7 @@ namespace eFormSDK.Tests
                 ParentId = rnd.Next(1, 255),
                 PosiblyDeployed = randomBool
             };
-            await questionSetForQuestion.Create(dbContext).ConfigureAwait(false);
+            await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -724,13 +724,13 @@ namespace eFormSDK.Tests
                 ContinuousQuestionId = rnd.Next(1, 255),
                 QuestionSetId = questionSetForQuestion.Id
             };
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
 
             languages language = new languages
             {
                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
-            await language.Create(dbContext).ConfigureAwait(false);
+            await language.Create(DbContext).ConfigureAwait(false);
             
             question_translations questionTranslation = new question_translations
             {
@@ -739,7 +739,7 @@ namespace eFormSDK.Tests
                 QuestionId = question.Id,
                 MicrotingUid = rnd.Next(1, 255)
             };
-            await questionTranslation.Create(dbContext).ConfigureAwait(false);
+            await questionTranslation.Create(DbContext).ConfigureAwait(false);
 
             var oldLanguageId = questionTranslation.LanguageId;
             var oldName = questionTranslation.Name;
@@ -747,11 +747,11 @@ namespace eFormSDK.Tests
             var oldMicrotingUid = questionTranslation.MicrotingUid;
 
             // Act
-            await questionTranslation.Delete(dbContext).ConfigureAwait(false);
+            await questionTranslation.Delete(DbContext).ConfigureAwait(false);
             
-            List<question_translations> questionTranslations = dbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<question_translation_versions> questionTranslationVersions =
-                dbContext.QuestionTranslationVersions.AsNoTracking().ToList();
+                DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
             

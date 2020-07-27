@@ -51,7 +51,7 @@ namespace eFormSDK.Tests
                 HasChild = randomBool,
                 PosiblyDeployed = randomBool
             };
-            await questionSet.Create(dbContext).ConfigureAwait(false);
+            await questionSet.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -71,7 +71,7 @@ namespace eFormSDK.Tests
                 BackButtonEnabled = randomBool,
                 QuestionSetId = questionSet.Id
             };
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
 
             options option = new options
             {
@@ -83,10 +83,10 @@ namespace eFormSDK.Tests
 
             //Act
             
-            await option.Create(dbContext).ConfigureAwait(false);
+            await option.Create(DbContext).ConfigureAwait(false);
             
-            List<options> options = dbContext.options.AsNoTracking().ToList();
-            List<option_versions> optionVersions = dbContext.option_versions.AsNoTracking().ToList();
+            List<options> options = DbContext.options.AsNoTracking().ToList();
+            List<option_versions> optionVersions = DbContext.option_versions.AsNoTracking().ToList();
             
             Assert.NotNull(options);                                                             
             Assert.NotNull(optionVersions);                                                             
@@ -129,7 +129,7 @@ namespace eFormSDK.Tests
                 HasChild = randomBool,
                 PosiblyDeployed = randomBool
             };
-            await questionSet.Create(dbContext).ConfigureAwait(false);
+            await questionSet.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -149,7 +149,7 @@ namespace eFormSDK.Tests
                 BackButtonEnabled = randomBool,
                 QuestionSetId = questionSet.Id
             };
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
 
             options option = new options
             {
@@ -158,7 +158,7 @@ namespace eFormSDK.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
-            await option.Create(dbContext).ConfigureAwait(false);
+            await option.Create(DbContext).ConfigureAwait(false);
             
             //Act
 
@@ -170,10 +170,10 @@ namespace eFormSDK.Tests
             option.Weight = rnd.Next(1, 255);
             option.OptionIndex = rnd.Next(1, 255);
             option.WeightValue = rnd.Next(1, 255);
-            await option.Update(dbContext).ConfigureAwait(false);
+            await option.Update(DbContext).ConfigureAwait(false);
 
-            List<options> options = dbContext.options.AsNoTracking().ToList();
-            List<option_versions> optionVersions = dbContext.option_versions.AsNoTracking().ToList();
+            List<options> options = DbContext.options.AsNoTracking().ToList();
+            List<option_versions> optionVersions = DbContext.option_versions.AsNoTracking().ToList();
             
             Assert.NotNull(options);                                                             
             Assert.NotNull(optionVersions);                                                             
@@ -228,7 +228,7 @@ namespace eFormSDK.Tests
                 HasChild = randomBool,
                 PosiblyDeployed = randomBool
             };
-            await questionSet.Create(dbContext).ConfigureAwait(false);
+            await questionSet.Create(DbContext).ConfigureAwait(false);
 
             questions question = new questions
             {
@@ -248,7 +248,7 @@ namespace eFormSDK.Tests
                 BackButtonEnabled = randomBool,
                 QuestionSetId = questionSet.Id
             };
-            await question.Create(dbContext).ConfigureAwait(false);
+            await question.Create(DbContext).ConfigureAwait(false);
 
             options option = new options
             {
@@ -257,16 +257,16 @@ namespace eFormSDK.Tests
                 WeightValue = rnd.Next(1, 255),
                 QuestionId = question.Id
             };
-            await option.Create(dbContext).ConfigureAwait(false);
+            await option.Create(DbContext).ConfigureAwait(false);
             
             //Act
 
             DateTime? oldUpdatedAt = option.UpdatedAt;
             
-            await option.Delete(dbContext);
+            await option.Delete(DbContext);
 
-            List<options> options = dbContext.options.AsNoTracking().ToList();
-            List<option_versions> optionVersions = dbContext.option_versions.AsNoTracking().ToList();
+            List<options> options = DbContext.options.AsNoTracking().ToList();
+            List<option_versions> optionVersions = DbContext.option_versions.AsNoTracking().ToList();
             
             Assert.NotNull(options);                                                             
             Assert.NotNull(optionVersions);                                                             
