@@ -1929,16 +1929,30 @@ namespace Microting.eForm.Infrastructure
                                         {
                                             if (kvp.Key == item.CaseId.ToString())
                                             {
-                                                if (customPathForUploadedData != null)
-                                                    if (kvp.Value.Contains("jpg") || kvp.Value.Contains("jpeg") || kvp.Value.Contains("png"))
-                                                        kvp.Value = kvp.Value + "|" + customPathForUploadedData + item.UploadedData.FileName;
+                                                if (item.UploadedData != null)
+                                                {
+                                                    if (customPathForUploadedData != null)
+                                                    {
+                                                        if (kvp.Value.Contains("jpg") || kvp.Value.Contains("jpeg") ||
+                                                            kvp.Value.Contains("png"))
+                                                            kvp.Value = kvp.Value + "|" + customPathForUploadedData +
+                                                                        item.UploadedData?.FileName;
+                                                        else
+                                                            kvp.Value = customPathForUploadedData +
+                                                                        item.UploadedData.FileName;
+                                                    }
                                                     else
-                                                        kvp.Value = customPathForUploadedData + item.UploadedData.FileName;
-                                                else
-                                                    if (kvp.Value.Contains("jpg") || kvp.Value.Contains("jpeg") || kvp.Value.Contains("png"))
-                                                    kvp.Value = kvp.Value + "|" + item.UploadedData.FileLocation + item.UploadedData.FileName;
-                                                else
-                                                    kvp.Value = item.UploadedData.FileLocation + item.UploadedData.FileName;
+                                                    {
+                                                        if (kvp.Value.Contains("jpg") || kvp.Value.Contains("jpeg") ||
+                                                            kvp.Value.Contains("png"))
+                                                            kvp.Value = kvp.Value + "|" +
+                                                                        item.UploadedData.FileLocation +
+                                                                        item.UploadedData.FileName;
+                                                        else
+                                                            kvp.Value = item.UploadedData.FileLocation +
+                                                                        item.UploadedData.FileName;
+                                                    }
+                                                }
                                             }
                                         }
                                     }
