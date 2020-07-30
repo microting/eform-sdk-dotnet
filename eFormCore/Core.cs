@@ -4905,9 +4905,9 @@ namespace eFormCore
                 {
                     if (dbContext.check_lists.Any(x => x.ParentId == checkListId))
                     {
-                        foreach (check_lists checkList in dbContext.check_lists.Where(x => x.ParentId == checkListId).OrderBy(x => x.DisplayIndex))
+                        foreach (check_lists checkList in await dbContext.check_lists.Where(x => x.ParentId == checkListId).OrderBy(x => x.DisplayIndex).ToListAsync())
                         {
-                            check_lists parentCheckList = dbContext.check_lists.Single(x => x.Id == checkListId);
+                            check_lists parentCheckList = await dbContext.check_lists.SingleAsync(x => x.Id == checkListId);
                             if (parentCheckList.ParentId != null)
                             {
                                 if (preLabel != "")
@@ -4918,11 +4918,11 @@ namespace eFormCore
                     }
                     else
                     {
-                        foreach (fields field in dbContext.fields.Where(x => x.CheckListId == checkListId && x.ParentFieldId == null).OrderBy(x => x.DisplayIndex))
+                        foreach (fields field in await dbContext.fields.Where(x => x.CheckListId == checkListId && x.ParentFieldId == null).OrderBy(x => x.DisplayIndex).ToListAsync())
                         {
                             if (dbContext.fields.Any(x => x.ParentFieldId == field.Id))
                             {
-                                foreach (var subField in dbContext.fields.Where(x => x.ParentFieldId == field.Id).OrderBy(x => x.DisplayIndex))
+                                foreach (var subField in await dbContext.fields.Where(x => x.ParentFieldId == field.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
                                 {
                                     if (field.FieldTypeId != 3 && field.FieldTypeId != 18)
                                     {
