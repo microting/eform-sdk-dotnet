@@ -3646,19 +3646,20 @@ namespace eFormCore
             log.LogStandard("Core.SaveAnswer", $"ended {DateTime.UtcNow}");
         }
 
-        public async Task GetAnswersForQuestionSet(int? questionSetId)
+        public async Task GetAnswersForQuestionSet(int? apiQuestionSetId)
         {
-            if (questionSetId == null)
+            if (apiQuestionSetId == null)
                 return;
 
             using (var db = dbContextHelper.GetDbContext())
             {
                 int numAnswers = 10;
                 question_sets questionSet =
-                    await db.question_sets.SingleOrDefaultAsync(x => x.MicrotingUid == questionSetId).ConfigureAwait(false);
+                    await db.question_sets.SingleOrDefaultAsync(x => x.MicrotingUid == apiQuestionSetId).ConfigureAwait(false);
                 if (questionSet != null)
                 {
-                    var lastAnswer = await db.answers.LastOrDefaultAsync(x => x.QuestionSetId == questionSet.Id).ConfigureAwait(false);
+                    var questionSetId = questionSet.Id;
+                    var lastAnswer = await db.answers.OrderByDescending(x => x.Id).FirstOrDefaultAsync(x => x.QuestionSetId == questionSetId).ConfigureAwait(false);
                     JObject parsedData = null;
                     if (lastAnswer != null)
                     {
@@ -3666,12 +3667,12 @@ namespace eFormCore
                         {
                             try
                             {
-                                lastAnswer = await db.answers.LastOrDefaultAsync(x => x.QuestionSetId == questionSet.Id)
+                                lastAnswer = await db.answers.OrderByDescending(x => x.Id).FirstOrDefaultAsync(x => x.QuestionSetId == questionSetId)
                                     .ConfigureAwait(false);
                                 if (lastAnswer != null)
                                 {
                                     parsedData = JObject.Parse(await _communicator
-                                        .GetLastAnswer((int) questionSetId, (int) lastAnswer.MicrotingUid)
+                                        .GetLastAnswer((int) apiQuestionSetId, (int) lastAnswer.MicrotingUid)
                                         .ConfigureAwait(false));
                                     numAnswers = await SaveAnswers(questionSet, parsedData).ConfigureAwait(false);
                                 }
@@ -3688,19 +3689,19 @@ namespace eFormCore
                     }
                     else
                     {
-                        parsedData = JObject.Parse(await _communicator.GetLastAnswer((int)questionSetId, 0).ConfigureAwait(false));
+                        parsedData = JObject.Parse(await _communicator.GetLastAnswer((int)apiQuestionSetId, 0).ConfigureAwait(false));
                         numAnswers = await SaveAnswers(questionSet, parsedData).ConfigureAwait(false);
 
                         while (numAnswers > 9)
                         {
                             try
                             {
-                                lastAnswer = await db.answers.LastOrDefaultAsync(x => x.QuestionSetId == questionSet.Id)
+                                lastAnswer = await db.answers.OrderByDescending(x => x.Id).FirstOrDefaultAsync(x => x.QuestionSetId == questionSetId)
                                     .ConfigureAwait(false);
                                 if (lastAnswer != null)
                                 {
                                     parsedData = JObject.Parse(await _communicator
-                                        .GetLastAnswer((int) questionSetId, (int) lastAnswer.MicrotingUid)
+                                        .GetLastAnswer((int) apiQuestionSetId, (int) lastAnswer.MicrotingUid)
                                         .ConfigureAwait(false));
                                     numAnswers = await SaveAnswers(questionSet, parsedData).ConfigureAwait(false);
                                 }
