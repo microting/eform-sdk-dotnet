@@ -25,13 +25,16 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 using eFormCore;
+using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Communication;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
+using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Models;
 using Microting.eForm.Infrastructure.Models.reply;
 using Microting.eForm.Messages;
@@ -72,6 +75,7 @@ namespace Microting.eForm.Handlers
 
         private async Task<bool> CheckStatusByMicrotingUid(int microtingUid)
         {
+            await using MicrotingDbContext dbContext = core.dbContextHelper.GetDbContext();
             List<CaseDto> lstCase = new List<CaseDto>();
             MainElement mainElement = new MainElement();
 
@@ -114,9 +118,10 @@ namespace Microting.eForm.Handlers
                             foreach (Check check in resp.Checks)
                             {
 
-                                int unitUId = sqlController.UnitRead(int.Parse(check.UnitId)).Result.UnitUId;
+                                int? unitUId = dbContext.units.Single(x => x.MicrotingUid == int.Parse(check.UnitId)).MicrotingUid; //sqlController.UnitRead(int.Parse(check.UnitId)).Result.UnitUId;
                                 log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(unitUId), unitUId);
-                                int workerUId = sqlController.WorkerRead(int.Parse(check.WorkerId)).Result.WorkerUId;
+                                int? workerUId = dbContext.workers
+                                    .Single(x => x.MicrotingUid == int.Parse(check.WorkerId)).MicrotingUid; //sqlController.WorkerRead(int.Parse(check.WorkerId)).Result.WorkerUId;
                                 log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(workerUId), workerUId);
 
                                 List<int> uploadedDataIds = await sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml.ToString(), i);
@@ -136,7 +141,7 @@ namespace Microting.eForm.Handlers
                                 log.LogEverything(t.GetMethodName("EformCompletedHandler"), $"XML date is {check.Date}");
                                 log.LogEverything(t.GetMethodName("EformCompletedHandler"), $"Parsed date is {dateTime.ToString()}");
 
-                                await sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, dateTime, workerUId, unitUId);
+                                await sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, dateTime, (int)workerUId, (int)unitUId);
                                 // await sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, DateTime.Parse(check.Date).ToUniversalTime(), workerUId, unitUId);
                                 log.LogEverything(t.GetMethodName("EformCompletedHandler"), "sqlController.CaseUpdateCompleted(...)");
 

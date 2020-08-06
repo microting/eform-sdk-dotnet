@@ -42,7 +42,7 @@ namespace Microting.eForm.Dto
         /// <summary>
         ///...
         /// </summary>
-        public int OtpCode { get; set; }
+        public int? OtpCode { get; set; }
 
         /// <summary>
         ///...

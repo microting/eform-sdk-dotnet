@@ -3964,7 +3964,7 @@ namespace Microting.eForm.Infrastructure
                         {
                             UnitUId = (int)unit.MicrotingUid,
                             CustomerNo = (int)unit.CustomerNo,
-                            OtpCode = (int)unit.OtpCode,
+                            OtpCode = unit.OtpCode,
                             SiteUId = (int)unit.SiteId,
                             CreatedAt = unit.CreatedAt,
                             UpdatedAt = unit.UpdatedAt,
