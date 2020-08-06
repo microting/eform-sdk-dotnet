@@ -2458,7 +2458,7 @@ namespace eFormCore
                         string siteName = siteResult.Item1.SiteName;
                         int siteId = siteResult.Item1.SiteId;
                         int unitUId = siteResult.Item2.UnitUId;
-                        int otpCode = siteResult.Item2.OtpCode;
+                        int? otpCode = siteResult.Item2.OtpCode;
                         sites site =
                             await db.sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteResult.Item1.SiteId).ConfigureAwait(false);
                         if (site == null)
