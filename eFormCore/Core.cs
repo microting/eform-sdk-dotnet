@@ -2159,15 +2159,16 @@ namespace eFormCore
             SortedDictionary<string, string> valuePairs = new SortedDictionary<string, string>();
             // TODO make this dynamic, so it can be defined by user, which timezone to show data in.
             TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
+            await using MicrotingDbContext dbContext = dbContextHelper.GetDbContext();
 
             reply.DoneAt = TimeZoneInfo.ConvertTimeFromUtc(reply.DoneAt, timeZoneInfo);
             // get base values
             valuePairs.Add("F_CaseName", reply.Label.Replace("&", "&amp;"));
             valuePairs.Add("F_SerialNumber", $"{caseId}/{cDto.MicrotingUId}");
-            valuePairs.Add("F_Worker", _sqlController.WorkerNameRead(reply.DoneById).GetAwaiter().GetResult().Replace("&", "&amp;"));
+            valuePairs.Add("F_Worker", dbContext.workers.Single(x => x.Id == reply.DoneById).full_name().Replace("&", "&amp;"));
             valuePairs.Add("F_CheckId", reply.MicrotingUId.ToString());
             valuePairs.Add("F_CheckDate", reply.DoneAt.ToString("yyyy-MM-dd HH:mm:ss"));
-            valuePairs.Add("F_SiteName", _sqlController.SiteRead(reply.SiteMicrotingUuid).GetAwaiter().GetResult().SiteName.Replace("&", "&amp;"));
+            valuePairs.Add("F_SiteName", dbContext.sites.Single(x=> x.MicrotingUid == reply.SiteMicrotingUuid).Name.Replace("&", "&amp;"));
 
             // get field_values
             List<KeyValuePair<string, List<string>>> pictures = new List<KeyValuePair<string, List<string>>>();
@@ -2196,8 +2197,8 @@ namespace eFormCore
                         imageFieldCountList[$"FCount_{fieldValue.FieldId}"] = 0;
                         if (fieldValue.UploadedDataObj != null)
                         {
-                            fields field = await _sqlController.FieldReadRaw(fieldValue.FieldId).ConfigureAwait(false);
-                            check_lists checkList = await _sqlController.CheckListRead((int)field.CheckListId).ConfigureAwait(false);
+                            fields field = await dbContext.fields.SingleOrDefaultAsync(x => x.Id == fieldValue.FieldId);
+                            check_lists checkList = await dbContext.check_lists.SingleOrDefaultAsync(x => x.Id == field.CheckListId);
 
                             string geoTag = "";
                             if (fieldValue.Latitude != null)
@@ -2246,8 +2247,7 @@ namespace eFormCore
                     case Constants.FieldTypes.Signature:
                         if (fieldValue.UploadedDataObj != null)
                         {
-                            fields field = await _sqlController.FieldReadRaw(fieldValue.FieldId).ConfigureAwait(false);
-                            check_lists checkList = await _sqlController.CheckListRead((int)field.CheckListId).ConfigureAwait(false);
+                            fields field = await dbContext.fields.SingleOrDefaultAsync(x => x.Id == fieldValue.FieldId);
 
                             signatures.Add(new KeyValuePair<string, string>($"F_{fieldValue.FieldId}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
                             if (_swiftEnabled)
