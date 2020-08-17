@@ -441,7 +441,7 @@ namespace eFormCore
                             if (_subscriber != null)
                             {
                                 log.LogEverything(methodName, "Subscriber requested to close connection");
-                                _subscriber.Close().RunSynchronously();
+                                _subscriber.Close().GetAwaiter().GetResult();
                                 log.LogEverything(methodName, "Subscriber closed");
                                 _bus.Advanced.Workers.SetNumberOfWorkers(0);
                                 _bus.Dispose();
@@ -460,7 +460,7 @@ namespace eFormCore
                             tries++;
 
                             if (tries > 600)
-                                FatalExpection("Failed to close Core correct after 60 secs", new Exception()).RunSynchronously();
+                                FatalExpection("Failed to close Core correct after 60 secs", new Exception()).GetAwaiter().GetResult();
                         }
 
                         _updateIsRunningEntities = false;
@@ -482,7 +482,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                FatalExpection(methodName + " failed. Core failed to close", ex).RunSynchronously();
+                FatalExpection(methodName + " failed. Core failed to close", ex).GetAwaiter().GetResult();
             }
             return true;
         }
