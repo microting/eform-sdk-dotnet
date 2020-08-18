@@ -3359,7 +3359,7 @@ namespace Microting.eForm.Infrastructure
             {
                 using (var db = GetContext())
                 {
-                    sites site = await db.sites.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
+                    sites site = await db.sites.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid);
                     if (site == null)
                         return null;
 
