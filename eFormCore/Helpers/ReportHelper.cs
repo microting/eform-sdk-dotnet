@@ -47,11 +47,11 @@ namespace Microting.eForm.Helpers
         public static void SearchAndReplace(string fullPathToDocument, SortedDictionary<string, string> valuesToReplace, string outputFileName)
         {
             File.Copy(fullPathToDocument, outputFileName);
-            
+
             WordprocessingDocument wordDoc = WordprocessingDocument.Open(outputFileName, true);
 
             SearchAndReplaceHeaders(wordDoc, valuesToReplace);
-            
+
             SearchAndReplaceBody(wordDoc, valuesToReplace);
 
             SearchAndReplaceFooters(wordDoc, valuesToReplace);
@@ -61,7 +61,7 @@ namespace Microting.eForm.Helpers
             wordDoc.Dispose();
         }
 
-        private static void SearchAndReplaceHeaders(WordprocessingDocument wordDoc, 
+        private static void SearchAndReplaceHeaders(WordprocessingDocument wordDoc,
             SortedDictionary<string, string> valuesToReplace)
         {
             foreach (HeaderPart headerPart in wordDoc.MainDocumentPart.HeaderParts)
@@ -71,7 +71,7 @@ namespace Microting.eForm.Helpers
                 {
                     docText = sr.ReadToEnd();
                 }
-                
+
                 docText = SearchAndReplace(docText, valuesToReplace);
 
                 using (StreamWriter sw = new StreamWriter(headerPart.GetStream(FileMode.Create)))
@@ -83,8 +83,8 @@ namespace Microting.eForm.Helpers
                 }
             }
         }
-        
-        private static void SearchAndReplaceBody(WordprocessingDocument wordDoc, 
+
+        private static void SearchAndReplaceBody(WordprocessingDocument wordDoc,
             SortedDictionary<string, string> valuesToReplace)
         {
             string docText = null;
@@ -103,8 +103,8 @@ namespace Microting.eForm.Helpers
                 sw.Dispose();
             }
         }
-        
-        private static void SearchAndReplaceFooters(WordprocessingDocument wordDoc, 
+
+        private static void SearchAndReplaceFooters(WordprocessingDocument wordDoc,
             SortedDictionary<string, string> valuesToReplace)
         {
             foreach (FooterPart footerPart in wordDoc.MainDocumentPart.FooterParts)
@@ -114,7 +114,7 @@ namespace Microting.eForm.Helpers
                 {
                     docText = sr.ReadToEnd();
                 }
-                
+
                 docText = SearchAndReplace(docText, valuesToReplace);
 
                 using (StreamWriter sw = new StreamWriter(footerPart.GetStream(FileMode.Create)))
@@ -126,23 +126,30 @@ namespace Microting.eForm.Helpers
                 }
             }
         }
-        
+
         private static string SearchAndReplace(string docText, SortedDictionary<string, string> valuesToReplace)
         {
             foreach (var fieldValue in valuesToReplace.Reverse())
             {
                 if (fieldValue.Value != null)
-                {  
+                {
                     Regex regexText = new Regex(fieldValue.Key);
-                    docText = regexText.Replace(docText, fieldValue.Value
-                        .Replace("&", "&amp;")
-                        .Replace("\"", "&quote;")
-                        .Replace("'", "&apos;"));  
+                    if (fieldValue.Value != "&#10004;")
+                    {
+                        docText = regexText.Replace(docText, fieldValue.Value
+                            .Replace("&", "&amp;")
+                            .Replace("\"", "&quote;")
+                            .Replace("'", "&apos;"));
+                    }
+                    else
+                    {
+                        docText = regexText.Replace(docText, fieldValue.Value);
+                    }
                 }
                 else
                 {
                     Regex regexText = new Regex(fieldValue.Key);
-                    docText = regexText.Replace(docText, "");  
+                    docText = regexText.Replace(docText, "");
                 }
             }
             Regex regexText2 = new Regex("FreeSans");
@@ -150,7 +157,7 @@ namespace Microting.eForm.Helpers
 
             return docText;
         }
-        
+
         public static void InsertSignature(string fullPathToDocument, List<KeyValuePair<string, string>> pictures)
         {
             WordprocessingDocument wordDoc = WordprocessingDocument.Open(fullPathToDocument, true);
@@ -166,11 +173,11 @@ namespace Microting.eForm.Helpers
                 {
                     iWidth = bmp.Width;
                     iHeight = bmp.Height;
-                }            
-                
+                }
+
                 iWidth = (long)Math.Round((decimal)iWidth * 9525);
                 iHeight = (long)Math.Round((decimal)iHeight * 9525);
-                
+
                 double maxWidthCm = 16.5;
                 const int emusPerCm = 360000;
                 long maxWidthEmus = (long)(maxWidthCm * emusPerCm);
@@ -179,7 +186,7 @@ namespace Microting.eForm.Helpers
                     iWidth = maxWidthEmus;
                     iHeight = (long)(iWidth * ratio);
                 }
-                
+
 
                 using (FileStream stream = new FileStream(keyValuePair.Value, FileMode.Open)) {
                     imagePart.FeedData(stream);
@@ -187,7 +194,7 @@ namespace Microting.eForm.Helpers
 
                 AddSignatureToParagraph(wordDoc, mainPart.GetIdOfPart(imagePart), iWidth, iHeight, keyValuePair.Key);
             }
-            
+
             wordDoc.Save();
             wordDoc.Close();
             wordDoc.Dispose();
@@ -216,12 +223,12 @@ namespace Microting.eForm.Helpers
                     }
                     InsertHeader(keyValuePair.Key, wordDoc, currentHeader);
                 }
-                
+
                 currentHeader = keyValuePair.Key;
                 InsertPicture(keyValuePair.Value, wordDoc);
 
             }
-            
+
             wordDoc.Save();
             wordDoc.Close();
             wordDoc.Dispose();
@@ -242,9 +249,9 @@ namespace Microting.eForm.Helpers
                     string output = pdfProcess.StandardOutput.ReadToEnd();
                     Trace.WriteLine(output);
                     pdfProcess.WaitForExit();
-                    
+
                 }
-                
+
             }
             catch (Exception e)
             {
@@ -257,27 +264,35 @@ namespace Microting.eForm.Helpers
         {
             WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper", "InsertHeader called"));
             // If currentHeader is not equal to new header, insert new header.
-            if (header != currentHeader)
+            try
             {
-                currentHeader = header;
-                SectionProperties sectPr = (SectionProperties)wordDoc.MainDocumentPart.Document.Body.ChildElements.Last();
+                if (header != currentHeader)
+                {
+                    currentHeader = header;
+                    SectionProperties sectPr =
+                        (SectionProperties) wordDoc.MainDocumentPart.Document.Body.ChildElements.Last();
 
-                wordDoc.MainDocumentPart.Document.Body.InsertBefore(new Paragraph(
-                    new Run(
-                        new RunProperties(
-                            new RunFonts() { Ascii = "Arial", HighAnsi = "Arial"}
-                            ),
-                        new Text(currentHeader)
-                        )
-                    ),
-                    sectPr
-                );
+                    wordDoc.MainDocumentPart.Document.Body.InsertBefore(new Paragraph(
+                            new Run(
+                                new RunProperties(
+                                    new RunFonts() {Ascii = "Arial", HighAnsi = "Arial"}
+                                ),
+                                new Text(currentHeader)
+                            )
+                        ),
+                        sectPr
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
 
         public static void InsertPicture(List<string> values, WordprocessingDocument wordDoc)
         {
-           
+
             MainDocumentPart mainPart = wordDoc.MainDocumentPart;
             ImagePart imagePart = mainPart.AddImagePart(ImagePartType.Jpeg);
 
@@ -287,11 +302,11 @@ namespace Microting.eForm.Helpers
             {
                 iWidth = bmp.Width;
                 iHeight = bmp.Height;
-            }            
-            
+            }
+
             iWidth = (long)Math.Round((decimal)iWidth * 9525);
             iHeight = (long)Math.Round((decimal)iHeight * 9525);
-            
+
             double maxWidthCm = 16.5;
             double maxHeightCm = 20.0;
             const int emusPerCm = 360000;
@@ -309,7 +324,7 @@ namespace Microting.eForm.Helpers
                 iHeight = maxHeightEmus;
                 iWidth = (long) (iHeight * ratio);
             }
-            
+
 
             using (FileStream stream = new FileStream(values[0], FileMode.Open)) {
                 imagePart.FeedData(stream);
@@ -337,7 +352,7 @@ namespace Microting.eForm.Helpers
                     sectPr
                 );
             }
-            
+
             AddImageToBody(wordDoc, mainPart.GetIdOfPart(imagePart), iWidth, iHeight);
         }
 
@@ -386,9 +401,9 @@ namespace Microting.eForm.Helpers
                  new Drawing(
                      new DW.Inline(
                          new DW.Extent() { Cx = cx, Cy = cy },
-                         new DW.EffectExtent() { LeftEdge = 0L, TopEdge = 0L, 
+                         new DW.EffectExtent() { LeftEdge = 0L, TopEdge = 0L,
                              RightEdge = 0L, BottomEdge = 0L },
-                         new DW.DocProperties() { Id = (UInt32Value)1U, 
+                         new DW.DocProperties() { Id = (UInt32Value)1U,
                              Name = "Picture" },
                          new DW.NonVisualGraphicFrameDrawingProperties(
                              new A.GraphicFrameLocks() { NoChangeAspect = true }),
@@ -396,19 +411,19 @@ namespace Microting.eForm.Helpers
                              new A.GraphicData(
                                  new PIC.Picture(
                                      new PIC.NonVisualPictureProperties(
-                                         new PIC.NonVisualDrawingProperties() 
-                                            { Id = (UInt32Value)0U, 
+                                         new PIC.NonVisualDrawingProperties()
+                                            { Id = (UInt32Value)0U,
                                                 Name = "New Bitmap Image.jpg" },
                                          new PIC.NonVisualPictureDrawingProperties()),
                                      new PIC.BlipFill(
                                          new A.Blip(
                                              new A.BlipExtensionList(
-                                                 new A.BlipExtension() 
-                                                    { Uri = 
+                                                 new A.BlipExtension()
+                                                    { Uri =
                                                         "{28A0092B-C50C-407E-A947-70E740481C1C}" })
-                                         ) 
-                                         { Embed = relationshipId, 
-                                             CompressionState = 
+                                         )
+                                         { Embed = relationshipId,
+                                             CompressionState =
                                              A.BlipCompressionValues.Print },
                                          new A.Stretch(
                                              new A.FillRectangle())),
@@ -420,11 +435,11 @@ namespace Microting.eForm.Helpers
                                              new A.AdjustValueList()
                                          ) { Preset = A.ShapeTypeValues.Rectangle }))
                              ) { Uri = "http://schemas.openxmlformats.org/drawingml/2006/picture" })
-                     ) { DistanceFromTop = (UInt32Value)0U, 
-                         DistanceFromBottom = (UInt32Value)0U, 
-                         DistanceFromLeft = (UInt32Value)0U, 
+                     ) { DistanceFromTop = (UInt32Value)0U,
+                         DistanceFromBottom = (UInt32Value)0U,
+                         DistanceFromLeft = (UInt32Value)0U,
                          DistanceFromRight = (UInt32Value)0U, EditId = "50D07946" });
-            
+
             // Append the reference to body, the element should be in a Run.
             SectionProperties sectPr = (SectionProperties)wordDoc.MainDocumentPart.Document.Body.ChildElements.Last();
 
@@ -440,9 +455,9 @@ namespace Microting.eForm.Helpers
                  new Drawing(
                      new DW.Inline(
                          new DW.Extent() { Cx = cx, Cy = cy },
-                         new DW.EffectExtent() { LeftEdge = 0L, TopEdge = 0L, 
+                         new DW.EffectExtent() { LeftEdge = 0L, TopEdge = 0L,
                              RightEdge = 0L, BottomEdge = 0L },
-                         new DW.DocProperties() { Id = (UInt32Value)1U, 
+                         new DW.DocProperties() { Id = (UInt32Value)1U,
                              Name = "Picture" },
                          new DW.NonVisualGraphicFrameDrawingProperties(
                              new A.GraphicFrameLocks() { NoChangeAspect = true }),
@@ -450,19 +465,19 @@ namespace Microting.eForm.Helpers
                              new A.GraphicData(
                                  new PIC.Picture(
                                      new PIC.NonVisualPictureProperties(
-                                         new PIC.NonVisualDrawingProperties() 
-                                            { Id = (UInt32Value)0U, 
+                                         new PIC.NonVisualDrawingProperties()
+                                            { Id = (UInt32Value)0U,
                                                 Name = "New Bitmap Image.jpg" },
                                          new PIC.NonVisualPictureDrawingProperties()),
                                      new PIC.BlipFill(
                                          new A.Blip(
                                              new A.BlipExtensionList(
-                                                 new A.BlipExtension() 
-                                                    { Uri = 
+                                                 new A.BlipExtension()
+                                                    { Uri =
                                                         "{28A0092B-C50C-407E-A947-70E740481C1C}" })
-                                         ) 
-                                         { Embed = relationshipId, 
-                                             CompressionState = 
+                                         )
+                                         { Embed = relationshipId,
+                                             CompressionState =
                                              A.BlipCompressionValues.Print },
                                          new A.Stretch(
                                              new A.FillRectangle())),
@@ -474,11 +489,11 @@ namespace Microting.eForm.Helpers
                                              new A.AdjustValueList()
                                          ) { Preset = A.ShapeTypeValues.Rectangle }))
                              ) { Uri = "http://schemas.openxmlformats.org/drawingml/2006/picture" })
-                     ) { DistanceFromTop = (UInt32Value)0U, 
-                         DistanceFromBottom = (UInt32Value)0U, 
-                         DistanceFromLeft = (UInt32Value)0U, 
+                     ) { DistanceFromTop = (UInt32Value)0U,
+                         DistanceFromBottom = (UInt32Value)0U,
+                         DistanceFromLeft = (UInt32Value)0U,
                          DistanceFromRight = (UInt32Value)0U, EditId = "50D07946" });
-            
+
             var tagNode = wordDoc.MainDocumentPart.Document.Body.Elements<Paragraph>().FirstOrDefault(f => f.InnerText.Contains(tagToReplace));
             if (tagNode != null)
             {
