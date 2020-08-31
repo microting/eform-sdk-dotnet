@@ -1975,62 +1975,63 @@ namespace eFormCore
             string methodName = "Core.CaseToJasperXml";
             try
             {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(caseId), caseId.ToString());
-                    log.LogVariable(methodName, nameof(timeStamp), timeStamp);
+                await using MicrotingDbContext dbContext = dbContextHelper.GetDbContext();
+                log.LogStandard(methodName, "called");
+                log.LogVariable(methodName, nameof(caseId), caseId.ToString());
+                log.LogVariable(methodName, nameof(timeStamp), timeStamp);
 
-                    if (timeStamp == null)
-                        timeStamp = $"{DateTime.UtcNow:yyyyMMdd}_{DateTime.UtcNow:hhmmss}";
+                if (timeStamp == null)
+                    timeStamp = $"{DateTime.UtcNow:yyyyMMdd}_{DateTime.UtcNow:hhmmss}";
 
-                    //get needed data
+                //get needed data
 //                    CaseDto cDto = CaseLookupCaseId(caseId);
 //                    ReplyElement reply = CaseRead(cDto.MicrotingUId, cDto.CheckUId);
-                    if (reply == null)
-                        throw new NullReferenceException($"reply is null. Delete or fix the case with ID {caseId}");
-                    string clsLst = "";
-                    string fldLst = "";
-                    GetChecksAndFields(ref clsLst, ref fldLst, reply.ElementList, customPathForUploadedData);
-                    log.LogVariable(methodName, nameof(clsLst), clsLst);
-                    log.LogVariable(methodName, nameof(fldLst), fldLst);
+                if (reply == null)
+                    throw new NullReferenceException($"reply is null. Delete or fix the case with ID {caseId}");
+                string clsLst = "";
+                string fldLst = "";
+                GetChecksAndFields(ref clsLst, ref fldLst, reply.ElementList, customPathForUploadedData);
+                log.LogVariable(methodName, nameof(clsLst), clsLst);
+                log.LogVariable(methodName, nameof(fldLst), fldLst);
 
-                    #region convert to jasperXml
+                #region convert to jasperXml
 
-                    // TODO make this dynamic, so it can be defined by user, which timezone to show data in.
-                    TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
-                    reply.DoneAt = TimeZoneInfo.ConvertTimeFromUtc(reply.DoneAt, timeZoneInfo);
-                    string jasperXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-                        + Environment.NewLine + "<root>"
-                        + Environment.NewLine + "<C" + reply.Id + " case_id=\"" + caseId + "\" case_name=\"" + reply.Label + "\" serial_number=\"" + caseId + "/" + cDto.MicrotingUId + "\" check_list_status=\"approved\">"
-                        + Environment.NewLine + "<worker>" + await Advanced_WorkerNameRead(reply.DoneById) + "</worker>"
-                        + Environment.NewLine + "<check_id>" + reply.MicrotingUId + "</check_id>"
-                        + Environment.NewLine + "<date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</date>"
-                        + Environment.NewLine + "<check_date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</check_date>"
-                        + Environment.NewLine + "<site_name>" + Advanced_SiteItemRead(reply.SiteMicrotingUuid).GetAwaiter().GetResult().SiteName + "</site_name>"
-                        + Environment.NewLine + "<check_lists>"
+                // TODO make this dynamic, so it can be defined by user, which timezone to show data in.
+                TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
+                reply.DoneAt = TimeZoneInfo.ConvertTimeFromUtc(reply.DoneAt, timeZoneInfo);
+                string jasperXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+                    + Environment.NewLine + "<root>"
+                    + Environment.NewLine + "<C" + reply.Id + " case_id=\"" + caseId + "\" case_name=\"" + reply.Label + "\" serial_number=\"" + caseId + "/" + cDto.MicrotingUId + "\" check_list_status=\"approved\">"
+                    + Environment.NewLine + "<worker>" + dbContext.workers.Single(x => x.Id == reply.DoneById).full_name() + "</worker>"
+                    + Environment.NewLine + "<check_id>" + reply.MicrotingUId + "</check_id>"
+                    + Environment.NewLine + "<date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</date>"
+                    + Environment.NewLine + "<check_date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</check_date>"
+                    + Environment.NewLine + "<site_name>" + dbContext.sites.Single(x => x.MicrotingUid == reply.SiteMicrotingUuid).Name + "</site_name>"
+                    + Environment.NewLine + "<check_lists>"
 
-                        + clsLst
+                    + clsLst
 
-                        + Environment.NewLine + "</check_lists>"
-                        + Environment.NewLine + "<fields>"
+                    + Environment.NewLine + "</check_lists>"
+                    + Environment.NewLine + "<fields>"
 
-                        + fldLst
+                    + fldLst
 
-                        + Environment.NewLine + "</fields>"
-                        + Environment.NewLine + "</C" + reply.Id + ">"
-                        + customXMLContent
-                        + Environment.NewLine + "</root>";
-                    log.LogVariable(methodName, nameof(jasperXml), jasperXml);
-                    #endregion
+                    + Environment.NewLine + "</fields>"
+                    + Environment.NewLine + "</C" + reply.Id + ">"
+                    + customXMLContent
+                    + Environment.NewLine + "</root>";
+                log.LogVariable(methodName, nameof(jasperXml), jasperXml);
+                #endregion
 
-                    //place in settings allocated placement
-                    string fullPath = Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "results",
-                        $"{timeStamp}_{caseId}.xml");
-                    string path = await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false);
-                    Directory.CreateDirectory(Path.Combine(path, "results"));
-                    File.WriteAllText(fullPath, jasperXml.Trim(), Encoding.UTF8);
+                //place in settings allocated placement
+                string fullPath = Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "results",
+                    $"{timeStamp}_{caseId}.xml");
+                string path = await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false);
+                Directory.CreateDirectory(Path.Combine(path, "results"));
+                File.WriteAllText(fullPath, jasperXml.Trim(), Encoding.UTF8);
 
-                    log.LogVariable(methodName, nameof(fullPath), fullPath);
-                    return fullPath;
+                log.LogVariable(methodName, nameof(fullPath), fullPath);
+                return fullPath;
             }
             catch (Exception ex)
             {
