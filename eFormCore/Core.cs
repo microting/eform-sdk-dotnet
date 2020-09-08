@@ -4586,13 +4586,18 @@ namespace eFormCore
                     try
                     {
                         Directory.CreateDirectory(uD.FileLocation + "Deleted");
-                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                        {
                             File.Move(uD.FileLocation + uD.FileName, uD.FileLocation + @"Deleted\" + uD.FileName);
                         }
                         else
                         {
                             File.Move(uD.FileLocation + uD.FileName, uD.FileLocation + @"Deleted/" + uD.FileName);
                         }
+                    }
+                    catch (FileNotFoundException exception)
+                    {
+                        log.LogException(methodName, "failed", exception);
                     }
                     catch (Exception exd)
                     {
