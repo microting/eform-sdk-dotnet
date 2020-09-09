@@ -45,6 +45,7 @@ using Amazon.S3.Model;
 using Amazon.S3.Util;
 using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
+using ImageMagick;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microting.eForm;
@@ -5194,6 +5195,41 @@ namespace eFormCore
                     {
                         log.LogStandard(methodName, $"File exists at path {filePath}");
                         await PutFileToStorageSystem(filePath, fileName).ConfigureAwait(false);
+
+                        // Generate thumbnail and docx/pdf friendly file sizes
+                        if (fileName.Contains("png") || fileName.Contains("jpg") || fileName.Contains("jpeg"))
+                        {
+                            string smallFilename = uploadedData.Id.ToString() + "_150_" + urlStr.Remove(0, index);
+                            string bigFilename = uploadedData.Id.ToString() + "_700_" + urlStr.Remove(0, index);
+                            File.Copy(filePath, Path.Combine(_fileLocationPicture, smallFilename));
+                            File.Copy(filePath, Path.Combine(_fileLocationPicture, bigFilename));
+                            Stream stream = new FileStream(Path.Combine(_fileLocationPicture, smallFilename), FileMode.Open, FileAccess.Read);
+                            using (var image = new MagickImage(stream))
+                            {
+                                decimal currentRation = image.Height / (decimal) image.Width;
+                                int newWidth = 150;
+                                int newHeight = (int) Math.Round((currentRation * newWidth));
+
+                                image.Resize(newWidth, newHeight);
+                                image.Crop(newWidth, newHeight);
+                                image.Write(stream);
+                                image.Dispose();
+                                await PutFileToStorageSystem(Path.Combine(_fileLocationPicture, smallFilename), smallFilename).ConfigureAwait(false);
+                            }
+                            stream = new FileStream(Path.Combine(_fileLocationPicture, bigFilename), FileMode.Open, FileAccess.Read);
+                            using (var image = new MagickImage(stream))
+                            {
+                                decimal currentRation = image.Height / (decimal) image.Width;
+                                int newWidth = 700;
+                                int newHeight = (int) Math.Round((currentRation * newWidth));
+
+                                image.Resize(newWidth, newHeight);
+                                image.Crop(newWidth, newHeight);
+                                image.Write(stream);
+                                image.Dispose();
+                                await PutFileToStorageSystem(Path.Combine(_fileLocationPicture, bigFilename), bigFilename).ConfigureAwait(false);
+                            }
+                        }
                     }
                     else
                     {
