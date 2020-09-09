@@ -5203,8 +5203,8 @@ namespace eFormCore
                             string bigFilename = uploadedData.Id.ToString() + "_700_" + urlStr.Remove(0, index);
                             File.Copy(filePath, Path.Combine(_fileLocationPicture, smallFilename));
                             File.Copy(filePath, Path.Combine(_fileLocationPicture, bigFilename));
-                            Stream stream = new FileStream(Path.Combine(_fileLocationPicture, smallFilename), FileMode.Open, FileAccess.Read);
-                            using (var image = new MagickImage(stream))
+                            string filePathResized = Path.Combine(_fileLocationPicture, smallFilename);
+                            using (var image = new MagickImage(filePathResized))
                             {
                                 decimal currentRation = image.Height / (decimal) image.Width;
                                 int newWidth = 150;
@@ -5212,12 +5212,12 @@ namespace eFormCore
 
                                 image.Resize(newWidth, newHeight);
                                 image.Crop(newWidth, newHeight);
-                                image.Write(stream);
+                                image.Write(filePathResized);
                                 image.Dispose();
                                 await PutFileToStorageSystem(Path.Combine(_fileLocationPicture, smallFilename), smallFilename).ConfigureAwait(false);
                             }
-                            stream = new FileStream(Path.Combine(_fileLocationPicture, bigFilename), FileMode.Open, FileAccess.Read);
-                            using (var image = new MagickImage(stream))
+                            filePathResized = Path.Combine(_fileLocationPicture, bigFilename);
+                            using (var image = new MagickImage(filePathResized))
                             {
                                 decimal currentRation = image.Height / (decimal) image.Width;
                                 int newWidth = 700;
@@ -5225,7 +5225,7 @@ namespace eFormCore
 
                                 image.Resize(newWidth, newHeight);
                                 image.Crop(newWidth, newHeight);
-                                image.Write(stream);
+                                image.Write(filePathResized);
                                 image.Dispose();
                                 await PutFileToStorageSystem(Path.Combine(_fileLocationPicture, bigFilename), bigFilename).ConfigureAwait(false);
                             }
