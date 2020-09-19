@@ -5199,25 +5199,25 @@ namespace eFormCore
                         // Generate thumbnail and docx/pdf friendly file sizes
                         if (fileName.Contains("png") || fileName.Contains("jpg") || fileName.Contains("jpeg"))
                         {
-                            string smallFilename = uploadedData.Id.ToString() + "_150_" + urlStr.Remove(0, index);
+                            string smallFilename = uploadedData.Id.ToString() + "_300_" + urlStr.Remove(0, index);
                             string bigFilename = uploadedData.Id.ToString() + "_700_" + urlStr.Remove(0, index);
                             File.Copy(filePath, Path.Combine(_fileLocationPicture, smallFilename));
                             File.Copy(filePath, Path.Combine(_fileLocationPicture, bigFilename));
-                            Stream stream = new FileStream(Path.Combine(_fileLocationPicture, smallFilename), FileMode.Open, FileAccess.Read);
-                            using (var image = new MagickImage(stream))
+                            string filePathResized = Path.Combine(_fileLocationPicture, smallFilename);
+                            using (var image = new MagickImage(filePathResized))
                             {
                                 decimal currentRation = image.Height / (decimal) image.Width;
-                                int newWidth = 150;
+                                int newWidth = 300;
                                 int newHeight = (int) Math.Round((currentRation * newWidth));
 
                                 image.Resize(newWidth, newHeight);
                                 image.Crop(newWidth, newHeight);
-                                image.Write(stream);
+                                image.Write(filePathResized);
                                 image.Dispose();
                                 await PutFileToStorageSystem(Path.Combine(_fileLocationPicture, smallFilename), smallFilename).ConfigureAwait(false);
                             }
-                            stream = new FileStream(Path.Combine(_fileLocationPicture, bigFilename), FileMode.Open, FileAccess.Read);
-                            using (var image = new MagickImage(stream))
+                            filePathResized = Path.Combine(_fileLocationPicture, bigFilename);
+                            using (var image = new MagickImage(filePathResized))
                             {
                                 decimal currentRation = image.Height / (decimal) image.Width;
                                 int newWidth = 700;
@@ -5225,7 +5225,7 @@ namespace eFormCore
 
                                 image.Resize(newWidth, newHeight);
                                 image.Crop(newWidth, newHeight);
-                                image.Write(stream);
+                                image.Write(filePathResized);
                                 image.Dispose();
                                 await PutFileToStorageSystem(Path.Combine(_fileLocationPicture, bigFilename), bigFilename).ConfigureAwait(false);
                             }
