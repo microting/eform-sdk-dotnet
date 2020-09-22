@@ -260,11 +260,11 @@ namespace eFormCore
                     _communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId, ComAddressPdfUpload, log, ComSpeechToText);
 
                     _container = new WindsorContainer();
-                    _container.Register(Component.For<SqlController>().Instance(_sqlController));
-                    _container.Register(Component.For<Communicator>().Instance(_communicator));
-                    _container.Register(Component.For<Log>().Instance(log));
-                    _container.Register(Component.For<Core>().Instance(this));
-
+                    _container.Register(
+                        Component.For<SqlController>().Instance(_sqlController),
+                        Component.For<Communicator>().Instance(_communicator),
+                        Component.For<Log>().Instance(log),
+                        Component.For<Core>().Instance(this));
 
                     try
                     {
