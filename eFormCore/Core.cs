@@ -265,7 +265,6 @@ namespace eFormCore
                     _container.Register(Component.For<Log>().Instance(log));
                     _container.Register(Component.For<Core>().Instance(this));
 
-
                     try
                     {
                         _customerNo = await _sqlController.SettingRead(Settings.customerNo).ConfigureAwait(false);

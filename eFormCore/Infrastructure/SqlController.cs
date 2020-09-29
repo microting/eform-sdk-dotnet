@@ -355,16 +355,17 @@ namespace Microting.eForm.Infrastructure
                         if (hasCases)
                         {
                             var result = await cases.OrderBy(x => x.Id).LastAsync();
-                            folderId = result.FolderId;
+                            folderId ??= result.FolderId;
                         }
                         
                         #region loadtags
-                        List<taggings> tagging_matches = checkList.Taggings.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList();
-                        List<KeyValuePair<int, string>> check_list_tags = new List<KeyValuePair<int, string>>();
-                        foreach (taggings tagging in tagging_matches)
+                        List<taggings> taggingMatches = checkList.Taggings
+                            .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList();
+                        List<KeyValuePair<int, string>> checkListTags = new List<KeyValuePair<int, string>>();
+                        foreach (taggings tagging in taggingMatches)
                         {
                             KeyValuePair<int, string> kvp = new KeyValuePair<int, string>((int)tagging.TagId, tagging.Tag.Name);
-                            check_list_tags.Add(kvp);
+                            checkListTags.Add(kvp);
                         }
                         #endregion
                         try
@@ -382,7 +383,7 @@ namespace Microting.eForm.Infrastructure
                                 DeployedSites = sites,
                                 HasCases = hasCases,
                                 DisplayIndex = checkList.DisplayIndex,
-                                Tags = check_list_tags,
+                                Tags = checkListTags,
                                 FolderId = folderId,
                                 DocxExportEnabled =  checkList.DocxExportEnabled,
                                 JasperExportEnabled = checkList.JasperExportEnabled,
