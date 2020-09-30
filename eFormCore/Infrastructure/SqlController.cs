@@ -3371,7 +3371,7 @@ namespace Microting.eForm.Infrastructure
                     if (units.Count() > 0 && worker != null)
                     {
                         units unit = units.First();
-                        return new SiteDto((int)site.MicrotingUid, site.Name, worker.FirstName, worker.LastName, (int)unit.CustomerNo, (int)unit.OtpCode, (int)unit.MicrotingUid, worker.MicrotingUid);
+                        return new SiteDto((int)site.MicrotingUid, site.Name, worker.FirstName, worker.LastName, (int)unit.CustomerNo, unit.OtpCode ?? 0, (int)unit.MicrotingUid, worker.MicrotingUid);
                     }
                     else
                         return null;
