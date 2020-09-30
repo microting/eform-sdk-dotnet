@@ -3264,7 +3264,7 @@ namespace Microting.eForm.Infrastructure
                     {
                         unit = aSite.Units.First();
                         unitCustomerNo = (int)unit.CustomerNo;
-                        unitOptCode = (int)unit.OtpCode;
+                        unitOptCode = unit.OtpCode ?? 0;
                         unitMicrotingUid = (int)unit.MicrotingUid;
                     }
                     catch { }
@@ -3278,16 +3278,16 @@ namespace Microting.eForm.Infrastructure
                     }
                     catch { }
 
-                    try
-                    {
-                        SiteDto siteDto = new SiteDto((int)aSite.MicrotingUid, aSite.Name, workerFirstName, workerLastName, unitCustomerNo, unitOptCode, unitMicrotingUid, workerMicrotingUid);
-                        siteList.Add(siteDto);
-                    }
-                    catch
-                    {
-                        SiteDto siteDto = new SiteDto((int)aSite.MicrotingUid, aSite.Name, workerFirstName, workerLastName, unitCustomerNo, unitOptCode, unitMicrotingUid, workerMicrotingUid);
-                        siteList.Add(siteDto);
-                    }
+                    // try
+                    // {
+                        // SiteDto siteDto = new SiteDto((int)aSite.MicrotingUid, aSite.Name, workerFirstName, workerLastName, unitCustomerNo, unitOptCode, unitMicrotingUid, workerMicrotingUid);
+                        // siteList.Add(siteDto);
+                    // }
+                    // catch
+                    // {
+                    SiteDto siteDto = new SiteDto((int)aSite.MicrotingUid, aSite.Name, workerFirstName, workerLastName, unitCustomerNo, unitOptCode, unitMicrotingUid, workerMicrotingUid);
+                    siteList.Add(siteDto);
+                    // }
                 }
             }
             return siteList;
