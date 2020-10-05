@@ -4795,7 +4795,7 @@ namespace eFormCore
                     List<string> colume11 = new List<string> { "Device Id" };
                     List<string> colume12 = new List<string> { "eForm Name" };
 
-                    var cal = DateTimeFormatInfo.CurrentInfo.Calendar;
+                    var cal = DateTimeFormatInfo.CurrentInfo?.Calendar;
                     foreach (var aCase in cases)
                     {
                         DateTime time = (DateTime)aCase.DoneAt;
@@ -4811,7 +4811,7 @@ namespace eFormCore
                         colume2.Add(time.ToString("yyyy.MM.dd"));
                         colume3.Add(time.ToString("HH:mm:ss"));
                         colume4.Add(time.DayOfWeek.ToString());
-                        colume5.Add(time.Year + "." + cal.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday));
+                        colume5.Add($"{time.Year}.{cal.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday)}");
                         //colume6.Add(time.Year.ToString() + "." + time.ToString("MMMM").Substring(0, 3));
                         colume6.Add(time.Year + "." + time.ToString("MMMM").AsSpan().Slice(0,3).ToString());
                         colume7.Add(time.Year.ToString());
