@@ -2209,7 +2209,9 @@ namespace eFormCore
                                     $"https://www.google.com/maps/place/{fieldValue.Latitude},{fieldValue.Longitude}";
                             }
                             var list = new List<string>();
-                            list.Add(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
+                            // Using the 700px image instead of full size.
+                            // list.Add(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
+                            list.Add($"{fieldValue.UploadedDataObj.FileLocation}{fieldValue.UploadedDataObj.Id}_700_{fieldValue.UploadedDataObj.Checksum}{fieldValue.UploadedDataObj.Extension}");
                             list.Add(geoTag);
                             pictures.Add(new KeyValuePair<string, List<string>>($"{checkList.Label.Replace("&", "&amp;")} - {field.Label.Replace("&", "&amp;")}", list));
 //                            if (fieldValue.Latitude != null) {
@@ -2222,7 +2224,7 @@ namespace eFormCore
                                 var fileStream =
                                     File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
                                 swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
-                                swiftObjectGetResponse.ObjectStreamContent.CopyTo(fileStream);
+                                await swiftObjectGetResponse.ObjectStreamContent.CopyToAsync(fileStream);
                                 fileStream.Close();
                             }
 
@@ -2233,11 +2235,11 @@ namespace eFormCore
                                 Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
                                 var fileStream =
                                     File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
-                                fileFromS3Storage.ResponseStream.CopyTo(fileStream);
+                                await fileFromS3Storage.ResponseStream.CopyToAsync(fileStream);
                                 fileStream.Close();
-                                fileStream.Dispose();
+                                await fileStream.DisposeAsync();
                                 fileFromS3Storage.ResponseStream.Close();
-                                fileFromS3Storage.ResponseStream.Dispose();
+                                await fileFromS3Storage.ResponseStream.DisposeAsync();
                             }
 
                             if (imageFieldCountList.ContainsKey($"FCount_{fieldValue.FieldId}"))
@@ -2259,7 +2261,7 @@ namespace eFormCore
                                 var fileStream =
                                     File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
                                 swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
-                                swiftObjectGetResponse.ObjectStreamContent.CopyTo(fileStream);
+                                await swiftObjectGetResponse.ObjectStreamContent.CopyToAsync(fileStream);
                                 fileStream.Close();
                             }
 
@@ -2270,11 +2272,11 @@ namespace eFormCore
                                 Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
                                 var fileStream =
                                     File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
-                                fileFromS3Storage.ResponseStream.CopyTo(fileStream);
+                                await fileFromS3Storage.ResponseStream.CopyToAsync(fileStream);
                                 fileStream.Close();
-                                fileStream.Dispose();
+                                await fileStream.DisposeAsync();
                                 fileFromS3Storage.ResponseStream.Close();
-                                fileFromS3Storage.ResponseStream.Dispose();
+                                await fileFromS3Storage.ResponseStream.DisposeAsync();
                             }
 
                             valuePairs.Remove($"F_{field.Id}");
