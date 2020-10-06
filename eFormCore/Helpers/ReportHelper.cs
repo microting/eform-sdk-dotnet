@@ -27,11 +27,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Validation;
 using DocumentFormat.OpenXml.Wordprocessing;
+using ImageMagick;
 using A = DocumentFormat.OpenXml.Drawing;
 using Break = DocumentFormat.OpenXml.Wordprocessing.Break;
 using DW = DocumentFormat.OpenXml.Drawing.Wordprocessing;
@@ -169,11 +171,12 @@ namespace Microting.eForm.Helpers
 
                 long iWidth = 0;
                 long iHeight = 0;
-                using (System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(keyValuePair.Value))
-                {
-                    iWidth = bmp.Width;
-                    iHeight = bmp.Height;
-                }
+
+                var bytes = Convert.FromBase64String(keyValuePair.Value);
+
+                using var image = new MagickImage(bytes);
+                iWidth = image.Width;
+                iHeight = image.Height;
 
                 iWidth = (long)Math.Round((decimal)iWidth * 9525);
                 iHeight = (long)Math.Round((decimal)iHeight * 9525);
@@ -187,10 +190,7 @@ namespace Microting.eForm.Helpers
                     iHeight = (long)(iWidth * ratio);
                 }
 
-
-                using (FileStream stream = new FileStream(keyValuePair.Value, FileMode.Open)) {
-                    imagePart.FeedData(stream);
-                }
+                imagePart.FeedData(new MemoryStream(bytes));
 
                 AddSignatureToParagraph(wordDoc, mainPart.GetIdOfPart(imagePart), iWidth, iHeight, keyValuePair.Key);
             }
@@ -298,11 +298,11 @@ namespace Microting.eForm.Helpers
 
             long iWidth = 0;
             long iHeight = 0;
-            using (System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(values[0]))
-            {
-                iWidth = bmp.Width;
-                iHeight = bmp.Height;
-            }
+            var bytes = Convert.FromBase64String(values[0]);
+
+            using var image = new MagickImage(bytes);
+            iWidth = image.Width;
+            iHeight = image.Height;
 
             iWidth = (long)Math.Round((decimal)iWidth * 9525);
             iHeight = (long)Math.Round((decimal)iHeight * 9525);
@@ -325,10 +325,7 @@ namespace Microting.eForm.Helpers
                 iWidth = (long) (iHeight * ratio);
             }
 
-
-            using (FileStream stream = new FileStream(values[0], FileMode.Open)) {
-                imagePart.FeedData(stream);
-            }
+            imagePart.FeedData(new MemoryStream(bytes));
 
             if (!string.IsNullOrEmpty(values[1]))
             {

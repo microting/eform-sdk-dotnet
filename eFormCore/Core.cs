@@ -2189,6 +2189,7 @@ namespace eFormCore
             SortedDictionary<string, int> imageFieldCountList = new SortedDictionary<string, int>();
             foreach (FieldValue fieldValue in fieldValues)
             {
+                string fileContent = "";
                 switch (fieldValue.FieldType)
                 {
                     case Constants.FieldTypes.MultiSelect:
@@ -2209,38 +2210,26 @@ namespace eFormCore
                                     $"https://www.google.com/maps/place/{fieldValue.Latitude},{fieldValue.Longitude}";
                             }
                             var list = new List<string>();
-                            // Using the 700px image instead of full size.
-                            // list.Add(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
-                            list.Add($"{fieldValue.UploadedDataObj.FileLocation}{fieldValue.UploadedDataObj.Id}_700_{fieldValue.UploadedDataObj.Checksum}{fieldValue.UploadedDataObj.Extension}");
-                            list.Add(geoTag);
-                            pictures.Add(new KeyValuePair<string, List<string>>($"{checkList.Label.Replace("&", "&amp;")} - {field.Label.Replace("&", "&amp;")}", list));
-//                            if (fieldValue.Latitude != null) {
-//                                pictureGeotags.Add(new KeyValuePair<string, string>($"{checkList.Label.Replace("&", "&amp;")} - {field.Label.Replace("&", "&amp;")}", ));
-//                            }
+                            string fileName =
+                                $"{fieldValue.UploadedDataObj.Id}_700_{fieldValue.UploadedDataObj.Checksum}{fieldValue.UploadedDataObj.Extension}";
+
                             if (_swiftEnabled)
                             {
-                                SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName).ConfigureAwait(false);
-                                Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
-                                var fileStream =
-                                    File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
-                                swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
-                                await swiftObjectGetResponse.ObjectStreamContent.CopyToAsync(fileStream);
-                                fileStream.Close();
+                                using SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fileName).ConfigureAwait(false);
+                                using var image = new MagickImage(swiftObjectGetResponse.ObjectStreamContent);
+                                fileContent = image.ToBase64();
                             }
 
                             if (_s3Enabled)
                             {
-                                GetObjectResponse fileFromS3Storage =
-                                    await GetFileFromS3Storage(fieldValue.UploadedDataObj.FileName);
-                                Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
-                                var fileStream =
-                                    File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
-                                await fileFromS3Storage.ResponseStream.CopyToAsync(fileStream);
-                                fileStream.Close();
-                                await fileStream.DisposeAsync();
-                                fileFromS3Storage.ResponseStream.Close();
-                                await fileFromS3Storage.ResponseStream.DisposeAsync();
+                                using GetObjectResponse response =
+                                    await GetFileFromS3Storage(fileName);
+                                using var image = new MagickImage(response.ResponseStream);
+                                fileContent = image.ToBase64();
                             }
+                            list.Add(fileContent);
+                            list.Add(geoTag);
+                            pictures.Add(new KeyValuePair<string, List<string>>($"{checkList.Label.Replace("&", "&amp;")} - {field.Label.Replace("&", "&amp;")}", list));
 
                             if (imageFieldCountList.ContainsKey($"FCount_{fieldValue.FieldId}"))
                             {
@@ -2253,31 +2242,21 @@ namespace eFormCore
                         {
                             fields field = await dbContext.fields.SingleOrDefaultAsync(x => x.Id == fieldValue.FieldId);
 
-                            signatures.Add(new KeyValuePair<string, string>($"F_{fieldValue.FieldId}", fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName));
                             if (_swiftEnabled)
                             {
                                 SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName).ConfigureAwait(false);
-                                Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
-                                var fileStream =
-                                    File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
-                                swiftObjectGetResponse.ObjectStreamContent.Seek(0, SeekOrigin.Begin);
-                                await swiftObjectGetResponse.ObjectStreamContent.CopyToAsync(fileStream);
-                                fileStream.Close();
+                                using var image = new MagickImage(swiftObjectGetResponse.ObjectStreamContent);
+                                fileContent = image.ToBase64();
                             }
 
                             if (_s3Enabled)
                             {
-                                GetObjectResponse fileFromS3Storage =
+                                using GetObjectResponse response =
                                     await GetFileFromS3Storage(fieldValue.UploadedDataObj.FileName).ConfigureAwait(false);
-                                Directory.CreateDirectory(fieldValue.UploadedDataObj.FileLocation);
-                                var fileStream =
-                                    File.Create(fieldValue.UploadedDataObj.FileLocation + fieldValue.UploadedDataObj.FileName);
-                                await fileFromS3Storage.ResponseStream.CopyToAsync(fileStream);
-                                fileStream.Close();
-                                await fileStream.DisposeAsync();
-                                fileFromS3Storage.ResponseStream.Close();
-                                await fileFromS3Storage.ResponseStream.DisposeAsync();
+                                using var image = new MagickImage(response.ResponseStream);
+                                fileContent = image.ToBase64();
                             }
+                            signatures.Add(new KeyValuePair<string, string>($"F_{fieldValue.FieldId}", fileContent));
 
                             valuePairs.Remove($"F_{field.Id}");
                         }
