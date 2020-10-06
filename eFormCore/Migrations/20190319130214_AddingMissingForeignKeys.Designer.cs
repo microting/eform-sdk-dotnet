@@ -43,7 +43,7 @@ namespace Microting.eForm.Migrations
             //Setup for SQL Server Provider
            
             string autoIDGenStrategy = "SqlServer:ValueGenerationStrategy";
-            object autoIDGenStrategyValue = SqlServerValueGenerationStrategy.IdentityColumn;
+            object autoIDGenStrategyValue = MySqlValueGenerationStrategy.IdentityColumn;
             if (DbConfig.IsMySQL)
             {
                 autoIDGenStrategy = "MySql:ValueGenerationStrategy";
@@ -58,7 +58,7 @@ namespace Microting.eForm.Migrations
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("answerId");
 

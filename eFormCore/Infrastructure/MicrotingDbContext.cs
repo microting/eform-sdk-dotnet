@@ -141,16 +141,16 @@ namespace Microting.eForm.Infrastructure
         
 
         // dotnet ef migrations add AddingNewModels --project eFormCore --startup-project DBMigrator
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(@"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True");
-            }
-
-//            optionsBuilder.EnableSensitiveDataLogging();
-//            optionsBuilder.UseLoggerFactory(MyLoggerFactory);
-        }
+//         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//         {
+//             if (!optionsBuilder.IsConfigured)
+//             {
+//                 optionsBuilder.UseSqlServer(@"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True");
+//             }
+//
+// //            optionsBuilder.EnableSensitiveDataLogging();
+// //            optionsBuilder.UseLoggerFactory(MyLoggerFactory);
+//         }
 
 
     }

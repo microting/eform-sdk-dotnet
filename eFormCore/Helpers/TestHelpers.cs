@@ -59,14 +59,14 @@ namespace Microting.eForm.Helpers
 
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
 
-            if (connectionStr.ToLower().Contains("convert zero datetime"))
-            {
+            // if (connectionStr.ToLower().Contains("convert zero datetime"))
+            // {
                 dbContextOptionsBuilder.UseMySql(connectionStr);
-            }
-            else
-            {
-                dbContextOptionsBuilder.UseSqlServer(connectionStr);
-            }
+            // }
+            // else
+            // {
+                // dbContextOptionsBuilder.UseSqlServer(connectionStr);
+            // }
             dbContextOptionsBuilder.UseLazyLoadingProxies(true);
             return new MicrotingDbContext(dbContextOptionsBuilder.Options);
 
