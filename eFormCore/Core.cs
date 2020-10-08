@@ -5197,6 +5197,8 @@ namespace eFormCore
                                 image.Dispose();
                                 await PutFileToStorageSystem(Path.Combine(_fileLocationPicture, smallFilename), smallFilename).ConfigureAwait(false);
                             }
+                            // Cleanup locally, so we don't fill up disc space
+                            File.Delete(filePathResized);
                             filePathResized = Path.Combine(_fileLocationPicture, bigFilename);
                             using (var image = new MagickImage(filePathResized))
                             {
@@ -5210,7 +5212,11 @@ namespace eFormCore
                                 image.Dispose();
                                 await PutFileToStorageSystem(Path.Combine(_fileLocationPicture, bigFilename), bigFilename).ConfigureAwait(false);
                             }
+                            // Cleanup locally, so we don't fill up disc space
+                            File.Delete(filePathResized);
                         }
+                        // Cleanup locally, so we don't fill up disc space
+                        File.Delete(filePath);
                     }
                     else
                     {
