@@ -49,7 +49,7 @@ namespace Microting.eForm.Helpers
 //            }
 //            else
 //            {
-                connectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
+                connectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; password = 'secretpassword'; Convert Zero Datetime = true;";
 //            }
 
             dbContext = GetContext(connectionString);
