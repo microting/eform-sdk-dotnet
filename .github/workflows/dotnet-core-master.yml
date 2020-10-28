@@ -38,8 +38,8 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Unit Tests
-      run: ./unit-tests.sh
+      run: dotnet test --no-restore -c Release -v n eFormSDK.Tests/eFormSDK.Tests.csproj
     - name: Integration Tests
-      run: ./integration-tests-core.sh
+      run: dotnet test --no-restore -c Release -v n eFormSDK.Integration.CoreTests/eFormSDK.Integration.CoreTests.csproj
     - name: SQL Controller Tests
-      run: ./integration-tests-sqlcontroller.sh
+      run: dotnet test --no-restore -c Release -v n eFormSDK.Integration.SqlControllerTests/eFormSDK.Integration.SqlControllerTests.csproj
