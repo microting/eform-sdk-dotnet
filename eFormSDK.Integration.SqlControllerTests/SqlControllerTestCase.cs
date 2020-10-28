@@ -244,8 +244,8 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches1[0].WorkflowState);
             Assert.AreEqual(100, caseResults[0].Status);
             Assert.AreEqual(100, versionedMatches1[0].Status);
-            Assert.AreEqual("6/11/2020 10:08:16 AM", caseResults[0].DoneAt.ToString());
-            Assert.AreEqual("6/11/2020 10:08:16 AM", versionedMatches1[0].DoneAt.ToString());
+            Assert.AreEqual("06/11/2020 10:08:16", caseResults[0].DoneAt.Value.ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
+            Assert.AreEqual("06/11/2020 10:08:16", versionedMatches1[0].DoneAt.Value.ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
 
         }
 
