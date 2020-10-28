@@ -1,6 +1,6 @@
-# eform-sdk-dotnet 
+# eform-sdk-dotnet
 
-[![Build Status on Linux](https://travis-ci.org/microting/eform-sdk-dotnet.svg?branch=master)](https://travis-ci.org/microting/eform-sdk-dotnet)
+![.NET Core](https://github.com/microting/eform-sdk-dotnet/workflows/.NET%20Core/badge.svg)
 [![NuGet Badge](https://buildstats.info/nuget/Microting.eForm)](https://www.nuget.org/packages/Microting.eForm/)
 [![Maintainability](https://api.codeclimate.com/v1/badges/72013d4897452b0e305c/maintainability)](https://codeclimate.com/github/microting/eform-sdk-dotnet/maintainability)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/fb06e7e105ea4189a42e9205d971431b)](https://www.codacy.com/gh/microting/eform-sdk-dotnet?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=microting/eform-sdk-dotnet&amp;utm_campaign=Badge_Grade)
@@ -22,7 +22,7 @@ A .NET SDK for integrating with the Microting eForm API v1.
 
 ## Setup
 
-To get started with Microting eForm SDK, we recommend you to install the SDK using NuGet with 
+To get started with Microting eForm SDK, we recommend you to install the SDK using NuGet with
 
 ```
 PM> Install-Package Microting.eForm
@@ -49,7 +49,7 @@ You need to create an account for Microting API and get your access credentials.
 
   - Visual Studio 2017 / Rider
   - MySQL 5.5+ / MariaDB 10.4
-  
+
 ## Known bugs as of February 21st 2017
 
   - The Core.TemplatFromXml(string xmlString) is not able to parse DataItems of the following types:
@@ -81,7 +81,7 @@ Pull-reuqsts that do not pass tests, will not be accepted.
 Check out the [full issues list](https://github.com/microting/eform-sdk-dotnet/issues) for a list of all potential areas for contributions.
 
 To improve the chances to get a pull request merged you should select an issue that is labelled with the [help_wanted](https://github.com/microting/eform-sdk-dotnet/issues?q=is%3Aissue+is%3Aopen+label%3Ahelp_wanted) or [bug](https://github.com/microting/eform-sdk-dotnet/issues?q=is%3Aissue+is%3Aopen+label%3Abug) labels. If the issue you want to work on is not labelled with `help-wanted` or `bug`, you can start a conversation with the issue owner asking whether an external contribution will be considered.
-	
+
 ### Suggestions
 
 We're also interested in your feedback for the future of Microting eForm SDK. You can submit a suggestion or feature request through the issue tracker. To make this process more effective, we're asking that these include more information to help define them more clearly.
@@ -96,7 +96,7 @@ dotnet ef migrations add MIGRATIONNAME --project eFormCore/Microting.eForm.cspro
 ## Microting Open Source Code of Conduct
 
 This project has adopted the [Microting Open Source Code of Conduct](https://www.microting.com/microting-open-source-code-of-conduct). Contact opencode@microting.com with any additional questions or comments.
-	
+
 ## License
 
 The MIT License (MIT)
