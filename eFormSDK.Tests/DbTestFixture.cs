@@ -61,7 +61,7 @@ namespace eFormSDK.Tests
         [SetUp]
         public async Task Setup()
         {
-            ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; Convert Zero Datetime = true;";
+            ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; password = 'secretpassword'; Convert Zero Datetime = true;";
 
             DbContext = GetContext(ConnectionString);
 

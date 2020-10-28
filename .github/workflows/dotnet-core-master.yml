@@ -37,5 +37,9 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
-    - name: Unit Test
+    - name: Unit Tests
       run: ./unit-tests.sh
+    - name: Integration Tests
+      run: ./integration-tests-core.sh
+    - name: SQL Controller Tests
+      run: ./integration-tests-sqlcontroller.sh
