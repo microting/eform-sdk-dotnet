@@ -25,15 +25,16 @@ SOFTWARE.
 using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace Microting.eForm.Infrastructure.Factories
 {
-    public class MicrotingDbContextFactory
+    public class MicrotingDbContextFactory : IDesignTimeDbContextFactory<MicrotingDbContext>
     {
         public MicrotingDbContext CreateDbContext(string[] args)
         {
-            var defaultCs = "Server = localhost; port = 3306; Database = eform-sdk; user = root; Convert Zero Datetime = true;";
+            var defaultCs = "Server = localhost; port = 3306; Database = eform-sdk; user = root; password = secretpassword; Convert Zero Datetime = true;";
             var optionsBuilder = new DbContextOptionsBuilder<MicrotingDbContext>();
             optionsBuilder.UseMySql(args.Any() ? args[0] : defaultCs, mysqlOptions =>
             {

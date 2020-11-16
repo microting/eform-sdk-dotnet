@@ -39,6 +39,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
         [StringLength(50)] public string Type { get; set; }
 
         public async Task Create(MicrotingDbContext dbContext)
@@ -68,6 +70,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             entityGroups.MicrotingUid = MicrotingUid;
             entityGroups.Name = Name;
             entityGroups.Type = Type;
+            entityGroups.Description = Description;
 
             if (dbContext.ChangeTracker.HasChanges())
             {
@@ -119,6 +122,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 MicrotingUUID = eG.MicrotingUid,
                 EntityGroupItemLst = lst,
                 WorkflowState = eG.WorkflowState,
+                Description = eG.Description,
                 CreatedAt = eG.CreatedAt,
                 UpdatedAt = eG.UpdatedAt
             };
@@ -173,7 +177,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 UpdatedAt = entityGroup.UpdatedAt,
                 Version = entityGroup.Version,
                 WorkflowState = entityGroup.WorkflowState,
-                EntityGroupId = entityGroup.Id
+                EntityGroupId = entityGroup.Id,
+                Description = entityGroup.Description
             };
         }
     }

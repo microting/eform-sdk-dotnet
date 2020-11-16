@@ -36,5 +36,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         [StringLength(50)]
         public string Type { get; set; }
+
+        public string Description { get; set; }
     }
 }

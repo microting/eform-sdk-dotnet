@@ -41,6 +41,7 @@ namespace Microting.eForm.Infrastructure.Models
         public string MicrotingUUID { get; set; }
         public List<EntityItem> EntityGroupItemLst { get; set; }
         public string WorkflowState { get; set; }
+        public string Description { get; set; }
 
         /// <summary>
         ///...
