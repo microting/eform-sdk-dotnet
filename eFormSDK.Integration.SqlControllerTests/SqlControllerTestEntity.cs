@@ -1778,8 +1778,8 @@ namespace eFormSDK.Integration.Tests
             // Arrance
 
             // Act
-            var matchEntitySearch = await sut.EntityGroupCreate("eG1", Constants.FieldTypes.EntitySearch);
-            var matchEntitySelect = await sut.EntityGroupCreate("eG2", Constants.FieldTypes.EntitySelect);
+            var matchEntitySearch = await sut.EntityGroupCreate("eG1", Constants.FieldTypes.EntitySearch, "desc1");
+            var matchEntitySelect = await sut.EntityGroupCreate("eG2", Constants.FieldTypes.EntitySelect, "desc2");
             // Assert
             Assert.AreEqual("eG1", matchEntitySearch.Name);
             Assert.AreEqual("eG2", matchEntitySelect.Name);
