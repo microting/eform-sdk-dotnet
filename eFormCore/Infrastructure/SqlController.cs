@@ -4143,7 +4143,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="entityType"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<EntityGroup> EntityGroupCreate(string name, string entityType)
+        public async Task<EntityGroup> EntityGroupCreate(string name, string entityType, string description)
         {
             string methodName = "SqlController.EntityGroupCreate";
             try
@@ -4153,7 +4153,7 @@ namespace Microting.eForm.Infrastructure
 
                 using (var db = GetContext())
                 {
-                    entity_groups eG = new entity_groups {Name = name, Type = entityType};
+                    entity_groups eG = new entity_groups {Name = name, Type = entityType, Description = description};
 
                     await eG.Create(db).ConfigureAwait(false);
 
@@ -4166,7 +4166,8 @@ namespace Microting.eForm.Infrastructure
                         EntityGroupItemLst = new List<EntityItem>(),
                         WorkflowState = eG.WorkflowState,
                         CreatedAt = eG.CreatedAt,
-                        UpdatedAt = eG.UpdatedAt
+                        UpdatedAt = eG.UpdatedAt,
+                        Description = eG.Description
                     };
                 }
             }

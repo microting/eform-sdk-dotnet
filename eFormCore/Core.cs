@@ -2650,7 +2650,7 @@ namespace eFormCore
             {
                 if (Running())
                 {
-                    EntityGroup entityGroup = await _sqlController.EntityGroupCreate(name, entityType).ConfigureAwait(false);
+                    EntityGroup entityGroup = await _sqlController.EntityGroupCreate(name, entityType, description).ConfigureAwait(false);
 
                     string entityGroupMUId = await _communicator.EntityGroupCreate(entityType, name, entityGroup.Id.ToString()).ConfigureAwait(false);
 
@@ -2663,7 +2663,8 @@ namespace eFormCore
                             Name = entityGroup.Name,
                             Type = entityGroup.Type,
                             EntityGroupItemLst = new List<EntityItem>(),
-                            MicrotingUUID = entityGroupMUId
+                            MicrotingUUID = entityGroupMUId,
+                            Description = entityGroup.Description
                         };
                     await _sqlController.EntityGroupDelete(entityGroupMUId).ConfigureAwait(false);
                     throw new Exception("EntityListCreate failed, due to list not created correct");
