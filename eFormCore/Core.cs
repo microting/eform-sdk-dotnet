@@ -2736,7 +2736,15 @@ namespace eFormCore
                     bool isUpdated = await _communicator.EntityGroupUpdate(entityGroup.Type, entityGroup.Name, entityGroup.Id, entityGroup.MicrotingUUID).ConfigureAwait(false);
 
                     if (isUpdated)
-                        return await _sqlController.EntityGroupUpdateName(entityGroup.Name, entityGroup.MicrotingUUID).ConfigureAwait(false);
+                    {
+                        using var dbContext = dbContextHelper.GetDbContext();
+                        var eg = await dbContext.entity_groups.SingleOrDefaultAsync(x => x.Id == entityGroup.Id);
+                        eg.Name = entityGroup.Name;
+                        eg.Description = entityGroup.Description;
+                        await eg.Update(dbContext);
+                        return true;
+                    }
+                    // return await _sqlController.EntityGroupUpdateName(entityGroup.Name, entityGroup.MicrotingUUID).ConfigureAwait(false);
                 }
 
                 throw new Exception("Core is not running");

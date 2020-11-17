@@ -4123,7 +4123,8 @@ namespace Microting.eForm.Infrastructure
                             EntityGroupItemLst = new List<EntityItem>(),
                             WorkflowState = eg.WorkflowState,
                             CreatedAt = eg.CreatedAt,
-                            UpdatedAt = eg.UpdatedAt
+                            UpdatedAt = eg.UpdatedAt,
+                            Description = eg.Description
                         };
                         e_G.Add(g);
                     }
