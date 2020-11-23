@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
@@ -107,7 +108,7 @@ namespace Microting.eForm.Communication
 
         Task<string> OrganizationLoadAllFromRemote();
 
-        Task<int> SpeechToText(string pathToAudioFile, string language);
+        Task<int> SpeechToText(Stream pathToAudioFile, string language);
 
         Task<JToken> SpeechToText(int requestId);
 

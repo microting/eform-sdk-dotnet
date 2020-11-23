@@ -3148,6 +3148,10 @@ namespace eFormCore
 
                             string filePath = Path.Combine(uploadedData.FileLocation, uploadedData.FileName);
                             log.LogStandard(methodName, $"filePath is {filePath}");
+                            string fileName =
+                                $"{uploadedData.Id}_{uploadedData.Checksum}{uploadedData.Extension}";
+
+                            var stream = await GetFileFromS3Storage(fileName);
                             int requestId = await SpeechToText(filePath).ConfigureAwait(false);
                             uploadedData.TranscriptionId = requestId;
 
@@ -3168,7 +3172,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<int> SpeechToText(string pathToAudioFile)
+        public async Task<int> SpeechToText(Stream pathToAudioFile)
         {
             string methodName = "Core.SpeechToText";
             try

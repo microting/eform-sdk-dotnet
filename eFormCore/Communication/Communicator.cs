@@ -25,6 +25,7 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Threading.Tasks;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure.Constants;
@@ -800,10 +801,10 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region public speechToText
-        public async Task<int> SpeechToText(string pathToAudioFile)
+        public async Task<int> SpeechToText(Stream pathToAudioFile)
         {
             log.LogEverything("Communicator.SpeechToText", "called");
-            log.LogVariable("Communicator.SpeechToText", nameof(pathToAudioFile), pathToAudioFile);
+            //log.LogVariable("Communicator.SpeechToText", nameof(pathToAudioFile), pathToAudioFile);
 
             try
             {

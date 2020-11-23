@@ -882,14 +882,17 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region SpeechToText        
-        public async Task<int> SpeechToText(string pathToAudioFile, string language)
+        public async Task<int> SpeechToText(Stream pathToAudioFile, string language)
         {
             try
             {
                 using (WebClient client = new WebClient())
                 {
-                    string url = $"{addressSpeechToText}/audio/?token={token}&sdk_ver={dllVersion}&lang={language}";
-                    byte[] responseArray = await client.UploadFileTaskAsync(url, pathToAudioFile);
+                    string baseUrl = $"{addressSpeechToText}/audio/?token={token}&sdk_ver={dllVersion}&lang={language}";
+                    Uri url = new Uri(baseUrl);
+                    MemoryStream ms = new MemoryStream();
+                    await pathToAudioFile.CopyToAsync(ms);
+                    byte[] responseArray = client.UploadData(url, ms.ToArray());
                     string result = Encoding.UTF8.GetString(responseArray);
                     var parsedData = JRaw.Parse(result);
                     return int.Parse(parsedData["id"].ToString());
