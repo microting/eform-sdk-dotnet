@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
@@ -429,7 +430,7 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region SpeechToText
-        public async Task<int> SpeechToText(string pathToAudioFile, string language)
+        public async Task<int> SpeechToText(Stream pathToAudioFile, string language)
         {
             await Task.Run(() => { });
             throw new NotImplementedException();

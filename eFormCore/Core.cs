@@ -3152,7 +3152,8 @@ namespace eFormCore
                                 $"{uploadedData.Id}_{uploadedData.Checksum}{uploadedData.Extension}";
 
                             var stream = await GetFileFromS3Storage(fileName);
-                            int requestId = await SpeechToText(filePath).ConfigureAwait(false);
+
+                            int requestId = await SpeechToText(stream.ResponseStream).ConfigureAwait(false);
                             uploadedData.TranscriptionId = requestId;
 
                             await _sqlController.UpdateUploadedData(uploadedData).ConfigureAwait(false);
