@@ -3153,7 +3153,7 @@ namespace eFormCore
 
                             var stream = await GetFileFromS3Storage(fileName);
 
-                            int requestId = await SpeechToText(stream.ResponseStream).ConfigureAwait(false);
+                            int requestId = await SpeechToText(stream.ResponseStream, uploadedData.Extension).ConfigureAwait(false);
                             uploadedData.TranscriptionId = requestId;
 
                             await _sqlController.UpdateUploadedData(uploadedData).ConfigureAwait(false);
@@ -3173,14 +3173,14 @@ namespace eFormCore
             }
         }
 
-        public async Task<int> SpeechToText(Stream pathToAudioFile)
+        public async Task<int> SpeechToText(Stream pathToAudioFile, string extension)
         {
             string methodName = "Core.SpeechToText";
             try
             {
                 if (Running())
                 {
-                    return await _communicator.SpeechToText(pathToAudioFile).ConfigureAwait(false);
+                    return await _communicator.SpeechToText(pathToAudioFile, extension).ConfigureAwait(false);
                 }
 
                 throw new Exception("Core is not running");

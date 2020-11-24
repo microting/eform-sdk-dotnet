@@ -108,7 +108,7 @@ namespace Microting.eForm.Communication
 
         Task<string> OrganizationLoadAllFromRemote();
 
-        Task<int> SpeechToText(Stream pathToAudioFile, string language);
+        Task<int> SpeechToText(Stream pathToAudioFile, string language, string extension);
 
         Task<JToken> SpeechToText(int requestId);
 

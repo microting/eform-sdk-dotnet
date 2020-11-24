@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 using System;
+using System.CodeDom.Compiler;
 using System.IO;
 using System.Net;
 using System.Net.Security;
@@ -882,17 +883,28 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region SpeechToText        
-        public async Task<int> SpeechToText(Stream pathToAudioFile, string language)
+        public async Task<int> SpeechToText(Stream pathToAudioFile, string language, string extension)
         {
             try
             {
                 using (WebClient client = new WebClient())
                 {
-                    string baseUrl = $"{addressSpeechToText}/audio/?token={token}&sdk_ver={dllVersion}&lang={language}";
-                    Uri url = new Uri(baseUrl);
-                    MemoryStream ms = new MemoryStream();
-                    await pathToAudioFile.CopyToAsync(ms);
-                    byte[] responseArray = client.UploadData(url, ms.ToArray());
+                    string url = $"{addressSpeechToText}/audio/?token={token}&sdk_ver={dllVersion}&lang={language}";
+                    // Uri url = new Uri(baseUrl);
+                    // MemoryStream ms = new MemoryStream();
+                    // await pathToAudioFile.CopyToAsync(ms);
+                    // byte[] data = ms.ToArray();
+                    // byte[] responseArray = client.UploadData(url, data);
+                    using var tempFiles = new TempFileCollection();
+                    string file = tempFiles.AddExtension(extension);
+                    await using (FileStream fs = File.OpenWrite(file))
+                    {
+                        await pathToAudioFile.CopyToAsync(fs);
+                        await fs.FlushAsync();
+                        fs.Close();
+                    }
+                    byte[] responseArray = await client.UploadFileTaskAsync(url, file);
+
                     string result = Encoding.UTF8.GetString(responseArray);
                     var parsedData = JRaw.Parse(result);
                     return int.Parse(parsedData["id"].ToString());

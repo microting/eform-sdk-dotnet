@@ -430,7 +430,7 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region SpeechToText
-        public async Task<int> SpeechToText(Stream pathToAudioFile, string language)
+        public async Task<int> SpeechToText(Stream pathToAudioFile, string language, string extension)
         {
             await Task.Run(() => { });
             throw new NotImplementedException();

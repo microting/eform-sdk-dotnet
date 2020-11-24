@@ -801,14 +801,14 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region public speechToText
-        public async Task<int> SpeechToText(Stream pathToAudioFile)
+        public async Task<int> SpeechToText(Stream pathToAudioFile, string extension)
         {
             log.LogEverything("Communicator.SpeechToText", "called");
             //log.LogVariable("Communicator.SpeechToText", nameof(pathToAudioFile), pathToAudioFile);
 
             try
             {
-                return await http.SpeechToText(pathToAudioFile, "da-DK");
+                return await http.SpeechToText(pathToAudioFile, "da-DK", extension);
             }
             catch (Exception ex)
             {
