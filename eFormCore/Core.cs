@@ -2978,8 +2978,7 @@ namespace eFormCore
             }
         }
 
-
-        public async Task FolderCreate(string name, string description, int? parent_id)
+        public async Task<int> FolderCreate(string name, string description, int? parentId)
         {
             string methodName = "Core.FolderCreate";
             try
@@ -2987,13 +2986,13 @@ namespace eFormCore
                 if (Running())
                 {
                     int apiParentId = 0;
-                    if (parent_id != null)
+                    if (parentId != null)
                     {
-                        apiParentId = (int)FolderRead((int) parent_id).GetAwaiter().GetResult().MicrotingUId;
+                        apiParentId = (int)FolderRead((int) parentId).GetAwaiter().GetResult().MicrotingUId;
                     }
                     int id = await _communicator.FolderCreate(name, description, apiParentId).ConfigureAwait(false);
-                    int result = await _sqlController.FolderCreate(name, description, parent_id, id).ConfigureAwait(false);
-                    return;
+                    int result = await _sqlController.FolderCreate(name, description, parentId, id).ConfigureAwait(false);
+                    return result;
 
                 }
                 throw new Exception("Core is not running");
@@ -3004,6 +3003,32 @@ namespace eFormCore
                 throw new Exception("FolderCreate failed", ex);
             }
         }
+
+        // public async Task FolderCreate(string name, string description, int? parent_id)
+        // {
+        //     string methodName = "Core.FolderCreate";
+        //     try
+        //     {
+        //         if (Running())
+        //         {
+        //             int apiParentId = 0;
+        //             if (parent_id != null)
+        //             {
+        //                 apiParentId = (int)FolderRead((int) parent_id).GetAwaiter().GetResult().MicrotingUId;
+        //             }
+        //             int id = await _communicator.FolderCreate(name, description, apiParentId).ConfigureAwait(false);
+        //             int result = await _sqlController.FolderCreate(name, description, parent_id, id).ConfigureAwait(false);
+        //             return;
+        //
+        //         }
+        //         throw new Exception("Core is not running");
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         log.LogException(methodName, "FolderCreate failed", ex);
+        //         throw new Exception("FolderCreate failed", ex);
+        //     }
+        // }
 
         public async Task FolderUpdate(int id, string name, string description, int? parent_id)
         {
