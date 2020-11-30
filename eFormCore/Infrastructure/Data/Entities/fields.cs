@@ -84,7 +84,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public short? Selected { get; set; }
 
-        public short? SplitScreen { get; set; }
+        public short? Split { get; set; }
 
         public short? GeolocationEnabled { get; set; }
 
@@ -165,7 +165,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             field.Multi = Multi;
             field.Optional = Optional;
             field.Selected = Selected;
-            field.SplitScreen = SplitScreen;
+            field.Split = Split;
             field.GeolocationForced = GeolocationForced;
             field.GeolocationHidden = GeolocationHidden;
             field.GeolocationEnabled = GeolocationEnabled;
@@ -233,7 +233,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 MinValue = field.MinValue,
                 MaxValue = field.MaxValue,
                 MaxLength = field.MaxLength,
-                SplitScreen = field.SplitScreen,
+                Split = field.Split,
                 DecimalCount = field.DecimalCount,
                 UnitName = field.UnitName,
                 KeyValuePairList = field.KeyValuePairList,

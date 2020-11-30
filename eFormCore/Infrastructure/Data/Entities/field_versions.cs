@@ -72,7 +72,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public short? Selected { get; set; }
 
-        public short? SplitScreen { get; set; }
+        public short? Split { get; set; }
 
         public short? GeolocationEnabled { get; set; }
 

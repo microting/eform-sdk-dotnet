@@ -5282,7 +5282,7 @@ namespace Microting.eForm.Infrastructure
                             Comment comment = (Comment)dataItem;
                             field.DefaultValue = comment.Value;
                             field.MaxLength = comment.Maxlength;
-                            field.SplitScreen = t.Bool(comment.SplitScreen);
+                            field.Split = t.Bool(comment.SplitScreen);
                             break;
 
                         case Constants.Constants.FieldTypes.Date:
@@ -5355,7 +5355,7 @@ namespace Microting.eForm.Infrastructure
 
                         case Constants.Constants.FieldTypes.Timer:
                             Timer timer = (Timer)dataItem;
-                            field.SplitScreen = t.Bool(timer.StopOnSave);
+                            field.Split = t.Bool(timer.StopOnSave);
                             break;
 
                         //-------
@@ -5536,7 +5536,7 @@ namespace Microting.eForm.Infrastructure
 
                         case Constants.Constants.FieldTypes.Comment:
                             lstDataItem.Add(new Comment(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), field.Label, field.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
-                                field.DefaultValue, t.Int(field.MaxLength), t.Bool(field.SplitScreen)));
+                                field.DefaultValue, t.Int(field.MaxLength), t.Bool(field.Split)));
                             break;
 
                         case Constants.Constants.FieldTypes.Date:

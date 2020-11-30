@@ -219,6 +219,8 @@
     <Compile Include="Migrations\20200701101500_LettingSurveyConfigurationIdBeNullable.Designer.cs" />
     <Compile Include="Migrations\20201116164405_AddingDescriptionToEntityGroup.cs" />
     <Compile Include="Migrations\20201116164405_AddingDescriptionToEntityGroup.Designer.cs" />
+    <Compile Include="Migrations\20201130204234_FixingSplitScreen.cs" />
+    <Compile Include="Migrations\20201130204234_FixingSplitScreen.Designer.cs" />
     <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Infrastructure\SqlController.cs" />
     <Compile Include="Services\Subscriber.cs" />

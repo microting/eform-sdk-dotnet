@@ -417,11 +417,11 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Split_Screen
-            Assert.AreEqual(f1.SplitScreen, 0);
-            Assert.AreEqual(f2.SplitScreen, 0);
-            Assert.AreEqual(f3.SplitScreen, 0);
-            Assert.AreEqual(f4.SplitScreen, 0);
-            Assert.AreEqual(f5.SplitScreen, 0);
+            Assert.AreEqual(f1.Split, 0);
+            Assert.AreEqual(f2.Split, 0);
+            Assert.AreEqual(f3.Split, 0);
+            Assert.AreEqual(f4.Split, 0);
+            Assert.AreEqual(f5.Split, 0);
 
             #endregion
 

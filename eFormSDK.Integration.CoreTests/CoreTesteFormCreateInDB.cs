@@ -168,7 +168,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(0, _fields[0].DisplayIndex);
             // Assert.AreEqual(1, _fields[0].multi); was null TODO
             // Assert.AreEqual(0, _fields[0].geolocation_enabled); //False TODO was null
-            Assert.AreEqual(0, _fields[0].SplitScreen); //TODO no method Split
+            Assert.AreEqual(0, _fields[0].Split); //TODO no method Split
             Assert.AreEqual("", _fields[0].DefaultValue);
             Assert.AreEqual(0, _fields[0].ReadOnly); //false
             Assert.AreEqual(0, _fields[0].Mandatory); //false
@@ -1646,7 +1646,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(0, _fields[0].DisplayIndex);
             // Assert.AreEqual(1, _fields[0].multi); todo meant to be false but was null
             // Assert.AreEqual(0, _fields[0].geolocation_enabled); //todo meant to be false but was null
-            Assert.AreEqual(0, _fields[0].SplitScreen); //false
+            Assert.AreEqual(0, _fields[0].Split); //false
             Assert.AreEqual("", _fields[0].DefaultValue);
             Assert.AreEqual(0, _fields[0].ReadOnly); //false
             Assert.AreEqual(0, _fields[0].Mandatory); //false

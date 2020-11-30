@@ -207,7 +207,7 @@ namespace Microting.eForm.Helpers
             f.QueryType = queryType;
             f.ReadOnly = readOnly;
             f.Selected = selected;
-            f.SplitScreen = splitScreen;
+            f.Split = splitScreen;
             f.StopOnSave = stopOnSave;
             f.UnitName = unitName;
             f.UpdatedAt = DateTime.UtcNow;
