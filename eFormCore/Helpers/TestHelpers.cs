@@ -176,7 +176,7 @@ namespace Microting.eForm.Helpers
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
             return cl2;
         }
-        public async Task<fields> CreateField(short? barcodeEnabled, string barcodeType, check_lists checkList, string color, string custom, int? decimalCount, string defaultValue, string description, int? displayIndex, short? dummy, field_types ft, short? geolocationEnabled, short? geolocationForced, short? geolocationHidden, short? isNum, string label, short? mandatory, int maxLength, string maxValue, string minValue, short? multi, short? optional, string queryType, short? readOnly, short? selected, short? splitScreen, short? stopOnSave, string unitName, int version)
+        public async Task<fields> CreateField(short? barcodeEnabled, string barcodeType, check_lists checkList, string color, string custom, int? decimalCount, string defaultValue, string description, int? displayIndex, short? dummy, field_types ft, short? geolocationEnabled, short? geolocationForced, short? geolocationHidden, short? isNum, string label, short? mandatory, int maxLength, string maxValue, string minValue, short? multi, short? optional, string queryType, short? readOnly, short? selected, short? split, short? stopOnSave, string unitName, int version)
         {
 
             fields f = new fields();
@@ -207,7 +207,7 @@ namespace Microting.eForm.Helpers
             f.QueryType = queryType;
             f.ReadOnly = readOnly;
             f.Selected = selected;
-            f.Split = splitScreen;
+            f.Split = split;
             f.StopOnSave = stopOnSave;
             f.UnitName = unitName;
             f.UpdatedAt = DateTime.UtcNow;

@@ -5282,7 +5282,7 @@ namespace Microting.eForm.Infrastructure
                             Comment comment = (Comment)dataItem;
                             field.DefaultValue = comment.Value;
                             field.MaxLength = comment.Maxlength;
-                            field.Split = t.Bool(comment.SplitScreen);
+                            field.Split = t.Bool(comment.Split);
                             break;
 
                         case Constants.Constants.FieldTypes.Date:

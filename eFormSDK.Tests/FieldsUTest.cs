@@ -449,7 +449,7 @@ namespace eFormSDK.Tests
             string oldOriginalId = field.OriginalId;
             string oldQueryType = field.QueryType;
             short? oldReadonly = field.ReadOnly;
-            short? oldSplitscreen = field.Split;
+            short? oldSplit = field.Split;
             string oldUnitName = field.UnitName;
             short? oldStopOnSave = field.StopOnSave;
             string oldKeyValuePairList = field.KeyValuePairList;
@@ -562,7 +562,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(oldMinValue, fieldVersion[1].MinValue);
             Assert.AreEqual(oldOriginalId, fieldVersion[1].OriginalId);
             Assert.AreEqual(oldReadonly, fieldVersion[1].ReadOnly);
-            Assert.AreEqual(oldSplitscreen, fieldVersion[1].Split);
+            Assert.AreEqual(oldSplit, fieldVersion[1].Split);
             Assert.AreEqual(oldQueryType, fieldVersion[1].QueryType);
             Assert.AreEqual(oldUnitName, fieldVersion[1].UnitName);
             Assert.AreEqual(entityGroup.Id, fieldVersion[1].EntityGroupId);

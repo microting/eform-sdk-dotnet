@@ -147,7 +147,7 @@ namespace Microting.eForm.Infrastructure.Models
         }
 
         public Comment(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
-            string value, int maxLength, bool splitScreen)
+            string value, int maxLength, bool split)
         {
             Id = id;
             Mandatory = mandatory;
@@ -161,13 +161,13 @@ namespace Microting.eForm.Infrastructure.Models
 
             Value = value;
             Maxlength = maxLength;
-            SplitScreen = splitScreen;
+            Split = split;
         }
 
         #region var
         public string Value { get; set; }
         public int Maxlength { get; set; }
-        public bool SplitScreen { get; set; }
+        public bool Split { get; set; }
         #endregion
     }
     #endregion
