@@ -56,6 +56,9 @@ namespace Microting.eForm.Dto
         s3AccessKeyId,
         s3SecrectAccessKey,
         s3Endpoint,
-        s3BucketName
+        s3BucketName,
+        rabbitMqUser,
+        rabbitMqPassword,
+        rabbitMqHost
     }
 }

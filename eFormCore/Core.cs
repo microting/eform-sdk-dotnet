@@ -119,6 +119,9 @@ namespace eFormCore
         private int _sameExceptionCountTried = 0;
         private int _maxParallelism = 1;
         private int _numberOfWorkers = 1;
+        private string _rabbitMqUser = "adming";
+        private string _rabbitMqPassword = "password";
+        private string _rabbitMqHost = "localhost";
         private string _customerNo;
         private IBus _bus;
 
@@ -164,12 +167,15 @@ namespace eFormCore
                     {
                         _maxParallelism = int.Parse(await _sqlController.SettingRead(Settings.maxParallelism));
                         _numberOfWorkers = int.Parse(await _sqlController.SettingRead(Settings.numberOfWorkers));
+                        _rabbitMqUser = await _sqlController.SettingRead(Settings.rabbitMqUser);
+                        _rabbitMqPassword = await _sqlController.SettingRead(Settings.rabbitMqPassword);
+                        _rabbitMqHost = await _sqlController.SettingRead(Settings.rabbitMqHost);
                     }
                     catch { }
 
                     _container.Install(
 						new RebusHandlerInstaller()
-						, new RebusInstaller(connectionString, _maxParallelism, _numberOfWorkers)
+						, new RebusInstaller(connectionString, _maxParallelism, _numberOfWorkers, _rabbitMqUser, _rabbitMqPassword, _rabbitMqHost)
 					);
 					_bus = _container.Resolve<IBus>();
 					log.LogCritical(methodName, "called");
