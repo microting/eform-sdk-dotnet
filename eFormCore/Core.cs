@@ -230,8 +230,15 @@ namespace eFormCore
                     _sqlController = new SqlController(dbContextHelper);
 
                     //check settings
-                    if (_sqlController.SettingCheckAll().GetAwaiter().GetResult().Count > 0)
+                    var errors = _sqlController.SettingCheckAll().GetAwaiter().GetResult();
+                    if (errors.Count > 0)
+                    {
+                        foreach (var error in errors)
+                        {
+                            log.LogCritical(methodName, $"_sqlController.SettingCheckAll() returned error : {error}");
+                        }
                         throw new ArgumentException("Use AdminTool to setup database correctly. 'SettingCheckAll()' returned with errors");
+                    }
 
                     if (await _sqlController.SettingRead(Settings.token).ConfigureAwait(false) == "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
                         throw new ArgumentException("Use AdminTool to setup database correctly. Token not set, only default value found");

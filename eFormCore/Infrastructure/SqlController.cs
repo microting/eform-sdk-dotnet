@@ -4670,6 +4670,9 @@ namespace Microting.eForm.Infrastructure
             await SettingCreate(Settings.s3SecrectAccessKey);
             await SettingCreate(Settings.s3Endpoint);
             await SettingCreate(Settings.s3BucketName);
+            await SettingCreate(Settings.rabbitMqUser);
+            await SettingCreate(Settings.rabbitMqPassword);
+            await SettingCreate(Settings.rabbitMqHost);
 
             return true;
         }
