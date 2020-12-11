@@ -270,16 +270,22 @@ namespace Microting.eForm.Infrastructure
                     IQueryable<check_lists> sub_query = db.check_lists.Where(x => x.ParentId == null);
 
                     if (!includeRemoved)
-                        sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created);
+                        sub_query = sub_query.Where(x =>
+                            x.WorkflowState == Constants.Constants.WorkflowStates.Created);
 
                     if (!string.IsNullOrEmpty(searchKey))
                     {
-                        sub_query = sub_query.Where(x => x.Label.Contains(searchKey) || x.Description.Contains(searchKey));
+                        sub_query = sub_query.Where(x =>
+                            x.Label.Contains(searchKey)
+                            || x.Description.Contains(searchKey));
                     }
 
                     if (tagIds.Count > 0)
                     {
-                        List<int?> check_list_ids = db.taggings.Where(x => tagIds.Contains((int)x.TagId)).Select(x => x.CheckListId).ToList();
+                        List<int?> check_list_ids = db.taggings
+                            .Where(x => tagIds.Contains((int)x.TagId)
+                                        && x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
+                            .Select(x => x.CheckListId).ToList();
                         if (check_list_ids != null)
                         {
                             sub_query = sub_query.Where(x => check_list_ids.Contains(x.Id));
