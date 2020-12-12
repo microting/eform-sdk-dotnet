@@ -119,7 +119,7 @@ namespace eFormCore
         private int _sameExceptionCountTried = 0;
         private int _maxParallelism = 1;
         private int _numberOfWorkers = 1;
-        private string _rabbitMqUser = "adming";
+        private string _rabbitMqUser = "admin";
         private string _rabbitMqPassword = "password";
         private string _rabbitMqHost = "localhost";
         private string _customerNo;
