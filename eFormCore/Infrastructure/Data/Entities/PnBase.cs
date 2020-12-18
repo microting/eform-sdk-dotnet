@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
@@ -13,14 +15,14 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             Version = 1;
             WorkflowState = Constants.Constants.WorkflowStates.Created;
 
-            await dbContext.AddAsync(this);
-            await dbContext.SaveChangesAsync();
+            await dbContext.AddAsync(this).ConfigureAwait(false);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             var res = MapVersion(this);
             if (res != null)
             {
-                await dbContext.AddAsync(res);
-                await dbContext.SaveChangesAsync();
+                await dbContext.AddAsync(res).ConfigureAwait(false);
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
 
@@ -51,8 +53,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 var res = MapVersion(this);
                 if (res != null)
                 {
-                    await dbContext.AddAsync(res);
-                    await dbContext.SaveChangesAsync();
+                    await dbContext.AddAsync(res).ConfigureAwait(false);
+                    await dbContext.SaveChangesAsync().ConfigureAwait(false);
                 }
             }
         }
@@ -61,7 +63,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         {
             Type type = obj.GetType().UnderlyingSystemType;
             String className = type.Name;
-            var name = obj.GetType().FullName + "Version";
+            var name = obj.GetType().FullName.Remove(obj.GetType().FullName.Length - 1) + "_versions";
             var resultType = Assembly.GetExecutingAssembly().GetType(name);
             if (resultType == null)
                 return null;
@@ -86,7 +88,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                         } else {
                             var propValue = prop.GetValue(obj);
                             Type targetType = returnObj.GetType();
-                            PropertyInfo targetProp = targetType.GetProperty($"{className}Id");
+                            PropertyInfo targetProp = targetType.GetProperty($"{FirstCharToUpper(className.Remove(className.Length - 1))}Id");
 
                             targetProp.SetValue(returnObj, propValue, null);
                         }
@@ -99,6 +101,19 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
 
             return returnObj;
+        }
+
+        private static string FirstCharToUpper(string input)
+        {
+            string pattern = @"_.";
+            Regex rg = new Regex(pattern);
+            MatchCollection matches = rg.Matches(input);
+            if (matches.Any())
+            {
+                input = input.Replace(matches.First().Value, matches.First().Value.Replace("_", "").ToUpper());
+            }
+
+            return input.First().ToString().ToUpper() + input.Substring(1);
         }
     }
 }
