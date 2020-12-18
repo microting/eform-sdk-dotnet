@@ -110,7 +110,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             MatchCollection matches = rg.Matches(input);
             if (matches.Any())
             {
-                input = input.Replace(matches.First().Value, matches.First().Value.Replace("_", "").ToUpper());
+                foreach (Match match in matches)
+                {
+                    input = input.Replace(match.Value, match.Value.Replace("_", "").ToUpper());
+                }
             }
 
             return input.First().ToString().ToUpper() + input.Substring(1);
