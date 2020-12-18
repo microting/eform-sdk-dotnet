@@ -30,7 +30,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class site_survey_configurations : BaseEntity
+    public partial class site_survey_configurations : PnBase
     {
         [ForeignKey("site")]
         public int SiteId { get; set; }
@@ -43,80 +43,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual survey_configurations SurveyConfiguration { get; set; }
         
         public int? MicrotingUid { get; set; }
-        
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-            Version = 1;
-
-            dbContext.site_survey_configurations.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.site_survey_configuration_versions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            site_survey_configurations siteSurveyConfiguration =
-                await dbContext.site_survey_configurations.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (siteSurveyConfiguration == null)
-            {
-                throw new NullReferenceException($"Could not find site survey configuration with Id: {Id}");
-            }
-
-            siteSurveyConfiguration.SiteId = SiteId;
-            siteSurveyConfiguration.SurveyConfigurationId = SurveyConfigurationId;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                Version += 1;
-                UpdatedAt = DateTime.UtcNow;
-
-                dbContext.site_survey_configuration_versions.Add(MapVersions(siteSurveyConfiguration));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            
-            site_survey_configurations siteSurveyConfiguration =
-                await dbContext.site_survey_configurations.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (siteSurveyConfiguration == null)
-            {
-                throw new NullReferenceException($"Could not find site survey configuration with Id: {Id}");
-            }
-
-            siteSurveyConfiguration.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                Version += 1;
-                UpdatedAt = DateTime.UtcNow;
-
-                dbContext.site_survey_configuration_versions.Add(MapVersions(siteSurveyConfiguration));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        private site_survey_configuration_versions MapVersions(site_survey_configurations siteSurveyConfiguration)
-        {
-            return new site_survey_configuration_versions
-            {
-                SurveyConfigurationId = siteSurveyConfiguration.SurveyConfigurationId,
-                SiteId = siteSurveyConfiguration.SiteId,
-                SiteSurveyConfigurationId = siteSurveyConfiguration.Id,
-                CreatedAt = siteSurveyConfiguration.CreatedAt,
-                UpdatedAt = siteSurveyConfiguration.UpdatedAt,
-                WorkflowState = siteSurveyConfiguration.WorkflowState,
-                Version = siteSurveyConfiguration.Version,
-                MicrotingUid = siteSurveyConfiguration.MicrotingUid
-            };
-        }
     }
 }

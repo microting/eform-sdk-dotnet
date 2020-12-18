@@ -29,82 +29,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class languages : BaseEntity
+    public partial class languages : PnBase
     {
         public string Name { get; set; }
         
         public string Description { get; set; }
-
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-            Version = 1;
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-
-            dbContext.languages.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.language_versions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            languages languages = await dbContext.languages.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (languages == null)
-            {
-                throw new NullReferenceException($"Could not find language wit Id: {Id}");
-            }
-
-            languages.Name = Name;
-            languages.Description = Description;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                languages.Version += 1;
-                languages.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.language_versions.Add(MapVersions(languages));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            languages language = await dbContext.languages.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (language == null)
-            {
-                throw new NullReferenceException($"Could not find language with Id: {Id}");
-            }
-
-            language.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-            
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                language.Version += 1;
-                language.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.language_versions.Add(MapVersions(language));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-        
-        private language_versions MapVersions(languages language)
-        {
-            return new language_versions
-            {
-                LanguageId = language.Id,
-                Name = language.Name,
-                Description = language.Description,
-                Version = language.Version,
-                CreatedAt = language.CreatedAt,
-                UpdatedAt = language.UpdatedAt,
-                WorkflowState = language.WorkflowState
-            };
-        }
     }
 }

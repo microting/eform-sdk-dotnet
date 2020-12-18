@@ -30,7 +30,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class entity_items : BaseEntity
+    public partial class entity_items : PnBase
     {
         public int EntityGroupId { get; set; }
 
@@ -46,86 +46,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public short? Synced { get; set; }
 
         public int DisplayIndex { get; set; }
-        
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-            
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-            Version = 1;
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-
-            dbContext.entity_items.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.entity_item_versions.Add(MapEntityItemVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            entity_items entityItem = await dbContext.entity_items.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (entityItem == null)
-            {
-                throw new NullReferenceException($"Could not find Entity Item with Id: {Id}");
-            }
-
-            entityItem.EntityGroupId = EntityGroupId;
-            entityItem.MicrotingUid = MicrotingUid;
-            entityItem.Name = Name;
-            entityItem.Description = Description;
-            entityItem.Synced = Synced;
-            entityItem.DisplayIndex = DisplayIndex;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                entityItem.UpdatedAt = DateTime.UtcNow;
-                entityItem.Version += 1;
-
-                dbContext.entity_item_versions.Add(MapEntityItemVersions(entityItem));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            entity_items entityItem = await dbContext.entity_items.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (entityItem == null)
-            {
-                throw new NullReferenceException($"Could not find Entity Item with Id: {Id}");
-            }
-
-            entityItem.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-            
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                entityItem.UpdatedAt = DateTime.UtcNow;
-                entityItem.Version += 1;
-
-                dbContext.entity_item_versions.Add(MapEntityItemVersions(entityItem));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-        
-        private entity_item_versions MapEntityItemVersions(entity_items entityItem)
-        {
-            return new entity_item_versions
-            {
-                WorkflowState = entityItem.WorkflowState,
-                Version = entityItem.Version,
-                CreatedAt = entityItem.CreatedAt,
-                UpdatedAt = entityItem.UpdatedAt,
-                EntityItemUid = entityItem.EntityItemUid,
-                MicrotingUid = entityItem.MicrotingUid,
-                EntityGroupId = entityItem.EntityGroupId,
-                Name = entityItem.Name,
-                Description = entityItem.Description,
-                Synced = entityItem.Synced,
-                DisplayIndex = entityItem.DisplayIndex,
-                EntityItemsId = entityItem.Id
-            };
-        }
     }
 }

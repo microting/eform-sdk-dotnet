@@ -30,7 +30,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class check_list_values : BaseEntity
+    public partial class check_list_values : PnBase
     {
         [StringLength(255)]
         public string Status { get; set; }
@@ -42,85 +42,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int? CheckListId { get; set; }
 
         public int? CheckListDuplicateId { get; set; }
-
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-            
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-            Version = 1;
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-
-            dbContext.check_list_values.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.check_list_value_versions.Add(MapCheckListValueVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            check_list_values clv = await dbContext.check_list_values.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (clv == null)
-            {
-                throw new NullReferenceException($"Could not find Check List Value with Id: {Id}");
-            }
-
-            clv.Status = Status;
-            clv.UserId = UserId;
-            clv.CaseId = CaseId;
-            clv.CheckListId = CheckListId;
-            clv.CheckListDuplicateId = CheckListDuplicateId;
-
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                clv.UpdatedAt = DateTime.UtcNow;
-                clv.Version += 1;
-
-                dbContext.check_list_value_versions.Add(MapCheckListValueVersions(clv));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            check_list_values clv = await dbContext.check_list_values.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (clv == null)
-            {
-                throw new NullReferenceException($"Could not find Check List Value with Id: {Id}");
-            }
-
-            clv.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-            
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                clv.UpdatedAt = DateTime.UtcNow;
-                clv.Version += 1;
-
-                dbContext.check_list_value_versions.Add(MapCheckListValueVersions(clv));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-        
-        
-        private check_list_value_versions MapCheckListValueVersions(check_list_values checkListValue)
-        {
-            return new check_list_value_versions
-            {
-                Version = checkListValue.Version,
-                CreatedAt = checkListValue.CreatedAt,
-                UpdatedAt = checkListValue.UpdatedAt,
-                CheckListId = checkListValue.CheckListId,
-                CaseId = checkListValue.CaseId,
-                Status = checkListValue.Status,
-                UserId = checkListValue.UserId,
-                WorkflowState = checkListValue.WorkflowState,
-                CheckListDuplicateId = checkListValue.CheckListDuplicateId,
-                CheckListValueId = checkListValue.Id
-            };
-        }
     }
 }

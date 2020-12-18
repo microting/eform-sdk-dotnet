@@ -30,7 +30,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class taggings : BaseEntity
+    public partial class taggings : PnBase
     {
         [ForeignKey("tag")]
         public int? TagId { get; set; }
@@ -43,73 +43,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual tags Tag { get; set; }
 
         public virtual check_lists CheckList { get; set; }
-
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-            Version = 1;
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-            
-            dbContext.taggings.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.tagging_versions.Add(MapTaggingVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            taggings tagging = await dbContext.taggings.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (tagging == null)
-            {
-                throw new NullReferenceException($"Could not find tagging with Id: {Id}");
-            }
-
-            tagging.WorkflowState = WorkflowState;
-            tagging.UpdatedAt = DateTime.UtcNow;
-            tagging.TaggerId = TaggerId;
-            tagging.Version += 1;
-
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.tagging_versions.Add(MapTaggingVersions(tagging));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            taggings tagging = await dbContext.taggings.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (tagging == null)
-            {
-                throw new NullReferenceException($"Could not find tagging with Id: {Id}");
-            }
-
-            tagging.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-            tagging.UpdatedAt = DateTime.UtcNow;
-            tagging.Version += 1;
-
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.tagging_versions.Add(MapTaggingVersions(tagging));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-        
-        private tagging_versions MapTaggingVersions(taggings tagging)
-        {
-            return new tagging_versions
-            {
-                WorkflowState = tagging.WorkflowState,
-                Version = tagging.Version,
-                CreatedAt = tagging.CreatedAt,
-                UpdatedAt = tagging.UpdatedAt,
-                CheckListId = tagging.CheckListId,
-                TagId = tagging.TagId,
-                TaggerId = tagging.TaggerId,
-                TaggingId = tagging.Id
-            };
-        }
     }
 }

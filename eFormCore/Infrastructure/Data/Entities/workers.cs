@@ -31,7 +31,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class workers : BaseEntity
+    public partial class workers : PnBase
     {
         public int MicrotingUid { get; set; }
 
@@ -49,82 +49,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public string full_name()
         {
             return this.FirstName + " " + this.LastName;
-        }
-        
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-            Version = 1;
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-
-            dbContext.workers.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.worker_versions.Add(MapWorkerVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            workers worker = await dbContext.workers.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (worker == null)
-            {
-                throw new NullReferenceException($"Could not find Worker with Id: {Id}");
-            }
-
-            worker.MicrotingUid = MicrotingUid;
-            worker.FirstName = FirstName;
-            worker.LastName = LastName;
-            worker.Email = Email;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                worker.Version += 1;
-                worker.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.worker_versions.Add(MapWorkerVersions(worker));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            workers worker = await dbContext.workers.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (worker == null)
-            {
-                throw new NullReferenceException($"Could not find Worker with Id: {Id}");
-            }
-
-            worker.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                worker.Version += 1;
-                worker.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.worker_versions.Add(MapWorkerVersions(worker));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        
-        private worker_versions MapWorkerVersions(workers workers)
-        {
-            return new worker_versions
-            {
-                WorkflowState = workers.WorkflowState,
-                Version = workers.Version,
-                CreatedAt = workers.CreatedAt,
-                UpdatedAt = workers.UpdatedAt,
-                MicrotingUid = workers.MicrotingUid,
-                FirstName = workers.FirstName,
-                LastName = workers.LastName,
-                Email = workers.Email,
-                WorkerId = workers.Id
-            };
         }
     }
 }

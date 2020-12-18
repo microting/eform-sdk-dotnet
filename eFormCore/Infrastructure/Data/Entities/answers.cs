@@ -30,7 +30,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class answers : BaseEntity
+    public partial class answers : PnBase
     {
         
         [ForeignKey("unit")]
@@ -67,90 +67,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual question_sets QuestionSet { get; set; }
         
         public int? MicrotingUid { get; set; }
-
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-            Version = 1;
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-            dbContext.answers.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.answer_versions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            answers answer = await dbContext.answers.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (answer == null)
-            {
-                throw new NullReferenceException($"Could not find answer with Id: {Id}");
-            }
-
-            answer.SiteId = SiteId;
-            answer.UnitId = UnitId;
-            answer.TimeZone = TimeZone;
-            answer.FinishedAt = FinishedAt;
-            answer.LanguageId = LanguageId;
-            answer.AnswerDuration = AnswerDuration;
-            answer.QuestionSetId = QuestionSetId;
-            answer.SurveyConfigurationId = SurveyConfigurationId;
-            answer.UtcAdjusted = UtcAdjusted;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                answer.UpdatedAt = DateTime.UtcNow;
-                answer.Version += 1;
-
-                dbContext.answer_versions.Add(MapVersions(answer));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            answers answer = await dbContext.answers.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (answer == null)
-            {
-                throw new NullReferenceException($"Could not find answer with Id: {Id}");
-            }
-
-            answer.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-            
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                answer.UpdatedAt = DateTime.UtcNow;
-                answer.Version += 1;
-
-                dbContext.answer_versions.Add(MapVersions(answer));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        private answer_versions MapVersions(answers answer)
-        {
-            return new answer_versions
-            {
-                SiteId = answer.SiteId,
-                UnitId = answer.UnitId,
-                AnswerId = answer.Id,
-                TimeZone = answer.TimeZone,
-                FinishedAt = answer.FinishedAt,
-                LanguageId = answer.LanguageId,
-                AnswerDuration = answer.AnswerDuration,
-                QuestionSetId = answer.QuestionSetId,
-                SurveyConfigurationId = answer.SurveyConfigurationId,
-                UtcAdjusted = answer.UtcAdjusted,
-                MicrotingUid = answer.MicrotingUid,
-                UpdatedAt = answer.UpdatedAt,
-                CreatedAt = answer.CreatedAt,
-                Version = answer.Version,
-                WorkflowState = answer.WorkflowState
-            };
-        }
     }
 }

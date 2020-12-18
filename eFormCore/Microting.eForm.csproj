@@ -94,6 +94,7 @@
     <Compile Include="Infrastructure\Data\Entities\option_translations.cs" />
     <Compile Include="Infrastructure\Data\Entities\option_translation_versions.cs" />
     <Compile Include="Infrastructure\Data\Entities\option_versions.cs" />
+    <Compile Include="Infrastructure\Data\Entities\PnBase.cs" />
     <Compile Include="Infrastructure\Data\Entities\questions.cs" />
     <Compile Include="Infrastructure\Data\Entities\question_sets.cs" />
     <Compile Include="Infrastructure\Data\Entities\question_set_versions.cs" />

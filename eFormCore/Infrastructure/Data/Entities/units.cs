@@ -30,7 +30,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class units : BaseEntity
+    public partial class units : PnBase
     {
         public int? MicrotingUid { get; set; }
 
@@ -74,113 +74,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int SyncDefaultDelay { get; set; }
         
         public int SyncDelayPrCheckList { get; set; }
-        
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-            Version = 1;
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-
-            dbContext.units.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.unit_versions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            units unit = await dbContext.units.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (unit == null)
-            {
-                throw new NullReferenceException($"Could not find Unit with Id: {Id}");
-            }
-
-            unit.SiteId = SiteId;
-            unit.MicrotingUid = MicrotingUid;
-            unit.OtpCode = OtpCode;
-            unit.Model = Model;
-            unit.Manufacturer = Manufacturer;
-            unit.eFormVersion = eFormVersion;
-            unit.InSightVersion = InSightVersion;
-            unit.Os = Os;
-            unit.OsVersion = OsVersion;
-            unit.Note = Note;
-            unit.CustomerNo = CustomerNo;
-            unit.SerialNumber = SerialNumber;
-            unit.LastIp = LastIp;
-            unit.SeparateFetchSend = SeparateFetchSend;
-            unit.LeftMenuEnabled = LeftMenuEnabled;
-            unit.SyncDialog = SyncDialog;
-            unit.PushEnabled = PushEnabled;
-            unit.SyncDelayEnabled = SyncDelayEnabled;
-            unit.SyncDefaultDelay = SyncDefaultDelay;
-            unit.SyncDelayPrCheckList = SyncDelayPrCheckList;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                unit.Version += 1;
-                unit.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.unit_versions.Add(MapVersions(unit));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            
-            units unit = await dbContext.units.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (unit == null)
-            {
-                throw new NullReferenceException($"Could not find Unit with Id: {Id}");
-            }
-
-            unit.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                unit.Version += 1;
-                unit.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.unit_versions.Add(MapVersions(unit));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-        
-        private unit_versions MapVersions(units unit)
-        {
-            return new unit_versions
-            {
-                WorkflowState = unit.WorkflowState,
-                Version = unit.Version,
-                CreatedAt = unit.CreatedAt,
-                UpdatedAt = unit.UpdatedAt,
-                MicrotingUid = unit.MicrotingUid,
-                SiteId = unit.SiteId,
-                CustomerNo = unit.CustomerNo,
-                OtpCode = unit.OtpCode,
-                UnitId = unit.Id,
-                Manufacturer = unit.Manufacturer,
-                Model = unit.Model,
-                Os = unit.Os,
-                OsVersion = unit.OsVersion,
-                eFormVersion = unit.eFormVersion,
-                InSightVersion = unit.InSightVersion,
-                Note = unit.Note,
-                SerialNumber = unit.SerialNumber,
-                LastIp = unit.LastIp,
-                SeparateFetchSend = unit.SeparateFetchSend,
-                LeftMenuEnabled = unit.LeftMenuEnabled,
-                SyncDialog = unit.SyncDialog,
-                PushEnabled = unit.PushEnabled,
-                SyncDelayEnabled = unit.SyncDelayEnabled,
-                SyncDefaultDelay = unit.SyncDefaultDelay,
-                SyncDelayPrCheckList = unit.SyncDelayPrCheckList
-            };
-        }
     }
 }

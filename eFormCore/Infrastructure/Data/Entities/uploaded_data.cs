@@ -30,7 +30,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class uploaded_data : BaseEntity
+    public partial class uploaded_data : PnBase
     {
         public int? UploaderId { get; set; }
 
@@ -57,93 +57,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public short? Local { get; set; }
 
         public int? TranscriptionId { get; set; }
-        
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-            Version = 1;
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-
-            dbContext.uploaded_data.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.uploaded_data_versions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            uploaded_data uploadedData = await dbContext.uploaded_data.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (uploadedData == null)
-            {
-                throw new NullReferenceException($"Could not find Uploaded Data with Id: {Id}");
-            }
-
-            uploadedData.UploaderId = UploaderId;
-            uploadedData.UploaderType = UploaderType;
-            uploadedData.Checksum = Checksum;
-            uploadedData.Extension = Extension;
-            uploadedData.Local = Local;
-            uploadedData.FileName = FileName;
-            uploadedData.CurrentFile = CurrentFile;
-            uploadedData.FileLocation = FileLocation;
-            uploadedData.ExpirationDate = ExpirationDate;
-            uploadedData.TranscriptionId = TranscriptionId;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                uploadedData.Version += 1;
-                uploadedData.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.uploaded_data_versions.Add(MapVersions(uploadedData));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            uploaded_data uploadedData = await dbContext.uploaded_data.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (uploadedData == null)
-            {
-                throw new NullReferenceException($"Could not find Uploaded Data with Id: {Id}");
-            }
-
-            uploadedData.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                uploadedData.Version += 1;
-                uploadedData.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.uploaded_data_versions.Add(MapVersions(uploadedData));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        
-        private uploaded_data_versions MapVersions(uploaded_data uploadedData)
-        {
-            return new uploaded_data_versions
-            {
-                CreatedAt = uploadedData.CreatedAt,
-                UpdatedAt = uploadedData.UpdatedAt,
-                Checksum = uploadedData.Checksum,
-                Extension = uploadedData.Extension,
-                CurrentFile = uploadedData.CurrentFile,
-                UploaderId = uploadedData.UploaderId,
-                UploaderType = uploadedData.UploaderType,
-                WorkflowState = uploadedData.WorkflowState,
-                ExpirationDate = uploadedData.ExpirationDate,
-                Version = uploadedData.Version,
-                Local = uploadedData.Local,
-                FileLocation = uploadedData.FileLocation,
-                FileName = uploadedData.FileName,
-                TranscriptionId = uploadedData.TranscriptionId,
-                DataUploadedId = uploadedData.Id
-            };
-        }
     }
 }

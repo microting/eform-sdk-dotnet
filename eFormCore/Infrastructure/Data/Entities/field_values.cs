@@ -31,7 +31,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class field_values : BaseEntity
+    public partial class field_values : PnBase
     {
         public DateTime? DoneAt { get; set; }
 
@@ -77,101 +77,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual check_lists CheckList { get; set; }
 
         public virtual uploaded_data UploadedData { get; set; }
-
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-            Version = 1;
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-
-            dbContext.field_values.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.field_value_versions.Add(MapFieldValueVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            field_values fieldValues = await dbContext.field_values.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (fieldValues == null)
-            {
-                throw new NullReferenceException($"Could not find Field Value with Id: {Id}");
-            }
-
-            fieldValues.DoneAt = DoneAt;
-            fieldValues.Date = Date;
-            fieldValues.WorkerId = WorkerId;
-            fieldValues.CaseId = CaseId;
-            fieldValues.FieldId = FieldId;
-            fieldValues.CheckListId = CheckListId;
-            fieldValues.CheckListDuplicateId = CheckListDuplicateId;
-            fieldValues.UploadedDataId = UploadedDataId;
-            fieldValues.Value = Value;
-            fieldValues.Latitude = Latitude;
-            fieldValues.Longitude = Longitude;
-            fieldValues.Altitude = Altitude;
-            fieldValues.Heading = Heading;
-            fieldValues.Accuracy = Accuracy;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                fieldValues.UpdatedAt = DateTime.UtcNow;
-                fieldValues.Version += 1;
-
-                dbContext.field_value_versions.Add(MapFieldValueVersions(fieldValues));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            field_values fieldValues = await dbContext.field_values.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (fieldValues == null)
-            {
-                throw new NullReferenceException($"Could not find Field Value with Id: {Id}");
-            }
-
-            fieldValues.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-            
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                fieldValues.UpdatedAt = DateTime.UtcNow;
-                fieldValues.Version += 1;
-
-                dbContext.field_value_versions.Add(MapFieldValueVersions(fieldValues));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-        
-        
-        private field_value_versions MapFieldValueVersions(field_values fieldValue)
-        {
-            return new field_value_versions
-            {
-                CreatedAt = fieldValue.CreatedAt,
-                UpdatedAt = fieldValue.UpdatedAt,
-                Value = fieldValue.Value,
-                Latitude = fieldValue.Latitude,
-                Longitude = fieldValue.Longitude,
-                Altitude = fieldValue.Altitude,
-                Heading = fieldValue.Heading,
-                Date = fieldValue.Date,
-                Accuracy = fieldValue.Accuracy,
-                UploadedDataId = fieldValue.UploadedDataId,
-                Version = fieldValue.Version,
-                CaseId = fieldValue.CaseId,
-                FieldId = fieldValue.FieldId,
-                WorkerId = fieldValue.WorkerId,
-                WorkflowState = fieldValue.WorkflowState,
-                CheckListId = fieldValue.CheckListId,
-                CheckListDuplicateId = fieldValue.CheckListDuplicateId,
-                DoneAt = fieldValue.DoneAt,
-                FieldValueId = fieldValue.Id
-            };
-        }
     }
 }

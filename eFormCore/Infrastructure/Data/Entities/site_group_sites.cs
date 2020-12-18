@@ -27,7 +27,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public class site_group_sites : BaseEntity
+    public class site_group_sites : PnBase
     {
         [ForeignKey("site_group")]
         public int SiteGroupId { get; set; }

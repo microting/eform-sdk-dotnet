@@ -31,7 +31,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class options : BaseEntity
+    public partial class options : PnBase
     {
         public int? NextQuestionId { get; set; }
         
@@ -53,90 +53,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int DisplayIndex { get; set; }
 
         public virtual ICollection<option_translations> OptionTranslationses { get; set; }
-
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-            Version = 1;
-            
-            QuestionId = QuestionId;
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-
-            dbContext.options.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.option_versions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            options option = await dbContext.options.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (option == null)
-            {
-                throw new NullReferenceException($"Could not find option with Id: {Id}");
-            }
-
-            option.QuestionId = QuestionId;
-            option.Weight = Weight;
-            option.WeightValue = WeightValue;
-            option.NextQuestionId = NextQuestionId;
-            option.ContinuousOptionId = ContinuousOptionId;
-            option.OptionIndex = OptionIndex;
-            option.DisplayIndex = DisplayIndex;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                Version += 1;
-                UpdatedAt = DateTime.UtcNow;
-
-                dbContext.option_versions.Add(MapVersions(option));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            options option = await dbContext.options.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (option == null)
-            {
-                throw new NullReferenceException($"Could not find option with Id: {Id}");
-            }
-
-            option.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-            
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                Version += 1;
-                UpdatedAt = DateTime.UtcNow;
-
-                dbContext.option_versions.Add(MapVersions(option));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        private option_versions MapVersions(options option)
-        {
-            return new option_versions
-            {
-                QuestionId = option.QuestionId,
-                Weight = option.Weight,
-                WeightValue = option.WeightValue,
-                NextQuestionId = option.NextQuestionId,
-                ContinuousOptionId = option.ContinuousOptionId,
-                OptionIndex = option.OptionIndex,
-                OptionId = option.Id,
-                CreatedAt = option.CreatedAt,
-                Version = option.Version,
-                UpdatedAt = option.UpdatedAt,
-                WorkflowState = option.WorkflowState,
-                MicrotingUid = option.MicrotingUid,
-                DisplayIndex = option.DisplayIndex
-            };
-        }
     }
 }

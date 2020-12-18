@@ -31,7 +31,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class sites : BaseEntity
+    public partial class sites : PnBase
     {
         public sites()
         {
@@ -56,77 +56,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual ICollection<check_list_sites> CheckListSites { get; set; }
 
         public virtual ICollection<site_tags> SiteTags { get; set; }
-
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-            Version = 1;
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-
-            dbContext.sites.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.site_versions.Add(MapSiteVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            sites site = await dbContext.sites.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (site == null)
-            {
-                throw new NullReferenceException($"Could not find Site with Id: {Id}");
-            }
-
-            site.Name = Name;
-            site.MicrotingUid = MicrotingUid;
-            
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                site.Version += 1;
-                site.UpdatedAt = DateTime.UtcNow;
-                
-                dbContext.site_versions.Add(MapSiteVersions(site));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            sites site = await dbContext.sites.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (site == null)
-            {
-                throw new NullReferenceException($"Could not find Site with Id: {Id}");
-            }
-
-            site.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-            
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                site.Version += 1;
-                site.UpdatedAt = DateTime.UtcNow;
-                
-                dbContext.site_versions.Add(MapSiteVersions(site));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            }
-        }
-
-        private site_versions MapSiteVersions(sites site)
-        {
-            return new site_versions
-            {
-                WorkflowState = site.WorkflowState,
-                Version = site.Version,
-                CreatedAt = site.CreatedAt,
-                UpdatedAt = site.UpdatedAt,
-                MicrotingUid = site.MicrotingUid,
-                Name = site.Name,
-                SiteId = site.Id
-            };
-        }
     }
 }

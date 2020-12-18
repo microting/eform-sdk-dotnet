@@ -32,7 +32,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class questions : BaseEntity
+    public partial class questions : PnBase
     {
         [ForeignKey("question_set")]
         public int QuestionSetId { get; set; }
@@ -74,88 +74,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual ICollection<question_translations> QuestionTranslationses { get; set; }
         
         public virtual ICollection<options> Options { get; set; }
-
-        public async Task Create(MicrotingDbContext dbContext, bool CreateSpecialQuestionTypes)
-        {
-            await Create(dbContext);
-            if (CreateSpecialQuestionTypes)
-            {
-                await GenerateSpecialQuestionTypes(dbContext, 1);
-            }
-        }
-
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-            Version = 1;
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-
-            dbContext.questions.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.question_versions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            Id = Id;
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            questions question = await dbContext.questions.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (question == null)
-            {
-                throw new NullReferenceException($"Could no find question with Id: {Id}");
-            }
-
-            question.Type = Type;
-            question.Image = Image;
-            question.BackButtonEnabled = BackButtonEnabled;
-            question.Maximum = Maximum;
-            question.Minimum = Minimum;
-            question.Prioritised = Prioritised;
-            question.RefId = RefId;
-            question.FontSize = FontSize;
-            question.MaxDuration = MaxDuration;
-            question.MinDuration = MinDuration;
-            question.ImagePosition = ImagePosition;
-            question.QuestionType = QuestionType;
-            question.ValidDisplay = ValidDisplay;
-            question.QuestionIndex = QuestionIndex;
-            question.QuestionSetId = QuestionSetId;
-            question.ContinuousQuestionId = ContinuousQuestionId;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                Version += 1;
-                UpdatedAt = DateTime.UtcNow;
-
-                dbContext.question_versions.Add(MapVersions(question));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            questions question = await dbContext.questions.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (question == null)
-            {
-                throw new NullReferenceException($"Could no find question with Id: {Id}");
-            }
-
-            question.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                Version += 1;
-                UpdatedAt = DateTime.UtcNow;
-
-                dbContext.question_versions.Add(MapVersions(question));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
 
         public bool IsSmiley()
         {

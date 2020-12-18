@@ -31,7 +31,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class cases : BaseEntity
+    public partial class cases : PnBase
     {
         public int? Status { get; set; }
 
@@ -93,117 +93,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual workers Worker { get; set; }
 
         public virtual folders Folder { get; set; }
-
-        public async Task Create(MicrotingDbContext dbContext) 
-        {
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-            Version = 1;
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-
-            dbContext.cases.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.case_versions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            cases cases = await dbContext.cases.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (cases == null)
-            {
-                throw new NullReferenceException($"Could not find case with Id: {Id}");
-            }
-
-            cases.Custom = Custom;
-            cases.Status = Status;
-            cases.DoneAt = DoneAt;
-            cases.SiteId = SiteId;
-            cases.UnitId = UnitId;
-            cases.CaseUid = CaseUid;
-            cases.CheckList = CheckList;
-            cases.CheckListId = CheckListId;
-            cases.FieldValue1 = FieldValue1;
-            cases.FieldValue2 = FieldValue2;
-            cases.FieldValue3 = FieldValue3;
-            cases.FieldValue4 = FieldValue4;
-            cases.FieldValue5 = FieldValue5;
-            cases.FieldValue6 = FieldValue6;
-            cases.FieldValue7 = FieldValue7;
-            cases.FieldValue8 = FieldValue8;
-            cases.FieldValue9 = FieldValue9;
-            cases.FieldValue10 = FieldValue10;
-            cases.MicrotingUid = MicrotingUid;
-            cases.WorkerId = WorkerId;
-            cases.MicrotingCheckUid = MicrotingCheckUid;
-            cases.FolderId = FolderId;
-            cases.WorkflowState = WorkflowState; // TODO extend tests to include WorkflowState
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                cases.Version += 1;
-                cases.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.case_versions.Add(MapVersions(cases));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            cases cases = await dbContext.cases.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (cases == null)
-            {
-                throw new NullReferenceException($"Could not find case with Id: {Id}");
-            }
-
-            cases.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-           
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                cases.Version += 1;
-                cases.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.case_versions.Add(MapVersions(cases));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-        
-        private case_versions MapVersions(cases aCase)
-        {
-            return new case_versions
-            {
-                Status = aCase.Status,
-                DoneAt = aCase.DoneAt,
-                UpdatedAt = aCase.UpdatedAt,
-                WorkerId = aCase.WorkerId,
-                WorkflowState = aCase.WorkflowState,
-                Version = aCase.Version,
-                MicrotingCheckUid = aCase.MicrotingCheckUid,
-                UnitId = aCase.UnitId,
-                Type = aCase.Type,
-                CreatedAt = aCase.CreatedAt,
-                CheckListId = aCase.CheckListId,
-                MicrotingUid = aCase.MicrotingUid,
-                SiteId = aCase.SiteId,
-                FieldValue1 = aCase.FieldValue1,
-                FieldValue2 = aCase.FieldValue2,
-                FieldValue3 = aCase.FieldValue3,
-                FieldValue4 = aCase.FieldValue4,
-                FieldValue5 = aCase.FieldValue5,
-                FieldValue6 = aCase.FieldValue6,
-                FieldValue7 = aCase.FieldValue7,
-                FieldValue8 = aCase.FieldValue8,
-                FieldValue9 = aCase.FieldValue9,
-                FieldValue10 = aCase.FieldValue10,
-                Custom = aCase.Custom,
-                CaseUid = aCase.CaseUid,
-                CaseId = aCase.Id,
-                FolderId = aCase.FolderId
-            };
-        }
     }
 }

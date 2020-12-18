@@ -33,7 +33,7 @@ using Microting.eForm.Infrastructure.Models;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class entity_groups : BaseEntity
+    public partial class entity_groups : PnBase
     {
         public string MicrotingUid { get; set; }
 
@@ -42,67 +42,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public string Description { get; set; }
 
         [StringLength(50)] public string Type { get; set; }
-
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-            Version = 1;
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-
-            dbContext.entity_groups.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.entity_group_versions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            entity_groups entityGroups = await dbContext.entity_groups.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (entityGroups == null)
-            {
-                throw new NullReferenceException($"Could not find Entity Group with Id: {Id}");
-            }
-
-            entityGroups.MicrotingUid = MicrotingUid;
-            entityGroups.Name = Name;
-            entityGroups.Type = Type;
-            entityGroups.Description = Description;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                entityGroups.UpdatedAt = DateTime.UtcNow;
-                entityGroups.Version += 1;
-
-                dbContext.entity_group_versions.Add(MapVersions(entityGroups));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-
-            entity_groups entityGroups = await dbContext.entity_groups.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (entityGroups == null)
-            {
-                throw new NullReferenceException($"Could not find Entity Group with Id: {Id}");
-            }
-
-            entityGroups.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                entityGroups.UpdatedAt = DateTime.UtcNow;
-                entityGroups.Version += 1;
-
-                dbContext.entity_group_versions.Add(MapVersions(entityGroups));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
 
         public static async Task<EntityGroup> ReadSorted(MicrotingDbContext dbContext, string entityGroupMUId, string sort,
             string nameFilter)
@@ -164,22 +103,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 }
 
             return rtnEG;
-        } 
-        
-        private entity_group_versions MapVersions(entity_groups entityGroup)
-        {
-            return new entity_group_versions
-            {
-                CreatedAt = entityGroup.CreatedAt,
-                MicrotingUid = entityGroup.MicrotingUid,
-                Name = entityGroup.Name,
-                Type = entityGroup.Type,
-                UpdatedAt = entityGroup.UpdatedAt,
-                Version = entityGroup.Version,
-                WorkflowState = entityGroup.WorkflowState,
-                EntityGroupId = entityGroup.Id,
-                Description = entityGroup.Description
-            };
         }
     }
 }

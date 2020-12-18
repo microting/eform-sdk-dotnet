@@ -30,7 +30,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class site_workers : BaseEntity
+    public partial class site_workers : PnBase
     {
         [ForeignKey("site")]
         public int? SiteId { get; set; }
@@ -43,79 +43,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual sites Site { get; set; }
 
         public virtual workers Worker { get; set; }
-
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-            Version = 1;
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-
-            dbContext.site_workers.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.site_worker_versions.Add(MapSiteWorkerVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            site_workers siteWorkers = await dbContext.site_workers.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (siteWorkers == null)
-            {
-                throw new NullReferenceException($"Could not find site worker tish Id: {Id}");
-            }
-
-            siteWorkers.SiteId = SiteId;
-            siteWorkers.WorkerId = WorkerId;
-            siteWorkers.MicrotingUid = MicrotingUid;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                siteWorkers.Version += 1;
-                siteWorkers.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.site_worker_versions.Add(MapSiteWorkerVersions(siteWorkers));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            site_workers siteWorkers = await dbContext.site_workers.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (siteWorkers == null)
-            {
-                throw new NullReferenceException($"Could not find site worker tish Id: {Id}");
-            }
-
-            siteWorkers.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-            
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                siteWorkers.Version += 1;
-                siteWorkers.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.site_worker_versions.Add(MapSiteWorkerVersions(siteWorkers));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-        
-        
-        private site_worker_versions MapSiteWorkerVersions(site_workers site_workers)
-        {
-            return new site_worker_versions
-            {
-                WorkflowState = site_workers.WorkflowState,
-                Version = site_workers.Version,
-                CreatedAt = site_workers.CreatedAt,
-                UpdatedAt = site_workers.UpdatedAt,
-                MicrotingUid = site_workers.MicrotingUid,
-                SiteId = site_workers.SiteId,
-                WorkerId = site_workers.WorkerId,
-                SiteWorkerId = site_workers.Id
-            };
-        }
     }
 }

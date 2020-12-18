@@ -31,7 +31,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class check_list_sites : BaseEntity
+    public partial class check_list_sites : PnBase
     {
         [ForeignKey("site")]
         public int? SiteId { get; set; }
@@ -51,82 +51,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual check_lists CheckList { get; set; }
 
         public virtual folders Folder { get; set; }
-
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-            Version = 1;
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-
-            dbContext.check_list_sites.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.check_list_site_versions.Add(MapCheckListSiteVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            check_list_sites checkListSites = await dbContext.check_list_sites.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (checkListSites == null)
-            {
-                throw  new NullReferenceException($"Could not find Check List Site with Id: {Id}");
-            }
-
-            checkListSites.SiteId = SiteId;
-            checkListSites.CheckListId = CheckListId;
-            checkListSites.MicrotingUid = MicrotingUid;
-            checkListSites.LastCheckId = LastCheckId;
-            checkListSites.FolderId = FolderId;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                checkListSites.Version += 1;
-                checkListSites.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.check_list_site_versions.Add(MapCheckListSiteVersions(checkListSites));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            check_list_sites checkListSites = await dbContext.check_list_sites.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (checkListSites == null)
-            {
-                throw  new NullReferenceException($"Could not find Check List Site with Id: {Id}");
-            }
-
-            checkListSites.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-                
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                checkListSites.Version += 1;
-                checkListSites.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.check_list_site_versions.Add(MapCheckListSiteVersions(checkListSites));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-        
-        private check_list_site_versions MapCheckListSiteVersions(check_list_sites checkListSite)
-        {
-            return new check_list_site_versions
-            {
-                CheckListId = checkListSite.CheckListId,
-                CreatedAt = checkListSite.CreatedAt,
-                UpdatedAt = checkListSite.UpdatedAt,
-                LastCheckId = checkListSite.LastCheckId,
-                MicrotingUid = checkListSite.MicrotingUid,
-                SiteId = checkListSite.SiteId,
-                Version = checkListSite.Version,
-                WorkflowState = checkListSite.WorkflowState,
-                CheckListSiteId = checkListSite.Id,
-                FolderId = checkListSite.FolderId
-            };
-        }
     }
 }

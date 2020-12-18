@@ -30,7 +30,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class answer_values : BaseEntity
+    public partial class answer_values : PnBase
     {
         [ForeignKey("answer")]
         public int AnswerId { get; set; }
@@ -50,80 +50,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual questions Question { get; set; }
         
         public virtual options Option { get; set; }
-
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-            Version = 1;
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-
-            dbContext.answer_values.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.answer_value_versions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            answer_values answerValue = await dbContext.answer_values.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (answerValue == null)
-            {
-                throw new NullReferenceException($"Could not find answer value with Id: {Id}");
-            }
-
-            answerValue.Value = Value;
-            answerValue.AnswerId = AnswerId;
-            answerValue.OptionId = OptionId;
-            answerValue.QuestionId = QuestionId;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                answerValue.Version += 1;
-                answerValue.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.answer_value_versions.Add(MapVersions(answerValue));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            answer_values answerValue = await dbContext.answer_values.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (answerValue == null)
-            {
-                throw new NullReferenceException($"Could not find answer value with Id: {Id}");
-            }
-
-            answerValue.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                answerValue.Version += 1;
-                answerValue.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.answer_value_versions.Add(MapVersions(answerValue));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-        private answer_value_versions MapVersions(answer_values answerValue)
-        {
-            return new answer_value_versions
-            {
-                QuestionId = answerValue.QuestionId,
-                Value = answerValue.Value,
-                OptionId = answerValue.OptionId,
-                AnswerId = answerValue.AnswerId,
-                AnswerValueId = answerValue.Id,
-                CreatedAt = answerValue.CreatedAt,
-                Version = answerValue.Version,
-                UpdatedAt = answerValue.UpdatedAt,
-                WorkflowState = answerValue.WorkflowState,
-                MicrotingUid = answerValue.MicrotingUid
-            };
-        }
     }
 }

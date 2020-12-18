@@ -31,7 +31,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class survey_configurations : BaseEntity
+    public partial class survey_configurations : PnBase
     {
         public DateTime Start { get; set; }
         
@@ -51,93 +51,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual ICollection<site_survey_configurations> SiteSurveyConfigurations { get; set; }
         
         public virtual question_sets QuestionSet { get; set; }
-
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-            Version = 1;
-            if (WorkflowState == null)
-            {
-                WorkflowState = Constants.Constants.WorkflowStates.Created; 
-            }
-
-            dbContext.survey_configurations.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.survey_configuration_versions.Add(MapVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            survey_configurations surveyConfigurations =
-                await dbContext.survey_configurations.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (surveyConfigurations == null)
-            {
-                throw new NullReferenceException($"Could not find survey configuration with Id: {Id}");
-            }
-
-            surveyConfigurations.Name = Name;
-            surveyConfigurations.Stop = Stop;
-            surveyConfigurations.Start = Start;
-            surveyConfigurations.TimeOut = TimeOut;
-            surveyConfigurations.TimeToLive = TimeToLive;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                surveyConfigurations.Version += 1;
-                surveyConfigurations.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.survey_configuration_versions.Add(MapVersions(surveyConfigurations));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-                
-            }
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            survey_configurations surveyConfigurations =
-                await dbContext.survey_configurations.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (surveyConfigurations == null)
-            {
-                throw new NullReferenceException($"Could not find survey configuration with Id: {Id}");
-            }
-
-            surveyConfigurations.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-            
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                surveyConfigurations.Version += 1;
-                surveyConfigurations.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.survey_configuration_versions.Add(MapVersions(surveyConfigurations));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-                
-            }
-        }
-
-        private survey_configuration_versions MapVersions(survey_configurations surveyConfiguration)
-        {
-            survey_configuration_versions surveyConfigurationVersions = new survey_configuration_versions
-            {
-                SurveyConfigurationId = surveyConfiguration.Id,
-                Name = surveyConfiguration.Name,
-                Stop = surveyConfiguration.Stop,
-                Start = surveyConfiguration.Start,
-                TimeOut = surveyConfiguration.TimeOut,
-                TimeToLive = surveyConfiguration.TimeToLive,
-                Version = surveyConfiguration.Version,
-                CreatedAt = surveyConfiguration.CreatedAt,
-                UpdatedAt = surveyConfiguration.UpdatedAt,
-                WorkflowState = surveyConfiguration.WorkflowState,
-                QuestionSetId = surveyConfiguration.QuestionSetId,
-                MicrotingUid = surveyConfiguration.MicrotingUid
-            };
-
-            return surveyConfigurationVersions;
-        }
     }
 }

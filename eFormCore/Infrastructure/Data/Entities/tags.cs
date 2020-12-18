@@ -31,7 +31,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class tags : BaseEntity
+    public partial class tags : PnBase
     {
         public tags()
         {
@@ -44,79 +44,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int? TaggingsCount { get; set; }
 
         public virtual ICollection<taggings> Taggings { get; set; }
-
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-            Version = 1;
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-
-            dbContext.tags.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.tag_versions.Add(MapTagVersions(this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            tags tag = await dbContext.tags.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (tag == null)
-            {
-                throw new NullReferenceException($"Could not find Tag with Id: {Id}");
-            }
-
-            tag.Name = Name;
-            tag.TaggingsCount = TaggingsCount;
-            tag.WorkflowState = WorkflowState; // TODO extend tests to include WorkflowState
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                tag.Version += 1;
-                tag.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.tag_versions.Add(MapTagVersions(tag));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            
-            tags tag = await dbContext.tags.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (tag == null)
-            {
-                throw new NullReferenceException($"Could not find Tag with Id: {Id}");
-            }
-
-            tag.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                tag.Version += 1;
-                tag.UpdatedAt = DateTime.UtcNow;
-
-                dbContext.tag_versions.Add(MapTagVersions(tag));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        
-        private tag_versions MapTagVersions(tags tags)
-        {
-            return new tag_versions
-            {
-                WorkflowState = tags.WorkflowState,
-                Version = tags.Version,
-                CreatedAt = tags.CreatedAt,
-                UpdatedAt = tags.UpdatedAt,
-                Name = tags.Name,
-                TagId = tags.Id
-            };
-        }
 
     }
 }

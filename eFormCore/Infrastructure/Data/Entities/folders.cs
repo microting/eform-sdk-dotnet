@@ -29,7 +29,7 @@ using System.Threading.Tasks;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public class folders : BaseEntity
+    public class folders : PnBase
     {
         public folders()
         {            
@@ -47,79 +47,5 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual folders Parent { get; set; }
 
         public virtual ICollection<folders> Children { get; set; }
-
-        public async Task Create(MicrotingDbContext dbContext)
-        {
-            CreatedAt = DateTime.UtcNow;
-            UpdatedAt = DateTime.UtcNow;
-            Version = 1;
-            WorkflowState = Constants.Constants.WorkflowStates.Created;
-            
-            dbContext.folders.Add(this);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            dbContext.folder_versions.Add(MapFolderVersions(dbContext, this));
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task Update(MicrotingDbContext dbContext)
-        {
-            folders folder = dbContext.folders.FirstOrDefaultAsync(x => x.Id == Id).Result;
-
-            if (folder == null)
-            {
-                throw new NullReferenceException($"Could not find area with Id: {Id}");
-            }
-
-            folder.Name = Name;
-            folder.Description = Description;
-            folder.ParentId = ParentId;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                folder.UpdatedAt = DateTime.UtcNow;
-                folder.Version += 1;
-
-                dbContext.folder_versions.Add(MapFolderVersions(dbContext, folder));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            folders folder = dbContext.folders.SingleOrDefaultAsync(x => x.Id == Id).Result;
-
-            if (folder == null)
-            {
-                throw new NullReferenceException($"Could not find area with Id: {Id}");
-            }
-            
-            folder.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                folder.UpdatedAt = DateTime.UtcNow;
-                folder.Version += 1;
-
-                dbContext.folder_versions.Add(MapFolderVersions(dbContext, folder));
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        private folder_versions MapFolderVersions(MicrotingDbContext _dbContext, folders folder)
-        {
-            return new folder_versions
-            {
-                Name = folder.Name,
-                Description = folder.Description,
-                ParentId = folder.ParentId,
-                FolderId = folder.Id,
-                CreatedAt = folder.CreatedAt,
-                UpdatedAt = folder.UpdatedAt,
-                WorkflowState = folder.WorkflowState,
-                MicrotingUid = folder.MicrotingUid,
-                Version = folder.Version
-            };
-        }
     }
 }
