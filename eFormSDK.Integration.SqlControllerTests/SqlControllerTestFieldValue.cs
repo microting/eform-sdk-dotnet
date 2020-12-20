@@ -152,7 +152,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region UploadedData
-            uploaded_data ud = await testHelpers.CreateUploadedData("checksum", "File1", "no", "mappe", "File1", 1, worker,
+            uploaded_datas ud = await testHelpers.CreateUploadedData("checksum", "File1", "no", "mappe", "File1", 1, worker,
                 "local", 55, false);
 
             #endregion
@@ -318,7 +318,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region UploadedData
-            uploaded_data ud = await testHelpers.CreateUploadedData("checksum", "File1", "no", "mappe", "File1", 1, worker,
+            uploaded_datas ud = await testHelpers.CreateUploadedData("checksum", "File1", "no", "mappe", "File1", 1, worker,
                 "local", 55, false);
 
             #endregion
@@ -917,27 +917,27 @@ namespace eFormSDK.Integration.Tests
 
             #region UploadedData
             #region ud1
-            uploaded_data ud1 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File1", 1, worker,
+            uploaded_datas ud1 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File1", 1, worker,
                 "local", 55, false);
             #endregion
 
             #region ud2
-            uploaded_data ud2 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File2", 1, worker,
+            uploaded_datas ud2 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File2", 1, worker,
                 "local", 55, false);
             #endregion
 
             #region ud3
-            uploaded_data ud3 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File3", 1, worker,
+            uploaded_datas ud3 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File3", 1, worker,
                 "local", 55, false);
             #endregion
 
             #region ud4
-            uploaded_data ud4 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File4", 1, worker,
+            uploaded_datas ud4 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File4", 1, worker,
                 "local", 55, false);
             #endregion
 
             #region ud5
-            uploaded_data ud5 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File5", 1, worker,
+            uploaded_datas ud5 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File5", 1, worker,
                 "local", 55, false);
             #endregion
 

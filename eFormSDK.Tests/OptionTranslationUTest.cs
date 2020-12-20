@@ -51,7 +51,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
@@ -139,7 +139,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
@@ -225,7 +225,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
@@ -234,7 +234,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSet2.Create(DbContext).ConfigureAwait(false);
 
@@ -374,7 +374,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
@@ -383,7 +383,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSet2.Create(DbContext).ConfigureAwait(false);
 
@@ -519,7 +519,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
@@ -528,7 +528,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSet2.Create(DbContext).ConfigureAwait(false);
 
@@ -668,7 +668,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
@@ -677,7 +677,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSet2.Create(DbContext).ConfigureAwait(false);
 
@@ -815,7 +815,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSet.Create(DbContext).ConfigureAwait(false);
 

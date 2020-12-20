@@ -36,7 +36,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         public bool HasChild { get; set; }
         
-        public bool PosiblyDeployed { get; set; }
+        public bool PossiblyDeployed { get; set; }
         
         public int ParentId { get; set; }
         

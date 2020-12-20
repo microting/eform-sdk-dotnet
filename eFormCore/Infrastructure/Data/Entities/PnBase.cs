@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Castle.DynamicProxy;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -62,7 +63,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         private object MapVersion(object obj)
         {
             Type type = obj.GetType().UnderlyingSystemType;
-            String className = type.Name;
+            String className = type.Name.Replace("Proxy", "");
             var name = obj.GetType().FullName.Remove(obj.GetType().FullName.Length - 1) + "_versions";
             var resultType = Assembly.GetExecutingAssembly().GetType(name);
             if (resultType == null)

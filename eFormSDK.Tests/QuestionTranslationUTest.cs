@@ -25,7 +25,7 @@ namespace eFormSDK.Tests
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
@@ -104,7 +104,7 @@ namespace eFormSDK.Tests
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
@@ -182,7 +182,7 @@ namespace eFormSDK.Tests
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
@@ -192,7 +192,7 @@ namespace eFormSDK.Tests
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion2.Create(DbContext).ConfigureAwait(false);
 
@@ -312,7 +312,7 @@ namespace eFormSDK.Tests
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
@@ -322,7 +322,7 @@ namespace eFormSDK.Tests
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion2.Create(DbContext).ConfigureAwait(false);
 
@@ -439,7 +439,7 @@ namespace eFormSDK.Tests
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
@@ -449,7 +449,7 @@ namespace eFormSDK.Tests
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion2.Create(DbContext).ConfigureAwait(false);
 
@@ -571,7 +571,7 @@ namespace eFormSDK.Tests
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
@@ -581,7 +581,7 @@ namespace eFormSDK.Tests
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion2.Create(DbContext).ConfigureAwait(false);
 
@@ -701,7 +701,7 @@ namespace eFormSDK.Tests
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 

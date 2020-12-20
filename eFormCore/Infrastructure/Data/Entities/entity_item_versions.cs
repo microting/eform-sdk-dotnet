@@ -28,7 +28,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class entity_item_versions : BaseEntity
     {
-        public int EntityItemsId { get; set; }
+        public int EntityItemId { get; set; }
 
         public int? EntityGroupId { get; set; }
 

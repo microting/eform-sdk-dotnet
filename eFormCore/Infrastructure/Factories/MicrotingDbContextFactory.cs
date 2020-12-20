@@ -40,7 +40,7 @@ namespace Microting.eForm.Infrastructure.Factories
             {
                 mysqlOptions.ServerVersion(new Version(10, 4, 0), ServerType.MariaDb).EnableRetryOnFailure();
             });
-            optionsBuilder.UseLazyLoadingProxies(true);
+            //optionsBuilder.UseLazyLoadingProxies(true);
 
             return new MicrotingDbContext(optionsBuilder.Options);
             // dotnet ef migrations add InitialCreate --project eFormCore --startup-project DBMigrator

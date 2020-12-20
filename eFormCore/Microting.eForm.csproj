@@ -123,7 +123,7 @@
     <Compile Include="Infrastructure\Data\Entities\tag_versions.cs" />
     <Compile Include="Infrastructure\Data\Entities\units.cs" />
     <Compile Include="Infrastructure\Data\Entities\unit_versions.cs" />
-    <Compile Include="Infrastructure\Data\Entities\uploaded_data.cs" />
+    <Compile Include="Infrastructure\Data\Entities\uploaded_datas.cs" />
     <Compile Include="Infrastructure\Data\Entities\uploaded_data_versions.cs" />
     <Compile Include="Infrastructure\Data\Entities\workers.cs" />
     <Compile Include="Infrastructure\Data\Entities\worker_versions.cs" />
@@ -222,6 +222,10 @@
     <Compile Include="Migrations\20201116164405_AddingDescriptionToEntityGroup.Designer.cs" />
     <Compile Include="Migrations\20201130204234_FixingSplitScreen.cs" />
     <Compile Include="Migrations\20201130204234_FixingSplitScreen.Designer.cs" />
+    <Compile Include="Migrations\20201220194822_FixingTableColumnNames.cs" />
+    <Compile Include="Migrations\20201220194822_FixingTableColumnNames.Designer.cs" />
+    <Compile Include="Migrations\20201220201427_FixingQuestionSet.cs" />
+    <Compile Include="Migrations\20201220201427_FixingQuestionSet.Designer.cs" />
     <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Infrastructure\SqlController.cs" />
     <Compile Include="Services\Subscriber.cs" />

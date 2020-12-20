@@ -295,9 +295,9 @@ namespace Microting.eForm.Helpers
             return CLV;
 
         }
-        public async Task<uploaded_data> CreateUploadedData(string checkSum, string currentFile, string extension, string fileLocation, string fileName, short? local, workers worker, string uploaderType, int version, bool createPhysicalFile)
+        public async Task<uploaded_datas> CreateUploadedData(string checkSum, string currentFile, string extension, string fileLocation, string fileName, short? local, workers worker, string uploaderType, int version, bool createPhysicalFile)
         {
-            uploaded_data UD = new uploaded_data();
+            uploaded_datas UD = new uploaded_datas();
                
             UD.Checksum = checkSum;
             UD.CreatedAt = DateTime.UtcNow;
@@ -313,7 +313,7 @@ namespace Microting.eForm.Helpers
             UD.Version = version;
             UD.WorkflowState = Constants.WorkflowStates.Created;
 
-            dbContext.uploaded_data.Add(UD);
+            dbContext.uploaded_datas.Add(UD);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
 

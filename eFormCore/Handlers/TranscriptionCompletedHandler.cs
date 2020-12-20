@@ -62,7 +62,7 @@ namespace Microting.eForm.Handlers
                 await sqlController.FieldValueUpdate((int)fv.CaseId, (int)fv.Id, result["text"].ToString());
 
                 #region download file
-                uploaded_data ud = await sqlController.GetUploaded_DataByTranscriptionId(message.MicrotringUUID);
+                uploaded_datas ud = await sqlController.GetUploaded_DataByTranscriptionId(message.MicrotringUUID);
 
                 if (ud.FileName.Contains("3gp"))
                 {

@@ -29,7 +29,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public partial class uploaded_data_versions : BaseEntity
     {
-        public int? DataUploadedId { get; set; }
+        public int? UploadedDataId { get; set; }
 
         public int? UploaderId { get; set; }
 

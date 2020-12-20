@@ -88,7 +88,7 @@ namespace eFormSDK.Integration.Tests
 
             // Assert
             List<cases> caseMatches = DbContext.cases.AsNoTracking().ToList();
-            List<uploaded_data> udMatches = DbContext.uploaded_data.AsNoTracking().ToList();
+            List<uploaded_datas> udMatches = DbContext.uploaded_datas.AsNoTracking().ToList();
             List<field_values> fvMatches = DbContext.field_values.AsNoTracking().ToList();
 
             Assert.NotNull(caseMatches);

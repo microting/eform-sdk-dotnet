@@ -91,7 +91,7 @@ namespace Microting.eForm.Infrastructure
         public virtual DbSet<survey_configuration_versions> survey_configuration_versions { get; set; }
         public virtual DbSet<unit_versions> unit_versions { get; set; }
         public virtual DbSet<units> units { get; set; }
-        public virtual DbSet<uploaded_data> uploaded_data { get; set; }
+        public virtual DbSet<uploaded_datas> uploaded_datas { get; set; }
         public virtual DbSet<uploaded_data_versions> uploaded_data_versions { get; set; }
         public virtual DbSet<worker_versions> worker_versions { get; set; }
         public virtual DbSet<workers> workers { get; set; }

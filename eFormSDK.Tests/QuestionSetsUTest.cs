@@ -49,7 +49,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
 
             //Act
@@ -73,7 +73,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(questionSet.Name, questionSets[0].Name);
             Assert.AreEqual(questionSet.Share, questionSets[0].Share);
             Assert.AreEqual(questionSet.HasChild, questionSets[0].HasChild);
-            Assert.AreEqual(questionSet.PosiblyDeployed, questionSets[0].PosiblyDeployed);
+            Assert.AreEqual(questionSet.PossiblyDeployed, questionSets[0].PossiblyDeployed);
             
             //Versions
             
@@ -85,7 +85,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(questionSet.Name, questionSetVersions[0].Name);
             Assert.AreEqual(questionSet.Share, questionSetVersions[0].Share);
             Assert.AreEqual(questionSet.HasChild, questionSetVersions[0].HasChild);
-            Assert.AreEqual(questionSet.PosiblyDeployed, questionSetVersions[0].PossiblyDeployed);
+            Assert.AreEqual(questionSet.PossiblyDeployed, questionSetVersions[0].PossiblyDeployed);
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSet.Create(DbContext).ConfigureAwait(false);
             
@@ -111,12 +111,12 @@ namespace eFormSDK.Tests
             string oldName = questionSet.Name;
             bool oldShare = questionSet.Share;
             bool oldHasChild = questionSet.HasChild;
-            bool oldPossiblyDeployed = questionSet.PosiblyDeployed;
+            bool oldPossiblyDeployed = questionSet.PossiblyDeployed;
             
             questionSet.Name = Guid.NewGuid().ToString();
             questionSet.Share = randomBool;
             questionSet.HasChild = randomBool;
-            questionSet.PosiblyDeployed = randomBool;
+            questionSet.PossiblyDeployed = randomBool;
             
             await questionSet.Update(DbContext).ConfigureAwait(false);
 
@@ -137,7 +137,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(questionSet.Name, questionSets[0].Name);
             Assert.AreEqual(questionSet.Share, questionSets[0].Share);
             Assert.AreEqual(questionSet.HasChild, questionSets[0].HasChild);
-            Assert.AreEqual(questionSet.PosiblyDeployed, questionSets[0].PosiblyDeployed);
+            Assert.AreEqual(questionSet.PossiblyDeployed, questionSets[0].PossiblyDeployed);
             
             //Old Version
             
@@ -160,7 +160,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(questionSet.Name, questionSetVersions[1].Name);
             Assert.AreEqual(questionSet.Share, questionSetVersions[1].Share);
             Assert.AreEqual(questionSet.HasChild, questionSetVersions[1].HasChild);
-            Assert.AreEqual(questionSet.PosiblyDeployed, questionSetVersions[1].PossiblyDeployed);
+            Assert.AreEqual(questionSet.PossiblyDeployed, questionSetVersions[1].PossiblyDeployed);
         }
 
         [Test]
@@ -176,7 +176,7 @@ namespace eFormSDK.Tests
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSet.Create(DbContext).ConfigureAwait(false);
             
@@ -203,7 +203,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(questionSet.Name, questionSets[0].Name);
             Assert.AreEqual(questionSet.Share, questionSets[0].Share);
             Assert.AreEqual(questionSet.HasChild, questionSets[0].HasChild);
-            Assert.AreEqual(questionSet.PosiblyDeployed, questionSets[0].PosiblyDeployed);
+            Assert.AreEqual(questionSet.PossiblyDeployed, questionSets[0].PossiblyDeployed);
             
             //Old Version
             
@@ -215,7 +215,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(questionSet.Name, questionSetVersions[0].Name);
             Assert.AreEqual(questionSet.Share, questionSetVersions[0].Share);
             Assert.AreEqual(questionSet.HasChild, questionSetVersions[0].HasChild);
-            Assert.AreEqual(questionSet.PosiblyDeployed, questionSetVersions[0].PossiblyDeployed);
+            Assert.AreEqual(questionSet.PossiblyDeployed, questionSetVersions[0].PossiblyDeployed);
             
             //New Version
             Assert.AreEqual(questionSet.CreatedAt.ToString(), questionSetVersions[1].CreatedAt.ToString());                                  
@@ -226,7 +226,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(questionSet.Name, questionSetVersions[1].Name);
             Assert.AreEqual(questionSet.Share, questionSetVersions[1].Share);
             Assert.AreEqual(questionSet.HasChild, questionSetVersions[1].HasChild);
-            Assert.AreEqual(questionSet.PosiblyDeployed, questionSetVersions[1].PossiblyDeployed);
+            Assert.AreEqual(questionSet.PossiblyDeployed, questionSetVersions[1].PossiblyDeployed);
         }
     }
 }

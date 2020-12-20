@@ -183,7 +183,7 @@ namespace eFormSDK.Tests
             };
             await theCase.Create(DbContext).ConfigureAwait(false);
 
-            uploaded_data uploadedData = new uploaded_data
+            uploaded_datas uploadedDatas = new uploaded_datas
             {
                 Checksum = Guid.NewGuid().ToString(),
                 Extension = Guid.NewGuid().ToString(),
@@ -196,7 +196,7 @@ namespace eFormSDK.Tests
                 UploaderId = rnd.Next(1, 255),
                 UploaderType = Guid.NewGuid().ToString()
             };
-            await uploadedData.Create(DbContext).ConfigureAwait(false);
+            await uploadedDatas.Create(DbContext).ConfigureAwait(false);
 
             field_values fieldValue = new field_values
             {
@@ -212,7 +212,7 @@ namespace eFormSDK.Tests
                 FieldId = field.Id,
                 WorkerId = worker.Id,
                 CheckListId = checklist.Id,
-                UploadedDataId = uploadedData.Id
+                UploadedDataId = uploadedDatas.Id
             };
 
             //Act
@@ -244,7 +244,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(fieldValue.FieldId, field.Id);
             Assert.AreEqual(fieldValue.WorkerId, worker.Id);
             Assert.AreEqual(fieldValue.CheckListId, checklist.Id);
-            Assert.AreEqual(fieldValue.UploadedDataId, uploadedData.Id);
+            Assert.AreEqual(fieldValue.UploadedDataId, uploadedDatas.Id);
             
             //Versions
             Assert.AreEqual(fieldValue.CreatedAt.ToString(), fieldValueVersions[0].CreatedAt.ToString());                                  
@@ -263,7 +263,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.Id, fieldValueVersions[0].FieldId);
             Assert.AreEqual(worker.Id, fieldValueVersions[0].WorkerId);
             Assert.AreEqual(checklist.Id, fieldValueVersions[0].CheckListId);
-            Assert.AreEqual(uploadedData.Id, fieldValueVersions[0].UploadedDataId);
+            Assert.AreEqual(uploadedDatas.Id, fieldValueVersions[0].UploadedDataId);
         }
 
         [Test]
@@ -412,7 +412,7 @@ namespace eFormSDK.Tests
             };
             await theCase.Create(DbContext).ConfigureAwait(false);
 
-            uploaded_data uploadedData = new uploaded_data
+            uploaded_datas uploadedDatas = new uploaded_datas
             {
                 Checksum = Guid.NewGuid().ToString(),
                 Extension = Guid.NewGuid().ToString(),
@@ -425,7 +425,7 @@ namespace eFormSDK.Tests
                 UploaderId = rnd.Next(1, 255),
                 UploaderType = Guid.NewGuid().ToString()
             };
-            await uploadedData.Create(DbContext).ConfigureAwait(false);
+            await uploadedDatas.Create(DbContext).ConfigureAwait(false);
 
             field_values fieldValue = new field_values
             {
@@ -441,7 +441,7 @@ namespace eFormSDK.Tests
                 FieldId = field.Id,
                 WorkerId = worker.Id,
                 CheckListId = checklist.Id,
-                UploadedDataId = uploadedData.Id
+                UploadedDataId = uploadedDatas.Id
             };
             await fieldValue.Create(DbContext).ConfigureAwait(false);
 
@@ -493,7 +493,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(fieldValue.FieldId, field.Id);
             Assert.AreEqual(fieldValue.WorkerId, worker.Id);
             Assert.AreEqual(fieldValue.CheckListId, checklist.Id);
-            Assert.AreEqual(fieldValue.UploadedDataId, uploadedData.Id);
+            Assert.AreEqual(fieldValue.UploadedDataId, uploadedDatas.Id);
             
             //Old Version
             Assert.AreEqual(fieldValue.CreatedAt.ToString(), fieldValueVersions[0].CreatedAt.ToString());                                  
@@ -512,7 +512,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.Id, fieldValueVersions[0].FieldId);
             Assert.AreEqual(worker.Id, fieldValueVersions[0].WorkerId);
             Assert.AreEqual(checklist.Id, fieldValueVersions[0].CheckListId);
-            Assert.AreEqual(uploadedData.Id, fieldValueVersions[0].UploadedDataId);
+            Assert.AreEqual(uploadedDatas.Id, fieldValueVersions[0].UploadedDataId);
             
             //New Version
             Assert.AreEqual(fieldValue.CreatedAt.ToString(), fieldValueVersions[1].CreatedAt.ToString());                                  
@@ -531,7 +531,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.Id, fieldValueVersions[1].FieldId);
             Assert.AreEqual(worker.Id, fieldValueVersions[1].WorkerId);
             Assert.AreEqual(checklist.Id, fieldValueVersions[1].CheckListId);
-            Assert.AreEqual(uploadedData.Id, fieldValueVersions[1].UploadedDataId);
+            Assert.AreEqual(uploadedDatas.Id, fieldValueVersions[1].UploadedDataId);
         }
 
         [Test]
@@ -680,7 +680,7 @@ namespace eFormSDK.Tests
             };
             await theCase.Create(DbContext).ConfigureAwait(false);
 
-            uploaded_data uploadedData = new uploaded_data
+            uploaded_datas uploadedDatas = new uploaded_datas
             {
                 Checksum = Guid.NewGuid().ToString(),
                 Extension = Guid.NewGuid().ToString(),
@@ -693,7 +693,7 @@ namespace eFormSDK.Tests
                 UploaderId = rnd.Next(1, 255),
                 UploaderType = Guid.NewGuid().ToString()
             };
-            await uploadedData.Create(DbContext).ConfigureAwait(false);
+            await uploadedDatas.Create(DbContext).ConfigureAwait(false);
 
             field_values fieldValue = new field_values
             {
@@ -709,7 +709,7 @@ namespace eFormSDK.Tests
                 FieldId = field.Id,
                 WorkerId = worker.Id,
                 CheckListId = checklist.Id,
-                UploadedDataId = uploadedData.Id
+                UploadedDataId = uploadedDatas.Id
             };
             await fieldValue.Create(DbContext).ConfigureAwait(false);
 
@@ -745,7 +745,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(fieldValue.FieldId, field.Id);
             Assert.AreEqual(fieldValue.WorkerId, worker.Id);
             Assert.AreEqual(fieldValue.CheckListId, checklist.Id);
-            Assert.AreEqual(fieldValue.UploadedDataId, uploadedData.Id);
+            Assert.AreEqual(fieldValue.UploadedDataId, uploadedDatas.Id);
             
             //Old Version
             Assert.AreEqual(fieldValue.CreatedAt.ToString(), fieldValueVersions[0].CreatedAt.ToString());                                  
@@ -764,7 +764,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.Id, fieldValueVersions[0].FieldId);
             Assert.AreEqual(worker.Id, fieldValueVersions[0].WorkerId);
             Assert.AreEqual(checklist.Id, fieldValueVersions[0].CheckListId);
-            Assert.AreEqual(uploadedData.Id, fieldValueVersions[0].UploadedDataId);
+            Assert.AreEqual(uploadedDatas.Id, fieldValueVersions[0].UploadedDataId);
             
             //New Version
             Assert.AreEqual(fieldValue.CreatedAt.ToString(), fieldValueVersions[1].CreatedAt.ToString());                                  
@@ -783,7 +783,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.Id, fieldValueVersions[1].FieldId);
             Assert.AreEqual(worker.Id, fieldValueVersions[1].WorkerId);
             Assert.AreEqual(checklist.Id, fieldValueVersions[1].CheckListId);
-            Assert.AreEqual(uploadedData.Id, fieldValueVersions[1].UploadedDataId);
+            Assert.AreEqual(uploadedDatas.Id, fieldValueVersions[1].UploadedDataId);
         }
     }
 }

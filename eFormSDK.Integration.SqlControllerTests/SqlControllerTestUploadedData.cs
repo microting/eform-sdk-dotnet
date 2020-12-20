@@ -80,7 +80,7 @@ namespace eFormSDK.Integration.Tests
             string fileName = "Hello.jpg";
 
             // Act
-            uploaded_data dU = new uploaded_data
+            uploaded_datas dU = new uploaded_datas
             {
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
@@ -97,7 +97,7 @@ namespace eFormSDK.Integration.Tests
             };
 
 
-            DbContext.uploaded_data.Add(dU);
+            DbContext.uploaded_datas.Add(dU);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             UploadedData ud = await sut.FileRead();
@@ -128,7 +128,7 @@ namespace eFormSDK.Integration.Tests
             string fileName = "Hello.jpg";
 
             // Act
-            uploaded_data dU = new uploaded_data
+            uploaded_datas dU = new uploaded_datas
             {
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
@@ -145,10 +145,10 @@ namespace eFormSDK.Integration.Tests
             };
 
 
-            DbContext.uploaded_data.Add(dU);
+            DbContext.uploaded_datas.Add(dU);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
-            uploaded_data ud = await sut.GetUploadedData(dU.Id);
+            uploaded_datas ud = await sut.GetUploadedData(dU.Id);
 
             // Assert
             Assert.NotNull(ud);
@@ -170,7 +170,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public async Task SQL_File_FileRead_doesFileRead()
         {
-            uploaded_data ud = new uploaded_data
+            uploaded_datas ud = new uploaded_datas
             {
                 Checksum = "checksum1",
                 Extension = "extension",
@@ -182,7 +182,7 @@ namespace eFormSDK.Integration.Tests
                 WorkflowState = Constants.WorkflowStates.PreCreated
             };
 
-            DbContext.uploaded_data.Add(ud);
+            DbContext.uploaded_datas.Add(ud);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
             
             // Act
@@ -232,7 +232,7 @@ namespace eFormSDK.Integration.Tests
                 c1_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site1, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
 
-            uploaded_data ud = new uploaded_data
+            uploaded_datas ud = new uploaded_datas
             {
                 Checksum = "checksum1",
                 Extension = "extension",
@@ -243,7 +243,7 @@ namespace eFormSDK.Integration.Tests
                 FileName = "fileName"
             };
             
-            DbContext.uploaded_data.Add(ud);
+            DbContext.uploaded_datas.Add(ud);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             field_values fVs = new field_values
@@ -268,17 +268,17 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public async Task SQL_File_FileProcessed_isProcessed()
         {
-            uploaded_data ud = new uploaded_data
+            uploaded_datas ud = new uploaded_datas
             {
                 Local = 0, WorkflowState = Constants.WorkflowStates.PreCreated, Version = 1
             };
 
-            DbContext.uploaded_data.Add(ud);
+            DbContext.uploaded_datas.Add(ud);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
             
             // Act
             await sut.FileProcessed("url", "myChecksum", "myFileLocation", "myFileName", ud.Id);
-            List<uploaded_data> uploadedDataResult = DbContext.uploaded_data.AsNoTracking().ToList();
+            List<uploaded_datas> uploadedDataResult = DbContext.uploaded_datas.AsNoTracking().ToList();
             //var versionedMatches = DbContext.uploaded_data_versions.AsNoTracking().ToList(); TODO 05/01/2018
 
             // Assert
@@ -298,14 +298,14 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public async Task SQL_File_GetUploadedData_doesGetUploadedData()
         {
-            uploaded_data ud = new uploaded_data();
+            uploaded_datas ud = new uploaded_datas();
 
-            DbContext.uploaded_data.Add(ud);
+            DbContext.uploaded_datas.Add(ud);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
 
             await sut.GetUploadedData(ud.Id);
-            List<uploaded_data> uploadedDataResult = DbContext.uploaded_data.AsNoTracking().ToList();
+            List<uploaded_datas> uploadedDataResult = DbContext.uploaded_datas.AsNoTracking().ToList();
 
 
             Assert.NotNull(ud);
@@ -317,14 +317,14 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public async Task SQL_File_DeleteFile_doesFileGetDeleted()
         {
-            uploaded_data ud = new uploaded_data {WorkflowState = Constants.WorkflowStates.Created, Version = 1};
+            uploaded_datas ud = new uploaded_datas {WorkflowState = Constants.WorkflowStates.Created, Version = 1};
 
-            DbContext.uploaded_data.Add(ud);
+            DbContext.uploaded_datas.Add(ud);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             await sut.DeleteFile(ud.Id);
-            List<uploaded_data> uploadedDataResult = DbContext.uploaded_data.AsNoTracking().ToList();
+            List<uploaded_datas> uploadedDataResult = DbContext.uploaded_datas.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(ud);

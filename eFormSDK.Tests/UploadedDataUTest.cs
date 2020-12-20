@@ -45,7 +45,7 @@ namespace eFormSDK.Tests
             short minValue = Int16.MinValue;
             short maxValue = Int16.MaxValue;
 
-            uploaded_data uploadedData = new uploaded_data
+            uploaded_datas uploadedData = new uploaded_datas
             {
                 Checksum = Guid.NewGuid().ToString(),
                 Extension = Guid.NewGuid().ToString(),
@@ -63,7 +63,7 @@ namespace eFormSDK.Tests
             
             await uploadedData.Create(DbContext).ConfigureAwait(false);
 
-            List<uploaded_data> uploadedDatas = DbContext.uploaded_data.AsNoTracking().ToList();
+            List<uploaded_datas> uploadedDatas = DbContext.uploaded_datas.AsNoTracking().ToList();
             List<uploaded_data_versions> uploadedDataVersions = DbContext.uploaded_data_versions.AsNoTracking().ToList();
             
             //Assert
@@ -119,7 +119,7 @@ namespace eFormSDK.Tests
             short minValue = Int16.MinValue;
             short maxValue = Int16.MaxValue;
 
-            uploaded_data uploadedData = new uploaded_data
+            uploaded_datas uploadedData = new uploaded_datas
             {
                 Checksum = Guid.NewGuid().ToString(),
                 Extension = Guid.NewGuid().ToString(),
@@ -164,7 +164,7 @@ namespace eFormSDK.Tests
 
             await uploadedData.Update(DbContext).ConfigureAwait(false);
 
-            List<uploaded_data> uploadedDatas = DbContext.uploaded_data.AsNoTracking().ToList();
+            List<uploaded_datas> uploadedDatas = DbContext.uploaded_datas.AsNoTracking().ToList();
             List<uploaded_data_versions> uploadedDataVersions = DbContext.uploaded_data_versions.AsNoTracking().ToList();
 
             //Assert                                                                            
@@ -231,7 +231,7 @@ namespace eFormSDK.Tests
             short minValue = Int16.MinValue;
             short maxValue = Int16.MaxValue;
 
-            uploaded_data uploadedData = new uploaded_data
+            uploaded_datas uploadedData = new uploaded_datas
             {
                 Checksum = Guid.NewGuid().ToString(),
                 Extension = Guid.NewGuid().ToString(),
@@ -252,7 +252,7 @@ namespace eFormSDK.Tests
             
             await uploadedData.Delete(DbContext);
             
-            List<uploaded_data> uploadedDatas = DbContext.uploaded_data.AsNoTracking().ToList();
+            List<uploaded_datas> uploadedDatas = DbContext.uploaded_datas.AsNoTracking().ToList();
             List<uploaded_data_versions> uploadedDataVersions = DbContext.uploaded_data_versions.AsNoTracking().ToList();
 
             //Assert                                                                            

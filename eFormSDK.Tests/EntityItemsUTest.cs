@@ -98,7 +98,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(entityItem.Version, entityItemVersion[0].Version);                                      
 //            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItemVersion[0].UpdatedAt.ToString());                                  
             Assert.AreEqual(entityItemVersion[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(entityItem.Id, entityItemVersion[0].EntityItemsId);
+            Assert.AreEqual(entityItem.Id, entityItemVersion[0].EntityItemId);
             Assert.AreEqual(entityItem.Name, entityItemVersion[0].Name);
             Assert.AreEqual(entityItem.Description, entityItemVersion[0].Description);
             Assert.AreEqual(entityItem.Synced, entityItemVersion[0].Synced);
@@ -185,7 +185,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(1, entityItemVersion[0].Version);                                      
 //            Assert.AreEqual(oldUpdatedAt.ToString(), entityItemVersion[0].UpdatedAt.ToString());                                  
             Assert.AreEqual(entityItemVersion[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(entityItem.Id, entityItemVersion[0].EntityItemsId);
+            Assert.AreEqual(entityItem.Id, entityItemVersion[0].EntityItemId);
             Assert.AreEqual(oldName, entityItemVersion[0].Name);
             Assert.AreEqual(oldDescription, entityItemVersion[0].Description);
             Assert.AreEqual(oldSynced, entityItemVersion[0].Synced);
@@ -199,7 +199,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(2, entityItemVersion[1].Version);                                      
 //            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItemVersion[1].UpdatedAt.ToString());                                  
             Assert.AreEqual(entityItemVersion[1].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(entityItem.Id, entityItemVersion[1].EntityItemsId);
+            Assert.AreEqual(entityItem.Id, entityItemVersion[1].EntityItemId);
             Assert.AreEqual(entityItem.Name, entityItemVersion[1].Name);
             Assert.AreEqual(entityItem.Description, entityItemVersion[1].Description);
             Assert.AreEqual(entityItem.Synced, entityItemVersion[1].Synced);
@@ -273,7 +273,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(1, entityItemVersion[0].Version);                                      
 //            Assert.AreEqual(oldUpdatedAt.ToString(), entityItemVersion[0].UpdatedAt.ToString());                                  
             Assert.AreEqual(entityItemVersion[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(entityItem.Id, entityItemVersion[0].EntityItemsId);
+            Assert.AreEqual(entityItem.Id, entityItemVersion[0].EntityItemId);
             Assert.AreEqual(entityItem.Name, entityItemVersion[0].Name);
             Assert.AreEqual(entityItem.Description, entityItemVersion[0].Description);
             Assert.AreEqual(entityItem.Synced, entityItemVersion[0].Synced);
@@ -287,7 +287,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(2, entityItemVersion[1].Version);                                      
 //            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItemVersion[1].UpdatedAt.ToString());                                  
             Assert.AreEqual(entityItemVersion[1].WorkflowState, Constants.WorkflowStates.Removed);
-            Assert.AreEqual(entityItem.Id, entityItemVersion[1].EntityItemsId);
+            Assert.AreEqual(entityItem.Id, entityItemVersion[1].EntityItemId);
             Assert.AreEqual(entityItem.Name, entityItemVersion[1].Name);
             Assert.AreEqual(entityItem.Description, entityItemVersion[1].Description);
             Assert.AreEqual(entityItem.Synced, entityItemVersion[1].Synced);

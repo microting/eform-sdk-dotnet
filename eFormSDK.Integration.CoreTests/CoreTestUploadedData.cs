@@ -89,7 +89,7 @@ namespace eFormSDK.Integration.Tests
             string fileName = "Hello.jpg";
 
             // Act
-            uploaded_data dU = new uploaded_data
+            uploaded_datas dU = new uploaded_datas
             {
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
@@ -106,7 +106,7 @@ namespace eFormSDK.Integration.Tests
             };
 
 
-            DbContext.uploaded_data.Add(dU);
+            DbContext.uploaded_datas.Add(dU);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             UploadedData ud = await sut.Advanced_UploadedDataRead(dU.Id);

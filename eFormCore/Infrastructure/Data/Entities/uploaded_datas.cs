@@ -30,7 +30,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class uploaded_data : PnBase
+    public partial class uploaded_datas : PnBase
     {
         public int? UploaderId { get; set; }
 

@@ -3177,24 +3177,24 @@ namespace eFormCore
             {
                 if (Running())
                 {
-                    uploaded_data uploadedData = await _sqlController.GetUploadedData(uploadedDataId);
-                    if (uploadedData != null)
+                    uploaded_datas uploadedDatas = await _sqlController.GetUploadedData(uploadedDataId);
+                    if (uploadedDatas != null)
                     {
                         string[] audioFileExtenstions = { ".3gp", ".aa", ".aac", ".aax", ".act", ".aiff", ".amr", ".ape", ".au", ".awb", ".dct", ".dss", ".dvf", ".flac", ".gsm", ".iklax", ".ivs", ".m4a", ".m4b", ".m4p", ".mmf", ".mp3", ".mpc", ".msv", ".nsf", ".ogg", ".oga", ".mogg", ".opus", ".ra", ".rm", ".raw", ".sln", ".tta", ".vox", ".wav", ".wma", ".wv", ".webm", ".8svx" };
-                        if (audioFileExtenstions.Any(uploadedData.Extension.Contains))
+                        if (audioFileExtenstions.Any(uploadedDatas.Extension.Contains))
                         {
 
-                            string filePath = Path.Combine(uploadedData.FileLocation, uploadedData.FileName);
+                            string filePath = Path.Combine(uploadedDatas.FileLocation, uploadedDatas.FileName);
                             log.LogStandard(methodName, $"filePath is {filePath}");
                             string fileName =
-                                $"{uploadedData.Id}_{uploadedData.Checksum}{uploadedData.Extension}";
+                                $"{uploadedDatas.Id}_{uploadedDatas.Checksum}{uploadedDatas.Extension}";
 
                             var stream = await GetFileFromS3Storage(fileName);
 
-                            int requestId = await SpeechToText(stream.ResponseStream, uploadedData.Extension).ConfigureAwait(false);
-                            uploadedData.TranscriptionId = requestId;
+                            int requestId = await SpeechToText(stream.ResponseStream, uploadedDatas.Extension).ConfigureAwait(false);
+                            uploadedDatas.TranscriptionId = requestId;
 
-                            await _sqlController.UpdateUploadedData(uploadedData).ConfigureAwait(false);
+                            await _sqlController.UpdateUploadedData(uploadedDatas).ConfigureAwait(false);
                         }
                         return true;
                     }
@@ -4158,7 +4158,16 @@ namespace eFormCore
                     if (!success)
                         return false;
 
-                    return await _sqlController.WorkerDelete(microtingUid).ConfigureAwait(false);
+                    await using MicrotingDbContext dbContext = dbContextHelper.GetDbContext();
+                    var worker = await dbContext.workers.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUid);
+                    if (worker != null)
+                    {
+                        await worker.Delete(dbContext);
+                        return true;
+                    }
+
+                    return false;
+                    //return await _sqlController.WorkerDelete(microtingUid).ConfigureAwait(false);
                 }
 
                 throw new Exception("Core is not running");
@@ -4615,7 +4624,7 @@ namespace eFormCore
                     log.LogVariable(methodName, nameof(fieldId), fieldId);
                     log.LogVariable(methodName, nameof(uploadedDataId), uploadedDataId);
 
-                    uploaded_data uD = await _sqlController.GetUploadedData(uploadedDataId).ConfigureAwait(false);
+                    uploaded_datas uD = await _sqlController.GetUploadedData(uploadedDataId).ConfigureAwait(false);
 
                     try
                     {
@@ -5161,12 +5170,12 @@ namespace eFormCore
         public async Task<bool> DownloadUploadedData(int uploadedDataId)
         {
             string methodName = "Core.DownloadUploadedData";
-            uploaded_data uploadedData = await _sqlController.GetUploadedData(uploadedDataId).ConfigureAwait(false);
+            uploaded_datas uploadedDatas = await _sqlController.GetUploadedData(uploadedDataId).ConfigureAwait(false);
 
-            if (uploadedData != null)
+            if (uploadedDatas != null)
             {
-                string urlStr = uploadedData.FileLocation;
-                log.LogEverything(methodName, "Received file:" + uploadedData.ToString());
+                string urlStr = uploadedDatas.FileLocation;
+                log.LogEverything(methodName, "Received file:" + uploadedDatas.ToString());
 
                 #region finding file name and creating folder if needed
                 FileInfo file = new FileInfo(_fileLocationPicture);
@@ -5174,7 +5183,7 @@ namespace eFormCore
                     file.Directory.Create(); // If the directory already exists, this method does nothing.
 
                 int index = urlStr.LastIndexOf("/") + 1;
-                string fileName = uploadedData.Id.ToString() + "_" + urlStr.Remove(0, index);
+                string fileName = uploadedDatas.Id.ToString() + "_" + urlStr.Remove(0, index);
                 #endregion
 
                 #region download file
@@ -5218,7 +5227,7 @@ namespace eFormCore
                 catch { log.LogWarning(methodName, "HandleFileDownloaded event's external logic suffered an Expection"); }
                 log.LogStandard(methodName, "Downloaded file '" + urlStr + "'.");
 
-                await _sqlController.FileProcessed(urlStr, chechSum, _fileLocationPicture, fileName, uploadedData.Id).ConfigureAwait(false);
+                await _sqlController.FileProcessed(urlStr, chechSum, _fileLocationPicture, fileName, uploadedDatas.Id).ConfigureAwait(false);
 
                 if (_swiftEnabled || _s3Enabled)
                 {
@@ -5232,8 +5241,8 @@ namespace eFormCore
                         // Generate thumbnail and docx/pdf friendly file sizes
                         if (fileName.Contains("png") || fileName.Contains("jpg") || fileName.Contains("jpeg"))
                         {
-                            string smallFilename = uploadedData.Id.ToString() + "_300_" + urlStr.Remove(0, index);
-                            string bigFilename = uploadedData.Id.ToString() + "_700_" + urlStr.Remove(0, index);
+                            string smallFilename = uploadedDatas.Id.ToString() + "_300_" + urlStr.Remove(0, index);
+                            string bigFilename = uploadedDatas.Id.ToString() + "_700_" + urlStr.Remove(0, index);
                             File.Copy(filePath, Path.Combine(_fileLocationPicture, smallFilename));
                             File.Copy(filePath, Path.Combine(_fileLocationPicture, bigFilename));
                             string filePathResized = Path.Combine(_fileLocationPicture, smallFilename);

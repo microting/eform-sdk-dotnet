@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microting.eForm.Infrastructure;
 
 namespace Microting.eForm.Migrations
 {
     [DbContext(typeof(MicrotingDbContext))]
-    partial class MicrotingDbAnySqlModelSnapshot : ModelSnapshot
+    [Migration("20201220194822_FixingTableColumnNames")]
+    partial class FixingTableColumnNames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1163,6 +1165,9 @@ namespace Microting.eForm.Migrations
                     b.Property<int?>("UploadedDataId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UploadedDatasId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Value")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
@@ -1182,7 +1187,7 @@ namespace Microting.eForm.Migrations
 
                     b.HasIndex("FieldId");
 
-                    b.HasIndex("UploadedDataId");
+                    b.HasIndex("UploadedDatasId");
 
                     b.HasIndex("WorkerId");
 
@@ -2052,7 +2057,7 @@ namespace Microting.eForm.Migrations
                     b.Property<int>("ParentId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("PossiblyDeployed")
+                    b.Property<bool>("PosiblyDeployed")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("Share")
@@ -3512,9 +3517,9 @@ namespace Microting.eForm.Migrations
                         .WithMany("FieldValues")
                         .HasForeignKey("FieldId");
 
-                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.uploaded_datas", "UploadedData")
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.uploaded_datas", "UploadedDatas")
                         .WithMany()
-                        .HasForeignKey("UploadedDataId");
+                        .HasForeignKey("UploadedDatasId");
 
                     b.HasOne("Microting.eForm.Infrastructure.Data.Entities.workers", "Worker")
                         .WithMany()

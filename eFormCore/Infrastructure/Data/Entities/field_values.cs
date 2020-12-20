@@ -76,6 +76,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public virtual check_lists CheckList { get; set; }
 
-        public virtual uploaded_data UploadedData { get; set; }
+        public virtual uploaded_datas UploadedData { get; set; }
     }
 }
