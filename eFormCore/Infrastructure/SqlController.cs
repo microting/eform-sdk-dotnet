@@ -1400,10 +1400,11 @@ namespace Microting.eForm.Infrastructure
                     replyElement.JasperExportEnabled = mainCheckList.JasperExportEnabled;
                     replyElement.DocxExportEnabled = mainCheckList.DocxExportEnabled;
 
-                    check_lists checkLists = await db.check_lists.SingleAsync(x => x.Id == aCase.CheckListId);
-                    foreach (check_lists checkList in checkLists.Children.OrderBy(x => x.DisplayIndex))
+                    check_lists checkList = await db.check_lists.SingleAsync(x => x.Id == aCase.CheckListId);
+                    foreach (check_lists subCheckList in await db.check_lists.Where(x =>
+                        x.ParentId == checkList.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
                     {
-                        replyElement.ElementList.Add(await SubChecks(checkList.Id, aCase.Id));
+                        replyElement.ElementList.Add(await SubChecks(subCheckList.Id, aCase.Id));
                     }
                     return replyElement;
                 }
@@ -1424,10 +1425,11 @@ namespace Microting.eForm.Infrastructure
                 {
                     var checkList = await db.check_lists.SingleAsync(x => x.Id == parentId);
                     //Element element = new Element();
-                    if (checkList.Children.Any())
+                    if (await db.check_lists.AnyAsync(x => x.ParentId == checkList.Id))
                     {
                         List<Element> elementList = new List<Element>();
-                        foreach (check_lists subList in checkList.Children.OrderBy(x => x.DisplayIndex))
+                        foreach (check_lists subList in await db.check_lists.Where(x =>
+                            x.ParentId == checkList.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
                         {
                             elementList.Add(await SubChecks(subList.Id, caseId));
                         }
@@ -1449,17 +1451,24 @@ namespace Microting.eForm.Infrastructure
                     {
                         List<DataItemGroup> dataItemGroupList = new List<DataItemGroup>();
                         List<DataItem> dataItemList = new List<DataItem>();
-                        foreach (fields field in checkList.Fields.Where(x => x.ParentFieldId == null).OrderBy(x => x.DisplayIndex).ToList())
+                        List<fields> fields = await db.fields.Where(x =>
+                                x.CheckListId == checkList.Id
+                                && x.ParentFieldId == null).OrderBy(x => x.DisplayIndex)
+                            .ToListAsync();
+                        foreach (fields field in fields)
                         {
-                            if (field.FieldType.FieldType == "FieldGroup")
+                            field_types fieldType = db.field_types.Single(x => x.Id == field.FieldTypeId);
+                            if (fieldType.FieldType == "FieldGroup")
                             {
                                 List<DataItem> dataItemSubList = new List<DataItem>();
-                                foreach (fields subField in field.Children.OrderBy(x => x.DisplayIndex))
+                                foreach (fields subField in await db.fields.Where(x =>
+                                    x.ParentFieldId == field.CheckListId).OrderBy(x => x.DisplayIndex).ToListAsync())
                                 {
                                     Field _field = DbFieldToField(subField);
 
                                     _field.FieldValues = new List<FieldValue>();
-                                    foreach (field_values fieldValue in subField.FieldValues.Where(x => x.CaseId == caseId).ToList())
+                                    foreach (field_values fieldValue in await db.field_values.Where(x =>
+                                        x.FieldId == subField.Id && x.CaseId == caseId).ToListAsync())
                                     {
                                         FieldValue answer = await ReadFieldValue(fieldValue, subField, false);
                                         _field.FieldValues.Add(answer);
@@ -1488,7 +1497,8 @@ namespace Microting.eForm.Infrastructure
                             {
                                 Field _field = DbFieldToField(field);
                                 _field.FieldValues = new List<FieldValue>();
-                                foreach (field_values fieldValue in field.FieldValues.Where(x => x.CaseId == caseId).ToList())
+                                foreach (field_values fieldValue in await db.field_values.Where(x =>
+                                    x.FieldId == field.Id && x.CaseId == caseId).ToListAsync())
                                 {
                                     FieldValue answer = await ReadFieldValue(fieldValue, field, false);
                                     _field.FieldValues.Add(answer);
