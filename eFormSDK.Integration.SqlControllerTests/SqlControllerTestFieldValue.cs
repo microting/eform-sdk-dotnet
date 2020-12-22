@@ -760,11 +760,6 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            #region site_workers
-            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
-
-            #endregion
-
             #region Case1
 
             Case aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,

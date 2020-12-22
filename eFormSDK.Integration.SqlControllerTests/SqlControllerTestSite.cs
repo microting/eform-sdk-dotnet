@@ -846,10 +846,6 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region site_workers
-            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site1, worker);
-
-            #endregion
             #endregion
 
             // Act

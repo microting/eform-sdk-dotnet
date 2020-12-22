@@ -226,11 +226,8 @@ namespace eFormSDK.Integration.Tests
             DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
             DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
             Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site1, worker);
             Unit unit = await testHelpers.CreateUnit(48, 49, site1, 348);
 
-            string microtingUId = Guid.NewGuid().ToString();
-            string microtingCheckId = Guid.NewGuid().ToString();
             Case aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
                 c1_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site1, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);

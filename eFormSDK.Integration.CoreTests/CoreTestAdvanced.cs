@@ -1815,11 +1815,6 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            #region site_workers
-            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site1, worker1);
-
-            #endregion
-
             #endregion
             // Act
 
@@ -2000,11 +1995,6 @@ namespace eFormSDK.Integration.Tests
 
             #region units
             Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
-
-            #endregion
-
-            #region site_workers
-            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
 

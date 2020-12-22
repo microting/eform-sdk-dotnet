@@ -80,15 +80,8 @@ namespace eFormSDK.Integration.Tests
             DateTime cl1_Ua = DateTime.UtcNow;
             CheckList cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template1", "template_desc", "", "", 1, 1);
 
-            string guid = Guid.NewGuid().ToString();
-
             //Case aCase = CreateCase("caseUID", cl1, )
             DateTime c1_ca = DateTime.UtcNow.AddDays(-9);
-            DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
-            DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
-            Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site1, worker);
-            Unit unit = await testHelpers.CreateUnit(48, 49, site1, 348);
 
             int microtingUId = rnd.Next(1, 255);
             int microtingCheckId = rnd.Next(1, 255);
@@ -461,11 +454,6 @@ namespace eFormSDK.Integration.Tests
 
             #region units
             Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
-
-            #endregion
-
-            #region site_workers
-            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
 

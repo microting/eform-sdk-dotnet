@@ -299,11 +299,6 @@ namespace eFormSDK.Integration.Tests
 
             #endregion
 
-            #region site_workers
-            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
-
-            #endregion
-
             // Act
 
             var match = await sut.SiteRead((int)site.MicrotingUid);
