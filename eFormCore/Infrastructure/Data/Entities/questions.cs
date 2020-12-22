@@ -75,6 +75,14 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         public virtual ICollection<options> Options { get; set; }
 
+        public async Task Create(MicrotingDbContext dbContext, bool CreateSpecialQuestionTypes)
+        {
+            await Create(dbContext);
+            if (CreateSpecialQuestionTypes)
+            {
+                await GenerateSpecialQuestionTypes(dbContext, 1);
+            }
+        }
         public bool IsSmiley()
         {
             switch (this.QuestionType)
