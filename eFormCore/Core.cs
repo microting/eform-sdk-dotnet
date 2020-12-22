@@ -3417,7 +3417,7 @@ namespace eFormCore
                 JToken parsedQuestionTranslations = innerParsedData.GetValue("QuestionTranslations");
                 foreach (JToken child in parsedQuestionTranslations.Children())
                 {
-                    var questionTranslation = JsonConvert.DeserializeObject<question_translations>(child.ToString(), jsonSerializerSettings);
+                    var questionTranslation = JsonConvert.DeserializeObject<QuestionTranslation>(child.ToString(), jsonSerializerSettings);
                     log.LogStandard("Core.GetAllQuestionSets", $"Parsing question translation on thread {threadNumber} {questionTranslation.Name}");
                     removed = questionTranslation.WorkflowState == Constants.WorkflowStates.Removed;
                     if (!await db.QuestionTranslations.AnyAsync(x =>

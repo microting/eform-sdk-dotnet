@@ -30,7 +30,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class QuestionSet : PnBase
+    public  class QuestionSet : PnBase
     {
         public string Name { get; set; }
         

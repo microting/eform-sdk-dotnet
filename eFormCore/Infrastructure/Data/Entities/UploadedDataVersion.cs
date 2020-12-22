@@ -27,7 +27,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class UploadedDataVersion : BaseEntity
+    public  class UploadedDataVersion : BaseEntity
     {
         public int? UploadedDataId { get; set; }
 

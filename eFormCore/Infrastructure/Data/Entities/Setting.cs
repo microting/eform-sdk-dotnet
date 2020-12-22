@@ -28,7 +28,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class Setting
+    public  class Setting
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }

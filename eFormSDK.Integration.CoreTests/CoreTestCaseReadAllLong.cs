@@ -171,10 +171,10 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region site_workers
-            site_workers site_workers1 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site1, worker1);
-            site_workers site_workers2 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site2, worker2);
-            site_workers site_workers3 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site3, worker3);
-            site_workers site_workers4 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site4, worker4);
+            SiteWorker site_workers1 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site1, worker1);
+            SiteWorker site_workers2 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site2, worker2);
+            SiteWorker site_workers3 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site3, worker3);
+            SiteWorker site_workers4 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site4, worker4);
 
             #endregion
 

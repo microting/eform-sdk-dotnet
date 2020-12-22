@@ -22,49 +22,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class question_versions : BaseEntity
+    public  class SiteWorker : PnBase
     {
-        public int QuestionSetId { get; set; }
-        
-        public string QuestionType { get; set; }
-        
-        public int Minimum { get; set; }
-        
-        public int Maximum { get; set; }
-        
-        public string Type { get; set; }
-        
-        public int RefId { get; set; }
-        
-        public int QuestionIndex { get; set; }
-        
-        public bool Image { get; set; }
-        
-        public int ContinuousQuestionId { get; set; }
-        
-        public string ImagePosition { get; set; }
-        
-        public bool Prioritised { get; set; }
-        
-        public bool BackButtonEnabled { get; set; }
-        
-        public string FontSize { get; set; }
-        
-        public int MinDuration { get; set; }
-        
-        public int MaxDuration { get; set; }
-        
-        public bool ValidDisplay { get; set; }
-        
-        [ForeignKey("question")]
-        public int QuestionId { get; set; }
-        
-        public virtual Question Question { get; set; }
-        
+        [ForeignKey("site")]
+        public int? SiteId { get; set; }
+
+        [ForeignKey("worker")]
+        public int? WorkerId { get; set; }
+
         public int? MicrotingUid { get; set; }
+
+        public virtual Site Site { get; set; }
+
+        public virtual Worker Worker { get; set; }
     }
 }

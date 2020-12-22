@@ -31,15 +31,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class CheckList : PnBase
+    public class CheckList : PnBase
     {
         public CheckList()
         {
-            this.Cases = new HashSet<Case>();
-            this.CheckListSites = new HashSet<CheckListSite>();
-            this.Children = new HashSet<CheckList>();
-            this.Fields = new HashSet<Field>();
-            this.Taggings = new HashSet<Tagging>();
+            Cases = new HashSet<Case>();
+            CheckListSites = new HashSet<CheckListSite>();
+            Children = new HashSet<CheckList>();
+            Fields = new HashSet<Field>();
+            Taggings = new HashSet<Tagging>();
         }
 
         public string Label { get; set; }

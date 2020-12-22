@@ -300,7 +300,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
 
@@ -501,7 +501,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
             // Act
@@ -557,7 +557,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region site_worker
-            site_workers site_worker = await testHelpers.CreateSiteWorker(1, site, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(1, site, worker);
             #endregion
 
             #region unit
@@ -594,7 +594,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region site_worker
-            site_workers site_worker = await testHelpers.CreateSiteWorker(1, site, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(1, site, worker);
             #endregion
 
             #region unit

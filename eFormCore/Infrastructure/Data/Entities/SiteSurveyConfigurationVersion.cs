@@ -26,7 +26,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class SiteSurveyConfigurationVersion : BaseEntity
+    public  class SiteSurveyConfigurationVersion : BaseEntity
     {
         public int SiteId { get; set; }
         

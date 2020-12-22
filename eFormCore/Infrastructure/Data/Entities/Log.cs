@@ -28,7 +28,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class Log
+    public  class Log
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

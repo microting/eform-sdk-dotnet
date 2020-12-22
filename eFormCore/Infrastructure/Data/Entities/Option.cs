@@ -31,7 +31,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class Option : PnBase
+    public  class Option : PnBase
     {
         public int? NextQuestionId { get; set; }
         

@@ -26,7 +26,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class CheckListValueVersion : BaseEntity
+    public class CheckListValueVersion : BaseEntity
     {
         public int? CheckListValueId { get; set; }
 

@@ -57,7 +57,7 @@ namespace eFormSDK.Tests
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
-            question_translations questionTranslation = new question_translations
+            QuestionTranslation questionTranslation = new QuestionTranslation
             {
                 LanguageId = language.Id,
                 Name = Guid.NewGuid().ToString(),
@@ -68,7 +68,7 @@ namespace eFormSDK.Tests
             // Act
             await questionTranslation.Create(DbContext).ConfigureAwait(false);
 
-            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
@@ -136,7 +136,7 @@ namespace eFormSDK.Tests
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
-            question_translations questionTranslation = new question_translations
+            QuestionTranslation questionTranslation = new QuestionTranslation
             {
                 LanguageId = language.Id,
                 Name = Guid.NewGuid().ToString(),
@@ -146,7 +146,7 @@ namespace eFormSDK.Tests
             // Act
             await questionTranslation.Create(DbContext).ConfigureAwait(false);
 
-            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
@@ -250,7 +250,7 @@ namespace eFormSDK.Tests
             };
             await language2.Create(DbContext).ConfigureAwait(false);
 
-            question_translations questionTranslation = new question_translations
+            QuestionTranslation questionTranslation = new QuestionTranslation
             {
                 LanguageId = language.Id,
                 Name = Guid.NewGuid().ToString(),
@@ -271,7 +271,7 @@ namespace eFormSDK.Tests
             // Act
             await questionTranslation.Update(DbContext).ConfigureAwait(false);
             
-            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
@@ -380,7 +380,7 @@ namespace eFormSDK.Tests
             };
             await language2.Create(DbContext).ConfigureAwait(false);
 
-            question_translations questionTranslation = new question_translations
+            QuestionTranslation questionTranslation = new QuestionTranslation
             {
                 LanguageId = language.Id,
                 Name = Guid.NewGuid().ToString(),
@@ -398,7 +398,7 @@ namespace eFormSDK.Tests
             // Act
             await questionTranslation.Update(DbContext).ConfigureAwait(false);
             
-            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
@@ -509,7 +509,7 @@ namespace eFormSDK.Tests
             };
             await language2.Create(DbContext).ConfigureAwait(false);
 
-            question_translations questionTranslation = new question_translations
+            QuestionTranslation questionTranslation = new QuestionTranslation
             {
                 LanguageId = language.Id,
                 Name = Guid.NewGuid().ToString(),
@@ -530,7 +530,7 @@ namespace eFormSDK.Tests
             // Act
             await questionTranslation.Update(DbContext).ConfigureAwait(false);
             
-            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
@@ -641,7 +641,7 @@ namespace eFormSDK.Tests
             };
             await language2.Create(DbContext).ConfigureAwait(false);
 
-            question_translations questionTranslation = new question_translations
+            QuestionTranslation questionTranslation = new QuestionTranslation
             {
                 LanguageId = language.Id,
                 Name = Guid.NewGuid().ToString(),
@@ -660,7 +660,7 @@ namespace eFormSDK.Tests
             // Act
             await questionTranslation.Update(DbContext).ConfigureAwait(false);
             
-            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
@@ -732,7 +732,7 @@ namespace eFormSDK.Tests
             };
             await language.Create(DbContext).ConfigureAwait(false);
             
-            question_translations questionTranslation = new question_translations
+            QuestionTranslation questionTranslation = new QuestionTranslation
             {
                 LanguageId = language.Id,
                 Name = Guid.NewGuid().ToString(),
@@ -749,7 +749,7 @@ namespace eFormSDK.Tests
             // Act
             await questionTranslation.Delete(DbContext).ConfigureAwait(false);
             
-            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             

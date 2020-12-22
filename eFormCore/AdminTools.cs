@@ -272,7 +272,7 @@ namespace eFormCore
                     {
                         int workerUId = int.Parse(item["UserId"].ToString());
 
-                        site_workers siteWorker = JsonConvert.DeserializeObject<site_workers>(item.ToString(), settings);
+                        SiteWorker siteWorker = JsonConvert.DeserializeObject<SiteWorker>(item.ToString(), settings);
 
                         int localSiteId = dbContext.Sites.SingleAsync(x => x.MicrotingUid == siteWorker.SiteId).GetAwaiter().GetResult().Id;
                         var workerAsync = await dbContext.Workers.SingleOrDefaultAsync(x => x.MicrotingUid == workerUId);

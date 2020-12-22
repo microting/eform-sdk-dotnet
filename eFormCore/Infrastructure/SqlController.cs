@@ -3403,8 +3403,8 @@ namespace Microting.eForm.Infrastructure
                     if (site == null)
                         return null;
 
-                    site_workers site_worker = db.SiteWorkers.Where(x => x.SiteId == site.Id).ToList().First();
-                    Worker worker = await db.Workers.SingleAsync(x => x.Id == site_worker.WorkerId);
+                    SiteWorker siteWorker = db.SiteWorkers.Where(x => x.SiteId == site.Id).ToList().First();
+                    Worker worker = await db.Workers.SingleAsync(x => x.Id == siteWorker.WorkerId);
                     List<Unit> units = db.Units.Where(x => x.SiteId == site.Id).ToList();
 
                     if (units.Count() > 0 && worker != null)
@@ -3745,7 +3745,7 @@ namespace Microting.eForm.Infrastructure
                     int localSiteId = db.Sites.SingleAsync(x => x.MicrotingUid == siteUId).GetAwaiter().GetResult().Id;
                     int localWorkerId = db.Workers.SingleAsync(x => x.MicrotingUid == workerUId).GetAwaiter().GetResult().Id;
 
-                    site_workers siteWorker = new site_workers();
+                    SiteWorker siteWorker = new SiteWorker();
 //                    site_worker.WorkflowState = Constants.Constants.WorkflowStates.Created;
 //                    site_worker.Version = 1;
 //                    site_worker.CreatedAt = DateTime.UtcNow;
@@ -3788,7 +3788,7 @@ namespace Microting.eForm.Infrastructure
                 using (var db = GetContext())
                 {
                     //logger.LogEverything(methodName + " called");
-                    site_workers siteWorker = null;
+                    SiteWorker siteWorker = null;
                     if (siteWorkerMicrotingUid == null)
                     {
                         Site site = await db.Sites.SingleAsync(x => x.MicrotingUid == siteId);
@@ -3831,16 +3831,16 @@ namespace Microting.eForm.Infrastructure
                 {
                     //logger.LogEverything(methodName + " called");
 
-                    site_workers site_worker = await db.SiteWorkers.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUid);
+                    SiteWorker siteWorker = await db.SiteWorkers.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUid);
 
-                    if (site_worker != null)
+                    if (siteWorker != null)
                     {
 //                        site_worker.Version = site_worker.Version + 1;
 //                        site_worker.UpdatedAt = DateTime.UtcNow;
 
-                        site_worker.SiteId = siteId;
-                        site_worker.WorkerId = workerId;
-                        await site_worker.Update(db).ConfigureAwait(false);
+                        siteWorker.SiteId = siteId;
+                        siteWorker.WorkerId = workerId;
+                        await siteWorker.Update(db).ConfigureAwait(false);
 
 //                        db.site_worker_versions.Add(MapSiteWorkerVersions(site_worker));
 //                        db.SaveChanges();
@@ -3874,11 +3874,11 @@ namespace Microting.eForm.Infrastructure
                 {
                     //logger.LogEverything(methodName + " called");
 
-                    site_workers site_worker = await db.SiteWorkers.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid);
+                    SiteWorker siteWorker = await db.SiteWorkers.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid);
 
-                    if (site_worker != null)
+                    if (siteWorker != null)
                     {
-                        await site_worker.Delete(db);
+                        await siteWorker.Delete(db);
 //                        site_worker.Version = site_worker.Version + 1;
 //                        site_worker.UpdatedAt = DateTime.UtcNow;
 

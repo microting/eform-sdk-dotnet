@@ -7,7 +7,7 @@ using Castle.DynamicProxy;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public class PnBase : BaseEntity
+    public abstract class PnBase : BaseEntity
     {
         public async Task Create(MicrotingDbContext dbContext)
         {

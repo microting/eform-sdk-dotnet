@@ -80,7 +80,7 @@ namespace eFormSDK.Tests
             await question.Create(DbContext).ConfigureAwait(false);
             
             List<Question> questions = DbContext.Questions.AsNoTracking().ToList();
-            List<question_versions> questionVersions = DbContext.QuestionVersions.AsNoTracking().ToList();
+            List<QuestionVersion> questionVersions = DbContext.QuestionVersions.AsNoTracking().ToList();
             
             Assert.NotNull(questions);                                                             
             Assert.NotNull(questionVersions);                                                             
@@ -209,7 +209,7 @@ namespace eFormSDK.Tests
             await question.Update(DbContext).ConfigureAwait(false);
 
             List<Question> questions = DbContext.Questions.AsNoTracking().ToList();
-            List<question_versions> questionVersions = DbContext.QuestionVersions.AsNoTracking().ToList();
+            List<QuestionVersion> questionVersions = DbContext.QuestionVersions.AsNoTracking().ToList();
             
             Assert.NotNull(questions);                                                             
             Assert.NotNull(questionVersions);                                                             
@@ -330,7 +330,7 @@ namespace eFormSDK.Tests
             await question.Delete(DbContext);
 
             List<Question> questions = DbContext.Questions.AsNoTracking().ToList();
-            List<question_versions> questionVersions = DbContext.QuestionVersions.AsNoTracking().ToList();
+            List<QuestionVersion> questionVersions = DbContext.QuestionVersions.AsNoTracking().ToList();
             
             Assert.NotNull(questions);                                                             
             Assert.NotNull(questionVersions);                                                             

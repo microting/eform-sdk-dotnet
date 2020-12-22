@@ -78,8 +78,8 @@ namespace Microting.eForm.Infrastructure
         public virtual DbSet<QuestionSet> QuestionSets { get; set; }
         public virtual DbSet<QuestionSetVersion> QuestionSetVersions { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
-        public virtual DbSet<question_versions> QuestionVersions { get; set; }
-        public virtual DbSet<question_translations> QuestionTranslations { get; set; }
+        public virtual DbSet<QuestionVersion> QuestionVersions { get; set; }
+        public virtual DbSet<QuestionTranslation> QuestionTranslations { get; set; }
         public virtual DbSet<QuestionTranslationVersion> QuestionTranslationVersions { get; set; }
         public virtual DbSet<Setting> Settings { get; set; }
         public virtual DbSet<SettingVersion> SettingVersions { get; set; }
@@ -87,7 +87,7 @@ namespace Microting.eForm.Infrastructure
         public virtual DbSet<SiteSurveyConfigurationVersion> SiteSurveyConfigurationVersions { get; set; }
         public virtual DbSet<SiteVersion> SiteVersions { get; set; }
         public virtual DbSet<SiteWorkerVersion> SiteWorkerVersions { get; set; }
-        public virtual DbSet<site_workers> SiteWorkers { get; set; }
+        public virtual DbSet<SiteWorker> SiteWorkers { get; set; }
         public virtual DbSet<Site> Sites { get; set; }
         public virtual DbSet<SurveyConfiguration> SurveyConfigurations { get; set; }
         public virtual DbSet<SurveyConfigurationVersion> SurveyConfigurationVersions { get; set; }

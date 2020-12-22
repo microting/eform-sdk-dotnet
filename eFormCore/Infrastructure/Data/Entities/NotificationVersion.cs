@@ -28,7 +28,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class NotificationVersion
+    public  class NotificationVersion
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

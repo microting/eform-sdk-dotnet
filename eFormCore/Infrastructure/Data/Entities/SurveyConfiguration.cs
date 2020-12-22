@@ -31,7 +31,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class SurveyConfiguration : PnBase
+    public  class SurveyConfiguration : PnBase
     {
         public DateTime Start { get; set; }
         

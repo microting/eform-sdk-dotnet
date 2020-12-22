@@ -33,7 +33,7 @@ using Microting.eForm.Infrastructure.Models;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class EntityGroup : PnBase
+    public  class EntityGroup : PnBase
     {
         public string MicrotingUid { get; set; }
 

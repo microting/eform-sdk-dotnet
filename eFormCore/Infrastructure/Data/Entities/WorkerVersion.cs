@@ -26,7 +26,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class WorkerVersion : BaseEntity
+    public  class WorkerVersion : BaseEntity
     {
         public int MicrotingUid { get; set; }
 

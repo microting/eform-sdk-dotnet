@@ -31,7 +31,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class FieldValue : PnBase
+    public  class FieldValue : PnBase
     {
         public DateTime? DoneAt { get; set; }
 

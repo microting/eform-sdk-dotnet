@@ -30,7 +30,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class CheckListValue : PnBase
+    public class CheckListValue : PnBase
     {
         [StringLength(255)]
         public string Status { get; set; }

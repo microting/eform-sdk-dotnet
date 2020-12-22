@@ -32,7 +32,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class Field : PnBase
+    public  class Field : PnBase
     {
         public Field()
         {

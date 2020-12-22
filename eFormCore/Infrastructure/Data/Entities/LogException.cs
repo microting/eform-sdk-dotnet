@@ -28,7 +28,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class LogException
+    public  class LogException
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

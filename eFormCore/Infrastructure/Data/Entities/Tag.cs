@@ -31,7 +31,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class Tag : PnBase
+    public  class Tag : PnBase
     {
         public Tag()
         {

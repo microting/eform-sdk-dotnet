@@ -165,7 +165,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
 

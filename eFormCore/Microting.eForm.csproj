@@ -98,9 +98,9 @@
     <Compile Include="Infrastructure\Data\Entities\Question.cs" />
     <Compile Include="Infrastructure\Data\Entities\QuestionSet.cs" />
     <Compile Include="Infrastructure\Data\Entities\QuestionSetVersion.cs" />
-    <Compile Include="Infrastructure\Data\Entities\question_translations.cs" />
+    <Compile Include="Infrastructure\Data\Entities\QuestionTranslation.cs" />
     <Compile Include="Infrastructure\Data\Entities\QuestionTranslationVersion.cs" />
-    <Compile Include="Infrastructure\Data\Entities\question_versions.cs" />
+    <Compile Include="Infrastructure\Data\Entities\QuestionVersion.cs" />
     <Compile Include="Infrastructure\Data\Entities\Setting.cs" />
     <Compile Include="Infrastructure\Data\Entities\SettingVersion.cs" />
     <Compile Include="Infrastructure\Data\Entities\Site.cs" />
@@ -113,7 +113,7 @@
     <Compile Include="Infrastructure\Data\Entities\SiteTag.cs" />
     <Compile Include="Infrastructure\Data\Entities\SiteTagVersion.cs" />
     <Compile Include="Infrastructure\Data\Entities\SiteVersion.cs" />
-    <Compile Include="Infrastructure\Data\Entities\site_workers.cs" />
+    <Compile Include="Infrastructure\Data\Entities\SiteWorker.cs" />
     <Compile Include="Infrastructure\Data\Entities\SiteWorkerVersion.cs" />
     <Compile Include="Infrastructure\Data\Entities\SurveyConfiguration.cs" />
     <Compile Include="Infrastructure\Data\Entities\SurveyConfigurationVersion.cs" />

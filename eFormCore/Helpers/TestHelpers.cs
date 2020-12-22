@@ -122,23 +122,23 @@ namespace Microting.eForm.Helpers
 
             return unit;
         }
-        public async Task<site_workers> CreateSiteWorker(int microtingUId, Site site, Worker worker)
+        public async Task<SiteWorker> CreateSiteWorker(int microtingUId, Site site, Worker worker)
         {
-            site_workers site_workers = new site_workers();
-            site_workers.CreatedAt = DateTime.UtcNow;
-            site_workers.MicrotingUid = microtingUId;
-            site_workers.UpdatedAt = DateTime.UtcNow;
-            site_workers.Version = 63;
-            site_workers.Site = site;
-            site_workers.SiteId = site.Id;
-            site_workers.Worker = worker;
-            site_workers.WorkerId = worker.Id;
-            site_workers.WorkflowState = Constants.WorkflowStates.Created;
+            SiteWorker siteWorker = new SiteWorker();
+            siteWorker.CreatedAt = DateTime.UtcNow;
+            siteWorker.MicrotingUid = microtingUId;
+            siteWorker.UpdatedAt = DateTime.UtcNow;
+            siteWorker.Version = 63;
+            siteWorker.Site = site;
+            siteWorker.SiteId = site.Id;
+            siteWorker.Worker = worker;
+            siteWorker.WorkerId = worker.Id;
+            siteWorker.WorkflowState = Constants.WorkflowStates.Created;
 
-            dbContext.SiteWorkers.Add(site_workers);
+            dbContext.SiteWorkers.Add(siteWorker);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
-            return site_workers;
+            return siteWorker;
         }
         public async Task<CheckList> CreateTemplate(DateTime cl_ca, DateTime cl_ua, string label, string description, string caseType, string folderName, int displayIndex, int repeated)
         {

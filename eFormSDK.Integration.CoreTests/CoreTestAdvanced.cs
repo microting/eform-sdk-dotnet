@@ -1226,19 +1226,19 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker1);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site1, worker1);
 
             #endregion
 
             #endregion
             // Act
-            var match = await sut.Advanced_SiteWorkerRead(site_workers.MicrotingUid, site1.Id, worker1.Id);
+            var match = await sut.Advanced_SiteWorkerRead(siteWorker.MicrotingUid, site1.Id, worker1.Id);
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(match.MicrotingUId, site_workers.MicrotingUid);
-            Assert.AreEqual(match.SiteUId, site_workers.Site.MicrotingUid);
-            Assert.AreEqual(match.WorkerUId, site_workers.Worker.MicrotingUid);
+            Assert.AreEqual(match.MicrotingUId, siteWorker.MicrotingUid);
+            Assert.AreEqual(match.SiteUId, siteWorker.Site.MicrotingUid);
+            Assert.AreEqual(match.WorkerUId, siteWorker.Worker.MicrotingUid);
 
 
 
@@ -1265,7 +1265,7 @@ namespace eFormSDK.Integration.Tests
             Worker worker = await testHelpers.CreateWorker(email, firstName, lastName, workerMicrotingUid);
             WorkerDto worker_Dto = new WorkerDto(worker.MicrotingUid, worker.FirstName, worker.LastName, worker.Email, worker.CreatedAt, worker.UpdatedAt);
 
-            site_workers site_worker = await testHelpers.CreateSiteWorker(1, site, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(1, site, worker);
 
             #endregion
 
@@ -1816,7 +1816,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker1);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site1, worker1);
 
             #endregion
 
@@ -2004,7 +2004,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
 
@@ -2199,7 +2199,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site1, worker);
 
             #endregion
 
@@ -2457,7 +2457,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
 

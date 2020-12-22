@@ -31,13 +31,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class Site : PnBase
+    public  class Site : PnBase
     {
         public Site()
         {
             Cases = new HashSet<Case>();
             Units = new HashSet<Unit>();
-            SiteWorkers = new HashSet<site_workers>();
+            SiteWorkers = new HashSet<SiteWorker>();
             CheckListSites = new HashSet<CheckListSite>();
             SiteTags = new List<SiteTag>();
         }
@@ -51,7 +51,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public virtual ICollection<Unit> Units { get; set; }
 
-        public virtual ICollection<site_workers> SiteWorkers { get; set; }
+        public virtual ICollection<SiteWorker> SiteWorkers { get; set; }
 
         public virtual ICollection<CheckListSite> CheckListSites { get; set; }
 

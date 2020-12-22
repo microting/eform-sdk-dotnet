@@ -31,7 +31,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class Worker : PnBase
+    public  class Worker : PnBase
     {
         public int MicrotingUid { get; set; }
 
@@ -44,7 +44,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         [StringLength(255)]
         public string Email { get; set; }
 
-        public virtual ICollection<site_workers> SiteWorkers { get; set; }
+        public virtual ICollection<SiteWorker> SiteWorkers { get; set; }
 
         public string full_name()
         {

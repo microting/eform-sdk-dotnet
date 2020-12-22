@@ -30,7 +30,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class SiteSurveyConfiguration : PnBase
+    public  class SiteSurveyConfiguration : PnBase
     {
         [ForeignKey("Site")]
         public int SiteId { get; set; }

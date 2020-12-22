@@ -31,7 +31,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class Case : PnBase
+    public class Case : PnBase
     {
         public int? Status { get; set; }
 

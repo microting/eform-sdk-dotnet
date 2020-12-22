@@ -28,7 +28,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class AnswerVersion : BaseEntity
+    public class AnswerVersion : BaseEntity
     {
         public int? UnitId { get; set; }
         

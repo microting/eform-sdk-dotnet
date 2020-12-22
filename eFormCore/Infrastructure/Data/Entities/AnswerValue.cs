@@ -30,7 +30,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class AnswerValue : PnBase
+    public class AnswerValue : PnBase
     {
         [ForeignKey("Answer")]
         public int AnswerId { get; set; }

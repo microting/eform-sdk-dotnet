@@ -516,7 +516,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 //            #endregion
 
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker1);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site1, worker1);
 
             #endregion
 
@@ -524,13 +524,13 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             // Act
 
-            SiteWorkerDto match = await sut.SiteWorkerRead(site_workers.MicrotingUid, site1.Id, worker1.Id);
+            SiteWorkerDto match = await sut.SiteWorkerRead(siteWorker.MicrotingUid, site1.Id, worker1.Id);
 
             // Assert
 
-            Assert.AreEqual(site_workers.MicrotingUid, match.MicrotingUId);
-            Assert.AreEqual(site_workers.Worker.MicrotingUid, match.WorkerUId);
-            Assert.AreEqual(site_workers.Site.MicrotingUid, match.SiteUId);
+            Assert.AreEqual(siteWorker.MicrotingUid, match.MicrotingUId);
+            Assert.AreEqual(siteWorker.Worker.MicrotingUid, match.WorkerUId);
+            Assert.AreEqual(siteWorker.Site.MicrotingUid, match.SiteUId);
 
 
 
@@ -767,7 +767,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 //            #endregion
 
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker1);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site1, worker1);
 
             #endregion
 
@@ -775,7 +775,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             // Act
 
-            var match = await sut.SiteWorkerUpdate((int)site_workers.MicrotingUid, site1.Id, worker1.Id);
+            var match = await sut.SiteWorkerUpdate((int)siteWorker.MicrotingUid, site1.Id, worker1.Id);
 
             // Assert
 
@@ -1015,7 +1015,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 //            #endregion
 
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker1);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site1, worker1);
 
             #endregion
 
@@ -1023,7 +1023,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             // Act
 
-            var match = await sut.SiteWorkerDelete((int)site_workers.MicrotingUid);
+            var match = await sut.SiteWorkerDelete((int)siteWorker.MicrotingUid);
 
             // Assert
             Assert.True(match);

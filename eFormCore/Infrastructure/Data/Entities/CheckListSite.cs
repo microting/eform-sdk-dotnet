@@ -31,7 +31,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class CheckListSite : PnBase
+    public class CheckListSite : PnBase
     {
         [ForeignKey("Site")]
         public int? SiteId { get; set; }

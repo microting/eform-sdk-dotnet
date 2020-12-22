@@ -87,7 +87,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
             DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
             Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site1, worker);
             Unit unit = await testHelpers.CreateUnit(48, 49, site1, 348);
 
             int microtingUId = rnd.Next(1, 255);
@@ -212,7 +212,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c1_da = DateTime.ParseExact(date, "yyyy-MM-dd HH:mm:ss", culture);
             DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
             Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site1, worker);
             Unit unit = await testHelpers.CreateUnit(48, 49, site1, 348);
 
             string microtingUId = Guid.NewGuid().ToString();
@@ -465,7 +465,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
 
@@ -572,7 +572,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
 
@@ -782,10 +782,10 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region site_workers
-            site_workers site_workers1 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site1, worker1);
-            site_workers site_workers2 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site2, worker2);
-            site_workers site_workers3 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site3, worker3);
-            site_workers site_workers4 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site4, worker4);
+            SiteWorker site_workers1 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site1, worker1);
+            SiteWorker site_workers2 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site2, worker2);
+            SiteWorker site_workers3 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site3, worker3);
+            SiteWorker site_workers4 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site4, worker4);
 
             #endregion
 
@@ -1091,7 +1091,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
 
@@ -1264,7 +1264,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
 
@@ -1374,7 +1374,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
 
@@ -1485,7 +1485,7 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
 

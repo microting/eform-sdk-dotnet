@@ -29,7 +29,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class Language : PnBase
+    public  class Language : PnBase
     {
         public string Name { get; set; }
         

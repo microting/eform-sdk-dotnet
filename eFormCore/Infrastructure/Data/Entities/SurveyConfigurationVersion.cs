@@ -27,7 +27,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class SurveyConfigurationVersion : BaseEntity
+    public  class SurveyConfigurationVersion : BaseEntity
     {
         public DateTime Start { get; set; }
         

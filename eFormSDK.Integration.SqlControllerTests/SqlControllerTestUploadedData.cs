@@ -226,7 +226,7 @@ namespace eFormSDK.Integration.Tests
             DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
             DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
             Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site1, worker);
             Unit unit = await testHelpers.CreateUnit(48, 49, site1, 348);
 
             string microtingUId = Guid.NewGuid().ToString();

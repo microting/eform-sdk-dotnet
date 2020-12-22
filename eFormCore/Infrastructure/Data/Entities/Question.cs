@@ -32,7 +32,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class Question : PnBase
+    public  class Question : PnBase
     {
         [ForeignKey("QuestionSet")]
         public int QuestionSetId { get; set; }
@@ -71,7 +71,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public virtual QuestionSet QuestionSet { get; set; }
 
-        public virtual ICollection<question_translations> QuestionTranslationses { get; set; }
+        public virtual ICollection<QuestionTranslation> QuestionTranslationses { get; set; }
         
         public virtual ICollection<Option> Options { get; set; }
 
@@ -249,9 +249,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        private question_versions MapVersions(Question question)
+        private QuestionVersion MapVersions(Question question)
         {
-            return new question_versions
+            return new QuestionVersion
             {
                 QuestionSetId = question.QuestionSetId,
                 Type = question.Type,

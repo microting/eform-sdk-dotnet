@@ -30,7 +30,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class Unit : PnBase
+    public  class Unit : PnBase
     {
         public int? MicrotingUid { get; set; }
 

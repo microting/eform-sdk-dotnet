@@ -26,7 +26,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class OptionVersion : BaseEntity
+    public  class OptionVersion : BaseEntity
     {
         public int? NextQuestionId { get; set; }
         

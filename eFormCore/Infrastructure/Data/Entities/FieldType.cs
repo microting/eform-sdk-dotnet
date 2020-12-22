@@ -31,7 +31,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class FieldType
+    public  class FieldType
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

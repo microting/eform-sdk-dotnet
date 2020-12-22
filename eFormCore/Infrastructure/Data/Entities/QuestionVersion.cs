@@ -22,28 +22,49 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public class question_translations : PnBase
+    public class QuestionVersion : BaseEntity
     {
+        public int QuestionSetId { get; set; }
+        
+        public string QuestionType { get; set; }
+        
+        public int Minimum { get; set; }
+        
+        public int Maximum { get; set; }
+        
+        public string Type { get; set; }
+        
+        public int RefId { get; set; }
+        
+        public int QuestionIndex { get; set; }
+        
+        public bool Image { get; set; }
+        
+        public int ContinuousQuestionId { get; set; }
+        
+        public string ImagePosition { get; set; }
+        
+        public bool Prioritised { get; set; }
+        
+        public bool BackButtonEnabled { get; set; }
+        
+        public string FontSize { get; set; }
+        
+        public int MinDuration { get; set; }
+        
+        public int MaxDuration { get; set; }
+        
+        public bool ValidDisplay { get; set; }
+        
         [ForeignKey("question")]
         public int QuestionId { get; set; }
         
-        [ForeignKey("language")]
-        public int LanguageId { get; set; }
-        
-        public string Name { get; set; }
-        
         public virtual Question Question { get; set; }
         
-        public virtual Language Language { get; set; }
-        
         public int? MicrotingUid { get; set; }
-
     }
 }

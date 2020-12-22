@@ -26,7 +26,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class LanguageVersion : BaseEntity
+    public  class LanguageVersion : BaseEntity
     {
         public string Name { get; set; }
         

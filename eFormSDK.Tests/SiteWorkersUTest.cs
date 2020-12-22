@@ -59,7 +59,7 @@ namespace eFormSDK.Tests
             };
             await worker.Create(DbContext).ConfigureAwait(false);
 
-            site_workers siteWorker = new site_workers
+            SiteWorker siteWorker = new SiteWorker
             {
                 MicrotingUid = rnd.Next(1, 255),
                 SiteId = site.Id,
@@ -70,7 +70,7 @@ namespace eFormSDK.Tests
             
             await siteWorker.Create(DbContext).ConfigureAwait(false);
             
-            List<site_workers> siteWorkers = DbContext.SiteWorkers.AsNoTracking().ToList();
+            List<SiteWorker> siteWorkers = DbContext.SiteWorkers.AsNoTracking().ToList();
             List<SiteWorkerVersion> siteWorkerVersions = DbContext.SiteWorkerVersions.AsNoTracking().ToList();
             
             Assert.NotNull(siteWorkers);                                                             
@@ -123,7 +123,7 @@ namespace eFormSDK.Tests
             };
             await worker.Create(DbContext).ConfigureAwait(false);
 
-            site_workers siteWorker = new site_workers
+            SiteWorker siteWorker = new SiteWorker
             {
                 MicrotingUid = rnd.Next(1, 255),
                 SiteId = site.Id, 
@@ -142,7 +142,7 @@ namespace eFormSDK.Tests
             await siteWorker.Update(DbContext).ConfigureAwait(false);
 
             
-            List<site_workers> siteWorkers = DbContext.SiteWorkers.AsNoTracking().ToList();
+            List<SiteWorker> siteWorkers = DbContext.SiteWorkers.AsNoTracking().ToList();
             List<SiteWorkerVersion> siteWorkerVersions = DbContext.SiteWorkerVersions.AsNoTracking().ToList();
             
             Assert.NotNull(siteWorkers);                                                             
@@ -206,7 +206,7 @@ namespace eFormSDK.Tests
             };
             await worker.Create(DbContext).ConfigureAwait(false);
 
-            site_workers siteWorker = new site_workers
+            SiteWorker siteWorker = new SiteWorker
             {
                 MicrotingUid = rnd.Next(1, 255),
                 SiteId = site.Id, 
@@ -222,7 +222,7 @@ namespace eFormSDK.Tests
             await siteWorker.Delete(DbContext);
 
             
-            List<site_workers> siteWorkers = DbContext.SiteWorkers.AsNoTracking().ToList();
+            List<SiteWorker> siteWorkers = DbContext.SiteWorkers.AsNoTracking().ToList();
             List<SiteWorkerVersion> siteWorkerVersions = DbContext.SiteWorkerVersions.AsNoTracking().ToList();
             
             Assert.NotNull(siteWorkers);                                                             

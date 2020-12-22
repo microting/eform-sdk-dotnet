@@ -88,7 +88,7 @@ namespace Microting.eForm.Helpers
                 Site site = await testHelpers.CreateSite("TestSite1", 12334);
                 Unit unit = await testHelpers.CreateUnit(20934, 234234, site, 24234);
                 Worker worker = await testHelpers.CreateWorker("sfsdfsdf23ref@invalid.com", "John", "Doe", 2342341);
-                site_workers sw = await testHelpers.CreateSiteWorker(242345, site, worker);
+                SiteWorker sw = await testHelpers.CreateSiteWorker(242345, site, worker);
                 DateTime cl1_ca = DateTime.UtcNow;
                 DateTime cl1_ua = DateTime.UtcNow;
                 CheckList cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "MultiPictureXMLResult", "MultiPictureXMLResult_Description", "", "", 0, 0);

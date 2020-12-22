@@ -32,7 +32,7 @@ using Microting.eForm.Infrastructure.Models;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public partial class Notification
+    public  class Notification
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
