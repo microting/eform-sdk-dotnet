@@ -89,7 +89,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                         } else {
                             var propValue = prop.GetValue(obj);
                             Type targetType = returnObj.GetType();
-                            PropertyInfo targetProp = targetType.GetProperty($"{FirstCharToUpper(className.Remove(className.Length - 1))}Id");
+                            PropertyInfo targetProp = targetType.GetProperty($"{FirstCharToUpper(className)}Id");
 
                             targetProp.SetValue(returnObj, propValue, null);
                         }
