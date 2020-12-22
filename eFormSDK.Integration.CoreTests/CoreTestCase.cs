@@ -2999,11 +2999,11 @@ namespace eFormSDK.Integration.CoreTests
 //        }
         #endregion
         
-        [Test]
-        public async Task Core_Case_CasesToCsv_returnsPathAndName()
-        {
-            // Arrange
-            #region Arrance
+        // [Test]
+        // public async Task Core_Case_CasesToCsv_returnsPathAndName()
+        // {
+        //     // Arrange
+        //     #region Arrance
 //            #region Template1
 //            DateTime cl1_Ca = DateTime.Now;
 //            DateTime cl1_Ua = DateTime.Now;
@@ -3011,7 +3011,7 @@ namespace eFormSDK.Integration.CoreTests
 //
 //            #endregion
 
-            #region subtemplates
+            //#region subtemplates
 //            #region SubTemplate1
 //            check_lists cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
 //
@@ -3071,7 +3071,7 @@ namespace eFormSDK.Integration.CoreTests
 //
 //
 //            #endregion
-            #endregion
+            //#endregion
 
 //            #region Fields
 //            #region field1
@@ -3189,52 +3189,52 @@ namespace eFormSDK.Integration.CoreTests
 //
 //            #endregion
 
-            #region cases
-            #region cases created
-//            #region Case1
+//             #region cases
+//             #region cases created
+// //            #region Case1
+// //
+// //            DateTime c1_ca = DateTime.Now.AddDays(-9);
+// //            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
+// //            DateTime c1_ua = DateTime.Now.AddDays(-8);
+// //
+// //            cases aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
+// //                c1_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
+// //               site, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
+// //
+// //            #endregion
 //
-//            DateTime c1_ca = DateTime.Now.AddDays(-9);
-//            DateTime c1_da = DateTime.Now.AddDays(-8).AddHours(-12);
-//            DateTime c1_ua = DateTime.Now.AddDays(-8);
+// //            #region Case2
+// //
+// //            DateTime c2_ca = DateTime.Now.AddDays(-7);
+// //            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
+// //            DateTime c2_ua = DateTime.Now.AddDays(-6);
+// //            cases aCase2 = await testHelpers.CreateCase("case2UId", cl3, c2_ca, "custom2",
+// //             c2_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
+// //               site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
+// //            #endregion
+// //
+// //            #region Case3
+// //            DateTime c3_ca = DateTime.Now.AddDays(-10);
+// //            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
+// //            DateTime c3_ua = DateTime.Now.AddDays(-9);
+// //
+// //            cases aCase3 = await testHelpers.CreateCase("case3UId", cl4, c3_ca, "custom3",
+// //              c3_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
+// //               site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
+// //            #endregion
+// //
+// //            #region Case4
+// //            DateTime c4_ca = DateTime.Now.AddDays(-8);
+// //            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
+// //            DateTime c4_ua = DateTime.Now.AddDays(-7);
+// //
+// //            cases aCase4 = await testHelpers.CreateCase("case4UId", cl5, c4_ca, "custom4",
+// //                c4_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
+// //               site, 100, "caseType4", unit, c4_ua, 1, worker, Constants.WorkflowStates.Created);
+// //            #endregion
+//             #endregion
 //
-//            cases aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
-//                c1_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
-//               site, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
-//
-//            #endregion
-
-//            #region Case2
-//
-//            DateTime c2_ca = DateTime.Now.AddDays(-7);
-//            DateTime c2_da = DateTime.Now.AddDays(-6).AddHours(-12);
-//            DateTime c2_ua = DateTime.Now.AddDays(-6);
-//            cases aCase2 = await testHelpers.CreateCase("case2UId", cl3, c2_ca, "custom2",
-//             c2_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
-//               site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
-//            #endregion
-//
-//            #region Case3
-//            DateTime c3_ca = DateTime.Now.AddDays(-10);
-//            DateTime c3_da = DateTime.Now.AddDays(-9).AddHours(-12);
-//            DateTime c3_ua = DateTime.Now.AddDays(-9);
-//
-//            cases aCase3 = await testHelpers.CreateCase("case3UId", cl4, c3_ca, "custom3",
-//              c3_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
-//               site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
-//            #endregion
-//
-//            #region Case4
-//            DateTime c4_ca = DateTime.Now.AddDays(-8);
-//            DateTime c4_da = DateTime.Now.AddDays(-7).AddHours(-12);
-//            DateTime c4_ua = DateTime.Now.AddDays(-7);
-//
-//            cases aCase4 = await testHelpers.CreateCase("case4UId", cl5, c4_ca, "custom4",
-//                c4_da, worker, rnd.Next(shortMinValue, shortmaxValue), rnd.Next(shortMinValue, shortmaxValue),
-//               site, 100, "caseType4", unit, c4_ua, 1, worker, Constants.WorkflowStates.Created);
-//            #endregion
-            #endregion
-
-            #endregion
+//             #endregion
 
 //            #region UploadedData
 //            #region ud1
@@ -3394,7 +3394,7 @@ namespace eFormSDK.Integration.CoreTests
 //               cls_ua, 5, Constants.WorkflowStates.Created, microtingUid);
 //
 //            #endregion
-            #endregion
+            //#endregion
             // Act
 
             //var match = await sut.CasesToCsv(aCase1.check_list_id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(1), ud1.file_location + ud1.file_name, "mappe/");
@@ -3404,7 +3404,7 @@ namespace eFormSDK.Integration.CoreTests
             // Assert.AreEqual(match, "C:\\Users\\soipi\\DesktopFile1.csv");
 
 
-        }
+        //}
         [Test]
         public async Task Core_Case_CaseToJasperXml_ReturnsPath()
         {
