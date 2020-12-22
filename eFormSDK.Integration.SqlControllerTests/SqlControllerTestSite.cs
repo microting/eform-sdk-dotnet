@@ -845,7 +845,10 @@ namespace eFormSDK.Integration.SqlControllerTests
             Unit unit = await testHelpers.CreateUnit(48, 49, site1, 348);
 
             #endregion
+            #region site_workers
+            await testHelpers.CreateSiteWorker(55, site1, worker);
 
+            #endregion
             #endregion
 
             // Act
