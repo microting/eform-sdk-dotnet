@@ -226,6 +226,8 @@
     <Compile Include="Migrations\20201220194822_FixingTableColumnNames.Designer.cs" />
     <Compile Include="Migrations\20201220201427_FixingQuestionSet.cs" />
     <Compile Include="Migrations\20201220201427_FixingQuestionSet.Designer.cs" />
+    <Compile Include="Migrations\20201222125152_HugheTableRenaming.cs" />
+    <Compile Include="Migrations\20201222125152_HugheTableRenaming.Designer.cs" />
     <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Infrastructure\SqlController.cs" />
     <Compile Include="Services\Subscriber.cs" />

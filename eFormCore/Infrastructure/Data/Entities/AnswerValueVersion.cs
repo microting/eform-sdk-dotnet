@@ -26,7 +26,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public abstract class AnswerValueVersion : BaseEntity
+    public partial class AnswerValueVersion : BaseEntity
     {
         public int AnswerId { get; set; }
         

@@ -63,8 +63,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         private object MapVersion(object obj)
         {
             Type type = obj.GetType().UnderlyingSystemType;
-            String className = type.Name.Replace("Proxy", "");
-            var name = obj.GetType().FullName.Remove(obj.GetType().FullName.Length - 1) + "_versions";
+            String className = type.Name;
+            var name = obj.GetType().FullName + "Version";
             var resultType = Assembly.GetExecutingAssembly().GetType(name);
             if (resultType == null)
                 return null;
