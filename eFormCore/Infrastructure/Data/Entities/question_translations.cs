@@ -39,9 +39,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         
         public string Name { get; set; }
         
-        public virtual questions Question { get; set; }
+        public virtual Question Question { get; set; }
         
-        public virtual languages Language { get; set; }
+        public virtual Language Language { get; set; }
         
         public int? MicrotingUid { get; set; }
 

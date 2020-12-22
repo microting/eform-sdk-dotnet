@@ -27,6 +27,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure.Data.Entities;
+using Case = Microting.eForm.Infrastructure.Data.Entities.Case;
+using Tag = Microting.eForm.Infrastructure.Data.Entities.Tag;
 
 namespace Microting.eForm.Infrastructure
 {
@@ -40,73 +42,73 @@ namespace Microting.eForm.Infrastructure
            
         }
        
-        public virtual DbSet<answer_values> answer_values { get; set; }
-        public virtual DbSet<answer_value_versions> answer_value_versions { get; set; }
-        public virtual DbSet<answers> answers { get; set; }
-        public virtual DbSet<answer_versions> answer_versions { get; set; }
-        public virtual DbSet<case_versions> case_versions { get; set; }
-        public virtual DbSet<cases> cases { get; set; }
-        public virtual DbSet<check_list_site_versions> check_list_site_versions { get; set; }
-        public virtual DbSet<check_list_sites> check_list_sites { get; set; }
-        public virtual DbSet<check_list_value_versions> check_list_value_versions { get; set; }
-        public virtual DbSet<check_list_values> check_list_values { get; set; }
-        public virtual DbSet<check_list_versions> check_list_versions { get; set; }
-        public virtual DbSet<check_lists> check_lists { get; set; }
-        public virtual DbSet<entity_group_versions> entity_group_versions { get; set; }
-        public virtual DbSet<entity_groups> entity_groups { get; set; }
-        public virtual DbSet<entity_item_versions> entity_item_versions { get; set; }
-        public virtual DbSet<entity_items> entity_items { get; set; }
-        public virtual DbSet<field_types> field_types { get; set; }
-        public virtual DbSet<field_value_versions> field_value_versions { get; set; }
-        public virtual DbSet<field_values> field_values { get; set; }
-        public virtual DbSet<field_versions> field_versions { get; set; }
-        public virtual DbSet<fields> fields { get; set; }
-        public virtual DbSet<languages> languages { get; set; }
-        public virtual DbSet<language_versions> language_versions { get; set; }
-        public virtual DbSet<language_question_sets> LanguageQuestionSets { get; set; }
-        public virtual DbSet<language_question_set_versions> LanguageQuestionSetVersions { get; set; }
-        public virtual DbSet<log_exceptions> log_exceptions { get; set; }
-        public virtual DbSet<logs> logs { get; set; }
-        public virtual DbSet<notifications> notifications { get; set; }
-        public virtual DbSet<notification_versions> notification_versions { get; set; }
-        public virtual DbSet<options> options { get; set; }
-        public virtual DbSet<option_versions> option_versions { get; set; }
-        public virtual DbSet<option_translations> OptionTranslations { get; set; }
-        public virtual DbSet<option_translation_versions> OptionTranslationVersions { get; set; }
-        public virtual DbSet<question_sets> question_sets { get; set; }
-        public virtual DbSet<question_set_versions> question_set_versions { get; set; }
-        public virtual DbSet<questions> questions { get; set; }
-        public virtual DbSet<question_versions> question_versions { get; set; }
+        public virtual DbSet<AnswerValue> AnswerValues { get; set; }
+        public virtual DbSet<AnswerValueVersion> AnswerValueVersions { get; set; }
+        public virtual DbSet<Answer> Answers { get; set; }
+        public virtual DbSet<AnswerVersion> AnswerVersions { get; set; }
+        public virtual DbSet<CaseVersion> CaseVersions { get; set; }
+        public virtual DbSet<Case> Cases { get; set; }
+        public virtual DbSet<CheckListSiteVersion> CheckListSiteVersions { get; set; }
+        public virtual DbSet<CheckListSite> CheckListSites { get; set; }
+        public virtual DbSet<CheckListValueVersion> CheckListValueVersions { get; set; }
+        public virtual DbSet<CheckListValue> CheckListValues { get; set; }
+        public virtual DbSet<CheckListVersion> CheckListVersions { get; set; }
+        public virtual DbSet<CheckList> CheckLists { get; set; }
+        public virtual DbSet<EntityGroupVersion> EntityGroupVersions { get; set; }
+        public virtual DbSet<EntityGroup> EntityGroups { get; set; }
+        public virtual DbSet<EntityItemVersion> EntityItemVersions { get; set; }
+        public virtual DbSet<EntityItem> EntityItems { get; set; }
+        public virtual DbSet<FieldType> FieldTypes { get; set; }
+        public virtual DbSet<FieldValueVersion> FieldValueVersions { get; set; }
+        public virtual DbSet<FieldValue> FieldValues { get; set; }
+        public virtual DbSet<FieldVersion> FieldVersions { get; set; }
+        public virtual DbSet<Field> Fields { get; set; }
+        public virtual DbSet<Language> Languages { get; set; }
+        public virtual DbSet<LanguageVersion> LanguageVersions { get; set; }
+        public virtual DbSet<LanguageQuestionSet> LanguageQuestionSets { get; set; }
+        public virtual DbSet<LanguageQuestionSetVersion> LanguageQuestionSetVersions { get; set; }
+        public virtual DbSet<LogException> LogExceptions { get; set; }
+        public virtual DbSet<Data.Entities.Log> Logs { get; set; }
+        public virtual DbSet<Notification> Notifications { get; set; }
+        public virtual DbSet<NotificationVersion> NotificationVersions { get; set; }
+        public virtual DbSet<Option> Options { get; set; }
+        public virtual DbSet<OptionVersion> OptionVersions { get; set; }
+        public virtual DbSet<OptionTranslation> OptionTranslations { get; set; }
+        public virtual DbSet<OptionTranslationVersion> OptionTranslationVersions { get; set; }
+        public virtual DbSet<QuestionSet> QuestionSets { get; set; }
+        public virtual DbSet<QuestionSetVersion> QuestionSetVersions { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
+        public virtual DbSet<question_versions> QuestionVersions { get; set; }
         public virtual DbSet<question_translations> QuestionTranslations { get; set; }
-        public virtual DbSet<question_translation_versions> QuestionTranslationVersions { get; set; }
-        public virtual DbSet<settings> settings { get; set; }
-        public virtual DbSet<setting_versions> setting_versions { get; set; }
-        public virtual DbSet<site_survey_configurations> site_survey_configurations { get; set; }
-        public virtual DbSet<site_survey_configuration_versions> site_survey_configuration_versions { get; set; }
-        public virtual DbSet<site_versions> site_versions { get; set; }
-        public virtual DbSet<site_worker_versions> site_worker_versions { get; set; }
-        public virtual DbSet<site_workers> site_workers { get; set; }
-        public virtual DbSet<sites> sites { get; set; }
-        public virtual DbSet<survey_configurations> survey_configurations { get; set; }
-        public virtual DbSet<survey_configuration_versions> survey_configuration_versions { get; set; }
-        public virtual DbSet<unit_versions> unit_versions { get; set; }
-        public virtual DbSet<units> units { get; set; }
-        public virtual DbSet<uploaded_datas> uploaded_datas { get; set; }
-        public virtual DbSet<uploaded_data_versions> uploaded_data_versions { get; set; }
-        public virtual DbSet<worker_versions> worker_versions { get; set; }
-        public virtual DbSet<workers> workers { get; set; }
-        public virtual DbSet<tags> tags { get; set; }
-        public virtual DbSet<tag_versions> tag_versions { get; set; }
-        public virtual DbSet<taggings> taggings { get; set; }
-        public virtual DbSet<tagging_versions> tagging_versions { get; set; }
-        public virtual DbSet<folders> folders { get; set; }
-        public virtual DbSet<folder_versions> folder_versions { get; set; }
-        public virtual DbSet<site_groups> SiteGroups { get; set; }
-        public virtual DbSet<site_group_versions> SiteGroupVersions { get; set; }
-        public virtual DbSet<site_group_sites> SiteGroupSites { get; set; }
-        public virtual DbSet<site_group_site_versions> SiteGroupSiteVersions { get; set; }
-        public virtual DbSet<site_tags> SiteTags { get; set; }
-        public virtual DbSet<site_tag_versions> SiteTagVersions { get; set; }
+        public virtual DbSet<QuestionTranslationVersion> QuestionTranslationVersions { get; set; }
+        public virtual DbSet<Setting> Settings { get; set; }
+        public virtual DbSet<SettingVersion> SettingVersions { get; set; }
+        public virtual DbSet<SiteSurveyConfiguration> SiteSurveyConfigurations { get; set; }
+        public virtual DbSet<SiteSurveyConfigurationVersion> SiteSurveyConfigurationVersions { get; set; }
+        public virtual DbSet<SiteVersion> SiteVersions { get; set; }
+        public virtual DbSet<SiteWorkerVersion> SiteWorkerVersions { get; set; }
+        public virtual DbSet<site_workers> SiteWorkers { get; set; }
+        public virtual DbSet<Site> Sites { get; set; }
+        public virtual DbSet<SurveyConfiguration> SurveyConfigurations { get; set; }
+        public virtual DbSet<SurveyConfigurationVersion> SurveyConfigurationVersions { get; set; }
+        public virtual DbSet<UnitVersion> UnitVersions { get; set; }
+        public virtual DbSet<Unit> Units { get; set; }
+        public virtual DbSet<UploadedData> UploadedDatas { get; set; }
+        public virtual DbSet<UploadedDataVersion> UploadedDataVersions { get; set; }
+        public virtual DbSet<WorkerVersion> WorkerVersions { get; set; }
+        public virtual DbSet<Worker> Workers { get; set; }
+        public virtual DbSet<Tag> Tags { get; set; }
+        public virtual DbSet<TagVersion> TagVersions { get; set; }
+        public virtual DbSet<Tagging> Taggings { get; set; }
+        public virtual DbSet<TaggingVersion> TaggingVersions { get; set; }
+        public virtual DbSet<Folder> Folders { get; set; }
+        public virtual DbSet<FolderVersion> FolderVersions { get; set; }
+        public virtual DbSet<SiteGroup> SiteGroups { get; set; }
+        public virtual DbSet<SiteGroupVersion> SiteGroupVersions { get; set; }
+        public virtual DbSet<SiteGroupSites> SiteGroupSites { get; set; }
+        public virtual DbSet<SiteGroupSiteVersion> SiteGroupSiteVersions { get; set; }
+        public virtual DbSet<SiteTag> SiteTags { get; set; }
+        public virtual DbSet<SiteTagVersion> SiteTagVersions { get; set; }
 
         public virtual Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade ContextDatabase
         {
@@ -117,19 +119,19 @@ namespace Microting.eForm.Infrastructure
         {
 #pragma warning disable 612, 618
 
-            modelBuilder.Entity<check_lists>(entity =>
+            modelBuilder.Entity<CheckList>(entity =>
             {
                 entity.HasOne(d => d.Parent).WithMany(
                     p => p.Children).HasForeignKey(d => d.ParentId);
             });
 
-            modelBuilder.Entity<fields>(entity =>
+            modelBuilder.Entity<Field>(entity =>
             {
                 entity.HasOne(d => d.Parent).WithMany(
                     p => p.Children).HasForeignKey(d => d.ParentFieldId);
             });
 
-            modelBuilder.Entity<cases>().HasIndex(p => new {p.MicrotingUid, p.MicrotingCheckUid});
+            modelBuilder.Entity<Case>().HasIndex(p => new {p.MicrotingUid, p.MicrotingCheckUid});
 
 #pragma warning restore 612, 618
         }

@@ -193,9 +193,9 @@ namespace eFormSDK.Integration.Tests
 
             DateTime cl1_ca = DateTime.UtcNow;
             DateTime cl1_ua = DateTime.UtcNow;
-            check_lists cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+            CheckList cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
             //cl1.quick_sync_enabled = 1;
-            check_lists cl_ud = await DbContext.check_lists.SingleAsync(x => x.Id == cl1.Id);
+            CheckList cl_ud = await DbContext.CheckLists.SingleAsync(x => x.Id == cl1.Id);
             //DbContext.check_lists.Add(cl1);
             cl_ud.QuickSyncEnabled = 1;
             await DbContext.SaveChangesAsync().ConfigureAwait(false);

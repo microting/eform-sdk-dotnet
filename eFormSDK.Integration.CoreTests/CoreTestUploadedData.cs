@@ -38,6 +38,7 @@ using Microting.eForm.Infrastructure.Models;
 using System.IO;
 using eFormSDK.Integration.CoreTests;
 using Microting.eForm.Infrastructure.Helpers;
+using UploadedData = Microting.eForm.Infrastructure.Data.Entities.UploadedData;
 
 namespace eFormSDK.Integration.Tests
 {
@@ -89,7 +90,7 @@ namespace eFormSDK.Integration.Tests
             string fileName = "Hello.jpg";
 
             // Act
-            uploaded_datas dU = new uploaded_datas
+            UploadedData dU = new UploadedData
             {
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
@@ -106,10 +107,10 @@ namespace eFormSDK.Integration.Tests
             };
 
 
-            DbContext.uploaded_datas.Add(dU);
+            DbContext.UploadedDatas.Add(dU);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
-            UploadedData ud = await sut.Advanced_UploadedDataRead(dU.Id);
+            Microting.eForm.Infrastructure.Models.UploadedData ud = await sut.Advanced_UploadedDataRead(dU.Id);
 
             // Assert
             Assert.NotNull(ud);

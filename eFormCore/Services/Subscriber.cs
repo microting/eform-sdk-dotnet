@@ -164,7 +164,7 @@ namespace Microting.eForm.Services
                                 log.LogStandard(t.GetMethodName("Subscriber"),
                                     "Notification notificationUId : " + notificationUId + " microtingUId : " +
                                     microtingUId + " action : " + action);
-                                notifications result;
+                                Notification result;
                                 switch (action)
                                 {
                                     case Constants.Notifications.Completed:

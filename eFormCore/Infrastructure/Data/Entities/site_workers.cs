@@ -40,8 +40,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public int? MicrotingUid { get; set; }
 
-        public virtual sites Site { get; set; }
+        public virtual Site Site { get; set; }
 
-        public virtual workers Worker { get; set; }
+        public virtual Worker Worker { get; set; }
     }
 }

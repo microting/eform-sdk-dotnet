@@ -43,7 +43,7 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
 
 
-            workers worker = new workers
+            Worker worker = new Worker
             {
                 FirstName = Guid.NewGuid().ToString(),
                 LastName = Guid.NewGuid().ToString(),
@@ -55,8 +55,8 @@ namespace eFormSDK.Tests
 
             await worker.Create(DbContext).ConfigureAwait(false);                                                             
 
-            List<workers> workers = DbContext.workers.AsNoTracking().ToList();                            
-            List<worker_versions> workersVersion = DbContext.worker_versions.AsNoTracking().ToList();                
+            List<Worker> workers = DbContext.Workers.AsNoTracking().ToList();                            
+            List<WorkerVersion> workersVersion = DbContext.WorkerVersions.AsNoTracking().ToList();                
 
             //Assert                                                                            
 
@@ -96,7 +96,7 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
 
 
-            workers worker = new workers
+            Worker worker = new Worker
             {
                 FirstName = Guid.NewGuid().ToString(),
                 LastName = Guid.NewGuid().ToString(),
@@ -121,8 +121,8 @@ namespace eFormSDK.Tests
 
             await worker.Update(DbContext).ConfigureAwait(false);
 
-            List<workers> workers = DbContext.workers.AsNoTracking().ToList();                            
-            List<worker_versions> workersVersion = DbContext.worker_versions.AsNoTracking().ToList(); 
+            List<Worker> workers = DbContext.Workers.AsNoTracking().ToList();                            
+            List<WorkerVersion> workersVersion = DbContext.WorkerVersions.AsNoTracking().ToList(); 
 
             //Assert                                                                            
 
@@ -170,7 +170,7 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
 
 
-            workers worker = new workers
+            Worker worker = new Worker
             {
                 FirstName = Guid.NewGuid().ToString(),
                 LastName = Guid.NewGuid().ToString(),
@@ -186,8 +186,8 @@ namespace eFormSDK.Tests
             
             await worker.Delete(DbContext);
             
-            List<workers> workers = DbContext.workers.AsNoTracking().ToList();                            
-            List<worker_versions> workersVersion = DbContext.worker_versions.AsNoTracking().ToList(); 
+            List<Worker> workers = DbContext.Workers.AsNoTracking().ToList();                            
+            List<WorkerVersion> workersVersion = DbContext.WorkerVersions.AsNoTracking().ToList(); 
             
             //Assert
             

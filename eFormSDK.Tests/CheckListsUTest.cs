@@ -48,7 +48,7 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            check_lists checklistParent = new check_lists
+            CheckList checklistParent = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -82,7 +82,7 @@ namespace eFormSDK.Tests
             };
             await checklistParent.Create(DbContext).ConfigureAwait(false);
 
-            check_lists checklist = new check_lists
+            CheckList checklist = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -120,8 +120,8 @@ namespace eFormSDK.Tests
             
             await checklist.Create(DbContext).ConfigureAwait(false);
             
-            List<check_lists> checkLists = DbContext.check_lists.AsNoTracking().ToList();
-            List<check_list_versions> checkListVersion = DbContext.check_list_versions.AsNoTracking().ToList();
+            List<CheckList> checkLists = DbContext.CheckLists.AsNoTracking().ToList();
+            List<CheckListVersion> checkListVersion = DbContext.CheckListVersions.AsNoTracking().ToList();
             
             //Assert
             
@@ -219,7 +219,7 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            check_lists checklistParent = new check_lists
+            CheckList checklistParent = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -253,7 +253,7 @@ namespace eFormSDK.Tests
             };
             await checklistParent.Create(DbContext).ConfigureAwait(false);
 
-            check_lists checklist = new check_lists
+            CheckList checklist = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -355,8 +355,8 @@ namespace eFormSDK.Tests
             await checklist.Update(DbContext).ConfigureAwait(false);
 
 
-            List<check_lists> checkLists = DbContext.check_lists.AsNoTracking().ToList();
-            List<check_list_versions> checkListVersion = DbContext.check_list_versions.AsNoTracking().ToList();
+            List<CheckList> checkLists = DbContext.CheckLists.AsNoTracking().ToList();
+            List<CheckListVersion> checkListVersion = DbContext.CheckListVersions.AsNoTracking().ToList();
             
             //Assert
             
@@ -492,7 +492,7 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            check_lists checklistParent = new check_lists
+            CheckList checklistParent = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -526,7 +526,7 @@ namespace eFormSDK.Tests
             };
             await checklistParent.Create(DbContext).ConfigureAwait(false);
 
-            check_lists checklist = new check_lists
+            CheckList checklist = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -569,8 +569,8 @@ namespace eFormSDK.Tests
             await checklist.Delete(DbContext);
 
 
-            List<check_lists> checkLists = DbContext.check_lists.AsNoTracking().ToList();
-            List<check_list_versions> checkListVersion = DbContext.check_list_versions.AsNoTracking().ToList();
+            List<CheckList> checkLists = DbContext.CheckLists.AsNoTracking().ToList();
+            List<CheckListVersion> checkListVersion = DbContext.CheckListVersions.AsNoTracking().ToList();
             
             //Assert
             

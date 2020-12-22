@@ -70,16 +70,16 @@ namespace eFormSDK.Integration.Tests
         public async Task SQL_Case_CheckListSitesCreate_DoesSiteCreate()
         {
             Random rnd = new Random();
-            sites site = await testHelpers.CreateSite("mySite", 987);
+            Site site = await testHelpers.CreateSite("mySite", 987);
             DateTime cl1_Ca = DateTime.UtcNow;
             DateTime cl1_Ua = DateTime.UtcNow;
-            check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template", "template_desc", "", "", 0, 0);
+            CheckList cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template", "template_desc", "", "", 0, 0);
 
 
             // Act
             await sut.CheckListSitesCreate(cl1.Id, (int)site.MicrotingUid, rnd.Next(1, 255), null);
-            List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
-            var versionedMatches = DbContext.check_list_site_versions.AsNoTracking().ToList();
+            List<CheckListSite> checkListSiteResult = DbContext.CheckListSites.AsNoTracking().ToList();
+            var versionedMatches = DbContext.CheckListSiteVersions.AsNoTracking().ToList();
 
             // Assert
 
@@ -94,24 +94,24 @@ namespace eFormSDK.Integration.Tests
         public async Task SQL_Case_CheckListSitesRead_DoesSiteRead()
         {
             Random rnd = new Random();
-            sites site1 = await testHelpers.CreateSite("mySite2", 331);
+            Site site1 = await testHelpers.CreateSite("mySite2", 331);
             DateTime cl1_Ca = DateTime.UtcNow;
             DateTime cl1_Ua = DateTime.UtcNow;
-            check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template2", "template_desc", "", "", 1, 1);
+            CheckList cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template2", "template_desc", "", "", 1, 1);
 
             string guid = Guid.NewGuid().ToString();
             string guid2 = Guid.NewGuid().ToString();
             int lastCheckUid1 = rnd.Next(1, 255);
             int lastCheckUid2 = rnd.Next(1, 255);
 
-            check_list_sites cls1 = await testHelpers.CreateCheckListSite(cl1, cl1_Ca, site1, cl1_Ua, 1, Constants.WorkflowStates.Created, lastCheckUid1);
-            check_list_sites cls2 = await testHelpers.CreateCheckListSite(cl1, cl1_Ca, site1, cl1_Ua, 2, Constants.WorkflowStates.Created, lastCheckUid2);
+            CheckListSite cls1 = await testHelpers.CreateCheckListSite(cl1, cl1_Ca, site1, cl1_Ua, 1, Constants.WorkflowStates.Created, lastCheckUid1);
+            CheckListSite cls2 = await testHelpers.CreateCheckListSite(cl1, cl1_Ca, site1, cl1_Ua, 2, Constants.WorkflowStates.Created, lastCheckUid2);
 
             // Act
             List<int> matches = await sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, Constants.WorkflowStates.NotRemoved);
             List<int> matches2 = await sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, null);
-            List<check_list_sites> checkListSiteResult1 = DbContext.check_list_sites.AsNoTracking().ToList();
-            var versionedMatches1 = DbContext.check_list_site_versions.AsNoTracking().ToList();
+            List<CheckListSite> checkListSiteResult1 = DbContext.CheckListSites.AsNoTracking().ToList();
+            var versionedMatches1 = DbContext.CheckListSiteVersions.AsNoTracking().ToList();
 
 
             // Assert
@@ -129,20 +129,20 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             Random rnd = new Random();
-            sites site = await testHelpers.CreateSite("mySite", 987);
+            Site site = await testHelpers.CreateSite("mySite", 987);
             DateTime cl1_Ca = DateTime.UtcNow;
             DateTime cl1_Ua = DateTime.UtcNow;
-            check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "bla", "bla_desc", "", "", 0, 0);
+            CheckList cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "bla", "bla_desc", "", "", 0, 0);
 
             string guid = Guid.NewGuid().ToString();
             int lastCheckUid1 = rnd.Next(1, 255);
 
 
-            check_list_sites cls1 = await testHelpers.CreateCheckListSite(cl1, cl1_Ca, site, cl1_Ua, 1, Constants.WorkflowStates.Created, lastCheckUid1);
+            CheckListSite cls1 = await testHelpers.CreateCheckListSite(cl1, cl1_Ca, site, cl1_Ua, 1, Constants.WorkflowStates.Created, lastCheckUid1);
 
             // Act
             await sut.CaseDeleteReversed(cls1.MicrotingUid);
-            List<check_list_sites> checkListSiteResult = DbContext.check_list_sites.AsNoTracking().ToList();
+            List<CheckListSite> checkListSiteResult = DbContext.CheckListSites.AsNoTracking().ToList();
 
             // Assert
 

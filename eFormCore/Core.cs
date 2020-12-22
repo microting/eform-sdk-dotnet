@@ -64,10 +64,17 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OpenStack.NetCoreSwiftClient;
 using OpenStack.NetCoreSwiftClient.Infrastructure.Models;
+using Case = Microting.eForm.Infrastructure.Data.Entities.Case;
+using CheckListValue = Microting.eForm.Infrastructure.Models.CheckListValue;
+using EntityGroup = Microting.eForm.Infrastructure.Data.Entities.EntityGroup;
+using EntityItem = Microting.eForm.Infrastructure.Data.Entities.EntityItem;
 using Field = Microting.eForm.Infrastructure.Models.Field;
+using FieldValue = Microting.eForm.Infrastructure.Models.FieldValue;
 using KeyValuePair = Microting.eForm.Dto.KeyValuePair;
+using Log = Microting.eForm.Log;
 using Path = System.IO.Path;
 using Tag = Microting.eForm.Dto.Tag;
+using UploadedData = Microting.eForm.Infrastructure.Data.Entities.UploadedData;
 
 
 namespace eFormCore
@@ -1295,7 +1302,7 @@ namespace eFormCore
                     log.LogVariable(methodName, nameof(microtingUId), microtingUId);
                     log.LogVariable(methodName, nameof(checkUId), checkUId);
 
-                    cases aCase = await _sqlController.CaseReadFull(microtingUId, checkUId).ConfigureAwait(false);
+                    Case aCase = await _sqlController.CaseReadFull(microtingUId, checkUId).ConfigureAwait(false);
                     #region handling if no match case found
                     if (aCase == null)
                     {
@@ -1365,12 +1372,12 @@ namespace eFormCore
             }
         }
 
-        public Task<List<Case>> CaseReadAll(int? templateId, DateTime? start, DateTime? end, TimeZoneInfo timeZoneInfo)
+        public Task<List<Microting.eForm.Dto.Case>> CaseReadAll(int? templateId, DateTime? start, DateTime? end, TimeZoneInfo timeZoneInfo)
         {
             return CaseReadAll(templateId, start, end, Constants.WorkflowStates.NotRemoved, null, timeZoneInfo);
         }
 
-        public async Task<List<Case>> CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, string searchKey, TimeZoneInfo timeZoneInfo)
+        public async Task<List<Microting.eForm.Dto.Case>> CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, string searchKey, TimeZoneInfo timeZoneInfo)
         {
             string methodName = "Core.CaseReadAll";
             try
@@ -1395,7 +1402,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<List<Case>> CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter, TimeZoneInfo timeZoneInfo)
+        public async Task<List<Microting.eForm.Dto.Case>> CaseReadAll(int? templateId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter, TimeZoneInfo timeZoneInfo)
         {
             string methodName = "Core.CaseReadAll";
             try
@@ -1856,7 +1863,7 @@ namespace eFormCore
                     log.LogVariable(methodName, nameof(microtingUId), microtingUId);
                     log.LogVariable(methodName, nameof(checkUId), checkUId);
 
-                    cases aCase = await _sqlController.CaseReadFull(microtingUId, checkUId).ConfigureAwait(false);
+                    Case aCase = await _sqlController.CaseReadFull(microtingUId, checkUId).ConfigureAwait(false);
                     #region handling if no match case found
                     if (aCase == null)
                     {
@@ -2016,11 +2023,11 @@ namespace eFormCore
                 string jasperXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
                     + Environment.NewLine + "<root>"
                     + Environment.NewLine + "<C" + reply.Id + " case_id=\"" + caseId + "\" case_name=\"" + reply.Label + "\" serial_number=\"" + caseId + "/" + cDto.MicrotingUId + "\" check_list_status=\"approved\">"
-                    + Environment.NewLine + "<worker>" + dbContext.workers.Single(x => x.Id == reply.DoneById).full_name() + "</worker>"
+                    + Environment.NewLine + "<worker>" + dbContext.Workers.Single(x => x.Id == reply.DoneById).full_name() + "</worker>"
                     + Environment.NewLine + "<check_id>" + reply.MicrotingUId + "</check_id>"
                     + Environment.NewLine + "<date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</date>"
                     + Environment.NewLine + "<check_date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</check_date>"
-                    + Environment.NewLine + "<site_name>" + dbContext.sites.Single(x => x.MicrotingUid == reply.SiteMicrotingUuid).Name + "</site_name>"
+                    + Environment.NewLine + "<site_name>" + dbContext.Sites.Single(x => x.MicrotingUid == reply.SiteMicrotingUuid).Name + "</site_name>"
                     + Environment.NewLine + "<check_lists>"
 
                     + clsLst
@@ -2180,10 +2187,10 @@ namespace eFormCore
             // get base values
             valuePairs.Add("F_CaseName", reply.Label.Replace("&", "&amp;"));
             valuePairs.Add("F_SerialNumber", $"{caseId}/{cDto.MicrotingUId}");
-            valuePairs.Add("F_Worker", dbContext.workers.Single(x => x.Id == reply.DoneById).full_name().Replace("&", "&amp;"));
+            valuePairs.Add("F_Worker", dbContext.Workers.Single(x => x.Id == reply.DoneById).full_name().Replace("&", "&amp;"));
             valuePairs.Add("F_CheckId", reply.MicrotingUId.ToString());
             valuePairs.Add("F_CheckDate", reply.DoneAt.ToString("yyyy-MM-dd HH:mm:ss"));
-            valuePairs.Add("F_SiteName", dbContext.sites.Single(x=> x.MicrotingUid == reply.SiteMicrotingUuid).Name.Replace("&", "&amp;"));
+            valuePairs.Add("F_SiteName", dbContext.Sites.Single(x=> x.MicrotingUid == reply.SiteMicrotingUuid).Name.Replace("&", "&amp;"));
 
             // get field_values
             List<KeyValuePair<string, List<string>>> pictures = new List<KeyValuePair<string, List<string>>>();
@@ -2213,8 +2220,8 @@ namespace eFormCore
                         imageFieldCountList[$"FCount_{fieldValue.FieldId}"] = 0;
                         if (fieldValue.UploadedDataObj != null)
                         {
-                            fields field = await dbContext.fields.SingleOrDefaultAsync(x => x.Id == fieldValue.FieldId);
-                            check_lists checkList = await dbContext.check_lists.SingleOrDefaultAsync(x => x.Id == field.CheckListId);
+                            Microting.eForm.Infrastructure.Data.Entities.Field field = await dbContext.Fields.SingleOrDefaultAsync(x => x.Id == fieldValue.FieldId);
+                            CheckList checkList = await dbContext.CheckLists.SingleOrDefaultAsync(x => x.Id == field.CheckListId);
 
                             string geoTag = "";
                             if (fieldValue.Latitude != null)
@@ -2253,7 +2260,7 @@ namespace eFormCore
                     case Constants.FieldTypes.Signature:
                         if (fieldValue.UploadedDataObj != null)
                         {
-                            fields field = await dbContext.fields.SingleOrDefaultAsync(x => x.Id == fieldValue.FieldId);
+                            Microting.eForm.Infrastructure.Data.Entities.Field field = await dbContext.Fields.SingleOrDefaultAsync(x => x.Id == fieldValue.FieldId);
 
                             if (_swiftEnabled)
                             {
@@ -2455,11 +2462,11 @@ namespace eFormCore
                         int siteId = siteResult.Item1.SiteId;
                         int unitUId = siteResult.Item2.UnitUId;
                         int? otpCode = siteResult.Item2.OtpCode;
-                        sites site =
-                            await db.sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteResult.Item1.SiteId).ConfigureAwait(false);
+                        Site site =
+                            await db.Sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteResult.Item1.SiteId).ConfigureAwait(false);
                         if (site == null)
                         {
-                            site = new sites
+                            site = new Site
                             {
                                 MicrotingUid = siteId,
                                 Name = siteName
@@ -2468,10 +2475,10 @@ namespace eFormCore
                         }
 
                         SiteNameDto siteDto = await _sqlController.SiteRead(siteId).ConfigureAwait(false);
-                        units unit = await db.units.SingleOrDefaultAsync(x => x.MicrotingUid == unitUId).ConfigureAwait(false);
+                        Unit unit = await db.Units.SingleOrDefaultAsync(x => x.MicrotingUid == unitUId).ConfigureAwait(false);
                         if (unit == null)
                         {
-                            unit = new units
+                            unit = new Unit
                             {
                                 MicrotingUid = unitUId,
                                 CustomerNo = customerNo,
@@ -2656,26 +2663,26 @@ namespace eFormCore
         /// </summary>
         /// <param name="entityType">Entity type, either "EntitySearch" or "EntitySelect"</param>
         /// <param name="name">Templat MainElement's ID to be retrieved from the Microting local DB</param>
-        public async Task<EntityGroup> EntityGroupCreate(string entityType, string name, string description)
+        public async Task<Microting.eForm.Infrastructure.Models.EntityGroup> EntityGroupCreate(string entityType, string name, string description)
         {
             string methodName = "Core.EntityGroupCreate";
             try
             {
                 if (Running())
                 {
-                    EntityGroup entityGroup = await _sqlController.EntityGroupCreate(name, entityType, description).ConfigureAwait(false);
+                    Microting.eForm.Infrastructure.Models.EntityGroup entityGroup = await _sqlController.EntityGroupCreate(name, entityType, description).ConfigureAwait(false);
 
                     string entityGroupMUId = await _communicator.EntityGroupCreate(entityType, name, entityGroup.Id.ToString()).ConfigureAwait(false);
 
                     bool isCreated = await _sqlController.EntityGroupUpdate(entityGroup.Id, entityGroupMUId).ConfigureAwait(false);
 
                     if (isCreated)
-                        return new EntityGroup()
+                        return new Microting.eForm.Infrastructure.Models.EntityGroup()
                         {
                             Id = entityGroup.Id,
                             Name = entityGroup.Name,
                             Type = entityGroup.Type,
-                            EntityGroupItemLst = new List<EntityItem>(),
+                            EntityGroupItemLst = new List<Microting.eForm.Infrastructure.Models.EntityItem>(),
                             MicrotingUUID = entityGroupMUId,
                             Description = entityGroup.Description
                         };
@@ -2696,14 +2703,14 @@ namespace eFormCore
         /// Returns the EntityGroup and its EntityItems
         /// </summary>
         /// <param name="entityGroupMuId">The unique microting id of the EntityGroup</param>
-        public async Task<EntityGroup> EntityGroupRead(string entityGroupMuId)
+        public async Task<Microting.eForm.Infrastructure.Models.EntityGroup> EntityGroupRead(string entityGroupMuId)
         {
             if (string.IsNullOrEmpty(entityGroupMuId))
                 throw new ArgumentNullException(nameof(entityGroupMuId));
             return await EntityGroupRead(entityGroupMuId, Constants.EntityItemSortParameters.DisplayIndex, "").ConfigureAwait(false);
         }
 
-        public async Task<EntityGroup> EntityGroupRead(string entityGroupMuId, string sort, string nameFilter)
+        public async Task<Microting.eForm.Infrastructure.Models.EntityGroup> EntityGroupRead(string entityGroupMuId, string sort, string nameFilter)
         {
             string methodName = "Core.EntityGroupRead";
             if (string.IsNullOrEmpty(entityGroupMuId))
@@ -2739,7 +2746,7 @@ namespace eFormCore
         /// Updates the EntityGroup and its EntityItems for those needed
         /// </summary>
         /// <param name="entityGroup">The EntityGroup and its EntityItems</param>
-        public async Task<bool> EntityGroupUpdate(EntityGroup entityGroup)
+        public async Task<bool> EntityGroupUpdate(Microting.eForm.Infrastructure.Models.EntityGroup entityGroup)
         {
             string methodName = "Core.EntityGroupUpdate";
             try
@@ -2751,7 +2758,7 @@ namespace eFormCore
                     if (isUpdated)
                     {
                         using var dbContext = dbContextHelper.GetDbContext();
-                        var eg = await dbContext.entity_groups.SingleOrDefaultAsync(x => x.Id == entityGroup.Id);
+                        var eg = await dbContext.EntityGroups.SingleOrDefaultAsync(x => x.Id == entityGroup.Id);
                         eg.Name = entityGroup.Name;
                         eg.Description = entityGroup.Description;
                         await eg.Update(dbContext);
@@ -2783,7 +2790,7 @@ namespace eFormCore
                     while (_updateIsRunningEntities)
                         Thread.Sleep(200);
 
-                    EntityGroup entityGroup = await _sqlController.EntityGroupRead(entityGroupMUId).ConfigureAwait(false);
+                    Microting.eForm.Infrastructure.Models.EntityGroup entityGroup = await _sqlController.EntityGroupRead(entityGroupMUId).ConfigureAwait(false);
                     await _communicator.EntityGroupDelete(entityGroup.Type, entityGroupMUId).ConfigureAwait(false);
                     string type = await _sqlController.EntityGroupDelete(entityGroupMUId).ConfigureAwait(false);
                     return true;
@@ -2799,18 +2806,18 @@ namespace eFormCore
 
         #region EntityItem
 
-        public Task<EntityItem> EntitySearchItemCreate(int entitItemGroupId, string name, string description, string ownUUID) {
+        public Task<Microting.eForm.Infrastructure.Models.EntityItem> EntitySearchItemCreate(int entitItemGroupId, string name, string description, string ownUUID) {
             return EntityItemCreate(entitItemGroupId, name, description, ownUUID, 0);
         }
 
-        public Task<EntityItem> EntitySelectItemCreate(int entitItemGroupId, string name, int displayIndex, string ownUUID) {
+        public Task<Microting.eForm.Infrastructure.Models.EntityItem> EntitySelectItemCreate(int entitItemGroupId, string name, int displayIndex, string ownUUID) {
             return EntityItemCreate(entitItemGroupId, name, "", ownUUID, displayIndex);
         }
 
-        private async Task<EntityItem> EntityItemCreate(int entitItemGroupId, string name, string description, string ownUUID, int displayIndex)
+        private async Task<Microting.eForm.Infrastructure.Models.EntityItem> EntityItemCreate(int entitItemGroupId, string name, string description, string ownUUID, int displayIndex)
         {
-            EntityGroup eg = await _sqlController.EntityGroupRead(entitItemGroupId).ConfigureAwait(false);
-            EntityItem et = await _sqlController.EntityItemRead(entitItemGroupId, name, description).ConfigureAwait(false);
+            Microting.eForm.Infrastructure.Models.EntityGroup eg = await _sqlController.EntityGroupRead(entitItemGroupId).ConfigureAwait(false);
+            Microting.eForm.Infrastructure.Models.EntityItem et = await _sqlController.EntityItemRead(entitItemGroupId, name, description).ConfigureAwait(false);
             if (et == null) {
                 string microtingUId;
                 if (eg.Type == Constants.FieldTypes.EntitySearch) {
@@ -2821,7 +2828,7 @@ namespace eFormCore
 
                 if (microtingUId != null)
                 {
-                    et = new EntityItem
+                    et = new Microting.eForm.Infrastructure.Models.EntityItem
                     {
                         Name = name,
                         Description = description,
@@ -2848,7 +2855,7 @@ namespace eFormCore
         {
             using (var dbContext = dbContextHelper.GetDbContext())
             {
-                entity_items et = await dbContext.entity_items.SingleOrDefaultAsync(x => x.Id == id);
+                EntityItem et = await dbContext.EntityItems.SingleOrDefaultAsync(x => x.Id == id);
                 if (et == null) {
                     throw new NullReferenceException("EntityItem not found with id " + id);
                 }
@@ -2856,8 +2863,8 @@ namespace eFormCore
                 if (et.Name != name || et.Description != description || et.DisplayIndex != displayIndex ||
                     et.EntityItemUid != ownUUID)
                 {
-                    entity_groups eg =
-                        await dbContext.entity_groups.SingleOrDefaultAsync(x =>
+                    EntityGroup eg =
+                        await dbContext.EntityGroups.SingleOrDefaultAsync(x =>
                             x.Id == et.EntityGroupId);
                     bool result = false;
                     if (eg.Type == Constants.FieldTypes.EntitySearch)
@@ -2887,13 +2894,13 @@ namespace eFormCore
 
         public async Task EntityItemDelete(int id)
         {
-            EntityItem et = await _sqlController.EntityItemRead(id);
+            Microting.eForm.Infrastructure.Models.EntityItem et = await _sqlController.EntityItemRead(id);
             if (et == null)
             {
                 throw new NullReferenceException("EntityItem not found with id " + id.ToString());
             }
 
-            EntityGroup eg = await _sqlController.EntityGroupRead(et.EntityItemGroupId).ConfigureAwait(false);
+            Microting.eForm.Infrastructure.Models.EntityGroup eg = await _sqlController.EntityGroupRead(et.EntityItemGroupId).ConfigureAwait(false);
             bool result = false;
             if (eg.Type == Constants.FieldTypes.EntitySearch) {
                 result = await _communicator.EntitySearchItemDelete(et.MicrotingUUID).ConfigureAwait(false);
@@ -3177,24 +3184,24 @@ namespace eFormCore
             {
                 if (Running())
                 {
-                    uploaded_datas uploadedDatas = await _sqlController.GetUploadedData(uploadedDataId);
-                    if (uploadedDatas != null)
+                    UploadedData uploadedData = await _sqlController.GetUploadedData(uploadedDataId);
+                    if (uploadedData != null)
                     {
                         string[] audioFileExtenstions = { ".3gp", ".aa", ".aac", ".aax", ".act", ".aiff", ".amr", ".ape", ".au", ".awb", ".dct", ".dss", ".dvf", ".flac", ".gsm", ".iklax", ".ivs", ".m4a", ".m4b", ".m4p", ".mmf", ".mp3", ".mpc", ".msv", ".nsf", ".ogg", ".oga", ".mogg", ".opus", ".ra", ".rm", ".raw", ".sln", ".tta", ".vox", ".wav", ".wma", ".wv", ".webm", ".8svx" };
-                        if (audioFileExtenstions.Any(uploadedDatas.Extension.Contains))
+                        if (audioFileExtenstions.Any(uploadedData.Extension.Contains))
                         {
 
-                            string filePath = Path.Combine(uploadedDatas.FileLocation, uploadedDatas.FileName);
+                            string filePath = Path.Combine(uploadedData.FileLocation, uploadedData.FileName);
                             log.LogStandard(methodName, $"filePath is {filePath}");
                             string fileName =
-                                $"{uploadedDatas.Id}_{uploadedDatas.Checksum}{uploadedDatas.Extension}";
+                                $"{uploadedData.Id}_{uploadedData.Checksum}{uploadedData.Extension}";
 
                             var stream = await GetFileFromS3Storage(fileName);
 
-                            int requestId = await SpeechToText(stream.ResponseStream, uploadedDatas.Extension).ConfigureAwait(false);
-                            uploadedDatas.TranscriptionId = requestId;
+                            int requestId = await SpeechToText(stream.ResponseStream, uploadedData.Extension).ConfigureAwait(false);
+                            uploadedData.TranscriptionId = requestId;
 
-                            await _sqlController.UpdateUploadedData(uploadedDatas).ConfigureAwait(false);
+                            await _sqlController.UpdateUploadedData(uploadedData).ConfigureAwait(false);
                         }
                         return true;
                     }
@@ -3260,8 +3267,8 @@ namespace eFormCore
         {
             using (var dbContext = dbContextHelper.GetDbContext())
             {
-                site_survey_configurations siteSurveyConfiguration =
-                    await dbContext.site_survey_configurations.SingleOrDefaultAsync(x => x.SiteId == siteId && x.SurveyConfigurationId == id).ConfigureAwait(false);
+                SiteSurveyConfiguration siteSurveyConfiguration =
+                    await dbContext.SiteSurveyConfigurations.SingleOrDefaultAsync(x => x.SiteId == siteId && x.SurveyConfigurationId == id).ConfigureAwait(false);
 
                 if (siteSurveyConfiguration == null)
                 {
@@ -3295,7 +3302,7 @@ namespace eFormCore
                         if (parsedQuestionSet != null)
                         {
                             int questionSetMicrotingUid = int.Parse(parsedQuestionSet["MicrotingUid"].ToString());
-                            var questionSet = await db.question_sets.SingleOrDefaultAsync(x => x.MicrotingUid == questionSetMicrotingUid).ConfigureAwait(false);
+                            var questionSet = await db.QuestionSets.SingleOrDefaultAsync(x => x.MicrotingUid == questionSetMicrotingUid).ConfigureAwait(false);
                             if (questionSet != null)
                             {
                                 questionSet.Name = parsedQuestionSet["Name"].ToString();
@@ -3303,16 +3310,16 @@ namespace eFormCore
                             }
                             else
                             {
-                                questionSet = new question_sets()
+                                questionSet = new QuestionSet()
                                 {
                                     Name = parsedQuestionSet["Name"].ToString(),
                                     MicrotingUid = questionSetMicrotingUid
                                 };
                                 await questionSet.Create(db);
                             }
-                            var surveyConfiguration = JsonConvert.DeserializeObject<survey_configurations>(subItem.ToString());
+                            var surveyConfiguration = JsonConvert.DeserializeObject<SurveyConfiguration>(subItem.ToString());
                             bool removed = surveyConfiguration.WorkflowState == Constants.WorkflowStates.Removed;
-                            if (!await db.survey_configurations.AnyAsync(x =>
+                            if (!await db.SurveyConfigurations.AnyAsync(x =>
                                 x.MicrotingUid == surveyConfiguration.MicrotingUid))
                             {
                                 surveyConfiguration.QuestionSetId = questionSet.Id;
@@ -3320,7 +3327,7 @@ namespace eFormCore
                             }
                             else
                             {
-                                surveyConfiguration = await db.survey_configurations.SingleAsync(x =>
+                                surveyConfiguration = await db.SurveyConfigurations.SingleAsync(x =>
                                     x.MicrotingUid == surveyConfiguration.MicrotingUid);
                                 surveyConfiguration.Name = subItem["Name"].ToString();
                                 await surveyConfiguration.Update(db);
@@ -3332,15 +3339,15 @@ namespace eFormCore
 
                             foreach (JToken child in innerParsedData.GetValue("Sites").Children())
                             {
-                                var site = await db.sites.SingleOrDefaultAsync(x => x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString())).ConfigureAwait(false);
+                                var site = await db.Sites.SingleOrDefaultAsync(x => x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString())).ConfigureAwait(false);
                                 if (site != null)
                                 {
                                     var siteSurveyConfiguration =
-                                        await db.site_survey_configurations.SingleOrDefaultAsync(x =>
+                                        await db.SiteSurveyConfigurations.SingleOrDefaultAsync(x =>
                                             x.SiteId == site.Id && x.SurveyConfigurationId == surveyConfiguration.Id).ConfigureAwait(false);
                                     if (siteSurveyConfiguration == null)
                                     {
-                                        siteSurveyConfiguration = new site_survey_configurations()
+                                        siteSurveyConfiguration = new SiteSurveyConfiguration()
                                         {
                                             SiteId = site.Id,
                                             SurveyConfigurationId = surveyConfiguration.Id
@@ -3379,17 +3386,17 @@ namespace eFormCore
                 bool removed = false;
                 foreach (JToken child in parsedQuestions.Children())
                 {
-                    var question = JsonConvert.DeserializeObject<questions>(child.ToString(), jsonSerializerSettings);
+                    var question = JsonConvert.DeserializeObject<Question>(child.ToString(), jsonSerializerSettings);
                     removed = question.WorkflowState == Constants.WorkflowStates.Removed;
                     log.LogStandard("Core.GetAllQuestionSets", $"Parsing question on thread {threadNumber} {question.MicrotingUid}");
-                    if (!await db.questions.AnyAsync(x => x.MicrotingUid == question.MicrotingUid).ConfigureAwait(false))
+                    if (!await db.Questions.AnyAsync(x => x.MicrotingUid == question.MicrotingUid).ConfigureAwait(false))
                     {
                         question.QuestionSetId = questionSetId;
                         await question.Create(db).ConfigureAwait(false);
                     }
                     else
                     {
-                        question = await db.questions.SingleAsync(x => x.MicrotingUid == question.MicrotingUid);
+                        question = await db.Questions.SingleAsync(x => x.MicrotingUid == question.MicrotingUid);
                         question.QuestionIndex = int.Parse(child["QuestionIndex"].ToString());
                         question.BackButtonEnabled = child["BackButtonEnabled"].ToString() == "true";
                         question.Image = child["Image"].ToString() == "true";
@@ -3416,7 +3423,7 @@ namespace eFormCore
                     if (!await db.QuestionTranslations.AnyAsync(x =>
                         x.MicrotingUid == questionTranslation.MicrotingUid).ConfigureAwait(false))
                     {
-                        questionTranslation.QuestionId = db.questions
+                        questionTranslation.QuestionId = db.Questions
                             .Single(x => x.MicrotingUid == questionTranslation.QuestionId).Id;
                         await questionTranslation.Create(db).ConfigureAwait(false);
                     }
@@ -3438,31 +3445,31 @@ namespace eFormCore
                 //int i = 0;
                 foreach (JToken child in parsedOptions.Children())
                 {
-                    var option = JsonConvert.DeserializeObject<options>(child.ToString(), jsonSerializerSettings);
+                    var option = JsonConvert.DeserializeObject<Option>(child.ToString(), jsonSerializerSettings);
                     log.LogStandard("Core.GetAllQuestionSets", $"Parsing option on thread {threadNumber} {option.MicrotingUid}");
                     removed = option.WorkflowState == Constants.WorkflowStates.Removed;
-                    if (!await db.options.AnyAsync(x => x.MicrotingUid == option.MicrotingUid).ConfigureAwait(false))
+                    if (!await db.Options.AnyAsync(x => x.MicrotingUid == option.MicrotingUid).ConfigureAwait(false))
                     {
                         int? nextQuestionId = null;
                         if (!string.IsNullOrEmpty(option.NextQuestionId.ToString()))
                         {
-                            nextQuestionId = db.questions.SingleOrDefault(x =>
+                            nextQuestionId = db.Questions.SingleOrDefault(x =>
                                 x.MicrotingUid == int.Parse(option.NextQuestionId.ToString()))?.Id;
                         }
                         option.NextQuestionId = nextQuestionId;
-                        option.QuestionId = db.questions.Single(x => x.MicrotingUid == option.QuestionId).Id;
+                        option.QuestionId = db.Questions.Single(x => x.MicrotingUid == option.QuestionId).Id;
                         await option.Create(db).ConfigureAwait(false);
                     }
                     else
                     {
-                        option = await db.options.SingleAsync(x => x.MicrotingUid == option.MicrotingUid).ConfigureAwait(false);
+                        option = await db.Options.SingleAsync(x => x.MicrotingUid == option.MicrotingUid).ConfigureAwait(false);
                         option.WeightValue = int.Parse(child["WeightValue"].ToString());
                         option.Weight = int.Parse(child["Weight"].ToString());
                         option.OptionIndex = int.Parse(child["OptionIndex"].ToString());
                         int? nextQuestionId = null;
                         if (!string.IsNullOrEmpty(child["NextQuestionId"].ToString()))
                         {
-                            nextQuestionId = db.questions.SingleOrDefault(x =>
+                            nextQuestionId = db.Questions.SingleOrDefault(x =>
                                 x.MicrotingUid == int.Parse(child["NextQuestionId"].ToString()))?.Id;
                         }
                         option.NextQuestionId = nextQuestionId;
@@ -3478,13 +3485,13 @@ namespace eFormCore
                 JToken parsedOptionTranslations = innerParsedData.GetValue("OptionTranslations");
                 foreach (JToken child in parsedOptionTranslations.Children())
                 {
-                    var optionTranslation = JsonConvert.DeserializeObject<option_translations>(child.ToString(), jsonSerializerSettings);
+                    var optionTranslation = JsonConvert.DeserializeObject<OptionTranslation>(child.ToString(), jsonSerializerSettings);
                     log.LogStandard("Core.GetAllQuestionSets", $"Parsing option translation on thread {threadNumber} {optionTranslation.Name}");
                     removed = optionTranslation.WorkflowState == Constants.WorkflowStates.Removed;
                     if (!await db.OptionTranslations.AnyAsync(x =>
                         x.MicrotingUid == optionTranslation.MicrotingUid).ConfigureAwait(false))
                     {
-                        optionTranslation.OptionId = db.options.Single(x => x.MicrotingUid == optionTranslation.OptionId).Id;
+                        optionTranslation.OptionId = db.Options.Single(x => x.MicrotingUid == optionTranslation.OptionId).Id;
                         await optionTranslation.Create(db).ConfigureAwait(false);
                     }
                     else
@@ -3518,10 +3525,10 @@ namespace eFormCore
 
             using (var db = dbContextHelper.GetDbContext())
             {
-                var language = await db.languages.SingleOrDefaultAsync(x => x.Name == "Danish").ConfigureAwait(false);
+                var language = await db.Languages.SingleOrDefaultAsync(x => x.Name == "Danish").ConfigureAwait(false);
                 if (language == null)
                 {
-                    language = new languages()
+                    language = new Language()
                     {
                         Name = "Danish"
                     };
@@ -3534,17 +3541,17 @@ namespace eFormCore
                     int i = 0;
                     foreach (JToken subItem in item.Value)
                     {
-                        var questionSet = JsonConvert.DeserializeObject<question_sets>(subItem.ToString(), jsonSerializerSettings);
+                        var questionSet = JsonConvert.DeserializeObject<QuestionSet>(subItem.ToString(), jsonSerializerSettings);
 
                         bool removed = questionSet.WorkflowState == Constants.WorkflowStates.Removed;
-                        if (!await db.question_sets.AnyAsync(x => x.MicrotingUid == questionSet.MicrotingUid).ConfigureAwait(false))
+                        if (!await db.QuestionSets.AnyAsync(x => x.MicrotingUid == questionSet.MicrotingUid).ConfigureAwait(false))
                         {
                             await questionSet.Create(db).ConfigureAwait(false);
                         }
                         else
                         {
                             questionSet =
-                                await db.question_sets.SingleAsync(x => x.MicrotingUid == questionSet.MicrotingUid).ConfigureAwait(false);
+                                await db.QuestionSets.SingleAsync(x => x.MicrotingUid == questionSet.MicrotingUid).ConfigureAwait(false);
                             questionSet.Name = subItem["Name"].ToString();
                             await questionSet.Update(db).ConfigureAwait(false);
                         }
@@ -3571,7 +3578,7 @@ namespace eFormCore
         {
             using (var db = dbContextHelper.GetDbContext())
             {
-                foreach (question_sets questionSet in await db.question_sets.ToListAsync())
+                foreach (QuestionSet questionSet in await db.QuestionSets.ToListAsync())
                 {
                     await GetAnswersForQuestionSet(questionSet.MicrotingUid).ConfigureAwait(false);
                 }
@@ -3580,7 +3587,7 @@ namespace eFormCore
             return true;
         }
 
-        private async Task<int> SaveAnswers(question_sets questionSet, JObject parsedData)
+        private async Task<int> SaveAnswers(QuestionSet questionSet, JObject parsedData)
         {
             Task[] tasks = new Task[int.Parse(parsedData["NumAnswers"].ToString())];
 
@@ -3602,9 +3609,9 @@ namespace eFormCore
             var settings = new JsonSerializerSettings { Error = (se, ev) => { ev.ErrorContext.Handled = true; } };
             using (var db = dbContextHelper.GetDbContext())
             {
-                answers answer = JsonConvert.DeserializeObject<answers>(subItem.ToString(), settings);
+                Answer answer = JsonConvert.DeserializeObject<Answer>(subItem.ToString(), settings);
 
-                var result = await db.answers.SingleOrDefaultAsync(x => x.MicrotingUid == answer.MicrotingUid).ConfigureAwait(false);
+                var result = await db.Answers.SingleOrDefaultAsync(x => x.MicrotingUid == answer.MicrotingUid).ConfigureAwait(false);
                 if (result != null)
                 {
                     answer.Id = result.Id;
@@ -3612,7 +3619,7 @@ namespace eFormCore
 
                 if (result == null)
                 {
-                    units unit = await db.units.SingleOrDefaultAsync(x => x.MicrotingUid == answer.UnitId)
+                    Unit unit = await db.Units.SingleOrDefaultAsync(x => x.MicrotingUid == answer.UnitId)
                         .ConfigureAwait(false);
                     if (unit != null)
                     {
@@ -3625,9 +3632,9 @@ namespace eFormCore
 
                     try
                     {
-                        answer.SiteId = db.sites.Single(x => x.MicrotingUid == answer.SiteId).Id;
+                        answer.SiteId = db.Sites.Single(x => x.MicrotingUid == answer.SiteId).Id;
                         answer.QuestionSetId = questionSetId;
-                        survey_configurations surveyConfiguration = await db.survey_configurations
+                        SurveyConfiguration surveyConfiguration = await db.SurveyConfigurations
                             .SingleOrDefaultAsync(x => x.MicrotingUid == answer.SurveyConfigurationId)
                             .ConfigureAwait(false);
 
@@ -3641,18 +3648,18 @@ namespace eFormCore
                         }
 
                         answer.QuestionSet = null;
-                        answer.LanguageId = db.languages.Single(x => x.Name == "Danish").Id;
+                        answer.LanguageId = db.Languages.Single(x => x.Name == "Danish").Id;
                         await answer.Create(db).ConfigureAwait(false);
                         foreach (JToken avItem in subItem["AnswerValues"])
                         {
                             // log.LogStandard("Core.SaveAnswer", $"AnswerValues parsing started {DateTime.UtcNow}");
-                            answer_values answerValue =
-                                JsonConvert.DeserializeObject<answer_values>(avItem.ToString(), settings);
-                            if (db.answer_values.SingleOrDefault(x => x.MicrotingUid == answerValue.MicrotingUid) ==
+                            AnswerValue answerValue =
+                                JsonConvert.DeserializeObject<AnswerValue>(avItem.ToString(), settings);
+                            if (db.AnswerValues.SingleOrDefault(x => x.MicrotingUid == answerValue.MicrotingUid) ==
                                 null)
                             {
-                                var question = await db.questions.SingleAsync(x => x.MicrotingUid == answerValue.QuestionId).ConfigureAwait(false);
-                                var option = await db.options.SingleAsync(x => x.MicrotingUid == answerValue.OptionId).ConfigureAwait(false);
+                                var question = await db.Questions.SingleAsync(x => x.MicrotingUid == answerValue.QuestionId).ConfigureAwait(false);
+                                var option = await db.Options.SingleAsync(x => x.MicrotingUid == answerValue.OptionId).ConfigureAwait(false);
                                 if (question.QuestionType == Constants.QuestionTypes.Buttons ||
                                     question.QuestionType == Constants.QuestionTypes.List ||
                                     question.QuestionType == Constants.QuestionTypes.Multi)
@@ -3689,12 +3696,12 @@ namespace eFormCore
             using (var db = dbContextHelper.GetDbContext())
             {
                 int numAnswers = 10;
-                question_sets questionSet =
-                    await db.question_sets.SingleOrDefaultAsync(x => x.MicrotingUid == apiQuestionSetId).ConfigureAwait(false);
+                QuestionSet questionSet =
+                    await db.QuestionSets.SingleOrDefaultAsync(x => x.MicrotingUid == apiQuestionSetId).ConfigureAwait(false);
                 if (questionSet != null)
                 {
                     var questionSetId = questionSet.Id;
-                    var lastAnswer = await db.answers.OrderByDescending(x => x.Id).FirstOrDefaultAsync(x => x.QuestionSetId == questionSetId).ConfigureAwait(false);
+                    var lastAnswer = await db.Answers.OrderByDescending(x => x.Id).FirstOrDefaultAsync(x => x.QuestionSetId == questionSetId).ConfigureAwait(false);
                     JObject parsedData = null;
                     if (lastAnswer != null)
                     {
@@ -3702,7 +3709,7 @@ namespace eFormCore
                         {
                             try
                             {
-                                lastAnswer = await db.answers.OrderByDescending(x => x.Id).FirstOrDefaultAsync(x => x.QuestionSetId == questionSetId)
+                                lastAnswer = await db.Answers.OrderByDescending(x => x.Id).FirstOrDefaultAsync(x => x.QuestionSetId == questionSetId)
                                     .ConfigureAwait(false);
                                 if (lastAnswer != null)
                                 {
@@ -3731,7 +3738,7 @@ namespace eFormCore
                         {
                             try
                             {
-                                lastAnswer = await db.answers.OrderByDescending(x => x.Id).FirstOrDefaultAsync(x => x.QuestionSetId == questionSetId)
+                                lastAnswer = await db.Answers.OrderByDescending(x => x.Id).FirstOrDefaultAsync(x => x.QuestionSetId == questionSetId)
                                     .ConfigureAwait(false);
                                 if (lastAnswer != null)
                                 {
@@ -4159,7 +4166,7 @@ namespace eFormCore
                         return false;
 
                     await using MicrotingDbContext dbContext = dbContextHelper.GetDbContext();
-                    var worker = await dbContext.workers.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUid);
+                    var worker = await dbContext.Workers.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUid);
                     if (worker != null)
                     {
                         await worker.Delete(dbContext);
@@ -4375,13 +4382,13 @@ namespace eFormCore
                         log.LogStandard(methodName, "called");
                         log.LogVariable(methodName, nameof(siteMicrotingUid), siteMicrotingUid);
 
-                        sites site = await dbContext.sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteMicrotingUid);
+                        Site site = await dbContext.Sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteMicrotingUid);
 
                         string result = await _communicator.UnitCreate((int)site.MicrotingUid).ConfigureAwait(false);
                         if (result != null)
                         {
-                            units  unit = JsonConvert.DeserializeObject<units>(result);
-                            unit.SiteId = dbContext.sites.Single(x => x.MicrotingUid == unit.SiteId).Id;
+                            Unit  unit = JsonConvert.DeserializeObject<Unit>(result);
+                            unit.SiteId = dbContext.Sites.Single(x => x.MicrotingUid == unit.SiteId).Id;
                             await unit.Create(dbContext).ConfigureAwait(false);
                             return true;
                         }
@@ -4412,8 +4419,8 @@ namespace eFormCore
                         log.LogVariable(methodName, nameof(unitId), unitId);
                         log.LogVariable(methodName, nameof(siteId), siteId);
 
-                        units unit = await dbContext.units.SingleOrDefaultAsync(x => x.Id == unitId);
-                        sites site = await dbContext.sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteId);
+                        Unit unit = await dbContext.Units.SingleOrDefaultAsync(x => x.Id == unitId);
+                        Site site = await dbContext.Sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteId);
 
                         string result = await _communicator.UnitMove((int)unit.MicrotingUid, (int)site.MicrotingUid).ConfigureAwait(false);
                         if (result != null)
@@ -4460,7 +4467,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<UploadedData> Advanced_UploadedDataRead(int id)
+        public async Task<Microting.eForm.Infrastructure.Models.UploadedData> Advanced_UploadedDataRead(int id)
         {
             string methodName = "Core.Advanced_UploadedDataRead";
             try
@@ -4469,7 +4476,7 @@ namespace eFormCore
                 log.LogVariable(methodName, nameof(id), id);
 
                 var ud = await _sqlController.GetUploadedData(id).ConfigureAwait(false);
-                UploadedData uD = new UploadedData
+                Microting.eForm.Infrastructure.Models.UploadedData uD = new Microting.eForm.Infrastructure.Models.UploadedData
                 {
                     Checksum = ud.Checksum,
                     CurrentFile = ud.CurrentFile,
@@ -4624,7 +4631,7 @@ namespace eFormCore
                     log.LogVariable(methodName, nameof(fieldId), fieldId);
                     log.LogVariable(methodName, nameof(uploadedDataId), uploadedDataId);
 
-                    uploaded_datas uD = await _sqlController.GetUploadedData(uploadedDataId).ConfigureAwait(false);
+                    UploadedData uD = await _sqlController.GetUploadedData(uploadedDataId).ConfigureAwait(false);
 
                     try
                     {
@@ -4811,12 +4818,12 @@ namespace eFormCore
                     start = DateTime.MinValue;
                 if (end == null)
                     end = DateTime.MaxValue;
-                List<cases> cases = await dbContext.cases.Where(x =>
+                List<Case> cases = await dbContext.Cases.Where(x =>
                     x.DoneAt > start && x.DoneAt < end
                                      && x.WorkflowState != Constants.WorkflowStates.Removed
                                      && x.CheckListId == checkListId).ToListAsync();
 
-                check_lists checkList = await dbContext.check_lists.SingleAsync(x => x.Id == (int) checkListId);
+                CheckList checkList = await dbContext.CheckLists.SingleAsync(x => x.Id == (int) checkListId);
 
                 if (cases.Count == 0)
                     return null;
@@ -4953,11 +4960,11 @@ namespace eFormCore
             {
                 if (checkListId != null)
                 {
-                    if (dbContext.check_lists.Any(x => x.ParentId == checkListId))
+                    if (dbContext.CheckLists.Any(x => x.ParentId == checkListId))
                     {
-                        foreach (check_lists checkList in await dbContext.check_lists.Where(x => x.ParentId == checkListId).OrderBy(x => x.DisplayIndex).ToListAsync())
+                        foreach (CheckList checkList in await dbContext.CheckLists.Where(x => x.ParentId == checkListId).OrderBy(x => x.DisplayIndex).ToListAsync())
                         {
-                            check_lists parentCheckList = await dbContext.check_lists.SingleAsync(x => x.Id == checkListId);
+                            CheckList parentCheckList = await dbContext.CheckLists.SingleAsync(x => x.Id == checkListId);
                             if (parentCheckList.ParentId != null)
                             {
                                 if (preLabel != "")
@@ -4968,11 +4975,11 @@ namespace eFormCore
                     }
                     else
                     {
-                        foreach (fields field in await dbContext.fields.Where(x => x.CheckListId == checkListId && x.ParentFieldId == null).OrderBy(x => x.DisplayIndex).ToListAsync())
+                        foreach (Microting.eForm.Infrastructure.Data.Entities.Field field in await dbContext.Fields.Where(x => x.CheckListId == checkListId && x.ParentFieldId == null).OrderBy(x => x.DisplayIndex).ToListAsync())
                         {
-                            if (dbContext.fields.Any(x => x.ParentFieldId == field.Id))
+                            if (dbContext.Fields.Any(x => x.ParentFieldId == field.Id))
                             {
-                                foreach (var subField in await dbContext.fields.Where(x => x.ParentFieldId == field.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
+                                foreach (var subField in await dbContext.Fields.Where(x => x.ParentFieldId == field.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
                                 {
                                     if (field.FieldTypeId != 3 && field.FieldTypeId != 18)
                                     {
@@ -5170,12 +5177,12 @@ namespace eFormCore
         public async Task<bool> DownloadUploadedData(int uploadedDataId)
         {
             string methodName = "Core.DownloadUploadedData";
-            uploaded_datas uploadedDatas = await _sqlController.GetUploadedData(uploadedDataId).ConfigureAwait(false);
+            UploadedData uploadedData = await _sqlController.GetUploadedData(uploadedDataId).ConfigureAwait(false);
 
-            if (uploadedDatas != null)
+            if (uploadedData != null)
             {
-                string urlStr = uploadedDatas.FileLocation;
-                log.LogEverything(methodName, "Received file:" + uploadedDatas.ToString());
+                string urlStr = uploadedData.FileLocation;
+                log.LogEverything(methodName, "Received file:" + uploadedData.ToString());
 
                 #region finding file name and creating folder if needed
                 FileInfo file = new FileInfo(_fileLocationPicture);
@@ -5183,7 +5190,7 @@ namespace eFormCore
                     file.Directory.Create(); // If the directory already exists, this method does nothing.
 
                 int index = urlStr.LastIndexOf("/") + 1;
-                string fileName = uploadedDatas.Id.ToString() + "_" + urlStr.Remove(0, index);
+                string fileName = uploadedData.Id.ToString() + "_" + urlStr.Remove(0, index);
                 #endregion
 
                 #region download file
@@ -5227,7 +5234,7 @@ namespace eFormCore
                 catch { log.LogWarning(methodName, "HandleFileDownloaded event's external logic suffered an Expection"); }
                 log.LogStandard(methodName, "Downloaded file '" + urlStr + "'.");
 
-                await _sqlController.FileProcessed(urlStr, chechSum, _fileLocationPicture, fileName, uploadedDatas.Id).ConfigureAwait(false);
+                await _sqlController.FileProcessed(urlStr, chechSum, _fileLocationPicture, fileName, uploadedData.Id).ConfigureAwait(false);
 
                 if (_swiftEnabled || _s3Enabled)
                 {
@@ -5241,8 +5248,8 @@ namespace eFormCore
                         // Generate thumbnail and docx/pdf friendly file sizes
                         if (fileName.Contains("png") || fileName.Contains("jpg") || fileName.Contains("jpeg"))
                         {
-                            string smallFilename = uploadedDatas.Id.ToString() + "_300_" + urlStr.Remove(0, index);
-                            string bigFilename = uploadedDatas.Id.ToString() + "_700_" + urlStr.Remove(0, index);
+                            string smallFilename = uploadedData.Id.ToString() + "_300_" + urlStr.Remove(0, index);
+                            string bigFilename = uploadedData.Id.ToString() + "_700_" + urlStr.Remove(0, index);
                             File.Copy(filePath, Path.Combine(_fileLocationPicture, smallFilename));
                             File.Copy(filePath, Path.Combine(_fileLocationPicture, bigFilename));
                             string filePathResized = Path.Combine(_fileLocationPicture, smallFilename);

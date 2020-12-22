@@ -46,7 +46,7 @@ namespace eFormSDK.Tests
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSet = new question_sets
+            QuestionSet questionSet = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
@@ -55,7 +55,7 @@ namespace eFormSDK.Tests
             };
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -75,7 +75,7 @@ namespace eFormSDK.Tests
             };
             await question.Create(DbContext).ConfigureAwait(false);
 
-            options option = new options
+            Option option = new Option
             {
                 Weight = rnd.Next(1, 255),
                 OptionIndex = rnd.Next(1, 255),
@@ -84,14 +84,14 @@ namespace eFormSDK.Tests
             };
             await option.Create(DbContext).ConfigureAwait(false);
 
-            languages language = new languages
+            Language language = new Language
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
-            option_translations optionTranslation = new option_translations
+            OptionTranslation optionTranslation = new OptionTranslation
             {
                 LanguageId = language.Id,
                 OptionId = option.Id,
@@ -102,8 +102,8 @@ namespace eFormSDK.Tests
 
             await optionTranslation.Create(DbContext).ConfigureAwait(false);
 
-            List<option_translations> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
-            List<option_translation_versions> optionTranslationVersions =
+            List<OptionTranslation> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
+            List<OptionTranslationVersion> optionTranslationVersions =
                 DbContext.OptionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
@@ -134,7 +134,7 @@ namespace eFormSDK.Tests
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSet = new question_sets
+            QuestionSet questionSet = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
@@ -143,7 +143,7 @@ namespace eFormSDK.Tests
             };
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -163,7 +163,7 @@ namespace eFormSDK.Tests
             };
             await question.Create(DbContext).ConfigureAwait(false);
 
-            options option = new options
+            Option option = new Option
             {
                 Weight = rnd.Next(1, 255),
                 OptionIndex = rnd.Next(1, 255),
@@ -172,13 +172,13 @@ namespace eFormSDK.Tests
             };
             await option.Create(DbContext).ConfigureAwait(false);
 
-            languages language = new languages
+            Language language = new Language
             {
                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
-            option_translations optionTranslation = new option_translations
+            OptionTranslation optionTranslation = new OptionTranslation
             {
                 LanguageId = language.Id,
                 OptionId = option.Id,
@@ -188,8 +188,8 @@ namespace eFormSDK.Tests
 
             await optionTranslation.Create(DbContext).ConfigureAwait(false);
 
-            List<option_translations> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
-            List<option_translation_versions> optionTranslationVersions =
+            List<OptionTranslation> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
+            List<OptionTranslationVersion> optionTranslationVersions =
                 DbContext.OptionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
@@ -220,7 +220,7 @@ namespace eFormSDK.Tests
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSet = new question_sets
+            QuestionSet questionSet = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
@@ -229,7 +229,7 @@ namespace eFormSDK.Tests
             };
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
-            question_sets questionSet2 = new question_sets
+            QuestionSet questionSet2 = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
@@ -238,7 +238,7 @@ namespace eFormSDK.Tests
             };
             await questionSet2.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -258,7 +258,7 @@ namespace eFormSDK.Tests
             };
             await question.Create(DbContext).ConfigureAwait(false);
 
-            questions question2 = new questions
+            Question question2 = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -278,7 +278,7 @@ namespace eFormSDK.Tests
             };
             await question2.Create(DbContext).ConfigureAwait(false);
 
-            options option = new options
+            Option option = new Option
             {
                 Weight = rnd.Next(1, 255),
                 OptionIndex = rnd.Next(1, 255),
@@ -287,7 +287,7 @@ namespace eFormSDK.Tests
             };
             await option.Create(DbContext).ConfigureAwait(false);
 
-            options option2 = new options
+            Option option2 = new Option
             {
                 Weight = rnd.Next(1, 255),
                 OptionIndex = rnd.Next(1, 255),
@@ -296,21 +296,21 @@ namespace eFormSDK.Tests
             };
             await option2.Create(DbContext).ConfigureAwait(false);
 
-            languages language = new languages
+            Language language = new Language
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
-            languages language2 = new languages
+            Language language2 = new Language
             {
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
             await language2.Create(DbContext).ConfigureAwait(false);
 
-            option_translations optionTranslation = new option_translations
+            OptionTranslation optionTranslation = new OptionTranslation
             {
                 LanguageId = language.Id,
                 OptionId = option.Id,
@@ -332,8 +332,8 @@ namespace eFormSDK.Tests
             // Act
             await optionTranslation.Update(DbContext).ConfigureAwait(false);
 
-            List<option_translations> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
-            List<option_translation_versions> optionTranslationVersions =
+            List<OptionTranslation> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
+            List<OptionTranslationVersion> optionTranslationVersions =
                 DbContext.OptionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
@@ -369,7 +369,7 @@ namespace eFormSDK.Tests
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSet = new question_sets
+            QuestionSet questionSet = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
@@ -378,7 +378,7 @@ namespace eFormSDK.Tests
             };
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
-            question_sets questionSet2 = new question_sets
+            QuestionSet questionSet2 = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
@@ -387,7 +387,7 @@ namespace eFormSDK.Tests
             };
             await questionSet2.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -407,7 +407,7 @@ namespace eFormSDK.Tests
             };
             await question.Create(DbContext).ConfigureAwait(false);
 
-            questions question2 = new questions
+            Question question2 = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -427,7 +427,7 @@ namespace eFormSDK.Tests
             };
             await question2.Create(DbContext).ConfigureAwait(false);
 
-            options option = new options
+            Option option = new Option
             {
                 Weight = rnd.Next(1, 255),
                 OptionIndex = rnd.Next(1, 255),
@@ -436,7 +436,7 @@ namespace eFormSDK.Tests
             };
             await option.Create(DbContext).ConfigureAwait(false);
 
-            options option2 = new options
+            Option option2 = new Option
             {
                 Weight = rnd.Next(1, 255),
                 OptionIndex = rnd.Next(1, 255),
@@ -445,20 +445,20 @@ namespace eFormSDK.Tests
             };
             await option2.Create(DbContext).ConfigureAwait(false);
 
-            languages language = new languages
+            Language language = new Language
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
-            languages language2 = new languages
+            Language language2 = new Language
             {
                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
             await language2.Create(DbContext).ConfigureAwait(false);
 
-            option_translations optionTranslation = new option_translations
+            OptionTranslation optionTranslation = new OptionTranslation
             {
                 LanguageId = language.Id,
                 OptionId = option.Id,
@@ -477,8 +477,8 @@ namespace eFormSDK.Tests
             // Act
             await optionTranslation.Update(DbContext).ConfigureAwait(false);
 
-            List<option_translations> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
-            List<option_translation_versions> optionTranslationVersions =
+            List<OptionTranslation> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
+            List<OptionTranslationVersion> optionTranslationVersions =
                 DbContext.OptionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
@@ -514,7 +514,7 @@ namespace eFormSDK.Tests
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSet = new question_sets
+            QuestionSet questionSet = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
@@ -523,7 +523,7 @@ namespace eFormSDK.Tests
             };
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
-            question_sets questionSet2 = new question_sets
+            QuestionSet questionSet2 = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
@@ -532,7 +532,7 @@ namespace eFormSDK.Tests
             };
             await questionSet2.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -552,7 +552,7 @@ namespace eFormSDK.Tests
             };
             await question.Create(DbContext).ConfigureAwait(false);
 
-            questions question2 = new questions
+            Question question2 = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -572,7 +572,7 @@ namespace eFormSDK.Tests
             };
             await question2.Create(DbContext).ConfigureAwait(false);
 
-            options option = new options
+            Option option = new Option
             {
                 Weight = rnd.Next(1, 255),
                 OptionIndex = rnd.Next(1, 255),
@@ -581,7 +581,7 @@ namespace eFormSDK.Tests
             };
             await option.Create(DbContext).ConfigureAwait(false);
 
-            options option2 = new options
+            Option option2 = new Option
             {
                 Weight = rnd.Next(1, 255),
                 OptionIndex = rnd.Next(1, 255),
@@ -590,21 +590,21 @@ namespace eFormSDK.Tests
             };
             await option2.Create(DbContext).ConfigureAwait(false);
 
-            languages language = new languages
+            Language language = new Language
             {
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
-            languages language2 = new languages
+            Language language2 = new Language
             {
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
             await language2.Create(DbContext).ConfigureAwait(false);
 
-            option_translations optionTranslation = new option_translations
+            OptionTranslation optionTranslation = new OptionTranslation
             {
                 LanguageId = language.Id,
                 OptionId = option.Id,
@@ -626,8 +626,8 @@ namespace eFormSDK.Tests
             // Act
             await optionTranslation.Update(DbContext).ConfigureAwait(false);
 
-            List<option_translations> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
-            List<option_translation_versions> optionTranslationVersions =
+            List<OptionTranslation> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
+            List<OptionTranslationVersion> optionTranslationVersions =
                 DbContext.OptionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
@@ -663,7 +663,7 @@ namespace eFormSDK.Tests
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSet = new question_sets
+            QuestionSet questionSet = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
@@ -672,7 +672,7 @@ namespace eFormSDK.Tests
             };
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
-            question_sets questionSet2 = new question_sets
+            QuestionSet questionSet2 = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
@@ -681,7 +681,7 @@ namespace eFormSDK.Tests
             };
             await questionSet2.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -701,7 +701,7 @@ namespace eFormSDK.Tests
             };
             await question.Create(DbContext).ConfigureAwait(false);
 
-            questions question2 = new questions
+            Question question2 = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -721,7 +721,7 @@ namespace eFormSDK.Tests
             };
             await question2.Create(DbContext).ConfigureAwait(false);
 
-            options option = new options
+            Option option = new Option
             {
                 Weight = rnd.Next(1, 255),
                 OptionIndex = rnd.Next(1, 255),
@@ -730,7 +730,7 @@ namespace eFormSDK.Tests
             };
             await option.Create(DbContext).ConfigureAwait(false);
 
-            options option2 = new options
+            Option option2 = new Option
             {
                 Weight = rnd.Next(1, 255),
                 OptionIndex = rnd.Next(1, 255),
@@ -739,21 +739,21 @@ namespace eFormSDK.Tests
             };
             await option2.Create(DbContext).ConfigureAwait(false);
 
-            languages language = new languages
+            Language language = new Language
             {
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
-            languages language2 = new languages
+            Language language2 = new Language
             {
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
             await language2.Create(DbContext).ConfigureAwait(false);
 
-            option_translations optionTranslation = new option_translations
+            OptionTranslation optionTranslation = new OptionTranslation
             {
                 LanguageId = language.Id,
                 OptionId = option.Id,
@@ -773,8 +773,8 @@ namespace eFormSDK.Tests
             // Act
             await optionTranslation.Update(DbContext).ConfigureAwait(false);
 
-            List<option_translations> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
-            List<option_translation_versions> optionTranslationVersions =
+            List<OptionTranslation> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
+            List<OptionTranslationVersion> optionTranslationVersions =
                 DbContext.OptionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
@@ -810,7 +810,7 @@ namespace eFormSDK.Tests
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSet = new question_sets
+            QuestionSet questionSet = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
@@ -819,7 +819,7 @@ namespace eFormSDK.Tests
             };
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -840,7 +840,7 @@ namespace eFormSDK.Tests
             await question.Create(DbContext).ConfigureAwait(false);
 
 
-            options option = new options
+            Option option = new Option
             {
                 Weight = rnd.Next(1, 255),
                 OptionIndex = rnd.Next(1, 255),
@@ -850,14 +850,14 @@ namespace eFormSDK.Tests
             await option.Create(DbContext).ConfigureAwait(false);
 
 
-            languages language = new languages
+            Language language = new Language
             {
                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
        
 
-            option_translations optionTranslation = new option_translations
+            OptionTranslation optionTranslation = new OptionTranslation
             {
                 LanguageId = language.Id,
                 OptionId = option.Id,
@@ -874,8 +874,8 @@ namespace eFormSDK.Tests
             // Act
             await optionTranslation.Delete(DbContext);
 
-            List<option_translations> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
-            List<option_translation_versions> optionTranslationVersions =
+            List<OptionTranslation> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
+            List<OptionTranslationVersion> optionTranslationVersions =
                 DbContext.OptionTranslationVersions.AsNoTracking().ToList();
             
             // Assert

@@ -184,7 +184,7 @@ namespace eFormSDK.Integration.Tests
 
             // Act
             await sut.SettingUpdate(Settings.token, "player");
-            var match = DbContext.settings.AsNoTracking().ToList();
+            var match = DbContext.Settings.AsNoTracking().ToList();
 
             // Assert
             Assert.AreEqual(match[7].Value, "player");
@@ -197,9 +197,9 @@ namespace eFormSDK.Integration.Tests
             // Arrance
 
             // Act
-            List<settings> setting = DbContext.settings.AsNoTracking().ToList();
+            List<Setting> setting = DbContext.Settings.AsNoTracking().ToList();
             await sut.SettingCheckAll();
-            var match = DbContext.settings.AsNoTracking().ToList();
+            var match = DbContext.Settings.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(match);

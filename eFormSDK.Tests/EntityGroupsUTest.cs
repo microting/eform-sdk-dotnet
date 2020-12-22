@@ -39,7 +39,7 @@ namespace eFormSDK.Tests
         [Test]
         public async Task EntityGroups_Create_DoesCreate()
         {
-            entity_groups entityGroup = new entity_groups
+            EntityGroup entityGroup = new EntityGroup
             {
                 Name = Guid.NewGuid().ToString(),
                 Type = Guid.NewGuid().ToString(),
@@ -50,8 +50,8 @@ namespace eFormSDK.Tests
             
             await entityGroup.Create(DbContext).ConfigureAwait(false);
             
-            List<entity_groups> entityGroups = DbContext.entity_groups.AsNoTracking().ToList();
-            List<entity_group_versions> entityGroupVersion = DbContext.entity_group_versions.AsNoTracking().ToList();
+            List<EntityGroup> entityGroups = DbContext.EntityGroups.AsNoTracking().ToList();
+            List<EntityGroupVersion> entityGroupVersion = DbContext.EntityGroupVersions.AsNoTracking().ToList();
             
             //Assert
             
@@ -84,7 +84,7 @@ namespace eFormSDK.Tests
         [Test]
         public async Task EntityGroups_Update_DoesUpdate()
         {
-            entity_groups entityGroup = new entity_groups
+            EntityGroup entityGroup = new EntityGroup
             {
                 Name = Guid.NewGuid().ToString(),
                 Type = Guid.NewGuid().ToString(),
@@ -105,8 +105,8 @@ namespace eFormSDK.Tests
             
             await entityGroup.Update(DbContext).ConfigureAwait(false);
             
-            List<entity_groups> entityGroups = DbContext.entity_groups.AsNoTracking().ToList();
-            List<entity_group_versions> entityGroupVersion = DbContext.entity_group_versions.AsNoTracking().ToList();
+            List<EntityGroup> entityGroups = DbContext.EntityGroups.AsNoTracking().ToList();
+            List<EntityGroupVersion> entityGroupVersion = DbContext.EntityGroupVersions.AsNoTracking().ToList();
             
             //Assert
             
@@ -149,7 +149,7 @@ namespace eFormSDK.Tests
         [Test]
         public async Task EntityGroups_Delete_DoesSetWorkflowStateToRemoved()
         {
-            entity_groups entityGroup = new entity_groups
+            EntityGroup entityGroup = new EntityGroup
             {
                 Name = Guid.NewGuid().ToString(),
                 Type = Guid.NewGuid().ToString(),
@@ -163,8 +163,8 @@ namespace eFormSDK.Tests
 
             await entityGroup.Delete(DbContext);
             
-            List<entity_groups> entityGroups = DbContext.entity_groups.AsNoTracking().ToList();
-            List<entity_group_versions> entityGroupVersion = DbContext.entity_group_versions.AsNoTracking().ToList();
+            List<EntityGroup> entityGroups = DbContext.EntityGroups.AsNoTracking().ToList();
+            List<EntityGroupVersion> entityGroupVersion = DbContext.EntityGroupVersions.AsNoTracking().ToList();
             
             //Assert
             

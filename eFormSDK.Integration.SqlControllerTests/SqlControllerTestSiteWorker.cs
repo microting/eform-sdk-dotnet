@@ -50,13 +50,13 @@ namespace eFormSDK.Integration.SqlControllerTests
             #region Checklist
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
-            check_lists Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+            CheckList Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
             #endregion
 
             #region SubCheckList
 
-            check_lists Cl2 = await testHelpers.CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+            CheckList Cl2 = await testHelpers.CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
 
             #endregion
 
@@ -159,7 +159,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             #region Workers
 
             #region worker1
-            workers worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            Worker worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
             #endregion
 
@@ -213,7 +213,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             #region sites
 
             #region Site1
-            sites site1 = await testHelpers.CreateSite("SiteName1", 88);
+            Site site1 = await testHelpers.CreateSite("SiteName1", 88);
 
             #endregion
 
@@ -277,7 +277,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             var match = await sut.SiteWorkerCreate(5, (int)site1.MicrotingUid, (int)worker1.MicrotingUid);
 
             // Assert
-            var siteWorkers = DbContext.site_workers.AsNoTracking().ToList();
+            var siteWorkers = DbContext.SiteWorkers.AsNoTracking().ToList();
 
             Assert.NotNull(match);
             Assert.AreEqual(1, siteWorkers.Count());
@@ -296,13 +296,13 @@ namespace eFormSDK.Integration.SqlControllerTests
             #region Checklist
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
-            check_lists Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+            CheckList Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
             #endregion
 
             #region SubCheckList
 
-            check_lists Cl2 = await testHelpers.CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+            CheckList Cl2 = await testHelpers.CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
 
             #endregion
 
@@ -405,7 +405,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             #region Workers
 
             #region worker1
-            workers worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            Worker worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
             #endregion
 
@@ -459,7 +459,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             #region sites
 
             #region Site1
-            sites site1 = await testHelpers.CreateSite("SiteName1", 88);
+            Site site1 = await testHelpers.CreateSite("SiteName1", 88);
 
             #endregion
 
@@ -547,13 +547,13 @@ namespace eFormSDK.Integration.SqlControllerTests
             #region Checklist
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
-            check_lists Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+            CheckList Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
             #endregion
 
             #region SubCheckList
 
-            check_lists Cl2 = await testHelpers.CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+            CheckList Cl2 = await testHelpers.CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
 
             #endregion
 
@@ -656,7 +656,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             #region Workers
 
             #region worker1
-            workers worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            Worker worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
             #endregion
 
@@ -710,7 +710,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             #region sites
 
             #region Site1
-            sites site1 = await testHelpers.CreateSite("SiteName1", 88);
+            Site site1 = await testHelpers.CreateSite("SiteName1", 88);
 
             #endregion
 
@@ -795,13 +795,13 @@ namespace eFormSDK.Integration.SqlControllerTests
             #region Checklist
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
-            check_lists Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+            CheckList Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
             #endregion
 
             #region SubCheckList
 
-            check_lists Cl2 = await testHelpers.CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+            CheckList Cl2 = await testHelpers.CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
 
             #endregion
 
@@ -904,7 +904,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             #region Workers
 
             #region worker1
-            workers worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            Worker worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
             #endregion
 
@@ -958,7 +958,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             #region sites
 
             #region Site1
-            sites site1 = await testHelpers.CreateSite("SiteName1", 88);
+            Site site1 = await testHelpers.CreateSite("SiteName1", 88);
 
             #endregion
 

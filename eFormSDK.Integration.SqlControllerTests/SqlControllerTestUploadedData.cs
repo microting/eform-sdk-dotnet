@@ -39,6 +39,9 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using Microting.eForm.Infrastructure.Models;
+using Case = Microting.eForm.Infrastructure.Data.Entities.Case;
+using FieldValue = Microting.eForm.Infrastructure.Data.Entities.FieldValue;
+using UploadedData = Microting.eForm.Infrastructure.Data.Entities.UploadedData;
 
 namespace eFormSDK.Integration.Tests
 {
@@ -80,7 +83,7 @@ namespace eFormSDK.Integration.Tests
             string fileName = "Hello.jpg";
 
             // Act
-            uploaded_datas dU = new uploaded_datas
+            UploadedData dU = new UploadedData
             {
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
@@ -97,10 +100,10 @@ namespace eFormSDK.Integration.Tests
             };
 
 
-            DbContext.uploaded_datas.Add(dU);
+            DbContext.UploadedDatas.Add(dU);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
-            UploadedData ud = await sut.FileRead();
+            Microting.eForm.Infrastructure.Models.UploadedData ud = await sut.FileRead();
 
             // Assert
             Assert.NotNull(ud);
@@ -128,7 +131,7 @@ namespace eFormSDK.Integration.Tests
             string fileName = "Hello.jpg";
 
             // Act
-            uploaded_datas dU = new uploaded_datas
+            UploadedData dU = new UploadedData
             {
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
@@ -145,10 +148,10 @@ namespace eFormSDK.Integration.Tests
             };
 
 
-            DbContext.uploaded_datas.Add(dU);
+            DbContext.UploadedDatas.Add(dU);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
-            uploaded_datas ud = await sut.GetUploadedData(dU.Id);
+            UploadedData ud = await sut.GetUploadedData(dU.Id);
 
             // Assert
             Assert.NotNull(ud);
@@ -170,7 +173,7 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public async Task SQL_File_FileRead_doesFileRead()
         {
-            uploaded_datas ud = new uploaded_datas
+            UploadedData ud = new UploadedData
             {
                 Checksum = "checksum1",
                 Extension = "extension",
@@ -182,11 +185,11 @@ namespace eFormSDK.Integration.Tests
                 WorkflowState = Constants.WorkflowStates.PreCreated
             };
 
-            DbContext.uploaded_datas.Add(ud);
+            DbContext.UploadedDatas.Add(ud);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
             
             // Act
-            UploadedData Ud = await sut.FileRead();
+            Microting.eForm.Infrastructure.Models.UploadedData Ud = await sut.FileRead();
             
             // Assert
 
@@ -211,10 +214,10 @@ namespace eFormSDK.Integration.Tests
         public async Task SQL_File_FileCaseFindMUId_doesFindMUId()
         {
             Random rnd = new Random();
-            sites site1 = await testHelpers.CreateSite("MySite", 22);
+            Site site1 = await testHelpers.CreateSite("MySite", 22);
             DateTime cl1_Ca = DateTime.UtcNow;
             DateTime cl1_Ua = DateTime.UtcNow;
-            check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template1", "template_desc", "", "", 1, 1);
+            CheckList cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template1", "template_desc", "", "", 1, 1);
 
             string guid = Guid.NewGuid().ToString();
 
@@ -222,17 +225,17 @@ namespace eFormSDK.Integration.Tests
             DateTime c1_ca = DateTime.UtcNow.AddDays(-9);
             DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
             DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
-            workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
             site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker);
-            units unit = await testHelpers.CreateUnit(48, 49, site1, 348);
+            Unit unit = await testHelpers.CreateUnit(48, 49, site1, 348);
 
             string microtingUId = Guid.NewGuid().ToString();
             string microtingCheckId = Guid.NewGuid().ToString();
-            cases aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
+            Case aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
                 c1_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site1, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
 
-            uploaded_datas ud = new uploaded_datas
+            UploadedData ud = new UploadedData
             {
                 Checksum = "checksum1",
                 Extension = "extension",
@@ -243,16 +246,16 @@ namespace eFormSDK.Integration.Tests
                 FileName = "fileName"
             };
             
-            DbContext.uploaded_datas.Add(ud);
+            DbContext.UploadedDatas.Add(ud);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
-            field_values fVs = new field_values
+            FieldValue fVs = new FieldValue
             {
                 UploadedDataId = ud.Id,
                 CaseId = aCase1.Id
             };
 
-            DbContext.field_values.Add(fVs);
+            DbContext.FieldValues.Add(fVs);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
 
@@ -268,17 +271,17 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public async Task SQL_File_FileProcessed_isProcessed()
         {
-            uploaded_datas ud = new uploaded_datas
+            UploadedData ud = new UploadedData
             {
                 Local = 0, WorkflowState = Constants.WorkflowStates.PreCreated, Version = 1
             };
 
-            DbContext.uploaded_datas.Add(ud);
+            DbContext.UploadedDatas.Add(ud);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
             
             // Act
             await sut.FileProcessed("url", "myChecksum", "myFileLocation", "myFileName", ud.Id);
-            List<uploaded_datas> uploadedDataResult = DbContext.uploaded_datas.AsNoTracking().ToList();
+            List<UploadedData> uploadedDataResult = DbContext.UploadedDatas.AsNoTracking().ToList();
             //var versionedMatches = DbContext.uploaded_data_versions.AsNoTracking().ToList(); TODO 05/01/2018
 
             // Assert
@@ -298,14 +301,14 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public async Task SQL_File_GetUploadedData_doesGetUploadedData()
         {
-            uploaded_datas ud = new uploaded_datas();
+            UploadedData ud = new UploadedData();
 
-            DbContext.uploaded_datas.Add(ud);
+            DbContext.UploadedDatas.Add(ud);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
 
             await sut.GetUploadedData(ud.Id);
-            List<uploaded_datas> uploadedDataResult = DbContext.uploaded_datas.AsNoTracking().ToList();
+            List<UploadedData> uploadedDataResult = DbContext.UploadedDatas.AsNoTracking().ToList();
 
 
             Assert.NotNull(ud);
@@ -317,14 +320,14 @@ namespace eFormSDK.Integration.Tests
         [Test]
         public async Task SQL_File_DeleteFile_doesFileGetDeleted()
         {
-            uploaded_datas ud = new uploaded_datas {WorkflowState = Constants.WorkflowStates.Created, Version = 1};
+            UploadedData ud = new UploadedData {WorkflowState = Constants.WorkflowStates.Created, Version = 1};
 
-            DbContext.uploaded_datas.Add(ud);
+            DbContext.UploadedDatas.Add(ud);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             await sut.DeleteFile(ud.Id);
-            List<uploaded_datas> uploadedDataResult = DbContext.uploaded_datas.AsNoTracking().ToList();
+            List<UploadedData> uploadedDataResult = DbContext.UploadedDatas.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(ud);

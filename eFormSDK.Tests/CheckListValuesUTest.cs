@@ -49,14 +49,14 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            units unit = new units
+            Unit unit = new Unit
             {
                 CustomerNo = rnd.Next(1, 255),
                 MicrotingUid = rnd.Next(1, 255),
@@ -65,7 +65,7 @@ namespace eFormSDK.Tests
             };
             await unit.Create(DbContext).ConfigureAwait(false);
 
-            workers worker = new workers
+            Worker worker = new Worker
             {
                 Email = Guid.NewGuid().ToString(),
                 FirstName = Guid.NewGuid().ToString(),
@@ -74,7 +74,7 @@ namespace eFormSDK.Tests
             };
             await worker.Create(DbContext).ConfigureAwait(false);
 
-            check_lists checklist = new check_lists
+            CheckList checklist = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -108,7 +108,7 @@ namespace eFormSDK.Tests
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
-            cases theCase = new cases
+            Case theCase = new Case
             {
                 Custom = Guid.NewGuid().ToString(),
                 Status = rnd.Next(1, 255),
@@ -135,7 +135,7 @@ namespace eFormSDK.Tests
 
             await theCase.Create(DbContext).ConfigureAwait(false);
 
-            check_list_values checkListValue = new check_list_values
+            CheckListValue checkListValue = new CheckListValue
             {
                 Status = Guid.NewGuid().ToString(), 
                 CaseId = theCase.Id,
@@ -146,8 +146,8 @@ namespace eFormSDK.Tests
 
             await checkListValue.Create(DbContext).ConfigureAwait(false);
             
-            List<check_list_values> checkListValues = DbContext.check_list_values.AsNoTracking().ToList();
-            List<check_list_value_versions> checkListValueVersions = DbContext.check_list_value_versions.AsNoTracking().ToList();
+            List<CheckListValue> checkListValues = DbContext.CheckListValues.AsNoTracking().ToList();
+            List<CheckListValueVersion> checkListValueVersions = DbContext.CheckListValueVersions.AsNoTracking().ToList();
 
             Assert.NotNull(checkListValues);                                                             
             Assert.NotNull(checkListValueVersions);                                                             
@@ -187,14 +187,14 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            units unit = new units
+            Unit unit = new Unit
             {
                 CustomerNo = rnd.Next(1, 255),
                 MicrotingUid = rnd.Next(1, 255),
@@ -203,7 +203,7 @@ namespace eFormSDK.Tests
             };
             await unit.Create(DbContext).ConfigureAwait(false);
 
-            workers worker = new workers
+            Worker worker = new Worker
             {
                 Email = Guid.NewGuid().ToString(),
                 FirstName = Guid.NewGuid().ToString(),
@@ -212,7 +212,7 @@ namespace eFormSDK.Tests
             };
             await worker.Create(DbContext).ConfigureAwait(false);
 
-            check_lists checklist = new check_lists
+            CheckList checklist = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -246,7 +246,7 @@ namespace eFormSDK.Tests
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
-            cases theCase = new cases
+            Case theCase = new Case
             {
                 Custom = Guid.NewGuid().ToString(),
                 Status = rnd.Next(1, 255),
@@ -273,7 +273,7 @@ namespace eFormSDK.Tests
 
             await theCase.Create(DbContext).ConfigureAwait(false);
 
-            check_list_values checkListValue = new check_list_values
+            CheckListValue checkListValue = new CheckListValue
             {
                 Status = Guid.NewGuid().ToString(),
                 CaseId = theCase.Id, 
@@ -290,8 +290,8 @@ namespace eFormSDK.Tests
             
             await checkListValue.Update(DbContext).ConfigureAwait(false);
             
-            List<check_list_values> checkListValues = DbContext.check_list_values.AsNoTracking().ToList();
-            List<check_list_value_versions> checkListValueVersions = DbContext.check_list_value_versions.AsNoTracking().ToList();
+            List<CheckListValue> checkListValues = DbContext.CheckListValues.AsNoTracking().ToList();
+            List<CheckListValueVersion> checkListValueVersions = DbContext.CheckListValueVersions.AsNoTracking().ToList();
 
             Assert.NotNull(checkListValues);                                                             
             Assert.NotNull(checkListValueVersions);                                                             
@@ -341,14 +341,14 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            units unit = new units
+            Unit unit = new Unit
             {
                 CustomerNo = rnd.Next(1, 255),
                 MicrotingUid = rnd.Next(1, 255),
@@ -357,7 +357,7 @@ namespace eFormSDK.Tests
             };
             await unit.Create(DbContext).ConfigureAwait(false);
 
-            workers worker = new workers
+            Worker worker = new Worker
             {
                 Email = Guid.NewGuid().ToString(),
                 FirstName = Guid.NewGuid().ToString(),
@@ -366,7 +366,7 @@ namespace eFormSDK.Tests
             };
             await worker.Create(DbContext).ConfigureAwait(false);
 
-            check_lists checklist = new check_lists
+            CheckList checklist = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -400,7 +400,7 @@ namespace eFormSDK.Tests
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
-            cases theCase = new cases
+            Case theCase = new Case
             {
                 Custom = Guid.NewGuid().ToString(),
                 Status = rnd.Next(1, 255),
@@ -427,7 +427,7 @@ namespace eFormSDK.Tests
 
             await theCase.Create(DbContext).ConfigureAwait(false);
 
-            check_list_values checkListValue = new check_list_values
+            CheckListValue checkListValue = new CheckListValue
             {
                 Status = Guid.NewGuid().ToString(), 
                 CaseId = theCase.Id,
@@ -441,8 +441,8 @@ namespace eFormSDK.Tests
 
             await checkListValue.Delete(DbContext);
             
-            List<check_list_values> checkListValues = DbContext.check_list_values.AsNoTracking().ToList();
-            List<check_list_value_versions> checkListValueVersions = DbContext.check_list_value_versions.AsNoTracking().ToList();
+            List<CheckListValue> checkListValues = DbContext.CheckListValues.AsNoTracking().ToList();
+            List<CheckListValueVersion> checkListValueVersions = DbContext.CheckListValueVersions.AsNoTracking().ToList();
 
             Assert.NotNull(checkListValues);                                                             
             Assert.NotNull(checkListValueVersions);                                                             

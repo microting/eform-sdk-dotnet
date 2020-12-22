@@ -44,7 +44,7 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSet = new question_sets
+            QuestionSet questionSet = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
@@ -56,8 +56,8 @@ namespace eFormSDK.Tests
             
             await questionSet.Create(DbContext).ConfigureAwait(false);
             
-            List<question_sets> questionSets = DbContext.question_sets.AsNoTracking().ToList();
-            List<question_set_versions> questionSetVersions = DbContext.question_set_versions.AsNoTracking().ToList();
+            List<QuestionSet> questionSets = DbContext.QuestionSets.AsNoTracking().ToList();
+            List<QuestionSetVersion> questionSetVersions = DbContext.QuestionSetVersions.AsNoTracking().ToList();
             
             Assert.NotNull(questionSets);                                                             
             Assert.NotNull(questionSetVersions);                                                             
@@ -96,7 +96,7 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSet = new question_sets
+            QuestionSet questionSet = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
@@ -120,8 +120,8 @@ namespace eFormSDK.Tests
             
             await questionSet.Update(DbContext).ConfigureAwait(false);
 
-            List<question_sets> questionSets = DbContext.question_sets.AsNoTracking().ToList();
-            List<question_set_versions> questionSetVersions = DbContext.question_set_versions.AsNoTracking().ToList();
+            List<QuestionSet> questionSets = DbContext.QuestionSets.AsNoTracking().ToList();
+            List<QuestionSetVersion> questionSetVersions = DbContext.QuestionSetVersions.AsNoTracking().ToList();
             
             Assert.NotNull(questionSets);                                                             
             Assert.NotNull(questionSetVersions);                                                             
@@ -171,7 +171,7 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSet = new question_sets
+            QuestionSet questionSet = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
@@ -186,8 +186,8 @@ namespace eFormSDK.Tests
             
             await questionSet.Delete(DbContext);
 
-            List<question_sets> questionSets = DbContext.question_sets.AsNoTracking().ToList();
-            List<question_set_versions> questionSetVersions = DbContext.question_set_versions.AsNoTracking().ToList();
+            List<QuestionSet> questionSets = DbContext.QuestionSets.AsNoTracking().ToList();
+            List<QuestionSetVersion> questionSetVersions = DbContext.QuestionSetVersions.AsNoTracking().ToList();
             
             Assert.NotNull(questionSets);                                                             
             Assert.NotNull(questionSetVersions);                                                             

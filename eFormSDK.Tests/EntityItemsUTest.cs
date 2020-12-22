@@ -46,7 +46,7 @@ namespace eFormSDK.Tests
             
             Random rnd = new Random();
 
-            entity_groups entityGroup = new entity_groups
+            EntityGroup entityGroup = new EntityGroup
             {
                 Name = Guid.NewGuid().ToString(),
                 Type = Guid.NewGuid().ToString(),
@@ -54,7 +54,7 @@ namespace eFormSDK.Tests
             };
             await entityGroup.Create(DbContext).ConfigureAwait(false);
 
-            entity_items entityItem = new entity_items
+            EntityItem entityItem = new EntityItem
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString(),
@@ -69,8 +69,8 @@ namespace eFormSDK.Tests
             
             await entityItem.Create(DbContext).ConfigureAwait(false);
             
-            List<entity_items> entityItems = DbContext.entity_items.AsNoTracking().ToList();
-            List<entity_item_versions> entityItemVersion= DbContext.entity_item_versions.AsNoTracking().ToList();
+            List<EntityItem> entityItems = DbContext.EntityItems.AsNoTracking().ToList();
+            List<EntityItemVersion> entityItemVersion= DbContext.EntityItemVersions.AsNoTracking().ToList();
             
             //Assert
             
@@ -118,14 +118,14 @@ namespace eFormSDK.Tests
             
             Random rnd = new Random();
 
-            entity_groups entityGroup = new entity_groups
+            EntityGroup entityGroup = new EntityGroup
             {
                 Name = Guid.NewGuid().ToString(),
                 Type = Guid.NewGuid().ToString(),
                 MicrotingUid = Guid.NewGuid().ToString()
             };
 
-            entity_items entityItem = new entity_items
+            EntityItem entityItem = new EntityItem
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString(),
@@ -156,8 +156,8 @@ namespace eFormSDK.Tests
 
             await entityItem.Update(DbContext).ConfigureAwait(false);
             
-            List<entity_items> entityItems = DbContext.entity_items.AsNoTracking().ToList();
-            List<entity_item_versions> entityItemVersion= DbContext.entity_item_versions.AsNoTracking().ToList();
+            List<EntityItem> entityItems = DbContext.EntityItems.AsNoTracking().ToList();
+            List<EntityItemVersion> entityItemVersion= DbContext.EntityItemVersions.AsNoTracking().ToList();
             
             //Assert
             
@@ -219,14 +219,14 @@ namespace eFormSDK.Tests
             
             Random rnd = new Random();
 
-            entity_groups entityGroup = new entity_groups
+            EntityGroup entityGroup = new EntityGroup
             {
                 Name = Guid.NewGuid().ToString(),
                 Type = Guid.NewGuid().ToString(),
                 MicrotingUid = Guid.NewGuid().ToString()
             };
 
-            entity_items entityItem = new entity_items
+            EntityItem entityItem = new EntityItem
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString(),
@@ -244,8 +244,8 @@ namespace eFormSDK.Tests
 
             await entityItem.Delete(DbContext);
             
-            List<entity_items> entityItems = DbContext.entity_items.AsNoTracking().ToList();
-            List<entity_item_versions> entityItemVersion= DbContext.entity_item_versions.AsNoTracking().ToList();
+            List<EntityItem> entityItems = DbContext.EntityItems.AsNoTracking().ToList();
+            List<EntityItemVersion> entityItemVersion= DbContext.EntityItemVersions.AsNoTracking().ToList();
             
             //Assert
             

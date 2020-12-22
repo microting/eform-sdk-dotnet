@@ -48,14 +48,14 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            units unit = new units
+            Unit unit = new Unit
             {
                 CustomerNo = rnd.Next(1, 255),
                 MicrotingUid = rnd.Next(1, 255),
@@ -64,7 +64,7 @@ namespace eFormSDK.Tests
             };
             await unit.Create(DbContext).ConfigureAwait(false);
 
-            workers worker = new workers
+            Worker worker = new Worker
             {
                 Email = Guid.NewGuid().ToString(),
                 FirstName = Guid.NewGuid().ToString(),
@@ -73,7 +73,7 @@ namespace eFormSDK.Tests
             };
             await worker.Create(DbContext).ConfigureAwait(false);
 
-            check_lists checklist = new check_lists
+            CheckList checklist = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -107,7 +107,7 @@ namespace eFormSDK.Tests
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
-            cases theCase = new cases
+            Case theCase = new Case
             {
                 Custom = Guid.NewGuid().ToString(),
                 Status = rnd.Next(1, 255),
@@ -138,8 +138,8 @@ namespace eFormSDK.Tests
             
             await theCase.Create(DbContext).ConfigureAwait(false);
             
-            List<cases> cases = DbContext.cases.AsNoTracking().ToList();
-            List<case_versions> caseVersions = DbContext.case_versions.AsNoTracking().ToList();
+            List<Case> cases = DbContext.Cases.AsNoTracking().ToList();
+            List<CaseVersion> caseVersions = DbContext.CaseVersions.AsNoTracking().ToList();
             
             //Assert
             
@@ -217,14 +217,14 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(), 
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            units unit = new units
+            Unit unit = new Unit
             {
                 CustomerNo = rnd.Next(1, 255),
                 MicrotingUid = rnd.Next(1, 255),
@@ -233,7 +233,7 @@ namespace eFormSDK.Tests
             };
             await unit.Create(DbContext).ConfigureAwait(false);
 
-            workers worker = new workers
+            Worker worker = new Worker
             {
                 Email = Guid.NewGuid().ToString(),
                 FirstName = Guid.NewGuid().ToString(),
@@ -242,7 +242,7 @@ namespace eFormSDK.Tests
             };
             await worker.Create(DbContext).ConfigureAwait(false);
 
-            check_lists checklist = new check_lists
+            CheckList checklist = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -276,7 +276,7 @@ namespace eFormSDK.Tests
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
-            cases theCase = new cases
+            Case theCase = new Case
             {
                 Custom = Guid.NewGuid().ToString(),
                 Status = rnd.Next(1, 255),
@@ -344,8 +344,8 @@ namespace eFormSDK.Tests
             
             await theCase.Update(DbContext).ConfigureAwait(false);
             
-            List<cases> cases = DbContext.cases.AsNoTracking().ToList();
-            List<case_versions> caseVersions = DbContext.case_versions.AsNoTracking().ToList();
+            List<Case> cases = DbContext.Cases.AsNoTracking().ToList();
+            List<CaseVersion> caseVersions = DbContext.CaseVersions.AsNoTracking().ToList();
             
             //Assert
             
@@ -451,14 +451,14 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            units unit = new units
+            Unit unit = new Unit
             {
                 CustomerNo = rnd.Next(1, 255),
                 MicrotingUid = rnd.Next(1, 255),
@@ -467,7 +467,7 @@ namespace eFormSDK.Tests
             };
             await unit.Create(DbContext).ConfigureAwait(false);
 
-            workers worker = new workers
+            Worker worker = new Worker
             {
                 Email = Guid.NewGuid().ToString(),
                 FirstName = Guid.NewGuid().ToString(),
@@ -476,7 +476,7 @@ namespace eFormSDK.Tests
             };
             await worker.Create(DbContext).ConfigureAwait(false);
 
-            check_lists checklist = new check_lists
+            CheckList checklist = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -510,7 +510,7 @@ namespace eFormSDK.Tests
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
-            cases theCase = new cases
+            Case theCase = new Case
             {
                 Custom = Guid.NewGuid().ToString(),
                 Status = rnd.Next(1, 255),
@@ -544,8 +544,8 @@ namespace eFormSDK.Tests
             
             await theCase.Delete(DbContext);
             
-            List<cases> cases = DbContext.cases.AsNoTracking().ToList();
-            List<case_versions> caseVersions = DbContext.case_versions.AsNoTracking().ToList();
+            List<Case> cases = DbContext.Cases.AsNoTracking().ToList();
+            List<CaseVersion> caseVersions = DbContext.CaseVersions.AsNoTracking().ToList();
             
             //Assert
             

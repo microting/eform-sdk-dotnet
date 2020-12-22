@@ -46,21 +46,21 @@ namespace eFormSDK.Tests
 
              bool randomBool = rnd.Next(0, 2) > 0;
 
-             sites site = new sites
+             Site site = new Site
              {
                  Name = Guid.NewGuid().ToString(),
                  MicrotingUid = rnd.Next(1, 255)
              };
              await site.Create(DbContext).ConfigureAwait(false);
 
-             sites siteForUnit = new sites
+             Site siteForUnit = new Site
              {
                  Name = Guid.NewGuid().ToString(),
                  MicrotingUid = rnd.Next(1, 255)
              };
              await siteForUnit.Create(DbContext).ConfigureAwait(false);
 
-             units unit = new units
+             Unit unit = new Unit
              {
                  CustomerNo = rnd.Next(1, 255),
                  MicrotingUid = rnd.Next(1, 255),
@@ -69,14 +69,14 @@ namespace eFormSDK.Tests
              };
              await unit.Create(DbContext).ConfigureAwait(false);
 
-             languages language = new languages
+             Language language = new Language
              {
                  Description = Guid.NewGuid().ToString(),
                  Name = Guid.NewGuid().ToString()
              };
              await language.Create(DbContext).ConfigureAwait(false);
 
-             question_sets questionSet = new question_sets
+             QuestionSet questionSet = new QuestionSet
              {
                  Name = Guid.NewGuid().ToString(),
                  Share = randomBool,
@@ -85,7 +85,7 @@ namespace eFormSDK.Tests
              };
              await questionSet.Create(DbContext).ConfigureAwait(false);
 
-             survey_configurations surveyConfiguration = new survey_configurations
+             SurveyConfiguration surveyConfiguration = new SurveyConfiguration
              {
                  Name = Guid.NewGuid().ToString(),
                  Start = DateTime.UtcNow,
@@ -96,7 +96,7 @@ namespace eFormSDK.Tests
              };
              await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
 
-             answers answer = new answers
+             Answer answer = new Answer
              {
                  AnswerDuration = rnd.Next(1, 255),
                  FinishedAt = DateTime.UtcNow,
@@ -111,7 +111,7 @@ namespace eFormSDK.Tests
              answer.SurveyConfigurationId = surveyConfiguration.Id;
              await answer.Create(DbContext).ConfigureAwait(false);
 
-             questions question = new questions
+             Question question = new Question
              {
                  Image = randomBool,
                  Maximum = rnd.Next(1, 255),
@@ -132,7 +132,7 @@ namespace eFormSDK.Tests
              };
              await question.Create(DbContext).ConfigureAwait(false);
 
-             options option = new options
+             Option option = new Option
              {
                  Question = question,
                  Weight = rnd.Next(1, 255),
@@ -143,7 +143,7 @@ namespace eFormSDK.Tests
              };
              await option.Create(DbContext).ConfigureAwait(false);
 
-             questions questionForAnswerValue = new questions
+             Question questionForAnswerValue = new Question
              {
                  Image = randomBool,
                  Maximum = rnd.Next(1, 255),
@@ -164,7 +164,7 @@ namespace eFormSDK.Tests
              };
              await questionForAnswerValue.Create(DbContext).ConfigureAwait(false);
 
-             answer_values answerValue = new answer_values
+             AnswerValue answerValue = new AnswerValue
              {
                  Value = rnd.Next(1, 255).ToString(),
                  AnswerId = answer.Id,
@@ -176,8 +176,8 @@ namespace eFormSDK.Tests
              
              await answerValue.Create(DbContext).ConfigureAwait(false);
              
-             List<answer_values> answerValues = DbContext.answer_values.AsNoTracking().ToList();
-             List<answer_value_versions> answerValueVersions = DbContext.answer_value_versions.AsNoTracking().ToList();
+             List<AnswerValue> answerValues = DbContext.AnswerValues.AsNoTracking().ToList();
+             List<AnswerValueVersion> answerValueVersions = DbContext.AnswerValueVersions.AsNoTracking().ToList();
             
              //Assert
             
@@ -218,21 +218,21 @@ namespace eFormSDK.Tests
 
              bool randomBool = rnd.Next(0, 2) > 0;
 
-             sites site = new sites
+             Site site = new Site
              {
                  Name = Guid.NewGuid().ToString(),
                  MicrotingUid = rnd.Next(1, 255)
              };
              await site.Create(DbContext).ConfigureAwait(false);
 
-             sites siteForUnit = new sites
+             Site siteForUnit = new Site
              {
                  Name = Guid.NewGuid().ToString(),
                  MicrotingUid = rnd.Next(1, 255)
              };
              await siteForUnit.Create(DbContext).ConfigureAwait(false);
 
-             units unit = new units
+             Unit unit = new Unit
              {
                  CustomerNo = rnd.Next(1, 255),
                  MicrotingUid = rnd.Next(1, 255),
@@ -241,14 +241,14 @@ namespace eFormSDK.Tests
              };
              await unit.Create(DbContext).ConfigureAwait(false);
 
-             languages language = new languages
+             Language language = new Language
              {
                  Description = Guid.NewGuid().ToString(),
                  Name = Guid.NewGuid().ToString()
              };
              await language.Create(DbContext).ConfigureAwait(false);
 
-             question_sets questionSet = new question_sets
+             QuestionSet questionSet = new QuestionSet
              {
                  Name = Guid.NewGuid().ToString(),
                  Share = randomBool,
@@ -257,7 +257,7 @@ namespace eFormSDK.Tests
              };
              await questionSet.Create(DbContext).ConfigureAwait(false);
 
-             survey_configurations surveyConfiguration = new survey_configurations
+             SurveyConfiguration surveyConfiguration = new SurveyConfiguration
              {
                  Name = Guid.NewGuid().ToString(),
                  Start = DateTime.UtcNow,
@@ -268,7 +268,7 @@ namespace eFormSDK.Tests
              };
              await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
 
-             answers answer = new answers
+             Answer answer = new Answer
              {
                  AnswerDuration = rnd.Next(1, 255),
                  FinishedAt = DateTime.UtcNow,
@@ -282,7 +282,7 @@ namespace eFormSDK.Tests
              };
              await answer.Create(DbContext).ConfigureAwait(false);
 
-             questions question = new questions
+             Question question = new Question
              {
                  Image = randomBool,
                  Maximum = rnd.Next(1, 255),
@@ -303,7 +303,7 @@ namespace eFormSDK.Tests
              };
              await question.Create(DbContext).ConfigureAwait(false);
 
-             options option = new options
+             Option option = new Option
              {
                  Question = question,
                  Weight = rnd.Next(1, 255),
@@ -314,7 +314,7 @@ namespace eFormSDK.Tests
              };
              await option.Create(DbContext).ConfigureAwait(false);
 
-             questions questionForAnswerValue = new questions
+             Question questionForAnswerValue = new Question
              {
                  Image = randomBool,
                  Maximum = rnd.Next(1, 255),
@@ -335,7 +335,7 @@ namespace eFormSDK.Tests
              };
              await questionForAnswerValue.Create(DbContext).ConfigureAwait(false);
 
-             answer_values answerValue = new answer_values
+             AnswerValue answerValue = new AnswerValue
              {
                  Value = rnd.Next(1, 255).ToString(),
                  AnswerId = answer.Id,
@@ -354,8 +354,8 @@ namespace eFormSDK.Tests
              await answerValue.Update(DbContext).ConfigureAwait(false);
              
              
-             List<answer_values> answerValues = DbContext.answer_values.AsNoTracking().ToList();
-             List<answer_value_versions> answerValueVersions = DbContext.answer_value_versions.AsNoTracking().ToList();
+             List<AnswerValue> answerValues = DbContext.AnswerValues.AsNoTracking().ToList();
+             List<AnswerValueVersion> answerValueVersions = DbContext.AnswerValueVersions.AsNoTracking().ToList();
             
              //Assert
             
@@ -407,14 +407,14 @@ namespace eFormSDK.Tests
 
              bool randomBool = rnd.Next(0, 2) > 0;
 
-             sites site = new sites
+             Site site = new Site
              {
                  Name = Guid.NewGuid().ToString(),
                  MicrotingUid = rnd.Next(1, 255)
              };
              await site.Create(DbContext).ConfigureAwait(false);
 
-             sites siteForUnit = new sites 
+             Site siteForUnit = new Site 
                  {
                      Name = Guid.NewGuid().ToString(), 
                      MicrotingUid = rnd.Next(1, 255)
@@ -422,7 +422,7 @@ namespace eFormSDK.Tests
                  };
              await siteForUnit.Create(DbContext).ConfigureAwait(false);
 
-             units unit = new units
+             Unit unit = new Unit
              {
                  CustomerNo = rnd.Next(1, 255),
                  MicrotingUid = rnd.Next(1, 255),
@@ -431,14 +431,14 @@ namespace eFormSDK.Tests
              };
              await unit.Create(DbContext).ConfigureAwait(false);
 
-             languages language = new languages
+             Language language = new Language
              {
                  Description = Guid.NewGuid().ToString(), 
                  Name = Guid.NewGuid().ToString()
              };
              await language.Create(DbContext).ConfigureAwait(false);
 
-             question_sets questionSet = new question_sets
+             QuestionSet questionSet = new QuestionSet
              {
                  Name = Guid.NewGuid().ToString(),
                  Share = randomBool,
@@ -447,7 +447,7 @@ namespace eFormSDK.Tests
              };
              await questionSet.Create(DbContext).ConfigureAwait(false);
 
-             survey_configurations surveyConfiguration = new survey_configurations
+             SurveyConfiguration surveyConfiguration = new SurveyConfiguration
              {
                  Name = Guid.NewGuid().ToString(),
                  Start = DateTime.UtcNow,
@@ -458,7 +458,7 @@ namespace eFormSDK.Tests
              };
              await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
 
-             answers answer = new answers
+             Answer answer = new Answer
              {
                  AnswerDuration = rnd.Next(1, 255),
                  FinishedAt = DateTime.UtcNow,
@@ -473,7 +473,7 @@ namespace eFormSDK.Tests
              };
              await answer.Create(DbContext).ConfigureAwait(false);
 
-             questions question = new questions
+             Question question = new Question
              {
                  Image = randomBool,
                  Maximum = rnd.Next(1, 255),
@@ -494,7 +494,7 @@ namespace eFormSDK.Tests
              };
              await question.Create(DbContext).ConfigureAwait(false);
 
-             options option = new options
+             Option option = new Option
              {
                  Weight = rnd.Next(1, 255),
                  OptionIndex = rnd.Next(1, 255),
@@ -504,7 +504,7 @@ namespace eFormSDK.Tests
              };
              await option.Create(DbContext).ConfigureAwait(false);
 
-             questions questionForAnswerValue = new questions
+             Question questionForAnswerValue = new Question
              {
                  Image = randomBool,
                  Maximum = rnd.Next(1, 255),
@@ -525,7 +525,7 @@ namespace eFormSDK.Tests
              };
              await questionForAnswerValue.Create(DbContext).ConfigureAwait(false);
 
-             answer_values answerValue = new answer_values
+             AnswerValue answerValue = new AnswerValue
              {
                  Value = rnd.Next(1, 255).ToString(),
                  AnswerId = answer.Id,
@@ -541,8 +541,8 @@ namespace eFormSDK.Tests
              await answerValue.Delete(DbContext);
              
              
-             List<answer_values> answerValues = DbContext.answer_values.AsNoTracking().ToList();
-             List<answer_value_versions> answerValueVersions = DbContext.answer_value_versions.AsNoTracking().ToList();
+             List<AnswerValue> answerValues = DbContext.AnswerValues.AsNoTracking().ToList();
+             List<AnswerValueVersion> answerValueVersions = DbContext.AnswerValueVersions.AsNoTracking().ToList();
             
              //Assert
             

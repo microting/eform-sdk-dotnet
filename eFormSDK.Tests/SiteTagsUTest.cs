@@ -43,21 +43,21 @@ namespace eFormSDK.Tests
             // Arrange
             Random rnd = new Random();
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            tags tag = new tags
+            Tag tag = new Tag
             {
                 Name = Guid.NewGuid().ToString(), 
                 TaggingsCount = rnd.Next(1, 255)
             };
             await tag.Create(DbContext).ConfigureAwait(false);
 
-            site_tags siteTag = new site_tags
+            SiteTag siteTag = new SiteTag
             {
                 SiteId = site.Id,
                 TagId = tag.Id
@@ -67,8 +67,8 @@ namespace eFormSDK.Tests
             await siteTag.Create(DbContext).ConfigureAwait(false);
 
 
-            List<site_tags> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
-            List<site_tag_versions> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
+            List<SiteTag> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
+            List<SiteTagVersion> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
             // Assert
             Assert.NotNull(siteTags);
             Assert.NotNull(siteTagVersions);
@@ -88,14 +88,14 @@ namespace eFormSDK.Tests
             // Arrange
             Random rnd = new Random();
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            sites site2 = new sites
+            Site site2 = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
@@ -103,14 +103,14 @@ namespace eFormSDK.Tests
             await site2.Create(DbContext).ConfigureAwait(false);
 
 
-            tags tag = new tags
+            Tag tag = new Tag
             {
                 Name = Guid.NewGuid().ToString(),
                 TaggingsCount = rnd.Next(1, 255)
             };
             await tag.Create(DbContext).ConfigureAwait(false);
 
-            tags tag2 = new tags
+            Tag tag2 = new Tag
             {
                 Name = Guid.NewGuid().ToString(), 
                 TaggingsCount = rnd.Next(1, 255)
@@ -119,7 +119,7 @@ namespace eFormSDK.Tests
 
             
 
-            site_tags siteTag = new site_tags
+            SiteTag siteTag = new SiteTag
             {
                 SiteId = site.Id,
                 TagId = tag.Id
@@ -135,8 +135,8 @@ namespace eFormSDK.Tests
             // Act
             await siteTag.Update(DbContext).ConfigureAwait(false);
 
-            List<site_tags> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
-            List<site_tag_versions> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
+            List<SiteTag> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
+            List<SiteTagVersion> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
             // Assert
             Assert.NotNull(siteTags);
             Assert.NotNull(siteTagVersions);
@@ -158,14 +158,14 @@ namespace eFormSDK.Tests
                         // Arrange
             Random rnd = new Random();
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            tags tag = new tags
+            Tag tag = new Tag
             {
                 Name = Guid.NewGuid().ToString(), 
                 TaggingsCount = rnd.Next(1, 255)
@@ -173,7 +173,7 @@ namespace eFormSDK.Tests
             await tag.Create(DbContext).ConfigureAwait(false);
 
 
-            site_tags siteTag = new site_tags
+            SiteTag siteTag = new SiteTag
             {
                 SiteId = site.Id,
                 TagId = tag.Id
@@ -183,8 +183,8 @@ namespace eFormSDK.Tests
             // Act
             await siteTag.Delete(DbContext).ConfigureAwait(false);
 
-            List<site_tags> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
-            List<site_tag_versions> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
+            List<SiteTag> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
+            List<SiteTagVersion> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
             // Assert
             Assert.NotNull(siteTags);
             Assert.NotNull(siteTagVersions);
@@ -208,14 +208,14 @@ namespace eFormSDK.Tests
         {
             Random rnd = new Random();
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            tags tag = new tags
+            Tag tag = new Tag
             {
                 Name = Guid.NewGuid().ToString(),
                 TaggingsCount = rnd.Next(1, 255)
@@ -223,7 +223,7 @@ namespace eFormSDK.Tests
             await tag.Create(DbContext).ConfigureAwait(false);
 
 
-            site_tags siteTag = new site_tags
+            SiteTag siteTag = new SiteTag
             {
                 SiteId = site.Id,
                 TagId = tag.Id
@@ -235,8 +235,8 @@ namespace eFormSDK.Tests
             await siteTag.Update(DbContext).ConfigureAwait(false);
             await siteTag.Delete(DbContext).ConfigureAwait(false);
             
-            List<site_tags> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
-            List<site_tag_versions> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
+            List<SiteTag> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
+            List<SiteTagVersion> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
             // Assert
             Assert.NotNull(siteTags);
             Assert.NotNull(siteTagVersions);

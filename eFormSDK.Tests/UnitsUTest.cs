@@ -44,14 +44,14 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
 
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            units unit = new units
+            Unit unit = new Unit
             {
                 CustomerNo = rnd.Next(1, 255),
                 MicrotingUid = rnd.Next(1, 255),
@@ -69,8 +69,8 @@ namespace eFormSDK.Tests
             
             await unit.Create(DbContext).ConfigureAwait(false);
 
-            List<units> units = DbContext.units.AsNoTracking().ToList();                            
-            List<unit_versions> unitsVersions = DbContext.unit_versions.AsNoTracking().ToList(); 
+            List<Unit> units = DbContext.Units.AsNoTracking().ToList();                            
+            List<UnitVersion> unitsVersions = DbContext.UnitVersions.AsNoTracking().ToList(); 
             
             //Assert
             
@@ -122,14 +122,14 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
 
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            units unit = new units
+            Unit unit = new Unit
             {
                 CustomerNo = rnd.Next(1, 255),
                 MicrotingUid = rnd.Next(1, 255),
@@ -166,8 +166,8 @@ namespace eFormSDK.Tests
 
             await unit.Update(DbContext).ConfigureAwait(false);
 
-            List<units> units = DbContext.units.AsNoTracking().ToList();                            
-            List<unit_versions> unitsVersions = DbContext.unit_versions.AsNoTracking().ToList();
+            List<Unit> units = DbContext.Units.AsNoTracking().ToList();                            
+            List<UnitVersion> unitsVersions = DbContext.UnitVersions.AsNoTracking().ToList();
             
             //Assert
             
@@ -230,14 +230,14 @@ namespace eFormSDK.Tests
             Random rnd = new Random();
 
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            units unit = new units
+            Unit unit = new Unit
             {
                 CustomerNo = rnd.Next(1, 255),
                 MicrotingUid = rnd.Next(1, 255),
@@ -258,8 +258,8 @@ namespace eFormSDK.Tests
             
             await unit.Delete(DbContext);
             
-            List<units> units = DbContext.units.AsNoTracking().ToList();                            
-            List<unit_versions> unitsVersions = DbContext.unit_versions.AsNoTracking().ToList();
+            List<Unit> units = DbContext.Units.AsNoTracking().ToList();                            
+            List<UnitVersion> unitsVersions = DbContext.UnitVersions.AsNoTracking().ToList();
             
             //Assert
             

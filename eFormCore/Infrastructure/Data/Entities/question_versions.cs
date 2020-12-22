@@ -63,7 +63,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         [ForeignKey("question")]
         public int QuestionId { get; set; }
         
-        public virtual questions Question { get; set; }
+        public virtual Question Question { get; set; }
         
         public int? MicrotingUid { get; set; }
     }
