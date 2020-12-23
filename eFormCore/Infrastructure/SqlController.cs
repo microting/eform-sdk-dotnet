@@ -5535,8 +5535,19 @@ namespace Microting.eForm.Infrastructure
 
                     case Constants.Constants.FieldTypes.MultiSelect:
                         var multiSelectFieldOptions =
-                            await db.FieldOptions.Where(x => x.FieldId == field.Id).Join(db.FieldOptionTranslations,
-                                option => option.Id, translation => translation.FieldOptionId, (option, translation) => new {option.Key, option.DisplayOrder, translation.Text}).Select(x => new KeyValuePair()
+                            await db.FieldOptions.Where(x => x.FieldId == field.Id)
+                                .Join(db.FieldOptionTranslations,
+                                option => option.Id,
+                                translation => translation.FieldOptionId,
+                                (option, translation) => new
+                                {
+                                    option.Key,
+                                    option.DisplayOrder,
+                                    translation.Text,
+                                    translation.LanguageId
+                                })
+                                .Where(x => x.LanguageId == defaultLanguage.Id)
+                                .Select(x => new KeyValuePair()
                             {
                                 Key = x.Key,
                                 Value = x.Text,
@@ -5568,13 +5579,24 @@ namespace Microting.eForm.Infrastructure
 
                     case Constants.Constants.FieldTypes.SingleSelect:
                         var singleSelectFieldOptions =
-                            await db.FieldOptions.Where(x => x.FieldId == field.Id).Join(db.FieldOptionTranslations,
-                                option => option.Id, translation => translation.FieldOptionId, (option, translation) => new {option.Key, option.DisplayOrder, translation.Text}).Select(x => new KeyValuePair()
-                            {
-                                Key = x.Key,
-                                Value = x.Text,
-                                DisplayOrder = x.DisplayOrder
-                            }).ToListAsync();
+                            await db.FieldOptions.Where(x => x.FieldId == field.Id)
+                                .Join(db.FieldOptionTranslations,
+                                    option => option.Id,
+                                    translation => translation.FieldOptionId,
+                                    (option, translation) => new
+                                    {
+                                        option.Key,
+                                        option.DisplayOrder,
+                                        translation.Text,
+                                        translation.LanguageId
+                                    })
+                                .Where(x => x.LanguageId == defaultLanguage.Id)
+                                .Select(x => new KeyValuePair()
+                                {
+                                    Key = x.Key,
+                                    Value = x.Text,
+                                    DisplayOrder = x.DisplayOrder
+                                }).ToListAsync();
 
                         lstDataItem.Add(new SingleSelect(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
                             singleSelectFieldOptions));

@@ -36,11 +36,13 @@ namespace Microting.eForm.Helpers
     public class TestHelpers
     {
         public MicrotingDbContext dbContext;
+
+        private Language language;
 //        private string returnXML;
 //        private string returnJSON;
         public TestHelpers()
         {
-        
+
             string connectionString;
 
 //            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -53,6 +55,7 @@ namespace Microting.eForm.Helpers
 //            }
 
             dbContext = GetContext(connectionString);
+            language = dbContext.Languages.Single(x => x.Name == "Danish");
         }
         private MicrotingDbContext GetContext(string connectionStr)
         {
@@ -74,15 +77,17 @@ namespace Microting.eForm.Helpers
         #region helperMethods
         public async Task<Worker> CreateWorker(string email, string firstName, string lastName, int microtingUId)
         {
-            Worker worker = new Worker();
-            worker.FirstName = firstName;
-            worker.LastName = lastName;
-            worker.Email = email;
-            worker.CreatedAt = DateTime.UtcNow;
-            worker.UpdatedAt = DateTime.UtcNow;
-            worker.MicrotingUid = microtingUId;
-            worker.WorkflowState = Constants.WorkflowStates.Created;
-            worker.Version = 69;
+            Worker worker = new Worker
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                MicrotingUid = microtingUId,
+                WorkflowState = Constants.WorkflowStates.Created,
+                Version = 69
+            };
             dbContext.Workers.Add(worker);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
@@ -91,13 +96,15 @@ namespace Microting.eForm.Helpers
         public async Task<Site> CreateSite(string name, int microtingUId)
         {
 
-            Site site = new Site();
-            site.Name = name;
-            site.MicrotingUid = microtingUId;
-            site.UpdatedAt = DateTime.UtcNow;
-            site.CreatedAt = DateTime.UtcNow;
-            site.Version = 64;
-            site.WorkflowState = Constants.WorkflowStates.Created;
+            Site site = new Site
+            {
+                Name = name,
+                MicrotingUid = microtingUId,
+                UpdatedAt = DateTime.UtcNow,
+                CreatedAt = DateTime.UtcNow,
+                Version = 64,
+                WorkflowState = Constants.WorkflowStates.Created
+            };
             dbContext.Sites.Add(site);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
@@ -106,16 +113,18 @@ namespace Microting.eForm.Helpers
         public async Task<Unit> CreateUnit(int microtingUId, int otpCode, Site site, int customerNo)
         {
 
-            Unit unit = new Unit();
-            unit.MicrotingUid = microtingUId;
-            unit.OtpCode = otpCode;
-            unit.Site = site;
-            unit.SiteId = site.Id;
-            unit.CreatedAt = DateTime.UtcNow;
-            unit.CustomerNo = customerNo;
-            unit.UpdatedAt = DateTime.UtcNow;
-            unit.Version = 9;
-            unit.WorkflowState = Constants.WorkflowStates.Created;
+            Unit unit = new Unit
+            {
+                MicrotingUid = microtingUId,
+                OtpCode = otpCode,
+                Site = site,
+                SiteId = site.Id,
+                CreatedAt = DateTime.UtcNow,
+                CustomerNo = customerNo,
+                UpdatedAt = DateTime.UtcNow,
+                Version = 9,
+                WorkflowState = Constants.WorkflowStates.Created
+            };
 
             dbContext.Units.Add(unit);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -124,16 +133,18 @@ namespace Microting.eForm.Helpers
         }
         public async Task<SiteWorker> CreateSiteWorker(int microtingUId, Site site, Worker worker)
         {
-            SiteWorker siteWorker = new SiteWorker();
-            siteWorker.CreatedAt = DateTime.UtcNow;
-            siteWorker.MicrotingUid = microtingUId;
-            siteWorker.UpdatedAt = DateTime.UtcNow;
-            siteWorker.Version = 63;
-            siteWorker.Site = site;
-            siteWorker.SiteId = site.Id;
-            siteWorker.Worker = worker;
-            siteWorker.WorkerId = worker.Id;
-            siteWorker.WorkflowState = Constants.WorkflowStates.Created;
+            SiteWorker siteWorker = new SiteWorker
+            {
+                CreatedAt = DateTime.UtcNow,
+                MicrotingUid = microtingUId,
+                UpdatedAt = DateTime.UtcNow,
+                Version = 63,
+                Site = site,
+                SiteId = site.Id,
+                Worker = worker,
+                WorkerId = worker.Id,
+                WorkflowState = Constants.WorkflowStates.Created
+            };
 
             dbContext.SiteWorkers.Add(siteWorker);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -142,80 +153,109 @@ namespace Microting.eForm.Helpers
         }
         public async Task<CheckList> CreateTemplate(DateTime cl_ca, DateTime cl_ua, string label, string description, string caseType, string folderName, int displayIndex, int repeated)
         {
-            
-            CheckList cl1 = new CheckList();
-            cl1.CreatedAt = cl_ca;
-            cl1.UpdatedAt = cl_ua;
-            cl1.Label = label;
-            cl1.Description = description;
-            cl1.WorkflowState = Constants.WorkflowStates.Created;
-            cl1.CaseType = caseType;
-            cl1.FolderName = folderName;
-            cl1.DisplayIndex = displayIndex;
-            cl1.Repeated = repeated;
-            cl1.ParentId = 0;
-            
+            CheckList cl1 = new CheckList
+            {
+                CreatedAt = cl_ca,
+                UpdatedAt = cl_ua,
+                // Label = label,
+                // Description = description,
+                WorkflowState = Constants.WorkflowStates.Created,
+                CaseType = caseType,
+                FolderName = folderName,
+                DisplayIndex = displayIndex,
+                Repeated = repeated,
+                ParentId = 0,
+            };
+
             dbContext.CheckLists.Add(cl1);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            CheckLisTranslation checkLisTranslation = new CheckLisTranslation()
+            {
+                LanguageId = language.Id,
+                Text = label,
+                Description = description,
+                CheckListId = cl1.Id
+            };
+            await checkLisTranslation.Create(dbContext);
             return cl1;
         }
         public async Task<CheckList> CreateSubTemplate(string label, string description, string caseType, int displayIndex, int repeated, CheckList parentId)
         {
-            CheckList cl2 = new CheckList();
-            cl2.CreatedAt = DateTime.UtcNow;
-            cl2.UpdatedAt = DateTime.UtcNow;
-            cl2.Label = label;
-            cl2.Description = description;
-            cl2.WorkflowState = Constants.WorkflowStates.Created;
-            cl2.CaseType = caseType;
-            cl2.DisplayIndex = displayIndex;
-            cl2.Repeated = repeated;
-            cl2.ParentId = parentId.Id;
+            CheckList cl2 = new CheckList
+            {
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                // Label = label,
+                // Description = description,
+                WorkflowState = Constants.WorkflowStates.Created,
+                CaseType = caseType,
+                DisplayIndex = displayIndex,
+                Repeated = repeated,
+                ParentId = parentId.Id
+            };
 
             dbContext.CheckLists.Add(cl2);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            CheckLisTranslation checkLisTranslation = new CheckLisTranslation()
+            {
+                LanguageId = language.Id,
+                Text = label,
+                Description = description,
+                CheckListId = cl2.Id
+            };
+            await checkLisTranslation.Create(dbContext);
             return cl2;
         }
         public async Task<Field> CreateField(short? barcodeEnabled, string barcodeType, CheckList checkList, string color, string custom, int? decimalCount, string defaultValue, string description, int? displayIndex, short? dummy, FieldType ft, short? geolocationEnabled, short? geolocationForced, short? geolocationHidden, short? isNum, string label, short? mandatory, int maxLength, string maxValue, string minValue, short? multi, short? optional, string queryType, short? readOnly, short? selected, short? split, short? stopOnSave, string unitName, int version)
         {
 
-            Field f = new Field();
-            f.FieldTypeId = ft.Id;
+            Field f = new Field
+            {
+                FieldTypeId = ft.Id,
+                BarcodeEnabled = barcodeEnabled,
+                BarcodeType = barcodeType,
+                CheckListId = checkList.Id,
+                Color = color,
+                CreatedAt = DateTime.UtcNow,
+                Custom = custom,
+                DecimalCount = decimalCount,
+                DefaultValue = defaultValue,
+                // Description = description,
+                DisplayIndex = displayIndex,
+                Dummy = dummy,
+                GeolocationEnabled = geolocationEnabled,
+                GeolocationForced = geolocationForced,
+                GeolocationHidden = geolocationHidden,
+                IsNum = isNum,
+                // Label = label,
+                Mandatory = mandatory,
+                MaxLength = maxLength,
+                MaxValue = maxValue,
+                MinValue = minValue,
+                Multi = multi,
+                Optional = optional,
+                QueryType = queryType,
+                ReadOnly = readOnly,
+                Selected = selected,
+                Split = split,
+                StopOnSave = stopOnSave,
+                UnitName = unitName,
+                UpdatedAt = DateTime.UtcNow,
+                Version = version,
+                WorkflowState = Constants.WorkflowStates.Created
+            };
 
-            f.BarcodeEnabled = barcodeEnabled;
-            f.BarcodeType = barcodeType;
-            f.CheckListId = checkList.Id;
-            f.Color = color;
-            f.CreatedAt = DateTime.UtcNow;
-            f.Custom = custom;
-            f.DecimalCount = decimalCount;
-            f.DefaultValue = defaultValue;
-            f.Description = description;
-            f.DisplayIndex = displayIndex;
-            f.Dummy = dummy;
-            f.GeolocationEnabled = geolocationEnabled;
-            f.GeolocationForced = geolocationForced;
-            f.GeolocationHidden = geolocationHidden;
-            f.IsNum = isNum;
-            f.Label = label;
-            f.Mandatory = mandatory;
-            f.MaxLength = maxLength;
-            f.MaxValue = maxValue;
-            f.MinValue = minValue;
-            f.Multi = multi;
-            f.Optional = optional;
-            f.QueryType = queryType;
-            f.ReadOnly = readOnly;
-            f.Selected = selected;
-            f.Split = split;
-            f.StopOnSave = stopOnSave;
-            f.UnitName = unitName;
-            f.UpdatedAt = DateTime.UtcNow;
-            f.Version = version;
-            f.WorkflowState = Constants.WorkflowStates.Created;
 
             dbContext.Fields.Add(f);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            FieldTranslation fieldTranslation = new FieldTranslation()
+            {
+                LanguageId = language.Id,
+                Text = label,
+                Description = description,
+                FieldId = f.Id
+            };
+            await fieldTranslation.Create(dbContext);
             Thread.Sleep(2000);
 
             return f;
@@ -253,25 +293,27 @@ namespace Microting.eForm.Helpers
         }
         public async Task<FieldValue> CreateFieldValue(Case aCase, CheckList checkList, Field f, int? ud_id, int? userId, string value, int? version, Worker worker)
         {
-            FieldValue fv = new FieldValue();
-            fv.CaseId = aCase.Id;
-            fv.CheckList = checkList;
-            fv.CheckListId = checkList.Id;
-            fv.CreatedAt = DateTime.UtcNow;
-            fv.Date = DateTime.UtcNow;
-            fv.DoneAt = DateTime.UtcNow;
-            fv.Field = f;
-            fv.FieldId = f.Id;
-            fv.UpdatedAt = DateTime.UtcNow;
+            FieldValue fv = new FieldValue
+            {
+                CaseId = aCase.Id,
+                CheckList = checkList,
+                CheckListId = checkList.Id,
+                CreatedAt = DateTime.UtcNow,
+                Date = DateTime.UtcNow,
+                DoneAt = DateTime.UtcNow,
+                Field = f,
+                FieldId = f.Id,
+                UpdatedAt = DateTime.UtcNow,
+                WorkerId = userId,
+                Value = value,
+                Version = version,
+                Worker = worker,
+                WorkflowState = Constants.WorkflowStates.Created
+            };
             if (ud_id != null)
             {
                 fv.UploadedDataId = ud_id;
             }
-            fv.WorkerId = userId;
-            fv.Value = value;
-            fv.Version = version;
-            fv.Worker = worker;
-            fv.WorkflowState = Constants.WorkflowStates.Created;
 
             dbContext.FieldValues.Add(fv);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -279,17 +321,18 @@ namespace Microting.eForm.Helpers
         }
         public async Task<CheckListValue> CreateCheckListValue(Case aCase, CheckList checkList, string status, int? userId, int? version)
         {
-            CheckListValue CLV = new CheckListValue();
+            CheckListValue CLV = new CheckListValue
+            {
+                CaseId = aCase.Id,
+                CheckListId = checkList.Id,
+                CreatedAt = DateTime.UtcNow,
+                Status = status,
+                UpdatedAt = DateTime.UtcNow,
+                UserId = userId,
+                Version = version,
+                WorkflowState = Constants.WorkflowStates.Created
+            };
 
-            CLV.CaseId = aCase.Id;
-            CLV.CheckListId = checkList.Id;
-            CLV.CreatedAt = DateTime.UtcNow;
-            CLV.Status = status;
-            CLV.UpdatedAt = DateTime.UtcNow;
-            CLV.UserId = userId;
-            CLV.Version = version;
-            CLV.WorkflowState = Constants.WorkflowStates.Created;
-            
             dbContext.CheckListValues.Add(CLV);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
             return CLV;
@@ -297,21 +340,23 @@ namespace Microting.eForm.Helpers
         }
         public async Task<UploadedData> CreateUploadedData(string checkSum, string currentFile, string extension, string fileLocation, string fileName, short? local, Worker worker, string uploaderType, int version, bool createPhysicalFile)
         {
-            UploadedData UD = new UploadedData();
-               
-            UD.Checksum = checkSum;
-            UD.CreatedAt = DateTime.UtcNow;
-            UD.CurrentFile = currentFile;
-            UD.ExpirationDate = DateTime.UtcNow.AddYears(1);
-            UD.Extension = extension;
-            UD.FileLocation = fileLocation;
-            UD.FileName = fileName;
-            UD.Local = local;
-            UD.UpdatedAt = DateTime.UtcNow;
-            UD.UploaderId = worker.Id;
-            UD.UploaderType = uploaderType;
-            UD.Version = version;
-            UD.WorkflowState = Constants.WorkflowStates.Created;
+            UploadedData UD = new UploadedData
+            {
+                Checksum = checkSum,
+                CreatedAt = DateTime.UtcNow,
+                CurrentFile = currentFile,
+                ExpirationDate = DateTime.UtcNow.AddYears(1),
+                Extension = extension,
+                FileLocation = fileLocation,
+                FileName = fileName,
+                Local = local,
+                UpdatedAt = DateTime.UtcNow,
+                UploaderId = worker.Id,
+                UploaderType = uploaderType,
+                Version = version,
+                WorkflowState = Constants.WorkflowStates.Created
+            };
+
 
             dbContext.UploadedDatas.Add(UD);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -342,16 +387,18 @@ namespace Microting.eForm.Helpers
 
             if (lists.Count == 0)
             {
-                EntityGroup eG = new EntityGroup();
+                EntityGroup eG = new EntityGroup
+                {
+                    CreatedAt = DateTime.UtcNow,
+                    MicrotingUid = microtingUId,
+                    Name = name,
+                    Type = entityType,
+                    UpdatedAt = DateTime.UtcNow,
+                    Version = 1,
+                    WorkflowState = workflowState
+                };
 
-                eG.CreatedAt = DateTime.UtcNow;
                 //eG.Id = xxx;
-                eG.MicrotingUid = microtingUId;
-                eG.Name = name;
-                eG.Type = entityType;
-                eG.UpdatedAt = DateTime.UtcNow;
-                eG.Version = 1;
-                eG.WorkflowState = workflowState;
 
                 dbContext.EntityGroups.Add(eG);
                 await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -359,22 +406,24 @@ namespace Microting.eForm.Helpers
             } else {
                 throw new ArgumentException("microtingUId already exists: " + microtingUId);
             }
-            
+
         }
         public async Task<EntityItem> CreateEntityItem(string description, int displayIndex, int entityGroupId, string entityItemUId, string microtingUId, string name, short? synced, int version, string workflowState)
         {
-            EntityItem eI = new EntityItem();
-            eI.CreatedAt = DateTime.UtcNow;
-            eI.Description = description;
-            eI.DisplayIndex = displayIndex;
-            eI.EntityGroupId = entityGroupId;
-            eI.EntityItemUid = entityItemUId;
-            eI.MicrotingUid = microtingUId;
-            eI.Name = name;
-            eI.Synced = synced;
-            eI.UpdatedAt = DateTime.UtcNow;
-            eI.Version = version;
-            eI.WorkflowState = workflowState;
+            EntityItem eI = new EntityItem
+            {
+                CreatedAt = DateTime.UtcNow,
+                Description = description,
+                DisplayIndex = displayIndex,
+                EntityGroupId = entityGroupId,
+                EntityItemUid = entityItemUId,
+                MicrotingUid = microtingUId,
+                Name = name,
+                Synced = synced,
+                UpdatedAt = DateTime.UtcNow,
+                Version = version,
+                WorkflowState = workflowState
+            };
 
             dbContext.EntityItems.Add(eI);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -383,28 +432,24 @@ namespace Microting.eForm.Helpers
         }
         public async Task <Tag> CreateTag(string name, string workflowState, int version)
         {
-            Tag tag = new Tag();
-            tag.Name = name;
-            tag.WorkflowState = workflowState;
-            tag.Version = version;
+            Tag tag = new Tag {Name = name, WorkflowState = workflowState, Version = version};
             await tag.Create(dbContext).ConfigureAwait(false);
-
-//            DbContext.tags.Add(tag);
-//            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             return tag;
         }
         public async Task<CheckListSite> CreateCheckListSite(CheckList checklist, DateTime createdAt,
             Site site, DateTime updatedAt, int version, string workflowState, int microting_uid)
         {
-            CheckListSite cls = new CheckListSite();
-            cls.CheckList = checklist;
-            cls.CreatedAt = createdAt;
-            cls.Site = site;
-            cls.UpdatedAt = updatedAt;
-            cls.Version = version;
-            cls.WorkflowState = workflowState;
-            cls.MicrotingUid = microting_uid;
+            CheckListSite cls = new CheckListSite
+            {
+                CheckList = checklist,
+                CreatedAt = createdAt,
+                Site = site,
+                UpdatedAt = updatedAt,
+                Version = version,
+                WorkflowState = workflowState,
+                MicrotingUid = microting_uid
+            };
             await cls.Create(dbContext).ConfigureAwait(false);
 //            DbContext.check_list_sites.Add(cls);
 //            await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -415,7 +460,7 @@ namespace Microting.eForm.Helpers
         {
             await Task.Run(() => { }); // TODO FIX ME
             Random random = new Random();
-            int i = random.Next(0, int.MaxValue);            
+            int i = random.Next(0, int.MaxValue);
             return i;
         }
         #endregion
