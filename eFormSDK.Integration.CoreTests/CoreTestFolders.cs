@@ -91,8 +91,8 @@ namespace eFormSDK.Integration.Tests
             
             //Assert
 
-            var folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
-            var folders = DbContext.folders.AsNoTracking().ToList();
+            var folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
+            var folders = DbContext.Folders.AsNoTracking().ToList();
             
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
@@ -121,7 +121,7 @@ namespace eFormSDK.Integration.Tests
             
             await sut.FolderCreate(folderName, folderDescription, null).ConfigureAwait(false);
 
-            int firstFolderId = DbContext.folders.First().Id;
+            int firstFolderId = DbContext.Folders.First().Id;
             
             string subFolderName = Guid.NewGuid().ToString();
             string subFolderDescription = Guid.NewGuid().ToString();
@@ -130,8 +130,8 @@ namespace eFormSDK.Integration.Tests
             // Act
             await sut.FolderCreate(subFolderName, subFolderDescription, firstFolderId).ConfigureAwait(false);
 
-            var folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
-            var folders = DbContext.folders.AsNoTracking().ToList();
+            var folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
+            var folders = DbContext.Folders.AsNoTracking().ToList();
             
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
@@ -161,7 +161,7 @@ namespace eFormSDK.Integration.Tests
             
             string folderName = Guid.NewGuid().ToString();
             string folderDescription = Guid.NewGuid().ToString();
-            folders folder = new folders();
+            Folder folder = new Folder();
             folder.Name = folderName;
             folder.Description = folderDescription;
             folder.WorkflowState = Constants.WorkflowStates.Created;
@@ -173,8 +173,8 @@ namespace eFormSDK.Integration.Tests
             
             await sut.FolderDelete(folder.Id);
             
-            var folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
-            var folders = DbContext.folders.AsNoTracking().ToList();
+            var folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
+            var folders = DbContext.Folders.AsNoTracking().ToList();
             
             //Assert
             
@@ -206,7 +206,7 @@ namespace eFormSDK.Integration.Tests
             
             string folderName = Guid.NewGuid().ToString();
             string folderDescription = Guid.NewGuid().ToString();
-            folders folder = new folders();
+            Folder folder = new Folder();
             folder.Name = folderName;
             folder.Description = folderDescription;
             folder.WorkflowState = Constants.WorkflowStates.Created;
@@ -221,8 +221,8 @@ namespace eFormSDK.Integration.Tests
             
             await sut.FolderUpdate(folder.Id, newFolderName, newDescription, null).ConfigureAwait(false);
             
-            var folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
-            var folders = DbContext.folders.AsNoTracking().ToList();
+            var folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
+            var folders = DbContext.Folders.AsNoTracking().ToList();
             
             //Assert
             

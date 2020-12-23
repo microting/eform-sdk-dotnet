@@ -41,6 +41,7 @@ using KeyValuePair = Microting.eForm.Dto.KeyValuePair;
 using System.IO;
 using eFormSDK.Integration.CoreTests;
 using Microting.eForm.Infrastructure.Helpers;
+using Field = Microting.eForm.Infrastructure.Data.Entities.Field;
 
 namespace eFormSDK.Integration.Tests
 {
@@ -131,7 +132,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
-            List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
+            List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(cl);
@@ -157,7 +158,7 @@ namespace eFormSDK.Integration.Tests
             // Assert.AreEqual(0, cl[1].done_button_Disabled); //TODO no method
             Assert.AreEqual(0, cl[1].ApprovalEnabled); //False
 
-            List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
+            List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
@@ -168,7 +169,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(0, _fields[0].DisplayIndex);
             // Assert.AreEqual(1, _fields[0].multi); was null TODO
             // Assert.AreEqual(0, _fields[0].geolocation_enabled); //False TODO was null
-            Assert.AreEqual(0, _fields[0].SplitScreen); //TODO no method Split
+            Assert.AreEqual(0, _fields[0].Split); //TODO no method Split
             Assert.AreEqual("", _fields[0].DefaultValue);
             Assert.AreEqual(0, _fields[0].ReadOnly); //false
             Assert.AreEqual(0, _fields[0].Mandatory); //false
@@ -223,7 +224,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
-            List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
+            List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(cl);
@@ -248,7 +249,7 @@ namespace eFormSDK.Integration.Tests
             // Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].ApprovalEnabled); //false
 
-            List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
+            List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
@@ -312,7 +313,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
-            List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
+            List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(cl);
@@ -337,7 +338,7 @@ namespace eFormSDK.Integration.Tests
             // Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].ApprovalEnabled); //false
 
-            List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
+            List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
@@ -402,7 +403,7 @@ namespace eFormSDK.Integration.Tests
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             mainElement = await sut.TemplateUploadData(mainElement);
             int eFormId = await sut.TemplateCreate(mainElement); 
-            List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
+            List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(cl);
@@ -427,7 +428,7 @@ namespace eFormSDK.Integration.Tests
             // Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].ApprovalEnabled); //false
 
-            List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
+            List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
@@ -518,7 +519,7 @@ namespace eFormSDK.Integration.Tests
 
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement); 
-            List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
+            List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
 
 
             // Assert
@@ -546,7 +547,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(0, cl[1].ApprovalEnabled); //false
 
 
-            List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
+            List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
             Assert.AreEqual(cl[1].Id, _fields[0].CheckListId);
 
@@ -639,7 +640,7 @@ namespace eFormSDK.Integration.Tests
 
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement); 
-            List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
+            List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
 
 
             // Assert
@@ -666,7 +667,7 @@ namespace eFormSDK.Integration.Tests
             // Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].ApprovalEnabled); //false
 
-            List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
+            List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
             Assert.AreEqual(cl[1].Id, _fields[0].CheckListId);
             Assert.AreEqual("Tag et billede", _fields[0].Label);
@@ -965,7 +966,7 @@ namespace eFormSDK.Integration.Tests
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             mainElement = await sut.TemplateUploadData(mainElement);
             int eFormId = await sut.TemplateCreate(mainElement); //TODO
-            List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
+            List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
 
 
             // Assert
@@ -991,7 +992,7 @@ namespace eFormSDK.Integration.Tests
             // Assert.AreEqual(dE.DoneButtonDisabled, true); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].ApprovalEnabled); //false
 
-            List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
+            List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
             Assert.AreEqual(cl[1].Id, _fields[0].CheckListId);
 
@@ -1301,7 +1302,7 @@ namespace eFormSDK.Integration.Tests
 
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement); 
-            List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
+            List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
 
 
             // Assert
@@ -1330,7 +1331,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(0, cl[1].ApprovalEnabled); //false
             Assert.AreEqual("", cl[1].Description);
 
-            List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
+            List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
             
             Assert.AreEqual(cl[1].Id, _fields[0].CheckListId);
@@ -1474,7 +1475,7 @@ namespace eFormSDK.Integration.Tests
 
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
-            List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
+            List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
 
 
             // Assert
@@ -1503,7 +1504,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(0, cl[0].ApprovalEnabled); //false
 
 
-            List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
+            List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
             Assert.AreEqual(cl[1].Id, _fields[0].CheckListId);
             Assert.AreEqual("Single Select 1", _fields[0].Label);
@@ -1611,7 +1612,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement); 
-            List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
+            List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(cl);
@@ -1636,7 +1637,7 @@ namespace eFormSDK.Integration.Tests
             // Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].ApprovalEnabled); //false
 
-            List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
+            List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
@@ -1646,7 +1647,7 @@ namespace eFormSDK.Integration.Tests
             Assert.AreEqual(0, _fields[0].DisplayIndex);
             // Assert.AreEqual(1, _fields[0].multi); todo meant to be false but was null
             // Assert.AreEqual(0, _fields[0].geolocation_enabled); //todo meant to be false but was null
-            Assert.AreEqual(0, _fields[0].SplitScreen); //false
+            Assert.AreEqual(0, _fields[0].Split); //false
             Assert.AreEqual("", _fields[0].DefaultValue);
             Assert.AreEqual(0, _fields[0].ReadOnly); //false
             Assert.AreEqual(0, _fields[0].Mandatory); //false
@@ -1705,7 +1706,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
-            List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
+            List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(cl);
@@ -1730,7 +1731,7 @@ namespace eFormSDK.Integration.Tests
             // Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].ApprovalEnabled); //false
 
-            List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
+            List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
@@ -1800,7 +1801,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
-            List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
+            List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(cl);
@@ -1825,7 +1826,7 @@ namespace eFormSDK.Integration.Tests
             // Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].ApprovalEnabled); //false
 
-            List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
+            List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
@@ -1889,7 +1890,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
-            List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
+            List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(cl);
@@ -1914,7 +1915,7 @@ namespace eFormSDK.Integration.Tests
             // Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].ApprovalEnabled); //false
 
-            List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
+            List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
@@ -1973,7 +1974,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
-            List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
+            List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(cl);
@@ -1998,7 +1999,7 @@ namespace eFormSDK.Integration.Tests
             // Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].ApprovalEnabled); //false
 
-            List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
+            List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
@@ -2059,7 +2060,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
-            List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
+            List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(cl);
@@ -2084,7 +2085,7 @@ namespace eFormSDK.Integration.Tests
             // Assert.AreEqual(cl[1].doneButtonDisabled, false); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].ApprovalEnabled); //false
            
-            List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
+            List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
@@ -2144,7 +2145,7 @@ namespace eFormSDK.Integration.Tests
             // Act
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
-            List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
+            List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(cl);
@@ -2169,7 +2170,7 @@ namespace eFormSDK.Integration.Tests
             // Assert.AreEqual(cl[1].doneButtonDisabled, true); //TODO no method donebuttondisabled
             Assert.AreEqual(0, cl[1].ApprovalEnabled); //false
 
-            List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
+            List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
             Assert.NotNull(_fields);
             Assert.AreEqual(1, _fields.Count());
@@ -2288,7 +2289,7 @@ namespace eFormSDK.Integration.Tests
 
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
-            List<check_lists> cl = DbContext.check_lists.AsNoTracking().ToList();
+            List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
 
             // Assert
             Assert.NotNull(cl);
@@ -2321,7 +2322,7 @@ namespace eFormSDK.Integration.Tests
             // Assert.AreEqual(false, dE.DoneButtondisabled); //todo
             Assert.AreEqual(0, cl[2].ApprovalEnabled); //false
 
-            List<fields> _fields = DbContext.fields.AsNoTracking().ToList();
+            List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
             Assert.AreEqual(cl[2].Id, _fields[0].CheckListId);
             Assert.AreEqual("1.1 lvl checkbox", _fields[0].Label);

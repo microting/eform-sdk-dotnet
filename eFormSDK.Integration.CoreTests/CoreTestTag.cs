@@ -39,6 +39,7 @@ using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
+using Tag = Microting.eForm.Infrastructure.Data.Entities.Tag;
 
 namespace eFormSDK.Integration.Tests
 {
@@ -88,7 +89,7 @@ namespace eFormSDK.Integration.Tests
             await sut.TagCreate(tagName);
 
             // Assert
-            var tag = DbContext.tags.ToList();
+            var tag = DbContext.Tags.ToList();
 
             Assert.AreEqual(tag[0].Name, tagName);
             Assert.AreEqual(1, tag.Count());
@@ -99,16 +100,16 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             string tagName = "Tag1";
-            tags tag = new tags {Name = tagName, WorkflowState = Constants.WorkflowStates.Created};
+            Tag tag = new Tag {Name = tagName, WorkflowState = Constants.WorkflowStates.Created};
 
-            DbContext.tags.Add(tag);
+            DbContext.Tags.Add(tag);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             await sut.TagDelete(tag.Id);
 
             // Assert
-            var result = DbContext.tags.AsNoTracking().ToList();
+            var result = DbContext.Tags.AsNoTracking().ToList();
 
             Assert.AreEqual(result[0].Name, tagName);
             Assert.AreEqual(1, result.Count());
@@ -120,16 +121,16 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             string tagName = "Tag1";
-            tags tag = new tags {Name = tagName, WorkflowState = Constants.WorkflowStates.Removed};
+            Tag tag = new Tag {Name = tagName, WorkflowState = Constants.WorkflowStates.Removed};
 
-            DbContext.tags.Add(tag);
+            DbContext.Tags.Add(tag);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
             await sut.TagCreate(tagName);
 
             // Assert
-            var result = DbContext.tags.AsNoTracking().ToList();
+            var result = DbContext.Tags.AsNoTracking().ToList();
 
             Assert.AreEqual(result[0].Name, tagName);
             Assert.AreEqual(1, result.Count());
@@ -141,22 +142,22 @@ namespace eFormSDK.Integration.Tests
         {
             // Arrance
             string tagName1 = "Tag1";
-            tags tag = new tags {Name = tagName1, WorkflowState = Constants.WorkflowStates.Removed};
+            Tag tag = new Tag {Name = tagName1, WorkflowState = Constants.WorkflowStates.Removed};
 
-            DbContext.tags.Add(tag);
+            DbContext.Tags.Add(tag);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName2 = "Tag2";
-            tag = new tags {Name = tagName2, WorkflowState = Constants.WorkflowStates.Removed};
+            tag = new Tag {Name = tagName2, WorkflowState = Constants.WorkflowStates.Removed};
 
 
-            DbContext.tags.Add(tag);
+            DbContext.Tags.Add(tag);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
             string tagName3 = "Tag3";
-            tag = new tags {Name = tagName3, WorkflowState = Constants.WorkflowStates.Removed};
+            tag = new Tag {Name = tagName3, WorkflowState = Constants.WorkflowStates.Removed};
 
 
-            DbContext.tags.Add(tag);
+            DbContext.Tags.Add(tag);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
             //int tagId3 = await sut.TagCreate(tagName3);
 
@@ -178,7 +179,7 @@ namespace eFormSDK.Integration.Tests
         public async Task Core_Tags_TemplateSetTags_DoesAssignTagToTemplate()
         {
             // Arrance
-            check_lists cl1 = new check_lists
+            CheckList cl1 = new CheckList
             {
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
@@ -191,13 +192,13 @@ namespace eFormSDK.Integration.Tests
                 Repeated = 1
             };
 
-            DbContext.check_lists.Add(cl1);
+            DbContext.CheckLists.Add(cl1);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName1 = "Tag1";
-            tags tag = new tags {Name = tagName1, WorkflowState = Constants.WorkflowStates.Created};
+            Tag tag = new Tag {Name = tagName1, WorkflowState = Constants.WorkflowStates.Created};
 
-            DbContext.tags.Add(tag);
+            DbContext.Tags.Add(tag);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
@@ -206,7 +207,7 @@ namespace eFormSDK.Integration.Tests
 
 
             // Assert
-            List<taggings> result = DbContext.taggings.AsNoTracking().ToList();
+            List<Tagging> result = DbContext.Taggings.AsNoTracking().ToList();
 
             Assert.AreEqual(1, result.Count());
             Assert.AreEqual(tag.Id, result[0].TagId);
@@ -219,7 +220,7 @@ namespace eFormSDK.Integration.Tests
         public async Task Core_Tags_TemplateSetTags_DoesAssignTagToTemplateWithoutDuplicates()
         {
             // Arrance
-            check_lists cl1 = new check_lists
+            CheckList cl1 = new CheckList
             {
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
@@ -232,41 +233,41 @@ namespace eFormSDK.Integration.Tests
                 Repeated = 1
             };
 
-            DbContext.check_lists.Add(cl1);
+            DbContext.CheckLists.Add(cl1);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             #region Tags
 
             string tagName1 = "TagFor1CL";
-            tags tag1 = new tags();
+            Tag tag1 = new Tag();
             tag1.Name = tagName1;
             tag1.WorkflowState = Constants.WorkflowStates.Created;
 
-            DbContext.tags.Add(tag1);
+            DbContext.Tags.Add(tag1);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName2 = "TagFor2CLs";
-            tags tag2 = new tags();
+            Tag tag2 = new Tag();
             tag2.Name = tagName2;
             tag2.WorkflowState = Constants.WorkflowStates.Created;
 
-            DbContext.tags.Add(tag2);
+            DbContext.Tags.Add(tag2);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName3 = "Tag3";
-            tags tag3 = new tags();
+            Tag tag3 = new Tag();
             tag3.Name = tagName3;
             tag3.WorkflowState = Constants.WorkflowStates.Created;
 
-            DbContext.tags.Add(tag3);
+            DbContext.Tags.Add(tag3);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName4 = "Tag4";
-            tags tag4 = new tags();
+            Tag tag4 = new Tag();
             tag4.Name = tagName4;
             tag4.WorkflowState = Constants.WorkflowStates.Created;
 
-            DbContext.tags.Add(tag4);
+            DbContext.Tags.Add(tag4);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             #endregion
@@ -277,7 +278,7 @@ namespace eFormSDK.Integration.Tests
             await sut.TemplateSetTags(cl1.Id, tags);
 
             //// Assert
-            List<taggings> result = DbContext.taggings.AsNoTracking().ToList();
+            List<Tagging> result = DbContext.Taggings.AsNoTracking().ToList();
 
             Assert.AreEqual(2, result.Count());
             Assert.AreEqual(tag1.Id, result[0].TagId);

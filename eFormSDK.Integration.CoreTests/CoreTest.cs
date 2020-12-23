@@ -37,6 +37,9 @@ using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using Microting.eForm.Infrastructure.Models;
+using Case = Microting.eForm.Infrastructure.Data.Entities.Case;
+using FieldValue = Microting.eForm.Infrastructure.Data.Entities.FieldValue;
+using UploadedData = Microting.eForm.Infrastructure.Data.Entities.UploadedData;
 
 namespace eFormSDK.Integration.Tests
 {
@@ -87,9 +90,9 @@ namespace eFormSDK.Integration.Tests
             await sut.CheckStatusByMicrotingUid(int.Parse(microtingUuid)).ConfigureAwait(false);
 
             // Assert
-            List<cases> caseMatches = DbContext.cases.AsNoTracking().ToList();
-            List<uploaded_data> udMatches = DbContext.uploaded_data.AsNoTracking().ToList();
-            List<field_values> fvMatches = DbContext.field_values.AsNoTracking().ToList();
+            List<Case> caseMatches = DbContext.Cases.AsNoTracking().ToList();
+            List<UploadedData> udMatches = DbContext.UploadedDatas.AsNoTracking().ToList();
+            List<FieldValue> fvMatches = DbContext.FieldValues.AsNoTracking().ToList();
 
             Assert.NotNull(caseMatches);
             Assert.NotNull(udMatches);

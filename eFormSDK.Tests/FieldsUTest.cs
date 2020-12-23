@@ -46,14 +46,14 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            units unit = new units
+            Unit unit = new Unit
             {
                 CustomerNo = rnd.Next(1, 255),
                 MicrotingUid = rnd.Next(1, 255),
@@ -62,7 +62,7 @@ namespace eFormSDK.Tests
             };
             await unit.Create(DbContext).ConfigureAwait(false);
 
-            check_lists checklist = new check_lists
+            CheckList checklist = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -96,7 +96,7 @@ namespace eFormSDK.Tests
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
-            entity_groups entityGroup = new entity_groups
+            EntityGroup entityGroup = new EntityGroup
             {
                 Name = Guid.NewGuid().ToString(),
                 Type = Guid.NewGuid().ToString(),
@@ -104,14 +104,14 @@ namespace eFormSDK.Tests
             };
             await entityGroup.Create(DbContext).ConfigureAwait(false);
 
-            field_types fieldType = new field_types
+            FieldType fieldType = new FieldType
             {
                 Description = Guid.NewGuid().ToString(), 
-                FieldType = Guid.NewGuid().ToString()
+                Type = Guid.NewGuid().ToString()
             };
             await fieldType.Create(DbContext).ConfigureAwait(false);
 
-            fields parentFIeld = new fields
+            Field parentFIeld = new Field
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -137,7 +137,7 @@ namespace eFormSDK.Tests
                 OriginalId = Guid.NewGuid().ToString(),
                 QueryType = Guid.NewGuid().ToString(),
                 ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue),
-                SplitScreen = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Split = (short) rnd.Next(shortMinValue, shortmaxValue),
                 UnitName = Guid.NewGuid().ToString(),
                 StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue),
                 KeyValuePairList = Guid.NewGuid().ToString(),
@@ -147,7 +147,7 @@ namespace eFormSDK.Tests
             };
             await parentFIeld.Create(DbContext).ConfigureAwait(false);
 
-            fields field = new fields
+            Field field = new Field
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -173,7 +173,7 @@ namespace eFormSDK.Tests
                 OriginalId = Guid.NewGuid().ToString(),
                 QueryType = Guid.NewGuid().ToString(),
                 ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue),
-                SplitScreen = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Split = (short) rnd.Next(shortMinValue, shortmaxValue),
                 UnitName = Guid.NewGuid().ToString(),
                 StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue),
                 KeyValuePairList = Guid.NewGuid().ToString(),
@@ -187,8 +187,8 @@ namespace eFormSDK.Tests
             
             await field.Create(DbContext).ConfigureAwait(false);
             
-            List<fields> fields = DbContext.fields.AsNoTracking().ToList();
-            List<field_versions> fieldVersion = DbContext.field_versions.AsNoTracking().ToList();
+            List<Field> fields = DbContext.Fields.AsNoTracking().ToList();
+            List<FieldVersion> fieldVersion = DbContext.FieldVersions.AsNoTracking().ToList();
             
             Assert.NotNull(fields);                                                             
             Assert.NotNull(fieldVersion);                                                             
@@ -224,7 +224,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.MinValue, fields[1].MinValue);
             Assert.AreEqual(field.OriginalId, fields[1].OriginalId);
             Assert.AreEqual(field.ReadOnly, fields[1].ReadOnly);
-            Assert.AreEqual(field.SplitScreen, fields[1].SplitScreen);
+            Assert.AreEqual(field.Split, fields[1].Split);
             Assert.AreEqual(field.QueryType, fields[1].QueryType);
             Assert.AreEqual(field.UnitName, fields[1].UnitName);
             Assert.AreEqual(field.EntityGroupId, entityGroup.Id);
@@ -264,7 +264,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.MinValue, fieldVersion[1].MinValue);
             Assert.AreEqual(field.OriginalId, fieldVersion[1].OriginalId);
             Assert.AreEqual(field.ReadOnly, fieldVersion[1].ReadOnly);
-            Assert.AreEqual(field.SplitScreen, fieldVersion[1].SplitScreen);
+            Assert.AreEqual(field.Split, fieldVersion[1].Split);
             Assert.AreEqual(field.QueryType, fieldVersion[1].QueryType);
             Assert.AreEqual(field.UnitName, fieldVersion[1].UnitName);
             Assert.AreEqual(entityGroup.Id, fieldVersion[1].EntityGroupId);
@@ -285,14 +285,14 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            units unit = new units
+            Unit unit = new Unit
             {
                 CustomerNo = rnd.Next(1, 255),
                 MicrotingUid = rnd.Next(1, 255),
@@ -301,7 +301,7 @@ namespace eFormSDK.Tests
             };
             await unit.Create(DbContext).ConfigureAwait(false);
 
-            check_lists checklist = new check_lists
+            CheckList checklist = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -335,7 +335,7 @@ namespace eFormSDK.Tests
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
-            entity_groups entityGroup = new entity_groups
+            EntityGroup entityGroup = new EntityGroup
             {
                 Name = Guid.NewGuid().ToString(),
                 Type = Guid.NewGuid().ToString(),
@@ -343,13 +343,13 @@ namespace eFormSDK.Tests
             };
             await entityGroup.Create(DbContext).ConfigureAwait(false);
 
-            field_types fieldType = new field_types
+            FieldType fieldType = new FieldType
             {
-                Description = Guid.NewGuid().ToString(), FieldType = Guid.NewGuid().ToString()
+                Description = Guid.NewGuid().ToString(), Type = Guid.NewGuid().ToString()
             };
             await fieldType.Create(DbContext).ConfigureAwait(false);
 
-            fields parentFIeld = new fields
+            Field parentFIeld = new Field
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -375,7 +375,7 @@ namespace eFormSDK.Tests
                 OriginalId = Guid.NewGuid().ToString(),
                 QueryType = Guid.NewGuid().ToString(),
                 ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue),
-                SplitScreen = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Split = (short) rnd.Next(shortMinValue, shortmaxValue),
                 UnitName = Guid.NewGuid().ToString(),
                 StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue),
                 KeyValuePairList = Guid.NewGuid().ToString(),
@@ -385,7 +385,7 @@ namespace eFormSDK.Tests
             };
             await parentFIeld.Create(DbContext).ConfigureAwait(false);
 
-            fields field = new fields
+            Field field = new Field
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -411,7 +411,7 @@ namespace eFormSDK.Tests
                 OriginalId = Guid.NewGuid().ToString(),
                 QueryType = Guid.NewGuid().ToString(),
                 ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue),
-                SplitScreen = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Split = (short) rnd.Next(shortMinValue, shortmaxValue),
                 UnitName = Guid.NewGuid().ToString(),
                 StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue),
                 KeyValuePairList = Guid.NewGuid().ToString(),
@@ -449,7 +449,7 @@ namespace eFormSDK.Tests
             string oldOriginalId = field.OriginalId;
             string oldQueryType = field.QueryType;
             short? oldReadonly = field.ReadOnly;
-            short? oldSplitscreen = field.SplitScreen;
+            short? oldSplit = field.Split;
             string oldUnitName = field.UnitName;
             short? oldStopOnSave = field.StopOnSave;
             string oldKeyValuePairList = field.KeyValuePairList;
@@ -478,15 +478,15 @@ namespace eFormSDK.Tests
             field.OriginalId = Guid.NewGuid().ToString();
             field.QueryType = Guid.NewGuid().ToString();
             field.ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.SplitScreen = (short) rnd.Next(shortMinValue, shortmaxValue);
+            field.Split = (short) rnd.Next(shortMinValue, shortmaxValue);
             field.UnitName = Guid.NewGuid().ToString();
             field.StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue);
             field.KeyValuePairList = Guid.NewGuid().ToString();
 
             await field.Update(DbContext).ConfigureAwait(false);
 
-            List<fields> fields = DbContext.fields.AsNoTracking().ToList();
-            List<field_versions> fieldVersion = DbContext.field_versions.AsNoTracking().ToList();
+            List<Field> fields = DbContext.Fields.AsNoTracking().ToList();
+            List<FieldVersion> fieldVersion = DbContext.FieldVersions.AsNoTracking().ToList();
             
             Assert.NotNull(fields);                                                             
             Assert.NotNull(fieldVersion);                                                             
@@ -522,7 +522,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.MinValue, fields[1].MinValue);
             Assert.AreEqual(field.OriginalId, fields[1].OriginalId);
             Assert.AreEqual(field.ReadOnly, fields[1].ReadOnly);
-            Assert.AreEqual(field.SplitScreen, fields[1].SplitScreen);
+            Assert.AreEqual(field.Split, fields[1].Split);
             Assert.AreEqual(field.QueryType, fields[1].QueryType);
             Assert.AreEqual(field.UnitName, fields[1].UnitName);
             Assert.AreEqual(field.EntityGroupId, entityGroup.Id);
@@ -562,7 +562,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(oldMinValue, fieldVersion[1].MinValue);
             Assert.AreEqual(oldOriginalId, fieldVersion[1].OriginalId);
             Assert.AreEqual(oldReadonly, fieldVersion[1].ReadOnly);
-            Assert.AreEqual(oldSplitscreen, fieldVersion[1].SplitScreen);
+            Assert.AreEqual(oldSplit, fieldVersion[1].Split);
             Assert.AreEqual(oldQueryType, fieldVersion[1].QueryType);
             Assert.AreEqual(oldUnitName, fieldVersion[1].UnitName);
             Assert.AreEqual(entityGroup.Id, fieldVersion[1].EntityGroupId);
@@ -601,7 +601,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.MinValue, fieldVersion[2].MinValue);
             Assert.AreEqual(field.OriginalId, fieldVersion[2].OriginalId);
             Assert.AreEqual(field.ReadOnly, fieldVersion[2].ReadOnly);
-            Assert.AreEqual(field.SplitScreen, fieldVersion[2].SplitScreen);
+            Assert.AreEqual(field.Split, fieldVersion[2].Split);
             Assert.AreEqual(field.QueryType, fieldVersion[2].QueryType);
             Assert.AreEqual(field.UnitName, fieldVersion[2].UnitName);
             Assert.AreEqual(entityGroup.Id, fieldVersion[2].EntityGroupId);
@@ -622,14 +622,14 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            units unit = new units
+            Unit unit = new Unit
             {
                 CustomerNo = rnd.Next(1, 255),
                 MicrotingUid = rnd.Next(1, 255),
@@ -638,7 +638,7 @@ namespace eFormSDK.Tests
             };
             await unit.Create(DbContext).ConfigureAwait(false);
 
-            check_lists checklist = new check_lists
+            CheckList checklist = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -672,7 +672,7 @@ namespace eFormSDK.Tests
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
-            entity_groups entityGroup = new entity_groups
+            EntityGroup entityGroup = new EntityGroup
             {
                 Name = Guid.NewGuid().ToString(),
                 Type = Guid.NewGuid().ToString(),
@@ -680,13 +680,13 @@ namespace eFormSDK.Tests
             };
             await entityGroup.Create(DbContext).ConfigureAwait(false);
 
-            field_types fieldType = new field_types
+            FieldType fieldType = new FieldType
             {
-                Description = Guid.NewGuid().ToString(), FieldType = Guid.NewGuid().ToString()
+                Description = Guid.NewGuid().ToString(), Type = Guid.NewGuid().ToString()
             };
             await fieldType.Create(DbContext).ConfigureAwait(false);
 
-            fields parentFIeld = new fields
+            Field parentFIeld = new Field
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -712,7 +712,7 @@ namespace eFormSDK.Tests
                 OriginalId = Guid.NewGuid().ToString(),
                 QueryType = Guid.NewGuid().ToString(),
                 ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue),
-                SplitScreen = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Split = (short) rnd.Next(shortMinValue, shortmaxValue),
                 UnitName = Guid.NewGuid().ToString(),
                 StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue),
                 KeyValuePairList = Guid.NewGuid().ToString(),
@@ -722,7 +722,7 @@ namespace eFormSDK.Tests
             };
             await parentFIeld.Create(DbContext).ConfigureAwait(false);
 
-            fields field = new fields
+            Field field = new Field
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -748,7 +748,7 @@ namespace eFormSDK.Tests
                 OriginalId = Guid.NewGuid().ToString(),
                 QueryType = Guid.NewGuid().ToString(),
                 ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue),
-                SplitScreen = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Split = (short) rnd.Next(shortMinValue, shortmaxValue),
                 UnitName = Guid.NewGuid().ToString(),
                 StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue),
                 KeyValuePairList = Guid.NewGuid().ToString(),
@@ -765,8 +765,8 @@ namespace eFormSDK.Tests
 
             await field.Delete(DbContext);
 
-            List<fields> fields = DbContext.fields.AsNoTracking().ToList();
-            List<field_versions> fieldVersion = DbContext.field_versions.AsNoTracking().ToList();
+            List<Field> fields = DbContext.Fields.AsNoTracking().ToList();
+            List<FieldVersion> fieldVersion = DbContext.FieldVersions.AsNoTracking().ToList();
             
             Assert.NotNull(fields);                                                             
             Assert.NotNull(fieldVersion);                                                             
@@ -802,7 +802,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.MinValue, fields[1].MinValue);
             Assert.AreEqual(field.OriginalId, fields[1].OriginalId);
             Assert.AreEqual(field.ReadOnly, fields[1].ReadOnly);
-            Assert.AreEqual(field.SplitScreen, fields[1].SplitScreen);
+            Assert.AreEqual(field.Split, fields[1].Split);
             Assert.AreEqual(field.QueryType, fields[1].QueryType);
             Assert.AreEqual(field.UnitName, fields[1].UnitName);
             Assert.AreEqual(field.EntityGroupId, entityGroup.Id);
@@ -842,7 +842,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.MinValue, fieldVersion[1].MinValue);
             Assert.AreEqual(field.OriginalId, fieldVersion[1].OriginalId);
             Assert.AreEqual(field.ReadOnly, fieldVersion[1].ReadOnly);
-            Assert.AreEqual(field.SplitScreen, fieldVersion[1].SplitScreen);
+            Assert.AreEqual(field.Split, fieldVersion[1].Split);
             Assert.AreEqual(field.QueryType, fieldVersion[1].QueryType);
             Assert.AreEqual(field.UnitName, fieldVersion[1].UnitName);
             Assert.AreEqual(entityGroup.Id, fieldVersion[1].EntityGroupId);
@@ -881,7 +881,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.MinValue, fieldVersion[2].MinValue);
             Assert.AreEqual(field.OriginalId, fieldVersion[2].OriginalId);
             Assert.AreEqual(field.ReadOnly, fieldVersion[2].ReadOnly);
-            Assert.AreEqual(field.SplitScreen, fieldVersion[2].SplitScreen);
+            Assert.AreEqual(field.Split, fieldVersion[2].Split);
             Assert.AreEqual(field.QueryType, fieldVersion[2].QueryType);
             Assert.AreEqual(field.UnitName, fieldVersion[2].UnitName);
             Assert.AreEqual(entityGroup.Id, fieldVersion[2].EntityGroupId);

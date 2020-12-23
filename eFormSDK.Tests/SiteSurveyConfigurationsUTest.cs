@@ -43,19 +43,19 @@ namespace eFormSDK.Tests
             
             Random rnd = new Random();
             
-            sites site = new sites();
+            Site site = new Site();
             site.Name = Guid.NewGuid().ToString();
             site.MicrotingUid = rnd.Next(1, 255);
             await site.Create(DbContext).ConfigureAwait(false);
             
-            question_sets questionSet = new question_sets()
+            QuestionSet questionSet = new QuestionSet()
             {
                 ParentId = 0
             };
 
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
-            survey_configurations surveyConfiguration = new survey_configurations
+            SurveyConfiguration surveyConfiguration = new SurveyConfiguration
             {
                 Name = Guid.NewGuid().ToString(),
                 Start = DateTime.UtcNow,
@@ -66,7 +66,7 @@ namespace eFormSDK.Tests
             };
             await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
 
-            site_survey_configurations siteSurveyConfiguration = new site_survey_configurations
+            SiteSurveyConfiguration siteSurveyConfiguration = new SiteSurveyConfiguration
             {
                 SiteId = site.Id,
                 SurveyConfigurationId = surveyConfiguration.Id
@@ -77,8 +77,8 @@ namespace eFormSDK.Tests
             
             await siteSurveyConfiguration.Create(DbContext).ConfigureAwait(false);
             
-            List<site_survey_configurations> siteSurveyConfigurations = DbContext.site_survey_configurations.AsNoTracking().ToList();
-            List<site_survey_configuration_versions> siteSurveyConfigurationVersions = DbContext.site_survey_configuration_versions.AsNoTracking().ToList();
+            List<SiteSurveyConfiguration> siteSurveyConfigurations = DbContext.SiteSurveyConfigurations.AsNoTracking().ToList();
+            List<SiteSurveyConfigurationVersion> siteSurveyConfigurationVersions = DbContext.SiteSurveyConfigurationVersions.AsNoTracking().ToList();
             
             Assert.NotNull(siteSurveyConfigurations);                                                             
             Assert.NotNull(siteSurveyConfigurationVersions);                                                             
@@ -112,21 +112,21 @@ namespace eFormSDK.Tests
             
             Random rnd = new Random();
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
             
-            question_sets questionSet = new question_sets()
+            QuestionSet questionSet = new QuestionSet()
             {
                 ParentId = 0
             };
             
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
-            survey_configurations surveyConfiguration = new survey_configurations
+            SurveyConfiguration surveyConfiguration = new SurveyConfiguration
             {
                 Name = Guid.NewGuid().ToString(),
                 Start = DateTime.UtcNow,
@@ -137,7 +137,7 @@ namespace eFormSDK.Tests
             };
             await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
 
-            site_survey_configurations siteSurveyConfiguration = new site_survey_configurations
+            SiteSurveyConfiguration siteSurveyConfiguration = new SiteSurveyConfiguration
             {
                 SiteId = site.Id,
                 SurveyConfigurationId = surveyConfiguration.Id
@@ -151,8 +151,8 @@ namespace eFormSDK.Tests
             await siteSurveyConfiguration.Delete(DbContext);
 
             
-            List<site_survey_configurations> siteSurveyConfigurations = DbContext.site_survey_configurations.AsNoTracking().ToList();
-            List<site_survey_configuration_versions> siteSurveyConfigurationVersions = DbContext.site_survey_configuration_versions.AsNoTracking().ToList();
+            List<SiteSurveyConfiguration> siteSurveyConfigurations = DbContext.SiteSurveyConfigurations.AsNoTracking().ToList();
+            List<SiteSurveyConfigurationVersion> siteSurveyConfigurationVersions = DbContext.SiteSurveyConfigurationVersions.AsNoTracking().ToList();
             
             Assert.NotNull(siteSurveyConfigurations);                                                             
             Assert.NotNull(siteSurveyConfigurationVersions);                                                             

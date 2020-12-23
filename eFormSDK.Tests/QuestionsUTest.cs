@@ -45,17 +45,17 @@ namespace eFormSDK.Tests
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSetForQuestion = new question_sets
+            QuestionSet questionSetForQuestion = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -79,8 +79,8 @@ namespace eFormSDK.Tests
             
             await question.Create(DbContext).ConfigureAwait(false);
             
-            List<questions> questions = DbContext.questions.AsNoTracking().ToList();
-            List<question_versions> questionVersions = DbContext.question_versions.AsNoTracking().ToList();
+            List<Question> questions = DbContext.Questions.AsNoTracking().ToList();
+            List<QuestionVersion> questionVersions = DbContext.QuestionVersions.AsNoTracking().ToList();
             
             Assert.NotNull(questions);                                                             
             Assert.NotNull(questionVersions);                                                             
@@ -141,17 +141,17 @@ namespace eFormSDK.Tests
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSetForQuestion = new question_sets
+            QuestionSet questionSetForQuestion = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -208,8 +208,8 @@ namespace eFormSDK.Tests
             
             await question.Update(DbContext).ConfigureAwait(false);
 
-            List<questions> questions = DbContext.questions.AsNoTracking().ToList();
-            List<question_versions> questionVersions = DbContext.question_versions.AsNoTracking().ToList();
+            List<Question> questions = DbContext.Questions.AsNoTracking().ToList();
+            List<QuestionVersion> questionVersions = DbContext.QuestionVersions.AsNoTracking().ToList();
             
             Assert.NotNull(questions);                                                             
             Assert.NotNull(questionVersions);                                                             
@@ -292,17 +292,17 @@ namespace eFormSDK.Tests
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSetForQuestion = new question_sets
+            QuestionSet questionSetForQuestion = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -329,8 +329,8 @@ namespace eFormSDK.Tests
 
             await question.Delete(DbContext);
 
-            List<questions> questions = DbContext.questions.AsNoTracking().ToList();
-            List<question_versions> questionVersions = DbContext.question_versions.AsNoTracking().ToList();
+            List<Question> questions = DbContext.Questions.AsNoTracking().ToList();
+            List<QuestionVersion> questionVersions = DbContext.QuestionVersions.AsNoTracking().ToList();
             
             Assert.NotNull(questions);                                                             
             Assert.NotNull(questionVersions);                                                             

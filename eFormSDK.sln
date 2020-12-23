@@ -5,12 +5,6 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microting.eForm", "eFormCore\Microting.eForm.csproj", "{7F313870-A8FA-4D32-8120-3576E7523EB5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{9AE039E8-2919-455B-8727-14C08D3F0169}"
-	ProjectSection(SolutionItems) = preProject
-		CodeCoverage.runsettings = CodeCoverage.runsettings
-		TestSettings.runsettings = TestSettings.runsettings
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EC3ADE84-3AEF-4FD8-B722-133CAFBF1DB4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eFormSDK.Tests", "eFormSDK.Tests\eFormSDK.Tests.csproj", "{93E65074-6675-4B3E-A267-DB1E94EC9CE4}"

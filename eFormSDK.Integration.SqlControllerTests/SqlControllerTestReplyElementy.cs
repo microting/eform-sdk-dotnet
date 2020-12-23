@@ -38,6 +38,10 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using Microting.eForm.Infrastructure.Models;
+using Case = Microting.eForm.Infrastructure.Data.Entities.Case;
+using CheckListValue = Microting.eForm.Infrastructure.Data.Entities.CheckListValue;
+using Field = Microting.eForm.Infrastructure.Data.Entities.Field;
+using FieldValue = Microting.eForm.Infrastructure.Data.Entities.FieldValue;
 
 namespace eFormSDK.Integration.Tests
 {
@@ -75,11 +79,11 @@ namespace eFormSDK.Integration.Tests
             #region Template1
             DateTime cl1_Ca = DateTime.UtcNow;
             DateTime cl1_Ua = DateTime.UtcNow;
-            check_lists cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+            CheckList cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
             #endregion
 
             #region SubTemplate1
-            check_lists cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+            CheckList cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
 
             #endregion
 
@@ -87,8 +91,8 @@ namespace eFormSDK.Integration.Tests
             #region field1
 
 
-            fields f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+            Field f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
+                5, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
 
             #endregion
@@ -96,16 +100,16 @@ namespace eFormSDK.Integration.Tests
             #region field2
 
 
-            fields f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
-                45, 1, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 1, 0, 0,
+            Field f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+                45, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
             #endregion
 
             #region field3
 
-            fields f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
-                83, 0, DbContext.field_types.Where(x => x.FieldType == "number").First(), 0, 0, 1, 0,
+            Field f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+                83, 0, DbContext.FieldTypes.Where(x => x.Type == "number").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
 
             #endregion
@@ -113,16 +117,16 @@ namespace eFormSDK.Integration.Tests
             #region field4
 
 
-            fields f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
-                84, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 0, 0, 1, 0,
+            Field f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+                84, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
 
             #endregion
 
             #region field5
 
-            fields f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
-                85, 0, DbContext.field_types.Where(x => x.FieldType == "comment").First(), 1, 0, 1, 0,
+            Field f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+                85, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
        
             #endregion
@@ -130,62 +134,57 @@ namespace eFormSDK.Integration.Tests
 
             #region Worker
 
-            workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
      
             #endregion
 
             #region site
-            sites site = await testHelpers.CreateSite("SiteName", 88);
+            Site site = await testHelpers.CreateSite("SiteName", 88);
          
             #endregion
 
             #region units
-            units unit = await testHelpers.CreateUnit(48, 49, site, 348);
+            Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
      
-            #endregion
-
-            #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
-           
             #endregion
 
             #region Case1
 
-            cases aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
+            Case aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
                 worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
          
             #endregion
 
             #region Check List Values
-            check_list_values check_List_Values = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
+            CheckListValue checkListValue = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
          
 
             #endregion
 
             #region Field Values
             #region fv1
-            field_values field_Values1 = await testHelpers.CreateFieldValue(aCase, cl2, f1, null, null, "tomt1", 61234, worker);
+            FieldValue field_Values1 = await testHelpers.CreateFieldValue(aCase, cl2, f1, null, null, "tomt1", 61234, worker);
           
             #endregion
 
             #region fv2
-            field_values field_Values2 = await testHelpers.CreateFieldValue(aCase, cl2, f2, null, null, "tomt2", 61234, worker);
+            FieldValue field_Values2 = await testHelpers.CreateFieldValue(aCase, cl2, f2, null, null, "tomt2", 61234, worker);
       
             #endregion
 
             #region fv3
-            field_values field_Values3 = await testHelpers.CreateFieldValue(aCase, cl2, f3, null, null, "tomt3", 61234, worker);
+            FieldValue field_Values3 = await testHelpers.CreateFieldValue(aCase, cl2, f3, null, null, "tomt3", 61234, worker);
       
             #endregion
 
             #region fv4
-            field_values field_Values4 = await testHelpers.CreateFieldValue(aCase, cl2, f4, null, null, "tomt4", 61234, worker);
+            FieldValue field_Values4 = await testHelpers.CreateFieldValue(aCase, cl2, f4, null, null, "tomt4", 61234, worker);
         
             #endregion
 
             #region fv5
-            field_values field_Values5 = await testHelpers.CreateFieldValue(aCase, cl2, f5, null, null, "tomt5", 61234, worker);
+            FieldValue field_Values5 = await testHelpers.CreateFieldValue(aCase, cl2, f5, null, null, "tomt5", 61234, worker);
      
             #endregion
 
@@ -201,14 +200,14 @@ namespace eFormSDK.Integration.Tests
             #region Assert
 
             Assert.AreEqual(1, match.ElementList.Count());
-            CheckListValue clv = (CheckListValue)match.ElementList[0];
+            Microting.eForm.Infrastructure.Models.CheckListValue clv = (Microting.eForm.Infrastructure.Models.CheckListValue)match.ElementList[0];
             Assert.AreEqual(5, clv.DataItemList.Count);
             #region casts
-            Field _f1 = (Field)clv.DataItemList[0];
-            Field _f2 = (Field)clv.DataItemList[1];
-            Field _f3 = (Field)clv.DataItemList[2];
-            Field _f4 = (Field)clv.DataItemList[3];
-            Field _f5 = (Field)clv.DataItemList[4];
+            Microting.eForm.Infrastructure.Models.Field _f1 = (Microting.eForm.Infrastructure.Models.Field)clv.DataItemList[0];
+            Microting.eForm.Infrastructure.Models.Field _f2 = (Microting.eForm.Infrastructure.Models.Field)clv.DataItemList[1];
+            Microting.eForm.Infrastructure.Models.Field _f3 = (Microting.eForm.Infrastructure.Models.Field)clv.DataItemList[2];
+            Microting.eForm.Infrastructure.Models.Field _f4 = (Microting.eForm.Infrastructure.Models.Field)clv.DataItemList[3];
+            Microting.eForm.Infrastructure.Models.Field _f5 = (Microting.eForm.Infrastructure.Models.Field)clv.DataItemList[4];
 
 
             #endregion
@@ -417,11 +416,11 @@ namespace eFormSDK.Integration.Tests
             #endregion
 
             #region Split_Screen
-            Assert.AreEqual(f1.SplitScreen, 0);
-            Assert.AreEqual(f2.SplitScreen, 0);
-            Assert.AreEqual(f3.SplitScreen, 0);
-            Assert.AreEqual(f4.SplitScreen, 0);
-            Assert.AreEqual(f5.SplitScreen, 0);
+            Assert.AreEqual(f1.Split, 0);
+            Assert.AreEqual(f2.Split, 0);
+            Assert.AreEqual(f3.Split, 0);
+            Assert.AreEqual(f4.Split, 0);
+            Assert.AreEqual(f5.Split, 0);
 
             #endregion
 

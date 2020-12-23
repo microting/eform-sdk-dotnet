@@ -118,9 +118,9 @@ namespace Microting.eForm.Handlers
                             foreach (Check check in resp.Checks)
                             {
 
-                                int? unitUId = dbContext.units.Single(x => x.MicrotingUid == int.Parse(check.UnitId)).MicrotingUid; //sqlController.UnitRead(int.Parse(check.UnitId)).Result.UnitUId;
+                                int? unitUId = dbContext.Units.Single(x => x.MicrotingUid == int.Parse(check.UnitId)).MicrotingUid; //sqlController.UnitRead(int.Parse(check.UnitId)).Result.UnitUId;
                                 log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(unitUId), unitUId);
-                                int? workerUId = dbContext.workers
+                                int? workerUId = dbContext.Workers
                                     .Single(x => x.MicrotingUid == int.Parse(check.WorkerId)).MicrotingUid; //sqlController.WorkerRead(int.Parse(check.WorkerId)).Result.WorkerUId;
                                 log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(workerUId), workerUId);
 

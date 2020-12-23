@@ -44,16 +44,16 @@ namespace eFormSDK.Tests
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSet = new question_sets
+            QuestionSet questionSet = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -73,7 +73,7 @@ namespace eFormSDK.Tests
             };
             await question.Create(DbContext).ConfigureAwait(false);
 
-            options option = new options
+            Option option = new Option
             {
                 Weight = rnd.Next(1, 255),
                 OptionIndex = rnd.Next(1, 255),
@@ -85,8 +85,8 @@ namespace eFormSDK.Tests
             
             await option.Create(DbContext).ConfigureAwait(false);
             
-            List<options> options = DbContext.options.AsNoTracking().ToList();
-            List<option_versions> optionVersions = DbContext.option_versions.AsNoTracking().ToList();
+            List<Option> options = DbContext.Options.AsNoTracking().ToList();
+            List<OptionVersion> optionVersions = DbContext.OptionVersions.AsNoTracking().ToList();
             
             Assert.NotNull(options);                                                             
             Assert.NotNull(optionVersions);                                                             
@@ -122,16 +122,16 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSet = new question_sets
+            QuestionSet questionSet = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -151,7 +151,7 @@ namespace eFormSDK.Tests
             };
             await question.Create(DbContext).ConfigureAwait(false);
 
-            options option = new options
+            Option option = new Option
             {
                 Weight = rnd.Next(1, 255),
                 OptionIndex = rnd.Next(1, 255),
@@ -172,8 +172,8 @@ namespace eFormSDK.Tests
             option.WeightValue = rnd.Next(1, 255);
             await option.Update(DbContext).ConfigureAwait(false);
 
-            List<options> options = DbContext.options.AsNoTracking().ToList();
-            List<option_versions> optionVersions = DbContext.option_versions.AsNoTracking().ToList();
+            List<Option> options = DbContext.Options.AsNoTracking().ToList();
+            List<OptionVersion> optionVersions = DbContext.OptionVersions.AsNoTracking().ToList();
             
             Assert.NotNull(options);                                                             
             Assert.NotNull(optionVersions);                                                             
@@ -221,16 +221,16 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSet = new question_sets
+            QuestionSet questionSet = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -250,7 +250,7 @@ namespace eFormSDK.Tests
             };
             await question.Create(DbContext).ConfigureAwait(false);
 
-            options option = new options
+            Option option = new Option
             {
                 Weight = rnd.Next(1, 255),
                 OptionIndex = rnd.Next(1, 255),
@@ -265,8 +265,8 @@ namespace eFormSDK.Tests
             
             await option.Delete(DbContext);
 
-            List<options> options = DbContext.options.AsNoTracking().ToList();
-            List<option_versions> optionVersions = DbContext.option_versions.AsNoTracking().ToList();
+            List<Option> options = DbContext.Options.AsNoTracking().ToList();
+            List<OptionVersion> optionVersions = DbContext.OptionVersions.AsNoTracking().ToList();
             
             Assert.NotNull(options);                                                             
             Assert.NotNull(optionVersions);                                                             

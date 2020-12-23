@@ -44,7 +44,7 @@ namespace eFormSDK.Tests
             
             Random rnd = new Random();
 
-            folders parentFolder = new folders
+            Folder parentFolder = new Folder
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString(),
@@ -52,7 +52,7 @@ namespace eFormSDK.Tests
             };
             await parentFolder.Create(DbContext).ConfigureAwait(false);
 
-            folders folder = new folders
+            Folder folder = new Folder
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString(),
@@ -64,8 +64,8 @@ namespace eFormSDK.Tests
             
             await folder.Create(DbContext).ConfigureAwait(false);
             
-            List<folders> folders = DbContext.folders.AsNoTracking().ToList();
-            List<folder_versions> folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
+            List<Folder> folders = DbContext.Folders.AsNoTracking().ToList();
+            List<FolderVersion> folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
             
             Assert.NotNull(folders);                                                             
             Assert.NotNull(folderVersions);                                                             
@@ -101,7 +101,7 @@ namespace eFormSDK.Tests
             
             Random rnd = new Random();
 
-            folders parentFolder = new folders
+            Folder parentFolder = new Folder
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString(),
@@ -109,7 +109,7 @@ namespace eFormSDK.Tests
             };
             await parentFolder.Create(DbContext).ConfigureAwait(false);
 
-            folders folder = new folders
+            Folder folder = new Folder
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString(),
@@ -129,8 +129,8 @@ namespace eFormSDK.Tests
             folder.MicrotingUid = rnd.Next(1, 255);
             await folder.Update(DbContext).ConfigureAwait(false);
             
-            List<folders> folders = DbContext.folders.AsNoTracking().ToList();
-            List<folder_versions> folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
+            List<Folder> folders = DbContext.Folders.AsNoTracking().ToList();
+            List<FolderVersion> folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
             
             Assert.NotNull(folders);                                                             
             Assert.NotNull(folderVersions);                                                             
@@ -177,7 +177,7 @@ namespace eFormSDK.Tests
             
             Random rnd = new Random();
 
-            folders parentFolder = new folders
+            Folder parentFolder = new Folder
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString(),
@@ -185,7 +185,7 @@ namespace eFormSDK.Tests
             };
             await parentFolder.Create(DbContext).ConfigureAwait(false);
 
-            folders folder = new folders
+            Folder folder = new Folder
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString(),
@@ -198,8 +198,8 @@ namespace eFormSDK.Tests
             
             await folder.Delete(DbContext);
             
-            List<folders> folders = DbContext.folders.AsNoTracking().ToList();
-            List<folder_versions> folderVersions = DbContext.folder_versions.AsNoTracking().ToList();
+            List<Folder> folders = DbContext.Folders.AsNoTracking().ToList();
+            List<FolderVersion> folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
             
             Assert.NotNull(folders);                                                             
             Assert.NotNull(folderVersions);                                                             

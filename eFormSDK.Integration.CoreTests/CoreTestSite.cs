@@ -89,7 +89,7 @@ namespace eFormSDK.Integration.Tests
             var match = await sut.SiteCreate("John Noname Doe", "John Noname", "Doe", "some_email@invalid.com");
 
             // Assert
-            var sites = DbContext.sites.AsNoTracking().ToList();
+            var sites = DbContext.Sites.AsNoTracking().ToList();
 
             Assert.NotNull(sites);
 
@@ -285,25 +285,23 @@ namespace eFormSDK.Integration.Tests
 
             #region Worker
 
-            workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
             #endregion
 
             #region site
-            sites site = await testHelpers.CreateSite("SiteName", 88);
+            Site site = await testHelpers.CreateSite("SiteName", 88);
 
             #endregion
 
             #region units
-            units unit = await testHelpers.CreateUnit(48, 49, site, 348);
+            Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
 
             #endregion
-
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
+            await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
-
             // Act
 
             var match = await sut.SiteRead((int)site.MicrotingUid);
@@ -486,22 +484,22 @@ namespace eFormSDK.Integration.Tests
 
             #region Worker
 
-            workers worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+            Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
             #endregion
 
             #region site
-            sites site = await testHelpers.CreateSite("SiteName", 88);
+            Site site = await testHelpers.CreateSite("SiteName", 88);
 
             #endregion
 
             #region units
-            units unit = await testHelpers.CreateUnit(48, 49, site, 348);
+            Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
 
             #endregion
 
             #region site_workers
-            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
             // Act
@@ -523,7 +521,7 @@ namespace eFormSDK.Integration.Tests
 
             // Arrange
             #region site
-            sites site = await testHelpers.CreateSite("SiteName", 88);
+            Site site = await testHelpers.CreateSite("SiteName", 88);
 
             #endregion
             // Act
@@ -541,7 +539,7 @@ namespace eFormSDK.Integration.Tests
             int siteMicrotingUid = 1; // This needs to be 1 for our tests to pass through the FakeHttp
             // TODO: Improve the test for supporting random id.
 
-            sites site = await testHelpers.CreateSite(siteName, siteMicrotingUid);
+            Site site = await testHelpers.CreateSite(siteName, siteMicrotingUid);
             SiteNameDto siteName_Dto = new SiteNameDto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
             #endregion
 
@@ -553,15 +551,15 @@ namespace eFormSDK.Integration.Tests
             int workerMicrotingUid = 1; // This needs to be 1 for our tests to pass through the FakeHttp
             // TODO: Improve the test for supporting random id.
 
-            workers worker = await testHelpers.CreateWorker(email, firstName, lastName, workerMicrotingUid);
+            Worker worker = await testHelpers.CreateWorker(email, firstName, lastName, workerMicrotingUid);
             #endregion
 
             #region site_worker
-            site_workers site_worker = await testHelpers.CreateSiteWorker(1, site, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(1, site, worker);
             #endregion
 
             #region unit
-            units unit = await testHelpers.CreateUnit(1, 1, site, 1);
+            Unit unit = await testHelpers.CreateUnit(1, 1, site, 1);
             #endregion
 
 
@@ -578,7 +576,7 @@ namespace eFormSDK.Integration.Tests
             int siteMicrotingUid = 1; // This needs to be 1 for our tests to pass through the FakeHttp
             // TODO: Improve the test for supporting random id.
 
-            sites site = await testHelpers.CreateSite(siteName, siteMicrotingUid);
+            Site site = await testHelpers.CreateSite(siteName, siteMicrotingUid);
             SiteNameDto siteName_Dto = new SiteNameDto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
             #endregion
 
@@ -590,15 +588,15 @@ namespace eFormSDK.Integration.Tests
             int workerMicrotingUid = 1; // This needs to be 1 for our tests to pass through the FakeHttp
             // TODO: Improve the test for supporting random id.
 
-            workers worker = await testHelpers.CreateWorker(email, firstName, lastName, workerMicrotingUid);
+            Worker worker = await testHelpers.CreateWorker(email, firstName, lastName, workerMicrotingUid);
             #endregion
 
             #region site_worker
-            site_workers site_worker = await testHelpers.CreateSiteWorker(1, site, worker);
+            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(1, site, worker);
             #endregion
 
             #region unit
-            units unit = await testHelpers.CreateUnit(1, 1, site, 1);
+            Unit unit = await testHelpers.CreateUnit(1, 1, site, 1);
             #endregion
             // Act
             var match = await sut.SiteDelete((int)site.MicrotingUid);

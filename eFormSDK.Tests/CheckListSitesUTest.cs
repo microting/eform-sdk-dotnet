@@ -48,14 +48,14 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            check_lists checklist = new check_lists
+            CheckList checklist = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -89,7 +89,7 @@ namespace eFormSDK.Tests
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
-            check_list_sites checkListSite = new check_list_sites
+            CheckListSite checkListSite = new CheckListSite
             {
                 MicrotingUid = rnd.Next(1, 255),
                 SiteId = site.Id,
@@ -101,8 +101,8 @@ namespace eFormSDK.Tests
             
             await checkListSite.Create(DbContext).ConfigureAwait(false);
             
-            List<check_list_sites> checkListSites = DbContext.check_list_sites.AsNoTracking().ToList();
-            List<check_list_site_versions> checkListSitesVersion = DbContext.check_list_site_versions.AsNoTracking().ToList();
+            List<CheckListSite> checkListSites = DbContext.CheckListSites.AsNoTracking().ToList();
+            List<CheckListSiteVersion> checkListSitesVersion = DbContext.CheckListSiteVersions.AsNoTracking().ToList();
 
             //Assert
             
@@ -146,14 +146,14 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(), 
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            check_lists checklist = new check_lists
+            CheckList checklist = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -187,7 +187,7 @@ namespace eFormSDK.Tests
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
-            check_list_sites checkListSite = new check_list_sites
+            CheckListSite checkListSite = new CheckListSite
             {
                 MicrotingUid = rnd.Next(1, 255),
                 SiteId = site.Id,
@@ -207,8 +207,8 @@ namespace eFormSDK.Tests
             
             await checkListSite.Update(DbContext).ConfigureAwait(false);
             
-            List<check_list_sites> checkListSites = DbContext.check_list_sites.AsNoTracking().ToList();
-            List<check_list_site_versions> checkListSitesVersion = DbContext.check_list_site_versions.AsNoTracking().ToList();
+            List<CheckListSite> checkListSites = DbContext.CheckListSites.AsNoTracking().ToList();
+            List<CheckListSiteVersion> checkListSitesVersion = DbContext.CheckListSiteVersions.AsNoTracking().ToList();
 
             //Assert
             
@@ -263,14 +263,14 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            check_lists checklist = new check_lists
+            CheckList checklist = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -304,7 +304,7 @@ namespace eFormSDK.Tests
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
-            check_list_sites checkListSite = new check_list_sites
+            CheckListSite checkListSite = new CheckListSite
             {
                 MicrotingUid = rnd.Next(1, 255),
                 SiteId = site.Id,
@@ -319,8 +319,8 @@ namespace eFormSDK.Tests
 
             await checkListSite.Delete(DbContext);
             
-            List<check_list_sites> checkListSites = DbContext.check_list_sites.AsNoTracking().ToList();
-            List<check_list_site_versions> checkListSitesVersion = DbContext.check_list_site_versions.AsNoTracking().ToList();
+            List<CheckListSite> checkListSites = DbContext.CheckListSites.AsNoTracking().ToList();
+            List<CheckListSiteVersion> checkListSitesVersion = DbContext.CheckListSiteVersions.AsNoTracking().ToList();
 
             //Assert
             

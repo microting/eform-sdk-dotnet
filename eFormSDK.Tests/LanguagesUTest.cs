@@ -41,7 +41,7 @@ namespace eFormSDK.Tests
         {
             //Arrange
 
-            languages language = new languages
+            Language language = new Language
             {
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
@@ -51,8 +51,8 @@ namespace eFormSDK.Tests
             
             await language.Create(DbContext).ConfigureAwait(false);
             
-            List<languages> languages = DbContext.languages.AsNoTracking().ToList();
-            List<language_versions> languageVersions = DbContext.language_versions.AsNoTracking().ToList();
+            List<Language> languages = DbContext.Languages.AsNoTracking().ToList();
+            List<LanguageVersion> languageVersions = DbContext.LanguageVersions.AsNoTracking().ToList();
             
             Assert.NotNull(languages);                                                             
             Assert.NotNull(languageVersions);                                                             
@@ -82,7 +82,7 @@ namespace eFormSDK.Tests
         {
             //Arrange
 
-            languages language = new languages
+            Language language = new Language
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
@@ -99,8 +99,8 @@ namespace eFormSDK.Tests
             await language.Update(DbContext).ConfigureAwait(false);
             
             
-            List<languages> languages = DbContext.languages.AsNoTracking().ToList();
-            List<language_versions> languageVersions = DbContext.language_versions.AsNoTracking().ToList();
+            List<Language> languages = DbContext.Languages.AsNoTracking().ToList();
+            List<LanguageVersion> languageVersions = DbContext.LanguageVersions.AsNoTracking().ToList();
             
             Assert.NotNull(languages);                                                             
             Assert.NotNull(languageVersions);                                                             
@@ -139,7 +139,7 @@ namespace eFormSDK.Tests
         {
             //Arrange
 
-            languages language = new languages
+            Language language = new Language
             {
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
@@ -152,8 +152,8 @@ namespace eFormSDK.Tests
             await language.Delete(DbContext);
             
             
-            List<languages> languages = DbContext.languages.AsNoTracking().ToList();
-            List<language_versions> languageVersions = DbContext.language_versions.AsNoTracking().ToList();
+            List<Language> languages = DbContext.Languages.AsNoTracking().ToList();
+            List<LanguageVersion> languageVersions = DbContext.LanguageVersions.AsNoTracking().ToList();
             
             Assert.NotNull(languages);                                                             
             Assert.NotNull(languageVersions);                                                             

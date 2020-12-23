@@ -43,7 +43,7 @@ namespace eFormSDK.Tests
             
             Random rnd = new Random();
 
-            tags tag = new tags
+            Tag tag = new Tag
             {
                 Name = Guid.NewGuid().ToString(),
                 TaggingsCount = rnd.Next(1, 255)
@@ -53,8 +53,8 @@ namespace eFormSDK.Tests
             
             await tag.Create(DbContext).ConfigureAwait(false);
 
-            List<tags> tags = DbContext.tags.AsNoTracking().ToList();                            
-            List<tag_versions> tagVersions = DbContext.tag_versions.AsNoTracking().ToList(); 
+            List<Tag> tags = DbContext.Tags.AsNoTracking().ToList();                            
+            List<TagVersion> tagVersions = DbContext.TagVersions.AsNoTracking().ToList(); 
             
             //Assert
             
@@ -85,7 +85,7 @@ namespace eFormSDK.Tests
         {
             Random rnd = new Random();
 
-            tags tag = new tags
+            Tag tag = new Tag
             {
                 Name = Guid.NewGuid().ToString(),
                 TaggingsCount = rnd.Next(1, 255)
@@ -105,8 +105,8 @@ namespace eFormSDK.Tests
             
             await tag.Update(DbContext).ConfigureAwait(false);
             
-            List<tags> tags = DbContext.tags.AsNoTracking().ToList();                            
-            List<tag_versions> tagVersions = DbContext.tag_versions.AsNoTracking().ToList(); 
+            List<Tag> tags = DbContext.Tags.AsNoTracking().ToList();                            
+            List<TagVersion> tagVersions = DbContext.TagVersions.AsNoTracking().ToList(); 
             
             //Assert
             
@@ -145,7 +145,7 @@ namespace eFormSDK.Tests
         {
             Random rnd = new Random();
 
-            tags tag = new tags
+            Tag tag = new Tag
             {
                 Name = Guid.NewGuid().ToString(),
                 TaggingsCount = rnd.Next(1, 255)
@@ -159,8 +159,8 @@ namespace eFormSDK.Tests
             
             await tag.Delete(DbContext);
             
-            List<tags> tags = DbContext.tags.AsNoTracking().ToList();                            
-            List<tag_versions> tagVersions = DbContext.tag_versions.AsNoTracking().ToList(); 
+            List<Tag> tags = DbContext.Tags.AsNoTracking().ToList();                            
+            List<TagVersion> tagVersions = DbContext.TagVersions.AsNoTracking().ToList(); 
             
             //Assert
             

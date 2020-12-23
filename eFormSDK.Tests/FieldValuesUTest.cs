@@ -46,14 +46,14 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            units unit = new units
+            Unit unit = new Unit
             {
                 CustomerNo = rnd.Next(1, 255),
                 MicrotingUid = rnd.Next(1, 255),
@@ -62,7 +62,7 @@ namespace eFormSDK.Tests
             };
             await unit.Create(DbContext).ConfigureAwait(false);
 
-            check_lists checklist = new check_lists
+            CheckList checklist = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -96,7 +96,7 @@ namespace eFormSDK.Tests
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
-            entity_groups entityGroup = new entity_groups
+            EntityGroup entityGroup = new EntityGroup
             {
                 Name = Guid.NewGuid().ToString(),
                 Type = Guid.NewGuid().ToString(),
@@ -104,13 +104,13 @@ namespace eFormSDK.Tests
             };
             await entityGroup.Create(DbContext).ConfigureAwait(false);
 
-            field_types fieldType = new field_types
+            FieldType fieldType = new FieldType
             {
-                Description = Guid.NewGuid().ToString(), FieldType = Guid.NewGuid().ToString()
+                Description = Guid.NewGuid().ToString(), Type = Guid.NewGuid().ToString()
             };
             await fieldType.Create(DbContext).ConfigureAwait(false);
 
-            fields field = new fields
+            Field field = new Field
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -136,7 +136,7 @@ namespace eFormSDK.Tests
                 OriginalId = Guid.NewGuid().ToString(),
                 QueryType = Guid.NewGuid().ToString(),
                 ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue),
-                SplitScreen = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Split = (short) rnd.Next(shortMinValue, shortmaxValue),
                 UnitName = Guid.NewGuid().ToString(),
                 StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue),
                 KeyValuePairList = Guid.NewGuid().ToString(),
@@ -148,7 +148,7 @@ namespace eFormSDK.Tests
 
 
 
-            workers worker = new workers
+            Worker worker = new Worker
             {
                 Email = Guid.NewGuid().ToString(),
                 FirstName = Guid.NewGuid().ToString(),
@@ -157,7 +157,7 @@ namespace eFormSDK.Tests
             };
             await worker.Create(DbContext).ConfigureAwait(false);
 
-            cases theCase = new cases
+            Case theCase = new Case
             {
                 Custom = Guid.NewGuid().ToString(),
                 Status = rnd.Next(1, 255),
@@ -183,7 +183,7 @@ namespace eFormSDK.Tests
             };
             await theCase.Create(DbContext).ConfigureAwait(false);
 
-            uploaded_data uploadedData = new uploaded_data
+            UploadedData uploadedData = new UploadedData
             {
                 Checksum = Guid.NewGuid().ToString(),
                 Extension = Guid.NewGuid().ToString(),
@@ -198,7 +198,7 @@ namespace eFormSDK.Tests
             };
             await uploadedData.Create(DbContext).ConfigureAwait(false);
 
-            field_values fieldValue = new field_values
+            FieldValue fieldValue = new FieldValue
             {
                 Accuracy = Guid.NewGuid().ToString(),
                 Altitude = Guid.NewGuid().ToString(),
@@ -219,8 +219,8 @@ namespace eFormSDK.Tests
             
             await fieldValue.Create(DbContext).ConfigureAwait(false);
             
-            List<field_values> fieldValues = DbContext.field_values.AsNoTracking().ToList();
-            List<field_value_versions> fieldValueVersions = DbContext.field_value_versions.AsNoTracking().ToList();
+            List<FieldValue> fieldValues = DbContext.FieldValues.AsNoTracking().ToList();
+            List<FieldValueVersion> fieldValueVersions = DbContext.FieldValueVersions.AsNoTracking().ToList();
             
             Assert.NotNull(fieldValues);                                                             
             Assert.NotNull(fieldValueVersions);                                                             
@@ -276,14 +276,14 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            units unit = new units
+            Unit unit = new Unit
             {
                 CustomerNo = rnd.Next(1, 255),
                 MicrotingUid = rnd.Next(1, 255),
@@ -292,7 +292,7 @@ namespace eFormSDK.Tests
             };
             await unit.Create(DbContext).ConfigureAwait(false);
 
-            check_lists checklist = new check_lists
+            CheckList checklist = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -326,7 +326,7 @@ namespace eFormSDK.Tests
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
-            entity_groups entityGroup = new entity_groups
+            EntityGroup entityGroup = new EntityGroup
             {
                 Name = Guid.NewGuid().ToString(),
                 Type = Guid.NewGuid().ToString(),
@@ -334,14 +334,14 @@ namespace eFormSDK.Tests
             };
             await entityGroup.Create(DbContext).ConfigureAwait(false);
 
-            field_types fieldType = new field_types
+            FieldType fieldType = new FieldType
             {
                 Description = Guid.NewGuid().ToString(),
-                FieldType = Guid.NewGuid().ToString()
+                Type = Guid.NewGuid().ToString()
             };
             await fieldType.Create(DbContext).ConfigureAwait(false);
 
-            fields field = new fields
+            Field field = new Field
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -367,7 +367,7 @@ namespace eFormSDK.Tests
                 OriginalId = Guid.NewGuid().ToString(),
                 QueryType = Guid.NewGuid().ToString(),
                 ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue),
-                SplitScreen = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Split = (short) rnd.Next(shortMinValue, shortmaxValue),
                 UnitName = Guid.NewGuid().ToString(),
                 StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue),
                 KeyValuePairList = Guid.NewGuid().ToString(),
@@ -377,7 +377,7 @@ namespace eFormSDK.Tests
             };
             await field.Create(DbContext).ConfigureAwait(false);
 
-            workers worker = new workers
+            Worker worker = new Worker
             {
                 Email = Guid.NewGuid().ToString(),
                 FirstName = Guid.NewGuid().ToString(),
@@ -386,7 +386,7 @@ namespace eFormSDK.Tests
             };
             await worker.Create(DbContext).ConfigureAwait(false);
 
-            cases theCase = new cases
+            Case theCase = new Case
             {
                 Custom = Guid.NewGuid().ToString(),
                 Status = rnd.Next(1, 255),
@@ -412,7 +412,7 @@ namespace eFormSDK.Tests
             };
             await theCase.Create(DbContext).ConfigureAwait(false);
 
-            uploaded_data uploadedData = new uploaded_data
+            UploadedData uploadedData = new UploadedData
             {
                 Checksum = Guid.NewGuid().ToString(),
                 Extension = Guid.NewGuid().ToString(),
@@ -427,7 +427,7 @@ namespace eFormSDK.Tests
             };
             await uploadedData.Create(DbContext).ConfigureAwait(false);
 
-            field_values fieldValue = new field_values
+            FieldValue fieldValue = new FieldValue
             {
                 Accuracy = Guid.NewGuid().ToString(),
                 Altitude = Guid.NewGuid().ToString(),
@@ -468,8 +468,8 @@ namespace eFormSDK.Tests
 
             await fieldValue.Update(DbContext).ConfigureAwait(false);
             
-            List<field_values> fieldValues = DbContext.field_values.AsNoTracking().ToList();
-            List<field_value_versions> fieldValueVersions = DbContext.field_value_versions.AsNoTracking().ToList();
+            List<FieldValue> fieldValues = DbContext.FieldValues.AsNoTracking().ToList();
+            List<FieldValueVersion> fieldValueVersions = DbContext.FieldValueVersions.AsNoTracking().ToList();
             
             Assert.NotNull(fieldValues);                                                             
             Assert.NotNull(fieldValueVersions);                                                             
@@ -544,14 +544,14 @@ namespace eFormSDK.Tests
             
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            sites site = new sites
+            Site site = new Site
             {
                 Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
             await site.Create(DbContext).ConfigureAwait(false);
 
-            units unit = new units
+            Unit unit = new Unit
             {
                 CustomerNo = rnd.Next(1, 255),
                 MicrotingUid = rnd.Next(1, 255),
@@ -560,7 +560,7 @@ namespace eFormSDK.Tests
             };
             await unit.Create(DbContext).ConfigureAwait(false);
 
-            check_lists checklist = new check_lists
+            CheckList checklist = new CheckList
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -594,7 +594,7 @@ namespace eFormSDK.Tests
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
-            entity_groups entityGroup = new entity_groups
+            EntityGroup entityGroup = new EntityGroup
             {
                 Name = Guid.NewGuid().ToString(),
                 Type = Guid.NewGuid().ToString(),
@@ -602,14 +602,14 @@ namespace eFormSDK.Tests
             };
             await entityGroup.Create(DbContext).ConfigureAwait(false);
 
-            field_types fieldType = new field_types
+            FieldType fieldType = new FieldType
             {
                 Description = Guid.NewGuid().ToString(),
-                FieldType = Guid.NewGuid().ToString()
+                Type = Guid.NewGuid().ToString()
             };
             await fieldType.Create(DbContext).ConfigureAwait(false);
 
-            fields field = new fields
+            Field field = new Field
             {
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
@@ -635,7 +635,7 @@ namespace eFormSDK.Tests
                 OriginalId = Guid.NewGuid().ToString(),
                 QueryType = Guid.NewGuid().ToString(),
                 ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue),
-                SplitScreen = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Split = (short) rnd.Next(shortMinValue, shortmaxValue),
                 UnitName = Guid.NewGuid().ToString(),
                 StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue),
                 KeyValuePairList = Guid.NewGuid().ToString(),
@@ -645,7 +645,7 @@ namespace eFormSDK.Tests
             };
             await field.Create(DbContext).ConfigureAwait(false);
 
-            workers worker = new workers
+            Worker worker = new Worker
             {
                 Email = Guid.NewGuid().ToString(),
                 FirstName = Guid.NewGuid().ToString(),
@@ -654,7 +654,7 @@ namespace eFormSDK.Tests
             };
             await worker.Create(DbContext).ConfigureAwait(false);
 
-            cases theCase = new cases
+            Case theCase = new Case
             {
                 Custom = Guid.NewGuid().ToString(),
                 Status = rnd.Next(1, 255),
@@ -680,7 +680,7 @@ namespace eFormSDK.Tests
             };
             await theCase.Create(DbContext).ConfigureAwait(false);
 
-            uploaded_data uploadedData = new uploaded_data
+            UploadedData uploadedData = new UploadedData
             {
                 Checksum = Guid.NewGuid().ToString(),
                 Extension = Guid.NewGuid().ToString(),
@@ -695,7 +695,7 @@ namespace eFormSDK.Tests
             };
             await uploadedData.Create(DbContext).ConfigureAwait(false);
 
-            field_values fieldValue = new field_values
+            FieldValue fieldValue = new FieldValue
             {
                 Accuracy = Guid.NewGuid().ToString(),
                 Altitude = Guid.NewGuid().ToString(),
@@ -720,8 +720,8 @@ namespace eFormSDK.Tests
 
             await fieldValue.Delete(DbContext);
             
-            List<field_values> fieldValues = DbContext.field_values.AsNoTracking().ToList();
-            List<field_value_versions> fieldValueVersions = DbContext.field_value_versions.AsNoTracking().ToList();
+            List<FieldValue> fieldValues = DbContext.FieldValues.AsNoTracking().ToList();
+            List<FieldValueVersion> fieldValueVersions = DbContext.FieldValueVersions.AsNoTracking().ToList();
             
             Assert.NotNull(fieldValues);                                                             
             Assert.NotNull(fieldValueVersions);                                                             

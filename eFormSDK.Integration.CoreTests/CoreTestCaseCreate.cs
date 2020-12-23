@@ -48,7 +48,7 @@ namespace eFormSDK.Integration.CoreTests
             DateTime c1_Ca = DateTime.Now;
             DateTime c1_Ua = DateTime.Now;
 
-            check_lists cl1 = await testHelpers.CreateTemplate(c1_Ca, c1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+            CheckList cl1 = await testHelpers.CreateTemplate(c1_Ca, c1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
 
@@ -114,7 +114,7 @@ namespace eFormSDK.Integration.CoreTests
 //            #endregion
 
             #region site
-            sites site = await testHelpers.CreateSite("SiteName", 88);
+            Site site = await testHelpers.CreateSite("SiteName", 88);
 
             #endregion
 

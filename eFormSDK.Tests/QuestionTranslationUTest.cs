@@ -19,17 +19,17 @@ namespace eFormSDK.Tests
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSetForQuestion = new question_sets
+            QuestionSet questionSetForQuestion = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -50,14 +50,14 @@ namespace eFormSDK.Tests
             };
             await question.Create(DbContext).ConfigureAwait(false);
 
-            languages language = new languages
+            Language language = new Language
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
-            question_translations questionTranslation = new question_translations
+            QuestionTranslation questionTranslation = new QuestionTranslation
             {
                 LanguageId = language.Id,
                 Name = Guid.NewGuid().ToString(),
@@ -68,8 +68,8 @@ namespace eFormSDK.Tests
             // Act
             await questionTranslation.Create(DbContext).ConfigureAwait(false);
 
-            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
-            List<question_translation_versions> questionTranslationVersions =
+            List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
@@ -98,17 +98,17 @@ namespace eFormSDK.Tests
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSetForQuestion = new question_sets
+            QuestionSet questionSetForQuestion = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -129,14 +129,14 @@ namespace eFormSDK.Tests
             };
             await question.Create(DbContext).ConfigureAwait(false);
 
-            languages language = new languages
+            Language language = new Language
             {
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
-            question_translations questionTranslation = new question_translations
+            QuestionTranslation questionTranslation = new QuestionTranslation
             {
                 LanguageId = language.Id,
                 Name = Guid.NewGuid().ToString(),
@@ -146,8 +146,8 @@ namespace eFormSDK.Tests
             // Act
             await questionTranslation.Create(DbContext).ConfigureAwait(false);
 
-            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
-            List<question_translation_versions> questionTranslationVersions =
+            List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
@@ -176,27 +176,27 @@ namespace eFormSDK.Tests
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSetForQuestion = new question_sets
+            QuestionSet questionSetForQuestion = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
-            question_sets questionSetForQuestion2 = new question_sets
+            QuestionSet questionSetForQuestion2 = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion2.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -217,7 +217,7 @@ namespace eFormSDK.Tests
             };
             await question.Create(DbContext).ConfigureAwait(false);
 
-            questions question2 = new questions
+            Question question2 = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -238,19 +238,19 @@ namespace eFormSDK.Tests
             };
             await question2.Create(DbContext).ConfigureAwait(false);
 
-            languages language = new languages
+            Language language = new Language
             {
                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
-            languages language2 = new languages
+            Language language2 = new Language
             {
                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
             await language2.Create(DbContext).ConfigureAwait(false);
 
-            question_translations questionTranslation = new question_translations
+            QuestionTranslation questionTranslation = new QuestionTranslation
             {
                 LanguageId = language.Id,
                 Name = Guid.NewGuid().ToString(),
@@ -271,8 +271,8 @@ namespace eFormSDK.Tests
             // Act
             await questionTranslation.Update(DbContext).ConfigureAwait(false);
             
-            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
-            List<question_translation_versions> questionTranslationVersions =
+            List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
@@ -306,27 +306,27 @@ namespace eFormSDK.Tests
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSetForQuestion = new question_sets
+            QuestionSet questionSetForQuestion = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
-            question_sets questionSetForQuestion2 = new question_sets
+            QuestionSet questionSetForQuestion2 = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion2.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -347,7 +347,7 @@ namespace eFormSDK.Tests
             };
             await question.Create(DbContext).ConfigureAwait(false);
 
-            questions question2 = new questions
+            Question question2 = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -368,19 +368,19 @@ namespace eFormSDK.Tests
             };
             await question2.Create(DbContext).ConfigureAwait(false);
 
-            languages language = new languages
+            Language language = new Language
             {
                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
-            languages language2 = new languages
+            Language language2 = new Language
             {
                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
             await language2.Create(DbContext).ConfigureAwait(false);
 
-            question_translations questionTranslation = new question_translations
+            QuestionTranslation questionTranslation = new QuestionTranslation
             {
                 LanguageId = language.Id,
                 Name = Guid.NewGuid().ToString(),
@@ -398,8 +398,8 @@ namespace eFormSDK.Tests
             // Act
             await questionTranslation.Update(DbContext).ConfigureAwait(false);
             
-            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
-            List<question_translation_versions> questionTranslationVersions =
+            List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
@@ -433,27 +433,27 @@ namespace eFormSDK.Tests
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSetForQuestion = new question_sets
+            QuestionSet questionSetForQuestion = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
-            question_sets questionSetForQuestion2 = new question_sets
+            QuestionSet questionSetForQuestion2 = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion2.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -474,7 +474,7 @@ namespace eFormSDK.Tests
             };
             await question.Create(DbContext).ConfigureAwait(false);
 
-            questions question2 = new questions
+            Question question2 = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -495,21 +495,21 @@ namespace eFormSDK.Tests
             };
             await question2.Create(DbContext).ConfigureAwait(false);
 
-            languages language = new languages
+            Language language = new Language
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
-            languages language2 = new languages
+            Language language2 = new Language
             {
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
             await language2.Create(DbContext).ConfigureAwait(false);
 
-            question_translations questionTranslation = new question_translations
+            QuestionTranslation questionTranslation = new QuestionTranslation
             {
                 LanguageId = language.Id,
                 Name = Guid.NewGuid().ToString(),
@@ -530,8 +530,8 @@ namespace eFormSDK.Tests
             // Act
             await questionTranslation.Update(DbContext).ConfigureAwait(false);
             
-            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
-            List<question_translation_versions> questionTranslationVersions =
+            List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
@@ -565,27 +565,27 @@ namespace eFormSDK.Tests
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSetForQuestion = new question_sets
+            QuestionSet questionSetForQuestion = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
-            question_sets questionSetForQuestion2 = new question_sets
+            QuestionSet questionSetForQuestion2 = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion2.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -606,7 +606,7 @@ namespace eFormSDK.Tests
             };
             await question.Create(DbContext).ConfigureAwait(false);
 
-            questions question2 = new questions
+            Question question2 = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -627,21 +627,21 @@ namespace eFormSDK.Tests
             };
             await question2.Create(DbContext).ConfigureAwait(false);
 
-            languages language = new languages
+            Language language = new Language
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
-            languages language2 = new languages
+            Language language2 = new Language
             {
                 Description = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
             await language2.Create(DbContext).ConfigureAwait(false);
 
-            question_translations questionTranslation = new question_translations
+            QuestionTranslation questionTranslation = new QuestionTranslation
             {
                 LanguageId = language.Id,
                 Name = Guid.NewGuid().ToString(),
@@ -660,8 +660,8 @@ namespace eFormSDK.Tests
             // Act
             await questionTranslation.Update(DbContext).ConfigureAwait(false);
             
-            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
-            List<question_translation_versions> questionTranslationVersions =
+            List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
@@ -695,17 +695,17 @@ namespace eFormSDK.Tests
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
-            question_sets questionSetForQuestion = new question_sets
+            QuestionSet questionSetForQuestion = new QuestionSet
             {
                 Name = Guid.NewGuid().ToString(),
                 Share = randomBool,
                 HasChild = randomBool,
                 ParentId = rnd.Next(1, 255),
-                PosiblyDeployed = randomBool
+                PossiblyDeployed = randomBool
             };
             await questionSetForQuestion.Create(DbContext).ConfigureAwait(false);
 
-            questions question = new questions
+            Question question = new Question
             {
                 Image = randomBool,
                 Maximum = rnd.Next(1, 255),
@@ -726,13 +726,13 @@ namespace eFormSDK.Tests
             };
             await question.Create(DbContext).ConfigureAwait(false);
 
-            languages language = new languages
+            Language language = new Language
             {
                 Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
             
-            question_translations questionTranslation = new question_translations
+            QuestionTranslation questionTranslation = new QuestionTranslation
             {
                 LanguageId = language.Id,
                 Name = Guid.NewGuid().ToString(),
@@ -749,8 +749,8 @@ namespace eFormSDK.Tests
             // Act
             await questionTranslation.Delete(DbContext).ConfigureAwait(false);
             
-            List<question_translations> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
-            List<question_translation_versions> questionTranslationVersions =
+            List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
+            List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
             
             // Assert
