@@ -46,7 +46,7 @@ namespace eFormSDK.Tests
 
         private MicrotingDbContext GetContext(string connectionStr)
         {
-            
+
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
 
             dbContextOptionsBuilder.UseMySql(connectionStr, mysqlOptions =>
@@ -54,7 +54,7 @@ namespace eFormSDK.Tests
                 mysqlOptions.ServerVersion(new Version(10, 4, 0), ServerType.MariaDb);
             });
             //dbContextOptionsBuilder.UseLazyLoadingProxies(true);
-            return new MicrotingDbContext(dbContextOptionsBuilder.Options);            
+            return new MicrotingDbContext(dbContextOptionsBuilder.Options);
 
         }
 
@@ -87,7 +87,7 @@ namespace eFormSDK.Tests
 
             await DoSetup();
         }
-      
+
         [TearDown]
         public async Task TearDown()
         {
@@ -125,8 +125,6 @@ namespace eFormSDK.Tests
             modelNames.Add("EntityGroups");
             modelNames.Add("EntityItemVersions");
             modelNames.Add("EntityItems");
-            modelNames.Add("LogExceptions");
-            modelNames.Add("Logs");
             modelNames.Add("NotificationVersions");
             modelNames.Add("Notifications");
             modelNames.Add("SettingVersions");
@@ -166,6 +164,14 @@ namespace eFormSDK.Tests
             modelNames.Add("OptionTranslations");
             modelNames.Add("LanguageQuestionSetVersions");
             modelNames.Add("LanguageQuestionSets");
+            modelNames.Add("CheckLisTranslations");
+            modelNames.Add("CheckListTranslationVersions");
+            modelNames.Add("FieldTranslations");
+            modelNames.Add("FieldTranslationVersions");
+            modelNames.Add("FieldOptions");
+            modelNames.Add("FieldOptionVersions");
+            modelNames.Add("FieldOptionTranslations");
+            modelNames.Add("FieldOptionTranslationVersions");
 
             foreach (var modelName in modelNames)
             {

@@ -14,18 +14,6 @@ namespace Microting.eForm.Migrations
             migrationBuilder.DropTable(
                 name: "Logs");
 
-            migrationBuilder.DropTable(
-                name: "SiteGroupSites");
-
-            migrationBuilder.DropTable(
-                name: "SiteGroupSiteVersions");
-
-            migrationBuilder.DropTable(
-                name: "SiteGroupVersions");
-
-            migrationBuilder.DropTable(
-                name: "SiteGroups");
-
             migrationBuilder.AddColumn<int>(
                 name: "LanguageId",
                 table: "SiteVersions",

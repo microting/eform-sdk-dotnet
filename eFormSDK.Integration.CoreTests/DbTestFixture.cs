@@ -45,7 +45,7 @@ namespace eFormSDK.Integration.CoreTests
 
         private MicrotingDbContext GetContext(string connectionStr)
         {
-            
+
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
 
             dbContextOptionsBuilder.UseMySql(connectionStr, mysqlOptions =>
@@ -53,7 +53,7 @@ namespace eFormSDK.Integration.CoreTests
                 mysqlOptions.ServerVersion(new Version(10, 4, 0), ServerType.MariaDb);
             });
             dbContextOptionsBuilder.UseLazyLoadingProxies(true);
-            return new MicrotingDbContext(dbContextOptionsBuilder.Options);            
+            return new MicrotingDbContext(dbContextOptionsBuilder.Options);
 
         }
 
@@ -86,7 +86,7 @@ namespace eFormSDK.Integration.CoreTests
 
             await DoSetup();
         }
-      
+
         [TearDown]
         public async Task TearDown()
         {
@@ -124,8 +124,6 @@ namespace eFormSDK.Integration.CoreTests
             modelNames.Add("EntityGroups");
             modelNames.Add("EntityItemVersions");
             modelNames.Add("EntityItems");
-            modelNames.Add("LogExceptions");
-            modelNames.Add("Logs");
             modelNames.Add("NotificationVersions");
             modelNames.Add("Notifications");
             modelNames.Add("SettingVersions");
@@ -164,7 +162,14 @@ namespace eFormSDK.Integration.CoreTests
             modelNames.Add("OptionTranslationVersions");
             modelNames.Add("OptionTranslations");
             modelNames.Add("LanguageQuestionSetVersions");
-            modelNames.Add("LanguageQuestionSets");
+            modelNames.Add("CheckLisTranslations");
+            modelNames.Add("CheckListTranslationVersions");
+            modelNames.Add("FieldTranslations");
+            modelNames.Add("FieldTranslationVersions");
+            modelNames.Add("FieldOptions");
+            modelNames.Add("FieldOptionVersions");
+            modelNames.Add("FieldOptionTranslations");
+            modelNames.Add("FieldOptionTranslationVersions");
 
             foreach (var modelName in modelNames)
             {
