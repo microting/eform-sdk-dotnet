@@ -36,23 +36,11 @@ namespace Microting.eForm.Helpers
     public class TestHelpers
     {
         public MicrotingDbContext dbContext;
-
         private Language language;
-//        private string returnXML;
-//        private string returnJSON;
+
         public TestHelpers()
         {
-
-            string connectionString;
-
-//            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-//            {
-//                ConnectionString = @"data source=(LocalDb)\SharedInstance;Initial catalog=eformsdk-tests;Integrated Security=True";
-//            }
-//            else
-//            {
-                connectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; password = 'secretpassword'; Convert Zero Datetime = true;";
-//            }
+            string connectionString  = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; password = 'secretpassword'; Convert Zero Datetime = true;";
 
             dbContext = GetContext(connectionString);
             language = dbContext.Languages.Single(x => x.Name == "Danish");
@@ -61,16 +49,7 @@ namespace Microting.eForm.Helpers
         {
 
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
-
-            // if (connectionStr.ToLower().Contains("convert zero datetime"))
-            // {
-                dbContextOptionsBuilder.UseMySql(connectionStr);
-            // }
-            // else
-            // {
-                // dbContextOptionsBuilder.UseSqlServer(connectionStr);
-            // }
-            dbContextOptionsBuilder.UseLazyLoadingProxies(true);
+            dbContextOptionsBuilder.UseMySql(connectionStr);
             return new MicrotingDbContext(dbContextOptionsBuilder.Options);
 
         }
@@ -88,7 +67,7 @@ namespace Microting.eForm.Helpers
                 WorkflowState = Constants.WorkflowStates.Created,
                 Version = 69
             };
-            dbContext.Workers.Add(worker);
+            await dbContext.Workers.AddAsync(worker);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             return worker;
@@ -105,7 +84,7 @@ namespace Microting.eForm.Helpers
                 Version = 64,
                 WorkflowState = Constants.WorkflowStates.Created
             };
-            dbContext.Sites.Add(site);
+            await dbContext.Sites.AddAsync(site);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             return site;
@@ -126,7 +105,7 @@ namespace Microting.eForm.Helpers
                 WorkflowState = Constants.WorkflowStates.Created
             };
 
-            dbContext.Units.Add(unit);
+            await dbContext.Units.AddAsync(unit);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             return unit;
@@ -146,7 +125,7 @@ namespace Microting.eForm.Helpers
                 WorkflowState = Constants.WorkflowStates.Created
             };
 
-            dbContext.SiteWorkers.Add(siteWorker);
+            await dbContext.SiteWorkers.AddAsync(siteWorker);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             return siteWorker;
@@ -167,7 +146,7 @@ namespace Microting.eForm.Helpers
                 ParentId = 0,
             };
 
-            dbContext.CheckLists.Add(cl1);
+            await dbContext.CheckLists.AddAsync(cl1);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
             CheckLisTranslation checkLisTranslation = new CheckLisTranslation()
             {
@@ -194,7 +173,7 @@ namespace Microting.eForm.Helpers
                 ParentId = parentId.Id
             };
 
-            dbContext.CheckLists.Add(cl2);
+            await dbContext.CheckLists.AddAsync(cl2);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
             CheckLisTranslation checkLisTranslation = new CheckLisTranslation()
             {
@@ -246,7 +225,7 @@ namespace Microting.eForm.Helpers
             };
 
 
-            dbContext.Fields.Add(f);
+            await dbContext.Fields.AddAsync(f);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
             FieldTranslation fieldTranslation = new FieldTranslation()
             {
@@ -286,7 +265,7 @@ namespace Microting.eForm.Helpers
                 WorkflowState = WorkFlowState
             };
 
-            dbContext.Cases.Add(aCase);
+            await dbContext.Cases.AddAsync(aCase);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             return aCase;
@@ -315,7 +294,7 @@ namespace Microting.eForm.Helpers
                 fv.UploadedDataId = ud_id;
             }
 
-            dbContext.FieldValues.Add(fv);
+            await dbContext.FieldValues.AddAsync(fv);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
             return fv;
         }
@@ -333,7 +312,7 @@ namespace Microting.eForm.Helpers
                 WorkflowState = Constants.WorkflowStates.Created
             };
 
-            dbContext.CheckListValues.Add(CLV);
+            await dbContext.CheckListValues.AddAsync(CLV);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
             return CLV;
 
@@ -358,7 +337,7 @@ namespace Microting.eForm.Helpers
             };
 
 
-            dbContext.UploadedDatas.Add(UD);
+            await dbContext.UploadedDatas.AddAsync(UD);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
 
@@ -400,7 +379,7 @@ namespace Microting.eForm.Helpers
 
                 //eG.Id = xxx;
 
-                dbContext.EntityGroups.Add(eG);
+                await dbContext.EntityGroups.AddAsync(eG);
                 await dbContext.SaveChangesAsync().ConfigureAwait(false);
                 return eG;
             } else {
@@ -425,7 +404,7 @@ namespace Microting.eForm.Helpers
                 WorkflowState = workflowState
             };
 
-            dbContext.EntityItems.Add(eI);
+            await dbContext.EntityItems.AddAsync(eI);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             return eI;
