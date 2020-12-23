@@ -39,9 +39,9 @@ namespace Microting.eForm.Infrastructure
         public MicrotingDbContext(DbContextOptions options)
           : base(options)
         {
-           
+
         }
-       
+
         public virtual DbSet<AnswerValue> AnswerValues { get; set; }
         public virtual DbSet<AnswerValueVersion> AnswerValueVersions { get; set; }
         public virtual DbSet<Answer> Answers { get; set; }
@@ -67,8 +67,6 @@ namespace Microting.eForm.Infrastructure
         public virtual DbSet<LanguageVersion> LanguageVersions { get; set; }
         public virtual DbSet<LanguageQuestionSet> LanguageQuestionSets { get; set; }
         public virtual DbSet<LanguageQuestionSetVersion> LanguageQuestionSetVersions { get; set; }
-        public virtual DbSet<LogException> LogExceptions { get; set; }
-        public virtual DbSet<Data.Entities.Log> Logs { get; set; }
         public virtual DbSet<Notification> Notifications { get; set; }
         public virtual DbSet<NotificationVersion> NotificationVersions { get; set; }
         public virtual DbSet<Option> Options { get; set; }
@@ -103,12 +101,16 @@ namespace Microting.eForm.Infrastructure
         public virtual DbSet<TaggingVersion> TaggingVersions { get; set; }
         public virtual DbSet<Folder> Folders { get; set; }
         public virtual DbSet<FolderVersion> FolderVersions { get; set; }
-        public virtual DbSet<SiteGroup> SiteGroups { get; set; }
-        public virtual DbSet<SiteGroupVersion> SiteGroupVersions { get; set; }
-        public virtual DbSet<SiteGroupSites> SiteGroupSites { get; set; }
-        public virtual DbSet<SiteGroupSiteVersion> SiteGroupSiteVersions { get; set; }
         public virtual DbSet<SiteTag> SiteTags { get; set; }
         public virtual DbSet<SiteTagVersion> SiteTagVersions { get; set; }
+        public virtual DbSet<CheckLisTranslation> CheckLisTranslations { get; set; }
+        public virtual DbSet<CheckListTranslationVersion> CheckListTranslationVersions { get; set; }
+        public virtual DbSet<FieldTranslation> FieldTranslations { get; set; }
+        public virtual DbSet<FieldTranslationVersion> FieldTranslationVersions { get; set; }
+        public virtual DbSet<FieldOption> FieldOptions { get; set; }
+        public virtual DbSet<FieldOptionVersion> FieldOptionVersions { get; set; }
+        public virtual DbSet<FieldOptionTranslation> FieldOptionTranslations { get; set; }
+        public virtual DbSet<FieldOptionTranslationVersion> FieldOptionTranslationVersions { get; set; }
 
         public virtual Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade ContextDatabase
         {
@@ -135,12 +137,12 @@ namespace Microting.eForm.Infrastructure
 
 #pragma warning restore 612, 618
         }
-        
+
 //        #region DefineLoggerFactory
 //        public static readonly LoggerFactory MyLoggerFactory
 //            = new LoggerFactory(new[] {new ConsoleLoggerProvider((_, __) => true, true)});
 //        #endregion
-        
+
 
         // dotnet ef migrations add AddingNewModels --project eFormCore --startup-project DBMigrator
 //         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

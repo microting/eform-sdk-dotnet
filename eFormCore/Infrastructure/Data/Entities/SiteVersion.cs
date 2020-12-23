@@ -34,5 +34,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int? MicrotingUid { get; set; }
 
         public int? SiteId { get; set; }
+
+        public int LanguageId { get; set; }
     }
 }

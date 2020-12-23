@@ -25,6 +25,7 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public string Name { get; set; }
 
         public int? MicrotingUid { get; set; }
+
+        [ForeignKey("Language")]
+        public int LanguageId { get; set; }
 
         public virtual ICollection<Case> Cases { get; set; }
 

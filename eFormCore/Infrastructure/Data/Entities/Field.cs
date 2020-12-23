@@ -22,13 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -36,8 +32,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
     {
         public Field()
         {
-            this.Children = new HashSet<Field>();
-            this.FieldValues = new HashSet<FieldValue>();
+            Children = new HashSet<Field>();
+            FieldValues = new HashSet<FieldValue>();
+            Translations = new HashSet<FieldTranslation>();
+            FieldOptions = new HashSet<FieldOption>();
         }
 
         public int? ParentFieldId { get; set; }
@@ -121,5 +119,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual ICollection<Field> Children { get; set; }
 
         public virtual ICollection<FieldValue> FieldValues { get; set; }
+
+        public virtual ICollection<FieldTranslation> Translations { get; set; }
+
+        public virtual ICollection<FieldOption> FieldOptions { get; set; }
     }
 }
