@@ -22,9 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
@@ -147,6 +149,91 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                     field.Description = null;
                     await field.Update(dbContext);
                 }
+
+                if (!string.IsNullOrEmpty(field.KeyValuePairList))
+                {
+                    List<FieldOption> fieldOptions =
+                        await dbContext.FieldOptions.Where(x => x.FieldId == field.Id).ToListAsync();
+                    if (!fieldOptions.Any())
+                    {
+                        List<Dto.KeyValuePair> keyValuePairs = PairRead((field.KeyValuePairList));
+                        foreach (Dto.KeyValuePair keyValuePair in keyValuePairs)
+                        {
+                            if (dbContext.FieldOptions.SingleOrDefaultAsync(x =>
+                                x.FieldId == field.Id && x.Key == keyValuePair.Key) == null)
+                            {
+                                FieldOption fieldOption = new FieldOption()
+                                {
+                                    FieldId = field.Id,
+                                    Key = keyValuePair.Key,
+                                    DisplayOrder = keyValuePair.DisplayOrder
+                                };
+                                await fieldOption.Create(dbContext);
+                                FieldOptionTranslation fieldOptionTranslation = new FieldOptionTranslation()
+                                {
+                                    FieldOptionId = fieldOption.Id,
+                                    LanguageId = defaultLanguage.Id,
+                                    Text = keyValuePair.Value
+                                };
+                                await fieldOptionTranslation.Create(dbContext);
+                            }
+                        }
+
+                        field.KeyValuePairList = null;
+                        await field.Update(dbContext);
+                    }
+                }
+            }
+        }
+
+        private static List<Dto.KeyValuePair> PairRead(string str)
+        {
+            List<Dto.KeyValuePair> list = new List<Dto.KeyValuePair>();
+            str = Locate(str, "<hash>", "</hash>");
+
+            bool flag = true;
+            int index = 1;
+            string keyValue, displayIndex;
+            bool selected;
+
+            while (flag)
+            {
+                string inderStr = Locate(str, "<" + index + ">", "</" + index + ">");
+
+                keyValue = Locate(inderStr, "<key>", "</");
+                selected = bool.Parse(Locate(inderStr.ToLower(), "<selected>", "</"));
+                displayIndex = Locate(inderStr, "<displayIndex>", "</");
+
+                list.Add(new Dto.KeyValuePair(index.ToString(), keyValue, selected, displayIndex));
+
+                index += 1;
+
+                if (Locate(str, "<" + index + ">", "</" + index + ">") == "")
+                    flag = false;
+            }
+
+            return list;
+        }
+
+
+        private static string Locate(string textStr, string startStr, string endStr)
+        {
+            try
+            {
+                if (!textStr.Contains(startStr))
+                    return "";
+
+                if (!textStr.Contains(endStr))
+                    return "";
+
+                int startIndex = textStr.IndexOf(startStr, StringComparison.Ordinal) + startStr.Length;
+                int length = textStr.IndexOf(endStr, startIndex, StringComparison.Ordinal) - startIndex;
+                //return textStr.Substring(startIndex, lenght);
+                return textStr.AsSpan().Slice(start: startIndex, length).ToString();
+            }
+            catch
+            {
+                return "";
             }
         }
     }

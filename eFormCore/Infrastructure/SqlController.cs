@@ -100,6 +100,8 @@ namespace Microting.eForm.Infrastructure
             {
                 Language.AddDefaultLanguages(GetContext()).GetAwaiter().GetResult();
                 CheckList.MoveTranslations(GetContext()).GetAwaiter().GetResult();
+                Data.Entities.Field.MoveTranslations(GetContext()).GetAwaiter().GetResult();
+                SettingUpdate(Settings.translationsMigrated, "true").GetAwaiter().GetResult();
                 //log.LogEverything("In Here", "fsff");
             }
 
