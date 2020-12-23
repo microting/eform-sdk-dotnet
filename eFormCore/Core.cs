@@ -1002,7 +1002,8 @@ namespace eFormCore
                     log.LogStandard(methodName, "called");
                     log.LogVariable(methodName, nameof(templateId), templateId);
 
-                    return await _sqlController.TemplateRead(templateId);
+                    Language language = await dbContextHelper.GetDbContext().Languages.SingleAsync(x => x.Name == "Danish");
+                    return await _sqlController.TemplateRead(templateId, language);
                 }
                 else
                     throw new Exception("Core is not running");
