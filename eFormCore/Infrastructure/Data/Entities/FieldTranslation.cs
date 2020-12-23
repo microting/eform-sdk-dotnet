@@ -12,6 +12,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public string Text { get; set; }
 
+        public string Description { get; set; }
+
         public virtual Field Field { get; set; }
     }
 }

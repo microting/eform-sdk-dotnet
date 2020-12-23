@@ -132,5 +132,28 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual ICollection<Tagging> Taggings { get; set; }
 
         public virtual ICollection<CheckLisTranslation> Translations { get; set; }
+
+        public static async Task MoveTranslations(MicrotingDbContext dbContext)
+        {
+            List<CheckList> checkLists = await dbContext.CheckLists.ToListAsync();
+            Language defaultLanguage = await dbContext.Languages.SingleAsync(x => x.Name == "Danish");
+            foreach (CheckList checkList in checkLists)
+            {
+                if (!string.IsNullOrEmpty(checkList.Label))
+                {
+                    CheckLisTranslation checkLisTranslation = new CheckLisTranslation
+                    {
+                        Text = checkList.Label,
+                        Description = checkList.Description,
+                        CheckListId = checkList.Id,
+                        LanguageId = defaultLanguage.Id
+                    };
+                    await checkLisTranslation.Create(dbContext);
+                    checkList.Label = null;
+                    checkList.Description = null;
+                    await checkList.Update(dbContext);
+                }
+            }
+        }
     }
 }

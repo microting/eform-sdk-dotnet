@@ -96,6 +96,12 @@ namespace Microting.eForm.Infrastructure
             {
                 bool result = SettingCreateDefaults().GetAwaiter().GetResult();
             }
+            if (SettingRead(Settings.translationsMigrated).GetAwaiter().GetResult() == "false")
+            {
+                Language.AddDefaultLanguages(GetContext()).GetAwaiter().GetResult();
+                CheckList.MoveTranslations(GetContext()).GetAwaiter().GetResult();
+                //log.LogEverything("In Here", "fsff");
+            }
 
             //logLimit = int.Parse(SettingRead(Settings.logLimit).GetAwaiter().GetResult());
         }
@@ -4513,6 +4519,7 @@ namespace Microting.eForm.Infrastructure
             await SettingCreate(Settings.rabbitMqUser);
             await SettingCreate(Settings.rabbitMqPassword);
             await SettingCreate(Settings.rabbitMqHost);
+            await SettingCreate(Settings.translationsMigrated);
 
             return true;
         }
@@ -4599,6 +4606,7 @@ namespace Microting.eForm.Infrastructure
                 case Settings.rabbitMqUser: Id = 32; defaultValue = "admin"; break;
                 case Settings.rabbitMqPassword: Id = 33; defaultValue = "password"; break;
                 case Settings.rabbitMqHost: Id = 34; defaultValue = "localhost"; break;
+                case Settings.translationsMigrated: Id = 35; defaultValue = "false"; break;
 
                 default:
                     throw new IndexOutOfRangeException(name.ToString() + " is not a known/mapped Settings type");

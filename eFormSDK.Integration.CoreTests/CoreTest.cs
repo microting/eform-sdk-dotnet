@@ -21,27 +21,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using eFormCore;
-using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using eFormSDK.Integration.CoreTests;
+using eFormCore;
+using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
-using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
-using Microting.eForm.Infrastructure.Models;
+using NUnit.Framework;
 using Case = Microting.eForm.Infrastructure.Data.Entities.Case;
 using FieldValue = Microting.eForm.Infrastructure.Data.Entities.FieldValue;
 using UploadedData = Microting.eForm.Infrastructure.Data.Entities.UploadedData;
 
-namespace eFormSDK.Integration.Tests
+namespace eFormSDK.Integration.CoreTests
 {
     [TestFixture]
     public class CoreTest : DbTestFixture

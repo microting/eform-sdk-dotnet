@@ -88,7 +88,8 @@ namespace Microting.eForm.Migrations
                     UpdatedAt = table.Column<DateTime>(nullable: true),
                     CheckListId = table.Column<int>(nullable: false),
                     LanguageId = table.Column<int>(nullable: false),
-                    Text = table.Column<string>(nullable: true)
+                    Text = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -114,6 +115,7 @@ namespace Microting.eForm.Migrations
                     CheckListId = table.Column<int>(nullable: false),
                     LanguageId = table.Column<int>(nullable: false),
                     Text = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
                     CheckListTranslationId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -200,7 +202,8 @@ namespace Microting.eForm.Migrations
                     UpdatedAt = table.Column<DateTime>(nullable: true),
                     FieldId = table.Column<int>(nullable: false),
                     LanguageId = table.Column<int>(nullable: false),
-                    Text = table.Column<string>(nullable: true)
+                    Text = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -226,6 +229,7 @@ namespace Microting.eForm.Migrations
                     FieldId = table.Column<int>(nullable: false),
                     LanguageId = table.Column<int>(nullable: false),
                     Text = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
                     FieldTranslationId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

@@ -22,25 +22,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using eFormCore;
-using NUnit.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+using System.IO;
 using System.Threading.Tasks;
+using eFormCore;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
-using Microting.eForm.Infrastructure.Data.Entities;
-using Microting.eForm.Infrastructure.Models;
-using System.IO;
-using eFormSDK.Integration.CoreTests;
 using Microting.eForm.Infrastructure.Helpers;
+using NUnit.Framework;
 using UploadedData = Microting.eForm.Infrastructure.Data.Entities.UploadedData;
 
-namespace eFormSDK.Integration.Tests
+namespace eFormSDK.Integration.CoreTests
 {
     [TestFixture]
     public class CoreTestUploadedData : DbTestFixture

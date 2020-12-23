@@ -25,6 +25,8 @@ SOFTWARE.
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -123,5 +125,29 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual ICollection<FieldTranslation> Translations { get; set; }
 
         public virtual ICollection<FieldOption> FieldOptions { get; set; }
+
+
+        public static async Task MoveTranslations(MicrotingDbContext dbContext)
+        {
+            List<Field> fields = await dbContext.Fields.ToListAsync();
+            Language defaultLanguage = await dbContext.Languages.SingleAsync(x => x.Name == "Danish");
+            foreach (Field field in fields)
+            {
+                if (!string.IsNullOrEmpty(field.Label))
+                {
+                    FieldTranslation fieldTranslation = new FieldTranslation
+                    {
+                        Text = field.Label,
+                        Description = field.Description,
+                        FieldId = field.Id,
+                        LanguageId = defaultLanguage.Id
+                    };
+                    await fieldTranslation.Create(dbContext);
+                    field.Label = null;
+                    field.Description = null;
+                    await field.Update(dbContext);
+                }
+            }
+        }
     }
 }

@@ -42,7 +42,7 @@ namespace Microting.eForm.Dto
         awsSecretAccessKey,
         awsEndPoint,
         unitLicenseNumber,
-        httpServerAddress,       
+        httpServerAddress,
         maxParallelism,
         numberOfWorkers,
         comSpeechToText,
@@ -59,6 +59,7 @@ namespace Microting.eForm.Dto
         s3BucketName,
         rabbitMqUser,
         rabbitMqPassword,
-        rabbitMqHost
+        rabbitMqHost,
+        translationsMigrated
     }
 }

@@ -438,6 +438,9 @@ namespace Microting.eForm.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<int>("LanguageId")
                         .HasColumnType("int");
 
@@ -701,6 +704,9 @@ namespace Microting.eForm.Migrations
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<int>("LanguageId")
                         .HasColumnType("int");
@@ -1407,6 +1413,9 @@ namespace Microting.eForm.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<int>("FieldId")
                         .HasColumnType("int");
 
@@ -1441,6 +1450,9 @@ namespace Microting.eForm.Migrations
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<int>("FieldId")
                         .HasColumnType("int");

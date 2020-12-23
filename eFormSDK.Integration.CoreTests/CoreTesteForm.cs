@@ -23,15 +23,13 @@ SOFTWARE.
 */
 
 
-using eFormCore;
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using eFormSDK.Integration.CoreTests;
+using eFormCore;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
@@ -39,10 +37,11 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using Microting.eForm.Infrastructure.Models;
+using NUnit.Framework;
 using Field = Microting.eForm.Infrastructure.Data.Entities.Field;
 using Tag = Microting.eForm.Infrastructure.Data.Entities.Tag;
 
-namespace eFormSDK.Integration.Tests
+namespace eFormSDK.Integration.CoreTests
 {
     [TestFixture]
     public class CoreTesteForm : DbTestFixture
