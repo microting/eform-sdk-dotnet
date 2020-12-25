@@ -49,6 +49,7 @@ namespace eFormSDK.Integration.SqlControllerTests
         private TestHelpers testHelpers;
 //        private string path;
         TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
+        private Language language;
 
         public override async Task DoSetup()
         {
@@ -68,6 +69,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
             await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
+            language = DbContext.Languages.Single(x => x.Name == "Danish");
         }
 
         #region template
@@ -78,82 +80,27 @@ namespace eFormSDK.Integration.SqlControllerTests
             // Arrance
 
             #region Template1
-
-            CheckList cl1 = new CheckList
-            {
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-                Label = "A",
-                Description = "D",
-                WorkflowState = Constants.WorkflowStates.Created,
-                CaseType = "CheckList",
-                FolderName = "Template1FolderName",
-                DisplayIndex = 1,
-                Repeated = 1
-            };
-
-            DbContext.CheckLists.Add(cl1);
-            await DbContext.SaveChangesAsync().ConfigureAwait(false);
-            Thread.Sleep(1000);
+            CheckList cl1 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "A", "D",
+                "CheckList", "Template1FolderName", 1, 0);
             #endregion
 
             #region Template2
 
-            CheckList cl2 = new CheckList
-            {
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-                Label = "B",
-                Description = "C",
-                WorkflowState = Constants.WorkflowStates.Removed,
-                CaseType = "CheckList",
-                FolderName = "Template1FolderName",
-                DisplayIndex = 1,
-                Repeated = 1
-            };
-
-            DbContext.CheckLists.Add(cl2);
-            await DbContext.SaveChangesAsync().ConfigureAwait(false);
-            Thread.Sleep(1000);
+            CheckList cl2 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "B", "C",
+                "CheckList", "Template1FolderName", 1, 0);
+            await cl2.Delete(DbContext);
             #endregion
 
             #region Template3
 
-            CheckList cl3 = new CheckList
-            {
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-                Label = "D",
-                Description = "B",
-                WorkflowState = Constants.WorkflowStates.Created,
-                CaseType = "CheckList",
-                FolderName = "Template1FolderName",
-                DisplayIndex = 1,
-                Repeated = 1
-            };
-
-            DbContext.CheckLists.Add(cl3);
-            await DbContext.SaveChangesAsync().ConfigureAwait(false);
-            Thread.Sleep(1000);
+            CheckList cl3 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "D", "B",
+                "CheckList", "Template1FolderName", 1, 0);
             #endregion
 
             #region Template4
 
-            CheckList cl4 = new CheckList
-            {
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-                Label = "C",
-                Description = "A",
-                WorkflowState = Constants.WorkflowStates.Created,
-                CaseType = "CheckList",
-                FolderName = "Template1FolderName",
-                DisplayIndex = 1,
-                Repeated = 1
-            };
-
-            DbContext.CheckLists.Add(cl4);
-            await DbContext.SaveChangesAsync().ConfigureAwait(false);
+            CheckList cl4 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "C", "A",
+                "CheckList", "Template1FolderName", 1, 0);
             #endregion
 
 
@@ -188,7 +135,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             // Assert
 
             #region include removed
-            // Default sorting including removed 
+            // Default sorting including removed
             // Id
             Assert.NotNull(templateListId);
             Assert.AreEqual(4, templateListId.Count());
@@ -201,7 +148,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             Assert.AreEqual(0, templateListId[2].Tags.Count());
             Assert.AreEqual(0, templateListId[3].Tags.Count());
 
-            // Default sorting including removed 
+            // Default sorting including removed
             // Label
             Assert.NotNull(templateListLabel);
             Assert.AreEqual(4, templateListLabel.Count());
@@ -214,7 +161,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             Assert.AreEqual(0, templateListLabel[2].Tags.Count());
             Assert.AreEqual(0, templateListLabel[3].Tags.Count());
 
-            // Default sorting including removed 
+            // Default sorting including removed
             // Description
             Assert.NotNull(templateListDescription);
             Assert.AreEqual(4, templateListDescription.Count());
@@ -227,7 +174,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             Assert.AreEqual(0, templateListDescription[2].Tags.Count());
             Assert.AreEqual(0, templateListDescription[3].Tags.Count());
 
-            // Default sorting including removed 
+            // Default sorting including removed
             // Created At
             Assert.NotNull(templateListCreatedAt);
             Assert.AreEqual(4, templateListCreatedAt.Count());
@@ -240,7 +187,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             Assert.AreEqual(0, templateListCreatedAt[2].Tags.Count());
             Assert.AreEqual(0, templateListCreatedAt[3].Tags.Count());
 
-            // Descending sorting including removed 
+            // Descending sorting including removed
             // Id
             Assert.NotNull(templateListDescengingId);
             Assert.AreEqual(4, templateListDescengingId.Count());
@@ -253,7 +200,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             Assert.AreEqual(0, templateListDescengingId[2].Tags.Count());
             Assert.AreEqual(0, templateListDescengingId[3].Tags.Count());
 
-            // Descending sorting including removed 
+            // Descending sorting including removed
             // Label
             Assert.NotNull(templateListDescengingLabel);
             Assert.AreEqual(4, templateListDescengingLabel.Count());
@@ -266,7 +213,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             Assert.AreEqual(0, templateListDescengingLabel[2].Tags.Count());
             Assert.AreEqual(0, templateListDescengingLabel[3].Tags.Count());
 
-            // Descending sorting including removed 
+            // Descending sorting including removed
             // Description
             Assert.NotNull(templateListDescengingDescription);
             Assert.AreEqual(4, templateListDescengingDescription.Count());
@@ -279,7 +226,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             Assert.AreEqual(0, templateListDescengingDescription[2].Tags.Count());
             Assert.AreEqual(0, templateListDescengingDescription[3].Tags.Count());
 
-            // Descending sorting including removed 
+            // Descending sorting including removed
             // Created At
             Assert.NotNull(templateListDescengingCreatedAt);
             Assert.AreEqual(4, templateListDescengingCreatedAt.Count());
@@ -294,7 +241,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             #endregion
 
             #region Exclude removed
-            // Default sorting including removed 
+            // Default sorting including removed
             // Id
             Assert.NotNull(templateListIdNr);
             Assert.AreEqual(3, templateListIdNr.Count());
@@ -305,7 +252,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             Assert.AreEqual(0, templateListIdNr[1].Tags.Count());
             Assert.AreEqual(0, templateListIdNr[2].Tags.Count());
 
-            // Default sorting including removed 
+            // Default sorting including removed
             // Label
             Assert.NotNull(templateListLabelNr);
             Assert.AreEqual(3, templateListLabelNr.Count());
@@ -316,7 +263,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             Assert.AreEqual(0, templateListLabelNr[1].Tags.Count());
             Assert.AreEqual(0, templateListLabelNr[2].Tags.Count());
 
-            // Default sorting including removed 
+            // Default sorting including removed
             // Description
             Assert.NotNull(templateListDescriptionNr);
             Assert.AreEqual(3, templateListDescriptionNr.Count());
@@ -327,7 +274,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             Assert.AreEqual(0, templateListDescriptionNr[1].Tags.Count());
             Assert.AreEqual(0, templateListDescriptionNr[2].Tags.Count());
 
-            // Default sorting including removed 
+            // Default sorting including removed
             // Created At
             Assert.NotNull(templateListCreatedAtNr);
             Assert.AreEqual(3, templateListCreatedAtNr.Count());
@@ -338,7 +285,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             Assert.AreEqual(0, templateListCreatedAtNr[1].Tags.Count());
             Assert.AreEqual(0, templateListCreatedAtNr[2].Tags.Count());
 
-            // Descending sorting including removed 
+            // Descending sorting including removed
             // Id
             Assert.NotNull(templateListDescengingIdNr);
             Assert.AreEqual(3, templateListDescengingIdNr.Count());
@@ -349,7 +296,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             Assert.AreEqual(0, templateListDescengingIdNr[1].Tags.Count());
             Assert.AreEqual(0, templateListDescengingIdNr[2].Tags.Count());
 
-            // Descending sorting including removed 
+            // Descending sorting including removed
             // Label
             Assert.NotNull(templateListDescengingLabelNr);
             Assert.AreEqual(3, templateListDescengingLabelNr.Count());
@@ -360,7 +307,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             Assert.AreEqual(0, templateListDescengingLabelNr[1].Tags.Count());
             Assert.AreEqual(0, templateListDescengingLabelNr[2].Tags.Count());
 
-            // Descending sorting including removed 
+            // Descending sorting including removed
             // Description
             Assert.NotNull(templateListDescengingDescriptionNr);
             Assert.AreEqual(3, templateListDescengingDescriptionNr.Count());
@@ -371,7 +318,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             Assert.AreEqual(0, templateListDescengingDescriptionNr[1].Tags.Count());
             Assert.AreEqual(0, templateListDescengingDescriptionNr[2].Tags.Count());
 
-            // Descending sorting including removed 
+            // Descending sorting including removed
             // Created At
             Assert.NotNull(templateListDescengingCreatedAtNr);
             Assert.AreEqual(3, templateListDescengingCreatedAtNr.Count());
@@ -392,27 +339,14 @@ namespace eFormSDK.Integration.SqlControllerTests
             // Arrance
             #region Template1
 
-            CheckList cl1 = new CheckList
-            {
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-                Label = "A",
-                Description = "D",
-                WorkflowState = Constants.WorkflowStates.Created,
-                CaseType = "CheckList",
-                FolderName = "Template1FolderName",
-                DisplayIndex = 1,
-                Repeated = 1
-            };
-
-            DbContext.CheckLists.Add(cl1);
-            await DbContext.SaveChangesAsync().ConfigureAwait(false);
+            CheckList cl1 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "A", "D",
+                "CheckList", "Template1FolderName", 1, 0);
             #endregion
             // Act
 
             await sut.TemplateDelete(cl1.Id);
 
-            Template_Dto clResult = await sut.TemplateItemRead(cl1.Id);
+            Template_Dto clResult = await sut.TemplateItemRead(cl1.Id, language);
 
             // Assert
 
@@ -449,13 +383,16 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             // Act
             int templateId = await sut.TemplateCreate(main);
+            List<CheckLisTranslation> checkLisTranslations =
+                await DbContext.CheckLisTranslations.AsNoTracking().ToListAsync();
 
             CheckList cl1 = DbContext.CheckLists.AsNoTracking().First();
             // Assert
             Assert.NotNull(templateId);
             Assert.IsNull(cl1.ParentId);
             Assert.AreEqual(cl1.Id, templateId);
-            Assert.AreEqual(cl1.Label, "label1");
+            Assert.AreEqual(cl1.Label, null);
+            Assert.AreEqual("label1", checkLisTranslations[0].Text );
             Assert.AreEqual(cl1.FolderName, "folderWithList");
             Assert.AreEqual(cl1.CaseType, "type1");
             Assert.AreEqual(cl1.DisplayIndex, 4);
@@ -645,10 +582,10 @@ namespace eFormSDK.Integration.SqlControllerTests
             #endregion
             // Act
 
-            var match1 = await sut.TemplateItemRead(Template1.Id);
-            var match2 = await sut.TemplateItemRead(Template2.Id);
-            var match3 = await sut.TemplateItemRead(Template3.Id);
-            var match4 = await sut.TemplateItemRead(Template4.Id);
+            var match1 = await sut.TemplateItemRead(Template1.Id, language);
+            var match2 = await sut.TemplateItemRead(Template2.Id, language);
+            var match3 = await sut.TemplateItemRead(Template3.Id, language);
+            var match4 = await sut.TemplateItemRead(Template4.Id, language);
 
 
             // Assert
@@ -1398,7 +1335,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
         #endregion
 
-        
+
         #region eventhandlers
 #pragma warning disable 1998
         public async Task EventCaseCreated(object sender, EventArgs args)

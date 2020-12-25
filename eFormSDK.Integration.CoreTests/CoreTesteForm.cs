@@ -50,6 +50,7 @@ namespace eFormSDK.Integration.CoreTests
         private TestHelpers testHelpers;
         private string path;
         TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
+        private Language language;
 
         public override async Task DoSetup()
         {
@@ -77,10 +78,11 @@ namespace eFormSDK.Integration.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
             //sut.StartLog(new CoreBase());
+            language = DbContext.Languages.Single(x => x.Name == "Danish");
         }
 
         #region template
-        
+
         [Test]
         public async Task Core_Template_TemplateItemReadAll_DoesReturnSortedTemplates()
         {
@@ -93,7 +95,7 @@ namespace eFormSDK.Integration.CoreTests
                 Name = tagName1, WorkflowState = Constants.WorkflowStates.Created
             };
 
-            DbContext.Tags.Add(tag1);
+            await DbContext.Tags.AddAsync(tag1);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName2 = "TagFor2CLs";
@@ -102,7 +104,7 @@ namespace eFormSDK.Integration.CoreTests
                 Name = tagName2, WorkflowState = Constants.WorkflowStates.Created
             };
 
-            DbContext.Tags.Add(tag2);
+            await DbContext.Tags.AddAsync(tag2);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName3 = "Tag3";
@@ -111,7 +113,7 @@ namespace eFormSDK.Integration.CoreTests
                 Name = tagName3, WorkflowState = Constants.WorkflowStates.Created
             };
 
-            DbContext.Tags.Add(tag3);
+            await DbContext.Tags.AddAsync(tag3);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName4 = "Tag4";
@@ -120,89 +122,35 @@ namespace eFormSDK.Integration.CoreTests
                 Name = tagName4, WorkflowState = Constants.WorkflowStates.Created
             };
 
-            DbContext.Tags.Add(tag4);
+            await DbContext.Tags.AddAsync(tag4);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             #endregion
 
             #region Template1
 
-            CheckList cl1 = new CheckList
-            {
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-                Label = "A",
-                Description = "D",
-                WorkflowState = Constants.WorkflowStates.Created,
-                CaseType = "CheckList",
-                FolderName = "Template1FolderName",
-                DisplayIndex = 1,
-                Repeated = 1
-            };
-
-
-            DbContext.CheckLists.Add(cl1);
-            await DbContext.SaveChangesAsync().ConfigureAwait(false);
-            Thread.Sleep(1000);
+            CheckList cl1 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "A", "D", "CheckList",
+                "TemplateFolderName", 1, 1);
             #endregion
 
             #region Template2
 
-            CheckList cl2 = new CheckList
-            {
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-                Label = "B",
-                Description = "C",
-                WorkflowState = Constants.WorkflowStates.Removed,
-                CaseType = "CheckList",
-                FolderName = "Template1FolderName",
-                DisplayIndex = 1,
-                Repeated = 1
-            };
+            CheckList cl2 =await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "B", "C", "CheckList",
+                "TemplateFolderName", 1, 1);
 
-            DbContext.CheckLists.Add(cl2);
-            await DbContext.SaveChangesAsync().ConfigureAwait(false);
-            Thread.Sleep(1000);
+            await cl2.Delete(DbContext);
             #endregion
 
             #region Template3
 
-            CheckList cl3 = new CheckList
-            {
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-                Label = "D",
-                Description = "B",
-                WorkflowState = Constants.WorkflowStates.Created,
-                CaseType = "CheckList",
-                FolderName = "Template1FolderName",
-                DisplayIndex = 1,
-                Repeated = 1
-            };
-
-            DbContext.CheckLists.Add(cl3);
-            await DbContext.SaveChangesAsync().ConfigureAwait(false);
-            Thread.Sleep(1000);
+            CheckList cl3 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "D", "B", "CheckList",
+                "TemplateFolderName", 1, 1);
             #endregion
 
             #region Template4
 
-            CheckList cl4 = new CheckList
-            {
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-                Label = "C",
-                Description = "A",
-                WorkflowState = Constants.WorkflowStates.Created,
-                CaseType = "CheckList",
-                FolderName = "Template1FolderName",
-                DisplayIndex = 1,
-                Repeated = 1
-            };
-
-            DbContext.CheckLists.Add(cl4);
-            await DbContext.SaveChangesAsync().ConfigureAwait(false);
+            CheckList cl4 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "C", "A", "CheckList",
+                "TemplateFolderName", 1, 1);
             #endregion
 
             #region assigning Tags
@@ -265,7 +213,7 @@ namespace eFormSDK.Integration.CoreTests
             // Assert
 
             #region include removed
-            // Default sorting including removed 
+            // Default sorting including removed
             // Id
             Assert.NotNull(templateListId);
             Assert.AreEqual(4, templateListId.Count());
@@ -278,7 +226,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(1, templateListId[2].Tags.Count());
             Assert.AreEqual(2, templateListId[3].Tags.Count());
 
-            // Default sorting including removed 
+            // Default sorting including removed
             // Label
             Assert.NotNull(templateListLabel);
             Assert.AreEqual(4, templateListLabel.Count());
@@ -291,7 +239,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(2, templateListLabel[2].Tags.Count());
             Assert.AreEqual(1, templateListLabel[3].Tags.Count());
 
-            // Default sorting including removed 
+            // Default sorting including removed
             // Description
             Assert.NotNull(templateListDescription);
             Assert.AreEqual(4, templateListDescription.Count());
@@ -304,7 +252,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(1, templateListDescription[2].Tags.Count());
             Assert.AreEqual(1, templateListDescription[3].Tags.Count());
 
-            // Default sorting including removed 
+            // Default sorting including removed
             // Created At
             Assert.NotNull(templateListCreatedAt);
             Assert.AreEqual(4, templateListCreatedAt.Count());
@@ -336,7 +284,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual("Tag4", templateListTag[3].Tags[1].Value);
 
             // Default sorting including removed
-            // Tagid 
+            // Tagid
             Assert.NotNull(templateListSpecificTag);
             Assert.AreEqual(2, templateListSpecificTag.Count());
             Assert.AreEqual("B", templateListSpecificTag[0].Label);
@@ -346,7 +294,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual("TagFor2CLs", templateListSpecificTag[0].Tags[0].Value);
             Assert.AreEqual("TagFor2CLs", templateListSpecificTag[1].Tags[0].Value);
 
-            // Descending sorting including removed 
+            // Descending sorting including removed
             // Id
             Assert.NotNull(templateListDescengingId);
             Assert.AreEqual(4, templateListDescengingId.Count());
@@ -359,7 +307,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(1, templateListDescengingId[2].Tags.Count());
             Assert.AreEqual(1, templateListDescengingId[3].Tags.Count());
 
-            // Descending sorting including removed 
+            // Descending sorting including removed
             // Label
             Assert.NotNull(templateListDescengingLabel);
             Assert.AreEqual(4, templateListDescengingLabel.Count());
@@ -372,7 +320,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(1, templateListDescengingLabel[2].Tags.Count());
             Assert.AreEqual(1, templateListDescengingLabel[3].Tags.Count());
 
-            // Descending sorting including removed 
+            // Descending sorting including removed
             // Description
             Assert.NotNull(templateListDescengingDescription);
             Assert.AreEqual(4, templateListDescengingDescription.Count());
@@ -385,7 +333,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(1, templateListDescengingDescription[2].Tags.Count());
             Assert.AreEqual(2, templateListDescengingDescription[3].Tags.Count());
 
-            // Descending sorting including removed 
+            // Descending sorting including removed
             // Created At
             Assert.NotNull(templateListDescengingCreatedAt);
             Assert.AreEqual(4, templateListDescengingCreatedAt.Count());
@@ -417,7 +365,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual("TagFor1CL", templateListDescendingTag[3].Tags[0].Value);
 
             // Descending sorting including removed
-            // Tagid 
+            // Tagid
             Assert.NotNull(templateListDescendingSpecificTag);
             Assert.AreEqual(2, templateListDescendingSpecificTag.Count());
             Assert.AreEqual("D", templateListDescendingSpecificTag[0].Label);
@@ -429,7 +377,7 @@ namespace eFormSDK.Integration.CoreTests
             #endregion
 
             #region Exclude removed
-            // Default sorting excluding removed 
+            // Default sorting excluding removed
             // Id
             Assert.NotNull(templateListIdNr);
             Assert.AreEqual(3, templateListIdNr.Count());
@@ -440,7 +388,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(1, templateListIdNr[1].Tags.Count());
             Assert.AreEqual(2, templateListIdNr[2].Tags.Count());
 
-            // Default sorting excluding removed 
+            // Default sorting excluding removed
             // Label
             Assert.NotNull(templateListLabelNr);
             Assert.AreEqual(3, templateListLabelNr.Count());
@@ -451,7 +399,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(2, templateListLabelNr[1].Tags.Count());
             Assert.AreEqual(1, templateListLabelNr[2].Tags.Count());
 
-            // Default sorting excluding removed 
+            // Default sorting excluding removed
             // Description
             Assert.NotNull(templateListDescriptionNr);
             Assert.AreEqual(3, templateListDescriptionNr.Count());
@@ -462,7 +410,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(1, templateListDescriptionNr[1].Tags.Count());
             Assert.AreEqual(1, templateListDescriptionNr[2].Tags.Count());
 
-            // Default sorting excluding removed 
+            // Default sorting excluding removed
             // Created At
             Assert.NotNull(templateListCreatedAtNr);
             Assert.AreEqual(3, templateListCreatedAtNr.Count());
@@ -489,14 +437,14 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual("Tag4", templateListTagNr[2].Tags[1].Value);
 
             // Default sorting excluding removed
-            // Tagid 
+            // Tagid
             Assert.NotNull(templateListSpecificTagNr);
             Assert.AreEqual(1, templateListSpecificTagNr.Count());
             Assert.AreEqual("D", templateListSpecificTagNr[0].Label);
             Assert.AreEqual(1, templateListSpecificTagNr[0].Tags.Count());
             Assert.AreEqual("TagFor2CLs", templateListSpecificTagNr[0].Tags[0].Value);
 
-            // Descending sorting excluding removed 
+            // Descending sorting excluding removed
             // Id
             Assert.NotNull(templateListDescengingIdNr);
             Assert.AreEqual(3, templateListDescengingIdNr.Count());
@@ -507,7 +455,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(1, templateListDescengingIdNr[1].Tags.Count());
             Assert.AreEqual(1, templateListDescengingIdNr[2].Tags.Count());
 
-            // Descending sorting excluding removed 
+            // Descending sorting excluding removed
             // Label
             Assert.NotNull(templateListDescengingLabelNr);
             Assert.AreEqual(3, templateListDescengingLabelNr.Count());
@@ -518,7 +466,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(2, templateListDescengingLabelNr[1].Tags.Count());
             Assert.AreEqual(1, templateListDescengingLabelNr[2].Tags.Count());
 
-            // Descending sorting excluding removed 
+            // Descending sorting excluding removed
             // Description
             Assert.NotNull(templateListDescengingDescriptionNr);
             Assert.AreEqual(3, templateListDescengingDescriptionNr.Count());
@@ -529,7 +477,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(1, templateListDescengingDescriptionNr[1].Tags.Count());
             Assert.AreEqual(2, templateListDescengingDescriptionNr[2].Tags.Count());
 
-            // Descending sorting excluding removed 
+            // Descending sorting excluding removed
             // Created At
             Assert.NotNull(templateListDescengingCreatedAtNr);
             Assert.AreEqual(3, templateListDescengingCreatedAtNr.Count());
@@ -556,7 +504,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual("TagFor1CL", templateListDescendingTagNr[2].Tags[0].Value);
 
             // Descending sorting excluding removed
-            // Tagid 
+            // Tagid
             Assert.NotNull(templateListDescendingSpecificTagNr);
             Assert.AreEqual(1, templateListDescendingSpecificTagNr.Count());
             Assert.AreEqual("D", templateListDescendingSpecificTagNr[0].Label);
@@ -585,7 +533,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(match.Count(), 0);
         }
         [Test]
-        public async Task Core_Template_TemplateUploadData_ReturnsmainElement()
+        public async Task Core_Template_TemplateUploAddAsyncata_ReturnsmainElement()
         {
             // Arrange
             CoreElement CElement = new CoreElement();
@@ -664,7 +612,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(match.Id, cl1.Id);
             Assert.AreEqual(match.CaseType, cl1.CaseType);
             Assert.AreEqual(match.FastNavigation, false);
-            Assert.AreEqual(match.Label, cl1.Label);
+            Assert.AreEqual(match.Label, "A");
             Assert.AreEqual(match.ManualSync, false);
             Assert.AreEqual(match.MultiApproval, false);
             Assert.AreEqual(match.Repeated, cl1.Repeated);
@@ -892,10 +840,10 @@ namespace eFormSDK.Integration.CoreTests
             #endregion
             // Act
 
-            var match1 = await sut.TemplateItemRead(Template1.Id);
-            var match2 = await sut.TemplateItemRead(Template2.Id);
-            var match3 = await sut.TemplateItemRead(Template3.Id);
-            var match4 = await sut.TemplateItemRead(Template4.Id);
+            var match1 = await sut.TemplateItemRead(Template1.Id, language);
+            var match2 = await sut.TemplateItemRead(Template2.Id, language);
+            var match3 = await sut.TemplateItemRead(Template3.Id, language);
+            var match4 = await sut.TemplateItemRead(Template4.Id, language);
 
 
             // Assert

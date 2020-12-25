@@ -173,7 +173,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public async Task<Template_Dto> TemplateItemRead(int templateId)
+        public async Task<Template_Dto> TemplateItemRead(int templateId, Language defaultLanguage)
         {
             string methodName = "SqlController.TemplateItemRead";
 
@@ -186,9 +186,9 @@ namespace Microting.eForm.Infrastructure
                     return null;
 
                 List<SiteNameDto> sites = new List<SiteNameDto>();
-                foreach (CheckListSite check_list_site in checkList.CheckListSites.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList())
+                foreach (CheckListSite checkListSite in checkList.CheckListSites.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList())
                 {
-                    SiteNameDto site = new SiteNameDto((int)check_list_site.Site.MicrotingUid, check_list_site.Site.Name, check_list_site.Site.CreatedAt, check_list_site.Site.UpdatedAt);
+                    SiteNameDto site = new SiteNameDto((int)checkListSite.Site.MicrotingUid, checkListSite.Site.Name, checkListSite.Site.CreatedAt, checkListSite.Site.UpdatedAt);
                     sites.Add(site);
                 }
                 bool hasCases = db.Cases.Where(x => x.CheckListId == checkList.Id).AsQueryable().Count() != 0;
@@ -207,59 +207,103 @@ namespace Microting.eForm.Infrastructure
 
                 Data.Entities.Field f1 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field1);
                 if (f1 != null)
-                    fd1 = new FieldDto(f1.Id, f1.Label, f1.Description, (int)f1.FieldTypeId, f1.FieldType.Type, (int)f1.CheckListId);
+                {
+                    FieldTranslation translation = await db.FieldTranslations
+                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
+                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
+                    fd1 = new FieldDto(f1.Id, translation.Text, translation.Description, (int)f1.FieldTypeId, fieldType.Type, (int)f1.CheckListId);
+                }
 
                 Data.Entities.Field f2 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field2);
-                if (f2 != null)
-                    fd2 = new FieldDto(f2.Id, f2.Label, f2.Description, (int)f2.FieldTypeId, f2.FieldType.Type, (int)f2.CheckListId);
+                if (f2 != null) {
+                    FieldTranslation translation = await db.FieldTranslations
+                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
+                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
+                    fd2 = new FieldDto(f2.Id, translation.Text, translation.Description, (int)f2.FieldTypeId, f2.FieldType.Type, (int)f2.CheckListId);
+                }
 
                 Data.Entities.Field f3 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field3);
-                if (f3 != null)
-                    fd3 = new FieldDto(f3.Id, f3.Label, f3.Description, (int)f3.FieldTypeId, f3.FieldType.Type, (int)f3.CheckListId);
+                if (f3 != null) {
+                    FieldTranslation translation = await db.FieldTranslations
+                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
+                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
+                    fd3 = new FieldDto(f3.Id, translation.Text, translation.Description, (int)f3.FieldTypeId, f3.FieldType.Type, (int)f3.CheckListId);
+                }
 
                 Data.Entities.Field f4 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field4);
-                if (f4 != null)
-                    fd4 = new FieldDto(f4.Id, f4.Label, f4.Description, (int)f4.FieldTypeId, f4.FieldType.Type, (int)f4.CheckListId);
+                if (f4 != null) {
+                    FieldTranslation translation = await db.FieldTranslations
+                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
+                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
+                    fd4 = new FieldDto(f4.Id, translation.Text, translation.Description, (int)f4.FieldTypeId, f4.FieldType.Type, (int)f4.CheckListId);
+                }
 
                 Data.Entities.Field f5 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field5);
-                if (f5 != null)
-                    fd5 = new FieldDto(f5.Id, f5.Label, f5.Description, (int)f5.FieldTypeId, f5.FieldType.Type, (int)f5.CheckListId);
+                if (f5 != null) {
+                    FieldTranslation translation = await db.FieldTranslations
+                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
+                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
+                    fd5 = new FieldDto(f5.Id, translation.Text, translation.Description, (int)f5.FieldTypeId, f5.FieldType.Type, (int)f5.CheckListId);
+                }
 
                 Data.Entities.Field f6 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field6);
-                if (f6 != null)
-                    fd6 = new FieldDto(f6.Id, f6.Label, f6.Description, (int)f6.FieldTypeId, f6.FieldType.Type, (int)f6.CheckListId);
+                if (f6 != null) {
+                    FieldTranslation translation = await db.FieldTranslations
+                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
+                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
+                    fd6 = new FieldDto(f6.Id, translation.Text, translation.Description, (int)f6.FieldTypeId, f6.FieldType.Type, (int)f6.CheckListId);
+                }
 
                 Data.Entities.Field f7 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field7);
-                if (f7 != null)
-                    fd7 = new FieldDto(f7.Id, f7.Label, f7.Description, (int)f7.FieldTypeId, f7.FieldType.Type, (int)f7.CheckListId);
+                if (f7 != null) {
+                    FieldTranslation translation = await db.FieldTranslations
+                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
+                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
+                    fd7 = new FieldDto(f7.Id, translation.Text, translation.Description, (int)f7.FieldTypeId, f7.FieldType.Type, (int)f7.CheckListId);
+                }
 
                 Data.Entities.Field f8 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field8);
-                if (f8 != null)
-                    fd8 = new FieldDto(f8.Id, f8.Label, f8.Description, (int)f8.FieldTypeId, f8.FieldType.Type, (int)f8.CheckListId);
+                if (f8 != null) {
+                    FieldTranslation translation = await db.FieldTranslations
+                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
+                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
+                    fd8 = new FieldDto(f8.Id, translation.Text, translation.Description, (int)f8.FieldTypeId, f8.FieldType.Type, (int)f8.CheckListId);
+                }
 
                 Data.Entities.Field f9 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field9);
-                if (f9 != null)
-                    fd9 = new FieldDto(f9.Id, f9.Label, f9.Description, (int)f9.FieldTypeId, f9.FieldType.Type, (int)f9.CheckListId);
+                if (f9 != null) {
+                    FieldTranslation translation = await db.FieldTranslations
+                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
+                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
+                    fd9 = new FieldDto(f9.Id, translation.Text, translation.Description, (int)f9.FieldTypeId, f9.FieldType.Type, (int)f9.CheckListId);
+                }
 
                 Data.Entities.Field f10 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field10);
-                if (f10 != null)
-                    fd10 = new FieldDto(f10.Id, f10.Label, f10.Description, (int)f10.FieldTypeId, f10.FieldType.Type, (int)f10.CheckListId);
+                if (f10 != null) {
+                    FieldTranslation translation = await db.FieldTranslations
+                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
+                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
+                    fd10 = new FieldDto(f10.Id, translation.Text, translation.Description, (int)f10.FieldTypeId, f10.FieldType.Type, (int)f10.CheckListId);
+                }
                 #endregion
 
                 #region loadtags
                 List<Tagging> matches = checkList.Taggings.ToList();
-                List<KeyValuePair<int, string>> check_list_tags = new List<KeyValuePair<int, string>>();
+                List<KeyValuePair<int, string>> checkListTags = new List<KeyValuePair<int, string>>();
                 foreach (Tagging tagging in matches)
                 {
                     KeyValuePair<int, string> kvp = new KeyValuePair<int, string>((int)tagging.TagId, tagging.Tag.Name);
-                    check_list_tags.Add(kvp);
+                    checkListTags.Add(kvp);
                 }
                 #endregion
 
+                CheckLisTranslation checkLisTranslation =
+                    await db.CheckLisTranslations.SingleOrDefaultAsync(x =>
+                        x.CheckListId == checkList.Id && x.LanguageId == defaultLanguage.Id);
                 Template_Dto templateDto = new Template_Dto(checkList.Id, checkList.CreatedAt, checkList.UpdatedAt,
-                    checkList.Label, checkList.Description, (int) checkList.Repeated, checkList.FolderName,
+                    checkLisTranslation.Text, checkLisTranslation.Description, (int) checkList.Repeated, checkList.FolderName,
                     checkList.WorkflowState, sites, hasCases, checkList.DisplayIndex, fd1, fd2, fd3, fd4, fd5, fd6,
-                    fd7, fd8, fd9, fd10, check_list_tags, checkList.JasperExportEnabled, checkList.DocxExportEnabled, checkList.ExcelExportEnabled);
+                    fd7, fd8, fd9, fd10, checkListTags, checkList.JasperExportEnabled, checkList.DocxExportEnabled, checkList.ExcelExportEnabled);
                 return templateDto;
             }
             catch (Exception ex)
@@ -283,7 +327,7 @@ namespace Microting.eForm.Infrastructure
                 List<Template_Dto> templateList = new List<Template_Dto>();
 
                 await using var db = GetContext();
-                List<CheckList> matches = null;
+                //List<CheckList> matches = null;
 
                 //IQueryable<CheckList> sub_query = db.CheckLists.Where(x => x.ParentId == null);
                 var subQuery = db.CheckLists
@@ -306,7 +350,8 @@ namespace Microting.eForm.Infrastructure
 
                 Language defaultLanguage = await db.Languages.SingleAsync(x => x.Name == "Danish");
 
-                subQuery = subQuery.Where(x => x.LanguageId == defaultLanguage.Id);
+                var all = subQuery.ToList();
+                //subQuery = subQuery.Where(x => x.LanguageId == defaultLanguage.Id);
 
                 if (!includeRemoved)
                     subQuery = subQuery.Where(x =>
@@ -323,14 +368,11 @@ namespace Microting.eForm.Infrastructure
 
                 if (tagIds.Count > 0)
                 {
-                    List<int?> check_list_ids = db.Taggings
+                    List<int?> checkListIds = db.Taggings
                         .Where(x => tagIds.Contains((int)x.TagId)
                                     && x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
                         .Select(x => x.CheckListId).ToList();
-                    if (check_list_ids != null)
-                    {
-                        subQuery = subQuery.Where(x => check_list_ids.Contains(x.Id));
-                    }
+                    subQuery = subQuery.Where(x => checkListIds.Contains(x.Id));
                 }
 
                 switch (sortParameter)
@@ -368,27 +410,28 @@ namespace Microting.eForm.Infrastructure
                 }
 
                 //matches = subQuery; // await subQuery.ToListAsync().ConfigureAwait(false);
+                var matches = await subQuery.ToListAsync().ConfigureAwait(false);
 
-                foreach (var checkList in subQuery)
+                foreach (var checkList in matches)
                 {
                     List<SiteNameDto> sites = new List<SiteNameDto>();
-                    List<CheckListSite> check_list_sites = null;
+                    List<CheckListSite> checkListSites = null;
                     int? folderId = null;
 
                     if (siteWorkflowState == Constants.Constants.WorkflowStates.Removed)
                     {
-                        check_list_sites = await db.CheckListSites.Where(x =>
+                        checkListSites = await db.CheckListSites.Where(x =>
                             x.WorkflowState == Constants.Constants.WorkflowStates.Removed
                             && x.CheckListId == checkList.Id).ToListAsync();
                     }
                     else
                     {
-                        check_list_sites = await db.CheckListSites.Where(x =>
+                        checkListSites = await db.CheckListSites.Where(x =>
                             x.WorkflowState != Constants.Constants.WorkflowStates.Removed
                             && x.CheckListId == checkList.Id).ToListAsync();
                     }
 
-                    foreach (CheckListSite checkListSite in check_list_sites)
+                    foreach (CheckListSite checkListSite in checkListSites)
                     {
                         try
                         {

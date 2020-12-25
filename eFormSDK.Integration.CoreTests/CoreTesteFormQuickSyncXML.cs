@@ -161,7 +161,7 @@ namespace eFormSDK.Integration.CoreTests
             // Assert.AreEqual(dE.Description, cd); TODO
             Assert.AreEqual(0, dE.DisplayOrder);
             Assert.AreEqual(false, dE.ReviewEnabled);
-            // Assert.AreEqual(dE.ManualSync) //TODO No Method for ManualSync 
+            // Assert.AreEqual(dE.ManualSync) //TODO No Method for ManualSync
             Assert.AreEqual(false, dE.ExtraFieldsEnabled);
             // Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO DoneButtonDisabled no method found
             Assert.AreEqual(false, dE.ApprovalEnabled);
@@ -207,7 +207,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(match.Id, cl1.Id);
             Assert.AreEqual(match.CaseType, cl1.CaseType);
             Assert.AreEqual(match.FastNavigation, false);
-            Assert.AreEqual(match.Label, cl1.Label);
+            Assert.AreEqual(match.Label, "A");
             Assert.AreEqual(match.ManualSync, false);
             Assert.AreEqual(match.MultiApproval, false);
             Assert.AreEqual(match.Repeated, cl1.Repeated);

@@ -143,7 +143,7 @@ namespace Microting.eForm.Helpers
                 FolderName = folderName,
                 DisplayIndex = displayIndex,
                 Repeated = repeated,
-                ParentId = 0,
+                ParentId = null,
             };
 
             await dbContext.CheckLists.AddAsync(cl1);
