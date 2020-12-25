@@ -11,7 +11,7 @@ namespace Microting.eForm.Migrations
             migrationBuilder.RenameTable(
                 name: "CheckLisTranslations",
                 null,
-                "ChecklistTranslations");
+                "CheckListTranslations");
 
             migrationBuilder.RenameColumn(
                 "FieldOptionTranslation",
