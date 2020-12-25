@@ -43,7 +43,7 @@ namespace Microting.eForm.Helpers
             string connectionString  = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; password = 'secretpassword'; Convert Zero Datetime = true;";
 
             dbContext = GetContext(connectionString);
-            language = dbContext.Languages.Single(x => x.Name == "Danish");
+            language = dbContext.Languages.SingleOrDefault(x => x.Name == "Danish");
         }
         private MicrotingDbContext GetContext(string connectionStr)
         {
