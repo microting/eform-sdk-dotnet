@@ -52,7 +52,6 @@ namespace eFormSDK.Integration.CoreTests
             {
                 mysqlOptions.ServerVersion(new Version(10, 4, 0), ServerType.MariaDb);
             });
-            dbContextOptionsBuilder.UseLazyLoadingProxies(true);
             return new MicrotingDbContext(dbContextOptionsBuilder.Options);
 
         }

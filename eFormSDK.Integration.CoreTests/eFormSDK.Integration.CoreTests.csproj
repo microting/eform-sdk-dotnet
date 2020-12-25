@@ -15,4 +15,10 @@
       <ProjectReference Include="..\eFormCore\Microting.eForm.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="LargeXml.xml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
