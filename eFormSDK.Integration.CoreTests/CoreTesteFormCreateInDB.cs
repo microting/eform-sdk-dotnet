@@ -131,8 +131,8 @@ namespace eFormSDK.Integration.CoreTests
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
-            List<CheckLisTranslation> checkLisTranslations =
-              await DbContext.CheckLisTranslations.AsNoTracking().ToListAsync();
+            List<CheckListTranslation> checkLisTranslations =
+              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
               await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
@@ -227,8 +227,8 @@ namespace eFormSDK.Integration.CoreTests
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
-            List<CheckLisTranslation> checkLisTranslations =
-              await DbContext.CheckLisTranslations.AsNoTracking().ToListAsync();
+            List<CheckListTranslation> checkLisTranslations =
+              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
               await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
@@ -320,8 +320,8 @@ namespace eFormSDK.Integration.CoreTests
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
-            List<CheckLisTranslation> checkLisTranslations =
-              await DbContext.CheckLisTranslations.AsNoTracking().ToListAsync();
+            List<CheckListTranslation> checkLisTranslations =
+              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
               await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
@@ -414,8 +414,8 @@ namespace eFormSDK.Integration.CoreTests
             mainElement = await sut.TemplateUploadData(mainElement);
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
-            List<CheckLisTranslation> checkLisTranslations =
-              await DbContext.CheckLisTranslations.AsNoTracking().ToListAsync();
+            List<CheckListTranslation> checkLisTranslations =
+              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
               await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
@@ -534,8 +534,8 @@ namespace eFormSDK.Integration.CoreTests
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
-            List<CheckLisTranslation> checkLisTranslations =
-              await DbContext.CheckLisTranslations.AsNoTracking().ToListAsync();
+            List<CheckListTranslation> checkLisTranslations =
+              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
               await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
@@ -659,8 +659,8 @@ namespace eFormSDK.Integration.CoreTests
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
-            List<CheckLisTranslation> checkLisTranslations =
-              await DbContext.CheckLisTranslations.AsNoTracking().ToListAsync();
+            List<CheckListTranslation> checkLisTranslations =
+              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
               await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
@@ -989,8 +989,8 @@ namespace eFormSDK.Integration.CoreTests
             mainElement = await sut.TemplateUploadData(mainElement);
             int eFormId = await sut.TemplateCreate(mainElement); //TODO
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
-            List<CheckLisTranslation> checkLisTranslations =
-              await DbContext.CheckLisTranslations.AsNoTracking().ToListAsync();
+            List<CheckListTranslation> checkLisTranslations =
+              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
               await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
@@ -1340,8 +1340,8 @@ namespace eFormSDK.Integration.CoreTests
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
-            List<CheckLisTranslation> checkLisTranslations =
-              await DbContext.CheckLisTranslations.AsNoTracking().ToListAsync();
+            List<CheckListTranslation> checkLisTranslations =
+              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
               await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
@@ -1529,8 +1529,8 @@ namespace eFormSDK.Integration.CoreTests
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
-            List<CheckLisTranslation> checkLisTranslations =
-              await DbContext.CheckLisTranslations.AsNoTracking().ToListAsync();
+            List<CheckListTranslation> checkLisTranslations =
+              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
               await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
@@ -1675,8 +1675,8 @@ namespace eFormSDK.Integration.CoreTests
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
-            List<CheckLisTranslation> checkLisTranslations =
-              await DbContext.CheckLisTranslations.AsNoTracking().ToListAsync();
+            List<CheckListTranslation> checkLisTranslations =
+              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
               await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
@@ -1773,8 +1773,8 @@ namespace eFormSDK.Integration.CoreTests
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
-            List<CheckLisTranslation> checkLisTranslations =
-              await DbContext.CheckLisTranslations.AsNoTracking().ToListAsync();
+            List<CheckListTranslation> checkLisTranslations =
+              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
               await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
@@ -1872,8 +1872,8 @@ namespace eFormSDK.Integration.CoreTests
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
-            List<CheckLisTranslation> checkLisTranslations =
-              await DbContext.CheckLisTranslations.AsNoTracking().ToListAsync();
+            List<CheckListTranslation> checkLisTranslations =
+              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
               await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
@@ -1965,8 +1965,8 @@ namespace eFormSDK.Integration.CoreTests
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
-            List<CheckLisTranslation> checkLisTranslations =
-              await DbContext.CheckLisTranslations.AsNoTracking().ToListAsync();
+            List<CheckListTranslation> checkLisTranslations =
+              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
               await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
@@ -2053,8 +2053,8 @@ namespace eFormSDK.Integration.CoreTests
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
-            List<CheckLisTranslation> checkLisTranslations =
-              await DbContext.CheckLisTranslations.AsNoTracking().ToListAsync();
+            List<CheckListTranslation> checkLisTranslations =
+              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
               await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
@@ -2143,8 +2143,8 @@ namespace eFormSDK.Integration.CoreTests
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
-            List<CheckLisTranslation> checkLisTranslations =
-              await DbContext.CheckLisTranslations.AsNoTracking().ToListAsync();
+            List<CheckListTranslation> checkLisTranslations =
+              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
               await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
@@ -2232,8 +2232,8 @@ namespace eFormSDK.Integration.CoreTests
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
-            List<CheckLisTranslation> checkLisTranslations =
-              await DbContext.CheckLisTranslations.AsNoTracking().ToListAsync();
+            List<CheckListTranslation> checkLisTranslations =
+              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
               await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
@@ -2380,8 +2380,8 @@ namespace eFormSDK.Integration.CoreTests
             MainElement mainElement = await sut.TemplateFromXml(xmlstring);
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
-            List<CheckLisTranslation> checkLisTranslations =
-              await DbContext.CheckLisTranslations.AsNoTracking().ToListAsync();
+            List<CheckListTranslation> checkLisTranslations =
+              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
               await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 

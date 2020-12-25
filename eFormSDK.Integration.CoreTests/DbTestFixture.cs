@@ -161,7 +161,7 @@ namespace eFormSDK.Integration.CoreTests
             modelNames.Add("OptionTranslationVersions");
             modelNames.Add("OptionTranslations");
             modelNames.Add("LanguageQuestionSetVersions");
-            modelNames.Add("CheckLisTranslations");
+            modelNames.Add("CheckListTranslations");
             modelNames.Add("CheckListTranslationVersions");
             modelNames.Add("FieldTranslations");
             modelNames.Add("FieldTranslationVersions");

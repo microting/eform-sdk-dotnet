@@ -150,10 +150,10 @@ namespace Microting.eForm.Infrastructure
                 if (mainCl == null)
                     return null;
 
-                CheckLisTranslation checkLisTranslation =
-                    await db.CheckLisTranslations.SingleAsync(x => x.CheckListId == mainCl.Id);
+                CheckListTranslation checkListTranslation =
+                    await db.CheckListTranslations.SingleAsync(x => x.CheckListId == mainCl.Id);
 
-                mainElement = new MainElement(mainCl.Id, checkLisTranslation.Text, t.Int(mainCl.DisplayIndex), mainCl.FolderName, t.Int(mainCl.Repeated), DateTime.UtcNow, DateTime.UtcNow.AddDays(2), "da",
+                mainElement = new MainElement(mainCl.Id, checkListTranslation.Text, t.Int(mainCl.DisplayIndex), mainCl.FolderName, t.Int(mainCl.Repeated), DateTime.UtcNow, DateTime.UtcNow.AddDays(2), "da",
                     t.Bool(mainCl.MultiApproval), t.Bool(mainCl.FastNavigation), t.Bool(mainCl.DownloadEntities), t.Bool(mainCl.ManualSync), mainCl.CaseType, "", "", t.Bool(mainCl.QuickSyncEnabled), new List<Element>(), mainCl.Color);
 
                 //getting elements
@@ -297,11 +297,11 @@ namespace Microting.eForm.Infrastructure
                 }
                 #endregion
 
-                CheckLisTranslation checkLisTranslation =
-                    await db.CheckLisTranslations.SingleOrDefaultAsync(x =>
+                CheckListTranslation checkListTranslation =
+                    await db.CheckListTranslations.SingleOrDefaultAsync(x =>
                         x.CheckListId == checkList.Id && x.LanguageId == defaultLanguage.Id);
                 Template_Dto templateDto = new Template_Dto(checkList.Id, checkList.CreatedAt, checkList.UpdatedAt,
-                    checkLisTranslation.Text, checkLisTranslation.Description, (int) checkList.Repeated, checkList.FolderName,
+                    checkListTranslation.Text, checkListTranslation.Description, (int) checkList.Repeated, checkList.FolderName,
                     checkList.WorkflowState, sites, hasCases, checkList.DisplayIndex, fd1, fd2, fd3, fd4, fd5, fd6,
                     fd7, fd8, fd9, fd10, checkListTags, checkList.JasperExportEnabled, checkList.DocxExportEnabled, checkList.ExcelExportEnabled);
                 return templateDto;
@@ -332,7 +332,7 @@ namespace Microting.eForm.Infrastructure
                 //IQueryable<CheckList> sub_query = db.CheckLists.Where(x => x.ParentId == null);
                 var subQuery = db.CheckLists
                     .Where(x => x.ParentId == null)
-                    .Join(db.CheckLisTranslations,
+                    .Join(db.CheckListTranslations,
                         list => list.Id,
                         translation => translation.CheckListId, (list, translation)
                             => new {list.Id,
@@ -4992,7 +4992,7 @@ namespace Microting.eForm.Infrastructure
                 //used for non-MainElements
 
                 await cl.Create(db).ConfigureAwait(false);
-                CheckLisTranslation checkListTranslation = new CheckLisTranslation()
+                CheckListTranslation checkListTranslation = new CheckListTranslation()
                 {
                     CheckListId = cl.Id,
                     Text = mainElement.Label,
@@ -5059,14 +5059,14 @@ namespace Microting.eForm.Infrastructure
                 };
                 await cl.Create(db).ConfigureAwait(false);
 
-                CheckLisTranslation checkLisTranslation = new CheckLisTranslation()
+                CheckListTranslation checkListTranslation = new CheckListTranslation()
                 {
                     CheckListId = cl.Id,
                     LanguageId = defaultLanguage.Id,
                     Text = groupElement.Label,
                     Description = groupElement.Description != null ? groupElement.Description.InderValue : ""
                 };
-                await checkLisTranslation.Create(db);
+                await checkListTranslation.Create(db);
 
                 await CreateElementList(cl.Id, groupElement.ElementList, defaultLanguage);
             }
@@ -5103,7 +5103,7 @@ namespace Microting.eForm.Infrastructure
                 };
                 await cl.Create(db).ConfigureAwait(false);
 
-                CheckLisTranslation checkListTranslation = new CheckLisTranslation()
+                CheckListTranslation checkListTranslation = new CheckListTranslation()
                 {
                     CheckListId = cl.Id,
                     Text = dataElement.Label,
@@ -5451,13 +5451,13 @@ namespace Microting.eForm.Infrastructure
                     try
                     {
                         CheckList cl = await db.CheckLists.SingleAsync(x => x.Id == elementId);
-                        CheckLisTranslation checkLisTranslation =
-                            await db.CheckLisTranslations.SingleAsync(x => x.CheckListId == cl.Id);
+                        CheckListTranslation checkListTranslation =
+                            await db.CheckListTranslations.SingleAsync(x => x.CheckListId == cl.Id);
 
                         GroupElement gElement = new GroupElement(cl.Id,
-                            checkLisTranslation.Text,
+                            checkListTranslation.Text,
                             t.Int(cl.DisplayIndex),
-                            checkLisTranslation.Description,
+                            checkListTranslation.Description,
                             t.Bool(cl.ApprovalEnabled),
                             t.Bool(cl.ReviewEnabled),
                             t.Bool(cl.DoneButtonEnabled),
@@ -5484,13 +5484,13 @@ namespace Microting.eForm.Infrastructure
                     try
                     {
                         CheckList cl = await db.CheckLists.SingleAsync(x => x.Id == elementId);
-                        CheckLisTranslation checkLisTranslation =
-                            await db.CheckLisTranslations.SingleAsync(x => x.CheckListId == cl.Id);
+                        CheckListTranslation checkListTranslation =
+                            await db.CheckListTranslations.SingleAsync(x => x.CheckListId == cl.Id);
 
                         DataElement dElement = new DataElement(cl.Id,
-                            checkLisTranslation.Text,
+                            checkListTranslation.Text,
                             t.Int(cl.DisplayIndex),
-                            checkLisTranslation.Description,
+                            checkListTranslation.Description,
                             t.Bool(cl.ApprovalEnabled),
                             t.Bool(cl.ReviewEnabled),
                             t.Bool(cl.DoneButtonEnabled),

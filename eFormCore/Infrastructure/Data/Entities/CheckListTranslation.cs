@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public class CheckLisTranslation : PnBase
+    public class CheckListTranslation : PnBase
     {
         [ForeignKey("CheckList")]
         public int CheckListId { get; set; }

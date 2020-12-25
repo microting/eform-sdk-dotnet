@@ -40,7 +40,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             Children = new HashSet<CheckList>();
             Fields = new HashSet<Field>();
             Taggings = new HashSet<Tagging>();
-            Translations = new HashSet<CheckLisTranslation>();
+            Translations = new HashSet<CheckListTranslation>();
         }
 
         public string Label { get; set; }
@@ -131,7 +131,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public virtual ICollection<Tagging> Taggings { get; set; }
 
-        public virtual ICollection<CheckLisTranslation> Translations { get; set; }
+        public virtual ICollection<CheckListTranslation> Translations { get; set; }
 
         public static async Task MoveTranslations(MicrotingDbContext dbContext)
         {
@@ -141,14 +141,14 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             {
                 if (!string.IsNullOrEmpty(checkList.Label))
                 {
-                    CheckLisTranslation checkLisTranslation = new CheckLisTranslation
+                    CheckListTranslation checkListTranslation = new CheckListTranslation
                     {
                         Text = checkList.Label,
                         Description = checkList.Description,
                         CheckListId = checkList.Id,
                         LanguageId = defaultLanguage.Id
                     };
-                    await checkLisTranslation.Create(dbContext);
+                    await checkListTranslation.Create(dbContext);
                     checkList.Label = null;
                     checkList.Description = null;
                     await checkList.Update(dbContext);

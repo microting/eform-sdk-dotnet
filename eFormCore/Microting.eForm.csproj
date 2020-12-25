@@ -66,7 +66,7 @@
     <Compile Include="Infrastructure\Data\Entities\Case.cs" />
     <Compile Include="Infrastructure\Data\Entities\CaseVersion.cs" />
     <Compile Include="Infrastructure\Data\Entities\CheckList.cs" />
-    <Compile Include="Infrastructure\Data\Entities\CheckLisTranslation.cs" />
+    <Compile Include="Infrastructure\Data\Entities\CheckListTranslation.cs" />
     <Compile Include="Infrastructure\Data\Entities\CheckListSite.cs" />
     <Compile Include="Infrastructure\Data\Entities\CheckListSiteVersion.cs" />
     <Compile Include="Infrastructure\Data\Entities\CheckListTranslationVersion.cs" />
@@ -232,6 +232,8 @@
     <Compile Include="Migrations\20201222125152_HugheTableRenaming.Designer.cs" />
     <Compile Include="Migrations\20201223104631_AddingTranslations.cs" />
     <Compile Include="Migrations\20201223104631_AddingTranslations.Designer.cs" />
+    <Compile Include="Migrations\20201225165255_FixingBrokenTableNames.cs" />
+    <Compile Include="Migrations\20201225165255_FixingBrokenTableNames.Designer.cs" />
     <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Infrastructure\SqlController.cs" />
     <Compile Include="Services\Subscriber.cs" />

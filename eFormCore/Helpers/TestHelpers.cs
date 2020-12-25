@@ -148,14 +148,14 @@ namespace Microting.eForm.Helpers
 
             await dbContext.CheckLists.AddAsync(cl1);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            CheckLisTranslation checkLisTranslation = new CheckLisTranslation()
+            CheckListTranslation checkListTranslation = new CheckListTranslation()
             {
                 LanguageId = language.Id,
                 Text = label,
                 Description = description,
                 CheckListId = cl1.Id
             };
-            await checkLisTranslation.Create(dbContext);
+            await checkListTranslation.Create(dbContext);
             return cl1;
         }
         public async Task<CheckList> CreateSubTemplate(string label, string description, string caseType, int displayIndex, int repeated, CheckList parentId)
@@ -175,14 +175,14 @@ namespace Microting.eForm.Helpers
 
             await dbContext.CheckLists.AddAsync(cl2);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            CheckLisTranslation checkLisTranslation = new CheckLisTranslation()
+            CheckListTranslation checkListTranslation = new CheckListTranslation()
             {
                 LanguageId = language.Id,
                 Text = label,
                 Description = description,
                 CheckListId = cl2.Id
             };
-            await checkLisTranslation.Create(dbContext);
+            await checkListTranslation.Create(dbContext);
             return cl2;
         }
         public async Task<Field> CreateField(short? barcodeEnabled, string barcodeType, CheckList checkList, string color, string custom, int? decimalCount, string defaultValue, string description, int? displayIndex, short? dummy, FieldType ft, short? geolocationEnabled, short? geolocationForced, short? geolocationHidden, short? isNum, string label, short? mandatory, int maxLength, string maxValue, string minValue, short? multi, short? optional, string queryType, short? readOnly, short? selected, short? split, short? stopOnSave, string unitName, int version)

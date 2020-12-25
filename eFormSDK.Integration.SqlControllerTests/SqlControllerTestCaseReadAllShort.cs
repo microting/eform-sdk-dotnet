@@ -383,8 +383,8 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             // Act
             int templateId = await sut.TemplateCreate(main);
-            List<CheckLisTranslation> checkLisTranslations =
-                await DbContext.CheckLisTranslations.AsNoTracking().ToListAsync();
+            List<CheckListTranslation> checkLisTranslations =
+                await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
 
             CheckList cl1 = DbContext.CheckLists.AsNoTracking().First();
             // Assert

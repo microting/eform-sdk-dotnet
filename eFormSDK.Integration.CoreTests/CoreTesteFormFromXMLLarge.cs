@@ -92,7 +92,7 @@ namespace eFormSDK.Integration.CoreTests
 
             List<CheckList> listOfCL = await DbContext.CheckLists.AsNoTracking().ToListAsync();
             List<Field> listOfFields = await DbContext.Fields.ToListAsync();
-            List<CheckLisTranslation> checkLisTranslations = await DbContext.CheckLisTranslations.ToListAsync();
+            List<CheckListTranslation> checkLisTranslations = await DbContext.CheckListTranslations.ToListAsync();
             List<FieldTranslation> fieldTranslations = await DbContext.FieldTranslations.ToListAsync();
 
             // Assert

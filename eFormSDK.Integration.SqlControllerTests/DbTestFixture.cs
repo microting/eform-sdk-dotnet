@@ -163,7 +163,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             modelNames.Add("OptionTranslations");
             modelNames.Add("LanguageQuestionSetVersions");
             modelNames.Add("LanguageQuestionSets");
-            modelNames.Add("CheckLisTranslations");
+            modelNames.Add("CheckListTranslations");
             modelNames.Add("CheckListTranslationVersions");
             modelNames.Add("FieldTranslations");
             modelNames.Add("FieldTranslationVersions");
