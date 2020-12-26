@@ -58,7 +58,7 @@ namespace Microting.eForm.Helpers
                 Worker worker = await testHelpers.CreateWorker("sfsdfsdf23ref@invalid.com", userFirstName, userLastName, id);
                 return "";
             }
-            
+
             try
             {
                 Site site = testHelpers.dbContext.Sites.First();
@@ -85,6 +85,7 @@ namespace Microting.eForm.Helpers
         {
             if (create)
             {
+                await testHelpers.GenerateDefaultLanguages();
                 Site site = await testHelpers.CreateSite("TestSite1", 12334);
                 Unit unit = await testHelpers.CreateUnit(20934, 234234, site, 24234);
                 Worker worker = await testHelpers.CreateWorker("sfsdfsdf23ref@invalid.com", "John", "Doe", 2342341);
