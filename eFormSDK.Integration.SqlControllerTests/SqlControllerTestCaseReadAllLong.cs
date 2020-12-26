@@ -60,6 +60,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             sut = new SqlController(dbContextHelper);
             sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
             await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
@@ -307,7 +308,7 @@ namespace eFormSDK.Integration.SqlControllerTests
                site4, 100, "caseType4", unit4, c4Retracted_ua, 1, worker4, Constants.WorkflowStates.Retracted);
             #endregion
 
-            #endregion 
+            #endregion
 
 
             #endregion
@@ -4440,7 +4441,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Case Sort 
+            #region Case Sort
 
             #region aCase Sort Asc
 
@@ -6484,7 +6485,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Case Sort 
+            #region Case Sort
 
             #region aCase Sort Asc
 

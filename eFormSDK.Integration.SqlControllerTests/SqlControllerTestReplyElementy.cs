@@ -61,6 +61,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             sut = new SqlController(dbContextHelper);
             sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
             await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
@@ -124,24 +125,24 @@ namespace eFormSDK.Integration.SqlControllerTests
             Field f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
                 85, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-       
+
             #endregion
             #endregion
 
             #region Worker
 
             Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-     
+
             #endregion
 
             #region site
             Site site = await testHelpers.CreateSite("SiteName", 88);
-         
+
             #endregion
 
             #region units
             Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
-     
+
             #endregion
 
             #region Case1
@@ -149,39 +150,39 @@ namespace eFormSDK.Integration.SqlControllerTests
             Case aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
                 worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
-         
+
             #endregion
 
             #region Check List Values
             CheckListValue checkListValue = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
-         
+
 
             #endregion
 
             #region Field Values
             #region fv1
             FieldValue field_Values1 = await testHelpers.CreateFieldValue(aCase, cl2, f1, null, null, "tomt1", 61234, worker);
-          
+
             #endregion
 
             #region fv2
             FieldValue field_Values2 = await testHelpers.CreateFieldValue(aCase, cl2, f2, null, null, "tomt2", 61234, worker);
-      
+
             #endregion
 
             #region fv3
             FieldValue field_Values3 = await testHelpers.CreateFieldValue(aCase, cl2, f3, null, null, "tomt3", 61234, worker);
-      
+
             #endregion
 
             #region fv4
             FieldValue field_Values4 = await testHelpers.CreateFieldValue(aCase, cl2, f4, null, null, "tomt4", 61234, worker);
-        
+
             #endregion
 
             #region fv5
             FieldValue field_Values5 = await testHelpers.CreateFieldValue(aCase, cl2, f5, null, null, "tomt5", 61234, worker);
-     
+
             #endregion
 
 
@@ -463,7 +464,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
         }
 
-        
+
         #region eventhandlers
 #pragma warning disable 1998
         public async Task EventCaseCreated(object sender, EventArgs args)

@@ -37,6 +37,7 @@ namespace eFormSDK.Integration.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             //await sut.StartLog(new CoreBase());
         }
 
@@ -124,7 +125,7 @@ namespace eFormSDK.Integration.CoreTests
 
             MainElement main = new MainElement(1, "label1", 1, "FolderWithList",
                 1, DateTime.Now, DateTime.Now.AddDays(2),
-                "Swahili", false, false, false, false, 
+                "Swahili", false, false, false, false,
                 "Type1", "Push", "TextForBody", false,
                 CElement.ElementList, "Blue");
             // Act

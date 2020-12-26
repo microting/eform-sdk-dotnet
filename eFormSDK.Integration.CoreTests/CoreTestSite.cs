@@ -71,6 +71,7 @@ namespace eFormSDK.Integration.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             //sut.StartLog(new CoreBase());
         }
 
@@ -111,7 +112,7 @@ namespace eFormSDK.Integration.CoreTests
             // Assert.AreEqual(site.LastName, "Madsen");
         }
 #pragma warning restore 1998
-        
+
         [Test]
         public async Task Core_Site_SiteRead_ReturnsFullSite()
         {
@@ -522,7 +523,7 @@ namespace eFormSDK.Integration.CoreTests
 
             #endregion
             // Act
-           
+
             // Assert
 
         }

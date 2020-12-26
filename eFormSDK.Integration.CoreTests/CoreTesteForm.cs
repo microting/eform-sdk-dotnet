@@ -77,6 +77,7 @@ namespace eFormSDK.Integration.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             //sut.StartLog(new CoreBase());
             language = DbContext.Languages.Single(x => x.Name == "Danish");
         }

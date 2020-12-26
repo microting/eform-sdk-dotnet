@@ -66,6 +66,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             sut = new SqlController(dbContextHelper);
             sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
             await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");

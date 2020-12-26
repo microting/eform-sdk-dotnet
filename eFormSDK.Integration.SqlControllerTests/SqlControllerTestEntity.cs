@@ -59,6 +59,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             sut = new SqlController(dbContextHelper);
             sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
             await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
@@ -120,7 +121,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Removed 
+            #region Removed
 
             #region eG1
             EntityGroup eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
@@ -164,7 +165,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Retracted 
+            #region Retracted
 
             #region eG1
             EntityGroup eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
@@ -254,7 +255,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Removed 
+            #region Removed
 
             #region eG1
             EntityGroup eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
@@ -298,7 +299,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Retracted 
+            #region Retracted
 
             #region eG1
             EntityGroup eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
@@ -783,7 +784,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Removed 
+            #region Removed
 
             #region eG1
             EntityGroup eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
@@ -827,7 +828,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Retracted 
+            #region Retracted
 
             #region eG1
             EntityGroup eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
@@ -917,7 +918,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Removed 
+            #region Removed
 
             #region eG1
             EntityGroup eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
@@ -961,7 +962,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Retracted 
+            #region Retracted
 
             #region eG1
             EntityGroup eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
@@ -1841,7 +1842,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             //#endregion
 
-            //#region Removed 
+            //#region Removed
 
             //#region eG1
             //entity_groups eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
@@ -1885,7 +1886,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             //#endregion
 
-            //#region Retracted 
+            //#region Retracted
 
             //#region eG1
             //entity_groups eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
@@ -1975,7 +1976,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             //#endregion
 
-            //#region Removed 
+            //#region Removed
 
             //#region eG1
             //entity_groups eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
@@ -2019,7 +2020,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             //#endregion
 
-            //#region Retracted 
+            //#region Retracted
 
             //#region eG1
             //entity_groups eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
@@ -2078,7 +2079,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             //#endregion
             //// Act
-            //#region EntitySearch 
+            //#region EntitySearch
 
             //#region Created
             //var entityGroupSortByIdCreated = await sut.EntityGroupReadSorted("microtingUIdC", Constants.EntityItemSortParameters.Id, "");
@@ -2101,7 +2102,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             //#endregion
 
-            //#region EntitySelect 
+            //#region EntitySelect
 
             //#region Created
             //var entityGroupSortByIdSCreated = await sut.EntityGroupReadSorted("microtingUIdSC", Constants.EntityItemSortParameters.Id, "");
@@ -2189,7 +2190,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             //#endregion
 
-            //#region Removed 
+            //#region Removed
 
             //#region eG1
             //entity_groups eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
@@ -2233,7 +2234,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             //#endregion
 
-            //#region Retracted 
+            //#region Retracted
 
             //#region eG1
             //entity_groups eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
@@ -2323,7 +2324,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             //#endregion
 
-            //#region Removed 
+            //#region Removed
 
             //#region eG1
             //entity_groups eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
@@ -2367,7 +2368,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             //#endregion
 
-            //#region Retracted 
+            //#region Retracted
 
             //#region eG1
             //entity_groups eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
@@ -2480,7 +2481,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Removed 
+            #region Removed
 
             #region eG1
             EntityGroup eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
@@ -2524,7 +2525,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Retracted 
+            #region Retracted
 
             #region eG1
             EntityGroup eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
@@ -2614,7 +2615,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Removed 
+            #region Removed
 
             #region eG1
             EntityGroup eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
@@ -2658,7 +2659,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Retracted 
+            #region Retracted
 
             #region eG1
             EntityGroup eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
@@ -2772,7 +2773,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Removed 
+            #region Removed
 
             #region eG1
             EntityGroup eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
@@ -2816,7 +2817,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Retracted 
+            #region Retracted
 
             #region eG1
             EntityGroup eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
@@ -2906,7 +2907,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Removed 
+            #region Removed
 
             #region eG1
             EntityGroup eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
@@ -2950,7 +2951,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Retracted 
+            #region Retracted
 
             #region eG1
             EntityGroup eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
@@ -3073,7 +3074,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Removed 
+            #region Removed
 
             #region eG1
             EntityGroup eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
@@ -3117,7 +3118,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Retracted 
+            #region Retracted
 
             #region eG1
             EntityGroup eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
@@ -3207,7 +3208,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Removed 
+            #region Removed
 
             #region eG1
             EntityGroup eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
@@ -3251,7 +3252,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             #endregion
 
-            #region Retracted 
+            #region Retracted
 
             #region eG1
             EntityGroup eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);

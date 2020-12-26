@@ -62,6 +62,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             sut = new SqlController(dbContextHelper);
             sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
             await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
@@ -82,7 +83,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             int microtingUId = rnd.Next(1, 255);
             int microtingCheckId = rnd.Next(1, 255);
-        
+
 
             // Act
             int matches = await sut.CaseCreate(cl1.Id, (int)site1.MicrotingUid, microtingUId, microtingCheckId, "", "", c1_ca, null);
@@ -100,7 +101,7 @@ namespace eFormSDK.Integration.SqlControllerTests
         [Test]
         public async Task SQL_Case_CaseReadLastCheckIdByMicrotingUId_DoesCaseReadLastIDByMicrotiingUID()
         {
-            Random rnd = new Random(); 
+            Random rnd = new Random();
             Site site1 = await testHelpers.CreateSite("mySite2", 331);
             DateTime cl1_Ca = DateTime.UtcNow;
             DateTime cl1_Ua = DateTime.UtcNow;
@@ -110,7 +111,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             string guid2 = Guid.NewGuid().ToString();
             int lastCheckUid1 = rnd.Next(1, 255);
 
-            
+
             //check_list_sites cls1 = await testHelpers.CreateCheckListSite(cl1.Id, site1.Id, guid, Constants.WorkflowStates.Created, lastCheckUid1);
             CheckListSite cls1 = await testHelpers.CreateCheckListSite(cl1,cl1_Ca, site1, cl1_Ua, 1, Constants.WorkflowStates.Created, lastCheckUid1);
 
@@ -1491,7 +1492,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             Assert.AreEqual(aCase.MicrotingCheckUid, match.MicrotingCheckUid);
         }
 
-        
+
         #region eventhandlers
 #pragma warning disable 1998
         public async Task EventCaseCreated(object sender, EventArgs args)

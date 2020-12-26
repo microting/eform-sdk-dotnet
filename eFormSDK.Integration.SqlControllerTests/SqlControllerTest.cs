@@ -49,19 +49,20 @@ namespace eFormSDK.Integration.SqlControllerTests
             SqlController sut = new SqlController(dbContextHelper);
             sut.StartLog(new CoreBase());
             // testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             await sut.SettingUpdate(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SettingUpdate(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SettingUpdate(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
         }
 
-        
+
 
 
 
         #region public "reply"
 
         #region check
-        
+
 //        [Test]
 //        public async Task SQL_Check_ChecksCreate_IsCreated()
 //        {
@@ -644,9 +645,9 @@ namespace eFormSDK.Integration.SqlControllerTests
         #endregion
 
         #region (post) case
-        
 
-        
+
+
 
         #endregion
 
@@ -689,7 +690,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 #pragma warning restore 1998
 
 
-        [Test] 
+        [Test]
 #pragma warning disable 1998
         public async Task SQL_WriteLog_WriteIfFailed()
         {
@@ -972,7 +973,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
         #endregion
 
-    }     
+    }
 }
 
 

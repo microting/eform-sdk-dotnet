@@ -61,6 +61,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             sut = new SqlController(dbContextHelper);
             sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
             await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
@@ -183,10 +184,10 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             DbContext.UploadedDatas.Add(ud);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
-            
+
             // Act
             Microting.eForm.Infrastructure.Models.UploadedData Ud = await sut.FileRead();
-            
+
             // Assert
 
             Assert.NotNull(ud);
@@ -238,7 +239,7 @@ namespace eFormSDK.Integration.SqlControllerTests
                 FileLocation = "url",
                 FileName = "fileName"
             };
-            
+
             DbContext.UploadedDatas.Add(ud);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
@@ -271,7 +272,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             DbContext.UploadedDatas.Add(ud);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
-            
+
             // Act
             await sut.FileProcessed("url", "myChecksum", "myFileLocation", "myFileName", ud.Id);
             List<UploadedData> uploadedDataResult = DbContext.UploadedDatas.AsNoTracking().ToList();

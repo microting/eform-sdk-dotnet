@@ -30,10 +30,11 @@ namespace eFormSDK.Integration.SqlControllerTests
             await sql.SettingUpdate(Settings.firstRunDone, "true");
             await sql.SettingUpdate(Settings.knownSitesDone, "true");
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
 
             sut = new SqlController(dbContextHelper);
             sut.StartLog(new CoreBase());
-            
+
             await sut.SettingUpdate(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SettingUpdate(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SettingUpdate(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
@@ -1417,10 +1418,10 @@ namespace eFormSDK.Integration.SqlControllerTests
             // Assert
             Assert.True(match);
         }
-        
+
         #endregion
 
-        
+
         #region eventhandlers
 #pragma warning disable 1998
         public async Task EventCaseCreated(object sender, EventArgs args)

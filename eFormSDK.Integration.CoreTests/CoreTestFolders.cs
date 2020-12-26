@@ -45,7 +45,7 @@ namespace eFormSDK.Integration.CoreTests
         private Core sut;
         private TestHelpers testHelpers;
         private string path;
-        
+
         public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
@@ -71,6 +71,7 @@ namespace eFormSDK.Integration.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             //sut.StartLog(new CoreBase());
         }
 
@@ -80,30 +81,30 @@ namespace eFormSDK.Integration.CoreTests
         public async Task Core_Folders_CreateFolder_DoesCreateNewFolder()
         {
             // Arrange
-            
+
             string folderName = Guid.NewGuid().ToString();
             string folderDescription = Guid.NewGuid().ToString();
 
             //Act
-            
+
             await sut.FolderCreate(folderName, folderDescription, null).ConfigureAwait(false);
-            
+
             //Assert
 
             var folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
             var folders = DbContext.Folders.AsNoTracking().ToList();
-            
+
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
 
             Assert.AreEqual(1, folders.Count);
             Assert.AreEqual(1, folderVersions.Count);
-            
+
             Assert.AreEqual(folders[0].Name, folderName);
             Assert.AreEqual(folders[0].Description, folderDescription);
             Assert.AreEqual(folders[0].WorkflowState, Constants.WorkflowStates.Created);
 
-            
+
             Assert.AreEqual(folderVersions[0].Name, folders[0].Name);
             Assert.AreEqual(folderVersions[0].Description, folders[0].Description);
             Assert.AreEqual(folderVersions[0].WorkflowState, Constants.WorkflowStates.Created);
@@ -114,40 +115,40 @@ namespace eFormSDK.Integration.CoreTests
         public async Task Core_Folders_CreateSubFolder_DoesCreateSubFolder()
         {
             // Arrange
-            
+
             string folderName = Guid.NewGuid().ToString();
             string folderDescription = Guid.NewGuid().ToString();
-            
+
             await sut.FolderCreate(folderName, folderDescription, null).ConfigureAwait(false);
 
             int firstFolderId = DbContext.Folders.First().Id;
-            
+
             string subFolderName = Guid.NewGuid().ToString();
             string subFolderDescription = Guid.NewGuid().ToString();
-            
-            
+
+
             // Act
             await sut.FolderCreate(subFolderName, subFolderDescription, firstFolderId).ConfigureAwait(false);
 
             var folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
             var folders = DbContext.Folders.AsNoTracking().ToList();
-            
+
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
 
             Assert.AreEqual(2, folders.Count);
             Assert.AreEqual(2, folderVersions.Count);
-            
+
             Assert.AreEqual(folders[0].Name, folderName);
             Assert.AreEqual(folders[0].Description, folderDescription);
 
             Assert.AreEqual(folders[1].Name, subFolderName);
             Assert.AreEqual(folders[1].Description, subFolderDescription);
             Assert.AreEqual(folders[1].ParentId, firstFolderId);
-            
+
             Assert.AreEqual(folderVersions[0].Name, folders[0].Name);
             Assert.AreEqual(folderVersions[0].Description, folders[0].Description);
-            
+
             Assert.AreEqual(folderVersions[1].Name, folders[1].Name);
             Assert.AreEqual(folderVersions[1].Description, folders[1].Description);
             Assert.AreEqual(folderVersions[1].ParentId, firstFolderId);
@@ -157,7 +158,7 @@ namespace eFormSDK.Integration.CoreTests
         public async Task Core_Folders_DeleteFolder_DoesMarkFolderAsRemoved()
         {
             // Arrange
-            
+
             string folderName = Guid.NewGuid().ToString();
             string folderDescription = Guid.NewGuid().ToString();
             Folder folder = new Folder();
@@ -169,20 +170,20 @@ namespace eFormSDK.Integration.CoreTests
             await folder.Create(DbContext).ConfigureAwait(false);
 
             //Act
-            
+
             await sut.FolderDelete(folder.Id);
-            
+
             var folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
             var folders = DbContext.Folders.AsNoTracking().ToList();
-            
+
             //Assert
-            
+
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
 
             Assert.AreEqual(1, folders.Count);
             Assert.AreEqual(2, folderVersions.Count);
-            
+
             Assert.AreEqual(folders[0].Name, folderName);
             Assert.AreEqual(folders[0].Description, folderDescription);
             Assert.AreEqual(folders[0].WorkflowState, Constants.WorkflowStates.Removed);
@@ -192,7 +193,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(folderVersions[0].Description, folders[0].Description);
             Assert.AreEqual(folderVersions[0].WorkflowState, Constants.WorkflowStates.Created);
 
-            
+
             Assert.AreEqual(folderVersions[1].Name, folders[0].Name);
             Assert.AreEqual(folderVersions[1].Description, folders[0].Description);
             Assert.AreEqual(folderVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
@@ -202,7 +203,7 @@ namespace eFormSDK.Integration.CoreTests
         public async Task Core_Folders_UpdateFolder_DoesUpdateFolder()
         {
             // Arrange
-            
+
             string folderName = Guid.NewGuid().ToString();
             string folderDescription = Guid.NewGuid().ToString();
             Folder folder = new Folder();
@@ -217,34 +218,34 @@ namespace eFormSDK.Integration.CoreTests
 
             string newFolderName = Guid.NewGuid().ToString();
             string newDescription = Guid.NewGuid().ToString();
-            
+
             await sut.FolderUpdate(folder.Id, newFolderName, newDescription, null).ConfigureAwait(false);
-            
+
             var folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
             var folders = DbContext.Folders.AsNoTracking().ToList();
-            
+
             //Assert
-            
+
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
 
             Assert.AreEqual(1, folders.Count);
             Assert.AreEqual(2, folderVersions.Count);
-            
+
             Assert.AreEqual(folders[0].Name, newFolderName);
             Assert.AreEqual(folders[0].Description, newDescription);
 
 
             Assert.AreEqual(folderVersions[0].Name, folder.Name);
             Assert.AreEqual(folderVersions[0].Description, folder.Description);
-            
+
             Assert.AreEqual(folderVersions[1].Name, folders[0].Name);
             Assert.AreEqual(folderVersions[1].Description, folders[0].Description);
         }
-        
+
 
         #endregion
-        
+
         #region eventhandlers
         public void EventCaseCreated(object sender, EventArgs args)
         {

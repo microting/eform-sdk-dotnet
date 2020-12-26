@@ -73,6 +73,7 @@ namespace eFormSDK.Integration.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             //sut.StartLog(new CoreBase());
         }
 
@@ -297,7 +298,7 @@ namespace eFormSDK.Integration.CoreTests
                site, 100, "caseType4", unit, c4Retracted_ua, 1, worker, Constants.WorkflowStates.Retracted);
             #endregion
 
-            #endregion 
+            #endregion
 
 
             #endregion

@@ -43,7 +43,7 @@ namespace eFormSDK.Integration.SqlControllerTests
         public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
-            
+
             DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
             SqlController sql = new SqlController(dbContextHelper);
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
@@ -54,6 +54,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             sut = new SqlController(dbContextHelper);
             sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf,  @"\output\dataFolder\pdf\");
             await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");

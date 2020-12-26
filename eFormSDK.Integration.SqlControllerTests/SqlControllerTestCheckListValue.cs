@@ -35,6 +35,7 @@ namespace eFormSDK.Integration.SqlControllerTests
                 sut.StartLog(new CoreBase());
             }
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             await sut.SettingUpdate(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SettingUpdate(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SettingUpdate(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
@@ -44,7 +45,7 @@ namespace eFormSDK.Integration.SqlControllerTests
         public async Task SQL_Check_CheckListValueStatusRead_ReturnsCheckListValuesStatus()
         {
             // Arrance
-            
+
             Random rnd = new Random();
             #region Arrance
             #region Template1
@@ -381,7 +382,7 @@ namespace eFormSDK.Integration.SqlControllerTests
         }
 
 
-        
+
         #region eventhandlers
 #pragma warning disable 1998
         public async Task EventCaseCreated(object sender, EventArgs args)

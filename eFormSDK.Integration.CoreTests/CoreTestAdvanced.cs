@@ -58,7 +58,7 @@ namespace eFormSDK.Integration.CoreTests
         public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
-            
+
             DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
             SqlController sql = new SqlController(dbContextHelper);
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef").ConfigureAwait(false);
@@ -82,6 +82,7 @@ namespace eFormSDK.Integration.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             //sut.StartLog(new CoreBase());
         }
 
@@ -134,7 +135,7 @@ namespace eFormSDK.Integration.CoreTests
 
         }
 #pragma warning restore 1998
-        
+
         [Test]
         public async Task Core_AdvancedTemplate_Advanced_TemplateUpdateFieldIdsForColumns_ChangesIdsForColumns()
         {
@@ -1836,7 +1837,7 @@ namespace eFormSDK.Integration.CoreTests
         #endregion
 
         #region fields
-        [Test]  
+        [Test]
         public async Task Core_Advanced_FieldRead_ReadsFieldId()
         {
             // Arrance

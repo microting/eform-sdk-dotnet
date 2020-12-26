@@ -50,6 +50,7 @@ namespace eFormSDK.Integration.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             //await sut.StartLog(new CoreBase());
         }
 
@@ -95,7 +96,7 @@ namespace eFormSDK.Integration.CoreTests
         public async Task Core_Case_CaseCheck_ChecksCase()
         {
 #pragma warning restore 1998
-            
+
         }
         [Test]
         public async Task Core_Case_CaseRead_ReadsCase()
@@ -318,7 +319,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(match.CaseType, aCase.Type);
 
 
-           
+
         }
         [Test]
         public async Task Core_Case_CaseReadByCaseId_Returns_cDto()
@@ -1323,7 +1324,7 @@ namespace eFormSDK.Integration.CoreTests
 
         }
 #pragma warning restore 1998
-        
+
 #pragma warning disable 1998
         [Test]// TODO needs mocks
         public async Task Core_Case_CaseDelete2_ReturnsTrue()
@@ -1700,7 +1701,7 @@ namespace eFormSDK.Integration.CoreTests
 
         }
 #pragma warning restore 1998
-        
+
         [Test]
         public async Task Core_Case_CaseUpdateFieldValues()
         {
@@ -2222,10 +2223,10 @@ namespace eFormSDK.Integration.CoreTests
             // Assert
 
              Assert.AreEqual(aCase.MicrotingUid, match.MicrotingUId);
-           
-         
 
-        } 
+
+
+        }
         [Test]
         public async Task Core_Case_CaseLookupCaseId_Returns_cDto()
         {
@@ -2589,7 +2590,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.NotNull(match);
             Assert.AreEqual(aCase1.Id, match);
         }
-        
+
         #region Core_Case_CasesToExcel_returnsPathAndName
 //        [Test]
 //        public async Task Core_Case_CasesToExcel_returnsPathAndName()
@@ -2998,7 +2999,7 @@ namespace eFormSDK.Integration.CoreTests
 //
 //        }
         #endregion
-        
+
         // [Test]
         // public async Task Core_Case_CasesToCsv_returnsPathAndName()
         // {
@@ -5469,7 +5470,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.NotNull(match);
             Assert.True(match);
         }
-        
+
         [Test] // TODO add jaxml files
 #pragma warning disable 1998
         public async Task Core_Case_CaseToPdf_returns_Path()

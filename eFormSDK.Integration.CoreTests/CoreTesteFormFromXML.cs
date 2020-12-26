@@ -72,6 +72,7 @@ namespace eFormSDK.Integration.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             //sut.StartLog(new CoreBase());
         }
 
@@ -145,7 +146,7 @@ namespace eFormSDK.Integration.CoreTests
             // Assert.AreEqual(dE.Description, cd); TODO
             Assert.AreEqual(0, dE.DisplayOrder);
             Assert.AreEqual(false, dE.ReviewEnabled);
-            // Assert.AreEqual(dE.ManualSync) //TODO No Method for ManualSync 
+            // Assert.AreEqual(dE.ManualSync) //TODO No Method for ManualSync
             Assert.AreEqual(false, dE.ExtraFieldsEnabled);
             // Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO DoneButtonDisabled no method found
             Assert.AreEqual(false, dE.ApprovalEnabled);
@@ -326,8 +327,8 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual("Select date", dateField.Label);
             // Assert.AreEqual(dateField.Description, CDataValue) //TODO
             Assert.AreEqual(0, dateField.DisplayOrder);
-            // Assert.AreEqual("2018-04-25 00:00:00", dateField.MinValue); //TODO 
-            // Assert.AreEqual("2028-04-25", dateField.MaxValue); //TODO 
+            // Assert.AreEqual("2018-04-25 00:00:00", dateField.MinValue); //TODO
+            // Assert.AreEqual("2028-04-25", dateField.MaxValue); //TODO
             Assert.AreEqual(false, dateField.Mandatory);
             Assert.AreEqual(false, dateField.ReadOnly);
             Assert.AreEqual(Constants.FieldColors.Grey, dateField.Color);
@@ -377,7 +378,7 @@ namespace eFormSDK.Integration.CoreTests
                   </ElementList>
                 </Main>";
 
-          
+
             var match = await sut.TemplateFromXml(xmlstring);
 
 
@@ -981,7 +982,7 @@ namespace eFormSDK.Integration.CoreTests
 
             ShowPdf sp = (ShowPdf)dE.DataItemList[3];
             Assert.AreEqual("PDF", sp.Label);
-            // Assert.AreEqual("Her vises PDF-filer.", sp.Description); TODO 
+            // Assert.AreEqual("Her vises PDF-filer.", sp.Description); TODO
             Assert.AreEqual(3, sp.DisplayOrder);
             Assert.AreEqual("https://eform.microting.com/app_files/uploads/20160609143348_366_a60ad2d8c22ed24780bfa9a348376232.pdf", sp.Value);
 
@@ -1138,7 +1139,7 @@ namespace eFormSDK.Integration.CoreTests
    //         Assert.AreEqual("", n2.MinValue);
    //         Assert.AreEqual("", n2.MaxValue);
    //         Assert.AreEqual("", n2.DecimalCount);
-   //         Assert.AreEqual("", n2.UnitName);      
+   //         Assert.AreEqual("", n2.UnitName);
             Assert.AreEqual(false, d1.Mandatory);
 
             Text tt1 = (Text)dE.DataItemList[9];
@@ -1310,7 +1311,7 @@ namespace eFormSDK.Integration.CoreTests
 
             MultiSelect mS = (MultiSelect)dE.DataItemList[0];
 
-            
+
             Assert.AreEqual("Flere valg", mS.Label);
             // Assert.AreEqual(CDataValue, de.description)"); //TODO
             Assert.AreEqual(0, mS.DisplayOrder);
@@ -1686,7 +1687,7 @@ namespace eFormSDK.Integration.CoreTests
                 </Main>";
 
             var match = await sut.TemplateFromXml(xmlstring);
-            
+
 
             // Assert
             Assert.NotNull(match);
@@ -1726,7 +1727,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(false, t.ReadOnly);
             Assert.AreEqual(false, t.Mandatory);
             Assert.AreEqual(Constants.FieldColors.Grey, t.Color);
-            
+
 
         }
 
@@ -2258,7 +2259,7 @@ namespace eFormSDK.Integration.CoreTests
 
             var match = await sut.TemplateFromXml(xmlstring);
 
-            
+
             // Assert
             Assert.NotNull(match);
             Assert.AreEqual(1, match.Repeated);
@@ -2342,7 +2343,7 @@ namespace eFormSDK.Integration.CoreTests
 
         }
 
- 
+
         #region eventhandlers
         public void EventCaseCreated(object sender, EventArgs args)
         {

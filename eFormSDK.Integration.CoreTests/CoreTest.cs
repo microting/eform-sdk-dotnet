@@ -51,7 +51,7 @@ namespace eFormSDK.Integration.CoreTests
         public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
-            
+
             DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
             SqlController sql = new SqlController(dbContextHelper);
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef").ConfigureAwait(false);
@@ -73,16 +73,17 @@ namespace eFormSDK.Integration.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             testHelperReturnXml = new TestHelperReturnXML();
             //sut.StartLog(new CoreBase());
         }
-        
+
         [Test]
         public async Task Core_CheckStatusByMicrotingUid_DoesCreateCaseAndFieldValues()
         {
             // Arrange
             string microtingUuid = await testHelperReturnXml.CreateMultiPictureXMLResult(true);
-            
+
             // Act
             await sut.CheckStatusByMicrotingUid(int.Parse(microtingUuid)).ConfigureAwait(false);
 
@@ -99,7 +100,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(5, fvMatches.Count());
 
         }
-        
+
         #region eventhandlers
         public void EventCaseCreated(object sender, EventArgs args)
         {

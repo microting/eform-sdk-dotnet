@@ -59,6 +59,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             sut = new SqlController(dbContextHelper);
             sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
             await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
@@ -205,7 +206,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             string tagName1 = "Tag1";
             Tag tag = new Tag
             {
-                Name = tagName1, 
+                Name = tagName1,
                 WorkflowState = Constants.WorkflowStates.Created
             };
 
@@ -227,7 +228,7 @@ namespace eFormSDK.Integration.SqlControllerTests
         }
         #endregion
 
-        
+
         #region eventhandlers
 #pragma warning disable 1998
         public async Task EventCaseCreated(object sender, EventArgs args)

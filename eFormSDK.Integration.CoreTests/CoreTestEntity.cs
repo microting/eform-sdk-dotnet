@@ -73,6 +73,7 @@ namespace eFormSDK.Integration.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
+            await testHelpers.GenerateDefaultLanguages();
             //sut.StartLog(new CoreBase());
         }
 
@@ -130,7 +131,7 @@ namespace eFormSDK.Integration.CoreTests
 
             #endregion
 
-            #region Removed 
+            #region Removed
 
             #region eG1
             EntityGroup eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
@@ -174,7 +175,7 @@ namespace eFormSDK.Integration.CoreTests
 
             #endregion
 
-            #region Retracted 
+            #region Retracted
 
             #region eG1
             EntityGroup eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
@@ -264,7 +265,7 @@ namespace eFormSDK.Integration.CoreTests
 
             #endregion
 
-            #region Removed 
+            #region Removed
 
             #region eG1
             EntityGroup eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
@@ -308,7 +309,7 @@ namespace eFormSDK.Integration.CoreTests
 
             #endregion
 
-            #region Retracted 
+            #region Retracted
 
             #region eG1
             EntityGroup eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
@@ -793,7 +794,7 @@ namespace eFormSDK.Integration.CoreTests
 
             #endregion
 
-            #region Removed 
+            #region Removed
 
             #region eG1
             EntityGroup eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
@@ -837,7 +838,7 @@ namespace eFormSDK.Integration.CoreTests
 
             #endregion
 
-            #region Retracted 
+            #region Retracted
 
             #region eG1
             EntityGroup eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
@@ -927,7 +928,7 @@ namespace eFormSDK.Integration.CoreTests
 
             #endregion
 
-            #region Removed 
+            #region Removed
 
             #region eG1
             EntityGroup eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
@@ -971,7 +972,7 @@ namespace eFormSDK.Integration.CoreTests
 
             #endregion
 
-            #region Retracted 
+            #region Retracted
 
             #region eG1
             EntityGroup eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
