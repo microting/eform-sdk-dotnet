@@ -186,10 +186,13 @@ namespace Microting.eForm.Infrastructure
                     return null;
 
                 List<SiteNameDto> sites = new List<SiteNameDto>();
-                foreach (CheckListSite checkListSite in checkList.CheckListSites.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList())
+                List<CheckListSite> checkListSites =
+                    await db.CheckListSites.Where(x => x.CheckListId == checkList.Id && x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToListAsync();
+                foreach (CheckListSite checkListSite in checkListSites)
                 {
-                    SiteNameDto site = new SiteNameDto((int)checkListSite.Site.MicrotingUid, checkListSite.Site.Name, checkListSite.Site.CreatedAt, checkListSite.Site.UpdatedAt);
-                    sites.Add(site);
+                    Site site = await db.Sites.SingleAsync(x => x.Id == checkListSite.SiteId);
+                    SiteNameDto siteNameDto = new SiteNameDto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
+                    sites.Add(siteNameDto);
                 }
                 bool hasCases = db.Cases.Where(x => x.CheckListId == checkList.Id).AsQueryable().Count() != 0;
 
@@ -3271,7 +3274,7 @@ namespace Microting.eForm.Infrastructure
                 string workerLastName = null;
                 try
                 {
-                    unit = aSite.Units.First();
+                    unit = await db.Units.FirstAsync(x => x.SiteId == aSite.Id);
                     unitCustomerNo = (int)unit.CustomerNo;
                     unitOptCode = unit.OtpCode ?? 0;
                     unitMicrotingUid = (int)unit.MicrotingUid;
@@ -3280,7 +3283,9 @@ namespace Microting.eForm.Infrastructure
 
                 try
                 {
-                    worker = aSite.SiteWorkers.First().Worker;
+                    SiteWorker siteWorker = await db.SiteWorkers.FirstAsync(x => x.SiteId == aSite.Id);
+                    worker = await db.Workers.SingleAsync(x => x.Id == siteWorker.WorkerId);
+                    //worker = aSite.SiteWorkers.First().Worker;
                     workerMicrotingUid = worker.MicrotingUid;
                     workerFirstName = worker.FirstName;
                     workerLastName = worker.LastName;
