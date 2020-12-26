@@ -42,7 +42,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 Language language = new Language
                 {
                     Name = "Danish",
-                    Description = "da-dk"
+                    Description = "da-DK"
                 };
                 await language.Create(dbContext);
             }
