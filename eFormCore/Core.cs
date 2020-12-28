@@ -2446,8 +2446,7 @@ namespace eFormCore
                     Tuple<SiteDto, UnitDto> siteResult = await _communicator.SiteCreate(name);
 
                     string token = await _sqlController.SettingRead(Settings.token).ConfigureAwait(false);
-                    int customerNo = _communicator.OrganizationLoadAllFromRemote(token).GetAwaiter().GetResult()
-                        .CustomerNo;
+                    int customerNo = int.Parse(_sqlController.SettingRead(Settings.customerNo).ConfigureAwait(false).GetAwaiter().GetResult());
 
                     string siteName = siteResult.Item1.SiteName;
                     int siteId = siteResult.Item1.SiteId;

@@ -70,9 +70,7 @@ namespace Microting.eForm.Infrastructure
         public SqlController(DbContextHelper dbContextHelper)
         {
             this.dbContextHelper = dbContextHelper;
-//            dbContextHelper = new DbContextHelper(connectionString);
             string methodName = "SqlController.SqlController";
-//            connectionStr = connectionString;
 
             #region migrate if needed
             try
@@ -101,18 +99,14 @@ namespace Microting.eForm.Infrastructure
                 Language.AddDefaultLanguages(GetContext()).GetAwaiter().GetResult();
                 CheckList.MoveTranslations(GetContext()).GetAwaiter().GetResult();
                 Data.Entities.Field.MoveTranslations(GetContext()).GetAwaiter().GetResult();
+                Site.AddLanguage(GetContext()).GetAwaiter().GetResult();
                 SettingUpdate(Settings.translationsMigrated, "true").GetAwaiter().GetResult();
-                //log.LogEverything("In Here", "fsff");
             }
-
-            //logLimit = int.Parse(SettingRead(Settings.logLimit).GetAwaiter().GetResult());
         }
 
         private MicrotingDbContext GetContext()
         {
-
             return dbContextHelper.GetDbContext();
-
         }
         #endregion
 
@@ -330,9 +324,6 @@ namespace Microting.eForm.Infrastructure
                 List<Template_Dto> templateList = new List<Template_Dto>();
 
                 await using var db = GetContext();
-                //List<CheckList> matches = null;
-
-                //IQueryable<CheckList> sub_query = db.CheckLists.Where(x => x.ParentId == null);
                 var subQuery = db.CheckLists
                     .Where(x => x.ParentId == null)
                     .Join(db.CheckListTranslations,
@@ -348,13 +339,13 @@ namespace Microting.eForm.Infrastructure
                                 list.DocxExportEnabled,
                                 list.ExcelExportEnabled,
                                 list.JasperExportEnabled,
+                                list.DisplayIndex,
                                 translation.LanguageId
                             });
 
                 Language defaultLanguage = await db.Languages.SingleAsync(x => x.Name == "Danish");
 
                 var all = subQuery.ToList();
-                //subQuery = subQuery.Where(x => x.LanguageId == defaultLanguage.Id);
 
                 if (!includeRemoved)
                     subQuery = subQuery.Where(x =>
@@ -362,11 +353,8 @@ namespace Microting.eForm.Infrastructure
 
                 if (!string.IsNullOrEmpty(searchKey))
                 {
-                    //var limitList =
                     subQuery = subQuery.Where(x => x.Text.Contains(searchKey)
                                 || x.Description.Contains(searchKey));
-                    // sub_query = sub_query.Where(x =>
-                    //     limitList.Contains(x.Id));
                 }
 
                 if (tagIds.Count > 0)
@@ -412,7 +400,6 @@ namespace Microting.eForm.Infrastructure
                         break;
                 }
 
-                //matches = subQuery; // await subQuery.ToListAsync().ConfigureAwait(false);
                 var matches = await subQuery.ToListAsync().ConfigureAwait(false);
 
                 foreach (var checkList in matches)
@@ -475,7 +462,6 @@ namespace Microting.eForm.Infrastructure
                         {
                             Id = checkList.Id,
                             CreatedAt = TimeZoneInfo.ConvertTimeFromUtc((DateTime)checkList.CreatedAt, timeZoneInfo),
-                            //UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc((DateTime)checkList.UpdatedAt, timeZoneInfo),
                             Label = checkList.Text,
                             Description = checkList.Description,
                             Repeated = (int)checkList.Repeated,
@@ -483,7 +469,7 @@ namespace Microting.eForm.Infrastructure
                             WorkflowState = checkList.WorkflowState,
                             DeployedSites = sites,
                             HasCases = hasCases,
-                            // DisplayIndex = checkList.DisplayIndex,
+                            DisplayIndex = checkList.DisplayIndex,
                             Tags = checkListTags,
                             FolderId = folderId,
                             DocxExportEnabled =  checkList.DocxExportEnabled,
@@ -3275,7 +3261,7 @@ namespace Microting.eForm.Infrastructure
                 try
                 {
                     unit = await db.Units.FirstAsync(x => x.SiteId == aSite.Id);
-                    unitCustomerNo = (int)unit.CustomerNo;
+                    unitCustomerNo = unit.CustomerNo;
                     unitOptCode = unit.OtpCode ?? 0;
                     unitMicrotingUid = (int)unit.MicrotingUid;
                 }
@@ -3285,23 +3271,14 @@ namespace Microting.eForm.Infrastructure
                 {
                     SiteWorker siteWorker = await db.SiteWorkers.FirstAsync(x => x.SiteId == aSite.Id);
                     worker = await db.Workers.SingleAsync(x => x.Id == siteWorker.WorkerId);
-                    //worker = aSite.SiteWorkers.First().Worker;
                     workerMicrotingUid = worker.MicrotingUid;
                     workerFirstName = worker.FirstName;
                     workerLastName = worker.LastName;
                 }
                 catch { }
 
-                // try
-                // {
-                // SiteDto siteDto = new SiteDto((int)aSite.MicrotingUid, aSite.Name, workerFirstName, workerLastName, unitCustomerNo, unitOptCode, unitMicrotingUid, workerMicrotingUid);
-                // siteList.Add(siteDto);
-                // }
-                // catch
-                // {
                 SiteDto siteDto = new SiteDto((int)aSite.MicrotingUid, aSite.Name, workerFirstName, workerLastName, unitCustomerNo, unitOptCode, unitMicrotingUid, workerMicrotingUid);
                 siteList.Add(siteDto);
-                // }
             }
 
             return siteList;

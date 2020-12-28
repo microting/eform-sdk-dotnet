@@ -60,5 +60,20 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual ICollection<CheckListSite> CheckListSites { get; set; }
 
         public virtual ICollection<SiteTag> SiteTags { get; set; }
+
+        public static async Task AddLanguage(MicrotingDbContext dbContext)
+        {
+            List<Site> sites = await dbContext.Sites.ToListAsync();
+            Language defaultLanguage = await dbContext.Languages
+                .SingleAsync(x => x.Name == "Danish");
+            foreach (Site site in sites)
+            {
+                if (site.LanguageId == 0)
+                {
+                    site.LanguageId = defaultLanguage.Id;
+                    await site.Update(dbContext);
+                }
+            }
+        }
     }
 }
