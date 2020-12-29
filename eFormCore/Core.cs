@@ -992,7 +992,8 @@ namespace eFormCore
         /// Tries to retrieve the template MainElement from the Microting DB
         /// </summary>
         /// <param name="templateId">Template MainElement's ID to be retrieved from the Microting local DB</param>
-        public async Task<MainElement> TemplateRead(int templateId)
+        /// <param name="language"></param>
+        public async Task<MainElement> ReadeForm(int templateId, Language language)
         {
             string methodName = "Core.TemplateRead";
             try
@@ -1002,8 +1003,7 @@ namespace eFormCore
                     log.LogStandard(methodName, "called");
                     log.LogVariable(methodName, nameof(templateId), templateId);
 
-                    Language language = await dbContextHelper.GetDbContext().Languages.SingleAsync(x => x.Name == "Danish");
-                    return await _sqlController.TemplateRead(templateId, language);
+                    return await _sqlController.ReadeForm(templateId, language);
                 }
                 else
                     throw new Exception("Core is not running");

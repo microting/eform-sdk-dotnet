@@ -201,7 +201,8 @@ namespace eFormSDK.Integration.CoreTests
             #endregion
 
             // Act
-            MainElement match = await sut.TemplateRead(cl1.Id);
+            Language language = DbContext.Languages.Single(x => x.Id == 1);
+            MainElement match = await sut.ReadeForm(cl1.Id, language);
 
             // Assert
             Assert.NotNull(match);

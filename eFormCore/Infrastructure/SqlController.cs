@@ -130,7 +130,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public async Task<MainElement> TemplateRead(int templateId, Language defaultLanguage)
+        public async Task<MainElement> ReadeForm(int templateId, Language defaultLanguage)
         {
             string methodName = "SqlController.TemplateRead";
             try
@@ -500,7 +500,7 @@ namespace Microting.eForm.Infrastructure
             {
                 await using var db = GetContext();
                 Language defaultLanguage = await db.Languages.SingleAsync(x => x.Name == "Danish");
-                MainElement mainElement = await TemplateRead(templateId, defaultLanguage);
+                MainElement mainElement = await ReadeForm(templateId, defaultLanguage);
                 List<FieldDto> fieldLst = new List<FieldDto>();
 
                 foreach (DataItem dataItem in mainElement.DataItemGetAll())
