@@ -145,7 +145,12 @@ namespace Microting.eForm.Infrastructure
                     return null;
 
                 CheckListTranslation checkListTranslation =
-                    await db.CheckListTranslations.SingleAsync(x => x.CheckListId == mainCl.Id);
+                    await db.CheckListTranslations.SingleOrDefaultAsync(x => x.CheckListId == mainCl.Id && x.LanguageId == defaultLanguage.Id);
+                if (checkListTranslation == null)
+                {
+                    checkListTranslation = await db.CheckListTranslations.FirstAsync(x => x.CheckListId == mainCl.Id);
+                    defaultLanguage = db.Languages.Single(x => x.Id == checkListTranslation.LanguageId);
+                }
 
                 mainElement = new MainElement(mainCl.Id, checkListTranslation.Text, t.Int(mainCl.DisplayIndex), mainCl.FolderName, t.Int(mainCl.Repeated), DateTime.UtcNow, DateTime.UtcNow.AddDays(2), "da",
                     t.Bool(mainCl.MultiApproval), t.Bool(mainCl.FastNavigation), t.Bool(mainCl.DownloadEntities), t.Bool(mainCl.ManualSync), mainCl.CaseType, "", "", t.Bool(mainCl.QuickSyncEnabled), new List<Element>(), mainCl.Color);
@@ -190,6 +195,16 @@ namespace Microting.eForm.Infrastructure
                 }
                 bool hasCases = db.Cases.Where(x => x.CheckListId == checkList.Id).AsQueryable().Count() != 0;
 
+                CheckListTranslation checkListTranslation =
+                    await db.CheckListTranslations.SingleOrDefaultAsync(x =>
+                        x.CheckListId == checkList.Id && x.LanguageId == defaultLanguage.Id);
+                if (checkListTranslation == null)
+                {
+                    checkListTranslation =
+                        await db.CheckListTranslations.FirstAsync(x => x.CheckListId == checkList.Id);
+                    defaultLanguage = await db.Languages.SingleAsync(x => x.Id == checkListTranslation.LanguageId);
+                }
+
                 #region load fields
                 FieldDto fd1 = null;
                 FieldDto fd2 = null;
@@ -206,7 +221,7 @@ namespace Microting.eForm.Infrastructure
                 if (f1 != null)
                 {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
+                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f1.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
                     fd1 = new FieldDto(f1.Id, translation.Text, translation.Description, (int)f1.FieldTypeId, fieldType.Type, (int)f1.CheckListId);
                 }
@@ -214,72 +229,72 @@ namespace Microting.eForm.Infrastructure
                 Data.Entities.Field f2 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field2);
                 if (f2 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
-                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
+                        .SingleOrDefaultAsync(x => x.FieldId == f2.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f2.Id);
+                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f2.FieldTypeId);
                     fd2 = new FieldDto(f2.Id, translation.Text, translation.Description, (int)f2.FieldTypeId, f2.FieldType.Type, (int)f2.CheckListId);
                 }
 
                 Data.Entities.Field f3 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field3);
                 if (f3 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
-                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
+                        .SingleOrDefaultAsync(x => x.FieldId == f3.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f3.Id);
+                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f3.FieldTypeId);
                     fd3 = new FieldDto(f3.Id, translation.Text, translation.Description, (int)f3.FieldTypeId, f3.FieldType.Type, (int)f3.CheckListId);
                 }
 
                 Data.Entities.Field f4 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field4);
                 if (f4 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
-                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
+                        .SingleOrDefaultAsync(x => x.FieldId == f4.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f4.Id);
+                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f4.FieldTypeId);
                     fd4 = new FieldDto(f4.Id, translation.Text, translation.Description, (int)f4.FieldTypeId, f4.FieldType.Type, (int)f4.CheckListId);
                 }
 
                 Data.Entities.Field f5 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field5);
                 if (f5 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
-                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
+                        .SingleOrDefaultAsync(x => x.FieldId == f5.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f5.Id);
+                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f5.FieldTypeId);
                     fd5 = new FieldDto(f5.Id, translation.Text, translation.Description, (int)f5.FieldTypeId, f5.FieldType.Type, (int)f5.CheckListId);
                 }
 
                 Data.Entities.Field f6 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field6);
                 if (f6 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
-                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
+                        .SingleOrDefaultAsync(x => x.FieldId == f6.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f6.Id);
+                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f6.FieldTypeId);
                     fd6 = new FieldDto(f6.Id, translation.Text, translation.Description, (int)f6.FieldTypeId, f6.FieldType.Type, (int)f6.CheckListId);
                 }
 
                 Data.Entities.Field f7 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field7);
                 if (f7 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
-                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
+                        .SingleOrDefaultAsync(x => x.FieldId == f7.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f7.Id);
+                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f7.FieldTypeId);
                     fd7 = new FieldDto(f7.Id, translation.Text, translation.Description, (int)f7.FieldTypeId, f7.FieldType.Type, (int)f7.CheckListId);
                 }
 
                 Data.Entities.Field f8 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field8);
                 if (f8 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
-                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
+                        .SingleOrDefaultAsync(x => x.FieldId == f8.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f8.Id);
+                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f8.FieldTypeId);
                     fd8 = new FieldDto(f8.Id, translation.Text, translation.Description, (int)f8.FieldTypeId, f8.FieldType.Type, (int)f8.CheckListId);
                 }
 
                 Data.Entities.Field f9 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field9);
                 if (f9 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
-                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
+                        .SingleOrDefaultAsync(x => x.FieldId == f9.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f9.Id);
+                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f9.FieldTypeId);
                     fd9 = new FieldDto(f9.Id, translation.Text, translation.Description, (int)f9.FieldTypeId, f9.FieldType.Type, (int)f9.CheckListId);
                 }
 
                 Data.Entities.Field f10 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field10);
                 if (f10 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id);
-                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
+                        .SingleOrDefaultAsync(x => x.FieldId == f10.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f10.Id);
+                    FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f10.FieldTypeId);
                     fd10 = new FieldDto(f10.Id, translation.Text, translation.Description, (int)f10.FieldTypeId, f10.FieldType.Type, (int)f10.CheckListId);
                 }
                 #endregion
@@ -294,9 +309,6 @@ namespace Microting.eForm.Infrastructure
                 }
                 #endregion
 
-                CheckListTranslation checkListTranslation =
-                    await db.CheckListTranslations.SingleOrDefaultAsync(x =>
-                        x.CheckListId == checkList.Id && x.LanguageId == defaultLanguage.Id);
                 Template_Dto templateDto = new Template_Dto(checkList.Id, checkList.CreatedAt, checkList.UpdatedAt,
                     checkListTranslation.Text, checkListTranslation.Description, (int) checkList.Repeated, checkList.FolderName,
                     checkList.WorkflowState, sites, hasCases, checkList.DisplayIndex, fd1, fd2, fd3, fd4, fd5, fd6,
