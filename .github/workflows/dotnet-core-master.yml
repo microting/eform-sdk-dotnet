@@ -22,6 +22,15 @@ jobs:
         mysql root password: 'secretpassword'
         mysql user: 'developer' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
         mysql password: 'password' # Required if "mysql user" exists. The password for the "mysql user"
+    - name: Slack start job
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: voxmedia/github-action-slack-notify-build@v1
+      id: slack
+      with:
+        channel_id: C013XLR1C3F
+        status: STARTED
+        color: good
     - uses: getong/rabbitmq-action@v1.2
       with:
         rabbitmq version: '3.8.2-management-alpine'
@@ -43,3 +52,24 @@ jobs:
       run: dotnet test --no-restore -c Release -v n eFormSDK.Integration.CoreTests/eFormSDK.Integration.CoreTests.csproj
     - name: SQL Controller Tests
       run: dotnet test --no-restore -c Release -v n eFormSDK.Integration.SqlControllerTests/eFormSDK.Integration.SqlControllerTests.csproj
+    - name: Notify slack success
+      if: ${{ success() }}
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: voxmedia/github-action-slack-notify-build@v1
+      with:
+        message_id: ${{ steps.slack.outputs.message_id }}
+        channel_id: C013XLR1C3F
+        status: SUCCESS
+        color: good
+
+    - name: Notify slack fail
+      if: ${{ failure() }}
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: voxmedia/github-action-slack-notify-build@v1
+      with:
+        message_id: ${{ steps.slack.outputs.message_id }}
+        channel_id: C013XLR1C3F
+        status: FAILED
+        color: danger
