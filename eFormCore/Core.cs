@@ -974,7 +974,7 @@ namespace eFormCore
                     if (errors.Count > 0)
                         throw new Exception("mainElement failed TemplateValidation. Run TemplateValidation to see errors");
 
-                    int templateId = await _sqlController.TemplateCreate(mainElement);
+                    int templateId = await _sqlController.TemplateCreate(mainElement).ConfigureAwait(false);
                     log.LogEverything(methodName, "Template id:" + templateId.ToString() + " created in DB");
                     return templateId;
                 }

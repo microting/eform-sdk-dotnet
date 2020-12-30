@@ -119,7 +119,7 @@ namespace Microting.eForm.Infrastructure
             string methodName = "SqlController.TemplateCreate";
             try
             {
-                var result = await EformCreateDb(mainElement);
+                var result = await EformCreateDb(mainElement).ConfigureAwait(false);
 
                 return result;
             }
@@ -4952,7 +4952,9 @@ namespace Microting.eForm.Infrastructure
                 await using var db = GetContext();
                 GetConverter();
 
-                Language defaultLanguage = await db.Languages.SingleAsync(x => x.Name == "Danish");
+                Language defaultLanguage = await db.Languages.SingleAsync(x => x.Name == "Danish").ConfigureAwait(false);
+                Language ukLanguage = await db.Languages.SingleAsync(x => x.Name == "English").ConfigureAwait(false);
+                Language deLanguage = await db.Languages.SingleAsync(x => x.Name == "German").ConfigureAwait(false);
 
                 #region mainElement
 
@@ -4989,10 +4991,30 @@ namespace Microting.eForm.Infrastructure
                 CheckListTranslation checkListTranslation = new CheckListTranslation()
                 {
                     CheckListId = cl.Id,
-                    Text = mainElement.Label,
+                    Text = mainElement.Label.Split("|")[0],
                     LanguageId = defaultLanguage.Id
                 };
-                await checkListTranslation.Create(db);
+                await checkListTranslation.Create(db).ConfigureAwait(false);
+                if (mainElement.Label.Split("|").Length > 1)
+                {
+                    checkListTranslation = new CheckListTranslation()
+                    {
+                        CheckListId = cl.Id,
+                        Text = mainElement.Label.Split("|")[1],
+                        LanguageId = ukLanguage.Id
+                    };
+                    await checkListTranslation.Create(db).ConfigureAwait(false);
+                }
+                if (mainElement.Label.Split("|").Length > 2)
+                {
+                    checkListTranslation = new CheckListTranslation()
+                    {
+                        CheckListId = cl.Id,
+                        Text = mainElement.Label.Split("|")[2],
+                        LanguageId = deLanguage.Id
+                    };
+                    await checkListTranslation.Create(db).ConfigureAwait(false);
+                }
 
                 int mainId = cl.Id;
                 mainElement.Id = mainId;
@@ -5052,17 +5074,44 @@ namespace Microting.eForm.Infrastructure
                     // Description = groupElement.Description != null ? groupElement.Description.InderValue : ""
                 };
                 await cl.Create(db).ConfigureAwait(false);
+                Language ukLanguage = await db.Languages.SingleAsync(x => x.Name == "English").ConfigureAwait(false);
+                Language deLanguage = await db.Languages.SingleAsync(x => x.Name == "German").ConfigureAwait(false);
 
                 CheckListTranslation checkListTranslation = new CheckListTranslation()
                 {
                     CheckListId = cl.Id,
                     LanguageId = defaultLanguage.Id,
-                    Text = groupElement.Label,
-                    Description = groupElement.Description != null ? groupElement.Description.InderValue : ""
+                    Text = groupElement.Label.Split("|")[0],
+                    Description = groupElement.Description != null ? groupElement.Description.InderValue.Split("|")[0] : ""
                 };
-                await checkListTranslation.Create(db);
+                await checkListTranslation.Create(db).ConfigureAwait(false);
+                if (groupElement.Label.Split("|").Length > 1)
+                {
+                    checkListTranslation = new CheckListTranslation()
+                    {
+                        CheckListId = cl.Id,
+                        LanguageId = ukLanguage.Id,
+                        Text = groupElement.Label.Split("|")[1],
+                        Description = groupElement.Description != null ? groupElement.Description.InderValue.Split("|")[1] : ""
+                    };
+                    await checkListTranslation.Create(db).ConfigureAwait(false);
+                }
 
-                await CreateElementList(cl.Id, groupElement.ElementList, defaultLanguage);
+                if (groupElement.Label.Split("|").Length > 2)
+                {
+                    checkListTranslation = new CheckListTranslation()
+                    {
+                        CheckListId = cl.Id,
+                        LanguageId = deLanguage.Id,
+                        Text = groupElement.Label.Split("|")[2],
+                        Description = groupElement.Description != null
+                            ? groupElement.Description.InderValue.Split("|")[2]
+                            : ""
+                    };
+                    await checkListTranslation.Create(db).ConfigureAwait(false);
+                }
+
+                await CreateElementList(cl.Id, groupElement.ElementList, defaultLanguage).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -5097,16 +5146,46 @@ namespace Microting.eForm.Infrastructure
                 };
                 await cl.Create(db).ConfigureAwait(false);
 
+                Language ukLanguage = await db.Languages.SingleAsync(x => x.Name == "English");
+                Language deLanguage = await db.Languages.SingleAsync(x => x.Name == "German");
+
                 CheckListTranslation checkListTranslation = new CheckListTranslation()
                 {
                     CheckListId = cl.Id,
-                    Text = dataElement.Label,
+                    Text = dataElement.Label.Split("|")[0],
                     Description = dataElement.Description != null
-                        ? dataElement.Description.InderValue
+                        ? dataElement.Description.InderValue.Split("|")[0]
                         : "",
                     LanguageId = defaultLanguage.Id
                 };
                 await checkListTranslation.Create(db);
+
+                if (dataElement.Label.Split("|").Length > 1)
+                {
+                    checkListTranslation = new CheckListTranslation()
+                    {
+                        CheckListId = cl.Id,
+                        Text = dataElement.Label.Split("|")[1],
+                        Description = dataElement.Description != null
+                            ? dataElement.Description.InderValue.Split("|")[1]
+                            : "",
+                        LanguageId = ukLanguage.Id
+                    };
+                    await checkListTranslation.Create(db);
+                }
+                if (dataElement.Label.Split("|").Length > 2)
+                {
+                    checkListTranslation = new CheckListTranslation()
+                    {
+                        CheckListId = cl.Id,
+                        Text = dataElement.Label.Split("|")[2],
+                        Description = dataElement.Description != null
+                            ? dataElement.Description.InderValue.Split("|")[2]
+                            : "",
+                        LanguageId = deLanguage.Id
+                    };
+                    await checkListTranslation.Create(db);
+                }
 
                 if (dataElement.DataItemList != null)
                 {
@@ -5190,6 +5269,9 @@ namespace Microting.eForm.Infrastructure
 
                 int fieldTypeId = Find(typeStr);
 
+                Language ukLanguage = await db.Languages.SingleAsync(x => x.Name == "English").ConfigureAwait(false);
+                Language deLanguage = await db.Languages.SingleAsync(x => x.Name == "German").ConfigureAwait(false);
+
                 Data.Entities.Field field = new Data.Entities.Field
                 {
                     Color = dataItem.Color,
@@ -5207,13 +5289,6 @@ namespace Microting.eForm.Infrastructure
                     FieldTypeId = fieldTypeId,
                     Version = 1,
                     OriginalId = dataItem.Id.ToString()
-                };
-
-                FieldTranslation fieldTranslation = new FieldTranslation()
-                {
-                    LanguageId = defaultLanguage.Id,
-                    Text = dataItem.Label,
-                    Description = dataItem.Description != null ? dataItem.Description.InderValue : ""
                 };
 
                 bool isSaved = false; // This is done, because we need to have the current field Id, for giving it onto the child fields in a FieldGroup
@@ -5274,8 +5349,8 @@ namespace Microting.eForm.Infrastructure
 
                         isSaved = true;
 
-                        fieldTranslation.FieldId = field.Id;
-                        await fieldTranslation.Create(db);
+                        //fieldTranslation.FieldId = field.Id;
+                        //await fieldTranslation.Create(db);
 
                         foreach (KeyValuePair keyValuePair in multiSelect.KeyValuePairList)
                         {
@@ -5285,14 +5360,34 @@ namespace Microting.eForm.Infrastructure
                                 Key = keyValuePair.Key,
                                 DisplayOrder = keyValuePair.DisplayOrder
                             };
-                            await fieldOption.Create(db);
+                            await fieldOption.Create(db).ConfigureAwait(false);
                             FieldOptionTranslation fieldOptionTranslation = new FieldOptionTranslation()
                             {
                                 FieldOptionId = fieldOption.Id,
                                 LanguageId = defaultLanguage.Id,
-                                Text = keyValuePair.Value
+                                Text = keyValuePair.Value.Split("|")[0]
                             };
-                            await fieldOptionTranslation.Create(db);
+                            await fieldOptionTranslation.Create(db).ConfigureAwait(false);
+                            if (keyValuePair.Value.Split("|").Length > 1)
+                            {
+                                fieldOptionTranslation = new FieldOptionTranslation()
+                                {
+                                    FieldOptionId = fieldOption.Id,
+                                    LanguageId = ukLanguage.Id,
+                                    Text = keyValuePair.Value.Split("|")[1]
+                                };
+                                await fieldOptionTranslation.Create(db).ConfigureAwait(false);
+                            }
+                            if (keyValuePair.Value.Split("|").Length > 2)
+                            {
+                                fieldOptionTranslation = new FieldOptionTranslation()
+                                {
+                                    FieldOptionId = fieldOption.Id,
+                                    LanguageId = deLanguage.Id,
+                                    Text = keyValuePair.Value.Split("|")[2]
+                                };
+                                await fieldOptionTranslation.Create(db).ConfigureAwait(false);
+                            }
                         }
 
                         // field.KeyValuePairList = PairBuild(multiSelect.KeyValuePairList);
@@ -5323,8 +5418,8 @@ namespace Microting.eForm.Infrastructure
 
                         isSaved = true;
 
-                        fieldTranslation.FieldId = field.Id;
-                        await fieldTranslation.Create(db);
+                        //fieldTranslation.FieldId = field.Id;
+                        //await fieldTranslation.Create(db);
 
                         foreach (KeyValuePair keyValuePair in singleSelect.KeyValuePairList)
                         {
@@ -5334,14 +5429,34 @@ namespace Microting.eForm.Infrastructure
                                 Key = keyValuePair.Key,
                                 DisplayOrder = keyValuePair.DisplayOrder
                             };
-                            await fieldOption.Create(db);
+                            await fieldOption.Create(db).ConfigureAwait(false);
                             FieldOptionTranslation fieldOptionTranslation = new FieldOptionTranslation()
                             {
                                 FieldOptionId = fieldOption.Id,
                                 LanguageId = defaultLanguage.Id,
-                                Text = keyValuePair.Value
+                                Text = keyValuePair.Value.Split("|")[0]
                             };
-                            await fieldOptionTranslation.Create(db);
+                            await fieldOptionTranslation.Create(db).ConfigureAwait(false);
+                            if (keyValuePair.Value.Split("|").Length > 1)
+                            {
+                                fieldOptionTranslation = new FieldOptionTranslation()
+                                {
+                                    FieldOptionId = fieldOption.Id,
+                                    LanguageId = ukLanguage.Id,
+                                    Text = keyValuePair.Value.Split("|")[1]
+                                };
+                                await fieldOptionTranslation.Create(db).ConfigureAwait(false);
+                            }
+                            if (keyValuePair.Value.Split("|").Length > 2)
+                            {
+                                fieldOptionTranslation = new FieldOptionTranslation()
+                                {
+                                    FieldOptionId = fieldOption.Id,
+                                    LanguageId = deLanguage.Id,
+                                    Text = keyValuePair.Value.Split("|")[2]
+                                };
+                                await fieldOptionTranslation.Create(db).ConfigureAwait(false);
+                            }
                         }
                         // field.KeyValuePairList = PairBuild(singleSelect.KeyValuePairList);
                         break;
@@ -5386,8 +5501,6 @@ namespace Microting.eForm.Infrastructure
 
                         isSaved = true;
 
-                        fieldTranslation.FieldId = field.Id;
-                        await fieldTranslation.Create(db);
                         if (fg.DataItemList != null)
                         {
                             foreach (DataItem data_item in fg.DataItemList)
@@ -5404,10 +5517,39 @@ namespace Microting.eForm.Infrastructure
                 if (!isSaved)
                 {
                     await field.Create(db).ConfigureAwait(false);
-
-                    fieldTranslation.FieldId = field.Id;
-                    await fieldTranslation.Create(db);
                 }
+                FieldTranslation fieldTranslation = new FieldTranslation()
+                {
+                    LanguageId = defaultLanguage.Id,
+                    Text = dataItem.Label.Split("|")[0],
+                    Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[0] : "",
+                    FieldId = field.Id
+                };
+                await fieldTranslation.Create(db).ConfigureAwait(false);
+
+                if (dataItem.Label.Split("|").Length > 1)
+                {
+                    fieldTranslation = new FieldTranslation()
+                    {
+                        LanguageId = ukLanguage.Id,
+                        Text = dataItem.Label.Split("|")[1],
+                        Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[1] : "",
+                        FieldId = field.Id
+                    };
+                }
+                await fieldTranslation.Create(db).ConfigureAwait(false);
+
+                if (dataItem.Label.Split("|").Length > 2)
+                {
+                    fieldTranslation = new FieldTranslation()
+                    {
+                        LanguageId = deLanguage.Id,
+                        Text = dataItem.Label.Split("|")[2],
+                        Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[2] : "",
+                        FieldId = field.Id
+                    };
+                }
+                await fieldTranslation.Create(db).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
