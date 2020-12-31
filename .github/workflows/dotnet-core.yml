@@ -44,7 +44,7 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: ${{matrix.test}}
-      run: eform-sdk/${{matrix.test}}.sh
+      run: ./${{matrix.test}}.sh
 
   deploy:
     needs: build
