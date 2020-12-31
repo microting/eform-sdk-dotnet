@@ -52,7 +52,7 @@ namespace eFormSDK.Tests
 
             Language language = new Language
             {
-                Description = Guid.NewGuid().ToString(),
+                LanguageCode = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
@@ -131,7 +131,7 @@ namespace eFormSDK.Tests
 
             Language language = new Language
             {
-                Description = Guid.NewGuid().ToString(), 
+                LanguageCode = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
@@ -240,13 +240,13 @@ namespace eFormSDK.Tests
 
             Language language = new Language
             {
-                Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+                LanguageCode = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
             Language language2 = new Language
             {
-                Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+                LanguageCode = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
             await language2.Create(DbContext).ConfigureAwait(false);
 
@@ -370,13 +370,13 @@ namespace eFormSDK.Tests
 
             Language language = new Language
             {
-                Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+                LanguageCode = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
             Language language2 = new Language
             {
-                Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+                LanguageCode = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
             await language2.Create(DbContext).ConfigureAwait(false);
 
@@ -497,14 +497,14 @@ namespace eFormSDK.Tests
 
             Language language = new Language
             {
-                Description = Guid.NewGuid().ToString(),
+                LanguageCode = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
             Language language2 = new Language
             {
-                Description = Guid.NewGuid().ToString(), 
+                LanguageCode = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
             await language2.Create(DbContext).ConfigureAwait(false);
@@ -629,14 +629,14 @@ namespace eFormSDK.Tests
 
             Language language = new Language
             {
-                Description = Guid.NewGuid().ToString(),
+                LanguageCode = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
             Language language2 = new Language
             {
-                Description = Guid.NewGuid().ToString(), 
+                LanguageCode = Guid.NewGuid().ToString(), 
                 Name = Guid.NewGuid().ToString()
             };
             await language2.Create(DbContext).ConfigureAwait(false);
@@ -728,7 +728,7 @@ namespace eFormSDK.Tests
 
             Language language = new Language
             {
-                Description = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+                LanguageCode = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
             

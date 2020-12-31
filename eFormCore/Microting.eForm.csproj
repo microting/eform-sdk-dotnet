@@ -234,6 +234,8 @@
     <Compile Include="Migrations\20201223104631_AddingTranslations.Designer.cs" />
     <Compile Include="Migrations\20201225165255_FixingBrokenTableNames.cs" />
     <Compile Include="Migrations\20201225165255_FixingBrokenTableNames.Designer.cs" />
+    <Compile Include="Migrations\20201231062732_ChangingDescriptToLanguageCode.cs" />
+    <Compile Include="Migrations\20201231062732_ChangingDescriptToLanguageCode.Designer.cs" />
     <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Infrastructure\SqlController.cs" />
     <Compile Include="Services\Subscriber.cs" />

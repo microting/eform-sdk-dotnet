@@ -33,7 +33,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
     {
         public string Name { get; set; }
 
-        public string Description { get; set; }
+        public string LanguageCode { get; set; }
 
         public static async Task AddDefaultLanguages(MicrotingDbContext dbContext)
         {
@@ -42,7 +42,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 Language language = new Language
                 {
                     Name = "Danish",
-                    Description = "da"
+                    LanguageCode = "da"
                 };
                 await language.Create(dbContext);
             }
@@ -51,7 +51,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 Language language = new Language
                 {
                     Name = "English",
-                    Description = "en-US"
+                    LanguageCode = "en-US"
                 };
                 await language.Create(dbContext);
             }
@@ -60,7 +60,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 Language language = new Language
                 {
                     Name = "German",
-                    Description = "de-DE"
+                    LanguageCode = "de-DE"
                 };
                 await language.Create(dbContext);
             }
