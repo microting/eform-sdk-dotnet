@@ -1973,7 +1973,7 @@ namespace Microting.eForm.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("LanguageCode")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<int>("LanguageId")

@@ -10,10 +10,20 @@ namespace Microting.eForm.Migrations
                 name: "Description",
                 table: "Languages",
                 "LanguageCode");
+
+            migrationBuilder.RenameColumn(
+                name: "Description",
+                table: "LanguageVersions",
+                "LanguageCode");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.RenameColumn(
+                name: "LanguageCode",
+                table: "LanguageVersions",
+                "Description");
+
             migrationBuilder.RenameColumn(
                 name: "LanguageCode",
                 table: "Languages",

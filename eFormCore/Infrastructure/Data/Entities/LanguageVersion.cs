@@ -29,12 +29,12 @@ namespace Microting.eForm.Infrastructure.Data.Entities
     public  class LanguageVersion : BaseEntity
     {
         public string Name { get; set; }
-        
-        public string Description { get; set; }
-        
+
+        public string LanguageCode { get; set; }
+
         [ForeignKey("Language")]
         public int LanguageId { get; set; }
-        
+
         public virtual Language Language { get; set; }
     }
 }

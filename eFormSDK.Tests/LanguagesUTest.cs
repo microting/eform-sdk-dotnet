@@ -73,7 +73,7 @@ namespace eFormSDK.Tests
 //            Assert.AreEqual(language.UpdatedAt.ToString(), languageVersions[0].UpdatedAt.ToString());
             Assert.AreEqual(languageVersions[3].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(language.Id, languageVersions[3].Id);
-            Assert.AreEqual(language.LanguageCode, languageVersions[3].Description);
+            Assert.AreEqual(language.LanguageCode, languageVersions[3].LanguageCode);
             Assert.AreEqual(language.Name, languageVersions[3].Name);
         }
 
@@ -122,7 +122,7 @@ namespace eFormSDK.Tests
 //            Assert.AreEqual(oldUpdatedAt.ToString(), languageVersions[0].UpdatedAt.ToString());
             Assert.AreEqual(languageVersions[3].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(language.Id, languageVersions[3].LanguageId);
-            Assert.AreEqual(oldDescription, languageVersions[3].Description);
+            Assert.AreEqual(oldDescription, languageVersions[3].LanguageCode);
             Assert.AreEqual(oldName, languageVersions[3].Name);
 
             //New Version
@@ -131,7 +131,7 @@ namespace eFormSDK.Tests
 //            Assert.AreEqual(language.UpdatedAt.ToString(), languageVersions[1].UpdatedAt.ToString());
             Assert.AreEqual(languageVersions[4].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(language.Id, languageVersions[4].LanguageId);
-            Assert.AreEqual(language.LanguageCode, languageVersions[4].Description);
+            Assert.AreEqual(language.LanguageCode, languageVersions[4].LanguageCode);
             Assert.AreEqual(language.Name, languageVersions[4].Name);
         }
         [Test]
@@ -175,7 +175,7 @@ namespace eFormSDK.Tests
 //            Assert.AreEqual(oldUpdatedAt.ToString(), languageVersions[0].UpdatedAt.ToString());
             Assert.AreEqual(languageVersions[3].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(language.Id, languageVersions[3].LanguageId);
-            Assert.AreEqual(language.LanguageCode, languageVersions[3].Description);
+            Assert.AreEqual(language.LanguageCode, languageVersions[3].LanguageCode);
             Assert.AreEqual(language.Name, languageVersions[3].Name);
 
             //New Version
@@ -184,7 +184,7 @@ namespace eFormSDK.Tests
 //            Assert.AreEqual(language.UpdatedAt.ToString(), languageVersions[1].UpdatedAt.ToString());
             Assert.AreEqual(languageVersions[4].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(language.Id, languageVersions[4].LanguageId);
-            Assert.AreEqual(language.LanguageCode, languageVersions[4].Description);
+            Assert.AreEqual(language.LanguageCode, languageVersions[4].LanguageCode);
             Assert.AreEqual(language.Name, languageVersions[4].Name);
         }
     }
