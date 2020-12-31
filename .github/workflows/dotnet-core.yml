@@ -8,6 +8,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        test: [integration-tests-core,integration-tests-sqlcontroller,unit-tests]
     steps:
     - uses: actions/checkout@v2
     - uses: mirromutth/mysql-action@v1.1
@@ -39,12 +43,25 @@ jobs:
       run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3 | cut -d "v" -f 2)
     - name: Build
       run: dotnet build --configuration Release --no-restore
-    - name: Unit Tests
-      run: dotnet test --no-restore -c Release -v n eFormSDK.Tests/eFormSDK.Tests.csproj
-    - name: Integration Tests
-      run: dotnet test --no-restore -c Release -v n eFormSDK.Integration.CoreTests/eFormSDK.Integration.CoreTests.csproj
-    - name: SQL Controller Tests
-      run: dotnet test --no-restore -c Release -v n eFormSDK.Integration.SqlControllerTests/eFormSDK.Integration.SqlControllerTests.csproj
+    - name: ${{matrix.test}}
+      run: eform-sdk/${{matrix.test}}.sh
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3 | cut -d "v" -f 2)
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
     - name: Pack
       run: dotnet pack eFormSDK.sln -c Release -o ./artifacts -p:PackageVersion=${{ steps.get_version.outputs.VERSION }}
     - name: Push generated package to GitHub registry

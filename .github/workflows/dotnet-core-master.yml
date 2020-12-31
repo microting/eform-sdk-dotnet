@@ -42,7 +42,7 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: ${{matrix.test}}
-      run: ${{matrix.test}}.sh
+      run: eform-sdk/${{matrix.test}}.sh
     - name: Notify slack fail
       if: ${{ failure() }}
       env:
