@@ -5748,7 +5748,14 @@ namespace Microting.eForm.Infrastructure
                     {
                         CheckList cl = await db.CheckLists.SingleAsync(x => x.Id == elementId);
                         CheckListTranslation checkListTranslation =
-                            await db.CheckListTranslations.SingleAsync(x => x.CheckListId == cl.Id);
+                            await db.CheckListTranslations.SingleOrDefaultAsync(x =>
+                                x.CheckListId == cl.Id && x.LanguageId == defaultLanguage.Id);
+                        if (checkListTranslation == null)
+                        {
+                            checkListTranslation = await db.CheckListTranslations.FirstAsync(x => x.CheckListId == cl.Id);
+                            defaultLanguage =
+                                await db.Languages.SingleAsync(x => x.Id == checkListTranslation.LanguageId);
+                        }
 
                         DataElement dElement = new DataElement(cl.Id,
                             checkListTranslation.Text,
@@ -5764,7 +5771,8 @@ namespace Microting.eForm.Infrastructure
                             new List<DataItem>());
 
                         //the actual DataItems
-                        List<Data.Entities.Field> lstFields = db.Fields.Where(x => x.CheckListId == elementId && x.ParentFieldId == null).ToList();
+                        List<Data.Entities.Field> lstFields = db.Fields.Where(x =>
+                            x.CheckListId == elementId && x.ParentFieldId == null).ToList();
                         foreach (var field in lstFields)
                         {
                             await GetDataItem(dElement.DataItemList, dElement.DataItemGroupList, field, defaultLanguage);
@@ -5802,7 +5810,13 @@ namespace Microting.eForm.Infrastructure
                 string fieldTypeStr = Find(t.Int(field.FieldTypeId));
 
                 //KEY POINT - mapping
-                FieldTranslation fieldTranslation = await db.FieldTranslations.SingleAsync(x => x.FieldId == field.Id);
+                FieldTranslation fieldTranslation = await db.FieldTranslations.SingleOrDefaultAsync(x =>
+                    x.FieldId == field.Id && x.LanguageId == defaultLanguage.Id);
+                if (fieldTranslation == null)
+                {
+                    fieldTranslation = await db.FieldTranslations.FirstAsync(x => x.FieldId == field.Id);
+                    defaultLanguage = await db.Languages.SingleAsync(x => x.Id == fieldTranslation.LanguageId);
+                }
                 switch (fieldTypeStr)
                 {
                     case Constants.Constants.FieldTypes.Audio:
