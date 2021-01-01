@@ -5092,7 +5092,10 @@ namespace Microting.eForm.Infrastructure
                         CheckListId = cl.Id,
                         LanguageId = ukLanguage.Id,
                         Text = groupElement.Label.Split("|")[1],
-                        Description = groupElement.Description != null ? groupElement.Description.InderValue.Split("|")[1] : ""
+                        Description = groupElement.Description != null ?
+                            (groupElement.Description.InderValue.Split("|").Length > 1
+                                ? groupElement.Description.InderValue.Split("|")[1] : "")
+                            : "",
                     };
                     await checkListTranslation.Create(db).ConfigureAwait(false);
                 }
@@ -5104,9 +5107,10 @@ namespace Microting.eForm.Infrastructure
                         CheckListId = cl.Id,
                         LanguageId = deLanguage.Id,
                         Text = groupElement.Label.Split("|")[2],
-                        Description = groupElement.Description != null
-                            ? groupElement.Description.InderValue.Split("|")[2]
-                            : ""
+                        Description = groupElement.Description != null ?
+                            (groupElement.Description.InderValue.Split("|").Length > 2
+                                ? groupElement.Description.InderValue.Split("|")[2] : "")
+                            : "",
                     };
                     await checkListTranslation.Create(db).ConfigureAwait(false);
                 }
@@ -5167,7 +5171,8 @@ namespace Microting.eForm.Infrastructure
                         CheckListId = cl.Id,
                         Text = dataElement.Label.Split("|")[1],
                         Description = dataElement.Description != null
-                            ? dataElement.Description.InderValue.Split("|")[1]
+                            ? (dataElement.Description.InderValue.Split("|").Length > 1
+                                ? dataElement.Description.InderValue.Split("|")[1] : "")
                             : "",
                         LanguageId = ukLanguage.Id
                     };
@@ -5180,7 +5185,8 @@ namespace Microting.eForm.Infrastructure
                         CheckListId = cl.Id,
                         Text = dataElement.Label.Split("|")[2],
                         Description = dataElement.Description != null
-                            ? dataElement.Description.InderValue.Split("|")[2]
+                            ? (dataElement.Description.InderValue.Split("|").Length > 2
+                                ? dataElement.Description.InderValue.Split("|")[2] : "")
                             : "",
                         LanguageId = deLanguage.Id
                     };
@@ -5363,7 +5369,10 @@ namespace Microting.eForm.Infrastructure
                             {
                                 LanguageId = ukLanguage.Id,
                                 Text = dataItem.Label.Split("|")[1],
-                                Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[1] : "",
+                                Description = dataItem.Description != null ?
+                                    (dataItem.Description.InderValue.Split("|").Length > 1
+                                        ? dataItem.Description.InderValue.Split("|")[1] : "")
+                                    : "",
                                 FieldId = field.Id
                             };
                             await fieldTranslation.Create(db).ConfigureAwait(false);
@@ -5375,7 +5384,10 @@ namespace Microting.eForm.Infrastructure
                             {
                                 LanguageId = deLanguage.Id,
                                 Text = dataItem.Label.Split("|")[2],
-                                Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[2] : "",
+                                Description = dataItem.Description != null ?
+                                    (dataItem.Description.InderValue.Split("|").Length > 2
+                                        ? dataItem.Description.InderValue.Split("|")[2] : "")
+                                    : "",
                                 FieldId = field.Id
                             };
                             await fieldTranslation.Create(db).ConfigureAwait(false);
@@ -5463,7 +5475,10 @@ namespace Microting.eForm.Infrastructure
                             {
                                 LanguageId = ukLanguage.Id,
                                 Text = dataItem.Label.Split("|")[1],
-                                Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[1] : "",
+                                Description = dataItem.Description != null ?
+                                    (dataItem.Description.InderValue.Split("|").Length > 1
+                                        ? dataItem.Description.InderValue.Split("|")[1] : "")
+                                    : "",
                                 FieldId = field.Id
                             };
                             await fieldTranslation.Create(db).ConfigureAwait(false);
@@ -5475,7 +5490,10 @@ namespace Microting.eForm.Infrastructure
                             {
                                 LanguageId = deLanguage.Id,
                                 Text = dataItem.Label.Split("|")[2],
-                                Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[2] : "",
+                                Description = dataItem.Description != null ?
+                                    (dataItem.Description.InderValue.Split("|").Length > 2
+                                        ? dataItem.Description.InderValue.Split("|")[2] : "")
+                                    : "",
                                 FieldId = field.Id
                             };
                             await fieldTranslation.Create(db).ConfigureAwait(false);
@@ -5578,7 +5596,10 @@ namespace Microting.eForm.Infrastructure
                             {
                                 LanguageId = ukLanguage.Id,
                                 Text = dataItem.Label.Split("|")[1],
-                                Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[1] : "",
+                                Description = dataItem.Description != null ?
+                                    (dataItem.Description.InderValue.Split("|").Length > 1
+                                        ? dataItem.Description.InderValue.Split("|")[1] : "")
+                                    : "",
                                 FieldId = field.Id
                             };
                             await fieldTranslation.Create(db).ConfigureAwait(false);
@@ -5590,7 +5611,10 @@ namespace Microting.eForm.Infrastructure
                             {
                                 LanguageId = deLanguage.Id,
                                 Text = dataItem.Label.Split("|")[2],
-                                Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[2] : "",
+                                Description = dataItem.Description != null ?
+                                    (dataItem.Description.InderValue.Split("|").Length > 2
+                                        ? dataItem.Description.InderValue.Split("|")[2] : "")
+                                    : "",
                                 FieldId = field.Id
                             };
                             await fieldTranslation.Create(db).ConfigureAwait(false);
@@ -5629,7 +5653,10 @@ namespace Microting.eForm.Infrastructure
                         {
                             LanguageId = ukLanguage.Id,
                             Text = dataItem.Label.Split("|")[1],
-                            Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[1] : "",
+                            Description = dataItem.Description != null ?
+                                (dataItem.Description.InderValue.Split("|").Length > 1
+                                    ? dataItem.Description.InderValue.Split("|")[1] : "")
+                                : "",
                             FieldId = field.Id
                         };
                         await fieldTranslation.Create(db).ConfigureAwait(false);
@@ -5641,7 +5668,10 @@ namespace Microting.eForm.Infrastructure
                         {
                             LanguageId = deLanguage.Id,
                             Text = dataItem.Label.Split("|")[2],
-                            Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[2] : "",
+                            Description = dataItem.Description != null ?
+                                (dataItem.Description.InderValue.Split("|").Length > 2
+                                    ? dataItem.Description.InderValue.Split("|")[2] : "")
+                                : "",
                             FieldId = field.Id
                         };
                         await fieldTranslation.Create(db).ConfigureAwait(false);
