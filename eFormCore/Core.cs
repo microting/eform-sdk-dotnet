@@ -909,7 +909,16 @@ namespace eFormCore
                                     }
                                     catch (Exception ex)
                                     {
-                                        throw new Exception("Download failed. Path:'" + showPdf.Value + "'", ex);
+                                        log.LogException("Download failed. Path:'" + showPdf.Value + "'", ex.Message, ex);
+                                        try
+                                        {
+                                            downloadPath = Path.Combine(Directory.GetCurrentDirectory(), "pdf");
+                                            Directory.CreateDirectory(downloadPath);
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            throw new Exception("Download failed. Path:'" + showPdf.Value + "'", e);
+                                        }
                                     }
 
                                     //upload file
