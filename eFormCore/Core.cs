@@ -914,6 +914,10 @@ namespace eFormCore
                                         {
                                             downloadPath = Path.Combine(Directory.GetCurrentDirectory(), "pdf");
                                             Directory.CreateDirectory(downloadPath);
+
+                                            filePathAndFileName = Path.Combine(downloadPath, tempFileName);
+                                            using WebClient client = new WebClient();
+                                            client.DownloadFile(showPdf.Value, filePathAndFileName);
                                         }
                                         catch (Exception e)
                                         {
