@@ -3602,8 +3602,21 @@ namespace eFormCore
             await using (var db = dbContextHelper.GetDbContext())
             {
                 Answer answer = JsonConvert.DeserializeObject<Answer>(subItem.ToString(), settings);
+                if (answer == null)
+                {
+                    Console.WriteLine("fdssd");
+                }
 
-                var result = await db.Answers.SingleOrDefaultAsync(x => x.MicrotingUid == answer.MicrotingUid).ConfigureAwait(false);
+                Answer result = null;
+                try
+                {
+                    result = await db.Answers.SingleOrDefaultAsync(x => x.MicrotingUid == answer.MicrotingUid)
+                        .ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
                 if (result != null)
                 {
                     answer.Id = result.Id;
@@ -3656,7 +3669,9 @@ namespace eFormCore
                                     question.QuestionType == Constants.QuestionTypes.List ||
                                     question.QuestionType == Constants.QuestionTypes.Multi)
                                 {
-                                    answerValue.Value = option.OptionTranslationses.First().Name;
+                                    OptionTranslation optionTranslation =
+                                        await db.OptionTranslations.FirstAsync(x => x.OptionId == option.Id).ConfigureAwait(false);
+                                    answerValue.Value = optionTranslation.Name;
                                 }
 
                                 answerValue.AnswerId = answer.Id;
