@@ -3617,10 +3617,10 @@ namespace eFormCore
                 {
                     Console.WriteLine(ex.Message);
                 }
-                if (result != null)
-                {
-                    answer.Id = result.Id;
-                }
+                // if (result != null)
+                // {
+                //     answer.Id = result.Id;
+                // }
 
                 if (result == null)
                 {
@@ -3655,6 +3655,7 @@ namespace eFormCore
                         answer.QuestionSet = null;
                         answer.LanguageId = db.Languages.Single(x => x.Name == "Danish").Id;
                         await answer.Create(db).ConfigureAwait(false);
+
                         foreach (JToken avItem in subItem["AnswerValues"])
                         {
                             // log.LogStandard("Core.SaveAnswer", $"AnswerValues parsing started {DateTime.UtcNow}");
@@ -3691,6 +3692,41 @@ namespace eFormCore
                         Console.WriteLine(ex.Message);
                     }
                 }
+                else
+                {
+                    answer = result;
+                    answer.WorkflowState = Constants.WorkflowStates.Created;
+                    await answer.Update(db).ConfigureAwait(false);
+                    foreach (JToken avItem in subItem["AnswerValues"])
+                    {
+                        // log.LogStandard("Core.SaveAnswer", $"AnswerValues parsing started {DateTime.UtcNow}");
+                        AnswerValue answerValue =
+                            JsonConvert.DeserializeObject<AnswerValue>(avItem.ToString(), settings);
+                        if (db.AnswerValues.SingleOrDefault(x => x.MicrotingUid == answerValue.MicrotingUid) ==
+                            null)
+                        {
+                            var question = await db.Questions.SingleAsync(x => x.MicrotingUid == answerValue.QuestionId).ConfigureAwait(false);
+                            var option = await db.Options.SingleAsync(x => x.MicrotingUid == answerValue.OptionId).ConfigureAwait(false);
+                            if (question.QuestionType == Constants.QuestionTypes.Buttons ||
+                                question.QuestionType == Constants.QuestionTypes.List ||
+                                question.QuestionType == Constants.QuestionTypes.Multi)
+                            {
+                                OptionTranslation optionTranslation =
+                                    await db.OptionTranslations.FirstAsync(x => x.OptionId == option.Id).ConfigureAwait(false);
+                                answerValue.Value = optionTranslation.Name;
+                            }
+
+                            answerValue.AnswerId = answer.Id;
+                            answerValue.QuestionId =
+                                question.Id;
+                            answerValue.OptionId =
+                                option.Id;
+                            await answerValue.Create(db).ConfigureAwait(false);
+
+                            // log.LogStandard("Core.SaveAnswer", $"AnswerValues parsing done {DateTime.UtcNow}");
+                        }
+                    }
+                }
             }
             log.LogStandard("Core.SaveAnswer", $"ended {DateTime.UtcNow}");
         }
@@ -3707,7 +3743,11 @@ namespace eFormCore
             if (questionSet != null)
             {
                 var questionSetId = questionSet.Id;
-                var lastAnswer = await db.Answers.OrderByDescending(x => x.Id).FirstOrDefaultAsync(x => x.QuestionSetId == questionSetId).ConfigureAwait(false);
+                var lastAnswer = await db.Answers.OrderByDescending(x => x.Id)
+                    .FirstOrDefaultAsync(x =>
+                        x.QuestionSetId == questionSetId
+                        && x.WorkflowState != Constants.WorkflowStates.PreCreated)
+                    .ConfigureAwait(false);
                 JObject parsedData = null;
                 if (lastAnswer != null)
                 {
@@ -3715,7 +3755,10 @@ namespace eFormCore
                     {
                         try
                         {
-                            lastAnswer = await db.Answers.OrderByDescending(x => x.Id).FirstOrDefaultAsync(x => x.QuestionSetId == questionSetId)
+                            lastAnswer = await db.Answers.OrderByDescending(x => x.Id)
+                                .FirstOrDefaultAsync(x =>
+                                    x.QuestionSetId == questionSetId
+                                    && x.WorkflowState != Constants.WorkflowStates.PreCreated)
                                 .ConfigureAwait(false);
                             if (lastAnswer != null)
                             {
@@ -3744,7 +3787,10 @@ namespace eFormCore
                     {
                         try
                         {
-                            lastAnswer = await db.Answers.OrderByDescending(x => x.Id).FirstOrDefaultAsync(x => x.QuestionSetId == questionSetId)
+                            lastAnswer = await db.Answers.OrderByDescending(x => x.Id)
+                                .FirstOrDefaultAsync(x =>
+                                    x.QuestionSetId == questionSetId
+                                    && x.WorkflowState != Constants.WorkflowStates.PreCreated)
                                 .ConfigureAwait(false);
                             if (lastAnswer != null)
                             {
