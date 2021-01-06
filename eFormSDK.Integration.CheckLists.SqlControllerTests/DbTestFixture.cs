@@ -48,10 +48,8 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
 
-            dbContextOptionsBuilder.UseMySql(connectionStr, mysqlOptions =>
-            {
-                mysqlOptions.ServerVersion(new Version(10, 4, 0), ServerType.MariaDb);
-            });
+            dbContextOptionsBuilder.UseMySql(connectionStr, new MariaDbServerVersion(
+                new Version(10, 4, 0)));
             dbContextOptionsBuilder.UseLazyLoadingProxies(true);
             return new MicrotingDbContext(dbContextOptionsBuilder.Options);
 
