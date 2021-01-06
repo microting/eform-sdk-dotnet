@@ -40,6 +40,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             Children = new HashSet<CheckList>();
             Fields = new HashSet<Field>();
             Taggings = new HashSet<Tagging>();
+            Translations = new HashSet<CheckListTranslation>();
         }
 
         public string Label { get; set; }
@@ -99,14 +100,24 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public short? QuickSyncEnabled { get; set; }
 
         public string OriginalId { get; set; }
-        
+
         public string Color { get; set; }
-        
+
         public bool JasperExportEnabled { get; set; }
-        
+
         public bool DocxExportEnabled { get; set; }
 
         public bool ExcelExportEnabled { get; set; }
+
+        public string ReportH1 { get; set; }
+
+        public string ReportH2 { get; set; }
+
+        public string ReportH3 { get; set; }
+
+        public string ReportH4 { get; set; }
+
+        public string ReportH5 { get; set; }
 
         public virtual ICollection<Case> Cases { get; set; }
 
@@ -119,5 +130,30 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual ICollection<CheckList> Children { get; set; }
 
         public virtual ICollection<Tagging> Taggings { get; set; }
+
+        public virtual ICollection<CheckListTranslation> Translations { get; set; }
+
+        public static async Task MoveTranslations(MicrotingDbContext dbContext)
+        {
+            List<CheckList> checkLists = await dbContext.CheckLists.ToListAsync();
+            Language defaultLanguage = await dbContext.Languages.SingleAsync(x => x.Name == "Danish");
+            foreach (CheckList checkList in checkLists)
+            {
+                if (!string.IsNullOrEmpty(checkList.Label))
+                {
+                    CheckListTranslation checkListTranslation = new CheckListTranslation
+                    {
+                        Text = checkList.Label,
+                        Description = checkList.Description,
+                        CheckListId = checkList.Id,
+                        LanguageId = defaultLanguage.Id
+                    };
+                    await checkListTranslation.Create(dbContext);
+                    checkList.Label = null;
+                    checkList.Description = null;
+                    await checkList.Update(dbContext);
+                }
+            }
+        }
     }
 }

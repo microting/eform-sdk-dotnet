@@ -909,7 +909,20 @@ namespace eFormCore
                                     }
                                     catch (Exception ex)
                                     {
-                                        throw new Exception("Download failed. Path:'" + showPdf.Value + "'", ex);
+                                        log.LogException("Download failed. Path:'" + showPdf.Value + "'", ex.Message, ex);
+                                        try
+                                        {
+                                            downloadPath = Path.Combine(Directory.GetCurrentDirectory(), "pdf");
+                                            Directory.CreateDirectory(downloadPath);
+
+                                            filePathAndFileName = Path.Combine(downloadPath, tempFileName);
+                                            using WebClient client = new WebClient();
+                                            client.DownloadFile(showPdf.Value, filePathAndFileName);
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            throw new Exception("Download failed. Path:'" + showPdf.Value + "'", e);
+                                        }
                                     }
 
                                     //upload file
@@ -974,7 +987,7 @@ namespace eFormCore
                     if (errors.Count > 0)
                         throw new Exception("mainElement failed TemplateValidation. Run TemplateValidation to see errors");
 
-                    int templateId = await _sqlController.TemplateCreate(mainElement);
+                    int templateId = await _sqlController.TemplateCreate(mainElement).ConfigureAwait(false);
                     log.LogEverything(methodName, "Template id:" + templateId.ToString() + " created in DB");
                     return templateId;
                 }
@@ -992,7 +1005,8 @@ namespace eFormCore
         /// Tries to retrieve the template MainElement from the Microting DB
         /// </summary>
         /// <param name="templateId">Template MainElement's ID to be retrieved from the Microting local DB</param>
-        public async Task<MainElement> TemplateRead(int templateId)
+        /// <param name="language"></param>
+        public async Task<MainElement> ReadeForm(int templateId, Language language)
         {
             string methodName = "Core.TemplateRead";
             try
@@ -1002,7 +1016,7 @@ namespace eFormCore
                     log.LogStandard(methodName, "called");
                     log.LogVariable(methodName, nameof(templateId), templateId);
 
-                    return await _sqlController.TemplateRead(templateId);
+                    return await _sqlController.ReadeForm(templateId, language);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1044,7 +1058,7 @@ namespace eFormCore
         /// Tries to retrieve the template meta data from the Microting DB
         /// </summary>
         /// <param name="templateId">Template MainElement's ID to be retrieved from the Microting local DB</param>
-        public async Task<Template_Dto> TemplateItemRead(int templateId)
+        public async Task<Template_Dto> TemplateItemRead(int templateId, Language defaultLanguage)
         {
             string methodName = "Core.TemplateItemRead";
             try
@@ -1054,7 +1068,7 @@ namespace eFormCore
                     log.LogStandard(methodName, "called");
                     log.LogVariable(methodName, nameof(templateId), templateId);
 
-                    return await _sqlController.TemplateItemRead(templateId).ConfigureAwait(false);
+                    return await _sqlController.TemplateItemRead(templateId, defaultLanguage).ConfigureAwait(false);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -2445,8 +2459,7 @@ namespace eFormCore
                     Tuple<SiteDto, UnitDto> siteResult = await _communicator.SiteCreate(name);
 
                     string token = await _sqlController.SettingRead(Settings.token).ConfigureAwait(false);
-                    int customerNo = _communicator.OrganizationLoadAllFromRemote(token).GetAwaiter().GetResult()
-                        .CustomerNo;
+                    int customerNo = int.Parse(_sqlController.SettingRead(Settings.customerNo).ConfigureAwait(false).GetAwaiter().GetResult());
 
                     string siteName = siteResult.Item1.SiteName;
                     int siteId = siteResult.Item1.SiteId;
@@ -3589,12 +3602,25 @@ namespace eFormCore
             await using (var db = dbContextHelper.GetDbContext())
             {
                 Answer answer = JsonConvert.DeserializeObject<Answer>(subItem.ToString(), settings);
-
-                var result = await db.Answers.SingleOrDefaultAsync(x => x.MicrotingUid == answer.MicrotingUid).ConfigureAwait(false);
-                if (result != null)
+                if (answer == null)
                 {
-                    answer.Id = result.Id;
+                    Console.WriteLine("fdssd");
                 }
+
+                Answer result = null;
+                try
+                {
+                    result = await db.Answers.SingleOrDefaultAsync(x => x.MicrotingUid == answer.MicrotingUid)
+                        .ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                // if (result != null)
+                // {
+                //     answer.Id = result.Id;
+                // }
 
                 if (result == null)
                 {
@@ -3629,6 +3655,7 @@ namespace eFormCore
                         answer.QuestionSet = null;
                         answer.LanguageId = db.Languages.Single(x => x.Name == "Danish").Id;
                         await answer.Create(db).ConfigureAwait(false);
+
                         foreach (JToken avItem in subItem["AnswerValues"])
                         {
                             // log.LogStandard("Core.SaveAnswer", $"AnswerValues parsing started {DateTime.UtcNow}");
@@ -3643,7 +3670,9 @@ namespace eFormCore
                                     question.QuestionType == Constants.QuestionTypes.List ||
                                     question.QuestionType == Constants.QuestionTypes.Multi)
                                 {
-                                    answerValue.Value = option.OptionTranslationses.First().Name;
+                                    OptionTranslation optionTranslation =
+                                        await db.OptionTranslations.FirstAsync(x => x.OptionId == option.Id).ConfigureAwait(false);
+                                    answerValue.Value = optionTranslation.Name;
                                 }
 
                                 answerValue.AnswerId = answer.Id;
@@ -3663,6 +3692,41 @@ namespace eFormCore
                         Console.WriteLine(ex.Message);
                     }
                 }
+                else
+                {
+                    answer = result;
+                    answer.WorkflowState = Constants.WorkflowStates.Created;
+                    await answer.Update(db).ConfigureAwait(false);
+                    foreach (JToken avItem in subItem["AnswerValues"])
+                    {
+                        // log.LogStandard("Core.SaveAnswer", $"AnswerValues parsing started {DateTime.UtcNow}");
+                        AnswerValue answerValue =
+                            JsonConvert.DeserializeObject<AnswerValue>(avItem.ToString(), settings);
+                        if (db.AnswerValues.SingleOrDefault(x => x.MicrotingUid == answerValue.MicrotingUid) ==
+                            null)
+                        {
+                            var question = await db.Questions.SingleAsync(x => x.MicrotingUid == answerValue.QuestionId).ConfigureAwait(false);
+                            var option = await db.Options.SingleAsync(x => x.MicrotingUid == answerValue.OptionId).ConfigureAwait(false);
+                            if (question.QuestionType == Constants.QuestionTypes.Buttons ||
+                                question.QuestionType == Constants.QuestionTypes.List ||
+                                question.QuestionType == Constants.QuestionTypes.Multi)
+                            {
+                                OptionTranslation optionTranslation =
+                                    await db.OptionTranslations.FirstAsync(x => x.OptionId == option.Id).ConfigureAwait(false);
+                                answerValue.Value = optionTranslation.Name;
+                            }
+
+                            answerValue.AnswerId = answer.Id;
+                            answerValue.QuestionId =
+                                question.Id;
+                            answerValue.OptionId =
+                                option.Id;
+                            await answerValue.Create(db).ConfigureAwait(false);
+
+                            // log.LogStandard("Core.SaveAnswer", $"AnswerValues parsing done {DateTime.UtcNow}");
+                        }
+                    }
+                }
             }
             log.LogStandard("Core.SaveAnswer", $"ended {DateTime.UtcNow}");
         }
@@ -3679,7 +3743,11 @@ namespace eFormCore
             if (questionSet != null)
             {
                 var questionSetId = questionSet.Id;
-                var lastAnswer = await db.Answers.OrderByDescending(x => x.Id).FirstOrDefaultAsync(x => x.QuestionSetId == questionSetId).ConfigureAwait(false);
+                var lastAnswer = await db.Answers.OrderByDescending(x => x.Id)
+                    .FirstOrDefaultAsync(x =>
+                        x.QuestionSetId == questionSetId
+                        && x.WorkflowState != Constants.WorkflowStates.PreCreated)
+                    .ConfigureAwait(false);
                 JObject parsedData = null;
                 if (lastAnswer != null)
                 {
@@ -3687,7 +3755,10 @@ namespace eFormCore
                     {
                         try
                         {
-                            lastAnswer = await db.Answers.OrderByDescending(x => x.Id).FirstOrDefaultAsync(x => x.QuestionSetId == questionSetId)
+                            lastAnswer = await db.Answers.OrderByDescending(x => x.Id)
+                                .FirstOrDefaultAsync(x =>
+                                    x.QuestionSetId == questionSetId
+                                    && x.WorkflowState != Constants.WorkflowStates.PreCreated)
                                 .ConfigureAwait(false);
                             if (lastAnswer != null)
                             {
@@ -3716,7 +3787,10 @@ namespace eFormCore
                     {
                         try
                         {
-                            lastAnswer = await db.Answers.OrderByDescending(x => x.Id).FirstOrDefaultAsync(x => x.QuestionSetId == questionSetId)
+                            lastAnswer = await db.Answers.OrderByDescending(x => x.Id)
+                                .FirstOrDefaultAsync(x =>
+                                    x.QuestionSetId == questionSetId
+                                    && x.WorkflowState != Constants.WorkflowStates.PreCreated)
                                 .ConfigureAwait(false);
                             if (lastAnswer != null)
                             {

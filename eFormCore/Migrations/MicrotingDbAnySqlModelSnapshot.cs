@@ -530,6 +530,21 @@ namespace Microting.eForm.Migrations
                     b.Property<int?>("Repeated")
                         .HasColumnType("int");
 
+                    b.Property<string>("ReportH1")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ReportH2")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ReportH3")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ReportH4")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ReportH5")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<short?>("ReviewEnabled")
                         .HasColumnType("smallint");
 
@@ -635,6 +650,83 @@ namespace Microting.eForm.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CheckListSiteVersions");
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.CheckListTranslation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("CheckListId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("Version")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WorkflowState")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CheckListId");
+
+                    b.ToTable("CheckListTranslations");
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.CheckListTranslationVersion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("CheckListId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CheckListTranslationId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("Version")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WorkflowState")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CheckListTranslationVersions");
                 });
 
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.CheckListValue", b =>
@@ -826,6 +918,21 @@ namespace Microting.eForm.Migrations
 
                     b.Property<int?>("Repeated")
                         .HasColumnType("int");
+
+                    b.Property<string>("ReportH1")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ReportH2")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ReportH3")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ReportH4")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ReportH5")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<short?>("ReviewEnabled")
                         .HasColumnType("smallint");
@@ -1147,6 +1254,231 @@ namespace Microting.eForm.Migrations
                     b.HasIndex("ParentFieldId");
 
                     b.ToTable("Fields");
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.FieldOption", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("DisplayOrder")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("FieldId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Key")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<bool>("Selected")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("Version")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WorkflowState")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FieldId");
+
+                    b.ToTable("FieldOptions");
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.FieldOptionTranslation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("FieldOptionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("Version")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WorkflowState")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FieldOptionId");
+
+                    b.ToTable("FieldOptionTranslations");
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.FieldOptionTranslationVersion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("FieldOptionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FieldOptionTranslationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("Version")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WorkflowState")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FieldOptionTranslationVersions");
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.FieldOptionVersion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("DisplayOrder")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("FieldId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FieldOptionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Key")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<bool>("Selected")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("Version")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WorkflowState")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FieldOptionVersions");
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.FieldTranslation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("FieldId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("Version")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WorkflowState")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FieldId");
+
+                    b.ToTable("FieldTranslations");
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.FieldTranslationVersion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("FieldId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FieldTranslationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("Version")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WorkflowState")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FieldTranslationVersions");
                 });
 
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.FieldType", b =>
@@ -1536,7 +1868,7 @@ namespace Microting.eForm.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("LanguageCode")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Name")
@@ -1641,7 +1973,7 @@ namespace Microting.eForm.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("LanguageCode")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<int>("LanguageId")
@@ -1665,52 +1997,6 @@ namespace Microting.eForm.Migrations
                     b.HasIndex("LanguageId");
 
                     b.ToTable("LanguageVersions");
-                });
-
-            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.Log", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Message")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Logs");
-                });
-
-            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.LogException", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Message")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LogExceptions");
                 });
 
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.Notification", b =>
@@ -2150,6 +2436,46 @@ namespace Microting.eForm.Migrations
                     b.ToTable("QuestionSetVersions");
                 });
 
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.QuestionTranslation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MicrotingUid")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("Version")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WorkflowState")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LanguageId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("QuestionTranslations");
+                });
+
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.QuestionTranslationVersion", b =>
                 {
                     b.Property<int>("Id")
@@ -2189,6 +2515,86 @@ namespace Microting.eForm.Migrations
                     b.HasIndex("QuestionTranslationId");
 
                     b.ToTable("QuestionTranslationVersions");
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.QuestionVersion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("BackButtonEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("ContinuousQuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("FontSize")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<bool>("Image")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ImagePosition")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("MaxDuration")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Maximum")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MicrotingUid")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinDuration")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Minimum")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Prioritised")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuestionIndex")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuestionSetId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("QuestionType")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("RefId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("ValidDisplay")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int?>("Version")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WorkflowState")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("QuestionVersions");
                 });
 
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.Setting", b =>
@@ -2263,6 +2669,9 @@ namespace Microting.eForm.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("MicrotingUid")
                         .HasColumnType("int");
 
@@ -2283,138 +2692,6 @@ namespace Microting.eForm.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Sites");
-                });
-
-            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.SiteGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<int?>("ParentId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("Version")
-                        .HasColumnType("int");
-
-                    b.Property<string>("WorkflowState")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
-                        .HasMaxLength(255);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParentId");
-
-                    b.ToTable("SiteGroups");
-                });
-
-            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.SiteGroupSiteVersion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("SiteGroupId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SiteGroupSiteId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SiteId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("Version")
-                        .HasColumnType("int");
-
-                    b.Property<string>("WorkflowState")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
-                        .HasMaxLength(255);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SiteGroupSiteVersions");
-                });
-
-            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.SiteGroupSites", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("SiteGroupId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SiteId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("Version")
-                        .HasColumnType("int");
-
-                    b.Property<string>("WorkflowState")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
-                        .HasMaxLength(255);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SiteGroupId");
-
-                    b.HasIndex("SiteId");
-
-                    b.ToTable("SiteGroupSites");
-                });
-
-            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.SiteGroupVersion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<int>("ParentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SiteGroupId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("Version")
-                        .HasColumnType("int");
-
-                    b.Property<string>("WorkflowState")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
-                        .HasMaxLength(255);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SiteGroupVersions");
                 });
 
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.SiteSurveyConfiguration", b =>
@@ -2568,6 +2845,9 @@ namespace Microting.eForm.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("MicrotingUid")
                         .HasColumnType("int");
 
@@ -2591,6 +2871,43 @@ namespace Microting.eForm.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SiteVersions");
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.SiteWorker", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("MicrotingUid")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SiteId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("Version")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("WorkerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WorkflowState")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SiteId");
+
+                    b.HasIndex("WorkerId");
+
+                    b.ToTable("SiteWorkers");
                 });
 
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.SiteWorkerVersion", b =>
@@ -3241,163 +3558,6 @@ namespace Microting.eForm.Migrations
                     b.ToTable("WorkerVersions");
                 });
 
-            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.question_translations", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("LanguageId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MicrotingUid")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("Version")
-                        .HasColumnType("int");
-
-                    b.Property<string>("WorkflowState")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
-                        .HasMaxLength(255);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LanguageId");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("QuestionTranslations");
-                });
-
-            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.question_versions", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<bool>("BackButtonEnabled")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<int>("ContinuousQuestionId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("FontSize")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<bool>("Image")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("ImagePosition")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<int>("MaxDuration")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Maximum")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MicrotingUid")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MinDuration")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Minimum")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Prioritised")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuestionIndex")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuestionSetId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("QuestionType")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<int>("RefId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("ValidDisplay")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<int?>("Version")
-                        .HasColumnType("int");
-
-                    b.Property<string>("WorkflowState")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
-                        .HasMaxLength(255);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("QuestionVersions");
-                });
-
-            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.site_workers", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("MicrotingUid")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SiteId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("Version")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("WorkerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("WorkflowState")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
-                        .HasMaxLength(255);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SiteId");
-
-                    b.HasIndex("WorkerId");
-
-                    b.ToTable("SiteWorkers");
-                });
-
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.Answer", b =>
                 {
                     b.HasOne("Microting.eForm.Infrastructure.Data.Entities.Language", "Language")
@@ -3502,6 +3662,15 @@ namespace Microting.eForm.Migrations
                         .HasForeignKey("SiteId");
                 });
 
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.CheckListTranslation", b =>
+                {
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.CheckList", "CheckList")
+                        .WithMany("Translations")
+                        .HasForeignKey("CheckListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.Field", b =>
                 {
                     b.HasOne("Microting.eForm.Infrastructure.Data.Entities.CheckList", "CheckList")
@@ -3515,6 +3684,33 @@ namespace Microting.eForm.Migrations
                     b.HasOne("Microting.eForm.Infrastructure.Data.Entities.Field", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentFieldId");
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.FieldOption", b =>
+                {
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.Field", "Field")
+                        .WithMany("FieldOptions")
+                        .HasForeignKey("FieldId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.FieldOptionTranslation", b =>
+                {
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.FieldOption", "FieldOption")
+                        .WithMany("FieldOptionTranslations")
+                        .HasForeignKey("FieldOptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.FieldTranslation", b =>
+                {
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.Field", "Field")
+                        .WithMany("Translations")
+                        .HasForeignKey("FieldId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.FieldValue", b =>
@@ -3627,33 +3823,35 @@ namespace Microting.eForm.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.QuestionTranslation", b =>
+                {
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.Question", "Question")
+                        .WithMany("QuestionTranslationses")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.QuestionTranslationVersion", b =>
                 {
-                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.question_translations", "QuestionTranslation")
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.QuestionTranslation", "QuestionTranslation")
                         .WithMany()
                         .HasForeignKey("QuestionTranslationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.SiteGroup", b =>
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.QuestionVersion", b =>
                 {
-                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.SiteGroup", "Parent")
-                        .WithMany("Children")
-                        .HasForeignKey("ParentId");
-                });
-
-            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.SiteGroupSites", b =>
-                {
-                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.SiteGroup", "SiteGroup")
-                        .WithMany("SiteGroupSites")
-                        .HasForeignKey("SiteGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.Site", "Site")
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.Question", "Question")
                         .WithMany()
-                        .HasForeignKey("SiteId")
+                        .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -3693,6 +3891,17 @@ namespace Microting.eForm.Migrations
                         .HasForeignKey("TagId");
                 });
 
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.SiteWorker", b =>
+                {
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.Site", "Site")
+                        .WithMany("SiteWorkers")
+                        .HasForeignKey("SiteId");
+
+                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.Worker", "Worker")
+                        .WithMany("SiteWorkers")
+                        .HasForeignKey("WorkerId");
+                });
+
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.SurveyConfiguration", b =>
                 {
                     b.HasOne("Microting.eForm.Infrastructure.Data.Entities.QuestionSet", "QuestionSet")
@@ -3727,41 +3936,6 @@ namespace Microting.eForm.Migrations
                     b.HasOne("Microting.eForm.Infrastructure.Data.Entities.Site", "Site")
                         .WithMany("Units")
                         .HasForeignKey("SiteId");
-                });
-
-            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.question_translations", b =>
-                {
-                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.Language", "Language")
-                        .WithMany()
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.Question", "Question")
-                        .WithMany("QuestionTranslationses")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.question_versions", b =>
-                {
-                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.Question", "Question")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.site_workers", b =>
-                {
-                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.Site", "Site")
-                        .WithMany("SiteWorkers")
-                        .HasForeignKey("SiteId");
-
-                    b.HasOne("Microting.eForm.Infrastructure.Data.Entities.Worker", "Worker")
-                        .WithMany("SiteWorkers")
-                        .HasForeignKey("WorkerId");
                 });
 #pragma warning restore 612, 618
         }

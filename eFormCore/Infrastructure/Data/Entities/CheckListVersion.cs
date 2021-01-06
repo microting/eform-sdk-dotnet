@@ -83,17 +83,27 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int? Field9 { get; set; }
 
         public int? Field10 { get; set; }
-        
+
         public string Color { get; set; }
 
         public short? QuickSyncEnabled { get; set; }
 
         public string OriginalId { get; set; }
-        
+
         public bool JasperExportEnabled { get; set; }
-        
+
         public bool DocxExportEnabled { get; set; }
 
         public bool ExcelExportEnabled { get; set; }
+
+        public string ReportH1 { get; set; }
+
+        public string ReportH2 { get; set; }
+
+        public string ReportH3 { get; set; }
+
+        public string ReportH4 { get; set; }
+
+        public string ReportH5 { get; set; }
     }
 }

@@ -32,7 +32,38 @@ namespace Microting.eForm.Infrastructure.Data.Entities
     public  class Language : PnBase
     {
         public string Name { get; set; }
-        
-        public string Description { get; set; }
+
+        public string LanguageCode { get; set; }
+
+        public static async Task AddDefaultLanguages(MicrotingDbContext dbContext)
+        {
+            if (dbContext.Languages.SingleOrDefault(x => x.Name == "Danish") == null)
+            {
+                Language language = new Language
+                {
+                    Name = "Danish",
+                    LanguageCode = "da"
+                };
+                await language.Create(dbContext);
+            }
+            if (dbContext.Languages.SingleOrDefault(x => x.Name == "English") == null)
+            {
+                Language language = new Language
+                {
+                    Name = "English",
+                    LanguageCode = "en-US"
+                };
+                await language.Create(dbContext);
+            }
+            if (dbContext.Languages.SingleOrDefault(x => x.Name == "German") == null)
+            {
+                Language language = new Language
+                {
+                    Name = "German",
+                    LanguageCode = "de-DE"
+                };
+                await language.Create(dbContext);
+            }
+        }
     }
 }

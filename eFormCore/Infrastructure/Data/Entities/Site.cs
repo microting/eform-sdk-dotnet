@@ -25,6 +25,7 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -47,6 +48,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public int? MicrotingUid { get; set; }
 
+        [ForeignKey("Language")]
+        public int LanguageId { get; set; }
+
         public virtual ICollection<Case> Cases { get; set; }
 
         public virtual ICollection<Unit> Units { get; set; }
@@ -56,5 +60,20 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual ICollection<CheckListSite> CheckListSites { get; set; }
 
         public virtual ICollection<SiteTag> SiteTags { get; set; }
+
+        public static async Task AddLanguage(MicrotingDbContext dbContext)
+        {
+            List<Site> sites = await dbContext.Sites.ToListAsync();
+            Language defaultLanguage = await dbContext.Languages
+                .SingleAsync(x => x.Name == "Danish");
+            foreach (Site site in sites)
+            {
+                if (site.LanguageId == 0)
+                {
+                    site.LanguageId = defaultLanguage.Id;
+                    await site.Update(dbContext);
+                }
+            }
+        }
     }
 }
