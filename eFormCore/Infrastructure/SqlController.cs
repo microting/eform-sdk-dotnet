@@ -1713,16 +1713,18 @@ namespace Microting.eForm.Infrastructure
                         else
                         {
                             locations = "";
-                            Models.UploadedData uploadedDataObj = new Models.UploadedData();
-                            uploadedData = reply.UploadedData;
-                            uploadedDataObj.Checksum = uploadedData.Checksum;
-                            uploadedDataObj.Extension = uploadedData.Extension;
-                            uploadedDataObj.CurrentFile = uploadedData.CurrentFile;
-                            uploadedDataObj.UploaderId = uploadedData.UploaderId;
-                            uploadedDataObj.UploaderType = uploadedData.UploaderType;
-                            uploadedDataObj.FileLocation = uploadedData.FileLocation;
-                            uploadedDataObj.FileName = uploadedData.FileName;
-                            uploadedDataObj.Id = uploadedData.Id;
+                            uploadedData = await db.UploadedDatas.AsNoTracking().SingleAsync(x => x.Id == reply.UploadedDataId);
+                            Models.UploadedData uploadedDataObj = new Models.UploadedData
+                            {
+                                Checksum = uploadedData.Checksum,
+                                Extension = uploadedData.Extension,
+                                CurrentFile = uploadedData.CurrentFile,
+                                UploaderId = uploadedData.UploaderId,
+                                UploaderType = uploadedData.UploaderType,
+                                FileLocation = uploadedData.FileLocation,
+                                FileName = uploadedData.FileName,
+                                Id = uploadedData.Id
+                            };
                             fieldValue.UploadedDataObj = uploadedDataObj;
                             fieldValue.UploadedData = "";
                         }
@@ -1739,8 +1741,8 @@ namespace Microting.eForm.Infrastructure
                     {
                         if (reply.Value != "" || reply.Value != null)
                         {
-                            int Id = int.Parse(reply.Value);
-                            EntityItem match = await db.EntityItems.AsNoTracking().SingleOrDefaultAsync(x => x.Id == Id);
+                            int id = int.Parse(reply.Value);
+                            EntityItem match = await db.EntityItems.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
 
                             if (match != null)
                             {
