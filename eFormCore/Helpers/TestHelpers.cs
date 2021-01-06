@@ -52,7 +52,6 @@ namespace Microting.eForm.Helpers
 
         private MicrotingDbContext GetContext(string connectionStr)
         {
-
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
             dbContextOptionsBuilder.UseMySql(connectionStr);
             return new MicrotingDbContext(dbContextOptionsBuilder.Options);
