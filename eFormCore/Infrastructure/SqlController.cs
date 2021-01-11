@@ -1417,7 +1417,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="checkUId"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<ReplyElement> CheckRead(int microtingUId, int checkUId)
+        public async Task<ReplyElement> CheckRead(int microtingUId, int checkUId, Language language)
         {
             string methodName = "SqlController.CheckRead";
             try
@@ -1453,7 +1453,7 @@ namespace Microting.eForm.Infrastructure
                 foreach (CheckList subCheckList in await db.CheckLists.Where(x =>
                     x.ParentId == checkList.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
                 {
-                    replyElement.ElementList.Add(await SubChecks(subCheckList.Id, aCase.Id));
+                    replyElement.ElementList.Add(await SubChecks(subCheckList.Id, aCase.Id, language));
                 }
                 return replyElement;
             }
@@ -1464,7 +1464,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        private async Task<Element> SubChecks(int parentId, int caseId)
+        private async Task<Element> SubChecks(int parentId, int caseId, Language language)
         {
             string methodName = "SqlController.SubChecks";
             try
@@ -1478,7 +1478,7 @@ namespace Microting.eForm.Infrastructure
                     foreach (CheckList subList in await db.CheckLists.Where(x =>
                         x.ParentId == checkList.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
                     {
-                        elementList.Add(await SubChecks(subList.Id, caseId));
+                        elementList.Add(await SubChecks(subList.Id, caseId, language));
                     }
                     GroupElement element = new GroupElement(checkList.Id,
                         checkList.Label,
@@ -1517,7 +1517,7 @@ namespace Microting.eForm.Infrastructure
                                 foreach (FieldValue fieldValue in await db.FieldValues.Where(x =>
                                     x.FieldId == subField.Id && x.CaseId == caseId).ToListAsync())
                                 {
-                                    Models.FieldValue answer = await ReadFieldValue(fieldValue, subField, false);
+                                    Models.FieldValue answer = await ReadFieldValue(fieldValue, subField, false, language);
                                     _field.FieldValues.Add(answer);
                                 }
                                 dataItemSubList.Add(_field);
@@ -1547,7 +1547,7 @@ namespace Microting.eForm.Infrastructure
                             foreach (FieldValue fieldValue in await db.FieldValues.Where(x =>
                                 x.FieldId == field.Id && x.CaseId == caseId).ToListAsync())
                             {
-                                Models.FieldValue answer = await ReadFieldValue(fieldValue, field, false);
+                                Models.FieldValue answer = await ReadFieldValue(fieldValue, field, false, language);
                                 _field.FieldValues.Add(answer);
                             }
                             dataItemList.Add(_field);
@@ -1659,7 +1659,7 @@ namespace Microting.eForm.Infrastructure
             }
         }
 
-        private async Task<Models.FieldValue> ReadFieldValue(FieldValue reply, Data.Entities.Field dbField, bool joinUploadedData)
+        private async Task<Models.FieldValue> ReadFieldValue(FieldValue reply, Data.Entities.Field dbField, bool joinUploadedData, Language language)
         {
             string methodName = "SqlController.ReadFieldValue";
             try
@@ -1759,10 +1759,26 @@ namespace Microting.eForm.Infrastructure
                 if (fieldValue.FieldType == Constants.Constants.FieldTypes.SingleSelect)
                 {
                     string key = fieldValue.Value;
-                    string fullKey = t.Locate(dbField.KeyValuePairList, "<" + key + ">", "</" + key + ">");
-                    fieldValue.ValueReadable = t.Locate(fullKey, "<key>", "</key>");
+                    FieldOption fieldOption = await db.FieldOptions.SingleAsync(x =>
+                        x.FieldId == fieldValue.FieldId && x.Key == fieldValue.Value);
+                    FieldOptionTranslation fieldOptionTranslation =
+                        await db.FieldOptionTranslations.SingleAsync(x =>
+                            x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
+                    //fieldValue.ValueReadable = t.Locate(fullKey, "<key>", "</key>");
+                    fieldValue.ValueReadable = fieldOptionTranslation.Text;
+                    List<FieldOption> fieldOptions = await db.FieldOptions.Where(x => x.FieldId == fieldValue.FieldId).ToListAsync();
 
-                    fieldValue.KeyValuePairList = PairRead(dbField.KeyValuePairList);
+                    fieldValue.KeyValuePairList = new List<KeyValuePair>();
+                    foreach (FieldOption option in fieldOptions)
+                    {
+                        var optionTranslation = await
+                            db.FieldOptionTranslations.SingleAsync(x => x.FieldOptionId == option.Id);
+                        KeyValuePair keyValuePair = new KeyValuePair(option.Key, optionTranslation.Text, false,
+                            option.DisplayOrder);
+                        fieldValue.KeyValuePairList.Add(keyValuePair);
+                    }
+
+                    //fieldValue.KeyValuePairList = PairRead(dbField.KeyValuePairList);
                 }
 
                 if (fieldValue.FieldType == Constants.Constants.FieldTypes.MultiSelect)
@@ -1774,13 +1790,32 @@ namespace Microting.eForm.Infrastructure
 
                     foreach (string key in keyLst)
                     {
-                        string fullKey = t.Locate(dbField.KeyValuePairList, "<" + key + ">", "</" + key + ">");
+                        FieldOption fieldOption = await db.FieldOptions.SingleAsync(x =>
+                            x.FieldId == fieldValue.FieldId && x.Key == key);
+                        FieldOptionTranslation fieldOptionTranslation =
+                            await db.FieldOptionTranslations.SingleAsync(x =>
+                                x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
+                        // string fullKey = t.Locate(dbField.KeyValuePairList, "<" + key + ">", "</" + key + ">");
                         if (fieldValue.ValueReadable != "")
+                        {
                             fieldValue.ValueReadable += '|';
-                        fieldValue.ValueReadable += t.Locate(fullKey, "<key>", "</key>");
+                        }
+                        fieldValue.ValueReadable = fieldOptionTranslation.Text;
+                        //
+                        // fieldValue.ValueReadable += t.Locate(fullKey, "<key>", "</key>");
                     }
 
-                    fieldValue.KeyValuePairList = PairRead(dbField.KeyValuePairList);
+                    List<FieldOption> fieldOptions = await db.FieldOptions.Where(x => x.FieldId == fieldValue.FieldId).ToListAsync();
+                    fieldValue.KeyValuePairList = new List<KeyValuePair>();
+                    foreach (FieldOption option in fieldOptions)
+                    {
+                        var optionTranslation = await
+                            db.FieldOptionTranslations.SingleAsync(x => x.FieldOptionId == option.Id);
+                        KeyValuePair keyValuePair = new KeyValuePair(option.Key, optionTranslation.Text, false,
+                            option.DisplayOrder);
+                    }
+
+                    //fieldValue.KeyValuePairList = PairRead(dbField.KeyValuePairList);
                 }
 
                 if (fieldValue.FieldType == Constants.Constants.FieldTypes.Number ||
@@ -1808,7 +1843,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         // Rename method to something more intuitive!
-        public async Task<Models.FieldValue> FieldValueRead(FieldValue reply, bool joinUploadedData)
+        public async Task<Models.FieldValue> FieldValueRead(FieldValue reply, bool joinUploadedData, Language language)
         {
             string methodName = "SqlController.FieldValueRead";
 
@@ -1817,7 +1852,7 @@ namespace Microting.eForm.Infrastructure
                 await using var db = GetContext();
                 Data.Entities.Field field = await db.Fields.SingleAsync(x => x.Id == reply.FieldId);
 
-                return await ReadFieldValue(reply, field, joinUploadedData);
+                return await ReadFieldValue(reply, field, joinUploadedData, language);
             }
             catch (Exception ex)
             {
@@ -1825,7 +1860,7 @@ namespace Microting.eForm.Infrastructure
             }
         }
 
-        public async Task<List<Models.FieldValue>> FieldValueReadList(int fieldId, int instancesBackInTime)
+        public async Task<List<Models.FieldValue>> FieldValueReadList(int fieldId, int instancesBackInTime, Language language)
         {
             string methodName = "SqlController.FieldValueReadList";
             try
@@ -1839,7 +1874,7 @@ namespace Microting.eForm.Infrastructure
                 List<Models.FieldValue> rtnLst = new List<Models.FieldValue>();
 
                 foreach (var item in matches)
-                    rtnLst.Add(await FieldValueRead(item, true));
+                    rtnLst.Add(await FieldValueRead(item, true, language));
 
                 return rtnLst;
             }
@@ -1849,7 +1884,7 @@ namespace Microting.eForm.Infrastructure
             }
         }
 
-        public async Task<List<Models.FieldValue>> FieldValueReadList(int fieldId, List<int> caseIds)
+        public async Task<List<Models.FieldValue>> FieldValueReadList(int fieldId, List<int> caseIds, Language language)
         {
             string methodName = "SqlController.FieldValueReadList";
             try
@@ -1860,7 +1895,7 @@ namespace Microting.eForm.Infrastructure
                 List<Models.FieldValue> rtnLst = new List<Models.FieldValue>();
 
                 foreach (var item in matches)
-                    rtnLst.Add(await FieldValueRead(item, true));
+                    rtnLst.Add(await FieldValueRead(item, true, language));
 
                 return rtnLst;
             }
@@ -1870,7 +1905,7 @@ namespace Microting.eForm.Infrastructure
             }
         }
 
-        public async Task<List<Models.FieldValue>> FieldValueReadList(List<int> caseIds)
+        public async Task<List<Models.FieldValue>> FieldValueReadList(List<int> caseIds, Language language)
         {
             string methodName = "SqlController.FieldValueReadList";
             try
@@ -1880,7 +1915,7 @@ namespace Microting.eForm.Infrastructure
                 List<Models.FieldValue> rtnLst = new List<Models.FieldValue>();
 
                 foreach (var item in matches)
-                    rtnLst.Add(await FieldValueRead(item, false));
+                    rtnLst.Add(await FieldValueRead(item, false, language));
 
                 return rtnLst;
             }
@@ -6164,7 +6199,16 @@ namespace Microting.eForm.Infrastructure
                 string inderStr = t.Locate(str, "<" + index + ">", "</" + index + ">");
 
                 keyValue = t.Locate(inderStr, "<key>", "</");
-                selected = bool.Parse(t.Locate(inderStr.ToLower(), "<selected>", "</"));
+                //try
+                //{
+                    selected = bool.Parse(t.Locate(inderStr.ToLower(), "<selected>", "</"));
+                //}
+                // catch (Exception ex)
+                // {
+                //     log.LogCritical("bla bla", ex.Message);
+                //     selected = false;
+                // }
+
                 displayIndex = t.Locate(inderStr, "<displayIndex>", "</");
 
                 list.Add(new KeyValuePair(index.ToString(), keyValue, selected, displayIndex));

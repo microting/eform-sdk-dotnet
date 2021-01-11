@@ -1298,7 +1298,7 @@ namespace eFormCore
         /// </summary>
         /// <param name="microtingUId">Microting ID of the eForm case</param>
         /// <param name="checkUId">If left empty, "0" or NULL it will try to retrieve the first check. Alternative is stating the Id of the specific check wanted to retrieve</param>
-        public async Task<ReplyElement> CaseRead(int microtingUId, int checkUId)
+        public async Task<ReplyElement> CaseRead(int microtingUId, int checkUId, Language language)
         {
             string methodName = "Core.CaseRead";
             try
@@ -1321,7 +1321,7 @@ namespace eFormCore
                     int id = aCase.Id;
                     log.LogEverything(methodName, $"aCase.Id:{aCase.Id}, found");
 
-                    ReplyElement replyElement = await _sqlController.CheckRead(microtingUId, checkUId);
+                    ReplyElement replyElement = await _sqlController.CheckRead(microtingUId, checkUId, language);
                     return replyElement;
                 }
                 else
@@ -2109,9 +2109,9 @@ namespace eFormCore
         }
         #endregion
 
-        public Task<string> CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData, string customXmlContent)
+        public Task<string> CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData, string customXmlContent, Language language)
         {
-            return CaseToPdf(caseId, jasperTemplate, timeStamp, customPathForUploadedData, "pdf", customXmlContent);
+            return CaseToPdf(caseId, jasperTemplate, timeStamp, customPathForUploadedData, "pdf", customXmlContent, language);
         }
 
         private async Task<string> JasperToPdf(int caseId, string jasperTemplate, string timeStamp)
@@ -2180,7 +2180,7 @@ namespace eFormCore
             return _resultDocument;
         }
 
-        private async Task<string> DocxToPdf(int caseId, string jasperTemplate, string timeStamp, ReplyElement reply, CaseDto cDto, string customPathForUploadedData, string customXmlContent, string fileType)
+        private async Task<string> DocxToPdf(int caseId, string jasperTemplate, string timeStamp, ReplyElement reply, CaseDto cDto, string customPathForUploadedData, string customXmlContent, string fileType, Language language)
         {
 
             SortedDictionary<string, string> valuePairs = new SortedDictionary<string, string>();
@@ -2203,7 +2203,7 @@ namespace eFormCore
             List<KeyValuePair<string, string>> signatures = new List<KeyValuePair<string, string>>();
             List<int> caseIds = new List<int>();
             caseIds.Add(caseId);
-            List<FieldValue> fieldValues = await _sqlController.FieldValueReadList(caseIds).ConfigureAwait(false);
+            List<FieldValue> fieldValues = await _sqlController.FieldValueReadList(caseIds, language).ConfigureAwait(false);
 
             List<FieldDto> allFields = await _sqlController.TemplateFieldReadAll(int.Parse(jasperTemplate)).ConfigureAwait(false);
             foreach (FieldDto field in allFields)
@@ -2390,7 +2390,7 @@ namespace eFormCore
             return dictionary;
         }
 
-        public async Task<string> CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData, string fileType, string customXmlContent)
+        public async Task<string> CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData, string fileType, string customXmlContent, Language language)
         {
             if (fileType != "pdf" && fileType != "docx" && fileType != "pptx")
             {
@@ -2410,7 +2410,7 @@ namespace eFormCore
                     if (timeStamp == null)
                         timeStamp = DateTime.UtcNow.ToString("yyyyMMdd") + "_" + DateTime.UtcNow.ToString("hhmmss");
                     CaseDto cDto = await CaseLookupCaseId(caseId).ConfigureAwait(false);
-                    ReplyElement reply = await CaseRead((int)cDto.MicrotingUId, (int)cDto.CheckUId).ConfigureAwait(false);
+                    ReplyElement reply = await CaseRead((int)cDto.MicrotingUId, (int)cDto.CheckUId, language).ConfigureAwait(false);
 
                     string resultDocument = "";
 
@@ -2421,7 +2421,7 @@ namespace eFormCore
                     }
                     else
                     {
-                        resultDocument = await DocxToPdf(caseId, jasperTemplate, timeStamp, reply, cDto, customPathForUploadedData, customXmlContent, fileType).ConfigureAwait(false);
+                        resultDocument = await DocxToPdf(caseId, jasperTemplate, timeStamp, reply, cDto, customPathForUploadedData, customXmlContent, fileType, language).ConfigureAwait(false);
                     }
 
                     //return path
@@ -4543,7 +4543,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<List<FieldValue>> Advanced_FieldValueReadList(int id, int instances)
+        public async Task<List<FieldValue>> Advanced_FieldValueReadList(int id, int instances, Language language)
         {
             string methodName = "Core.Advanced_FieldValueReadList";
             try
@@ -4554,7 +4554,7 @@ namespace eFormCore
                     log.LogVariable(methodName, nameof(id), id);
                     log.LogVariable(methodName, nameof(instances), instances);
 
-                    return await _sqlController.FieldValueReadList(id, instances).ConfigureAwait(false);
+                    return await _sqlController.FieldValueReadList(id, instances, language).ConfigureAwait(false);
                 }
 
                 throw new Exception("Core is not running");
@@ -4566,7 +4566,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<List<FieldValue>> Advanced_FieldValueReadList(int fieldId, List<int> caseIds)
+        public async Task<List<FieldValue>> Advanced_FieldValueReadList(int fieldId, List<int> caseIds, Language language)
         {
             string methodName = "Core.Advanced_FieldValueReadList";
             try
@@ -4576,7 +4576,7 @@ namespace eFormCore
                     log.LogStandard(methodName, "called");
                     log.LogVariable(methodName, nameof(fieldId), fieldId);
 
-                    return await _sqlController.FieldValueReadList(fieldId, caseIds).ConfigureAwait(false);
+                    return await _sqlController.FieldValueReadList(fieldId, caseIds, language).ConfigureAwait(false);
                 }
 
                 throw new Exception("Core is not running");
@@ -4588,7 +4588,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<List<FieldValue>> Advanced_FieldValueReadList(List<int> caseIds)
+        public async Task<List<FieldValue>> Advanced_FieldValueReadList(List<int> caseIds, Language language)
         {
             string methodName = "Core.Advanced_FieldValueReadList";
             try
@@ -4597,7 +4597,7 @@ namespace eFormCore
                 {
                     log.LogStandard(methodName, "called");
 
-                    return await _sqlController.FieldValueReadList(caseIds).ConfigureAwait(false);
+                    return await _sqlController.FieldValueReadList(caseIds, language).ConfigureAwait(false);
                 }
 
                 throw new Exception("Core is not running");

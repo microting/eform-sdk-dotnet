@@ -54,6 +54,7 @@ namespace eFormSDK.Integration.CoreTests
         Random rnd = new Random();
         short shortMinValue = Int16.MinValue;
         short shortmaxValue = Int16.MaxValue;
+        private Language language;
 
         public override async Task DoSetup()
         {
@@ -83,6 +84,7 @@ namespace eFormSDK.Integration.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
             await testHelpers.GenerateDefaultLanguages();
+            language = DbContext.Languages.Single(x => x.Name == "Danish");
             //sut.StartLog(new CoreBase());
         }
 
@@ -2041,7 +2043,7 @@ namespace eFormSDK.Integration.CoreTests
             #endregion
             // Act
 
-            List<Microting.eForm.Infrastructure.Models.FieldValue> match = await sut.Advanced_FieldValueReadList(f1.Id, 5);
+            List<Microting.eForm.Infrastructure.Models.FieldValue> match = await sut.Advanced_FieldValueReadList(f1.Id, 5, language);
 
             // Assert
 
