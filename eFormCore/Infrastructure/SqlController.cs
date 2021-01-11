@@ -322,7 +322,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public async Task<List<Template_Dto>> TemplateItemReadAll(bool includeRemoved, string siteWorkflowState, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds, TimeZoneInfo timeZoneInfo)
+        public async Task<List<Template_Dto>> TemplateItemReadAll(bool includeRemoved, string siteWorkflowState, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds, TimeZoneInfo timeZoneInfo, Language language)
         {
             string methodName = "SqlController.TemplateItemReadAll";
             log.LogStandard(methodName, "called");
@@ -353,9 +353,9 @@ namespace Microting.eForm.Infrastructure
                                 list.JasperExportEnabled,
                                 list.DisplayIndex,
                                 translation.LanguageId
-                            });
+                            }).Where(x => x.LanguageId == language.Id);
 
-                Language defaultLanguage = await db.Languages.SingleAsync(x => x.Name == "Danish");
+                //Language defaultLanguage = await db.Languages.SingleAsync(x => x.Name == "Danish");
 
                 var all = subQuery.ToList();
 

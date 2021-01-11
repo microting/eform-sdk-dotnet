@@ -1091,7 +1091,7 @@ namespace eFormCore
         /// Tries to retrieve all templates meta data from the Microting DB
         /// </summary>
         /// <param name="includeRemoved">Filters list to only show all active or all including removed</param>
-        public async Task<List<Template_Dto>> TemplateItemReadAll(bool includeRemoved, TimeZoneInfo timeZoneInfo)
+        public async Task<List<Template_Dto>> TemplateItemReadAll(bool includeRemoved, TimeZoneInfo timeZoneInfo, Language language)
         {
             string methodName = "Core.TemplateItemReadAll";
             try
@@ -1101,7 +1101,7 @@ namespace eFormCore
                     log.LogStandard(methodName, "called");
                     log.LogVariable(methodName, nameof(includeRemoved), includeRemoved);
 
-                    return await TemplateItemReadAll(includeRemoved, Constants.WorkflowStates.Created, "", true, "", new List<int>(), timeZoneInfo).ConfigureAwait(false);
+                    return await TemplateItemReadAll(includeRemoved, Constants.WorkflowStates.Created, "", true, "", new List<int>(), timeZoneInfo, language).ConfigureAwait(false);
                 }
                 else
                     throw new Exception("Core is not running");
@@ -1120,7 +1120,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<List<Template_Dto>> TemplateItemReadAll(bool includeRemoved, string siteWorkflowState, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds, TimeZoneInfo timeZoneInfo)
+        public async Task<List<Template_Dto>> TemplateItemReadAll(bool includeRemoved, string siteWorkflowState, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds, TimeZoneInfo timeZoneInfo, Language language)
         {
             string methodName = "Core.TemplateItemReadAll";
             try
@@ -1134,7 +1134,7 @@ namespace eFormCore
                     log.LogVariable(methodName, nameof(sortParameter), sortParameter);
                     log.LogVariable(methodName, nameof(tagIds), tagIds.ToString());
 
-                    return await _sqlController.TemplateItemReadAll(includeRemoved, siteWorkflowState, searchKey, descendingSort, sortParameter, tagIds, timeZoneInfo).ConfigureAwait(false);
+                    return await _sqlController.TemplateItemReadAll(includeRemoved, siteWorkflowState, searchKey, descendingSort, sortParameter, tagIds, timeZoneInfo, language).ConfigureAwait(false);
                 }
                 else
                     throw new Exception("Core is not running");
