@@ -1759,13 +1759,22 @@ namespace Microting.eForm.Infrastructure
                 if (fieldValue.FieldType == Constants.Constants.FieldTypes.SingleSelect)
                 {
                     string key = fieldValue.Value;
-                    FieldOption fieldOption = await db.FieldOptions.SingleAsync(x =>
-                        x.FieldId == fieldValue.FieldId && x.Key == fieldValue.Value);
-                    FieldOptionTranslation fieldOptionTranslation =
-                        await db.FieldOptionTranslations.SingleAsync(x =>
-                            x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
+                    int fieldId = fieldValue.FieldId;
+                    FieldOption fieldOption = await db.FieldOptions.SingleOrDefaultAsync(x =>
+                        x.FieldId == fieldId && x.Key == key);
+                    if (fieldOption != null)
+                    {
+                        FieldOptionTranslation fieldOptionTranslation =
+                            await db.FieldOptionTranslations.SingleAsync(x =>
+                                x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
+                        fieldValue.ValueReadable = fieldOptionTranslation.Text;
+                    }
+                    else
+                    {
+                        fieldValue.ValueReadable = "";
+                    }
+
                     //fieldValue.ValueReadable = t.Locate(fullKey, "<key>", "</key>");
-                    fieldValue.ValueReadable = fieldOptionTranslation.Text;
                     List<FieldOption> fieldOptions = await db.FieldOptions.Where(x => x.FieldId == fieldValue.FieldId).ToListAsync();
 
                     fieldValue.KeyValuePairList = new List<KeyValuePair>();
@@ -1787,20 +1796,25 @@ namespace Microting.eForm.Infrastructure
 
                     string keys = fieldValue.Value;
                     List<string> keyLst = keys.Split('|').ToList();
-
+                    int fieldId = fieldValue.FieldId;
+                    fieldValue.ValueReadable = "";
                     foreach (string key in keyLst)
                     {
-                        FieldOption fieldOption = await db.FieldOptions.SingleAsync(x =>
-                            x.FieldId == fieldValue.FieldId && x.Key == key);
-                        FieldOptionTranslation fieldOptionTranslation =
-                            await db.FieldOptionTranslations.SingleAsync(x =>
-                                x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
-                        // string fullKey = t.Locate(dbField.KeyValuePairList, "<" + key + ">", "</" + key + ">");
-                        if (fieldValue.ValueReadable != "")
+                        FieldOption fieldOption = await db.FieldOptions.SingleOrDefaultAsync(x =>
+                            x.FieldId == fieldId && x.Key.ToString() == key);
+                        if (fieldOption != null)
                         {
-                            fieldValue.ValueReadable += '|';
+                            FieldOptionTranslation fieldOptionTranslation =
+                                await db.FieldOptionTranslations.SingleAsync(x =>
+                                    x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
+                            // string fullKey = t.Locate(dbField.KeyValuePairList, "<" + key + ">", "</" + key + ">");
+                            if (fieldValue.ValueReadable != "")
+                            {
+                                fieldValue.ValueReadable += '|';
+                            }
+                            fieldValue.ValueReadable += fieldOptionTranslation.Text;
                         }
-                        fieldValue.ValueReadable = fieldOptionTranslation.Text;
+
                         //
                         // fieldValue.ValueReadable += t.Locate(fullKey, "<key>", "</key>");
                     }

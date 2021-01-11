@@ -159,10 +159,11 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                         List<Dto.KeyValuePair> keyValuePairs = PairRead((field.KeyValuePairList));
                         foreach (Dto.KeyValuePair keyValuePair in keyValuePairs)
                         {
-                            if (dbContext.FieldOptions.SingleOrDefaultAsync(x =>
-                                x.FieldId == field.Id && x.Key == keyValuePair.Key) == null)
+                            FieldOption fieldOption = await dbContext.FieldOptions.SingleOrDefaultAsync(x =>
+                                x.FieldId == field.Id && x.Key == keyValuePair.Key);
+                            if (fieldOption == null)
                             {
-                                FieldOption fieldOption = new FieldOption()
+                                fieldOption = new FieldOption()
                                 {
                                     FieldId = field.Id,
                                     Key = keyValuePair.Key,
