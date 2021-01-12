@@ -53,27 +53,27 @@ namespace Microting.eForm.Dto
             Tags = tags;
         }
 
-        public Template_Dto(int id, 
-            DateTime? createdAt, 
-            DateTime? updatedAt, 
-            string label, 
-            string description, 
-            int repeated, 
-            string folderName, 
-            string workflowState, 
-            List<SiteNameDto> deployedSites, 
-            bool hasCases, 
-            int? displayIndex, 
-            FieldDto field1, 
-            FieldDto field2, 
-            FieldDto field3, 
-            FieldDto field4, 
-            FieldDto field5, 
-            FieldDto field6, 
-            FieldDto field7, 
-            FieldDto field8, 
-            FieldDto field9, 
-            FieldDto field10, 
+        public Template_Dto(int id,
+            DateTime? createdAt,
+            DateTime? updatedAt,
+            string label,
+            string description,
+            int repeated,
+            string folderName,
+            string workflowState,
+            List<SiteNameDto> deployedSites,
+            bool hasCases,
+            int? displayIndex,
+            FieldDto field1,
+            FieldDto field2,
+            FieldDto field3,
+            FieldDto field4,
+            FieldDto field5,
+            FieldDto field6,
+            FieldDto field7,
+            FieldDto field8,
+            FieldDto field9,
+            FieldDto field10,
             List<KeyValuePair<int, string>> tags,
             bool jasperExportEnabled,
             bool docxExportEnabled, bool excelExportEnabled)
@@ -215,10 +215,20 @@ namespace Microting.eForm.Dto
         public int? FolderId { get; set; }
 
         public bool JasperExportEnabled { get; set; }
-        
+
         public bool DocxExportEnabled { get; set; }
 
         public bool ExcelExportEnabled { get; set; }
+
+        public string ReportH1 { get; set; }
+
+        public string ReportH2 { get; set; }
+
+        public string ReportH3 { get; set; }
+
+        public string ReportH4 { get; set; }
+
+        public string ReportH5 { get; set; }
 
         /// <summary>
         /// Tags

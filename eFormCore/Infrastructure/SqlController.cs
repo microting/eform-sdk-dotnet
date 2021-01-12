@@ -352,6 +352,11 @@ namespace Microting.eForm.Infrastructure
                                 list.ExcelExportEnabled,
                                 list.JasperExportEnabled,
                                 list.DisplayIndex,
+                                list.ReportH1,
+                                list.ReportH2,
+                                list.ReportH3,
+                                list.ReportH4,
+                                list.ReportH5,
                                 translation.LanguageId
                             }).Where(x => x.LanguageId == language.Id);
 
@@ -486,7 +491,12 @@ namespace Microting.eForm.Infrastructure
                             FolderId = folderId,
                             DocxExportEnabled =  checkList.DocxExportEnabled,
                             JasperExportEnabled = checkList.JasperExportEnabled,
-                            ExcelExportEnabled = checkList.ExcelExportEnabled
+                            ExcelExportEnabled = checkList.ExcelExportEnabled,
+                            ReportH1 = checkList.ReportH1,
+                            ReportH2 = checkList.ReportH2,
+                            ReportH3 = checkList.ReportH3,
+                            ReportH4 = checkList.ReportH4,
+                            ReportH5 = checkList.ReportH5
                         };
                         templateList.Add(templateDto);
                     }
