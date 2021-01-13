@@ -132,7 +132,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public static async Task MoveTranslations(MicrotingDbContext dbContext)
         {
             List<Field> fields = await dbContext.Fields.ToListAsync();
-            Language defaultLanguage = await dbContext.Languages.SingleAsync(x => x.Name == "Danish");
+            Language language = await dbContext.Languages.SingleAsync(x => x.Name == "Danish");
             foreach (Field field in fields)
             {
                 if (!string.IsNullOrEmpty(field.Label))
@@ -142,7 +142,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                         Text = field.Label,
                         Description = field.Description,
                         FieldId = field.Id,
-                        LanguageId = defaultLanguage.Id
+                        LanguageId = language.Id
                     };
                     await fieldTranslation.Create(dbContext);
                     field.Label = null;
@@ -173,7 +173,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                                 FieldOptionTranslation fieldOptionTranslation = new FieldOptionTranslation()
                                 {
                                     FieldOptionId = fieldOption.Id,
-                                    LanguageId = defaultLanguage.Id,
+                                    LanguageId = language.Id,
                                     Text = keyValuePair.Value
                                 };
                                 await fieldOptionTranslation.Create(dbContext);

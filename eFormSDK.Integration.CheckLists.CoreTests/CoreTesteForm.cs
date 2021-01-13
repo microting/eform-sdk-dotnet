@@ -842,10 +842,10 @@ namespace eFormSDK.Integration.CoreTests
             #endregion
             // Act
 
-            var match1 = await sut.TemplateItemRead(Template1.Id, language);
-            var match2 = await sut.TemplateItemRead(Template2.Id, language);
-            var match3 = await sut.TemplateItemRead(Template3.Id, language);
-            var match4 = await sut.TemplateItemRead(Template4.Id, language);
+            var match1 = await sut.TemplateItemRead(Template1.Id, timeZoneInfo, language);
+            var match2 = await sut.TemplateItemRead(Template2.Id, timeZoneInfo, language);
+            var match3 = await sut.TemplateItemRead(Template3.Id, timeZoneInfo, language);
+            var match4 = await sut.TemplateItemRead(Template4.Id, timeZoneInfo, language);
 
 
             // Assert

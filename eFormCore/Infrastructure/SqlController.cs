@@ -130,7 +130,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public async Task<MainElement> ReadeForm(int templateId, Language defaultLanguage)
+        public async Task<MainElement> ReadeForm(int templateId, Language language)
         {
             string methodName = "SqlController.TemplateRead";
             try
@@ -145,11 +145,11 @@ namespace Microting.eForm.Infrastructure
                     return null;
 
                 CheckListTranslation checkListTranslation =
-                    await db.CheckListTranslations.SingleOrDefaultAsync(x => x.CheckListId == mainCl.Id && x.LanguageId == defaultLanguage.Id);
+                    await db.CheckListTranslations.SingleOrDefaultAsync(x => x.CheckListId == mainCl.Id && x.LanguageId == language.Id);
                 if (checkListTranslation == null)
                 {
                     checkListTranslation = await db.CheckListTranslations.FirstAsync(x => x.CheckListId == mainCl.Id);
-                    defaultLanguage = db.Languages.Single(x => x.Id == checkListTranslation.LanguageId);
+                    language = db.Languages.Single(x => x.Id == checkListTranslation.LanguageId);
                 }
 
                 mainElement = new MainElement(mainCl.Id, checkListTranslation.Text, t.Int(mainCl.DisplayIndex), mainCl.FolderName, t.Int(mainCl.Repeated), DateTime.UtcNow, DateTime.UtcNow.AddDays(2), "da",
@@ -159,7 +159,7 @@ namespace Microting.eForm.Infrastructure
                 List<CheckList> lst = db.CheckLists.Where(x => x.ParentId == templateId).ToList();
                 foreach (CheckList cl in lst)
                 {
-                    mainElement.ElementList.Add(await GetElement(cl.Id, defaultLanguage));
+                    mainElement.ElementList.Add(await GetElement(cl.Id, language));
                 }
 
                 //return
@@ -172,7 +172,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public async Task<Template_Dto> TemplateItemRead(int templateId, Language defaultLanguage)
+        public async Task<Template_Dto> TemplateItemRead(int templateId, TimeZoneInfo timeZoneInfo, Language language)
         {
             string methodName = "SqlController.TemplateItemRead";
 
@@ -197,12 +197,12 @@ namespace Microting.eForm.Infrastructure
 
                 CheckListTranslation checkListTranslation =
                     await db.CheckListTranslations.SingleOrDefaultAsync(x =>
-                        x.CheckListId == checkList.Id && x.LanguageId == defaultLanguage.Id);
+                        x.CheckListId == checkList.Id && x.LanguageId == language.Id);
                 if (checkListTranslation == null)
                 {
                     checkListTranslation =
                         await db.CheckListTranslations.FirstAsync(x => x.CheckListId == checkList.Id);
-                    defaultLanguage = await db.Languages.SingleAsync(x => x.Id == checkListTranslation.LanguageId);
+                    language = await db.Languages.SingleAsync(x => x.Id == checkListTranslation.LanguageId);
                 }
 
                 #region load fields
@@ -221,7 +221,7 @@ namespace Microting.eForm.Infrastructure
                 if (f1 != null)
                 {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f1.Id);
+                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f1.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
                     fd1 = new FieldDto(f1.Id, translation.Text, translation.Description, (int)f1.FieldTypeId, fieldType.Type, (int)f1.CheckListId);
                 }
@@ -229,7 +229,7 @@ namespace Microting.eForm.Infrastructure
                 Data.Entities.Field f2 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field2);
                 if (f2 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f2.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f2.Id);
+                        .SingleOrDefaultAsync(x => x.FieldId == f2.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f2.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f2.FieldTypeId);
                     fd2 = new FieldDto(f2.Id, translation.Text, translation.Description, (int)f2.FieldTypeId, f2.FieldType.Type, (int)f2.CheckListId);
                 }
@@ -237,7 +237,7 @@ namespace Microting.eForm.Infrastructure
                 Data.Entities.Field f3 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field3);
                 if (f3 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f3.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f3.Id);
+                        .SingleOrDefaultAsync(x => x.FieldId == f3.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f3.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f3.FieldTypeId);
                     fd3 = new FieldDto(f3.Id, translation.Text, translation.Description, (int)f3.FieldTypeId, f3.FieldType.Type, (int)f3.CheckListId);
                 }
@@ -245,7 +245,7 @@ namespace Microting.eForm.Infrastructure
                 Data.Entities.Field f4 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field4);
                 if (f4 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f4.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f4.Id);
+                        .SingleOrDefaultAsync(x => x.FieldId == f4.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f4.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f4.FieldTypeId);
                     fd4 = new FieldDto(f4.Id, translation.Text, translation.Description, (int)f4.FieldTypeId, f4.FieldType.Type, (int)f4.CheckListId);
                 }
@@ -253,7 +253,7 @@ namespace Microting.eForm.Infrastructure
                 Data.Entities.Field f5 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field5);
                 if (f5 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f5.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f5.Id);
+                        .SingleOrDefaultAsync(x => x.FieldId == f5.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f5.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f5.FieldTypeId);
                     fd5 = new FieldDto(f5.Id, translation.Text, translation.Description, (int)f5.FieldTypeId, f5.FieldType.Type, (int)f5.CheckListId);
                 }
@@ -261,7 +261,7 @@ namespace Microting.eForm.Infrastructure
                 Data.Entities.Field f6 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field6);
                 if (f6 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f6.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f6.Id);
+                        .SingleOrDefaultAsync(x => x.FieldId == f6.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f6.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f6.FieldTypeId);
                     fd6 = new FieldDto(f6.Id, translation.Text, translation.Description, (int)f6.FieldTypeId, f6.FieldType.Type, (int)f6.CheckListId);
                 }
@@ -269,7 +269,7 @@ namespace Microting.eForm.Infrastructure
                 Data.Entities.Field f7 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field7);
                 if (f7 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f7.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f7.Id);
+                        .SingleOrDefaultAsync(x => x.FieldId == f7.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f7.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f7.FieldTypeId);
                     fd7 = new FieldDto(f7.Id, translation.Text, translation.Description, (int)f7.FieldTypeId, f7.FieldType.Type, (int)f7.CheckListId);
                 }
@@ -277,7 +277,7 @@ namespace Microting.eForm.Infrastructure
                 Data.Entities.Field f8 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field8);
                 if (f8 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f8.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f8.Id);
+                        .SingleOrDefaultAsync(x => x.FieldId == f8.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f8.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f8.FieldTypeId);
                     fd8 = new FieldDto(f8.Id, translation.Text, translation.Description, (int)f8.FieldTypeId, f8.FieldType.Type, (int)f8.CheckListId);
                 }
@@ -285,7 +285,7 @@ namespace Microting.eForm.Infrastructure
                 Data.Entities.Field f9 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field9);
                 if (f9 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f9.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f9.Id);
+                        .SingleOrDefaultAsync(x => x.FieldId == f9.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f9.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f9.FieldTypeId);
                     fd9 = new FieldDto(f9.Id, translation.Text, translation.Description, (int)f9.FieldTypeId, f9.FieldType.Type, (int)f9.CheckListId);
                 }
@@ -293,7 +293,7 @@ namespace Microting.eForm.Infrastructure
                 Data.Entities.Field f10 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field10);
                 if (f10 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f10.Id && x.LanguageId == defaultLanguage.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f10.Id);
+                        .SingleOrDefaultAsync(x => x.FieldId == f10.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f10.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f10.FieldTypeId);
                     fd10 = new FieldDto(f10.Id, translation.Text, translation.Description, (int)f10.FieldTypeId, f10.FieldType.Type, (int)f10.CheckListId);
                 }
@@ -312,8 +312,8 @@ namespace Microting.eForm.Infrastructure
                 Template_Dto templateDto = new Template_Dto()
                 {
                     Id = checkList.Id,
-                    CreatedAt = checkList.CreatedAt,
-                    UpdatedAt = checkList.UpdatedAt,
+                    CreatedAt = TimeZoneInfo.ConvertTimeFromUtc((DateTime)checkList.CreatedAt, timeZoneInfo),
+                    UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc((DateTime)checkList.UpdatedAt, timeZoneInfo),
                     DeployedSites = sites,
                     Description = checkListTranslation.Description,
                     DisplayIndex = checkList.DisplayIndex,
@@ -389,7 +389,7 @@ namespace Microting.eForm.Infrastructure
                                 translation.LanguageId
                             }).Where(x => x.LanguageId == language.Id);
 
-                //Language defaultLanguage = await db.Languages.SingleAsync(x => x.Name == "Danish");
+                //Language language = await db.Languages.SingleAsync(x => x.Name == "Danish");
 
                 var all = subQuery.ToList();
 
@@ -550,8 +550,8 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                Language defaultLanguage = await db.Languages.SingleAsync(x => x.Name == "Danish");
-                MainElement mainElement = await ReadeForm(templateId, defaultLanguage);
+                Language language = await db.Languages.SingleAsync(x => x.Name == "Danish");
+                MainElement mainElement = await ReadeForm(templateId, language);
                 List<FieldDto> fieldLst = new List<FieldDto>();
 
                 foreach (DataItem dataItem in mainElement.DataItemGetAll())
@@ -5042,7 +5042,7 @@ namespace Microting.eForm.Infrastructure
                 await using var db = GetContext();
                 GetConverter();
 
-                Language defaultLanguage = await db.Languages.SingleAsync(x => x.Name == "Danish").ConfigureAwait(false);
+                Language language = await db.Languages.SingleAsync(x => x.Name == "Danish").ConfigureAwait(false);
                 Language ukLanguage = await db.Languages.SingleAsync(x => x.Name == "English").ConfigureAwait(false);
                 Language deLanguage = await db.Languages.SingleAsync(x => x.Name == "German").ConfigureAwait(false);
 
@@ -5082,7 +5082,7 @@ namespace Microting.eForm.Infrastructure
                 {
                     CheckListId = cl.Id,
                     Text = mainElement.Label.Split("|")[0],
-                    LanguageId = defaultLanguage.Id
+                    LanguageId = language.Id
                 };
                 await checkListTranslation.Create(db).ConfigureAwait(false);
                 if (mainElement.Label.Split("|").Length > 1)
@@ -5110,7 +5110,7 @@ namespace Microting.eForm.Infrastructure
                 mainElement.Id = mainId;
                 #endregion
 
-                await CreateElementList(mainId, mainElement.ElementList, defaultLanguage);
+                await CreateElementList(mainId, mainElement.ElementList, language);
 
                 return mainId;
             }
@@ -5121,7 +5121,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        private async Task CreateElementList(int parentId, List<Element> lstElement, Language defaultLanguage)
+        private async Task CreateElementList(int parentId, List<Element> lstElement, Language language)
         {
             foreach (Element element in lstElement)
             {
@@ -5129,20 +5129,20 @@ namespace Microting.eForm.Infrastructure
                 {
                     DataElement dataE = (DataElement)element;
 
-                    await CreateDataElement(parentId, dataE, defaultLanguage);
+                    await CreateDataElement(parentId, dataE, language);
                 }
 
                 if (element.GetType() == typeof(GroupElement))
                 {
                     GroupElement groupE = (GroupElement)element;
 
-                    await CreateGroupElement(parentId, groupE, defaultLanguage);
+                    await CreateGroupElement(parentId, groupE, language);
                 }
             }
         }
 
         //TODO
-        private async Task CreateGroupElement(int parentId, GroupElement groupElement, Language defaultLanguage)
+        private async Task CreateGroupElement(int parentId, GroupElement groupElement, Language language)
         {
             string methodName = "SqlController.CreateGroupElement";
             try
@@ -5170,7 +5170,7 @@ namespace Microting.eForm.Infrastructure
                 CheckListTranslation checkListTranslation = new CheckListTranslation()
                 {
                     CheckListId = cl.Id,
-                    LanguageId = defaultLanguage.Id,
+                    LanguageId = language.Id,
                     Text = groupElement.Label.Split("|")[0],
                     Description = groupElement.Description != null ? groupElement.Description.InderValue.Split("|")[0] : ""
                 };
@@ -5205,7 +5205,7 @@ namespace Microting.eForm.Infrastructure
                     await checkListTranslation.Create(db).ConfigureAwait(false);
                 }
 
-                await CreateElementList(cl.Id, groupElement.ElementList, defaultLanguage).ConfigureAwait(false);
+                await CreateElementList(cl.Id, groupElement.ElementList, language).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -5214,7 +5214,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        private async Task CreateDataElement(int parentId, DataElement dataElement, Language defaultLanguage)
+        private async Task CreateDataElement(int parentId, DataElement dataElement, Language language)
         {
             string methodName = "SqlController.CreateDataElement";
             try
@@ -5250,7 +5250,7 @@ namespace Microting.eForm.Infrastructure
                     Description = dataElement.Description != null
                         ? (dataElement.Description.InderValue != null ? dataElement.Description.InderValue.Split("|")[0] : "")
                         : "",
-                    LanguageId = defaultLanguage.Id
+                    LanguageId = language.Id
                 };
                 await checkListTranslation.Create(db);
 
@@ -5287,7 +5287,7 @@ namespace Microting.eForm.Infrastructure
                 {
                     foreach (DataItem dataItem in dataElement.DataItemList)
                     {
-                        await CreateDataItem(null, cl.Id, dataItem, defaultLanguage);
+                        await CreateDataItem(null, cl.Id, dataItem, language);
                     }
                 }
             }
@@ -5349,7 +5349,7 @@ namespace Microting.eForm.Infrastructure
 
 
         //TODO
-        private async Task CreateDataItem(int? parentFieldId, int elementId, DataItem dataItem, Language defaultLanguage)
+        private async Task CreateDataItem(int? parentFieldId, int elementId, DataItem dataItem, Language language)
         {
             string methodName = "SqlController.CreateDataItem";
             try
@@ -5446,7 +5446,7 @@ namespace Microting.eForm.Infrastructure
                         await field.Create(db).ConfigureAwait(false);
                         fieldTranslation = new FieldTranslation()
                         {
-                            LanguageId = defaultLanguage.Id,
+                            LanguageId = language.Id,
                             Text = dataItem.Label.Split("|")[0],
                             Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[0] : "",
                             FieldId = field.Id
@@ -5499,7 +5499,7 @@ namespace Microting.eForm.Infrastructure
                             FieldOptionTranslation fieldOptionTranslation = new FieldOptionTranslation()
                             {
                                 FieldOptionId = fieldOption.Id,
-                                LanguageId = defaultLanguage.Id,
+                                LanguageId = language.Id,
                                 Text = keyValuePair.Value.Split("|")[0]
                             };
                             await fieldOptionTranslation.Create(db).ConfigureAwait(false);
@@ -5552,7 +5552,7 @@ namespace Microting.eForm.Infrastructure
                         await field.Create(db).ConfigureAwait(false);
                         fieldTranslation = new FieldTranslation()
                         {
-                            LanguageId = defaultLanguage.Id,
+                            LanguageId = language.Id,
                             Text = dataItem.Label.Split("|")[0],
                             Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[0] : "",
                             FieldId = field.Id
@@ -5605,7 +5605,7 @@ namespace Microting.eForm.Infrastructure
                             FieldOptionTranslation fieldOptionTranslation = new FieldOptionTranslation()
                             {
                                 FieldOptionId = fieldOption.Id,
-                                LanguageId = defaultLanguage.Id,
+                                LanguageId = language.Id,
                                 Text = keyValuePair.Value.Split("|")[0]
                             };
                             await fieldOptionTranslation.Create(db).ConfigureAwait(false);
@@ -5673,7 +5673,7 @@ namespace Microting.eForm.Infrastructure
 
                         fieldTranslation = new FieldTranslation()
                         {
-                            LanguageId = defaultLanguage.Id,
+                            LanguageId = language.Id,
                             Text = dataItem.Label.Split("|")[0],
                             Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[0] : "",
                             FieldId = field.Id
@@ -5715,7 +5715,7 @@ namespace Microting.eForm.Infrastructure
                         {
                             foreach (DataItem data_item in fg.DataItemList)
                             {
-                                await CreateDataItem(field.Id, elementId, data_item, defaultLanguage);
+                                await CreateDataItem(field.Id, elementId, data_item, language);
                             }
                         }
                         break;
@@ -5730,7 +5730,7 @@ namespace Microting.eForm.Infrastructure
                     await field.Create(db).ConfigureAwait(false);
                     fieldTranslation = new FieldTranslation()
                     {
-                        LanguageId = defaultLanguage.Id,
+                        LanguageId = language.Id,
                         Text = dataItem.Label.Split("|")[0],
                         Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[0] : "",
                         FieldId = field.Id
@@ -5783,7 +5783,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="elementId"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        private async Task<Element> GetElement(int elementId, Language defaultLanguage)
+        private async Task<Element> GetElement(int elementId, Language language)
         {
             string methodName = "SqlController.GetElement";
             try
@@ -5822,7 +5822,7 @@ namespace Microting.eForm.Infrastructure
                         //the actual Elements
                         foreach (var subElement in lstElement)
                         {
-                            lst.Add(await GetElement(subElement.Id, defaultLanguage));
+                            lst.Add(await GetElement(subElement.Id, language));
                         }
                         element = gElement;
                     }
@@ -5839,11 +5839,11 @@ namespace Microting.eForm.Infrastructure
                         CheckList cl = await db.CheckLists.SingleAsync(x => x.Id == elementId);
                         CheckListTranslation checkListTranslation =
                             await db.CheckListTranslations.SingleOrDefaultAsync(x =>
-                                x.CheckListId == cl.Id && x.LanguageId == defaultLanguage.Id);
+                                x.CheckListId == cl.Id && x.LanguageId == language.Id);
                         if (checkListTranslation == null)
                         {
                             checkListTranslation = await db.CheckListTranslations.FirstAsync(x => x.CheckListId == cl.Id);
-                            defaultLanguage =
+                            language =
                                 await db.Languages.SingleAsync(x => x.Id == checkListTranslation.LanguageId);
                         }
 
@@ -5865,7 +5865,7 @@ namespace Microting.eForm.Infrastructure
                             x.CheckListId == elementId && x.ParentFieldId == null).ToList();
                         foreach (var field in lstFields)
                         {
-                            await GetDataItem(dElement.DataItemList, dElement.DataItemGroupList, field, defaultLanguage);
+                            await GetDataItem(dElement.DataItemList, dElement.DataItemGroupList, field, language);
                         }
                         element = dElement;
                     }
@@ -5890,7 +5890,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="dataItemId"></param>
         /// <exception cref="IndexOutOfRangeException"></exception>
         /// <exception cref="Exception"></exception>
-        private async Task GetDataItem(List<DataItem> lstDataItem, List<DataItemGroup> lstDataItemGroup, Data.Entities.Field field, Language defaultLanguage)
+        private async Task GetDataItem(List<DataItem> lstDataItem, List<DataItemGroup> lstDataItemGroup, Data.Entities.Field field, Language language)
         {
             string methodName = "SqlController.GetDataItem";
             try
@@ -5901,11 +5901,11 @@ namespace Microting.eForm.Infrastructure
 
                 //KEY POINT - mapping
                 FieldTranslation fieldTranslation = await db.FieldTranslations.SingleOrDefaultAsync(x =>
-                    x.FieldId == field.Id && x.LanguageId == defaultLanguage.Id);
+                    x.FieldId == field.Id && x.LanguageId == language.Id);
                 if (fieldTranslation == null)
                 {
                     fieldTranslation = await db.FieldTranslations.FirstAsync(x => x.FieldId == field.Id);
-                    defaultLanguage = await db.Languages.SingleAsync(x => x.Id == fieldTranslation.LanguageId);
+                    language = await db.Languages.SingleAsync(x => x.Id == fieldTranslation.LanguageId);
                 }
                 switch (fieldTypeStr)
                 {
@@ -5956,7 +5956,7 @@ namespace Microting.eForm.Infrastructure
                                     translation.Text,
                                     translation.LanguageId
                                 })
-                                .Where(x => x.LanguageId == defaultLanguage.Id)
+                                .Where(x => x.LanguageId == language.Id)
                                 .Select(x => new KeyValuePair()
                             {
                                 Key = x.Key,
@@ -6000,7 +6000,7 @@ namespace Microting.eForm.Infrastructure
                                         translation.Text,
                                         translation.LanguageId
                                     })
-                                .Where(x => x.LanguageId == defaultLanguage.Id)
+                                .Where(x => x.LanguageId == language.Id)
                                 .Select(x => new KeyValuePair()
                                 {
                                     Key = x.Key,
@@ -6042,7 +6042,7 @@ namespace Microting.eForm.Infrastructure
                         //the actual DataItems
                         List<Data.Entities.Field> lstFields = db.Fields.Where(x => x.ParentFieldId == field.Id).ToList();
                         foreach (var subField in lstFields)
-                            await GetDataItem(lst, null, subField, defaultLanguage); //null, due to FieldGroup, CANT have fieldGroups under them
+                            await GetDataItem(lst, null, subField, language); //null, due to FieldGroup, CANT have fieldGroups under them
                         break;
 
                     default:

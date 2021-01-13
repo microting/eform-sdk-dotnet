@@ -1058,7 +1058,9 @@ namespace eFormCore
         /// Tries to retrieve the template meta data from the Microting DB
         /// </summary>
         /// <param name="templateId">Template MainElement's ID to be retrieved from the Microting local DB</param>
-        public async Task<Template_Dto> TemplateItemRead(int templateId, Language defaultLanguage)
+        /// <param name="timeZoneInfo"></param>
+        /// <param name="language"></param>
+        public async Task<Template_Dto> TemplateItemRead(int templateId, TimeZoneInfo timeZoneInfo, Language language)
         {
             string methodName = "Core.TemplateItemRead";
             try
@@ -1068,7 +1070,7 @@ namespace eFormCore
                     log.LogStandard(methodName, "called");
                     log.LogVariable(methodName, nameof(templateId), templateId);
 
-                    return await _sqlController.TemplateItemRead(templateId, defaultLanguage).ConfigureAwait(false);
+                    return await _sqlController.TemplateItemRead(templateId, timeZoneInfo, language).ConfigureAwait(false);
                 }
                 else
                     throw new Exception("Core is not running");

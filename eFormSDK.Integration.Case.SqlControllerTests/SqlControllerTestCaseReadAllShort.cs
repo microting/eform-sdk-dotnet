@@ -346,7 +346,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             await sut.TemplateDelete(cl1.Id);
 
-            Template_Dto clResult = await sut.TemplateItemRead(cl1.Id, language);
+            Template_Dto clResult = await sut.TemplateItemRead(cl1.Id, timeZoneInfo, language);
 
             // Assert
 
@@ -582,10 +582,10 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #endregion
             // Act
 
-            var match1 = await sut.TemplateItemRead(Template1.Id, language);
-            var match2 = await sut.TemplateItemRead(Template2.Id, language);
-            var match3 = await sut.TemplateItemRead(Template3.Id, language);
-            var match4 = await sut.TemplateItemRead(Template4.Id, language);
+            var match1 = await sut.TemplateItemRead(Template1.Id, timeZoneInfo, language);
+            var match2 = await sut.TemplateItemRead(Template2.Id, timeZoneInfo, language);
+            var match3 = await sut.TemplateItemRead(Template3.Id, timeZoneInfo, language);
+            var match4 = await sut.TemplateItemRead(Template4.Id, timeZoneInfo, language);
 
 
             // Assert

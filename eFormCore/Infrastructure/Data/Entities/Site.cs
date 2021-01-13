@@ -64,13 +64,13 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public static async Task AddLanguage(MicrotingDbContext dbContext)
         {
             List<Site> sites = await dbContext.Sites.ToListAsync();
-            Language defaultLanguage = await dbContext.Languages
+            Language language = await dbContext.Languages
                 .SingleAsync(x => x.Name == "Danish");
             foreach (Site site in sites)
             {
                 if (site.LanguageId == 0)
                 {
-                    site.LanguageId = defaultLanguage.Id;
+                    site.LanguageId = language.Id;
                     await site.Update(dbContext);
                 }
             }
