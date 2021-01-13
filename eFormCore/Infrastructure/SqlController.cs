@@ -172,7 +172,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public async Task<Template_Dto> TemplateItemRead(int templateId, TimeZoneInfo timeZoneInfo, Language language)
+        public async Task<Template_Dto> TemplateItemRead(int templateId, Language language)
         {
             string methodName = "SqlController.TemplateItemRead";
 
@@ -312,8 +312,8 @@ namespace Microting.eForm.Infrastructure
                 Template_Dto templateDto = new Template_Dto()
                 {
                     Id = checkList.Id,
-                    CreatedAt = TimeZoneInfo.ConvertTimeFromUtc((DateTime)checkList.CreatedAt, timeZoneInfo),
-                    UpdatedAt = TimeZoneInfo.ConvertTimeFromUtc((DateTime)checkList.UpdatedAt, timeZoneInfo),
+                    CreatedAt = checkList.CreatedAt,
+                    UpdatedAt = checkList.UpdatedAt,
                     DeployedSites = sites,
                     Description = checkListTranslation.Description,
                     DisplayIndex = checkList.DisplayIndex,
