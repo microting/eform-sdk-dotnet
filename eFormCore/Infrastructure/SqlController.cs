@@ -309,10 +309,39 @@ namespace Microting.eForm.Infrastructure
                 }
                 #endregion
 
-                Template_Dto templateDto = new Template_Dto(checkList.Id, checkList.CreatedAt, checkList.UpdatedAt,
-                    checkListTranslation.Text, checkListTranslation.Description, (int) checkList.Repeated, checkList.FolderName,
-                    checkList.WorkflowState, sites, hasCases, checkList.DisplayIndex, fd1, fd2, fd3, fd4, fd5, fd6,
-                    fd7, fd8, fd9, fd10, checkListTags, checkList.JasperExportEnabled, checkList.DocxExportEnabled, checkList.ExcelExportEnabled);
+                Template_Dto templateDto = new Template_Dto()
+                {
+                    Id = checkList.Id,
+                    CreatedAt = checkList.CreatedAt,
+                    UpdatedAt = checkList.UpdatedAt,
+                    DeployedSites = sites,
+                    Description = checkListTranslation.Description,
+                    DisplayIndex = checkList.DisplayIndex,
+                    DocxExportEnabled = checkList.DocxExportEnabled,
+                    ExcelExportEnabled = checkList.ExcelExportEnabled,
+                    JasperExportEnabled = checkList.JasperExportEnabled,
+                    Field1 = fd1,
+                    Field2 = fd2,
+                    Field3 = fd3,
+                    Field4 = fd4,
+                    Field5 = fd5,
+                    Field6 = fd6,
+                    Field7 = fd7,
+                    Field8 = fd8,
+                    Field9 = fd9,
+                    Field10 = fd10,
+                    Label = checkListTranslation.Text,
+                    Tags = checkListTags,
+                    HasCases = hasCases,
+                    Repeated = (int) checkList.Repeated,
+                    FolderName = checkList.FolderName,
+                    WorkflowState = checkList.WorkflowState,
+                    ReportH1 = checkList.ReportH1,
+                    ReportH2 = checkList.ReportH2,
+                    ReportH3 = checkList.ReportH3,
+                    ReportH4 = checkList.ReportH4,
+                    ReportH5 = checkList.ReportH5
+                };
                 return templateDto;
             }
             catch (Exception ex)
