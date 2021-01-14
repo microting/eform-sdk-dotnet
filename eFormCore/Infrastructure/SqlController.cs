@@ -5974,8 +5974,37 @@ namespace Microting.eForm.Infrastructure
                         break;
 
                     case Constants.Constants.FieldTypes.SaveButton:
+                        string defaultValue = field.DefaultValue;
+                        if (field.DefaultValue.Split("|").Length > 1)
+                        {
+                            if (language.LanguageCode == "da")
+                            {
+                                defaultValue = field.DefaultValue.Split("|")[0];
+                            }
+                            else
+                            {
+                                defaultValue = field.DefaultValue.Split("|")[1];
+                            }
+                        }
+                        if (field.DefaultValue.Split("|").Length > 2)
+                        {
+                            if (language.LanguageCode == "da")
+                            {
+                                defaultValue = field.DefaultValue.Split("|")[0];
+                            }
+                            else
+                            {
+                                if (language.LanguageCode == "en") {
+                                    defaultValue = field.DefaultValue.Split("|")[1];
+                                }
+                                else
+                                {
+                                    defaultValue = field.DefaultValue.Split("|")[2];
+                                }
+                            }
+                        }
                         lstDataItem.Add(new SaveButton(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
-                            field.DefaultValue));
+                            defaultValue));
                         break;
 
                     case Constants.Constants.FieldTypes.ShowPdf:
