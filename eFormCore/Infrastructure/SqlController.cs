@@ -5975,33 +5975,19 @@ namespace Microting.eForm.Infrastructure
 
                     case Constants.Constants.FieldTypes.SaveButton:
                         string defaultValue = field.DefaultValue;
-                        if (field.DefaultValue.Split("|").Length > 1)
+                        switch (field.DefaultValue.Split("|").Length)
                         {
-                            if (language.LanguageCode == "da")
-                            {
-                                defaultValue = field.DefaultValue.Split("|")[0];
-                            }
-                            else
-                            {
-                                defaultValue = field.DefaultValue.Split("|")[1];
-                            }
-                        }
-                        if (field.DefaultValue.Split("|").Length > 2)
-                        {
-                            if (language.LanguageCode == "da")
-                            {
-                                defaultValue = field.DefaultValue.Split("|")[0];
-                            }
-                            else
-                            {
-                                if (language.LanguageCode == "en") {
-                                    defaultValue = field.DefaultValue.Split("|")[1];
-                                }
-                                else
-                                {
-                                    defaultValue = field.DefaultValue.Split("|")[2];
-                                }
-                            }
+                            case 1:
+                                defaultValue = field.DefaultValue;
+                                break;
+                            case 2:
+                                defaultValue = language.LanguageCode == "da" ? field.DefaultValue.Split("|")[0] : field.DefaultValue.Split("|")[1];
+                                break;
+                            case 3:
+                                defaultValue = language.LanguageCode == "da" ? field.DefaultValue.Split("|")[0] :
+                                    language.LanguageCode == "en" ? field.DefaultValue.Split("|")[1] :
+                                    field.DefaultValue.Split("|")[2];
+                                break;
                         }
                         lstDataItem.Add(new SaveButton(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
                             defaultValue));
