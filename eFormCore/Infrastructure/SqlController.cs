@@ -5985,7 +5985,7 @@ namespace Microting.eForm.Infrastructure
                                 break;
                             case 3:
                                 defaultValue = language.LanguageCode == "da" ? field.DefaultValue.Split("|")[0] :
-                                    language.LanguageCode == "en" ? field.DefaultValue.Split("|")[1] :
+                                    language.LanguageCode == "en-US" ? field.DefaultValue.Split("|")[1] :
                                     field.DefaultValue.Split("|")[2];
                                 break;
                         }
