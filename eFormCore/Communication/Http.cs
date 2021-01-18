@@ -292,6 +292,10 @@ namespace Microting.eForm.Communication
             request.ContentLength = content.Length;
 
             string newUrl = await PostToServer(request, content);
+            if (string.IsNullOrEmpty(newUrl))
+            {
+                return false;
+            }
 
             return true;
         }
@@ -342,7 +346,7 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> EntitySelectGroupUpdate(int id, string name, string entityGroupMuId)
         {
-            JObject contentToServer = JObject.FromObject(new { model = new { name = name, api_uuid = id } });
+            JObject contentToServer = JObject.FromObject(new { model = new { name, api_uuid = id } });
 
             WebRequest request = WebRequest.Create(
                 $"{addressApi}/gwt/inspection_app/searchable_item_groups/{entityGroupMuId}?token={token}&protocol={protocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}");
@@ -421,26 +425,7 @@ namespace Microting.eForm.Communication
 			request.Method = "GET";
 
 			string responseXml = await PostToServer(request).ConfigureAwait(false);
-			if (responseXml.Contains("workflow_state\": \"created"))
-				return true;
-			else
-				return false;
-			//         string responseXml = PostToServerNoRedirect(request, content);
-
-			//if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
-			//{
-			//	WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect
-			//		+ "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-			//	request2.Method = "GET";
-			//	string responseXml2 = PostToServer(request2);
-
-			//	if (responseXml2.Contains("workflow_state\": \"created"))
-			//		return true;
-			//	else
-			//		return false;
-			//}
-			//else
-			//	throw new Exception("Unable to update EntitySelect, error was: " + responseXml);
+			return responseXml.Contains("workflow_state\": \"created");
 		}
 
         public async Task<bool> EntitySelectItemDelete(string entitySelectItemId)
@@ -450,33 +435,14 @@ namespace Microting.eForm.Communication
             request.Method = "DELETE";
             request.ContentType = "application/json; charset=utf-8";
 
-            //string responseXml = PostToServerGetRedirect(request).ConfigureAwait(false);
-
 			string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
 			request = WebRequest.Create($"{newUrl}?token={token}");
 			request.Method = "GET";
 
 			string responseXml = await PostToServer(request).ConfigureAwait(false);
-			if (responseXml.Contains("workflow_state\": \"removed"))
-				return true;
-			else
-				return false;
+			return responseXml.Contains("workflow_state\": \"removed");
 
-			//if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
-			//{
-			//    WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect +
-			//        "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-			//    request2.Method = "GET";
-			//    string responseXml2 = PostToServer(request2);
-
-			//    if (responseXml2.Contains("workflow_state\": \"removed"))
-			//        return true;
-			//    else
-			//        return false;
-			//}
-			//else
-			//    return false;
 		}
 		#endregion
 
@@ -523,7 +489,7 @@ namespace Microting.eForm.Communication
         #region public site
         public async Task<string> SiteCreate(string name)
         {
-            JObject contentToServer = JObject.FromObject(new { name = name });
+            JObject contentToServer = JObject.FromObject(new { name });
             WebRequest request = WebRequest.Create(
                 $"{addressBasic}/v1/sites?token={token}&model={contentToServer}&sdk_ver={dllVersion}");
             request.Method = "POST";
@@ -552,6 +518,11 @@ namespace Microting.eForm.Communication
             request.ContentLength = content.Length;
 
             string newUrl = await PostToServerGetRedirect(request, content);
+
+            if (string.IsNullOrEmpty(newUrl))
+            {
+                return false;
+            }
 
             return true;
         }
@@ -591,7 +562,7 @@ namespace Microting.eForm.Communication
         #region public Worker
         public async Task<string> WorkerCreate(string firstName, string lastName, string email)
         {
-            JObject contentToServer = JObject.FromObject(new { first_name = firstName, last_name = lastName, email = email });
+            JObject contentToServer = JObject.FromObject(new { first_name = firstName, last_name = lastName, email });
             WebRequest request = WebRequest.Create(
                 $"{addressBasic}/v1/users?token={token}&model={contentToServer}&sdk_ver={dllVersion}");
             request.Method = "POST";
@@ -621,6 +592,10 @@ namespace Microting.eForm.Communication
 
             string newUrl = await PostToServerGetRedirect(request, content);
 
+            if (string.IsNullOrEmpty(newUrl))
+            {
+                return false;
+            }
             return true;
         }
 
@@ -744,7 +719,7 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> FolderUpdate(int id, string name, string description, int? parentId)
         {
-            JObject contentToServer = JObject.FromObject(new { name = name, description = Uri.EscapeUriString(description), parent_id = parentId });
+            JObject contentToServer = JObject.FromObject(new { name, description = Uri.EscapeUriString(description), parent_id = parentId });
             WebRequest request = WebRequest.Create(
                 $"{addressBasic}/v1/folders/{id}?token={token}&model={contentToServer}&sdk_ver={dllVersion}");
             request.Method = "PUT";
@@ -1031,11 +1006,11 @@ namespace Microting.eForm.Communication
             DateTime start = DateTime.UtcNow;
             WriteDebugConsoleLogEntry("Http.PostToServer", $"Called at {start}");
             ServicePointManager.ServerCertificateValidationCallback = Validator;
-            Stream dataRequestStream = request.GetRequestStream();
-            dataRequestStream.Write(content, 0, content.Length);
+            Stream dataRequestStream = await request.GetRequestStreamAsync();
+            await dataRequestStream.WriteAsync(content, 0, content.Length);
             dataRequestStream.Close();
 
-            WebResponse response = request.GetResponse();
+            WebResponse response = await request.GetResponseAsync();
 
             Stream dataResponseStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(dataResponseStream);
@@ -1064,8 +1039,8 @@ namespace Microting.eForm.Communication
             // Hack for ignoring certificate validation.
             ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-            Stream dataRequestStream = request.GetRequestStream();
-            dataRequestStream.Write(content, 0, content.Length);
+            Stream dataRequestStream = await request.GetRequestStreamAsync();
+            await dataRequestStream.WriteAsync(content, 0, content.Length);
             dataRequestStream.Close();
 
             HttpWebRequest httpRequest = (HttpWebRequest)request;
@@ -1131,8 +1106,8 @@ namespace Microting.eForm.Communication
             // Hack for ignoring certificate validation.
             ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-            Stream dataRequestStream = request.GetRequestStream();
-            dataRequestStream.Write(content, 0, content.Length);
+            Stream dataRequestStream = await request.GetRequestStreamAsync();
+            await dataRequestStream.WriteAsync(content, 0, content.Length);
             dataRequestStream.Close();
 
             HttpWebRequest httpRequest = (HttpWebRequest)request;
@@ -1141,7 +1116,7 @@ namespace Microting.eForm.Communication
 
             HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
             Stream dataResponseStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataResponseStream);
+            StreamReader reader = new StreamReader(dataResponseStream ?? throw new InvalidOperationException());
             string responseFromServer = await reader.ReadToEndAsync();
 
             // Clean up the streams.
@@ -1166,9 +1141,9 @@ namespace Microting.eForm.Communication
 
             ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-            WebResponse response = request.GetResponse();
+            WebResponse response = await request.GetResponseAsync();
             Stream dataResponseStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataResponseStream);
+            StreamReader reader = new StreamReader(dataResponseStream ?? throw new InvalidOperationException());
             string responseFromServer = await reader.ReadToEndAsync();
 
             // Clean up the streams.
@@ -1199,7 +1174,7 @@ namespace Microting.eForm.Communication
 
             HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
             Stream dataResponseStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataResponseStream);
+            StreamReader reader = new StreamReader(dataResponseStream ?? throw new InvalidOperationException());
             string responseFromServer = await reader.ReadToEndAsync();
 
             // Clean up the streams.
