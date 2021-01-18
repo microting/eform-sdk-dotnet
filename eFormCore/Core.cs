@@ -41,6 +41,7 @@ using System.Threading.Tasks;
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
+using ICSharpCode.SharpZipLib.Zip;
 using ImageMagick;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm;
@@ -2191,7 +2192,7 @@ namespace eFormCore
             return _resultDocument;
         }
 
-        private async Task<string> DocxToPdf(int caseId, string jasperTemplate, string timeStamp, ReplyElement reply, CaseDto cDto, string customPathForUploadedData, string customXmlContent, string fileType, Language language)
+        private async Task<string> DocxToPdf(int caseId, string templateId, string timeStamp, ReplyElement reply, CaseDto cDto, string customPathForUploadedData, string customXmlContent, string fileType, Language language)
         {
 
             SortedDictionary<string, string> valuePairs = new SortedDictionary<string, string>();
@@ -2210,13 +2211,12 @@ namespace eFormCore
 
             // get field_values
             List<KeyValuePair<string, List<string>>> pictures = new List<KeyValuePair<string, List<string>>>();
-            List<KeyValuePair<string, string>> pictureGeotags = new List<KeyValuePair<string, string>>();
             List<KeyValuePair<string, string>> signatures = new List<KeyValuePair<string, string>>();
             List<int> caseIds = new List<int>();
             caseIds.Add(caseId);
             List<FieldValue> fieldValues = await _sqlController.FieldValueReadList(caseIds, language).ConfigureAwait(false);
 
-            List<FieldDto> allFields = await _sqlController.TemplateFieldReadAll(int.Parse(jasperTemplate)).ConfigureAwait(false);
+            List<FieldDto> allFields = await _sqlController.TemplateFieldReadAll(int.Parse(templateId)).ConfigureAwait(false);
             foreach (FieldDto field in allFields)
             {
                 valuePairs.Add($"F_{field.Id}", "");
@@ -2353,14 +2353,48 @@ namespace eFormCore
                 }
             }
 
-            string templateFile = Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "templates", jasperTemplate, "compact",
-                $"{jasperTemplate}.docx");
+            string templateFile = Path.Combine(Path.GetTempPath(), "templates", templateId, "compact",
+                $"{templateId}.docx");
 
             // Try to create the results directory first
-            Directory.CreateDirectory(Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "results"));
+            Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), "results"));
 
-            string resultDocument = Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "results",
+            string resultDocument = Path.Combine(Path.GetTempPath(), "results",
                 $"{timeStamp}_{caseId}.docx");
+
+            if (GetSdkSetting(Settings.s3Enabled).Result.ToLower() == "true")
+            {
+                try
+                {
+                    var objectResponse = await GetFileFromS3Storage($"{templateId}.docx");
+                    await using var fileStream = File.Create(resultDocument);
+                    await objectResponse.ResponseStream.CopyToAsync(fileStream);
+                }
+                catch
+                {
+                    try
+                    {
+                        var objectResponse = await GetFileFromS3Storage($"{templateId}_docx_compact.zip");
+                        string zipFileName = Path.Combine(Path.GetTempPath(), $"{templateId}.zip");
+                        await using var fileStream = File.Create(zipFileName);
+                        await objectResponse.ResponseStream.CopyToAsync(fileStream);
+                        fileStream.Close();
+                        var fastZip = new FastZip();
+                        // Will always overwrite if target filenames already exist
+                        string extractPath = Path.Combine(Path.GetTempPath(), "results");
+                        Directory.CreateDirectory(extractPath);
+                        fastZip.ExtractZip(zipFileName, extractPath, "");
+                        string extractedFile = Path.Combine(extractPath, "compact", $"{templateId}.docx");
+                        await PutFileToStorageSystem(extractedFile, $"{templateId}.docx");
+                        File.Move(extractedFile, resultDocument);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
+                }
+            }
 
             ReportHelper.SearchAndReplace(templateFile, valuePairs, resultDocument);
 
@@ -2371,15 +2405,15 @@ namespace eFormCore
 
             if (fileType == "pdf")
             {
-                string outputFolder = Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "results");
+                string outputFolder = Path.Combine(Path.GetTempPath(), "results");
 
                 ReportHelper.ConvertToPdf(resultDocument, outputFolder);
-                return Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "results",
+                return Path.Combine(Path.GetTempPath(), "results",
                     $"{timeStamp}_{caseId}.pdf");
             }
             else
             {
-                return Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "results",
+                return Path.Combine(Path.GetTempPath(), "results",
                     $"{timeStamp}_{caseId}.docx");
             }
 

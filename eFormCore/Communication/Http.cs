@@ -1006,11 +1006,11 @@ namespace Microting.eForm.Communication
             DateTime start = DateTime.UtcNow;
             WriteDebugConsoleLogEntry("Http.PostToServer", $"Called at {start}");
             ServicePointManager.ServerCertificateValidationCallback = Validator;
-            Stream dataRequestStream = await request.GetRequestStreamAsync();
+            Stream dataRequestStream = await request.GetRequestStreamAsync().ConfigureAwait(false);
             await dataRequestStream.WriteAsync(content, 0, content.Length);
             dataRequestStream.Close();
 
-            WebResponse response = await request.GetResponseAsync();
+            WebResponse response = await request.GetResponseAsync().ConfigureAwait(false);
 
             Stream dataResponseStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(dataResponseStream);
@@ -1039,8 +1039,8 @@ namespace Microting.eForm.Communication
             // Hack for ignoring certificate validation.
             ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-            Stream dataRequestStream = await request.GetRequestStreamAsync();
-            await dataRequestStream.WriteAsync(content, 0, content.Length);
+            Stream dataRequestStream = await request.GetRequestStreamAsync().ConfigureAwait(false);
+            await dataRequestStream.WriteAsync(content, 0, content.Length).ConfigureAwait(false);
             dataRequestStream.Close();
 
             HttpWebRequest httpRequest = (HttpWebRequest)request;
@@ -1081,7 +1081,7 @@ namespace Microting.eForm.Communication
             string newUrl = "";
             try
             {
-                response = (HttpWebResponse) await httpRequest.GetResponseAsync();
+                response = (HttpWebResponse) await httpRequest.GetResponseAsync().ConfigureAwait(false);
             }
             catch (WebException ex)
             {
@@ -1106,8 +1106,8 @@ namespace Microting.eForm.Communication
             // Hack for ignoring certificate validation.
             ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-            Stream dataRequestStream = await request.GetRequestStreamAsync();
-            await dataRequestStream.WriteAsync(content, 0, content.Length);
+            Stream dataRequestStream = await request.GetRequestStreamAsync().ConfigureAwait(false);
+            await dataRequestStream.WriteAsync(content, 0, content.Length).ConfigureAwait(false);
             dataRequestStream.Close();
 
             HttpWebRequest httpRequest = (HttpWebRequest)request;
@@ -1117,7 +1117,7 @@ namespace Microting.eForm.Communication
             HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
             Stream dataResponseStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(dataResponseStream ?? throw new InvalidOperationException());
-            string responseFromServer = await reader.ReadToEndAsync();
+            string responseFromServer = await reader.ReadToEndAsync().ConfigureAwait(false);
 
             // Clean up the streams.
             try
@@ -1141,10 +1141,10 @@ namespace Microting.eForm.Communication
 
             ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-            WebResponse response = await request.GetResponseAsync();
+            WebResponse response = await request.GetResponseAsync().ConfigureAwait(false);
             Stream dataResponseStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(dataResponseStream ?? throw new InvalidOperationException());
-            string responseFromServer = await reader.ReadToEndAsync();
+            string responseFromServer = await reader.ReadToEndAsync().ConfigureAwait(false);
 
             // Clean up the streams.
             try
@@ -1175,7 +1175,7 @@ namespace Microting.eForm.Communication
             HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
             Stream dataResponseStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(dataResponseStream ?? throw new InvalidOperationException());
-            string responseFromServer = await reader.ReadToEndAsync();
+            string responseFromServer = await reader.ReadToEndAsync().ConfigureAwait(false);
 
             // Clean up the streams.
             try
