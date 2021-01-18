@@ -1909,7 +1909,7 @@ namespace eFormCore
         /// <param name="cultureInfo"></param>
         /// <param name="timeZoneInfo"></param>
         public async Task<string> CasesToCsv(int templateId, DateTime? start, DateTime? end, string pathAndName,
-            string customPathForUploadedData, string decimalSeparator, string thousandSeparator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo)
+            string customPathForUploadedData, string decimalSeparator, string thousandSeparator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo, Language language)
         {
             string methodName = "Core.CasesToCsv";
             try
@@ -1923,7 +1923,7 @@ namespace eFormCore
                     log.LogVariable(methodName, nameof(pathAndName), pathAndName);
                     log.LogVariable(methodName, nameof(customPathForUploadedData), customPathForUploadedData);
 
-                    List<List<string>> dataSet = await GenerateDataSetFromCases(templateId, start, end, customPathForUploadedData, decimalSeparator, thousandSeparator, utcTime, cultureInfo, timeZoneInfo).ConfigureAwait(false);
+                    List<List<string>> dataSet = await GenerateDataSetFromCases(templateId, start, end, customPathForUploadedData, decimalSeparator, thousandSeparator, utcTime, cultureInfo, timeZoneInfo, language).ConfigureAwait(false);
 
                     if (dataSet == null)
                         return "";
@@ -1997,7 +1997,8 @@ namespace eFormCore
         {
             CultureInfo cultureInfo = new CultureInfo("de-DE");
             TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
-            return CasesToCsv(templateId, start, end, pathAndName, customPathForUploadedData, ".", "", false, cultureInfo, timeZoneInfo);
+            Language language = dbContextHelper.GetDbContext().Languages.Single(x => x.LanguageCode == "da");
+            return CasesToCsv(templateId, start, end, pathAndName, customPathForUploadedData, ".", "", false, cultureInfo, timeZoneInfo, language);
         }
 
         public async Task<string> CaseToJasperXml(CaseDto cDto, ReplyElement reply, int caseId, string timeStamp, string customPathForUploadedData, string customXMLContent)
@@ -4855,7 +4856,7 @@ namespace eFormCore
             throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + jsonStringResponse);
         }
 
-        public async Task<List<List<string>>> GenerateDataSetFromCases(int? checkListId, DateTime? start, DateTime? end, string customPathForUploadedData, string decimalSeparator, string thousandSaperator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo)
+        public async Task<List<List<string>>> GenerateDataSetFromCases(int? checkListId, DateTime? start, DateTime? end, string customPathForUploadedData, string decimalSeparator, string thousandSaperator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo, Language language)
         {
             await using MicrotingDbContext dbContext = dbContextHelper.GetDbContext();
             List<List<string>> dataSet = new List<List<string>>();
@@ -4911,8 +4912,10 @@ namespace eFormCore
                     colume6.Add(time.Year + "." + time.ToString("MMMM").AsSpan().Slice(0,3).ToString());
                     colume7.Add(time.Year.ToString());
                     colume8.Add(createdAt.ToString("yyyy.MM.dd HH:mm:ss"));
-                    colume9.Add(aCase.Site.Name);
-                    colume10.Add(aCase.Worker.full_name());
+                    Site site = await dbContext.Sites.SingleAsync(x => x.Id == aCase.SiteId);
+                    colume9.Add(site.Name);
+                    Worker worker = await dbContext.Workers.SingleAsync(x => x.Id == aCase.WorkerId);
+                    colume10.Add(worker.full_name());
                     colume11.Add(aCase.UnitId.ToString());
                     colume12.Add(checkList.Label);
                 }
@@ -4934,7 +4937,9 @@ namespace eFormCore
 
             #region fieldValue generate
             {
-                if (checkListId != null)
+                try
+                {
+if (checkListId != null)
                 {
 
                     List<string> lstReturn = new List<string>();
@@ -4946,7 +4951,7 @@ namespace eFormCore
                         int fieldId = int.Parse(t.SplitToList(set, 0, false));
                         string label = t.SplitToList(set, 1, false);
 
-                        List<List<KeyValuePair>> result = await _sqlController.FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData, decimalSeparator, thousandSaperator).ConfigureAwait(false);
+                        List<List<KeyValuePair>> result = await _sqlController.FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData, decimalSeparator, thousandSaperator, language).ConfigureAwait(false);
 
                         if (result.Count == 1)
                         {
@@ -4994,6 +4999,12 @@ namespace eFormCore
                         }
                     }
                 }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
             }
             #endregion
 

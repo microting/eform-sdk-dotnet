@@ -2026,12 +2026,12 @@ namespace Microting.eForm.Infrastructure
         }
 
         public async Task<List<List<KeyValuePair>>> FieldValueReadAllValues(int fieldId, List<int> caseIds,
-            string customPathForUploadedData)
+            string customPathForUploadedData, Language language)
         {
-            return await FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData, ".", "");
+            return await FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData, ".", "", language);
         }
 
-        public async Task<List<List<KeyValuePair>>> FieldValueReadAllValues(int fieldId, List<int> caseIds, string customPathForUploadedData, string decimalSeparator, string thousandSeparator)
+        public async Task<List<List<KeyValuePair>>> FieldValueReadAllValues(int fieldId, List<int> caseIds, string customPathForUploadedData, string decimalSeparator, string thousandSeparator, Language language)
         {
             string methodName = "SqlController.FieldValueReadAllValues";
             try
@@ -2130,22 +2130,59 @@ namespace Microting.eForm.Infrastructure
 
                     case Constants.Constants.FieldTypes.SingleSelect:
                     {
-                        var kVP = PairRead(matchField.KeyValuePairList);
+                        var singleSelectFieldOptions =
+                            await db.FieldOptions.Where(x => x.FieldId == matchField.Id)
+                                .Join(db.FieldOptionTranslations,
+                                    option => option.Id,
+                                    translation => translation.FieldOptionId,
+                                    (option, translation) => new
+                                    {
+                                        option.Key,
+                                        option.DisplayOrder,
+                                        translation.Text,
+                                        translation.LanguageId
+                                    })
+                                .Where(x => x.LanguageId == language.Id)
+                                .Select(x => new KeyValuePair()
+                                {
+                                    Key = x.Key,
+                                    Value = x.Text,
+                                    DisplayOrder = x.DisplayOrder
+                                }).ToListAsync();
+                        //var kVP = PairRead(matchField.KeyValuePairList);
 
                         foreach (FieldValue item in matches)
-                            replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), PairMatch(kVP, item.Value), false, ""));
+                            replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), PairMatch(singleSelectFieldOptions, item.Value), false, ""));
                     }
                         break;
 
                     case Constants.Constants.FieldTypes.MultiSelect:
                     {
-                        var kVP = PairRead(matchField.KeyValuePairList);
+                        var multiSelectFieldOptions =
+                            await db.FieldOptions.Where(x => x.FieldId == matchField.Id)
+                                .Join(db.FieldOptionTranslations,
+                                    option => option.Id,
+                                    translation => translation.FieldOptionId,
+                                    (option, translation) => new
+                                    {
+                                        option.Key,
+                                        option.DisplayOrder,
+                                        translation.Text,
+                                        translation.LanguageId
+                                    })
+                                .Where(x => x.LanguageId == language.Id)
+                                .Select(x => new KeyValuePair()
+                                {
+                                    Key = x.Key,
+                                    Value = x.Text,
+                                    DisplayOrder = x.DisplayOrder
+                                }).ToListAsync();
                         rtrnLst = new List<List<KeyValuePair>>();
                         List<KeyValuePair> replyLst = null;
                         int index = 0;
                         string valueExt = "";
 
-                        foreach (var key in kVP)
+                        foreach (var key in multiSelectFieldOptions)
                         {
                             replyLst = new List<KeyValuePair>();
                             index++;
