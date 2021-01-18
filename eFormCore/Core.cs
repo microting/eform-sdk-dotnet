@@ -4495,7 +4495,7 @@ namespace eFormCore
         #endregion
 
         #region fields
-        public async Task<Field> Advanced_FieldRead(int id)
+        public async Task<Field> Advanced_FieldRead(int id, Language language)
         {
             string methodName = "Core.Advanced_FieldRead";
             try
@@ -4505,7 +4505,7 @@ namespace eFormCore
                     log.LogStandard(methodName, "called");
                     log.LogVariable(methodName, nameof(id), id);
 
-                    return await _sqlController.FieldRead(id).ConfigureAwait(false);
+                    return await _sqlController.FieldRead(id, language).ConfigureAwait(false);
                 }
 
                 throw new Exception("Core is not running");
@@ -4939,52 +4939,28 @@ namespace eFormCore
             {
                 try
                 {
-if (checkListId != null)
-                {
-
-                    List<string> lstReturn = new List<string>();
-                    lstReturn = await GenerateDataSetFromCasesSubSet(lstReturn, checkListId, "");
-
-                    List<string> newRow;
-                    foreach (string set in lstReturn)
+                    if (checkListId != null)
                     {
-                        int fieldId = int.Parse(t.SplitToList(set, 0, false));
-                        string label = t.SplitToList(set, 1, false);
+                        List<string> lstReturn = new List<string>();
+                        lstReturn = await GenerateDataSetFromCasesSubSet(lstReturn, checkListId, "");
 
-                        List<List<KeyValuePair>> result = await _sqlController.FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData, decimalSeparator, thousandSaperator, language).ConfigureAwait(false);
+                        List<string> newRow;
+                        foreach (string set in lstReturn)
+                        {
+                            int fieldId = int.Parse(t.SplitToList(set, 0, false));
+                            string label = t.SplitToList(set, 1, false);
 
-                        if (result.Count == 1)
-                        {
-                            newRow = new List<string>();
-                            newRow.Insert(0, label);
-                            List<KeyValuePair> tempList = result[0];
-                            foreach (int i in caseIds)
-                            {
-                                string value = "";
-                                foreach (KeyValuePair KvP in tempList)
-                                {
-                                    if (KvP.Key == i.ToString())
-                                    {
-                                        value = KvP.Value;
-                                    }
-                                }
-                                newRow.Add(value);
-                            }
-                            dataSet.Add(newRow);
-                        }
-                        else
-                        {
-                            int option = 0;
-                            Field field = await _sqlController.FieldRead(fieldId).ConfigureAwait(false);
-                            foreach (var lst in result)
+                            List<List<KeyValuePair>> result = await _sqlController.FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData, decimalSeparator, thousandSaperator, language).ConfigureAwait(false);
+
+                            if (result.Count == 1)
                             {
                                 newRow = new List<string>();
-                                List<KeyValuePair> fieldKvP = field.KeyValuePairList;
-                                newRow.Insert(0, label + " | " + fieldKvP.ElementAt(option).Value);
+                                newRow.Insert(0, label);
+                                List<KeyValuePair> tempList = result[0];
                                 foreach (int i in caseIds)
                                 {
                                     string value = "";
-                                    foreach (KeyValuePair KvP in lst)
+                                    foreach (KeyValuePair KvP in tempList)
                                     {
                                         if (KvP.Key == i.ToString())
                                         {
@@ -4994,11 +4970,34 @@ if (checkListId != null)
                                     newRow.Add(value);
                                 }
                                 dataSet.Add(newRow);
-                                option++;
+                            }
+                            else
+                            {
+                                int option = 0;
+                                Field field = await _sqlController.FieldRead(fieldId, language).ConfigureAwait(false);
+                                foreach (var lst in result)
+                                {
+                                    newRow = new List<string>();
+                                    List<KeyValuePair> fieldKvP = field.KeyValuePairList;
+                                    newRow.Insert(0, label + " | " + fieldKvP.ElementAt(option).Value);
+                                    foreach (int i in caseIds)
+                                    {
+                                        string value = "";
+                                        foreach (KeyValuePair KvP in lst)
+                                        {
+                                            if (KvP.Key == i.ToString())
+                                            {
+                                                value = KvP.Value;
+                                            }
+                                        }
+                                        newRow.Add(value);
+                                    }
+                                    dataSet.Add(newRow);
+                                    option++;
+                                }
                             }
                         }
                     }
-                }
                 }
                 catch (Exception ex)
                 {

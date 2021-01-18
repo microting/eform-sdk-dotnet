@@ -41,6 +41,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
     {
         private SqlController sut;
         private TestHelpers testHelpers;
+        private Language language;
 
         public override async Task DoSetup()
         {
@@ -60,6 +61,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
             await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
+            language = DbContext.Languages.Single(x => x.Name == "Danish");
         }
 
         [Test]
@@ -131,7 +133,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Act
 
-            Microting.eForm.Infrastructure.Models.Field match = await sut.FieldRead(f1.Id);
+            Microting.eForm.Infrastructure.Models.Field match = await sut.FieldRead(f1.Id, language);
 
             // Assert
 

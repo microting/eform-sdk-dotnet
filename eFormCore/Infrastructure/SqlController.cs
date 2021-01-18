@@ -1465,8 +1465,18 @@ namespace Microting.eForm.Infrastructure
                 var aCase = await db.Cases.AsNoTracking().SingleAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
                 var mainCheckList = await db.CheckLists.SingleAsync(x => x.Id == aCase.CheckListId);
 
-                ReplyElement replyElement = new ReplyElement();
+                CheckListTranslation checkListTranslation =
+                    await db.CheckListTranslations.SingleOrDefaultAsync(x =>
+                        x.CheckListId == mainCheckList.Id && x.LanguageId == language.Id);
+                if (checkListTranslation == null)
+                {
+                    language = await db.Languages.SingleAsync(x => x.LanguageCode == "da");
+                    checkListTranslation =
+                        await db.CheckListTranslations.SingleOrDefaultAsync(x =>
+                            x.CheckListId == mainCheckList.Id && x.LanguageId == language.Id);
+                }
 
+                ReplyElement replyElement = new ReplyElement();
                 if (aCase.CheckListId != null) replyElement.Id = (int) aCase.CheckListId;
                 replyElement.CaseType = aCase.Type;
                 replyElement.Custom = aCase.Custom;
@@ -1475,7 +1485,7 @@ namespace Microting.eForm.Infrastructure
                 replyElement.ElementList = new List<Element>();
                 //replyElement.EndDate
                 replyElement.FastNavigation = t.Bool(mainCheckList.FastNavigation);
-                replyElement.Label = mainCheckList.Label;
+                replyElement.Label = checkListTranslation.Text;
                 //replyElement.Language
                 replyElement.ManualSync = t.Bool(mainCheckList.ManualSync);
                 replyElement.MultiApproval = t.Bool(mainCheckList.MultiApproval);
@@ -1519,10 +1529,14 @@ namespace Microting.eForm.Infrastructure
                     {
                         elementList.Add(await SubChecks(subList.Id, caseId, language));
                     }
+                    CheckListTranslation checkListTranslation =
+                        await db.CheckListTranslations.SingleAsync(x =>
+                            x.CheckListId == checkList.Id && x.LanguageId == language.Id);
+
                     GroupElement element = new GroupElement(checkList.Id,
-                        checkList.Label,
+                        checkListTranslation.Text,
                         (int)checkList.DisplayIndex,
-                        checkList.Description,
+                        checkListTranslation.Description,
                         t.Bool(checkList.ApprovalEnabled),
                         t.Bool(checkList.ReviewEnabled),
                         t.Bool(checkList.DoneButtonEnabled),
@@ -1550,9 +1564,13 @@ namespace Microting.eForm.Infrastructure
                             foreach (Data.Entities.Field subField in await db.Fields.Where(x =>
                                 x.ParentFieldId == field.CheckListId).OrderBy(x => x.DisplayIndex).ToListAsync())
                             {
-                                Field _field = DbFieldToField(subField);
+                                Field _field = await DbFieldToField(subField, language);
+                                FieldTranslation fieldTranslation = await db.FieldTranslations.SingleAsync(x =>
+                                    x.FieldId == _field.Id && x.LanguageId == language.Id);
 
                                 _field.FieldValues = new List<Models.FieldValue>();
+                                _field.Label = fieldTranslation.Text;
+                                _field.Description = new CDataValue {InderValue = fieldTranslation.Description};
                                 foreach (FieldValue fieldValue in await db.FieldValues.Where(x =>
                                     x.FieldId == subField.Id && x.CaseId == caseId).ToListAsync())
                                 {
@@ -1562,13 +1580,16 @@ namespace Microting.eForm.Infrastructure
                                 dataItemSubList.Add(_field);
                             }
 
+                            FieldTranslation fieldTranslationFc = await db.FieldTranslations.SingleAsync(x =>
+                                x.FieldId == field.Id && x.LanguageId == language.Id);
+
                             FieldContainer fC = new FieldContainer()
                             {
                                 Id = field.Id,
-                                Label = field.Label,
+                                Label = fieldTranslationFc.Text,
                                 Description = new CDataValue()
                                 {
-                                    InderValue = field.Description
+                                    InderValue = fieldTranslationFc.Description
                                 },
                                 Color = field.Color,
                                 DisplayOrder = (int)field.DisplayIndex,
@@ -1581,8 +1602,14 @@ namespace Microting.eForm.Infrastructure
                         }
                         else
                         {
-                            Field _field = DbFieldToField(field);
+                            Field _field = await DbFieldToField(field, language);
+
+                            FieldTranslation fieldTranslation = await db.FieldTranslations.SingleAsync(x =>
+                                x.FieldId == _field.Id && x.LanguageId == language.Id);
                             _field.FieldValues = new List<Models.FieldValue>();
+
+                            _field.Label = fieldTranslation.Text;
+                            _field.Description = new CDataValue {InderValue = fieldTranslation.Description};
                             foreach (FieldValue fieldValue in await db.FieldValues.Where(x =>
                                 x.FieldId == field.Id && x.CaseId == caseId).ToListAsync())
                             {
@@ -1592,14 +1619,18 @@ namespace Microting.eForm.Infrastructure
                             dataItemList.Add(_field);
                         }
                     }
+
+                    CheckListTranslation checkListTranslation =
+                        await db.CheckListTranslations.SingleAsync(x =>
+                            x.CheckListId == checkList.Id && x.LanguageId == language.Id);
                     DataElement dataElement = new DataElement()
                     {
                         Id = checkList.Id,
-                        Label = checkList.Label,
+                        Label = checkListTranslation.Text,
                         DisplayOrder = (int)checkList.DisplayIndex,
                         Description = new CDataValue()
                         {
-                            InderValue = checkList.Description
+                            InderValue = checkListTranslation.Description
                         },
                         ApprovalEnabled = t.Bool(checkList.ApprovalEnabled),
                         ReviewEnabled = t.Bool(checkList.ReviewEnabled),
@@ -1651,7 +1682,7 @@ namespace Microting.eForm.Infrastructure
             return await db.CheckLists.SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        private Field DbFieldToField(Data.Entities.Field dbField)
+        private async Task<Field> DbFieldToField(Data.Entities.Field dbField, Language language)
         {
             using var db = GetContext();
             Field field = new Field()
@@ -1668,18 +1699,56 @@ namespace Microting.eForm.Infrastructure
 
             if (field.FieldType == "SingleSelect")
             {
-                field.KeyValuePairList = PairRead(dbField.KeyValuePairList);
+                var singleSelectFieldOptions =
+                    await db.FieldOptions.Where(x => x.FieldId == field.Id)
+                        .Join(db.FieldOptionTranslations,
+                            option => option.Id,
+                            translation => translation.FieldOptionId,
+                            (option, translation) => new
+                            {
+                                option.Key,
+                                option.DisplayOrder,
+                                translation.Text,
+                                translation.LanguageId
+                            })
+                        .Where(x => x.LanguageId == language.Id)
+                        .Select(x => new KeyValuePair()
+                        {
+                            Key = x.Key,
+                            Value = x.Text,
+                            DisplayOrder = x.DisplayOrder
+                        }).ToListAsync();
+                field.KeyValuePairList = singleSelectFieldOptions;
             }
 
             if (field.FieldType == "MultiSelect")
             {
-                field.KeyValuePairList = PairRead(dbField.KeyValuePairList);
+                var multiSelectFieldOptions =
+                    await db.FieldOptions.Where(x => x.FieldId == field.Id)
+                        .Join(db.FieldOptionTranslations,
+                            option => option.Id,
+                            translation => translation.FieldOptionId,
+                            (option, translation) => new
+                            {
+                                option.Key,
+                                option.DisplayOrder,
+                                translation.Text,
+                                translation.LanguageId
+                            })
+                        .Where(x => x.LanguageId == language.Id)
+                        .Select(x => new KeyValuePair()
+                        {
+                            Key = x.Key,
+                            Value = x.Text,
+                            DisplayOrder = x.DisplayOrder
+                        }).ToListAsync();
+                field.KeyValuePairList = multiSelectFieldOptions;
             }
 
             return field;
         }
 
-        public async Task<Field> FieldRead(int id)
+        public async Task<Field> FieldRead(int id, Language language)
         {
 
             string methodName = "SqlController.FieldRead";
@@ -1688,7 +1757,7 @@ namespace Microting.eForm.Infrastructure
                 await using var db = GetContext();
                 Data.Entities.Field dbField = await db.Fields.SingleOrDefaultAsync(x => x.Id == id);
 
-                Field field = DbFieldToField(dbField);
+                Field field = await DbFieldToField(dbField, language);
                 return field;
             }
             catch (Exception ex)

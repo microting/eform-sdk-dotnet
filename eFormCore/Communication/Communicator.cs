@@ -386,7 +386,7 @@ namespace Microting.eForm.Communication
         }
         #endregion
 
-        #region public unit      
+        #region public unit
         public Task<int> UnitRequestOtp(int microtingUid)
         {
             log.LogEverything("Communicator.UnitRequestOtp", "called");
@@ -451,10 +451,10 @@ namespace Microting.eForm.Communication
             return http.UnitMove(unitMicrotingUid, siteMicrotingUid);
 
         }
-        
+
         #endregion
 
-        #region public organization      
+        #region public organization
         public async Task<OrganizationDto> OrganizationLoadAllFromRemote(string token)
         {
             log.LogEverything("Communicator.OrganizationLoadAllFromRemote", "called");
@@ -467,7 +467,7 @@ namespace Microting.eForm.Communication
             {
                 specialHttp = new Http(token, "https://basic.microting.com", "https://srv05.microting.com", "000", "", "https://speechtotext.microting.com");
             }
-            
+
 
             JToken orgResult = JRaw.Parse(await specialHttp.OrganizationLoadAllFromRemote());
 
@@ -487,7 +487,7 @@ namespace Microting.eForm.Communication
         }
 
         #endregion
-        
+
         #region folder
 
         public async Task<List<FolderDto>> FolderLoadAllFromRemote()
@@ -495,7 +495,7 @@ namespace Microting.eForm.Communication
             log.LogEverything("Communicator.FolderLoadAllFromRemote", "called");
 
             string rawData = await http.FolderLoadAllFromRemote().ConfigureAwait(false);
-            
+
             List<FolderDto> list = new List<FolderDto>();
             if (!string.IsNullOrEmpty(rawData))
             {
@@ -511,24 +511,24 @@ namespace Microting.eForm.Communication
                     {
                         parentId = int.Parse(item["parent_id"].ToString());
                     } catch {}
-                
-                
+
+
                     FolderDto folderDto = new FolderDto(null, name, description, parentId, null, null, microtingUUID);
-                
+
                     list.Add(folderDto);
                 }
-            }            
+            }
 
             return list;
         }
-        
+
         public async Task<int> FolderCreate(string name, string description, int? parentId)
         {
             var parsedData = JRaw.Parse(await http.FolderCreate(name, description, parentId).ConfigureAwait(false));
 
-            int microtingUUID  = int.Parse(parsedData["id"].ToString());
+            int microtingUuid  = int.Parse(parsedData["id"].ToString());
 
-            return microtingUUID;
+            return microtingUuid;
         }
 
         public Task FolderUpdate(int id, string name, string description, int? parentId)
@@ -545,12 +545,12 @@ namespace Microting.eForm.Communication
             {
                 return true;
             }
-            
+
             return false;
         }
-        
+
         #endregion
-        
+
         #endregion
 
         #region speech2text
@@ -833,7 +833,7 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region InSight
-        
+
         #region SurveyConfiguration
 
         public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
@@ -876,10 +876,10 @@ namespace Microting.eForm.Communication
             {
                 throw new Exception("Communicator.GetSurveyConfiguration" + " failed", ex);
             }
-        } 
-        
+        }
+
         #endregion
-        
+
         #region QuestionSet
 
         public async Task<string> GetAllQuestionSets()
@@ -909,11 +909,11 @@ namespace Microting.eForm.Communication
                 throw new Exception("Communicator.GetQuestionSet" + " failed", ex);
             }
         }
-        
+
         #endregion
-        
+
         #region Answer
-        
+
         public async Task<string> GetLastAnswer(int questionSetId, int lastAnswerId)
         {
             log.LogEverything("Communicator.GetLastAnswer", "called");
@@ -927,11 +927,11 @@ namespace Microting.eForm.Communication
                 throw new Exception("Communicator.GetLastAnswer" + " failed", ex);
             }
         }
-        
+
         #endregion
-        
+
         #endregion
-        
+
         #region remove unwanted/uneeded methods from finished DLL
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override bool Equals(object obj)

@@ -272,11 +272,11 @@ namespace eFormSDK.Integration.SqlControllerTests
             CDataValue f4desc = (CDataValue)_f4.Description;
             CDataValue f5desc = (CDataValue)_f5.Description;
 
-            Assert.AreEqual(f1.Description, f1desc.InderValue);
-            Assert.AreEqual(f2.Description, f2desc.InderValue);
-            Assert.AreEqual(f3.Description, f3desc.InderValue);
-            Assert.AreEqual(f4.Description, f4desc.InderValue);
-            Assert.AreEqual(f5.Description, f5desc.InderValue);
+            Assert.AreEqual("Comment field description", f1desc.InderValue);
+            Assert.AreEqual("showPDf Description", f2desc.InderValue);
+            Assert.AreEqual("Number Field Description", f3desc.InderValue);
+            Assert.AreEqual("date Description", f4desc.InderValue);
+            Assert.AreEqual("picture Description", f5desc.InderValue);
             #endregion
 
             #region Displayindex
@@ -331,11 +331,11 @@ namespace eFormSDK.Integration.SqlControllerTests
             #endregion
 
             #region Label
-            Assert.AreEqual(f1.Label, _f1.Label);
-            Assert.AreEqual(f2.Label, _f2.Label);
-            Assert.AreEqual(f3.Label, _f3.Label);
-            Assert.AreEqual(f4.Label, _f4.Label);
-            Assert.AreEqual(f5.Label, _f5.Label);
+            Assert.AreEqual("Comment field", _f1.Label);
+            Assert.AreEqual("ShowPdf", _f2.Label);
+            Assert.AreEqual("Numberfield", _f3.Label);
+            Assert.AreEqual("Date", _f4.Label);
+            Assert.AreEqual("Picture", _f5.Label);
             #endregion
 
             #region Mandatory
