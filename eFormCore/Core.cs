@@ -1093,6 +1093,8 @@ namespace eFormCore
         /// Tries to retrieve all templates meta data from the Microting DB
         /// </summary>
         /// <param name="includeRemoved">Filters list to only show all active or all including removed</param>
+        /// <param name="timeZoneInfo"></param>
+        /// <param name="language"></param>
         public async Task<List<Template_Dto>> TemplateItemReadAll(bool includeRemoved, TimeZoneInfo timeZoneInfo, Language language)
         {
             string methodName = "Core.TemplateItemReadAll";
@@ -1180,6 +1182,7 @@ namespace eFormCore
         /// <param name="mainElement">eForm to be deployed</param>
         /// <param name="caseUId">Optional own id</param>
         /// <param name="siteUid">API id of the site to deploy the eForm at</param>
+        /// <param name="folderId"></param>
         /// <returns>Microting API ID</returns>
         public async Task<int?> CaseCreate(MainElement mainElement, string caseUId, int siteUid, int? folderId)
         {
@@ -1203,7 +1206,9 @@ namespace eFormCore
         /// <param name="mainElement">The templat MainElement the case(s) will be based on</param>
         /// <param name="caseUId">NEEDS TO BE UNIQUE IF ASSIGNED. The unique identifier that you can assign yourself to the set of case(s). If used (not blank or null), the cases are connected. Meaning that if one is completed, all in the set is retracted. If you wish to use caseUId and not have the cases connected, use this method multiple times, each with a unique caseUId</param>
         /// <param name="siteIds">List of siteIds that case(s) will be sent to</param>
+        /// <param name="siteUids"></param>
         /// <param name="custom">Custom extended parameter</param>
+        /// <param name="folderId"></param>
         public async Task<List<int>> CaseCreate(MainElement mainElement, string caseUId, List<int> siteUids, string custom, int? folderId)
         {
             string methodName = "Core.CaseCreate";
@@ -1300,6 +1305,7 @@ namespace eFormCore
         /// </summary>
         /// <param name="microtingUId">Microting ID of the eForm case</param>
         /// <param name="checkUId">If left empty, "0" or NULL it will try to retrieve the first check. Alternative is stating the Id of the specific check wanted to retrieve</param>
+        /// <param name="language"></param>
         public async Task<ReplyElement> CaseRead(int microtingUId, int checkUId, Language language)
         {
             string methodName = "Core.CaseRead";
@@ -1480,6 +1486,7 @@ namespace eFormCore
         /// <summary>
         /// Tries to set the resultats of a case to new values
         /// </summary>
+        /// <param name="caseId"></param>
         /// <param name="newFieldValuePairLst">List of '[fieldValueId]|[new value]'</param>
         /// <param name="newCheckListValuePairLst">List of '[checkListValueId]|[new status]'</param>
         public async Task<bool> CaseUpdate(int caseId, List<string> newFieldValuePairLst, List<string> newCheckListValuePairLst)
@@ -1993,6 +2000,7 @@ namespace eFormCore
         /// <param name="start">Only cases from after this time limit. Null will remove this limit</param>
         /// <param name="end">Only cases from before this time limit. Null will remove this limit</param>
         /// <param name="pathAndName">Location where fil is to be placed, along with fil name. No extension needed. Relative or absolut</param>
+        /// <param name="customPathForUploadedData"></param>
         public Task<string> CasesToCsv(int templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
         {
             CultureInfo cultureInfo = new CultureInfo("de-DE");
@@ -2135,11 +2143,11 @@ namespace eFormCore
                 webClient.DownloadFile("https://github.com/microting/JasperExporter/releases/download/stable/JasperExporter.jar", localJasperExporter);
             }
 
-            string _templateFile = Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "templates", jasperTemplate, "compact",
+            string templateFile = Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "templates", jasperTemplate, "compact",
                 $"{jasperTemplate}.jrxml");
-            if (!File.Exists(_templateFile))
+            if (!File.Exists(templateFile))
             {
-                throw new FileNotFoundException($"jrxml template was not found at {_templateFile}");
+                throw new FileNotFoundException($"jrxml template was not found at {templateFile}");
             }
             string _dataSourceXML = Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "results",
                 $"{timeStamp}_{caseId}.xml");
@@ -2152,7 +2160,7 @@ namespace eFormCore
                 $"{timeStamp}_{caseId}.pdf");
 
             string command =
-                $"-d64 -Xms512m -Xmx2g -Dfile.encoding=UTF-8 -jar {localJasperExporter} -template=\"{_templateFile}\" -type=\"pdf\" -uri=\"{_dataSourceXML}\" -outputFile=\"{_resultDocument}\"";
+                $"-d64 -Xms512m -Xmx2g -Dfile.encoding=UTF-8 -jar {localJasperExporter} -template=\"{templateFile}\" -type=\"pdf\" -uri=\"{_dataSourceXML}\" -outputFile=\"{_resultDocument}\"";
 
             log.LogVariable(methodName, nameof(command), command);
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -2668,6 +2676,7 @@ namespace eFormCore
         /// </summary>
         /// <param name="entityType">Entity type, either "EntitySearch" or "EntitySelect"</param>
         /// <param name="name">Templat MainElement's ID to be retrieved from the Microting local DB</param>
+        /// <param name="description"></param>
         public async Task<Microting.eForm.Infrastructure.Models.EntityGroup> EntityGroupCreate(string entityType, string name, string description)
         {
             string methodName = "Core.EntityGroupCreate";
@@ -2677,9 +2686,9 @@ namespace eFormCore
                 {
                     Microting.eForm.Infrastructure.Models.EntityGroup entityGroup = await _sqlController.EntityGroupCreate(name, entityType, description).ConfigureAwait(false);
 
-                    string entityGroupMUId = await _communicator.EntityGroupCreate(entityType, name, entityGroup.Id.ToString()).ConfigureAwait(false);
+                    string entityGroupMuId = await _communicator.EntityGroupCreate(entityType, name, entityGroup.Id.ToString()).ConfigureAwait(false);
 
-                    bool isCreated = await _sqlController.EntityGroupUpdate(entityGroup.Id, entityGroupMUId).ConfigureAwait(false);
+                    bool isCreated = await _sqlController.EntityGroupUpdate(entityGroup.Id, entityGroupMuId).ConfigureAwait(false);
 
                     if (isCreated)
                         return new Microting.eForm.Infrastructure.Models.EntityGroup()
@@ -2688,10 +2697,10 @@ namespace eFormCore
                             Name = entityGroup.Name,
                             Type = entityGroup.Type,
                             EntityGroupItemLst = new List<Microting.eForm.Infrastructure.Models.EntityItem>(),
-                            MicrotingUUID = entityGroupMUId,
+                            MicrotingUUID = entityGroupMuId,
                             Description = entityGroup.Description
                         };
-                    await _sqlController.EntityGroupDelete(entityGroupMUId).ConfigureAwait(false);
+                    await _sqlController.EntityGroupDelete(entityGroupMuId).ConfigureAwait(false);
                     throw new Exception("EntityListCreate failed, due to list not created correct");
                 }
 
@@ -2784,8 +2793,8 @@ namespace eFormCore
         /// <summary>
         /// Deletes an EntityGroup, both its items should be deleted before using
         /// </summary>
-        /// <param name="entityGroupMUId">The unique microting id of the EntityGroup</param>
-        public async Task<bool> EntityGroupDelete(string entityGroupMUId)
+        /// <param name="entityGroupMuId">The unique microting id of the EntityGroup</param>
+        public async Task<bool> EntityGroupDelete(string entityGroupMuId)
         {
             string methodName = "Core.EntityGroupDelete";
             try
@@ -2795,9 +2804,9 @@ namespace eFormCore
                     while (_updateIsRunningEntities)
                         Thread.Sleep(200);
 
-                    Microting.eForm.Infrastructure.Models.EntityGroup entityGroup = await _sqlController.EntityGroupRead(entityGroupMUId).ConfigureAwait(false);
-                    await _communicator.EntityGroupDelete(entityGroup.Type, entityGroupMUId).ConfigureAwait(false);
-                    string type = await _sqlController.EntityGroupDelete(entityGroupMUId).ConfigureAwait(false);
+                    Microting.eForm.Infrastructure.Models.EntityGroup entityGroup = await _sqlController.EntityGroupRead(entityGroupMuId).ConfigureAwait(false);
+                    await _communicator.EntityGroupDelete(entityGroup.Type, entityGroupMuId).ConfigureAwait(false);
+                    string type = await _sqlController.EntityGroupDelete(entityGroupMuId).ConfigureAwait(false);
                     return true;
                 }
                 throw new Exception("Core is not running");
@@ -2811,24 +2820,24 @@ namespace eFormCore
 
         #region EntityItem
 
-        public Task<Microting.eForm.Infrastructure.Models.EntityItem> EntitySearchItemCreate(int entitItemGroupId, string name, string description, string ownUUID) {
-            return EntityItemCreate(entitItemGroupId, name, description, ownUUID, 0);
+        public Task<Microting.eForm.Infrastructure.Models.EntityItem> EntitySearchItemCreate(int entitItemGroupId, string name, string description, string ownUuid) {
+            return EntityItemCreate(entitItemGroupId, name, description, ownUuid, 0);
         }
 
-        public Task<Microting.eForm.Infrastructure.Models.EntityItem> EntitySelectItemCreate(int entitItemGroupId, string name, int displayIndex, string ownUUID) {
-            return EntityItemCreate(entitItemGroupId, name, "", ownUUID, displayIndex);
+        public Task<Microting.eForm.Infrastructure.Models.EntityItem> EntitySelectItemCreate(int entitItemGroupId, string name, int displayIndex, string ownUuid) {
+            return EntityItemCreate(entitItemGroupId, name, "", ownUuid, displayIndex);
         }
 
-        private async Task<Microting.eForm.Infrastructure.Models.EntityItem> EntityItemCreate(int entitItemGroupId, string name, string description, string ownUUID, int displayIndex)
+        private async Task<Microting.eForm.Infrastructure.Models.EntityItem> EntityItemCreate(int entitItemGroupId, string name, string description, string ownUuid, int displayIndex)
         {
             Microting.eForm.Infrastructure.Models.EntityGroup eg = await _sqlController.EntityGroupRead(entitItemGroupId).ConfigureAwait(false);
             Microting.eForm.Infrastructure.Models.EntityItem et = await _sqlController.EntityItemRead(entitItemGroupId, name, description).ConfigureAwait(false);
             if (et == null) {
                 string microtingUId;
                 if (eg.Type == Constants.FieldTypes.EntitySearch) {
-                    microtingUId = await _communicator.EntitySearchItemCreate(eg.MicrotingUUID, name, description, ownUUID).ConfigureAwait(false);
+                    microtingUId = await _communicator.EntitySearchItemCreate(eg.MicrotingUUID, name, description, ownUuid).ConfigureAwait(false);
                 } else {
-                    microtingUId = await _communicator.EntitySelectItemCreate(eg.MicrotingUUID, name, displayIndex, ownUUID).ConfigureAwait(false);
+                    microtingUId = await _communicator.EntitySelectItemCreate(eg.MicrotingUUID, name, displayIndex, ownUuid).ConfigureAwait(false);
                 }
 
                 if (microtingUId != null)
@@ -2837,7 +2846,7 @@ namespace eFormCore
                     {
                         Name = name,
                         Description = description,
-                        EntityItemUId = ownUUID,
+                        EntityItemUId = ownUuid,
                         WorkflowState = Constants.WorkflowStates.Created,
                         MicrotingUUID = microtingUId,
                         DisplayIndex = displayIndex
@@ -2856,7 +2865,7 @@ namespace eFormCore
             return et;
         }
 
-        public async Task EntityItemUpdate(int id, string name, string description, string ownUUID, int displayIndex)
+        public async Task EntityItemUpdate(int id, string name, string description, string ownUuid, int displayIndex)
         {
             await using var dbContext = dbContextHelper.GetDbContext();
             EntityItem et = await dbContext.EntityItems.SingleOrDefaultAsync(x => x.Id == id);
@@ -2865,7 +2874,7 @@ namespace eFormCore
             }
 
             if (et.Name != name || et.Description != description || et.DisplayIndex != displayIndex ||
-                et.EntityItemUid != ownUUID)
+                et.EntityItemUid != ownUuid)
             {
                 EntityGroup eg =
                     await dbContext.EntityGroups.SingleOrDefaultAsync(x =>
@@ -2875,19 +2884,19 @@ namespace eFormCore
                 {
                     result = await _communicator
                         .EntitySearchItemUpdate(eg.MicrotingUid, et.MicrotingUid,
-                            name, description, ownUUID)
+                            name, description, ownUuid)
                         .ConfigureAwait(false);
                 } else {
                     result = await _communicator
                         .EntitySelectItemUpdate(eg.MicrotingUid, et.MicrotingUid,
-                            name, displayIndex, ownUUID)
+                            name, displayIndex, ownUuid)
                         .ConfigureAwait(false);
                 }
                 if (result) {
                     et.DisplayIndex = displayIndex;
                     et.Name = name;
                     et.Description = description;
-                    et.EntityItemUid = ownUUID;
+                    et.EntityItemUid = ownUuid;
                     await et.Update(dbContext);
                 } else {
                     throw new Exception("Unable to update entityItem with id " + id.ToString());
@@ -3027,33 +3036,7 @@ namespace eFormCore
             }
         }
 
-        // public async Task FolderCreate(string name, string description, int? parent_id)
-        // {
-        //     string methodName = "Core.FolderCreate";
-        //     try
-        //     {
-        //         if (Running())
-        //         {
-        //             int apiParentId = 0;
-        //             if (parent_id != null)
-        //             {
-        //                 apiParentId = (int)FolderRead((int) parent_id).GetAwaiter().GetResult().MicrotingUId;
-        //             }
-        //             int id = await _communicator.FolderCreate(name, description, apiParentId).ConfigureAwait(false);
-        //             int result = await _sqlController.FolderCreate(name, description, parent_id, id).ConfigureAwait(false);
-        //             return;
-        //
-        //         }
-        //         throw new Exception("Core is not running");
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         log.LogException(methodName, "FolderCreate failed", ex);
-        //         throw new Exception("FolderCreate failed", ex);
-        //     }
-        // }
-
-        public async Task FolderUpdate(int id, string name, string description, int? parent_id)
+        public async Task FolderUpdate(int id, string name, string description, int? parentId)
         {
             string methodName = "Core.FolderUpdate";
             try
@@ -3062,12 +3045,12 @@ namespace eFormCore
                 {
                     FolderDto folder = await FolderRead(id).ConfigureAwait(false);
                     int apiParentId = 0;
-                    if (parent_id != null)
+                    if (parentId != null)
                     {
-                        apiParentId = (int)FolderRead((int) parent_id).GetAwaiter().GetResult().MicrotingUId;
+                        apiParentId = (int)FolderRead((int) parentId).GetAwaiter().GetResult().MicrotingUId;
                     }
                     await _communicator.FolderUpdate((int)folder.MicrotingUId, name, description, apiParentId).ConfigureAwait(false);
-                    await _sqlController.FolderUpdate(id, name, description, parent_id).ConfigureAwait(false);
+                    await _sqlController.FolderUpdate(id, name, description, parentId).ConfigureAwait(false);
                     return;
                 }
                 throw new Exception("Core is not running");
@@ -3154,8 +3137,6 @@ namespace eFormCore
                 throw new Exception("failed", ex);
             }
         }
-
-
 
         public async Task<bool> TagDelete(int tagId)
         {
@@ -3382,35 +3363,40 @@ namespace eFormCore
 
             JToken parsedQuestions = innerParsedData.GetValue("Questions");
             bool removed = false;
-            foreach (JToken child in parsedQuestions.Children())
-            {
-                var question = JsonConvert.DeserializeObject<Question>(child.ToString(), jsonSerializerSettings);
-                removed = question.WorkflowState == Constants.WorkflowStates.Removed;
-                log.LogStandard("Core.GetAllQuestionSets", $"Parsing question on thread {threadNumber} {question.MicrotingUid}");
-                if (!await db.Questions.AnyAsync(x => x.MicrotingUid == question.MicrotingUid).ConfigureAwait(false))
+            if (parsedQuestions != null)
+                foreach (JToken child in parsedQuestions.Children())
                 {
-                    question.QuestionSetId = questionSetId;
-                    await question.Create(db).ConfigureAwait(false);
-                }
-                else
-                {
-                    question = await db.Questions.SingleAsync(x => x.MicrotingUid == question.MicrotingUid);
-                    question.QuestionIndex = int.Parse(child["QuestionIndex"].ToString());
-                    question.BackButtonEnabled = child["BackButtonEnabled"].ToString() == "true";
-                    question.Image = child["Image"].ToString() == "true";
-                    question.ImagePosition = child["ImagePosition"].ToString();
-                    question.MaxDuration = int.Parse(child["MaxDuration"].ToString());
-                    var bla = child["Maximum"].ToString();
-                    question.Maximum = string.IsNullOrEmpty(child["Maximum"].ToString()) ? 0 : int.Parse(child["Maximum"].ToString());
-                    question.ValidDisplay = child["ValidDisplay"].ToString() == "true";
-                    await question.Update(db).ConfigureAwait(false);
-                }
+                    var question = JsonConvert.DeserializeObject<Question>(child.ToString(), jsonSerializerSettings);
+                    removed = question.WorkflowState == Constants.WorkflowStates.Removed;
+                    log.LogStandard("Core.GetAllQuestionSets",
+                        $"Parsing question on thread {threadNumber} {question.MicrotingUid}");
+                    if (!await db.Questions.AnyAsync(x => x.MicrotingUid == question.MicrotingUid)
+                        .ConfigureAwait(false))
+                    {
+                        question.QuestionSetId = questionSetId;
+                        await question.Create(db).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        question = await db.Questions.SingleAsync(x => x.MicrotingUid == question.MicrotingUid);
+                        question.QuestionIndex = int.Parse(child["QuestionIndex"].ToString());
+                        question.BackButtonEnabled = child["BackButtonEnabled"].ToString() == "true";
+                        question.Image = child["Image"].ToString() == "true";
+                        question.ImagePosition = child["ImagePosition"].ToString();
+                        question.MaxDuration = int.Parse(child["MaxDuration"].ToString());
+                        var bla = child["Maximum"].ToString();
+                        question.Maximum = string.IsNullOrEmpty(child["Maximum"].ToString())
+                            ? 0
+                            : int.Parse(child["Maximum"].ToString());
+                        question.ValidDisplay = child["ValidDisplay"].ToString() == "true";
+                        await question.Update(db).ConfigureAwait(false);
+                    }
 
-                if (removed)
-                {
-                    await question.Delete(db);
+                    if (removed)
+                    {
+                        await question.Delete(db);
+                    }
                 }
-            }
 
             JToken parsedQuestionTranslations = innerParsedData.GetValue("QuestionTranslations");
             foreach (JToken child in parsedQuestionTranslations.Children())
