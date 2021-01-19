@@ -1858,7 +1858,6 @@ namespace Microting.eForm.Infrastructure
                                 fieldValue.Value = match.Id.ToString();
                                 fieldValue.MicrotingUuid = match.MicrotingUid;
                             }
-
                         }
                     }
                     catch { }
@@ -1882,20 +1881,17 @@ namespace Microting.eForm.Infrastructure
                         fieldValue.ValueReadable = "";
                     }
 
-                    //fieldValue.ValueReadable = t.Locate(fullKey, "<key>", "</key>");
                     List<FieldOption> fieldOptions = await db.FieldOptions.Where(x => x.FieldId == fieldValue.FieldId).ToListAsync();
 
                     fieldValue.KeyValuePairList = new List<KeyValuePair>();
                     foreach (FieldOption option in fieldOptions)
                     {
                         var optionTranslation = await
-                            db.FieldOptionTranslations.SingleAsync(x => x.FieldOptionId == option.Id);
+                            db.FieldOptionTranslations.SingleAsync(x => x.FieldOptionId == option.Id && x.LanguageId == language.Id);
                         KeyValuePair keyValuePair = new KeyValuePair(option.Key, optionTranslation.Text, false,
                             option.DisplayOrder);
                         fieldValue.KeyValuePairList.Add(keyValuePair);
                     }
-
-                    //fieldValue.KeyValuePairList = PairRead(dbField.KeyValuePairList);
                 }
 
                 if (fieldValue.FieldType == Constants.Constants.FieldTypes.MultiSelect)
@@ -1915,16 +1911,12 @@ namespace Microting.eForm.Infrastructure
                             FieldOptionTranslation fieldOptionTranslation =
                                 await db.FieldOptionTranslations.SingleAsync(x =>
                                     x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
-                            // string fullKey = t.Locate(dbField.KeyValuePairList, "<" + key + ">", "</" + key + ">");
                             if (fieldValue.ValueReadable != "")
                             {
                                 fieldValue.ValueReadable += '|';
                             }
                             fieldValue.ValueReadable += fieldOptionTranslation.Text;
                         }
-
-                        //
-                        // fieldValue.ValueReadable += t.Locate(fullKey, "<key>", "</key>");
                     }
 
                     List<FieldOption> fieldOptions = await db.FieldOptions.Where(x => x.FieldId == fieldValue.FieldId).ToListAsync();
@@ -1932,12 +1924,10 @@ namespace Microting.eForm.Infrastructure
                     foreach (FieldOption option in fieldOptions)
                     {
                         var optionTranslation = await
-                            db.FieldOptionTranslations.SingleAsync(x => x.FieldOptionId == option.Id);
+                            db.FieldOptionTranslations.SingleAsync(x => x.FieldOptionId == option.Id && x.LanguageId == language.Id);
                         KeyValuePair keyValuePair = new KeyValuePair(option.Key, optionTranslation.Text, false,
                             option.DisplayOrder);
                     }
-
-                    //fieldValue.KeyValuePairList = PairRead(dbField.KeyValuePairList);
                 }
 
                 if (fieldValue.FieldType == Constants.Constants.FieldTypes.Number ||
