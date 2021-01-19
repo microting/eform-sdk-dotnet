@@ -2367,6 +2367,7 @@ namespace eFormCore
                 try
                 {
                     var objectResponse = await GetFileFromS3Storage($"{templateId}.docx");
+                    Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), "results"));
                     await using var fileStream = File.Create(resultDocument);
                     await objectResponse.ResponseStream.CopyToAsync(fileStream);
                 }
