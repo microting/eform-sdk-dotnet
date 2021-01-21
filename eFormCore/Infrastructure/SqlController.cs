@@ -58,18 +58,17 @@ namespace Microting.eForm.Infrastructure
     {
         #region var
 
-        private Log log;
-        private readonly Tools t = new Tools();
-        private List<Holder> converter = null;
-        private readonly bool isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
-        //private int logLimit = 0;
-        private readonly DbContextHelper dbContextHelper;
+        private Log _log;
+        private readonly Tools _t = new Tools();
+        private List<Holder> _converter = null;
+        private readonly bool _isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+        private readonly DbContextHelper _dbContextHelper;
         #endregion
 
         #region con
         public SqlController(DbContextHelper dbContextHelper)
         {
-            this.dbContextHelper = dbContextHelper;
+            this._dbContextHelper = dbContextHelper;
             string methodName = "SqlController.SqlController";
 
             #region migrate if needed
@@ -94,19 +93,18 @@ namespace Microting.eForm.Infrastructure
             {
                 bool result = SettingCreateDefaults().GetAwaiter().GetResult();
             }
-            if (SettingRead(Settings.translationsMigrated).GetAwaiter().GetResult() == "false")
-            {
-                Language.AddDefaultLanguages(GetContext()).GetAwaiter().GetResult();
-                CheckList.MoveTranslations(GetContext()).GetAwaiter().GetResult();
-                Data.Entities.Field.MoveTranslations(GetContext()).GetAwaiter().GetResult();
-                Site.AddLanguage(GetContext()).GetAwaiter().GetResult();
-                SettingUpdate(Settings.translationsMigrated, "true").GetAwaiter().GetResult();
-            }
+
+            if (SettingRead(Settings.translationsMigrated).GetAwaiter().GetResult() != "false") return;
+            Language.AddDefaultLanguages(GetContext()).GetAwaiter().GetResult();
+            CheckList.MoveTranslations(GetContext()).GetAwaiter().GetResult();
+            Data.Entities.Field.MoveTranslations(GetContext()).GetAwaiter().GetResult();
+            Site.AddLanguage(GetContext()).GetAwaiter().GetResult();
+            SettingUpdate(Settings.translationsMigrated, "true").GetAwaiter().GetResult();
         }
 
         private MicrotingDbContext GetContext()
         {
-            return dbContextHelper.GetDbContext();
+            return _dbContextHelper.GetDbContext();
         }
         #endregion
 
@@ -152,8 +150,8 @@ namespace Microting.eForm.Infrastructure
                     language = db.Languages.Single(x => x.Id == checkListTranslation.LanguageId);
                 }
 
-                mainElement = new MainElement(mainCl.Id, checkListTranslation.Text, t.Int(mainCl.DisplayIndex), mainCl.FolderName, t.Int(mainCl.Repeated), DateTime.UtcNow, DateTime.UtcNow.AddDays(2), "da",
-                    t.Bool(mainCl.MultiApproval), t.Bool(mainCl.FastNavigation), t.Bool(mainCl.DownloadEntities), t.Bool(mainCl.ManualSync), mainCl.CaseType, "", "", t.Bool(mainCl.QuickSyncEnabled), new List<Element>(), mainCl.Color);
+                mainElement = new MainElement(mainCl.Id, checkListTranslation.Text, _t.Int(mainCl.DisplayIndex), mainCl.FolderName, _t.Int(mainCl.Repeated), DateTime.UtcNow, DateTime.UtcNow.AddDays(2), "da",
+                    _t.Bool(mainCl.MultiApproval), _t.Bool(mainCl.FastNavigation), _t.Bool(mainCl.DownloadEntities), _t.Bool(mainCl.ManualSync), mainCl.CaseType, "", "", _t.Bool(mainCl.QuickSyncEnabled), new List<Element>(), mainCl.Color);
 
                 //getting elements
                 List<CheckList> lst = db.CheckLists.Where(x => x.ParentId == templateId).ToList();
@@ -354,12 +352,12 @@ namespace Microting.eForm.Infrastructure
         public async Task<List<Template_Dto>> TemplateItemReadAll(bool includeRemoved, string siteWorkflowState, string searchKey, bool descendingSort, string sortParameter, List<int> tagIds, TimeZoneInfo timeZoneInfo, Language language)
         {
             string methodName = "SqlController.TemplateItemReadAll";
-            log.LogStandard(methodName, "called");
-            log.LogVariable(methodName, nameof(includeRemoved), includeRemoved);
-            log.LogVariable(methodName, nameof(searchKey), searchKey);
-            log.LogVariable(methodName, nameof(descendingSort), descendingSort);
-            log.LogVariable(methodName, nameof(sortParameter), sortParameter);
-            log.LogVariable(methodName, nameof(tagIds), tagIds.ToString());
+            _log.LogStandard(methodName, "called");
+            _log.LogVariable(methodName, nameof(includeRemoved), includeRemoved);
+            _log.LogVariable(methodName, nameof(searchKey), searchKey);
+            _log.LogVariable(methodName, nameof(descendingSort), descendingSort);
+            _log.LogVariable(methodName, nameof(sortParameter), sortParameter);
+            _log.LogVariable(methodName, nameof(tagIds), tagIds.ToString());
             try
             {
                 List<Template_Dto> templateList = new List<Template_Dto>();
@@ -415,34 +413,29 @@ namespace Microting.eForm.Infrastructure
                 switch (sortParameter)
                 {
                     case Constants.Constants.eFormSortParameters.Label:
-                        if (descendingSort)
-                            subQuery = subQuery.OrderByDescending(x => x.Text);
-                        else
-                            subQuery = subQuery.OrderBy(x => x.Text);
+                        subQuery = descendingSort
+                            ? subQuery.OrderByDescending(x => x.Text)
+                            : subQuery.OrderBy(x => x.Text);
                         break;
                     case Constants.Constants.eFormSortParameters.Description:
-                        if (descendingSort)
-                            subQuery = subQuery.OrderByDescending(x => x.Description);
-                        else
-                            subQuery = subQuery.OrderBy(x => x.Description);
+                        subQuery = descendingSort
+                            ? subQuery.OrderByDescending(x => x.Description)
+                            : subQuery.OrderBy(x => x.Description);
                         break;
                     case Constants.Constants.eFormSortParameters.CreatedAt:
-                        if (descendingSort)
-                            subQuery = subQuery.OrderByDescending(x => x.CreatedAt);
-                        else
-                            subQuery = subQuery.OrderBy(x => x.CreatedAt);
+                        subQuery = descendingSort
+                            ? subQuery.OrderByDescending(x => x.CreatedAt)
+                            : subQuery.OrderBy(x => x.CreatedAt);
                         break;
                     case Constants.Constants.eFormSortParameters.Tags:
-                        if (descendingSort)
-                            subQuery = subQuery.OrderByDescending(x => x.CreatedAt);
-                        else
-                            subQuery = subQuery.OrderBy(x => x.CreatedAt);
+                        subQuery = descendingSort
+                            ? subQuery.OrderByDescending(x => x.CreatedAt)
+                            : subQuery.OrderBy(x => x.CreatedAt);
                         break;
                     default:
-                        if (descendingSort)
-                            subQuery = subQuery.OrderByDescending(x => x.Id);
-                        else
-                            subQuery = subQuery.OrderBy(x => x.Id);
+                        subQuery = descendingSort
+                            ? subQuery.OrderByDescending(x => x.Id)
+                            : subQuery.OrderBy(x => x.Id);
                         break;
                 }
 
@@ -478,7 +471,7 @@ namespace Microting.eForm.Infrastructure
                         } catch (Exception innerEx)
                         {
                             Site dbSite = await db.Sites.SingleAsync(x => x.Id == checkListSite.SiteId);
-                            log.LogException(methodName, "could not add the site to the sites for site.Id : " + dbSite.Id.ToString() + " and got exception : " + innerEx.Message, innerEx);
+                            _log.LogException(methodName, "could not add the site to the sites for site.Id : " + dbSite.Id.ToString() + " and got exception : " + innerEx.Message, innerEx);
                             throw new Exception("Error adding site to sites for site.Id : " + dbSite.Id.ToString(), innerEx);
                         }
                     }
@@ -531,7 +524,7 @@ namespace Microting.eForm.Infrastructure
                     }
                     catch (Exception innerEx)
                     {
-                        log.LogException(methodName, "could not add the templateDto to the templateList for templateId : " + checkList.Id.ToString() + " and got exception : " + innerEx.Message, innerEx);
+                        _log.LogException(methodName, "could not add the templateDto to the templateList for templateId : " + checkList.Id.ToString() + " and got exception : " + innerEx.Message, innerEx);
                         throw new Exception("Error adding template to templateList for templateId : " + checkList.Id.ToString(), innerEx);
                     }
                 }
@@ -544,27 +537,34 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public async Task<List<FieldDto>> TemplateFieldReadAll(int templateId)
+        public async Task<List<FieldDto>> TemplateFieldReadAll(int templateId, Language language)
         {
             string methodName = "SqlController.TemplateFieldReadAll";
             try
             {
                 await using var db = GetContext();
-                Language language = await db.Languages.SingleAsync(x => x.Name == "Danish");
                 MainElement mainElement = await ReadeForm(templateId, language);
                 List<FieldDto> fieldLst = new List<FieldDto>();
 
                 foreach (DataItem dataItem in mainElement.DataItemGetAll())
                 {
                     Data.Entities.Field field = await db.Fields.SingleAsync(x => x.Id == dataItem.Id);
-                    FieldDto fieldDto = new FieldDto(field.Id, field.Label, field.Description, (int)field.FieldTypeId, db.FieldTypes.Single(x => x.Id == field.FieldTypeId).Type, (int)field.CheckListId);
+                    FieldTranslation fieldTranslation = await db.FieldTranslations.Where(x =>
+                        x.FieldId == field.Id && x.LanguageId == language.Id).FirstAsync();
+                    FieldDto fieldDto = new FieldDto(field.Id, fieldTranslation.Text, fieldTranslation.Description, (int)field.FieldTypeId, db.FieldTypes.Single(x => x.Id == field.FieldTypeId).Type, (int)field.CheckListId);
                     if (field.ParentFieldId != null)
                     {
-                        fieldDto.ParentName = db.Fields.Where(x => x.Id == field.ParentFieldId).First().Label;
+                        fieldTranslation =
+                            await db.FieldTranslations.Where(x =>
+                                x.FieldId == field.ParentFieldId && x.LanguageId == language.Id).FirstAsync();
+                        fieldDto.ParentName = fieldTranslation.Text;
                     }
                     else
                     {
-                        fieldDto.ParentName = db.CheckLists.Single(x => x.Id == field.CheckListId).Label;
+                        CheckListTranslation checkListTranslation =
+                            await db.CheckListTranslations.SingleAsync(x =>
+                                x.CheckListId == field.CheckListId && x.LanguageId == language.Id);
+                        fieldDto.ParentName = checkListTranslation.Text;
                     }
                     fieldLst.Add(fieldDto);
                 }
@@ -611,9 +611,7 @@ namespace Microting.eForm.Infrastructure
                 await using var db = GetContext();
                 CheckList checkList = await db.CheckLists.SingleOrDefaultAsync(x => x.Id == templateId);
 
-                if (checkList == null)
-                    return false;
-
+                if (checkList == null) return false;
                 checkList.Field1 = fieldId1;
                 checkList.Field2 = fieldId2;
                 checkList.Field3 = fieldId3;
@@ -647,8 +645,6 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                //logger.LogEverything(methodName + " called");
-                //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
                 CheckList checkList = await db.CheckLists.SingleAsync(x => x.Id == templateId);
 
@@ -658,12 +654,10 @@ namespace Microting.eForm.Infrastructure
 
                     return true;
                 }
-                else
-                    return false;
+                return false;
             }
             catch (Exception ex)
             {
-                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -675,16 +669,13 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                //logger.LogEverything(methodName + " called");
-                //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
                 CheckList checkList = await db.CheckLists.SingleAsync(x => x.Id == templateId);
 
-                if (checkList != null)
+                if (checkList == null) return false;
                 {
                     // Delete all not wanted taggings first
                     List<Tagging> clTaggings = await db.Taggings.Where(x => !tagIds.Contains((int)x.TagId) && x.CheckListId == checkList.Id).ToListAsync();
-//                        int index = 0;
                     foreach (Tagging tagging in clTaggings)
                     {
                         Tagging currentTagging = await db.Taggings.SingleAsync(x => x.Id == tagging.Id);
@@ -698,7 +689,7 @@ namespace Microting.eForm.Infrastructure
                     foreach (int Id in tagIds)
                     {
                         Tag tag = await db.Tags.SingleAsync(x => x.Id == Id);
-                        if (tag != null)
+                        if (tag == null) continue;
                         {
                             Tagging currentTagging = await db.Taggings.SingleOrDefaultAsync(x => x.TagId == tag.Id && x.CheckListId == templateId);
 
@@ -709,22 +700,20 @@ namespace Microting.eForm.Infrastructure
                                 tagging.TagId = tag.Id;
 
                                 await tagging.Create(db).ConfigureAwait(false);
-                            } else {
-                                if (currentTagging.WorkflowState != Constants.Constants.WorkflowStates.Created)
-                                {
-                                    currentTagging.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                                    await currentTagging.Update(db).ConfigureAwait(false);
-                                }
+                            } else
+                            {
+                                if (currentTagging.WorkflowState == Constants.Constants.WorkflowStates.Created)
+                                    continue;
+                                currentTagging.WorkflowState = Constants.Constants.WorkflowStates.Created;
+                                await currentTagging.Update(db).ConfigureAwait(false);
                             }
                         }
                     }
                     return true;
                 }
-                return false;
             }
             catch (Exception ex)
             {
-                //logger.LogException(methodName + " failed", ex, true);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -797,20 +786,20 @@ namespace Microting.eForm.Infrastructure
         public async Task<int> CaseCreate(int checkListId, int siteUId, int? microtingUId, int? microtingCheckId, string caseUId, string custom, DateTime createdAt, int? folderId)
         {
             string methodName = "SqlController.CaseCreate";
-            log.LogStandard(methodName, "called");
+            _log.LogStandard(methodName, "called");
             try
             {
                 await using var db = GetContext();
                 string caseType = db.CheckLists.SingleAsync(x => x.Id == checkListId).GetAwaiter().GetResult().CaseType;
-                log.LogStandard(methodName, $"caseType is {caseType}");
+                _log.LogStandard(methodName, $"caseType is {caseType}");
                 int siteId = db.Sites.SingleAsync(x => x.MicrotingUid == siteUId).GetAwaiter().GetResult().Id;
-                log.LogStandard(methodName, $"siteId is {siteId}");
+                _log.LogStandard(methodName, $"siteId is {siteId}");
 
                 Case aCase = null;
                 // Lets see if we have an existing case with the same parameters in the db first.
                 // This is to handle none gracefull shutdowns.
                 aCase = await db.Cases.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == microtingCheckId);
-                log.LogStandard(methodName, $"aCase found based on MicrotingUid == {microtingUId} and MicrotingCheckUid == {microtingCheckId}");
+                _log.LogStandard(methodName, $"aCase found based on MicrotingUid == {microtingUId} and MicrotingCheckUid == {microtingCheckId}");
 
                 if (aCase == null)
                 {
@@ -842,7 +831,7 @@ namespace Microting.eForm.Infrastructure
                     aCase.FolderId = folderId;
                     await aCase.Update(db).ConfigureAwait(false);
                 }
-                log.LogStandard(methodName, $"aCase is created in db");
+                _log.LogStandard(methodName, $"aCase is created in db");
 
                 return aCase.Id;
             }
@@ -1038,21 +1027,26 @@ namespace Microting.eForm.Infrastructure
                 //int elementId;
                 int userUId = int.Parse(response.Checks[xmlIndex].WorkerId);
                 int userId = db.Workers.SingleAsync(x => x.MicrotingUid == userUId).GetAwaiter().GetResult().Id;
-                List<string> elements = t.LocateList(xmlString, "<ElementList>", "</ElementList>");
+                List<string> elements = _t.LocateList(xmlString, "<ElementList>", "</ElementList>");
                 List<FieldDto> eFormFieldList = null;
                 Case responseCase = null;
                 List<int?> caseFields = new List<int?>();
                 List<int> fieldTypeIds = db.FieldTypes.Where(x => x.Type == Constants.Constants.FieldTypes.Picture || x.Type == Constants.Constants.FieldTypes.Signature || x.Type == Constants.Constants.FieldTypes.Audio).Select(x => x.Id).ToList();
 
+                Language language;
                 try //if a reversed case, case needs to be created
                 {
                     CheckListSite cLS = await db.CheckListSites.SingleAsync(x => x.MicrotingUid == int.Parse(response.Value));
-                    int caseId = await CaseCreate((int)cLS.CheckListId, (int)db.Sites.Single(x => x.Id == cLS.SiteId).MicrotingUid, int.Parse(response.Value), response.Checks[xmlIndex].Id, "ReversedCase", "", DateTime.UtcNow, cLS.FolderId);
+                    Site site = await db.Sites.SingleAsync(x => x.Id == cLS.SiteId);
+                    language = await db.Languages.SingleAsync(x => x.Id == site.LanguageId);
+                    int caseId = await CaseCreate((int)cLS.CheckListId, (int)site.MicrotingUid, int.Parse(response.Value), response.Checks[xmlIndex].Id, "ReversedCase", "", DateTime.UtcNow, cLS.FolderId);
                     responseCase = await db.Cases.SingleAsync(x => x.Id == caseId);
                 }
                 catch //already created case Id retrived
                 {
                     responseCase = await db.Cases.SingleAsync(x => x.MicrotingUid == int.Parse(response.Value));
+                    Site site = await db.Sites.SingleAsync(x => x.Id == responseCase.SiteId);
+                    language = await db.Languages.SingleAsync(x => x.Id == site.LanguageId);
                 }
 
                 CheckList cl = db.CheckLists.Single(x => x.Id == responseCase.CheckListId);
@@ -1069,13 +1063,13 @@ namespace Microting.eForm.Infrastructure
                 caseFields.Add(cl.Field10);
                 //cl.field_1
 
-                eFormFieldList = await TemplateFieldReadAll((int)responseCase.CheckListId);
+                eFormFieldList = await TemplateFieldReadAll((int)responseCase.CheckListId, language);
 
                 foreach (string elementStr in elements)
                 {
                     #region foreach element
 
-                    int checkListId = int.Parse(t.Locate(elementStr, "<Id>", "</"));
+                    int checkListId = int.Parse(_t.Locate(elementStr, "<Id>", "</"));
                     int caseId = responseCase.Id;
 
                     CheckListValue clv = null;
@@ -1085,9 +1079,9 @@ namespace Microting.eForm.Infrastructure
                     {
                         clv = new CheckListValue
                         {
-                            CheckListId = int.Parse(t.Locate(elementStr, "<Id>", "</")),
+                            CheckListId = int.Parse(_t.Locate(elementStr, "<Id>", "</")),
                             CaseId = responseCase.Id,
-                            Status = t.Locate(elementStr, "<Status>", "</"),
+                            Status = _t.Locate(elementStr, "<Status>", "</"),
                             UserId = userId
                         };
 
@@ -1096,14 +1090,14 @@ namespace Microting.eForm.Infrastructure
 
                     #region foreach (string dataItemStr in dataItems)
                     //elementId = clv.Id;
-                    List<string> dataItems = t.LocateList(elementStr, "<DataItem>", "</DataItem>");
+                    List<string> dataItems = _t.LocateList(elementStr, "<DataItem>", "</DataItem>");
 
                     if (dataItems != null)
                     {
                         foreach (string dataItemStr in dataItems)
                         {
 
-                            int field_id = int.Parse(t.Locate(dataItemStr, "<Id>", "</"));
+                            int field_id = int.Parse(_t.Locate(dataItemStr, "<Id>", "</"));
 
                             Data.Entities.Field f = await db.Fields.SingleAsync(x => x.Id == field_id);
                             FieldType fieldType = db.FieldTypes.Single(x => x.Id == f.FieldTypeId);
@@ -1122,14 +1116,14 @@ namespace Microting.eForm.Infrastructure
                                 //= new field_values();
 
                                 #region if contains a file
-                                string urlXml = t.Locate(dataItemStr, "<URL>", "</URL>");
+                                string urlXml = _t.Locate(dataItemStr, "<URL>", "</URL>");
                                 if (urlXml != "" && urlXml != "none")
                                 {
                                     UploadedData dU = null;
-                                    string fileLocation = t.Locate(dataItemStr, "<URL>", "</");
+                                    string fileLocation = _t.Locate(dataItemStr, "<URL>", "</");
                                     dU = new UploadedData
                                     {
-                                        Extension = t.Locate(dataItemStr, "<Extension>", "</"),
+                                        Extension = _t.Locate(dataItemStr, "<Extension>", "</"),
                                         UploaderId = userId,
                                         UploaderType = Constants.Constants.UploaderTypes.System,
                                         Local = 0,
@@ -1142,7 +1136,7 @@ namespace Microting.eForm.Infrastructure
                                 }
                                 #endregion
                                 #region fieldV.value = t.Locate(xml, "<Value>", "</");
-                                string extractedValue = t.Locate(dataItemStr, "<Value>", "</");
+                                string extractedValue = _t.Locate(dataItemStr, "<Value>", "</");
 
                                 if (extractedValue.Length > 8)
                                 {
@@ -1177,17 +1171,17 @@ namespace Microting.eForm.Infrastructure
 
                                 #endregion
                                 //geo
-                                fieldV.Latitude = t.Locate(dataItemStr, "<Latitude>", "</");
-                                fieldV.Longitude = t.Locate(dataItemStr, "<Longitude>", "</");
-                                fieldV.Altitude = t.Locate(dataItemStr, "<Altitude>", "</");
-                                fieldV.Heading = t.Locate(dataItemStr, "<Heading>", "</");
-                                fieldV.Accuracy = t.Locate(dataItemStr, "<Accuracy>", "</");
-                                fieldV.Date = t.Date(t.Locate(dataItemStr, "<Date>", "</"));
+                                fieldV.Latitude = _t.Locate(dataItemStr, "<Latitude>", "</");
+                                fieldV.Longitude = _t.Locate(dataItemStr, "<Longitude>", "</");
+                                fieldV.Altitude = _t.Locate(dataItemStr, "<Altitude>", "</");
+                                fieldV.Heading = _t.Locate(dataItemStr, "<Heading>", "</");
+                                fieldV.Accuracy = _t.Locate(dataItemStr, "<Accuracy>", "</");
+                                fieldV.Date = _t.Date(_t.Locate(dataItemStr, "<Date>", "</"));
                                 fieldV.CaseId = responseCase.Id;
                                 fieldV.FieldId = field_id;
                                 fieldV.WorkerId = userId;
                                 fieldV.CheckListId = clv.CheckListId;
-                                fieldV.DoneAt = t.Date(response.Checks[xmlIndex].Date);
+                                fieldV.DoneAt = _t.Date(response.Checks[xmlIndex].Date);
 
                                 await fieldV.Create(db).ConfigureAwait(false);
 
@@ -1222,7 +1216,7 @@ namespace Microting.eForm.Infrastructure
                                     {
                                         //string key = ;
                                         //string fullKey = t.Locate(fieldV.Field.KeyValuePairList, $"<" + fieldV.Value + ">", "</" + fieldV.Value + ">");
-                                        newValue = t.Locate(t.Locate(field.KeyValuePairList,
+                                        newValue = _t.Locate(_t.Locate(field.KeyValuePairList,
                                             $"<{fieldV.Value}>", "</" + fieldV.Value + ">"), "<key>", "</key>");
                                     }
 
@@ -1235,15 +1229,15 @@ namespace Microting.eForm.Infrastructure
 
                                         foreach (string key in keyLst)
                                         {
-                                            string fullKey = t.Locate(fieldV.Field.KeyValuePairList, $"<{key}>",
+                                            string fullKey = _t.Locate(fieldV.Field.KeyValuePairList, $"<{key}>",
                                                 $"</{key}>");
                                             if (newValue != "")
                                             {
-                                                newValue += "\n" + t.Locate(fullKey, "<key>", "</key>");
+                                                newValue += "\n" + _t.Locate(fullKey, "<key>", "</key>");
                                             }
                                             else
                                             {
-                                                newValue += t.Locate(fullKey, "<key>", "</key>");
+                                                newValue += _t.Locate(fullKey, "<key>", "</key>");
                                             }
                                         }
                                     }
@@ -1341,7 +1335,7 @@ namespace Microting.eForm.Infrastructure
                         fieldV.FieldId = field.Id;
                         fieldV.WorkerId = userId;
                         fieldV.CheckListId = field.CheckListId;
-                        fieldV.DoneAt = t.Date(response.Checks[xmlIndex].Date);
+                        fieldV.DoneAt = _t.Date(response.Checks[xmlIndex].Date);
 
                         await fieldV.Create(db).ConfigureAwait(false);
                     }
@@ -1484,11 +1478,11 @@ namespace Microting.eForm.Infrastructure
                 if (aCase.WorkerId != null) replyElement.DoneById = (int) aCase.WorkerId;
                 replyElement.ElementList = new List<Element>();
                 //replyElement.EndDate
-                replyElement.FastNavigation = t.Bool(mainCheckList.FastNavigation);
+                replyElement.FastNavigation = _t.Bool(mainCheckList.FastNavigation);
                 replyElement.Label = checkListTranslation.Text;
                 //replyElement.Language
-                replyElement.ManualSync = t.Bool(mainCheckList.ManualSync);
-                replyElement.MultiApproval = t.Bool(mainCheckList.MultiApproval);
+                replyElement.ManualSync = _t.Bool(mainCheckList.ManualSync);
+                replyElement.MultiApproval = _t.Bool(mainCheckList.MultiApproval);
                 if (mainCheckList.Repeated != null) replyElement.Repeated = (int) mainCheckList.Repeated;
                 //replyElement.StartDate
                 if (aCase.UnitId != null) replyElement.UnitId = (int) aCase.UnitId;
@@ -1537,12 +1531,12 @@ namespace Microting.eForm.Infrastructure
                         checkListTranslation.Text,
                         (int)checkList.DisplayIndex,
                         checkListTranslation.Description,
-                        t.Bool(checkList.ApprovalEnabled),
-                        t.Bool(checkList.ReviewEnabled),
-                        t.Bool(checkList.DoneButtonEnabled),
-                        t.Bool(checkList.ExtraFieldsEnabled),
+                        _t.Bool(checkList.ApprovalEnabled),
+                        _t.Bool(checkList.ReviewEnabled),
+                        _t.Bool(checkList.DoneButtonEnabled),
+                        _t.Bool(checkList.ExtraFieldsEnabled),
                         "",
-                        t.Bool(checkList.QuickSyncEnabled),
+                        _t.Bool(checkList.QuickSyncEnabled),
                         elementList);
                     element.OriginalId = checkList.OriginalId;
                     return element;
@@ -1632,11 +1626,11 @@ namespace Microting.eForm.Infrastructure
                         {
                             InderValue = checkListTranslation.Description
                         },
-                        ApprovalEnabled = t.Bool(checkList.ApprovalEnabled),
-                        ReviewEnabled = t.Bool(checkList.ReviewEnabled),
-                        DoneButtonEnabled = t.Bool(checkList.DoneButtonEnabled),
-                        ExtraFieldsEnabled = t.Bool(checkList.ExtraFieldsEnabled),
-                        QuickSyncEnabled = t.Bool(checkList.QuickSyncEnabled),
+                        ApprovalEnabled = _t.Bool(checkList.ApprovalEnabled),
+                        ReviewEnabled = _t.Bool(checkList.ReviewEnabled),
+                        DoneButtonEnabled = _t.Bool(checkList.DoneButtonEnabled),
+                        ExtraFieldsEnabled = _t.Bool(checkList.ExtraFieldsEnabled),
+                        QuickSyncEnabled = _t.Bool(checkList.QuickSyncEnabled),
                         DataItemGroupList = dataItemGroupList,
                         DataItemList = dataItemList,
                         OriginalId = checkList.OriginalId
@@ -1779,19 +1773,19 @@ namespace Microting.eForm.Infrastructure
                     Altitude = reply.Altitude,
                     Color = dbField.Color,
                     Date = reply.Date,
-                    FieldId = t.Int(reply.FieldId),
+                    FieldId = _t.Int(reply.FieldId),
                     FieldType = db.FieldTypes.Single(x => x.Id == dbField.FieldTypeId).Type,
-                    DateOfDoing = t.Date(reply.DoneAt),
+                    DateOfDoing = _t.Date(reply.DoneAt),
                     Description = new CDataValue {InderValue = dbField.Description},
-                    DisplayOrder = t.Int(dbField.DisplayIndex),
+                    DisplayOrder = _t.Int(dbField.DisplayIndex),
                     Heading = reply.Heading,
                     Id = reply.Id,
                     OriginalId = dbField.OriginalId,
                     Label = dbField.Label,
                     Latitude = reply.Latitude,
                     Longitude = reply.Longitude,
-                    Mandatory = t.Bool(dbField.Mandatory),
-                    ReadOnly = t.Bool(dbField.ReadOnly)
+                    Mandatory = _t.Bool(dbField.Mandatory),
+                    ReadOnly = _t.Bool(dbField.ReadOnly)
                 };
 
                 #region answer.UploadedDataId = reply.uploaded_data_id;
@@ -2401,7 +2395,7 @@ namespace Microting.eForm.Infrastructure
             await using var db = GetContext();
             if (!db.Notifications.Any(x => x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId))
             {
-                log.LogStandard(methodName, "SAVING notificationUId : " + notificationUId + " microtingUId : " + microtingUId + " action : " + activity);
+                _log.LogStandard(methodName, "SAVING notificationUId : " + notificationUId + " microtingUId : " + microtingUId + " action : " + activity);
 
                 Notification aNote = new Notification
                 {
@@ -2876,9 +2870,9 @@ namespace Microting.eForm.Infrastructure
         public async Task<int?> CaseReadFirstId(int? templateId, string workflowState)
         {
             string methodName = "SqlController.CaseReadFirstId";
-            log.LogStandard(methodName, "called");
-            log.LogVariable(methodName, nameof(templateId), templateId);
-            log.LogVariable(methodName, nameof(workflowState), workflowState);
+            _log.LogStandard(methodName, "called");
+            _log.LogVariable(methodName, nameof(templateId), templateId);
+            _log.LogVariable(methodName, nameof(workflowState), workflowState);
             try
             {
                 await using var db = GetContext();
@@ -3206,14 +3200,14 @@ namespace Microting.eForm.Infrastructure
         public async Task<List<Dto.Case>> CaseReadAll(int? templatId, DateTime? start, DateTime? end, string workflowState, string searchKey, bool descendingSort, string sortParameter, TimeZoneInfo timeZoneInfo)
         {
             string methodName = "SqlController.CaseReadAll";
-            log.LogStandard(methodName, "called");
-            log.LogVariable(methodName, nameof(templatId), templatId);
-            log.LogVariable(methodName, nameof(start), start);
-            log.LogVariable(methodName, nameof(end), end);
-            log.LogVariable(methodName, nameof(workflowState), workflowState);
-            log.LogVariable(methodName, nameof(searchKey), searchKey);
-            log.LogVariable(methodName, nameof(descendingSort), descendingSort);
-            log.LogVariable(methodName, nameof(sortParameter), sortParameter);
+            _log.LogStandard(methodName, "called");
+            _log.LogVariable(methodName, nameof(templatId), templatId);
+            _log.LogVariable(methodName, nameof(start), start);
+            _log.LogVariable(methodName, nameof(end), end);
+            _log.LogVariable(methodName, nameof(workflowState), workflowState);
+            _log.LogVariable(methodName, nameof(searchKey), searchKey);
+            _log.LogVariable(methodName, nameof(descendingSort), descendingSort);
+            _log.LogVariable(methodName, nameof(sortParameter), sortParameter);
 
             CaseList cl = await CaseReadAll(templatId, start, end, workflowState, searchKey, descendingSort, sortParameter, 0,
                 10000000, timeZoneInfo);
@@ -3324,8 +3318,8 @@ namespace Microting.eForm.Infrastructure
                     if (fieldType.Type == Constants.Constants.FieldTypes.SingleSelect)
                     {
                         string key = item.Value;
-                        string fullKey = t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
-                        newValue = t.Locate(fullKey, "<key>", "</key>");
+                        string fullKey = _t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
+                        newValue = _t.Locate(fullKey, "<key>", "</key>");
                     }
 
                     if (fieldType.Type == Constants.Constants.FieldTypes.MultiSelect)
@@ -3337,14 +3331,14 @@ namespace Microting.eForm.Infrastructure
 
                         foreach (string key in keyLst)
                         {
-                            string fullKey = t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
+                            string fullKey = _t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
                             if (newValue != "")
                             {
-                                newValue += "\n" + t.Locate(fullKey, "<key>", "</key>");
+                                newValue += "\n" + _t.Locate(fullKey, "<key>", "</key>");
                             }
                             else
                             {
-                                newValue += t.Locate(fullKey, "<key>", "</key>");
+                                newValue += _t.Locate(fullKey, "<key>", "</key>");
                             }
                         }
                     }
@@ -4347,20 +4341,16 @@ namespace Microting.eForm.Infrastructure
         {
             await using var db = GetContext();
             EntityGroup eg = await db.EntityGroups.SingleOrDefaultAsync(x => x.Id == Id);
-            if (eg != null) {
-                List<Models.EntityItem> egl = new List<Models.EntityItem>();
-                return new Models.EntityGroup
-                {
-                    Id = eg.Id,
-                    Name = eg.Name,
-                    Type = eg.Type,
-                    MicrotingUUID = eg.MicrotingUid,
-                    EntityGroupItemLst = egl
-                };
-//                    return new EntityGroup(eg.Id, eg.Name, eg.Type, eg.MicrotingUid, egl);
-            } else {
-                throw new NullReferenceException("No EntityGroup found by Id " + Id.ToString());
-            }
+            if (eg == null) throw new NullReferenceException("No EntityGroup found by Id " + Id.ToString());
+            List<Models.EntityItem> egl = new List<Models.EntityItem>();
+            return new Models.EntityGroup
+            {
+                Id = eg.Id,
+                Name = eg.Name,
+                Type = eg.Type,
+                MicrotingUUID = eg.MicrotingUid,
+                EntityGroupItemLst = egl
+            };
         }
 
         //TODO
@@ -4451,16 +4441,13 @@ namespace Microting.eForm.Infrastructure
                 await eG.Delete(db);
 
                 List<EntityItem> lst = db.EntityItems.Where(x => x.EntityGroupId == eG.Id && x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList();
-                if (lst != null)
+                foreach (EntityItem item in lst)
                 {
-                    foreach (EntityItem item in lst)
-                    {
-                        item.Synced = t.Bool(false);
-                        await item.Update(db).ConfigureAwait(false);
-                        await item.Delete(db);
+                    item.Synced = _t.Bool(false);
+                    await item.Update(db).ConfigureAwait(false);
+                    await item.Delete(db);
 
-                        killLst.Add(item.MicrotingUid);
-                    }
+                    killLst.Add(item.MicrotingUid);
                 }
 
                 return eG.Type;
@@ -4504,23 +4491,20 @@ namespace Microting.eForm.Infrastructure
         {
             await using var db = GetContext();
             EntityItem et = await db.EntityItems.FirstOrDefaultAsync(x => x.Id == id);
-            if (et != null)
+            if (et == null) throw new NullReferenceException("No EntityItem found for Id " + id.ToString());
+            Models.EntityItem entityItem = new Models.EntityItem
             {
-                Models.EntityItem entityItem = new Models.EntityItem
-                {
-                    Id = et.Id,
-                    Name = et.Name,
-                    Description = et.Description,
-                    EntityItemUId = et.EntityItemUid,
-                    MicrotingUUID = et.MicrotingUid,
-                    DisplayIndex = et.DisplayIndex,
-                    EntityItemGroupId = et.EntityGroupId,
-                    WorkflowState = et.WorkflowState
-                };
-                return entityItem;
-            }
+                Id = et.Id,
+                Name = et.Name,
+                Description = et.Description,
+                EntityItemUId = et.EntityItemUid,
+                MicrotingUUID = et.MicrotingUid,
+                DisplayIndex = et.DisplayIndex,
+                EntityItemGroupId = et.EntityGroupId,
+                WorkflowState = et.WorkflowState
+            };
+            return entityItem;
 
-            throw new NullReferenceException("No EntityItem found for Id " + id.ToString());
         }
 
 
@@ -4566,7 +4550,7 @@ namespace Microting.eForm.Infrastructure
                 Name = entityItem.Name,
                 Description = entityItem.Description,
                 DisplayIndex = entityItem.DisplayIndex,
-                Synced = t.Bool(false)
+                Synced = _t.Bool(false)
             };
             await eI.Create(db).ConfigureAwait(false);
             return entityItem;
@@ -4582,7 +4566,7 @@ namespace Microting.eForm.Infrastructure
             var match = await db.EntityItems.SingleOrDefaultAsync(x => x.Id == entityItem.Id);
             match.Description = entityItem.Description;
             match.Name = entityItem.Name;
-            match.Synced = t.Bool(false);
+            match.Synced = _t.Bool(false);
             match.EntityItemUid = entityItem.EntityItemUId;
             match.WorkflowState = entityItem.WorkflowState;
             match.DisplayIndex = entityItem.DisplayIndex;
@@ -4603,7 +4587,7 @@ namespace Microting.eForm.Infrastructure
                 throw new NullReferenceException("EntityItem not found with Id " + Id.ToString());
             }
 
-            et.Synced = t.Bool(true);
+            et.Synced = _t.Bool(true);
             await et.Update(db).ConfigureAwait(false);
             await et.Delete(db);
         }
@@ -4636,12 +4620,12 @@ namespace Microting.eForm.Infrastructure
         /// <summary>
         /// Reads a Folder of type Folder data transfer object from DB with specific Microting_UID
         /// </summary>
-        /// <param name="microting_uid"></param>
+        /// <param name="microtingUid"></param>
         /// <returns></returns>
-        public async Task<FolderDto> FolderReadByMicrotingUUID(int microting_uid)
+        public async Task<FolderDto> FolderReadByMicrotingUuid(int microtingUid)
         {
             await using var db = GetContext();
-            Folder folder = await db.Folders.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid);
+            Folder folder = await db.Folders.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUid);
 
             if (folder == null)
             {
@@ -4655,17 +4639,17 @@ namespace Microting.eForm.Infrastructure
         /// <summary>
         /// Reads a folder from DB with given ID
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         /// <exception cref="NullReferenceException"></exception>
-        public async Task<FolderDto> FolderRead(int Id)
+        public async Task<FolderDto> FolderRead(int id)
         {
             await using var db = GetContext();
-            Folder folder = await db.Folders.SingleOrDefaultAsync(x => x.Id == Id);
+            Folder folder = await db.Folders.SingleOrDefaultAsync(x => x.Id == id);
 
             if (folder == null)
             {
-                throw new NullReferenceException($"Could not find area with Id: {Id}");
+                throw new NullReferenceException($"Could not find area with Id: {id}");
             }
 
             FolderDto folderDto = new FolderDto(folder.Id, folder.Name, folder.Description, folder.ParentId, folder.CreatedAt, folder.UpdatedAt, folder.MicrotingUid);
@@ -4677,17 +4661,17 @@ namespace Microting.eForm.Infrastructure
         /// </summary>
         /// <param name="name"></param>
         /// <param name="description"></param>
-        /// <param name="parent_id"></param>
-        /// <param name="microtingUUID"></param>
+        /// <param name="parentId"></param>
+        /// <param name="microtingUuid"></param>
         /// <returns></returns>
-        public async Task<int> FolderCreate(string name, string description, int? parent_id, int microtingUUID)
+        public async Task<int> FolderCreate(string name, string description, int? parentId, int microtingUuid)
         {
             Folder folder = new Folder
             {
                 Name = name,
                 Description = description,
-                ParentId = parent_id,
-                MicrotingUid = microtingUUID
+                ParentId = parentId,
+                MicrotingUid = microtingUuid
             };
 
             await folder.Create(GetContext()).ConfigureAwait(false);
@@ -4701,9 +4685,9 @@ namespace Microting.eForm.Infrastructure
         /// <param name="Id"></param>
         /// <param name="name"></param>
         /// <param name="description"></param>
-        /// <param name="parent_id"></param>
+        /// <param name="parentId"></param>
         /// <exception cref="NullReferenceException"></exception>
-        public async Task FolderUpdate(int Id, string name, string description, int? parent_id)
+        public async Task FolderUpdate(int Id, string name, string description, int? parentId)
         {
             await using var db = GetContext();
             Folder folder = await db.Folders.SingleOrDefaultAsync(x => x.Id == Id).ConfigureAwait(false);
@@ -4715,7 +4699,7 @@ namespace Microting.eForm.Infrastructure
 
             folder.Name = name;
             folder.Description = description;
-            folder.ParentId = parent_id;
+            folder.ParentId = parentId;
 
             await folder.Update(db).ConfigureAwait(false);
         }
@@ -4723,16 +4707,16 @@ namespace Microting.eForm.Infrastructure
         /// <summary>
         /// Deletes a Folder in DB with given ID
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <exception cref="NullReferenceException"></exception>
-        public async Task FolderDelete(int Id)
+        public async Task FolderDelete(int id)
         {
             await using var db = GetContext();
-            Folder folder = await db.Folders.SingleOrDefaultAsync(x => x.Id == Id).ConfigureAwait(false);
+            Folder folder = await db.Folders.SingleOrDefaultAsync(x => x.Id == id).ConfigureAwait(false);
 
             if (folder == null)
             {
-                throw new NullReferenceException($"Could not find area with Id: {Id}");
+                throw new NullReferenceException($"Could not find area with Id: {id}");
             }
 
             await folder.Delete(db).ConfigureAwait(false);
@@ -4800,85 +4784,85 @@ namespace Microting.eForm.Infrastructure
             await using var db = GetContext();
             //key point
             #region Id = settings.name
-            int Id = -1;
+            int id = -1;
             string defaultValue = "default";
             switch (name)
             {
-                case Settings.firstRunDone: Id = 1; defaultValue = "false"; break;
-                case Settings.logLevel: Id = 2; defaultValue = "4"; break;
-                case Settings.logLimit: Id = 3; defaultValue = "25000"; break;
-                case Settings.knownSitesDone: Id = 4; defaultValue = "false"; break;
+                case Settings.firstRunDone: id = 1; defaultValue = "false"; break;
+                case Settings.logLevel: id = 2; defaultValue = "4"; break;
+                case Settings.logLimit: id = 3; defaultValue = "25000"; break;
+                case Settings.knownSitesDone: id = 4; defaultValue = "false"; break;
                 case Settings.fileLocationPicture:
-                    if (isLinux)
+                    if (_isLinux)
                     {
-                        Id = 5;
+                        id = 5;
                         defaultValue = "/var/www/microting/eform-angular-frontend/eFormAPI/eFormAPI.Web/out/output/datafolder/picture/";
                     }
                     else
                     {
-                        Id = 5;
+                        id = 5;
                         defaultValue = @"output\dataFolder\picture\";
                     }
                     break;
                 case Settings.fileLocationPdf:
-                    if (isLinux)
+                    if (_isLinux)
                     {
-                        Id = 6;
+                        id = 6;
                         defaultValue = "/var/www/microting/eform-angular-frontend/eFormAPI/eFormAPI.Web/out/output/datafolder/pdf/";
                     }
                     else
                     {
-                        Id = 6;
+                        id = 6;
                         defaultValue = @"output\dataFolder\pdf\";
                     }
                     break;
                 case Settings.fileLocationJasper:
-                    if (isLinux)
+                    if (_isLinux)
                     {
-                        Id = 7;
+                        id = 7;
                         defaultValue = "/var/www/microting/eform-angular-frontend/eFormAPI/eFormAPI.Web/out/output/datafolder/reports/";
                     }
                     else
                     {
-                        Id = 7;
+                        id = 7;
                         defaultValue = @"output\dataFolder\reports\";
                     }
                     break;
-                case Settings.token: Id = 8; defaultValue = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; break;
-                case Settings.comAddressBasic: Id = 9; defaultValue = "https://basic.microting.com"; break;
-                case Settings.comAddressApi: Id = 10; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
-                case Settings.comAddressPdfUpload: Id = 11; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
-                case Settings.comOrganizationId: Id = 12; defaultValue = "0"; break;
-                case Settings.awsAccessKeyId: Id = 13; defaultValue = "XXX"; break;
-                case Settings.awsSecretAccessKey: Id = 14; defaultValue = "XXX"; break;
-                case Settings.awsEndPoint: Id = 15; defaultValue = "XXX"; break;
-                case Settings.unitLicenseNumber: Id = 16; defaultValue = "0"; break;
-                case Settings.httpServerAddress: Id = 17; defaultValue = "http://localhost:3000"; break;
-                case Settings.maxParallelism: Id = 18; defaultValue = "1"; break;
-                case Settings.numberOfWorkers: Id = 19; defaultValue = "1"; break;
-                case Settings.comSpeechToText: Id = 20; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
-                case Settings.swiftEnabled: Id = 21; defaultValue = "false"; break;
-                case Settings.swiftUserName: Id = 22; defaultValue = "eformsdk"; break;
-                case Settings.swiftPassword: Id = 23; defaultValue = "eformsdktosecretpassword"; break;
-                case Settings.swiftEndPoint: Id = 24; defaultValue = "http://172.16.4.4:8080/swift/v1"; break;
-                case Settings.keystoneEndPoint: Id = 25; defaultValue = "http://172.16.4.4:5000/v2.0"; break;
-                case Settings.customerNo: Id = 26; defaultValue = "0"; break;
-                case Settings.s3Enabled: Id = 27; defaultValue = "false"; break;
-                case Settings.s3AccessKeyId: Id = 28; defaultValue = "XXX"; break;
-                case Settings.s3SecrectAccessKey: Id = 29; defaultValue = "XXX"; break;
-                case Settings.s3Endpoint: Id = 30; defaultValue = "https://s3.eu-central-1.amazonaws.com"; break;
-                case Settings.s3BucketName: Id = 31; defaultValue = "microting-uploaded-data"; break;
-                case Settings.rabbitMqUser: Id = 32; defaultValue = "admin"; break;
-                case Settings.rabbitMqPassword: Id = 33; defaultValue = "password"; break;
-                case Settings.rabbitMqHost: Id = 34; defaultValue = "localhost"; break;
-                case Settings.translationsMigrated: Id = 35; defaultValue = "false"; break;
+                case Settings.token: id = 8; defaultValue = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; break;
+                case Settings.comAddressBasic: id = 9; defaultValue = "https://basic.microting.com"; break;
+                case Settings.comAddressApi: id = 10; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
+                case Settings.comAddressPdfUpload: id = 11; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
+                case Settings.comOrganizationId: id = 12; defaultValue = "0"; break;
+                case Settings.awsAccessKeyId: id = 13; defaultValue = "XXX"; break;
+                case Settings.awsSecretAccessKey: id = 14; defaultValue = "XXX"; break;
+                case Settings.awsEndPoint: id = 15; defaultValue = "XXX"; break;
+                case Settings.unitLicenseNumber: id = 16; defaultValue = "0"; break;
+                case Settings.httpServerAddress: id = 17; defaultValue = "http://localhost:3000"; break;
+                case Settings.maxParallelism: id = 18; defaultValue = "1"; break;
+                case Settings.numberOfWorkers: id = 19; defaultValue = "1"; break;
+                case Settings.comSpeechToText: id = 20; defaultValue = "https://xxxxxx.xxxxxx.com"; break;
+                case Settings.swiftEnabled: id = 21; defaultValue = "false"; break;
+                case Settings.swiftUserName: id = 22; defaultValue = "eformsdk"; break;
+                case Settings.swiftPassword: id = 23; defaultValue = "eformsdktosecretpassword"; break;
+                case Settings.swiftEndPoint: id = 24; defaultValue = "http://172.16.4.4:8080/swift/v1"; break;
+                case Settings.keystoneEndPoint: id = 25; defaultValue = "http://172.16.4.4:5000/v2.0"; break;
+                case Settings.customerNo: id = 26; defaultValue = "0"; break;
+                case Settings.s3Enabled: id = 27; defaultValue = "false"; break;
+                case Settings.s3AccessKeyId: id = 28; defaultValue = "XXX"; break;
+                case Settings.s3SecrectAccessKey: id = 29; defaultValue = "XXX"; break;
+                case Settings.s3Endpoint: id = 30; defaultValue = "https://s3.eu-central-1.amazonaws.com"; break;
+                case Settings.s3BucketName: id = 31; defaultValue = "microting-uploaded-data"; break;
+                case Settings.rabbitMqUser: id = 32; defaultValue = "admin"; break;
+                case Settings.rabbitMqPassword: id = 33; defaultValue = "password"; break;
+                case Settings.rabbitMqHost: id = 34; defaultValue = "localhost"; break;
+                case Settings.translationsMigrated: id = 35; defaultValue = "false"; break;
 
                 default:
                     throw new IndexOutOfRangeException(name.ToString() + " is not a known/mapped Settings type");
             }
             #endregion
 
-            Setting matchId = await db.Settings.SingleOrDefaultAsync(x => x.Id == Id);
+            Setting matchId = await db.Settings.SingleOrDefaultAsync(x => x.Id == id);
             Setting matchName = await db.Settings.SingleOrDefaultAsync(x => x.Name == name.ToString());
 
             if (matchName == null)
@@ -4892,25 +4876,25 @@ namespace Microting.eForm.Infrastructure
                     newSettingBasedOnOld.Name = matchId.Name.ToString();
                     newSettingBasedOnOld.Value = matchId.Value;
 
-                    db.Settings.Add(newSettingBasedOnOld);
+                    await db.Settings.AddAsync(newSettingBasedOnOld);
 
                     matchId.Name = name.ToString();
                     matchId.Value = defaultValue;
 
-                    db.SaveChanges();
+                    await db.SaveChangesAsync();
                     #endregion
                 }
                 else
                 {
                     //its a new setting
                     Setting newSetting = new Setting();
-                    newSetting.Id = Id;
+                    newSetting.Id = id;
                     newSetting.Name = name.ToString();
                     newSetting.Value = defaultValue;
 
-                    db.Settings.Add(newSetting);
+                    await db.Settings.AddAsync(newSetting);
                 }
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
             else if (string.IsNullOrEmpty(matchName.Value))
             {
@@ -4966,7 +4950,7 @@ namespace Microting.eForm.Infrastructure
                 }
 
                 match.Value = newValue;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -5053,9 +5037,9 @@ namespace Microting.eForm.Infrastructure
             string methodName = "SqlController.StartLog";
             try
             {
-                if (log == null)
-                    log = new Log(this);
-                return log;
+                if (_log == null)
+                    _log = new Log(this);
+                return _log;
             }
             catch (Exception ex)
             {
@@ -5114,7 +5098,7 @@ namespace Microting.eForm.Infrastructure
                 try
                 {
                     File.AppendAllText(@"expection.txt",
-                        DateTime.UtcNow.ToString() + " // " + "L:" + "-22" + " // " + "Write logic failed" + " // " + Environment.NewLine
+                        DateTime.UtcNow + " // " + "L:" + "-22" + " // " + "Write logic failed" + " // " + Environment.NewLine
                         + logEntries + Environment.NewLine);
                 }
                 catch
@@ -5152,19 +5136,19 @@ namespace Microting.eForm.Infrastructure
                     WorkflowState = Constants.Constants.WorkflowStates.Created,
                     ParentId = null,
                     Repeated = mainElement.Repeated,
-                    QuickSyncEnabled = t.Bool(mainElement.EnableQuickSync),
+                    QuickSyncEnabled = _t.Bool(mainElement.EnableQuickSync),
                     Version = 1,
                     CaseType = mainElement.CaseType,
                     FolderName = mainElement.CheckListFolderName,
                     DisplayIndex = mainElement.DisplayOrder,
                     ReviewEnabled = 0,
-                    ManualSync = t.Bool(mainElement.ManualSync),
+                    ManualSync = _t.Bool(mainElement.ManualSync),
                     ExtraFieldsEnabled = 0,
                     DoneButtonEnabled = 0,
                     ApprovalEnabled = 0,
-                    MultiApproval = t.Bool(mainElement.MultiApproval),
-                    FastNavigation = t.Bool(mainElement.FastNavigation),
-                    DownloadEntities = t.Bool(mainElement.DownloadEntities),
+                    MultiApproval = _t.Bool(mainElement.MultiApproval),
+                    FastNavigation = _t.Bool(mainElement.FastNavigation),
+                    DownloadEntities = _t.Bool(mainElement.DownloadEntities),
                     OriginalId = mainElement.Id.ToString()
                 };
                 //MainElements never have parents ;)
@@ -5253,10 +5237,10 @@ namespace Microting.eForm.Infrastructure
                     ParentId = parentId,
                     Version = 1,
                     DisplayIndex = groupElement.DisplayOrder,
-                    ReviewEnabled = t.Bool(groupElement.ReviewEnabled),
-                    ExtraFieldsEnabled = t.Bool(groupElement.ExtraFieldsEnabled),
-                    DoneButtonEnabled = t.Bool(groupElement.DoneButtonEnabled),
-                    ApprovalEnabled = t.Bool(groupElement.ApprovalEnabled),
+                    ReviewEnabled = _t.Bool(groupElement.ReviewEnabled),
+                    ExtraFieldsEnabled = _t.Bool(groupElement.ExtraFieldsEnabled),
+                    DoneButtonEnabled = _t.Bool(groupElement.DoneButtonEnabled),
+                    ApprovalEnabled = _t.Bool(groupElement.ApprovalEnabled),
                     // Description = groupElement.Description != null ? groupElement.Description.InderValue : ""
                 };
                 await cl.Create(db).ConfigureAwait(false);
@@ -5325,10 +5309,10 @@ namespace Microting.eForm.Infrastructure
                     ParentId = parentId,
                     Version = 1,
                     DisplayIndex = dataElement.DisplayOrder,
-                    ReviewEnabled = t.Bool(dataElement.ReviewEnabled),
-                    ExtraFieldsEnabled = t.Bool(dataElement.ExtraFieldsEnabled),
-                    DoneButtonEnabled = t.Bool(dataElement.DoneButtonEnabled),
-                    ApprovalEnabled = t.Bool(dataElement.ApprovalEnabled),
+                    ReviewEnabled = _t.Bool(dataElement.ReviewEnabled),
+                    ExtraFieldsEnabled = _t.Bool(dataElement.ExtraFieldsEnabled),
+                    DoneButtonEnabled = _t.Bool(dataElement.DoneButtonEnabled),
+                    ApprovalEnabled = _t.Bool(dataElement.ApprovalEnabled),
                     OriginalId = dataElement.Id.ToString(),
                     // Description = dataElement.Description != null
                     //     ? dataElement.Description.InderValue
@@ -5393,57 +5377,6 @@ namespace Microting.eForm.Infrastructure
             }
         }
 
-
-        //TODO
-//        private void CreateDataItemGroup(int elementId, FieldContainer fieldGroup)
-//        {
-//            try
-//            {
-//                await using (var db = GetContext())
-//                {
-//                    string typeStr = fieldGroup.GetType().ToString().Remove(0, 10); //10 = "eFormData.".Length
-//                    int fieldTypeId = Find(typeStr);
-//
-//                    fields field = new fields();
-//                    field.ParentFieldId = null;
-//                    field.Color = fieldGroup.Color;
-//                    //CDataValue description = new CDataValue();
-//                    //description.InderValue = fieldGroup.Description;
-//                    field.Description = fieldGroup.Description.InderValue;
-//                    field.DisplayIndex = fieldGroup.DisplayOrder;
-//                    field.Label = fieldGroup.Label;
-//
-//                    field.CreatedAt = DateTime.UtcNow;
-//                    field.UpdatedAt = DateTime.UtcNow;
-//                    field.WorkflowState = Constants.Constants.WorkflowStates.Created;
-//                    field.CheckListId = elementId;
-//                    field.FieldTypeId = fieldTypeId;
-//                    field.Version = 1;
-//
-//                    field.DefaultValue = fieldGroup.Value;
-//
-//                    db.fields.Add(field);
-//                    db.SaveChanges();
-//
-//                    db.field_versions.Add(MapFieldVersions(field));
-//                    db.SaveChanges();
-//
-//                    if (fieldGroup.DataItemList != null)
-//                    {
-//                        foreach (DataItem dataItem in fieldGroup.DataItemList)
-//                        {
-//                            CreateDataItem(field.Id, elementId, dataItem);
-//                        }
-//                    }
-//                }
-//            }
-//            catch (Exception ex)
-//            {
-//                throw new Exception("CreateDataItemGroup failed", ex);
-//            }
-//        }
-
-
         //TODO
         private async Task CreateDataItem(int? parentFieldId, int elementId, DataItem dataItem, Language language)
         {
@@ -5471,9 +5404,9 @@ namespace Microting.eForm.Infrastructure
                     // Description = dataItem.Description != null ? dataItem.Description.InderValue : "",
                     DisplayIndex = dataItem.DisplayOrder,
                     // Label = dataItem.Label,
-                    Mandatory = t.Bool(dataItem.Mandatory),
-                    ReadOnly = t.Bool(dataItem.ReadOnly),
-                    Dummy = t.Bool(dataItem.Dummy),
+                    Mandatory = _t.Bool(dataItem.Mandatory),
+                    ReadOnly = _t.Bool(dataItem.ReadOnly),
+                    Dummy = _t.Bool(dataItem.Dummy),
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow,
                     WorkflowState = Constants.Constants.WorkflowStates.Created,
@@ -5499,14 +5432,14 @@ namespace Microting.eForm.Infrastructure
                     case Constants.Constants.FieldTypes.CheckBox:
                         CheckBox checkBox = (CheckBox)dataItem;
                         field.DefaultValue = checkBox.DefaultValue.ToString();
-                        field.Selected = t.Bool(checkBox.Selected);
+                        field.Selected = _t.Bool(checkBox.Selected);
                         break;
 
                     case Constants.Constants.FieldTypes.Comment:
                         Comment comment = (Comment)dataItem;
                         field.DefaultValue = comment.Value;
                         field.MaxLength = comment.Maxlength;
-                        field.Split = t.Bool(comment.Split);
+                        field.Split = _t.Bool(comment.Split);
                         break;
 
                     case Constants.Constants.FieldTypes.Date:
@@ -5627,7 +5560,7 @@ namespace Microting.eForm.Infrastructure
                     case Constants.Constants.FieldTypes.Picture:
                         Picture picture = (Picture)dataItem;
                         field.Multi = picture.Multi;
-                        field.GeolocationEnabled = t.Bool(picture.GeolocationEnabled);
+                        field.GeolocationEnabled = _t.Bool(picture.GeolocationEnabled);
                         break;
 
                     case Constants.Constants.FieldTypes.SaveButton:
@@ -5733,16 +5666,16 @@ namespace Microting.eForm.Infrastructure
                         Text text = (Text)dataItem;
                         field.DefaultValue = text.Value;
                         field.MaxLength = text.MaxLength;
-                        field.GeolocationEnabled = t.Bool(text.GeolocationEnabled);
-                        field.GeolocationForced = t.Bool(text.GeolocationForced);
-                        field.GeolocationHidden = t.Bool(text.GeolocationHidden);
-                        field.BarcodeEnabled = t.Bool(text.BarcodeEnabled);
+                        field.GeolocationEnabled = _t.Bool(text.GeolocationEnabled);
+                        field.GeolocationForced = _t.Bool(text.GeolocationForced);
+                        field.GeolocationHidden = _t.Bool(text.GeolocationHidden);
+                        field.BarcodeEnabled = _t.Bool(text.BarcodeEnabled);
                         field.BarcodeType = text.BarcodeType;
                         break;
 
                     case Constants.Constants.FieldTypes.Timer:
                         Timer timer = (Timer)dataItem;
-                        field.Split = t.Bool(timer.StopOnSave);
+                        field.Split = _t.Bool(timer.StopOnSave);
                         break;
 
                     //-------
@@ -5751,7 +5684,7 @@ namespace Microting.eForm.Infrastructure
                         EntitySearch entitySearch = (EntitySearch)dataItem;
                         field.EntityGroupId = entitySearch.EntityTypeId;
                         field.DefaultValue = entitySearch.DefaultValue.ToString();
-                        field.IsNum = t.Bool(entitySearch.IsNum);
+                        field.IsNum = _t.Bool(entitySearch.IsNum);
                         field.QueryType = entitySearch.QueryType;
                         field.MinValue = entitySearch.MinSearchLenght.ToString();
                         break;
@@ -5809,9 +5742,9 @@ namespace Microting.eForm.Infrastructure
 
                         if (fg.DataItemList != null)
                         {
-                            foreach (DataItem data_item in fg.DataItemList)
+                            foreach (DataItem data in fg.DataItemList)
                             {
-                                await CreateDataItem(field.Id, elementId, data_item, language);
+                                await CreateDataItem(field.Id, elementId, data, language);
                             }
                         }
                         break;
@@ -5877,6 +5810,7 @@ namespace Microting.eForm.Infrastructure
         /// Gets element with specifik id from DB
         /// </summary>
         /// <param name="elementId"></param>
+        /// <param name="language"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         private async Task<Element> GetElement(int elementId, Language language)
@@ -5905,14 +5839,14 @@ namespace Microting.eForm.Infrastructure
 
                         GroupElement gElement = new GroupElement(cl.Id,
                             checkListTranslation.Text,
-                            t.Int(cl.DisplayIndex),
+                            _t.Int(cl.DisplayIndex),
                             checkListTranslation.Description,
-                            t.Bool(cl.ApprovalEnabled),
-                            t.Bool(cl.ReviewEnabled),
-                            t.Bool(cl.DoneButtonEnabled),
-                            t.Bool(cl.ExtraFieldsEnabled),
+                            _t.Bool(cl.ApprovalEnabled),
+                            _t.Bool(cl.ReviewEnabled),
+                            _t.Bool(cl.DoneButtonEnabled),
+                            _t.Bool(cl.ExtraFieldsEnabled),
                             "",
-                            t.Bool(cl.QuickSyncEnabled),
+                            _t.Bool(cl.QuickSyncEnabled),
                             lst);
 
                         //the actual Elements
@@ -5945,14 +5879,14 @@ namespace Microting.eForm.Infrastructure
 
                         DataElement dElement = new DataElement(cl.Id,
                             checkListTranslation.Text,
-                            t.Int(cl.DisplayIndex),
+                            _t.Int(cl.DisplayIndex),
                             checkListTranslation.Description,
-                            t.Bool(cl.ApprovalEnabled),
-                            t.Bool(cl.ReviewEnabled),
-                            t.Bool(cl.DoneButtonEnabled),
-                            t.Bool(cl.ExtraFieldsEnabled),
+                            _t.Bool(cl.ApprovalEnabled),
+                            _t.Bool(cl.ReviewEnabled),
+                            _t.Bool(cl.DoneButtonEnabled),
+                            _t.Bool(cl.ExtraFieldsEnabled),
                             "",
-                            t.Bool(cl.QuickSyncEnabled),
+                            _t.Bool(cl.QuickSyncEnabled),
                             new List<DataItemGroup>(),
                             new List<DataItem>());
 
@@ -5984,6 +5918,8 @@ namespace Microting.eForm.Infrastructure
         /// <param name="lstDataItem"></param>
         /// <param name="lstDataItemGroup"></param>
         /// <param name="dataItemId"></param>
+        /// <param name="field"></param>
+        /// <param name="language"></param>
         /// <exception cref="IndexOutOfRangeException"></exception>
         /// <exception cref="Exception"></exception>
         private async Task GetDataItem(List<DataItem> lstDataItem, List<DataItemGroup> lstDataItemGroup, Data.Entities.Field field, Language language)
@@ -5993,7 +5929,7 @@ namespace Microting.eForm.Infrastructure
             {
                 await using var db = GetContext();
                 //                    fields field = db.fields.SingleAsync(x => x.Id == dataItemId);
-                string fieldTypeStr = Find(t.Int(field.FieldTypeId));
+                string fieldTypeStr = Find(_t.Int(field.FieldTypeId));
 
                 //KEY POINT - mapping
                 FieldTranslation fieldTranslation = await db.FieldTranslations.SingleOrDefaultAsync(x =>
@@ -6006,37 +5942,37 @@ namespace Microting.eForm.Infrastructure
                 switch (fieldTypeStr)
                 {
                     case Constants.Constants.FieldTypes.Audio:
-                        lstDataItem.Add(new Audio(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
-                            t.Int(field.Multi)));
+                        lstDataItem.Add(new Audio(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
+                            _t.Int(field.Multi)));
                         break;
 
                     case Constants.Constants.FieldTypes.CheckBox:
-                        lstDataItem.Add(new CheckBox(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
-                            t.Bool(field.DefaultValue), t.Bool(field.Selected)));
+                        lstDataItem.Add(new CheckBox(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
+                            _t.Bool(field.DefaultValue), _t.Bool(field.Selected)));
                         break;
 
                     case Constants.Constants.FieldTypes.Comment:
-                        lstDataItem.Add(new Comment(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
-                            field.DefaultValue, t.Int(field.MaxLength), t.Bool(field.Split)));
+                        lstDataItem.Add(new Comment(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
+                            field.DefaultValue, _t.Int(field.MaxLength), _t.Bool(field.Split)));
                         break;
 
                     case Constants.Constants.FieldTypes.Date:
-                        lstDataItem.Add(new Date(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                        lstDataItem.Add(new Date(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
                             DateTime.Parse(field.MinValue), DateTime.Parse(field.MaxValue), field.DefaultValue));
                         break;
 
                     case Constants.Constants.FieldTypes.None:
-                        lstDataItem.Add(new None(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy)));
+                        lstDataItem.Add(new None(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy)));
                         break;
 
                     case Constants.Constants.FieldTypes.Number:
-                        lstDataItem.Add(new Number(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
-                            field.MinValue, field.MaxValue, int.Parse(field.DefaultValue), t.Int(field.DecimalCount), field.UnitName));
+                        lstDataItem.Add(new Number(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
+                            field.MinValue, field.MaxValue, int.Parse(field.DefaultValue), _t.Int(field.DecimalCount), field.UnitName));
                         break;
 
                     case Constants.Constants.FieldTypes.NumberStepper:
-                        lstDataItem.Add(new NumberStepper(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
-                            field.MinValue, field.MaxValue, int.Parse(field.DefaultValue), t.Int(field.DecimalCount), field.UnitName));
+                        lstDataItem.Add(new NumberStepper(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
+                            field.MinValue, field.MaxValue, int.Parse(field.DefaultValue), _t.Int(field.DecimalCount), field.UnitName));
                         break;
 
                     case Constants.Constants.FieldTypes.MultiSelect:
@@ -6060,13 +5996,13 @@ namespace Microting.eForm.Infrastructure
                                 DisplayOrder = x.DisplayOrder
                             }).ToListAsync();
 
-                        lstDataItem.Add(new MultiSelect(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                        lstDataItem.Add(new MultiSelect(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
                             multiSelectFieldOptions));
                         break;
 
                     case Constants.Constants.FieldTypes.Picture:
-                        lstDataItem.Add(new Picture(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
-                            t.Int(field.Multi), t.Bool(field.GeolocationEnabled)));
+                        lstDataItem.Add(new Picture(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
+                            _t.Int(field.Multi), _t.Bool(field.GeolocationEnabled)));
                         break;
 
                     case Constants.Constants.FieldTypes.SaveButton:
@@ -6085,17 +6021,17 @@ namespace Microting.eForm.Infrastructure
                                     field.DefaultValue.Split("|")[2];
                                 break;
                         }
-                        lstDataItem.Add(new SaveButton(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                        lstDataItem.Add(new SaveButton(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
                             defaultValue));
                         break;
 
                     case Constants.Constants.FieldTypes.ShowPdf:
-                        lstDataItem.Add(new ShowPdf(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                        lstDataItem.Add(new ShowPdf(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
                             field.DefaultValue));
                         break;
 
                     case Constants.Constants.FieldTypes.Signature:
-                        lstDataItem.Add(new Signature(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy)));
+                        lstDataItem.Add(new Signature(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy)));
                         break;
 
                     case Constants.Constants.FieldTypes.SingleSelect:
@@ -6119,35 +6055,35 @@ namespace Microting.eForm.Infrastructure
                                     DisplayOrder = x.DisplayOrder
                                 }).ToListAsync();
 
-                        lstDataItem.Add(new SingleSelect(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
+                        lstDataItem.Add(new SingleSelect(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
                             singleSelectFieldOptions));
                         break;
 
                     case Constants.Constants.FieldTypes.Text:
-                        lstDataItem.Add(new Text(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
-                            field.DefaultValue, t.Int(field.MaxLength), t.Bool(field.GeolocationEnabled), t.Bool(field.GeolocationForced), t.Bool(field.GeolocationHidden), t.Bool(field.BarcodeEnabled), field.BarcodeType));
+                        lstDataItem.Add(new Text(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
+                            field.DefaultValue, _t.Int(field.MaxLength), _t.Bool(field.GeolocationEnabled), _t.Bool(field.GeolocationForced), _t.Bool(field.GeolocationHidden), _t.Bool(field.BarcodeEnabled), field.BarcodeType));
                         break;
 
                     case Constants.Constants.FieldTypes.Timer:
-                        lstDataItem.Add(new Timer(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
-                            t.Bool(field.StopOnSave)));
+                        lstDataItem.Add(new Timer(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
+                            _t.Bool(field.StopOnSave)));
                         break;
 
                     case Constants.Constants.FieldTypes.EntitySearch:
-                        lstDataItem.Add(new EntitySearch(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
-                            t.Int(field.DefaultValue), t.Int(field.EntityGroupId), t.Bool(field.IsNum), field.QueryType, t.Int(field.MinValue), t.Bool(field.BarcodeEnabled), field.BarcodeType));
+                        lstDataItem.Add(new EntitySearch(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
+                            _t.Int(field.DefaultValue), _t.Int(field.EntityGroupId), _t.Bool(field.IsNum), field.QueryType, _t.Int(field.MinValue), _t.Bool(field.BarcodeEnabled), field.BarcodeType));
                         break;
 
                     case Constants.Constants.FieldTypes.EntitySelect:
-                        lstDataItem.Add(new EntitySelect(t.Int(field.Id), t.Bool(field.Mandatory), t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), t.Bool(field.Dummy),
-                            t.Int(field.DefaultValue), t.Int(field.EntityGroupId)));
+                        lstDataItem.Add(new EntitySelect(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
+                            _t.Int(field.DefaultValue), _t.Int(field.EntityGroupId)));
                         break;
 
                     case Constants.Constants.FieldTypes.FieldGroup:
                         List<DataItem> lst = new List<DataItem>();
                         //CDataValue description = new CDataValue();
                         //description.InderValue = f.description;
-                        lstDataItemGroup.Add(new FieldGroup(field.Id.ToString(), fieldTranslation.Text, fieldTranslation.Description, field.Color, t.Int(field.DisplayIndex), field.DefaultValue, lst));
+                        lstDataItemGroup.Add(new FieldGroup(field.Id.ToString(), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), field.DefaultValue, lst));
                         //lstDataItemGroup.Add(new DataItemGroup(f.Id.ToString(), f.label, f.description, f.color, t.Int(f.display_index), f.default_value, lst));
 
                         //the actual DataItems
@@ -6170,18 +6106,18 @@ namespace Microting.eForm.Infrastructure
         private void GetConverter()
         {
             string methodName = "SqlController.GetConverter";
-            if (converter == null)
+            if (_converter == null)
             {
                 try
                 {
                     using var db = GetContext();
-                    converter = new List<Holder>();
+                    _converter = new List<Holder>();
 
                     List<FieldType> lstFieldType = db.FieldTypes.ToList();
 
                     foreach (var fieldType in lstFieldType)
                     {
-                        converter.Add(new Holder(fieldType.Id, fieldType.Type));
+                        _converter.Add(new Holder(fieldType.Id, fieldType.Type));
                     }
                 }
                 catch (Exception ex)
@@ -6246,12 +6182,11 @@ namespace Microting.eForm.Infrastructure
                     tag.Name = name;
                     await tag.Create(db).ConfigureAwait(false);
                     return tag.Id;
-                } else
-                {
-                    tag.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                    await tag.Update(db).ConfigureAwait(false);
-                    return tag.Id;
                 }
+
+                tag.WorkflowState = Constants.Constants.WorkflowStates.Created;
+                await tag.Update(db).ConfigureAwait(false);
+                return tag.Id;
 
                 //return ;
             }
@@ -6298,11 +6233,11 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         private string Find(int fieldTypeId)
         {
-            foreach (var holder in converter)
+            foreach (var holder in _converter.Where(holder => holder.Index == fieldTypeId))
             {
-                if (holder.Index == fieldTypeId)
-                    return holder.FieldType;
+                return holder.FieldType;
             }
+
             throw new Exception("Find failed. Not known fieldType for fieldTypeId: " + fieldTypeId);
         }
 
@@ -6314,11 +6249,11 @@ namespace Microting.eForm.Infrastructure
         /// <exception cref="Exception"></exception>
         private int Find(string typeStr)
         {
-            foreach (var holder in converter)
+            foreach (var holder in _converter.Where(holder => holder.FieldType == typeStr))
             {
-                if (holder.FieldType == typeStr)
-                    return holder.Index;
+                return holder.Index;
             }
+
             throw new Exception("Find failed. Not known fieldTypeId for typeStr: " + typeStr);
         }
 
@@ -6351,21 +6286,19 @@ namespace Microting.eForm.Infrastructure
         public List<KeyValuePair> PairRead(string str)
         {
             List<KeyValuePair> list = new List<KeyValuePair>();
-            str = t.Locate(str, "<hash>", "</hash>");
+            str = _t.Locate(str, "<hash>", "</hash>");
 
             bool flag = true;
             int index = 1;
-            string keyValue, displayIndex;
-            bool selected;
 
             while (flag)
             {
-                string inderStr = t.Locate(str, "<" + index + ">", "</" + index + ">");
+                string inderStr = _t.Locate(str, "<" + index + ">", "</" + index + ">");
 
-                keyValue = t.Locate(inderStr, "<key>", "</");
+                var keyValue = _t.Locate(inderStr, "<key>", "</");
                 //try
                 //{
-                    selected = bool.Parse(t.Locate(inderStr.ToLower(), "<selected>", "</"));
+                    var selected = bool.Parse(_t.Locate(inderStr.ToLower(), "<selected>", "</"));
                 //}
                 // catch (Exception ex)
                 // {
@@ -6373,13 +6306,13 @@ namespace Microting.eForm.Infrastructure
                 //     selected = false;
                 // }
 
-                displayIndex = t.Locate(inderStr, "<displayIndex>", "</");
+                var displayIndex = _t.Locate(inderStr, "<displayIndex>", "</");
 
                 list.Add(new KeyValuePair(index.ToString(), keyValue, selected, displayIndex));
 
                 index += 1;
 
-                if (t.Locate(str, "<" + index + ">", "</" + index + ">") == "")
+                if (_t.Locate(str, "<" + index + ">", "</" + index + ">") == "")
                     flag = false;
             }
 

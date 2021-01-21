@@ -75,7 +75,7 @@ namespace Microting.eForm.Handlers
 
         private async Task<bool> CheckStatusByMicrotingUid(int microtingUid)
         {
-            await using MicrotingDbContext dbContext = core.dbContextHelper.GetDbContext();
+            await using MicrotingDbContext dbContext = core.DbContextHelper.GetDbContext();
             List<CaseDto> lstCase = new List<CaseDto>();
             MainElement mainElement = new MainElement();
 

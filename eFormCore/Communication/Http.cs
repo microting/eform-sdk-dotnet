@@ -76,7 +76,6 @@ namespace Microting.eForm.Communication
         /// <summary>
         /// Posts the element to Microting and returns the XML encoded restponse.
         /// </summary>
-        /// <param name="xmlData">Element converted to a xml encoded string.</param>
         /// <param name="data"></param>
         /// <param name="siteId"></param>
         /// <param name="contentType"></param>
@@ -770,7 +769,7 @@ namespace Microting.eForm.Communication
             request = WebRequest.Create($"{newUrl}?token={token}");
             request.Method = "GET";
 
-            int response = int.Parse(JRaw.Parse(await PostToServer(request))["otp_code"].ToString());
+            int response = int.Parse(JToken.Parse(await PostToServer(request))["otp_code"]?.ToString() ?? throw new InvalidOperationException());
 
             return response;
         }
@@ -790,7 +789,7 @@ namespace Microting.eForm.Communication
                 WebRequest request = WebRequest.Create(
                     $"{addressBasic}/v1/units/{id}?token={token}&sdk_ver={dllVersion}");
                 request.Method = "DELETE";
-                request.ContentType = "application/x-www-form-urlencoded";  //-- ?
+                request.ContentType = "application/x-www-form-urlencoded";
 
                 string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
@@ -869,28 +868,21 @@ namespace Microting.eForm.Communication
         {
             try
             {
-                using (WebClient client = new WebClient())
+                using WebClient client = new WebClient();
+                string url = $"{addressSpeechToText}/audio/?token={token}&sdk_ver={dllVersion}&lang={language}";
+                using var tempFiles = new TempFileCollection();
+                string file = tempFiles.AddExtension(extension);
+                await using (FileStream fs = File.OpenWrite(file))
                 {
-                    string url = $"{addressSpeechToText}/audio/?token={token}&sdk_ver={dllVersion}&lang={language}";
-                    // Uri url = new Uri(baseUrl);
-                    // MemoryStream ms = new MemoryStream();
-                    // await pathToAudioFile.CopyToAsync(ms);
-                    // byte[] data = ms.ToArray();
-                    // byte[] responseArray = client.UploadData(url, data);
-                    using var tempFiles = new TempFileCollection();
-                    string file = tempFiles.AddExtension(extension);
-                    await using (FileStream fs = File.OpenWrite(file))
-                    {
-                        await pathToAudioFile.CopyToAsync(fs);
-                        await fs.FlushAsync();
-                        fs.Close();
-                    }
-                    byte[] responseArray = await client.UploadFileTaskAsync(url, file);
-
-                    string result = Encoding.UTF8.GetString(responseArray);
-                    var parsedData = JRaw.Parse(result);
-                    return int.Parse(parsedData["id"].ToString());
+                    await pathToAudioFile.CopyToAsync(fs);
+                    await fs.FlushAsync();
+                    fs.Close();
                 }
+                byte[] responseArray = await client.UploadFileTaskAsync(url, file);
+
+                string result = Encoding.UTF8.GetString(responseArray);
+                var parsedData = JToken.Parse(result);
+                return int.Parse(parsedData["id"]?.ToString() ?? throw new InvalidOperationException());
             }
             catch (Exception ex)
             {
@@ -905,7 +897,7 @@ namespace Microting.eForm.Communication
             request.Method = "GET";
 
             string result = await PostToServer(request).ConfigureAwait(false);
-            JToken parsedData = JRaw.Parse(result);
+            JToken parsedData = JToken.Parse(result);
             return parsedData;
         }
         #endregion

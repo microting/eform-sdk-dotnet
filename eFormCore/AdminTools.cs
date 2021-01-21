@@ -361,7 +361,7 @@ namespace eFormCore
             {
                 if (folderDto.MicrotingUId != null)
                 {
-                    FolderDto folder = await sqlController.FolderReadByMicrotingUUID((int)folderDto.MicrotingUId);
+                    FolderDto folder = await sqlController.FolderReadByMicrotingUuid((int)folderDto.MicrotingUId);
 
                     if (folder == null)
                     {
@@ -375,7 +375,7 @@ namespace eFormCore
                             if (folderDto.ParentId != null)
                             {
                                 FolderDto parenFolder =
-                                    await sqlController.FolderReadByMicrotingUUID((int) folderDto.ParentId);
+                                    await sqlController.FolderReadByMicrotingUuid((int) folderDto.ParentId);
 
                                 await sqlController.FolderCreate(folderDto.Name, folderDto.Description, parenFolder.Id,
                                     (int)folderDto.MicrotingUId);

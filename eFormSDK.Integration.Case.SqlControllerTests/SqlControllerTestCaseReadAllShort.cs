@@ -800,10 +800,10 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #endregion
             // Act
 
-            var match1 = await sut.TemplateFieldReadAll(Template1.Id);
-            var match2 = await sut.TemplateFieldReadAll(Template2.Id);
-            var match3 = await sut.TemplateFieldReadAll(Template3.Id);
-            var match4 = await sut.TemplateFieldReadAll(Template4.Id);
+            var match1 = await sut.TemplateFieldReadAll(Template1.Id, language);
+            var match2 = await sut.TemplateFieldReadAll(Template2.Id, language);
+            var match3 = await sut.TemplateFieldReadAll(Template3.Id, language);
+            var match4 = await sut.TemplateFieldReadAll(Template4.Id, language);
 
             // Assert
             #region template1

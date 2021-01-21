@@ -80,6 +80,7 @@ namespace Microting.eForm.Helpers
         public async Task<Site> CreateSite(string name, int microtingUId)
         {
 
+            Language language = await dbContext.Languages.SingleAsync(x => x.LanguageCode == "da");
             Site site = new Site
             {
                 Name = name,
@@ -87,7 +88,8 @@ namespace Microting.eForm.Helpers
                 UpdatedAt = DateTime.UtcNow,
                 CreatedAt = DateTime.UtcNow,
                 Version = 64,
-                WorkflowState = Constants.WorkflowStates.Created
+                WorkflowState = Constants.WorkflowStates.Created,
+                LanguageId = language.Id
             };
             await dbContext.Sites.AddAsync(site);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -241,6 +243,8 @@ namespace Microting.eForm.Helpers
             };
             await fieldTranslation.Create(dbContext);
             Thread.Sleep(2000);
+            f.Label = fieldTranslation.Text;
+            f.Description = fieldTranslation.Description;
 
             return f;
         }

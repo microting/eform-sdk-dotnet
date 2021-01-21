@@ -87,20 +87,16 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
 
             if (eILst.Count > 0)
-                foreach (EntityItem item in eILst)
+                lst.AddRange(eILst.Select(item => new Models.EntityItem
                 {
-                    Models.EntityItem eI = new Models.EntityItem
-                    {
-                        Id = item.Id,
-                        Name = item.Name,
-                        Description = item.Description,
-                        EntityItemUId = item.EntityItemUid,
-                        MicrotingUUID = item.MicrotingUid,
-                        WorkflowState = item.WorkflowState,
-                        DisplayIndex = item.DisplayIndex
-                    };
-                    lst.Add(eI);
-                }
+                    Id = item.Id,
+                    Name = item.Name,
+                    Description = item.Description,
+                    EntityItemUId = item.EntityItemUid,
+                    MicrotingUUID = item.MicrotingUid,
+                    WorkflowState = item.WorkflowState,
+                    DisplayIndex = item.DisplayIndex
+                }));
 
             return rtnEG;
         }

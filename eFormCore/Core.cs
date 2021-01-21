@@ -94,12 +94,12 @@ namespace eFormCore
         private Subscriber _subscriber;
         private Communicator _communicator;
         private SqlController _sqlController;
-        public DbContextHelper dbContextHelper;
-        private readonly Tools t = new Tools();
+        public DbContextHelper DbContextHelper;
+        private readonly Tools _t = new Tools();
 
         private IWindsorContainer _container;
 
-        public Log log;
+        public Log Log;
 
         private readonly object _lockMain = new object();
         object _lockEventMessage = new object();
@@ -181,18 +181,18 @@ namespace eFormCore
 						, new RebusInstaller(connectionString, _maxParallelism, _numberOfWorkers, _rabbitMqUser, _rabbitMqPassword, _rabbitMqHost)
 					);
 					_bus = _container.Resolve<IBus>();
-					log.LogCritical(methodName, "called");
+					Log.LogCritical(methodName, "called");
 
 					//---
 
 					_coreStatChanging = true;
 
 					//subscriber
-					_subscriber = new Subscriber(_sqlController, log, _bus);
+					_subscriber = new Subscriber(_sqlController, Log, _bus);
 					_subscriber.Start();
-					log.LogStandard(methodName, "Subscriber started");
+					Log.LogStandard(methodName, "Subscriber started");
 
-					log.LogCritical(methodName, "started");
+					Log.LogCritical(methodName, "started");
 					_coreAvailable = true;
 					_coreStatChanging = false;
 
@@ -201,7 +201,7 @@ namespace eFormCore
                     //coreThread.Start();
                     _coreThreadRunning = true;
 
-                    log.LogStandard(methodName, "CoreThread started");
+                    Log.LogStandard(methodName, "CoreThread started");
 				}
 			}
 			#region catch
@@ -229,8 +229,8 @@ namespace eFormCore
                         throw new ArgumentException("serverConnectionString is not allowed to be null or empty");
 
                     //sqlController
-                    dbContextHelper = new DbContextHelper(connectionString);
-                    _sqlController = new SqlController(dbContextHelper);
+                    DbContextHelper = new DbContextHelper(connectionString);
+                    _sqlController = new SqlController(DbContextHelper);
 
                     //check settings
                     var errors = _sqlController.SettingCheckAll().GetAwaiter().GetResult();
@@ -238,7 +238,7 @@ namespace eFormCore
                     {
                         foreach (var error in errors)
                         {
-                            log.LogCritical(methodName, $"_sqlController.SettingCheckAll() returned error : {error}");
+                            Log.LogCritical(methodName, $"_sqlController.SettingCheckAll() returned error : {error}");
                         }
                         throw new ArgumentException("Use AdminTool to setup database correctly. 'SettingCheckAll()' returned with errors");
                     }
@@ -253,33 +253,32 @@ namespace eFormCore
                         throw new ArgumentException("Use AdminTool to setup database correctly. KnownSitesDone has not completed");
 
                     //log
-                    if (log == null)
-                        log = _sqlController.StartLog(this);
+                    Log ??= _sqlController.StartLog(this);
 
-                    log.LogCritical(methodName, "###########################################################################");
-                    log.LogCritical(methodName, "called");
-                    log.LogStandard(methodName, "SqlController and Logger started");
+                    Log.LogCritical(methodName, "###########################################################################");
+                    Log.LogCritical(methodName, "called");
+                    Log.LogStandard(methodName, "SqlController and Logger started");
 
                     //settings read
                     this._connectionString = connectionString;
                     _fileLocationPicture = await _sqlController.SettingRead(Settings.fileLocationPicture);
                     _fileLocationPdf = await _sqlController.SettingRead(Settings.fileLocationPdf);
-                    log.LogStandard(methodName, "Settings read");
+                    Log.LogStandard(methodName, "Settings read");
 
                     //communicators
                     string token = await _sqlController.SettingRead(Settings.token).ConfigureAwait(false);
                     string comAddressApi = await _sqlController.SettingRead(Settings.comAddressApi).ConfigureAwait(false);
                     string comAddressBasic = await _sqlController.SettingRead(Settings.comAddressBasic).ConfigureAwait(false);
                     string comOrganizationId = await _sqlController.SettingRead(Settings.comOrganizationId).ConfigureAwait(false);
-                    string ComAddressPdfUpload = await _sqlController.SettingRead(Settings.comAddressPdfUpload).ConfigureAwait(false);
-                    string ComSpeechToText = await _sqlController.SettingRead(Settings.comSpeechToText).ConfigureAwait(false);
-                    _communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId, ComAddressPdfUpload, log, ComSpeechToText);
+                    string comAddressPdfUpload = await _sqlController.SettingRead(Settings.comAddressPdfUpload).ConfigureAwait(false);
+                    string comSpeechToText = await _sqlController.SettingRead(Settings.comSpeechToText).ConfigureAwait(false);
+                    _communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId, comAddressPdfUpload, Log, comSpeechToText);
 
                     _container = new WindsorContainer();
                     _container.Register(
                         Component.For<SqlController>().Instance(_sqlController),
                         Component.For<Communicator>().Instance(_communicator),
-                        Component.For<Log>().Instance(log),
+                        Component.For<Log>().Instance(Log),
                         Component.For<Core>().Instance(this));
 
                     try
@@ -322,7 +321,7 @@ namespace eFormCore
 				        }
 				        catch (Exception ex)
 				        {
-				            log.LogWarning(methodName, ex.Message);
+				            Log.LogWarning(methodName, ex.Message);
 				        }
 
 
@@ -354,16 +353,16 @@ namespace eFormCore
                         }
                         catch (Exception ex)
                         {
-                            log.LogWarning(methodName, ex.Message);
+                            Log.LogWarning(methodName, ex.Message);
                         }
 
                     }
 
 
 
-                    log.LogStandard(methodName, "Communicator started");
+                    Log.LogStandard(methodName, "Communicator started");
 
-                    log.LogCritical(methodName, "started");
+                    Log.LogCritical(methodName, "started");
                     _coreAvailable = true;
                     _coreStatChanging = false;
                 }
@@ -390,9 +389,9 @@ namespace eFormCore
                 if (_coreRestarting == false)
                 {
                     _coreRestarting = true;
-                    log.LogCritical(methodName, "called");
-                    log.LogVariable(methodName, nameof(sameExceptionCount), sameExceptionCount);
-                    log.LogVariable(methodName, nameof(sameExceptionCountMax), sameExceptionCountMax);
+                    Log.LogCritical(methodName, "called");
+                    Log.LogVariable(methodName, nameof(sameExceptionCount), sameExceptionCount);
+                    Log.LogVariable(methodName, nameof(sameExceptionCountMax), sameExceptionCountMax);
 
                     _sameExceptionCountTried++;
 
@@ -411,17 +410,17 @@ namespace eFormCore
                         case 4: secondsDelay = 512; break;
                         default: throw new ArgumentOutOfRangeException("sameExceptionCount should be above 0");
                     }
-                    log.LogVariable(methodName, nameof(_sameExceptionCountTried), _sameExceptionCountTried);
-                    log.LogVariable(methodName, nameof(secondsDelay), secondsDelay);
+                    Log.LogVariable(methodName, nameof(_sameExceptionCountTried), _sameExceptionCountTried);
+                    Log.LogVariable(methodName, nameof(secondsDelay), secondsDelay);
 
                     await Close().ConfigureAwait(false);
 
-                    log.LogStandard(methodName, "Trying to restart the Core in " + secondsDelay + " seconds");
+                    Log.LogStandard(methodName, "Trying to restart the Core in " + secondsDelay + " seconds");
 
                     if (!skipRestartDelay)
                         Thread.Sleep(secondsDelay * 1000);
                     else
-                        log.LogStandard(methodName, "Delay skipped");
+                        Log.LogStandard(methodName, "Delay skipped");
 
                     await Start(_connectionString).ConfigureAwait(false);
                     _coreRestarting = false;
@@ -441,7 +440,7 @@ namespace eFormCore
 #pragma warning restore 1998
         {
             string methodName = "Core.Close";
-            log.LogStandard(methodName, "Close called");
+            Log.LogStandard(methodName, "Close called");
             try
             {
                 if (_coreAvailable && !_coreStatChanging)
@@ -451,15 +450,15 @@ namespace eFormCore
                         _coreStatChanging = true;
 
                         _coreAvailable = false;
-                        log.LogCritical(methodName, "called");
+                        Log.LogCritical(methodName, "called");
 
                         try
                         {
                             if (_subscriber != null)
                             {
-                                log.LogEverything(methodName, "Subscriber requested to close connection");
+                                Log.LogEverything(methodName, "Subscriber requested to close connection");
                                 _subscriber.Close().GetAwaiter().GetResult();
-                                log.LogEverything(methodName, "Subscriber closed");
+                                Log.LogEverything(methodName, "Subscriber closed");
                                 _bus.Advanced.Workers.SetNumberOfWorkers(0);
                                 _bus.Dispose();
                                 _coreThreadRunning = false;
@@ -467,7 +466,7 @@ namespace eFormCore
                         }
                         catch (Exception ex)
                         {
-                            log.LogException(methodName, "Subscriber failed to close", ex);
+                            Log.LogException(methodName, "Subscriber failed to close", ex);
                         }
 
                         int tries = 0;
@@ -482,7 +481,7 @@ namespace eFormCore
 
                         _updateIsRunningEntities = false;
 
-                        log.LogStandard(methodName, "Core closed");
+                        Log.LogStandard(methodName, "Core closed");
                         _subscriber = null;
                         _communicator = null;
                         _sqlController = null;
@@ -524,7 +523,7 @@ namespace eFormCore
 
             try
             {
-                log?.LogFatalException(methodName + " called for reason:'" + reason + "'", exception);
+                Log?.LogFatalException(methodName + " called for reason:'" + reason + "'", exception);
             }
             catch { }
 
@@ -549,9 +548,9 @@ namespace eFormCore
             string methodName = "Core.TemplateFromXml";
             try
             {
-                log.LogStandard(methodName, "called");
-                log.LogEverything(methodName, "XML to transform:");
-                log.LogEverything(methodName, xmlString);
+                Log.LogStandard(methodName, "called");
+                Log.LogEverything(methodName, "XML to transform:");
+                Log.LogEverything(methodName, xmlString);
 
                 //XML HACK TODO
                 #region xmlString = corrected xml if needed
@@ -562,14 +561,14 @@ namespace eFormCore
                 xmlString = xmlString.Replace("xsi:type", "type");
 
 
-                xmlString = t.ReplaceInsensitive(xmlString, "<main", "<Main");
-                xmlString = t.ReplaceInsensitive(xmlString, "</main", "</Main");
+                xmlString = _t.ReplaceInsensitive(xmlString, "<main", "<Main");
+                xmlString = _t.ReplaceInsensitive(xmlString, "</main", "</Main");
 
-                xmlString = t.ReplaceInsensitive(xmlString, "<element", "<Element");
-                xmlString = t.ReplaceInsensitive(xmlString, "</element", "</Element");
+                xmlString = _t.ReplaceInsensitive(xmlString, "<element", "<Element");
+                xmlString = _t.ReplaceInsensitive(xmlString, "</element", "</Element");
 
-                xmlString = t.ReplaceInsensitive(xmlString, "<dataItem", "<DataItem");
-                xmlString = t.ReplaceInsensitive(xmlString, "</dataItem", "</DataItem");
+                xmlString = _t.ReplaceInsensitive(xmlString, "<dataItem", "<DataItem");
+                xmlString = _t.ReplaceInsensitive(xmlString, "</dataItem", "</DataItem");
 
                 List<string> keyWords = new List<string>();
                 keyWords.Add("GroupElement");
@@ -594,7 +593,7 @@ namespace eFormCore
                 keyWords.Add("Timer");
 
                 foreach (var item in keyWords)
-                    xmlString = t.ReplaceInsensitive(xmlString, "=\"" + item + "\">", "=\"" + item + "\">");
+                    xmlString = _t.ReplaceInsensitive(xmlString, "=\"" + item + "\">", "=\"" + item + "\">");
 
                 xmlString = xmlString.Replace("<Main>", "<Main xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">");
                 xmlString = xmlString.Replace("<Element type=", "<Element xsi:type=");
@@ -616,7 +615,7 @@ namespace eFormCore
                 xmlString = xmlString.Replace("=\"Check_Box\">", "=\"CheckBox\">");
                 xmlString = xmlString.Replace("=\"SingleSelectSearch\">", "=\"EntitySelect\">");
 
-                string temp = t.Locate(xmlString, "<DoneButtonDisabled>", "</DoneButtonDisabled>");
+                string temp = _t.Locate(xmlString, "<DoneButtonDisabled>", "</DoneButtonDisabled>");
                 if (temp == "false")
                 {
                     xmlString = xmlString.Replace("DoneButtonDisabled", "DoneButtonEnabled");
@@ -639,7 +638,7 @@ namespace eFormCore
                 xmlString = xmlString.Replace("<DecimalCount/>", "<DecimalCount>" + "0" + "</DecimalCount>");
                 xmlString = xmlString.Replace("<DisplayOrder></DisplayOrder>", "<DisplayOrder>" + "0" + "</DisplayOrder>");
 
-                List<string> dILst = t.LocateList(xmlString, "type=\"Date\">", "</DataItem>");
+                List<string> dILst = _t.LocateList(xmlString, "type=\"Date\">", "</DataItem>");
                 if (dILst != null)
                 {
                     foreach (var item in dILst)
@@ -656,12 +655,12 @@ namespace eFormCore
                 }
 
 //                xmlString = t.ReplaceAtLocationAll(xmlString, "<Id>", "</Id>", "1", false);
-                xmlString = t.ReplaceInsensitive(xmlString, ">True<", ">true<");
-                xmlString = t.ReplaceInsensitive(xmlString, ">False<", ">false<");
+                xmlString = _t.ReplaceInsensitive(xmlString, ">True<", ">true<");
+                xmlString = _t.ReplaceInsensitive(xmlString, ">False<", ">false<");
                 #endregion
 
-                log.LogEverything(methodName, "XML after possible corrections:");
-                log.LogEverything(methodName, xmlString);
+                Log.LogEverything(methodName, "XML after possible corrections:");
+                Log.LogEverything(methodName, xmlString);
 
                 MainElement mainElement = new MainElement();
                 mainElement = mainElement.XmlToClass(xmlString);
@@ -672,7 +671,7 @@ namespace eFormCore
                 mainElement.PushMessageBody = "";
                 if (mainElement.Repeated < 1)
                 {
-                    log.LogCritical(methodName, "mainElement.Repeated = 1 // enforced");
+                    Log.LogCritical(methodName, "mainElement.Repeated = 1 // enforced");
                     mainElement.Repeated = 1;
                 }
 
@@ -680,7 +679,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 if (ex.InnerException != null)
                 {
                     if (ex.InnerException.InnerException != null)
@@ -718,9 +717,9 @@ namespace eFormCore
             string methodName = "Core.TemplateFromXml";
             try
             {
-                log.LogStandard(methodName, "called");
-                log.LogEverything(methodName, "json to transform:");
-                log.LogEverything(methodName, json);
+                Log.LogStandard(methodName, "called");
+                Log.LogEverything(methodName, "json to transform:");
+                Log.LogEverything(methodName, json);
 
                 #region xmlString = corrected xml if needed
                 // check with json Payload
@@ -746,7 +745,7 @@ namespace eFormCore
                 mainElement.PushMessageBody = "";
                 if (mainElement.Repeated < 1)
                 {
-                    log.LogCritical(methodName, "mainElement.Repeated = 1 // enforced");
+                    Log.LogCritical(methodName, "mainElement.Repeated = 1 // enforced");
                     mainElement.Repeated = 1;
                 }
 
@@ -754,7 +753,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("Could not parse XML, got error: " + ex.Message, ex);
             }
         }
@@ -781,7 +780,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -790,7 +789,7 @@ namespace eFormCore
         {
             string methodName = "Core.FieldValidation";
 
-            log.LogStandard(methodName, "called");
+            Log.LogStandard(methodName, "called");
 
             List<string> errorLst = new List<string>();
             var dataItems = mainElement.DataItemGetAll();
@@ -853,7 +852,7 @@ namespace eFormCore
 #pragma warning restore 1998
         {
             string methodName = "Core.CheckListValidation";
-            log.LogStandard(methodName, "called");
+            Log.LogStandard(methodName, "called");
             List<string> errorLst = new List<string>();
 
             List<string> acceptedColors = new List<string>();
@@ -879,7 +878,7 @@ namespace eFormCore
             {
                 if (Running())
                 {
-                    log.LogStandard(methodName, "called");
+                    Log.LogStandard(methodName, "called");
 
                     List<string> errorLst = new List<string>();
                     var dataItems = mainElement.DataItemGetAll();
@@ -910,7 +909,7 @@ namespace eFormCore
                                     }
                                     catch (Exception ex)
                                     {
-                                        log.LogException("Download failed. Path:'" + showPdf.Value + "'", ex.Message, ex);
+                                        Log.LogException("Download failed. Path:'" + showPdf.Value + "'", ex.Message, ex);
                                         try
                                         {
                                             downloadPath = Path.Combine(Directory.GetCurrentDirectory(), "pdf");
@@ -931,10 +930,10 @@ namespace eFormCore
                                     if (hash != null)
                                     {
                                         //rename local file
-                                        FileInfo FileInfo = new FileInfo(filePathAndFileName);
+                                        FileInfo fileInfo = new FileInfo(filePathAndFileName);
 
-                                        FileInfo.CopyTo(downloadPath + hash + ".pdf", true);
-                                        FileInfo.Delete();
+                                        fileInfo.CopyTo(downloadPath + hash + ".pdf", true);
+                                        fileInfo.Delete();
 
                                         await PutFileToStorageSystem(Path.Combine(downloadPath, $"{hash}.pdf"), $"{hash}.pdf");
 
@@ -961,7 +960,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -980,16 +979,15 @@ namespace eFormCore
             {
                 if (Running())
                 {
-                    log.LogStandard(methodName, "called");
+                    Log.LogStandard(methodName, "called");
 
-                    List<string> errors = await TemplateValidation(mainElement);
+                    List<string> errors = await TemplateValidation(mainElement) ?? new List<string>();
 
-                    if (errors == null) errors = new List<string>();
                     if (errors.Count > 0)
                         throw new Exception("mainElement failed TemplateValidation. Run TemplateValidation to see errors");
 
                     int templateId = await _sqlController.TemplateCreate(mainElement).ConfigureAwait(false);
-                    log.LogEverything(methodName, "Template id:" + templateId.ToString() + " created in DB");
+                    Log.LogEverything(methodName, "Template id:" + templateId.ToString() + " created in DB");
                     return templateId;
                 }
                 else
@@ -997,7 +995,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -1014,17 +1012,17 @@ namespace eFormCore
             {
                 if (Running())
                 {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(templateId), templateId);
+                    Log.LogStandard(methodName, "called");
+                    Log.LogVariable(methodName, nameof(templateId), templateId);
 
                     return await _sqlController.ReadeForm(templateId, language);
                 }
-                else
-                    throw new Exception("Core is not running");
+
+                throw new Exception("Core is not running");
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -1038,19 +1036,15 @@ namespace eFormCore
             string methodName = "Core.TemplateDelete";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(templateId), templateId);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(templateId), templateId);
 
-                    return await _sqlController.TemplateDelete(templateId).ConfigureAwait(false);
-                }
-                else
-                    throw new Exception("Core is not running");
+                return await _sqlController.TemplateDelete(templateId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -1066,25 +1060,22 @@ namespace eFormCore
             string methodName = "Core.TemplateItemRead";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(templateId), templateId);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(templateId), templateId);
 
-                    return await _sqlController.TemplateItemRead(templateId, language).ConfigureAwait(false);
-                }
-                else
-                    throw new Exception("Core is not running");
+                return await _sqlController.TemplateItemRead(templateId, language).ConfigureAwait(false);
+
             }
             catch (Exception ex)
             {
                 try
                 {
-                    log.LogException(methodName, "(int " + templateId.ToString() + ") failed", ex);
+                    Log.LogException(methodName, "(int " + templateId.ToString() + ") failed", ex);
                 }
                 catch
                 {
-                    log.LogException(methodName, "(int templateId) failed", ex);
+                    Log.LogException(methodName, "(int templateId) failed", ex);
                 }
                 throw new Exception("failed", ex);
             }
@@ -1101,25 +1092,21 @@ namespace eFormCore
             string methodName = "Core.TemplateItemReadAll";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(includeRemoved), includeRemoved);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(includeRemoved), includeRemoved);
 
-                    return await TemplateItemReadAll(includeRemoved, Constants.WorkflowStates.Created, "", true, "", new List<int>(), timeZoneInfo, language).ConfigureAwait(false);
-                }
-                else
-                    throw new Exception("Core is not running");
+                return await TemplateItemReadAll(includeRemoved, Constants.WorkflowStates.Created, "", true, "", new List<int>(), timeZoneInfo, language).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 try
                 {
-                    log.LogException(methodName, "(bool " + includeRemoved.ToString() + ") failed", ex);
+                    Log.LogException(methodName, "(bool " + includeRemoved.ToString() + ") failed", ex);
                 }
                 catch
                 {
-                    log.LogException(methodName, "(bool includeRemoved) failed", ex);
+                    Log.LogException(methodName, "(bool includeRemoved) failed", ex);
                 }
                 throw new Exception("failed", ex);
             }
@@ -1130,23 +1117,20 @@ namespace eFormCore
             string methodName = "Core.TemplateItemReadAll";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(includeRemoved), includeRemoved);
-                    log.LogVariable(methodName, nameof(searchKey), searchKey);
-                    log.LogVariable(methodName, nameof(descendingSort), descendingSort);
-                    log.LogVariable(methodName, nameof(sortParameter), sortParameter);
-                    log.LogVariable(methodName, nameof(tagIds), tagIds.ToString());
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(includeRemoved), includeRemoved);
+                Log.LogVariable(methodName, nameof(searchKey), searchKey);
+                Log.LogVariable(methodName, nameof(descendingSort), descendingSort);
+                Log.LogVariable(methodName, nameof(sortParameter), sortParameter);
+                Log.LogVariable(methodName, nameof(tagIds), tagIds.ToString());
 
-                    return await _sqlController.TemplateItemReadAll(includeRemoved, siteWorkflowState, searchKey, descendingSort, sortParameter, tagIds, timeZoneInfo, language).ConfigureAwait(false);
-                }
-                else
-                    throw new Exception("Core is not running");
+                return await _sqlController.TemplateItemReadAll(includeRemoved, siteWorkflowState, searchKey, descendingSort, sortParameter, tagIds, timeZoneInfo, language).ConfigureAwait(false);
+
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -1156,20 +1140,17 @@ namespace eFormCore
             string methodName = "Core.TemplateSetTags";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(templateId), templateId);
-                    log.LogVariable(methodName, nameof(tagIds), tagIds.ToString());
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(templateId), templateId);
+                Log.LogVariable(methodName, nameof(tagIds), tagIds.ToString());
 
-                    return await _sqlController.TemplateSetTags(templateId, tagIds).ConfigureAwait(false);
-                }
-                else
-                    throw new Exception("Core is not running");
+                return await _sqlController.TemplateSetTags(templateId, tagIds).ConfigureAwait(false);
+
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -1215,62 +1196,59 @@ namespace eFormCore
             string methodName = "Core.CaseCreate";
             try
             {
-                if (Running())
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                string siteIdsStr = string.Join(",", siteUids);
+                Log.LogVariable(methodName, nameof(caseUId), caseUId);
+                Log.LogVariable(methodName, nameof(siteIdsStr), siteIdsStr);
+                Log.LogVariable(methodName, nameof(custom), custom);
+
+                #region check input
+                DateTime start = DateTime.Parse(mainElement.StartDate.ToLongDateString());
+                DateTime end = DateTime.Parse(mainElement.EndDate.ToLongDateString());
+
+                if (end < DateTime.UtcNow)
                 {
-                    log.LogStandard(methodName, "called");
-                    string siteIdsStr = string.Join(",", siteUids);
-                    log.LogVariable(methodName, nameof(caseUId), caseUId);
-                    log.LogVariable(methodName, nameof(siteIdsStr), siteIdsStr);
-                    log.LogVariable(methodName, nameof(custom), custom);
-
-                    #region check input
-                    DateTime start = DateTime.Parse(mainElement.StartDate.ToLongDateString());
-                    DateTime end = DateTime.Parse(mainElement.EndDate.ToLongDateString());
-
-                    if (end < DateTime.UtcNow)
-                    {
-                        log.LogStandard(methodName, $"mainElement.EndDate is set to {end}");
-                        throw new ArgumentException("mainElement.EndDate needs to be a future date");
-                    }
-
-                    if (end <= start)
-                    {
-                        log.LogStandard(methodName, $"mainElement.StartDat is set to {start}");
-                        throw new ArgumentException("mainElement.StartDate needs to be at least the day, before the remove date (mainElement.EndDate)");
-                    }
-
-                    if (caseUId != "" && mainElement.Repeated != 1)
-                        throw new ArgumentException("if caseUId can only be used for mainElement.Repeated == 1");
-                    #endregion
-
-                    //sending and getting a reply
-                    List<int> lstMUId = new List<int>();
-
-                    foreach (int siteUid in siteUids)
-                    {
-                        int mUId = await SendXml(mainElement, siteUid);
-
-                        if (mainElement.Repeated == 1)
-                            await _sqlController.CaseCreate(mainElement.Id, siteUid, mUId, null, caseUId, custom, DateTime.UtcNow, folderId).ConfigureAwait(false);
-                        else
-                            await _sqlController.CheckListSitesCreate(mainElement.Id, siteUid, mUId, folderId).ConfigureAwait(false);
-
-                        CaseDto cDto = await _sqlController.CaseReadByMUId(mUId);
-                        //InteractionCaseUpdate(cDto);
-                        try { HandleCaseCreated?.Invoke(cDto, EventArgs.Empty); }
-                        catch { log.LogWarning(methodName, "HandleCaseCreated event's external logic suffered an Expection"); }
-                        log.LogStandard(methodName, $"{cDto} has been created");
-
-                        lstMUId.Add(mUId);
-                    }
-                    return lstMUId;
+                    Log.LogStandard(methodName, $"mainElement.EndDate is set to {end}");
+                    throw new ArgumentException("mainElement.EndDate needs to be a future date");
                 }
-                else
-                    throw new Exception("Core is not running");
+
+                if (end <= start)
+                {
+                    Log.LogStandard(methodName, $"mainElement.StartDat is set to {start}");
+                    throw new ArgumentException("mainElement.StartDate needs to be at least the day, before the remove date (mainElement.EndDate)");
+                }
+
+                if (caseUId != "" && mainElement.Repeated != 1)
+                    throw new ArgumentException("if caseUId can only be used for mainElement.Repeated == 1");
+                #endregion
+
+                //sending and getting a reply
+                List<int> lstMUId = new List<int>();
+
+                foreach (int siteUid in siteUids)
+                {
+                    int mUId = await SendXml(mainElement, siteUid);
+
+                    if (mainElement.Repeated == 1)
+                        await _sqlController.CaseCreate(mainElement.Id, siteUid, mUId, null, caseUId, custom, DateTime.UtcNow, folderId).ConfigureAwait(false);
+                    else
+                        await _sqlController.CheckListSitesCreate(mainElement.Id, siteUid, mUId, folderId).ConfigureAwait(false);
+
+                    CaseDto cDto = await _sqlController.CaseReadByMUId(mUId);
+                    //InteractionCaseUpdate(cDto);
+                    try { HandleCaseCreated?.Invoke(cDto, EventArgs.Empty); }
+                    catch { Log.LogWarning(methodName, "HandleCaseCreated event's external logic suffered an Expection"); }
+                    Log.LogStandard(methodName, $"{cDto} has been created");
+
+                    lstMUId.Add(mUId);
+                }
+                return lstMUId;
+                throw new Exception("Core is not running");
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return null;
             }
         }
@@ -1284,19 +1262,16 @@ namespace eFormCore
             string methodName = "Core.CaseCheck";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(microtingUId), microtingUId);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(microtingUId), microtingUId);
 
-                    CaseDto cDto = await CaseLookupMUId(microtingUId).ConfigureAwait(false);
-                    return await _communicator.CheckStatus(cDto.MicrotingUId.ToString(), cDto.SiteUId).ConfigureAwait(false);
-                }
-                throw new Exception("Core is not running");
+                CaseDto cDto = await CaseLookupMUId(microtingUId).ConfigureAwait(false);
+                return await _communicator.CheckStatus(cDto.MicrotingUId.ToString(), cDto.SiteUId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return null;
             }
         }
@@ -1312,33 +1287,29 @@ namespace eFormCore
             string methodName = "Core.CaseRead";
             try
             {
-                if (Running())
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(microtingUId), microtingUId);
+                Log.LogVariable(methodName, nameof(checkUId), checkUId);
+
+                Case aCase = await _sqlController.CaseReadFull(microtingUId, checkUId).ConfigureAwait(false);
+                #region handling if no match case found
+                if (aCase == null)
                 {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(microtingUId), microtingUId);
-                    log.LogVariable(methodName, nameof(checkUId), checkUId);
-
-                    Case aCase = await _sqlController.CaseReadFull(microtingUId, checkUId).ConfigureAwait(false);
-                    #region handling if no match case found
-                    if (aCase == null)
-                    {
-                        log.LogWarning(methodName, $"No case found with MuuId:'{microtingUId}'");
-                        return null;
-                    }
-                    #endregion
-
-                    int id = aCase.Id;
-                    log.LogEverything(methodName, $"aCase.Id:{aCase.Id}, found");
-
-                    ReplyElement replyElement = await _sqlController.CheckRead(microtingUId, checkUId, language);
-                    return replyElement;
+                    Log.LogWarning(methodName, $"No case found with MuuId:'{microtingUId}'");
+                    return null;
                 }
-                else
-                    throw new Exception("Core is not running");
+                #endregion
+
+                int id = aCase.Id;
+                Log.LogEverything(methodName, $"aCase.Id:{aCase.Id}, found");
+
+                ReplyElement replyElement = await _sqlController.CheckRead(microtingUId, checkUId, language);
+                return replyElement;
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return null;
             }
         }
@@ -1348,19 +1319,15 @@ namespace eFormCore
             string methodName = "Core.CaseReadByCaseId";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(id), id);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(id), id);
 
-                    return await _sqlController.CaseReadByCaseId(id).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.CaseReadByCaseId(id).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return null;
             }
         }
@@ -1370,20 +1337,16 @@ namespace eFormCore
             string methodName = "Core.CaseReadFirstId";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(templateId), templateId);
-                    log.LogVariable(methodName, nameof(workflowState), workflowState);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(templateId), templateId);
+                Log.LogVariable(methodName, nameof(workflowState), workflowState);
 
-                    return await _sqlController.CaseReadFirstId(templateId, workflowState);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.CaseReadFirstId(templateId, workflowState);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return null;
             }
         }
@@ -1398,22 +1361,19 @@ namespace eFormCore
             string methodName = "Core.CaseReadAll";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(templateId), templateId);
-                    log.LogVariable(methodName, nameof(start), start);
-                    log.LogVariable(methodName, nameof(end), end);
-                    log.LogVariable(methodName, nameof(workflowState), workflowState);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(templateId), templateId);
+                Log.LogVariable(methodName, nameof(start), start);
+                Log.LogVariable(methodName, nameof(end), end);
+                Log.LogVariable(methodName, nameof(workflowState), workflowState);
 
-                    return await CaseReadAll(templateId, start, end, workflowState, searchKey, false, null, timeZoneInfo).ConfigureAwait(false);
-                }
+                return await CaseReadAll(templateId, start, end, workflowState, searchKey, false, null, timeZoneInfo).ConfigureAwait(false);
 
-                throw new Exception("Core is not running");
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return null;
             }
         }
@@ -1423,24 +1383,21 @@ namespace eFormCore
             string methodName = "Core.CaseReadAll";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(templateId), templateId);
-                    log.LogVariable(methodName, nameof(start), start);
-                    log.LogVariable(methodName, nameof(end), end);
-                    log.LogVariable(methodName, nameof(workflowState), workflowState);
-                    log.LogVariable(methodName, nameof(descendingSort), descendingSort);
-                    log.LogVariable(methodName, nameof(sortParameter), sortParameter);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(templateId), templateId);
+                Log.LogVariable(methodName, nameof(start), start);
+                Log.LogVariable(methodName, nameof(end), end);
+                Log.LogVariable(methodName, nameof(workflowState), workflowState);
+                Log.LogVariable(methodName, nameof(descendingSort), descendingSort);
+                Log.LogVariable(methodName, nameof(sortParameter), sortParameter);
 
-                    return await _sqlController.CaseReadAll(templateId, start, end, workflowState, searchKey, descendingSort, sortParameter, timeZoneInfo).ConfigureAwait(false);
-                }
+                return await _sqlController.CaseReadAll(templateId, start, end, workflowState, searchKey, descendingSort, sortParameter, timeZoneInfo).ConfigureAwait(false);
 
-                throw new Exception("Core is not running");
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return null;
             }
         }
@@ -1459,27 +1416,24 @@ namespace eFormCore
             string methodName = "Core.CaseReadAll";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(templateId), templateId);
-                    log.LogVariable(methodName, nameof(start), start);
-                    log.LogVariable(methodName, nameof(end), end);
-                    log.LogVariable(methodName, nameof(workflowState), workflowState);
-                    log.LogVariable(methodName, nameof(descendingSort), descendingSort);
-                    log.LogVariable(methodName, nameof(sortParameter), sortParameter);
-                    log.LogVariable(methodName, nameof(pageIndex), pageIndex);
-                    log.LogVariable(methodName, nameof(pageSize), pageSize);
-                    log.LogVariable(methodName, nameof(searchKey), searchKey);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(templateId), templateId);
+                Log.LogVariable(methodName, nameof(start), start);
+                Log.LogVariable(methodName, nameof(end), end);
+                Log.LogVariable(methodName, nameof(workflowState), workflowState);
+                Log.LogVariable(methodName, nameof(descendingSort), descendingSort);
+                Log.LogVariable(methodName, nameof(sortParameter), sortParameter);
+                Log.LogVariable(methodName, nameof(pageIndex), pageIndex);
+                Log.LogVariable(methodName, nameof(pageSize), pageSize);
+                Log.LogVariable(methodName, nameof(searchKey), searchKey);
 
-                    return await _sqlController.CaseReadAll(templateId, start, end, workflowState, searchKey, descendingSort, sortParameter, pageIndex, pageSize, timeZoneInfo).ConfigureAwait(false);
-                }
+                return await _sqlController.CaseReadAll(templateId, start, end, workflowState, searchKey, descendingSort, sortParameter, pageIndex, pageSize, timeZoneInfo).ConfigureAwait(false);
 
-                throw new Exception("Core is not running");
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return null;
             }
         }
@@ -1495,42 +1449,37 @@ namespace eFormCore
             string methodName = "Core.CaseUpdate";
             try
             {
-                if (Running())
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(caseId), caseId);
+
+                if (newFieldValuePairLst == null)
+                    newFieldValuePairLst = new List<string>();
+
+                if (newCheckListValuePairLst == null)
+                    newCheckListValuePairLst = new List<string>();
+
+                int id = 0;
+                string value = "";
+
+                foreach (string str in newFieldValuePairLst)
                 {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(caseId), caseId);
-
-                    if (newFieldValuePairLst == null)
-                        newFieldValuePairLst = new List<string>();
-
-                    if (newCheckListValuePairLst == null)
-                        newCheckListValuePairLst = new List<string>();
-
-                    int id = 0;
-                    string value = "";
-
-                    foreach (string str in newFieldValuePairLst)
-                    {
-                        id = int.Parse(t.SplitToList(str, 0, false));
-                        value = t.SplitToList(str, 1, false);
-                        await _sqlController.FieldValueUpdate(caseId, id, value).ConfigureAwait(false);
-                    }
-
-                    foreach (string str in newCheckListValuePairLst)
-                    {
-                        id = int.Parse(t.SplitToList(str, 0, false));
-                        value = t.SplitToList(str, 1, false);
-                        await _sqlController.CheckListValueStatusUpdate(caseId, id, value).ConfigureAwait(false);
-                    }
-
-                    return true;
+                    id = int.Parse(_t.SplitToList(str, 0, false));
+                    value = _t.SplitToList(str, 1, false);
+                    await _sqlController.FieldValueUpdate(caseId, id, value).ConfigureAwait(false);
                 }
 
-                throw new Exception("Core is not running");
+                foreach (string str in newCheckListValuePairLst)
+                {
+                    id = int.Parse(_t.SplitToList(str, 0, false));
+                    value = _t.SplitToList(str, 1, false);
+                    await _sqlController.CheckListValueStatusUpdate(caseId, id, value).ConfigureAwait(false);
+                }
+                return true;
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return false;
             }
         }
@@ -1540,26 +1489,22 @@ namespace eFormCore
             string methodName = "Core.CaseDelete";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(templateId), templateId);
-                    log.LogVariable(methodName, nameof(siteUId), siteUId);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(templateId), templateId);
+                Log.LogVariable(methodName, nameof(siteUId), siteUId);
 
-                    return await CaseDelete(templateId, siteUId, Constants.WorkflowStates.NotRemoved).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await CaseDelete(templateId, siteUId, Constants.WorkflowStates.NotRemoved).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 try
                 {
-                    log.LogException(methodName, $"(int {templateId}, int {siteUId}) failed", ex);
+                    Log.LogException(methodName, $"(int {templateId}, int {siteUId}) failed", ex);
                 }
                 catch
                 {
-                    log.LogException(methodName, "(int templateId, int siteUId) failed", ex);
+                    Log.LogException(methodName, "(int templateId, int siteUId) failed", ex);
                 }
                 return false;
             }
@@ -1570,42 +1515,37 @@ namespace eFormCore
             string methodName = "Core.CaseDelete";
             try
             {
-                if (Running())
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(templateId), templateId);
+                Log.LogVariable(methodName, nameof(siteUId), siteUId);
+                Log.LogVariable(methodName, nameof(workflowState), workflowState);
+
+                List<string> errors = new List<string>();
+                foreach (int microtingUId in await _sqlController.CheckListSitesRead(templateId, siteUId, workflowState).ConfigureAwait(false))
                 {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(templateId), templateId);
-                    log.LogVariable(methodName, nameof(siteUId), siteUId);
-                    log.LogVariable(methodName, nameof(workflowState), workflowState);
-
-                    List<string> errors = new List<string>();
-                    foreach (int microtingUId in await _sqlController.CheckListSitesRead(templateId, siteUId, workflowState).ConfigureAwait(false))
+                    if (! await CaseDelete(microtingUId).ConfigureAwait(false))
                     {
-                        if (! await CaseDelete(microtingUId).ConfigureAwait(false))
-                        {
-                            string error = $"Failed to delete case with microtingUId: {microtingUId}";
-                            errors.Add(error);
-                        }
+                        string error = $"Failed to delete case with microtingUId: {microtingUId}";
+                        errors.Add(error);
                     }
-                    if (errors.Count() > 0)
-                    {
-                        throw new Exception(String.Join("\n", errors));
-                    }
-
-                    return true;
                 }
-
-                throw new Exception("Core is not running");
+                if (errors.Any())
+                {
+                    throw new Exception(String.Join("\n", errors));
+                }
+                return true;
             }
             catch (Exception ex)
             {
                 try
                 {
-                    log.LogException(methodName,
+                    Log.LogException(methodName,
                         $"(int {templateId}, int {siteUId}, string {workflowState}) failed", ex);
                 }
                 catch
                 {
-                    log.LogException(methodName, "(int templateId, int siteUId, string workflowState) failed", ex);
+                    Log.LogException(methodName, "(int templateId, int siteUId, string workflowState) failed", ex);
                 }
                 return false;
             }
@@ -1619,17 +1559,17 @@ namespace eFormCore
         {
             string methodName = "Core.CaseDelete";
 
-            log.LogVariable(methodName, nameof(microtingUId), microtingUId);
+            Log.LogVariable(methodName, nameof(microtingUId), microtingUId);
 
             var cDto = await _sqlController.CaseReadByMUId(microtingUId).ConfigureAwait(false);
             string xmlResponse = await _communicator.Delete(microtingUId.ToString(), cDto.SiteUId).ConfigureAwait(false);
-            log.LogEverything(methodName, "XML response is 1218 : " + xmlResponse);
+            Log.LogEverything(methodName, "XML response is 1218 : " + xmlResponse);
             Response resp = new Response();
 
             if (xmlResponse.Contains("Error occured: Contact Microting"))
             {
-                log.LogEverything(methodName, $"XML response is : {xmlResponse}");
-                log.LogEverything("DELETE ERROR", $"failed for microtingUId: {microtingUId}");
+                Log.LogEverything(methodName, $"XML response is : {xmlResponse}");
+                Log.LogEverything("DELETE ERROR", $"failed for microtingUId: {microtingUId}");
                 return false;
             }
 
@@ -1638,7 +1578,7 @@ namespace eFormCore
                 try
                 {
                     resp = resp.XmlToClass(xmlResponse);
-                    log.LogException(methodName, "failed", new Exception(
+                    Log.LogException(methodName, "failed", new Exception(
                         $"Error from Microting server: {resp.Value}"));
                     return false;
                 }
@@ -1646,12 +1586,12 @@ namespace eFormCore
                 {
                     try
                     {
-                        log.LogException(methodName, $"(string {microtingUId}) failed", ex);
+                        Log.LogException(methodName, $"(string {microtingUId}) failed", ex);
                         throw ex;
                     }
                     catch
                     {
-                        log.LogException(methodName, "(string microtingUId) failed", ex);
+                        Log.LogException(methodName, "(string microtingUId) failed", ex);
                         throw ex;
                     }
                 }
@@ -1667,31 +1607,28 @@ namespace eFormCore
                         resp = resp.XmlToClass(xmlResponse);
                         if (resp.Type.ToString() == "Success")
                         {
-                            log.LogStandard(methodName,
+                            Log.LogStandard(methodName,
                                     cDto.ToString() +
                                     $" has been removed from server in retry loop with i being : {i.ToString()}");
                             break;
                         }
-                        else
-                        {
-                            log.LogEverything(methodName,
-                                    $"retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
-                        }
+                        Log.LogEverything(methodName,
+                            $"retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
                     } catch (Exception ex)
                     {
-                        log.LogEverything(methodName,
+                        Log.LogEverything(methodName,
                             $" Exception is: {ex.Message}, retrying delete and i is {i.ToString()} and xmlResponse" +
                             xmlResponse);
                     }
                 }
 
-            log.LogEverything(methodName, "XML response:");
-            log.LogEverything(methodName, xmlResponse);
+            Log.LogEverything(methodName, "XML response:");
+            Log.LogEverything(methodName, xmlResponse);
 
             resp = resp.XmlToClass(xmlResponse);
             if (resp.Type.ToString() == "Success")
             {
-                log.LogStandard(methodName, $"{cDto} has been removed from server");
+                Log.LogStandard(methodName, $"{cDto} has been removed from server");
                 try
                 {
                     bool result = await _sqlController.CaseDelete(microtingUId).ConfigureAwait(false);
@@ -1706,17 +1643,17 @@ namespace eFormCore
                         {
                             cDto = await _sqlController.CaseReadByMUId(microtingUId);
                             await FireHandleCaseDeleted(cDto).ConfigureAwait(false);
-                            log.LogStandard(methodName, $"{cDto} has been removed");
+                            Log.LogStandard(methodName, $"{cDto} has been removed");
                             return result;
                         }
 
-                        log.LogException(methodName, "(string microtingUId) failed", ex);
+                        Log.LogException(methodName, "(string microtingUId) failed", ex);
                         throw ex;
                     }
                 }
                 catch (Exception ex)
                 {
-                    log.LogException(methodName, "(string microtingUId) failed", ex);
+                    Log.LogException(methodName, "(string microtingUId) failed", ex);
                 }
             }
             return false;
@@ -1725,8 +1662,8 @@ namespace eFormCore
         public async Task<bool> CaseDeleteResult(int caseId)
         {
             string methodName = "Core.CaseDeleteResult";
-            log.LogStandard(methodName, "called");
-            log.LogVariable(methodName, nameof(caseId), caseId);
+            Log.LogStandard(methodName, "called");
+            Log.LogVariable(methodName, nameof(caseId), caseId);
             try
             {
                 return await _sqlController.CaseDeleteResult(caseId).ConfigureAwait(false);
@@ -1735,13 +1672,12 @@ namespace eFormCore
             {
                 try
                 {
-                    log.LogException(methodName, $"(int {caseId}) failed", ex);
+                    Log.LogException(methodName, $"(int {caseId}) failed", ex);
                 }
                 catch
                 {
-                    log.LogException(methodName, "(int caseId) failed", ex);
+                    Log.LogException(methodName, "(int caseId) failed", ex);
                 }
-
                 return false;
             }
         }
@@ -1749,15 +1685,15 @@ namespace eFormCore
         public async Task<bool> CaseUpdateFieldValues(int id)
         {
             string methodName = "Core.CaseUpdateFieldValues";
-            log.LogStandard(methodName, "called");
-            log.LogVariable(methodName, nameof(id), id);
+            Log.LogStandard(methodName, "called");
+            Log.LogVariable(methodName, nameof(id), id);
             try
             {
                 return await _sqlController.CaseUpdateFieldValues(id).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return false;
             }
         }
@@ -1767,20 +1703,16 @@ namespace eFormCore
             string methodName = "Core.CaseLookup";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(microtingUId), microtingUId);
-                    log.LogVariable(methodName, nameof(checkUId), checkUId);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(microtingUId), microtingUId);
+                Log.LogVariable(methodName, nameof(checkUId), checkUId);
 
-                    return await _sqlController.CaseLookup(microtingUId, checkUId).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.CaseLookup(microtingUId, checkUId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return null;
             }
         }
@@ -1794,19 +1726,15 @@ namespace eFormCore
             string methodName = "Core.CaseLookupMUId";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(microtingUId), microtingUId);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(microtingUId), microtingUId);
 
-                    return await _sqlController.CaseReadByMUId(microtingUId).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.CaseReadByMUId(microtingUId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return null;
             }
         }
@@ -1821,19 +1749,15 @@ namespace eFormCore
 
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(caseId), caseId);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(caseId), caseId);
 
-                    return await _sqlController.CaseReadByCaseId(caseId).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.CaseReadByCaseId(caseId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return null;
             }
         }
@@ -1847,19 +1771,15 @@ namespace eFormCore
             string methodName = "Core.CaseLookupCaseUId";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(caseUId), caseUId);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(caseUId), caseUId);
 
-                    return await _sqlController.CaseReadByCaseUId(caseUId).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.CaseReadByCaseUId(caseUId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return null;
             }
         }
@@ -1874,31 +1794,27 @@ namespace eFormCore
             string methodName = "Core.CaseIdLookup";
             try
             {
-                if (Running())
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(microtingUId), microtingUId);
+                Log.LogVariable(methodName, nameof(checkUId), checkUId);
+
+                Case aCase = await _sqlController.CaseReadFull(microtingUId, checkUId).ConfigureAwait(false);
+                #region handling if no match case found
+                if (aCase == null)
                 {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(microtingUId), microtingUId);
-                    log.LogVariable(methodName, nameof(checkUId), checkUId);
-
-                    Case aCase = await _sqlController.CaseReadFull(microtingUId, checkUId).ConfigureAwait(false);
-                    #region handling if no match case found
-                    if (aCase == null)
-                    {
-                        log.LogWarning(methodName, $"No case found with MuuId:'{microtingUId}'");
-                        return -1;
-                    }
-                    #endregion
-                    int id = aCase.Id;
-                    log.LogEverything(methodName, $"aCase.Id:{aCase.Id}, found");
-
-                    return id;
+                    Log.LogWarning(methodName, $"No case found with MuuId:'{microtingUId}'");
+                    return -1;
                 }
+                #endregion
+                int id = aCase.Id;
+                Log.LogEverything(methodName, $"aCase.Id:{aCase.Id}, found");
 
-                throw new Exception("Core is not running");
+                return id;
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return null;
             }
         }
@@ -1922,74 +1838,71 @@ namespace eFormCore
             string methodName = "Core.CasesToCsv";
             try
             {
-                if (Running())
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(templateId), templateId.ToString());
+                Log.LogVariable(methodName, nameof(start), start.ToString());
+                Log.LogVariable(methodName, nameof(end), end.ToString());
+                Log.LogVariable(methodName, nameof(pathAndName), pathAndName);
+                Log.LogVariable(methodName, nameof(customPathForUploadedData), customPathForUploadedData);
+
+                List<List<string>> dataSet = await GenerateDataSetFromCases(templateId, start, end, customPathForUploadedData, decimalSeparator, thousandSeparator, utcTime, cultureInfo, timeZoneInfo, language).ConfigureAwait(false);
+
+                if (dataSet == null)
+                    return "";
+
+                // string text = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                for (int rowN = 0; rowN < dataSet[0].Count; rowN++)
                 {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(templateId), templateId.ToString());
-                    log.LogVariable(methodName, nameof(start), start.ToString());
-                    log.LogVariable(methodName, nameof(end), end.ToString());
-                    log.LogVariable(methodName, nameof(pathAndName), pathAndName);
-                    log.LogVariable(methodName, nameof(customPathForUploadedData), customPathForUploadedData);
+                    var temp = new List<string>();
 
-                    List<List<string>> dataSet = await GenerateDataSetFromCases(templateId, start, end, customPathForUploadedData, decimalSeparator, thousandSeparator, utcTime, cultureInfo, timeZoneInfo, language).ConfigureAwait(false);
-
-                    if (dataSet == null)
-                        return "";
-
-                    // string text = "";
-                    StringBuilder stringBuilder = new StringBuilder();
-
-                    for (int rowN = 0; rowN < dataSet[0].Count; rowN++)
+                    foreach (List<string> lst in dataSet)
                     {
-                        var temp = new List<string>();
-
-                        foreach (List<string> lst in dataSet)
+                        try
                         {
-                            try
+                            int.Parse(lst[rowN]);
+                            temp.Add(lst[rowN]);
+                        }
+                        catch
+                        {
+                            DateTime date;
+                            if (DateTime.TryParse(lst[rowN], out date))
                             {
-                                int.Parse(lst[rowN]);
                                 temp.Add(lst[rowN]);
                             }
-                            catch
+                            else
                             {
-                                DateTime date;
-                                if (DateTime.TryParse(lst[rowN], out date))
+                                try
                                 {
-                                    temp.Add(lst[rowN]);
+                                    temp.Add("\"" + lst[rowN] + "\"");
                                 }
-                                else
+                                catch (Exception ex2)
                                 {
-                                    try
-                                    {
-                                        temp.Add("\"" + lst[rowN] + "\"");
-                                    }
-                                    catch (Exception ex2)
-                                    {
-                                        temp.Add(ex2.Message);
-                                    }
+                                    temp.Add(ex2.Message);
                                 }
                             }
                         }
-
-                        stringBuilder.AppendLine(string.Join(";", temp.ToArray()));
                     }
 
-                    if (!pathAndName.Contains(".csv"))
-                        pathAndName = pathAndName + ".csv";
-
-                    TextWriter textWriter = new StreamWriter(pathAndName, true, Encoding.UTF8);
-                    textWriter.Write(stringBuilder.ToString());
-                    textWriter.Flush();
-                    textWriter.Close();
-                    textWriter.Dispose();
-                    return Path.GetFullPath(pathAndName);
+                    stringBuilder.AppendLine(string.Join(";", temp.ToArray()));
                 }
 
-                throw new Exception("Core is not running");
+                if (!pathAndName.Contains(".csv"))
+                    pathAndName = pathAndName + ".csv";
+
+                TextWriter textWriter = new StreamWriter(pathAndName, true, Encoding.UTF8);
+                await textWriter.WriteAsync(stringBuilder.ToString());
+                await textWriter.FlushAsync();
+                textWriter.Close();
+                await textWriter.DisposeAsync();
+
+                return Path.GetFullPath(pathAndName);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return null;
             }
         }
@@ -2006,7 +1919,7 @@ namespace eFormCore
         {
             CultureInfo cultureInfo = new CultureInfo("de-DE");
             TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
-            Language language = dbContextHelper.GetDbContext().Languages.Single(x => x.LanguageCode == "da");
+            Language language = DbContextHelper.GetDbContext().Languages.Single(x => x.LanguageCode == "da");
             return CasesToCsv(templateId, start, end, pathAndName, customPathForUploadedData, ".", "", false, cultureInfo, timeZoneInfo, language);
         }
 
@@ -2015,13 +1928,12 @@ namespace eFormCore
             string methodName = "Core.CaseToJasperXml";
             try
             {
-                await using MicrotingDbContext dbContext = dbContextHelper.GetDbContext();
-                log.LogStandard(methodName, "called");
-                log.LogVariable(methodName, nameof(caseId), caseId.ToString());
-                log.LogVariable(methodName, nameof(timeStamp), timeStamp);
+                await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(caseId), caseId.ToString());
+                Log.LogVariable(methodName, nameof(timeStamp), timeStamp);
 
-                if (timeStamp == null)
-                    timeStamp = $"{DateTime.UtcNow:yyyyMMdd}_{DateTime.UtcNow:hhmmss}";
+                timeStamp ??= $"{DateTime.UtcNow:yyyyMMdd}_{DateTime.UtcNow:hhmmss}";
 
                 //get needed data
 //                    CaseDto cDto = CaseLookupCaseId(caseId);
@@ -2031,8 +1943,8 @@ namespace eFormCore
                 string clsLst = "";
                 string fldLst = "";
                 GetChecksAndFields(ref clsLst, ref fldLst, reply.ElementList, customPathForUploadedData);
-                log.LogVariable(methodName, nameof(clsLst), clsLst);
-                log.LogVariable(methodName, nameof(fldLst), fldLst);
+                Log.LogVariable(methodName, nameof(clsLst), clsLst);
+                Log.LogVariable(methodName, nameof(fldLst), fldLst);
 
                 #region convert to jasperXml
 
@@ -2060,7 +1972,7 @@ namespace eFormCore
                     + Environment.NewLine + "</C" + reply.Id + ">"
                     + customXMLContent
                     + Environment.NewLine + "</root>";
-                log.LogVariable(methodName, nameof(jasperXml), jasperXml);
+                Log.LogVariable(methodName, nameof(jasperXml), jasperXml);
                 #endregion
 
                 //place in settings allocated placement
@@ -2070,12 +1982,12 @@ namespace eFormCore
                 Directory.CreateDirectory(Path.Combine(path, "results"));
                 File.WriteAllText(fullPath, jasperXml.Trim(), Encoding.UTF8);
 
-                log.LogVariable(methodName, nameof(fullPath), fullPath);
+                Log.LogVariable(methodName, nameof(fullPath), fullPath);
                 return fullPath;
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return null;
             }
         }
@@ -2085,14 +1997,14 @@ namespace eFormCore
         public async Task<string> GetSdkSetting(Settings settingName)
         {
             string methodName = "Core.GetSdkSetting";
-            log.LogStandard(methodName, "called");
+            Log.LogStandard(methodName, "called");
             try
             {
                 return await _sqlController.SettingRead(settingName).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return "N/A";
             }
         }
@@ -2102,20 +2014,16 @@ namespace eFormCore
             string methodName = "Core.SetSdkSetting";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(settingValue), settingValue);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(settingValue), settingValue);
 
-                    await _sqlController.SettingUpdate(settingName, settingValue).ConfigureAwait(false);
-                    return true;
-                }
-
-                throw new Exception("Core is not running");
+                await _sqlController.SettingUpdate(settingName, settingValue).ConfigureAwait(false);
+                return true;
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -2163,15 +2071,8 @@ namespace eFormCore
             string command =
                 $"-d64 -Xms512m -Xmx2g -Dfile.encoding=UTF-8 -jar {localJasperExporter} -template=\"{templateFile}\" -type=\"pdf\" -uri=\"{_dataSourceXML}\" -outputFile=\"{_resultDocument}\"";
 
-            log.LogVariable(methodName, nameof(command), command);
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                p.StartInfo.FileName = "java.exe";
-            }
-            else
-            {
-                p.StartInfo.FileName = "java";
-            }
+            Log.LogVariable(methodName, nameof(command), command);
+            p.StartInfo.FileName = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "java.exe" : "java";
 
             p.StartInfo.Arguments = command;
             p.StartInfo.Verb = "runas";
@@ -2182,7 +2083,7 @@ namespace eFormCore
             // p.WaitForExit();
             // Read the output stream first and then wait.
             string output = p.StandardOutput.ReadToEnd();
-            log.LogVariable(methodName, nameof(output), output);
+            Log.LogVariable(methodName, nameof(output), output);
             p.WaitForExit();
 
             if (output != "")
@@ -2198,7 +2099,7 @@ namespace eFormCore
             SortedDictionary<string, string> valuePairs = new SortedDictionary<string, string>();
             // TODO make this dynamic, so it can be defined by user, which timezone to show data in.
             TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
-            await using MicrotingDbContext dbContext = dbContextHelper.GetDbContext();
+            await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
 
             reply.DoneAt = TimeZoneInfo.ConvertTimeFromUtc(reply.DoneAt, timeZoneInfo);
             // get base values
@@ -2216,7 +2117,7 @@ namespace eFormCore
             caseIds.Add(caseId);
             List<FieldValue> fieldValues = await _sqlController.FieldValueReadList(caseIds, language).ConfigureAwait(false);
 
-            List<FieldDto> allFields = await _sqlController.TemplateFieldReadAll(int.Parse(templateId)).ConfigureAwait(false);
+            List<FieldDto> allFields = await _sqlController.TemplateFieldReadAll(int.Parse(templateId), language).ConfigureAwait(false);
             foreach (FieldDto field in allFields)
             {
                 valuePairs.Add($"F_{field.Id}", "");
@@ -2446,41 +2347,35 @@ namespace eFormCore
             string methodName = "Core.CaseToPdf";
             try
             {
-                //if (coreRunning)
-                if (true)
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(caseId), caseId.ToString());
+                Log.LogVariable(methodName, nameof(jasperTemplate), jasperTemplate);
+
+                timeStamp ??= DateTime.UtcNow.ToString("yyyyMMdd") + "_" + DateTime.UtcNow.ToString("hhmmss");
+                CaseDto cDto = await CaseLookupCaseId(caseId).ConfigureAwait(false);
+                ReplyElement reply = await CaseRead((int)cDto.MicrotingUId, (int)cDto.CheckUId, language).ConfigureAwait(false);
+
+                string resultDocument = "";
+
+                if (reply.JasperExportEnabled)
                 {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(caseId), caseId.ToString());
-                    log.LogVariable(methodName, nameof(jasperTemplate), jasperTemplate);
-
-                    if (timeStamp == null)
-                        timeStamp = DateTime.UtcNow.ToString("yyyyMMdd") + "_" + DateTime.UtcNow.ToString("hhmmss");
-                    CaseDto cDto = await CaseLookupCaseId(caseId).ConfigureAwait(false);
-                    ReplyElement reply = await CaseRead((int)cDto.MicrotingUId, (int)cDto.CheckUId, language).ConfigureAwait(false);
-
-                    string resultDocument = "";
-
-                    if (reply.JasperExportEnabled)
-                    {
-                        await CaseToJasperXml(cDto, reply, caseId, timeStamp, customPathForUploadedData, customXmlContent).ConfigureAwait(false);
-                        resultDocument = await JasperToPdf(caseId, jasperTemplate, timeStamp).ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        resultDocument = await DocxToPdf(caseId, jasperTemplate, timeStamp, reply, cDto, customPathForUploadedData, customXmlContent, fileType, language).ConfigureAwait(false);
-                    }
-
-                    //return path
-                    string path = Path.GetFullPath(resultDocument);
-                    log.LogVariable(methodName, nameof(path), path);
-                    return path;
+                    await CaseToJasperXml(cDto, reply, caseId, timeStamp, customPathForUploadedData, customXmlContent).ConfigureAwait(false);
+                    resultDocument = await JasperToPdf(caseId, jasperTemplate, timeStamp).ConfigureAwait(false);
                 }
                 else
-                    throw new Exception("Core is not running");
+                {
+                    resultDocument = await DocxToPdf(caseId, jasperTemplate, timeStamp, reply, cDto, customPathForUploadedData, customXmlContent, fileType, language).ConfigureAwait(false);
+                }
+
+                //return path
+                string path = Path.GetFullPath(resultDocument);
+                Log.LogVariable(methodName, nameof(path), path);
+                return path;
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return null;
             }
         }
@@ -2491,71 +2386,67 @@ namespace eFormCore
         public async Task<SiteDto> SiteCreate(string name, string userFirstName, string userLastName, string userEmail)
         {
             string methodName = "Core.SiteCreate";
-            await using var db = dbContextHelper.GetDbContext();
+            await using var db = DbContextHelper.GetDbContext();
             try
             {
-                if (Running())
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(name), name);
+                Log.LogVariable(methodName, nameof(userFirstName), userFirstName);
+                Log.LogVariable(methodName, nameof(userLastName), userLastName);
+                Log.LogVariable(methodName, nameof(userEmail), userEmail);
+
+                Tuple<SiteDto, UnitDto> siteResult = await _communicator.SiteCreate(name);
+
+                string token = await _sqlController.SettingRead(Settings.token).ConfigureAwait(false);
+                int customerNo = int.Parse(_sqlController.SettingRead(Settings.customerNo).ConfigureAwait(false).GetAwaiter().GetResult());
+
+                string siteName = siteResult.Item1.SiteName;
+                int siteId = siteResult.Item1.SiteId;
+                int unitUId = siteResult.Item2.UnitUId;
+                int? otpCode = siteResult.Item2.OtpCode;
+                Site site =
+                    await db.Sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteResult.Item1.SiteId).ConfigureAwait(false);
+                if (site == null)
                 {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(name), name);
-                    log.LogVariable(methodName, nameof(userFirstName), userFirstName);
-                    log.LogVariable(methodName, nameof(userLastName), userLastName);
-                    log.LogVariable(methodName, nameof(userEmail), userEmail);
-
-                    Tuple<SiteDto, UnitDto> siteResult = await _communicator.SiteCreate(name);
-
-                    string token = await _sqlController.SettingRead(Settings.token).ConfigureAwait(false);
-                    int customerNo = int.Parse(_sqlController.SettingRead(Settings.customerNo).ConfigureAwait(false).GetAwaiter().GetResult());
-
-                    string siteName = siteResult.Item1.SiteName;
-                    int siteId = siteResult.Item1.SiteId;
-                    int unitUId = siteResult.Item2.UnitUId;
-                    int? otpCode = siteResult.Item2.OtpCode;
-                    Site site =
-                        await db.Sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteResult.Item1.SiteId).ConfigureAwait(false);
-                    if (site == null)
+                    site = new Site
                     {
-                        site = new Site
-                        {
-                            MicrotingUid = siteId,
-                            Name = siteName
-                        };
-                        await site.Create(db).ConfigureAwait(false);
-                    }
-
-                    SiteNameDto siteDto = await _sqlController.SiteRead(siteId).ConfigureAwait(false);
-                    Unit unit = await db.Units.SingleOrDefaultAsync(x => x.MicrotingUid == unitUId).ConfigureAwait(false);
-                    if (unit == null)
-                    {
-                        unit = new Unit
-                        {
-                            MicrotingUid = unitUId,
-                            CustomerNo = customerNo,
-                            OtpCode = otpCode,
-                            SiteId = site.Id
-                        };
-
-                        await unit.Create(db).ConfigureAwait(false);
-                    }
-
-                    if (string.IsNullOrEmpty(userEmail))
-                    {
-                        Random rdn = new Random();
-                        userEmail = siteId + "." + customerNo + "@invalid.invalid";
-                    }
-
-                    WorkerDto workerDto = await Advanced_WorkerCreate(userFirstName, userLastName, userEmail)
-                        .ConfigureAwait(false);
-                    await Advanced_SiteWorkerCreate(siteDto, workerDto).ConfigureAwait(false);
-
-                    return await SiteRead(siteId).ConfigureAwait(false);
+                        MicrotingUid = siteId,
+                        Name = siteName
+                    };
+                    await site.Create(db).ConfigureAwait(false);
                 }
 
-                throw new Exception("Core is not running");
+                SiteNameDto siteDto = await _sqlController.SiteRead(siteId).ConfigureAwait(false);
+                Unit unit = await db.Units.SingleOrDefaultAsync(x => x.MicrotingUid == unitUId).ConfigureAwait(false);
+                if (unit == null)
+                {
+                    unit = new Unit
+                    {
+                        MicrotingUid = unitUId,
+                        CustomerNo = customerNo,
+                        OtpCode = otpCode,
+                        SiteId = site.Id
+                    };
+
+                    await unit.Create(db).ConfigureAwait(false);
+                }
+
+                if (string.IsNullOrEmpty(userEmail))
+                {
+                    Random rdn = new Random();
+                    userEmail = siteId + "." + customerNo + "@invalid.invalid";
+                }
+
+                WorkerDto workerDto = await Advanced_WorkerCreate(userFirstName, userLastName, userEmail)
+                    .ConfigureAwait(false);
+                await Advanced_SiteWorkerCreate(siteDto, workerDto).ConfigureAwait(false);
+
+                return await SiteRead(siteId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -2571,34 +2462,26 @@ namespace eFormCore
             string methodName = "Core.SiteRead";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(microtingUid), microtingUid);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(microtingUid), microtingUid);
 
-                    return await _sqlController.SiteReadSimple(microtingUid).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.SiteReadSimple(microtingUid).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
 
         public async Task<List<SiteDto>> SiteReadAll(bool includeRemoved)
         {
-            if (Running())
-            {
-                if (includeRemoved)
-                    return await Advanced_SiteReadAll(null, null, null).ConfigureAwait(false);
+            if (!Running()) throw new Exception("Core is not running");
+            if (includeRemoved)
+                return await Advanced_SiteReadAll(null, null, null).ConfigureAwait(false);
 
-                return await Advanced_SiteReadAll(Constants.WorkflowStates.NotRemoved, null, null).ConfigureAwait(false);
-            }
-
-            throw new Exception("Core is not running");
+            return await Advanced_SiteReadAll(Constants.WorkflowStates.NotRemoved, null, null).ConfigureAwait(false);
         }
 
         public async Task<SiteDto> SiteReset(int siteId)
@@ -2606,22 +2489,18 @@ namespace eFormCore
             string methodName = "Core.SiteReset";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(siteId), siteId);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(siteId), siteId);
 
-                    SiteDto site = await SiteRead(siteId).ConfigureAwait(false);
-                    await Advanced_UnitRequestOtp((int)site.UnitId).ConfigureAwait(false);
+                SiteDto site = await SiteRead(siteId).ConfigureAwait(false);
+                await Advanced_UnitRequestOtp((int)site.UnitId).ConfigureAwait(false);
 
-                    return await SiteRead(siteId).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await SiteRead(siteId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -2641,24 +2520,19 @@ namespace eFormCore
             string methodName = "Core.SiteUpdate";
             try
             {
-                if (Running())
+                if (!Running()) throw new Exception("Core is not running");
+                SiteDto siteDto = await SiteRead(siteMicrotingUid).ConfigureAwait(false);
+                await Advanced_SiteItemUpdate(siteMicrotingUid, siteName).ConfigureAwait(false);
+                if (String.IsNullOrEmpty(userEmail))
                 {
-                    SiteDto siteDto = await SiteRead(siteMicrotingUid).ConfigureAwait(false);
-                    await Advanced_SiteItemUpdate(siteMicrotingUid, siteName).ConfigureAwait(false);
-                    if (String.IsNullOrEmpty(userEmail))
-                    {
-                        //if (String.IsNullOrEmpty)
-                    }
-                    await Advanced_WorkerUpdate((int)siteDto.WorkerUid, userFirstName, userLastName, userEmail).ConfigureAwait(false);
-                    return true;
+                    //if (String.IsNullOrEmpty)
                 }
-
-                throw new Exception("Core is not running");
-
+                await Advanced_WorkerUpdate((int)siteDto.WorkerUid, userFirstName, userLastName, userEmail).ConfigureAwait(false);
+                return true;
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -2675,30 +2549,20 @@ namespace eFormCore
             string methodName = "Core.SiteDelete";
             try
             {
-                if (Running())
-                {
-                    SiteDto siteDto = await SiteRead(microtingUid).ConfigureAwait(false);
+                if (!Running()) throw new Exception("Core is not running");
+                SiteDto siteDto = await SiteRead(microtingUid).ConfigureAwait(false);
 
-                    if (siteDto != null)
-                    {
-                        await Advanced_SiteItemDelete(microtingUid).ConfigureAwait(false);
-                        SiteWorkerDto siteWorkerDto = await Advanced_SiteWorkerRead(null, microtingUid, siteDto.WorkerUid).ConfigureAwait(false);
-                        await Advanced_SiteWorkerDelete(siteWorkerDto.MicrotingUId).ConfigureAwait(false);
-                        await Advanced_WorkerDelete((int)siteDto.WorkerUid).ConfigureAwait(false);
-                        return true;
-                    }
-
-                    return false;
-
-
-                }
-
-                throw new Exception("Core is not running");
+                if (siteDto == null) return false;
+                await Advanced_SiteItemDelete(microtingUid).ConfigureAwait(false);
+                SiteWorkerDto siteWorkerDto = await Advanced_SiteWorkerRead(null, microtingUid, siteDto.WorkerUid).ConfigureAwait(false);
+                await Advanced_SiteWorkerDelete(siteWorkerDto.MicrotingUId).ConfigureAwait(false);
+                await Advanced_WorkerDelete((int)siteDto.WorkerUid).ConfigureAwait(false);
+                return true;
 
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -2717,33 +2581,29 @@ namespace eFormCore
             string methodName = "Core.EntityGroupCreate";
             try
             {
-                if (Running())
-                {
-                    Microting.eForm.Infrastructure.Models.EntityGroup entityGroup = await _sqlController.EntityGroupCreate(name, entityType, description).ConfigureAwait(false);
+                if (!Running()) throw new Exception("Core is not running");
+                Microting.eForm.Infrastructure.Models.EntityGroup entityGroup = await _sqlController.EntityGroupCreate(name, entityType, description).ConfigureAwait(false);
 
-                    string entityGroupMuId = await _communicator.EntityGroupCreate(entityType, name, entityGroup.Id.ToString()).ConfigureAwait(false);
+                string entityGroupMuId = await _communicator.EntityGroupCreate(entityType, name, entityGroup.Id.ToString()).ConfigureAwait(false);
 
-                    bool isCreated = await _sqlController.EntityGroupUpdate(entityGroup.Id, entityGroupMuId).ConfigureAwait(false);
+                bool isCreated = await _sqlController.EntityGroupUpdate(entityGroup.Id, entityGroupMuId).ConfigureAwait(false);
 
-                    if (isCreated)
-                        return new Microting.eForm.Infrastructure.Models.EntityGroup()
-                        {
-                            Id = entityGroup.Id,
-                            Name = entityGroup.Name,
-                            Type = entityGroup.Type,
-                            EntityGroupItemLst = new List<Microting.eForm.Infrastructure.Models.EntityItem>(),
-                            MicrotingUUID = entityGroupMuId,
-                            Description = entityGroup.Description
-                        };
-                    await _sqlController.EntityGroupDelete(entityGroupMuId).ConfigureAwait(false);
-                    throw new Exception("EntityListCreate failed, due to list not created correct");
-                }
-
-                throw new Exception("Core is not running");
+                if (isCreated)
+                    return new Microting.eForm.Infrastructure.Models.EntityGroup()
+                    {
+                        Id = entityGroup.Id,
+                        Name = entityGroup.Name,
+                        Type = entityGroup.Type,
+                        EntityGroupItemLst = new List<Microting.eForm.Infrastructure.Models.EntityItem>(),
+                        MicrotingUUID = entityGroupMuId,
+                        Description = entityGroup.Description
+                    };
+                await _sqlController.EntityGroupDelete(entityGroupMuId).ConfigureAwait(false);
+                throw new Exception("EntityListCreate failed, due to list not created correct");
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "EntityListCreate failed", ex);
+                Log.LogException(methodName, "EntityListCreate failed", ex);
                 throw new Exception("EntityListCreate failed", ex);
             }
         }
@@ -2766,25 +2626,21 @@ namespace eFormCore
                 throw new ArgumentNullException(nameof(entityGroupMuId));
             try
             {
-                if (Running())
-                {
-                    while (_updateIsRunningEntities)
-                        Thread.Sleep(200);
+                if (!Running()) throw new Exception("Core is not running");
+                while (_updateIsRunningEntities)
+                    Thread.Sleep(200);
 
-                    return await _sqlController.EntityGroupReadSorted(entityGroupMuId, sort, nameFilter).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.EntityGroupReadSorted(entityGroupMuId, sort, nameFilter).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 try
                 {
-                    log.LogException(methodName, "(string entityGroupMUId " + entityGroupMuId + ", string sort " + sort + ", string nameFilter " + nameFilter + ") failed", ex);
+                    Log.LogException(methodName, "(string entityGroupMUId " + entityGroupMuId + ", string sort " + sort + ", string nameFilter " + nameFilter + ") failed", ex);
                 }
                 catch
                 {
-                    log.LogException(methodName, "(string entityGroupMUId, string sort, string nameFilter) failed", ex);
+                    Log.LogException(methodName, "(string entityGroupMUId, string sort, string nameFilter) failed", ex);
                 }
                 throw new Exception("failed", ex);
 
@@ -2800,27 +2656,20 @@ namespace eFormCore
             string methodName = "Core.EntityGroupUpdate";
             try
             {
-                if (Running())
-                {
-                    bool isUpdated = await _communicator.EntityGroupUpdate(entityGroup.Type, entityGroup.Name, entityGroup.Id, entityGroup.MicrotingUUID).ConfigureAwait(false);
+                if (!Running()) throw new Exception("Core is not running");
+                bool isUpdated = await _communicator.EntityGroupUpdate(entityGroup.Type, entityGroup.Name, entityGroup.Id, entityGroup.MicrotingUUID).ConfigureAwait(false);
 
-                    if (isUpdated)
-                    {
-                        await using var dbContext = dbContextHelper.GetDbContext();
-                        var eg = await dbContext.EntityGroups.SingleOrDefaultAsync(x => x.Id == entityGroup.Id);
-                        eg.Name = entityGroup.Name;
-                        eg.Description = entityGroup.Description;
-                        await eg.Update(dbContext);
-                        return true;
-                    }
-                    // return await _sqlController.EntityGroupUpdateName(entityGroup.Name, entityGroup.MicrotingUUID).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                if (!isUpdated) throw new Exception("Update failed");
+                await using var dbContext = DbContextHelper.GetDbContext();
+                var eg = await dbContext.EntityGroups.SingleOrDefaultAsync(x => x.Id == entityGroup.Id);
+                eg.Name = entityGroup.Name;
+                eg.Description = entityGroup.Description;
+                await eg.Update(dbContext);
+                return true;
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "EntityGroupRead failed", ex);
+                Log.LogException(methodName, "EntityGroupRead failed", ex);
                 throw new Exception("EntityGroupRead failed", ex);
             }
         }
@@ -2834,21 +2683,18 @@ namespace eFormCore
             string methodName = "Core.EntityGroupDelete";
             try
             {
-                if (Running())
-                {
-                    while (_updateIsRunningEntities)
-                        Thread.Sleep(200);
+                if (!Running()) throw new Exception("Core is not running");
+                while (_updateIsRunningEntities)
+                    Thread.Sleep(200);
 
-                    Microting.eForm.Infrastructure.Models.EntityGroup entityGroup = await _sqlController.EntityGroupRead(entityGroupMuId).ConfigureAwait(false);
-                    await _communicator.EntityGroupDelete(entityGroup.Type, entityGroupMuId).ConfigureAwait(false);
-                    string type = await _sqlController.EntityGroupDelete(entityGroupMuId).ConfigureAwait(false);
-                    return true;
-                }
-                throw new Exception("Core is not running");
+                Microting.eForm.Infrastructure.Models.EntityGroup entityGroup = await _sqlController.EntityGroupRead(entityGroupMuId).ConfigureAwait(false);
+                await _communicator.EntityGroupDelete(entityGroup.Type, entityGroupMuId).ConfigureAwait(false);
+                string type = await _sqlController.EntityGroupDelete(entityGroupMuId).ConfigureAwait(false);
+                return true;
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "EntityGroupDelete failed", ex);
+                Log.LogException(methodName, "EntityGroupDelete failed", ex);
                 throw new Exception("EntityGroupDelete failed", ex);
             }
         }
@@ -2902,7 +2748,7 @@ namespace eFormCore
 
         public async Task EntityItemUpdate(int id, string name, string description, string ownUuid, int displayIndex)
         {
-            await using var dbContext = dbContextHelper.GetDbContext();
+            await using var dbContext = DbContextHelper.GetDbContext();
             EntityItem et = await dbContext.EntityItems.SingleOrDefaultAsync(x => x.Id == id);
             if (et == null) {
                 throw new NullReferenceException("EntityItem not found with id " + id);
@@ -2970,32 +2816,25 @@ namespace eFormCore
             string methodName = "Core.PdfUpload";
             try
             {
-                if (Running())
+                if (!Running()) throw new Exception("Core is not running");
+                string chechSum = "";
+                using (var md5 = MD5.Create())
                 {
-                    string chechSum = "";
-                    using (var md5 = MD5.Create())
+                    await using (var stream = File.OpenRead(localPath))
                     {
-                        await using (var stream = File.OpenRead(localPath))
-                        {
-                            byte[] grr = md5.ComputeHash(stream);
-                            chechSum = BitConverter.ToString(grr).Replace("-", "").ToLower();
-                        }
-                    }
-
-                    if (await _communicator.PdfUpload(localPath, chechSum).ConfigureAwait(false))
-                        return chechSum;
-                    else
-                    {
-                        log.LogWarning(methodName, "Uploading of PDF failed");
-                        return null;
+                        byte[] grr = md5.ComputeHash(stream);
+                        chechSum = BitConverter.ToString(grr).Replace("-", "").ToLower();
                     }
                 }
-                else
-                    throw new Exception("Core is not running");
+
+                if (await _communicator.PdfUpload(localPath, chechSum).ConfigureAwait(false))
+                    return chechSum;
+                Log.LogWarning(methodName, "Uploading of PDF failed");
+                return null;
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception(methodName + " failed", ex);
             }
         }
@@ -3008,18 +2847,14 @@ namespace eFormCore
             string methodName = "Core.FolderGetAll";
             try
             {
-                if (Running())
-                {
-                    List<FolderDto> folderDtos = await _sqlController.FolderGetAll(includeRemoved).ConfigureAwait(false);
+                if (!Running()) throw new Exception("Core is not running");
+                List<FolderDto> folderDtos = await _sqlController.FolderGetAll(includeRemoved).ConfigureAwait(false);
 
-                    return folderDtos;
-                }
-
-                throw new Exception("Core is not running");
+                return folderDtos;
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "FolderGetAll failed", ex);
+                Log.LogException(methodName, "FolderGetAll failed", ex);
                 throw new Exception("FolderGetAll failed", ex);
             }
         }
@@ -3029,18 +2864,14 @@ namespace eFormCore
             string methodName = "Core.FolderRead";
             try
             {
-                if (Running())
-                {
-                    FolderDto folderDto = await _sqlController.FolderRead(id).ConfigureAwait(false);
+                if (!Running()) throw new Exception("Core is not running");
+                FolderDto folderDto = await _sqlController.FolderRead(id).ConfigureAwait(false);
 
-                    return folderDto;
-                }
-
-                throw new Exception("Core is not running");
+                return folderDto;
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "FolderRead failed", ex);
+                Log.LogException(methodName, "FolderRead failed", ex);
                 throw new Exception("FolderRead failed", ex);
             }
         }
@@ -3050,23 +2881,19 @@ namespace eFormCore
             string methodName = "Core.FolderCreate";
             try
             {
-                if (Running())
+                if (!Running()) throw new Exception("Core is not running");
+                int apiParentId = 0;
+                if (parentId != null)
                 {
-                    int apiParentId = 0;
-                    if (parentId != null)
-                    {
-                        apiParentId = (int)FolderRead((int) parentId).GetAwaiter().GetResult().MicrotingUId;
-                    }
-                    int id = await _communicator.FolderCreate(name, description, apiParentId).ConfigureAwait(false);
-                    int result = await _sqlController.FolderCreate(name, description, parentId, id).ConfigureAwait(false);
-                    return result;
-
+                    apiParentId = (int)FolderRead((int) parentId).GetAwaiter().GetResult().MicrotingUId;
                 }
-                throw new Exception("Core is not running");
+                int id = await _communicator.FolderCreate(name, description, apiParentId).ConfigureAwait(false);
+                int result = await _sqlController.FolderCreate(name, description, parentId, id).ConfigureAwait(false);
+                return result;
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "FolderCreate failed", ex);
+                Log.LogException(methodName, "FolderCreate failed", ex);
                 throw new Exception("FolderCreate failed", ex);
             }
         }
@@ -3076,23 +2903,19 @@ namespace eFormCore
             string methodName = "Core.FolderUpdate";
             try
             {
-                if (Running())
+                if (!Running()) throw new Exception("Core is not running");
+                FolderDto folder = await FolderRead(id).ConfigureAwait(false);
+                int apiParentId = 0;
+                if (parentId != null)
                 {
-                    FolderDto folder = await FolderRead(id).ConfigureAwait(false);
-                    int apiParentId = 0;
-                    if (parentId != null)
-                    {
-                        apiParentId = (int)FolderRead((int) parentId).GetAwaiter().GetResult().MicrotingUId;
-                    }
-                    await _communicator.FolderUpdate((int)folder.MicrotingUId, name, description, apiParentId).ConfigureAwait(false);
-                    await _sqlController.FolderUpdate(id, name, description, parentId).ConfigureAwait(false);
-                    return;
+                    apiParentId = (int)FolderRead((int) parentId).GetAwaiter().GetResult().MicrotingUId;
                 }
-                throw new Exception("Core is not running");
+                await _communicator.FolderUpdate((int)folder.MicrotingUId, name, description, apiParentId).ConfigureAwait(false);
+                await _sqlController.FolderUpdate(id, name, description, parentId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "FolderUpdate failed", ex);
+                Log.LogException(methodName, "FolderUpdate failed", ex);
                 throw new Exception("FolderUpdate failed", ex);
             }
         }
@@ -3102,22 +2925,17 @@ namespace eFormCore
             string methodName = "Core.FolderDelete";
             try
             {
-                if (Running())
+                if (!Running()) throw new Exception("Core is not running");
+                FolderDto folder = await FolderRead(id).ConfigureAwait(false);
+                bool success = await _communicator.FolderDelete((int)folder.MicrotingUId).ConfigureAwait(false);
+                if (success)
                 {
-                    FolderDto folder = await FolderRead(id).ConfigureAwait(false);
-                    bool success = await _communicator.FolderDelete((int)folder.MicrotingUId).ConfigureAwait(false);
-                    if (success)
-                    {
-                        await _sqlController.FolderDelete(id).ConfigureAwait(false);
-                    }
-
-                    return;
+                    await _sqlController.FolderDelete(id).ConfigureAwait(false);
                 }
-                throw new Exception("Core is not running");
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "FolderDelete failed", ex);
+                Log.LogException(methodName, "FolderDelete failed", ex);
                 throw new Exception("FolderDelete failed", ex);
             }
         }
@@ -3131,16 +2949,12 @@ namespace eFormCore
             string methodName = "Core.GetAllTags";
             try
             {
-                if (Running())
-                {
-                    return await _sqlController.GetAllTags(includeRemoved).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                if (!Running()) throw new Exception("Core is not running");
+                return await _sqlController.GetAllTags(includeRemoved).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -3153,22 +2967,15 @@ namespace eFormCore
         public async Task<int> TagCreate(string name)
         {
             string methodName = "Core.TagCreate";
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new ArgumentNullException("Name is not allowed to be null or empty");
-            }
+            if (string.IsNullOrEmpty(name)) throw new ArgumentNullException("Name is not allowed to be null or empty");
             try
             {
-                if (Running())
-                {
-                    return await _sqlController.TagCreate(name).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                if (!Running()) throw new Exception("Core is not running");
+                return await _sqlController.TagCreate(name).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -3178,16 +2985,12 @@ namespace eFormCore
             string methodName = "Core.TagDelete";
             try
             {
-                if (Running())
-                {
-                    return await _sqlController.TagDelete(tagId);
-                }
-
-                throw new Exception("Core is not running");
+                if (!Running()) throw new Exception("Core is not running");
+                return await _sqlController.TagDelete(tagId);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -3201,38 +3004,27 @@ namespace eFormCore
             string methodName = "Core.TranscribeUploadedData";
             try
             {
-                if (Running())
-                {
-                    UploadedData uploadedData = await _sqlController.GetUploadedData(uploadedDataId);
-                    if (uploadedData != null)
-                    {
-                        string[] audioFileExtenstions = { ".3gp", ".aa", ".aac", ".aax", ".act", ".aiff", ".amr", ".ape", ".au", ".awb", ".dct", ".dss", ".dvf", ".flac", ".gsm", ".iklax", ".ivs", ".m4a", ".m4b", ".m4p", ".mmf", ".mp3", ".mpc", ".msv", ".nsf", ".ogg", ".oga", ".mogg", ".opus", ".ra", ".rm", ".raw", ".sln", ".tta", ".vox", ".wav", ".wma", ".wv", ".webm", ".8svx" };
-                        if (audioFileExtenstions.Any(uploadedData.Extension.Contains))
-                        {
+                if (!Running()) throw new Exception("Core is not running");
+                UploadedData uploadedData = await _sqlController.GetUploadedData(uploadedDataId);
+                if (uploadedData == null) return false;
+                string[] audioFileExtenstions = { ".3gp", ".aa", ".aac", ".aax", ".act", ".aiff", ".amr", ".ape", ".au", ".awb", ".dct", ".dss", ".dvf", ".flac", ".gsm", ".iklax", ".ivs", ".m4a", ".m4b", ".m4p", ".mmf", ".mp3", ".mpc", ".msv", ".nsf", ".ogg", ".oga", ".mogg", ".opus", ".ra", ".rm", ".raw", ".sln", ".tta", ".vox", ".wav", ".wma", ".wv", ".webm", ".8svx" };
+                if (!audioFileExtenstions.Any(uploadedData.Extension.Contains)) return false;
+                string filePath = Path.Combine(uploadedData.FileLocation, uploadedData.FileName);
+                Log.LogStandard(methodName, $"filePath is {filePath}");
+                string fileName =
+                    $"{uploadedData.Id}_{uploadedData.Checksum}{uploadedData.Extension}";
 
-                            string filePath = Path.Combine(uploadedData.FileLocation, uploadedData.FileName);
-                            log.LogStandard(methodName, $"filePath is {filePath}");
-                            string fileName =
-                                $"{uploadedData.Id}_{uploadedData.Checksum}{uploadedData.Extension}";
+                var stream = await GetFileFromS3Storage(fileName);
 
-                            var stream = await GetFileFromS3Storage(fileName);
+                int requestId = await SpeechToText(stream.ResponseStream, uploadedData.Extension).ConfigureAwait(false);
+                uploadedData.TranscriptionId = requestId;
 
-                            int requestId = await SpeechToText(stream.ResponseStream, uploadedData.Extension).ConfigureAwait(false);
-                            uploadedData.TranscriptionId = requestId;
-
-                            await _sqlController.UpdateUploadedData(uploadedData).ConfigureAwait(false);
-                        }
-                        return true;
-                    }
-
-                    return false;
-                }
-
-                throw new Exception("Core is not running");
+                await _sqlController.UpdateUploadedData(uploadedData).ConfigureAwait(false);
+                return true;
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -3242,39 +3034,15 @@ namespace eFormCore
             string methodName = "Core.SpeechToText";
             try
             {
-                if (Running())
-                {
-                    return await _communicator.SpeechToText(pathToAudioFile, extension).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                if (!Running()) throw new Exception("Core is not running");
+                return await _communicator.SpeechToText(pathToAudioFile, extension).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
-
-//        public async Task<bool> SpeechToText(int requestId)
-//        {
-//            string methodName = "Core.SpeechToText";
-//            try
-//            {
-//                if (Running())
-//                {
-//                    //Tuple<Site_Dto, Unit_Dto> siteResult = communicator.SiteCreate(name);
-//                    return true;
-//                }
-//                else
-//                    throw new Exception("Core is not running");
-//            }
-//            catch (Exception ex)
-//            {
-//                log.LogException(methodName, "failed", ex);
-//                throw new Exception("failed", ex);
-//            }
-//        }
 
         #endregion
 
@@ -3284,7 +3052,7 @@ namespace eFormCore
 
         public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
         {
-            await using var dbContext = dbContextHelper.GetDbContext();
+            await using var dbContext = DbContextHelper.GetDbContext();
             SiteSurveyConfiguration siteSurveyConfiguration =
                 await dbContext.SiteSurveyConfigurations.SingleOrDefaultAsync(x => x.SiteId == siteId && x.SurveyConfigurationId == id).ConfigureAwait(false);
 
@@ -3309,72 +3077,70 @@ namespace eFormCore
             {
                 foreach (JToken subItem in item.Value)
                 {
-                    await using var db = dbContextHelper.GetDbContext();
+                    await using var db = DbContextHelper.GetDbContext();
                     string name = subItem["Name"].ToString();
                     int microtingUid = int.Parse(subItem["MicrotingUid"].ToString());
                     var innerParsedData = JObject.Parse(await _communicator.GetSurveyConfiguration(microtingUid).ConfigureAwait(false));
                     JToken parsedQuestionSet = innerParsedData.GetValue("QuestionSet");
 
-                    if (parsedQuestionSet != null)
+                    if (parsedQuestionSet == null) continue;
+                    int questionSetMicrotingUid = int.Parse(parsedQuestionSet["MicrotingUid"].ToString());
+                    var questionSet = await db.QuestionSets.SingleOrDefaultAsync(x => x.MicrotingUid == questionSetMicrotingUid).ConfigureAwait(false);
+                    if (questionSet != null)
                     {
-                        int questionSetMicrotingUid = int.Parse(parsedQuestionSet["MicrotingUid"].ToString());
-                        var questionSet = await db.QuestionSets.SingleOrDefaultAsync(x => x.MicrotingUid == questionSetMicrotingUid).ConfigureAwait(false);
-                        if (questionSet != null)
+                        questionSet.Name = parsedQuestionSet["Name"].ToString();
+                        await questionSet.Update(db);
+                    }
+                    else
+                    {
+                        questionSet = new QuestionSet()
                         {
-                            questionSet.Name = parsedQuestionSet["Name"].ToString();
-                            await questionSet.Update(db);
-                        }
-                        else
-                        {
-                            questionSet = new QuestionSet()
-                            {
-                                Name = parsedQuestionSet["Name"].ToString(),
-                                MicrotingUid = questionSetMicrotingUid
-                            };
-                            await questionSet.Create(db);
-                        }
-                        var surveyConfiguration = JsonConvert.DeserializeObject<SurveyConfiguration>(subItem.ToString());
-                        bool removed = surveyConfiguration.WorkflowState == Constants.WorkflowStates.Removed;
-                        if (!await db.SurveyConfigurations.AnyAsync(x =>
-                            x.MicrotingUid == surveyConfiguration.MicrotingUid))
-                        {
-                            surveyConfiguration.QuestionSetId = questionSet.Id;
-                            await surveyConfiguration.Create(db);
-                        }
-                        else
-                        {
-                            surveyConfiguration = await db.SurveyConfigurations.SingleAsync(x =>
-                                x.MicrotingUid == surveyConfiguration.MicrotingUid);
-                            surveyConfiguration.Name = subItem["Name"].ToString();
-                            await surveyConfiguration.Update(db);
-                        }
-                        if (removed)
-                        {
-                            await surveyConfiguration.Delete(db);
-                        }
+                            Name = parsedQuestionSet["Name"].ToString(),
+                            MicrotingUid = questionSetMicrotingUid
+                        };
+                        await questionSet.Create(db);
+                    }
+                    var surveyConfiguration = JsonConvert.DeserializeObject<SurveyConfiguration>(subItem.ToString());
+                    bool removed = surveyConfiguration.WorkflowState == Constants.WorkflowStates.Removed;
+                    if (!await db.SurveyConfigurations.AnyAsync(x =>
+                        x.MicrotingUid == surveyConfiguration.MicrotingUid))
+                    {
+                        surveyConfiguration.QuestionSetId = questionSet.Id;
+                        await surveyConfiguration.Create(db);
+                    }
+                    else
+                    {
+                        surveyConfiguration = await db.SurveyConfigurations.SingleAsync(x =>
+                            x.MicrotingUid == surveyConfiguration.MicrotingUid);
+                        surveyConfiguration.Name = subItem["Name"].ToString();
+                        await surveyConfiguration.Update(db);
+                    }
+                    if (removed)
+                    {
+                        await surveyConfiguration.Delete(db);
+                    }
 
-                        foreach (JToken child in innerParsedData.GetValue("Sites").Children())
+                    foreach (JToken child in innerParsedData.GetValue("Sites").Children())
+                    {
+                        var site = await db.Sites.SingleOrDefaultAsync(x => x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString())).ConfigureAwait(false);
+                        if (site == null) continue;
                         {
-                            var site = await db.Sites.SingleOrDefaultAsync(x => x.MicrotingUid == int.Parse(child["MicrotingUid"].ToString())).ConfigureAwait(false);
-                            if (site != null)
+                            var siteSurveyConfiguration =
+                                await db.SiteSurveyConfigurations.SingleOrDefaultAsync(x =>
+                                    x.SiteId == site.Id && x.SurveyConfigurationId == surveyConfiguration.Id).ConfigureAwait(false);
+                            if (siteSurveyConfiguration == null)
                             {
-                                var siteSurveyConfiguration =
-                                    await db.SiteSurveyConfigurations.SingleOrDefaultAsync(x =>
-                                        x.SiteId == site.Id && x.SurveyConfigurationId == surveyConfiguration.Id).ConfigureAwait(false);
-                                if (siteSurveyConfiguration == null)
+                                siteSurveyConfiguration = new SiteSurveyConfiguration()
                                 {
-                                    siteSurveyConfiguration = new SiteSurveyConfiguration()
-                                    {
-                                        SiteId = site.Id,
-                                        SurveyConfigurationId = surveyConfiguration.Id
-                                    };
-                                    await siteSurveyConfiguration.Create(db).ConfigureAwait(false);
-                                }
-                                else
-                                {
-                                    siteSurveyConfiguration.WorkflowState = Constants.WorkflowStates.Created;
-                                    await siteSurveyConfiguration.Update(db).ConfigureAwait(false);
-                                }
+                                    SiteId = site.Id,
+                                    SurveyConfigurationId = surveyConfiguration.Id
+                                };
+                                await siteSurveyConfiguration.Create(db).ConfigureAwait(false);
+                            }
+                            else
+                            {
+                                siteSurveyConfiguration.WorkflowState = Constants.WorkflowStates.Created;
+                                await siteSurveyConfiguration.Update(db).ConfigureAwait(false);
                             }
                         }
                     }
@@ -3393,7 +3159,7 @@ namespace eFormCore
                 NullValueHandling = NullValueHandling.Ignore,
                 MissingMemberHandling = MissingMemberHandling.Ignore
             };
-            await using var db = dbContextHelper.GetDbContext();
+            await using var db = DbContextHelper.GetDbContext();
             var innerParsedData = JObject.Parse(await _communicator.GetQuestionSet(microtingUid).ConfigureAwait(false));
 
             JToken parsedQuestions = innerParsedData.GetValue("Questions");
@@ -3403,7 +3169,7 @@ namespace eFormCore
                 {
                     var question = JsonConvert.DeserializeObject<Question>(child.ToString(), jsonSerializerSettings);
                     removed = question.WorkflowState == Constants.WorkflowStates.Removed;
-                    log.LogStandard("Core.GetAllQuestionSets",
+                    Log.LogStandard("Core.GetAllQuestionSets",
                         $"Parsing question on thread {threadNumber} {question.MicrotingUid}");
                     if (!await db.Questions.AnyAsync(x => x.MicrotingUid == question.MicrotingUid)
                         .ConfigureAwait(false))
@@ -3437,7 +3203,7 @@ namespace eFormCore
             foreach (JToken child in parsedQuestionTranslations.Children())
             {
                 var questionTranslation = JsonConvert.DeserializeObject<QuestionTranslation>(child.ToString(), jsonSerializerSettings);
-                log.LogStandard("Core.GetAllQuestionSets", $"Parsing question translation on thread {threadNumber} {questionTranslation.Name}");
+                Log.LogStandard("Core.GetAllQuestionSets", $"Parsing question translation on thread {threadNumber} {questionTranslation.Name}");
                 removed = questionTranslation.WorkflowState == Constants.WorkflowStates.Removed;
                 if (!await db.QuestionTranslations.AnyAsync(x =>
                     x.MicrotingUid == questionTranslation.MicrotingUid).ConfigureAwait(false))
@@ -3465,7 +3231,7 @@ namespace eFormCore
             foreach (JToken child in parsedOptions.Children())
             {
                 var option = JsonConvert.DeserializeObject<Option>(child.ToString(), jsonSerializerSettings);
-                log.LogStandard("Core.GetAllQuestionSets", $"Parsing option on thread {threadNumber} {option.MicrotingUid}");
+                Log.LogStandard("Core.GetAllQuestionSets", $"Parsing option on thread {threadNumber} {option.MicrotingUid}");
                 removed = option.WorkflowState == Constants.WorkflowStates.Removed;
                 if (!await db.Options.AnyAsync(x => x.MicrotingUid == option.MicrotingUid).ConfigureAwait(false))
                 {
@@ -3505,7 +3271,7 @@ namespace eFormCore
             foreach (JToken child in parsedOptionTranslations.Children())
             {
                 var optionTranslation = JsonConvert.DeserializeObject<OptionTranslation>(child.ToString(), jsonSerializerSettings);
-                log.LogStandard("Core.GetAllQuestionSets", $"Parsing option translation on thread {threadNumber} {optionTranslation.Name}");
+                Log.LogStandard("Core.GetAllQuestionSets", $"Parsing option translation on thread {threadNumber} {optionTranslation.Name}");
                 removed = optionTranslation.WorkflowState == Constants.WorkflowStates.Removed;
                 if (!await db.OptionTranslations.AnyAsync(x =>
                     x.MicrotingUid == optionTranslation.MicrotingUid).ConfigureAwait(false))
@@ -3542,7 +3308,7 @@ namespace eFormCore
                 MissingMemberHandling = MissingMemberHandling.Ignore
             };
 
-            await using var db = dbContextHelper.GetDbContext();
+            await using var db = DbContextHelper.GetDbContext();
             var language = await db.Languages.SingleOrDefaultAsync(x => x.Name == "Danish").ConfigureAwait(false);
             if (language == null)
             {
@@ -3594,7 +3360,7 @@ namespace eFormCore
 
         public async Task<bool> GetAllAnswers()
         {
-            await using var db = dbContextHelper.GetDbContext();
+            await using var db = DbContextHelper.GetDbContext();
             foreach (QuestionSet questionSet in await db.QuestionSets.ToListAsync())
             {
                 await GetAnswersForQuestionSet(questionSet.MicrotingUid).ConfigureAwait(false);
@@ -3621,9 +3387,9 @@ namespace eFormCore
 
         private async Task SaveAnswer(JToken subItem, int questionSetId)
         {
-            log.LogStandard("Core.SaveAnswer", $"called {DateTime.UtcNow}");
+            Log.LogStandard("Core.SaveAnswer", $"called {DateTime.UtcNow}");
             var settings = new JsonSerializerSettings { Error = (se, ev) => { ev.ErrorContext.Handled = true; } };
-            await using (var db = dbContextHelper.GetDbContext())
+            await using (var db = DbContextHelper.GetDbContext())
             {
                 Answer answer = JsonConvert.DeserializeObject<Answer>(subItem.ToString(), settings);
                 if (answer == null)
@@ -3752,7 +3518,7 @@ namespace eFormCore
                     }
                 }
             }
-            log.LogStandard("Core.SaveAnswer", $"ended {DateTime.UtcNow}");
+            Log.LogStandard("Core.SaveAnswer", $"ended {DateTime.UtcNow}");
         }
 
         public async Task GetAnswersForQuestionSet(int? apiQuestionSetId)
@@ -3760,7 +3526,7 @@ namespace eFormCore
             if (apiQuestionSetId == null)
                 return;
 
-            await using var db = dbContextHelper.GetDbContext();
+            await using var db = DbContextHelper.GetDbContext();
             int numAnswers = 10;
             QuestionSet questionSet =
                 await db.QuestionSets.SingleOrDefaultAsync(x => x.MicrotingUid == apiQuestionSetId).ConfigureAwait(false);
@@ -3848,20 +3614,16 @@ namespace eFormCore
             string methodName = "Core.Advanced_TemplateDisplayIndexChangeDb";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(templateId), templateId);
-                    log.LogVariable(methodName, nameof(newDisplayIndex), newDisplayIndex);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(templateId), templateId);
+                Log.LogVariable(methodName, nameof(newDisplayIndex), newDisplayIndex);
 
-                    return await _sqlController.TemplateDisplayIndexChange(templateId, newDisplayIndex).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.TemplateDisplayIndexChange(templateId, newDisplayIndex).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -3871,38 +3633,32 @@ namespace eFormCore
             string methodName = "Core.Advanced_TemplateDisplayIndexChangeServer";
             try
             {
-                if (Running())
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(templateId), templateId);
+                Log.LogVariable(methodName, nameof(siteUId), siteUId);
+                Log.LogVariable(methodName, nameof(newDisplayIndex), newDisplayIndex);
+
+                string respXml = null;
+                List<string> errors = new List<string>();
+                foreach (int microtingUId in await _sqlController.CheckListSitesRead(templateId, siteUId, Constants.WorkflowStates.NotRemoved).ConfigureAwait(false))
                 {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(templateId), templateId);
-                    log.LogVariable(methodName, nameof(siteUId), siteUId);
-                    log.LogVariable(methodName, nameof(newDisplayIndex), newDisplayIndex);
-
-                    string respXml = null;
-                    List<string> errors = new List<string>();
-                    foreach (int microtingUId in await _sqlController.CheckListSitesRead(templateId, siteUId, Constants.WorkflowStates.NotRemoved).ConfigureAwait(false))
-                    {
-                        respXml = await _communicator.TemplateDisplayIndexChange(microtingUId.ToString(), siteUId, newDisplayIndex).ConfigureAwait(false);
-                        Response resp = new Response();
-                        resp = resp.XmlToClassUsingXmlDocument(respXml);
-                        if (resp.Type != Response.ResponseTypes.Success)
-                        {
-                            string error = $"Failed to set display index for eForm {microtingUId} to {newDisplayIndex}";
-                            errors.Add(error);
-                        }
-                    }
-                    if (errors.Any())
-                    {
-                        throw new Exception(String.Join("\n", errors));
-                    }
-                    return true;
+                    respXml = await _communicator.TemplateDisplayIndexChange(microtingUId.ToString(), siteUId, newDisplayIndex).ConfigureAwait(false);
+                    Response resp = new Response();
+                    resp = resp.XmlToClassUsingXmlDocument(respXml);
+                    if (resp.Type == Response.ResponseTypes.Success) continue;
+                    string error = $"Failed to set display index for eForm {microtingUId} to {newDisplayIndex}";
+                    errors.Add(error);
                 }
-
-                throw new Exception("Core is not running");
+                if (errors.Any())
+                {
+                    throw new Exception(String.Join("\n", errors));
+                }
+                return true;
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -3912,53 +3668,46 @@ namespace eFormCore
             string methodName = "Core.Advanced_TemplateUpdateFieldIdsForColumns";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(templateId), templateId);
-                    log.LogVariable(methodName, nameof(fieldId1), fieldId1);
-                    log.LogVariable(methodName, nameof(fieldId2), fieldId2);
-                    log.LogVariable(methodName, nameof(fieldId3), fieldId3);
-                    log.LogVariable(methodName, nameof(fieldId4), fieldId4);
-                    log.LogVariable(methodName, nameof(fieldId5), fieldId5);
-                    log.LogVariable(methodName, nameof(fieldId6), fieldId6);
-                    log.LogVariable(methodName, nameof(fieldId7), fieldId7);
-                    log.LogVariable(methodName, nameof(fieldId8), fieldId8);
-                    log.LogVariable(methodName, nameof(fieldId9), fieldId9);
-                    log.LogVariable(methodName, nameof(fieldId10), fieldId10);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(templateId), templateId);
+                Log.LogVariable(methodName, nameof(fieldId1), fieldId1);
+                Log.LogVariable(methodName, nameof(fieldId2), fieldId2);
+                Log.LogVariable(methodName, nameof(fieldId3), fieldId3);
+                Log.LogVariable(methodName, nameof(fieldId4), fieldId4);
+                Log.LogVariable(methodName, nameof(fieldId5), fieldId5);
+                Log.LogVariable(methodName, nameof(fieldId6), fieldId6);
+                Log.LogVariable(methodName, nameof(fieldId7), fieldId7);
+                Log.LogVariable(methodName, nameof(fieldId8), fieldId8);
+                Log.LogVariable(methodName, nameof(fieldId9), fieldId9);
+                Log.LogVariable(methodName, nameof(fieldId10), fieldId10);
 
-                    return await _sqlController.TemplateUpdateFieldIdsForColumns(templateId, fieldId1, fieldId2,
-                            fieldId3, fieldId4, fieldId5, fieldId6, fieldId7, fieldId8, fieldId9, fieldId10)
-                        .ConfigureAwait(false);
-                }
-                else
-                    throw new Exception("Core is not running");
+                return await _sqlController.TemplateUpdateFieldIdsForColumns(templateId, fieldId1, fieldId2,
+                        fieldId3, fieldId4, fieldId5, fieldId6, fieldId7, fieldId8, fieldId9, fieldId10)
+                    .ConfigureAwait(false);
+
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
 
-        public async Task<List<FieldDto>> Advanced_TemplateFieldReadAll(int templateId)
+        public async Task<List<FieldDto>> Advanced_TemplateFieldReadAll(int templateId, Language language)
         {
             string methodName = "Core.Advanced_TemplateFieldReadAll";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(templateId), templateId);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(templateId), templateId);
 
-                    return await _sqlController.TemplateFieldReadAll(templateId).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.TemplateFieldReadAll(templateId, language).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return null;
             }
         }
@@ -3969,21 +3718,18 @@ namespace eFormCore
             string methodName = "Core.Advanced_SiteReadAll";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(workflowState), workflowState);
-                    log.LogVariable(methodName, nameof(offSet), offSet.ToString());
-                    log.LogVariable(methodName, nameof(limit), limit.ToString());
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(workflowState), workflowState);
+                Log.LogVariable(methodName, nameof(offSet), offSet.ToString());
+                Log.LogVariable(methodName, nameof(limit), limit.ToString());
 
-                    return await _sqlController.SimpleSiteGetAll(workflowState, offSet, limit).ConfigureAwait(false);
-                }
+                return await _sqlController.SimpleSiteGetAll(workflowState, offSet, limit).ConfigureAwait(false);
 
-                throw new Exception("Core is not running");
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -3993,19 +3739,15 @@ namespace eFormCore
             string methodName = "Core.Advanced_SiteItemRead";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(microting_uuid), microting_uuid);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(microting_uuid), microting_uuid);
 
-                    return await _sqlController.SiteRead(microting_uuid).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.SiteRead(microting_uuid).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4020,16 +3762,12 @@ namespace eFormCore
             string methodName = "Core.Advanced_SiteItemReadAll";
             try
             {
-                if (Running())
-                {
-                    return await _sqlController.SiteGetAll(includeRemoved).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                if (!Running()) throw new Exception("Core is not running");
+                return await _sqlController.SiteGetAll(includeRemoved).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4039,27 +3777,23 @@ namespace eFormCore
             string methodName = "Core.Advanced_SiteItemUpdate";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(siteId), siteId);
-                    log.LogVariable(methodName, nameof(name), name);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(siteId), siteId);
+                Log.LogVariable(methodName, nameof(name), name);
 
-                    if (await _sqlController.SiteRead(siteId).ConfigureAwait(false) == null)
-                        return false;
+                if (await _sqlController.SiteRead(siteId).ConfigureAwait(false) == null)
+                    return false;
 
-                    bool success = await _communicator.SiteUpdate(siteId, name).ConfigureAwait(false);
-                    if (!success)
-                        return false;
+                bool success = await _communicator.SiteUpdate(siteId, name).ConfigureAwait(false);
+                if (!success)
+                    return false;
 
-                    return await _sqlController.SiteUpdate(siteId, name).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.SiteUpdate(siteId, name).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4069,23 +3803,19 @@ namespace eFormCore
             string methodName = "Core.Advanced_SiteItemDelete";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(siteId), siteId);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(siteId), siteId);
 
-                    bool success = await _communicator.SiteDelete(siteId).ConfigureAwait(false);
-                    if (!success)
-                        return false;
+                bool success = await _communicator.SiteDelete(siteId).ConfigureAwait(false);
+                if (!success)
+                    return false;
 
-                    return await _sqlController.SiteDelete(siteId).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.SiteDelete(siteId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4098,30 +3828,26 @@ namespace eFormCore
             string methodName = "Core.Advanced_WorkerCreate";
             try
             {
-                if (Running())
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(firstName), firstName);
+                Log.LogVariable(methodName, nameof(lastName), lastName);
+                Log.LogVariable(methodName, nameof(email), email);
+
+                WorkerDto workerDto = await _communicator.WorkerCreate(firstName, lastName, email).ConfigureAwait(false);
+                int workerUId = workerDto.WorkerUId;
+
+                workerDto = await _sqlController.WorkerRead(workerDto.WorkerUId).ConfigureAwait(false);
+                if (workerDto == null)
                 {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(firstName), firstName);
-                    log.LogVariable(methodName, nameof(lastName), lastName);
-                    log.LogVariable(methodName, nameof(email), email);
-
-                    WorkerDto workerDto = await _communicator.WorkerCreate(firstName, lastName, email).ConfigureAwait(false);
-                    int workerUId = workerDto.WorkerUId;
-
-                    workerDto = await _sqlController.WorkerRead(workerDto.WorkerUId).ConfigureAwait(false);
-                    if (workerDto == null)
-                    {
-                        await _sqlController.WorkerCreate(workerUId, firstName, lastName, email).ConfigureAwait(false);
-                    }
-
-                    return await Advanced_WorkerRead(workerUId).ConfigureAwait(false);
+                    await _sqlController.WorkerCreate(workerUId, firstName, lastName, email).ConfigureAwait(false);
                 }
 
-                throw new Exception("Core is not running");
+                return await Advanced_WorkerRead(workerUId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4131,19 +3857,15 @@ namespace eFormCore
             string methodName = "Core.Advanced_WorkerNameRead";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(workerId), workerId);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(workerId), workerId);
 
-                    return await _sqlController.WorkerNameRead(workerId).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.WorkerNameRead(workerId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4153,19 +3875,15 @@ namespace eFormCore
             string methodName = "Core.Advanced_WorkerRead";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(workerId), workerId);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(workerId), workerId);
 
-                    return await _sqlController.WorkerRead(workerId).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.WorkerRead(workerId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4175,21 +3893,17 @@ namespace eFormCore
             string methodName = "Core.Advanced_WorkerReadAll";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(workflowState), workflowState);
-                    log.LogVariable(methodName, nameof(offSet), offSet.ToString());
-                    log.LogVariable(methodName, nameof(limit), limit.ToString());
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(workflowState), workflowState);
+                Log.LogVariable(methodName, nameof(offSet), offSet.ToString());
+                Log.LogVariable(methodName, nameof(limit), limit.ToString());
 
-                    return await _sqlController.WorkerGetAll(workflowState, offSet, limit).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.WorkerGetAll(workflowState, offSet, limit).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4199,29 +3913,25 @@ namespace eFormCore
             string methodName = "Core.Advanced_WorkerUpdate";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(workerId), workerId);
-                    log.LogVariable(methodName, nameof(firstName), firstName);
-                    log.LogVariable(methodName, nameof(lastName), lastName);
-                    log.LogVariable(methodName, nameof(email), email);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(workerId), workerId);
+                Log.LogVariable(methodName, nameof(firstName), firstName);
+                Log.LogVariable(methodName, nameof(lastName), lastName);
+                Log.LogVariable(methodName, nameof(email), email);
 
-                    if (await _sqlController.WorkerRead(workerId).ConfigureAwait(false) == null)
-                        return false;
+                if (await _sqlController.WorkerRead(workerId).ConfigureAwait(false) == null)
+                    return false;
 
-                    bool success = await _communicator.WorkerUpdate(workerId, firstName, lastName, email).ConfigureAwait(false);
-                    if (!success)
-                        return false;
+                bool success = await _communicator.WorkerUpdate(workerId, firstName, lastName, email).ConfigureAwait(false);
+                if (!success)
+                    return false;
 
-                    return await _sqlController.WorkerUpdate(workerId, firstName, lastName, email).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.WorkerUpdate(workerId, firstName, lastName, email).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4231,32 +3941,23 @@ namespace eFormCore
             string methodName = "Core.Advanced_WorkerDelete";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(microtingUid), microtingUid);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(microtingUid), microtingUid);
 
-                    bool success = await _communicator.WorkerDelete(microtingUid).ConfigureAwait(false);
-                    if (!success)
-                        return false;
-
-                    await using MicrotingDbContext dbContext = dbContextHelper.GetDbContext();
-                    var worker = await dbContext.Workers.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUid);
-                    if (worker != null)
-                    {
-                        await worker.Delete(dbContext);
-                        return true;
-                    }
-
+                bool success = await _communicator.WorkerDelete(microtingUid).ConfigureAwait(false);
+                if (!success)
                     return false;
-                    //return await _sqlController.WorkerDelete(microtingUid).ConfigureAwait(false);
-                }
 
-                throw new Exception("Core is not running");
+                await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
+                var worker = await dbContext.Workers.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUid);
+                if (worker == null) return false;
+                await worker.Delete(dbContext);
+                return true;
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4269,29 +3970,24 @@ namespace eFormCore
             string methodName = "Core.Advanced_SiteWorkerCreate";
             try
             {
-                if (Running())
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, "siteId", siteDto.SiteUId);
+                Log.LogVariable(methodName, "workerId", workerDto.WorkerUId);
+
+                SiteWorkerDto result = await _communicator.SiteWorkerCreate(siteDto.SiteUId, workerDto.WorkerUId).ConfigureAwait(false);
+
+                SiteWorkerDto siteWorkerDto = await _sqlController.SiteWorkerRead(result.MicrotingUId, null, null).ConfigureAwait(false);
+
+                if (siteWorkerDto == null)
                 {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, "siteId", siteDto.SiteUId);
-                    log.LogVariable(methodName, "workerId", workerDto.WorkerUId);
-
-                    SiteWorkerDto result = await _communicator.SiteWorkerCreate(siteDto.SiteUId, workerDto.WorkerUId).ConfigureAwait(false);
-
-                    SiteWorkerDto siteWorkerDto = await _sqlController.SiteWorkerRead(result.MicrotingUId, null, null).ConfigureAwait(false);
-
-                    if (siteWorkerDto == null)
-                    {
-                        await _sqlController.SiteWorkerCreate(result.MicrotingUId, siteDto.SiteUId, workerDto.WorkerUId).ConfigureAwait(false);
-                    }
-
-                    return await Advanced_SiteWorkerRead(result.MicrotingUId, null, null).ConfigureAwait(false);
+                    await _sqlController.SiteWorkerCreate(result.MicrotingUId, siteDto.SiteUId, workerDto.WorkerUId).ConfigureAwait(false);
                 }
-
-                throw new Exception("Core is not running");
+                return await Advanced_SiteWorkerRead(result.MicrotingUId, null, null).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4301,21 +3997,17 @@ namespace eFormCore
             string methodName = "Core.Advanced_SiteWorkerRead";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(siteWorkerMicrotingUid), siteWorkerMicrotingUid.ToString());
-                    log.LogVariable(methodName, nameof(siteId), siteId.ToString());
-                    log.LogVariable(methodName, nameof(workerId), workerId.ToString());
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(siteWorkerMicrotingUid), siteWorkerMicrotingUid.ToString());
+                Log.LogVariable(methodName, nameof(siteId), siteId.ToString());
+                Log.LogVariable(methodName, nameof(workerId), workerId.ToString());
 
-                    return await _sqlController.SiteWorkerRead(siteWorkerMicrotingUid, siteId, workerId).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.SiteWorkerRead(siteWorkerMicrotingUid, siteId, workerId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4325,23 +4017,19 @@ namespace eFormCore
             string methodName = "Core.Advanced_SiteWorkerDelete";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(workerId), workerId);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(workerId), workerId);
 
-                    bool success = await _communicator.SiteWorkerDelete(workerId).ConfigureAwait(false);
-                    if (!success)
-                        return false;
+                bool success = await _communicator.SiteWorkerDelete(workerId).ConfigureAwait(false);
+                if (!success)
+                    return false;
 
-                    return await _sqlController.SiteWorkerDelete(workerId).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.SiteWorkerDelete(workerId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4353,19 +4041,15 @@ namespace eFormCore
             string methodName = "Core.Advanced_UnitRead";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(microtingUid), microtingUid);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(microtingUid), microtingUid);
 
-                    return await _sqlController.UnitRead(microtingUid).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.UnitRead(microtingUid).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return null;
             }
         }
@@ -4375,18 +4059,14 @@ namespace eFormCore
             string methodName = "Core.Advanced_UnitReadAll";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
 
-                    return await _sqlController.UnitGetAll().ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.UnitGetAll().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 return null;
             }
         }
@@ -4396,25 +4076,21 @@ namespace eFormCore
             string methodName = "Core.Advanced_UnitRequestOtp";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(microtingUid), microtingUid);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(microtingUid), microtingUid);
 
-                    int otp_code = await _communicator.UnitRequestOtp(microtingUid).ConfigureAwait(false);
+                int otpCode = await _communicator.UnitRequestOtp(microtingUid).ConfigureAwait(false);
 
-                    UnitDto my_dto = await Advanced_UnitRead(microtingUid).ConfigureAwait(false);
+                UnitDto myDto = await Advanced_UnitRead(microtingUid).ConfigureAwait(false);
 
-                    await _sqlController.UnitUpdate(microtingUid, my_dto.CustomerNo, otp_code, my_dto.SiteUId).ConfigureAwait(false);
+                await _sqlController.UnitUpdate(microtingUid, myDto.CustomerNo, otpCode, myDto.SiteUId).ConfigureAwait(false);
 
-                    return await Advanced_UnitRead(microtingUid).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await Advanced_UnitRead(microtingUid).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw ex;
             }
         }
@@ -4424,23 +4100,19 @@ namespace eFormCore
             string methodName = "Core.Advanced_UnitDelete";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(unitId), unitId);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(unitId), unitId);
 
-                    bool success = await _communicator.UnitDelete(unitId).ConfigureAwait(false);
-                    if (!success)
-                        return false;
+                bool success = await _communicator.UnitDelete(unitId).ConfigureAwait(false);
+                if (!success)
+                    return false;
 
-                    return await _sqlController.UnitDelete(unitId).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.UnitDelete(unitId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4450,31 +4122,25 @@ namespace eFormCore
             string methodName = "Core.Advanced_UnitCreate";
             try
             {
-                if (Running())
+                if (!Running()) throw new Exception("Core is not running");
+                await using var dbContext = DbContextHelper.GetDbContext();
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(siteMicrotingUid), siteMicrotingUid);
+
+                Site site = await dbContext.Sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteMicrotingUid);
+
+                string result = await _communicator.UnitCreate((int)site.MicrotingUid).ConfigureAwait(false);
+                if (result == null) return false;
                 {
-                    await using var dbContext = dbContextHelper.GetDbContext();
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(siteMicrotingUid), siteMicrotingUid);
-
-                    Site site = await dbContext.Sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteMicrotingUid);
-
-                    string result = await _communicator.UnitCreate((int)site.MicrotingUid).ConfigureAwait(false);
-                    if (result != null)
-                    {
-                        Unit  unit = JsonConvert.DeserializeObject<Unit>(result);
-                        unit.SiteId = dbContext.Sites.Single(x => x.MicrotingUid == unit.SiteId).Id;
-                        await unit.Create(dbContext).ConfigureAwait(false);
-                        return true;
-                    }
-
-                    return false;
+                    Unit  unit = JsonConvert.DeserializeObject<Unit>(result);
+                    unit.SiteId = dbContext.Sites.Single(x => x.MicrotingUid == unit.SiteId).Id;
+                    await unit.Create(dbContext).ConfigureAwait(false);
+                    return true;
                 }
-
-                throw new Exception("Core is not running");
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4484,32 +4150,24 @@ namespace eFormCore
             string methodName = "Core.Advanced_UnitMove";
             try
             {
-                if (Running())
-                {
-                    await using var dbContext = dbContextHelper.GetDbContext();
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(unitId), unitId);
-                    log.LogVariable(methodName, nameof(siteId), siteId);
+                if (!Running()) throw new Exception("Core is not running");
+                await using var dbContext = DbContextHelper.GetDbContext();
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(unitId), unitId);
+                Log.LogVariable(methodName, nameof(siteId), siteId);
 
-                    Unit unit = await dbContext.Units.SingleOrDefaultAsync(x => x.Id == unitId);
-                    Site site = await dbContext.Sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteId);
+                Unit unit = await dbContext.Units.SingleOrDefaultAsync(x => x.Id == unitId);
+                Site site = await dbContext.Sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteId);
 
-                    string result = await _communicator.UnitMove((int)unit.MicrotingUid, (int)site.MicrotingUid).ConfigureAwait(false);
-                    if (result != null)
-                    {
-                        unit.SiteId = site.Id;
-                        await unit.Update(dbContext).ConfigureAwait(false);
-                        return true;
-                    }
-
-                    return false;
-                }
-
-                throw new Exception("Core is not running");
+                string result = await _communicator.UnitMove((int)unit.MicrotingUid, (int)site.MicrotingUid).ConfigureAwait(false);
+                if (result == null) return false;
+                unit.SiteId = site.Id;
+                await unit.Update(dbContext).ConfigureAwait(false);
+                return true;
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4521,19 +4179,15 @@ namespace eFormCore
             string methodName = "Core.Advanced_FieldRead";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(id), id);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(id), id);
 
-                    return await _sqlController.FieldRead(id, language).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.FieldRead(id, language).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4543,8 +4197,8 @@ namespace eFormCore
             string methodName = "Core.Advanced_UploadedDataRead";
             try
             {
-                log.LogStandard(methodName, "called");
-                log.LogVariable(methodName, nameof(id), id);
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(id), id);
 
                 var ud = await _sqlController.GetUploadedData(id).ConfigureAwait(false);
                 Microting.eForm.Infrastructure.Models.UploadedData uD = new Microting.eForm.Infrastructure.Models.UploadedData
@@ -4562,7 +4216,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4572,20 +4226,16 @@ namespace eFormCore
             string methodName = "Core.Advanced_FieldValueReadList";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(id), id);
-                    log.LogVariable(methodName, nameof(instances), instances);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(id), id);
+                Log.LogVariable(methodName, nameof(instances), instances);
 
-                    return await _sqlController.FieldValueReadList(id, instances, language).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.FieldValueReadList(id, instances, language).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4595,19 +4245,15 @@ namespace eFormCore
             string methodName = "Core.Advanced_FieldValueReadList";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(fieldId), fieldId);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(fieldId), fieldId);
 
-                    return await _sqlController.FieldValueReadList(fieldId, caseIds, language).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.FieldValueReadList(fieldId, caseIds, language).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4617,18 +4263,14 @@ namespace eFormCore
             string methodName = "Core.Advanced_FieldValueReadList";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
 
-                    return await _sqlController.FieldValueReadList(caseIds, language).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.FieldValueReadList(caseIds, language).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4638,18 +4280,14 @@ namespace eFormCore
             string methodName = "Core.Advanced_CheckListValueReadList";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
 
-                    return await _sqlController.CheckListValueReadList(caseIds).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.CheckListValueReadList(caseIds).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4668,25 +4306,21 @@ namespace eFormCore
             string methodName = "Core.Advanced_EntityGroupAll";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(sort), sort);
-                    log.LogVariable(methodName, nameof(nameFilter), nameFilter);
-                    log.LogVariable(methodName, nameof(pageIndex), pageIndex);
-                    log.LogVariable(methodName, nameof(pageSize), pageSize);
-                    log.LogVariable(methodName, nameof(entityType), entityType);
-                    log.LogVariable(methodName, nameof(desc), desc);
-                    log.LogVariable(methodName, nameof(workflowState), workflowState);
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(sort), sort);
+                Log.LogVariable(methodName, nameof(nameFilter), nameFilter);
+                Log.LogVariable(methodName, nameof(pageIndex), pageIndex);
+                Log.LogVariable(methodName, nameof(pageSize), pageSize);
+                Log.LogVariable(methodName, nameof(entityType), entityType);
+                Log.LogVariable(methodName, nameof(desc), desc);
+                Log.LogVariable(methodName, nameof(workflowState), workflowState);
 
-                    return await _sqlController.EntityGroupAll(sort, nameFilter, pageIndex, pageSize, entityType, desc, workflowState).ConfigureAwait(false);
-                }
-
-                throw new Exception("Core is not running");
+                return await _sqlController.EntityGroupAll(sort, nameFilter, pageIndex, pageSize, entityType, desc, workflowState).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4696,45 +4330,40 @@ namespace eFormCore
             string methodName = "Core.Advanced_DeleteUploadedData";
             try
             {
-                if (Running())
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(fieldId), fieldId);
+                Log.LogVariable(methodName, nameof(uploadedDataId), uploadedDataId);
+
+                UploadedData uD = await _sqlController.GetUploadedData(uploadedDataId).ConfigureAwait(false);
+
+                try
                 {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(fieldId), fieldId);
-                    log.LogVariable(methodName, nameof(uploadedDataId), uploadedDataId);
-
-                    UploadedData uD = await _sqlController.GetUploadedData(uploadedDataId).ConfigureAwait(false);
-
-                    try
+                    Directory.CreateDirectory(uD.FileLocation + "Deleted");
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                     {
-                        Directory.CreateDirectory(uD.FileLocation + "Deleted");
-                        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                        {
-                            File.Move(uD.FileLocation + uD.FileName, uD.FileLocation + @"Deleted\" + uD.FileName);
-                        }
-                        else
-                        {
-                            File.Move(uD.FileLocation + uD.FileName, uD.FileLocation + @"Deleted/" + uD.FileName);
-                        }
+                        File.Move(uD.FileLocation + uD.FileName, uD.FileLocation + @"Deleted\" + uD.FileName);
                     }
-                    catch (FileNotFoundException exception)
+                    else
                     {
-                        log.LogException(methodName, "failed", exception);
+                        File.Move(uD.FileLocation + uD.FileName, uD.FileLocation + @"Deleted/" + uD.FileName);
                     }
-                    catch (Exception exd)
-                    {
-                        log.LogException(methodName, "failed", exd);
-                        // TODO write code to handel the restart needed scenario!!!
-                        throw new Exception("failed", exd);
-                    }
-
-                    return await _sqlController.DeleteFile(uploadedDataId).ConfigureAwait(false);
                 }
-
-                throw new Exception("Core is not running");
+                catch (FileNotFoundException exception)
+                {
+                    Log.LogException(methodName, "failed", exception);
+                }
+                catch (Exception exd)
+                {
+                    Log.LogException(methodName, "failed", exd);
+                    // TODO write code to handel the restart needed scenario!!!
+                    throw new Exception("failed", exd);
+                }
+                return await _sqlController.DeleteFile(uploadedDataId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4744,18 +4373,14 @@ namespace eFormCore
             string methodName = "Core.Advanced_UpdateCaseFieldValue";
             try
             {
-                if (Running())
-                {
-                    log.LogStandard(methodName, "called");
-                    log.LogVariable(methodName, nameof(caseId), caseId);
-                    return await _sqlController.CaseUpdateFieldValues(caseId).ConfigureAwait(false);
-                }
-
-                return false;
+                if (!Running()) return false;
+                Log.LogStandard(methodName, "called");
+                Log.LogVariable(methodName, nameof(caseId), caseId);
+                return await _sqlController.CaseUpdateFieldValues(caseId).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException(methodName, "failed", ex);
+                Log.LogException(methodName, "failed", ex);
                 throw new Exception("failed", ex);
             }
         }
@@ -4832,17 +4457,17 @@ namespace eFormCore
         private async Task<int> SendXml(MainElement mainElement, int siteId)
         {
             string methodName = "Core.SendXml";
-            log.LogEverything(methodName, "siteId:" + siteId + ", requested sent eForm");
+            Log.LogEverything(methodName, "siteId:" + siteId + ", requested sent eForm");
 
             string xmlStrRequest = mainElement.ClassToXml();
 
-            log.LogEverything(methodName, "siteId:" + siteId + ", ClassToXml done");
+            Log.LogEverything(methodName, "siteId:" + siteId + ", ClassToXml done");
             string xmlStrResponse = await _communicator.PostXml(xmlStrRequest, siteId);
-            log.LogEverything(methodName, "siteId:" + siteId + ", PostXml done");
+            Log.LogEverything(methodName, "siteId:" + siteId + ", PostXml done");
 
             Response response = new Response();
             response = response.XmlToClass(xmlStrResponse);
-            log.LogEverything(methodName, "siteId:" + siteId + ", XmlToClass done");
+            Log.LogEverything(methodName, "siteId:" + siteId + ", XmlToClass done");
 
             //if reply is "success", it's created
             if (response.Type.ToString().ToLower() == "success")
@@ -4856,17 +4481,17 @@ namespace eFormCore
         private async Task<int> SendJson(MainElement mainElement, int siteId)
         {
             string methodName = "Core.SendJson";
-            log.LogEverything(methodName, "siteId:" + siteId + ", requested sent eForm");
+            Log.LogEverything(methodName, "siteId:" + siteId + ", requested sent eForm");
 
             string request = mainElement.ClassToJson();
 
-            log.LogEverything(methodName, "siteId:" + siteId + ", ClassToJson done");
+            Log.LogEverything(methodName, "siteId:" + siteId + ", ClassToJson done");
             string jsonStringResponse = await _communicator.PostJson(request, siteId);
-            log.LogEverything(methodName, "siteId:" + siteId + ", PostJson done");
+            Log.LogEverything(methodName, "siteId:" + siteId + ", PostJson done");
 
             Response response = new Response();
             response = response.JsonToClass(jsonStringResponse);
-            log.LogEverything(methodName, "siteId:" + siteId + ", JsonToClass done");
+            Log.LogEverything(methodName, "siteId:" + siteId + ", JsonToClass done");
 
             //if reply is "success", it's created
             if (response.Type.ToString().ToLower() == "success")
@@ -4879,15 +4504,13 @@ namespace eFormCore
 
         public async Task<List<List<string>>> GenerateDataSetFromCases(int? checkListId, DateTime? start, DateTime? end, string customPathForUploadedData, string decimalSeparator, string thousandSaperator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo, Language language)
         {
-            await using MicrotingDbContext dbContext = dbContextHelper.GetDbContext();
+            await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
             List<List<string>> dataSet = new List<List<string>>();
             List<string> colume1CaseIds = new List<string> { "Id" };
             List<int> caseIds = new List<int>();
 
-            if (start == null)
-                start = DateTime.MinValue;
-            if (end == null)
-                end = DateTime.MaxValue;
+            start ??= DateTime.MinValue;
+            end ??= DateTime.MaxValue;
             List<Case> cases = await dbContext.Cases.Where(x =>
                 x.DoneAt > start && x.DoneAt < end
                                  && x.WorkflowState != Constants.WorkflowStates.Removed
@@ -4965,14 +4588,14 @@ namespace eFormCore
                         List<string> lstReturn = new List<string>();
                         lstReturn = await GenerateDataSetFromCasesSubSet(lstReturn, checkListId, "");
 
-                        List<string> newRow;
                         foreach (string set in lstReturn)
                         {
-                            int fieldId = int.Parse(t.SplitToList(set, 0, false));
-                            string label = t.SplitToList(set, 1, false);
+                            int fieldId = int.Parse(_t.SplitToList(set, 0, false));
+                            string label = _t.SplitToList(set, 1, false);
 
                             List<List<KeyValuePair>> result = await _sqlController.FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData, decimalSeparator, thousandSaperator, language).ConfigureAwait(false);
 
+                            List<string> newRow;
                             if (result.Count == 1)
                             {
                                 newRow = new List<string>();
@@ -5034,7 +4657,7 @@ namespace eFormCore
         private async Task<List<string>> GenerateDataSetFromCasesSubSet(List<string> lstReturn, int? checkListId, string preLabel)
         {
             string sep = " / ";
-            await using MicrotingDbContext dbContext = dbContextHelper.GetDbContext();
+            await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
             if (checkListId != null)
             {
                 if (dbContext.CheckLists.Any(x => x.ParentId == checkListId))
@@ -5134,10 +4757,7 @@ namespace eFormCore
                                 "]]></F" + field.Id + "_value>";
                         }
                     }
-                    else
-                    {
-                        //jasperFieldXml += Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" + answer.Id + "\">NO FILE</F" + field.Id + "_value>";
-                    }
+
                     break;
                 case Constants.FieldTypes.Number:
                 case Constants.FieldTypes.NumberStepper:
@@ -5189,8 +4809,9 @@ namespace eFormCore
                         {
                             FieldContainer fieldC = (FieldContainer)item;
 
-                            foreach (Field field in fieldC.DataItemList)
+                            foreach (var dataItem in fieldC.DataItemList)
                             {
+                                var field = (Field) dataItem;
                                 jasperFieldXml += Environment.NewLine + "<F" + field.Id + " name=\"" + field.Label + "\" parent=\"" + dataE.Label + "\">";
                                 foreach (FieldValue answer in field.FieldValues)
                                 {
@@ -5223,7 +4844,7 @@ namespace eFormCore
             _coreThreadRunning = true;
 
             string methodName = "Core.CoreThread";
-            log.LogEverything(methodName, "initiated");
+            Log.LogEverything(methodName, "initiated");
             while (_coreAvailable)
             {
                 try
@@ -5238,14 +4859,14 @@ namespace eFormCore
                 }
                 catch (ThreadAbortException)
                 {
-                    log.LogWarning(methodName, "catch of ThreadAbortException");
+                    Log.LogWarning(methodName, "catch of ThreadAbortException");
                 }
                 catch (Exception ex)
                 {
                     await FatalExpection(methodName + "failed", ex).ConfigureAwait(false);
                 }
             }
-            log.LogEverything(methodName, "completed");
+            Log.LogEverything(methodName, "completed");
 
             _coreThreadRunning = false;
         }
@@ -5258,7 +4879,7 @@ namespace eFormCore
             if (uploadedData != null)
             {
                 string urlStr = uploadedData.FileLocation;
-                log.LogEverything(methodName, "Received file:" + uploadedData.ToString());
+                Log.LogEverything(methodName, "Received file:" + uploadedData.ToString());
 
                 #region finding file name and creating folder if needed
                 FileInfo file = new FileInfo(_fileLocationPicture);
@@ -5273,12 +4894,12 @@ namespace eFormCore
                 {
                     try
                     {
-                        log.LogStandard(methodName, $"Downloading file to #{_fileLocationPicture}/#{fileName}");
+                        Log.LogStandard(methodName, $"Downloading file to #{_fileLocationPicture}/#{fileName}");
                         client.DownloadFile(urlStr, _fileLocationPicture + fileName);
                     }
                     catch (Exception ex)
                     {
-                        log.LogWarning(methodName, "We got an error " + ex.Message);
+                        Log.LogWarning(methodName, "We got an error " + ex.Message);
                         throw new Exception("Downloading and creating fil locally failed.", ex);
                     }
 
@@ -5300,24 +4921,24 @@ namespace eFormCore
                 #region checks checkSum
                 if (chechSum != fileName.AsSpan().Slice(fileName.LastIndexOf(".") - 32, 32).ToString())
                 //.Substring(fileName.LastIndexOf(".") - 32, 32))
-                    log.LogWarning(methodName, $"Download of '{urlStr}' failed. Check sum did not match");
+                    Log.LogWarning(methodName, $"Download of '{urlStr}' failed. Check sum did not match");
                 #endregion
 
                 CaseDto dto = await _sqlController.FileCaseFindMUId(urlStr).ConfigureAwait(false);
                 FileDto fDto = new FileDto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId.ToString(), dto.CheckUId.ToString(), _fileLocationPicture + fileName);
                 try { HandleFileDownloaded?.Invoke(fDto, EventArgs.Empty); }
-                catch { log.LogWarning(methodName, "HandleFileDownloaded event's external logic suffered an Expection"); }
-                log.LogStandard(methodName, "Downloaded file '" + urlStr + "'.");
+                catch { Log.LogWarning(methodName, "HandleFileDownloaded event's external logic suffered an Expection"); }
+                Log.LogStandard(methodName, "Downloaded file '" + urlStr + "'.");
 
                 await _sqlController.FileProcessed(urlStr, chechSum, _fileLocationPicture, fileName, uploadedData.Id).ConfigureAwait(false);
 
                 if (_swiftEnabled || _s3Enabled)
                 {
-                    log.LogStandard(methodName, $"Trying to upload file {fileName}");
+                    Log.LogStandard(methodName, $"Trying to upload file {fileName}");
                     string filePath = Path.Combine(_fileLocationPicture, fileName);
                     if (File.Exists(filePath))
                     {
-                        log.LogStandard(methodName, $"File exists at path {filePath}");
+                        Log.LogStandard(methodName, $"File exists at path {filePath}");
                         await PutFileToStorageSystem(filePath, fileName).ConfigureAwait(false);
 
                         // Generate thumbnail and docx/pdf friendly file sizes
@@ -5363,7 +4984,7 @@ namespace eFormCore
                     }
                     else
                     {
-                        log.LogWarning(methodName, $"File could not be found at filepath {filePath}");
+                        Log.LogWarning(methodName, $"File could not be found at filepath {filePath}");
                     }
                 }
 
@@ -5401,28 +5022,23 @@ namespace eFormCore
         private async Task<SwiftObjectGetResponse> GetFileFromSwiftStorage(string fileName, int retries)
         {
             string methodName = "Core.GetFileFromSwiftStorage";
-            if (_swiftEnabled)
+            if (!_swiftEnabled) throw new FileNotFoundException();
+            Log.LogStandard(methodName, $"Trying to get file {fileName} from {_customerNo}_uploaded_data");
+            SwiftObjectGetResponse response = await _swiftClient.ObjectGetAsync(_customerNo + "_uploaded_data", fileName).ConfigureAwait(false);
+            if (response.IsSuccess)
             {
-                log.LogStandard(methodName, $"Trying to get file {fileName} from {_customerNo}_uploaded_data");
-                SwiftObjectGetResponse response = await _swiftClient.ObjectGetAsync(_customerNo + "_uploaded_data", fileName).ConfigureAwait(false);
-                if (response.IsSuccess)
-                {
-                    return response;
-                }
-                else
-                {
-                    if (response.Reason == "Unauthorized")
-                    {
-                        log.LogWarning(methodName, "Check swift credentials : Unauthorized");
-                        throw new UnauthorizedAccessException();
-                    }
-
-                    log.LogCritical(methodName, $"Could not get file {fileName}, reason is {response.Reason}");
-                    throw new Exception($"Could not get file {fileName}");
-                }
+                return response;
             }
 
-            throw new FileNotFoundException();
+            if (response.Reason == "Unauthorized")
+            {
+                Log.LogWarning(methodName, "Check swift credentials : Unauthorized");
+                throw new UnauthorizedAccessException();
+            }
+
+            Log.LogCritical(methodName, $"Could not get file {fileName}, reason is {response.Reason}");
+            throw new Exception($"Could not get file {fileName}");
+
         }
 
         public async Task PutFileToStorageSystem(string filePath, string fileName)
@@ -5457,7 +5073,7 @@ namespace eFormCore
 #pragma warning restore 1998
         {
             string methodName = "Core.PutFileToSwiftStorage";
-            log.LogStandard(methodName, $"Trying to upload file {fileName} to {_customerNo}_uploaded_data");
+            Log.LogStandard(methodName, $"Trying to upload file {fileName} to {_customerNo}_uploaded_data");
             try
             {
                 var fileStream = new FileStream(filePath, FileMode.Open);
@@ -5471,11 +5087,11 @@ namespace eFormCore
                     {
                         fileStream.Close();
                         fileStream.Dispose();
-                        log.LogWarning(methodName, "Check swift credentials : Unauthorized");
+                        Log.LogWarning(methodName, "Check swift credentials : Unauthorized");
                         throw new UnauthorizedAccessException();
                     }
 
-                    log.LogWarning(methodName, $"Something went wrong, message was {response.Reason}");
+                    Log.LogWarning(methodName, $"Something went wrong, message was {response.Reason}");
 
                     response = _swiftClient.ContainerPutAsync(_customerNo + "_uploaded_data").GetAwaiter().GetResult();
                     if (response.IsSuccess)
@@ -5485,19 +5101,19 @@ namespace eFormCore
                         if (!response.IsSuccess)
                         {
                             fileStream.Close();
-                            fileStream.Dispose();
+                            await fileStream.DisposeAsync();
                             throw new Exception($"Could not upload file {fileName}");
                         }
                     }
                 }
 
                 fileStream.Close();
-                fileStream.Dispose();
+                await fileStream.DisposeAsync();
             }
             catch (FileNotFoundException ex)
             {
-                log.LogCritical(methodName, $"File not found at {filePath}");
-                log.LogCritical(methodName, ex.Message);
+                Log.LogCritical(methodName, $"File not found at {filePath}");
+                Log.LogCritical(methodName, ex.Message);
             }
         }
 
@@ -5505,9 +5121,8 @@ namespace eFormCore
         {
             string methodName = "Core.PutFileToS3Storage";
             string bucketName = await _sqlController.SettingRead(Settings.s3BucketName);
-            log.LogStandard(methodName, $"Trying to upload file {fileName} to {bucketName}");
+            Log.LogStandard(methodName, $"Trying to upload file {fileName} to {bucketName}");
 
-            var fileStream = new FileStream(filePath, FileMode.Open);
             PutObjectRequest putObjectRequest = new PutObjectRequest
             {
                 BucketName = $"{await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false)}/{_customerNo}",
@@ -5520,7 +5135,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                log.LogWarning(methodName, $"Something went wrong, message was {ex.Message}");
+                Log.LogWarning(methodName, $"Something went wrong, message was {ex.Message}");
             }
 
         }
@@ -5532,7 +5147,7 @@ namespace eFormCore
             MainElement mainElement = new MainElement();
 
             CaseDto concreteCase = await _sqlController.CaseReadByMUId(microtingUid).ConfigureAwait(false);
-            log.LogEverything(methodName, concreteCase.ToString() + " has been matched");
+            Log.LogEverything(methodName, concreteCase.ToString() + " has been matched");
 
             if (concreteCase.CaseUId == "" || concreteCase.CaseUId == "ReversedCase")
                 lstCase.Add(concreteCase);
@@ -5545,14 +5160,14 @@ namespace eFormCore
                 {
                     #region get response's data and update DB with data
                     int? checkIdLastKnown = await _sqlController.CaseReadLastCheckIdByMicrotingUId(microtingUid).ConfigureAwait(false); //null if NOT a checkListSite
-                    log.LogVariable(methodName, nameof(checkIdLastKnown), checkIdLastKnown);
+                    Log.LogVariable(methodName, nameof(checkIdLastKnown), checkIdLastKnown);
 
                     string respXml;
                     if (checkIdLastKnown == null)
                         respXml = await _communicator.Retrieve(microtingUid.ToString(), concreteCase.SiteUId).ConfigureAwait(false);
                     else
                         respXml = await _communicator.RetrieveFromId(microtingUid.ToString(), concreteCase.SiteUId, checkIdLastKnown.ToString()).ConfigureAwait(false);
-                    log.LogVariable(methodName, nameof(respXml), respXml);
+                    Log.LogVariable(methodName, nameof(respXml), respXml);
 
                     Response resp = new Response();
                     resp = resp.XmlToClassUsingXmlDocument(respXml);
@@ -5560,7 +5175,7 @@ namespace eFormCore
 
                     if (resp.Type == Response.ResponseTypes.Success)
                     {
-                        log.LogEverything(methodName, "resp.Type == Response.ResponseTypes.Success (true)");
+                        Log.LogEverything(methodName, "resp.Type == Response.ResponseTypes.Success (true)");
                         if (resp.Checks.Count > 0)
                         {
                             XmlDocument xDoc = new XmlDocument();
@@ -5572,14 +5187,14 @@ namespace eFormCore
                             {
 
                                 int unitUId = _sqlController.UnitRead(int.Parse(check.UnitId)).GetAwaiter().GetResult().UnitUId;
-                                log.LogVariable(methodName, nameof(unitUId), unitUId);
+                                Log.LogVariable(methodName, nameof(unitUId), unitUId);
                                 int workerUId = _sqlController.WorkerRead(int.Parse(check.WorkerId)).GetAwaiter().GetResult().WorkerUId;
-                                log.LogVariable(methodName, nameof(workerUId), workerUId);
+                                Log.LogVariable(methodName, nameof(workerUId), workerUId);
 
-                                await _sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml.ToString(), i).ConfigureAwait(false);
+                                await _sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml, i).ConfigureAwait(false);
 
                                 await _sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, DateTime.Parse(check.Date), workerUId, unitUId).ConfigureAwait(false);
-                                log.LogEverything(methodName, "sqlController.CaseUpdateCompleted(...)");
+                                Log.LogEverything(methodName, "sqlController.CaseUpdateCompleted(...)");
 
                                 #region IF needed retract case, thereby completing the process
                                 if (checkIdLastKnown == null)
@@ -5590,29 +5205,29 @@ namespace eFormCore
 
                                     if (respRet.Type == Response.ResponseTypes.Success)
                                     {
-                                        log.LogEverything(methodName, aCase + " has been retracted");
+                                        Log.LogEverything(methodName, aCase + " has been retracted");
                                     }
                                     else
-                                        log.LogWarning(methodName, "Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
+                                        Log.LogWarning(methodName, "Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
                                 }
                                 #endregion
 
                                 await _sqlController.CaseRetract(microtingUid, (int)check.Id).ConfigureAwait(false);
-                                log.LogEverything(methodName, "sqlController.CaseRetract(...)");
+                                Log.LogEverything(methodName, "sqlController.CaseRetract(...)");
                                 // TODO add case.Id
                                 CaseDto cDto = await _sqlController.CaseReadByMUId(microtingUid);
 								//InteractionCaseUpdate(cDto);
                                 await FireHandleCaseCompleted(cDto).ConfigureAwait(false);
                                 //try { HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty); }
                                 //catch { log.LogWarning(t.GetMethodName("Core"), "HandleCaseCompleted event's external logic suffered an Expection"); }
-                                log.LogStandard(methodName, cDto.ToString() + " has been completed");
+                                Log.LogStandard(methodName, cDto.ToString() + " has been completed");
                                 i++;
                             }
                         }
                     }
                     else
                     {
-                        log.LogEverything(methodName, "resp.Type == Response.ResponseTypes.Success (false)");
+                        Log.LogEverything(methodName, "resp.Type == Response.ResponseTypes.Success (false)");
                         throw new Exception("Failed to retrive eForm " + microtingUid + " from site " + aCase.SiteUId);
                     }
                     #endregion
@@ -5639,11 +5254,14 @@ namespace eFormCore
 #pragma warning restore 1998
         {
             string methodName = "Core.FireHandleCaseCompleted";
-		    log.LogStandard(methodName, $"FireHandleCaseCompleted for MicrotingUId {caseDto.MicrotingUId}");
-			try { HandleCaseCompleted.Invoke(caseDto, EventArgs.Empty); }
+		    Log.LogStandard(methodName, $"FireHandleCaseCompleted for MicrotingUId {caseDto.MicrotingUId}");
+			try
+            {
+                HandleCaseCompleted?.Invoke(caseDto, EventArgs.Empty);
+            }
 			catch (Exception ex)
 			{
-				log.LogWarning(methodName, "HandleCaseCompleted event's external logic suffered an Expection");
+				Log.LogWarning(methodName, "HandleCaseCompleted event's external logic suffered an Expection");
 				throw ex;
 			}
 		}
@@ -5654,7 +5272,7 @@ namespace eFormCore
         {
             string methodName = "Core.FireHandleCaseDeleted";
             try { HandleCaseDeleted?.Invoke(caseDto, EventArgs.Empty); }
-            catch { log.LogWarning(methodName, "HandleCaseCompleted event's external logic suffered an Expection"); }
+            catch { Log.LogWarning(methodName, "HandleCaseCompleted event's external logic suffered an Expection"); }
         }
 
 #pragma warning disable 1998
@@ -5663,7 +5281,7 @@ namespace eFormCore
         {
             string methodName = "Core.FireHandleNotificationNotFound";
             try { HandleNotificationNotFound?.Invoke(notification, EventArgs.Empty); }
-            catch { log.LogWarning(methodName, "HandleNotificationNotFound event's external logic suffered an Expection"); }
+            catch { Log.LogWarning(methodName, "HandleNotificationNotFound event's external logic suffered an Expection"); }
         }
 
 #pragma warning disable 1998
@@ -5672,7 +5290,7 @@ namespace eFormCore
         {
             string methodName = "Core.FireHandleSiteActivated";
             try { HandleSiteActivated?.Invoke(notification, EventArgs.Empty); }
-            catch { log.LogWarning(methodName, "HandleSiteActivated event's external logic suffered an Expection"); }
+            catch { Log.LogWarning(methodName, "HandleSiteActivated event's external logic suffered an Expection"); }
         }
 
 #pragma warning disable 1998
@@ -5680,12 +5298,12 @@ namespace eFormCore
 #pragma warning restore 1998
         {
             string methodName = "Core.FireHandleCaseProcessedByServer";
-            log.LogStandard(methodName, $"HandleCaseProcessedByServer for MicrotingUId {caseDto.MicrotingUId}");
+            Log.LogStandard(methodName, $"HandleCaseProcessedByServer for MicrotingUId {caseDto.MicrotingUId}");
 
             try { HandleeFormProcessedByServer.Invoke(caseDto, EventArgs.Empty); }
             catch (Exception ex)
             {
-                log.LogWarning(methodName, "HandleCaseProcessedByServer event's external logic suffered an Expection");
+                Log.LogWarning(methodName, "HandleCaseProcessedByServer event's external logic suffered an Expection");
                 throw ex;
             }
         }
@@ -5695,12 +5313,12 @@ namespace eFormCore
 #pragma warning restore 1998
         {
             string methodName = "Core.FireHandleCaseProcessingError";
-            log.LogStandard(methodName, $"HandleCaseProcessingError for MicrotingUId {caseDto.MicrotingUId}");
+            Log.LogStandard(methodName, $"HandleCaseProcessingError for MicrotingUId {caseDto.MicrotingUId}");
 
             try { HandleeFormProsessingError.Invoke(caseDto, EventArgs.Empty); }
             catch (Exception ex)
             {
-                log.LogWarning(methodName, "HandleCaseProcessingError event's external logic suffered an Expection");
+                Log.LogWarning(methodName, "HandleCaseProcessingError event's external logic suffered an Expection");
                 throw ex;
             }
         }
@@ -5710,12 +5328,12 @@ namespace eFormCore
 #pragma warning restore 1998
         {
             string methodName = "Core.FireHandleCaseRetrived";
-		    log.LogStandard(methodName, $"FireHandleCaseRetrived for MicrotingUId {caseDto.MicrotingUId}");
+		    Log.LogStandard(methodName, $"FireHandleCaseRetrived for MicrotingUId {caseDto.MicrotingUId}");
 
 			try { HandleCaseRetrived.Invoke(caseDto, EventArgs.Empty); }
 			catch (Exception ex)
 			{
-				log.LogWarning(methodName, "HandleCaseRetrived event's external logic suffered an Expection");
+				Log.LogWarning(methodName, "HandleCaseRetrived event's external logic suffered an Expection");
 				throw ex;
 			}
 		}
