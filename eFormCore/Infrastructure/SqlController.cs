@@ -1556,7 +1556,7 @@ namespace Microting.eForm.Infrastructure
                         {
                             List<DataItem> dataItemSubList = new List<DataItem>();
                             foreach (Data.Entities.Field subField in await db.Fields.Where(x =>
-                                x.ParentFieldId == field.CheckListId).OrderBy(x => x.DisplayIndex).ToListAsync())
+                                x.ParentFieldId == field.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
                             {
                                 Field _field = await DbFieldToField(subField, language);
                                 FieldTranslation fieldTranslation = await db.FieldTranslations.SingleAsync(x =>
