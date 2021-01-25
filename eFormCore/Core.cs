@@ -1682,14 +1682,14 @@ namespace eFormCore
             }
         }
 
-        public async Task<bool> CaseUpdateFieldValues(int id)
+        public async Task<bool> CaseUpdateFieldValues(int id, Language language)
         {
             string methodName = "Core.CaseUpdateFieldValues";
             Log.LogStandard(methodName, "called");
             Log.LogVariable(methodName, nameof(id), id);
             try
             {
-                return await _sqlController.CaseUpdateFieldValues(id).ConfigureAwait(false);
+                return await _sqlController.CaseUpdateFieldValues(id, language).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -4363,7 +4363,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<bool> Advanced_UpdateCaseFieldValue(int caseId)
+        public async Task<bool> Advanced_UpdateCaseFieldValue(int caseId, Language language)
         {
             string methodName = "Core.Advanced_UpdateCaseFieldValue";
             try
@@ -4371,7 +4371,7 @@ namespace eFormCore
                 if (!Running()) return false;
                 Log.LogStandard(methodName, "called");
                 Log.LogVariable(methodName, nameof(caseId), caseId);
-                return await _sqlController.CaseUpdateFieldValues(caseId).ConfigureAwait(false);
+                return await _sqlController.CaseUpdateFieldValues(caseId, language).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -4556,7 +4556,10 @@ namespace eFormCore
                     Worker worker = await dbContext.Workers.SingleAsync(x => x.Id == aCase.WorkerId);
                     colume10.Add(worker.full_name());
                     colume11.Add(aCase.UnitId.ToString());
-                    colume12.Add(checkList.Label);
+                    CheckListTranslation checkListTranslation =
+                        await dbContext.CheckListTranslations.SingleAsync(x =>
+                            x.CheckListId == checkList.Id && x.LanguageId == language.Id);
+                    colume12.Add(checkListTranslation.Text);
                 }
 
                 dataSet.Add(colume1CaseIds);
@@ -4581,7 +4584,7 @@ namespace eFormCore
                     if (checkListId != null)
                     {
                         List<string> lstReturn = new List<string>();
-                        lstReturn = await GenerateDataSetFromCasesSubSet(lstReturn, checkListId, "");
+                        lstReturn = await GenerateDataSetFromCasesSubSet(lstReturn, checkListId, "", language);
 
                         foreach (string set in lstReturn)
                         {
@@ -4649,7 +4652,7 @@ namespace eFormCore
             return dataSet;
         }
 
-        private async Task<List<string>> GenerateDataSetFromCasesSubSet(List<string> lstReturn, int? checkListId, string preLabel)
+        private async Task<List<string>> GenerateDataSetFromCasesSubSet(List<string> lstReturn, int? checkListId, string preLabel, Language language)
         {
             string sep = " / ";
             await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
@@ -4663,9 +4666,14 @@ namespace eFormCore
                         if (parentCheckList.ParentId != null)
                         {
                             if (preLabel != "")
-                                preLabel = preLabel + sep + parentCheckList.Label;
+                            {
+                                CheckListTranslation checkListTranslation =
+                                    await dbContext.CheckListTranslations.SingleAsync(x =>
+                                        x.CheckListId == parentCheckList.Id && x.LanguageId == language.Id);
+                                preLabel = preLabel + sep + checkListTranslation.Text;
+                            }
                         }
-                        await GenerateDataSetFromCasesSubSet(lstReturn, checkList.Id, preLabel);
+                        await GenerateDataSetFromCasesSubSet(lstReturn, checkList.Id, preLabel, language);
                     }
                 }
                 else
@@ -4678,11 +4686,18 @@ namespace eFormCore
                             {
                                 if (field.FieldTypeId != 3 && field.FieldTypeId != 18)
                                 {
+                                    FieldTranslation fieldTranslation =
+                                        await dbContext.FieldTranslations.SingleAsync(x =>
+                                            x.FieldId == field.Id && x.LanguageId == language.Id);
+                                    FieldTranslation subFieldTranslation =
+                                        await dbContext.FieldTranslations.SingleAsync(x =>
+                                            x.FieldId == subField.Id && x.LanguageId == language.Id);
+
                                     if (preLabel != "")
-                                        lstReturn.Add(subField.Id + "|" + preLabel + sep + field.Label + sep +
-                                                      subField.Label);
+                                        lstReturn.Add(subField.Id + "|" + preLabel + sep + fieldTranslation.Text + sep +
+                                                      subFieldTranslation.Text);
                                     else
-                                        lstReturn.Add(subField.Id + "|" + field.Label + sep + subField.Label);
+                                        lstReturn.Add(subField.Id + "|" + fieldTranslation.Text + sep + subFieldTranslation.Text);
                                 }
                             }
                         }
@@ -4690,10 +4705,13 @@ namespace eFormCore
                         {
                             if (field.FieldTypeId != 3 && field.FieldTypeId != 18)
                             {
+                                FieldTranslation fieldTranslation =
+                                    await dbContext.FieldTranslations.SingleAsync(x =>
+                                        x.FieldId == field.Id && x.LanguageId == language.Id);
                                 if (preLabel != "")
-                                    lstReturn.Add(field.Id + "|" + preLabel + sep + field.Label);
+                                    lstReturn.Add(field.Id + "|" + preLabel + sep + fieldTranslation.Text);
                                 else
-                                    lstReturn.Add(field.Id + "|" + field.Label);
+                                    lstReturn.Add(field.Id + "|" + fieldTranslation.Text);
                             }
                         }
                     }

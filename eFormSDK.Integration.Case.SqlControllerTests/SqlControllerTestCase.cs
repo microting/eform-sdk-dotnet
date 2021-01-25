@@ -45,7 +45,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
         private SqlController sut;
         private TestHelpers testHelpers;
         private DbContextHelper dbContextHelper;
-//        private string path;
+        private Language language;
 
         public override async Task DoSetup()
         {
@@ -65,6 +65,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
             await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
+            language = DbContext.Languages.Single(x => x.Name == "Danish");
         }
 
         [Test]
@@ -957,7 +958,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.AreEqual(null, theCase.FieldValue9);
             Assert.AreEqual(null, theCase.FieldValue10);
 
-            var testThis = await sut.CaseUpdateFieldValues(aCase1.Id);
+            var testThis = await sut.CaseUpdateFieldValues(aCase1.Id, language);
 
             // Assert
             Microting.eForm.Infrastructure.Data.Entities.Case theCaseAfter = DbContext.Cases.AsNoTracking().First();

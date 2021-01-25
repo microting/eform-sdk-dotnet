@@ -1185,103 +1185,6 @@ namespace Microting.eForm.Infrastructure
 
                                 await fieldV.Create(db).ConfigureAwait(false);
 
-                                #region update case field_values
-                                if (caseFields.Contains(fieldV.FieldId))
-                                {
-                                    field = await db.Fields.FirstAsync(x => x.Id == fieldV.FieldId);
-                                    fieldType = await db.FieldTypes.SingleAsync(x => x.Id == field.FieldTypeId);
-                                    string newValue = fieldV.Value;
-
-                                    if (fieldType.Type == Constants.Constants.FieldTypes.EntitySearch
-                                        || fieldType.Type == Constants.Constants.FieldTypes.EntitySelect)
-                                    {
-                                        try
-                                        {
-                                            if (fieldV.Value != "" || fieldV.Value != null)
-                                            {
-                                                int Id = int.Parse(fieldV.Value);
-                                                EntityItem match = await db.EntityItems.SingleOrDefaultAsync(x => x.Id == Id);
-
-                                                if (match != null)
-                                                {
-                                                    newValue = match.Name;
-                                                }
-
-                                            }
-                                        }
-                                        catch { }
-                                    }
-
-                                    if (fieldType.Type == "SingleSelect")
-                                    {
-                                        //string key = ;
-                                        //string fullKey = t.Locate(fieldV.Field.KeyValuePairList, $"<" + fieldV.Value + ">", "</" + fieldV.Value + ">");
-                                        newValue = _t.Locate(_t.Locate(field.KeyValuePairList,
-                                            $"<{fieldV.Value}>", "</" + fieldV.Value + ">"), "<key>", "</key>");
-                                    }
-
-                                    if (fieldType.Type == "MultiSelect")
-                                    {
-                                        newValue = "";
-
-                                        //string keys = ;
-                                        List<string> keyLst = fieldV.Value.Split('|').ToList();
-
-                                        foreach (string key in keyLst)
-                                        {
-                                            string fullKey = _t.Locate(fieldV.Field.KeyValuePairList, $"<{key}>",
-                                                $"</{key}>");
-                                            if (newValue != "")
-                                            {
-                                                newValue += "\n" + _t.Locate(fullKey, "<key>", "</key>");
-                                            }
-                                            else
-                                            {
-                                                newValue += _t.Locate(fullKey, "<key>", "</key>");
-                                            }
-                                        }
-                                    }
-
-
-                                    int i = caseFields.IndexOf(fieldV.FieldId);
-                                    switch (i)
-                                    {
-                                        case 0:
-                                            responseCase.FieldValue1 = newValue;
-                                            break;
-                                        case 1:
-                                            responseCase.FieldValue2 = newValue;
-                                            break;
-                                        case 2:
-                                            responseCase.FieldValue3 = newValue;
-                                            break;
-                                        case 3:
-                                            responseCase.FieldValue4 = newValue;
-                                            break;
-                                        case 4:
-                                            responseCase.FieldValue5 = newValue;
-                                            break;
-                                        case 5:
-                                            responseCase.FieldValue6 = newValue;
-                                            break;
-                                        case 6:
-                                            responseCase.FieldValue7 = newValue;
-                                            break;
-                                        case 7:
-                                            responseCase.FieldValue8 = newValue;
-                                            break;
-                                        case 8:
-                                            responseCase.FieldValue9 = newValue;
-                                            break;
-                                        case 9:
-                                            responseCase.FieldValue10 = newValue;
-                                            break;
-                                    }
-                                    await responseCase.Update(db).ConfigureAwait(false);
-                                }
-
-                                #endregion
-
                                 #region remove dataItem duplicate from TemplatDataItemLst
                                 int index = 0;
                                 foreach (var foo in eFormFieldList)
@@ -1344,98 +1247,8 @@ namespace Microting.eForm.Infrastructure
                 }
                 #endregion
 
+                await CaseUpdateFieldValues(responseCase.Id, language);
                 return uploadedDataIds;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(methodName + " failed", ex);
-            }
-        }
-
-        /// <summary>
-        /// Updates Case Field Value in DB with given caseId
-        /// </summary>
-        /// <param name="caseId"></param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
-        public async Task<bool> UpdateCaseFieldValue(int caseId)
-        {
-            string methodName = "SqlController.UpdateCaseFieldValue";
-            try
-            {
-                await using var db = GetContext();
-                Case match = await db.Cases.SingleOrDefaultAsync(x => x.Id == caseId);
-
-                if (match != null)
-                {
-                    CheckList cl = match.CheckList;
-                    FieldValue fv = null;
-                    #region field_value and field matching
-                    fv = await db.FieldValues.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field1);
-                    if (fv != null)
-                    {
-                        match.FieldValue1 = fv.Value;
-                    }
-                    fv = await db.FieldValues.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field2);
-                    if (fv != null)
-                    {
-                        match.FieldValue2 = fv.Value;
-                    }
-                    fv = await db.FieldValues.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field3);
-                    if (fv != null)
-                    {
-                        match.FieldValue3 = fv.Value;
-                    }
-                    fv = await db.FieldValues.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field4);
-                    if (fv != null)
-                    {
-                        match.FieldValue4 = fv.Value;
-                    }
-                    fv = await db.FieldValues.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field5);
-                    if (fv != null)
-                    {
-                        match.FieldValue5 = fv.Value;
-                    }
-                    fv = await db.FieldValues.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field6);
-                    if (fv != null)
-                    {
-                        match.FieldValue6 = fv.Value;
-                    }
-                    fv = await db.FieldValues.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field7);
-                    if (fv != null)
-                    {
-                        match.FieldValue7 = fv.Value;
-                    }
-                    fv = await db.FieldValues.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field8);
-                    if (fv != null)
-                    {
-                        match.FieldValue8 = fv.Value;
-                    }
-                    fv = await db.FieldValues.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field9);
-                    if (fv != null)
-                    {
-                        match.FieldValue9 = fv.Value;
-                    }
-                    fv = await db.FieldValues.SingleOrDefaultAsync(x => x.CaseId == caseId && x.FieldId == cl.Field10);
-                    if (fv != null)
-                    {
-                        match.FieldValue10 = fv.Value;
-                    }
-
-                    await match.Update(db).ConfigureAwait(false);
-//                        match.Version += 1;
-//                        match.UpdatedAt = DateTime.UtcNow;
-//                        //TODO! THIS part need to be redone in some form in EF Core!
-//                        //db.cases.AddOrUpdate(match);
-//                        db.SaveChanges();
-//                        db.case_versions.Add(MapCaseVersions(match));
-//                        db.SaveChanges();
-
-
-                    #endregion
-                }
-
-                return true;
             }
             catch (Exception ex)
             {
@@ -3251,7 +3064,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public async Task<bool> CaseUpdateFieldValues(int caseId)
+        public async Task<bool> CaseUpdateFieldValues(int caseId, Language language)
         {
             string methodName = "SqlController.CaseUpdateFieldValues";
             try
@@ -3317,9 +3130,14 @@ namespace Microting.eForm.Infrastructure
 
                     if (fieldType.Type == Constants.Constants.FieldTypes.SingleSelect)
                     {
-                        string key = item.Value;
-                        string fullKey = _t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
-                        newValue = _t.Locate(fullKey, "<key>", "</key>");
+                        //string key = item.Value;
+                        FieldOption fieldOption = await db.FieldOptions.SingleAsync(x => x.Key == item.Value && x.FieldId == field.Id);
+                        FieldOptionTranslation fieldOptionTranslation =
+                            await db.FieldOptionTranslations.SingleAsync(x =>
+                                x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
+                        //string fullKey = _t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
+                        //newValue = _t.Locate(fullKey, "<key>", "</key>");
+                        newValue = fieldOptionTranslation.Text;
                     }
 
                     if (fieldType.Type == Constants.Constants.FieldTypes.MultiSelect)
@@ -3331,14 +3149,22 @@ namespace Microting.eForm.Infrastructure
 
                         foreach (string key in keyLst)
                         {
-                            string fullKey = _t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
+                            //string fullKey = _t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
+
+                            FieldOption fieldOption = await db.FieldOptions.SingleAsync(x => x.Key == item.Value && x.FieldId == field.Id);
+                            FieldOptionTranslation fieldOptionTranslation =
+                                await db.FieldOptionTranslations.SingleAsync(x =>
+                                    x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
+                            //string fullKey = _t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
+                            //newValue = _t.Locate(fullKey, "<key>", "</key>");
+                            string value = fieldOptionTranslation.Text;
                             if (newValue != "")
                             {
-                                newValue += "\n" + _t.Locate(fullKey, "<key>", "</key>");
+                                newValue += "\n" + value;
                             }
                             else
                             {
-                                newValue += _t.Locate(fullKey, "<key>", "</key>");
+                                newValue += value;
                             }
                         }
                     }

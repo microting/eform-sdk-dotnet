@@ -2025,7 +2025,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(null, theCase.FieldValue9);
             Assert.AreEqual(null, theCase.FieldValue10);
 
-            var testThis = await sut.CaseUpdateFieldValues(aCase1.Id);
+            var testThis = await sut.CaseUpdateFieldValues(aCase1.Id, language);
 
             // Assert
             Case theCaseAfter = DbContext.Cases.AsNoTracking().First();
