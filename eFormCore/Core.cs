@@ -2254,9 +2254,6 @@ namespace eFormCore
                 }
             }
 
-            string templateFile = Path.Combine(Path.GetTempPath(), "templates", templateId, "compact",
-                $"{templateId}.docx");
-
             // Try to create the results directory first
             Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), "results"));
 
@@ -2298,7 +2295,7 @@ namespace eFormCore
                 }
             }
 
-            ReportHelper.SearchAndReplace(templateFile, valuePairs, resultDocument);
+            ReportHelper.SearchAndReplace(valuePairs, resultDocument);
 
             ReportHelper.InsertImages(resultDocument, pictures);
 
@@ -2313,11 +2310,9 @@ namespace eFormCore
                 return Path.Combine(Path.GetTempPath(), "results",
                     $"{timeStamp}_{caseId}.pdf");
             }
-            else
-            {
-                return Path.Combine(Path.GetTempPath(), "results",
-                    $"{timeStamp}_{caseId}.docx");
-            }
+
+            return Path.Combine(Path.GetTempPath(), "results",
+                $"{timeStamp}_{caseId}.docx");
 
         }
 

@@ -46,10 +46,8 @@ namespace Microting.eForm.Helpers
 {
     public static class ReportHelper
     {
-        public static void SearchAndReplace(string fullPathToDocument, SortedDictionary<string, string> valuesToReplace, string outputFileName)
+        public static void SearchAndReplace(SortedDictionary<string, string> valuesToReplace, string outputFileName)
         {
-            File.Copy(fullPathToDocument, outputFileName);
-
             WordprocessingDocument wordDoc = WordprocessingDocument.Open(outputFileName, true);
 
             SearchAndReplaceHeaders(wordDoc, valuesToReplace);
