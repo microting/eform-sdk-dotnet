@@ -600,26 +600,26 @@ namespace Microting.eForm.Communication
             }
         }
 
-        public async Task<bool> EntityGroupUpdate(string entityType, string name, int id, string entityGroupMUId)
+        public async Task<bool> EntityGroupUpdate(string entityType, string name, int id, string entityGroupMuId)
         {
             _log.LogEverything("Communicator.EntityGroupUpdate", "called");
             _log.LogVariable("Communicator.EntityGroupUpdate", nameof(entityType), entityType);
             _log.LogVariable("Communicator.EntityGroupUpdate", nameof(name), name);
             _log.LogVariable("Communicator.EntityGroupUpdate", nameof(id), id);
-            _log.LogVariable("Communicator.EntityGroupUpdate", nameof(entityGroupMUId), entityGroupMUId);
+            _log.LogVariable("Communicator.EntityGroupUpdate", nameof(entityGroupMuId), entityGroupMuId);
 
             try
             {
                 if (entityType == Constants.FieldTypes.EntitySearch)
                 {
-                    if (await _http.EntitySearchGroupUpdate(id, name, entityGroupMUId))
+                    if (await _http.EntitySearchGroupUpdate(id, name, entityGroupMuId))
                         return true;
                     throw new Exception("EntityGroupUpdate failed");
                 }
 
                 if (entityType == Constants.FieldTypes.EntitySelect)
                 {
-                    if (await _http.EntitySelectGroupUpdate(id, name, entityGroupMUId))
+                    if (await _http.EntitySelectGroupUpdate(id, name, entityGroupMuId))
                         return true;
                     throw new Exception("EntityGroupUpdate failed");
                 }
