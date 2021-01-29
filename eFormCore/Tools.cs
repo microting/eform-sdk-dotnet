@@ -61,8 +61,7 @@ namespace Microting.eForm
         {
             if (inputBool == false)
                 return 0;
-            else
-                return 1;
+            return 1;
         }
 
         public int Int(int? input)
@@ -83,16 +82,14 @@ namespace Microting.eForm
         {
             if (input == "")
                 return null;
-            else
-                return DateTime.Parse(input);
+            return DateTime.Parse(input);
         }
 
         public DateTime Date(DateTime? input)
         {
             if (input != null)
                 return (DateTime)input;
-            else
-                return DateTime.MinValue;
+            return DateTime.MinValue;
         }
 
         public string IntLst(List<int> siteIds)
@@ -337,8 +334,7 @@ namespace Microting.eForm
                 int lenght = textStr.IndexOf(endStr, startIndex) - startIndex;
                 if (keepStartAndEnd)
                     return startStr + textStr.Substring(startIndex, lenght) + endStr;
-                else
-                    return textStr.Substring(startIndex, lenght).Trim();
+                return textStr.Substring(startIndex, lenght).Trim();
             }
             catch (Exception ex)
             {
@@ -351,7 +347,7 @@ namespace Microting.eForm
             try
             {
                 if (string.IsNullOrEmpty(textToBeSplit))
-                    throw new ArgumentException("SplitFirst failed, due to textToBeSplit:'" + textToBeSplit.ToString() + "'");
+                    throw new ArgumentException("SplitFirst failed, due to textToBeSplit:'" + textToBeSplit + "'");
 
                 if (!textToBeSplit.Contains('|'))
                     throw new ArgumentException("SplitFirst failed, due to '|' not found in textToBeSplit");
@@ -377,7 +373,7 @@ namespace Microting.eForm
             try
             {
                 if (string.IsNullOrEmpty(textToBeSplit))
-                    throw new ArgumentException("SplitFirst failed, due to textToBeSplit:'" + textToBeSplit.ToString() + "'");
+                    throw new ArgumentException("SplitFirst failed, due to textToBeSplit:'" + textToBeSplit + "'");
 
                 if (!textToBeSplit.Contains('|'))
                     throw new ArgumentException("SplitFirst failed, due to '|' not found in textToBeSplit");
@@ -399,8 +395,7 @@ namespace Microting.eForm
 
                 if (index == 0)
                     return textToBeSplit.Substring(0, mark);
-                else
-                    return textToBeSplit.Remove(0, mark + 1);
+                return textToBeSplit.Remove(0, mark + 1);
             }
             catch (Exception ex)
             {

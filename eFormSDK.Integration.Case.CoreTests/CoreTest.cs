@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using eFormCore;
 using eFormSDK.Integration.CheckLists.CoreTests;
@@ -33,11 +34,10 @@ using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
+using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using NUnit.Framework;
 using Case = Microting.eForm.Infrastructure.Data.Entities.Case;
-using FieldValue = Microting.eForm.Infrastructure.Data.Entities.FieldValue;
-using UploadedData = Microting.eForm.Infrastructure.Data.Entities.UploadedData;
 
 namespace eFormSDK.Integration.CoreTests
 {
@@ -68,8 +68,8 @@ namespace eFormSDK.Integration.CoreTests
             sut.HandleFileDownloaded += EventFileDownloaded;
             sut.HandleSiteActivated += EventSiteActivated;
             await sut.StartSqlOnly(ConnectionString).ConfigureAwait(false);
-            path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
+            path = Assembly.GetExecutingAssembly().CodeBase;
+            path = Path.GetDirectoryName(path).Replace(@"file:", "");
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));

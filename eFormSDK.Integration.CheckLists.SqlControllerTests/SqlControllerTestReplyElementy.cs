@@ -266,11 +266,11 @@ namespace eFormSDK.Integration.SqlControllerTests
             #endregion
 
             #region Description
-            CDataValue f1desc = (CDataValue)_f1.Description;
-            CDataValue f2desc = (CDataValue)_f2.Description;
-            CDataValue f3desc = (CDataValue)_f3.Description;
-            CDataValue f4desc = (CDataValue)_f4.Description;
-            CDataValue f5desc = (CDataValue)_f5.Description;
+            CDataValue f1desc = _f1.Description;
+            CDataValue f2desc = _f2.Description;
+            CDataValue f3desc = _f3.Description;
+            CDataValue f4desc = _f4.Description;
+            CDataValue f5desc = _f5.Description;
 
             Assert.AreEqual("Comment field description", f1desc.InderValue);
             Assert.AreEqual("showPDf Description", f2desc.InderValue);

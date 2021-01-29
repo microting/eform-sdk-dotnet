@@ -26,7 +26,7 @@ using System;
 
 namespace Microting.eForm.Dto
 {
-    [Serializable()]
+    [Serializable]
     public class KeyValuePair
     {
         #region con

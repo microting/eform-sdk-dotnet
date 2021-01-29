@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Microting.eForm.Infrastructure;
-using Microting.eForm.Infrastructure.Data.Entities;
-using Rebus.Extensions;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Microting.eForm.Migrations
 {

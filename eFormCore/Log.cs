@@ -23,7 +23,6 @@ SOFTWARE.
 */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microting.eForm.Dto;
@@ -57,7 +56,7 @@ namespace Microting.eForm
             if (variableContent == null)
                 variableContent = "[null]";
 
-            LogLogic(new LogEntry(3, type, "Variable Name:" + variableName.ToString() + " / Content:" + variableContent.ToString()));
+            LogLogic(new LogEntry(3, type, "Variable Name:" + variableName + " / Content:" + variableContent));
         }
 
         public void LogVariable(string type, string variableName, int? variableContent)

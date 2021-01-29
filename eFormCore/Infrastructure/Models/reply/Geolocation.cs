@@ -26,7 +26,7 @@ using System;
 
 namespace Microting.eForm.Infrastructure.Models.reply
 {
-    [Serializable()]
+    [Serializable]
     public class GeolocationData
     {
         internal GeolocationData()

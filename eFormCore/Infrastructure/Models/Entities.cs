@@ -30,11 +30,6 @@ namespace Microting.eForm.Infrastructure.Models
     #region EntityGroup
     public class EntityGroup
     {
-        public EntityGroup()
-        {
-
-        }
-
         public int Id { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
@@ -65,9 +60,9 @@ namespace Microting.eForm.Infrastructure.Models
 
         public EntityGroupList(int numOfElements, int pageNum, List<EntityGroup> entityGroupList)
         {
-            this.NumOfElements = numOfElements;
-            this.PageNum = pageNum;
-            this.EntityGroups = entityGroupList;
+            NumOfElements = numOfElements;
+            PageNum = pageNum;
+            EntityGroups = entityGroupList;
         }
 
         public int NumOfElements { get; }

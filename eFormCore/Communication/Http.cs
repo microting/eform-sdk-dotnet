@@ -202,8 +202,7 @@ namespace Microting.eForm.Communication
 
                 if (responseXml.Contains("workflowState=\"created"))
                     return t.Locate(responseXml, "<MicrotingUUId>", "</");
-                else
-                    return null;
+                return null;
             }
             catch (Exception ex)
             {
@@ -226,8 +225,7 @@ namespace Microting.eForm.Communication
 
             if (responseXml.Contains("workflowState=\"created"))
                 return true;
-            else
-                return false;
+            return false;
         }
 
         public async Task<bool> EntitySearchGroupDelete(string entityGroupId)
@@ -243,8 +241,7 @@ namespace Microting.eForm.Communication
 
                 if (responseXml.Contains("Value type=\"success"))
                     return true;
-                else
-                    return false;
+                return false;
             }
             catch (Exception ex)
             {
@@ -271,8 +268,7 @@ namespace Microting.eForm.Communication
 
             if (responseXml.Contains("workflowState=\"created"))
                 return t.Locate(responseXml, "<MicrotingUUId>", "</");
-            else
-                return null;
+            return null;
         }
 
         public async Task<bool> EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
@@ -310,8 +306,7 @@ namespace Microting.eForm.Communication
 
             if (responseXml.Contains("Value type=\"success"))
                 return true;
-            else
-                return false;
+            return false;
         }
         #endregion
 
@@ -334,8 +329,7 @@ namespace Microting.eForm.Communication
 
                 if (responseXml.Contains("workflow_state\": \"created"))
                     return t.Locate(responseXml, "\"id\": \"", "\"");
-                else
-                    return null;
+                return null;
             }
             catch (Exception ex)
             {
@@ -403,8 +397,7 @@ namespace Microting.eForm.Communication
 
             if (responseXml.Contains("workflow_state\": \"created"))
                 return t.Locate(responseXml, "\"id\": \"", "\"");
-            else
-                return null;
+            return null;
         }
 
         public async Task<bool> EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayIndex, string ownUuid)

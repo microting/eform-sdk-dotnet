@@ -35,9 +35,9 @@ namespace Microting.eForm.Dto
 
         public CaseList(int numOfElements, int pageNum, List<Case> caseList)
         {
-            this.NumOfElements = numOfElements;
-            this.PageNum = pageNum;
-            this.Cases = caseList;
+            NumOfElements = numOfElements;
+            PageNum = pageNum;
+            Cases = caseList;
         }
 
         public int NumOfElements { get; }

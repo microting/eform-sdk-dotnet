@@ -42,7 +42,7 @@ namespace eFormSDK.InSight.Tests
             //Arrange
             Random rnd = new Random();
             
-            QuestionSet questionSet = new QuestionSet()
+            QuestionSet questionSet = new QuestionSet
             {
                 ParentId = 0
             };
@@ -103,7 +103,7 @@ namespace eFormSDK.InSight.Tests
             //Arrange
             Random rnd = new Random();
 
-            QuestionSet questionSet = new QuestionSet()
+            QuestionSet questionSet = new QuestionSet
             {
                 ParentId = 0
             };
@@ -191,7 +191,7 @@ namespace eFormSDK.InSight.Tests
             //Arrange
             Random rnd = new Random();
             
-            QuestionSet questionSet = new QuestionSet()
+            QuestionSet questionSet = new QuestionSet
             {
                 ParentId = 0
             };

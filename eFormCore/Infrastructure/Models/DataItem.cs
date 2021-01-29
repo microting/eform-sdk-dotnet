@@ -31,7 +31,7 @@ using KeyValuePair = Microting.eForm.Dto.KeyValuePair;
 namespace Microting.eForm.Infrastructure.Models
 {
     #region xml tags
-    [Serializable()]
+    [Serializable]
     [XmlInclude(typeof(Audio))]
     [XmlInclude(typeof(CheckBox))]
     [XmlInclude(typeof(Comment))]
@@ -335,8 +335,7 @@ namespace Microting.eForm.Infrastructure.Models
             KeyValuePairList = new List<KeyValuePair>();
         }
 
-        public MultiSelect(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
-            List<KeyValuePair> keyValuePairList)
+        public MultiSelect(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy, System.Collections.Generic.List<KeyValuePair> keyValuePairList)
         {
             KeyValuePairList = new List<KeyValuePair>();
 
@@ -354,7 +353,7 @@ namespace Microting.eForm.Infrastructure.Models
         }
 
         [XmlArray("KeyValuePairList"), XmlArrayItem(typeof(KeyValuePair), ElementName = "KeyValuePair")]
-        public List<KeyValuePair> KeyValuePairList { get; set; }
+        public System.Collections.Generic.List<KeyValuePair> KeyValuePairList { get; set; }
     }
     #endregion
 
@@ -477,8 +476,7 @@ namespace Microting.eForm.Infrastructure.Models
             KeyValuePairList = new List<KeyValuePair>();
         }
 
-        public SingleSelect(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
-            List<KeyValuePair> keyValuePairList)
+        public SingleSelect(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy, System.Collections.Generic.List<KeyValuePair> keyValuePairList)
         {
             KeyValuePairList = new List<KeyValuePair>();
 
@@ -496,7 +494,7 @@ namespace Microting.eForm.Infrastructure.Models
         }
 
         [XmlArray("KeyValuePairList"), XmlArrayItem(typeof(KeyValuePair), ElementName = "KeyValuePair")]
-        public List<KeyValuePair> KeyValuePairList { get; set; }
+        public System.Collections.Generic.List<KeyValuePair> KeyValuePairList { get; set; }
     }
     #endregion
 

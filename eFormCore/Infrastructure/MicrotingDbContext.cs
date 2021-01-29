@@ -23,16 +23,12 @@ SOFTWARE.
 */
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
-using Microting.eForm.Dto;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microting.eForm.Infrastructure.Data.Entities;
-using Case = Microting.eForm.Infrastructure.Data.Entities.Case;
-using Tag = Microting.eForm.Infrastructure.Data.Entities.Tag;
 
 namespace Microting.eForm.Infrastructure
 {
-    public partial class MicrotingDbContext : DbContext
+    public class MicrotingDbContext : DbContext
     {
         public MicrotingDbContext() { }
 
@@ -112,7 +108,7 @@ namespace Microting.eForm.Infrastructure
         public virtual DbSet<FieldOptionTranslation> FieldOptionTranslations { get; set; }
         public virtual DbSet<FieldOptionTranslationVersion> FieldOptionTranslationVersions { get; set; }
 
-        public virtual Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade ContextDatabase
+        public virtual DatabaseFacade ContextDatabase
         {
             get => base.Database;
         }

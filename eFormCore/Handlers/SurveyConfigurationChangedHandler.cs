@@ -39,7 +39,7 @@ namespace Microting.eForm.Handlers
                     message.MicrotringUUID,
                     Constants.WorkflowStates.NotFound,
                     ex.Message,
-                    ex.StackTrace.ToString()).ConfigureAwait(false);
+                    ex.StackTrace).ConfigureAwait(false);
             }
         }
     }

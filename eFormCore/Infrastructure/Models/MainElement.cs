@@ -22,12 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Microting.eForm.Infrastructure.Models
 {
@@ -177,7 +177,7 @@ namespace Microting.eForm.Infrastructure.Models
 
     #region MainElement : CoreElement
     [XmlRoot(ElementName = "Main")]
-    [Serializable()]
+    [Serializable]
     public class MainElement : CoreElement
     {
         #region con
@@ -291,7 +291,7 @@ namespace Microting.eForm.Infrastructure.Models
         {
             try
             {
-                var serializer = new XmlSerializer(this.GetType());
+                var serializer = new XmlSerializer(GetType());
                 string xmlStr;
                 using (StringWriter writer = new Utf8StringWriter())
                 {

@@ -36,8 +36,6 @@ using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using NUnit.Framework;
 using Case = Microting.eForm.Infrastructure.Data.Entities.Case;
-using FieldValue = Microting.eForm.Infrastructure.Data.Entities.FieldValue;
-using UploadedData = Microting.eForm.Infrastructure.Data.Entities.UploadedData;
 
 namespace eFormSDK.Integration.Base.SqlControllerTests
 {

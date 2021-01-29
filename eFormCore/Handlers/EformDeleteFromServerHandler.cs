@@ -136,7 +136,7 @@ namespace Microting.eForm.Handlers
                     cDto = await sqlController.CaseReadByMUId(microtingUId);
                     await core.FireHandleCaseDeleted(cDto);
 
-                    log.LogStandard(t.GetMethodName("EformDeleteFromServerHandler"), cDto.ToString() + " has been removed");
+                    log.LogStandard(t.GetMethodName("EformDeleteFromServerHandler"), cDto + " has been removed");
 
                     return true;
                 }
@@ -148,7 +148,7 @@ namespace Microting.eForm.Handlers
 
                     cDto = await sqlController.CaseReadByMUId(microtingUId);
                     await core.FireHandleCaseDeleted(cDto);
-                    log.LogStandard(t.GetMethodName("EformDeleteFromServerHandler"), cDto.ToString() + " has been removed");
+                    log.LogStandard(t.GetMethodName("EformDeleteFromServerHandler"), cDto + " has been removed");
 
                     return true;
                 }

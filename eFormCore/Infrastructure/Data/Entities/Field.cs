@@ -29,6 +29,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using KeyValuePair = Microting.eForm.Dto.KeyValuePair;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -156,21 +157,21 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                         await dbContext.FieldOptions.Where(x => x.FieldId == field.Id).ToListAsync();
                     if (!fieldOptions.Any())
                     {
-                        List<Dto.KeyValuePair> keyValuePairs = PairRead((field.KeyValuePairList));
-                        foreach (Dto.KeyValuePair keyValuePair in keyValuePairs)
+                        List<KeyValuePair> keyValuePairs = PairRead((field.KeyValuePairList));
+                        foreach (KeyValuePair keyValuePair in keyValuePairs)
                         {
                             FieldOption fieldOption = await dbContext.FieldOptions.SingleOrDefaultAsync(x =>
                                 x.FieldId == field.Id && x.Key == keyValuePair.Key);
                             if (fieldOption == null)
                             {
-                                fieldOption = new FieldOption()
+                                fieldOption = new FieldOption
                                 {
                                     FieldId = field.Id,
                                     Key = keyValuePair.Key,
                                     DisplayOrder = keyValuePair.DisplayOrder
                                 };
                                 await fieldOption.Create(dbContext);
-                                FieldOptionTranslation fieldOptionTranslation = new FieldOptionTranslation()
+                                FieldOptionTranslation fieldOptionTranslation = new FieldOptionTranslation
                                 {
                                     FieldOptionId = fieldOption.Id,
                                     LanguageId = language.Id,
@@ -187,9 +188,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             }
         }
 
-        private static List<Dto.KeyValuePair> PairRead(string str)
+        private static List<KeyValuePair> PairRead(string str)
         {
-            List<Dto.KeyValuePair> list = new List<Dto.KeyValuePair>();
+            List<KeyValuePair> list = new List<KeyValuePair>();
             str = Locate(str, "<hash>", "</hash>");
 
             bool flag = true;
@@ -205,7 +206,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 selected = bool.Parse(Locate(inderStr.ToLower(), "<selected>", "</"));
                 displayIndex = Locate(inderStr, "<displayIndex>", "</");
 
-                list.Add(new Dto.KeyValuePair(index.ToString(), keyValue, selected, displayIndex));
+                list.Add(new KeyValuePair(index.ToString(), keyValue, selected, displayIndex));
 
                 index += 1;
 

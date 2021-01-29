@@ -66,7 +66,7 @@ namespace Microting.eForm.Handlers
             }
             catch (Exception ex)
             {
-                await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
+                await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace);
                 NoteDto note_Dto = new NoteDto(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound);
                 await core.FireHandleNotificationNotFound(note_Dto);
             }

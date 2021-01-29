@@ -25,7 +25,6 @@ SOFTWARE.
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using Newtonsoft.Json.Linq;
@@ -68,7 +67,7 @@ namespace Microting.eForm.Helpers
                 int id = t.GetRandomInt(6);
                 JObject result = JObject.FromObject(new JArray(new
                 {
-                    id = id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z",
+                    id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z",
                     workflow_state = Constants.WorkflowStates.Created, person_type = "",
                     site_id = site.MicrotingUid, user_id = worker.MicrotingUid
                 }));

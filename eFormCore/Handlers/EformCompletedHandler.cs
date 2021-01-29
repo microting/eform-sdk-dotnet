@@ -29,12 +29,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 using eFormCore;
-using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Communication;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
-using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Models;
 using Microting.eForm.Infrastructure.Models.reply;
 using Microting.eForm.Messages;
@@ -67,7 +65,7 @@ namespace Microting.eForm.Handlers
                 await sqlController.NotificationUpdate(message.NotificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
             } catch (Exception ex)
             {
-                await sqlController.NotificationUpdate(message.NotificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
+                await sqlController.NotificationUpdate(message.NotificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace);
                 NoteDto note_Dto = new NoteDto(message.NotificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound);
                 await core.FireHandleNotificationNotFound(note_Dto);
             }
@@ -80,7 +78,7 @@ namespace Microting.eForm.Handlers
             MainElement mainElement = new MainElement();
 
             CaseDto concreteCase = await sqlController.CaseReadByMUId(microtingUid);
-            log.LogEverything("EformCompletedHandler.CheckStatusByMicrotingUid", concreteCase.ToString() + " has been matched");
+            log.LogEverything("EformCompletedHandler.CheckStatusByMicrotingUid", concreteCase + " has been matched");
 
             if (concreteCase.CaseUId == "" || concreteCase.CaseUId == "ReversedCase")
                 lstCase.Add(concreteCase);
@@ -124,7 +122,7 @@ namespace Microting.eForm.Handlers
                                     .Single(x => x.MicrotingUid == int.Parse(check.WorkerId)).MicrotingUid; //sqlController.WorkerRead(int.Parse(check.WorkerId)).Result.WorkerUId;
                                 log.LogVariable(t.GetMethodName("EformCompletedHandler"), nameof(workerUId), workerUId);
 
-                                List<int> uploadedDataIds = await sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml.ToString(), i);
+                                List<int> uploadedDataIds = await sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml, i);
 
                                 foreach (int uploadedDataid in uploadedDataIds)
                                 {
@@ -133,7 +131,7 @@ namespace Microting.eForm.Handlers
                                         await core.TranscribeUploadedData(uploadedDataid);
                                     } else
                                     {
-                                        log.LogEverything(t.GetMethodName("Core"), "downloadUploadedData failed for uploadedDataid :" + uploadedDataid.ToString());
+                                        log.LogEverything(t.GetMethodName("Core"), "downloadUploadedData failed for uploadedDataid :" + uploadedDataid);
                                     }
                                 }
                                 CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
@@ -154,7 +152,7 @@ namespace Microting.eForm.Handlers
 
                                     if (respRet.Type == Response.ResponseTypes.Success)
                                     {
-                                        log.LogEverything(t.GetMethodName("EformCompletedHandler"), aCase.ToString() + " has been retracted");
+                                        log.LogEverything(t.GetMethodName("EformCompletedHandler"), aCase + " has been retracted");
                                     }
                                     else
                                         log.LogWarning(t.GetMethodName("EformCompletedHandler"), "Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
@@ -166,7 +164,7 @@ namespace Microting.eForm.Handlers
                                 // TODO add case.id
                                 CaseDto cDto = await sqlController.CaseReadByMUId(microtingUid);
                                 await core.FireHandleCaseCompleted(cDto);
-                                log.LogStandard(t.GetMethodName("EformCompletedHandler"), cDto.ToString() + " has been completed");
+                                log.LogStandard(t.GetMethodName("EformCompletedHandler"), cDto + " has been completed");
                                 i++;
                             }
                         }

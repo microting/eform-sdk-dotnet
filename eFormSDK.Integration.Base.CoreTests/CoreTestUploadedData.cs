@@ -24,15 +24,16 @@ SOFTWARE.
 
 using System;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using eFormCore;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
+using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using NUnit.Framework;
-using UploadedData = Microting.eForm.Infrastructure.Data.Entities.UploadedData;
 
 namespace eFormSDK.Integration.Base.CoreTests
 {
@@ -62,8 +63,8 @@ namespace eFormSDK.Integration.Base.CoreTests
             sut.HandleFileDownloaded += EventFileDownloaded;
             sut.HandleSiteActivated += EventSiteActivated;
             await sut.StartSqlOnly(ConnectionString);
-            path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
+            path = Assembly.GetExecutingAssembly().CodeBase;
+            path = Path.GetDirectoryName(path).Replace(@"file:", "");
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));

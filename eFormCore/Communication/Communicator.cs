@@ -24,12 +24,12 @@ SOFTWARE.
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure.Constants;
 using Newtonsoft.Json.Linq;
+
 //using eFormSqlController;
 
 namespace Microting.eForm.Communication
@@ -58,7 +58,7 @@ namespace Microting.eForm.Communication
         public Communicator(string token, string comAddressApi, string comAddressBasic, string comOrganizationId, string comAddressPdfUpload, Log log, string comSpeechToText)
         {
             //this.sqlController = sqlController;
-            this._log = log;
+            _log = log;
 
             //string token = sqlController.SettingRead(Settings.token);
             //string comAddressApi = sqlController.SettingRead(Settings.comAddressApi);
@@ -257,7 +257,7 @@ namespace Microting.eForm.Communication
             int unitId = int.Parse(parsedData["unit_id"].ToString());
             int otpCode = int.Parse(parsedData["otp_code"].ToString());
             SiteDto siteDto = new SiteDto(int.Parse(parsedData["id"].ToString()), parsedData["name"].ToString(), "", "", 0, 0, unitId, 0); // WorkerUid is set to 0, because it's used in this context.
-            UnitDto unitDto = new UnitDto()
+            UnitDto unitDto = new UnitDto
             {
                 UnitUId = unitId,
                 CustomerNo = 0,
@@ -293,10 +293,8 @@ namespace Microting.eForm.Communication
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         public Task<string> SiteLoadAllFromRemote()
@@ -344,8 +342,7 @@ namespace Microting.eForm.Communication
 
             if (parsedData["workflow_state"].ToString() == Constants.WorkflowStates.Removed)
                 return true;
-            else
-                return false;
+            return false;
         }
 
         public Task<string> WorkerLoadAllFromRemote()
@@ -379,8 +376,7 @@ namespace Microting.eForm.Communication
 
             if (parsedData["workflow_state"].ToString() == Constants.WorkflowStates.Removed)
                 return true;
-            else
-                return false;
+            return false;
         }
 
         public  Task<string> SiteWorkerLoadAllFromRemote()
@@ -420,10 +416,8 @@ namespace Microting.eForm.Communication
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         public async Task<string> UnitCreate(int siteMicrotingUid)

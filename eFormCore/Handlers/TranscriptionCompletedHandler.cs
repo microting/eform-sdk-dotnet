@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using eFormCore;
 using Microting.eForm.Communication;
@@ -59,7 +60,7 @@ namespace Microting.eForm.Handlers
                 FieldValue fv = await sqlController.GetFieldValueByTranscriptionId(message.MicrotringUUID);
                 JToken result = await communicator.SpeechToText(message.MicrotringUUID);
 
-                await sqlController.FieldValueUpdate((int)fv.CaseId, (int)fv.Id, result["text"].ToString());
+                await sqlController.FieldValueUpdate((int)fv.CaseId, fv.Id, result["text"].ToString());
 
                 #region download file
                 UploadedData ud = await sqlController.GetUploaded_DataByTranscriptionId(message.MicrotringUUID);
@@ -69,7 +70,7 @@ namespace Microting.eForm.Handlers
                     log.LogStandard("TranscriptionCompletedHandler.Handle", "file_name contains 3gp");
                     string urlStr = sqlController.SettingRead(Settings.comSpeechToText).Result + "/download_file/" + message.MicrotringUUID + ".wav?token=" + sqlController.SettingRead(Settings.token).GetAwaiter().GetResult();
                     string fileLocationPicture = await sqlController.SettingRead(Settings.fileLocationPicture);
-                    using (var client = new System.Net.WebClient())
+                    using (var client = new WebClient())
                     {
                         try
                         {
@@ -92,7 +93,7 @@ namespace Microting.eForm.Handlers
             }
             catch (Exception ex)
             {
-                await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace.ToString());
+                await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace);
             }
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using eFormCore;
 using eFormSDK.Integration.CheckLists.CoreTests;
@@ -44,7 +45,7 @@ namespace eFormSDK.Integration.CoreTests
                 sut.HandleSiteActivated += EventSiteActivated;
                 await sut.StartSqlOnly(ConnectionString);
             }
-            path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+            path = Assembly.GetExecutingAssembly().CodeBase;
             UriBuilder uri = new UriBuilder(path);
             path = Uri.UnescapeDataString(uri.Path);
             path = Path.GetDirectoryName(path);

@@ -28,7 +28,7 @@ using Microting.eForm.Dto;
 
 namespace Microting.eForm.Infrastructure.Models.reply
 {
-    [Serializable()]
+    [Serializable]
     [XmlRoot("DataItem")]
     public class DataItemReply
     {

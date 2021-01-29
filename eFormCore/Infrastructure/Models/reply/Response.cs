@@ -22,14 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using Newtonsoft.Json.Linq;
 
 namespace Microting.eForm.Infrastructure.Models.reply
 {
@@ -110,7 +109,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
                 XmlNode checks = xDoc.DocumentElement.LastChild;
                 foreach (XmlNode xmlCheck in checks.ChildNodes)
                 {
-                    string rawXml = xmlCheck.OuterXml.ToString();
+                    string rawXml = xmlCheck.OuterXml;
                     {
                         Check check = new Check();
 
@@ -247,7 +246,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
                     value = jObject["Value"]["Value"]?.ToString();
                     var parsed = Enum.TryParse(jObject["Value"]["Type"].ToString(), true, out rType);
                     if (!parsed)
-                        throw new IndexOutOfRangeException("ResponseType:'" + jObject["Value"]["Type"].ToString() + "' is not known. " + json);
+                        throw new IndexOutOfRangeException("ResponseType:'" + jObject["Value"]["Type"] + "' is not known. " + json);
                 }
                 #endregion
 
@@ -266,7 +265,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
                 {
                     foreach (var item in jObject["Checks"])
                     {
-                        Check check = new Check()
+                        Check check = new Check
                         {
                             UnitId = item["UnitId"]?.ToString(),
                             Date = item["Date"]?.ToString(),

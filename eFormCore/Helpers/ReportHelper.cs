@@ -27,7 +27,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Text.RegularExpressions;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
@@ -35,12 +34,8 @@ using DocumentFormat.OpenXml.Validation;
 using DocumentFormat.OpenXml.Wordprocessing;
 using ImageMagick;
 using A = DocumentFormat.OpenXml.Drawing;
-using Break = DocumentFormat.OpenXml.Wordprocessing.Break;
 using DW = DocumentFormat.OpenXml.Drawing.Wordprocessing;
-using Paragraph = DocumentFormat.OpenXml.Wordprocessing.Paragraph;
 using PIC = DocumentFormat.OpenXml.Drawing.Pictures;
-using Run = DocumentFormat.OpenXml.Wordprocessing.Run;
-using Text = DocumentFormat.OpenXml.Wordprocessing.Text;
 
 namespace Microting.eForm.Helpers
 {
@@ -214,7 +209,7 @@ namespace Microting.eForm.Helpers
                         wordDoc.MainDocumentPart.Document.Body.InsertBefore(
                             new Paragraph(
                                 new Run(
-                                    new Break() {Type = BreakValues.Page}
+                                    new Break {Type = BreakValues.Page}
                                     )),
                             sectPr
                             );
@@ -273,7 +268,7 @@ namespace Microting.eForm.Helpers
                     wordDoc.MainDocumentPart.Document.Body.InsertBefore(new Paragraph(
                             new Run(
                                 new RunProperties(
-                                    new RunFonts() {Ascii = "Arial", HighAnsi = "Arial"}
+                                    new RunFonts {Ascii = "Arial", HighAnsi = "Arial"}
                                 ),
                                 new Text(currentHeader)
                             )
@@ -334,10 +329,10 @@ namespace Microting.eForm.Helpers
                         new Hyperlink(
                                 new Run(
                                     new RunProperties(
-                                        new RunStyle() { Val = "InternetLink"},
-                                        new RunFonts() { Ascii = "Arial", HighAnsi = "Arial"},
-                                        new Color() { Val = "365F91", ThemeColor = ThemeColorValues.Accent1, ThemeShade = "BF" },
-                                        new Underline() { Val = UnderlineValues.Single}
+                                        new RunStyle { Val = "InternetLink"},
+                                        new RunFonts { Ascii = "Arial", HighAnsi = "Arial"},
+                                        new Color { Val = "365F91", ThemeColor = ThemeColorValues.Accent1, ThemeShade = "BF" },
+                                        new Underline { Val = UnderlineValues.Single}
                                     ),
                                     new Text(values[1])
                                 )
@@ -395,26 +390,28 @@ namespace Microting.eForm.Helpers
             var element =
                  new Drawing(
                      new DW.Inline(
-                         new DW.Extent() { Cx = cx, Cy = cy },
-                         new DW.EffectExtent() { LeftEdge = 0L, TopEdge = 0L,
+                         new DW.Extent { Cx = cx, Cy = cy },
+                         new DW.EffectExtent
+                         { LeftEdge = 0L, TopEdge = 0L,
                              RightEdge = 0L, BottomEdge = 0L },
-                         new DW.DocProperties() { Id = (UInt32Value)1U,
+                         new DW.DocProperties
+                         { Id = (UInt32Value)1U,
                              Name = "Picture" },
                          new DW.NonVisualGraphicFrameDrawingProperties(
-                             new A.GraphicFrameLocks() { NoChangeAspect = true }),
+                             new A.GraphicFrameLocks { NoChangeAspect = true }),
                          new A.Graphic(
                              new A.GraphicData(
                                  new PIC.Picture(
                                      new PIC.NonVisualPictureProperties(
-                                         new PIC.NonVisualDrawingProperties()
-                                            { Id = (UInt32Value)0U,
+                                         new PIC.NonVisualDrawingProperties
+                                         { Id = (UInt32Value)0U,
                                                 Name = "New Bitmap Image.jpg" },
                                          new PIC.NonVisualPictureDrawingProperties()),
                                      new PIC.BlipFill(
                                          new A.Blip(
                                              new A.BlipExtensionList(
-                                                 new A.BlipExtension()
-                                                    { Uri =
+                                                 new A.BlipExtension
+                                                 { Uri =
                                                         "{28A0092B-C50C-407E-A947-70E740481C1C}" })
                                          )
                                          { Embed = relationshipId,
@@ -424,8 +421,8 @@ namespace Microting.eForm.Helpers
                                              new A.FillRectangle())),
                                      new PIC.ShapeProperties(
                                          new A.Transform2D(
-                                             new A.Offset() { X = 0L, Y = 0L },
-                                             new A.Extents() { Cx = 990000L, Cy = 792000L }),
+                                             new A.Offset { X = 0L, Y = 0L },
+                                             new A.Extents { Cx = 990000L, Cy = 792000L }),
                                          new A.PresetGeometry(
                                              new A.AdjustValueList()
                                          ) { Preset = A.ShapeTypeValues.Rectangle }))
@@ -449,26 +446,28 @@ namespace Microting.eForm.Helpers
             var element =
                  new Drawing(
                      new DW.Inline(
-                         new DW.Extent() { Cx = cx, Cy = cy },
-                         new DW.EffectExtent() { LeftEdge = 0L, TopEdge = 0L,
+                         new DW.Extent { Cx = cx, Cy = cy },
+                         new DW.EffectExtent
+                         { LeftEdge = 0L, TopEdge = 0L,
                              RightEdge = 0L, BottomEdge = 0L },
-                         new DW.DocProperties() { Id = (UInt32Value)1U,
+                         new DW.DocProperties
+                         { Id = (UInt32Value)1U,
                              Name = "Picture" },
                          new DW.NonVisualGraphicFrameDrawingProperties(
-                             new A.GraphicFrameLocks() { NoChangeAspect = true }),
+                             new A.GraphicFrameLocks { NoChangeAspect = true }),
                          new A.Graphic(
                              new A.GraphicData(
                                  new PIC.Picture(
                                      new PIC.NonVisualPictureProperties(
-                                         new PIC.NonVisualDrawingProperties()
-                                            { Id = (UInt32Value)0U,
+                                         new PIC.NonVisualDrawingProperties
+                                         { Id = (UInt32Value)0U,
                                                 Name = "New Bitmap Image.jpg" },
                                          new PIC.NonVisualPictureDrawingProperties()),
                                      new PIC.BlipFill(
                                          new A.Blip(
                                              new A.BlipExtensionList(
-                                                 new A.BlipExtension()
-                                                    { Uri =
+                                                 new A.BlipExtension
+                                                 { Uri =
                                                         "{28A0092B-C50C-407E-A947-70E740481C1C}" })
                                          )
                                          { Embed = relationshipId,
@@ -478,8 +477,8 @@ namespace Microting.eForm.Helpers
                                              new A.FillRectangle())),
                                      new PIC.ShapeProperties(
                                          new A.Transform2D(
-                                             new A.Offset() { X = 0L, Y = 0L },
-                                             new A.Extents() { Cx = 990000L, Cy = 792000L }),
+                                             new A.Offset { X = 0L, Y = 0L },
+                                             new A.Extents { Cx = 990000L, Cy = 792000L }),
                                          new A.PresetGeometry(
                                              new A.AdjustValueList()
                                          ) { Preset = A.ShapeTypeValues.Rectangle }))

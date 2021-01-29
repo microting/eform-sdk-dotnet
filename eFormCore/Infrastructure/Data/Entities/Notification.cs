@@ -25,10 +25,8 @@ SOFTWARE.
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microting.eForm.Infrastructure.Models;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -126,7 +124,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         private NotificationVersion MapVersions(Notification notification)
         {
-            return new NotificationVersion()
+            return new NotificationVersion
             {
                 WorkflowState = notification.WorkflowState,
                 CreatedAt = notification.CreatedAt,

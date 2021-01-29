@@ -22,12 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -35,7 +31,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
     {
         public Tag()
         {
-            this.Taggings = new HashSet<Tagging>();
+            Taggings = new HashSet<Tagging>();
         }
 
         [StringLength(255)]

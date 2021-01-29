@@ -27,7 +27,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microting.eForm;
 using Microting.eForm.Communication;
 using Microting.eForm.Dto;
@@ -36,7 +35,6 @@ using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Log = Microting.eForm.Log;
 
 namespace eFormCore
 {

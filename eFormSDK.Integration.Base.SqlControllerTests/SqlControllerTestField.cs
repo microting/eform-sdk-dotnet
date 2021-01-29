@@ -32,7 +32,6 @@ using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using NUnit.Framework;
-using Field = Microting.eForm.Infrastructure.Data.Entities.Field;
 
 namespace eFormSDK.Integration.Base.SqlControllerTests
 {

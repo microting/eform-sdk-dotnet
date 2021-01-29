@@ -29,7 +29,7 @@ using Microting.eForm.Dto;
 
 namespace Microting.eForm.Infrastructure.Models
 {
-    [Serializable()]
+    [Serializable]
     [XmlInclude(typeof(DataElement))]
     [XmlInclude(typeof(GroupElement))]
     public class Element
