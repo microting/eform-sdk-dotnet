@@ -2158,7 +2158,13 @@ namespace eFormCore
                             }
                             list.Add(fileContent);
                             list.Add(geoTag);
-                            pictures.Add(new KeyValuePair<string, List<string>>($"{checkList.Label.Replace("&", "&amp;")} - {field.Label.Replace("&", "&amp;")}", list));
+                            CheckListTranslation checkListTranslation =
+                                await dbContext.CheckListTranslations.SingleAsync(x =>
+                                    x.CheckListId == checkList.Id && x.LanguageId == language.Id);
+                            FieldTranslation fieldTranslation =
+                                await dbContext.FieldTranslations.SingleAsync(x =>
+                                    x.FieldId == field.Id && x.LanguageId == language.Id);
+                            pictures.Add(new KeyValuePair<string, List<string>>($"{checkListTranslation.Text.Replace("&", "&amp;")} - {fieldTranslation.Text.Replace("&", "&amp;")}", list));
 
                             if (imageFieldCountList.ContainsKey($"FCount_{fieldValue.FieldId}"))
                             {
