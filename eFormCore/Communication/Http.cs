@@ -691,7 +691,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> FolderCreate(string name, string description, int? parentId)
         {
-            JObject contentToServer = JObject.FromObject(new { name = Uri.EscapeUriString(name), description = Uri.EscapeUriString(description), parent_id = parentId });
+            JObject contentToServer = JObject.FromObject(new { name = Uri.EscapeDataString(name), description = Uri.EscapeDataString(description), parent_id = parentId });
             WebRequest request = WebRequest.Create(
                 $"{addressBasic}/v1/folders?token={token}&model={contentToServer}&sdk_ver={dllVersion}");
             request.Method = "POST";
@@ -711,7 +711,7 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> FolderUpdate(int id, string name, string description, int? parentId)
         {
-            JObject contentToServer = JObject.FromObject(new { name = Uri.EscapeUriString(name), description = Uri.EscapeUriString(description), parent_id = parentId });
+            JObject contentToServer = JObject.FromObject(new { name = Uri.EscapeDataString(name), description = Uri.EscapeDataString(description), parent_id = parentId });
             WebRequest request = WebRequest.Create(
                 $"{addressBasic}/v1/folders/{id}?token={token}&model={contentToServer}&sdk_ver={dllVersion}");
             request.Method = "PUT";
