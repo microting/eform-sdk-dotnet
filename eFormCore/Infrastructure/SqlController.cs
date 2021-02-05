@@ -3120,13 +3120,18 @@ namespace Microting.eForm.Infrastructure
                     if (fieldType.Type == Constants.Constants.FieldTypes.SingleSelect)
                     {
                         //string key = item.Value;
-                        FieldOption fieldOption = await db.FieldOptions.SingleAsync(x => x.Key == item.Value && x.FieldId == field.Id);
-                        FieldOptionTranslation fieldOptionTranslation =
-                            await db.FieldOptionTranslations.SingleAsync(x =>
-                                x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
-                        //string fullKey = _t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
-                        //newValue = _t.Locate(fullKey, "<key>", "</key>");
-                        newValue = fieldOptionTranslation.Text;
+                        newValue = "";
+                        FieldOption fieldOption = await db.FieldOptions.SingleOrDefaultAsync(x => x.Key == item.Value && x.FieldId == field.Id);
+                        if (fieldOption != null)
+                        {
+                            FieldOptionTranslation fieldOptionTranslation =
+                                await db.FieldOptionTranslations.SingleAsync(x =>
+                                    x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
+                            //string fullKey = _t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
+                            //newValue = _t.Locate(fullKey, "<key>", "</key>");
+                            newValue = fieldOptionTranslation.Text;
+                        }
+
                     }
 
                     if (fieldType.Type == Constants.Constants.FieldTypes.MultiSelect)
@@ -3140,21 +3145,25 @@ namespace Microting.eForm.Infrastructure
                         {
                             //string fullKey = _t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
 
-                            FieldOption fieldOption = await db.FieldOptions.SingleAsync(x => x.Key == item.Value && x.FieldId == field.Id);
-                            FieldOptionTranslation fieldOptionTranslation =
-                                await db.FieldOptionTranslations.SingleAsync(x =>
-                                    x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
-                            //string fullKey = _t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
-                            //newValue = _t.Locate(fullKey, "<key>", "</key>");
-                            string value = fieldOptionTranslation.Text;
-                            if (newValue != "")
+                            FieldOption fieldOption = await db.FieldOptions.SingleOrDefaultAsync(x => x.Key == key && x.FieldId == field.Id);
+                            if (fieldOption != null)
                             {
-                                newValue += "\n" + value;
+                                FieldOptionTranslation fieldOptionTranslation =
+                                    await db.FieldOptionTranslations.SingleAsync(x =>
+                                        x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
+                                //string fullKey = _t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
+                                //newValue = _t.Locate(fullKey, "<key>", "</key>");
+                                string value = fieldOptionTranslation.Text;
+                                if (newValue != "")
+                                {
+                                    newValue += "\n" + value;
+                                }
+                                else
+                                {
+                                    newValue += value;
+                                }
                             }
-                            else
-                            {
-                                newValue += value;
-                            }
+
                         }
                     }
 
