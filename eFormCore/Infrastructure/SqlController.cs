@@ -1705,18 +1705,21 @@ namespace Microting.eForm.Infrastructure
                     fieldValue.ValueReadable = "";
                     foreach (string key in keyLst)
                     {
-                        FieldOption fieldOption = await db.FieldOptions.SingleOrDefaultAsync(x =>
-                            x.FieldId == fieldId && x.Key.ToString() == key);
-                        if (fieldOption != null)
+                        if (!string.IsNullOrEmpty(key))
                         {
-                            FieldOptionTranslation fieldOptionTranslation =
-                                await db.FieldOptionTranslations.SingleAsync(x =>
-                                    x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
-                            if (fieldValue.ValueReadable != "")
+                            FieldOption fieldOption = await db.FieldOptions.SingleOrDefaultAsync(x =>
+                                x.FieldId == fieldId && x.Key.ToString() == key);
+                            if (fieldOption != null)
                             {
-                                fieldValue.ValueReadable += '|';
+                                FieldOptionTranslation fieldOptionTranslation =
+                                    await db.FieldOptionTranslations.SingleAsync(x =>
+                                        x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
+                                if (fieldValue.ValueReadable != "")
+                                {
+                                    fieldValue.ValueReadable += '|';
+                                }
+                                fieldValue.ValueReadable += fieldOptionTranslation.Text;
                             }
-                            fieldValue.ValueReadable += fieldOptionTranslation.Text;
                         }
                     }
 
