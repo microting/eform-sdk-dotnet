@@ -1708,7 +1708,7 @@ namespace Microting.eForm.Infrastructure
                         if (!string.IsNullOrEmpty(key))
                         {
                             FieldOption fieldOption = await db.FieldOptions.SingleOrDefaultAsync(x =>
-                                x.FieldId == fieldId && x.Key.ToString() == key);
+                                x.FieldId == fieldId && x.Key == key);
                             if (fieldOption != null)
                             {
                                 FieldOptionTranslation fieldOptionTranslation =
@@ -1731,6 +1731,7 @@ namespace Microting.eForm.Infrastructure
                             db.FieldOptionTranslations.SingleAsync(x => x.FieldOptionId == option.Id && x.LanguageId == language.Id);
                         KeyValuePair keyValuePair = new KeyValuePair(option.Key, optionTranslation.Text, false,
                             option.DisplayOrder);
+                        fieldValue.KeyValuePairList.Add(keyValuePair);
                     }
                 }
 
