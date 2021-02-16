@@ -131,7 +131,7 @@ namespace Microting.eForm.Handlers
 
         private bool FetchData(string microtingUid, CaseDto concreteCase, string checkIdLastKnown, ref string respXml, ref Response resp)
         {
-            respXml = _communicator.RetrieveFromId(microtingUid.ToString(), concreteCase.SiteUId, checkIdLastKnown).GetAwaiter().GetResult();
+            respXml = _communicator.RetrieveFromId(microtingUid, concreteCase.SiteUId, checkIdLastKnown).GetAwaiter().GetResult();
             resp = new Response();
             resp = resp.XmlToClassUsingXmlDocument(respXml);
             if (resp.Type == Response.ResponseTypes.Success)
