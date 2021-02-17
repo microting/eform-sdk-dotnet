@@ -1595,8 +1595,8 @@ namespace Microting.eForm.Infrastructure
                     ReadOnly = _t.Bool(dbField.ReadOnly)
                 };
 
-                #region answer.UploadedDataId = reply.uploaded_data_id;
                 if (reply.UploadedDataId.HasValue)
+                {
                     if (reply.UploadedDataId > 0)
                     {
                         string locations = "";
@@ -1604,54 +1604,68 @@ namespace Microting.eForm.Infrastructure
                         Data.Entities.UploadedData uploadedData;
                         if (joinUploadedData)
                         {
-                            List<FieldValue> lst = await db.FieldValues.AsNoTracking().Where(x => x.CaseId == reply.CaseId && x.FieldId == reply.FieldId).ToListAsync();
+                            List<FieldValue> lst = await db.FieldValues.AsNoTracking()
+                                .Where(x => x.CaseId == reply.CaseId && x.FieldId == reply.FieldId).ToListAsync();
 
                             foreach (FieldValue fV in lst)
                             {
-                                uploadedDataId = (int)fV.UploadedDataId;
+                                uploadedDataId = (int) fV.UploadedDataId;
 
-                                uploadedData = await db.UploadedDatas.AsNoTracking().SingleAsync(x => x.Id == uploadedDataId);
+                                uploadedData = await db.UploadedDatas.AsNoTracking().SingleOrDefaultAsync(x =>
+                                    x.Id == uploadedDataId
+                                    && x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
 
-                                if (uploadedData.FileName != null)
-                                    locations += uploadedData.FileLocation + uploadedData.FileName + Environment.NewLine;
-                                else
-                                    locations += "File attached, awaiting download" + Environment.NewLine;
+                                if (uploadedData != null)
+                                {
+                                    if (uploadedData.FileName != null)
+                                        locations += uploadedData.FileLocation + uploadedData.FileName +
+                                                     Environment.NewLine;
+                                    else
+                                        locations += "File attached, awaiting download" + Environment.NewLine;
+                                }
                             }
+
                             fieldValue.UploadedData = locations.TrimEnd();
                         }
                         else
                         {
-                            locations = "";
-                            uploadedData = await db.UploadedDatas.AsNoTracking().SingleAsync(x => x.Id == reply.UploadedDataId);
-                            UploadedData uploadedDataObj = new UploadedData
+                            uploadedData = await db.UploadedDatas.AsNoTracking().SingleOrDefaultAsync(x =>
+                                x.Id == reply.UploadedDataId
+                                && x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
+                            if (uploadedData != null)
                             {
-                                Checksum = uploadedData.Checksum,
-                                Extension = uploadedData.Extension,
-                                CurrentFile = uploadedData.CurrentFile,
-                                UploaderId = uploadedData.UploaderId,
-                                UploaderType = uploadedData.UploaderType,
-                                FileLocation = uploadedData.FileLocation,
-                                FileName = uploadedData.FileName,
-                                Id = uploadedData.Id
-                            };
-                            fieldValue.UploadedDataObj = uploadedDataObj;
-                            fieldValue.UploadedData = "";
+                                UploadedData uploadedDataObj = new UploadedData
+                                {
+                                    Checksum = uploadedData.Checksum,
+                                    Extension = uploadedData.Extension,
+                                    CurrentFile = uploadedData.CurrentFile,
+                                    UploaderId = uploadedData.UploaderId,
+                                    UploaderType = uploadedData.UploaderType,
+                                    FileLocation = uploadedData.FileLocation,
+                                    FileName = uploadedData.FileName,
+                                    Id = uploadedData.Id
+                                };
+                                fieldValue.UploadedDataObj = uploadedDataObj;
+                                fieldValue.UploadedData = "";
+                            }
                         }
-
                     }
-                #endregion
+                }
+
                 fieldValue.Value = reply.Value;
-                #region answer.ValueReadable = reply.value 'ish' //and if needed: answer.KeyValuePairList = ReadPairs(...);
+                // answer.ValueReadable = reply.value 'ish' //and if needed: answer.KeyValuePairList = ReadPairs(...);
                 fieldValue.ValueReadable = reply.Value;
 
-                if (fieldValue.FieldType == Constants.Constants.FieldTypes.EntitySearch || fieldValue.FieldType == Constants.Constants.FieldTypes.EntitySelect)
+                if (fieldValue.FieldType == Constants.Constants.FieldTypes.EntitySearch ||
+                    fieldValue.FieldType == Constants.Constants.FieldTypes.EntitySelect)
                 {
                     try
                     {
                         if (reply.Value != "" || reply.Value != null)
                         {
                             int id = int.Parse(reply.Value);
-                            EntityItem match = await db.EntityItems.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
+                            EntityItem match =
+                                await db.EntityItems.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
 
                             if (match != null)
                             {
@@ -1661,7 +1675,10 @@ namespace Microting.eForm.Infrastructure
                             }
                         }
                     }
-                    catch { }
+                    catch
+                    {
+                        // ignored
+                    }
                 }
 
                 if (fieldValue.FieldType == Constants.Constants.FieldTypes.SingleSelect)
@@ -1682,14 +1699,19 @@ namespace Microting.eForm.Infrastructure
                         fieldValue.ValueReadable = "";
                     }
 
-                    List<FieldOption> fieldOptions = await db.FieldOptions.Where(x => x.FieldId == fieldValue.FieldId).ToListAsync();
+                    List<FieldOption> fieldOptions =
+                        await db.FieldOptions.Where(x => x.FieldId == fieldValue.FieldId).ToListAsync();
 
                     fieldValue.KeyValuePairList = new List<KeyValuePair>();
                     foreach (FieldOption option in fieldOptions)
                     {
                         var optionTranslation = await
-                            db.FieldOptionTranslations.SingleAsync(x => x.FieldOptionId == option.Id && x.LanguageId == language.Id);
-                        KeyValuePair keyValuePair = new KeyValuePair(option.Key, optionTranslation.Text, false,
+                            db.FieldOptionTranslations.SingleAsync(x =>
+                                x.FieldOptionId == option.Id && x.LanguageId == language.Id);
+                        KeyValuePair keyValuePair = new KeyValuePair(
+                            option.Key,
+                            optionTranslation.Text,
+                            false,
                             option.DisplayOrder);
                         fieldValue.KeyValuePairList.Add(keyValuePair);
                     }
@@ -1723,12 +1745,14 @@ namespace Microting.eForm.Infrastructure
                         }
                     }
 
-                    List<FieldOption> fieldOptions = await db.FieldOptions.Where(x => x.FieldId == fieldValue.FieldId).ToListAsync();
+                    List<FieldOption> fieldOptions = await db.FieldOptions.Where(x =>
+                        x.FieldId == fieldValue.FieldId).ToListAsync();
                     fieldValue.KeyValuePairList = new List<KeyValuePair>();
                     foreach (FieldOption option in fieldOptions)
                     {
                         var optionTranslation = await
-                            db.FieldOptionTranslations.SingleAsync(x => x.FieldOptionId == option.Id && x.LanguageId == language.Id);
+                            db.FieldOptionTranslations.SingleAsync(x =>
+                                x.FieldOptionId == option.Id && x.LanguageId == language.Id);
                         KeyValuePair keyValuePair = new KeyValuePair(option.Key, optionTranslation.Text, false,
                             option.DisplayOrder);
                         fieldValue.KeyValuePairList.Add(keyValuePair);
@@ -1749,7 +1773,6 @@ namespace Microting.eForm.Infrastructure
                         fieldValue.Value = "";
                     }
                 }
-                #endregion
 
                 return fieldValue;
             }

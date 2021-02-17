@@ -4328,31 +4328,11 @@ namespace eFormCore
                 Log.LogVariable(methodName, nameof(fieldId), fieldId);
                 Log.LogVariable(methodName, nameof(uploadedDataId), uploadedDataId);
 
-                Microting.eForm.Infrastructure.Data.Entities.UploadedData uD = await _sqlController.GetUploadedData(uploadedDataId).ConfigureAwait(false);
+                await using var db = DbContextHelper.GetDbContext();
+                Microting.eForm.Infrastructure.Data.Entities.UploadedData uD = await db.UploadedDatas.SingleAsync(x => x.Id == uploadedDataId);
 
-                try
-                {
-                    Directory.CreateDirectory(uD.FileLocation + "Deleted");
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                    {
-                        File.Move(uD.FileLocation + uD.FileName, uD.FileLocation + @"Deleted\" + uD.FileName);
-                    }
-                    else
-                    {
-                        File.Move(uD.FileLocation + uD.FileName, uD.FileLocation + @"Deleted/" + uD.FileName);
-                    }
-                }
-                catch (FileNotFoundException exception)
-                {
-                    Log.LogException(methodName, "failed", exception);
-                }
-                catch (Exception exd)
-                {
-                    Log.LogException(methodName, "failed", exd);
-                    // TODO write code to handel the restart needed scenario!!!
-                    throw new Exception("failed", exd);
-                }
-                return await _sqlController.DeleteFile(uploadedDataId).ConfigureAwait(false);
+                await uD.Delete(db);
+                return true;
             }
             catch (Exception ex)
             {
