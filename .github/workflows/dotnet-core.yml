@@ -76,3 +76,8 @@ jobs:
         channel_id: C013XLR1C3F
         status: FAILED
         color: danger
+    - name: Update changelog
+      if: ${{ success() }}
+      uses: heinrichreimer/github-changelog-generator-action@v2.1.1
+      with:
+        token: ${{ secrets.REPO_TOKEN }}
