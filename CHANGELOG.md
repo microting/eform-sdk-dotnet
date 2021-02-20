@@ -1,5 +1,32 @@
 # Changelog
 
+## [v4.4.1](https://github.com/microting/eform-sdk-dotnet/tree/v4.4.1) (2021-02-20)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v4.4.0...v4.4.1)
+
+**Implemented enhancements:**
+
+- Create functionallity to mark eForm parsing error from server [\#17](https://github.com/microting/eform-sdk-dotnet/issues/17)
+- Create functionallity to mark eForm parsed by server [\#16](https://github.com/microting/eform-sdk-dotnet/issues/16)
+- Create functionallity to fetch all answers from start [\#15](https://github.com/microting/eform-sdk-dotnet/issues/15)
+- Ability to build .net core edition on Travis CI [\#11](https://github.com/microting/eform-sdk-dotnet/issues/11)
+- Write tests for the cases\(precase\) in the SQL controller [\#4](https://github.com/microting/eform-sdk-dotnet/issues/4)
+- Write tests for the check region in SQL controller [\#3](https://github.com/microting/eform-sdk-dotnet/issues/3)
+
+**Fixed bugs:**
+
+- CSV export have empty values for EntitySelect and EntitySearch [\#12](https://github.com/microting/eform-sdk-dotnet/issues/12)
+
+**Closed issues:**
+
+- CaseReadAll sort by SiteName sorts by id. [\#8](https://github.com/microting/eform-sdk-dotnet/issues/8)
+- CaseReadAll sort by WorkerName, sorts by id [\#7](https://github.com/microting/eform-sdk-dotnet/issues/7)
+- CaseReadAll, sort by CreatedAt sorts by id [\#6](https://github.com/microting/eform-sdk-dotnet/issues/6)
+
+## [v4.4.0](https://github.com/microting/eform-sdk-dotnet/tree/v4.4.0) (2021-02-19)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v4.3.18...v4.4.0)
+
 ## [v4.3.18](https://github.com/microting/eform-sdk-dotnet/tree/v4.3.18) (2021-02-18)
 
 [Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v4.3.17...v4.3.18)
