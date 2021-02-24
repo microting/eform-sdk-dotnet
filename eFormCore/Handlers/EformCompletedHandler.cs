@@ -121,7 +121,7 @@ namespace Microting.eForm.Handlers
                         Response resp = null;
                         while (FetchData(microtingUid.ToString(), concreteCase, checkIdLastKnown.ToString(), ref respXml, ref resp))
                         {
-                            checkIdLastKnown = await SaveResult(resp, respXml, dbContext, microtingUid, null, aCase).ConfigureAwait(false);
+                            checkIdLastKnown = await SaveResult(resp, respXml, dbContext, microtingUid, checkIdLastKnown, aCase).ConfigureAwait(false);
                         }
                     }
                 }
