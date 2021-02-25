@@ -39,6 +39,7 @@ if (( "$GIT_STATUS" > 0 )); then
 			ISSUE_NUMBER=`echo $RESULT | grep -oP 'number": \d+,' | grep -oP '\d+'`
 		  git add .
 		  git commit -a -m "closes #$ISSUE_NUMBER"
+			git push
 		fi
 	done
 	NEW_NUMBER_OF_COMMITS=`git log --oneline | wc -l`
