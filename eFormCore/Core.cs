@@ -4494,7 +4494,7 @@ namespace eFormCore
             if (cases.Count == 0)
                 return null;
 
-            #region firstColumes generate
+            // First columns section start
             {
                 List<string> colume2 = new List<string> { "Date" };
                 List<string> colume3 = new List<string> { "Time" };
@@ -4553,9 +4553,9 @@ namespace eFormCore
                 dataSet.Add(colume11);
                 dataSet.Add(colume12);
             }
-            #endregion
+            // First columns section end
 
-            #region fieldValue generate
+            // fieldValue generate start
             {
                 try
                 {
@@ -4625,77 +4625,94 @@ namespace eFormCore
                 }
 
             }
-            #endregion
+            //  fieldValue generate end
 
             return dataSet;
         }
 
         private async Task<List<string>> GenerateDataSetFromCasesSubSet(List<string> lstReturn, int? checkListId, string preLabel, Language language)
         {
-            string sep = " / ";
-            await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
-            if (checkListId != null)
+            try
             {
-                if (dbContext.CheckLists.Any(x => x.ParentId == checkListId))
+                string sep = " / ";
+                await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
+                if (checkListId != null)
                 {
-                    foreach (CheckList checkList in await dbContext.CheckLists.Where(x => x.ParentId == checkListId).OrderBy(x => x.DisplayIndex).ToListAsync())
+                    if (dbContext.CheckLists.Any(x => x.ParentId == checkListId))
                     {
-                        CheckList parentCheckList = await dbContext.CheckLists.SingleAsync(x => x.Id == checkListId);
-                        if (parentCheckList.ParentId != null)
+                        foreach (CheckList checkList in await dbContext.CheckLists.Where(x => x.ParentId == checkListId)
+                            .OrderBy(x => x.DisplayIndex).ToListAsync())
                         {
-                            if (preLabel != "")
+                            CheckList parentCheckList =
+                                await dbContext.CheckLists.SingleAsync(x => x.Id == checkListId);
+                            if (parentCheckList.ParentId != null)
                             {
-                                CheckListTranslation checkListTranslation =
-                                    await dbContext.CheckListTranslations.SingleAsync(x =>
-                                        x.CheckListId == parentCheckList.Id && x.LanguageId == language.Id);
-                                preLabel = preLabel + sep + checkListTranslation.Text;
+                                if (preLabel != "")
+                                {
+                                    CheckListTranslation checkListTranslation =
+                                        await dbContext.CheckListTranslations.FirstAsync(x =>
+                                            x.CheckListId == parentCheckList.Id && x.LanguageId == language.Id);
+                                    preLabel = preLabel + sep + checkListTranslation.Text;
+                                }
                             }
+
+                            await GenerateDataSetFromCasesSubSet(lstReturn, checkList.Id, preLabel, language);
                         }
-                        await GenerateDataSetFromCasesSubSet(lstReturn, checkList.Id, preLabel, language);
                     }
-                }
-                else
-                {
-                    foreach (Microting.eForm.Infrastructure.Data.Entities.Field field in await dbContext.Fields.Where(x => x.CheckListId == checkListId && x.ParentFieldId == null).OrderBy(x => x.DisplayIndex).ToListAsync())
+                    else
                     {
-                        if (dbContext.Fields.Any(x => x.ParentFieldId == field.Id))
+                        foreach (Microting.eForm.Infrastructure.Data.Entities.Field field in await dbContext.Fields
+                            .Where(x => x.CheckListId == checkListId && x.ParentFieldId == null)
+                            .OrderBy(x => x.DisplayIndex).ToListAsync())
                         {
-                            foreach (var subField in await dbContext.Fields.Where(x => x.ParentFieldId == field.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
+                            if (dbContext.Fields.Any(x => x.ParentFieldId == field.Id))
+                            {
+                                foreach (var subField in await dbContext.Fields.Where(x => x.ParentFieldId == field.Id)
+                                    .OrderBy(x => x.DisplayIndex).ToListAsync())
+                                {
+                                    if (field.FieldTypeId != 3 && field.FieldTypeId != 18)
+                                    {
+                                        FieldTranslation fieldTranslation =
+                                            await dbContext.FieldTranslations.FirstAsync(x =>
+                                                x.FieldId == field.Id && x.LanguageId == language.Id);
+                                        FieldTranslation subFieldTranslation =
+                                            await dbContext.FieldTranslations.FirstAsync(x =>
+                                                x.FieldId == subField.Id && x.LanguageId == language.Id);
+
+                                        if (preLabel != "")
+                                            lstReturn.Add(subField.Id + "|" + preLabel + sep + fieldTranslation.Text +
+                                                          sep +
+                                                          subFieldTranslation.Text);
+                                        else
+                                            lstReturn.Add(subField.Id + "|" + fieldTranslation.Text + sep +
+                                                          subFieldTranslation.Text);
+                                    }
+                                }
+                            }
+                            else
                             {
                                 if (field.FieldTypeId != 3 && field.FieldTypeId != 18)
                                 {
                                     FieldTranslation fieldTranslation =
-                                        await dbContext.FieldTranslations.SingleAsync(x =>
+                                        await dbContext.FieldTranslations.FirstAsync(x =>
                                             x.FieldId == field.Id && x.LanguageId == language.Id);
-                                    FieldTranslation subFieldTranslation =
-                                        await dbContext.FieldTranslations.SingleAsync(x =>
-                                            x.FieldId == subField.Id && x.LanguageId == language.Id);
-
                                     if (preLabel != "")
-                                        lstReturn.Add(subField.Id + "|" + preLabel + sep + fieldTranslation.Text + sep +
-                                                      subFieldTranslation.Text);
+                                        lstReturn.Add(field.Id + "|" + preLabel + sep + fieldTranslation.Text);
                                     else
-                                        lstReturn.Add(subField.Id + "|" + fieldTranslation.Text + sep + subFieldTranslation.Text);
+                                        lstReturn.Add(field.Id + "|" + fieldTranslation.Text);
                                 }
-                            }
-                        }
-                        else
-                        {
-                            if (field.FieldTypeId != 3 && field.FieldTypeId != 18)
-                            {
-                                FieldTranslation fieldTranslation =
-                                    await dbContext.FieldTranslations.SingleAsync(x =>
-                                        x.FieldId == field.Id && x.LanguageId == language.Id);
-                                if (preLabel != "")
-                                    lstReturn.Add(field.Id + "|" + preLabel + sep + fieldTranslation.Text);
-                                else
-                                    lstReturn.Add(field.Id + "|" + fieldTranslation.Text);
                             }
                         }
                     }
                 }
+
+                return lstReturn;
             }
-            return lstReturn;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
 
         private async Task<List<string>> PdfValidate(string pdfString, int pdfId)
