@@ -1,5 +1,21 @@
 # Changelog
 
+## [v4.4.3](https://github.com/microting/eform-sdk-dotnet/tree/v4.4.3) (2021-03-05)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v4.4.2...v4.4.3)
+
+**Implemented enhancements:**
+
+- Bump DocumentFormat.OpenXml from 2.12.2 to 2.12.3 [\#56](https://github.com/microting/eform-sdk-dotnet/issues/56)
+- Bump Magick.NET-Q16-x64 from 7.23.2 to 7.23.2.1 [\#55](https://github.com/microting/eform-sdk-dotnet/issues/55)
+- Bump AWSSDK.SQS from 3.5.1.19 to 3.5.1.24 [\#54](https://github.com/microting/eform-sdk-dotnet/issues/54)
+- Bump AWSSDK.S3 from 3.5.8.8 to 3.5.9.3 [\#53](https://github.com/microting/eform-sdk-dotnet/issues/53)
+- Bump AWSSDK.Core from 3.5.3.2 to 3.5.3.5 [\#52](https://github.com/microting/eform-sdk-dotnet/issues/52)
+
+**Fixed bugs:**
+
+- Retracting cases even when they should not be retracted [\#45](https://github.com/microting/eform-sdk-dotnet/issues/45)
+
 ## [v4.4.2](https://github.com/microting/eform-sdk-dotnet/tree/v4.4.2) (2021-02-24)
 
 [Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v4.4.1...v4.4.2)
