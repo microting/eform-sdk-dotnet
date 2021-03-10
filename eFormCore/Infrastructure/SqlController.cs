@@ -213,7 +213,7 @@ namespace Microting.eForm.Infrastructure
                 if (f1 != null)
                 {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f1.Id);
+                        .FirstOrDefaultAsync(x => x.FieldId == f1.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f1.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f1.FieldTypeId);
                     fd1 = new FieldDto(f1.Id, translation.Text, translation.Description, (int)f1.FieldTypeId, fieldType.Type, (int)f1.CheckListId);
                 }
@@ -221,7 +221,7 @@ namespace Microting.eForm.Infrastructure
                 Field f2 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field2);
                 if (f2 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f2.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f2.Id);
+                        .FirstOrDefaultAsync(x => x.FieldId == f2.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f2.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f2.FieldTypeId);
                     fd2 = new FieldDto(f2.Id, translation.Text, translation.Description, (int)f2.FieldTypeId, f2.FieldType.Type, (int)f2.CheckListId);
                 }
@@ -229,7 +229,7 @@ namespace Microting.eForm.Infrastructure
                 Field f3 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field3);
                 if (f3 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f3.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f3.Id);
+                        .FirstOrDefaultAsync(x => x.FieldId == f3.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f3.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f3.FieldTypeId);
                     fd3 = new FieldDto(f3.Id, translation.Text, translation.Description, (int)f3.FieldTypeId, f3.FieldType.Type, (int)f3.CheckListId);
                 }
@@ -237,7 +237,7 @@ namespace Microting.eForm.Infrastructure
                 Field f4 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field4);
                 if (f4 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f4.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f4.Id);
+                        .FirstOrDefaultAsync(x => x.FieldId == f4.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f4.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f4.FieldTypeId);
                     fd4 = new FieldDto(f4.Id, translation.Text, translation.Description, (int)f4.FieldTypeId, f4.FieldType.Type, (int)f4.CheckListId);
                 }
@@ -245,7 +245,7 @@ namespace Microting.eForm.Infrastructure
                 Field f5 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field5);
                 if (f5 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f5.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f5.Id);
+                        .FirstOrDefaultAsync(x => x.FieldId == f5.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f5.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f5.FieldTypeId);
                     fd5 = new FieldDto(f5.Id, translation.Text, translation.Description, (int)f5.FieldTypeId, f5.FieldType.Type, (int)f5.CheckListId);
                 }
@@ -253,7 +253,7 @@ namespace Microting.eForm.Infrastructure
                 Field f6 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field6);
                 if (f6 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f6.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f6.Id);
+                        .FirstOrDefaultAsync(x => x.FieldId == f6.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f6.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f6.FieldTypeId);
                     fd6 = new FieldDto(f6.Id, translation.Text, translation.Description, (int)f6.FieldTypeId, f6.FieldType.Type, (int)f6.CheckListId);
                 }
@@ -261,7 +261,7 @@ namespace Microting.eForm.Infrastructure
                 Field f7 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field7);
                 if (f7 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f7.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f7.Id);
+                        .FirstOrDefaultAsync(x => x.FieldId == f7.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f7.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f7.FieldTypeId);
                     fd7 = new FieldDto(f7.Id, translation.Text, translation.Description, (int)f7.FieldTypeId, f7.FieldType.Type, (int)f7.CheckListId);
                 }
@@ -269,7 +269,7 @@ namespace Microting.eForm.Infrastructure
                 Field f8 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field8);
                 if (f8 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f8.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f8.Id);
+                        .FirstOrDefaultAsync(x => x.FieldId == f8.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f8.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f8.FieldTypeId);
                     fd8 = new FieldDto(f8.Id, translation.Text, translation.Description, (int)f8.FieldTypeId, f8.FieldType.Type, (int)f8.CheckListId);
                 }
@@ -277,7 +277,7 @@ namespace Microting.eForm.Infrastructure
                 Field f9 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field9);
                 if (f9 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f9.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f9.Id);
+                        .FirstOrDefaultAsync(x => x.FieldId == f9.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f9.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f9.FieldTypeId);
                     fd9 = new FieldDto(f9.Id, translation.Text, translation.Description, (int)f9.FieldTypeId, f9.FieldType.Type, (int)f9.CheckListId);
                 }
@@ -285,7 +285,7 @@ namespace Microting.eForm.Infrastructure
                 Field f10 = await db.Fields.SingleOrDefaultAsync(x => x.Id == checkList.Field10);
                 if (f10 != null) {
                     FieldTranslation translation = await db.FieldTranslations
-                        .SingleOrDefaultAsync(x => x.FieldId == f10.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f10.Id);
+                        .FirstOrDefaultAsync(x => x.FieldId == f10.Id && x.LanguageId == language.Id) ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == f10.Id);
                     FieldType fieldType = await db.FieldTypes.SingleAsync(x => x.Id == f10.FieldTypeId);
                     fd10 = new FieldDto(f10.Id, translation.Text, translation.Description, (int)f10.FieldTypeId, f10.FieldType.Type, (int)f10.CheckListId);
                 }
@@ -1366,7 +1366,7 @@ namespace Microting.eForm.Infrastructure
                                 x.ParentFieldId == field.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
                             {
                                 Models.Field _field = await DbFieldToField(subField, language);
-                                FieldTranslation fieldTranslation = await db.FieldTranslations.SingleAsync(x =>
+                                FieldTranslation fieldTranslation = await db.FieldTranslations.FirstAsync(x =>
                                     x.FieldId == _field.Id && x.LanguageId == language.Id);
 
                                 _field.FieldValues = new List<Models.FieldValue>();
@@ -1381,7 +1381,7 @@ namespace Microting.eForm.Infrastructure
                                 dataItemSubList.Add(_field);
                             }
 
-                            FieldTranslation fieldTranslationFc = await db.FieldTranslations.SingleAsync(x =>
+                            FieldTranslation fieldTranslationFc = await db.FieldTranslations.FirstAsync(x =>
                                 x.FieldId == field.Id && x.LanguageId == language.Id);
 
                             FieldContainer fC = new FieldContainer
@@ -1405,7 +1405,7 @@ namespace Microting.eForm.Infrastructure
                         {
                             Models.Field _field = await DbFieldToField(field, language);
 
-                            FieldTranslation fieldTranslation = await db.FieldTranslations.SingleAsync(x =>
+                            FieldTranslation fieldTranslation = await db.FieldTranslations.FirstAsync(x =>
                                 x.FieldId == _field.Id && x.LanguageId == language.Id);
                             _field.FieldValues = new List<Models.FieldValue>();
 
@@ -5778,7 +5778,7 @@ namespace Microting.eForm.Infrastructure
                 string fieldTypeStr = Find(_t.Int(field.FieldTypeId));
 
                 //KEY POINT - mapping
-                FieldTranslation fieldTranslation = await db.FieldTranslations.SingleOrDefaultAsync(x =>
+                FieldTranslation fieldTranslation = await db.FieldTranslations.FirstOrDefaultAsync(x =>
                     x.FieldId == field.Id && x.LanguageId == language.Id);
                 if (fieldTranslation == null)
                 {

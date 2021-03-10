@@ -1516,7 +1516,7 @@ namespace eFormCore
                 List<string> errors = new List<string>();
                 foreach (int microtingUId in await _sqlController.CheckListSitesRead(templateId, siteUId, workflowState).ConfigureAwait(false))
                 {
-                    if (! await CaseDelete(microtingUId).ConfigureAwait(false))
+                    if (!CaseDelete(microtingUId).GetAwaiter().GetResult())
                     {
                         string error = $"Failed to delete case with microtingUId: {microtingUId}";
                         errors.Add(error);
@@ -1627,7 +1627,7 @@ namespace eFormCore
                     try
                     {
                         await _sqlController.CaseDeleteReversed(microtingUId).ConfigureAwait(false);
-                        result = true;
+                        return true;
                     }
                     catch (Exception ex)
                     {
@@ -2162,7 +2162,7 @@ namespace eFormCore
                                 await dbContext.CheckListTranslations.SingleAsync(x =>
                                     x.CheckListId == checkList.Id && x.LanguageId == language.Id);
                             FieldTranslation fieldTranslation =
-                                await dbContext.FieldTranslations.SingleAsync(x =>
+                                await dbContext.FieldTranslations.FirstAsync(x =>
                                     x.FieldId == field.Id && x.LanguageId == language.Id);
                             pictures.Add(new KeyValuePair<string, List<string>>($"{checkListTranslation.Text.Replace("&", "&amp;")} - {fieldTranslation.Text.Replace("&", "&amp;")}", list));
 
