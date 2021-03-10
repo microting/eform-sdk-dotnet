@@ -2,9 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-	<EnableDefaultCompileItems>False</EnableDefaultCompileItems>
-	<EnableDefaultEmbeddedResourceItems>False</EnableDefaultEmbeddedResourceItems>
-	<LangVersion>8</LangVersion>
+  	<EnableDefaultCompileItems>False</EnableDefaultCompileItems>
+  	<EnableDefaultEmbeddedResourceItems>False</EnableDefaultEmbeddedResourceItems>
+  	<LangVersion>8</LangVersion>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
   <PropertyGroup>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -269,6 +270,12 @@
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
     <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
     <PackageReference Include="System.Net.Requests" Version="4.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+      <None Include="images\icon.png">
+          <Pack>true</Pack>
+          <PackagePath>\</PackagePath>
+      </None>
   </ItemGroup>
 
 </Project>
