@@ -417,6 +417,13 @@ namespace eFormCore
                 await sqlController.SettingUpdate(Settings.awsEndPoint, organizationDto.AwsEndPoint);
                 await sqlController.SettingUpdate(Settings.unitLicenseNumber, organizationDto.UnitLicenseNumber.ToString());
                 await sqlController.SettingUpdate(Settings.comSpeechToText, organizationDto.ComSpeechToText);
+                if (!string.IsNullOrEmpty(organizationDto.S3Endpoint))
+                {
+                    await sqlController.SettingUpdate(Settings.s3Enabled, "true");
+                    await sqlController.SettingUpdate(Settings.s3Endpoint, organizationDto.S3Endpoint);
+                    await sqlController.SettingUpdate(Settings.s3AccessKeyId, organizationDto.S3Id);
+                    await sqlController.SettingUpdate(Settings.s3SecrectAccessKey, organizationDto.S3Key);
+                }
                 if (await sqlController.SettingRead(Settings.logLevel) == "true")
                 {
                     await sqlController.SettingUpdate(Settings.logLevel, "2");

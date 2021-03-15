@@ -199,15 +199,15 @@ namespace Microting.eForm.Communication
             await Task.Run(() => { });
             if (name == "John Noname Doe")
             {
-                int id = t.GetRandomInt(6);
-                JObject contentToServer = JObject.FromObject(new {name, id, unit_id = 2345, otp_code = 259784, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z" });
+                int MicrotingUid = t.GetRandomInt(6);
+                JObject contentToServer = JObject.FromObject(new {Name = name, MicrotingUid, CreatedAt = "2018-01-12T01:01:00Z", UpdatedAt = "2018-01-12T01:01:10Z" });
                 return contentToServer.ToString();
             } else
             {
-                int id = t.GetRandomInt(6);
+                int MicrotingUid = t.GetRandomInt(6);
                 int unit_id = t.GetRandomInt(6);
                 int otp_code = t.GetRandomInt(6);
-                JObject contentToServer = JObject.FromObject(new {name, id, unit_id, otp_code, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z" });
+                JObject contentToServer = JObject.FromObject(new {Name = name, MicrotingUid, CreatedAt = "2018-01-12T01:01:00Z", UpdatedAt = "2018-01-12T01:01:10Z" });
                 return contentToServer.ToString();
             }
 
@@ -223,7 +223,11 @@ namespace Microting.eForm.Communication
         public async Task<string> SiteDelete(int id)
         {
             await Task.Run(() => { });
-            JObject contentToServer = JObject.FromObject(new { name = "Some name", id, unit_id = 2345, otp_code = 259784, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", workflow_state = Constants.WorkflowStates.Removed });
+            JObject contentToServer = JObject.FromObject(new
+            {
+                Name = "Some name", MicrotingUid = id, CreatedAt = "2018-01-12T01:01:00Z",
+                UpdatedAt = "2018-01-12T01:01:10Z", WorkflowState = Constants.WorkflowStates.Removed
+            });
             return contentToServer.ToString();
 
 //            if (id == 1)
@@ -248,8 +252,8 @@ namespace Microting.eForm.Communication
         public async Task<string> WorkerCreate(string firstName, string lastName, string email)
         {
             await Task.Run(() => { });
-            int id = t.GetRandomInt(6);
-            JObject contentToServer = JObject.FromObject(new {firstName, id, lastName, email, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z" });
+            int MicrotingUid = t.GetRandomInt(6);
+            JObject contentToServer = JObject.FromObject(new {firstName, MicrotingUid, lastName, email, CreatedAt = "2018-01-12T01:01:00Z", UpdatedAt = "2018-01-12T01:01:10Z" });
             return contentToServer.ToString();
 //            if (firstName == "John Noname")
 //            {
@@ -272,7 +276,11 @@ namespace Microting.eForm.Communication
             string firstName = "John Noname";
             string lastName = "Doe";
             string email = "jhd@invalid.invalid";
-            JObject contentToServer = JObject.FromObject(new {firstName, id, lastName, email, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", workflow_state = Constants.WorkflowStates.Removed });
+            JObject contentToServer = JObject.FromObject(new
+            {
+                firstName, MicrotingUid = id, lastName, email, CreatedAt = "2018-01-12T01:01:00Z",
+                UpdatedAt = "2018-01-12T01:01:10Z", WorkflowState = Constants.WorkflowStates.Removed
+            });
             return contentToServer.ToString();
 //            if (id == 1)
 //            {
@@ -294,15 +302,19 @@ namespace Microting.eForm.Communication
         public async Task<string> SiteWorkerCreate(int siteId, int workerId)
         {
             await Task.Run(() => { });
-            int id = t.GetRandomInt(6);
-            JObject contentToServer = JObject.FromObject(new {id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z" });
+            int MicrotingUid = t.GetRandomInt(6);
+            JObject contentToServer = JObject.FromObject(new {MicrotingUid, CreatedAt = "2018-01-12T01:01:00Z", UpdatedAt = "2018-01-12T01:01:10Z" });
             return contentToServer.ToString();
         }
 
         public async Task<string> SiteWorkerDelete(int id)
         {
             await Task.Run(() => { });
-            JObject contentToServer = JObject.FromObject(new {id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", workflow_state = Constants.WorkflowStates.Removed });
+            JObject contentToServer = JObject.FromObject(new
+            {
+                MicrotingUid = id, CreatedAt = "2018-01-12T01:01:00Z", UpdatedAt = "2018-01-12T01:01:10Z",
+                WorkflowState = Constants.WorkflowStates.Removed
+            });
             return contentToServer.ToString();
 //            if (id == 1)
 //            {
@@ -390,7 +402,7 @@ namespace Microting.eForm.Communication
         public async Task<string> UnitCreate(int siteId)
         {
             await Task.Run(() => { });
-            JObject contentToServer = JObject.FromObject(new { workflow_state = Constants.WorkflowStates.Created });
+            JObject contentToServer = JObject.FromObject(new { MicrotingUid = 234, WorkflowState = Constants.WorkflowStates.Created, OtpCode = 123456 });
             return contentToServer.ToString();
         }
         #endregion
@@ -401,29 +413,28 @@ namespace Microting.eForm.Communication
             await Task.Run(() => { });
 //            int id = t.GetRandomInt(6);
             JObject contentToServer = JObject.FromObject(new { my_organization = new
-            { aws_endpoint = "https://sqs.eu-central-1.amazonaws.com/564456879978/",
-                aws_id = "3T98EGIO4Y9H8W2",
-                aws_key = "098u34098uergijt3098w",
-                created_at = "2018-01-12T01:01:00Z",
-                customer_no = "342345",
-                cvr_no = 234234,
-                ean_no = 235234,
-                id = 64856189,
-                name = "John Doe corporation Ltd.",
-                payment_overdue = false,
-                payment_status = "OK",
-                unit_license_number = 55,
-                updated_at = "2018-01-12T01:01:10Z",
-                workflow_state = "new",
-                token = _token,
-                token_expires = "2034-01-12T01:01:10Z",
-                com_address = "http://srv05.microting.com",
-                com_address_basic = "https://basic.microting.com",
-                com_address_pdf_upload = "https://srv16.microting.com",
-                com_speech_to_text = "https://srv16.microting.com",
-                subscriber_address = "notification.microting.com",
-                subscriber_token = _token,
-                subscriber_name = "john_doen_corporation_ltd" } });
+            {
+                AwsEndpoint = "https://sqs.eu-central-1.amazonaws.com/564456879978/",
+                AwsId = "3T98EGIO4Y9H8W2",
+                AwsKey = "098u34098uergijt3098w",
+                CreatedAt = "2018-01-12T01:01:00Z",
+                CustomerNo = "342345",
+                Id = 64856189,
+                Name = "John Doe corporation Ltd.",
+                PaymentOverdue = false,
+                PaymentStatus = "OK",
+                UnitLicenseNumber = 55,
+                UpdatedAt = "2018-01-12T01:01:10Z",
+                WorkflowState = "new",
+                Token = _token,
+                TokenExpires = "2034-01-12T01:01:10Z",
+                ComAddress = "http://srv05.microting.com",
+                ComAddressBasic = "https://basic.microting.com",
+                ComAddressPdfUpload = "https://srv16.microting.com",
+                ComSpeechToText = "https://srv16.microting.com",
+                S3EndPoint = "",
+                S3Id = "sfsefregwef43r2fsfr",
+                S3Key = "john_doen_corporation_ltd" } });
             return contentToServer.ToString();
         }
         #endregion

@@ -252,19 +252,23 @@ namespace Microting.eForm.Communication
             _log.LogVariable("Communicator.SiteCreate", nameof(name), name);
 
             string response = await _http.SiteCreate(name);
-            var parsedData = JToken.Parse(response);
+            var parsedSiteData = JToken.Parse(response);
 
-            int unitId = int.Parse(parsedData["unit_id"].ToString());
-            int otpCode = int.Parse(parsedData["otp_code"].ToString());
-            SiteDto siteDto = new SiteDto(int.Parse(parsedData["id"].ToString()), parsedData["name"].ToString(), "", "", 0, 0, unitId, 0); // WorkerUid is set to 0, because it's used in this context.
+            //int unitId = int.Parse(parsedData["unit_id"].ToString());
+            //int otpCode = int.Parse(parsedData["otp_code"].ToString());
+            response = await _http.UnitCreate(int.Parse(parsedSiteData["MicrotingUid"].ToString()));
+            var parsedUnitData = JToken.Parse(response);
+            int unitId = int.Parse(parsedUnitData["MicrotingUid"].ToString());
+            int otpCode = int.Parse(parsedUnitData["OtpCode"].ToString());
+            SiteDto siteDto = new SiteDto(int.Parse(parsedSiteData["MicrotingUid"].ToString()), parsedSiteData["Name"].ToString(), "", "", 0, 0, unitId, 0); // WorkerUid is set to 0, because it's used in this context.
             UnitDto unitDto = new UnitDto
             {
                 UnitUId = unitId,
                 CustomerNo = 0,
                 OtpCode = otpCode,
                 SiteUId = siteDto.SiteId,
-                CreatedAt = DateTime.Parse(parsedData["created_at"].ToString()),
-                UpdatedAt = DateTime.Parse(parsedData["updated_at"].ToString()),
+                CreatedAt = DateTime.Parse(parsedSiteData["CreatedAt"].ToString()),
+                UpdatedAt = DateTime.Parse(parsedSiteData["UpdatedAt"].ToString()),
                 WorkflowState = Constants.WorkflowStates.Created
             };
             Tuple<SiteDto, UnitDto> result = new Tuple<SiteDto, UnitDto>(siteDto, unitDto);
@@ -289,7 +293,7 @@ namespace Microting.eForm.Communication
             string response = await _http.SiteDelete(siteId);
             var parsedData = JToken.Parse(response);
 
-            if (parsedData["workflow_state"].ToString() == Constants.WorkflowStates.Removed)
+            if (parsedData["WorkflowState"].ToString() == Constants.WorkflowStates.Removed)
             {
                 return true;
             }
@@ -315,9 +319,9 @@ namespace Microting.eForm.Communication
 
             string result = await _http.WorkerCreate(firstName, lastName, email);
             var parsedData = JToken.Parse(result);
-            int workerUid = int.Parse(parsedData["id"].ToString());
-            DateTime? createdAt = DateTime.Parse(parsedData["created_at"].ToString());
-            DateTime? updatedAt = DateTime.Parse(parsedData["updated_at"].ToString());
+            int workerUid = int.Parse(parsedData["MicrotingUid"].ToString());
+            DateTime? createdAt = DateTime.Parse(parsedData["CreatedAt"].ToString());
+            DateTime? updatedAt = DateTime.Parse(parsedData["UpdatedAt"].ToString());
             return new WorkerDto(workerUid, firstName, lastName, email, createdAt, updatedAt);
         }
 
@@ -340,7 +344,7 @@ namespace Microting.eForm.Communication
             string response = await _http.WorkerDelete(workerId);
             var parsedData = JToken.Parse(response);
 
-            if (parsedData["workflow_state"].ToString() == Constants.WorkflowStates.Removed)
+            if (parsedData["WorkflowState"].ToString() == Constants.WorkflowStates.Removed)
                 return true;
             return false;
         }
@@ -362,7 +366,7 @@ namespace Microting.eForm.Communication
 
             string result = await _http.SiteWorkerCreate(siteId, workerId);
             var parsedData = JToken.Parse(result);
-            int workerUid = int.Parse(parsedData["id"].ToString());
+            int workerUid = int.Parse(parsedData["MicrotingUid"].ToString());
             return new SiteWorkerDto(workerUid, siteId, workerId);
         }
 
@@ -374,7 +378,7 @@ namespace Microting.eForm.Communication
             string response = await _http.SiteWorkerDelete(workerId);
             var parsedData = JToken.Parse(response);
 
-            if (parsedData["workflow_state"].ToString() == Constants.WorkflowStates.Removed)
+            if (parsedData["WorkflowState"].ToString() == Constants.WorkflowStates.Removed)
                 return true;
             return false;
         }
@@ -465,17 +469,20 @@ namespace Microting.eForm.Communication
 
             JToken orgResult = JToken.Parse(await specialHttp.OrganizationLoadAllFromRemote());
 
-            OrganizationDto organizationDto = new OrganizationDto(int.Parse(orgResult.First.First["id"].ToString()),
-                orgResult.First.First["name"].ToString(),
-                int.Parse(orgResult.First.First["customer_no"].ToString()),
-                int.Parse(orgResult.First.First["unit_license_number"].ToString()),
-                orgResult.First.First["aws_id"].ToString(),
-                orgResult.First.First["aws_key"].ToString(),
-                orgResult.First.First["aws_endpoint"].ToString(),
-                orgResult.First.First["com_address"].ToString(),
-                orgResult.First.First["com_address_basic"].ToString(),
-                orgResult.First.First["com_speech_to_text"].ToString(),
-                orgResult.First.First["com_address_pdf_upload"].ToString());
+            OrganizationDto organizationDto = new OrganizationDto(int.Parse(orgResult.First.First["Id"].ToString()),
+                orgResult.First.First["Name"].ToString(),
+                int.Parse(orgResult.First.First["CustomerNo"].ToString()),
+                int.Parse(orgResult.First.First["UnitLicenseNumber"].ToString()),
+                orgResult.First.First["AwsId"].ToString(),
+                orgResult.First.First["AwsKey"].ToString(),
+                orgResult.First.First["AwsEndpoint"].ToString(),
+                orgResult.First.First["ComAddress"].ToString(),
+                orgResult.First.First["ComAddressBasic"].ToString(),
+                orgResult.First.First["ComSpeechToText"].ToString(),
+                orgResult.First.First["ComAddressPdfUpload"].ToString());
+            organizationDto.S3Endpoint = orgResult.First.First["S3EndPoint"].ToString();
+            organizationDto.S3Id = orgResult.First.First["S3Id"].ToString();
+            organizationDto.S3Key = orgResult.First.First["S3Key"].ToString();
 
             return organizationDto;
         }

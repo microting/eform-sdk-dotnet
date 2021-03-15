@@ -60,6 +60,9 @@ namespace Microting.eForm.Dto
         public string ComAddressBasic { get; }
         public string ComAddressPdfUpload { get; }
         public string ComSpeechToText { get; }
+        public string S3Key { get; set; }
+        public string S3Id { get; set; }
+        public string S3Endpoint { get; set; }
         #endregion
 
         public override string ToString()
