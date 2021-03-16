@@ -96,7 +96,7 @@ namespace Microting.eForm.Communication
 
         Task<string> FolderDelete(int id);
 
-        Task<int> UnitRequestOtp(int id);
+        Task<string> UnitUpdate(int id, bool newOtp, bool pushEnabled, bool syncDelayEnabled, bool syncDialogEnabled);
 
         Task<string> UnitLoadAllFromRemote();
 

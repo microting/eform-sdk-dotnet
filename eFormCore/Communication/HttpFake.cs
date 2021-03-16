@@ -373,10 +373,15 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region public Unit
-        public async Task<int> UnitRequestOtp(int id)
+        public async Task<string> UnitUpdate(int id, bool newOtp, bool pushEnabled, bool syncDelayEnabled, bool syncDialogEnabled)
         {
             await Task.Run(() => { });
-            return 558877;
+            JObject contentToServer = JObject.FromObject(new
+            {
+                MicrotingUid = id, PushEnabled = pushEnabled, SyncDelayEnabled = syncDelayEnabled,
+                SyncDialog = syncDialogEnabled, WorkflowState = Constants.WorkflowStates.Created, OtpCode = 558877
+            });
+            return contentToServer.ToString();
         }
 
         public async Task<string> UnitLoadAllFromRemote()

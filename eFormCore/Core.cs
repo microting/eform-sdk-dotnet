@@ -4073,7 +4073,15 @@ namespace eFormCore
                 Log.LogStandard(methodName, "called");
                 Log.LogVariable(methodName, nameof(microtingUid), microtingUid);
 
-                int otpCode = await _communicator.UnitRequestOtp(microtingUid).ConfigureAwait(false);
+                await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
+
+                Unit unit = await dbContext.Units.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUid);
+
+                var parsedResult = JObject.Parse(await _communicator
+                    .UnitRequestOtp(microtingUid, true, unit.PushEnabled, unit.SyncDelayEnabled, unit.SyncDialog)
+                    .ConfigureAwait(false));
+
+                int otpCode = int.Parse(parsedResult["OtpCode"].ToString());
 
                 UnitDto myDto = await Advanced_UnitRead(microtingUid).ConfigureAwait(false);
 

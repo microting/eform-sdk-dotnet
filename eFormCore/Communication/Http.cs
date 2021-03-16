@@ -766,11 +766,11 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region public Unit
-        public async Task<int> UnitRequestOtp(int id)
+        public async Task<string> UnitUpdate(int id, bool newOtp, bool pushEnabled, bool syncDelayEnabled, bool syncDialogEnabled)
         {
             JObject contentToServer = JObject.FromObject(new { model = new { unit_id = id } });
             WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/Unit/{id}?token={token}&newOtp=true&sdkVersion={dllVersion}");
+                $"{newAddressBasic}/Unit/{id}?token={token}&newOtp=true&pushEnabled={pushEnabled}&syncDelayEnabled={syncDelayEnabled}&syncDialogEnabled={syncDialogEnabled}&sdkVersion={dllVersion}");
             request.Method = "PUT";
             byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
             request.ContentType = "application/json; charset=utf-8";
@@ -783,9 +783,7 @@ namespace Microting.eForm.Communication
             request.Method = "GET";
             request.Headers.Add(HttpRequestHeader.Authorization, token);
 
-            int response = int.Parse(JToken.Parse(await PostToServer(request))["OtpCode"]?.ToString() ?? throw new InvalidOperationException());
-
-            return response;
+            return await PostToServer(request).ConfigureAwait(false);
         }
 
         public async Task<string> UnitLoadAllFromRemote()
