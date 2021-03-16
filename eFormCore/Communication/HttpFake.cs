@@ -494,6 +494,11 @@ namespace Microting.eForm.Communication
             return "{}";
         }
 
+        public Task SendPushMessage(int microtingSiteId, string header, string body)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #endregion

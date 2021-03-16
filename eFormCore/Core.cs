@@ -4357,6 +4357,15 @@ namespace eFormCore
                 throw new Exception("failed", ex);
             }
         }
+
+        public async Task SendPushMessage(int siteId, string header, string body)
+        {
+            await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
+            Site site = await dbContext.Sites.SingleOrDefaultAsync(x => x.Id == siteId);
+            if (site != null) {
+                await _communicator.SendPushMessage((int) site.MicrotingUid, header, body);
+            }
+        }
         #endregion
 
         #region private
