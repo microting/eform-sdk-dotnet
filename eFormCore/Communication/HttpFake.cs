@@ -205,8 +205,6 @@ namespace Microting.eForm.Communication
             } else
             {
                 int MicrotingUid = t.GetRandomInt(6);
-                int unit_id = t.GetRandomInt(6);
-                int otp_code = t.GetRandomInt(6);
                 JObject contentToServer = JObject.FromObject(new {Name = name, MicrotingUid, CreatedAt = "2018-01-12T01:01:00Z", UpdatedAt = "2018-01-12T01:01:10Z" });
                 return contentToServer.ToString();
             }
@@ -407,7 +405,10 @@ namespace Microting.eForm.Communication
         public async Task<string> UnitCreate(int siteId)
         {
             await Task.Run(() => { });
-            JObject contentToServer = JObject.FromObject(new { MicrotingUid = 234, WorkflowState = Constants.WorkflowStates.Created, OtpCode = 123456 });
+            
+            int MicrotingUid = t.GetRandomInt(6);
+            int otpCode = t.GetRandomInt(6);
+            JObject contentToServer = JObject.FromObject(new { MicrotingUid, WorkflowState = Constants.WorkflowStates.Created, OtpCode = otpCode });
             return contentToServer.ToString();
         }
         #endregion
