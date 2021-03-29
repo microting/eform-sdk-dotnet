@@ -3430,15 +3430,8 @@ namespace Microting.eForm.Infrastructure
 
                 if (site != null)
                 {
-//                        site.Version = site.Version + 1;
-//                        site.UpdatedAt = DateTime.UtcNow;
-
                     site.Name = name;
                     await site.Update(db).ConfigureAwait(false);
-
-//                        db.site_versions.Add(MapSiteVersions(site));
-//                        db.SaveChanges();
-
                     return true;
                 }
 

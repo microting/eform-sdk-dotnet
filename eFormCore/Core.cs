@@ -3775,14 +3775,29 @@ namespace eFormCore
                 Log.LogVariable(methodName, nameof(siteId), siteId);
                 Log.LogVariable(methodName, nameof(name), name);
 
-                if (await _sqlController.SiteRead(siteId).ConfigureAwait(false) == null)
+                var db = DbContextHelper.GetDbContext();
+                if (!db.Sites.Any(x => x.MicrotingUid == siteId))
+                {
                     return false;
+                }
+                //if (await _sqlController.SiteRead(siteId).ConfigureAwait(false) == null)
 
                 bool success = await _communicator.SiteUpdate(siteId, name).ConfigureAwait(false);
                 if (!success)
                     return false;
 
-                return await _sqlController.SiteUpdate(siteId, name).ConfigureAwait(false);
+                Site site = await db.Sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteId);
+
+                if (site != null)
+                {
+                    site.Name = name;
+                    await site.Update(db).ConfigureAwait(false);
+                    return true;
+                }
+
+                return false;
+
+                //return await _sqlController.SiteUpdate(siteId, name).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
