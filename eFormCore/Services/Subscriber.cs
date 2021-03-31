@@ -40,7 +40,7 @@ namespace Microting.eForm.Services
 {
     public class Subscriber
     {
-        #region var
+        // start var
         SqlController sqlController;
         Log log;
         private readonly IBus bus;
@@ -48,9 +48,9 @@ namespace Microting.eForm.Services
         bool isActive;
         Thread subscriberThread;
         Tools t = new Tools();
-        #endregion
+        // end
 
-        #region con
+        // start con
         /// <summary>
         /// Microting notification server subscriber C# DLL.
         /// </summary>
@@ -60,9 +60,9 @@ namespace Microting.eForm.Services
             this.log = log;
             this.bus = bus;
         }
-        #endregion
+        // end
 
-        #region public
+        // start public
         /// <summary>
         /// Starts a Notification Subscriber to Microting
         /// </summary>
@@ -119,19 +119,19 @@ namespace Microting.eForm.Services
         {
             return isActive;
         }
-        #endregion
+        // end
 
-        #region private
+        // start private
 #pragma warning disable 4014
         private void SubscriberThread()
         {
             if (sqlController.SettingRead(Settings.token).Result != "UNIT_TEST___________________L:32")
-            #region amazon
+            // start amazon
             {
-                
+
                 log.LogStandard(t.GetMethodName("Subscriber"), $"{DateTime.UtcNow.ToString()} - Starting up");
 
-                #region setup
+                // start setup
                 isActive = true;
                 keepSubscribed = true;
 
@@ -141,7 +141,7 @@ namespace Microting.eForm.Services
 
                 var sqsClient = new AmazonSQSClient(awsAccessKeyId, awsSecretAccessKey, RegionEndpoint.EUCentral1);
                 DateTime lastException = DateTime.MinValue;
-                #endregion
+                // end
 
                 while (keepSubscribed)
                 {
@@ -152,14 +152,14 @@ namespace Microting.eForm.Services
                         if (res.Messages.Count > 0)
                             foreach (var message in res.Messages)
                             {
-                                #region JSON -> var
+                                // start JSON -> var
 
                                 var parsedData = JRaw.Parse(message.Body);
                                 string notificationUId = parsedData["id"].ToString();
                                 int microtingUId = int.Parse(parsedData["microting_uuid"].ToString());
                                 string action = parsedData["text"].ToString();
 
-                                #endregion
+                                // end
 
                                 log.LogStandard(t.GetMethodName("Subscriber"),
                                     "Notification notificationUId : " + notificationUId + " microtingUId : " +
@@ -221,7 +221,7 @@ namespace Microting.eForm.Services
                         // We try to sleep 20 seconds to see if the problem goes away by it self.
                         Thread.Sleep(20000);
                     }
-                    
+
                     catch (Exception ex)
                     {
                         // Log exception
@@ -243,9 +243,9 @@ namespace Microting.eForm.Services
                 keepSubscribed = false;
                 isActive = false;
             }
-            #endregion
+            // end
             else
-            #region unit test
+            // start unit test
             {
                 log.LogStandard(t.GetMethodName("Subscriber"), "Subscriber faked");
                 isActive = true;
@@ -257,9 +257,9 @@ namespace Microting.eForm.Services
                 keepSubscribed = false;
                 isActive = false;
             }
-            #endregion
+            // end
         }
 #pragma warning restore 4014
-        #endregion
+        // end
     }
 }
