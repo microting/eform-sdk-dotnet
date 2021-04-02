@@ -1113,17 +1113,20 @@ namespace Microting.eForm.Infrastructure
                                 string urlXml = _t.Locate(dataItemStr, "<URL>", "</URL>");
                                 if (urlXml != "" && urlXml != "none")
                                 {
-                                    Data.Entities.UploadedData dU = null;
                                     string fileLocation = _t.Locate(dataItemStr, "<URL>", "</");
-                                    dU = new Data.Entities.UploadedData
+                                    Data.Entities.UploadedData dU = await db.UploadedDatas.SingleOrDefaultAsync(x => x.FileLocation == fileLocation);
+                                    if (dU == null)
                                     {
-                                        Extension = _t.Locate(dataItemStr, "<Extension>", "</"),
-                                        UploaderId = userId,
-                                        UploaderType = Constants.Constants.UploaderTypes.System,
-                                        Local = 0,
-                                        FileLocation = fileLocation
-                                    };
-                                    await dU.Create(db).ConfigureAwait(false);
+                                        dU = new Data.Entities.UploadedData
+                                        {
+                                            Extension = _t.Locate(dataItemStr, "<Extension>", "</"),
+                                            UploaderId = userId,
+                                            UploaderType = Constants.Constants.UploaderTypes.System,
+                                            Local = 0,
+                                            FileLocation = fileLocation
+                                        };
+                                        await dU.Create(db).ConfigureAwait(false);
+                                    }
                                     fieldV.UploadedDataId = dU.Id;
                                     uploadedDataIds.Add(dU.Id);
 
