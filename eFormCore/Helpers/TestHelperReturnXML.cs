@@ -131,7 +131,7 @@ namespace Microting.eForm.Helpers
                                         </Geolocation>
                                         <Value></Value>
                                         <Extension>.jpeg</Extension>
-                                        <URL>https://www.microting.com/wp-content/themes/Artificial-Reason-WP/img/close.png</URL>
+                                        <URL>https://www.microting.com/wp-content/themes/Artificial-Reason-WP/img/close1.png</URL>
                                     </DataItem>
                                 </DataItemList>
                                 <ExtraDataItemList></ExtraDataItemList>
@@ -154,7 +154,7 @@ namespace Microting.eForm.Helpers
                                         </Geolocation>
                                         <Value></Value>
                                         <Extension>.jpeg</Extension>
-                                        <URL>https://www.microting.com/wp-content/themes/Artificial-Reason-WP/img/close.png</URL>
+                                        <URL>https://www.microting.com/wp-content/themes/Artificial-Reason-WP/img/close2.png</URL>
                                     </DataItem>
                                     <DataItem>
                                         <Id>{f1.Id}</Id>
@@ -168,7 +168,7 @@ namespace Microting.eForm.Helpers
                                         </Geolocation>
                                         <Value></Value>
                                         <Extension>.jpeg</Extension>
-                                        <URL>https://www.microting.com/wp-content/themes/Artificial-Reason-WP/img/close.png</URL>
+                                        <URL>https://www.microting.com/wp-content/themes/Artificial-Reason-WP/img/close3.png</URL>
                                     </DataItem>
                                 </DataItemList>
                                 <ExtraDataItemList></ExtraDataItemList>
@@ -191,7 +191,7 @@ namespace Microting.eForm.Helpers
                                         </Geolocation>
                                         <Value></Value>
                                         <Extension>.jpeg</Extension>
-                                        <URL>https://www.microting.com/wp-content/themes/Artificial-Reason-WP/img/close.png</URL>
+                                        <URL>https://www.microting.com/wp-content/themes/Artificial-Reason-WP/img/close4.png</URL>
                                     </DataItem>
                                     <DataItem>
                                         <Id>{f1.Id}</Id>
@@ -205,7 +205,7 @@ namespace Microting.eForm.Helpers
                                         </Geolocation>
                                         <Value></Value>
                                         <Extension>.jpeg</Extension>
-                                        <URL>https://www.microting.com/wp-content/themes/Artificial-Reason-WP/img/close.png</URL>
+                                        <URL>https://www.microting.com/wp-content/themes/Artificial-Reason-WP/img/close5.png</URL>
                                     </DataItem>
                                 </DataItemList>
                                 <ExtraDataItemList></ExtraDataItemList>
