@@ -5603,7 +5603,7 @@ namespace Microting.eForm.Infrastructure
                     {
                         LanguageId = language.Id,
                         Text = dataItem.Label.Split("|")[0],
-                        Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[0] : "",
+                        Description = dataItem.Description != null ? dataItem.Description.InderValue != null ? dataItem.Description.InderValue.Split("|")[0] : "" : "",
                         FieldId = field.Id
                     };
                     await fieldTranslation.Create(db).ConfigureAwait(false);
