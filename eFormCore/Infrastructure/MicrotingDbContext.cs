@@ -57,6 +57,8 @@ namespace Microting.eForm.Infrastructure
         public virtual DbSet<FieldType> FieldTypes { get; set; }
         public virtual DbSet<FieldValueVersion> FieldValueVersions { get; set; }
         public virtual DbSet<FieldValue> FieldValues { get; set; }
+        public virtual DbSet<ExtraFieldValue> ExtraFieldValues { get; set; }
+        public virtual DbSet<ExtraFieldValueVersion> ExtraFieldValueVersions { get; set; }
         public virtual DbSet<FieldVersion> FieldVersions { get; set; }
         public virtual DbSet<Field> Fields { get; set; }
         public virtual DbSet<Language> Languages { get; set; }

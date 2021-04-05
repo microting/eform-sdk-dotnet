@@ -63,6 +63,7 @@ using OpenStack.NetCoreSwiftClient.Infrastructure.Models;
 using Rebus.Bus;
 using Case = Microting.eForm.Dto.Case;
 using CheckListValue = Microting.eForm.Infrastructure.Models.CheckListValue;
+using DataItem = Microting.eForm.Infrastructure.Models.DataItem;
 using EntityGroup = Microting.eForm.Infrastructure.Models.EntityGroup;
 using EntityItem = Microting.eForm.Infrastructure.Models.EntityItem;
 using Field = Microting.eForm.Infrastructure.Models.Field;
@@ -75,7 +76,7 @@ namespace eFormCore
 {
     public class Core : CoreBase
     {
-        #region events
+        // events
         public event EventHandler HandleCaseCreated;
         public event EventHandler HandleCaseRetrived;
         public event EventHandler HandleCaseCompleted;
@@ -86,9 +87,9 @@ namespace eFormCore
         public event EventHandler HandleSiteActivated;
         public event EventHandler HandleNotificationNotFound;
         public event EventHandler HandleEventException;
-        #endregion
+        //
 
-        #region var
+        // var
         private Subscriber _subscriber;
         private Communicator _communicator;
         private SqlController _sqlController;
@@ -126,27 +127,27 @@ namespace eFormCore
         private string _customerNo;
         private IBus _bus;
 
-        #region swift
+        // swift
         private bool _swiftEnabled;
         private string _swiftUserName = "";
         private string _swiftPassword = "";
         private string _swiftEndpoint = "";
         private string _keystoneEndpoint = "";
         private SwiftClientService _swiftClient;
-        #endregion
+        //
 
-        #region s3
+        // s3
         private bool _s3Enabled;
         private string _s3AccessKeyId = "";
         private string _s3SecretAccessKey = "";
         private string _s3Endpoint = "";
         private static AmazonS3Client _s3Client;
-        #endregion
-		#endregion
+        //
+		//
 
 		//con
 
-		#region public state
+		// public state
 
         /// <summary>
         /// Starts the Core and enables Events. Restarts if needed
@@ -202,14 +203,14 @@ namespace eFormCore
                     Log.LogStandard(methodName, "CoreThread started");
 				}
 			}
-			#region catch
+			// catch
 			catch (Exception ex)
 			{
                 await FatalExpection(methodName + " failed", ex).ConfigureAwait(false);
 				throw ex;
 				//return false;
 			}
-			#endregion
+			//
 
 			return true;
 		}
@@ -365,7 +366,7 @@ namespace eFormCore
                     _coreStatChanging = false;
                 }
             }
-            #region catch
+            // catch
             catch (Exception ex)
             {
                 _coreThreadRunning = false;
@@ -374,7 +375,7 @@ namespace eFormCore
                 await FatalExpection(methodName + " failed", ex);
                 return false;
             }
-            #endregion
+            //
 
             return true;
         }
@@ -528,10 +529,10 @@ namespace eFormCore
             try { HandleEventException?.Invoke(exception, EventArgs.Empty); } catch { }
             throw new Exception("FATAL exception, Core shutting down, due to:'" + reason + "'", exception);
         }
-        #endregion
+        //
 
-        #region public actions
-        #region template
+        // public actions
+        // template
 
         /// <summary>
         /// Converts XML from ex. eForm Builder or other sources, into a MainElement
@@ -551,7 +552,7 @@ namespace eFormCore
                 Log.LogEverything(methodName, xmlString);
 
                 //XML HACK TODO
-                #region xmlString = corrected xml if needed
+                // xmlString = corrected xml if needed
                 xmlString = xmlString.Trim();
                 //xmlString = xmlString.Replace("=\"choose_entity\">", "=\"EntitySearch\">");
                 xmlString = xmlString.Replace("=\"single_select\">", "=\"SingleSelect\">");
@@ -655,7 +656,7 @@ namespace eFormCore
 //                xmlString = t.ReplaceAtLocationAll(xmlString, "<Id>", "</Id>", "1", false);
                 xmlString = _t.ReplaceInsensitive(xmlString, ">True<", ">true<");
                 xmlString = _t.ReplaceInsensitive(xmlString, ">False<", ">false<");
-                #endregion
+                //
 
                 Log.LogEverything(methodName, "XML after possible corrections:");
                 Log.LogEverything(methodName, xmlString);
@@ -713,7 +714,7 @@ namespace eFormCore
                 Log.LogEverything(methodName, "json to transform:");
                 Log.LogEverything(methodName, json);
 
-                #region xmlString = corrected xml if needed
+                // xmlString = corrected xml if needed
                 // check with json Payload
                 //string temp = t.Locate(xmlString, "<DoneButtonDisabled>", "</DoneButtonDisabled>");
                 //if (temp == "false")
@@ -726,7 +727,7 @@ namespace eFormCore
                 //    xmlString = xmlString.Replace("DoneButtonDisabled", "DoneButtonEnabled");
                 //    xmlString = xmlString.Replace("<DoneButtonEnabled>true", "<DoneButtonEnabled>false");
                 //}
-                #endregion
+                //
 
                 MainElement mainElement = new MainElement();
                 mainElement = mainElement.JsonToClass(json);
@@ -788,7 +789,7 @@ namespace eFormCore
 
             foreach (var dataItem in dataItems)
             {
-                #region entities
+                // entities
 
                 if (dataItem.GetType() == typeof(EntitySearch))
                 {
@@ -808,9 +809,9 @@ namespace eFormCore
                                      "' is an reference to a local unknown EntitySearch group. Please update reference");
                 }
 
-                #endregion
+                //
 
-                #region PDF
+                // PDF
 
                 if (dataItem.GetType() == typeof(ShowPdf))
                 {
@@ -832,7 +833,7 @@ namespace eFormCore
                     errorLst.Add($"DataItem with label {dataItem.Label} did supply color {dataItem.Color}, but the only allowed values are: e8eaf6 for grey, ffe4e4 for red, f0f8db for green, e2f4fb for blue, e2f4fb for purple, fff6df for yellow, None for default or leave it blank.");
                 }
 
-                #endregion
+                //
             }
 
             return errorLst;
@@ -877,7 +878,7 @@ namespace eFormCore
 
                     foreach (var dataItem in dataItems)
                     {
-                        #region PDF
+                        // PDF
                         if (dataItem.GetType() == typeof(ShowPdf))
                         {
                             ShowPdf showPdf = (ShowPdf)dataItem;
@@ -942,7 +943,7 @@ namespace eFormCore
                                 }
                             }
                         }
-                        #endregion
+                        //
                     }
 
                     return mainElement;
@@ -1146,9 +1147,9 @@ namespace eFormCore
                 throw new Exception("failed", ex);
             }
         }
-        #endregion
+        //
 
-        #region case
+        // case
 
         /// <summary>
         /// This method will send the mainElement to the Microting API endpoint.
@@ -1195,7 +1196,7 @@ namespace eFormCore
                 Log.LogVariable(methodName, nameof(siteIdsStr), siteIdsStr);
                 Log.LogVariable(methodName, nameof(custom), custom);
 
-                #region check input
+                // check input
                 DateTime start = DateTime.Parse(mainElement.StartDate.ToLongDateString());
                 DateTime end = DateTime.Parse(mainElement.EndDate.ToLongDateString());
 
@@ -1213,7 +1214,7 @@ namespace eFormCore
 
                 if (caseUId != "" && mainElement.Repeated != 1)
                     throw new ArgumentException("if caseUId can only be used for mainElement.Repeated == 1");
-                #endregion
+                //
 
                 //sending and getting a reply
                 List<int> lstMUId = new List<int>();
@@ -1285,13 +1286,13 @@ namespace eFormCore
                 Log.LogVariable(methodName, nameof(checkUId), checkUId);
 
                 Microting.eForm.Infrastructure.Data.Entities.Case aCase = await _sqlController.CaseReadFull(microtingUId, checkUId).ConfigureAwait(false);
-                #region handling if no match case found
+                // handling if no match case found
                 if (aCase == null)
                 {
                     Log.LogWarning(methodName, $"No case found with MuuId:'{microtingUId}'");
                     return null;
                 }
-                #endregion
+                //
 
                 int id = aCase.Id;
                 Log.LogEverything(methodName, $"aCase.Id:{aCase.Id}, found");
@@ -1792,13 +1793,13 @@ namespace eFormCore
                 Log.LogVariable(methodName, nameof(checkUId), checkUId);
 
                 Microting.eForm.Infrastructure.Data.Entities.Case aCase = await _sqlController.CaseReadFull(microtingUId, checkUId).ConfigureAwait(false);
-                #region handling if no match case found
+                // handling if no match case found
                 if (aCase == null)
                 {
                     Log.LogWarning(methodName, $"No case found with MuuId:'{microtingUId}'");
                     return -1;
                 }
-                #endregion
+                //
                 int id = aCase.Id;
                 Log.LogEverything(methodName, $"aCase.Id:{aCase.Id}, found");
 
@@ -1938,7 +1939,7 @@ namespace eFormCore
                 Log.LogVariable(methodName, nameof(clsLst), clsLst);
                 Log.LogVariable(methodName, nameof(fldLst), fldLst);
 
-                #region convert to jasperXml
+                // convert to jasperXml
 
                 // TODO make this dynamic, so it can be defined by user, which timezone to show data in.
                 TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
@@ -1965,7 +1966,7 @@ namespace eFormCore
                     + customXMLContent
                     + Environment.NewLine + "</root>";
                 Log.LogVariable(methodName, nameof(jasperXml), jasperXml);
-                #endregion
+                //
 
                 //place in settings allocated placement
                 string fullPath = Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "results",
@@ -1984,7 +1985,7 @@ namespace eFormCore
             }
         }
 
-        #region sdkSettings
+        // sdkSettings
 
         public async Task<string> GetSdkSetting(Settings settingName)
         {
@@ -2019,7 +2020,7 @@ namespace eFormCore
                 throw new Exception("failed", ex);
             }
         }
-        #endregion
+        //
 
         public Task<string> CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData, string customXmlContent, Language language)
         {
@@ -2029,7 +2030,7 @@ namespace eFormCore
         private async Task<string> JasperToPdf(int caseId, string jasperTemplate, string timeStamp)
         {
             string methodName = "Core.JasperToPdf";
-            #region run jar
+            // run jar
             // Start the child process.
             Process p = new Process();
             // Redirect the output stream of the child process.
@@ -2080,7 +2081,7 @@ namespace eFormCore
 
             if (output != "")
                 throw new Exception("output='" + output + "', expected to be no output. This indicates an error has happened");
-            #endregion
+            //
 
             return _resultDocument;
         }
@@ -2372,9 +2373,9 @@ namespace eFormCore
                 return null;
             }
         }
-        #endregion
+        //
 
-        #region site
+        // site
 
         public async Task<SiteDto> SiteCreate(string name, string userFirstName, string userLastName, string userEmail)
         {
@@ -2559,9 +2560,9 @@ namespace eFormCore
                 throw new Exception("failed", ex);
             }
         }
-        #endregion
+        //
 
-        #region entity
+        // entity
 
         /// <summary>
         /// Creates an EntityGroup, and returns its unique microting id for further use
@@ -2692,7 +2693,7 @@ namespace eFormCore
             }
         }
 
-        #region EntityItem
+        // EntityItem
 
         public Task<EntityItem> EntitySearchItemCreate(int entitItemGroupId, string name, string description, string ownUuid) {
             return EntityItemCreate(entitItemGroupId, name, description, ownUuid, 0);
@@ -2802,7 +2803,7 @@ namespace eFormCore
             }
         }
 
-        #endregion
+        //
 
         public async Task<string> PdfUpload(string localPath)
         {
@@ -2831,9 +2832,9 @@ namespace eFormCore
                 throw new Exception(methodName + " failed", ex);
             }
         }
-        #endregion
+        //
 
-        #region folder
+        // folder
 
         public async Task<List<FolderDto>> FolderGetAll(bool includeRemoved)
         {
@@ -2932,11 +2933,11 @@ namespace eFormCore
                 throw new Exception("FolderDelete failed", ex);
             }
         }
-        #endregion
+        //
 
-        #endregion
+        //
 
-        #region tags
+        // tags
         public async Task<List<Tag>> GetAllTags(bool includeRemoved)
         {
             string methodName = "Core.GetAllTags";
@@ -2987,10 +2988,10 @@ namespace eFormCore
                 throw new Exception("failed", ex);
             }
         }
-        #endregion
+        //
 
 
-        #region speach to text
+        // speach to text
 
         public async Task<bool> TranscribeUploadedData(int uploadedDataId)
         {
@@ -3037,11 +3038,11 @@ namespace eFormCore
             }
         }
 
-        #endregion
+        //
 
-        #region InSight
+        // InSight
 
-        #region SurveyConfiguration
+        // SurveyConfiguration
 
         public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
         {
@@ -3141,9 +3142,9 @@ namespace eFormCore
             }
             return true;
         }
-        #endregion
+        //
 
-        #region QuestionSet
+        // QuestionSet
 
         public async Task<bool> GetQuestionSet(int microtingUid, int questionSetId, int threadNumber)
         {
@@ -3347,9 +3348,9 @@ namespace eFormCore
             return true;
         }
 
-        #endregion
+        //
 
-        #region Answer
+        // Answer
 
         public async Task<bool> GetAllAnswers()
         {
@@ -3596,12 +3597,12 @@ namespace eFormCore
             }
         }
 
-        #endregion
+        //
 
-        #endregion
+        //
 
-        #region public advanced actions
-        #region templat
+        // public advanced actions
+        // templat
         public async Task<bool> Advanced_TemplateDisplayIndexChangeDb(int templateId, int newDisplayIndex)
         {
             string methodName = "Core.Advanced_TemplateDisplayIndexChangeDb";
@@ -3705,7 +3706,7 @@ namespace eFormCore
             }
         }
 
-        #region sites
+        // sites
         public async Task<List<SiteDto>> Advanced_SiteReadAll(string workflowState, int? offSet, int? limit)
         {
             string methodName = "Core.Advanced_SiteReadAll";
@@ -3828,9 +3829,9 @@ namespace eFormCore
             }
         }
 
-        #endregion
+        //
 
-        #region workers
+        // workers
         public async Task<WorkerDto> Advanced_WorkerCreate(string firstName, string lastName, string email)
         {
             string methodName = "Core.Advanced_WorkerCreate";
@@ -3969,10 +3970,10 @@ namespace eFormCore
                 throw new Exception("failed", ex);
             }
         }
-        #endregion
-        #endregion
+        //
+        //
 
-        #region site_workers
+        // site_workers
         public async Task<SiteWorkerDto> Advanced_SiteWorkerCreate(SiteNameDto siteDto, WorkerDto workerDto)
         {
             string methodName = "Core.Advanced_SiteWorkerCreate";
@@ -4041,9 +4042,9 @@ namespace eFormCore
                 throw new Exception("failed", ex);
             }
         }
-        #endregion
+        //
 
-        #region units
+        // units
         public async Task<UnitDto> Advanced_UnitRead(int microtingUid)
         {
             string methodName = "Core.Advanced_UnitRead";
@@ -4187,9 +4188,9 @@ namespace eFormCore
                 throw new Exception("failed", ex);
             }
         }
-        #endregion
+        //
 
-        #region fields
+        // fields
         public async Task<Field> Advanced_FieldRead(int id, Language language)
         {
             string methodName = "Core.Advanced_FieldRead";
@@ -4309,7 +4310,7 @@ namespace eFormCore
         }
 
 
-        #endregion
+        //
 
         //EntityGroupList
         public async Task<EntityGroupList> Advanced_EntityGroupAll(string sort, string nameFilter, int pageIndex, int pageSize, string entityType, bool desc, string workflowState)
@@ -4389,21 +4390,21 @@ namespace eFormCore
                 await _communicator.SendPushMessage((int) site.MicrotingUid, header, body);
             }
         }
-        #endregion
+        //
 
-        #region private
+        // private
         private async Task<List<Element>> ReplaceDataElementsAndDataItems(int caseId, List<Element> elementList, List<FieldValue> lstAnswers)
         {
             List<Element> elementListReplaced = new List<Element>();
 
             foreach (Element element in elementList)
             {
-                #region if DataElement
+                // if DataElement
                 if (element.GetType() == typeof(DataElement))
                 {
                     DataElement dataE = (DataElement)element;
 
-                    #region replace DataItemGroups
+                    // replace DataItemGroups
                     foreach (var dataItemGroup in dataE.DataItemGroupList)
                     {
                         FieldContainer fG = (FieldContainer)dataItemGroup;
@@ -4422,9 +4423,9 @@ namespace eFormCore
                         }
                         fG.DataItemList = dataItemListTemp;
                     }
-                    #endregion
+                    //
 
-                    #region replace DataItems
+                    // replace DataItems
                     List<DataItem> dataItemListTemp2 = new List<DataItem>();
                     foreach (var dataItem in dataE.DataItemList)
                     {
@@ -4438,13 +4439,13 @@ namespace eFormCore
                         }
                     }
                     dataE.DataItemList = dataItemListTemp2;
-                    #endregion
+                    //
 
                     elementListReplaced.Add(new CheckListValue(dataE, await _sqlController.CheckListValueStatusRead(caseId, element.Id)));
                 }
-                #endregion
+                //
 
-                #region if GroupElement
+                // if GroupElement
                 if (element.GetType() == typeof(GroupElement))
                 {
                     GroupElement groupE = (GroupElement)element;
@@ -4453,7 +4454,7 @@ namespace eFormCore
 
                     elementListReplaced.Add(groupE);
                 }
-                #endregion
+                //
             }
 
             return elementListReplaced;
@@ -4876,9 +4877,9 @@ namespace eFormCore
             clsLst = clsLst + jasperCheckXml;
             fldLst = fldLst + jasperFieldXml;
         }
-        #endregion
+        //
 
-        #region intrepidation threads
+        // intrepidation threads
         private async Task CoreThread()
         {
             _coreThreadRunning = true;
@@ -4916,120 +4917,151 @@ namespace eFormCore
             string methodName = "Core.DownloadUploadedData";
             Microting.eForm.Infrastructure.Data.Entities.UploadedData uploadedData = await _sqlController.GetUploadedData(uploadedDataId).ConfigureAwait(false);
 
-            if (uploadedData != null)
+            try
             {
-                string urlStr = uploadedData.FileLocation;
-                Log.LogEverything(methodName, "Received file:" + uploadedData);
-
-                #region finding file name and creating folder if needed
-                FileInfo file = new FileInfo(_fileLocationPicture);
-                file.Directory?.Create(); // If the directory already exists, this method does nothing.
-
-                int index = urlStr.LastIndexOf("/") + 1;
-                string fileName = uploadedData.Id + "_" + urlStr.Remove(0, index);
-                #endregion
-
-                #region download file
-                using (var client = new WebClient())
+                if (uploadedData != null)
                 {
+                    string urlStr = uploadedData.FileLocation;
+                    Log.LogEverything(methodName, "Received file:" + uploadedData);
+
+                    // finding file name and creating folder if needed
+
+                    FileInfo file = new FileInfo(_fileLocationPicture);
+                    file.Directory?.Create(); // If the directory already exists, this method does nothing.
+
+                    int index = urlStr.LastIndexOf("/") + 1;
+                    string fileName = uploadedData.Id + "_" + urlStr.Remove(0, index);
+
+                    //
+
+                    // download file
+
+                    using (var client = new WebClient())
+                    {
+                        try
+                        {
+                            Log.LogStandard(methodName, $"Downloading file to #{_fileLocationPicture}/#{fileName}");
+                            client.DownloadFile(urlStr, _fileLocationPicture + fileName);
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.LogWarning(methodName, "We got an error " + ex.Message);
+                            throw new Exception("Downloading and creating fil locally failed.", ex);
+                        }
+
+                    }
+
+                    //
+
+                    // finding checkSum
+
+                    string chechSum = "";
+                    using (var md5 = MD5.Create())
+                    {
+                        await using (var stream = File.OpenRead(_fileLocationPicture + fileName))
+                        {
+                            byte[] grr = md5.ComputeHash(stream);
+                            chechSum = BitConverter.ToString(grr).Replace("-", "").ToLower();
+                        }
+                    }
+
+                    //
+
+                    // checks checkSum
+
+                    if (chechSum != fileName.AsSpan().Slice(fileName.LastIndexOf(".") - 32, 32).ToString())
+                        //.Substring(fileName.LastIndexOf(".") - 32, 32))
+                        Log.LogWarning(methodName, $"Download of '{urlStr}' failed. Check sum did not match");
+
+                    //
+
+                    CaseDto dto = await _sqlController.FileCaseFindMUId(urlStr).ConfigureAwait(false);
+                    FileDto fDto = new FileDto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId.ToString(),
+                        dto.CheckUId.ToString(), _fileLocationPicture + fileName);
                     try
                     {
-                        Log.LogStandard(methodName, $"Downloading file to #{_fileLocationPicture}/#{fileName}");
-                        client.DownloadFile(urlStr, _fileLocationPicture + fileName);
+                        HandleFileDownloaded?.Invoke(fDto, EventArgs.Empty);
                     }
-                    catch (Exception ex)
+                    catch
                     {
-                        Log.LogWarning(methodName, "We got an error " + ex.Message);
-                        throw new Exception("Downloading and creating fil locally failed.", ex);
+                        Log.LogWarning(methodName, "HandleFileDownloaded event's external logic suffered an Expection");
                     }
 
-                }
-                #endregion
+                    Log.LogStandard(methodName, "Downloaded file '" + urlStr + "'.");
 
-                #region finding checkSum
-                string chechSum = "";
-                using (var md5 = MD5.Create())
-                {
-                    await using (var stream = File.OpenRead(_fileLocationPicture + fileName))
+                    await _sqlController
+                        .FileProcessed(urlStr, chechSum, _fileLocationPicture, fileName, uploadedData.Id)
+                        .ConfigureAwait(false);
+
+                    if (_swiftEnabled || _s3Enabled)
                     {
-                        byte[] grr = md5.ComputeHash(stream);
-                        chechSum = BitConverter.ToString(grr).Replace("-", "").ToLower();
-                    }
-                }
-                #endregion
-
-                #region checks checkSum
-                if (chechSum != fileName.AsSpan().Slice(fileName.LastIndexOf(".") - 32, 32).ToString())
-                //.Substring(fileName.LastIndexOf(".") - 32, 32))
-                    Log.LogWarning(methodName, $"Download of '{urlStr}' failed. Check sum did not match");
-                #endregion
-
-                CaseDto dto = await _sqlController.FileCaseFindMUId(urlStr).ConfigureAwait(false);
-                FileDto fDto = new FileDto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId.ToString(), dto.CheckUId.ToString(), _fileLocationPicture + fileName);
-                try { HandleFileDownloaded?.Invoke(fDto, EventArgs.Empty); }
-                catch { Log.LogWarning(methodName, "HandleFileDownloaded event's external logic suffered an Expection"); }
-                Log.LogStandard(methodName, "Downloaded file '" + urlStr + "'.");
-
-                await _sqlController.FileProcessed(urlStr, chechSum, _fileLocationPicture, fileName, uploadedData.Id).ConfigureAwait(false);
-
-                if (_swiftEnabled || _s3Enabled)
-                {
-                    Log.LogStandard(methodName, $"Trying to upload file {fileName}");
-                    string filePath = Path.Combine(_fileLocationPicture, fileName);
-                    if (File.Exists(filePath))
-                    {
-                        Log.LogStandard(methodName, $"File exists at path {filePath}");
-                        await PutFileToStorageSystem(filePath, fileName).ConfigureAwait(false);
-
-                        // Generate thumbnail and docx/pdf friendly file sizes
-                        if (fileName.Contains("png") || fileName.Contains("jpg") || fileName.Contains("jpeg"))
+                        Log.LogStandard(methodName, $"Trying to upload file {fileName}");
+                        string filePath = Path.Combine(_fileLocationPicture, fileName);
+                        if (File.Exists(filePath))
                         {
-                            string smallFilename = uploadedData.Id + "_300_" + urlStr.Remove(0, index);
-                            string bigFilename = uploadedData.Id + "_700_" + urlStr.Remove(0, index);
-                            File.Copy(filePath, Path.Combine(_fileLocationPicture, smallFilename));
-                            File.Copy(filePath, Path.Combine(_fileLocationPicture, bigFilename));
-                            string filePathResized = Path.Combine(_fileLocationPicture, smallFilename);
-                            using (var image = new MagickImage(filePathResized))
-                            {
-                                decimal currentRation = image.Height / (decimal) image.Width;
-                                int newWidth = 300;
-                                int newHeight = (int) Math.Round((currentRation * newWidth));
+                            Log.LogStandard(methodName, $"File exists at path {filePath}");
+                            await PutFileToStorageSystem(filePath, fileName).ConfigureAwait(false);
 
-                                image.Resize(newWidth, newHeight);
-                                image.Crop(newWidth, newHeight);
-                                image.Write(filePathResized);
-                                image.Dispose();
-                                await PutFileToStorageSystem(Path.Combine(_fileLocationPicture, smallFilename), smallFilename).ConfigureAwait(false);
-                            }
-                            // Cleanup locally, so we don't fill up disc space
-                            File.Delete(filePathResized);
-                            filePathResized = Path.Combine(_fileLocationPicture, bigFilename);
-                            using (var image = new MagickImage(filePathResized))
+                            // Generate thumbnail and docx/pdf friendly file sizes
+                            if (fileName.Contains("png") || fileName.Contains("jpg") || fileName.Contains("jpeg"))
                             {
-                                decimal currentRation = image.Height / (decimal) image.Width;
-                                int newWidth = 700;
-                                int newHeight = (int) Math.Round((currentRation * newWidth));
+                                string smallFilename = uploadedData.Id + "_300_" + urlStr.Remove(0, index);
+                                string bigFilename = uploadedData.Id + "_700_" + urlStr.Remove(0, index);
+                                File.Copy(filePath, Path.Combine(_fileLocationPicture, smallFilename));
+                                File.Copy(filePath, Path.Combine(_fileLocationPicture, bigFilename));
+                                string filePathResized = Path.Combine(_fileLocationPicture, smallFilename);
+                                using (var image = new MagickImage(filePathResized))
+                                {
+                                    decimal currentRation = image.Height / (decimal) image.Width;
+                                    int newWidth = 300;
+                                    int newHeight = (int) Math.Round((currentRation * newWidth));
 
-                                image.Resize(newWidth, newHeight);
-                                image.Crop(newWidth, newHeight);
-                                image.Write(filePathResized);
-                                image.Dispose();
-                                await PutFileToStorageSystem(Path.Combine(_fileLocationPicture, bigFilename), bigFilename).ConfigureAwait(false);
+                                    image.Resize(newWidth, newHeight);
+                                    image.Crop(newWidth, newHeight);
+                                    image.Write(filePathResized);
+                                    image.Dispose();
+                                    await PutFileToStorageSystem(Path.Combine(_fileLocationPicture, smallFilename),
+                                        smallFilename).ConfigureAwait(false);
+                                }
+
+                                // Cleanup locally, so we don't fill up disc space
+                                File.Delete(filePathResized);
+                                filePathResized = Path.Combine(_fileLocationPicture, bigFilename);
+                                using (var image = new MagickImage(filePathResized))
+                                {
+                                    decimal currentRation = image.Height / (decimal) image.Width;
+                                    int newWidth = 700;
+                                    int newHeight = (int) Math.Round((currentRation * newWidth));
+
+                                    image.Resize(newWidth, newHeight);
+                                    image.Crop(newWidth, newHeight);
+                                    image.Write(filePathResized);
+                                    image.Dispose();
+                                    await PutFileToStorageSystem(Path.Combine(_fileLocationPicture, bigFilename),
+                                        bigFilename).ConfigureAwait(false);
+                                }
+
+                                // Cleanup locally, so we don't fill up disc space
+                                File.Delete(filePathResized);
                             }
+
                             // Cleanup locally, so we don't fill up disc space
-                            File.Delete(filePathResized);
+                            File.Delete(filePath);
                         }
-                        // Cleanup locally, so we don't fill up disc space
-                        File.Delete(filePath);
+                        else
+                        {
+                            Log.LogWarning(methodName, $"File could not be found at filepath {filePath}");
+                        }
                     }
-                    else
-                    {
-                        Log.LogWarning(methodName, $"File could not be found at filepath {filePath}");
-                    }
-                }
 
-                return true;
+                    return true;
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
 
             return false;
         }
@@ -5198,7 +5230,7 @@ namespace eFormCore
             {
                 if (aCase.SiteUId == concreteCase.SiteUId)
                 {
-                    #region get response's data and update DB with data
+                    // get response's data and update DB with data
                     int? checkIdLastKnown = await _sqlController.CaseReadLastCheckIdByMicrotingUId(microtingUid).ConfigureAwait(false); //null if NOT a checkListSite
                     Log.LogVariable(methodName, nameof(checkIdLastKnown), checkIdLastKnown);
 
@@ -5236,7 +5268,7 @@ namespace eFormCore
                                 await _sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, DateTime.Parse(check.Date), workerUId, unitUId).ConfigureAwait(false);
                                 Log.LogEverything(methodName, "sqlController.CaseUpdateCompleted(...)");
 
-                                #region IF needed retract case, thereby completing the process
+                                // IF needed retract case, thereby completing the process
                                 if (checkIdLastKnown == null)
                                 {
                                     string responseRetractionXml = await _communicator.Delete(aCase.MicrotingUId.ToString(), aCase.SiteUId).ConfigureAwait(false);
@@ -5250,7 +5282,7 @@ namespace eFormCore
                                     else
                                         Log.LogWarning(methodName, "Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
                                 }
-                                #endregion
+                                //
 
                                 await _sqlController.CaseRetract(microtingUid, (int)check.Id).ConfigureAwait(false);
                                 Log.LogEverything(methodName, "sqlController.CaseRetract(...)");
@@ -5270,7 +5302,7 @@ namespace eFormCore
                         Log.LogEverything(methodName, "resp.Type == Response.ResponseTypes.Success (false)");
                         throw new Exception("Failed to retrive eForm " + microtingUid + " from site " + aCase.SiteUId);
                     }
-                    #endregion
+                    //
                 }
                 else
                 {
@@ -5279,7 +5311,7 @@ namespace eFormCore
             }
             return true;
         }
-        #endregion
+        //
 
 
         public List<KeyValuePair> PairRead(string str)
@@ -5287,7 +5319,7 @@ namespace eFormCore
             return _sqlController.PairRead(str);
         }
 
-        #region fireEvents
+        // fireEvents
 
 #pragma warning disable 1998
         public async Task FireHandleCaseCompleted(CaseDto caseDto)
@@ -5377,7 +5409,7 @@ namespace eFormCore
 				throw ex;
 			}
 		}
-        #endregion
+        //
     }
 
 }

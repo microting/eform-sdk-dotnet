@@ -30,7 +30,7 @@ using KeyValuePair = Microting.eForm.Dto.KeyValuePair;
 
 namespace Microting.eForm.Infrastructure.Models
 {
-    #region xml tags
+    // xml tags
     [Serializable]
     [XmlInclude(typeof(Audio))]
     [XmlInclude(typeof(CheckBox))]
@@ -50,17 +50,17 @@ namespace Microting.eForm.Infrastructure.Models
     [XmlInclude(typeof(Text))]
     [XmlInclude(typeof(Timer))]
     [XmlInclude(typeof(FieldContainer))]
-    #endregion
+    //
     public class DataItem
     {
-        #region con
+        // con
         internal DataItem()
         {
 
         }
-        #endregion
+        //
 
-        #region var
+        // var
         public int Id { get; set; }
         public bool Mandatory { get; set; }
         public bool ReadOnly { get; set; }
@@ -74,11 +74,11 @@ namespace Microting.eForm.Infrastructure.Models
         [XmlIgnore]
         public bool Dummy { get; set; }
         public string OriginalId { get; set; }
-        #endregion
+        //
     }
 
-    #region children
-    #region Audio
+    // children
+    // Audio
     public class Audio : DataItem
     {
         internal Audio()
@@ -104,9 +104,9 @@ namespace Microting.eForm.Infrastructure.Models
 
         public int Multi { get; set; }
     }
-    #endregion
+    //
 
-    #region CheckBox
+    // CheckBox
     public class CheckBox : DataItem
     {
         internal CheckBox()
@@ -131,14 +131,14 @@ namespace Microting.eForm.Infrastructure.Models
             Selected = selected;
         }
 
-        #region var
+        // var
         public bool DefaultValue { get; set; }
         public bool Selected { get; set; }
-        #endregion
+        //
     }
-    #endregion
+    //
 
-    #region Comment
+    // Comment
     public class Comment : DataItem
     {
         internal Comment()
@@ -164,15 +164,15 @@ namespace Microting.eForm.Infrastructure.Models
             Split = split;
         }
 
-        #region var
+        // var
         public string Value { get; set; }
         public int Maxlength { get; set; }
         public bool Split { get; set; }
-        #endregion
+        //
     }
-    #endregion
+    //
 
-    #region Date
+    // Date
     public class Date : DataItem
     {
         internal Date()
@@ -198,10 +198,10 @@ namespace Microting.eForm.Infrastructure.Models
             MinValue = minValue;
         }
 
-        #region var
+        // var
         public string DefaultValue { get; set; }
 
-        #region public string/DateTime MaxValue { get; set; }
+        // public string/DateTime MaxValue { get; set; }
         [XmlIgnore]
         public DateTime MaxValue { get; set; }
 
@@ -211,9 +211,9 @@ namespace Microting.eForm.Infrastructure.Models
             get { return MaxValue.ToString("yyyy-MM-dd"); }
             set { MaxValue = DateTime.Parse(value); }
         }
-        #endregion
+        //
 
-        #region public string/DateTime MinValue { get; set; }
+        // public string/DateTime MinValue { get; set; }
         [XmlIgnore]
         public DateTime MinValue { get; set; }
 
@@ -223,12 +223,12 @@ namespace Microting.eForm.Infrastructure.Models
             get { return MinValue.ToString("yyyy-MM-dd"); }
             set { MinValue = DateTime.Parse(value); }
         }
-        #endregion
-        #endregion
+        //
+        //
     }
-    #endregion
+    //
 
-    #region None
+    // None
     public class None : DataItem
     {
         internal None()
@@ -249,9 +249,9 @@ namespace Microting.eForm.Infrastructure.Models
             Dummy = dummy;
         }
     }
-    #endregion
+    //
 
-    #region Number
+    // Number
     public class Number : DataItem
     {
         internal Number()
@@ -279,17 +279,17 @@ namespace Microting.eForm.Infrastructure.Models
             UnitName = unitName;
         }
 
-        #region var
+        // var
         public string MinValue { get; set; }
         public string MaxValue { get; set; }
         public int DefaultValue { get; set; }
         public int DecimalCount { get; set; }
         public string UnitName { get; set; }
-        #endregion
+        //
     }
-    #endregion
+    //
 
-    #region Number Stepper
+    // Number Stepper
     public class NumberStepper : DataItem
     {
         internal NumberStepper()
@@ -317,17 +317,17 @@ namespace Microting.eForm.Infrastructure.Models
             UnitName = unitName;
         }
 
-        #region var
+        // var
         public string MinValue { get; set; }
         public string MaxValue { get; set; }
         public int DefaultValue { get; set; }
         public int DecimalCount { get; set; }
         public string UnitName { get; set; }
-        #endregion
+        //
     }
-    #endregion
+    //
 
-    #region MultiSelect
+    // MultiSelect
     public class MultiSelect : DataItem
     {
         internal MultiSelect()
@@ -355,9 +355,9 @@ namespace Microting.eForm.Infrastructure.Models
         [XmlArray("KeyValuePairList"), XmlArrayItem(typeof(KeyValuePair), ElementName = "KeyValuePair")]
         public System.Collections.Generic.List<KeyValuePair> KeyValuePairList { get; set; }
     }
-    #endregion
+    //
 
-    #region Picture
+    // Picture
     public class Picture : DataItem
     {
         internal Picture()
@@ -382,14 +382,14 @@ namespace Microting.eForm.Infrastructure.Models
             GeolocationEnabled = geolocationEnabled;
         }
 
-        #region var
+        // var
         public int Multi { get; set; }
         public bool GeolocationEnabled { get; set; }
-        #endregion
+        //
     }
-    #endregion
+    //
 
-    #region ShowPdf
+    // ShowPdf
     public class ShowPdf : DataItem
     {
         internal ShowPdf()
@@ -415,9 +415,9 @@ namespace Microting.eForm.Infrastructure.Models
 
         public string Value { get; set; }
     }
-    #endregion
+    //
 
-    #region SaveButton
+    // SaveButton
     public class SaveButton : DataItem
     {
         internal SaveButton()
@@ -443,9 +443,9 @@ namespace Microting.eForm.Infrastructure.Models
 
         public string Value { get; set; }
     }
-    #endregion
+    //
 
-    #region Signature
+    // Signature
     public class Signature : DataItem
     {
         internal Signature()
@@ -466,9 +466,9 @@ namespace Microting.eForm.Infrastructure.Models
             Dummy = dummy;
         }
     }
-    #endregion
+    //
 
-    #region SingleSelect
+    // SingleSelect
     public class SingleSelect : DataItem
     {
         internal SingleSelect()
@@ -496,9 +496,9 @@ namespace Microting.eForm.Infrastructure.Models
         [XmlArray("KeyValuePairList"), XmlArrayItem(typeof(KeyValuePair), ElementName = "KeyValuePair")]
         public System.Collections.Generic.List<KeyValuePair> KeyValuePairList { get; set; }
     }
-    #endregion
+    //
 
-    #region Text
+    // Text
     public class Text : DataItem
     {
         internal Text()
@@ -528,7 +528,7 @@ namespace Microting.eForm.Infrastructure.Models
             BarcodeType = barcodeType;
         }
 
-        #region var
+        // var
         public string Value { get; set; }
         public int MaxLength { get; set; }
         public bool GeolocationEnabled { get; set; }
@@ -536,11 +536,11 @@ namespace Microting.eForm.Infrastructure.Models
         public bool GeolocationHidden { get; set; }
         public bool BarcodeEnabled { get; set; }
         public string BarcodeType { get; set; }
-        #endregion
+        //
     }
-    #endregion
+    //
 
-    #region Timer
+    // Timer
     public class Timer : DataItem
     {
         internal Timer()
@@ -566,12 +566,12 @@ namespace Microting.eForm.Infrastructure.Models
 
         public bool StopOnSave { get; set; }
     }
-    #endregion
+    //
 
-    #region EntitySearch
+    // EntitySearch
     public class EntitySearch : DataItem
     {
-        #region con
+        // con
         internal EntitySearch()
         {
 
@@ -598,9 +598,9 @@ namespace Microting.eForm.Infrastructure.Models
             BarcodeEnabled = barcodeEnabled;
             BarcodeType = barcodeType;
         }
-        #endregion
+        //
 
-        #region var
+        // var
         public int DefaultValue { get; set; }
         public int EntityTypeId { get; set; }
 
@@ -609,14 +609,14 @@ namespace Microting.eForm.Infrastructure.Models
         public int MinSearchLenght { get; set; }
         public bool BarcodeEnabled { get; set; }
         public string BarcodeType { get; set; }
-        #endregion
+        //
     }
-    #endregion
+    //
 
-    #region EntitySelect
+    // EntitySelect
     public class EntitySelect : DataItem
     {
-        #region con
+        // con
         internal EntitySelect()
         {
 
@@ -639,15 +639,15 @@ namespace Microting.eForm.Infrastructure.Models
             DefaultValue = defaultValue;
             Source = source;
         }
-        #endregion
+        //
 
-        #region var
+        // var
         public int DefaultValue { get; set; }
         public int Source { get; set; }
-        #endregion
+        //
     }
-    #endregion
-    #endregion
+    //
+    //
 
     public class Field : DataItem
     {

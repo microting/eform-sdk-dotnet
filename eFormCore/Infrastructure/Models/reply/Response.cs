@@ -32,9 +32,14 @@ using Newtonsoft.Json.Linq;
 
 namespace Microting.eForm.Infrastructure.Models.reply
 {
+
+    public class Value
+    {
+        public string Type;
+    }
     public class Response
     {
-        #region con
+        // con
         public Response()
         {
             Checks = new List<Check>();
@@ -46,18 +51,18 @@ namespace Microting.eForm.Infrastructure.Models.reply
             Value = value;
             Checks = new List<Check>();
         }
-        #endregion
+        //
 
-        #region var
+        // var
         public ResponseTypes Type { get; set; }
         public string Value { get; set; }
         public string UnitFetchedAt { get; set; }
         public string UnitId { get; set; }
         public List<Check> Checks { get; set; }
         Tools t = new Tools();
-        #endregion
+        //
 
-        #region public
+        // public
         public Response XmlToClassUsingXmlDocument(string xmlStr)
         {
             try
@@ -65,7 +70,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
                 ResponseTypes rType = ResponseTypes.Invalid;
                 string value = "";
 
-                #region value type
+                // value type
                 if (xmlStr.Contains("<Value type="))
                 {
                     string subXmlStr = t.Locate(xmlStr, "<Response>", "</Response>").Trim();
@@ -98,7 +103,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
                             throw new IndexOutOfRangeException("ResponseType:'" + valueTypeLower + "' is not known. " + xmlStr);
                     }
                 }
-                #endregion
+                //
 
                 Response resp = new Response(rType, value);
 
@@ -148,7 +153,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
                 ResponseTypes rType = ResponseTypes.Invalid;
                 string value = "";
 
-                #region value type
+                // value type
                 if (xmlStr.Contains("<Value type="))
                 {
                     string subXmlStr = t.Locate(xmlStr, "<Response>", "</Response>").Trim();
@@ -181,11 +186,11 @@ namespace Microting.eForm.Infrastructure.Models.reply
                             throw new IndexOutOfRangeException("ResponseType:'" + valueTypeLower + "' is not known. " + xmlStr);
                     }
                 }
-                #endregion
+                //
 
                 Response resp = new Response(rType, value);
 
-                #region Unit fetched
+                // Unit fetched
                 if (xmlStr.Contains("<Unit fetched_at="))
                 {
                     string subXmlStr = xmlStr.Substring(xmlStr.IndexOf("<Unit fetched_at=\"") + 18); // 18 magic int = "<Unit fetched_at=\"".Length;
@@ -195,9 +200,9 @@ namespace Microting.eForm.Infrastructure.Models.reply
                     resp.UnitFetchedAt = dateTimeStr;
                     resp.UnitId = idStr;
                 }
-                #endregion
+                //
 
-                #region checks
+                // checks
                 string checkXmlStr = xmlStr;
                 while (checkXmlStr.Contains("<Check "))
                 {
@@ -221,7 +226,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
 
                     resp.Checks.Add(check);
                 }
-                #endregion
+                //
 
                 return resp;
             }
@@ -238,7 +243,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
                 string value = "";
                 ResponseTypes rType = ResponseTypes.Invalid;
 
-                #region value type
+                // value type
 
                 var jObject = JObject.Parse(json);
                 if (jObject["Value"]?["Type"] != null)
@@ -248,19 +253,19 @@ namespace Microting.eForm.Infrastructure.Models.reply
                     if (!parsed)
                         throw new IndexOutOfRangeException("ResponseType:'" + jObject["Value"]["Type"] + "' is not known. " + json);
                 }
-                #endregion
+                //
 
                 Response resp = new Response(rType, value);
 
-                #region Unit fetched
+                // Unit fetched
                 if (jObject["Unit"] != null)
                 {
                     resp.UnitFetchedAt = jObject["Unit"]["FatchedAt"]?.ToString();
                     resp.UnitId = jObject["Unit"]["Id"]?.ToString();
                 }
-                #endregion
+                //
 
-                #region checks
+                // checks
                 if (jObject["Checks"] != null)
                 {
                     foreach (var item in jObject["Checks"])
@@ -280,7 +285,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
                         resp.Checks.Add(check);
                     }
                 }
-                #endregion
+                //
 
                 return resp;
             }
@@ -323,9 +328,9 @@ namespace Microting.eForm.Infrastructure.Models.reply
                 throw new Exception("Response failed to convert Class", ex);
             }
         }
-        #endregion
+        //
 
-        #region private
+        // private
         private ElementList XmlToClassCheck(string xmlStr)
         {
             try
@@ -377,7 +382,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
 
             return xmlStr.Trim();
         }
-        #endregion
+        //
 
         public enum ResponseTypes
         {

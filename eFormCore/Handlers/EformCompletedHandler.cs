@@ -133,6 +133,11 @@ namespace Microting.eForm.Handlers
         {
             respXml = _communicator.RetrieveFromId(microtingUid, concreteCase.SiteUId, checkIdLastKnown).GetAwaiter().GetResult();
             resp = new Response();
+
+            respXml = respXml.Replace("<Response>", "<Response xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">");
+            respXml = respXml.Replace("<DataItem type=\"comment\"", "<DataItem xsi:type=\"Comment\"");
+            respXml = respXml.Replace("<DataItem type=\"picture\"", "<DataItem xsi:type=\"Picture\"");
+            respXml = respXml.Replace("<DataItem type=\"audio\"", "<DataItem xsi:type=\"Audio\"");
             resp = resp.XmlToClassUsingXmlDocument(respXml);
             if (resp.Type == Response.ResponseTypes.Success)
             {
@@ -164,9 +169,12 @@ namespace Microting.eForm.Handlers
                     int? workerUId = dbContext.Workers
                         .Single(x => x.MicrotingUid == int.Parse(check.WorkerId)).MicrotingUid; //sqlController.WorkerRead(int.Parse(check.WorkerId)).Result.WorkerUId;
                     _log.LogVariable(_t.GetMethodName("EformCompletedHandler"), nameof(workerUId), workerUId);
+                    Console.WriteLine($"{DateTime.Now} ChecksCreate start");
 
                     List<int> uploadedDataIds = await _sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml, i);
+                    Console.WriteLine($"{DateTime.Now} ChecksCreate end");
 
+                    Console.WriteLine($"{DateTime.Now} uploadedDataIds");
                     foreach (int uploadedDataid in uploadedDataIds)
                     {
                         if (await _core.DownloadUploadedData(uploadedDataid))
@@ -186,6 +194,8 @@ namespace Microting.eForm.Handlers
                     _log.LogEverything(_t.GetMethodName("EformCompletedHandler"), "sqlController.CaseUpdateCompleted(...)");
 
                     // IF needed retract case, thereby completing the process
+
+                    Console.WriteLine($"{DateTime.Now} checkIdLastKnown");
                     if (checkIdLastKnown == null)
                     {
                         await _communicator.Delete(aCase.MicrotingUId.ToString(), aCase.SiteUId);
@@ -204,6 +214,7 @@ namespace Microting.eForm.Handlers
                     _log.LogEverything(_t.GetMethodName("EformCompletedHandler"), "sqlController.CaseRetract(...)");
                     // TODO add case.id
                     CaseDto cDto = await _sqlController.CaseReadByMUId(microtingUid);
+                    Console.WriteLine($"{DateTime.Now} FireHandleCaseCompleted");
                     await _core.FireHandleCaseCompleted(cDto);
                     _log.LogStandard(_t.GetMethodName("EformCompletedHandler"), cDto + " has been completed");
                     i++;

@@ -29,7 +29,11 @@ using Microting.eForm.Dto;
 namespace Microting.eForm.Infrastructure.Models.reply
 {
     [Serializable]
-    [XmlRoot("DataItem")]
+    //[XmlRoot("DataItem")]
+    [XmlInclude(typeof(DataItem))]
+    [XmlInclude(typeof(Picture))]
+    [XmlInclude(typeof(Audio))]
+    [XmlInclude(typeof(Comment))]
     public class DataItemReply
     {
         internal DataItemReply()
@@ -49,4 +53,9 @@ namespace Microting.eForm.Infrastructure.Models.reply
         public string URL { get; set; }
         #endregion
     }
+
+    public class DataItem : DataItemReply {}
+    public class Picture : DataItemReply {}
+    public class Audio : DataItemReply {}
+    public class Comment : DataItemReply {}
 }
