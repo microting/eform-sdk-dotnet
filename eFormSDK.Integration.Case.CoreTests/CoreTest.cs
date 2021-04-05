@@ -96,9 +96,9 @@ namespace eFormSDK.Integration.CoreTests
             Assert.NotNull(caseMatches);
             Assert.NotNull(udMatches);
             Assert.NotNull(fvMatches);
-            Assert.AreEqual(3, caseMatches.Count());
-            Assert.AreEqual(5, udMatches.Count());
-            Assert.AreEqual(5, fvMatches.Count());
+            Assert.AreEqual(1, caseMatches.Count());
+            Assert.AreEqual(1, udMatches.Count());
+            Assert.AreEqual(1, fvMatches.Count());
 
         }
 

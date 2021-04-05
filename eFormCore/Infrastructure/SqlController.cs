@@ -1168,7 +1168,14 @@ namespace Microting.eForm.Infrastructure
                                 fieldV.Altitude = dataItemReply.Geolocation.Altitude;
                                 fieldV.Heading = dataItemReply.Geolocation.Heading;
                                 fieldV.Accuracy = dataItemReply.Geolocation.Accuracy;
-                                fieldV.Date = DateTime.Parse(dataItemReply.Geolocation.Date);
+                                if (DateTime.TryParse(dataItemReply.Geolocation.Date, out var date))
+                                {
+                                    fieldV.Date = DateTime.Parse(dataItemReply.Geolocation.Date);
+                                }
+                                else
+                                {
+                                    fieldV.Date = null;
+                                }
                                 fieldV.CaseId = responseCase.Id;
                                 fieldV.FieldId = fieldId;
                                 fieldV.WorkerId = userId;
