@@ -1509,7 +1509,8 @@ namespace Microting.eForm.Infrastructure
                             Longitude = extraFieldValue.Longitude,
                             Altitude = extraFieldValue.Altitude,
                             Accuracy = extraFieldValue.Accuracy,
-                            DateOfDoing = extraFieldValue.DoneAt ?? (DateTime)extraFieldValue.DoneAt
+                            DateOfDoing = extraFieldValue.DoneAt ?? (DateTime)extraFieldValue.DoneAt,
+                            Value = extraFieldValue.Value
                         };
 
                         switch (extraFieldValue.FieldType)
