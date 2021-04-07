@@ -113,6 +113,8 @@ namespace eFormSDK.Base.Tests
                 "Fields",
                 "FolderVersions",
                 "Folders",
+                "FolderTranslationVersions",
+                "FolderTranslations",
                 "CheckListSiteVersions",
                 "CheckListSites",
                 "CheckListValueVersions",

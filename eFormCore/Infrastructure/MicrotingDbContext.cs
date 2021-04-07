@@ -99,6 +99,8 @@ namespace Microting.eForm.Infrastructure
         public virtual DbSet<TaggingVersion> TaggingVersions { get; set; }
         public virtual DbSet<Folder> Folders { get; set; }
         public virtual DbSet<FolderVersion> FolderVersions { get; set; }
+        public virtual DbSet<FolderTranslation> FolderTranslations { get; set; }
+        public virtual DbSet<FolderTranslationVersion> FolderTranslationVersions { get; set; }
         public virtual DbSet<SiteTag> SiteTags { get; set; }
         public virtual DbSet<SiteTagVersion> SiteTagVersions { get; set; }
         public virtual DbSet<CheckListTranslation> CheckListTranslations { get; set; }

@@ -2870,20 +2870,43 @@ namespace eFormCore
             }
         }
 
-        public async Task<int> FolderCreate(string name, string description, int? parentId)
+        public async Task<int> FolderCreate(List<KeyValuePair<string, string>> name, List<KeyValuePair<string, string>> description, int? parentId)
         {
             string methodName = "Core.FolderCreate";
             try
             {
                 if (!Running()) throw new Exception("Core is not running");
+                await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
                 int apiParentId = 0;
                 if (parentId != null)
                 {
-                    apiParentId = (int)FolderRead((int) parentId).GetAwaiter().GetResult().MicrotingUId;
+                    apiParentId = (int)dbContext.Folders.Single(x => x.Id == parentId).MicrotingUid;
+                    //    apiParentId = (int)FolderRead((int) parentId).GetAwaiter().GetResult().MicrotingUId;
                 }
-                int id = await _communicator.FolderCreate(name, description, apiParentId).ConfigureAwait(false);
-                int result = await _sqlController.FolderCreate(name, description, parentId, id).ConfigureAwait(false);
-                return result;
+
+                Folder folder = new Folder
+                {
+                    ParentId = parentId
+                };
+                await folder.Create(dbContext);
+                int result = await _communicator.FolderCreate(folder.Id, apiParentId).ConfigureAwait(false);
+                folder.MicrotingUid = result;
+                await folder.Update(dbContext);
+                for (int i = 0; i < name.Count; i++)
+                {
+                    await _communicator.FolderUpdate((int)folder.MicrotingUid, name[i].Value, description[i].Value,
+                        name[i].Key, apiParentId);
+                    Language language = await dbContext.Languages.SingleOrDefaultAsync(x => x.LanguageCode == name[i].Key);
+                    FolderTranslation folderTranslation = new FolderTranslation
+                    {
+                        FolderId = folder.Id,
+                        Name = name[i].Value,
+                        Description = description[i].Value,
+                        LanguageId = language.Id
+                    };
+                    await folderTranslation.Create(dbContext);
+                }
+                return folder.Id;
             }
             catch (Exception ex)
             {
@@ -2892,20 +2915,53 @@ namespace eFormCore
             }
         }
 
-        public async Task FolderUpdate(int id, string name, string description, int? parentId)
+        public async Task FolderUpdate(int id, List<KeyValuePair<string, string>> name, List<KeyValuePair<string, string>> description, int? parentId)
         {
             string methodName = "Core.FolderUpdate";
             try
             {
                 if (!Running()) throw new Exception("Core is not running");
-                FolderDto folder = await FolderRead(id).ConfigureAwait(false);
+                await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
+                Folder folder = await dbContext.Folders.SingleOrDefaultAsync(x => x.Id == id);
+                //FolderDto folder = await FolderRead(id).ConfigureAwait(false);
                 int apiParentId = 0;
                 if (parentId != null)
                 {
-                    apiParentId = (int)FolderRead((int) parentId).GetAwaiter().GetResult().MicrotingUId;
+                    apiParentId = (int)dbContext.Folders.Single(x => x.Id == parentId).MicrotingUid;
                 }
-                await _communicator.FolderUpdate((int)folder.MicrotingUId, name, description, apiParentId).ConfigureAwait(false);
-                await _sqlController.FolderUpdate(id, name, description, parentId).ConfigureAwait(false);
+
+                for (int i = 0; i < name.Count; i++)
+                {
+                    await _communicator.FolderUpdate((int)folder.MicrotingUid, name[i].Value, description[i].Value,
+                        name[i].Key, apiParentId);
+                    Language language = await dbContext.Languages.SingleOrDefaultAsync(x => x.LanguageCode == name[i].Key);
+                    FolderTranslation folderTranslation =
+                        await dbContext.FolderTranslations.SingleOrDefaultAsync(x =>
+                            x.FolderId == folder.Id && x.LanguageId == language.Id);
+                    if (folderTranslation == null)
+                    {
+                        folderTranslation = new FolderTranslation
+                        {
+                            FolderId = folder.Id,
+                            Name = name[i].Value,
+                            Description = description[i].Value,
+                            LanguageId = language.Id
+                        };
+                        await folderTranslation.Create(dbContext);
+                    }
+                    else
+                    {
+                        folderTranslation.Name = name[i].Value;
+                        folderTranslation.Description = description[i].Value;
+                        await folderTranslation.Update(dbContext);
+                    }
+                }
+
+                if (folder.ParentId != parentId && parentId != null)
+                {
+                    folder.ParentId = parentId;
+                    await folder.Update(dbContext);
+                }
             }
             catch (Exception ex)
             {
@@ -2920,11 +2976,13 @@ namespace eFormCore
             try
             {
                 if (!Running()) throw new Exception("Core is not running");
-                FolderDto folder = await FolderRead(id).ConfigureAwait(false);
-                bool success = await _communicator.FolderDelete((int)folder.MicrotingUId).ConfigureAwait(false);
+                await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
+                Folder folder = await dbContext.Folders.SingleOrDefaultAsync(x => x.Id == id);
+                //FolderDto folder = await FolderRead(id).ConfigureAwait(false);
+                bool success = await _communicator.FolderDelete((int)folder.MicrotingUid).ConfigureAwait(false);
                 if (success)
                 {
-                    await _sqlController.FolderDelete(id).ConfigureAwait(false);
+                    await folder.Delete(dbContext);
                 }
             }
             catch (Exception ex)

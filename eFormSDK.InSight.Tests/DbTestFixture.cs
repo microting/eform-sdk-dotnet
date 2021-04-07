@@ -112,6 +112,8 @@ namespace eFormSDK.InSight.Tests
                 "Fields",
                 "FolderVersions",
                 "Folders",
+                "FolderTranslationVersions",
+                "FolderTranslations",
                 "CheckListSiteVersions",
                 "CheckListSites",
                 "CheckListValueVersions",

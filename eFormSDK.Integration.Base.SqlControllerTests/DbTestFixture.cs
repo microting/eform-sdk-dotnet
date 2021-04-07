@@ -114,6 +114,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
                 "Fields",
                 "FolderVersions",
                 "Folders",
+                "FolderTranslationVersions",
+                "FolderTranslations",
                 "CheckListSiteVersions",
                 "CheckListSites",
                 "CheckListValueVersions",

@@ -90,9 +90,9 @@ namespace Microting.eForm.Communication
 
         Task<string> FolderLoadAllFromRemote();
 
-        Task<string> FolderCreate(string name, string description, int? parentId);
+        Task<string> FolderCreate(int uuid, int? parentId);
 
-        Task<bool> FolderUpdate(int id, string name, string description, int? parentId);
+        Task<bool> FolderUpdate(int id, string name, string description, string languageCode, int? parentId);
 
         Task<string> FolderDelete(int id);
 

@@ -36,7 +36,7 @@ namespace Microting.eForm.Communication
 {
     public class HttpFake : IHttp
     {
-        #region var
+        // var
 //        private string protocolXml = "6";
 
         private readonly string _token = "";
@@ -53,10 +53,10 @@ namespace Microting.eForm.Communication
 
         object _lock = new object();
 
-        #endregion
+        //
 
-        #region public
-        #region public API
+        // public
+        // public API
         public async Task<string> Post(string xmlData, string siteId, string contentType = "application/x-www-form-urlencoded")
         {
             await Task.Run(() => { });
@@ -99,9 +99,9 @@ namespace Microting.eForm.Communication
             await Task.Run(() => { });
             return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "success" + "</Value><Unit fetched_at=\"\" id=\"\"/></Response>";
         }
-        #endregion
+        //
 
-        #region public EntitySearch
+        // public EntitySearch
         public async Task<string> EntitySearchGroupCreate(string name, string id)
         {
             await Task.Run(() => { });
@@ -137,9 +137,9 @@ namespace Microting.eForm.Communication
             await Task.Run(() => { });
             return true;
         }
-        #endregion
+        //
 
-        #region public EntitySelect
+        // public EntitySelect
         public async Task<string> EntitySelectGroupCreate(string name, string id)
         {
             await Task.Run(() => { });
@@ -175,25 +175,25 @@ namespace Microting.eForm.Communication
             await Task.Run(() => { });
             return true;
         }
-        #endregion
+        //
 
-        #region public PdfUpload
+        // public PdfUpload
         public async Task<bool> PdfUpload(string name, string hash)
         {
             await Task.Run(() => { });
             return true;
         }
-        #endregion
+        //
 
-        #region public TemplateDisplayIndexChange
+        // public TemplateDisplayIndexChange
         public async Task<string> TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex)
         {
             await Task.Run(() => { });
             return "Not implemented!";
         }
-        #endregion
+        //
 
-        #region public site
+        // public site
         public async Task<string> SiteCreate(string name)
         {
             await Task.Run(() => { });
@@ -244,9 +244,9 @@ namespace Microting.eForm.Communication
             await Task.Run(() => { });
             return "{}";
         }
-        #endregion
+        //
 
-        #region public Worker
+        // public Worker
         public async Task<string> WorkerCreate(string firstName, string lastName, string email)
         {
             await Task.Run(() => { });
@@ -294,9 +294,9 @@ namespace Microting.eForm.Communication
             await Task.Run(() => { });
             return "{}";
         }
-        #endregion
+        //
 
-        #region public SiteWorker
+        // public SiteWorker
         public async Task<string> SiteWorkerCreate(int siteId, int workerId)
         {
             await Task.Run(() => { });
@@ -323,9 +323,9 @@ namespace Microting.eForm.Communication
 //                return "Not implemented!";
 //            }
         }
-        #endregion
+        //
 
-        #region folder
+        // folder
 
 
         public async Task<string> SiteWorkerLoadAllFromRemote()
@@ -339,16 +339,16 @@ namespace Microting.eForm.Communication
             return "{}";
         }
 
-        public async Task<string> FolderCreate(string name, string description, int? parentId)
+        public async Task<string> FolderCreate(int uuid, int? parentId)
         {
             await Task.Run(() => { });
             int id = t.GetRandomInt(6);
             JObject contentToServer = JObject.FromObject(new
-                {id, name, description, parent_id = parentId});
+                {MicrotingUid = id, ParentId = parentId});
             return contentToServer.ToString();
         }
 
-        public async Task<bool> FolderUpdate(int id, string name, string description, int? parentId)
+        public async Task<bool> FolderUpdate(int id, string name, string description, string languageCode, int? parentId)
         {
             await Task.Run(() => { });
             return true;
@@ -358,7 +358,7 @@ namespace Microting.eForm.Communication
         {
             await Task.Run(() => { });
 
-            JObject contentToServer = JObject.FromObject(new {name = "Some Name", description = "Some Description", id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", workflow_state = Constants.WorkflowStates.Removed });
+            JObject contentToServer = JObject.FromObject(new {name = "Some Name", description = "Some Description", id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", WorkflowState = Constants.WorkflowStates.Removed });
             return contentToServer.ToString();
 ////            if (id == 1)
 ////            {
@@ -368,9 +368,9 @@ namespace Microting.eForm.Communication
 ////                return "Not implemented!";
 //            }
         }
-        #endregion
+        //
 
-        #region public Unit
+        // public Unit
         public async Task<string> UnitUpdate(int id, bool newOtp, bool pushEnabled, bool syncDelayEnabled, bool syncDialogEnabled)
         {
             await Task.Run(() => { });
@@ -405,15 +405,15 @@ namespace Microting.eForm.Communication
         public async Task<string> UnitCreate(int siteId)
         {
             await Task.Run(() => { });
-            
+
             int MicrotingUid = t.GetRandomInt(6);
             int otpCode = t.GetRandomInt(6);
             JObject contentToServer = JObject.FromObject(new { MicrotingUid, WorkflowState = Constants.WorkflowStates.Created, OtpCode = otpCode });
             return contentToServer.ToString();
         }
-        #endregion
+        //
 
-        #region public Organization
+        // public Organization
         public async Task<string> OrganizationLoadAllFromRemote()
         {
             await Task.Run(() => { });
@@ -443,9 +443,9 @@ namespace Microting.eForm.Communication
                 S3Key = "john_doen_corporation_ltd" } });
             return contentToServer.ToString();
         }
-        #endregion
+        //
 
-        #region SpeechToText
+        // SpeechToText
         public async Task<int> SpeechToText(Stream pathToAudioFile, string language, string extension)
         {
             await Task.Run(() => { });
@@ -457,9 +457,9 @@ namespace Microting.eForm.Communication
             await Task.Run(() => { });
             throw new NotImplementedException();
         }
-        #endregion
+        //
 
-        #region InSight
+        // InSight
 
         public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
         {
@@ -505,11 +505,11 @@ namespace Microting.eForm.Communication
             throw new NotImplementedException();
         }
 
-        #endregion
+        //
 
-        #endregion
+        //
 
-        #region private
+        // private
         private string PostToServer(WebRequest request, byte[] content)
         {
             return "Not implemented!";
@@ -559,6 +559,6 @@ namespace Microting.eForm.Communication
         {
             return true;
         }
-        #endregion
+        //
     }
 }

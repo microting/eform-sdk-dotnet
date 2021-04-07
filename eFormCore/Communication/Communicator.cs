@@ -522,18 +522,18 @@ namespace Microting.eForm.Communication
             return list;
         }
 
-        public async Task<int> FolderCreate(string name, string description, int? parentId)
+        public async Task<int> FolderCreate(int uuid, int? parentId)
         {
-            var parsedData = JToken.Parse(await _http.FolderCreate(name, description, parentId).ConfigureAwait(false));
+            var parsedData = JToken.Parse(await _http.FolderCreate(uuid, parentId).ConfigureAwait(false));
 
-            int microtingUuid  = int.Parse(parsedData["id"].ToString());
+            int microtingUuid  = int.Parse(parsedData["MicrotingUid"].ToString());
 
             return microtingUuid;
         }
 
-        public Task FolderUpdate(int id, string name, string description, int? parentId)
+        public Task FolderUpdate(int id, string name, string description, string languageCode, int? parentId)
         {
-            return _http.FolderUpdate(id, name, description, parentId);
+            return _http.FolderUpdate(id, name, description, languageCode, parentId);
         }
 
         public async Task<bool> FolderDelete(int id)
@@ -541,7 +541,7 @@ namespace Microting.eForm.Communication
             string response = await _http.FolderDelete(id).ConfigureAwait(false);
             var parsedData = JToken.Parse(response);
 
-            if (parsedData["workflow_state"].ToString() == Constants.WorkflowStates.Removed)
+            if (parsedData["WorkflowState"].ToString() == Constants.WorkflowStates.Removed)
             {
                 return true;
             }

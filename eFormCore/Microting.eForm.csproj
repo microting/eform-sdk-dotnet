@@ -92,6 +92,8 @@
     <Compile Include="Infrastructure\Data\Entities\FieldVersion.cs" />
     <Compile Include="Infrastructure\Data\Entities\FieldTranslationVersion.cs" />
     <Compile Include="Infrastructure\Data\Entities\Folder.cs" />
+    <Compile Include="Infrastructure\Data\Entities\FolderTranslation.cs" />
+    <Compile Include="Infrastructure\Data\Entities\FolderTranslationVersion.cs" />
     <Compile Include="Infrastructure\Data\Entities\FolderVersion.cs" />
     <Compile Include="Infrastructure\Data\Entities\Language.cs" />
     <Compile Include="Infrastructure\Data\Entities\LanguageQuestionSet.cs" />
@@ -241,6 +243,8 @@
     <Compile Include="Migrations\20201231062732_ChangingDescriptToLanguageCode.Designer.cs" />
     <Compile Include="Migrations\20210405153325_AddingExtraFieldValues.cs" />
     <Compile Include="Migrations\20210405153325_AddingExtraFieldValues.Designer.cs" />
+    <Compile Include="Migrations\20210407134630_AddingFolderTranslations.cs" />
+    <Compile Include="Migrations\20210407134630_AddingFolderTranslations.Designer.cs" />
     <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Infrastructure\SqlController.cs" />
     <Compile Include="Services\Subscriber.cs" />
