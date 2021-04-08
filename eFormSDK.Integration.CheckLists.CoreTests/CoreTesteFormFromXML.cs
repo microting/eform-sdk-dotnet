@@ -129,7 +129,8 @@ namespace eFormSDK.Integration.CoreTests
             Assert.NotNull(match);
             Assert.AreEqual("", match.CaseType);
             Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual(9060, match.Id);
+            Assert.AreEqual("9060", match.OriginalId);
+            Assert.AreEqual(0, match.Id);
             Assert.AreEqual("CommentMain", match.Label);
             Assert.AreEqual("da", match.Language);
             Assert.AreEqual(false, match.MultiApproval);

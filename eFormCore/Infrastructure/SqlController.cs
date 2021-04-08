@@ -5131,7 +5131,7 @@ namespace Microting.eForm.Infrastructure
                     MultiApproval = _t.Bool(mainElement.MultiApproval),
                     FastNavigation = _t.Bool(mainElement.FastNavigation),
                     DownloadEntities = _t.Bool(mainElement.DownloadEntities),
-                    OriginalId = mainElement.Id.ToString()
+                    OriginalId = mainElement.OriginalId
                 };
                 //MainElements never have parents ;)
                 //used for non-MainElements
@@ -5297,7 +5297,7 @@ namespace Microting.eForm.Infrastructure
                     ExtraFieldsEnabled = _t.Bool(dataElement.ExtraFieldsEnabled),
                     DoneButtonEnabled = _t.Bool(dataElement.DoneButtonEnabled),
                     ApprovalEnabled = _t.Bool(dataElement.ApprovalEnabled),
-                    OriginalId = dataElement.Id.ToString(),
+                    OriginalId = dataElement.OriginalId,
                     // Description = dataElement.Description != null
                     //     ? dataElement.Description.InderValue
                     //     : ""
