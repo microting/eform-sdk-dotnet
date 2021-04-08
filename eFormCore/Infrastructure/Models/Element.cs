@@ -44,6 +44,7 @@ namespace Microting.eForm.Infrastructure.Models
         //
 
         // var
+        [XmlIgnore]
         public int Id { get; set; }
         public string Label { get; set; }
         public int DisplayOrder { get; set; }
@@ -56,6 +57,7 @@ namespace Microting.eForm.Infrastructure.Models
         public bool ExtraFieldsEnabled { get; set; }
         public string PinkBarText { get; set; }
         public bool QuickSyncEnabled { get; set; }
+        [XmlElement("Id")]
         public string OriginalId { get; set; }
         //
     }
@@ -76,8 +78,7 @@ namespace Microting.eForm.Infrastructure.Models
             Id = id;
             Label = label;
             DisplayOrder = displayOrder;
-            Description = new CDataValue();
-            Description.InderValue = description;
+            Description = new CDataValue {InderValue = description};
             ApprovalEnabled = approvedEnabled;
             ReviewEnabled = reviewEnabled;
             DoneButtonEnabled = doneButtonEnabled;

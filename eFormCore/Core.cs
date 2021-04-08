@@ -636,6 +636,16 @@ namespace eFormCore
                 xmlString = xmlString.Replace("<DecimalCount />", "<DecimalCount>" + "0" + "</DecimalCount>");
                 xmlString = xmlString.Replace("<DecimalCount/>", "<DecimalCount>" + "0" + "</DecimalCount>");
                 xmlString = xmlString.Replace("<DisplayOrder></DisplayOrder>", "<DisplayOrder>" + "0" + "</DisplayOrder>");
+                var matches = Regex.Matches(xmlString, "<Description>(.*)</Description>");
+                foreach (Match match in matches)
+                {
+                    if (!match.Value.Contains("CDATA"))
+                    {
+                        string oldValue = match.Value;
+                        string newValue = Regex.Replace(oldValue, "<Description>(.*)</Description>", "<Description><![CDATA[$1]]></Description>");
+                        xmlString = xmlString.Replace(oldValue, newValue);
+                    }
+                }
 
                 List<string> dILst = _t.LocateList(xmlString, "type=\"Date\">", "</DataItem>");
                 if (dILst != null)

@@ -5234,7 +5234,7 @@ namespace Microting.eForm.Infrastructure
                     CheckListId = cl.Id,
                     LanguageId = language.Id,
                     Text = groupElement.Label.Split("|")[0],
-                    Description = groupElement.Description != null ? groupElement.Description.InderValue.Split("|")[0] : ""
+                    Description = groupElement.Description != null ? groupElement.Description.InderValue != null ? groupElement.Description.InderValue.Split("|")[0] : "" : ""
                 };
                 await checkListTranslation.Create(db).ConfigureAwait(false);
                 if (groupElement.Label.Split("|").Length > 1)
@@ -5245,9 +5245,10 @@ namespace Microting.eForm.Infrastructure
                         LanguageId = ukLanguage.Id,
                         Text = groupElement.Label.Split("|")[1],
                         Description = groupElement.Description != null ?
+                            groupElement.Description.InderValue != null ?
                             (groupElement.Description.InderValue.Split("|").Length > 1
                                 ? groupElement.Description.InderValue.Split("|")[1] : "")
-                            : "",
+                            : "" : "",
                     };
                     await checkListTranslation.Create(db).ConfigureAwait(false);
                 }
@@ -5260,9 +5261,10 @@ namespace Microting.eForm.Infrastructure
                         LanguageId = deLanguage.Id,
                         Text = groupElement.Label.Split("|")[2],
                         Description = groupElement.Description != null ?
+                            groupElement.Description.InderValue != null ?
                             (groupElement.Description.InderValue.Split("|").Length > 2
                                 ? groupElement.Description.InderValue.Split("|")[2] : "")
-                            : "",
+                            : "" : "",
                     };
                     await checkListTranslation.Create(db).ConfigureAwait(false);
                 }

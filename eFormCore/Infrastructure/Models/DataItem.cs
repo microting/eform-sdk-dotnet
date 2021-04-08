@@ -61,6 +61,7 @@ namespace Microting.eForm.Infrastructure.Models
         //
 
         // var
+        [XmlIgnore]
         public int Id { get; set; }
         public bool Mandatory { get; set; }
         public bool ReadOnly { get; set; }
@@ -73,6 +74,7 @@ namespace Microting.eForm.Infrastructure.Models
 
         [XmlIgnore]
         public bool Dummy { get; set; }
+        [XmlElement("Id")]
         public string OriginalId { get; set; }
         //
     }
