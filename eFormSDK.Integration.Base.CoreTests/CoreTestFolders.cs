@@ -497,11 +497,11 @@ namespace eFormSDK.Integration.Base.CoreTests
 
             Assert.AreEqual(null, folders[0].Name);
             Assert.AreEqual(null, folders[0].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folders[2].WorkflowState);
+            Assert.AreEqual(Constants.WorkflowStates.Created, folders[0].WorkflowState);
 
             Assert.AreEqual(null,folderVersions[0].Name);
             Assert.AreEqual(null, folderVersions[0].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderVersions[2].WorkflowState);
+            Assert.AreEqual(Constants.WorkflowStates.Created, folderVersions[0].WorkflowState);
 
             Assert.AreEqual(newFolderName, folderTranslations[0].Name);
             Assert.AreEqual(newDescription, folderTranslations[0].Description);
@@ -513,7 +513,7 @@ namespace eFormSDK.Integration.Base.CoreTests
 
             Assert.AreEqual(newFolderName, folderTranslationVersions[1].Name);
             Assert.AreEqual(newDescription, folderTranslationVersions[1].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslations[1].WorkflowState);
+            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslationVersions[1].WorkflowState);
         }
 
         [Test]
