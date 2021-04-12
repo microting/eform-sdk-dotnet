@@ -67,8 +67,7 @@ namespace Microting.eForm.Communication
             organizationId = comOrganizationId;
             addressSpeechToText = comSpeechToText;
             newAddressBasic = "https://microcore.microting.com";
-            //newAddressBasic = "http://localhost:5010";
-
+            
             dllVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
         // end con section
@@ -743,7 +742,7 @@ namespace Microting.eForm.Communication
             try
             {
                 WebRequest request = WebRequest.Create(
-                    $"{addressBasic}/Folder/{id}?token={token}&sdkVersion={dllVersion}");
+                    $"{newAddressBasic}/Folder/{id}?token={token}&sdkVersion={dllVersion}");
                 request.Method = "DELETE";
                 request.ContentType = "application/x-www-form-urlencoded";
                 request.Headers.Add(HttpRequestHeader.Authorization, token);
