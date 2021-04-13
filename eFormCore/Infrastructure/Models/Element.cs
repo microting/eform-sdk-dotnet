@@ -44,7 +44,6 @@ namespace Microting.eForm.Infrastructure.Models
         //
 
         // var
-        [XmlIgnore]
         public int Id { get; set; }
         public string Label { get; set; }
         public int DisplayOrder { get; set; }
@@ -57,7 +56,6 @@ namespace Microting.eForm.Infrastructure.Models
         public bool ExtraFieldsEnabled { get; set; }
         public string PinkBarText { get; set; }
         public bool QuickSyncEnabled { get; set; }
-        [XmlElement("Id")]
         public string OriginalId { get; set; }
         //
     }
