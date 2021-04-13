@@ -603,6 +603,8 @@ namespace eFormCore
                 xmlString = xmlString.Replace("</DataItemGroup>", "</DataItem>");
                 xmlString = xmlString.Replace("<DataItemGroupList>", "<DataItemList>");
                 xmlString = xmlString.Replace("</DataItemGroupList>", "</DataItemList>");
+                xmlString = xmlString.Replace("<Id>", "<OriginalId>");
+                xmlString = xmlString.Replace("</Id>", "</OriginalId>");
 
                 xmlString = xmlString.Replace("<FolderName>", "<CheckListFolderName>");
                 xmlString = xmlString.Replace("</FolderName>", "</CheckListFolderName>");

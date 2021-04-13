@@ -67,7 +67,7 @@ namespace Microting.eForm.Communication
             organizationId = comOrganizationId;
             addressSpeechToText = comSpeechToText;
             newAddressBasic = "https://microcore.microting.com";
-            
+
             dllVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
         // end con section

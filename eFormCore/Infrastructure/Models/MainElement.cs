@@ -61,9 +61,7 @@ namespace Microting.eForm.Infrastructure.Models
         //
 
         // var
-        [XmlIgnore]
         public int Id { get; set; }
-        [XmlElement("Id")]
         public string OriginalId { get; set; }
         public string Label { get; set; }
         public int DisplayOrder { get; set; }
