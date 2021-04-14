@@ -267,8 +267,6 @@ namespace Microting.eForm.Communication
                 CustomerNo = 0,
                 OtpCode = otpCode,
                 SiteUId = siteDto.SiteId,
-                CreatedAt = DateTime.Parse(parsedSiteData["CreatedAt"].ToString()),
-                UpdatedAt = DateTime.Parse(parsedSiteData["UpdatedAt"].ToString()),
                 WorkflowState = Constants.WorkflowStates.Created
             };
             Tuple<SiteDto, UnitDto> result = new Tuple<SiteDto, UnitDto>(siteDto, unitDto);
@@ -504,13 +502,13 @@ namespace Microting.eForm.Communication
 
                 foreach (JToken item in parsedData)
                 {
-                    int microtingUUID = int.Parse(item["id"].ToString());
+                    int microtingUUID = int.Parse(item["MicrotingUid"].ToString());
                     string name = item["name"].ToString();
-                    string description = item["description"].ToString();
+                    string description = item["Description"].ToString();
                     int? parentId = null;
                     try
                     {
-                        parentId = int.Parse(item["parent_id"].ToString());
+                        parentId = int.Parse(item["ParentId"].ToString());
                     } catch {}
 
 
