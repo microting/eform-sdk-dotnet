@@ -246,12 +246,12 @@ namespace Microting.eForm.Communication
 
         #region public site
         #region public siteName
-        public async Task<Tuple<SiteDto, UnitDto>> SiteCreate(string name)
+        public async Task<Tuple<SiteDto, UnitDto>> SiteCreate(string name, string languageCode)
         {
             _log.LogEverything("Communicator.SiteCreate", "called");
             _log.LogVariable("Communicator.SiteCreate", nameof(name), name);
 
-            string response = await _http.SiteCreate(name);
+            string response = await _http.SiteCreate(name, languageCode);
             var parsedSiteData = JToken.Parse(response);
 
             //int unitId = int.Parse(parsedData["unit_id"].ToString());
@@ -276,13 +276,13 @@ namespace Microting.eForm.Communication
             return result;
         }
 
-        public Task<bool> SiteUpdate(int siteId, string name)
+        public Task<bool> SiteUpdate(int siteId, string name, string languageCode)
         {
             _log.LogEverything("Communicator.SiteUpdate", "called");
             _log.LogVariable("Communicator.SiteUpdate", nameof(siteId), siteId);
             _log.LogVariable("Communicator.SiteUpdate", nameof(name), name);
 
-            return _http.SiteUpdate(siteId, name);
+            return _http.SiteUpdate(siteId, name, languageCode);
         }
 
         public async Task<bool> SiteDelete(int siteId)

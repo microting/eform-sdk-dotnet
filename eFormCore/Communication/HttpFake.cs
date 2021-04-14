@@ -194,7 +194,7 @@ namespace Microting.eForm.Communication
         //
 
         // public site
-        public async Task<string> SiteCreate(string name)
+        public async Task<string> SiteCreate(string name, string languageCode)
         {
             await Task.Run(() => { });
             if (name == "John Noname Doe")
@@ -212,7 +212,7 @@ namespace Microting.eForm.Communication
             //
         }
 
-        public async Task<bool> SiteUpdate(int id, string name)
+        public async Task<bool> SiteUpdate(int id, string name, string languageCode)
         {
             await Task.Run(() => { });
             return true;

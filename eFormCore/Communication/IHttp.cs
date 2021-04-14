@@ -66,9 +66,9 @@ namespace Microting.eForm.Communication
 
         Task<string> TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex);
 
-        Task<string> SiteCreate(string name);
+        Task<string> SiteCreate(string name, string languageCode);
 
-        Task<bool> SiteUpdate(int id, string name);
+        Task<bool> SiteUpdate(int id, string name, string languageCode);
 
         Task<string> SiteDelete(int id);
 

@@ -481,11 +481,11 @@ namespace Microting.eForm.Communication
         //
 
         // public site
-        public async Task<string> SiteCreate(string name)
+        public async Task<string> SiteCreate(string name, string languageCode)
         {
             JObject contentToServer = JObject.FromObject(new { name });
             WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/Site?token={token}&name={name}&sdkVersion={dllVersion}");
+                $"{newAddressBasic}/Site?token={token}&name={name}&languageCode={languageCode}&sdkVersion={dllVersion}");
             request.Method = "POST";
             byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
             request.ContentType = "application/json; charset=utf-8";
@@ -503,11 +503,11 @@ namespace Microting.eForm.Communication
             return response;
         }
 
-        public async Task<bool> SiteUpdate(int id, string name)
+        public async Task<bool> SiteUpdate(int id, string name, string languageCode)
         {
             JObject contentToServer = JObject.FromObject(new { name });
             WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/Site/{id}?token={token}&name={name}&sdkVersion={dllVersion}");
+                $"{newAddressBasic}/Site/{id}?token={token}&name={name}&languageCode={languageCode}&sdkVersion={dllVersion}");
             request.Method = "PUT";
             byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
             request.ContentType = "application/json; charset=utf-8";

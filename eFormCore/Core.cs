@@ -2389,7 +2389,7 @@ namespace eFormCore
 
         // site
 
-        public async Task<SiteDto> SiteCreate(string name, string userFirstName, string userLastName, string userEmail)
+        public async Task<SiteDto> SiteCreate(string name, string userFirstName, string userLastName, string userEmail, string languageCode)
         {
             string methodName = "Core.SiteCreate";
             await using var db = DbContextHelper.GetDbContext();
@@ -2402,7 +2402,7 @@ namespace eFormCore
                 Log.LogVariable(methodName, nameof(userLastName), userLastName);
                 Log.LogVariable(methodName, nameof(userEmail), userEmail);
 
-                Tuple<SiteDto, UnitDto> siteResult = await _communicator.SiteCreate(name);
+                Tuple<SiteDto, UnitDto> siteResult = await _communicator.SiteCreate(name, languageCode);
 
                 string token = await _sqlController.SettingRead(Settings.token).ConfigureAwait(false);
                 int customerNo = int.Parse(_sqlController.SettingRead(Settings.customerNo).ConfigureAwait(false).GetAwaiter().GetResult());
@@ -2415,10 +2415,12 @@ namespace eFormCore
                     await db.Sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteResult.Item1.SiteId).ConfigureAwait(false);
                 if (site == null)
                 {
+                    Language language = db.Languages.Single(x => x.LanguageCode == languageCode);
                     site = new Site
                     {
                         MicrotingUid = siteId,
-                        Name = siteName
+                        Name = siteName,
+                        LanguageId = language.Id
                     };
                     await site.Create(db).ConfigureAwait(false);
                 }
@@ -2521,14 +2523,14 @@ namespace eFormCore
         /// <param name="userEmail"></param>
         /// <returns></returns>
         // TODO Refactor to be named DeviceUserUpdate(int siteMicrotingUid, string siteName, string userFirstName, string userLastName, string userEmail)
-        public async Task<bool> SiteUpdate(int siteMicrotingUid, string siteName, string userFirstName, string userLastName, string userEmail)
+        public async Task<bool> SiteUpdate(int siteMicrotingUid, string siteName, string userFirstName, string userLastName, string userEmail, string languageCode)
         {
             string methodName = "Core.SiteUpdate";
             try
             {
                 if (!Running()) throw new Exception("Core is not running");
                 SiteDto siteDto = await SiteRead(siteMicrotingUid).ConfigureAwait(false);
-                await Advanced_SiteItemUpdate(siteMicrotingUid, siteName).ConfigureAwait(false);
+                await Advanced_SiteItemUpdate(siteMicrotingUid, siteName, languageCode).ConfigureAwait(false);
                 if (String.IsNullOrEmpty(userEmail))
                 {
                     //if (String.IsNullOrEmpty)
@@ -3836,7 +3838,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<bool> Advanced_SiteItemUpdate(int siteId, string name)
+        public async Task<bool> Advanced_SiteItemUpdate(int siteId, string name, string languageCode)
         {
             string methodName = "Core.Advanced_SiteItemUpdate";
             try
@@ -3853,7 +3855,7 @@ namespace eFormCore
                 }
                 //if (await _sqlController.SiteRead(siteId).ConfigureAwait(false) == null)
 
-                bool success = await _communicator.SiteUpdate(siteId, name).ConfigureAwait(false);
+                bool success = await _communicator.SiteUpdate(siteId, name, languageCode).ConfigureAwait(false);
                 if (!success)
                     return false;
 
@@ -3861,7 +3863,9 @@ namespace eFormCore
 
                 if (site != null)
                 {
+                    Language language = db.Languages.Single(x => x.LanguageCode == languageCode);
                     site.Name = name;
+                    site.LanguageId = language.Id;
                     await site.Update(db).ConfigureAwait(false);
                     return true;
                 }

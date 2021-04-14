@@ -85,7 +85,7 @@ namespace eFormSDK.Integration.Base.CoreTests
 
             // Act
 
-            var match = await sut.SiteCreate("John Noname Doe", "John Noname", "Doe", "some_email@invalid.com");
+            var match = await sut.SiteCreate("John Noname Doe", "John Noname", "Doe", "some_email@invalid.com", "da");
 
             // Assert
             var sites = DbContext.Sites.AsNoTracking().ToList();
@@ -562,7 +562,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             #endregion
 
 
-            var match = await sut.SiteUpdate((int)site.MicrotingUid, site.Name, firstName, lastName, email);
+            var match = await sut.SiteUpdate((int)site.MicrotingUid, site.Name, firstName, lastName, email, "da");
             // Assert
             Assert.True(match);
         }
