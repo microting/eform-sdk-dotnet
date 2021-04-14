@@ -729,7 +729,7 @@ namespace Microting.eForm.Communication
         {
             //JObject contentToServer = JObject.FromObject(new { languageCode, name = Uri.EscapeDataString(name), description = Uri.EscapeDataString(description), parent_id = parentId });
             WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/Folder/{id}?token={token}&languageCode={languageCode}&name={Uri.EscapeDataString(name)}&description={Uri.EscapeDataString(description)}&sdkVersion={dllVersion}");
+                $"{newAddressBasic}/Folder/{id}?token={token}&languageCode={languageCode}&name={Uri.EscapeDataString(name)}&description={Uri.EscapeDataString(description)}&parentId={parentId}&sdkVersion={dllVersion}");
             request.Method = "PUT";
             request.Headers.Add(HttpRequestHeader.Authorization, token);
 
