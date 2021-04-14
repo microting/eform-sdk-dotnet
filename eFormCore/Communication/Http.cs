@@ -710,7 +710,7 @@ namespace Microting.eForm.Communication
         public async Task<string> FolderCreate(int uuid, int? parentId)
         {
             WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/Folder?token={token}&uuid={uuid}&sdkVersion={dllVersion}");
+                $"{newAddressBasic}/Folder?token={token}&uuid={uuid}&parentId={parentId}&sdkVersion={dllVersion}");
             request.Method = "POST";
             request.Headers.Add(HttpRequestHeader.Authorization, token);
 
