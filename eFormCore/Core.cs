@@ -175,6 +175,11 @@ namespace eFormCore
                     }
                     catch { }
 
+                    if (connectionString.Contains("frontend"))
+                    {
+                        _rabbitMqHost = $"frontend-{_customerNo}-rabbitmq";
+                    }
+
                     _container.Install(
 						new RebusHandlerInstaller()
 						, new RebusInstaller(connectionString, _maxParallelism, _numberOfWorkers, _rabbitMqUser, _rabbitMqPassword, _rabbitMqHost)
