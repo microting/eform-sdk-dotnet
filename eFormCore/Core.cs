@@ -905,7 +905,7 @@ namespace eFormCore
                                 try
                                 {
                                     //download file
-                                    string downloadPath = await _sqlController.SettingRead(Settings.fileLocationPdf);
+                                    string downloadPath = Path.GetTempPath(); //await _sqlController.SettingRead(Settings.fileLocationPdf);
                                     long ticks = DateTime.UtcNow.Ticks;
                                     string tempFileName = $"{ticks}_temp.pdf";
                                     string filePathAndFileName = Path.Combine(downloadPath, tempFileName);

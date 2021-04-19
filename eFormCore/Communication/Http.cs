@@ -445,12 +445,10 @@ namespace Microting.eForm.Communication
         {
             try
             {
-                using (WebClient client = new WebClient())
-                {
-                    string url =
-                        $"{addressPdfUpload}/data_uploads/upload?token={token}&hash={hash}&extension=pdf&sdk_ver={dllVersion}";
-                    await client.UploadFileTaskAsync(url, name);
-                }
+                using WebClient client = new WebClient();
+                string url =
+                    $"{addressPdfUpload}/data_uploads/upload?token={token}&hash={hash}&extension=pdf&sdk_ver={dllVersion}";
+                await client.UploadFileTaskAsync(url, name);
 
                 return true;
             }
