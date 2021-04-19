@@ -1,5 +1,13 @@
 # Changelog
 
+## [v4.4.37](https://github.com/microting/eform-sdk-dotnet/tree/v4.4.37) (2021-04-19)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v4.4.36...v4.4.37)
+
+**Implemented enhancements:**
+
+- Bump Magick.NET-Q16-x64 from 7.23.3 to 7.23.4 [\#90](https://github.com/microting/eform-sdk-dotnet/issues/90)
+
 ## [v4.4.36](https://github.com/microting/eform-sdk-dotnet/tree/v4.4.36) (2021-04-16)
 
 [Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v4.4.35...v4.4.36)
