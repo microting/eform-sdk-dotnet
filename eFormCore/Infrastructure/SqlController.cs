@@ -1117,7 +1117,7 @@ namespace Microting.eForm.Infrastructure
                                 if (urlXml != "" && urlXml != "none" && urlXml != null)
                                 {
                                     string fileLocation = dataItemReply.URL;
-                                    Data.Entities.UploadedData dU = await db.UploadedDatas.SingleOrDefaultAsync(x => x.FileLocation == fileLocation);
+                                    Data.Entities.UploadedData dU = await db.UploadedDatas.FirstOrDefaultAsync(x => x.FileLocation == fileLocation);
                                     if (dU == null)
                                     {
                                         dU = new Data.Entities.UploadedData
