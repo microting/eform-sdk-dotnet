@@ -1,5 +1,13 @@
 # Changelog
 
+## [v4.4.39](https://github.com/microting/eform-sdk-dotnet/tree/v4.4.39) (2021-04-21)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v4.4.38...v4.4.39)
+
+**Implemented enhancements:**
+
+- Bump Pomelo.EntityFrameworkCore.MySql from 3.2.4 to 3.2.5 [\#97](https://github.com/microting/eform-sdk-dotnet/issues/97)
+
 ## [v4.4.38](https://github.com/microting/eform-sdk-dotnet/tree/v4.4.38) (2021-04-20)
 
 [Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v4.4.37...v4.4.38)
