@@ -2078,8 +2078,8 @@ namespace Microting.eForm.Infrastructure
                         int lastIndex = -1;
                         foreach (FieldValue item in matches)
                         {
-                            if (item.Value != null)
-                            {
+                            // if (item.Value != null)
+                            // {
                                 if (lastCaseId == (int)item.CaseId)
                                 {
 
@@ -2133,12 +2133,12 @@ namespace Microting.eForm.Infrastructure
                                         replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), "", false, ""));
                                     }
                                 }
-                            }
-                            else
-                            {
-                                lastIndex++;
-                                replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), "", false, ""));
-                            }
+                            // }
+                            // else
+                            // {
+                            //     lastIndex++;
+                            //     replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), "", false, ""));
+                            // }
                             lastCaseId = (int)item.CaseId;
                         }
                         break;
