@@ -199,10 +199,8 @@ namespace Microting.eForm.Handlers
                     if (checkIdLastKnown == null)
                     {
                         await _communicator.Delete(aCase.MicrotingUId.ToString(), aCase.SiteUId);
-                        Response respRet = new Response();
-                        respRet = respRet.XmlToClass(respXml);
 
-                        if (respRet.Type == Response.ResponseTypes.Success)
+                        if (respXml.Contains("<Value type=\"success\">"))
                         {
                             _log.LogEverything(_t.GetMethodName("EformCompletedHandler"), aCase + " has been retracted");
                         }
