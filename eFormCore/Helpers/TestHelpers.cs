@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -81,6 +82,7 @@ namespace Microting.eForm.Helpers
         public async Task<Site> CreateSite(string name, int microtingUId)
         {
 
+            Language language = await dbContext.Languages.SingleAsync(x => x.LanguageCode == "da");
             Site site = new Site
             {
                 Name = name,
@@ -88,7 +90,8 @@ namespace Microting.eForm.Helpers
                 UpdatedAt = DateTime.UtcNow,
                 CreatedAt = DateTime.UtcNow,
                 Version = 64,
-                WorkflowState = Constants.WorkflowStates.Created
+                WorkflowState = Constants.WorkflowStates.Created,
+                LanguageId = language.Id
             };
             await dbContext.Sites.AddAsync(site);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -154,7 +157,7 @@ namespace Microting.eForm.Helpers
 
             await dbContext.CheckLists.AddAsync(cl1);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            CheckListTranslation checkListTranslation = new CheckListTranslation()
+            CheckListTranslation checkListTranslation = new CheckListTranslation
             {
                 LanguageId = language.Id,
                 Text = label,
@@ -181,7 +184,7 @@ namespace Microting.eForm.Helpers
 
             await dbContext.CheckLists.AddAsync(cl2);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            CheckListTranslation checkListTranslation = new CheckListTranslation()
+            CheckListTranslation checkListTranslation = new CheckListTranslation
             {
                 LanguageId = language.Id,
                 Text = label,
@@ -233,7 +236,7 @@ namespace Microting.eForm.Helpers
 
             await dbContext.Fields.AddAsync(f);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            FieldTranslation fieldTranslation = new FieldTranslation()
+            FieldTranslation fieldTranslation = new FieldTranslation
             {
                 LanguageId = language.Id,
                 Text = label,
@@ -242,6 +245,8 @@ namespace Microting.eForm.Helpers
             };
             await fieldTranslation.Create(dbContext);
             Thread.Sleep(2000);
+            f.Label = fieldTranslation.Text;
+            f.Description = fieldTranslation.Description;
 
             return f;
         }
@@ -347,14 +352,14 @@ namespace Microting.eForm.Helpers
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
 
-            string path = System.IO.Path.Combine(fileLocation, fileName);
+            string path = Path.Combine(fileLocation, fileName);
 
             if (createPhysicalFile)
             {
-                System.IO.Directory.CreateDirectory(fileLocation);
-                if (!System.IO.File.Exists(path))
+                Directory.CreateDirectory(fileLocation);
+                if (!File.Exists(path))
                 {
-                    using (System.IO.FileStream fs = System.IO.File.Create(path))
+                    using (FileStream fs = File.Create(path))
                     {
                         for (byte i = 0; i < 100; i++)
                         {
@@ -388,9 +393,9 @@ namespace Microting.eForm.Helpers
                 await dbContext.EntityGroups.AddAsync(eG);
                 await dbContext.SaveChangesAsync().ConfigureAwait(false);
                 return eG;
-            } else {
-                throw new ArgumentException("microtingUId already exists: " + microtingUId);
             }
+
+            throw new ArgumentException("microtingUId already exists: " + microtingUId);
 
         }
         public async Task<EntityItem> CreateEntityItem(string description, int displayIndex, int entityGroupId, string entityItemUId, string microtingUId, string name, short? synced, int version, string workflowState)

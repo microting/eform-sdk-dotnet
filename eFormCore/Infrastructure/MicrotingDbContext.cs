@@ -23,16 +23,12 @@ SOFTWARE.
 */
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
-using Microting.eForm.Dto;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microting.eForm.Infrastructure.Data.Entities;
-using Case = Microting.eForm.Infrastructure.Data.Entities.Case;
-using Tag = Microting.eForm.Infrastructure.Data.Entities.Tag;
 
 namespace Microting.eForm.Infrastructure
 {
-    public partial class MicrotingDbContext : DbContext
+    public class MicrotingDbContext : DbContext
     {
         public MicrotingDbContext() { }
 
@@ -61,6 +57,8 @@ namespace Microting.eForm.Infrastructure
         public virtual DbSet<FieldType> FieldTypes { get; set; }
         public virtual DbSet<FieldValueVersion> FieldValueVersions { get; set; }
         public virtual DbSet<FieldValue> FieldValues { get; set; }
+        public virtual DbSet<ExtraFieldValue> ExtraFieldValues { get; set; }
+        public virtual DbSet<ExtraFieldValueVersion> ExtraFieldValueVersions { get; set; }
         public virtual DbSet<FieldVersion> FieldVersions { get; set; }
         public virtual DbSet<Field> Fields { get; set; }
         public virtual DbSet<Language> Languages { get; set; }
@@ -101,6 +99,8 @@ namespace Microting.eForm.Infrastructure
         public virtual DbSet<TaggingVersion> TaggingVersions { get; set; }
         public virtual DbSet<Folder> Folders { get; set; }
         public virtual DbSet<FolderVersion> FolderVersions { get; set; }
+        public virtual DbSet<FolderTranslation> FolderTranslations { get; set; }
+        public virtual DbSet<FolderTranslationVersion> FolderTranslationVersions { get; set; }
         public virtual DbSet<SiteTag> SiteTags { get; set; }
         public virtual DbSet<SiteTagVersion> SiteTagVersions { get; set; }
         public virtual DbSet<CheckListTranslation> CheckListTranslations { get; set; }
@@ -112,7 +112,7 @@ namespace Microting.eForm.Infrastructure
         public virtual DbSet<FieldOptionTranslation> FieldOptionTranslations { get; set; }
         public virtual DbSet<FieldOptionTranslationVersion> FieldOptionTranslationVersions { get; set; }
 
-        public virtual Microsoft.EntityFrameworkCore.Infrastructure.DatabaseFacade ContextDatabase
+        public virtual DatabaseFacade ContextDatabase
         {
             get => base.Database;
         }

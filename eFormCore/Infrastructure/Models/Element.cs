@@ -25,23 +25,25 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using Microting.eForm.Dto;
+using Microting.eForm.Infrastructure.Data.Entities;
 
 namespace Microting.eForm.Infrastructure.Models
 {
-    [Serializable()]
+    [Serializable]
     [XmlInclude(typeof(DataElement))]
     [XmlInclude(typeof(GroupElement))]
     public class Element
     {
-        #region con
+        // con
         internal Element()
         {
 
         }
-        #endregion
+        //
 
-        #region var
+        // var
         public int Id { get; set; }
         public string Label { get; set; }
         public int DisplayOrder { get; set; }
@@ -55,10 +57,10 @@ namespace Microting.eForm.Infrastructure.Models
         public string PinkBarText { get; set; }
         public bool QuickSyncEnabled { get; set; }
         public string OriginalId { get; set; }
-        #endregion
+        //
     }
 
-    #region GroupElement : Element
+    // GroupElement : Element
     public class GroupElement : Element
     {
         internal GroupElement()
@@ -74,8 +76,7 @@ namespace Microting.eForm.Infrastructure.Models
             Id = id;
             Label = label;
             DisplayOrder = displayOrder;
-            Description = new CDataValue();
-            Description.InderValue = description;
+            Description = new CDataValue {InderValue = description};
             ApprovalEnabled = approvedEnabled;
             ReviewEnabled = reviewEnabled;
             DoneButtonEnabled = doneButtonEnabled;
@@ -89,9 +90,9 @@ namespace Microting.eForm.Infrastructure.Models
         [XmlArray("ElementList"), XmlArrayItem(typeof(Element), ElementName = "Element")]
         public List<Element> ElementList { get; set; }
     }
-    #endregion
+    //
 
-    #region DataElement : Element
+    // DataElement : Element
     public class DataElement : Element
     {
         internal DataElement()
@@ -127,16 +128,26 @@ namespace Microting.eForm.Infrastructure.Models
 
         [XmlArray("DataItemList"), XmlArrayItem(typeof(DataItem), ElementName = "DataItem")]
         public List<DataItem> DataItemList { get; set; }
-    }
-    #endregion
 
-    #region CheckListValue : Element
+        [XmlIgnore]
+        public List<Models.FieldValue> ExtraPictures { get; set; }
+        [XmlIgnore]
+        public List<Models.FieldValue> ExtraRecordings { get; set; }
+        [XmlIgnore]
+        public List<Models.FieldValue> ExtraComments { get; set; }
+    }
+    //
+
+    // CheckListValue : Element
     public class CheckListValue : Element
     {
         internal CheckListValue()
         {
             DataItemGroupList = new List<DataItemGroup>();
             DataItemList = new List<DataItem>();
+            ExtraPictures = new List<Models.FieldValue>();
+            ExtraRecordings = new List<Models.FieldValue>();
+            ExtraComments = new List<Models.FieldValue>();
         }
 
         public CheckListValue(DataElement dataElement, string status)
@@ -155,6 +166,9 @@ namespace Microting.eForm.Infrastructure.Models
 
             DataItemGroupList = dataElement.DataItemGroupList;
             DataItemList = dataElement.DataItemList;
+            ExtraComments = dataElement.ExtraComments;
+            ExtraPictures = dataElement.ExtraPictures;
+            ExtraRecordings = dataElement.ExtraRecordings;
             Status = status;
         }
 
@@ -163,7 +177,10 @@ namespace Microting.eForm.Infrastructure.Models
 
         [XmlArray("DataItemList"), XmlArrayItem(typeof(DataItem), ElementName = "DataItem")]
         public List<DataItem> DataItemList { get; set; }
+        public List<FieldValue> ExtraPictures { get; set; }
+        public List<FieldValue> ExtraRecordings { get; set; }
+        public List<FieldValue> ExtraComments { get; set; }
         public string Status { get; set; }
     }
-    #endregion
+    //
 }

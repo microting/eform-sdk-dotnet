@@ -26,6 +26,7 @@ SOFTWARE.
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using eFormCore;
 using Microsoft.EntityFrameworkCore;
@@ -65,8 +66,8 @@ namespace eFormSDK.Integration.Base.CoreTests
             sut.HandleFileDownloaded += EventFileDownloaded;
             sut.HandleSiteActivated += EventSiteActivated;
             await sut.StartSqlOnly(ConnectionString);
-            path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
+            path = Assembly.GetExecutingAssembly().CodeBase;
+            path = Path.GetDirectoryName(path).Replace(@"file:", "");
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
@@ -84,7 +85,7 @@ namespace eFormSDK.Integration.Base.CoreTests
 
             // Act
 
-            var match = await sut.SiteCreate("John Noname Doe", "John Noname", "Doe", "some_email@invalid.com");
+            var match = await sut.SiteCreate("John Noname Doe", "John Noname", "Doe", "some_email@invalid.com", "da");
 
             // Assert
             var sites = DbContext.Sites.AsNoTracking().ToList();
@@ -561,7 +562,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             #endregion
 
 
-            var match = await sut.SiteUpdate((int)site.MicrotingUid, site.Name, firstName, lastName, email);
+            var match = await sut.SiteUpdate((int)site.MicrotingUid, site.Name, firstName, lastName, email, "da");
             // Assert
             Assert.True(match);
         }

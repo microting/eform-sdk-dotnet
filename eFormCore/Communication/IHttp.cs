@@ -66,9 +66,9 @@ namespace Microting.eForm.Communication
 
         Task<string> TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex);
 
-        Task<string> SiteCreate(string name);
+        Task<string> SiteCreate(string name, string languageCode);
 
-        Task<bool> SiteUpdate(int id, string name);
+        Task<bool> SiteUpdate(int id, string name, string languageCode);
 
         Task<string> SiteDelete(int id);
 
@@ -90,13 +90,13 @@ namespace Microting.eForm.Communication
 
         Task<string> FolderLoadAllFromRemote();
 
-        Task<string> FolderCreate(string name, string description, int? parent_id);
+        Task<string> FolderCreate(int uuid, int? parentId);
 
-        Task<bool> FolderUpdate(int id, string name, string description, int? parent_id);
+        Task<bool> FolderUpdate(int id, string name, string description, string languageCode, int? parentId);
 
         Task<string> FolderDelete(int id);
 
-        Task<int> UnitRequestOtp(int id);
+        Task<string> UnitUpdate(int id, bool newOtp, bool pushEnabled, bool syncDelayEnabled, bool syncDialogEnabled);
 
         Task<string> UnitLoadAllFromRemote();
 
@@ -123,5 +123,7 @@ namespace Microting.eForm.Communication
         Task<string> GetQuestionSet(int id);
 
         Task<string> GetLastAnswer(int questionSetId, int lastAnswerId);
+
+        Task SendPushMessage(int microtingSiteId, string header, string body);
     }
 }

@@ -30,7 +30,7 @@ namespace Microting.eForm.Messages
 
         public EformDeleteFromServer(int microtringUUID)
         {
-            this.MicrotringUUID = microtringUUID;
+            MicrotringUUID = microtringUUID;
         }
     }
 }

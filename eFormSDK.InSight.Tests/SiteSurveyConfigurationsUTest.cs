@@ -48,7 +48,7 @@ namespace eFormSDK.InSight.Tests
             site.MicrotingUid = rnd.Next(1, 255);
             await site.Create(DbContext).ConfigureAwait(false);
             
-            QuestionSet questionSet = new QuestionSet()
+            QuestionSet questionSet = new QuestionSet
             {
                 ParentId = 0
             };
@@ -119,7 +119,7 @@ namespace eFormSDK.InSight.Tests
             };
             await site.Create(DbContext).ConfigureAwait(false);
             
-            QuestionSet questionSet = new QuestionSet()
+            QuestionSet questionSet = new QuestionSet
             {
                 ParentId = 0
             };

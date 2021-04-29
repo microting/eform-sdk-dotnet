@@ -22,18 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Microting.eForm.Infrastructure.Models
 {
     public class CoreElement
     {
-        #region con
+        // con
         public CoreElement()
         {
             ElementList = new List<Element>();
@@ -58,10 +58,11 @@ namespace Microting.eForm.Infrastructure.Models
             ElementList = elementList;
             Color = color;
         }
-        #endregion
+        //
 
-        #region var
+        // var
         public int Id { get; set; }
+        public string OriginalId { get; set; }
         public string Label { get; set; }
         public int DisplayOrder { get; set; }
         public string CheckListFolderName { get; set; }
@@ -73,7 +74,7 @@ namespace Microting.eForm.Infrastructure.Models
         [XmlIgnore]
         public string CaseType { get; set; }
 
-        #region public string/DateTime StartDate { get; set; }
+        // public string/DateTime StartDate { get; set; }
         [XmlIgnore]
         public DateTime StartDate { get; set; }
 
@@ -83,9 +84,9 @@ namespace Microting.eForm.Infrastructure.Models
             get { return StartDate.ToString("yyyy-MM-dd HH:mm:ss"); }
             set { StartDate = DateTime.Parse(value); }
         }
-        #endregion
+        //
 
-        #region public string/DateTime EndDate { get; set; }
+        // public string/DateTime EndDate { get; set; }
         [XmlIgnore]
         public DateTime EndDate { get; set; }
 
@@ -95,7 +96,7 @@ namespace Microting.eForm.Infrastructure.Models
             get { return EndDate.ToString("yyyy-MM-dd HH:mm:ss"); }
             set { EndDate = DateTime.Parse(value); }
         }
-        #endregion
+        //
 
         public string Language { get; set; }
         public bool MultiApproval { get; set; }
@@ -106,7 +107,7 @@ namespace Microting.eForm.Infrastructure.Models
 
         [XmlArray("ElementList"), XmlArrayItem(typeof(Element), ElementName = "Element")]
         public List<Element> ElementList { get; set; }
-        #endregion
+        //
 
         public List<DataItem> DataItemGetAll()
         {
@@ -162,7 +163,7 @@ namespace Microting.eForm.Infrastructure.Models
                 {
                     returnElements.Add(element);
                 }
-                
+
                 if (element.GetType() == typeof(GroupElement))
                 {
                     GroupElement groupE = (GroupElement)element;
@@ -172,15 +173,15 @@ namespace Microting.eForm.Infrastructure.Models
 
             return returnElements;
         }
-        
+
     }
 
-    #region MainElement : CoreElement
+    // MainElement : CoreElement
     [XmlRoot(ElementName = "Main")]
-    [Serializable()]
+    [Serializable]
     public class MainElement : CoreElement
     {
-        #region con
+        // con
         public MainElement()
         {
             ElementList = new List<Element>();
@@ -231,10 +232,10 @@ namespace Microting.eForm.Infrastructure.Models
             ElementList = elementList;
             Color = color;
         }
-        #endregion
+        //
 
-        #region var
-        #region public string PushMessageTitle { get; set; }
+        // var
+        // public string PushMessageTitle { get; set; }
         private string pushMessageTitle;
         public string PushMessageTitle
         {
@@ -250,11 +251,11 @@ namespace Microting.eForm.Infrastructure.Models
                 pushMessageTitle = value;
             }
         }
-        #endregion
+        //
         public string PushMessageBody { get; set; }
-        #endregion
+        //
 
-        #region public
+        // public
         public MainElement XmlToClass(string xmlStr)
         {
             try
@@ -291,7 +292,7 @@ namespace Microting.eForm.Infrastructure.Models
         {
             try
             {
-                var serializer = new XmlSerializer(this.GetType());
+                var serializer = new XmlSerializer(GetType());
                 string xmlStr;
                 using (StringWriter writer = new Utf8StringWriter())
                 {
@@ -311,28 +312,28 @@ namespace Microting.eForm.Infrastructure.Models
             try
             {
                 return JsonConvert.SerializeObject(this);
-                
+
             }
             catch (Exception ex)
             {
                 throw new Exception("MainElement failed to convert Class", ex);
             }
         }
-        #endregion
+        //
 
-        #region private
+        // private
         private class Utf8StringWriter : StringWriter
         {
             public override Encoding Encoding => Encoding.UTF8;
         }
-        #endregion
+        //
     }
-    #endregion
+    //
 
-    #region ReplyElement : CoreElement
+    // ReplyElement : CoreElement
     public class ReplyElement : CoreElement
     {
-        #region con
+        // con
         public ReplyElement()
         {
             ElementList = new List<Element>();
@@ -357,9 +358,9 @@ namespace Microting.eForm.Infrastructure.Models
             MicrotingUId = coreElement.MicrotingUId;
 //            OriginalId = coreElement.OriginalId;
         }
-        #endregion
+        //
 
-        #region var
+        // var
         public string Custom { get; set; }
         public DateTime DoneAt { get; set; }
         public int DoneById { get; set; }
@@ -368,7 +369,7 @@ namespace Microting.eForm.Infrastructure.Models
         public bool JasperExportEnabled { get; set; }
         public bool DocxExportEnabled { get; set; }
 //        public string OriginalId { get; set; }
-        #endregion
+        //
     }
-    #endregion
+    //
 }

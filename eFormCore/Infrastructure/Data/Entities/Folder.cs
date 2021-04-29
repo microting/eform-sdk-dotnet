@@ -22,30 +22,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public class Folder : PnBase
     {
         public Folder()
-        {            
-            this.Children = new HashSet<Folder>();
+        {
+            Children = new HashSet<Folder>();
+            FolderTranslations = new HashSet<FolderTranslation>();
         }
-        
+
         public string Name { get; set; }
 
         public string Description { get; set; }
 
         public int? MicrotingUid { get; set; }
-        
+
         public int? ParentId { get; set; }
 
         public virtual Folder Parent { get; set; }
 
         public virtual ICollection<Folder> Children { get; set; }
+
+        public virtual ICollection<FolderTranslation> FolderTranslations { get; set; }
     }
 }

@@ -28,7 +28,7 @@ using System.Xml.Serialization;
 
 namespace Microting.eForm.Infrastructure.Models.reply
 {
-    [Serializable()]
+    [Serializable]
     public class ElementList
     {
         internal ElementList()

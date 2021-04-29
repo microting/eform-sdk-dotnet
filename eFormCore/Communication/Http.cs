@@ -38,7 +38,7 @@ namespace Microting.eForm.Communication
 {
     public class Http : IHttp
     {
-        #region var
+        // start var section
         private string protocolXml = "6";
         private string protocolEntitySearch = "1";
         private string protocolEntitySelect = "4";
@@ -46,6 +46,7 @@ namespace Microting.eForm.Communication
         private string token;
         private string addressApi;
         private string addressBasic;
+        private string newAddressBasic;
         private string addressPdfUpload;
         private string addressSpeechToText;
         private string organizationId;
@@ -54,9 +55,9 @@ namespace Microting.eForm.Communication
 
         Tools t = new Tools();
         object _lock = new object();
-        #endregion
+        // end var section
 
-        #region con
+        // start con section
         public Http(string token, string comAddressBasic, string comAddressApi, string comOrganizationId, string comAddressPdfUpload, string comSpeechToText)
         {
             this.token = token;
@@ -65,17 +66,21 @@ namespace Microting.eForm.Communication
             addressPdfUpload = comAddressPdfUpload;
             organizationId = comOrganizationId;
             addressSpeechToText = comSpeechToText;
+            newAddressBasic = "https://microcore.microting.com";
 
             dllVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
-        #endregion
+        // end con section
 
-        #region public
-        #region public API
+        // public
+        // public API
+
         /// <summary>
         /// Posts the element to Microting and returns the XML encoded restponse.
         /// </summary>
-        /// <param name="xmlData">Element converted to a xml encoded string.</param>
+        /// <param name="data"></param>
+        /// <param name="siteId"></param>
+        /// <param name="contentType"></param>
         public async Task<string> Post(string data, string siteId, string contentType = "application/x-www-form-urlencoded")
         {
             try
@@ -111,6 +116,7 @@ namespace Microting.eForm.Communication
         /// Retrieve the XML encoded status from Microting.
         /// </summary>
         /// <param name="elementId">Identifier of the element to retrieve status of.</param>
+        /// <param name="siteId"></param>
         public async Task<string> Status(string elementId, string siteId)
         {
             try
@@ -132,6 +138,7 @@ namespace Microting.eForm.Communication
         /// </summary>
         /// <param name="microtingUuid">Identifier of the element to retrieve results from.</param>
         /// <param name="microtingCheckUuid">Identifier of the check to begin from.</param>
+        /// <param name="siteId"></param>
         public async Task<string> Retrieve(string microtingUuid, string microtingCheckUuid, int siteId)
         {
             try
@@ -152,6 +159,7 @@ namespace Microting.eForm.Communication
         /// Deletes a element and retrieve the XML encoded response from Microting.
         /// </summary>
         /// <param name="elementId">Identifier of the element to delete.</param>
+        /// <param name="siteId"></param>
         public async Task<string> Delete(string elementId, string siteId)
         {
             try
@@ -176,9 +184,9 @@ namespace Microting.eForm.Communication
                 return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='error'>ConverterError: " + ex.Message + "</Value>\n\t</Response>";
             }
         }
-        #endregion
+        //
 
-        #region public EntitySearch
+        // public EntitySearch
         public async Task<string> EntitySearchGroupCreate(string name, string id)
         {
             try
@@ -196,8 +204,7 @@ namespace Microting.eForm.Communication
 
                 if (responseXml.Contains("workflowState=\"created"))
                     return t.Locate(responseXml, "<MicrotingUUId>", "</");
-                else
-                    return null;
+                return null;
             }
             catch (Exception ex)
             {
@@ -205,12 +212,12 @@ namespace Microting.eForm.Communication
             }
         }
 
-        public async Task<bool> EntitySearchGroupUpdate(int id, string name, string entityGroupMUId)
+        public async Task<bool> EntitySearchGroupUpdate(int id, string name, string entityGroupMuId)
         {
             string xmlData = "<EntityTypes><EntityType><Name><![CDATA[" + name + "]]></Name><Id>" + id + "</Id></EntityType></EntityTypes>";
 
             WebRequest request = WebRequest.Create(
-                $"{addressApi}/gwt/entity_app/entity_types/{entityGroupMUId}?token={token}&protocol={protocolEntitySearch}&organization_id={organizationId}&sdk_ver={dllVersion}");
+                $"{addressApi}/gwt/entity_app/entity_types/{entityGroupMuId}?token={token}&protocol={protocolEntitySearch}&organization_id={organizationId}&sdk_ver={dllVersion}");
             request.Method = "PUT";
             byte[] content = Encoding.UTF8.GetBytes(xmlData);
             request.ContentType = "application/x-www-form-urlencoded";
@@ -220,8 +227,7 @@ namespace Microting.eForm.Communication
 
             if (responseXml.Contains("workflowState=\"created"))
                 return true;
-            else
-                return false;
+            return false;
         }
 
         public async Task<bool> EntitySearchGroupDelete(string entityGroupId)
@@ -237,8 +243,7 @@ namespace Microting.eForm.Communication
 
                 if (responseXml.Contains("Value type=\"success"))
                     return true;
-                else
-                    return false;
+                return false;
             }
             catch (Exception ex)
             {
@@ -265,8 +270,7 @@ namespace Microting.eForm.Communication
 
             if (responseXml.Contains("workflowState=\"created"))
                 return t.Locate(responseXml, "<MicrotingUUId>", "</");
-            else
-                return null;
+            return null;
         }
 
         public async Task<bool> EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
@@ -285,6 +289,10 @@ namespace Microting.eForm.Communication
             request.ContentLength = content.Length;
 
             string newUrl = await PostToServer(request, content);
+            if (string.IsNullOrEmpty(newUrl))
+            {
+                return false;
+            }
 
             return true;
         }
@@ -300,23 +308,22 @@ namespace Microting.eForm.Communication
 
             if (responseXml.Contains("Value type=\"success"))
                 return true;
-            else
-                return false;
+            return false;
         }
-        #endregion
+        //
 
-        #region public EntitySelect
+        // public EntitySelect
         public async Task<string> EntitySelectGroupCreate(string name, string id)
         {
             try
             {
                 //string xmlData = "{ \"model\" : { \"name\" : \"" + name + "\", \"api_uuid\" : \"" + id + "\" } }";
-                JObject content_to_microting = JObject.FromObject(new { model = new { name = name, api_uuid = id } });
+                JObject contentToServer = JObject.FromObject(new { model = new { name, api_uuid = id } });
 
                 WebRequest request = WebRequest.Create(
                     $"{addressApi}/gwt/inspection_app/searchable_item_groups.json?token={token}&protocol={protocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}");
                 request.Method = "POST";
-                byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+                byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
                 request.ContentType = "application/json; charset=utf-8";
                 request.ContentLength = content.Length;
 
@@ -324,8 +331,7 @@ namespace Microting.eForm.Communication
 
                 if (responseXml.Contains("workflow_state\": \"created"))
                     return t.Locate(responseXml, "\"id\": \"", "\"");
-                else
-                    return null;
+                return null;
             }
             catch (Exception ex)
             {
@@ -333,14 +339,14 @@ namespace Microting.eForm.Communication
             }
         }
 
-        public async Task<bool> EntitySelectGroupUpdate(int id, string name, string entityGroupMUId)
+        public async Task<bool> EntitySelectGroupUpdate(int id, string name, string entityGroupMuId)
         {
-            JObject content_to_microting = JObject.FromObject(new { model = new { name = name, api_uuid = id } });
+            JObject contentToServer = JObject.FromObject(new { model = new { name, api_uuid = id } });
 
             WebRequest request = WebRequest.Create(
-                $"{addressApi}/gwt/inspection_app/searchable_item_groups/{entityGroupMUId}?token={token}&protocol={protocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}");
+                $"{addressApi}/gwt/inspection_app/searchable_item_groups/{entityGroupMuId}?token={token}&protocol={protocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}");
             request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
             request.ContentType = "application/json; charset=utf-8";
             request.ContentLength = content.Length;
 
@@ -350,7 +356,7 @@ namespace Microting.eForm.Communication
             request.Method = "GET";
 
             string response = await PostToServer(request).ConfigureAwait(false);
-            
+
             return response.Contains("workflow_state\": \"created");
         }
 
@@ -369,7 +375,7 @@ namespace Microting.eForm.Communication
                 request.Method = "GET";
 
                 string responseXml = await PostToServer(request).ConfigureAwait(false);
-                
+
                 return responseXml.Contains("workflow_state\": \"removed");
             }
             catch (Exception ex)
@@ -380,12 +386,12 @@ namespace Microting.eForm.Communication
 
         public async Task<string> EntitySelectItemCreate(string entitySelectGroupId, string name, int displayIndex, string id)
         {
-            JObject content_to_microting = JObject.FromObject(new { model = new { data = name, api_uuid = id, display_order = displayIndex, searchable_group_id = entitySelectGroupId } });
+            JObject contentToServer = JObject.FromObject(new { model = new { data = name, api_uuid = id, display_order = displayIndex, searchable_group_id = entitySelectGroupId } });
 
             WebRequest request = WebRequest.Create(
                 $"{addressApi}/gwt/inspection_app/searchable_items.json?token={token}&protocol={protocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}");
             request.Method = "POST";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
             request.ContentType = "application/json; charset=utf-8";
             request.ContentLength = content.Length;
 
@@ -393,18 +399,17 @@ namespace Microting.eForm.Communication
 
             if (responseXml.Contains("workflow_state\": \"created"))
                 return t.Locate(responseXml, "\"id\": \"", "\"");
-            else
-                return null;
+            return null;
         }
 
-        public async Task<bool> EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayIndex, string ownUUID)
+        public async Task<bool> EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayIndex, string ownUuid)
         {
-            JObject content_to_microting = JObject.FromObject(new { model = new { data = name, api_uuid = ownUUID, display_order = displayIndex, searchable_group_id = entitySelectGroupId } });
+            JObject contentToServer = JObject.FromObject(new { model = new { data = name, api_uuid = ownUuid, display_order = displayIndex, searchable_group_id = entitySelectGroupId } });
 
             WebRequest request = WebRequest.Create(
                 $"{addressApi}/gwt/inspection_app/searchable_items/{entitySelectItemId}?token={token}&protocol={protocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}");
             request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
             request.ContentType = "application/json; charset=utf-8";
             request.ContentLength = content.Length;
 
@@ -414,26 +419,7 @@ namespace Microting.eForm.Communication
 			request.Method = "GET";
 
 			string responseXml = await PostToServer(request).ConfigureAwait(false);
-			if (responseXml.Contains("workflow_state\": \"created"))
-				return true;
-			else
-				return false;
-			//         string responseXml = PostToServerNoRedirect(request, content);
-
-			//if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
-			//{
-			//	WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect
-			//		+ "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-			//	request2.Method = "GET";
-			//	string responseXml2 = PostToServer(request2);
-
-			//	if (responseXml2.Contains("workflow_state\": \"created"))
-			//		return true;
-			//	else
-			//		return false;
-			//}
-			//else
-			//	throw new Exception("Unable to update EntitySelect, error was: " + responseXml);
+			return responseXml.Contains("workflow_state\": \"created");
 		}
 
         public async Task<bool> EntitySelectItemDelete(string entitySelectItemId)
@@ -443,47 +429,26 @@ namespace Microting.eForm.Communication
             request.Method = "DELETE";
             request.ContentType = "application/json; charset=utf-8";
 
-            //string responseXml = PostToServerGetRedirect(request).ConfigureAwait(false);
-
 			string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
 			request = WebRequest.Create($"{newUrl}?token={token}");
 			request.Method = "GET";
 
 			string responseXml = await PostToServer(request).ConfigureAwait(false);
-			if (responseXml.Contains("workflow_state\": \"removed"))
-				return true;
-			else
-				return false;
+			return responseXml.Contains("workflow_state\": \"removed");
 
-			//if (responseXml.Contains("html><body>You are being <a href=") && responseXml.Contains(">redirected</a>.</body></html>"))
-			//{
-			//    WebRequest request2 = WebRequest.Create(addressApi + "/gwt/inspection_app/searchable_items/" + entitySelectItemId + ".json?token=" + token + "&protocol=" + protocolEntitySelect +
-			//        "&organization_id=" + organizationId + "&sdk_ver=" + dllVersion);
-			//    request2.Method = "GET";
-			//    string responseXml2 = PostToServer(request2);
-
-			//    if (responseXml2.Contains("workflow_state\": \"removed"))
-			//        return true;
-			//    else
-			//        return false;
-			//}
-			//else
-			//    return false;
 		}
-		#endregion
+		//
 
-		#region public PdfUpload
+		// public PdfUpload
 		public async Task<bool> PdfUpload(string name, string hash)
         {
             try
             {
-                using (WebClient client = new WebClient())
-                {
-                    string url =
-                        $"{addressPdfUpload}/data_uploads/upload?token={token}&hash={hash}&extension=pdf&sdk_ver={dllVersion}";
-                    await client.UploadFileTaskAsync(url, name);
-                }
+                using WebClient client = new WebClient();
+                string url =
+                    $"{addressPdfUpload}/data_uploads/upload?token={token}&hash={hash}&extension=pdf&sdk_ver={dllVersion}";
+                await client.UploadFileTaskAsync(url, name);
 
                 return true;
             }
@@ -492,9 +457,9 @@ namespace Microting.eForm.Communication
                 return false;
             }
         }
-        #endregion
+        //
 
-        #region public TemplateDisplayIndexChange
+        // public TemplateDisplayIndexChange
         public async Task<string> TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex)
         {
             try
@@ -511,40 +476,48 @@ namespace Microting.eForm.Communication
                 //return false;
             }
         }
-        #endregion
+        //
 
-        #region public site
-        public async Task<string> SiteCreate(string name)
+        // public site
+        public async Task<string> SiteCreate(string name, string languageCode)
         {
-            JObject content_to_microting = JObject.FromObject(new { name = name });
+            JObject contentToServer = JObject.FromObject(new { name });
             WebRequest request = WebRequest.Create(
-                $"{addressBasic}/v1/sites?token={token}&model={content_to_microting}&sdk_ver={dllVersion}");
+                $"{newAddressBasic}/Site?token={token}&name={name}&languageCode={languageCode}&sdkVersion={dllVersion}");
             request.Method = "POST";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
             request.ContentType = "application/json; charset=utf-8";
             request.ContentLength = content.Length;
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
 
             string newUrl = await PostToServerGetRedirect(request, content);
 
-            request = WebRequest.Create($"{newUrl}?token={token}");
+            request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}");
             request.Method = "GET";
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
 
             string response = await PostToServer(request).ConfigureAwait(false);
 
             return response;
         }
 
-        public async Task<bool> SiteUpdate(int id, string name)
+        public async Task<bool> SiteUpdate(int id, string name, string languageCode)
         {
-            JObject content_to_microting = JObject.FromObject(new { name = name });
+            JObject contentToServer = JObject.FromObject(new { name });
             WebRequest request = WebRequest.Create(
-                $"{addressBasic}/v1/sites/{id}?token={token}&model={content_to_microting}&sdk_ver={dllVersion}");
+                $"{newAddressBasic}/Site/{id}?token={token}&name={name}&languageCode={languageCode}&sdkVersion={dllVersion}");
             request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
             request.ContentType = "application/json; charset=utf-8";
             request.ContentLength = content.Length;
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
 
             string newUrl = await PostToServerGetRedirect(request, content);
+
+            if (string.IsNullOrEmpty(newUrl))
+            {
+                return false;
+            }
 
             return true;
         }
@@ -554,14 +527,16 @@ namespace Microting.eForm.Communication
             try
             {
                 WebRequest request = WebRequest.Create(
-                    $"{addressBasic}/v1/sites/{id}?token={token}&sdk_ver={dllVersion}");
+                    $"{newAddressBasic}/Site/{id}?token={token}&sdkVersion={dllVersion}");
                 request.Method = "DELETE";
                 request.ContentType = "application/x-www-form-urlencoded";  //-- ?
+                request.Headers.Add(HttpRequestHeader.Authorization, token);
 
                 string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
-                request = WebRequest.Create($"{newUrl}?token={token}");
+                request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}");
                 request.Method = "GET";
+                request.Headers.Add(HttpRequestHeader.Authorization, token);
 
                 return await PostToServer(request).ConfigureAwait(false);
 
@@ -574,28 +549,31 @@ namespace Microting.eForm.Communication
 
         public async Task<string> SiteLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create($"{addressBasic}/v2/sites?token={token}&sdk_ver={dllVersion}");
+            WebRequest request = WebRequest.Create($"{newAddressBasic}/Site?token={token}&sdkVersion={dllVersion}");
             request.Method = "GET";
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
 
             return await PostToServer(request).ConfigureAwait(false);
         }
-        #endregion
+        //
 
-        #region public Worker
+        // public Worker
         public async Task<string> WorkerCreate(string firstName, string lastName, string email)
         {
-            JObject content_to_microting = JObject.FromObject(new { first_name = firstName, last_name = lastName, email = email });
+            JObject contentToServer = JObject.FromObject(new { first_name = firstName, last_name = lastName, email });
             WebRequest request = WebRequest.Create(
-                $"{addressBasic}/v1/users?token={token}&model={content_to_microting}&sdk_ver={dllVersion}");
+                $"{newAddressBasic}/User?token={token}&firstName={firstName}&lastName={lastName}&email={email}&sdkVersion={dllVersion}");
             request.Method = "POST";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
             request.ContentType = "application/json; charset=utf-8";
             request.ContentLength = content.Length;
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
 
             string newUrl = await PostToServerGetRedirect(request, content);
 
-            request = WebRequest.Create($"{newUrl}?token={token}");
+            request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}");
             request.Method = "GET";
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
 
             string response = await PostToServer(request).ConfigureAwait(false);
 
@@ -604,16 +582,21 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> WorkerUpdate(int id, string firstName, string lastName, string email)
         {
-            JObject content_to_microting = JObject.FromObject(new { first_name = firstName, last_name = lastName, email = email });
+            JObject contentToServer = JObject.FromObject(new { first_name = firstName, last_name = lastName, email });
             WebRequest request = WebRequest.Create(
-                $"{addressBasic}/v1/users/{id}?token={token}&model={content_to_microting}&sdk_ver={dllVersion}");
+                $"{newAddressBasic}/User/{id}?token={token}&firstName={firstName}&lastName={lastName}&email={email}&sdkVersion={dllVersion}");
             request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
             request.ContentType = "application/json; charset=utf-8";
             request.ContentLength = content.Length;
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
 
             string newUrl = await PostToServerGetRedirect(request, content);
 
+            if (string.IsNullOrEmpty(newUrl))
+            {
+                return false;
+            }
             return true;
         }
 
@@ -622,14 +605,16 @@ namespace Microting.eForm.Communication
             try
             {
                 WebRequest request = WebRequest.Create(
-                    $"{addressBasic}/v1/users/{id}?token={token}&sdk_ver={dllVersion}");
+                    $"{newAddressBasic}/User/{id}?token={token}&sdkVersion={dllVersion}");
                 request.Method = "DELETE";
                 request.ContentType = "application/x-www-form-urlencoded";  //-- ?
+                request.Headers.Add(HttpRequestHeader.Authorization, token);
 
                 string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
-                request = WebRequest.Create($"{newUrl}?token={token}");
+                request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}");
                 request.Method = "GET";
+                request.Headers.Add(HttpRequestHeader.Authorization, token);
 
                 return await PostToServer(request).ConfigureAwait(false);
 
@@ -642,28 +627,31 @@ namespace Microting.eForm.Communication
 
         public async Task<string> WorkerLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create($"{addressBasic}/v2/users?token={token}&sdk_ver={dllVersion}");
+            WebRequest request = WebRequest.Create($"{newAddressBasic}/User?token={token}&sdkVersion={dllVersion}");
             request.Method = "GET";
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
 
             return await PostToServer(request).ConfigureAwait(false);
         }
-        #endregion
+        //
 
-        #region public SiteWorker
+        // public SiteWorker
         public async Task<string> SiteWorkerCreate(int siteId, int workerId)
         {
-            JObject content_to_microting = JObject.FromObject(new { user_id = workerId, site_id = siteId });
+            JObject contentToServer = JObject.FromObject(new { user_id = workerId, site_id = siteId });
             WebRequest request = WebRequest.Create(
-                $"{addressBasic}/v1/workers?token={token}&model={content_to_microting}&sdk_ver={dllVersion}");
+                $"{newAddressBasic}/Worker?token={token}&siteid={siteId}&userId={workerId}&sdkVersion={dllVersion}");
             request.Method = "POST";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
             request.ContentType = "application/json; charset=utf-8";
             request.ContentLength = content.Length;
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
 
             string newUrl = await PostToServerGetRedirect(request, content);
 
-            request = WebRequest.Create($"{newUrl}?token={token}");
+            request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}");
             request.Method = "GET";
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
 
             string response = await PostToServer(request).ConfigureAwait(false);
 
@@ -675,14 +663,16 @@ namespace Microting.eForm.Communication
             try
             {
                 WebRequest request = WebRequest.Create(
-                    $"{addressBasic}/v1/workers/{id}?token={token}&sdk_ver={dllVersion}");
+                    $"{newAddressBasic}/Worker/{id}?token={token}&sdkVersion={dllVersion}");
                 request.Method = "DELETE";
                 request.ContentType = "application/x-www-form-urlencoded";  //-- ?
+                request.Headers.Add(HttpRequestHeader.Authorization, token);
 
                 string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
-                request = WebRequest.Create($"{newUrl}?token={token}");
+                request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}");
                 request.Method = "GET";
+                request.Headers.Add(HttpRequestHeader.Authorization, token);
 
                 return await PostToServer(request).ConfigureAwait(false);
 
@@ -695,74 +685,72 @@ namespace Microting.eForm.Communication
 
         public async Task<string> SiteWorkerLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create($"{addressBasic}/v2/workers?token={token}&sdk_ver={dllVersion}");
+            WebRequest request = WebRequest.Create($"{newAddressBasic}/Worker?token={token}&sdkVersion={dllVersion}");
             request.Method = "GET";
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
 
             return await PostToServer(request).ConfigureAwait(false);
         }
 
-        #endregion
-        
-        #region folder
-        
-        
+        //
+
+        // folder
 
         public async Task<string> FolderLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create($"{addressBasic}/v1/folders?token={token}&sdk_ver={dllVersion}");
+            WebRequest request = WebRequest.Create($"{newAddressBasic}/Folder?token={token}&sdkVersion={dllVersion}");
             request.Method = "GET";
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
 
             return await PostToServer(request).ConfigureAwait(false);
         }
-        
-        public async Task<string> FolderCreate(string name, string description, int? parent_id)
+
+        public async Task<string> FolderCreate(int uuid, int? parentId)
         {
-            JObject content_to_microting = JObject.FromObject(new { name = name, description = description, parent_id = parent_id });
             WebRequest request = WebRequest.Create(
-                $"{addressBasic}/v1/folders?token={token}&model={content_to_microting}&sdk_ver={dllVersion}");
+                $"{newAddressBasic}/Folder?token={token}&uuid={uuid}&parentId={parentId}&sdkVersion={dllVersion}");
             request.Method = "POST";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
 
-            string newUrl = await PostToServerGetRedirect(request, content);
+            string newUrl = await PostToServerGetRedirect(request);
 
-            request = WebRequest.Create($"{newUrl}?token={token}");
+            request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}");
             request.Method = "GET";
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
 
             string response = await PostToServer(request).ConfigureAwait(false);
 
             return response;
         }
 
-        public async Task<bool> FolderUpdate(int id, string name, string description, int? parent_id)
+        public async Task<bool> FolderUpdate(int id, string name, string description, string languageCode, int? parentId)
         {
-            JObject content_to_microting = JObject.FromObject(new { name = name, description = description, parent_id = parent_id });
+            //JObject contentToServer = JObject.FromObject(new { languageCode, name = Uri.EscapeDataString(name), description = Uri.EscapeDataString(description), parent_id = parentId });
             WebRequest request = WebRequest.Create(
-                $"{addressBasic}/v1/folders/{id}?token={token}&model={content_to_microting}&sdk_ver={dllVersion}");
+                $"{newAddressBasic}/Folder/{id}?token={token}&languageCode={languageCode}&name={Uri.EscapeDataString(name)}&description={Uri.EscapeDataString(description)}&parentId={parentId}&sdkVersion={dllVersion}");
             request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
 
-            await PostToServerGetRedirect(request, content);
+            await PostToServerGetRedirect(request);
             return true;
         }
 
         public async Task<string> FolderDelete(int id)
-        {            
+        {
             try
             {
                 WebRequest request = WebRequest.Create(
-                    $"{addressBasic}/v1/folders/{id}?token={token}&sdk_ver={dllVersion}");
+                    $"{newAddressBasic}/Folder/{id}?token={token}&sdkVersion={dllVersion}");
                 request.Method = "DELETE";
                 request.ContentType = "application/x-www-form-urlencoded";
+                request.Headers.Add(HttpRequestHeader.Authorization, token);
 
                 string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
-                request = WebRequest.Create($"{newUrl}?token={token}");
+                request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}");
                 request.Method = "GET";
-                
+                request.Headers.Add(HttpRequestHeader.Authorization, token);
+
                 return await PostToServer(request).ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -770,50 +758,53 @@ namespace Microting.eForm.Communication
                 throw new Exception("FolderDelete failed", ex);
             }
         }
-        #endregion
+        //
 
-        #region public Unit
-        public async Task<int> UnitRequestOtp(int id)
+        // public Unit
+        public async Task<string> UnitUpdate(int id, bool newOtp, bool pushEnabled, bool syncDelayEnabled, bool syncDialogEnabled)
         {
-            JObject content_to_microting = JObject.FromObject(new { model = new { unit_id = id } });
+            JObject contentToServer = JObject.FromObject(new { model = new { unit_id = id } });
             WebRequest request = WebRequest.Create(
-                $"{addressBasic}/v1/units/{id}?token={token}&new_otp=true&model={content_to_microting}&sdk_ver={dllVersion}");
+                $"{newAddressBasic}/Unit/{id}?token={token}&newOtp=true&pushEnabled={pushEnabled}&syncDelayEnabled={syncDelayEnabled}&syncDialogEnabled={syncDialogEnabled}&sdkVersion={dllVersion}");
             request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(content_to_microting.ToString());
+            byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
             request.ContentType = "application/json; charset=utf-8";
             request.ContentLength = content.Length;
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
 
             string newUrl = await PostToServerGetRedirect(request, content);
 
-            request = WebRequest.Create($"{newUrl}?token={token}");
+            request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}&sdkVersion={dllVersion}");
             request.Method = "GET";
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
 
-            int response = int.Parse(JRaw.Parse(await PostToServer(request))["otp_code"].ToString());
-
-            return response;
+            return await PostToServer(request).ConfigureAwait(false);
         }
 
         public async Task<string> UnitLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create($"{addressBasic}/v2/units?token={token}&sdk_ver={dllVersion}");
+            WebRequest request = WebRequest.Create($"{newAddressBasic}/Unit?token={token}&sdkVersion={dllVersion}");
             request.Method = "GET";
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
 
             return await PostToServer(request).ConfigureAwait(false);
         }
-        
+
         public async Task<string> UnitDelete(int id)
         {
             try
             {
                 WebRequest request = WebRequest.Create(
-                    $"{addressBasic}/v1/units/{id}?token={token}&sdk_ver={dllVersion}");
+                    $"{newAddressBasic}/Unit/{id}?token={token}&sdkVersion={dllVersion}");
                 request.Method = "DELETE";
-                request.ContentType = "application/x-www-form-urlencoded";  //-- ?
+                request.ContentType = "application/x-www-form-urlencoded";
+                request.Headers.Add(HttpRequestHeader.Authorization, token);
 
                 string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
-                request = WebRequest.Create($"{newUrl}?token={token}");
+                request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}&sdkVersion={dllVersion}");
                 request.Method = "GET";
+                request.Headers.Add(HttpRequestHeader.Authorization, token);
 
                 return await PostToServer(request).ConfigureAwait(false);
 
@@ -828,16 +819,17 @@ namespace Microting.eForm.Communication
         {
             try
             {
-                JObject contentToMicroting = JObject.FromObject(new { site_id = siteId });
                 WebRequest request = WebRequest.Create(
-                    $"{addressBasic}/v1/units/{unitId}?token={token}&sdk_ver={dllVersion}&model={contentToMicroting}");
+                    $"{newAddressBasic}/Unit/{unitId}?token={token}&sdkVersion={dllVersion}&siteId={siteId}");
                 request.Method = "PUT";
                 request.ContentType = "application/x-www-form-urlencoded";
-                
+                request.Headers.Add(HttpRequestHeader.Authorization, token);
+
                 string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
-                request = WebRequest.Create($"{newUrl}?token={token}");
+                request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}&sdkVersion={dllVersion}");
                 request.Method = "GET";
+                request.Headers.Add(HttpRequestHeader.Authorization, token);
 
                 return await PostToServer(request).ConfigureAwait(false);
             }
@@ -853,14 +845,16 @@ namespace Microting.eForm.Communication
             {
                 JObject contentToMicroting = JObject.FromObject(new { site_id = siteMicrotingUid } );
                 WebRequest request = WebRequest.Create(
-                    $"{addressBasic}/v2/units/?token={token}&sdk_ver={dllVersion}&model={contentToMicroting}");
+                    $"{newAddressBasic}/Unit/?token={token}&siteId={siteMicrotingUid}&sdkVersion={dllVersion}");
                 request.Method = "POST";
                 request.ContentType = "application/x-www-form-urlencoded";
-                
+                request.Headers.Add(HttpRequestHeader.Authorization, token);
+
                 string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
 
-                request = WebRequest.Create($"{newUrl}?token={token}");
+                request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}&sdkVersion={dllVersion}");
                 request.Method = "GET";
+                request.Headers.Add(HttpRequestHeader.Authorization, token);
 
                 return await PostToServer(request).ConfigureAwait(false);
             }
@@ -869,46 +863,40 @@ namespace Microting.eForm.Communication
                 throw new Exception("UnitCreate failed", ex);
             }
         }
-        
-        #endregion
 
-        #region public Organization
+        //
+
+        // public Organization
         public async Task<string> OrganizationLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create(addressBasic + "/v1/organizations?token=" + token + "&sdk_ver=" + dllVersion);
+            WebRequest request = WebRequest.Create(newAddressBasic + "/Organization?token=" + token + "&sdkVersion=" + dllVersion);
             request.Method = "GET";
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
 
             return await PostToServer(request).ConfigureAwait(false);
         }
-        #endregion
+        //
 
-        #region SpeechToText        
+        // SpeechToText
         public async Task<int> SpeechToText(Stream pathToAudioFile, string language, string extension)
         {
             try
             {
-                using (WebClient client = new WebClient())
+                using WebClient client = new WebClient();
+                string url = $"{addressSpeechToText}/audio/?token={token}&sdk_ver={dllVersion}&lang={language}";
+                using var tempFiles = new TempFileCollection();
+                string file = tempFiles.AddExtension(extension);
+                await using (FileStream fs = File.OpenWrite(file))
                 {
-                    string url = $"{addressSpeechToText}/audio/?token={token}&sdk_ver={dllVersion}&lang={language}";
-                    // Uri url = new Uri(baseUrl);
-                    // MemoryStream ms = new MemoryStream();
-                    // await pathToAudioFile.CopyToAsync(ms);
-                    // byte[] data = ms.ToArray();
-                    // byte[] responseArray = client.UploadData(url, data);
-                    using var tempFiles = new TempFileCollection();
-                    string file = tempFiles.AddExtension(extension);
-                    await using (FileStream fs = File.OpenWrite(file))
-                    {
-                        await pathToAudioFile.CopyToAsync(fs);
-                        await fs.FlushAsync();
-                        fs.Close();
-                    }
-                    byte[] responseArray = await client.UploadFileTaskAsync(url, file);
-
-                    string result = Encoding.UTF8.GetString(responseArray);
-                    var parsedData = JRaw.Parse(result);
-                    return int.Parse(parsedData["id"].ToString());
+                    await pathToAudioFile.CopyToAsync(fs);
+                    await fs.FlushAsync();
+                    fs.Close();
                 }
+                byte[] responseArray = await client.UploadFileTaskAsync(url, file);
+
+                string result = Encoding.UTF8.GetString(responseArray);
+                var parsedData = JToken.Parse(result);
+                return int.Parse(parsedData["id"]?.ToString() ?? throw new InvalidOperationException());
             }
             catch (Exception ex)
             {
@@ -923,14 +911,14 @@ namespace Microting.eForm.Communication
             request.Method = "GET";
 
             string result = await PostToServer(request).ConfigureAwait(false);
-            JToken parsedData = JRaw.Parse(result);
+            JToken parsedData = JToken.Parse(result);
             return parsedData;
         }
-        #endregion
+        //
 
-        #region InSight
-        
-        #region SurveyConfiguration
+        // InSight
+
+        // SurveyConfiguration
 
         public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
         {
@@ -950,7 +938,7 @@ namespace Microting.eForm.Communication
 
                 await PostToServer(request).ConfigureAwait(false);
             }
-            
+
             return true;
         }
 
@@ -971,15 +959,15 @@ namespace Microting.eForm.Communication
 
             return PostToServer(request);
         }
-        
-        
-        #endregion
-        
-        #region QuestionSet
+
+
+        //
+
+        // QuestionSet
 
         public Task<string> GetAllQuestionSets()
         {
-            
+
             WebRequest request = WebRequest.Create(
                 $"{addressBasic}/v1/question_sets?token={token}&sdk_ver={dllVersion}");
             request.Method = "GET";
@@ -995,10 +983,10 @@ namespace Microting.eForm.Communication
 
             return PostToServer(request);
         }
-        
-        #endregion
-        
-        #region Answer
+
+        //
+
+        // Answer
 
         public Task<string> GetLastAnswer(int questionSetId, int lastAnswerId)
         {
@@ -1008,27 +996,37 @@ namespace Microting.eForm.Communication
 
             return PostToServer(request);
         }
-        
-        #endregion
-        
-        #endregion
-        
-        #endregion
 
-        #region private
+        public Task SendPushMessage(int microtingSiteId, string header, string body)
+        {
+            WebRequest request = WebRequest.Create(
+                $"{newAddressBasic}/PushMessage?SiteId={microtingSiteId}&token={token}&Header={header}&Body={body}&sdkVersion={dllVersion}");
+            request.Method = "POST";
+            request.Headers.Add(HttpRequestHeader.Authorization, token);
+
+            return PostToServer(request);
+        }
+
+        //
+
+        //
+
+        //
+
+        // private
         private async Task<string> PostToServer(WebRequest request, byte[] content)
         {
             Console.WriteLine($"[DBG] Http.PostToServer: Calling {request.RequestUri}");
-            
+
             // Hack for ignoring certificate validation.
             DateTime start = DateTime.UtcNow;
             WriteDebugConsoleLogEntry("Http.PostToServer", $"Called at {start}");
             ServicePointManager.ServerCertificateValidationCallback = Validator;
-            Stream dataRequestStream = request.GetRequestStream();
-            dataRequestStream.Write(content, 0, content.Length);
+            Stream dataRequestStream = await request.GetRequestStreamAsync().ConfigureAwait(false);
+            await dataRequestStream.WriteAsync(content, 0, content.Length);
             dataRequestStream.Close();
 
-            WebResponse response = request.GetResponse();
+            WebResponse response = await request.GetResponseAsync().ConfigureAwait(false);
 
             Stream dataResponseStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(dataResponseStream);
@@ -1057,8 +1055,8 @@ namespace Microting.eForm.Communication
             // Hack for ignoring certificate validation.
             ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-            Stream dataRequestStream = request.GetRequestStream();
-            dataRequestStream.Write(content, 0, content.Length);
+            Stream dataRequestStream = await request.GetRequestStreamAsync().ConfigureAwait(false);
+            await dataRequestStream.WriteAsync(content, 0, content.Length).ConfigureAwait(false);
             dataRequestStream.Close();
 
             HttpWebRequest httpRequest = (HttpWebRequest)request;
@@ -1066,7 +1064,7 @@ namespace Microting.eForm.Communication
             httpRequest.AllowAutoRedirect = false;
 
             WebResponse response;
-            
+
             string newUrl = "";
             try
             {
@@ -1086,7 +1084,7 @@ namespace Microting.eForm.Communication
         private async Task<string> PostToServerGetRedirect(WebRequest request)
         {
             Console.WriteLine($"[DBG] Http.PostToServerGetRedirect: Calling {request.RequestUri}");
-            
+
             // Hack for ignoring certificate validation.
             ServicePointManager.ServerCertificateValidationCallback = Validator;
 
@@ -1095,11 +1093,11 @@ namespace Microting.eForm.Communication
             httpRequest.AllowAutoRedirect = false;
 
             WebResponse response;
-            
+
             string newUrl = "";
             try
             {
-                response = (HttpWebResponse) await httpRequest.GetResponseAsync();
+                response = (HttpWebResponse) await httpRequest.GetResponseAsync().ConfigureAwait(false);
             }
             catch (WebException ex)
             {
@@ -1124,8 +1122,8 @@ namespace Microting.eForm.Communication
             // Hack for ignoring certificate validation.
             ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-            Stream dataRequestStream = request.GetRequestStream();
-            dataRequestStream.Write(content, 0, content.Length);
+            Stream dataRequestStream = await request.GetRequestStreamAsync().ConfigureAwait(false);
+            await dataRequestStream.WriteAsync(content, 0, content.Length).ConfigureAwait(false);
             dataRequestStream.Close();
 
             HttpWebRequest httpRequest = (HttpWebRequest)request;
@@ -1134,8 +1132,8 @@ namespace Microting.eForm.Communication
 
             HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
             Stream dataResponseStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataResponseStream);
-            string responseFromServer = await reader.ReadToEndAsync();
+            StreamReader reader = new StreamReader(dataResponseStream ?? throw new InvalidOperationException());
+            string responseFromServer = await reader.ReadToEndAsync().ConfigureAwait(false);
 
             // Clean up the streams.
             try
@@ -1156,13 +1154,13 @@ namespace Microting.eForm.Communication
         {
             Console.WriteLine($"[DBG] Http.PostToServer: Calling {request.RequestUri}");
             // Hack for ignoring certificate validation.
-            
+
             ServicePointManager.ServerCertificateValidationCallback = Validator;
 
-            WebResponse response = request.GetResponse();
+            WebResponse response = await request.GetResponseAsync().ConfigureAwait(false);
             Stream dataResponseStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataResponseStream);
-            string responseFromServer = await reader.ReadToEndAsync();
+            StreamReader reader = new StreamReader(dataResponseStream ?? throw new InvalidOperationException());
+            string responseFromServer = await reader.ReadToEndAsync().ConfigureAwait(false);
 
             // Clean up the streams.
             try
@@ -1192,8 +1190,8 @@ namespace Microting.eForm.Communication
 
             HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
             Stream dataResponseStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataResponseStream);
-            string responseFromServer = await reader.ReadToEndAsync();
+            StreamReader reader = new StreamReader(dataResponseStream ?? throw new InvalidOperationException());
+            string responseFromServer = await reader.ReadToEndAsync().ConfigureAwait(false);
 
             // Clean up the streams.
             try
@@ -1245,7 +1243,7 @@ namespace Microting.eForm.Communication
             Console.WriteLine($"[ERR] {classMethodName}: {message}");
             Console.ForegroundColor = oldColor;
         }
-        
-        #endregion
+
+        //
     }
 }

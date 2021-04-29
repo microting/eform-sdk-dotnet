@@ -26,6 +26,7 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using eFormCore;
@@ -69,7 +70,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             }
             catch
             {
+                // ignored
             }
+
             try
             {
                 Core core = new Core();
@@ -92,81 +95,85 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             ClearFile();
 
-            DbContext.Dispose();
+            await DbContext.DisposeAsync();
         }
 
         private async Task ClearDb()
         {
 
-            List<string> modelNames = new List<string>();
-            modelNames.Add("CaseVersions");
-            modelNames.Add("Cases");
-            modelNames.Add("FieldValueVersions");
-            modelNames.Add("FieldValues");
-            modelNames.Add("FieldVersions");
-            modelNames.Add("Fields");
-            modelNames.Add("FolderVersions");
-            modelNames.Add("Folders");
-            modelNames.Add("CheckListSiteVersions");
-            modelNames.Add("CheckListSites");
-            modelNames.Add("CheckListValueVersions");
-            modelNames.Add("CheckListValues");
-            modelNames.Add("Taggings");
-            modelNames.Add("TaggingVersions");
-            modelNames.Add("Tags");
-            modelNames.Add("TagVersions");
-            modelNames.Add("CheckListVersions");
-            modelNames.Add("CheckLists");
-            modelNames.Add("EntityGroupVersions");
-            modelNames.Add("EntityGroups");
-            modelNames.Add("EntityItemVersions");
-            modelNames.Add("EntityItems");
-            modelNames.Add("NotificationVersions");
-            modelNames.Add("Notifications");
-            modelNames.Add("SettingVersions");
-            modelNames.Add("Settings");
-            modelNames.Add("UnitVersions");
-            modelNames.Add("Units");
-            modelNames.Add("SiteWorkerVersions");
-            modelNames.Add("SiteWorkers");
-            modelNames.Add("WorkerVersions");
-            modelNames.Add("Workers");
-            modelNames.Add("SiteVersions");
-            modelNames.Add("Sites");
-            modelNames.Add("UploadedDatas");
-            modelNames.Add("UploadedDataVersions");
-            modelNames.Add("FieldTypes");
-            modelNames.Add("SurveyConfigurations");
-            modelNames.Add("SurveyConfigurationVersions");
-            modelNames.Add("SiteSurveyConfigurations");
-            modelNames.Add("SiteSurveyConfigurationVersions");
-            modelNames.Add("SiteTagVersions");
-            modelNames.Add("SiteTags");
-            modelNames.Add("Languages");
-            modelNames.Add("LanguageVersions");
-            modelNames.Add("QuestionSets");
-            modelNames.Add("QuestionSetVersions");
-            modelNames.Add("Questions");
-            modelNames.Add("QuestionVersions");
-            modelNames.Add("Options");
-            modelNames.Add("OptionVersions");
-            modelNames.Add("Answers");
-            modelNames.Add("AnswerVersions");
-            modelNames.Add("AnswerValues");
-            modelNames.Add("AnswerValueVersions");
-            modelNames.Add("QuestionTranslationVersions");
-            modelNames.Add("QuestionTranslations");
-            modelNames.Add("OptionTranslationVersions");
-            modelNames.Add("OptionTranslations");
-            modelNames.Add("LanguageQuestionSetVersions");
-            modelNames.Add("CheckListTranslations");
-            modelNames.Add("CheckListTranslationVersions");
-            modelNames.Add("FieldTranslations");
-            modelNames.Add("FieldTranslationVersions");
-            modelNames.Add("FieldOptions");
-            modelNames.Add("FieldOptionVersions");
-            modelNames.Add("FieldOptionTranslations");
-            modelNames.Add("FieldOptionTranslationVersions");
+            List<string> modelNames = new List<string>
+            {
+                "CaseVersions",
+                "Cases",
+                "FieldValueVersions",
+                "FieldValues",
+                "FieldVersions",
+                "Fields",
+                "FolderVersions",
+                "Folders",
+                "FolderTranslationVersions",
+                "FolderTranslations",
+                "CheckListSiteVersions",
+                "CheckListSites",
+                "CheckListValueVersions",
+                "CheckListValues",
+                "Taggings",
+                "TaggingVersions",
+                "Tags",
+                "TagVersions",
+                "CheckListVersions",
+                "CheckLists",
+                "EntityGroupVersions",
+                "EntityGroups",
+                "EntityItemVersions",
+                "EntityItems",
+                "NotificationVersions",
+                "Notifications",
+                "SettingVersions",
+                "Settings",
+                "UnitVersions",
+                "Units",
+                "SiteWorkerVersions",
+                "SiteWorkers",
+                "WorkerVersions",
+                "Workers",
+                "SiteVersions",
+                "Sites",
+                "UploadedDatas",
+                "UploadedDataVersions",
+                "FieldTypes",
+                "SurveyConfigurations",
+                "SurveyConfigurationVersions",
+                "SiteSurveyConfigurations",
+                "SiteSurveyConfigurationVersions",
+                "SiteTagVersions",
+                "SiteTags",
+                "Languages",
+                "LanguageVersions",
+                "QuestionSets",
+                "QuestionSetVersions",
+                "Questions",
+                "QuestionVersions",
+                "Options",
+                "OptionVersions",
+                "Answers",
+                "AnswerVersions",
+                "AnswerValues",
+                "AnswerValueVersions",
+                "QuestionTranslationVersions",
+                "QuestionTranslations",
+                "OptionTranslationVersions",
+                "OptionTranslations",
+                "LanguageQuestionSetVersions",
+                "CheckListTranslations",
+                "CheckListTranslationVersions",
+                "FieldTranslations",
+                "FieldTranslationVersions",
+                "FieldOptions",
+                "FieldOptionVersions",
+                "FieldOptionTranslations",
+                "FieldOptionTranslationVersions"
+            };
             bool firstRunNotDone = true;
 
             foreach (var modelName in modelNames)
@@ -196,8 +203,8 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
         private void ClearFile()
         {
-            _path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
-            _path = System.IO.Path.GetDirectoryName(_path).Replace(@"file:", "");
+            _path = Assembly.GetExecutingAssembly().CodeBase;
+            _path = Path.GetDirectoryName(_path)?.Replace(@"file:", "");
 
             string picturePath;
 
@@ -220,9 +227,10 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
                     file.Delete();
                 }
             }
-            catch { }
-
-
+            catch
+            {
+                // ignored
+            }
         }
 #pragma warning disable 1998
         public virtual async Task DoSetup() { }

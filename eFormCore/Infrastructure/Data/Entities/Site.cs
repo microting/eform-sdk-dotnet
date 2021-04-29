@@ -22,11 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
@@ -64,13 +62,13 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public static async Task AddLanguage(MicrotingDbContext dbContext)
         {
             List<Site> sites = await dbContext.Sites.ToListAsync();
-            Language defaultLanguage = await dbContext.Languages
+            Language language = await dbContext.Languages
                 .SingleAsync(x => x.Name == "Danish");
             foreach (Site site in sites)
             {
                 if (site.LanguageId == 0)
                 {
-                    site.LanguageId = defaultLanguage.Id;
+                    site.LanguageId = language.Id;
                     await site.Update(dbContext);
                 }
             }

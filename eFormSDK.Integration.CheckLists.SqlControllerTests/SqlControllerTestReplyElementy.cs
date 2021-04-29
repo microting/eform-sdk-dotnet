@@ -46,6 +46,7 @@ namespace eFormSDK.Integration.SqlControllerTests
     {
         private SqlController sut;
         private TestHelpers testHelpers;
+        private Language language;
 
         public override async Task DoSetup()
         {
@@ -65,6 +66,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
             await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
+            language = DbContext.Languages.Single(x => x.Name == "Danish");
         }
 
         [Test]
@@ -191,7 +193,7 @@ namespace eFormSDK.Integration.SqlControllerTests
             #endregion
             // Act
 
-            ReplyElement match = await sut.CheckRead((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid);
+            ReplyElement match = await sut.CheckRead((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid, language);
 
             // Assert
             #region Assert
@@ -264,17 +266,17 @@ namespace eFormSDK.Integration.SqlControllerTests
             #endregion
 
             #region Description
-            CDataValue f1desc = (CDataValue)_f1.Description;
-            CDataValue f2desc = (CDataValue)_f2.Description;
-            CDataValue f3desc = (CDataValue)_f3.Description;
-            CDataValue f4desc = (CDataValue)_f4.Description;
-            CDataValue f5desc = (CDataValue)_f5.Description;
+            CDataValue f1desc = _f1.Description;
+            CDataValue f2desc = _f2.Description;
+            CDataValue f3desc = _f3.Description;
+            CDataValue f4desc = _f4.Description;
+            CDataValue f5desc = _f5.Description;
 
-            Assert.AreEqual(f1.Description, f1desc.InderValue);
-            Assert.AreEqual(f2.Description, f2desc.InderValue);
-            Assert.AreEqual(f3.Description, f3desc.InderValue);
-            Assert.AreEqual(f4.Description, f4desc.InderValue);
-            Assert.AreEqual(f5.Description, f5desc.InderValue);
+            Assert.AreEqual("Comment field description", f1desc.InderValue);
+            Assert.AreEqual("showPDf Description", f2desc.InderValue);
+            Assert.AreEqual("Number Field Description", f3desc.InderValue);
+            Assert.AreEqual("date Description", f4desc.InderValue);
+            Assert.AreEqual("picture Description", f5desc.InderValue);
             #endregion
 
             #region Displayindex
@@ -329,11 +331,11 @@ namespace eFormSDK.Integration.SqlControllerTests
             #endregion
 
             #region Label
-            Assert.AreEqual(f1.Label, _f1.Label);
-            Assert.AreEqual(f2.Label, _f2.Label);
-            Assert.AreEqual(f3.Label, _f3.Label);
-            Assert.AreEqual(f4.Label, _f4.Label);
-            Assert.AreEqual(f5.Label, _f5.Label);
+            Assert.AreEqual("Comment field", _f1.Label);
+            Assert.AreEqual("ShowPdf", _f2.Label);
+            Assert.AreEqual("Numberfield", _f3.Label);
+            Assert.AreEqual("Date", _f4.Label);
+            Assert.AreEqual("Picture", _f5.Label);
             #endregion
 
             #region Mandatory

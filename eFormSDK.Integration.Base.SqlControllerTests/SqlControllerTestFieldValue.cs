@@ -36,10 +36,6 @@ using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using NUnit.Framework;
 using Case = Microting.eForm.Infrastructure.Data.Entities.Case;
-using CheckListValue = Microting.eForm.Infrastructure.Data.Entities.CheckListValue;
-using Field = Microting.eForm.Infrastructure.Data.Entities.Field;
-using FieldValue = Microting.eForm.Infrastructure.Data.Entities.FieldValue;
-using UploadedData = Microting.eForm.Infrastructure.Data.Entities.UploadedData;
 
 namespace eFormSDK.Integration.Base.SqlControllerTests
 {
@@ -48,6 +44,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
     {
         private SqlController sut;
         private TestHelpers testHelpers;
+        private Language language;
 
         public override async Task DoSetup()
         {
@@ -67,6 +64,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
             await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
+            language = DbContext.Languages.Single(x => x.Name == "Danish");
         }
 
         [Test]
@@ -186,7 +184,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #endregion
             // Act
 
-            var match = await sut.FieldValueRead(field_Value1, false);
+            var match = await sut.FieldValueRead(field_Value1, false, language);
 
             // Assert
             #region Assert
@@ -358,7 +356,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #endregion
             // Act
 
-            var match = await sut.FieldValueRead(field_Value1, true);
+            var match = await sut.FieldValueRead(field_Value1, true, language);
 
             //// Assert
             #region Assert
@@ -665,7 +663,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #endregion
             // Act
 
-            List<Microting.eForm.Infrastructure.Models.FieldValue> match = await sut.FieldValueReadList(f1.Id, 5);
+            List<Microting.eForm.Infrastructure.Models.FieldValue> match = await sut.FieldValueReadList(f1.Id, 5, language);
 
             // Assert
 
@@ -979,11 +977,11 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Act
             List<int> listOfCaseIds = new List<int>();
             listOfCaseIds.Add(aCase.Id);
-            var matchF1 = await sut.FieldValueReadAllValues(f1.Id, listOfCaseIds, "mappe/");
-            var matchF2 = await sut.FieldValueReadAllValues(f2.Id, listOfCaseIds, "mappe/");
-            var matchF3 = await sut.FieldValueReadAllValues(f3.Id, listOfCaseIds, "mappe/");
-            var matchF4 = await sut.FieldValueReadAllValues(f4.Id, listOfCaseIds, "mappe/");
-            var matchF5 = await sut.FieldValueReadAllValues(f5.Id, listOfCaseIds, "mappe/");
+            var matchF1 = await sut.FieldValueReadAllValues(f1.Id, listOfCaseIds, "mappe/", language);
+            var matchF2 = await sut.FieldValueReadAllValues(f2.Id, listOfCaseIds, "mappe/", language);
+            var matchF3 = await sut.FieldValueReadAllValues(f3.Id, listOfCaseIds, "mappe/", language);
+            var matchF4 = await sut.FieldValueReadAllValues(f4.Id, listOfCaseIds, "mappe/", language);
+            var matchF5 = await sut.FieldValueReadAllValues(f5.Id, listOfCaseIds, "mappe/", language);
 
             // Assert
             #region Assert

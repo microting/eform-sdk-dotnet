@@ -24,6 +24,7 @@ SOFTWARE.
 
 
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microting.eForm;
 using Microting.eForm.Dto;
@@ -38,7 +39,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
     {
         // private SqlController sut;
         // private TestHelpers testHelpers;
-        string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:", "");
+        string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:", "");
         //path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
 
 

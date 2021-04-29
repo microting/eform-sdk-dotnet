@@ -35,8 +35,8 @@ namespace Microting.eForm.Messages
         {
             if (string.IsNullOrEmpty(notificationId)) throw new ArgumentNullException(nameof(notificationId));
 
-            this.NotificationId = notificationId;
-            this.MicrotringUUID = microtringUUID;
+            NotificationId = notificationId;
+            MicrotringUUID = microtringUUID;
         }
     }
 }

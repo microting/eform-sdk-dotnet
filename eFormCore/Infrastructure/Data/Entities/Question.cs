@@ -23,12 +23,10 @@ SOFTWARE.
 */
 
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
@@ -85,7 +83,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         }
         public bool IsSmiley()
         {
-            switch (this.QuestionType)
+            switch (QuestionType)
             {
                 case Constants.Constants.QuestionTypes.Smiley:
                 case Constants.Constants.QuestionTypes.Smiley2:
@@ -105,8 +103,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         private async Task GenerateSmileyOptions(MicrotingDbContext dbContext, int languageId)
         {
-            string[] smileys = new []{""};
-            switch (this.QuestionType)  
+            string[] smileys = {""};
+            switch (QuestionType)  
             {
                 case Constants.Constants.QuestionTypes.Smiley:
                     smileys = new[] {"smiley1", "smiley2", "smiley3", "smiley5", "smiley6"};
@@ -175,7 +173,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         private async Task GenerateSpecialQuestionTypes(MicrotingDbContext dbContext, int languageId)
         {
-            switch (this.QuestionType)
+            switch (QuestionType)
             {
                 case Constants.Constants.QuestionTypes.Number:
                     await CreateSpecialOption(dbContext, 1, 0, "number", languageId, 1);
@@ -221,25 +219,25 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                           && o.WeightValue == weightedValue
                           && ot.Name == text
                           && ot.LanguageId == languageId
-                          && o.QuestionId == this.Id
+                          && o.QuestionId == Id
                 select new
                 {
-                    Id = o.Id
+                    o.Id
                 }).ToList();
 
             if (!result.Any())
             {
-                Option option = new Option()
+                Option option = new Option
                 {
                     Weight = weight,
                     WeightValue = weightedValue,
                     OptionIndex = optionIndex,
-                    QuestionId = this.Id
+                    QuestionId = Id
                 };
 
                 await option.Create(dbContext).ConfigureAwait(false);
                 
-                OptionTranslation optionTranslation = new OptionTranslation()
+                OptionTranslation optionTranslation = new OptionTranslation
                 {
                     OptionId = option.Id,
                     Name = text,

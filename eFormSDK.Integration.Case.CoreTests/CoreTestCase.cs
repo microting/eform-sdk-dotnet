@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using eFormCore;
 using eFormSDK.Integration.CheckLists.CoreTests;
@@ -29,6 +30,7 @@ namespace eFormSDK.Integration.CoreTests
         Random rnd = new Random();
         short shortMinValue = Int16.MinValue;
         short shortmaxValue = Int16.MaxValue;
+        private Language language;
 
         public override async Task DoSetup()
         {
@@ -43,7 +45,7 @@ namespace eFormSDK.Integration.CoreTests
                 sut.HandleSiteActivated += EventSiteActivated;
                 await sut.StartSqlOnly(ConnectionString);
             }
-            path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+            path = Assembly.GetExecutingAssembly().CodeBase;
             UriBuilder uri = new UriBuilder(path);
             path = Uri.UnescapeDataString(uri.Path);
             path = Path.GetDirectoryName(path);
@@ -52,6 +54,7 @@ namespace eFormSDK.Integration.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
             await testHelpers.GenerateDefaultLanguages();
+            language = DbContext.Languages.Single(x => x.Name == "Danish");
             //await sut.StartLog(new CoreBase());
         }
 
@@ -313,7 +316,7 @@ namespace eFormSDK.Integration.CoreTests
 
             // Act
 
-            var match = await sut.CaseRead((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid);
+            var match = await sut.CaseRead((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid, language);
 
             // Assert
             Assert.NotNull(match);
@@ -2023,7 +2026,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(null, theCase.FieldValue9);
             Assert.AreEqual(null, theCase.FieldValue10);
 
-            var testThis = await sut.CaseUpdateFieldValues(aCase1.Id);
+            var testThis = await sut.CaseUpdateFieldValues(aCase1.Id, language);
 
             // Assert
             Case theCaseAfter = DbContext.Cases.AsNoTracking().First();
@@ -3808,7 +3811,7 @@ namespace eFormSDK.Integration.CoreTests
             string pdfPath = Path.Combine(path, "output","dataFolder","reports", "results",
                 $"{timeStamp}_{aCase2.Id}.xml");
             CaseDto cDto = await sut.CaseLookupCaseId(aCase2.Id);
-            ReplyElement reply = await sut.CaseRead((int)cDto.MicrotingUId, (int)cDto.CheckUId);
+            ReplyElement reply = await sut.CaseRead((int)cDto.MicrotingUId, (int)cDto.CheckUId, language);
             var match = await sut.CaseToJasperXml(cDto, reply, aCase2.Id, timeStamp, pdfPath, "");
 
             // Assert

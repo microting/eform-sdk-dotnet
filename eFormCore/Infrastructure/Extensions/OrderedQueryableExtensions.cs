@@ -22,15 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.EntityFrameworkCore.Query;
-using Microsoft.EntityFrameworkCore.Query.Internal;
-using Microsoft.EntityFrameworkCore.Storage;
-using Remotion.Linq.Parsing.Structure;
 
 namespace Microting.eForm.Infrastructure.Extensions
 {
@@ -44,7 +37,7 @@ namespace Microting.eForm.Infrastructure.Extensions
             var propertyInfo = entityType.GetProperty(propertyName);
             var arg = Expression.Parameter(entityType, "x");
             var property = Expression.Property(arg, propertyName);
-            var selector = Expression.Lambda(property, new ParameterExpression[] {arg});
+            var selector = Expression.Lambda(property, arg);
 
             //Get System.Linq.Queryable.OrderBy() method.
             var enumarableType = typeof(Queryable);
@@ -76,7 +69,7 @@ namespace Microting.eForm.Infrastructure.Extensions
             var propertyInfo = entityType.GetProperty(propertyName);
             var arg = Expression.Parameter(entityType, "x");
             var property = Expression.Property(arg, propertyName);
-            var selector = Expression.Lambda(property, new ParameterExpression[] {arg});
+            var selector = Expression.Lambda(property, arg);
 
             //Get System.Linq.Queryable.OrderByDescending() method.
             var enumarableType = typeof(Queryable);

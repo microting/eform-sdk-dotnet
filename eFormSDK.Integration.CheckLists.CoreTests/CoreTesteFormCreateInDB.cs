@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using eFormCore;
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +39,6 @@ using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using Microting.eForm.Infrastructure.Models;
 using NUnit.Framework;
-using KeyValuePair = Microting.eForm.Dto.KeyValuePair;
 using Field = Microting.eForm.Infrastructure.Data.Entities.Field;
 
 namespace eFormSDK.Integration.CoreTests
@@ -69,7 +69,7 @@ namespace eFormSDK.Integration.CoreTests
             sut.HandleFileDownloaded += EventFileDownloaded;
             sut.HandleSiteActivated += EventSiteActivated;
             await sut.StartSqlOnly(ConnectionString);
-            path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+            path = Assembly.GetExecutingAssembly().CodeBase;
             UriBuilder uri = new UriBuilder(path);
             path = Uri.UnescapeDataString(uri.Path);
             path = Path.GetDirectoryName(path);

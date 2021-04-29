@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using eFormCore;
@@ -38,10 +39,6 @@ using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using NUnit.Framework;
 using Case = Microting.eForm.Infrastructure.Data.Entities.Case;
-using CheckListValue = Microting.eForm.Infrastructure.Data.Entities.CheckListValue;
-using Field = Microting.eForm.Infrastructure.Data.Entities.Field;
-using FieldValue = Microting.eForm.Infrastructure.Data.Entities.FieldValue;
-using UploadedData = Microting.eForm.Infrastructure.Data.Entities.UploadedData;
 
 namespace eFormSDK.Integration.CoreTests
 {
@@ -54,6 +51,7 @@ namespace eFormSDK.Integration.CoreTests
         Random rnd = new Random();
         short shortMinValue = Int16.MinValue;
         short shortmaxValue = Int16.MaxValue;
+        private Language language;
 
         public override async Task DoSetup()
         {
@@ -74,7 +72,7 @@ namespace eFormSDK.Integration.CoreTests
             sut.HandleFileDownloaded += EventFileDownloaded;
             sut.HandleSiteActivated += EventSiteActivated;
             await sut.StartSqlOnly(ConnectionString).ConfigureAwait(false);
-            path = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+            path = Assembly.GetExecutingAssembly().CodeBase;
             UriBuilder uri = new UriBuilder(path);
             path = Uri.UnescapeDataString(uri.Path);
             path = Path.GetDirectoryName(path);
@@ -83,6 +81,7 @@ namespace eFormSDK.Integration.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers();
             await testHelpers.GenerateDefaultLanguages();
+            language = DbContext.Languages.Single(x => x.Name == "Danish");
             //sut.StartLog(new CoreBase());
         }
 
@@ -477,10 +476,10 @@ namespace eFormSDK.Integration.CoreTests
             #endregion
             // Act
 
-            var match1 = await sut.Advanced_TemplateFieldReadAll(Template1.Id);
-            var match2 = await sut.Advanced_TemplateFieldReadAll(Template2.Id);
-            var match3 = await sut.Advanced_TemplateFieldReadAll(Template3.Id);
-            var match4 = await sut.Advanced_TemplateFieldReadAll(Template4.Id);
+            var match1 = await sut.Advanced_TemplateFieldReadAll(Template1.Id, language);
+            var match2 = await sut.Advanced_TemplateFieldReadAll(Template2.Id, language);
+            var match3 = await sut.Advanced_TemplateFieldReadAll(Template3.Id, language);
+            var match4 = await sut.Advanced_TemplateFieldReadAll(Template4.Id, language);
 
             // Assert
             #region template1
@@ -1906,7 +1905,7 @@ namespace eFormSDK.Integration.CoreTests
 
             // Act
 
-            Microting.eForm.Infrastructure.Models.Field match = await sut.Advanced_FieldRead(f1.Id);
+            Microting.eForm.Infrastructure.Models.Field match = await sut.Advanced_FieldRead(f1.Id, language);
 
             // Assert
 
@@ -2041,7 +2040,7 @@ namespace eFormSDK.Integration.CoreTests
             #endregion
             // Act
 
-            List<Microting.eForm.Infrastructure.Models.FieldValue> match = await sut.Advanced_FieldValueReadList(f1.Id, 5);
+            List<Microting.eForm.Infrastructure.Models.FieldValue> match = await sut.Advanced_FieldValueReadList(f1.Id, 5, language);
 
             // Assert
 
@@ -2674,7 +2673,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(null, theCase.FieldValue9);
             Assert.AreEqual(null, theCase.FieldValue10);
 
-            var testThis = await sut.Advanced_UpdateCaseFieldValue(aCase1.Id);
+            var testThis = await sut.Advanced_UpdateCaseFieldValue(aCase1.Id, language);
 
             // Assert
             Case theCaseAfter = DbContext.Cases.AsNoTracking().First();

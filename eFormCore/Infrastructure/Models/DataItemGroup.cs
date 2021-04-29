@@ -28,7 +28,7 @@ using System.Xml.Serialization;
 
 namespace Microting.eForm.Infrastructure.Models
 {
-    [Serializable()]
+    [Serializable]
     [XmlInclude(typeof(FieldGroup))]
     public class DataItemGroup
     {

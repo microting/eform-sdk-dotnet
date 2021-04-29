@@ -27,7 +27,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microting.eForm;
 using Microting.eForm.Communication;
 using Microting.eForm.Dto;
@@ -36,7 +35,6 @@ using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Log = Microting.eForm.Log;
 
 namespace eFormCore
 {
@@ -361,7 +359,7 @@ namespace eFormCore
             {
                 if (folderDto.MicrotingUId != null)
                 {
-                    FolderDto folder = await sqlController.FolderReadByMicrotingUUID((int)folderDto.MicrotingUId);
+                    FolderDto folder = await sqlController.FolderReadByMicrotingUuid((int)folderDto.MicrotingUId);
 
                     if (folder == null)
                     {
@@ -375,7 +373,7 @@ namespace eFormCore
                             if (folderDto.ParentId != null)
                             {
                                 FolderDto parenFolder =
-                                    await sqlController.FolderReadByMicrotingUUID((int) folderDto.ParentId);
+                                    await sqlController.FolderReadByMicrotingUuid((int) folderDto.ParentId);
 
                                 await sqlController.FolderCreate(folderDto.Name, folderDto.Description, parenFolder.Id,
                                     (int)folderDto.MicrotingUId);
@@ -419,6 +417,13 @@ namespace eFormCore
                 await sqlController.SettingUpdate(Settings.awsEndPoint, organizationDto.AwsEndPoint);
                 await sqlController.SettingUpdate(Settings.unitLicenseNumber, organizationDto.UnitLicenseNumber.ToString());
                 await sqlController.SettingUpdate(Settings.comSpeechToText, organizationDto.ComSpeechToText);
+                if (!string.IsNullOrEmpty(organizationDto.S3Endpoint))
+                {
+                    await sqlController.SettingUpdate(Settings.s3Enabled, "true");
+                    await sqlController.SettingUpdate(Settings.s3Endpoint, organizationDto.S3Endpoint);
+                    await sqlController.SettingUpdate(Settings.s3AccessKeyId, organizationDto.S3Id);
+                    await sqlController.SettingUpdate(Settings.s3SecrectAccessKey, organizationDto.S3Key);
+                }
                 if (await sqlController.SettingRead(Settings.logLevel) == "true")
                 {
                     await sqlController.SettingUpdate(Settings.logLevel, "2");

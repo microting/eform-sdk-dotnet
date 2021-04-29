@@ -67,7 +67,7 @@ namespace Microting.eForm.Helpers
                 int id = t.GetRandomInt(6);
                 JObject result = JObject.FromObject(new JArray(new
                 {
-                    id = id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z",
+                    id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z",
                     workflow_state = Constants.WorkflowStates.Created, person_type = "",
                     site_id = site.MicrotingUid, user_id = worker.MicrotingUid
                 }));
@@ -131,86 +131,12 @@ namespace Microting.eForm.Helpers
                                         </Geolocation>
                                         <Value></Value>
                                         <Extension>.jpeg</Extension>
-                                        <URL>https://www.microting.com/wp-content/themes/Artificial-Reason-WP/img/close.png</URL>
+                                        <URL>https://www.microting.com/wp-content/themes/Artificial-Reason-WP/img/close1.png</URL>
                                     </DataItem>
                                 </DataItemList>
                                 <ExtraDataItemList></ExtraDataItemList>
                             </ElementList>
-                        </Check>
-                        <Check worker='John Doe' worker_id='{worker.MicrotingUid}' date='2018-04-25 14:29:52 +0200' unit_id='{unit.MicrotingUid}' id='12'>
-                            <ElementList>
-                                <Id>{cl2.Id}</Id>
-                                <Status>approved</Status>
-                                <DataItemList>
-                                    <DataItem>
-                                        <Id>{f1.Id}</Id>
-                                        <Geolocation>
-                                            <Latitude></Latitude>
-                                            <Longitude></Longitude>
-                                            <Altitude></Altitude>
-                                            <Heading></Heading>
-                                            <Accuracy></Accuracy>
-                                            <Date></Date>
-                                        </Geolocation>
-                                        <Value></Value>
-                                        <Extension>.jpeg</Extension>
-                                        <URL>https://www.microting.com/wp-content/themes/Artificial-Reason-WP/img/close.png</URL>
-                                    </DataItem>
-                                    <DataItem>
-                                        <Id>{f1.Id}</Id>
-                                        <Geolocation>
-                                            <Latitude></Latitude>
-                                            <Longitude></Longitude>
-                                            <Altitude></Altitude>
-                                            <Heading></Heading>
-                                            <Accuracy></Accuracy>
-                                            <Date></Date>
-                                        </Geolocation>
-                                        <Value></Value>
-                                        <Extension>.jpeg</Extension>
-                                        <URL>https://www.microting.com/wp-content/themes/Artificial-Reason-WP/img/close.png</URL>
-                                    </DataItem>
-                                </DataItemList>
-                                <ExtraDataItemList></ExtraDataItemList>
-                            </ElementList>
-                        </Check>
-                        <Check worker='John Doe' worker_id='{worker.MicrotingUid}' date='2018-04-25 14:39:43 +0200' unit_id='{unit.MicrotingUid}' id='17'>
-                            <ElementList>
-                                <Id>{cl2.Id}</Id>
-                                <Status>approved</Status>
-                                <DataItemList>
-                                    <DataItem>
-                                        <Id>{f1.Id}</Id>
-                                        <Geolocation>
-                                            <Latitude></Latitude>
-                                            <Longitude></Longitude>
-                                            <Altitude></Altitude>
-                                            <Heading></Heading>
-                                            <Accuracy></Accuracy>
-                                            <Date></Date>
-                                        </Geolocation>
-                                        <Value></Value>
-                                        <Extension>.jpeg</Extension>
-                                        <URL>https://www.microting.com/wp-content/themes/Artificial-Reason-WP/img/close.png</URL>
-                                    </DataItem>
-                                    <DataItem>
-                                        <Id>{f1.Id}</Id>
-                                        <Geolocation>
-                                            <Latitude></Latitude>
-                                            <Longitude></Longitude>
-                                            <Altitude></Altitude>
-                                            <Heading></Heading>
-                                            <Accuracy></Accuracy>
-                                            <Date></Date>
-                                        </Geolocation>
-                                        <Value></Value>
-                                        <Extension>.jpeg</Extension>
-                                        <URL>https://www.microting.com/wp-content/themes/Artificial-Reason-WP/img/close.png</URL>
-                                    </DataItem>
-                                </DataItemList>
-                                <ExtraDataItemList></ExtraDataItemList>
-                            </ElementList>
-                        </Check>
+                        </Check>                     
                     </Checks>
                 </Response>".Replace("'", "\"");
                 #endregion

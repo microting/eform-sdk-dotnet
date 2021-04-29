@@ -35,7 +35,6 @@ using Microting.eForm.Infrastructure.Helpers;
 using Microting.eForm.Infrastructure.Models;
 using NUnit.Framework;
 using EntityGroup = Microting.eForm.Infrastructure.Data.Entities.EntityGroup;
-using EntityItem = Microting.eForm.Infrastructure.Data.Entities.EntityItem;
 
 namespace eFormSDK.Integration.Base.SqlControllerTests
 {
@@ -3313,7 +3312,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
         {
             // Arrance
             EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            Microting.eForm.Infrastructure.Models.EntityItem eT = new Microting.eForm.Infrastructure.Models.EntityItem
+            EntityItem eT = new EntityItem
             {
                 Name = "Jon Doe",
                 Description = "",
@@ -3324,7 +3323,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Act
             await sut.EntityItemCreate(eG1.Id, eT);
 
-            List<EntityItem> items = DbContext.EntityItems.ToList();
+            List<Microting.eForm.Infrastructure.Data.Entities.EntityItem> items = DbContext.EntityItems.ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());
@@ -3335,11 +3334,11 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
         {
             // Arrance
             EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            EntityItem et = await testHelpers.CreateEntityItem("", 0, eG1.Id, "", "", "Jon Doe", 1, 0, Constants.WorkflowStates.Created);
+            Microting.eForm.Infrastructure.Data.Entities.EntityItem et = await testHelpers.CreateEntityItem("", 0, eG1.Id, "", "", "Jon Doe", 1, 0, Constants.WorkflowStates.Created);
 
             // Act
             await sut.EntityItemDelete(et.Id);
-            List<EntityItem> items = DbContext.EntityItems.ToList();
+            List<Microting.eForm.Infrastructure.Data.Entities.EntityItem> items = DbContext.EntityItems.ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());
@@ -3352,7 +3351,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
         {
             // Arrance
             EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            Microting.eForm.Infrastructure.Models.EntityItem eT = new Microting.eForm.Infrastructure.Models.EntityItem
+            EntityItem eT = new EntityItem
             {
                 Name = "Jon Doe",
                 Description = "",
@@ -3363,7 +3362,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Act
             await sut.EntityItemCreate(eG1.Id, eT);
 
-            List<EntityItem> items = DbContext.EntityItems.ToList();
+            List<Microting.eForm.Infrastructure.Data.Entities.EntityItem> items = DbContext.EntityItems.ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());
@@ -3374,11 +3373,11 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
         {
             // Arrance
             EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            EntityItem et = await testHelpers.CreateEntityItem("", 0, eG1.Id, "", "", "Jon Doe", 1, 0, Constants.WorkflowStates.Created);
+            Microting.eForm.Infrastructure.Data.Entities.EntityItem et = await testHelpers.CreateEntityItem("", 0, eG1.Id, "", "", "Jon Doe", 1, 0, Constants.WorkflowStates.Created);
 
             // Act
             await sut.EntityItemDelete(et.Id);
-            List<EntityItem> items = DbContext.EntityItems.ToList();
+            List<Microting.eForm.Infrastructure.Data.Entities.EntityItem> items = DbContext.EntityItems.ToList();
 
             // Assert
             Assert.AreEqual(1, items.Count());

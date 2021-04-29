@@ -22,10 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
@@ -136,7 +134,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public static async Task MoveTranslations(MicrotingDbContext dbContext)
         {
             List<CheckList> checkLists = await dbContext.CheckLists.ToListAsync();
-            Language defaultLanguage = await dbContext.Languages.SingleAsync(x => x.Name == "Danish");
+            Language language = await dbContext.Languages.SingleAsync(x => x.Name == "Danish");
             foreach (CheckList checkList in checkLists)
             {
                 if (!string.IsNullOrEmpty(checkList.Label))
@@ -146,7 +144,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                         Text = checkList.Label,
                         Description = checkList.Description,
                         CheckListId = checkList.Id,
-                        LanguageId = defaultLanguage.Id
+                        LanguageId = language.Id
                     };
                     await checkListTranslation.Create(dbContext);
                     checkList.Label = null;

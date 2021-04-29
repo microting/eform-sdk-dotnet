@@ -77,6 +77,8 @@
     <Compile Include="Infrastructure\Data\Entities\EntityGroupVersion.cs" />
     <Compile Include="Infrastructure\Data\Entities\EntityItem.cs" />
     <Compile Include="Infrastructure\Data\Entities\EntityItemVersion.cs" />
+    <Compile Include="Infrastructure\Data\Entities\ExtraFieldValue.cs" />
+    <Compile Include="Infrastructure\Data\Entities\ExtraFieldValueVersion.cs" />
     <Compile Include="Infrastructure\Data\Entities\Field.cs" />
     <Compile Include="Infrastructure\Data\Entities\FieldOption.cs" />
     <Compile Include="Infrastructure\Data\Entities\FieldOptionTranslation.cs" />
@@ -89,6 +91,8 @@
     <Compile Include="Infrastructure\Data\Entities\FieldVersion.cs" />
     <Compile Include="Infrastructure\Data\Entities\FieldTranslationVersion.cs" />
     <Compile Include="Infrastructure\Data\Entities\Folder.cs" />
+    <Compile Include="Infrastructure\Data\Entities\FolderTranslation.cs" />
+    <Compile Include="Infrastructure\Data\Entities\FolderTranslationVersion.cs" />
     <Compile Include="Infrastructure\Data\Entities\FolderVersion.cs" />
     <Compile Include="Infrastructure\Data\Entities\Language.cs" />
     <Compile Include="Infrastructure\Data\Entities\LanguageQuestionSet.cs" />
@@ -236,6 +240,10 @@
     <Compile Include="Migrations\20201225165255_FixingBrokenTableNames.Designer.cs" />
     <Compile Include="Migrations\20201231062732_ChangingDescriptToLanguageCode.cs" />
     <Compile Include="Migrations\20201231062732_ChangingDescriptToLanguageCode.Designer.cs" />
+    <Compile Include="Migrations\20210405153325_AddingExtraFieldValues.cs" />
+    <Compile Include="Migrations\20210405153325_AddingExtraFieldValues.Designer.cs" />
+    <Compile Include="Migrations\20210407134630_AddingFolderTranslations.cs" />
+    <Compile Include="Migrations\20210407134630_AddingFolderTranslations.Designer.cs" />
     <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Infrastructure\SqlController.cs" />
     <Compile Include="Services\Subscriber.cs" />
@@ -243,35 +251,42 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.Core" Version="3.5.1.57" />
-    <PackageReference Include="AWSSDK.S3" Version="3.5.7.4" />
-    <PackageReference Include="AWSSDK.SQS" Version="3.5.1.6" />
+    <PackageReference Include="AWSSDK.Core" Version="3.7.0.16" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.0.17" />
+    <PackageReference Include="AWSSDK.SQS" Version="3.7.0.16" />
     <PackageReference Include="Castle.Core" Version="4.4.1" />
     <PackageReference Include="Castle.Windsor" Version="5.1.1" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.12.0" />
     <PackageReference Include="Magick.NET-Q16-x64" Version="7.22.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="5.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.5" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="OpenStack.NetCoreSwiftClient" Version="1.0.5" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.0-alpha.2" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="5.0.0" />
     <PackageReference Include="Rebus" Version="6.4.1" />
     <PackageReference Include="Rebus.Castle.Windsor" Version="6.1.0" />
     <PackageReference Include="Rebus.RabbitMQ" Version="7.3.0" />
     <PackageReference Include="Remotion.Linq" Version="2.2.0" />
+    <PackageReference Include="SharpZipLib" Version="1.3.1" />
     <PackageReference Include="System.CodeDom" Version="5.0.0" />
     <PackageReference Include="System.ComponentModel.EventBasedAsync" Version="4.3.0" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.0" />
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
     <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
     <PackageReference Include="System.Net.Requests" Version="4.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+      <None Include="images\icon.png">
+          <Pack>true</Pack>
+          <PackagePath>\</PackagePath>
+      </None>
   </ItemGroup>
 
 </Project>
