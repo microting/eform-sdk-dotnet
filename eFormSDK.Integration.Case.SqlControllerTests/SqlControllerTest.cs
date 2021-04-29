@@ -39,7 +39,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
     {
         // private SqlController sut;
         // private TestHelpers testHelpers;
-        string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:", "");
+        string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).Replace(@"file:", "");
         //path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
 
 

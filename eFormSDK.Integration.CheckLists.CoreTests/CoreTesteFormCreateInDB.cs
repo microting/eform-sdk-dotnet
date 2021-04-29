@@ -69,7 +69,7 @@ namespace eFormSDK.Integration.CoreTests
             sut.HandleFileDownloaded += EventFileDownloaded;
             sut.HandleSiteActivated += EventSiteActivated;
             await sut.StartSqlOnly(ConnectionString);
-            path = Assembly.GetExecutingAssembly().CodeBase;
+            path = Assembly.GetExecutingAssembly().Location;
             UriBuilder uri = new UriBuilder(path);
             path = Uri.UnescapeDataString(uri.Path);
             path = Path.GetDirectoryName(path);

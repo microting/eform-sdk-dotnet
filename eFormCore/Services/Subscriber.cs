@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 using System;
+using System.Globalization;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -70,7 +71,7 @@ namespace Microting.eForm.Services
         {
             if (!isActive)
             {
-                subscriberThread = new Thread(() => SubscriberThread());
+                subscriberThread = new Thread(SubscriberThread);
                 subscriberThread.Start();
 
                 int tries = 0;
@@ -99,8 +100,11 @@ namespace Microting.eForm.Services
 
                 while (isActive)
                 {
-                    if (tries > 100) //25 secs
-                        subscriberThread.Abort();
+                    if (tries > 100)
+                    {
+                        subscriberThread.Interrupt();
+                    } //25 secs
+                        //subscriberThread.Abort();
 
                     Thread.Sleep(250);
                     tries++;
@@ -147,7 +151,7 @@ namespace Microting.eForm.Services
                 {
                     try
                     {
-                        var res = sqsClient.ReceiveMessageAsync(awsQueueUrl).Result;
+                        var res = sqsClient.ReceiveMessageAsync(awsQueueUrl).GetAwaiter().GetResult();
 
                         if (res.Messages.Count > 0)
                             foreach (var message in res.Messages)
@@ -206,12 +210,12 @@ namespace Microting.eForm.Services
                                         break;
                                 }
 
-                                sqsClient.DeleteMessageAsync(awsQueueUrl, message.ReceiptHandle);
+                                sqsClient.DeleteMessageAsync(awsQueueUrl, message.ReceiptHandle).GetAwaiter().GetResult();
                             }
                         else
                         {
                             log.LogStandard(t.GetMethodName("Subscriber"),
-                                $"{DateTime.UtcNow.ToString()} -  No messages for us right now!");
+                                $"{DateTime.UtcNow.ToString(CultureInfo.InvariantCulture)} -  No messages for us right now!");
                         }
 
                     }

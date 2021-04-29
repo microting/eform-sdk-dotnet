@@ -20,7 +20,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
     {
         private SqlController sut;
         private TestHelpers testHelpers;
-        string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:", "");
+        string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).Replace(@"file:", "");
 
         public override async Task DoSetup()
         {
