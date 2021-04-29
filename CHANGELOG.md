@@ -1,5 +1,14 @@
 # Changelog
 
+## [v4.5.4](https://github.com/microting/eform-sdk-dotnet/tree/v4.5.4) (2021-04-29)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v4.5.3...v4.5.4)
+
+**Implemented enhancements:**
+
+- Bump Pomelo.EntityFrameworkCore.MySql from 3.2.5 to 5.0.0 [\#105](https://github.com/microting/eform-sdk-dotnet/issues/105)
+- Bump AWSSDK.S3 from 3.7.0.16 to 3.7.0.17 [\#104](https://github.com/microting/eform-sdk-dotnet/issues/104)
+
 ## [v4.5.3](https://github.com/microting/eform-sdk-dotnet/tree/v4.5.3) (2021-04-27)
 
 [Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v4.5.2...v4.5.3)
