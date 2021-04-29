@@ -70,8 +70,6 @@ namespace eFormSDK.Integration.CoreTests
             sut.HandleSiteActivated += EventSiteActivated;
             await sut.StartSqlOnly(ConnectionString);
             path = Assembly.GetExecutingAssembly().Location;
-            UriBuilder uri = new UriBuilder(path);
-            path = Uri.UnescapeDataString(uri.Path);
             path = Path.GetDirectoryName(path);
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));

@@ -212,7 +212,7 @@ namespace eFormCore
 			catch (Exception ex)
 			{
                 await FatalExpection(methodName + " failed", ex).ConfigureAwait(false);
-				throw ex;
+				throw;
 				//return false;
 			}
 			//
@@ -1597,12 +1597,12 @@ namespace eFormCore
                     try
                     {
                         Log.LogException(methodName, $"(string {microtingUId}) failed", ex);
-                        throw ex;
+                        throw;
                     }
                     catch
                     {
                         Log.LogException(methodName, "(string microtingUId) failed", ex);
-                        throw ex;
+                        throw;
                     }
                 }
             }
@@ -1658,7 +1658,7 @@ namespace eFormCore
                         }
 
                         Log.LogException(methodName, "(string microtingUId) failed", ex);
-                        throw ex;
+                        throw;
                     }
                 }
                 catch (Exception ex)
@@ -4187,7 +4187,7 @@ namespace eFormCore
             catch (Exception ex)
             {
                 Log.LogException(methodName, "failed", ex);
-                throw ex;
+                throw;
             }
         }
 
@@ -4744,87 +4744,79 @@ namespace eFormCore
 
         private async Task<List<string>> GenerateDataSetFromCasesSubSet(List<string> lstReturn, int? checkListId, string preLabel, Language language)
         {
-            try
+            string sep = " / ";
+            await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
+            if (checkListId != null)
             {
-                string sep = " / ";
-                await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
-                if (checkListId != null)
+                if (dbContext.CheckLists.Any(x => x.ParentId == checkListId))
                 {
-                    if (dbContext.CheckLists.Any(x => x.ParentId == checkListId))
+                    foreach (CheckList checkList in await dbContext.CheckLists.Where(x => x.ParentId == checkListId)
+                        .OrderBy(x => x.DisplayIndex).ToListAsync())
                     {
-                        foreach (CheckList checkList in await dbContext.CheckLists.Where(x => x.ParentId == checkListId)
-                            .OrderBy(x => x.DisplayIndex).ToListAsync())
+                        CheckList parentCheckList =
+                            await dbContext.CheckLists.SingleAsync(x => x.Id == checkListId);
+                        if (parentCheckList.ParentId != null)
                         {
-                            CheckList parentCheckList =
-                                await dbContext.CheckLists.SingleAsync(x => x.Id == checkListId);
-                            if (parentCheckList.ParentId != null)
+                            if (preLabel != "")
                             {
-                                if (preLabel != "")
-                                {
-                                    CheckListTranslation checkListTranslation =
-                                        await dbContext.CheckListTranslations.FirstAsync(x =>
-                                            x.CheckListId == parentCheckList.Id && x.LanguageId == language.Id);
-                                    preLabel = preLabel + sep + checkListTranslation.Text;
-                                }
+                                CheckListTranslation checkListTranslation =
+                                    await dbContext.CheckListTranslations.FirstAsync(x =>
+                                        x.CheckListId == parentCheckList.Id && x.LanguageId == language.Id);
+                                preLabel = preLabel + sep + checkListTranslation.Text;
                             }
-
-                            await GenerateDataSetFromCasesSubSet(lstReturn, checkList.Id, preLabel, language);
                         }
-                    }
-                    else
-                    {
-                        foreach (Microting.eForm.Infrastructure.Data.Entities.Field field in await dbContext.Fields
-                            .Where(x => x.CheckListId == checkListId && x.ParentFieldId == null)
-                            .OrderBy(x => x.DisplayIndex).ToListAsync())
-                        {
-                            if (dbContext.Fields.Any(x => x.ParentFieldId == field.Id))
-                            {
-                                foreach (var subField in await dbContext.Fields.Where(x => x.ParentFieldId == field.Id)
-                                    .OrderBy(x => x.DisplayIndex).ToListAsync())
-                                {
-                                    if (field.FieldTypeId != 3 && field.FieldTypeId != 18)
-                                    {
-                                        FieldTranslation fieldTranslation =
-                                            await dbContext.FieldTranslations.FirstAsync(x =>
-                                                x.FieldId == field.Id && x.LanguageId == language.Id);
-                                        FieldTranslation subFieldTranslation =
-                                            await dbContext.FieldTranslations.FirstAsync(x =>
-                                                x.FieldId == subField.Id && x.LanguageId == language.Id);
 
-                                        if (preLabel != "")
-                                            lstReturn.Add(subField.Id + "|" + preLabel + sep + fieldTranslation.Text +
-                                                          sep +
-                                                          subFieldTranslation.Text);
-                                        else
-                                            lstReturn.Add(subField.Id + "|" + fieldTranslation.Text + sep +
-                                                          subFieldTranslation.Text);
-                                    }
-                                }
-                            }
-                            else
+                        await GenerateDataSetFromCasesSubSet(lstReturn, checkList.Id, preLabel, language);
+                    }
+                }
+                else
+                {
+                    foreach (Microting.eForm.Infrastructure.Data.Entities.Field field in await dbContext.Fields
+                        .Where(x => x.CheckListId == checkListId && x.ParentFieldId == null)
+                        .OrderBy(x => x.DisplayIndex).ToListAsync())
+                    {
+                        if (dbContext.Fields.Any(x => x.ParentFieldId == field.Id))
+                        {
+                            foreach (var subField in await dbContext.Fields.Where(x => x.ParentFieldId == field.Id)
+                                .OrderBy(x => x.DisplayIndex).ToListAsync())
                             {
                                 if (field.FieldTypeId != 3 && field.FieldTypeId != 18)
                                 {
                                     FieldTranslation fieldTranslation =
                                         await dbContext.FieldTranslations.FirstAsync(x =>
                                             x.FieldId == field.Id && x.LanguageId == language.Id);
+                                    FieldTranslation subFieldTranslation =
+                                        await dbContext.FieldTranslations.FirstAsync(x =>
+                                            x.FieldId == subField.Id && x.LanguageId == language.Id);
+
                                     if (preLabel != "")
-                                        lstReturn.Add(field.Id + "|" + preLabel + sep + fieldTranslation.Text);
+                                        lstReturn.Add(subField.Id + "|" + preLabel + sep + fieldTranslation.Text +
+                                                      sep +
+                                                      subFieldTranslation.Text);
                                     else
-                                        lstReturn.Add(field.Id + "|" + fieldTranslation.Text);
+                                        lstReturn.Add(subField.Id + "|" + fieldTranslation.Text + sep +
+                                                      subFieldTranslation.Text);
                                 }
+                            }
+                        }
+                        else
+                        {
+                            if (field.FieldTypeId != 3 && field.FieldTypeId != 18)
+                            {
+                                FieldTranslation fieldTranslation =
+                                    await dbContext.FieldTranslations.FirstAsync(x =>
+                                        x.FieldId == field.Id && x.LanguageId == language.Id);
+                                if (preLabel != "")
+                                    lstReturn.Add(field.Id + "|" + preLabel + sep + fieldTranslation.Text);
+                                else
+                                    lstReturn.Add(field.Id + "|" + fieldTranslation.Text);
                             }
                         }
                     }
                 }
-
-                return lstReturn;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
             }
 
+            return lstReturn;
         }
 
         private async Task<List<string>> PdfValidate(string pdfString, int pdfId)
@@ -5412,8 +5404,8 @@ namespace eFormCore
             }
 			catch (Exception ex)
 			{
-				Log.LogWarning(methodName, "HandleCaseCompleted event's external logic suffered an Expection");
-				throw ex;
+				Log.LogWarning(methodName, $"HandleCaseCompleted event's external logic suffered an Expection: {ex.Message}");
+				throw;
 			}
 		}
 
@@ -5454,8 +5446,8 @@ namespace eFormCore
             try { HandleeFormProcessedByServer.Invoke(caseDto, EventArgs.Empty); }
             catch (Exception ex)
             {
-                Log.LogWarning(methodName, "HandleCaseProcessedByServer event's external logic suffered an Expection");
-                throw ex;
+                Log.LogWarning(methodName, $"HandleCaseProcessedByServer event's external logic suffered an Expection: {ex.Message}");
+                throw;
             }
         }
 
@@ -5469,8 +5461,8 @@ namespace eFormCore
             try { HandleeFormProsessingError.Invoke(caseDto, EventArgs.Empty); }
             catch (Exception ex)
             {
-                Log.LogWarning(methodName, "HandleCaseProcessingError event's external logic suffered an Expection");
-                throw ex;
+                Log.LogWarning(methodName, $"HandleCaseProcessingError event's external logic suffered an Expection: {ex.Message}");
+                throw;
             }
         }
 
@@ -5484,8 +5476,8 @@ namespace eFormCore
 			try { HandleCaseRetrived.Invoke(caseDto, EventArgs.Empty); }
 			catch (Exception ex)
 			{
-				Log.LogWarning(methodName, "HandleCaseRetrived event's external logic suffered an Expection");
-				throw ex;
+				Log.LogWarning(methodName, $"HandleCaseRetrived event's external logic suffered an Expection: {ex.Message}");
+				throw;
 			}
 		}
         //

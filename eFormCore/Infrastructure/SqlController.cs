@@ -83,7 +83,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                throw ex;
+                throw;
             }
             //
 
