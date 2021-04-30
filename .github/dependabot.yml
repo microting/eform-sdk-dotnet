@@ -1,0 +1,54 @@
+version: 2
+updates:
+- package-ecosystem: nuget
+  directory: "/"
+  schedule:
+    interval: monthly
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: Microsoft.Extensions.Logging.Console
+    versions:
+    - 5.0.0
+  - dependency-name: Rebus.RabbitMQ
+    versions:
+    - 7.3.0
+  - dependency-name: Rebus.Castle.Windsor
+    versions:
+    - 6.1.0
+  - dependency-name: Microsoft.EntityFrameworkCore
+    versions:
+    - 5.0.2
+    - 5.0.3
+    - 5.0.4
+    - 5.0.5
+  - dependency-name: Microsoft.EntityFrameworkCore.Proxies
+    versions:
+    - 5.0.2
+    - 5.0.3
+    - 5.0.4
+    - 5.0.5
+  - dependency-name: Microsoft.EntityFrameworkCore.Design
+    versions:
+    - 5.0.2
+    - 5.0.3
+    - 5.0.4
+    - 5.0.5
+  - dependency-name: System.Drawing.Common
+    versions:
+    - 5.0.0
+    - 5.0.1
+  - dependency-name: AWSSDK.S3
+    versions:
+    - 3.5.7.12
+    - 3.5.9
+  - dependency-name: Rebus
+    versions:
+    - 6.4.1
+    - 6.5.3
+  - dependency-name: AWSSDK.SQS
+    versions:
+    - 3.5.1.14
+  - dependency-name: System.CodeDom
+    versions:
+    - 5.0.0
