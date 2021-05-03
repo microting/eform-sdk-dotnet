@@ -2266,7 +2266,7 @@ namespace eFormCore
             {
                 foreach (KeyValuePair<string,string> keyValuePair in ParseCustomXmlContent(customXmlContent))
                 {
-                    valuePairs.Add(keyValuePair.Key, keyValuePair.Value);
+                    valuePairs.Add($"F_{keyValuePair.Key}", keyValuePair.Value);
                 }
             }
 
