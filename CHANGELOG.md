@@ -1,5 +1,41 @@
 # Changelog
 
+## [v5.0.3](https://github.com/microting/eform-sdk-dotnet/tree/v5.0.3) (2021-05-03)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.0.2...v5.0.3)
+
+**Implemented enhancements:**
+
+- Bump AWSSDK.SQS from 3.7.0.16 to 3.7.0.17 [\#118](https://github.com/microting/eform-sdk-dotnet/issues/118)
+- Bump AWSSDK.S3 from 3.7.0.17 to 3.7.0.18 [\#117](https://github.com/microting/eform-sdk-dotnet/issues/117)
+- Bump AWSSDK.Core from 3.7.0.16 to 3.7.0.17 [\#116](https://github.com/microting/eform-sdk-dotnet/issues/116)
+
+## [v5.0.2](https://github.com/microting/eform-sdk-dotnet/tree/v5.0.2) (2021-04-30)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.0.1...v5.0.2)
+
+**Merged pull requests:**
+
+- Bump Microsoft.NET.Test.Sdk from 16.8.3 to 16.9.4 [\#112](https://github.com/microting/eform-sdk-dotnet/pull/112) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump DocumentFormat.OpenXml from 2.12.0 to 2.12.3 [\#111](https://github.com/microting/eform-sdk-dotnet/pull/111) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump NUnit from 3.13.1 to 3.13.2 [\#110](https://github.com/microting/eform-sdk-dotnet/pull/110) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump Newtonsoft.Json from 12.0.3 to 13.0.1 [\#109](https://github.com/microting/eform-sdk-dotnet/pull/109) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump Magick.NET-Q16-x64 from 7.22.3 to 7.23.4 [\#108](https://github.com/microting/eform-sdk-dotnet/pull/108) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+## [v5.0.1](https://github.com/microting/eform-sdk-dotnet/tree/v5.0.1) (2021-04-30)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.0.0...v5.0.1)
+
+**Merged pull requests:**
+
+- Upgrade to GitHub-native Dependabot [\#107](https://github.com/microting/eform-sdk-dotnet/pull/107) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump System.Drawing.Common from 5.0.0 to 5.0.2 [\#106](https://github.com/microting/eform-sdk-dotnet/pull/106) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump Rebus from 6.0.0 to 6.5.5 [\#101](https://github.com/microting/eform-sdk-dotnet/pull/101) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+
+## [v5.0.0](https://github.com/microting/eform-sdk-dotnet/tree/v5.0.0) (2021-04-29)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v4.5.4...v5.0.0)
+
 ## [v4.5.4](https://github.com/microting/eform-sdk-dotnet/tree/v4.5.4) (2021-04-29)
 
 [Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v4.5.3...v4.5.4)
