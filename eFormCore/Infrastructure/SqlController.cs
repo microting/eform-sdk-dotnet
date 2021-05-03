@@ -3102,7 +3102,7 @@ namespace Microting.eForm.Infrastructure
                 }
                 else
                 {
-                    offSet = offSet * pageSize;
+                    //offSet = offSet * pageSize;
                     dbCases = matches.Skip(offSet).Take(pageSize).ToList();
                 }
 
