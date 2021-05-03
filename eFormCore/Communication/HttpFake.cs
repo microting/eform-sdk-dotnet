@@ -371,7 +371,7 @@ namespace Microting.eForm.Communication
         //
 
         // public Unit
-        public async Task<string> UnitUpdate(int id, bool newOtp, bool pushEnabled, bool syncDelayEnabled, bool syncDialogEnabled)
+        public async Task<string> UnitUpdate(int id, bool newOtp, int siteId, bool pushEnabled, bool syncDelayEnabled, bool syncDialogEnabled)
         {
             await Task.Run(() => { });
             JObject contentToServer = JObject.FromObject(new

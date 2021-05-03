@@ -4171,10 +4171,12 @@ namespace eFormCore
                 await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
 
                 Unit unit = await dbContext.Units.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUid);
+                Site site = await dbContext.Sites.SingleOrDefaultAsync(x => x.Id == unit.SiteId);
 
-                var parsedResult = JObject.Parse(await _communicator
-                    .UnitRequestOtp(microtingUid, true, unit.PushEnabled, unit.SyncDelayEnabled, unit.SyncDialog)
-                    .ConfigureAwait(false));
+                var result = await _communicator
+                    .UnitRequestOtp(microtingUid, (int)site.MicrotingUid, true, unit.PushEnabled, unit.SyncDelayEnabled, unit.SyncDialog)
+                    .ConfigureAwait(false);
+                var parsedResult = JObject.Parse(result);
 
                 int otpCode = int.Parse(parsedResult["OtpCode"].ToString());
 

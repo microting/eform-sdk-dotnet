@@ -390,12 +390,12 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region public unit
-        public Task<string> UnitRequestOtp(int microtingUid, bool newOtp, bool pushEnabled, bool syncDelayEnabled, bool syncDialogEnabled)
+        public Task<string> UnitRequestOtp(int microtingUid, int siteId, bool newOtp, bool pushEnabled, bool syncDelayEnabled, bool syncDialogEnabled)
         {
             _log.LogEverything("Communicator.UnitRequestOtp", "called");
             _log.LogVariable("Communicator.UnitRequestOtp", nameof(microtingUid), microtingUid);
 
-            return _http.UnitUpdate(microtingUid, newOtp, pushEnabled, syncDelayEnabled, syncDialogEnabled);
+            return _http.UnitUpdate(microtingUid, newOtp, siteId, pushEnabled, syncDelayEnabled, syncDialogEnabled);
         }
 
         public Task<string> UnitLoadAllFromRemote(int customerNo)

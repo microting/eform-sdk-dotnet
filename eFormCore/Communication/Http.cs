@@ -26,6 +26,7 @@ using System;
 using System.CodeDom.Compiler;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Net.Security;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
@@ -66,7 +67,8 @@ namespace Microting.eForm.Communication
             addressPdfUpload = comAddressPdfUpload;
             organizationId = comOrganizationId;
             addressSpeechToText = comSpeechToText;
-            newAddressBasic = "https://microcore.microting.com";
+            //newAddressBasic = "https://microcore.microting.com";
+            newAddressBasic = "http://localhost:5010";
 
             dllVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
@@ -761,11 +763,11 @@ namespace Microting.eForm.Communication
         //
 
         // public Unit
-        public async Task<string> UnitUpdate(int id, bool newOtp, bool pushEnabled, bool syncDelayEnabled, bool syncDialogEnabled)
+        public async Task<string> UnitUpdate(int id, bool newOtp, int siteId, bool pushEnabled, bool syncDelayEnabled, bool syncDialogEnabled)
         {
             JObject contentToServer = JObject.FromObject(new { model = new { unit_id = id } });
             WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/Unit/{id}?token={token}&newOtp=true&pushEnabled={pushEnabled}&syncDelayEnabled={syncDelayEnabled}&syncDialogEnabled={syncDialogEnabled}&sdkVersion={dllVersion}");
+                $"{newAddressBasic}/Unit/{id}?token={token}&newOtp=true&pushEnabled={pushEnabled}&siteId={siteId}&syncDelayEnabled={syncDelayEnabled}&syncDialogEnabled={syncDialogEnabled}&sdkVersion={dllVersion}");
             request.Method = "PUT";
             byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
             request.ContentType = "application/json; charset=utf-8";
@@ -1033,16 +1035,10 @@ namespace Microting.eForm.Communication
             string responseFromServer = await reader.ReadToEndAsync();
 
             // Clean up the streams.
-            try
-            {
-                reader.Close();
-                dataResponseStream.Close();
-                response.Close();
-            }
-            catch
-            {
 
-            }
+            reader.Close();
+            dataResponseStream.Close();
+            response.Close();
 
             WriteDebugConsoleLogEntry("Http.PostToServer", $"Finished at {DateTime.UtcNow} - took {(start - DateTime.UtcNow).ToString()}");
             return responseFromServer;
@@ -1063,21 +1059,13 @@ namespace Microting.eForm.Communication
             httpRequest.CookieContainer = new CookieContainer();
             httpRequest.AllowAutoRedirect = false;
 
-            WebResponse response;
-
             string newUrl = "";
-            try
+            HttpWebResponse response = (HttpWebResponse) await httpRequest.GetResponseAsync();
+            if (response.StatusCode == HttpStatusCode.Found)
             {
-                response = (HttpWebResponse) await httpRequest.GetResponseAsync();
+                newUrl = response.Headers["Location"];
             }
-            catch (WebException ex)
-            {
-                if (ex.Message.Contains("302") || ex.Message.Contains("301"))
-                {
-                    response = ex.Response;
-                    newUrl = response.Headers["Location"];
-                }
-            }
+
             return newUrl;
         }
 
@@ -1092,24 +1080,13 @@ namespace Microting.eForm.Communication
             httpRequest.CookieContainer = new CookieContainer();
             httpRequest.AllowAutoRedirect = false;
 
-            WebResponse response;
+            HttpWebResponse response;
 
             string newUrl = "";
-            try
+            response = (HttpWebResponse) await httpRequest.GetResponseAsync().ConfigureAwait(false);
+            if (response.StatusCode == HttpStatusCode.Found)
             {
-                response = (HttpWebResponse) await httpRequest.GetResponseAsync().ConfigureAwait(false);
-            }
-            catch (WebException ex)
-            {
-                if (ex.Message.Contains("302") || ex.Message.Contains("301"))
-                {
-                    response = ex.Response;
-                    newUrl = response.Headers["Location"];
-                }
-                else
-                {
-                    throw;
-                }
+                newUrl = response.Headers["Location"];
             }
 
             return newUrl;
