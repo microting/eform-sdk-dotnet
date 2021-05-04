@@ -6,7 +6,7 @@ if (( "$GIT_STATUS" > 0 )); then
 	git pull
   CURRENT_NUMBER_OF_COMMITS=`git log --oneline | wc -l`
 
-	PACKAGES=('AWSSDK.Core' 'AWSSDK.S3' 'AWSSDK.SQS' 'Pomelo.EntityFrameworkCore.MySql' 'Magick.NET-Q16-x64' 'DocumentFormat.OpenXml')
+	PACKAGES=('AWSSDK.Core' 'AWSSDK.S3' 'AWSSDK.SQS' 'Pomelo.EntityFrameworkCore.MySql' 'Magick.NET-Q16-x64' 'DocumentFormat.OpenXml' 'Microting.Rebus' 'Microting.Rebus.RabbitMq' 'Microting.Rebus.Castle.Windsor')
 	PROJECT_NAME='Microting.eForm.csproj'
 	REPOSITORY='eform-sdk-dotnet'
 
