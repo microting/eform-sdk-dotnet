@@ -2133,6 +2133,20 @@ namespace eFormCore
                 valuePairs.Add($"F_{field.Id}", "");
             }
 
+            bool noImageTitle = false;
+
+            if (!string.IsNullOrEmpty(customXmlContent))
+            {
+                foreach (KeyValuePair<string,string> keyValuePair in ParseCustomXmlContent(customXmlContent))
+                {
+                    valuePairs.Add(keyValuePair.Key, keyValuePair.Value);
+                    if (keyValuePair.Key == "F_noImageTitle")
+                    {
+                        noImageTitle = true;
+                    }
+                }
+            }
+
             SortedDictionary<string, int> imageFieldCountList = new SortedDictionary<string, int>();
             foreach (FieldValue fieldValue in fieldValues)
             {
@@ -2182,7 +2196,12 @@ namespace eFormCore
                             FieldTranslation fieldTranslation =
                                 await dbContext.FieldTranslations.FirstAsync(x =>
                                     x.FieldId == field.Id && x.LanguageId == language.Id);
-                            pictures.Add(new KeyValuePair<string, List<string>>($"{checkListTranslation.Text.Replace("&", "&amp;")} - {fieldTranslation.Text.Replace("&", "&amp;")}", list));
+                            pictures.Add(noImageTitle
+                                ? new KeyValuePair<string, List<string>>(
+                                    $"{fieldTranslation.Text.Replace("&", "&amp;")}", list)
+                                : new KeyValuePair<string, List<string>>(
+                                    $"{checkListTranslation.Text.Replace("&", "&amp;")} - {fieldTranslation.Text.Replace("&", "&amp;")}",
+                                    list));
 
                             if (imageFieldCountList.ContainsKey($"FCount_{fieldValue.FieldId}"))
                             {
@@ -2259,15 +2278,6 @@ namespace eFormCore
             foreach (CheckListValue checkListValue in checkListValues)
             {
                 valuePairs.Add($"C_{checkListValue.Id}", checkListValue.Status);
-            }
-            // TODO get custom xml values
-
-            if (!string.IsNullOrEmpty(customXmlContent))
-            {
-                foreach (KeyValuePair<string,string> keyValuePair in ParseCustomXmlContent(customXmlContent))
-                {
-                    valuePairs.Add($"F_{keyValuePair.Key}", keyValuePair.Value);
-                }
             }
 
             // Try to create the results directory first
