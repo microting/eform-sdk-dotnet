@@ -1,5 +1,35 @@
 # Changelog
 
+## [v5.1.3](https://github.com/microting/eform-sdk-dotnet/tree/v5.1.3) (2021-05-06)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.1.2...v5.1.3)
+
+**Implemented enhancements:**
+
+- Bump Microting.Rebus.Castle.Windsor from 7.0.2 to 7.0.3 [\#121](https://github.com/microting/eform-sdk-dotnet/issues/121)
+- Bump Microting.Rebus.RabbitMq from 8.0.3 to 8.0.4 [\#120](https://github.com/microting/eform-sdk-dotnet/issues/120)
+- Bump Microting.Rebus from 7.0.1 to 7.1.0 [\#119](https://github.com/microting/eform-sdk-dotnet/issues/119)
+
+## [v5.1.2](https://github.com/microting/eform-sdk-dotnet/tree/v5.1.2) (2021-05-05)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.1.1...v5.1.2)
+
+## [v5.1.1](https://github.com/microting/eform-sdk-dotnet/tree/v5.1.1) (2021-05-04)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.1.0...v5.1.1)
+
+## [v5.1.0](https://github.com/microting/eform-sdk-dotnet/tree/v5.1.0) (2021-05-04)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.0.4...v5.1.0)
+
+## [v5.0.4](https://github.com/microting/eform-sdk-dotnet/tree/v5.0.4) (2021-05-03)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/5.0.4...v5.0.4)
+
+## [5.0.4](https://github.com/microting/eform-sdk-dotnet/tree/5.0.4) (2021-05-03)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.0.3...5.0.4)
+
 ## [v5.0.3](https://github.com/microting/eform-sdk-dotnet/tree/v5.0.3) (2021-05-03)
 
 [Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.0.2...v5.0.3)
