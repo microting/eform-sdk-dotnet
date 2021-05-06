@@ -5920,8 +5920,23 @@ namespace Microting.eForm.Infrastructure
                     x.FieldId == field.Id && x.LanguageId == language.Id);
                 if (fieldTranslation == null)
                 {
-                    fieldTranslation = await db.FieldTranslations.FirstAsync(x => x.FieldId == field.Id);
-                    language = await db.Languages.SingleAsync(x => x.Id == fieldTranslation.LanguageId);
+                    fieldTranslation = await db.FieldTranslations.FirstOrDefaultAsync(x => x.FieldId == field.Id);
+                    if (fieldTranslation != null)
+                    {
+                        language = await db.Languages.SingleAsync(x => x.Id == fieldTranslation.LanguageId);
+                    }
+                    else
+                    {
+                        language = await db.Languages.FirstAsync(x => x.LanguageCode == "da");
+                        fieldTranslation = new FieldTranslation
+                        {
+                            FieldId = field.Id,
+                            Text = "",
+                            Description = "",
+                            LanguageId = language.Id
+                        };
+                        await fieldTranslation.Create(db);
+                    }
                 }
                 switch (fieldTypeStr)
                 {
