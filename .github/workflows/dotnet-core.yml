@@ -4,6 +4,9 @@ on:
   push:
     tags:
       - 'v*.*.*'
+    paths-ignore:
+    - '**.md'
+    - '.github/**'
 
 jobs:
   build:
@@ -27,7 +30,7 @@ jobs:
         mysql password: 'passwordtoo' # Required if "mysql user" exists. The password for the "mysql user"
     - uses: getong/rabbitmq-action@v1.2
       with:
-        rabbitmq version: '3.8.2-management-alpine'
+        rabbitmq version: '3.8.16-management-alpine'
         host port: 5672
         rabbitmq user: 'admin'
         rabbitmq password: 'password'

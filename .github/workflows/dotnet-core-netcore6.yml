@@ -1,10 +1,10 @@
-name: .NET Core
+name: .NET Core 6
 
 on:
   push:
-    branches: [ netcore5 ]
+    branches: [ netcore6 ]
   pull_request:
-    branches: [ netcore5 ]
+    branches: [ netcore6 ]
 
 jobs:
   build:
@@ -29,7 +29,7 @@ jobs:
         mysql password: 'passwordtoo' # Required if "mysql user" exists. The password for the "mysql user"
     - uses: getong/rabbitmq-action@v1.2
       with:
-        rabbitmq version: '3.8.2-management-alpine'
+        rabbitmq version: '3.8.16-management-alpine'
         host port: 5672
         rabbitmq user: 'admin'
         rabbitmq password: 'password'
@@ -37,7 +37,7 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.100
+        dotnet-version: 6.0
     - name: Install dependencies
       run: dotnet restore
     - name: Build
