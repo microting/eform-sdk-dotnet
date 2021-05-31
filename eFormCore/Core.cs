@@ -4599,7 +4599,15 @@ namespace eFormCore
             throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" + jsonStringResponse);
         }
 
-        public async Task<List<List<string>>> GenerateDataSetFromCases(int? checkListId, DateTime? start, DateTime? end, string customPathForUploadedData, string decimalSeparator, string thousandSaperator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo, Language language)
+        public async Task<List<List<string>>> GenerateDataSetFromCases(int? checkListId, DateTime? start, DateTime? end,
+            string customPathForUploadedData, string decimalSeparator, string thousandSaperator, bool utcTime,
+            CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo, Language language)
+        {
+            return await GenerateDataSetFromCases(checkListId, start, end, customPathForUploadedData, decimalSeparator,
+                thousandSaperator, utcTime, cultureInfo, timeZoneInfo, language, false);
+        }
+
+        public async Task<List<List<string>>> GenerateDataSetFromCases(int? checkListId, DateTime? start, DateTime? end, string customPathForUploadedData, string decimalSeparator, string thousandSaperator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo, Language language, bool includeCheckListText)
         {
             await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
             List<List<string>> dataSet = new List<List<string>>();
@@ -4686,7 +4694,7 @@ namespace eFormCore
                     if (checkListId != null)
                     {
                         List<string> lstReturn = new List<string>();
-                        lstReturn = await GenerateDataSetFromCasesSubSet(lstReturn, checkListId, "", language);
+                        lstReturn = await GenerateDataSetFromCasesSubSet(lstReturn, checkListId, "", language, includeCheckListText);
 
                         foreach (string set in lstReturn)
                         {
@@ -4754,7 +4762,7 @@ namespace eFormCore
             return dataSet;
         }
 
-        private async Task<List<string>> GenerateDataSetFromCasesSubSet(List<string> lstReturn, int? checkListId, string preLabel, Language language)
+        private async Task<List<string>> GenerateDataSetFromCasesSubSet(List<string> lstReturn, int? checkListId, string preLabel, Language language, bool includeCheckListText)
         {
             string sep = " / ";
             await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
@@ -4778,7 +4786,7 @@ namespace eFormCore
                             }
                         }
 
-                        await GenerateDataSetFromCasesSubSet(lstReturn, checkList.Id, preLabel, language);
+                        await GenerateDataSetFromCasesSubSet(lstReturn, checkList.Id, preLabel, language, includeCheckListText);
                     }
                 }
                 else
@@ -4818,6 +4826,14 @@ namespace eFormCore
                                 FieldTranslation fieldTranslation =
                                     await dbContext.FieldTranslations.FirstAsync(x =>
                                         x.FieldId == field.Id && x.LanguageId == language.Id);
+                                if (includeCheckListText)
+                                {
+                                    CheckListTranslation checkListTranslation =
+                                        await dbContext.CheckListTranslations.FirstAsync(x =>
+                                            x.Id == field.CheckListId && x.LanguageId == language.Id);
+                                    preLabel = checkListTranslation.Text;
+                                }
+
                                 if (preLabel != "")
                                     lstReturn.Add(field.Id + "|" + preLabel + sep + fieldTranslation.Text);
                                 else
