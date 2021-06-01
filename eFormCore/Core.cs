@@ -4830,7 +4830,7 @@ namespace eFormCore
                                 {
                                     CheckListTranslation checkListTranslation =
                                         await dbContext.CheckListTranslations.FirstAsync(x =>
-                                            x.Id == field.CheckListId && x.LanguageId == language.Id);
+                                            x.CheckListId == field.CheckListId && x.LanguageId == language.Id);
                                     preLabel = checkListTranslation.Text;
                                 }
 
