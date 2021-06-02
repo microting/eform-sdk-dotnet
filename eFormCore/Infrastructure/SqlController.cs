@@ -475,7 +475,10 @@ namespace Microting.eForm.Infrastructure
                         }
                     }
 
-                    var cases = db.Cases.Where(x => x.CheckListId == checkList.Id && x.Status == 100).AsQueryable();
+                    var cases = db.Cases.Where(x => x.CheckListId == checkList.Id
+                                                    && x.Status == 100
+                                                    && x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
+                        .AsQueryable();
                     bool hasCases = cases.Count() != 0;
                     if (hasCases)
                     {
