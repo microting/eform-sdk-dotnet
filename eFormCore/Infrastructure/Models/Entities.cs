@@ -49,6 +49,21 @@ namespace Microting.eForm.Infrastructure.Models
         ///...
         /// </summary>
         public DateTime? UpdatedAt { get; set; }
+
+        public static implicit operator Microting.eForm.Infrastructure.Data.Entities.EntityGroup(
+            EntityGroup entityGroup)
+        {
+            return new Data.Entities.EntityGroup
+            {
+                Id = entityGroup.Id,
+                Name = entityGroup.Name,
+                Description = entityGroup.Description,
+                MicrotingUid = entityGroup.MicrotingUUID,
+                WorkflowState = entityGroup.WorkflowState,
+                Locked = entityGroup.Locked,
+                Editable = entityGroup.Editable
+            };
+        }
     }
     #endregion
 

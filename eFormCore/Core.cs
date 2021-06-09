@@ -2417,9 +2417,21 @@ namespace eFormCore
                 Log.LogVariable(methodName, nameof(userLastName), userLastName);
                 Log.LogVariable(methodName, nameof(userEmail), userEmail);
 
+                Microting.eForm.Infrastructure.Data.Entities.EntityGroup selectableList = await db.EntityGroups
+                        .SingleOrDefaultAsync(x => x.Name == "Device users" && x.Type == Constants.FieldTypes.EntitySelect) ??
+                    await EntityGroupCreate(Constants.FieldTypes.EntitySelect, "Device users", "");
+                selectableList.Locked = true;
+                await selectableList.Update(db);
+
+                Microting.eForm.Infrastructure.Data.Entities.EntityGroup searchableList = await db.EntityGroups
+                        .SingleOrDefaultAsync(x => x.Name == "Device users" && x.Type == Constants.FieldTypes.EntitySearch) ??
+                    await EntityGroupCreate(Constants.FieldTypes.EntitySearch, "Device users", "");
+                searchableList.Locked = true;
+                await searchableList.Update(db);
+
                 Tuple<SiteDto, UnitDto> siteResult = await _communicator.SiteCreate(name, languageCode);
 
-                string token = await _sqlController.SettingRead(Settings.token).ConfigureAwait(false);
+                //string token = await _sqlController.SettingRead(Settings.token).ConfigureAwait(false);
                 int customerNo = int.Parse(_sqlController.SettingRead(Settings.customerNo).ConfigureAwait(false).GetAwaiter().GetResult());
 
                 string siteName = siteResult.Item1.SiteName;
@@ -2438,6 +2450,11 @@ namespace eFormCore
                         LanguageId = language.Id
                     };
                     await site.Create(db).ConfigureAwait(false);
+                    var selectItem = await EntitySelectItemCreate(searchableList.Id, site.Name, 0, site.Id.ToString());
+                    site.SelectableEntityItemId = selectItem.Id;
+                    var searchItem = await EntitySearchItemCreate(searchableList.Id, site.Name, "", site.Id.ToString());
+                    site.SearchableEntityItemId = searchItem.Id;
+                    await site.Update(db);
                 }
 
                 SiteNameDto siteDto = await _sqlController.SiteRead(siteId).ConfigureAwait(false);
