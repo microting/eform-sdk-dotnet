@@ -46,13 +46,14 @@ namespace eFormSDK.Integration.Base.CoreTests
         private Core sut;
         private TestHelpers testHelpers;
         private string path;
+        private DbContextHelper _dbContextHelper;
 
         public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
 
-            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
-            SqlController sql = new SqlController(dbContextHelper);
+            _dbContextHelper = new DbContextHelper(ConnectionString);
+            SqlController sql = new SqlController(_dbContextHelper);
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
             await sql.SettingUpdate(Settings.firstRunDone, "true");
             await sql.SettingUpdate(Settings.knownSitesDone, "true");
@@ -561,9 +562,20 @@ namespace eFormSDK.Integration.Base.CoreTests
             Unit unit = await testHelpers.CreateUnit(1, 1, site, 1);
             #endregion
 
-
             var match = await sut.SiteUpdate((int)site.MicrotingUid, site.Name, firstName, lastName, email, "da");
+
             // Assert
+            await using MicrotingDbContext dbContext = _dbContextHelper.GetDbContext();
+            var items = await dbContext.EntityItems.CountAsync();
+            var itemVersions = await dbContext.EntityItemVersions.CountAsync();
+            var groups = await dbContext.EntityGroups.CountAsync();
+            var groupVersions = await dbContext.EntityGroupVersions.CountAsync();
+
+            Assert.AreEqual(2, items);
+            Assert.AreEqual(2, itemVersions);
+            Assert.AreEqual(2, groups);
+            Assert.AreEqual(4, groupVersions);
+
             Assert.True(match);
         }
         [Test]//Using Communicatorn needs httpMock

@@ -3900,8 +3900,31 @@ namespace eFormCore
                     site.LanguageId = language.Id;
                     await site.Update(db).ConfigureAwait(false);
 
-                    await EntityItemUpdate(site.SearchableEntityItemId, site.Name, "", site.Id.ToString(), 0);
-                    await EntityItemUpdate(site.SelectableEntityItemId, site.Name, "", site.Id.ToString(), 0);
+                    if (site.SearchableEntityItemId == 0)
+                    { Microting.eForm.Infrastructure.Data.Entities.EntityGroup selectableList = await db.EntityGroups
+                                .SingleOrDefaultAsync(x => x.Name == "Device users" && x.Type == Constants.FieldTypes.EntitySelect) ??
+                            await EntityGroupCreate(Constants.FieldTypes.EntitySelect, "Device users", "");
+                        selectableList.Locked = true;
+                        await selectableList.Update(db);
+
+                        Microting.eForm.Infrastructure.Data.Entities.EntityGroup searchableList = await db.EntityGroups
+                                .SingleOrDefaultAsync(x => x.Name == "Device users" && x.Type == Constants.FieldTypes.EntitySearch) ??
+                            await EntityGroupCreate(Constants.FieldTypes.EntitySearch, "Device users", "");
+                        searchableList.Locked = true;
+                        await searchableList.Update(db);
+
+                        var selectItem = await EntitySelectItemCreate(selectableList.Id, site.Name, 0, site.Id.ToString());
+                        site.SelectableEntityItemId = selectItem.Id;
+                        var searchItem = await EntitySearchItemCreate(searchableList.Id, site.Name, "", site.Id.ToString());
+                        site.SearchableEntityItemId = searchItem.Id;
+                        await site.Update(db);
+                    }
+                    else
+                    {
+                        await EntityItemUpdate(site.SearchableEntityItemId, site.Name, "", site.Id.ToString(), 0);
+                        await EntityItemUpdate(site.SelectableEntityItemId, site.Name, "", site.Id.ToString(), 0);
+                    }
+
                     return true;
                 }
 
