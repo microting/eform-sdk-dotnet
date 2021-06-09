@@ -4628,13 +4628,13 @@ namespace eFormCore
 
             // First columns section start
             {
-                List<string> colume2 = new List<string> { "Date" };
-                List<string> colume3 = new List<string> { "Time" };
-                List<string> colume4 = new List<string> { "Day" };
-                List<string> colume5 = new List<string> { "Week" };
-                List<string> colume6 = new List<string> { "Month" };
-                List<string> colume7 = new List<string> { "Year" };
-                List<string> colume8 = new List<string> { "Created At" };
+                List<string> colume2 = new List<string> { "Created on device date" };
+                List<string> colume3 = new List<string> { "Created on device time" };
+                List<string> colume4 = new List<string> { "Created on device day" };
+                List<string> colume5 = new List<string> { "Created on device week" };
+                List<string> colume6 = new List<string> { "Created on device month" };
+                List<string> colume7 = new List<string> { "Created on device year" };
+                List<string> colume8 = new List<string> { "Received by Microting server" };
                 List<string> colume9 = new List<string> { "Site" };
                 List<string> colume10 = new List<string> { "Device User" };
                 List<string> colume11 = new List<string> { "Device Id" };
