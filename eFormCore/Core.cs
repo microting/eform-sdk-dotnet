@@ -3899,6 +3899,9 @@ namespace eFormCore
                     site.Name = name;
                     site.LanguageId = language.Id;
                     await site.Update(db).ConfigureAwait(false);
+
+                    await EntityItemUpdate(site.SearchableEntityItemId, site.Name, "", site.Id.ToString(), 0);
+                    await EntityItemUpdate(site.SelectableEntityItemId, site.Name, "", site.Id.ToString(), 0);
                     return true;
                 }
 
