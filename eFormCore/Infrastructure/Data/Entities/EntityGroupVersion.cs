@@ -38,5 +38,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public string Type { get; set; }
 
         public string Description { get; set; }
+
+        public bool Locked { get; set; }
+
+        public bool Editable { get; set; }
     }
 }

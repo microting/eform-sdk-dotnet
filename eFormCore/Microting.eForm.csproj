@@ -244,6 +244,8 @@
     <Compile Include="Migrations\20210405153325_AddingExtraFieldValues.Designer.cs" />
     <Compile Include="Migrations\20210407134630_AddingFolderTranslations.cs" />
     <Compile Include="Migrations\20210407134630_AddingFolderTranslations.Designer.cs" />
+    <Compile Include="Migrations\20210609072417_AddingLinkingOfSitesAndEntities.cs" />
+    <Compile Include="Migrations\20210609072417_AddingLinkingOfSitesAndEntities.Designer.cs" />
     <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
     <Compile Include="Infrastructure\SqlController.cs" />
     <Compile Include="Services\Subscriber.cs" />

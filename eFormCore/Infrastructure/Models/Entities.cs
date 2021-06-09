@@ -37,6 +37,8 @@ namespace Microting.eForm.Infrastructure.Models
         public List<EntityItem> EntityGroupItemLst { get; set; }
         public string WorkflowState { get; set; }
         public string Description { get; set; }
+        public bool Locked { get; set; }
+        public bool Editable { get; set; }
 
         /// <summary>
         ///...

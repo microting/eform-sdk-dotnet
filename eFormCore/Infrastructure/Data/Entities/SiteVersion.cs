@@ -36,5 +36,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int? SiteId { get; set; }
 
         public int LanguageId { get; set; }
+
+        public int SearchableEntityItemId { get; set; }
+
+        public int SelectableEntityItemId { get; set; }
     }
 }
