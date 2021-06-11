@@ -127,7 +127,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        public async Task<MainElement> ReadeForm(int templateId, Language language)
+        public async Task<MainElement> ReadeForm(int templateId, Language language, bool includeDummyFields)
         {
             string methodName = "SqlController.TemplateRead";
             try
@@ -156,7 +156,7 @@ namespace Microting.eForm.Infrastructure
                 List<CheckList> lst = db.CheckLists.Where(x => x.ParentId == templateId).ToList();
                 foreach (CheckList cl in lst)
                 {
-                    mainElement.ElementList.Add(await GetElement(cl.Id, language));
+                    mainElement.ElementList.Add(await GetElement(cl.Id, language, includeDummyFields));
                 }
 
                 //return
@@ -546,7 +546,7 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                MainElement mainElement = await ReadeForm(templateId, language);
+                MainElement mainElement = await ReadeForm(templateId, language, true);
                 List<FieldDto> fieldLst = new List<FieldDto>();
 
                 foreach (DataItem dataItem in mainElement.DataItemGetAll())
@@ -5800,7 +5800,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="language"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        private async Task<Element> GetElement(int elementId, Language language)
+        private async Task<Element> GetElement(int elementId, Language language, bool includeDummyFields)
         {
             string methodName = "SqlController.GetElement";
             try
@@ -5839,7 +5839,7 @@ namespace Microting.eForm.Infrastructure
                         //the actual Elements
                         foreach (var subElement in lstElement)
                         {
-                            lst.Add(await GetElement(subElement.Id, language));
+                            lst.Add(await GetElement(subElement.Id, language, includeDummyFields));
                         }
                         element = gElement;
                     }
@@ -5879,10 +5879,10 @@ namespace Microting.eForm.Infrastructure
 
                         //the actual DataItems
                         List<Field> lstFields = db.Fields.Where(x =>
-                            x.CheckListId == elementId && x.ParentFieldId == null).ToList();
+                            x.CheckListId == elementId && x.ParentFieldId == null && (x.Dummy == 1) != includeDummyFields).ToList();
                         foreach (var field in lstFields)
                         {
-                            await GetDataItem(dElement.DataItemList, dElement.DataItemGroupList, field, language);
+                            await GetDataItem(dElement.DataItemList, dElement.DataItemGroupList, field, language, includeDummyFields);
                         }
                         element = dElement;
                     }
@@ -5909,7 +5909,7 @@ namespace Microting.eForm.Infrastructure
         /// <param name="language"></param>
         /// <exception cref="IndexOutOfRangeException"></exception>
         /// <exception cref="Exception"></exception>
-        private async Task GetDataItem(List<DataItem> lstDataItem, List<DataItemGroup> lstDataItemGroup, Field field, Language language)
+        private async Task GetDataItem(List<DataItem> lstDataItem, List<DataItemGroup> lstDataItemGroup, Field field, Language language, bool includeDummyFields)
         {
             string methodName = "SqlController.GetDataItem";
             try
@@ -6089,9 +6089,9 @@ namespace Microting.eForm.Infrastructure
                         //lstDataItemGroup.Add(new DataItemGroup(f.Id.ToString(), f.label, f.description, f.color, t.Int(f.display_index), f.default_value, lst));
 
                         //the actual DataItems
-                        List<Field> lstFields = db.Fields.Where(x => x.ParentFieldId == field.Id).ToList();
+                        List<Field> lstFields = db.Fields.Where(x => x.ParentFieldId == field.Id && (x.Dummy == 1) != includeDummyFields).ToList();
                         foreach (var subField in lstFields)
-                            await GetDataItem(lst, null, subField, language); //null, due to FieldGroup, CANT have fieldGroups under them
+                            await GetDataItem(lst, null, subField, language, includeDummyFields); //null, due to FieldGroup, CANT have fieldGroups under them
                         break;
 
                     default:
