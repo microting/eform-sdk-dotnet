@@ -582,14 +582,51 @@ namespace eFormSDK.Integration.Base.CoreTests
         public async Task Core_Site_SiteDelete_ReturnsTrue()
         {
             // Arrange
-            #region site
             string siteName = Guid.NewGuid().ToString();
             int siteMicrotingUid = 1; // This needs to be 1 for our tests to pass through the FakeHttp
             // TODO: Improve the test for supporting random id.
 
             Site site = await testHelpers.CreateSite(siteName, siteMicrotingUid);
             SiteNameDto siteName_Dto = new SiteNameDto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
-            #endregion
+
+            await using MicrotingDbContext db = _dbContextHelper.GetDbContext();
+            EntityGroup entityGroup = new EntityGroup
+            {
+                Editable = true,
+                Locked = false,
+                Name = "Device users",
+                Type = Constants.FieldTypes.EntitySearch
+            };
+
+            await entityGroup.Create(db);
+
+            EntityItem entityItem = new EntityItem
+            {
+                Name = siteName,
+                EntityGroupId = entityGroup.Id
+            };
+            await entityItem.Create(db);
+            site.SearchableEntityItemId = entityItem.Id;
+            await site.Update(db);
+
+            entityGroup = new EntityGroup
+            {
+                Editable = true,
+                Locked = false,
+                Name = "Device users",
+                Type = Constants.FieldTypes.EntitySelect
+            };
+
+            await entityGroup.Create(db);
+
+            entityItem = new EntityItem
+            {
+                Name = siteName,
+                EntityGroupId = entityGroup.Id
+            };
+            await entityItem.Create(db);
+            site.SelectableEntityItemId = entityItem.Id;
+            await site.Update(db);
 
             #region worker
             string email = Guid.NewGuid().ToString();

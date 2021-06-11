@@ -2455,7 +2455,7 @@ namespace eFormCore
                         LanguageId = language.Id
                     };
                     await site.Create(db).ConfigureAwait(false);
-                    var selectItem = await EntitySelectItemCreate(searchableList.Id, site.Name, 0, site.Id.ToString());
+                    var selectItem = await EntitySelectItemCreate(selectableList.Id, site.Name, 0, site.Id.ToString());
                     site.SelectableEntityItemId = selectItem.Id;
                     var searchItem = await EntitySearchItemCreate(searchableList.Id, site.Name, "", site.Id.ToString());
                     site.SearchableEntityItemId = searchItem.Id;
@@ -2775,7 +2775,7 @@ namespace eFormCore
                         EntityItemUId = ownUuid,
                         WorkflowState = Constants.WorkflowStates.Created,
                         MicrotingUUID = microtingUId,
-                        DisplayIndex = displayIndex
+                        DisplayIndex = displayIndex,
                     };
                     return await _sqlController.EntityItemCreate(eg.Id, et).ConfigureAwait(false);
                 }
@@ -2845,8 +2845,11 @@ namespace eFormCore
             } else {
                 result = await _communicator.EntitySelectItemDelete(et.MicrotingUUID).ConfigureAwait(false);
             }
-            if (result) {
-                await _sqlController.EntityItemDelete(id).ConfigureAwait(false);
+            if (result)
+            {
+                await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
+                var entityItem = await dbContext.EntityItems.SingleOrDefaultAsync(x => x.Id == id);
+                await entityItem.Delete(dbContext);
             }
             else
             {
@@ -3906,20 +3909,13 @@ namespace eFormCore
                     await site.Update(db).ConfigureAwait(false);
 
                     if (site.SearchableEntityItemId == 0)
-                    { Microting.eForm.Infrastructure.Data.Entities.EntityGroup selectableList = await db.EntityGroups
-                                .SingleOrDefaultAsync(x => x.Name == "Device users" && x.Type == Constants.FieldTypes.EntitySelect) ??
-                            await EntityGroupCreate(Constants.FieldTypes.EntitySelect, "Device users", "");
-                        selectableList.Locked = true;
-                        await selectableList.Update(db);
-
+                    {
                         Microting.eForm.Infrastructure.Data.Entities.EntityGroup searchableList = await db.EntityGroups
                                 .SingleOrDefaultAsync(x => x.Name == "Device users" && x.Type == Constants.FieldTypes.EntitySearch) ??
                             await EntityGroupCreate(Constants.FieldTypes.EntitySearch, "Device users", "");
                         searchableList.Locked = true;
                         await searchableList.Update(db);
 
-                        var selectItem = await EntitySelectItemCreate(selectableList.Id, site.Name, 0, site.Id.ToString());
-                        site.SelectableEntityItemId = selectItem.Id;
                         var searchItem = await EntitySearchItemCreate(searchableList.Id, site.Name, "", site.Id.ToString());
                         site.SearchableEntityItemId = searchItem.Id;
                         await site.Update(db);
@@ -3927,6 +3923,20 @@ namespace eFormCore
                     else
                     {
                         await EntityItemUpdate(site.SearchableEntityItemId, site.Name, "", site.Id.ToString(), 0);
+                    }
+
+                    if (site.SelectableEntityItemId == 0)
+                    {
+                        Microting.eForm.Infrastructure.Data.Entities.EntityGroup selectableList = await db.EntityGroups
+                                .SingleOrDefaultAsync(x => x.Name == "Device users" && x.Type == Constants.FieldTypes.EntitySelect) ??
+                            await EntityGroupCreate(Constants.FieldTypes.EntitySelect, "Device users", "");
+                        selectableList.Locked = true;
+                        await selectableList.Update(db);
+
+                        var selectItem = await EntitySelectItemCreate(selectableList.Id, site.Name, 0, site.Id.ToString());
+                        site.SelectableEntityItemId = selectItem.Id;
+                        await site.Update(db);
+                    } else {
                         await EntityItemUpdate(site.SelectableEntityItemId, site.Name, "", site.Id.ToString(), 0);
                     }
 
@@ -3944,20 +3954,31 @@ namespace eFormCore
             }
         }
 
-        public async Task<bool> Advanced_SiteItemDelete(int siteId)
+        public async Task<bool> Advanced_SiteItemDelete(int microtingUid)
         {
             string methodName = "Core.Advanced_SiteItemDelete";
             try
             {
                 if (!Running()) throw new Exception("Core is not running");
                 Log.LogStandard(methodName, "called");
-                Log.LogVariable(methodName, nameof(siteId), siteId);
+                Log.LogVariable(methodName, nameof(microtingUid), microtingUid);
+                await using MicrotingDbContext db = DbContextHelper.GetDbContext();
 
-                bool success = await _communicator.SiteDelete(siteId).ConfigureAwait(false);
+                bool success = await _communicator.SiteDelete(microtingUid).ConfigureAwait(false);
                 if (!success)
                     return false;
 
-                return await _sqlController.SiteDelete(siteId).ConfigureAwait(false);
+                Site site = await db.Sites.SingleOrDefaultAsync(x => x.MicrotingUid == microtingUid);
+
+                if (site != null)
+                {
+                    await site.Delete(db);
+                    await EntityItemDelete(site.SearchableEntityItemId);
+                    await EntityItemDelete(site.SelectableEntityItemId);
+                    return true;
+                }
+
+                return false;
             }
             catch (Exception ex)
             {

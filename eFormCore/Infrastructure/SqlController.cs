@@ -3602,21 +3602,12 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                //logger.LogEverything(methodName + " called");
-                //logger.LogEverything("siteName:" + siteName + " / userFirstName:" + userFirstName + " / userLastName:" + userLastName);
 
                 Site site = await db.Sites.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid);
 
                 if (site != null)
                 {
                     await site.Delete(db);
-//                        site.Version = site.Version + 1;
-//                        site.UpdatedAt = DateTime.UtcNow;
-
-//                        site.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-
-//                        db.site_versions.Add(MapSiteVersions(site));
-//                        db.SaveChanges();
 
                     return true;
                 }
@@ -4538,6 +4529,7 @@ namespace Microting.eForm.Infrastructure
                 Synced = _t.Bool(false)
             };
             await eI.Create(db).ConfigureAwait(false);
+            entityItem.Id = eI.Id;
             return entityItem;
         }
 
@@ -4557,27 +4549,6 @@ namespace Microting.eForm.Infrastructure
             match.DisplayIndex = entityItem.DisplayIndex;
             await match.Update(db).ConfigureAwait(false);
         }
-
-        /// <summary>
-        /// Deletes an Entity Item in DB with given Id
-        /// </summary>
-        /// <param name="Id"></param>
-        /// <exception cref="NullReferenceException"></exception>
-        public async Task EntityItemDelete(int Id)
-        {
-            await using var db = GetContext();
-            EntityItem et = await db.EntityItems.SingleOrDefaultAsync(x => x.Id == Id);
-            if (et == null)
-            {
-                throw new NullReferenceException("EntityItem not found with Id " + Id);
-            }
-
-            et.Synced = _t.Bool(true);
-            await et.Update(db).ConfigureAwait(false);
-            await et.Delete(db);
-        }
-        //
-        //
 
         // folders
 
