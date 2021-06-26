@@ -916,9 +916,9 @@ namespace Microting.eForm.Communication
 
         #endregion
 
-        public async Task SendPushMessage(int microtingSiteId, string header, string body)
+        public async Task SendPushMessage(int microtingSiteId, string header, string body, int microtingUuid)
         {
-            await _http.SendPushMessage(microtingSiteId, header, body);
+            await _http.SendPushMessage(microtingSiteId, header, body, microtingUuid);
         }
     }
 }

@@ -124,6 +124,6 @@ namespace Microting.eForm.Communication
 
         Task<string> GetLastAnswer(int questionSetId, int lastAnswerId);
 
-        Task SendPushMessage(int microtingSiteId, string header, string body);
+        Task SendPushMessage(int microtingSiteId, string header, string body, int microtingUuid);
     }
 }

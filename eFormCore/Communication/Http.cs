@@ -998,10 +998,10 @@ namespace Microting.eForm.Communication
             return PostToServer(request);
         }
 
-        public Task SendPushMessage(int microtingSiteId, string header, string body)
+        public Task SendPushMessage(int microtingSiteId, string header, string body, int microtingUuid)
         {
             WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/PushMessage?SiteId={microtingSiteId}&token={token}&Header={header}&Body={body}&sdkVersion={dllVersion}");
+                $"{newAddressBasic}/PushMessage?SiteId={microtingSiteId}&token={token}&Header={header}&Body={body}&sdkVersion={dllVersion}&uuid={microtingUuid}");
             request.Method = "POST";
             request.Headers.Add(HttpRequestHeader.Authorization, token);
 
