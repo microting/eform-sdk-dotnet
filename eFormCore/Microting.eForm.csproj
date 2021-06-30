@@ -259,7 +259,7 @@
     <PackageReference Include="Castle.Core" Version="4.4.1" />
     <PackageReference Include="Castle.Windsor" Version="5.1.1" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.13.0" />
-    <PackageReference Include="Magick.NET-Q16-x64" Version="7.24.1" />
+    <PackageReference Include="Magick.NET-Q16-x64" Version="8.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.7">
       <PrivateAssets>all</PrivateAssets>
