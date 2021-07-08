@@ -2188,10 +2188,51 @@ namespace eFormCore
 
                             if (_s3Enabled)
                             {
-                                using GetObjectResponse response =
-                                    await GetFileFromS3Storage(fileName);
-                                using var image = new MagickImage(response.ResponseStream);
-                                fileContent = image.ToBase64();
+                                try
+                                {
+                                    using GetObjectResponse response =
+                                        await GetFileFromS3Storage(fileName);
+                                    using var image = new MagickImage(response.ResponseStream);
+                                    fileContent = image.ToBase64();
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine(e);
+
+                                    string bigFilename = fileName;
+                                    fileName =
+                                        $"{fieldValue.UploadedDataObj.Id}_{fieldValue.UploadedDataObj.Checksum}{fieldValue.UploadedDataObj.Extension}";
+
+
+                                    Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), "pictures"));
+
+                                    using GetObjectResponse response1 =
+                                        await GetFileFromS3Storage(fileName);
+                                    string filePath = Path.Combine(Path.GetTempPath(), "pictures", fileName);
+                                    await using (var fileStream = File.Create(filePath))
+                                    {
+                                        await response1.ResponseStream.CopyToAsync(fileStream);
+                                    }
+                                    File.Copy(filePath, Path.Combine(Path.GetTempPath(), "pictures", bigFilename), true);
+
+                                    string filePathResized = Path.Combine(Path.GetTempPath(), "pictures", bigFilename);
+                                    using (var image = new MagickImage(filePathResized))
+                                    {
+                                        decimal currentRation = image.Height / (decimal) image.Width;
+                                        int newWidth = 700;
+                                        int newHeight = (int) Math.Round((currentRation * newWidth));
+
+                                        image.Resize(newWidth, newHeight);
+                                        image.Crop(newWidth, newHeight);
+                                        await image.WriteAsync(filePathResized);
+                                        await PutFileToStorageSystem(Path.Combine(_fileLocationPicture, bigFilename),
+                                            bigFilename).ConfigureAwait(false);
+                                        fileContent = image.ToBase64();
+                                        image.Dispose();
+                                    }
+                                    File.Delete(filePathResized);
+                                    File.Delete(filePath);
+                                }
                             }
                             list.Add(fileContent);
                             list.Add(geoTag);
