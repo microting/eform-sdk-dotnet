@@ -5197,6 +5197,7 @@ namespace Microting.eForm.Infrastructure
                     ExtraFieldsEnabled = _t.Bool(groupElement.ExtraFieldsEnabled),
                     DoneButtonEnabled = _t.Bool(groupElement.DoneButtonEnabled),
                     ApprovalEnabled = _t.Bool(groupElement.ApprovalEnabled),
+                    OriginalId = groupElement.OriginalId
                     // Description = groupElement.Description != null ? groupElement.Description.InderValue : ""
                 };
                 await cl.Create(db).ConfigureAwait(false);
@@ -5371,7 +5372,7 @@ namespace Microting.eForm.Infrastructure
                     CheckListId = elementId,
                     FieldTypeId = fieldTypeId,
                     Version = 1,
-                    OriginalId = dataItem.Id.ToString()
+                    OriginalId = dataItem.OriginalId
                 };
 
                 bool isSaved = false; // This is done, because we need to have the current field Id, for giving it onto the child fields in a FieldGroup
