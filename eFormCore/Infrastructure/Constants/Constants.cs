@@ -130,15 +130,15 @@ namespace Microting.eForm.Infrastructure.Constants
         public static class FieldColors
         {
             public const string Blue = "e2f4fb";
-            public const string Purple = "e2f4fb";
+            public const string Purple = "f5eafa";
             public const string Green = "f0f8db";
             public const string Yellow = "fff6df";
             public const string Red = "ffe4e4";
-            public const string Grey = "e8eaf6";
-            public const string Default = "e7e7e7";
-            public const string None = "None";
+            public const string Grey = "e7e7e7";
+            public const string Default = "e8eaf6";
+            public const string None = "e8eaf6";
         }
-        
+
         public static class CheckListColors
         {
             public const string Grey = "grey";
@@ -150,7 +150,7 @@ namespace Microting.eForm.Infrastructure.Constants
         {
             public const string AndroidOnlyCodabar = "CODABAR"; // Android only
             public const string AndroidOnlyCode93 = "CODE_93"; // Android only
-            public const string AndroidOnlyPdf417 = "PDF417"; // Android only 
+            public const string AndroidOnlyPdf417 = "PDF417"; // Android only
             public const string AndroidOnlyRss14 = "RSS14"; // Android only
             public const string AndroidOnlyRssExpandend = "RSS_EXPANDED"; // Android only
             public const string Code128 = "CODE_128";

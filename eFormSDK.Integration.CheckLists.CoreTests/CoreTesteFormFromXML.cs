@@ -161,7 +161,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual("", commentField.Value);
             Assert.AreEqual(false, commentField.ReadOnly);
             Assert.AreEqual(false, commentField.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Grey, commentField.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, commentField.Color);
 
 
         }
@@ -243,7 +243,7 @@ namespace eFormSDK.Integration.CoreTests
             // Assert.AreEqual(pictureField.Description, CDataValue) //TODO
             Assert.AreEqual(0, pictureField.DisplayOrder);
             Assert.AreEqual(false, pictureField.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Grey, pictureField.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, pictureField.Color);
 
         }
 
@@ -331,7 +331,7 @@ namespace eFormSDK.Integration.CoreTests
             // Assert.AreEqual("2028-04-25", dateField.MaxValue); //TODO
             Assert.AreEqual(false, dateField.Mandatory);
             Assert.AreEqual(false, dateField.ReadOnly);
-            Assert.AreEqual(Constants.FieldColors.Grey, dateField.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, dateField.Color);
 
         }
 
@@ -411,7 +411,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual("bla", showPDFField.Label);
             // Assert.AreEqual(dateField.Description, CDataValue) //TODO
             Assert.AreEqual(0, showPDFField.DisplayOrder);
-            Assert.AreEqual(Constants.FieldColors.Grey, showPDFField.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, showPDFField.Color);
             Assert.AreEqual("https://eform.microting.com/app_files/uploads/20170804132716_13790_20d483dd7791cd6becf089432724c663.pdf", showPDFField.Value);
 
 
@@ -527,7 +527,7 @@ namespace eFormSDK.Integration.CoreTests
             // Assert.AreEqual(CDataValue, fE.Description); TODO
             Assert.AreEqual(1, fC.DisplayOrder);
             Assert.AreEqual("Closed", fC.Value);
-            Assert.AreEqual(Constants.FieldColors.Grey, fC.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, fC.Color);
 
             CheckBox fE = (CheckBox)fC.DataItemList[0];
             Assert.AreEqual("Tjekboks inde i gruppe", fE.Label);
@@ -535,7 +535,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(0, fE.DisplayOrder);
             Assert.AreEqual(false, fE.Selected);
             Assert.AreEqual(false, fE.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Grey, fE.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, fE.Color);
 
 
             CheckBox checkboxField = (CheckBox)dE.DataItemList[1];
@@ -544,7 +544,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(0, checkboxField.DisplayOrder);
             Assert.AreEqual(false, checkboxField.Selected);
             Assert.AreEqual(false, checkboxField.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Grey, checkboxField.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, checkboxField.Color);
 
 
             CheckBox checkboxField1 = (CheckBox)dE.DataItemList[2];
@@ -553,7 +553,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(2, checkboxField1.DisplayOrder);
             Assert.AreEqual(false, checkboxField1.Selected);
             Assert.AreEqual(false, checkboxField1.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Grey, checkboxField1.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, checkboxField1.Color);
 
 
         }
@@ -644,7 +644,7 @@ namespace eFormSDK.Integration.CoreTests
             // Assert.AreEqual(cD.Datavalue, fe.description) //TODO
             Assert.AreEqual(0, fE.DisplayOrder);
             Assert.AreEqual(false, fE.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Grey, fE.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, fE.Color);
 
             Signature fE1 = (Signature)dE.DataItemList[1];
             Assert.AreEqual("Skriv", fE1.Label);
@@ -652,7 +652,7 @@ namespace eFormSDK.Integration.CoreTests
             // Assert.AreEqual("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dui neque, molestie at maximus a, malesuada at mi. Cras venenatis porttitor augue nec sagittis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris urna massa, sagittis at fringilla ut, convallis sed dolor. Praesent scelerisque magna dolor, quis blandit metus pharetra eu. Cras euismod facilisis risus at ullamcorper. Pellentesque vitae maximus elit. Sed scelerisque nec velit dictum sodales. Duis sed dapibus odio. Sed non luctus sem. Donec eu mollis lectus, nec porta nisl. Aenean a consequat metus, ac auctor arcu. Cras sit amet blandit velit. Pellentesque faucibus eros sed ullamcorper rutrum.<br><br><br>Pellentesque ultrices ex erat. Pellentesque rhoncus eget lectus et scelerisque. Cras vitae diam ex. Ut felis ligula, venenatis ut lorem vel, venenatis convallis turpis. Sed rutrum ac odio ac auctor. Sed mauris ipsum, vulputate ut sodales a, mattis et purus. Nam convallis augue velit, nec blandit ipsum porta vitae. Quisque et iaculis lectus. Donec eu fringilla turpis, id rutrum mauris.<br><br><br>Proin eu sagittis sem. Aenean vel placerat sapien. Praesent et rutrum justo. Mauris consectetur venenatis est, eu vulputate enim elementum eget. In hac habitasse platea dictumst. Sed vehicula nec neque sed posuere. Aenean sodales lectus a purus posuere lacinia. Aenean ut enim vel odio varius placerat. Phasellus faucibus turpis sed arcu ultrices interdum. Sed porta, nisi nec vehicula lacinia, ante tortor tristique justo, vel sagittis felis ligula eu magna. Pellentesque a velit laoreet nunc aliquet ornare sit amet eget lorem. Duis aliquet viverra pretium. Etiam a mauris tellus. Sed viverra eros eget lectus lobortis, in vestibulum lorem rhoncus. Aliquam sem felis, suscipit a gravida ut, eleifend et ipsum. Nullam lacus lacus, rutrum quis sollicitudin et, porta et erat", fE1.Description);
             Assert.AreEqual(1, fE1.DisplayOrder);
             Assert.AreEqual(false, fE1.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Grey, fE1.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, fE1.Color);
 
 
         }
@@ -1541,7 +1541,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(false, kP8.Selected);
             Assert.AreEqual("8", kP8.DisplayOrder);
 
-            Assert.AreEqual(Constants.FieldColors.Grey, sS.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, sS.Color);
 
 
         }
@@ -1634,7 +1634,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual("", cc.Value);
             Assert.AreEqual(false, cc.ReadOnly);
             Assert.AreEqual(false, cc.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Grey, cc.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, cc.Color);
 
         }
 
@@ -1726,7 +1726,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual("", t.Value);
             Assert.AreEqual(false, t.ReadOnly);
             Assert.AreEqual(false, t.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Grey, t.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, t.Color);
 
 
         }
@@ -1819,7 +1819,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(2, n.DecimalCount);
             Assert.AreEqual(true, n.Mandatory);
             Assert.AreEqual("", n.UnitName);
-            Assert.AreEqual(Constants.FieldColors.Grey, n.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, n.Color);
 
         }
 
@@ -1899,7 +1899,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual("Info box 1", n.Label);
             // Assert.AreEqual(CDataValue, t.Description); //TODO
             Assert.AreEqual(0, n.DisplayOrder);
-            Assert.AreEqual(Constants.FieldColors.Grey, n.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, n.Color);
 
         }
 
@@ -1983,7 +1983,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(0, cB.DisplayOrder);
             Assert.AreEqual(false, cB.Selected);
             Assert.AreEqual(false, cB.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Grey, cB.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, cB.Color);
 
         }
 
@@ -2067,7 +2067,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(0, t.DisplayOrder);
             Assert.AreEqual(false, t.StopOnSave);
             Assert.AreEqual(false, t.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Grey, t.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, t.Color);
 
         }
 
@@ -2149,7 +2149,7 @@ namespace eFormSDK.Integration.CoreTests
             // Assert.AreEqual(CDataValue, t.Description); //TODO
             Assert.AreEqual(0, sB.DisplayOrder);
             Assert.AreEqual("", sB.Value);
-            Assert.AreEqual(Constants.FieldColors.Grey, sB.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, sB.Color);
 
         }
 
@@ -2297,7 +2297,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(0, cB.DisplayOrder);
             Assert.AreEqual(false, cB.Selected);
             Assert.AreEqual(false, cB.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Grey, cB.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, cB.Color);
 
             DataElement dE2 = (DataElement)gE.ElementList[1];
             Assert.AreEqual("1.2 lvl", dE2.Label);
@@ -2315,7 +2315,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(0, cb2.DisplayOrder);
             Assert.AreEqual(false, cb2.Selected);
             Assert.AreEqual(false, cb2.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Grey, cb2.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, cb2.Color);
 
             GroupElement gE2 = (GroupElement)gE.ElementList[2];
             Assert.AreEqual("1.3 lvl", gE2.Label);
@@ -2338,7 +2338,7 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual(0, cb3.DisplayOrder);
             Assert.AreEqual(false, cb3.Selected);
             Assert.AreEqual(false, cb3.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Grey, cb3.Color);
+            Assert.AreEqual(Constants.FieldColors.Default, cb3.Color);
 
 
         }
