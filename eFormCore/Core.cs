@@ -4550,7 +4550,6 @@ namespace eFormCore
             {
                 if (!Running()) throw new Exception("Core is not running");
                 Log.LogStandard(methodName, "called");
-                Log.LogVariable(methodName, nameof(fieldId), fieldId);
                 Log.LogVariable(methodName, nameof(uploadedDataId), uploadedDataId);
 
                 await using var db = DbContextHelper.GetDbContext();
