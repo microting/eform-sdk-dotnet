@@ -2126,10 +2126,11 @@ namespace Microting.eForm.Infrastructure
                                     {
                                         Data.Entities.UploadedData uploadedData =
                                             db.UploadedDatas.Single(x => x.Id == item.UploadedDataId);
-                                        if (customPathForUploadedData != null)
-                                            replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), customPathForUploadedData + uploadedData.FileName, false, ""));
-                                        else
-                                            replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), uploadedData.FileLocation + uploadedData.FileName, false, ""));
+                                        replyLst1.Add(customPathForUploadedData != null
+                                            ? new KeyValuePair(item.CaseId.ToString(),
+                                                customPathForUploadedData + uploadedData.FileName, false, "")
+                                            : new KeyValuePair(item.CaseId.ToString(),
+                                                uploadedData.FileLocation + uploadedData.FileName, false, ""));
                                     }
                                     else
                                     {
