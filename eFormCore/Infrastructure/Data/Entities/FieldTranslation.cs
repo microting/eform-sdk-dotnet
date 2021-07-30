@@ -15,5 +15,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public string Description { get; set; }
 
         public virtual Field Field { get; set; }
+
+        public string DefaultValue { get; set; }
+
+        public int UploadedDataId { get; set; }
     }
 }

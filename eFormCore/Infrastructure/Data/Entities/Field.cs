@@ -133,9 +133,17 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public static async Task MoveTranslations(MicrotingDbContext dbContext)
         {
             List<Field> fields = await dbContext.Fields.ToListAsync();
+            FieldType pdfFieldType =
+                await dbContext.FieldTypes.SingleOrDefaultAsync(x => x.Type == Constants.Constants.FieldTypes.ShowPdf);
             Language language = await dbContext.Languages.SingleAsync(x => x.Name == "Danish");
+            Language englishLanguage = await dbContext.Languages.SingleAsync(x => x.Name == "English");
+            Language germanLanguage = await dbContext.Languages.SingleAsync(x => x.Name == "German");
+            int i = 0;
+            int totalFields = fields.Count;
             foreach (Field field in fields)
             {
+                i++;
+                Console.WriteLine($"Updating field no {i} of {totalFields}");
                 if (!string.IsNullOrEmpty(field.Label))
                 {
                     FieldTranslation fieldTranslation = new FieldTranslation
@@ -184,6 +192,54 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                         field.KeyValuePairList = null;
                         await field.Update(dbContext);
                     }
+                }
+
+                if (field.FieldTypeId == pdfFieldType.Id)
+                {
+                    if (!string.IsNullOrEmpty(field.DefaultValue))
+                    {
+                        int number =
+                            dbContext.FieldTranslations.Count(x => x.FieldId == field.Id);
+                        if (number > 1)
+                        {
+                            field.DefaultValue = number > 2 ?
+                                $"{field.DefaultValue}|{field.DefaultValue}|{field.DefaultValue}" :
+                                $"{field.DefaultValue}|{field.DefaultValue}";
+                        }
+
+                        await field.Update(dbContext);
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(field.DefaultValue))
+                {
+                    var defaultValue = field.DefaultValue.Split("|");
+                    FieldTranslation fieldTranslation =
+                        await dbContext.FieldTranslations.SingleOrDefaultAsync(x =>
+                            x.LanguageId == language.Id && x.FieldId == field.Id);
+                    fieldTranslation.DefaultValue = defaultValue[0];
+                    await fieldTranslation.Update(dbContext);
+
+                    if (defaultValue.Length > 1)
+                    {
+                        fieldTranslation =
+                            await dbContext.FieldTranslations.SingleOrDefaultAsync(x =>
+                                x.LanguageId == englishLanguage.Id && x.FieldId == field.Id);
+                        fieldTranslation.DefaultValue = defaultValue[1];
+                        await fieldTranslation.Update(dbContext);
+                    }
+
+                    if (defaultValue.Length > 2)
+                    {
+                        fieldTranslation =
+                            await dbContext.FieldTranslations.SingleOrDefaultAsync(x =>
+                                x.LanguageId == germanLanguage.Id && x.FieldId == field.Id);
+                        fieldTranslation.DefaultValue = defaultValue[2];
+                        await fieldTranslation.Update(dbContext);
+                    }
+
+                    field.DefaultValue = null;
+                    await field.Update(dbContext);
                 }
             }
         }
