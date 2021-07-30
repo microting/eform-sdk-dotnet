@@ -1848,7 +1848,7 @@ namespace eFormCore
         /// <param name="cultureInfo"></param>
         /// <param name="timeZoneInfo"></param>
         public async Task<string> CasesToCsv(int templateId, DateTime? start, DateTime? end, string pathAndName,
-            string customPathForUploadedData, string decimalSeparator, string thousandSeparator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo, Language language)
+            string customPathForUploadedData, string decimalSeparator, string thousandSeparator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo, Language language, bool gpsCoordinates)
         {
             string methodName = "Core.CasesToCsv";
             try
@@ -1861,7 +1861,7 @@ namespace eFormCore
                 Log.LogVariable(methodName, nameof(pathAndName), pathAndName);
                 Log.LogVariable(methodName, nameof(customPathForUploadedData), customPathForUploadedData);
 
-                List<List<string>> dataSet = await GenerateDataSetFromCases(templateId, start, end, customPathForUploadedData, decimalSeparator, thousandSeparator, utcTime, cultureInfo, timeZoneInfo, language).ConfigureAwait(false);
+                List<List<string>> dataSet = await GenerateDataSetFromCases(templateId, start, end, customPathForUploadedData, decimalSeparator, thousandSeparator, utcTime, cultureInfo, timeZoneInfo, language, false, gpsCoordinates).ConfigureAwait(false);
 
                 if (dataSet == null)
                     return "";
@@ -1922,21 +1922,21 @@ namespace eFormCore
             }
         }
 
-        /// <summary>
-        /// Tries to retrieve all connected cases to a templat, and delivers them as a CSV fil, at the returned path's location
-        /// </summary>
-        /// <param name="templateId">The templat's ID to be used. Null will remove this limit</param>
-        /// <param name="start">Only cases from after this time limit. Null will remove this limit</param>
-        /// <param name="end">Only cases from before this time limit. Null will remove this limit</param>
-        /// <param name="pathAndName">Location where fil is to be placed, along with fil name. No extension needed. Relative or absolut</param>
-        /// <param name="customPathForUploadedData"></param>
-        public Task<string> CasesToCsv(int templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
-        {
-            CultureInfo cultureInfo = new CultureInfo("de-DE");
-            TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
-            Language language = DbContextHelper.GetDbContext().Languages.Single(x => x.LanguageCode == "da");
-            return CasesToCsv(templateId, start, end, pathAndName, customPathForUploadedData, ".", "", false, cultureInfo, timeZoneInfo, language);
-        }
+        // /// <summary>
+        // /// Tries to retrieve all connected cases to a templat, and delivers them as a CSV fil, at the returned path's location
+        // /// </summary>
+        // /// <param name="templateId">The templat's ID to be used. Null will remove this limit</param>
+        // /// <param name="start">Only cases from after this time limit. Null will remove this limit</param>
+        // /// <param name="end">Only cases from before this time limit. Null will remove this limit</param>
+        // /// <param name="pathAndName">Location where fil is to be placed, along with fil name. No extension needed. Relative or absolut</param>
+        // /// <param name="customPathForUploadedData"></param>
+        // public Task<string> CasesToCsv(int templateId, DateTime? start, DateTime? end, string pathAndName, string customPathForUploadedData)
+        // {
+        //     CultureInfo cultureInfo = new CultureInfo("de-DE");
+        //     TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
+        //     Language language = DbContextHelper.GetDbContext().Languages.Single(x => x.LanguageCode == "da");
+        //     return CasesToCsv(templateId, start, end, pathAndName, customPathForUploadedData, ".", "", false, cultureInfo, timeZoneInfo, language);
+        // }
 
         public async Task<string> CaseToJasperXml(CaseDto cDto, ReplyElement reply, int caseId, string timeStamp, string customPathForUploadedData, string customXMLContent)
         {
@@ -4709,14 +4709,17 @@ namespace eFormCore
         }
 
         public async Task<List<List<string>>> GenerateDataSetFromCases(int? checkListId, DateTime? start, DateTime? end,
-            string customPathForUploadedData, string decimalSeparator, string thousandSaperator, bool utcTime,
+            string customPathForUploadedData, string decimalSeparator, string thousandSeparator, bool utcTime,
             CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo, Language language)
         {
             return await GenerateDataSetFromCases(checkListId, start, end, customPathForUploadedData, decimalSeparator,
-                thousandSaperator, utcTime, cultureInfo, timeZoneInfo, language, false);
+                thousandSeparator, utcTime, cultureInfo, timeZoneInfo, language, false, false);
         }
 
-        public async Task<List<List<string>>> GenerateDataSetFromCases(int? checkListId, DateTime? start, DateTime? end, string customPathForUploadedData, string decimalSeparator, string thousandSaperator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo, Language language, bool includeCheckListText)
+        public async Task<List<List<string>>> GenerateDataSetFromCases(int? checkListId, DateTime? start, DateTime? end,
+            string customPathForUploadedData, string decimalSeparator, string thousandSeparator, bool utcTime,
+            CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo, Language language, bool includeCheckListText,
+            bool gpsCoordinates)
         {
             await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
             List<List<string>> dataSet = new List<List<string>>();
@@ -4810,7 +4813,7 @@ namespace eFormCore
                             int fieldId = int.Parse(_t.SplitToList(set, 0, false));
                             string label = _t.SplitToList(set, 1, false);
 
-                            List<List<KeyValuePair>> result = await _sqlController.FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData, decimalSeparator, thousandSaperator, language).ConfigureAwait(false);
+                            List<List<KeyValuePair>> result = await _sqlController.FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData, decimalSeparator, thousandSeparator, language, gpsCoordinates).ConfigureAwait(false);
 
                             List<string> newRow;
                             if (result.Count == 1)

@@ -977,11 +977,11 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Act
             List<int> listOfCaseIds = new List<int>();
             listOfCaseIds.Add(aCase.Id);
-            var matchF1 = await sut.FieldValueReadAllValues(f1.Id, listOfCaseIds, "mappe/", language);
-            var matchF2 = await sut.FieldValueReadAllValues(f2.Id, listOfCaseIds, "mappe/", language);
-            var matchF3 = await sut.FieldValueReadAllValues(f3.Id, listOfCaseIds, "mappe/", language);
-            var matchF4 = await sut.FieldValueReadAllValues(f4.Id, listOfCaseIds, "mappe/", language);
-            var matchF5 = await sut.FieldValueReadAllValues(f5.Id, listOfCaseIds, "mappe/", language);
+            var matchF1 = await sut.FieldValueReadAllValues(f1.Id, listOfCaseIds, "mappe/", language, false);
+            var matchF2 = await sut.FieldValueReadAllValues(f2.Id, listOfCaseIds, "mappe/", language, false);
+            var matchF3 = await sut.FieldValueReadAllValues(f3.Id, listOfCaseIds, "mappe/", language, false);
+            var matchF4 = await sut.FieldValueReadAllValues(f4.Id, listOfCaseIds, "mappe/", language, false);
+            var matchF5 = await sut.FieldValueReadAllValues(f5.Id, listOfCaseIds, "mappe/", language, false);
 
             // Assert
             #region Assert

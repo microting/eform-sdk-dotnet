@@ -2044,12 +2044,12 @@ namespace Microting.eForm.Infrastructure
         }
 
         public async Task<List<List<KeyValuePair>>> FieldValueReadAllValues(int fieldId, List<int> caseIds,
-            string customPathForUploadedData, Language language)
+            string customPathForUploadedData, Language language, bool gpsCoordinates)
         {
-            return await FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData, ".", "", language);
+            return await FieldValueReadAllValues(fieldId, caseIds, customPathForUploadedData, ".", "", language, gpsCoordinates);
         }
 
-        public async Task<List<List<KeyValuePair>>> FieldValueReadAllValues(int fieldId, List<int> caseIds, string customPathForUploadedData, string decimalSeparator, string thousandSeparator, Language language)
+        public async Task<List<List<KeyValuePair>>> FieldValueReadAllValues(int fieldId, List<int> caseIds, string customPathForUploadedData, string decimalSeparator, string thousandSeparator, Language language, bool gpsCoordinates)
         {
             string methodName = "SqlController.FieldValueReadAllValues";
             try
@@ -2098,22 +2098,25 @@ namespace Microting.eForm.Infrastructure
                                                 {
                                                     if (kvp.Value.Contains("jpg") || kvp.Value.Contains("jpeg") ||
                                                         kvp.Value.Contains("png"))
-                                                        kvp.Value = kvp.Value + "|" + customPathForUploadedData +
-                                                                    uploadedData.FileName;
+                                                        kvp.Value = $"{kvp.Value}|{customPathForUploadedData}{uploadedData.FileName}";
                                                     else
-                                                        kvp.Value = customPathForUploadedData +
-                                                                    uploadedData.FileName;
+                                                        kvp.Value = $"{customPathForUploadedData}{uploadedData.FileName}";
+                                                    if (gpsCoordinates && !string.IsNullOrEmpty(item.Latitude))
+                                                    {
+                                                        kvp.Value += $",{item.Latitude},{item.Longitude}";
+                                                    }
                                                 }
                                                 else
                                                 {
                                                     if (kvp.Value.Contains("jpg") || kvp.Value.Contains("jpeg") ||
                                                         kvp.Value.Contains("png"))
-                                                        kvp.Value = kvp.Value + "|" +
-                                                                    uploadedData.FileLocation +
-                                                                    uploadedData.FileName;
+                                                        kvp.Value = $"{kvp.Value}|{uploadedData.FileLocation}{uploadedData.FileName}";
                                                     else
-                                                        kvp.Value = uploadedData.FileLocation +
-                                                                    uploadedData.FileName;
+                                                        kvp.Value = $"{uploadedData.FileLocation}{uploadedData.FileName}";
+                                                }
+                                                if (gpsCoordinates && !string.IsNullOrEmpty(item.Latitude))
+                                                {
+                                                    kvp.Value += $",{item.Latitude},{item.Longitude}";
                                                 }
                                             }
                                         }
@@ -2126,11 +2129,16 @@ namespace Microting.eForm.Infrastructure
                                     {
                                         Data.Entities.UploadedData uploadedData =
                                             db.UploadedDatas.Single(x => x.Id == item.UploadedDataId);
+                                        string coordinates = "";
+                                        if (gpsCoordinates && !string.IsNullOrEmpty(item.Latitude))
+                                        {
+                                            coordinates= $",{item.Latitude},{item.Longitude}";
+                                        }
                                         replyLst1.Add(customPathForUploadedData != null
                                             ? new KeyValuePair(item.CaseId.ToString(),
-                                                customPathForUploadedData + uploadedData.FileName, false, "")
+                                                $"{customPathForUploadedData}{uploadedData.FileName}{coordinates}", false, "")
                                             : new KeyValuePair(item.CaseId.ToString(),
-                                                uploadedData.FileLocation + uploadedData.FileName, false, ""));
+                                                $"{uploadedData.FileLocation}{uploadedData.FileName}{coordinates}", false, ""));
                                     }
                                     else
                                     {
