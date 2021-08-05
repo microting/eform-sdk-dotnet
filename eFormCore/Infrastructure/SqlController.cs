@@ -5931,17 +5931,17 @@ namespace Microting.eForm.Infrastructure
 
                     case Constants.Constants.FieldTypes.CheckBox:
                         lstDataItem.Add(new CheckBox(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
-                            _t.Bool(field.DefaultValue), _t.Bool(field.Selected)));
+                            _t.Bool(fieldTranslation.DefaultValue), _t.Bool(field.Selected)));
                         break;
 
                     case Constants.Constants.FieldTypes.Comment:
                         lstDataItem.Add(new Comment(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
-                            field.DefaultValue, _t.Int(field.MaxLength), _t.Bool(field.Split)));
+                            fieldTranslation.DefaultValue, _t.Int(field.MaxLength), _t.Bool(field.Split)));
                         break;
 
                     case Constants.Constants.FieldTypes.Date:
                         lstDataItem.Add(new Date(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
-                            DateTime.Parse(field.MinValue), DateTime.Parse(field.MaxValue), field.DefaultValue));
+                            DateTime.Parse(field.MinValue), DateTime.Parse(field.MaxValue), fieldTranslation.DefaultValue));
                         break;
 
                     case Constants.Constants.FieldTypes.None:
@@ -5950,12 +5950,12 @@ namespace Microting.eForm.Infrastructure
 
                     case Constants.Constants.FieldTypes.Number:
                         lstDataItem.Add(new Number(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
-                            field.MinValue, field.MaxValue, int.Parse(field.DefaultValue), _t.Int(field.DecimalCount), field.UnitName));
+                            field.MinValue, field.MaxValue, int.Parse(fieldTranslation.DefaultValue), _t.Int(field.DecimalCount), field.UnitName));
                         break;
 
                     case Constants.Constants.FieldTypes.NumberStepper:
                         lstDataItem.Add(new NumberStepper(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
-                            field.MinValue, field.MaxValue, int.Parse(field.DefaultValue), _t.Int(field.DecimalCount), field.UnitName));
+                            field.MinValue, field.MaxValue, int.Parse(fieldTranslation.DefaultValue), _t.Int(field.DecimalCount), field.UnitName));
                         break;
 
                     case Constants.Constants.FieldTypes.MultiSelect:
@@ -6029,7 +6029,7 @@ namespace Microting.eForm.Infrastructure
 
                     case Constants.Constants.FieldTypes.Text:
                         lstDataItem.Add(new Text(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
-                            field.DefaultValue, _t.Int(field.MaxLength), _t.Bool(field.GeolocationEnabled), _t.Bool(field.GeolocationForced), _t.Bool(field.GeolocationHidden), _t.Bool(field.BarcodeEnabled), field.BarcodeType));
+                            fieldTranslation.DefaultValue, _t.Int(field.MaxLength), _t.Bool(field.GeolocationEnabled), _t.Bool(field.GeolocationForced), _t.Bool(field.GeolocationHidden), _t.Bool(field.BarcodeEnabled), field.BarcodeType));
                         break;
 
                     case Constants.Constants.FieldTypes.Timer:
@@ -6039,19 +6039,19 @@ namespace Microting.eForm.Infrastructure
 
                     case Constants.Constants.FieldTypes.EntitySearch:
                         lstDataItem.Add(new EntitySearch(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
-                            _t.Int(field.DefaultValue), _t.Int(field.EntityGroupId), _t.Bool(field.IsNum), field.QueryType, _t.Int(field.MinValue), _t.Bool(field.BarcodeEnabled), field.BarcodeType));
+                            _t.Int(fieldTranslation.DefaultValue), _t.Int(field.EntityGroupId), _t.Bool(field.IsNum), field.QueryType, _t.Int(field.MinValue), _t.Bool(field.BarcodeEnabled), field.BarcodeType));
                         break;
 
                     case Constants.Constants.FieldTypes.EntitySelect:
                         lstDataItem.Add(new EntitySelect(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
-                            _t.Int(field.DefaultValue), _t.Int(field.EntityGroupId)));
+                            _t.Int(fieldTranslation.DefaultValue), _t.Int(field.EntityGroupId)));
                         break;
 
                     case Constants.Constants.FieldTypes.FieldGroup:
                         List<DataItem> lst = new List<DataItem>();
                         //CDataValue description = new CDataValue();
                         //description.InderValue = f.description;
-                        lstDataItemGroup.Add(new FieldGroup(field.Id.ToString(), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), field.DefaultValue, lst));
+                        lstDataItemGroup.Add(new FieldGroup(field.Id.ToString(), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), fieldTranslation.DefaultValue, lst));
                         //lstDataItemGroup.Add(new DataItemGroup(f.Id.ToString(), f.label, f.description, f.color, t.Int(f.display_index), f.default_value, lst));
 
                         //the actual DataItems
