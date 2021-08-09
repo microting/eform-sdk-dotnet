@@ -1025,7 +1025,8 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual("GEM", fieldTranslations[0].Text);
             Assert.AreEqual("Tryk her for at gemme dine indtastede data<br><br>", fieldTranslations[0].Description);
             Assert.AreEqual(0, _fields[0].DisplayIndex);
-            Assert.AreEqual("GEM", _fields[0].DefaultValue);
+            Assert.AreEqual(null, _fields[0].DefaultValue);
+            Assert.AreEqual("GEM", fieldTranslations[0].DefaultValue);
 
 
             Assert.AreEqual("START-STOP TID", fieldTranslations[1].Text);
@@ -1244,7 +1245,8 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual("GEM", fieldTranslations[13].Text);
             Assert.AreEqual("<br>Tryk for at gemme data.<br>Press to save data.<br>", fieldTranslations[13].Description);
             Assert.AreEqual(14, _fields[13].DisplayIndex);
-            Assert.AreEqual("GEM/SAVE", _fields[13].DefaultValue);
+            Assert.AreEqual("GEM/SAVE", fieldTranslations[13].DefaultValue);
+            Assert.AreEqual(null, _fields[13].DefaultValue);
         }
 
         [Test]
