@@ -449,7 +449,8 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual("bla", fieldTranslations[0].Text);
             Assert.AreEqual("", fieldTranslations[0].Description);
             Assert.AreEqual(0, _fields[0].DisplayIndex);
-            Assert.AreEqual("20d483dd7791cd6becf089432724c663", _fields[0].DefaultValue); //false
+            Assert.AreEqual(null, _fields[0].DefaultValue); //false
+            Assert.AreEqual("20d483dd7791cd6becf089432724c663", fieldTranslations[0].DefaultValue); //false
             Assert.AreEqual(Constants.FieldColors.Default, _fields[0].Color);
 
 
@@ -1044,7 +1045,8 @@ namespace eFormSDK.Integration.CoreTests
             Assert.AreEqual("PDF", fieldTranslations[3].Text);
             Assert.AreEqual("Her vises PDF-filer.<br>", fieldTranslations[3].Description);
             Assert.AreEqual(3, _fields[3].DisplayIndex);
-            Assert.AreEqual("a60ad2d8c22ed24780bfa9a348376232", _fields[3].DefaultValue);
+            Assert.AreEqual("a60ad2d8c22ed24780bfa9a348376232", fieldTranslations[3].DefaultValue);
+            Assert.AreEqual(null, _fields[3].DefaultValue);
 
 
             Assert.AreEqual("TJEK", fieldTranslations[4].Text);
@@ -1215,7 +1217,8 @@ namespace eFormSDK.Integration.CoreTests
             // Assert.AreEqual(0, _fields[9].multi); todo
             Assert.AreEqual(0, _fields[9].GeolocationEnabled); //false
             // Assert.AreEqual(0, _fields[9].split_screen); todo
-            Assert.AreEqual("", _fields[9].DefaultValue);
+            Assert.AreEqual("", fieldTranslations[9].DefaultValue);
+            Assert.AreEqual(null, _fields[9].DefaultValue);
             Assert.AreEqual(0, _fields[9].ReadOnly); //false
             Assert.AreEqual(0, _fields[9].Mandatory); //false
 
@@ -1813,7 +1816,8 @@ namespace eFormSDK.Integration.CoreTests
             // Assert.AreEqual(1, _fields[0].multi); todo meant to be false but was null
             // Assert.AreEqual(0, _fields[0].geolocation_enabled); //todo meant to be false but was null
             // Assert.AreEqual(0, _fields[0].split_screen); //false todo meant to be false but was null
-            Assert.AreEqual("", _fields[0].DefaultValue);
+            Assert.AreEqual(null, _fields[0].DefaultValue);
+            Assert.AreEqual("", fieldTranslations[0].DefaultValue);
             Assert.AreEqual(0, _fields[0].ReadOnly); //false
             Assert.AreEqual(0, _fields[0].Mandatory); //false
             Assert.AreEqual(Constants.FieldColors.Default, _fields[0].Color);
