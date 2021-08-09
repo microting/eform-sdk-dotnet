@@ -5984,7 +5984,7 @@ namespace Microting.eForm.Infrastructure
 
                     case Constants.Constants.FieldTypes.Date:
                         lstDataItem.Add(new Date(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
-                            DateTime.Parse(field.MinValue), DateTime.Parse(field.MaxValue), fieldTranslation.DefaultValue));
+                            DateTime.Parse(field.MinValue), DateTime.Parse(field.MaxValue), field.DefaultValue));
                         break;
 
                     case Constants.Constants.FieldTypes.None:
@@ -5993,12 +5993,12 @@ namespace Microting.eForm.Infrastructure
 
                     case Constants.Constants.FieldTypes.Number:
                         lstDataItem.Add(new Number(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
-                            field.MinValue, field.MaxValue, int.Parse(fieldTranslation.DefaultValue), _t.Int(field.DecimalCount), field.UnitName));
+                            field.MinValue, field.MaxValue, int.Parse(field.DefaultValue), _t.Int(field.DecimalCount), field.UnitName));
                         break;
 
                     case Constants.Constants.FieldTypes.NumberStepper:
                         lstDataItem.Add(new NumberStepper(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
-                            field.MinValue, field.MaxValue, int.Parse(fieldTranslation.DefaultValue), _t.Int(field.DecimalCount), field.UnitName));
+                            field.MinValue, field.MaxValue, int.Parse(field.DefaultValue), _t.Int(field.DecimalCount), field.UnitName));
                         break;
 
                     case Constants.Constants.FieldTypes.MultiSelect:
