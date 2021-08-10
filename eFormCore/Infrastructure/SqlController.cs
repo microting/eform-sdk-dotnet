@@ -5430,7 +5430,7 @@ namespace Microting.eForm.Infrastructure
                                         ? dataItem.Description.InderValue.Split("|")[1] : "")
                                     : "",
                                 FieldId = field.Id,
-                                DefaultValue = comment.Value.Split("|")[1]
+                                DefaultValue = comment.Value.Split("|").Length > 1 ? comment.Value.Split("|")[1] : comment.Value.Split("|")[0]
                             };
                             await fieldTranslation.Create(db).ConfigureAwait(false);
                         }
@@ -5446,7 +5446,7 @@ namespace Microting.eForm.Infrastructure
                                         ? dataItem.Description.InderValue.Split("|")[2] : "")
                                     : "",
                                 FieldId = field.Id,
-                                DefaultValue = comment.Value.Split("|")[2]
+                                DefaultValue = comment.Value.Split("|").Length > 2 ? comment.Value.Split("|")[2] : comment.Value.Split("|")[0]
                             };
                             await fieldTranslation.Create(db).ConfigureAwait(false);
                         }
@@ -5599,7 +5599,7 @@ namespace Microting.eForm.Infrastructure
                                         ? dataItem.Description.InderValue.Split("|")[1] : "")
                                     : "",
                                 FieldId = field.Id,
-                                DefaultValue = saveButton.Value.Split("|")[1]
+                                DefaultValue = saveButton.Value.Split("|").Length > 1 ? saveButton.Value.Split("|")[1] : saveButton.Value.Split("|")[0]
                             };
                             await fieldTranslation.Create(db).ConfigureAwait(false);
                         }
@@ -5615,7 +5615,7 @@ namespace Microting.eForm.Infrastructure
                                         ? dataItem.Description.InderValue.Split("|")[2] : "")
                                     : "",
                                 FieldId = field.Id,
-                                DefaultValue = saveButton.Value.Split("|")[2]
+                                DefaultValue = saveButton.Value.Split("|").Length > 2 ? saveButton.Value.Split("|")[2] : saveButton.Value.Split("|")[0]
                             };
                             await fieldTranslation.Create(db).ConfigureAwait(false);
                         }
@@ -5647,7 +5647,7 @@ namespace Microting.eForm.Infrastructure
                                         ? dataItem.Description.InderValue.Split("|")[1] : "")
                                     : "",
                                 FieldId = field.Id,
-                                DefaultValue = showPdf.Value.Split("|")[1]
+                                DefaultValue = showPdf.Value.Split("|").Length > 1 ? showPdf.Value.Split("|")[1] : showPdf.Value.Split("|")[0]
                             };
                             await fieldTranslation.Create(db).ConfigureAwait(false);
                         }
@@ -5663,7 +5663,7 @@ namespace Microting.eForm.Infrastructure
                                         ? dataItem.Description.InderValue.Split("|")[2] : "")
                                     : "",
                                 FieldId = field.Id,
-                                DefaultValue = showPdf.Value.Split("|")[2]
+                                DefaultValue = showPdf.Value.Split("|").Length > 2 ? showPdf.Value.Split("|")[2] : showPdf.Value.Split("|")[0]
                             };
                             await fieldTranslation.Create(db).ConfigureAwait(false);
                         }
@@ -5790,7 +5790,7 @@ namespace Microting.eForm.Infrastructure
                                         ? dataItem.Description.InderValue.Split("|")[1] : "")
                                     : "",
                                 FieldId = field.Id,
-                                DefaultValue = text.Value.Split("|")[1]
+                                DefaultValue = text.Value.Split("|").Length > 1 ? text.Value.Split("|")[1] : text.Value.Split("|")[0]
                             };
                             await fieldTranslation.Create(db).ConfigureAwait(false);
                         }
@@ -5806,7 +5806,7 @@ namespace Microting.eForm.Infrastructure
                                         ? dataItem.Description.InderValue.Split("|")[2] : "")
                                     : "",
                                 FieldId = field.Id,
-                                DefaultValue = text.Value.Split("|")[2]
+                                DefaultValue = text.Value.Split("|").Length > 2 ? text.Value.Split("|")[2] : text.Value.Split("|")[0]
                             };
                             await fieldTranslation.Create(db).ConfigureAwait(false);
                         }
