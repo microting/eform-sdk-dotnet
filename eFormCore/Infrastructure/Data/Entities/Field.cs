@@ -228,6 +228,17 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                         fieldTranslation.DefaultValue = defaultValue[1];
                         await fieldTranslation.Update(dbContext);
                     }
+                    else
+                    {
+                        fieldTranslation =
+                            await dbContext.FieldTranslations.SingleOrDefaultAsync(x =>
+                                x.LanguageId == englishLanguage.Id && x.FieldId == field.Id);
+                        if (fieldTranslation != null)
+                        {
+                            fieldTranslation.DefaultValue = defaultValue[0];
+                            await fieldTranslation.Update(dbContext);
+                        }
+                    }
 
                     if (defaultValue.Length > 2)
                     {
@@ -236,6 +247,17 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                                 x.LanguageId == germanLanguage.Id && x.FieldId == field.Id);
                         fieldTranslation.DefaultValue = defaultValue[2];
                         await fieldTranslation.Update(dbContext);
+                    }
+                    else
+                    {
+                        fieldTranslation =
+                            await dbContext.FieldTranslations.SingleOrDefaultAsync(x =>
+                                x.LanguageId == germanLanguage.Id && x.FieldId == field.Id);
+                        if (fieldTranslation != null)
+                        {
+                            fieldTranslation.DefaultValue = defaultValue[0];
+                            await fieldTranslation.Update(dbContext);
+                        }
                     }
 
                     field.DefaultValue = null;

@@ -5470,6 +5470,49 @@ namespace Microting.eForm.Infrastructure
                         field.DefaultValue = number.DefaultValue.ToString();
                         field.DecimalCount = number.DecimalCount;
                         field.UnitName = number.UnitName;
+                        await field.Create(db);
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = language.Id,
+                            Text = dataItem.Label.Split("|")[0],
+                            Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[0] : "",
+                            FieldId = field.Id,
+                            DefaultValue = number.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+
+                        if (dataItem.Label.Split("|").Length > 1)
+                        {
+                            fieldTranslation = new FieldTranslation
+                            {
+                                LanguageId = ukLanguage.Id,
+                                Text = dataItem.Label.Split("|")[1],
+                                Description = dataItem.Description != null ?
+                                    (dataItem.Description.InderValue.Split("|").Length > 1
+                                        ? dataItem.Description.InderValue.Split("|")[1] : "")
+                                    : "",
+                                FieldId = field.Id,
+                                DefaultValue = number.DefaultValue.ToString()
+                            };
+                            await fieldTranslation.Create(db).ConfigureAwait(false);
+                        }
+
+                        if (dataItem.Label.Split("|").Length > 2)
+                        {
+                            fieldTranslation = new FieldTranslation
+                            {
+                                LanguageId = deLanguage.Id,
+                                Text = dataItem.Label.Split("|")[2],
+                                Description = dataItem.Description != null ?
+                                    (dataItem.Description.InderValue.Split("|").Length > 2
+                                        ? dataItem.Description.InderValue.Split("|")[2] : "")
+                                    : "",
+                                FieldId = field.Id,
+                                DefaultValue = number.DefaultValue.ToString()
+                            };
+                            await fieldTranslation.Create(db).ConfigureAwait(false);
+                        }
+                        isSaved = true;
                         break;
 
                     case Constants.Constants.FieldTypes.NumberStepper:
@@ -5479,6 +5522,49 @@ namespace Microting.eForm.Infrastructure
                         field.DefaultValue = numberStepper.DefaultValue.ToString();
                         field.DecimalCount = numberStepper.DecimalCount;
                         field.UnitName = numberStepper.UnitName;
+                        await field.Create(db);
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = language.Id,
+                            Text = dataItem.Label.Split("|")[0],
+                            Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[0] : "",
+                            FieldId = field.Id,
+                            DefaultValue = numberStepper.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+
+                        if (dataItem.Label.Split("|").Length > 1)
+                        {
+                            fieldTranslation = new FieldTranslation
+                            {
+                                LanguageId = ukLanguage.Id,
+                                Text = dataItem.Label.Split("|")[1],
+                                Description = dataItem.Description != null ?
+                                    (dataItem.Description.InderValue.Split("|").Length > 1
+                                        ? dataItem.Description.InderValue.Split("|")[1] : "")
+                                    : "",
+                                FieldId = field.Id,
+                                DefaultValue = numberStepper.DefaultValue.ToString()
+                            };
+                            await fieldTranslation.Create(db).ConfigureAwait(false);
+                        }
+
+                        if (dataItem.Label.Split("|").Length > 2)
+                        {
+                            fieldTranslation = new FieldTranslation
+                            {
+                                LanguageId = deLanguage.Id,
+                                Text = dataItem.Label.Split("|")[2],
+                                Description = dataItem.Description != null ?
+                                    (dataItem.Description.InderValue.Split("|").Length > 2
+                                        ? dataItem.Description.InderValue.Split("|")[2] : "")
+                                    : "",
+                                FieldId = field.Id,
+                                DefaultValue = numberStepper.DefaultValue.ToString()
+                            };
+                            await fieldTranslation.Create(db).ConfigureAwait(false);
+                        }
+                        isSaved = true;
                         break;
 
                     case Constants.Constants.FieldTypes.MultiSelect:
@@ -5827,12 +5913,98 @@ namespace Microting.eForm.Infrastructure
                         field.IsNum = _t.Bool(entitySearch.IsNum);
                         field.QueryType = entitySearch.QueryType;
                         field.MinValue = entitySearch.MinSearchLenght.ToString();
+                        await field.Create(db);
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = language.Id,
+                            Text = dataItem.Label.Split("|")[0],
+                            Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[0] : "",
+                            FieldId = field.Id,
+                            DefaultValue = entitySearch.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+
+                        if (dataItem.Label.Split("|").Length > 1)
+                        {
+                            fieldTranslation = new FieldTranslation
+                            {
+                                LanguageId = ukLanguage.Id,
+                                Text = dataItem.Label.Split("|")[1],
+                                Description = dataItem.Description != null ?
+                                    (dataItem.Description.InderValue.Split("|").Length > 1
+                                        ? dataItem.Description.InderValue.Split("|")[1] : "")
+                                    : "",
+                                FieldId = field.Id,
+                                DefaultValue = entitySearch.DefaultValue.ToString()
+                            };
+                            await fieldTranslation.Create(db).ConfigureAwait(false);
+                        }
+
+                        if (dataItem.Label.Split("|").Length > 2)
+                        {
+                            fieldTranslation = new FieldTranslation
+                            {
+                                LanguageId = deLanguage.Id,
+                                Text = dataItem.Label.Split("|")[2],
+                                Description = dataItem.Description != null ?
+                                    (dataItem.Description.InderValue.Split("|").Length > 2
+                                        ? dataItem.Description.InderValue.Split("|")[2] : "")
+                                    : "",
+                                FieldId = field.Id,
+                                DefaultValue = entitySearch.DefaultValue.ToString()
+                            };
+                            await fieldTranslation.Create(db).ConfigureAwait(false);
+                        }
+                        isSaved = true;
                         break;
 
                     case Constants.Constants.FieldTypes.EntitySelect:
                         EntitySelect entitySelect = (EntitySelect)dataItem;
                         field.EntityGroupId = entitySelect.Source;
                         field.DefaultValue = entitySelect.DefaultValue.ToString();
+                        await field.Create(db);
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = language.Id,
+                            Text = dataItem.Label.Split("|")[0],
+                            Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[0] : "",
+                            FieldId = field.Id,
+                            DefaultValue = entitySelect.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+
+                        if (dataItem.Label.Split("|").Length > 1)
+                        {
+                            fieldTranslation = new FieldTranslation
+                            {
+                                LanguageId = ukLanguage.Id,
+                                Text = dataItem.Label.Split("|")[1],
+                                Description = dataItem.Description != null ?
+                                    (dataItem.Description.InderValue.Split("|").Length > 1
+                                        ? dataItem.Description.InderValue.Split("|")[1] : "")
+                                    : "",
+                                FieldId = field.Id,
+                                DefaultValue = entitySelect.DefaultValue.ToString()
+                            };
+                            await fieldTranslation.Create(db).ConfigureAwait(false);
+                        }
+
+                        if (dataItem.Label.Split("|").Length > 2)
+                        {
+                            fieldTranslation = new FieldTranslation
+                            {
+                                LanguageId = deLanguage.Id,
+                                Text = dataItem.Label.Split("|")[2],
+                                Description = dataItem.Description != null ?
+                                    (dataItem.Description.InderValue.Split("|").Length > 2
+                                        ? dataItem.Description.InderValue.Split("|")[2] : "")
+                                    : "",
+                                FieldId = field.Id,
+                                DefaultValue = entitySelect.DefaultValue.ToString()
+                            };
+                            await fieldTranslation.Create(db).ConfigureAwait(false);
+                        }
+                        isSaved = true;
                         break;
 
                     case Constants.Constants.FieldTypes.FieldGroup:
@@ -6113,7 +6285,7 @@ namespace Microting.eForm.Infrastructure
 
                     case Constants.Constants.FieldTypes.Date:
                         lstDataItem.Add(new Date(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
-                            DateTime.Parse(field.MinValue), DateTime.Parse(field.MaxValue), field.DefaultValue));
+                            DateTime.Parse(field.MinValue), DateTime.Parse(field.MaxValue), fieldTranslation.DefaultValue));
                         break;
 
                     case Constants.Constants.FieldTypes.None:
@@ -6122,12 +6294,12 @@ namespace Microting.eForm.Infrastructure
 
                     case Constants.Constants.FieldTypes.Number:
                         lstDataItem.Add(new Number(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
-                            field.MinValue, field.MaxValue, int.Parse(field.DefaultValue), _t.Int(field.DecimalCount), field.UnitName));
+                            field.MinValue, field.MaxValue, int.Parse(fieldTranslation.DefaultValue), _t.Int(field.DecimalCount), field.UnitName));
                         break;
 
                     case Constants.Constants.FieldTypes.NumberStepper:
                         lstDataItem.Add(new NumberStepper(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
-                            field.MinValue, field.MaxValue, int.Parse(field.DefaultValue), _t.Int(field.DecimalCount), field.UnitName));
+                            field.MinValue, field.MaxValue, int.Parse(fieldTranslation.DefaultValue), _t.Int(field.DecimalCount), field.UnitName));
                         break;
 
                     case Constants.Constants.FieldTypes.MultiSelect:
@@ -6211,12 +6383,12 @@ namespace Microting.eForm.Infrastructure
 
                     case Constants.Constants.FieldTypes.EntitySearch:
                         lstDataItem.Add(new EntitySearch(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
-                            _t.Int(field.DefaultValue), _t.Int(field.EntityGroupId), _t.Bool(field.IsNum), field.QueryType, _t.Int(field.MinValue), _t.Bool(field.BarcodeEnabled), field.BarcodeType));
+                            _t.Int(fieldTranslation.DefaultValue), _t.Int(field.EntityGroupId), _t.Bool(field.IsNum), field.QueryType, _t.Int(field.MinValue), _t.Bool(field.BarcodeEnabled), field.BarcodeType));
                         break;
 
                     case Constants.Constants.FieldTypes.EntitySelect:
                         lstDataItem.Add(new EntitySelect(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
-                            _t.Int(field.DefaultValue), _t.Int(field.EntityGroupId)));
+                            _t.Int(fieldTranslation.DefaultValue), _t.Int(field.EntityGroupId)));
                         break;
 
                     case Constants.Constants.FieldTypes.FieldGroup:
