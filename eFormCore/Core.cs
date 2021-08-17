@@ -1848,7 +1848,7 @@ namespace eFormCore
         /// <param name="cultureInfo"></param>
         /// <param name="timeZoneInfo"></param>
         public async Task<string> CasesToCsv(int templateId, DateTime? start, DateTime? end, string pathAndName,
-            string customPathForUploadedData, string decimalSeparator, string thousandSeparator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo, Language language, bool gpsCoordinates)
+            string customPathForUploadedData, string decimalSeparator, string thousandSeparator, bool utcTime, CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo, Language language, bool gpsCoordinates, bool includeCheckListText)
         {
             string methodName = "Core.CasesToCsv";
             try
@@ -1861,7 +1861,7 @@ namespace eFormCore
                 Log.LogVariable(methodName, nameof(pathAndName), pathAndName);
                 Log.LogVariable(methodName, nameof(customPathForUploadedData), customPathForUploadedData);
 
-                List<List<string>> dataSet = await GenerateDataSetFromCases(templateId, start, end, customPathForUploadedData, decimalSeparator, thousandSeparator, utcTime, cultureInfo, timeZoneInfo, language, false, gpsCoordinates).ConfigureAwait(false);
+                List<List<string>> dataSet = await GenerateDataSetFromCases(templateId, start, end, customPathForUploadedData, decimalSeparator, thousandSeparator, utcTime, cultureInfo, timeZoneInfo, language, includeCheckListText, gpsCoordinates).ConfigureAwait(false);
 
                 if (dataSet == null)
                     return "";
@@ -4824,11 +4824,11 @@ namespace eFormCore
                                 foreach (int i in caseIds)
                                 {
                                     string value = "";
-                                    foreach (KeyValuePair KvP in tempList)
+                                    foreach (KeyValuePair kvP in tempList)
                                     {
-                                        if (KvP.Key == i.ToString())
+                                        if (kvP.Key == i.ToString())
                                         {
-                                            value = KvP.Value;
+                                            value = kvP.Value;
                                         }
                                     }
                                     newRow.Add(value);
@@ -4847,11 +4847,11 @@ namespace eFormCore
                                     foreach (int i in caseIds)
                                     {
                                         string value = "";
-                                        foreach (KeyValuePair KvP in lst)
+                                        foreach (KeyValuePair kvP in lst)
                                         {
-                                            if (KvP.Key == i.ToString())
+                                            if (kvP.Key == i.ToString())
                                             {
-                                                value = KvP.Value;
+                                                value = kvP.Value;
                                             }
                                         }
                                         newRow.Add(value);

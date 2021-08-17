@@ -214,6 +214,16 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 if (!string.IsNullOrEmpty(field.DefaultValue))
                 {
                     var defaultValue = field.DefaultValue.Split("|");
+                    if (dbContext.FieldTranslations.Count(x =>
+                        x.LanguageId == language.Id && x.FieldId == field.Id) > 1)
+                    {
+                        var theList = await dbContext.FieldTranslations.Where(x =>
+                            x.LanguageId == language.Id && x.FieldId == field.Id).ToListAsync();
+                        foreach (FieldTranslation translation in theList)
+                        {
+                            Console.WriteLine($"{translation.Id} is duplicated for field {field.Id} with language {language.Id}");
+                        }
+                    }
                     FieldTranslation fieldTranslation =
                         await dbContext.FieldTranslations.SingleOrDefaultAsync(x =>
                             x.LanguageId == language.Id && x.FieldId == field.Id);
