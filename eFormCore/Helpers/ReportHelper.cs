@@ -132,9 +132,7 @@ namespace Microting.eForm.Helpers
                     if (fieldValue.Value != "&#10004;")
                     {
                         docText = regexText.Replace(docText, fieldValue.Value
-                            .Replace("&", "&amp;")
-                            .Replace("\"", "&quote;")
-                            .Replace("'", "&apos;"));
+                            .Replace("&", "&amp;"));
                     }
                     else
                     {
