@@ -1,5 +1,16 @@
 # Changelog
 
+## [v5.2.34](https://github.com/microting/eform-sdk-dotnet/tree/v5.2.34) (2021-09-02)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.2.33...v5.2.34)
+
+**Implemented enhancements:**
+
+- Bump DocumentFormat.OpenXml from 2.13.0 to 2.13.1 [\#316](https://github.com/microting/eform-sdk-dotnet/issues/316)
+- Bump AWSSDK.SQS from 3.7.0.53 to 3.7.1.1 [\#315](https://github.com/microting/eform-sdk-dotnet/issues/315)
+- Bump AWSSDK.S3 from 3.7.1.24 to 3.7.1.30 [\#314](https://github.com/microting/eform-sdk-dotnet/issues/314)
+- Bump AWSSDK.Core from 3.7.2.4 to 3.7.2.10 [\#313](https://github.com/microting/eform-sdk-dotnet/issues/313)
+
 ## [v5.2.33](https://github.com/microting/eform-sdk-dotnet/tree/v5.2.33) (2021-08-17)
 
 [Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.2.32...v5.2.33)
@@ -122,6 +133,7 @@
 **Merged pull requests:**
 
 - Bump Microsoft.EntityFrameworkCore.Design from 5.0.7 to 5.0.8 [\#234](https://github.com/microting/eform-sdk-dotnet/pull/234) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump Microsoft.EntityFrameworkCore.Relational from 5.0.7 to 5.0.8 [\#233](https://github.com/microting/eform-sdk-dotnet/pull/233) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v5.2.16](https://github.com/microting/eform-sdk-dotnet/tree/v5.2.16) (2021-07-15)
 
@@ -158,7 +170,6 @@
 
 **Merged pull requests:**
 
-- Bump Microsoft.EntityFrameworkCore.Relational from 5.0.7 to 5.0.8 [\#233](https://github.com/microting/eform-sdk-dotnet/pull/233) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump AWSSDK.Core from 3.7.0.37 to 3.7.0.38 [\#207](https://github.com/microting/eform-sdk-dotnet/pull/207) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump Magick.NET-Q16-x64 from 7.24.1 to 8.0.1 [\#205](https://github.com/microting/eform-sdk-dotnet/pull/205) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump Pomelo.EntityFrameworkCore.MySql from 5.0.0 to 5.0.1 [\#204](https://github.com/microting/eform-sdk-dotnet/pull/204) ([dependabot[bot]](https://github.com/apps/dependabot))
