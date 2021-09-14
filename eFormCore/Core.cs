@@ -4375,7 +4375,7 @@ namespace eFormCore
                 Log.LogVariable(methodName, nameof(siteId), siteId);
 
                 Unit unit = await dbContext.Units.SingleOrDefaultAsync(x => x.Id == unitId);
-                Site site = await dbContext.Sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteId);
+                Site site = await dbContext.Sites.SingleOrDefaultAsync(x => x.Id == siteId);
 
                 string result = await _communicator.UnitMove((int)unit.MicrotingUid, (int)site.MicrotingUid).ConfigureAwait(false);
                 if (result == null) return false;
