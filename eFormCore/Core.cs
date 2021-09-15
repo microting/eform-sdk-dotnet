@@ -4014,8 +4014,13 @@ namespace eFormCore
                 if (site != null)
                 {
                     await site.Delete(db);
-                    await EntityItemDelete(site.SearchableEntityItemId);
-                    await EntityItemDelete(site.SelectableEntityItemId);
+                    if (site.SearchableEntityItemId != 0)
+                    {
+                        await EntityItemDelete(site.SearchableEntityItemId);
+                    }
+                    if (site.SelectableEntityItemId != 0) {
+                        await EntityItemDelete(site.SelectableEntityItemId);
+                    }
                     return true;
                 }
 
