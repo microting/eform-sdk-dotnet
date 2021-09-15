@@ -3748,7 +3748,7 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                Worker worker = await db.Workers.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
+                Worker worker = await db.Workers.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid);
 
                 if (worker != null)
                     return new WorkerDto(worker.MicrotingUid, worker.FirstName, worker.LastName, worker.Email, worker.CreatedAt, worker.UpdatedAt);
