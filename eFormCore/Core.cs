@@ -28,6 +28,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -3394,18 +3395,27 @@ namespace eFormCore
                 }
                 else
                 {
-                    option = await db.Options.SingleAsync(x => x.MicrotingUid == option.MicrotingUid).ConfigureAwait(false);
-                    option.WeightValue = int.Parse(child["WeightValue"].ToString());
-                    option.Weight = int.Parse(child["Weight"].ToString());
-                    option.OptionIndex = int.Parse(child["OptionIndex"].ToString());
-                    int? nextQuestionId = null;
-                    if (!string.IsNullOrEmpty(child["NextQuestionId"].ToString()))
+                    try
                     {
-                        nextQuestionId = db.Questions.SingleOrDefault(x =>
-                            x.MicrotingUid == int.Parse(child["NextQuestionId"].ToString()))?.Id;
+                        option = await db.Options.SingleAsync(x => x.MicrotingUid == option.MicrotingUid).ConfigureAwait(false);
+                        option.WeightValue = int.Parse(child["WeightedValue"].ToString());
+                        option.Weight = int.Parse(child["Weight"].ToString());
+                        option.OptionIndex = int.Parse(child["OptionIndex"].ToString());
+                        int? nextQuestionId = null;
+                        if (!string.IsNullOrEmpty(child["NextQuestionId"].ToString()))
+                        {
+                            nextQuestionId = db.Questions.SingleOrDefault(x =>
+                                x.MicrotingUid == int.Parse(child["NextQuestionId"].ToString()))?.Id;
+                        }
+                        option.NextQuestionId = nextQuestionId;
+                        await option.Update(db).ConfigureAwait(false);
                     }
-                    option.NextQuestionId = nextQuestionId;
-                    await option.Update(db).ConfigureAwait(false);
+                    catch (Exception exception)
+                    {
+                        Console.WriteLine(exception.Message);
+                    }
+
+
                 }
 
                 if (removed)
