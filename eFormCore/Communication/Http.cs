@@ -67,7 +67,7 @@ namespace Microting.eForm.Communication
             addressPdfUpload = comAddressPdfUpload;
             organizationId = comOrganizationId;
             addressSpeechToText = comSpeechToText;
-            newAddressBasic = "http://localhost:5010";
+            newAddressBasic = "https://microcore.microting.com";
 
             dllVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
