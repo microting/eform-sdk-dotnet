@@ -434,6 +434,7 @@ namespace eFormCore
             catch (Exception ex)
             {
                 await FatalExpection(methodName + "failed. Core failed to restart", ex).ConfigureAwait(false);
+                throw;
             }
         }
 
