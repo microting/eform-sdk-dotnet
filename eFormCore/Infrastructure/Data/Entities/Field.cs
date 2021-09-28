@@ -219,9 +219,19 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                     {
                         var theList = await dbContext.FieldTranslations.Where(x =>
                             x.LanguageId == language.Id && x.FieldId == field.Id).ToListAsync();
+                        var currentTranslationText = "";
+                        var currentTranslationDescription = "";
                         foreach (FieldTranslation translation in theList)
                         {
-                            Console.WriteLine($"{translation.Id} is duplicated for field {field.Id} with language {language.Id}");
+                            if (currentTranslationText == translation.Text &&
+                                currentTranslationDescription == translation.Description)
+                            {
+                                dbContext.FieldTranslations.Remove(translation);
+                                await dbContext.SaveChangesAsync();
+                                Console.WriteLine($"{translation.Id} is duplicated for field {field.Id} with language {language.Id}, so deleting the duplicate");
+                            }
+                            currentTranslationText = translation.Text;
+                            currentTranslationDescription = translation.Description;
                         }
                     }
                     FieldTranslation fieldTranslation =
