@@ -132,7 +132,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public static async Task MoveTranslations(MicrotingDbContext dbContext)
         {
-            List<Field> fields = await dbContext.Fields.ToListAsync();
+            try
+            {
+List<Field> fields = await dbContext.Fields.ToListAsync();
             FieldType pdfFieldType =
                 await dbContext.FieldTypes.SingleOrDefaultAsync(x => x.Type == Constants.Constants.FieldTypes.ShowPdf);
             Language language = await dbContext.Languages.SingleAsync(x => x.Name == "Danish");
@@ -237,6 +239,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                     FieldTranslation fieldTranslation =
                         await dbContext.FieldTranslations.SingleOrDefaultAsync(x =>
                             x.LanguageId == language.Id && x.FieldId == field.Id);
+                    if (fieldTranslation == null)
+                    {
+                        Console.WriteLine($"We could not find a translation for Danish and FieldId : {field.Id}");
+                    }
                     fieldTranslation.DefaultValue = defaultValue[0];
                     await fieldTranslation.Update(dbContext);
 
@@ -245,8 +251,15 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                         fieldTranslation =
                             await dbContext.FieldTranslations.SingleOrDefaultAsync(x =>
                                 x.LanguageId == englishLanguage.Id && x.FieldId == field.Id);
-                        fieldTranslation.DefaultValue = defaultValue[1];
-                        await fieldTranslation.Update(dbContext);
+                        if (fieldTranslation != null)
+                        {
+                            fieldTranslation.DefaultValue = defaultValue[1];
+                            await fieldTranslation.Update(dbContext);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"We could not find a translation for English and FieldId : {field.Id}");
+                        }
                     }
                     else
                     {
@@ -257,6 +270,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                         {
                             fieldTranslation.DefaultValue = defaultValue[0];
                             await fieldTranslation.Update(dbContext);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"We could not find a translation for English and FieldId : {field.Id}");
                         }
                     }
 
@@ -284,6 +301,13 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                     await field.Update(dbContext);
                 }
             }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
         }
 
         private static List<KeyValuePair> PairRead(string str)
