@@ -6438,7 +6438,7 @@ namespace Microting.eForm.Infrastructure
                         List<DataItem> lst = new List<DataItem>();
                         //CDataValue description = new CDataValue();
                         //description.InderValue = f.description;
-                        lstDataItemGroup.Add(new FieldGroup(field.Id.ToString(), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), fieldTranslation.DefaultValue, lst));
+                        lstDataItemGroup.Add(new FieldGroup(field.Id.ToString(), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), fieldTranslation.DefaultValue ?? "closed", lst));
                         //lstDataItemGroup.Add(new DataItemGroup(f.Id.ToString(), f.label, f.description, f.color, t.Int(f.display_index), f.default_value, lst));
 
                         //the actual DataItems
