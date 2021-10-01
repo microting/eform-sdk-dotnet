@@ -1,5 +1,19 @@
 # Changelog
 
+## [v5.2.45](https://github.com/microting/eform-sdk-dotnet/tree/v5.2.45) (2021-10-01)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.2.44...v5.2.45)
+
+**Implemented enhancements:**
+
+- Bump AWSSDK.SQS from 3.7.1.15 to 3.7.1.17 [\#392](https://github.com/microting/eform-sdk-dotnet/issues/392)
+- Bump AWSSDK.S3 from 3.7.3.5 to 3.7.3.7 [\#391](https://github.com/microting/eform-sdk-dotnet/issues/391)
+- Bump AWSSDK.Core from 3.7.3.12 to 3.7.3.14 [\#390](https://github.com/microting/eform-sdk-dotnet/issues/390)
+
+## [v5.2.44](https://github.com/microting/eform-sdk-dotnet/tree/v5.2.44) (2021-09-29)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.2.43...v5.2.44)
+
 ## [v5.2.43](https://github.com/microting/eform-sdk-dotnet/tree/v5.2.43) (2021-09-28)
 
 [Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.2.42...v5.2.43)
