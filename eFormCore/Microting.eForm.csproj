@@ -139,6 +139,7 @@
         <Compile Include="Infrastructure\Factories\MicrotingDbContextFactory.cs" />
         <Compile Include="Infrastructure\Helpers\DbContextHelper.cs" />
         <Compile Include="Infrastructure\MicrotingDbContext.cs" />
+        <Compile Include="Infrastructure\Models\CommonTranslationsModel.cs" />
         <Compile Include="Infrastructure\Models\DataItem.cs" />
         <Compile Include="Infrastructure\Models\DataItemGroup.cs" />
         <Compile Include="Infrastructure\Models\Element.cs" />

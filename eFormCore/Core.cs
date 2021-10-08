@@ -2967,6 +2967,52 @@ namespace eFormCore
             }
         }
 
+        public async Task<int> FolderCreate(List<CommonTranslationsModel> translations, int? parentId)
+        {
+            string methodName = "Core.FolderCreate";
+            try
+            {
+                if (!Running()) throw new Exception("Core is not running");
+                await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
+                int apiParentId = 0;
+                if (parentId != null)
+                {
+                    apiParentId = (int)dbContext.Folders.Single(x => x.Id == parentId).MicrotingUid;
+                    //    apiParentId = (int)FolderRead((int) parentId).GetAwaiter().GetResult().MicrotingUId;
+                }
+
+                Folder folder = new Folder
+                {
+                    ParentId = parentId
+                };
+                await folder.Create(dbContext);
+                int result = await _communicator.FolderCreate(folder.Id, apiParentId).ConfigureAwait(false);
+                folder.MicrotingUid = result;
+                await folder.Update(dbContext);
+                foreach (CommonTranslationsModel translation in translations)
+                {
+                    Language language =
+                        await dbContext.Languages.SingleOrDefaultAsync(x => x.Id == translation.LanguageId);
+                    await _communicator.FolderUpdate((int)folder.MicrotingUid, translation.Name, translation.Description,
+                        language.LanguageCode, apiParentId);
+                    FolderTranslation folderTranslation = new FolderTranslation
+                    {
+                        FolderId = folder.Id,
+                        Name = translation.Name,
+                        Description = translation.Description,
+                        LanguageId = language.Id
+                    };
+                    await folderTranslation.Create(dbContext);
+                }
+                return folder.Id;
+            }
+            catch (Exception ex)
+            {
+                Log.LogException(methodName, "FolderCreate failed", ex);
+                throw new Exception("FolderCreate failed", ex);
+            }
+        }
+
         public async Task<int> FolderCreate(List<KeyValuePair<string, string>> name, List<KeyValuePair<string, string>> description, int? parentId)
         {
             string methodName = "Core.FolderCreate";
@@ -3009,6 +3055,61 @@ namespace eFormCore
             {
                 Log.LogException(methodName, "FolderCreate failed", ex);
                 throw new Exception("FolderCreate failed", ex);
+            }
+        }
+
+        public async Task FolderUpdate(int id, List<CommonTranslationsModel> translations, int? parentId)
+        {
+            string methodName = "Core.FolderUpdate";
+            try
+            {
+                if (!Running()) throw new Exception("Core is not running");
+                await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
+                Folder folder = await dbContext.Folders.SingleOrDefaultAsync(x => x.Id == id);
+                //FolderDto folder = await FolderRead(id).ConfigureAwait(false);
+                int apiParentId = 0;
+                if (parentId != null)
+                {
+                    apiParentId = (int)dbContext.Folders.Single(x => x.Id == parentId).MicrotingUid;
+                }
+
+                foreach (CommonTranslationsModel translation in translations)
+                {
+                    Language language = await dbContext.Languages.SingleOrDefaultAsync(x => x.Id == translation.LanguageId);
+                    await _communicator.FolderUpdate((int)folder.MicrotingUid, translation.Name, translation.Description,
+                        language.LanguageCode, apiParentId);
+                    FolderTranslation folderTranslation =
+                        await dbContext.FolderTranslations.SingleOrDefaultAsync(x =>
+                            x.FolderId == folder.Id && x.LanguageId == language.Id);
+                    if (folderTranslation == null)
+                    {
+                        folderTranslation = new FolderTranslation
+                        {
+                            FolderId = folder.Id,
+                            Name = translation.Name,
+                            Description = translation.Description,
+                            LanguageId = language.Id
+                        };
+                        await folderTranslation.Create(dbContext);
+                    }
+                    else
+                    {
+                        folderTranslation.Name = translation.Name;
+                        folderTranslation.Description = translation.Description;
+                        await folderTranslation.Update(dbContext);
+                    }
+                }
+
+                if (folder.ParentId != parentId && parentId != null)
+                {
+                    folder.ParentId = parentId;
+                    await folder.Update(dbContext);
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.LogException(methodName, "FolderUpdate failed", ex);
+                throw new Exception("FolderUpdate failed", ex);
             }
         }
 
