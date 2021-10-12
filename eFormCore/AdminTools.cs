@@ -354,45 +354,11 @@ namespace eFormCore
                     }
                 }
             }
-
-            foreach (FolderDto folderDto in await communicator.FolderLoadAllFromRemote())
-            {
-                if (folderDto.MicrotingUId != null)
-                {
-                    FolderDto folder = await sqlController.FolderReadByMicrotingUuid((int)folderDto.MicrotingUId);
-
-                    if (folder == null)
-                    {
-                        if (folderDto.ParentId == 0)
-                        {
-                            await sqlController.FolderCreate(folderDto.Name, folderDto.Description, null,
-                                (int)folderDto.MicrotingUId);
-                        }
-                        else
-                        {
-                            if (folderDto.ParentId != null)
-                            {
-                                FolderDto parenFolder =
-                                    await sqlController.FolderReadByMicrotingUuid((int) folderDto.ParentId);
-
-                                await sqlController.FolderCreate(folderDto.Name, folderDto.Description, parenFolder.Id,
-                                    (int)folderDto.MicrotingUId);
-                            }
-                        }
-                    }
-                }
-            }
-
             await sqlController.SettingUpdate(Settings.knownSitesDone, "true");
             await sqlController.SettingUpdate(Settings.firstRunDone, "true");
             #endregion
 
             return "";
-            // }
-            // catch (Exception ex)
-            // {
-                // return t.PrintException(t.GetMethodName("AdminTools") + " failed", ex);
-            // }
         }
 
         public async Task<string> DbSettingsReloadRemote()

@@ -489,35 +489,11 @@ namespace Microting.eForm.Communication
 
         #region folder
 
-        public async Task<List<FolderDto>> FolderLoadAllFromRemote()
+        public async Task<string> FolderLoadAllFromRemote()
         {
             _log.LogEverything("Communicator.FolderLoadAllFromRemote", "called");
 
-            string rawData = await _http.FolderLoadAllFromRemote().ConfigureAwait(false);
-
-            List<FolderDto> list = new List<FolderDto>();
-            if (!string.IsNullOrEmpty(rawData))
-            {
-                var parsedData = JToken.Parse(rawData);
-
-                foreach (JToken item in parsedData)
-                {
-                    int microtingUUID = int.Parse(item["MicrotingUid"].ToString());
-                    string name = item["name"].ToString();
-                    string description = item["Description"].ToString();
-                    int? parentId = null;
-                    try
-                    {
-                        parentId = int.Parse(item["ParentId"].ToString());
-                    } catch {}
-
-
-                    FolderDto folderDto = new FolderDto(null, name, description, parentId, null, null, microtingUUID);
-
-                    list.Add(folderDto);
-                }
-            }
-            return list;
+            return await _http.FolderLoadAllFromRemote().ConfigureAwait(false);
         }
 
         public async Task<int> FolderCreate(int uuid, int? parentId)
