@@ -44,7 +44,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public string full_name()
         {
-            return FirstName + " " + LastName;
+            return $"{FirstName} {LastName}";
         }
     }
 }

@@ -117,6 +117,12 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public string ReportH5 { get; set; }
 
+        public bool IsLocked { get; set; }
+
+        public bool IsEditable { get; set; }
+
+        public bool IsHidden { get; set; }
+
         public virtual ICollection<Case> Cases { get; set; }
 
         public virtual ICollection<CheckListSite> CheckListSites { get; set; }

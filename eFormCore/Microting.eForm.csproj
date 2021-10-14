@@ -250,6 +250,8 @@
         <Compile Include="Migrations\20210609072417_AddingLinkingOfSitesAndEntities.Designer.cs" />
         <Compile Include="Migrations\20210730085329_AddingDefaultValueToFieldTranslations.cs" />
         <Compile Include="Migrations\20210730085329_AddingDefaultValueToFieldTranslations.Designer.cs" />
+        <Compile Include="Migrations\20211014105943_CLAttributes.cs" />
+        <Compile Include="Migrations\20211014105943_CLAttributes.Designer.cs" />
         <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
         <Compile Include="Infrastructure\SqlController.cs" />
         <Compile Include="Services\Subscriber.cs" />
