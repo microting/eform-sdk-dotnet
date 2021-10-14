@@ -3462,6 +3462,7 @@ namespace Microting.eForm.Infrastructure
                 int? workerMicrotingUid = null;
                 string workerFirstName = null;
                 string workerLastName = null;
+                string workerEmail = null;
                 try
                 {
                     unit = await db.Units.FirstAsync(x => x.SiteId == aSite.Id);
@@ -3478,12 +3479,13 @@ namespace Microting.eForm.Infrastructure
                     workerMicrotingUid = worker.MicrotingUid;
                     workerFirstName = worker.FirstName;
                     workerLastName = worker.LastName;
+                    workerEmail = worker.Email;
                 }
                 catch { }
                 SiteDto siteDto = new SiteDto()
                 {
                     CustomerNo = unitCustomerNo,
-                    Email = worker.Email,
+                    Email = workerEmail,
                     FirstName = workerFirstName,
                     LastName = workerLastName,
                     OtpCode = unitOptCode,
