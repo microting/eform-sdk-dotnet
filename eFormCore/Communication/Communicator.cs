@@ -254,13 +254,24 @@ namespace Microting.eForm.Communication
             string response = await _http.SiteCreate(name, languageCode);
             var parsedSiteData = JToken.Parse(response);
 
-            //int unitId = int.Parse(parsedData["unit_id"].ToString());
-            //int otpCode = int.Parse(parsedData["otp_code"].ToString());
             response = await _http.UnitCreate(int.Parse(parsedSiteData["MicrotingUid"].ToString()));
             var parsedUnitData = JToken.Parse(response);
             int unitId = int.Parse(parsedUnitData["MicrotingUid"].ToString());
             int otpCode = int.Parse(parsedUnitData["OtpCode"].ToString());
-            SiteDto siteDto = new SiteDto(int.Parse(parsedSiteData["MicrotingUid"].ToString()), parsedSiteData["Name"].ToString(), "", "", 0, 0, unitId, 0); // WorkerUid is set to 0, because it's used in this context.
+
+            SiteDto siteDto = new SiteDto()
+            {
+                SiteId = int.Parse(parsedSiteData["MicrotingUid"].ToString()),
+                SiteName = parsedSiteData["Name"].ToString(),
+                FirstName = "",
+                LastName = "",
+                CustomerNo = 0,
+                OtpCode = 0,
+                UnitId = unitId,
+                Email = "",
+                WorkerUid = 0
+            };
+
             UnitDto unitDto = new UnitDto
             {
                 UnitUId = unitId,

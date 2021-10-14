@@ -2520,13 +2520,9 @@ namespace eFormCore
                     await unit.Create(db).ConfigureAwait(false);
                 }
 
-                if (string.IsNullOrEmpty(userEmail))
-                {
-                    Random rdn = new Random();
-                    userEmail = siteId + "." + customerNo + "@invalid.invalid";
-                }
+                string legacyEmail = siteId + "." + customerNo + "@invalid.invalid";
 
-                WorkerDto workerDto = await Advanced_WorkerCreate(userFirstName, userLastName, userEmail)
+                WorkerDto workerDto = await Advanced_WorkerCreate(userFirstName, userLastName, userEmail, legacyEmail)
                     .ConfigureAwait(false);
                 await Advanced_SiteWorkerCreate(siteDto, workerDto).ConfigureAwait(false);
 
@@ -2615,7 +2611,7 @@ namespace eFormCore
                 {
                     //if (String.IsNullOrEmpty)
                 }
-                await Advanced_WorkerUpdate((int)siteDto.WorkerUid, userFirstName, userLastName, userEmail).ConfigureAwait(false);
+                await Advanced_WorkerUpdate((int)siteDto.WorkerUid, userFirstName, userLastName, userEmail, siteDto.Email).ConfigureAwait(false);
                 return true;
             }
             catch (Exception ex)
@@ -4148,7 +4144,7 @@ namespace eFormCore
         //
 
         // workers
-        public async Task<WorkerDto> Advanced_WorkerCreate(string firstName, string lastName, string email)
+        public async Task<WorkerDto> Advanced_WorkerCreate(string firstName, string lastName, string email, string legacyEmail)
         {
             string methodName = "Core.Advanced_WorkerCreate";
             try
@@ -4159,7 +4155,7 @@ namespace eFormCore
                 Log.LogVariable(methodName, nameof(lastName), lastName);
                 Log.LogVariable(methodName, nameof(email), email);
 
-                WorkerDto workerDto = await _communicator.WorkerCreate(firstName, lastName, email).ConfigureAwait(false);
+                WorkerDto workerDto = await _communicator.WorkerCreate(firstName, lastName, legacyEmail).ConfigureAwait(false);
                 int workerUId = workerDto.WorkerUId;
 
                 workerDto = await _sqlController.WorkerRead(workerDto.WorkerUId).ConfigureAwait(false);
@@ -4233,7 +4229,7 @@ namespace eFormCore
             }
         }
 
-        public async Task<bool> Advanced_WorkerUpdate(int workerId, string firstName, string lastName, string email)
+        public async Task<bool> Advanced_WorkerUpdate(int workerId, string firstName, string lastName, string email, string legacyEmail)
         {
             string methodName = "Core.Advanced_WorkerUpdate";
             try
@@ -4248,7 +4244,7 @@ namespace eFormCore
                 if (await _sqlController.WorkerRead(workerId).ConfigureAwait(false) == null)
                     return false;
 
-                bool success = await _communicator.WorkerUpdate(workerId, firstName, lastName, email).ConfigureAwait(false);
+                bool success = await _communicator.WorkerUpdate(workerId, firstName, lastName, legacyEmail).ConfigureAwait(false);
                 if (!success)
                     return false;
 

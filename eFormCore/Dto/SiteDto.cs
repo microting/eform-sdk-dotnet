@@ -31,66 +31,50 @@ namespace Microting.eForm.Dto
         {
         }
 
-        public SiteDto(int siteId, string siteName, string userFirstName, string userLastName, int? customerNo, int? otpCode, int? unitId, int? workerUid)
-        {
-            if (siteName == null)
-                siteName = "";
-            if (userFirstName == null)
-                userFirstName = "";
-            if (userLastName == null)
-                userLastName = "";
-
-            SiteId = siteId;
-            SiteName = siteName;
-            FirstName = userFirstName;
-            LastName = userLastName;
-            CustomerNo = customerNo;
-            OtpCode = otpCode;
-            UnitId = unitId;
-            WorkerUid = workerUid;
-        }
         #endregion
 
         #region var
         /// <summary>
         ///...
         /// </summary>
-        public int SiteId { get; }
+        public int SiteId { get; set; }
 
         /// <summary>
         ///...
         /// </summary>
-        public string SiteName { get; }
+        public string SiteName { get; set; }
 
         /// <summary>
         ///...
         /// </summary>
-        public string FirstName { get; }
+        public string FirstName { get; set; }
 
         /// <summary>
         ///...
         /// </summary>
-        public string LastName { get; }
+        public string LastName { get; set; }
 
         /// <summary>
         ///...
         /// </summary>
-        public int? CustomerNo { get; }
+        public int? CustomerNo { get; set; }
 
         /// <summary>
         ///...
         /// </summary>
-        public int? OtpCode { get; }
+        public int? OtpCode { get; set; }
 
         /// <summary>
         ///...
         /// </summary>
-        public int? UnitId { get; }
+        public int? UnitId { get; set; }
 
         /// <summary>
         ///...
         /// </summary>
-        public int? WorkerUid { get; }
+        public int? WorkerUid { get; set; }
+
+        public string Email { get; set; }
         #endregion
 
         public override string ToString()
