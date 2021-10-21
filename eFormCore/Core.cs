@@ -2467,13 +2467,13 @@ namespace eFormCore
 
                 Microting.eForm.Infrastructure.Data.Entities.EntityGroup selectableList = await db.EntityGroups
                         .SingleOrDefaultAsync(x => x.Name == "Device users" && x.Type == Constants.FieldTypes.EntitySelect) ??
-                    await EntityGroupCreate(Constants.FieldTypes.EntitySelect, "Device users", "");
+                    await EntityGroupCreate(Constants.FieldTypes.EntitySelect, "Device users", "", true, false);
                 selectableList.Locked = true;
                 await selectableList.Update(db);
 
                 Microting.eForm.Infrastructure.Data.Entities.EntityGroup searchableList = await db.EntityGroups
                         .SingleOrDefaultAsync(x => x.Name == "Device users" && x.Type == Constants.FieldTypes.EntitySearch) ??
-                    await EntityGroupCreate(Constants.FieldTypes.EntitySearch, "Device users", "");
+                    await EntityGroupCreate(Constants.FieldTypes.EntitySearch, "Device users", "", true, false);
                 searchableList.Locked = true;
                 await searchableList.Update(db);
 
@@ -2660,30 +2660,35 @@ namespace eFormCore
         /// <param name="entityType">Entity type, either "EntitySearch" or "EntitySelect"</param>
         /// <param name="name">Templat MainElement's ID to be retrieved from the Microting local DB</param>
         /// <param name="description"></param>
-        public async Task<EntityGroup> EntityGroupCreate(string entityType, string name, string description)
+        public async Task<Microting.eForm.Infrastructure.Data.Entities.EntityGroup> EntityGroupCreate(string entityType, string name, string description, bool locked, bool editable)
         {
             string methodName = "Core.EntityGroupCreate";
             try
             {
                 if (!Running()) throw new Exception("Core is not running");
-                EntityGroup entityGroup = await _sqlController.EntityGroupCreate(name, entityType, description).ConfigureAwait(false);
+                await using var dbContext = DbContextHelper.GetDbContext();
+                Microting.eForm.Infrastructure.Data.Entities.EntityGroup entityGroup = new Microting.eForm.Infrastructure.Data.Entities.EntityGroup
+                {
+                    Name = name,
+                    Type = entityType,
+                    Description = description,
+                    Locked = locked,
+                    Editable = editable
+                };
+
+                await entityGroup.Create(dbContext).ConfigureAwait(false);
 
                 string entityGroupMuId = await _communicator.EntityGroupCreate(entityType, name, entityGroup.Id.ToString()).ConfigureAwait(false);
 
-                bool isCreated = await _sqlController.EntityGroupUpdate(entityGroup.Id, entityGroupMuId).ConfigureAwait(false);
+                if (string.IsNullOrEmpty(entityGroupMuId)) {
+                    await _sqlController.EntityGroupDelete(entityGroupMuId).ConfigureAwait(false);
+                    throw new Exception("EntityListCreate failed, due to list not created correct");
+                }
+                entityGroup.MicrotingUid = entityGroupMuId;
 
-                if (isCreated)
-                    return new EntityGroup
-                    {
-                        Id = entityGroup.Id,
-                        Name = entityGroup.Name,
-                        Type = entityGroup.Type,
-                        EntityGroupItemLst = new List<EntityItem>(),
-                        MicrotingUUID = entityGroupMuId,
-                        Description = entityGroup.Description
-                    };
-                await _sqlController.EntityGroupDelete(entityGroupMuId).ConfigureAwait(false);
-                throw new Exception("EntityListCreate failed, due to list not created correct");
+                await entityGroup.Update(dbContext).ConfigureAwait(false);
+
+                return entityGroup;
             }
             catch (Exception ex)
             {
@@ -4061,7 +4066,7 @@ namespace eFormCore
                     {
                         Microting.eForm.Infrastructure.Data.Entities.EntityGroup searchableList = await db.EntityGroups
                                 .SingleOrDefaultAsync(x => x.Name == "Device users" && x.Type == Constants.FieldTypes.EntitySearch) ??
-                            await EntityGroupCreate(Constants.FieldTypes.EntitySearch, "Device users", "");
+                            await EntityGroupCreate(Constants.FieldTypes.EntitySearch, "Device users", "", true, false);
                         searchableList.Locked = true;
                         await searchableList.Update(db);
 
@@ -4078,7 +4083,7 @@ namespace eFormCore
                     {
                         Microting.eForm.Infrastructure.Data.Entities.EntityGroup selectableList = await db.EntityGroups
                                 .SingleOrDefaultAsync(x => x.Name == "Device users" && x.Type == Constants.FieldTypes.EntitySelect) ??
-                            await EntityGroupCreate(Constants.FieldTypes.EntitySelect, "Device users", "");
+                            await EntityGroupCreate(Constants.FieldTypes.EntitySelect, "Device users", "", true, false);
                         selectableList.Locked = true;
                         await selectableList.Update(db);
 
