@@ -2829,6 +2829,11 @@ namespace eFormCore
 
             if (et.WorkflowState == Constants.WorkflowStates.Removed)
             {
+                if (eg.Type == Constants.FieldTypes.EntitySearch) {
+                    await _communicator.EntitySearchItemUpdate(eg.MicrotingUUID, et.MicrotingUUID, name, description, ownUuid).ConfigureAwait(false);
+                } else {
+                    await _communicator.EntitySelectItemUpdate(eg.MicrotingUUID, et.MicrotingUUID, name, displayIndex, ownUuid).ConfigureAwait(false);
+                }
                 et.WorkflowState = Constants.WorkflowStates.Created;
                 await _sqlController.EntityItemUpdate(et).ConfigureAwait(false);
             }
