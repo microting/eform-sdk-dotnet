@@ -6206,8 +6206,10 @@ namespace Microting.eForm.Infrastructure
                 Element element;
 
                 //getting element's possible element children
-                List<CheckList> lstElement = db.CheckLists.Where(x => x.ParentId == elementId).ToList();
-
+                List<CheckList> lstElement = db.CheckLists
+                    .Where(x => x.ParentId == elementId)
+                    .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
+                    .ToList();
 
                 if (lstElement.Count > 0) //GroupElement
                 {
@@ -6275,8 +6277,11 @@ namespace Microting.eForm.Infrastructure
                             new List<DataItem>());
 
                         //the actual DataItems
-                        List<Field> lstFields = db.Fields.Where(x =>
-                            x.CheckListId == elementId && x.ParentFieldId == null && (x.Dummy == 1) != includeDummyFields).ToList();
+                        List<Field> lstFields = db.Fields
+                            .Where(x => x.CheckListId == elementId)
+                            .Where(x => x.ParentFieldId == null)
+                            .Where(x => (x.Dummy == 1) != includeDummyFields)
+                            .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList();
                         foreach (var field in lstFields)
                         {
                             await GetDataItem(dElement.DataItemList, dElement.DataItemGroupList, field, language, includeDummyFields);
