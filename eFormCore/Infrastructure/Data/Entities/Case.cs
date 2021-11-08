@@ -81,6 +81,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         [ForeignKey("Folder")]
         public int? FolderId { get; set; }
 
+        public bool IsArchived { get; set; }
+
         public virtual CheckList CheckList { get; set; }
 
         public virtual Site Site { get; set; }

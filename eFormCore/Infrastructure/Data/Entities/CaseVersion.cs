@@ -76,5 +76,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public string FieldValue10 { get; set; }
 
         public int? FolderId { get; set; }
+
+        public bool IsArchived { get; set; }
     }
 }

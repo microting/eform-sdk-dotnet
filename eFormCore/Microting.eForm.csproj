@@ -252,6 +252,8 @@
         <Compile Include="Migrations\20210730085329_AddingDefaultValueToFieldTranslations.Designer.cs" />
         <Compile Include="Migrations\20211014105943_CLAttributes.cs" />
         <Compile Include="Migrations\20211014105943_CLAttributes.Designer.cs" />
+        <Compile Include="Migrations\20211108111024_AddingIsArchivedToCases.cs" />
+        <Compile Include="Migrations\20211108111024_AddingIsArchivedToCases.Designer.cs" />
         <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
         <Compile Include="Infrastructure\SqlController.cs" />
         <Compile Include="Services\Subscriber.cs" />
