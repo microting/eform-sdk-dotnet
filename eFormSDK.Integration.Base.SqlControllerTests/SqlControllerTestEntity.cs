@@ -3330,23 +3330,6 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
         }
 
         [Test]
-        public async Task SQL_EntitySearchItemDelete_DeletesEntitySearchItem()
-        {
-            // Arrance
-            EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            Microting.eForm.Infrastructure.Data.Entities.EntityItem et = await testHelpers.CreateEntityItem("", 0, eG1.Id, "", "", "Jon Doe", 1, 0, Constants.WorkflowStates.Created);
-
-            // Act
-            await sut.EntityItemDelete(et.Id);
-            List<Microting.eForm.Infrastructure.Data.Entities.EntityItem> items = DbContext.EntityItems.ToList();
-
-            // Assert
-            Assert.AreEqual(1, items.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Removed, items[0].WorkflowState);
-        }
-
-
-        [Test]
         public async Task SQL_EntitySelectItemCreate_CreatesEntitySelectItem()
         {
             // Arrance
@@ -3366,22 +3349,6 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Assert
             Assert.AreEqual(1, items.Count());
-        }
-
-        [Test]
-        public async Task SQL_EntitySelectItemDelete_DeletesEntitySelectItem()
-        {
-            // Arrance
-            EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            Microting.eForm.Infrastructure.Data.Entities.EntityItem et = await testHelpers.CreateEntityItem("", 0, eG1.Id, "", "", "Jon Doe", 1, 0, Constants.WorkflowStates.Created);
-
-            // Act
-            await sut.EntityItemDelete(et.Id);
-            List<Microting.eForm.Infrastructure.Data.Entities.EntityItem> items = DbContext.EntityItems.ToList();
-
-            // Assert
-            Assert.AreEqual(1, items.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Removed, items[0].WorkflowState);
         }
 
         #endregion

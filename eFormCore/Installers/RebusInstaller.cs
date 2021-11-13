@@ -27,6 +27,7 @@ using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Rebus.Config;
+using Rebus.Logging;
 
 namespace Microting.eForm.Installers
 {
@@ -53,7 +54,7 @@ namespace Microting.eForm.Installers
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             Configure.With(new CastleWindsorContainerAdapter(container))
-                .Logging(l => l.ColoredConsole())
+                .Logging(l => l.ColoredConsole(LogLevel.Info))
                 .Transport(t => t.UseRabbitMq($"amqp://{rabbitMqUser}:{rabbitMqPassword}@{rabbitMqHost}", "eformsdk-input"))
                 .Options(o =>
                 {

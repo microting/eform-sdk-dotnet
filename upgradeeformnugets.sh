@@ -6,7 +6,7 @@ if (( "$GIT_STATUS" > 0 )); then
 	git pull
   CURRENT_NUMBER_OF_COMMITS=`git log --oneline | wc -l`
 
-	PACKAGES=('AWSSDK.Core' 'AWSSDK.S3' 'AWSSDK.SQS' 'Pomelo.EntityFrameworkCore.MySql' 'Magick.NET-Q16-x64' 'DocumentFormat.OpenXml' 'Microting.Rebus' 'Microting.Rebus.RabbitMq' 'Microting.Rebus.Castle.Windsor')
+	PACKAGES=('AWSSDK.Core' 'AWSSDK.S3' 'AWSSDK.SQS' 'Pomelo.EntityFrameworkCore.MySql' 'Magick.NET-Q16-x64' 'DocumentFormat.OpenXml' 'Microting.Rebus' 'Microting.Rebus.RabbitMq' 'Microting.Rebus.Castle.Windsor' 'Microsoft.EntityFrameworkCore' 'Microsoft.EntityFrameworkCore.Design' 'Microsoft.EntityFrameworkCore.Relational')
 	PROJECT_NAME='Microting.eForm.csproj'
 	REPOSITORY='eform-sdk-dotnet'
 
@@ -39,7 +39,6 @@ if (( "$GIT_STATUS" > 0 )); then
 			ISSUE_NUMBER=`echo $RESULT | grep -oP 'number": \d+,' | grep -oP '\d+'`
 		  git add .
 		  git commit -a -m "closes #$ISSUE_NUMBER"
-			git push
 		fi
 	done
 	NEW_NUMBER_OF_COMMITS=`git log --oneline | wc -l`

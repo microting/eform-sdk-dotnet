@@ -2,20 +2,22 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microting.eForm.Infrastructure;
 
 namespace Microting.eForm.Migrations
 {
     [DbContext(typeof(MicrotingDbContext))]
-    partial class MicrotingDbAnySqlModelSnapshot : ModelSnapshot
+    [Migration("20210609072417_AddingLinkingOfSitesAndEntities")]
+    partial class AddingLinkingOfSitesAndEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
-                .HasAnnotation("ProductVersion", "5.0.10");
+                .HasAnnotation("ProductVersion", "5.0.6");
 
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.Answer", b =>
                 {
@@ -506,15 +508,6 @@ namespace Microting.eForm.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<bool>("IsEditable")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("IsHidden")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("IsLocked")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<bool>("JasperExportEnabled")
                         .HasColumnType("tinyint(1)");
 
@@ -903,15 +896,6 @@ namespace Microting.eForm.Migrations
                     b.Property<string>("FolderName")
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
-
-                    b.Property<bool>("IsEditable")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("IsHidden")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("IsLocked")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("JasperExportEnabled")
                         .HasColumnType("tinyint(1)");
@@ -1600,9 +1584,6 @@ namespace Microting.eForm.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("DefaultValue")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
@@ -1617,9 +1598,6 @@ namespace Microting.eForm.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<int>("UploadedDataId")
-                        .HasColumnType("int");
 
                     b.Property<int?>("Version")
                         .HasColumnType("int");
@@ -1644,9 +1622,6 @@ namespace Microting.eForm.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("DefaultValue")
-                        .HasColumnType("longtext");
-
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
 
@@ -1664,9 +1639,6 @@ namespace Microting.eForm.Migrations
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<int>("UploadedDataId")
-                        .HasColumnType("int");
 
                     b.Property<int?>("Version")
                         .HasColumnType("int");

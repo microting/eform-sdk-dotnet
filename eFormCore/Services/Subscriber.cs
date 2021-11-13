@@ -236,6 +236,7 @@ namespace Microting.eForm.Services
                             keepSubscribed = false;
                             log.LogException(t.GetMethodName("Subscriber"), "failed, twice in the last 5 minuts", ex);
                             // TODO handle crash so we could restart!!!
+                            throw;
                         }
 
                         lastException = DateTime.UtcNow;

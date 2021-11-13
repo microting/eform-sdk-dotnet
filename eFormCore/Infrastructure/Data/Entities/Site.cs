@@ -49,6 +49,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         [ForeignKey("Language")]
         public int LanguageId { get; set; }
 
+        public int SearchableEntityItemId { get; set; }
+
+        public int SelectableEntityItemId { get; set; }
+
         public virtual ICollection<Case> Cases { get; set; }
 
         public virtual ICollection<Unit> Units { get; set; }

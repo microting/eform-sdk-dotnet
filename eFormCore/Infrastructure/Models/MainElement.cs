@@ -293,12 +293,9 @@ namespace Microting.eForm.Infrastructure.Models
             try
             {
                 var serializer = new XmlSerializer(GetType());
-                string xmlStr;
-                using (StringWriter writer = new Utf8StringWriter())
-                {
-                    serializer.Serialize(writer, this);
-                    xmlStr = writer.ToString();
-                }
+                using StringWriter writer = new Utf8StringWriter();
+                serializer.Serialize(writer, this);
+                var xmlStr = writer.ToString();
                 return xmlStr;
             }
             catch (Exception ex)

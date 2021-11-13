@@ -484,7 +484,7 @@ namespace Microting.eForm.Communication
         {
             JObject contentToServer = JObject.FromObject(new { name });
             WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/Site?token={token}&name={name}&languageCode={languageCode}&sdkVersion={dllVersion}");
+                $"{newAddressBasic}/Site?token={token}&name={Uri.EscapeDataString(name)}&languageCode={languageCode}&sdkVersion={dllVersion}");
             request.Method = "POST";
             byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
             request.ContentType = "application/json; charset=utf-8";
@@ -506,7 +506,7 @@ namespace Microting.eForm.Communication
         {
             JObject contentToServer = JObject.FromObject(new { name });
             WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/Site/{id}?token={token}&name={name}&languageCode={languageCode}&sdkVersion={dllVersion}");
+                $"{newAddressBasic}/Site/{id}?token={token}&name={Uri.EscapeDataString(name)}&languageCode={languageCode}&sdkVersion={dllVersion}");
             request.Method = "PUT";
             byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
             request.ContentType = "application/json; charset=utf-8";
@@ -563,7 +563,7 @@ namespace Microting.eForm.Communication
         {
             JObject contentToServer = JObject.FromObject(new { first_name = firstName, last_name = lastName, email });
             WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/User?token={token}&firstName={firstName}&lastName={lastName}&email={email}&sdkVersion={dllVersion}");
+                $"{newAddressBasic}/User?token={token}&firstName={Uri.EscapeDataString(firstName)}&lastName={Uri.EscapeDataString(lastName)}&email={email}&sdkVersion={dllVersion}");
             request.Method = "POST";
             byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
             request.ContentType = "application/json; charset=utf-8";
@@ -585,7 +585,7 @@ namespace Microting.eForm.Communication
         {
             JObject contentToServer = JObject.FromObject(new { first_name = firstName, last_name = lastName, email });
             WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/User/{id}?token={token}&firstName={firstName}&lastName={lastName}&email={email}&sdkVersion={dllVersion}");
+                $"{newAddressBasic}/User/{id}?token={token}&firstName={Uri.EscapeDataString(firstName)}&lastName={Uri.EscapeDataString(lastName)}&email={email}&sdkVersion={dllVersion}");
             request.Method = "PUT";
             byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
             request.ContentType = "application/json; charset=utf-8";
@@ -998,10 +998,10 @@ namespace Microting.eForm.Communication
             return PostToServer(request);
         }
 
-        public Task SendPushMessage(int microtingSiteId, string header, string body)
+        public Task SendPushMessage(int microtingSiteId, string header, string body, int microtingUuid)
         {
             WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/PushMessage?SiteId={microtingSiteId}&token={token}&Header={header}&Body={body}&sdkVersion={dllVersion}");
+                $"{newAddressBasic}/PushMessage?SiteId={microtingSiteId}&token={token}&Header={header}&Body={body}&sdkVersion={dllVersion}&scheduleId={microtingUuid}");
             request.Method = "POST";
             request.Headers.Add(HttpRequestHeader.Authorization, token);
 

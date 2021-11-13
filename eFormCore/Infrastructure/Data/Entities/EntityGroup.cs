@@ -39,6 +39,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public string Description { get; set; }
 
+        public bool Locked { get; set; }
+
+        public bool Editable { get; set; }
+
         [StringLength(50)] public string Type { get; set; }
 
         public static async Task<Models.EntityGroup> ReadSorted(MicrotingDbContext dbContext, string entityGroupMUId, string sort,
@@ -61,7 +65,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 WorkflowState = eG.WorkflowState,
                 Description = eG.Description,
                 CreatedAt = eG.CreatedAt,
-                UpdatedAt = eG.UpdatedAt
+                UpdatedAt = eG.UpdatedAt,
+                Locked = eG.Locked,
+                Editable = eG.Editable
             };
 
             List<EntityItem> eILst = null;

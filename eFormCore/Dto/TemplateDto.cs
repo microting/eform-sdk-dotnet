@@ -229,6 +229,12 @@ namespace Microting.eForm.Dto
 
         public string ReportH5 { get; set; }
 
+        public bool IsLocked { get; set; }
+
+        public bool IsEditable { get; set; }
+
+        public bool IsHidden { get; set; }
+
         /// <summary>
         /// Tags
         /// </summary>
