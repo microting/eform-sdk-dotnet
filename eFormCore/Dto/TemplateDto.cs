@@ -235,6 +235,10 @@ namespace Microting.eForm.Dto
 
         public bool IsHidden { get; set; }
 
+        public bool IsAchievable { get; set; }
+
+        public bool IsDoneAtEditable { get; set; }
+
         /// <summary>
         /// Tags
         /// </summary>

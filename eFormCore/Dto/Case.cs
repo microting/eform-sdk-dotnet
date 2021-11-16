@@ -81,5 +81,9 @@ namespace Microting.eForm.Dto
         public string FieldValue9 { get; set; }
 
         public string FieldValue10 { get; set; }
+
+        public bool IsArchived { get; set; }
+
+        public DateTime? DoneAtUserModifiable { get; set; }
     }
 }

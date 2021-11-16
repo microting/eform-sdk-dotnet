@@ -386,6 +386,8 @@ namespace Microting.eForm.Infrastructure
                                 list.IsLocked,
                                 list.IsEditable,
                                 list.IsHidden,
+                                list.IsDoneAtEditable,
+                                list.IsAchievable,
                                 translation.LanguageId
                             }).Where(x => x.LanguageId == language.Id);
 
@@ -526,7 +528,9 @@ namespace Microting.eForm.Infrastructure
                             ReportH5 = checkList.ReportH5,
                             IsLocked = checkList.IsLocked,
                             IsEditable = checkList.IsEditable,
-                            IsHidden = checkList.IsHidden
+                            IsHidden = checkList.IsHidden,
+                            IsAchievable = checkList.IsAchievable,
+                            IsDoneAtEditable = checkList.IsDoneAtEditable
                         };
                         templateList.Add(templateDto);
                     }
@@ -3159,7 +3163,9 @@ namespace Microting.eForm.Infrastructure
                         FieldValue7 = dbCase.FieldValue7 == null || dbCase.FieldValue7 == "null" ? "" : dbCase.FieldValue7,
                         FieldValue8 = dbCase.FieldValue8 == null || dbCase.FieldValue8 == "null" ? "" : dbCase.FieldValue8,
                         FieldValue9 = dbCase.FieldValue9 == null || dbCase.FieldValue9 == "null" ? "" : dbCase.FieldValue9,
-                        FieldValue10 = dbCase.FieldValue10 == null || dbCase.FieldValue10 == "null" ? "" : dbCase.FieldValue10
+                        FieldValue10 = dbCase.FieldValue10 == null || dbCase.FieldValue10 == "null" ? "" : dbCase.FieldValue10,
+                        IsArchived = dbCase.IsArchived,
+                        DoneAtUserModifiable = dbCase.DoneAtUserModifiable
                     };
 
                     rtrnLst.Add(nCase);
