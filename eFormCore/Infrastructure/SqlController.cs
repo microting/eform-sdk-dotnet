@@ -910,6 +910,7 @@ namespace Microting.eForm.Infrastructure
 
                 caseStd.Status = 100;
                 caseStd.DoneAt = doneAt;
+                caseStd.DoneAtUserModifiable = doneAt;
                 caseStd.WorkerId = userId;
                 caseStd.UnitId = unitId;
                 caseStd.MicrotingCheckUid = microtingCheckId;
@@ -1362,7 +1363,7 @@ namespace Microting.eForm.Infrastructure
                 if (aCase.CheckListId != null) replyElement.Id = (int) aCase.CheckListId;
                 replyElement.CaseType = aCase.Type;
                 replyElement.Custom = aCase.Custom;
-                if (aCase.DoneAt != null) replyElement.DoneAt = (DateTime) aCase.DoneAt;
+                if (aCase.DoneAtUserModifiable != null) replyElement.DoneAt = (DateTime) aCase.DoneAtUserModifiable;
                 if (aCase.WorkerId != null) replyElement.DoneById = (int) aCase.WorkerId;
                 replyElement.ElementList = new List<Element>();
                 //replyElement.EndDate
@@ -2928,7 +2929,7 @@ namespace Microting.eForm.Infrastructure
                 //db.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
 
                 List<Case> matches = null;
-                IQueryable<Case> sub_query = db.Cases.Where(x => x.DoneAt > start && x.DoneAt < end);
+                IQueryable<Case> sub_query = db.Cases.Where(x => x.DoneAtUserModifiable > start && x.DoneAtUserModifiable < end);
                 switch (workflowState)
                 {
                     case Constants.Constants.WorkflowStates.NotRetracted:
@@ -2959,7 +2960,7 @@ namespace Microting.eForm.Infrastructure
                     if (searchKey.Contains("!"))
                     {
                         searchKey = searchKey.ToLower().Replace("!", "");
-                        IQueryable<Case> excludeQuery = db.Cases.Where(x => x.DoneAt > start && x.DoneAt < end);
+                        IQueryable<Case> excludeQuery = db.Cases.Where(x => x.DoneAtUserModifiable > start && x.DoneAtUserModifiable < end);
                         excludeQuery = excludeQuery.Where(x => x.FieldValue1.ToLower().Contains(searchKey) ||
                                                                x.FieldValue2.ToLower().Contains(searchKey) ||
                                                                x.FieldValue3.ToLower().Contains(searchKey) ||
@@ -2974,7 +2975,7 @@ namespace Microting.eForm.Infrastructure
                                                                x.Site.Name.ToLower().Contains(searchKey) ||
                                                                x.Worker.FirstName.ToLower().Contains(searchKey) ||
                                                                x.Worker.LastName.ToLower().Contains(searchKey) ||
-                                                               x.DoneAt.ToString().Contains(searchKey));
+                                                               x.DoneAtUserModifiable.ToString().Contains(searchKey));
 
                         sub_query = sub_query.Except(excludeQuery.ToList());
                     }
@@ -2995,7 +2996,7 @@ namespace Microting.eForm.Infrastructure
                                                          x.Site.Name.ToLower().Contains(searchKey) ||
                                                          x.Worker.FirstName.ToLower().Contains(searchKey) ||
                                                          x.Worker.LastName.ToLower().Contains(searchKey) ||
-                                                         x.DoneAt.ToString().Contains(searchKey));
+                                                         x.DoneAtUserModifiable.ToString().Contains(searchKey));
                     }
                 }
 
@@ -3009,9 +3010,9 @@ namespace Microting.eForm.Infrastructure
                         break;
                     case Constants.Constants.CaseSortParameters.DoneAt:
                         if (descendingSort)
-                            sub_query = sub_query.OrderByDescending(x => x.DoneAt);
+                            sub_query = sub_query.OrderByDescending(x => x.DoneAtUserModifiable);
                         else
-                            sub_query = sub_query.OrderBy(x => x.DoneAt);
+                            sub_query = sub_query.OrderBy(x => x.DoneAtUserModifiable);
                         break;
                     case Constants.Constants.CaseSortParameters.WorkerName:
                         if (descendingSort)
@@ -3137,7 +3138,7 @@ namespace Microting.eForm.Infrastructure
                         CheckUIid = dbCase.MicrotingCheckUid,
                         CreatedAt = TimeZoneInfo.ConvertTimeFromUtc((DateTime)dbCase.CreatedAt, timeZoneInfo),
                         Custom = dbCase.Custom,
-                        DoneAt = TimeZoneInfo.ConvertTimeFromUtc((DateTime)dbCase.DoneAt, timeZoneInfo),
+                        DoneAt = TimeZoneInfo.ConvertTimeFromUtc((DateTime)dbCase.DoneAtUserModifiable, timeZoneInfo),
                         Id = dbCase.Id,
                         MicrotingUId = dbCase.MicrotingUid,
                         SiteId = site.MicrotingUid,

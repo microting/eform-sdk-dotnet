@@ -83,6 +83,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public bool IsArchived { get; set; }
 
+        public DateTime? DoneAtUserModifiable { get; set; }
+
         public virtual CheckList CheckList { get; set; }
 
         public virtual Site Site { get; set; }

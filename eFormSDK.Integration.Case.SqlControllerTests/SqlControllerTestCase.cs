@@ -237,7 +237,9 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.AreEqual(100, caseResults[0].Status);
             Assert.AreEqual(100, versionedMatches1[0].Status);
             Assert.AreEqual("06/11/2020 10:08:16", caseResults[0].DoneAt.Value.ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
+            Assert.AreEqual("06/11/2020 10:08:16", caseResults[0].DoneAtUserModifiable.Value.ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
             Assert.AreEqual("06/11/2020 10:08:16", versionedMatches1[0].DoneAt.Value.ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
+            Assert.AreEqual("06/11/2020 10:08:16", versionedMatches1[0].DoneAtUserModifiable.Value.ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
 
         }
 

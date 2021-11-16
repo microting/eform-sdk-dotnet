@@ -261,6 +261,7 @@ namespace Microting.eForm.Helpers
                 CreatedAt = created_at,
                 Custom = custom,
                 DoneAt = done_at,
+                DoneAtUserModifiable = done_at,
                 WorkerId = worker.Id,
                 MicrotingCheckUid = microtingCheckId,
                 MicrotingUid = microtingUId,

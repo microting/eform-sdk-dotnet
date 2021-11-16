@@ -4852,9 +4852,9 @@ namespace eFormCore
             start ??= DateTime.MinValue;
             end ??= DateTime.MaxValue;
             List<Microting.eForm.Infrastructure.Data.Entities.Case> cases = await dbContext.Cases.Where(x =>
-                x.DoneAt > start && x.DoneAt < end
-                                 && x.WorkflowState != Constants.WorkflowStates.Removed
-                                 && x.CheckListId == checkListId).ToListAsync();
+                x.DoneAtUserModifiable > start && x.DoneAtUserModifiable < end
+                                               && x.WorkflowState != Constants.WorkflowStates.Removed
+                                               && x.CheckListId == checkListId).ToListAsync();
 
             CheckList checkList = await dbContext.CheckLists.SingleAsync(x => x.Id == (int) checkListId);
 
@@ -4878,7 +4878,7 @@ namespace eFormCore
                 var cal = DateTimeFormatInfo.CurrentInfo?.Calendar;
                 foreach (var aCase in cases)
                 {
-                    DateTime time = (DateTime)aCase.DoneAt;
+                    DateTime time = (DateTime)aCase.DoneAtUserModifiable;
                     DateTime createdAt = (DateTime) aCase.CreatedAt;
                     if (!utcTime)
                     {

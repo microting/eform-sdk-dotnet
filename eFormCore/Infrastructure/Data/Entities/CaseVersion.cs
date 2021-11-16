@@ -78,5 +78,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int? FolderId { get; set; }
 
         public bool IsArchived { get; set; }
+
+        public DateTime? DoneAtUserModifiable { get; set; }
     }
 }

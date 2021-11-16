@@ -123,6 +123,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public bool IsHidden { get; set; }
 
+        public bool IsAchievable { get; set; }
+
+        public bool IsDoneAtEditable { get; set; }
+
         public virtual ICollection<Case> Cases { get; set; }
 
         public virtual ICollection<CheckListSite> CheckListSites { get; set; }

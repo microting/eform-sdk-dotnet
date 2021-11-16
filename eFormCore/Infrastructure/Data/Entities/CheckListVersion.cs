@@ -111,5 +111,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public bool IsEditable { get; set; }
 
         public bool IsHidden { get; set; }
+
+        public bool IsAchievable { get; set; }
+
+        public bool IsDoneAtEditable { get; set; }
     }
 }
