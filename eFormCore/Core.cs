@@ -3339,8 +3339,9 @@ namespace eFormCore
                     var innerParsedData = JObject.Parse(await _communicator.GetSurveyConfiguration(microtingUid).ConfigureAwait(false));
                     JToken parsedQuestionSet = innerParsedData.GetValue("QuestionSet");
 
-                    if (parsedQuestionSet == null) continue;
+                    if (parsedQuestionSet.ToString() == "{}") continue;
                     int questionSetMicrotingUid = int.Parse(parsedQuestionSet["MicrotingUid"].ToString());
+                    if (questionSetMicrotingUid == 0) continue;
                     var questionSet = await db.QuestionSets.SingleOrDefaultAsync(x => x.MicrotingUid == questionSetMicrotingUid).ConfigureAwait(false);
                     if (questionSet != null)
                     {
@@ -3497,6 +3498,9 @@ namespace eFormCore
                         nextQuestionId = db.Questions.SingleOrDefault(x =>
                             x.MicrotingUid == int.Parse(option.NextQuestionId.ToString()))?.Id;
                     }
+                    option.WeightValue = int.Parse(child["WeightedValue"].ToString());
+                    option.Weight = int.Parse(child["Weight"].ToString());
+                    option.OptionIndex = int.Parse(child["OptionIndex"].ToString());
                     option.NextQuestionId = nextQuestionId;
                     option.QuestionId = db.Questions.Single(x => x.MicrotingUid == option.QuestionId).Id;
                     await option.Create(db).ConfigureAwait(false);
