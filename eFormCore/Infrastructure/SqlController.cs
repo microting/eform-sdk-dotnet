@@ -1864,7 +1864,7 @@ namespace Microting.eForm.Infrastructure
                     fieldValue.ValueReadable = "";
 
                     string keys = fieldValue.Value;
-                    List<string> keyLst = keys.Split('|').ToList();
+                    List<string> keyLst = string.IsNullOrEmpty(keys) ? new List<string>() : keys.Split('|').ToList();
                     int fieldId = fieldValue.FieldId;
                     fieldValue.ValueReadable = "";
                     foreach (string key in keyLst)
