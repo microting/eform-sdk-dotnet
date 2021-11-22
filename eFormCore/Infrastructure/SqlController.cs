@@ -1389,7 +1389,7 @@ namespace Microting.eForm.Infrastructure
                 foreach (CheckList subCheckList in await db.CheckLists.Where(x =>
                     x.ParentId == checkList.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
                 {
-                    replyElement.ElementList.Add(await SubChecks(subCheckList.Id, aCase.Id, language));
+                    replyElement.ElementList.Add(await SubChecks(subCheckList.Id, aCase, language));
                 }
                 return replyElement;
             }
@@ -1400,7 +1400,7 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-        private async Task<Element> SubChecks(int parentId, int caseId, Language language)
+        private async Task<Element> SubChecks(int parentId, Case theCase, Language language)
         {
             string methodName = "SqlController.SubChecks";
             try
@@ -1414,7 +1414,7 @@ namespace Microting.eForm.Infrastructure
                     foreach (CheckList subList in await db.CheckLists.Where(x =>
                         x.ParentId == checkList.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
                     {
-                        elementList.Add(await SubChecks(subList.Id, caseId, language));
+                        elementList.Add(await SubChecks(subList.Id, theCase, language));
                     }
                     CheckListTranslation checkListTranslation =
                         await db.CheckListTranslations.SingleAsync(x =>
@@ -1459,7 +1459,7 @@ namespace Microting.eForm.Infrastructure
                                 _field.Label = fieldTranslation.Text;
                                 _field.Description = new CDataValue {InderValue = fieldTranslation.Description};
                                 foreach (FieldValue fieldValue in await db.FieldValues.Where(x =>
-                                    x.FieldId == subField.Id && x.CaseId == caseId).ToListAsync())
+                                    x.FieldId == subField.Id && x.CaseId == theCase.Id).ToListAsync())
                                 {
                                     Models.FieldValue answer = await ReadFieldValue(fieldValue, subField, false, language);
                                     _field.FieldValues.Add(answer);
@@ -1497,8 +1497,18 @@ namespace Microting.eForm.Infrastructure
 
                             _field.Label = fieldTranslation.Text;
                             _field.Description = new CDataValue {InderValue = fieldTranslation.Description};
+                            if (!db.FieldValues.Any(x => x.FieldId == field.Id && x.CaseId == theCase.Id))
+                            {
+                                FieldValue fieldValue = new FieldValue()
+                                {
+                                    FieldId = field.Id,
+                                    CaseId = theCase.Id,
+                                    DoneAt = theCase.DoneAt
+                                };
+                                await fieldValue.Create(db);
+                            }
                             foreach (FieldValue fieldValue in await db.FieldValues.Where(x =>
-                                x.FieldId == field.Id && x.CaseId == caseId).ToListAsync())
+                                x.FieldId == field.Id && x.CaseId == theCase.Id).ToListAsync())
                             {
                                 Models.FieldValue value = await ReadFieldValue(fieldValue, field, false, language);
                                 _field.FieldValues.Add(value);
@@ -1508,7 +1518,7 @@ namespace Microting.eForm.Infrastructure
                     }
 
                     List<ExtraFieldValue> extraFieldValues =
-                        await db.ExtraFieldValues.Where(x => x.CaseId == caseId
+                        await db.ExtraFieldValues.Where(x => x.CaseId == theCase.Id
                                                              && x.CheckListId == checkList.Id).ToListAsync();
 
                     List<Models.FieldValue> extraPictures = new List<Models.FieldValue>();
@@ -1584,7 +1594,7 @@ namespace Microting.eForm.Infrastructure
                         ExtraComments = extraComments,
                         ExtraRecordings = extraRecordings
                     };
-                    return new CheckListValue(dataElement, await CheckListValueStatusRead(caseId, checkList.Id));
+                    return new CheckListValue(dataElement, await CheckListValueStatusRead(theCase.Id, checkList.Id));
                 }
                 //return element;
             }
