@@ -337,7 +337,12 @@ namespace Microting.eForm.Infrastructure
                     ReportH2 = checkList.ReportH2,
                     ReportH3 = checkList.ReportH3,
                     ReportH4 = checkList.ReportH4,
-                    ReportH5 = checkList.ReportH5
+                    ReportH5 = checkList.ReportH5,
+                    IsAchievable = checkList.IsAchievable,
+                    IsDoneAtEditable = checkList.IsDoneAtEditable,
+                    IsEditable = checkList.IsEditable,
+                    IsHidden = checkList.IsHidden,
+                    IsLocked = checkList.IsLocked
                 };
                 return templateDto;
             }
