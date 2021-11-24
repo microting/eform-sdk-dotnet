@@ -1463,6 +1463,16 @@ namespace Microting.eForm.Infrastructure
                                 _field.FieldValues = new List<Models.FieldValue>();
                                 _field.Label = fieldTranslation.Text;
                                 _field.Description = new CDataValue {InderValue = fieldTranslation.Description};
+                                if (!db.FieldValues.Any(x => x.FieldId == field.Id && x.CaseId == theCase.Id))
+                                {
+                                    FieldValue fieldValue = new FieldValue()
+                                    {
+                                        FieldId = field.Id,
+                                        CaseId = theCase.Id,
+                                        DoneAt = theCase.DoneAt
+                                    };
+                                    await fieldValue.Create(db);
+                                }
                                 foreach (FieldValue fieldValue in await db.FieldValues.Where(x =>
                                     x.FieldId == subField.Id && x.CaseId == theCase.Id).ToListAsync())
                                 {
