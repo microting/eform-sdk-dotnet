@@ -3808,7 +3808,7 @@ namespace eFormSDK.Integration.CoreTests
             // Act
 
             string timeStamp = DateTime.Now.ToString("yyyyMMdd") + "_" + DateTime.Now.ToString("hhmmss");
-            string pdfPath = Path.Combine(path, "output","dataFolder","reports", "results",
+            string pdfPath = Path.Combine(Path.GetTempPath(), "results",
                 $"{timeStamp}_{aCase2.Id}.xml");
             CaseDto cDto = await sut.CaseLookupCaseId(aCase2.Id);
             ReplyElement reply = await sut.CaseRead((int)cDto.MicrotingUId, (int)cDto.CheckUId, language);

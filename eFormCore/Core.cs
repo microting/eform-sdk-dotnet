@@ -1973,8 +1973,8 @@ namespace eFormCore
                     + Environment.NewLine + "<C" + reply.Id + " case_id=\"" + caseId + "\" case_name=\"" + reply.Label + "\" serial_number=\"" + caseId + "/" + cDto.MicrotingUId + "\" check_list_status=\"approved\">"
                     + Environment.NewLine + "<worker>" + dbContext.Workers.Single(x => x.Id == reply.DoneById).full_name() + "</worker>"
                     + Environment.NewLine + "<check_id>" + reply.MicrotingUId + "</check_id>"
-                    + Environment.NewLine + "<date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</date>"
-                    + Environment.NewLine + "<check_date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss") + "</check_date>"
+                    + Environment.NewLine + "<date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss", CultureInfo.InvariantCulture) + "</date>"
+                    + Environment.NewLine + "<check_date>" + reply.DoneAt.ToString("yyyy-MM-dd hh:mm:ss", CultureInfo.InvariantCulture) + "</check_date>"
                     + Environment.NewLine + "<site_name>" + dbContext.Sites.Single(x => x.MicrotingUid == reply.SiteMicrotingUuid).Name + "</site_name>"
                     + Environment.NewLine + "<check_lists>"
 
@@ -1993,11 +1993,10 @@ namespace eFormCore
                 //
 
                 //place in settings allocated placement
-                string fullPath = Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "results",
+                string fullPath = Path.Combine(Path.GetTempPath(), "results",
                     $"{timeStamp}_{caseId}.xml");
-                string path = await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false);
-                Directory.CreateDirectory(Path.Combine(path, "results"));
-                File.WriteAllText(fullPath, jasperXml.Trim(), Encoding.UTF8);
+                Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), "results"));
+                await File.WriteAllTextAsync(fullPath, jasperXml.Trim(), Encoding.UTF8);
 
                 Log.LogVariable(methodName, nameof(fullPath), fullPath);
                 return fullPath;
@@ -2060,33 +2059,59 @@ namespace eFormCore
             // Redirect the output stream of the child process.
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.RedirectStandardOutput = true;
-            string localJasperExporter = Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "utils",
+            string localJasperExporter = Path.Combine(Path.GetTempPath(), "utils",
                 "JasperExporter.jar");
             if (!File.Exists(localJasperExporter))
             {
                 using WebClient webClient = new WebClient();
-                Directory.CreateDirectory(Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "utils"));
+                Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), "utils"));
                 webClient.DownloadFile("https://github.com/microting/JasperExporter/releases/download/stable/JasperExporter.jar", localJasperExporter);
             }
 
-            string templateFile = Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "templates", jasperTemplate, "compact",
+            string templateFile = Path.Combine(Path.GetTempPath(), "templates", jasperTemplate, "compact",
                 $"{jasperTemplate}.jrxml");
-            if (!File.Exists(templateFile))
-            {
-                throw new FileNotFoundException($"jrxml template was not found at {templateFile}");
-            }
-            string _dataSourceXML = Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "results",
+            //if (!File.Exists(templateFile))
+            //{
+                var zipFileName  = $"{jasperTemplate}_jasper_compact.zip";
+
+                var saveFolder =
+                    Path.Combine(Path.GetTempPath(), "templates", jasperTemplate);
+                var zipArchiveFolder =
+                    Path.Combine(Path.GetTempPath(), "templates", Path.Combine("zip-archives", jasperTemplate));
+                var extractPath = Path.Combine(saveFolder);
+
+                var filePath = Path.Combine(zipArchiveFolder, zipFileName);
+
+                var objectResponse = await GetFileFromS3Storage(zipFileName);
+                Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), "templates"));
+                await using var fileStream = File.Create(filePath);
+                await objectResponse.ResponseStream.CopyToAsync(fileStream);
+                fileStream.Close();
+                objectResponse.Dispose();
+                await fileStream.DisposeAsync();
+                // extract
+                var fastZip = new FastZip();
+                // Will always overwrite if target filenames already exist
+                fastZip.ExtractZip(filePath, extractPath, null);
+                foreach (var file in Directory.GetFiles(Path.Combine(extractPath, "compact"), "*.jasper"))
+                {
+                    File.Delete(file);
+                }
+                //throw new FileNotFoundException($"jrxml template was not found at {templateFile}");
+
+            //}
+            string _dataSourceXML = Path.Combine(Path.GetTempPath(), "results",
                 $"{timeStamp}_{caseId}.xml");
 
             if (!File.Exists(_dataSourceXML))
             {
                 throw new FileNotFoundException("Case result xml was not found at " + _dataSourceXML);
             }
-            string _resultDocument = Path.Combine(await _sqlController.SettingRead(Settings.fileLocationJasper).ConfigureAwait(false), "results",
+            string _resultDocument = Path.Combine(Path.GetTempPath(), "results",
                 $"{timeStamp}_{caseId}.pdf");
 
             string command =
-                $"-d64 -Xms512m -Xmx2g -Dfile.encoding=UTF-8 -jar {localJasperExporter} -template=\"{templateFile}\" -type=\"pdf\" -uri=\"{_dataSourceXML}\" -outputFile=\"{_resultDocument}\"";
+                $" -Xms512m -Xmx2g -Dfile.encoding=UTF-8 -jar {localJasperExporter} -template=\"{templateFile}\" -type=\"pdf\" -uri=\"{_dataSourceXML}\" -outputFile=\"{_resultDocument}\"";
 
             Log.LogVariable(methodName, nameof(command), command);
             p.StartInfo.FileName = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "java.exe" : "java";
@@ -2099,12 +2124,16 @@ namespace eFormCore
             // reading to the end of its redirected stream.
             // p.WaitForExit();
             // Read the output stream first and then wait.
-            string output = p.StandardOutput.ReadToEnd();
+            string output = await p.StandardOutput.ReadToEndAsync();
             Log.LogVariable(methodName, nameof(output), output);
-            p.WaitForExit();
+            await p.WaitForExitAsync();
 
             if (output != "")
-                throw new Exception("output='" + output + "', expected to be no output. This indicates an error has happened");
+                if (output.Contains("ERROR"))
+                {
+                    throw new Exception("output='" + output + "', expected to be no output. This indicates an error has happened");
+                }
+
             //
 
             return _resultDocument;
