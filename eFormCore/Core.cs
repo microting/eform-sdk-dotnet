@@ -5162,17 +5162,23 @@ namespace eFormCore
                     {
                         if (customPathForUploadedData != null)
                         {
-                            jasperFieldXml +=
-                                Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" +
-                                answer.Id + "\" " + gps + "><![CDATA[" + customPathForUploadedData +
-                                answer.UploadedDataObj.FileName + "]]></F" + field.Id + "_value>";
+                            if (answer.UploadedDataObj.FileName != null)
+                            {
+                                jasperFieldXml +=
+                                    Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" +
+                                    answer.Id + "\" " + gps + "><![CDATA[" + customPathForUploadedData +
+                                    answer.UploadedDataObj.FileName + "]]></F" + field.Id + "_value>";
+                            }
                         }
                         else
                         {
-                            jasperFieldXml +=
-                                Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" +
-                                answer.Id + "\" " + gps + "><![CDATA[" + answer.UploadedDataObj.FileName +
-                                "]]></F" + field.Id + "_value>";
+                            if (answer.UploadedDataObj.FileName != null)
+                            {
+                                jasperFieldXml +=
+                                    Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" +
+                                    answer.Id + "\" " + gps + "><![CDATA[" + answer.UploadedDataObj.FileName +
+                                    "]]></F" + field.Id + "_value>";
+                            }
                         }
                     }
 
