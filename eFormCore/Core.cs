@@ -1960,6 +1960,7 @@ namespace eFormCore
                 string clsLst = "";
                 string fldLst = "";
                 GetChecksAndFields(ref clsLst, ref fldLst, reply.ElementList, customPathForUploadedData);
+                string extrafldLst = "";
                 Log.LogVariable(methodName, nameof(clsLst), clsLst);
                 Log.LogVariable(methodName, nameof(fldLst), fldLst);
 
@@ -5205,8 +5206,8 @@ namespace eFormCore
         }
 
         private void GetChecksAndFields(ref string clsLst, ref string fldLst, List<Element> elementLst, string customPathForUploadedData)
-
         {
+            var db = DbContextHelper.GetDbContext();
             string jasperFieldXml = "";
             string jasperCheckXml = "";
 
@@ -5220,7 +5221,10 @@ namespace eFormCore
 
                     foreach (var item in dataE.DataItemList)
                     {
-                        jasperFieldXml += Environment.NewLine + "<F" + item.Id + " name=\"" + item.Label + "\" parent=\"" + item.Label + "\">";
+                        var f = db.Fields.Single(x => x.Id == item.Id);
+                        var cl = db.CheckLists.Single(x => x.Id == f.CheckListId);
+                        var clt = db.CheckListTranslations.First(x => x.CheckListId == cl.Id);
+                        jasperFieldXml += Environment.NewLine + "<F" + item.Id + " name=\"" + item.Label + "\" parent=\"" + clt.Text + "\">";
 
                         if (item is Field)
                         {
