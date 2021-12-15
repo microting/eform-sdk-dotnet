@@ -266,8 +266,8 @@ namespace eFormCore
 
                     //settings read
                     _connectionString = connectionString;
-                    _fileLocationPicture = await _sqlController.SettingRead(Settings.fileLocationPicture);
-                    _fileLocationPdf = await _sqlController.SettingRead(Settings.fileLocationPdf);
+                    _fileLocationPicture = Path.Combine(Path.GetTempPath(), "pictures");//_sqlController.SettingRead(Settings.fileLocationPicture);
+                    _fileLocationPdf = Path.Combine(Path.GetTempPath(), "pdf"); // await _sqlController.SettingRead(Settings.fileLocationPdf);
                     Log.LogStandard(methodName, "Settings read");
 
                     //communicators
@@ -2084,6 +2084,11 @@ namespace eFormCore
 
                 var objectResponse = await GetFileFromS3Storage(zipFileName);
                 Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), "templates"));
+                Directory.CreateDirectory(zipArchiveFolder);
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
                 await using var fileStream = File.Create(filePath);
                 await objectResponse.ResponseStream.CopyToAsync(fileStream);
                 fileStream.Close();
