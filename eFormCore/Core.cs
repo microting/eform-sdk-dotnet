@@ -5210,14 +5210,18 @@ namespace eFormCore
             var db = DbContextHelper.GetDbContext();
             string jasperFieldXml = "";
             string jasperCheckXml = "";
+            elementLst = elementLst.OrderBy(x => x.Id).ToList();
 
             foreach (Element element in elementLst)
             {
                 if (element.GetType() == typeof(CheckListValue))
                 {
                     CheckListValue dataE = (CheckListValue)element;
+                    var clc = db.CheckLists.Single(x => x.Id == dataE.Id);
+                    var clp = db.CheckLists.Single(x => x.Id == clc.ParentId);
+                    var clpt = db.CheckListTranslations.First(x => x.CheckListId == clp.Id);
 
-                    jasperCheckXml += Environment.NewLine + "<C" + dataE.Id + ">" + dataE.Status + "</C" + dataE.Id + ">";
+                    jasperCheckXml += Environment.NewLine + "<C" + dataE.Id + " name=\""+dataE.Label+ "\" parent=\"" + clpt.Text + "\">" + dataE.Status + "</C" + dataE.Id + ">";
 
                     foreach (var item in dataE.DataItemList)
                     {
