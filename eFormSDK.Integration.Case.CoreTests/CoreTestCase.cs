@@ -3812,7 +3812,7 @@ namespace eFormSDK.Integration.CoreTests
                 $"{timeStamp}_{aCase2.Id}.xml");
             CaseDto cDto = await sut.CaseLookupCaseId(aCase2.Id);
             ReplyElement reply = await sut.CaseRead((int)cDto.MicrotingUId, (int)cDto.CheckUId, language);
-            var match = await sut.CaseToJasperXml(cDto, reply, aCase2.Id, timeStamp, pdfPath, "");
+            var match = await sut.CaseToJasperXml(cDto, reply, aCase2.Id, timeStamp, pdfPath, "", language);
 
             // Assert
             Assert.NotNull(match);
