@@ -1940,7 +1940,7 @@ namespace eFormCore
         //     return CasesToCsv(templateId, start, end, pathAndName, customPathForUploadedData, ".", "", false, cultureInfo, timeZoneInfo, language);
         // }
 
-        public async Task<string> CaseToJasperXml(CaseDto cDto, ReplyElement reply, int caseId, string timeStamp, string customPathForUploadedData, string customXMLContent)
+        public async Task<string> CaseToJasperXml(CaseDto cDto, ReplyElement reply, int caseId, string timeStamp, string customPathForUploadedData, string customXMLContent, Language language)
         {
             string methodName = "Core.CaseToJasperXml";
             try
@@ -1960,7 +1960,7 @@ namespace eFormCore
                 string clsLst = "";
                 string fldLst = "";
                 GetChecksAndFields(ref clsLst, ref fldLst, reply.ElementList, customPathForUploadedData);
-                string extrafldLst = "";
+                string extrafldLst = await GetExtraFieldValues(caseId, customPathForUploadedData, language);
                 Log.LogVariable(methodName, nameof(clsLst), clsLst);
                 Log.LogVariable(methodName, nameof(fldLst), fldLst);
 
@@ -1987,6 +1987,11 @@ namespace eFormCore
                     + fldLst
 
                     + Environment.NewLine + "</fields>"
+                    + Environment.NewLine + "<extra_fields>"
+
+                    + extrafldLst
+
+                    + Environment.NewLine + "</extra_fields>"
                     + Environment.NewLine + "</C" + reply.Id + ">"
                     + customXMLContent
                     + Environment.NewLine + "</root>";
@@ -2464,7 +2469,7 @@ namespace eFormCore
 
                 if (reply.JasperExportEnabled)
                 {
-                    await CaseToJasperXml(cDto, reply, caseId, timeStamp, customPathForUploadedData, customXmlContent).ConfigureAwait(false);
+                    await CaseToJasperXml(cDto, reply, caseId, timeStamp, customPathForUploadedData, customXmlContent, language).ConfigureAwait(false);
                     resultDocument = await JasperToPdf(caseId, jasperTemplate, timeStamp).ConfigureAwait(false);
                 }
                 else
@@ -5203,6 +5208,98 @@ namespace eFormCore
             }
 
             return jasperFieldXml;
+        }
+
+        private async Task<string> GetExtraFieldValues(int caseId, string customPathForUploadedData, Language language)
+        {
+            var db = DbContextHelper.GetDbContext();
+            string jasperFieldXml = "";
+
+            var extraFieldValues = await db.ExtraFieldValues.Where(x => x.CaseId == caseId).OrderBy(x => x.CheckListId).ThenBy(x => x.FieldType).ToListAsync();
+
+            int lastCheckListId = 0;
+            string lastType = "";
+            foreach (ExtraFieldValue extraFieldValue in extraFieldValues)
+            {
+                var cl = db.CheckLists.SingleOrDefault(x => x.Id == extraFieldValue.CheckListId);
+                var clt = db.CheckListTranslations.SingleOrDefault(x => x.CheckListId == cl.Id && x.LanguageId == language.Id);
+
+                if (lastCheckListId != extraFieldValue.CheckListId)
+                {
+                    lastType = "";
+                    jasperFieldXml += Environment.NewLine + $"<extra_field name=\"{clt.Text}\">";
+                }
+
+                if (lastType != extraFieldValue.FieldType)
+                {
+                    switch (lastType)
+                    {
+                        case "picture":
+                            jasperFieldXml += Environment.NewLine + "</pictures>";
+                            break;
+                        case "comment":
+                            jasperFieldXml += Environment.NewLine + "</comments>";
+                            break;
+                        case "audio":
+                            jasperFieldXml += Environment.NewLine + "</audios>";
+                            break;
+                    }
+                }
+                switch (extraFieldValue.FieldType)
+                {
+                    case "picture":
+                        if (lastType != "picture")
+                        {
+                            jasperFieldXml += Environment.NewLine + "<pictures>";
+                        }
+                        var uploadedData = db.UploadedDatas.SingleOrDefault(x => x.Id == extraFieldValue.UploadedDataId);
+                        if (uploadedData != null)
+                        {
+                            if (customPathForUploadedData != null)
+                            {
+                                if (uploadedData.FileName != null)
+                                {
+                                    jasperFieldXml += $"<picture id=\"{extraFieldValue.Id}\"><![CDATA[" + customPathForUploadedData +
+                                                      uploadedData.FileName + "]]></picture>";
+                                }
+                            }
+                            else
+                            {
+                                if (uploadedData.FileName != null)
+                                {
+                                    jasperFieldXml += $"<picture id=\"{extraFieldValue.Id}\"><![CDATA[" + uploadedData.FileName + "]]></picture>";
+                                }
+                            }
+                        }
+                        break;
+                    case "comment":
+                        if (lastType != "comment")
+                        {
+                            jasperFieldXml += Environment.NewLine + "<comments>";
+                        }
+                        jasperFieldXml += $"<comment id=\"{extraFieldValue.Id}\"><![CDATA[" + extraFieldValue.Value + "]]></comment>";
+                        break;
+                    case "audio":
+                        if (lastType != "audio")
+                        {
+                            jasperFieldXml += Environment.NewLine + "<audios>";
+                        }
+                        break;
+                }
+
+                if (lastCheckListId != extraFieldValue.CheckListId)
+                {
+                    jasperFieldXml += Environment.NewLine + "</extra_field>";
+                }
+
+                lastCheckListId = (int)extraFieldValue.CheckListId;
+                // Environment.NewLine + "<F" + extraFieldValue.Id + "_value field_value_id=\"" +
+                // answer.Id + "\" " + gps + "><![CDATA[" + answer.UploadedDataObj.FileName +
+                // "]]></F" + field.Id + "_value>";
+            }
+
+            return jasperFieldXml;
+
         }
 
         private void GetChecksAndFields(ref string clsLst, ref string fldLst, List<Element> elementLst, string customPathForUploadedData)
