@@ -6253,7 +6253,7 @@ namespace Microting.eForm.Infrastructure
                     {
                         CheckList cl = await db.CheckLists.SingleAsync(x => x.Id == elementId);
                         CheckListTranslation checkListTranslation =
-                            await db.CheckListTranslations.SingleAsync(x => x.CheckListId == cl.Id);
+                            await db.CheckListTranslations.SingleAsync(x => x.CheckListId == cl.Id && x.LanguageId == language.Id);
 
                         GroupElement gElement = new GroupElement(cl.Id,
                             checkListTranslation.Text,
