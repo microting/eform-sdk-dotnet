@@ -5428,8 +5428,8 @@ namespace eFormCore
                     {
                         try
                         {
-                            Log.LogStandard(methodName, $"Downloading file to #{_fileLocationPicture}/#{fileName}");
-                            client.DownloadFile(urlStr, _fileLocationPicture + fileName);
+                            Log.LogStandard(methodName, $"Downloading file to {_fileLocationPicture}/{fileName}");
+                            client.DownloadFile(urlStr, Path.Combine(_fileLocationPicture, fileName));
                         }
                         catch (Exception ex)
                         {
