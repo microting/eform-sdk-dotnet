@@ -1,5 +1,51 @@
 # Changelog
 
+## [v5.3.19](https://github.com/microting/eform-sdk-dotnet/tree/v5.3.19) (2021-12-21)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.3.18...v5.3.19)
+
+**Implemented enhancements:**
+
+- Bump AWSSDK.SQS from 3.7.2.4 to 3.7.2.5 [\#540](https://github.com/microting/eform-sdk-dotnet/issues/540)
+- Bump AWSSDK.S3 from 3.7.7.3 to 3.7.7.4 [\#539](https://github.com/microting/eform-sdk-dotnet/issues/539)
+- Bump AWSSDK.Core from 3.7.5.6 to 3.7.5.7 [\#538](https://github.com/microting/eform-sdk-dotnet/issues/538)
+
+## [v5.3.18](https://github.com/microting/eform-sdk-dotnet/tree/v5.3.18) (2021-12-20)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.3.17...v5.3.18)
+
+## [v5.3.17](https://github.com/microting/eform-sdk-dotnet/tree/v5.3.17) (2021-12-19)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.3.16...v5.3.17)
+
+**Merged pull requests:**
+
+- Bump DocumentFormat.OpenXml from 2.14.0 to 2.15.0 [\#534](https://github.com/microting/eform-sdk-dotnet/pull/534) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+## [v5.3.16](https://github.com/microting/eform-sdk-dotnet/tree/v5.3.16) (2021-12-16)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.3.15...v5.3.16)
+
+## [v5.3.15](https://github.com/microting/eform-sdk-dotnet/tree/v5.3.15) (2021-12-15)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.3.14...v5.3.15)
+
+## [v5.3.14](https://github.com/microting/eform-sdk-dotnet/tree/v5.3.14) (2021-12-15)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.3.13...v5.3.14)
+
+## [v5.3.13](https://github.com/microting/eform-sdk-dotnet/tree/v5.3.13) (2021-12-15)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.3.12...v5.3.13)
+
+## [v5.3.12](https://github.com/microting/eform-sdk-dotnet/tree/v5.3.12) (2021-12-14)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.3.11...v5.3.12)
+
+## [v5.3.11](https://github.com/microting/eform-sdk-dotnet/tree/v5.3.11) (2021-12-06)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.3.10...v5.3.11)
+
 ## [v5.3.10](https://github.com/microting/eform-sdk-dotnet/tree/v5.3.10) (2021-11-24)
 
 [Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.3.9...v5.3.10)
@@ -74,6 +120,7 @@
 - Bump AWSSDK.SQS from 3.7.1.34 to 3.7.1.36 [\#473](https://github.com/microting/eform-sdk-dotnet/pull/473) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump AWSSDK.S3 from 3.7.3.24 to 3.7.4 [\#472](https://github.com/microting/eform-sdk-dotnet/pull/472) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump AWSSDK.Core from 3.7.3.31 to 3.7.3.33 [\#471](https://github.com/microting/eform-sdk-dotnet/pull/471) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump Microsoft.EntityFrameworkCore.Design from 5.0.9 to 5.0.10 [\#345](https://github.com/microting/eform-sdk-dotnet/pull/345) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v5.2.57](https://github.com/microting/eform-sdk-dotnet/tree/v5.2.57) (2021-11-04)
 
@@ -243,7 +290,6 @@
 
 - Bump Microsoft.EntityFrameworkCore.Relational from 5.0.9 to 5.0.10 [\#347](https://github.com/microting/eform-sdk-dotnet/pull/347) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump Microsoft.EntityFrameworkCore from 5.0.9 to 5.0.10 [\#346](https://github.com/microting/eform-sdk-dotnet/pull/346) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump Microsoft.EntityFrameworkCore.Design from 5.0.9 to 5.0.10 [\#345](https://github.com/microting/eform-sdk-dotnet/pull/345) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v5.2.38](https://github.com/microting/eform-sdk-dotnet/tree/v5.2.38) (2021-09-15)
 
@@ -427,7 +473,6 @@
 
 - Bump Microsoft.EntityFrameworkCore from 5.0.7 to 5.0.8 [\#232](https://github.com/microting/eform-sdk-dotnet/pull/232) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump AWSSDK.Core from 3.7.0.40 to 3.7.0.44 [\#231](https://github.com/microting/eform-sdk-dotnet/pull/231) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump Microsoft.EntityFrameworkCore.Relational from 5.0.6 to 5.0.7 [\#179](https://github.com/microting/eform-sdk-dotnet/pull/179) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v5.2.15](https://github.com/microting/eform-sdk-dotnet/tree/v5.2.15) (2021-07-08)
 
@@ -485,6 +530,7 @@
 **Merged pull requests:**
 
 - Bump AWSSDK.S3 from 3.7.1 to 3.7.1.1 [\#181](https://github.com/microting/eform-sdk-dotnet/pull/181) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump Microsoft.EntityFrameworkCore.Relational from 5.0.6 to 5.0.7 [\#179](https://github.com/microting/eform-sdk-dotnet/pull/179) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump Microsoft.EntityFrameworkCore from 5.0.6 to 5.0.7 [\#178](https://github.com/microting/eform-sdk-dotnet/pull/178) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump Microsoft.EntityFrameworkCore.Design from 5.0.6 to 5.0.7 [\#176](https://github.com/microting/eform-sdk-dotnet/pull/176) ([dependabot[bot]](https://github.com/apps/dependabot))
 
@@ -765,7 +811,6 @@
 
 **Implemented enhancements:**
 
-- Bump AWSSDK.SQS from 3.7.0.10 to 3.7.0.11 [\#83](https://github.com/microting/eform-sdk-dotnet/issues/83)
 - Bump AWSSDK.S3 from 3.7.0.10 to 3.7.0.12 [\#82](https://github.com/microting/eform-sdk-dotnet/issues/82)
 - Bump AWSSDK.Core from 3.7.0.10 to 3.7.0.11 [\#81](https://github.com/microting/eform-sdk-dotnet/issues/81)
 
@@ -843,6 +888,7 @@
 
 **Implemented enhancements:**
 
+- Bump AWSSDK.SQS from 3.7.0.10 to 3.7.0.11 [\#83](https://github.com/microting/eform-sdk-dotnet/issues/83)
 - Bump AWSSDK.SQS from 3.7.0.2 to 3.7.0.4 [\#74](https://github.com/microting/eform-sdk-dotnet/issues/74)
 - Bump AWSSDK.S3 from 3.7.0.2 to 3.7.0.4 [\#73](https://github.com/microting/eform-sdk-dotnet/issues/73)
 - Bump AWSSDK.Core from 3.7.0.2 to 3.7.0.4 [\#72](https://github.com/microting/eform-sdk-dotnet/issues/72)
