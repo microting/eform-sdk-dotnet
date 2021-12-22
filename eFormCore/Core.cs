@@ -5446,7 +5446,7 @@ namespace eFormCore
                     string checkSum = "";
                     using (var md5 = MD5.Create())
                     {
-                        await using (var stream = File.OpenRead(_fileLocationPicture + fileName))
+                        await using (var stream = File.OpenRead(Path.Combine(_fileLocationPicture, fileName)))
                         {
                             byte[] grr = await md5.ComputeHashAsync(stream);
                             checkSum = BitConverter.ToString(grr).Replace("-", "").ToLower();
@@ -5465,7 +5465,7 @@ namespace eFormCore
 
                     CaseDto dto = await _sqlController.FileCaseFindMUId(urlStr).ConfigureAwait(false);
                     FileDto fDto = new FileDto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId.ToString(),
-                        dto.CheckUId.ToString(), _fileLocationPicture + fileName);
+                        dto.CheckUId.ToString(), Path.Combine(_fileLocationPicture,fileName));
                     try
                     {
                         HandleFileDownloaded?.Invoke(fDto, EventArgs.Empty);
