@@ -5463,11 +5463,11 @@ namespace eFormCore
 
                     //
 
-                    CaseDto dto = await _sqlController.FileCaseFindMUId(urlStr).ConfigureAwait(false);
-                    FileDto fDto = new FileDto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId.ToString(),
-                        dto.CheckUId.ToString(), Path.Combine(_fileLocationPicture,fileName));
                     try
                     {
+                        CaseDto dto = await _sqlController.FileCaseFindMUId(urlStr).ConfigureAwait(false);
+                        FileDto fDto = new FileDto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId.ToString(),
+                            dto.CheckUId.ToString(), Path.Combine(_fileLocationPicture,fileName));
                         HandleFileDownloaded?.Invoke(fDto, EventArgs.Empty);
                     }
                     catch
