@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2020 Microting A/S
+Copyright (c) 2007 - 2021 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,9 +27,7 @@ using System.CodeDom.Compiler;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Net.Security;
 using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,28 +35,26 @@ using Newtonsoft.Json.Linq;
 
 namespace Microting.eForm.Communication
 {
+    using System.Linq;
+    using System.Net.Http.Headers;
+
     public class Http : IHttp
     {
-        // start var section
-        private string protocolXml = "6";
-        private string protocolEntitySearch = "1";
-        private string protocolEntitySelect = "4";
+        private const string ProtocolXml = "6";
+        private const string ProtocolEntitySearch = "1";
+        private const string ProtocolEntitySelect = "4";
 
-        private string token;
-        private string addressApi;
-        private string addressBasic;
-        private string newAddressBasic;
-        private string addressPdfUpload;
-        private string addressSpeechToText;
-        private string organizationId;
+        private readonly string token;
+        private readonly string addressApi;
+        private readonly string addressBasic;
+        private readonly string newAddressBasic;
+        private readonly string addressPdfUpload;
+        private readonly string addressSpeechToText;
+        private readonly string organizationId;
+        private readonly string dllVersion;
 
-        private string dllVersion;
-
-        Tools t = new Tools();
-        object _lock = new object();
-        // end var section
-
-        // start con section
+        private readonly Tools t = new Tools();
+        //private object _lock = new object(); // todo maybe need delete
         public Http(string token, string comAddressBasic, string comAddressApi, string comOrganizationId, string comAddressPdfUpload, string comSpeechToText)
         {
             this.token = token;
@@ -69,12 +65,146 @@ namespace Microting.eForm.Communication
             addressSpeechToText = comSpeechToText;
             newAddressBasic = "https://microcore.microting.com";
 
-            dllVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            dllVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
         }
-        // end con section
 
-        // public
         // public API
+
+        private async Task<string> HttpPost(string url, byte[] content, string contentType = null, bool addToken = false)
+        {
+            try
+            {
+                var start = DateTime.UtcNow;
+                WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}",
+                    $"called at {start}");
+
+                using var httpClient = new HttpClient();
+                if (contentType != null)
+                {
+                    httpClient.DefaultRequestHeaders
+                        .Accept
+                        .Add(new MediaTypeWithQualityHeaderValue(contentType));
+                }
+                if (addToken)
+                {
+                    httpClient.DefaultRequestHeaders
+                        .Add("Authorization", token);
+                }
+
+                var response = await httpClient.PostAsync(url, new ByteArrayContent(content));
+                response.EnsureSuccessStatusCode();
+                var responseBody = await response.Content.ReadAsStringAsync();
+                WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
+                return responseBody;
+            }
+            catch (Exception ex)
+            {
+                WriteErrorConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", ex.Message);
+                throw;
+            }
+        }
+
+        private async Task<string> HttpPut(string url, byte[] content, string contentType = null, bool addToken = false)
+        {
+            try
+            {
+                var start = DateTime.UtcNow;
+                WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}",
+                    $"called at {start}");
+
+                using var httpClient = new HttpClient();
+                if (contentType != null)
+                {
+                    httpClient.DefaultRequestHeaders
+                        .Accept
+                        .Add(new MediaTypeWithQualityHeaderValue(contentType));
+                }
+                if (addToken)
+                {
+                    httpClient.DefaultRequestHeaders
+                        .Add(HttpRequestHeader.Authorization.ToString(), token);
+                }
+
+                var response = await httpClient.PutAsync(url, new ByteArrayContent(content));
+                response.EnsureSuccessStatusCode();
+                var responseBody = await response.Content.ReadAsStringAsync();
+                WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
+                return responseBody;
+            }
+            catch (Exception ex)
+            {
+                WriteErrorConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", ex.Message);
+                throw;
+            }
+        }
+
+        private async Task<string> HttpGet(string url, string contentType = null, bool addToken = false)
+        {
+            try
+            {
+                var start = DateTime.UtcNow;
+                WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}",
+                    $"called at {start}");
+
+                using var httpClient = new HttpClient();
+                if (contentType != null)
+                {
+                    httpClient.DefaultRequestHeaders
+                        .Accept
+                        .Add(new MediaTypeWithQualityHeaderValue(contentType));
+                }
+                if (addToken)
+                {
+                    httpClient.DefaultRequestHeaders
+                        .Add(HttpRequestHeader.Authorization.ToString(), token);
+                }
+
+                var response = await httpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                var responseBody = await response.Content.ReadAsStringAsync();
+                WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
+                return responseBody;
+            }
+            catch (Exception ex)
+            {
+                WriteErrorConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", ex.Message);
+                throw;
+            }
+        }
+
+        private async Task<string> HttpDelete(string url, string contentType = null, bool addToken = false)
+        {
+            try
+            {
+                var start = DateTime.UtcNow;
+                WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}",
+                    $"called at {start}");
+
+                using var httpClient = new HttpClient();
+                if (contentType != null)
+                {
+                    httpClient.DefaultRequestHeaders
+                        .Accept
+                        .Add(new MediaTypeWithQualityHeaderValue(contentType));
+                }
+                if (addToken)
+                {
+                    httpClient.DefaultRequestHeaders
+                        .Add(HttpRequestHeader.Authorization.ToString(), token);
+                }
+
+                var response = await httpClient.DeleteAsync(url);
+                response.EnsureSuccessStatusCode();
+                var responseBody = await response.Content.ReadAsStringAsync();
+                WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
+                return responseBody;
+            }
+            catch (Exception ex)
+            {
+                WriteErrorConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", ex.Message);
+                throw;
+            }
+        }
 
         /// <summary>
         /// Posts the element to Microting and returns the XML encoded restponse.
@@ -86,15 +216,11 @@ namespace Microting.eForm.Communication
         {
             try
             {
-                WriteDebugConsoleLogEntry("Http.Post", $"called at {DateTime.UtcNow}");
-                WebRequest request = WebRequest.Create(
-                    $"{addressApi}/gwt/inspection_app/integration/?token={token}&protocol={protocolXml}&site_id={siteId}&sdk_ver={dllVersion}");
-                request.Method = "POST";
-                byte[] content = Encoding.UTF8.GetBytes(data);
-                request.ContentType = contentType;
-                request.ContentLength = content.Length;
+                WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", $"called at {DateTime.UtcNow}");
+                var url = $"{addressApi}/gwt/inspection_app/integration/?token={token}&protocol={ProtocolXml}&site_id={siteId}&sdk_ver={dllVersion}";
+                var content = Encoding.UTF8.GetBytes(data);
 
-                return await PostToServer(request, content);
+                return await HttpPost(url, content, contentType);
             }
             catch (Exception ex)
             {
@@ -103,13 +229,7 @@ namespace Microting.eForm.Communication
                     return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='converterError'>" + ex.Message + "</Value>\n\t</Response>";
 
                 }
-                return  @"{
-                        Value: {
-                            Type: ""success"",
-                            Value: """ + ex.Message + @"""
-                        }
-
-                    }";
+                return $"{{\r\nValue: {{\r\nType: \"success\",\r\nValue: \"{ex.Message}\"}}}}";
             }
         }
 
@@ -122,11 +242,9 @@ namespace Microting.eForm.Communication
         {
             try
             {
-                WebRequest request = WebRequest.Create(
-                    $"{addressApi}/gwt/inspection_app/integration/{elementId}?token={token}&protocol={protocolXml}&site_id={siteId}&download=false&delete=false&sdk_ver={dllVersion}");
-                request.Method = "GET";
-
-                return await PostToServer(request).ConfigureAwait(false);
+                var url =
+                    $"{addressApi}/gwt/inspection_app/integration/{elementId}?token={token}&protocol={ProtocolXml}&site_id={siteId}&download=false&delete=false&sdk_ver={dllVersion}";
+                return await HttpGet(url);
             }
             catch (Exception ex)
             {
@@ -144,11 +262,9 @@ namespace Microting.eForm.Communication
         {
             try
             {
-                WebRequest request = WebRequest.Create(
-                    $"{addressApi}/gwt/inspection_app/integration/{microtingUuid}?token={token}&protocol={protocolXml}&site_id={siteId}&download=true&delete=false&last_check_id={microtingCheckUuid}&sdk_ver={dllVersion}");
-                request.Method = "GET";
-
-                return await PostToServer(request).ConfigureAwait(false);
+                var url =
+                    $"{addressApi}/gwt/inspection_app/integration/{microtingUuid}?token={token}&protocol={ProtocolXml}&site_id={siteId}&download=true&delete=false&last_check_id={microtingCheckUuid}&sdk_ver={dllVersion}";
+                return await HttpGet(url);
             }
             catch (Exception ex)
             {
@@ -165,16 +281,14 @@ namespace Microting.eForm.Communication
         {
             try
             {
-                WebRequest request = WebRequest.Create(
-                    $"{addressApi}/gwt/inspection_app/integration/{elementId}?token={token}&protocol={protocolXml}&site_id={siteId}&download=false&delete=true&sdk_ver={dllVersion}");
-                request.Method = "GET";
-
-                string result = await PostToServer(request).ConfigureAwait(false);
+                var url =
+                    $"{addressApi}/gwt/inspection_app/integration/{elementId}?token={token}&protocol={ProtocolXml}&site_id={siteId}&download=false&delete=true&sdk_ver={dllVersion}";
+                var result = await HttpGet(url);
 
                 if (result.Contains("No database connection information was found"))
                 {
                     Thread.Sleep(5000);
-                    result = await PostToServer(request).ConfigureAwait(false);
+                    result = await HttpGet(url);
                 }
 
                 return result;
@@ -185,26 +299,23 @@ namespace Microting.eForm.Communication
                 return "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='error'>ConverterError: " + ex.Message + "</Value>\n\t</Response>";
             }
         }
-        //
 
         // public EntitySearch
         public async Task<string> EntitySearchGroupCreate(string name, string id)
         {
             try
             {
-                string xmlData = "<EntityTypes><EntityType><Name><![CDATA[" + name + "]]></Name><Id>" + id + "</Id></EntityType></EntityTypes>";
+                var xmlData = "<EntityTypes><EntityType><Name><![CDATA[" + name + "]]></Name><Id>" + id + "</Id></EntityType></EntityTypes>";
+                const string contentType = "application/x-www-form-urlencoded";
+                var content = Encoding.UTF8.GetBytes(xmlData);
+                var url = $"{addressApi}/gwt/entity_app/entity_types?token={token}&protocol={ProtocolEntitySearch}&organization_id={organizationId}&sdk_ver={dllVersion}";
+                var responseBody = await HttpPost(url, content, contentType);
+                //var responseXml = await PostToServer(request, content);
 
-                WebRequest request = WebRequest.Create(
-                    $"{addressApi}/gwt/entity_app/entity_types?token={token}&protocol={protocolEntitySearch}&organization_id={organizationId}&sdk_ver={dllVersion}");
-                request.Method = "POST";
-                byte[] content = Encoding.UTF8.GetBytes(xmlData);
-                request.ContentType = "application/x-www-form-urlencoded";
-                request.ContentLength = content.Length;
-
-                string responseXml = await PostToServer(request, content);
-
-                if (responseXml.Contains("workflowState=\"created"))
-                    return t.Locate(responseXml, "<MicrotingUUId>", "</");
+                if (responseBody.Contains("workflowState=\"created"))
+                {
+                    return t.Locate(responseBody, "<MicrotingUUId>", "</");
+                }
                 return null;
             }
             catch (Exception ex)
@@ -215,36 +326,25 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> EntitySearchGroupUpdate(int id, string name, string entityGroupMuId)
         {
-            string xmlData = "<EntityTypes><EntityType><Name><![CDATA[" + name + "]]></Name><Id>" + id + "</Id></EntityType></EntityTypes>";
-
-            WebRequest request = WebRequest.Create(
-                $"{addressApi}/gwt/entity_app/entity_types/{entityGroupMuId}?token={token}&protocol={protocolEntitySearch}&organization_id={organizationId}&sdk_ver={dllVersion}");
-            request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(xmlData);
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.ContentLength = content.Length;
-
-            string responseXml = await PostToServer(request, content);
-
-            if (responseXml.Contains("workflowState=\"created"))
-                return true;
-            return false;
+            var xmlData = "<EntityTypes><EntityType><Name><![CDATA[" + name + "]]></Name><Id>" + id + "</Id></EntityType></EntityTypes>";
+            var url =
+                $"{addressApi}/gwt/entity_app/entity_types/{entityGroupMuId}?token={token}&protocol={ProtocolEntitySearch}&organization_id={organizationId}&sdk_ver={dllVersion}";
+            const string contentType = "application/x-www-form-urlencoded";
+            var content = Encoding.UTF8.GetBytes(xmlData);
+            var responseXml = await HttpPut(url, content, contentType);
+            return responseXml.Contains("workflowState=\"created");
         }
 
         public async Task<bool> EntitySearchGroupDelete(string entityGroupId)
         {
             try
             {
-                WebRequest request = WebRequest.Create(
-                    $"{addressApi}/gwt/entity_app/entity_types/{entityGroupId}?token={token}&protocol={protocolEntitySearch}&organization_id={organizationId}&sdk_ver={dllVersion}");
-                request.Method = "DELETE";
-                request.ContentType = "application/x-www-form-urlencoded";  //-- ?
+                const string contentType = "application/x-www-form-urlencoded";
+                var url =
+                    $"{addressApi}/gwt/entity_app/entity_types/{entityGroupId}?token={token}&protocol={ProtocolEntitySearch}&organization_id={organizationId}&sdk_ver={dllVersion}";
+                var responseXml = await HttpDelete(url, contentType);
 
-                string responseXml = await PostToServer(request).ConfigureAwait(false);
-
-                if (responseXml.Contains("Value type=\"success"))
-                    return true;
-                return false;
+                return responseXml.Contains("Value type=\"success");
             }
             catch (Exception ex)
             {
@@ -254,84 +354,65 @@ namespace Microting.eForm.Communication
 
         public async Task<string> EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id)
         {
-            string xmlData = "<Entities><Entity>" +
-                "<EntityTypeId>" + entitySearchGroupId + "</EntityTypeId><Identifier><![CDATA[" + name + "]]></Identifier><Description><![CDATA[" + description + "]]></Description>" +
-                "<Km></Km><Colour></Colour><Radiocode></Radiocode>" + //Legacy. To be removed server side
-                "<Id>" + id + "</Id>" +
-                "</Entity></Entities>";
+            var content = Encoding.UTF8
+                .GetBytes("<Entities><Entity>" +
+                            $"<EntityTypeId>{entitySearchGroupId}</EntityTypeId>" +
+                            $"<Identifier><![CDATA[{ name }]]></Identifier>" +
+                            $"<Description><![CDATA[{ description }]]></Description>" +
+                            "<Km></Km><Colour></Colour><Radiocode></Radiocode>" + // todo Legacy. To be removed server side
+                            $"<Id>{ id }</Id>" +
+                            "</Entity></Entities>");
+            var url =
+                $"{addressApi}/gwt/entity_app/entities?token={token}&protocol={ProtocolEntitySearch}&organization_id={organizationId}&sdk_ver={dllVersion}";
 
-            WebRequest request = WebRequest.Create(
-                $"{addressApi}/gwt/entity_app/entities?token={token}&protocol={protocolEntitySearch}&organization_id={organizationId}&sdk_ver={dllVersion}");
-            request.Method = "POST";
-            byte[] content = Encoding.UTF8.GetBytes(xmlData);
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.ContentLength = content.Length;
-
-            string responseXml = await PostToServer(request, content);
+            var responseXml = await HttpPost(url, content, "application/x-www-form-urlencoded");
 
             if (responseXml.Contains("workflowState=\"created"))
+            {
                 return t.Locate(responseXml, "<MicrotingUUId>", "</");
+            }
             return null;
         }
 
         public async Task<bool> EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
         {
-            string xmlData = "<Entities><Entity>" +
-                "<EntityTypeId>" + entitySearchGroupId + "</EntityTypeId><Identifier><![CDATA[" + name + "]]></Identifier><Description><![CDATA[" + description + "]]></Description>" +
-                "<Km></Km><Colour></Colour><Radiocode></Radiocode>" + //Legacy. To be removed server side
-                "<Id>" + id + "</Id>" +
-                "</Entity></Entities>";
+            var content = Encoding.UTF8
+                .GetBytes("<Entities><Entity>" +
+                          $"<EntityTypeId>{entitySearchGroupId}</EntityTypeId>" +
+                          $"<Identifier><![CDATA[{ name }]]></Identifier>" +
+                          $"<Description><![CDATA[{ description }]]></Description>" +
+                          "<Km></Km><Colour></Colour><Radiocode></Radiocode>" + // todo Legacy. To be removed server side
+                          $"<Id>{ id }</Id>" +
+                          "</Entity></Entities>");
+            var url =
+                $"{addressApi}/gwt/entity_app/entities/{entitySearchItemId}?token={token}&protocol={ProtocolEntitySearch}&organization_id={organizationId}&sdk_ver={dllVersion}";
 
-            WebRequest request = WebRequest.Create(
-                $"{addressApi}/gwt/entity_app/entities/{entitySearchItemId}?token={token}&protocol={protocolEntitySearch}&organization_id={organizationId}&sdk_ver={dllVersion}");
-            request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(xmlData);
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.ContentLength = content.Length;
-
-            string newUrl = await PostToServer(request, content);
-            if (string.IsNullOrEmpty(newUrl))
-            {
-                return false;
-            }
-
-            return true;
+            var newUrl = await HttpPut(url, content, "application/x-www-form-urlencoded");
+            return !string.IsNullOrEmpty(newUrl);
         }
 
         public async Task<bool> EntitySearchItemDelete(string entitySearchItemId)
         {
-            WebRequest request = WebRequest.Create(
-                $"{addressApi}/gwt/entity_app/entities/{entitySearchItemId}?token={token}&protocol={protocolEntitySearch}&organization_id={organizationId}&sdk_ver={dllVersion}");
-            request.Method = "DELETE";
-            request.ContentType = "application/x-www-form-urlencoded";  //-- ?
-
-            string responseXml = await PostToServer(request).ConfigureAwait(false);
-
-            if (responseXml.Contains("Value type=\"success"))
-                return true;
-            return false;
+            var url =
+                $"{addressApi}/gwt/entity_app/entities/{entitySearchItemId}?token={token}&protocol={ProtocolEntitySearch}&organization_id={organizationId}&sdk_ver={dllVersion}";
+            var responseXml = await HttpDelete(url, "application/x-www-form-urlencoded");
+            return responseXml.Contains("Value type=\"success");
         }
-        //
 
         // public EntitySelect
         public async Task<string> EntitySelectGroupCreate(string name, string id)
         {
             try
             {
-                //string xmlData = "{ \"model\" : { \"name\" : \"" + name + "\", \"api_uuid\" : \"" + id + "\" } }";
-                JObject contentToServer = JObject.FromObject(new { model = new { name, api_uuid = id } });
-
-                WebRequest request = WebRequest.Create(
-                    $"{addressApi}/gwt/inspection_app/searchable_item_groups.json?token={token}&protocol={protocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}");
-                request.Method = "POST";
-                byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
-                request.ContentType = "application/json; charset=utf-8";
-                request.ContentLength = content.Length;
-
-                string responseXml = await PostToServer(request, content);
-
+                var content = Encoding.UTF8.GetBytes(JObject.FromObject(new { model = new { name, api_uuid = id } }).ToString());
+                var url =
+                    $"{addressApi}/gwt/inspection_app/searchable_item_groups.json?token={token}&protocol={ProtocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}";
+                var responseXml = await HttpPost(url, content, "application/json; charset=utf-8"); // todo maybe not need content type
                 if (responseXml.Contains("workflow_state\": \"created"))
+                {
                     return t.Locate(responseXml, "\"id\": \"", "\"");
+                }
+
                 return null;
             }
             catch (Exception ex)
@@ -342,21 +423,13 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> EntitySelectGroupUpdate(int id, string name, string entityGroupMuId)
         {
-            JObject contentToServer = JObject.FromObject(new { model = new { name, api_uuid = id } });
+            var content = Encoding.UTF8.GetBytes(JObject.FromObject(new { model = new { name, api_uuid = id } }).ToString());
+            var url =
+                $"{addressApi}/gwt/inspection_app/searchable_item_groups/{entityGroupMuId}?token={token}&protocol={ProtocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}";
+            var newUrl = await HttpPut(url, content, "application/json; charset=utf-8"); // todo maybe not need content type
 
-            WebRequest request = WebRequest.Create(
-                $"{addressApi}/gwt/inspection_app/searchable_item_groups/{entityGroupMuId}?token={token}&protocol={protocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}");
-            request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
-
-            string newUrl = await PostToServerGetRedirect(request, content);
-
-            request = WebRequest.Create($"{newUrl}?token={token}");
-            request.Method = "GET";
-
-            string response = await PostToServer(request).ConfigureAwait(false);
+            var url2 = $"{newUrl}?token={token}";
+            var response = await HttpGet(url2);
 
             return response.Contains("workflow_state\": \"created");
         }
@@ -365,19 +438,13 @@ namespace Microting.eForm.Communication
         {
             try
             {
-                WebRequest request = WebRequest.Create(
-                    $"{addressApi}/gwt/inspection_app/searchable_item_groups/{entityGroupId}.json?token={token}&protocol={protocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}");
-                request.Method = "DELETE";
-                request.ContentType = "application/json; charset=utf-8";
+                var url =
+                    $"{addressApi}/gwt/inspection_app/searchable_item_groups/{entityGroupId}.json?token={token}&protocol={ProtocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}";
+                var newUrl = await HttpDelete(url, "application/json; charset=utf-8"); // todo maybe not need content type
 
-                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
-
-                request = WebRequest.Create($"{newUrl}?token={token}");
-                request.Method = "GET";
-
-                string responseXml = await PostToServer(request).ConfigureAwait(false);
-
-                return responseXml.Contains("workflow_state\": \"removed");
+                var url2 = $"{newUrl}?token={token}";
+                var response = await HttpGet(url2);
+                return response.Contains("workflow_state\": \"removed");
             }
             catch (Exception ex)
             {
@@ -387,89 +454,77 @@ namespace Microting.eForm.Communication
 
         public async Task<string> EntitySelectItemCreate(string entitySelectGroupId, string name, int displayIndex, string id)
         {
-            JObject contentToServer = JObject.FromObject(new { model = new { data = name, api_uuid = id, display_order = displayIndex, searchable_group_id = entitySelectGroupId } });
+            var contentToServer = JObject.FromObject(new { model = new { data = name, api_uuid = id, display_order = displayIndex, searchable_group_id = entitySelectGroupId } });
 
-            WebRequest request = WebRequest.Create(
-                $"{addressApi}/gwt/inspection_app/searchable_items.json?token={token}&protocol={protocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}");
-            request.Method = "POST";
-            byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
+            var url =
+                $"{addressApi}/gwt/inspection_app/searchable_items.json?token={token}&protocol={ProtocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}";
+            var response = await HttpPost(url, Encoding.UTF8.GetBytes(contentToServer.ToString()), "application/json; charset=utf-8"); // todo maybe not need content type
 
-            string responseXml = await PostToServer(request, content);
+            if (response.Contains("workflow_state\": \"created"))
+            {
+                return t.Locate(response, "\"id\": \"", "\"");
+            }
 
-            if (responseXml.Contains("workflow_state\": \"created"))
-                return t.Locate(responseXml, "\"id\": \"", "\"");
             return null;
         }
 
         public async Task<bool> EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayIndex, string ownUuid)
         {
-            JObject contentToServer = JObject.FromObject(new { model = new { data = name, api_uuid = ownUuid, display_order = displayIndex, searchable_group_id = entitySelectGroupId } });
-
-            WebRequest request = WebRequest.Create(
-                $"{addressApi}/gwt/inspection_app/searchable_items/{entitySelectItemId}?token={token}&protocol={protocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}");
-            request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
-
-			string newUrl = await PostToServerGetRedirect(request, content);
-
-			request = WebRequest.Create($"{newUrl}?token={token}");
-			request.Method = "GET";
-
-			string responseXml = await PostToServer(request).ConfigureAwait(false);
-			return responseXml.Contains("workflow_state\": \"created");
-		}
+            var contentToServer = JObject.FromObject(new { model = new { data = name, api_uuid = ownUuid, display_order = displayIndex, searchable_group_id = entitySelectGroupId } });
+            var url =
+                $"{addressApi}/gwt/inspection_app/searchable_items/{entitySelectItemId}?token={token}&protocol={ProtocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}";
+            var newUrl = await HttpPut(url, Encoding.UTF8.GetBytes(contentToServer.ToString()), "application/json; charset=utf-8"); // todo maybe not need content type
+            var url2 = $"{newUrl}?token={token}";
+            var response = await HttpGet(url2);
+            return response.Contains("workflow_state\": \"created");
+        }
 
         public async Task<bool> EntitySelectItemDelete(string entitySelectItemId)
         {
-            WebRequest request = WebRequest.Create(
-                $"{addressApi}/gwt/inspection_app/searchable_items/{entitySelectItemId}.json?token={token}&protocol={protocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}");
-            request.Method = "DELETE";
-            request.ContentType = "application/json; charset=utf-8";
 
-			string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
+            var url =
+                $"{addressApi}/gwt/inspection_app/searchable_items/{entitySelectItemId}.json?token={token}&protocol={ProtocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}";
+            var newUrl = await HttpDelete(url, "application/json; charset=utf-8"); // todo maybe not need content type
+            var url2 = $"{newUrl}?token={token}";
+            var response = await HttpGet(url2);
+            return response.Contains("workflow_state\": \"removed");
 
-			request = WebRequest.Create($"{newUrl}?token={token}");
-			request.Method = "GET";
+        }
 
-			string responseXml = await PostToServer(request).ConfigureAwait(false);
-			return responseXml.Contains("workflow_state\": \"removed");
-
-		}
-		//
-
-		// public PdfUpload
-		public async Task<bool> PdfUpload(string name, string hash)
+        public async Task<bool> PdfUpload(string name, string hash)
         {
             try
             {
-                using WebClient client = new WebClient();
-                string url =
+                var url =
                     $"{addressPdfUpload}/data_uploads/upload?token={token}&hash={hash}&extension=pdf&sdk_ver={dllVersion}";
-                await client.UploadFileTaskAsync(url, name);
-
+                var form = new MultipartFormDataContent();
+                var stream = new FileStream(name, FileMode.Open);
+                var content = new StreamContent(stream);
+                content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                {
+                    Name = name,
+                    FileName = name.Split('\\').Last(),
+                };
+                form.Add(content);
+                using var client = new HttpClient();
+                await client.PostAsync(url, form);
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                WriteErrorConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", ex.Message);
                 return false;
             }
         }
-        //
 
-        // public TemplateDisplayIndexChange
         public async Task<string> TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex)
         {
             try
             {
-                WebRequest request = WebRequest.Create(
-                    $"{addressApi}/gwt/inspection_app/integration/{microtingUId}?token={token}&protocol={protocolXml}&site_id={siteId}&download=false&delete=false&update_attributes=true&display_order={newDisplayIndex}&sdk_ver={dllVersion}");
-                request.Method = "GET";
-
-                return await PostToServer(request).ConfigureAwait(false);
+                var url =
+                    $"{addressApi}/gwt/inspection_app/integration/{microtingUId}?token={token}&protocol={ProtocolXml}&site_id={siteId}&download=false&delete=false&update_attributes=true&display_order={newDisplayIndex}&sdk_ver={dllVersion}";
+                var response = await HttpGet(url);
+                return response;
             }
             catch (Exception ex)
             {
@@ -477,70 +532,37 @@ namespace Microting.eForm.Communication
                 //return false;
             }
         }
-        //
 
-        // public site
         public async Task<string> SiteCreate(string name, string languageCode)
         {
-            JObject contentToServer = JObject.FromObject(new { name });
-            WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/Site?token={token}&name={Uri.EscapeDataString(name)}&languageCode={languageCode}&sdkVersion={dllVersion}");
-            request.Method = "POST";
-            byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            string newUrl = await PostToServerGetRedirect(request, content);
-
-            request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}");
-            request.Method = "GET";
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            string response = await PostToServer(request).ConfigureAwait(false);
+            var contentToServer = JObject.FromObject(new { name });
+            var url =
+                $"{newAddressBasic}/Site?token={token}&name={Uri.EscapeDataString(name)}&languageCode={languageCode}&sdkVersion={dllVersion}";
+            var newUrl = await HttpPost(url, Encoding.UTF8.GetBytes(contentToServer.ToString()), "application/json; charset=utf-8", true); // todo maybe not need content type
+            var url2 = $"{newAddressBasic}{newUrl}?token={token}";
+            var response = await HttpGet(url2, null, true);
 
             return response;
         }
 
         public async Task<bool> SiteUpdate(int id, string name, string languageCode)
         {
-            JObject contentToServer = JObject.FromObject(new { name });
-            WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/Site/{id}?token={token}&name={Uri.EscapeDataString(name)}&languageCode={languageCode}&sdkVersion={dllVersion}");
-            request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            string newUrl = await PostToServerGetRedirect(request, content);
-
-            if (string.IsNullOrEmpty(newUrl))
-            {
-                return false;
-            }
-
-            return true;
+            var contentToServer = JObject.FromObject(new { name });
+            var url =
+                $"{newAddressBasic}/Site/{id}?token={token}&name={Uri.EscapeDataString(name)}&languageCode={languageCode}&sdkVersion={dllVersion}";
+            var newUrl = await HttpPut(url, Encoding.UTF8.GetBytes(contentToServer.ToString()), "application/json; charset=utf-8", true); // todo maybe not need content type
+            return !string.IsNullOrEmpty(newUrl);
         }
 
         public async Task<string> SiteDelete(int id)
         {
             try
             {
-                WebRequest request = WebRequest.Create(
-                    $"{newAddressBasic}/Site/{id}?token={token}&sdkVersion={dllVersion}");
-                request.Method = "DELETE";
-                request.ContentType = "application/x-www-form-urlencoded";  //-- ?
-                request.Headers.Add(HttpRequestHeader.Authorization, token);
+                var url =
+                    $"{newAddressBasic}/Site/{id}?token={token}&sdkVersion={dllVersion}";
+                var newUrl = await HttpDelete(url, "application/x-www-form-urlencoded", true);
 
-                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
-
-                request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}");
-                request.Method = "GET";
-                request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-                return await PostToServer(request).ConfigureAwait(false);
-
+                return await HttpGet($"{newAddressBasic}{newUrl}?token={token}", null, true);
             }
             catch (Exception ex)
             {
@@ -550,75 +572,43 @@ namespace Microting.eForm.Communication
 
         public async Task<string> SiteLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create($"{newAddressBasic}/Site?token={token}&sdkVersion={dllVersion}");
-            request.Method = "GET";
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            return await PostToServer(request).ConfigureAwait(false);
+            var url =
+                $"{newAddressBasic}/Site?token={token}&sdkVersion={dllVersion}";
+            return await HttpGet(url, null, true);
         }
-        //
 
-        // public Worker
         public async Task<string> WorkerCreate(string firstName, string lastName, string email)
         {
-            JObject contentToServer = JObject.FromObject(new { first_name = firstName, last_name = lastName, email });
-            WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/User?token={token}&firstName={Uri.EscapeDataString(firstName)}&lastName={Uri.EscapeDataString(lastName)}&email={email}&sdkVersion={dllVersion}");
-            request.Method = "POST";
-            byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            string newUrl = await PostToServerGetRedirect(request, content);
-
-            request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}");
-            request.Method = "GET";
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            string response = await PostToServer(request).ConfigureAwait(false);
+            var contentToServer = JObject.FromObject(new { first_name = firstName, last_name = lastName, email });
+            var url =
+                $"{newAddressBasic}/User?token={token}&firstName={Uri.EscapeDataString(firstName)}&lastName={Uri.EscapeDataString(lastName)}&email={email}&sdkVersion={dllVersion}";
+            var content = Encoding.UTF8.GetBytes(contentToServer.ToString());
+            var newUrl = await HttpPost(url, content, "application/json; charset=utf-8", true); // todo maybe not need content type
+            var url2 = $"{newAddressBasic}{newUrl}?token={token}";
+            var response = await HttpGet(url2, null, true);
 
             return response;
         }
 
         public async Task<bool> WorkerUpdate(int id, string firstName, string lastName, string email)
         {
-            JObject contentToServer = JObject.FromObject(new { first_name = firstName, last_name = lastName, email });
-            WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/User/{id}?token={token}&firstName={Uri.EscapeDataString(firstName)}&lastName={Uri.EscapeDataString(lastName)}&email={email}&sdkVersion={dllVersion}");
-            request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            string newUrl = await PostToServerGetRedirect(request, content);
-
-            if (string.IsNullOrEmpty(newUrl))
-            {
-                return false;
-            }
-            return true;
+            var contentToServer = JObject.FromObject(new { first_name = firstName, last_name = lastName, email });
+            var url =
+                $"{newAddressBasic}/User/{id}?token={token}&firstName={Uri.EscapeDataString(firstName)}&lastName={Uri.EscapeDataString(lastName)}&email={email}&sdkVersion={dllVersion}";
+            var content = Encoding.UTF8.GetBytes(contentToServer.ToString());
+            var newUrl = await HttpPut(url, content, "application/json; charset=utf-8", true); // todo maybe not need content type
+            return !string.IsNullOrEmpty(newUrl);
         }
 
         public async Task<string> WorkerDelete(int id)
         {
             try
             {
-                WebRequest request = WebRequest.Create(
-                    $"{newAddressBasic}/User/{id}?token={token}&sdkVersion={dllVersion}");
-                request.Method = "DELETE";
-                request.ContentType = "application/x-www-form-urlencoded";  //-- ?
-                request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
-
-                request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}");
-                request.Method = "GET";
-                request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-                return await PostToServer(request).ConfigureAwait(false);
-
+                var url =
+                    $"{newAddressBasic}/User/{id}?token={token}&sdkVersion={dllVersion}";
+                var newUrl = await HttpDelete(url, "application/x-www-form-urlencoded", true);
+                var url2 = $"{newAddressBasic}{newUrl}?token={token}";
+                return await HttpGet(url2, null, true);
             }
             catch (Exception ex)
             {
@@ -628,34 +618,19 @@ namespace Microting.eForm.Communication
 
         public async Task<string> WorkerLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create($"{newAddressBasic}/User?token={token}&sdkVersion={dllVersion}");
-            request.Method = "GET";
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            return await PostToServer(request).ConfigureAwait(false);
+            var url = $"{newAddressBasic}/User?token={token}&sdkVersion={dllVersion}";
+            return await HttpGet(url, null, true);
         }
-        //
 
-        // public SiteWorker
         public async Task<string> SiteWorkerCreate(int siteId, int workerId)
         {
-            JObject contentToServer = JObject.FromObject(new { user_id = workerId, site_id = siteId });
-            WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/Worker?token={token}&siteid={siteId}&userId={workerId}&sdkVersion={dllVersion}");
-            request.Method = "POST";
-            byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            string newUrl = await PostToServerGetRedirect(request, content);
-
-            request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}");
-            request.Method = "GET";
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            string response = await PostToServer(request).ConfigureAwait(false);
-
+            var contentToServer = JObject.FromObject(new { user_id = workerId, site_id = siteId });
+            var content = Encoding.UTF8.GetBytes(contentToServer.ToString());
+            var url =
+                $"{newAddressBasic}/Worker?token={token}&siteid={siteId}&userId={workerId}&sdkVersion={dllVersion}";
+            var newUrl = await HttpPost(url, content, "application/json; charset=utf-8", true); // todo maybe not need content type
+            var url2 = $"{newAddressBasic}{newUrl}?token={token}";
+            var response = await HttpGet(url2, null, true);
             return response;
         }
 
@@ -663,20 +638,11 @@ namespace Microting.eForm.Communication
         {
             try
             {
-                WebRequest request = WebRequest.Create(
-                    $"{newAddressBasic}/Worker/{id}?token={token}&sdkVersion={dllVersion}");
-                request.Method = "DELETE";
-                request.ContentType = "application/x-www-form-urlencoded";  //-- ?
-                request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
-
-                request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}");
-                request.Method = "GET";
-                request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-                return await PostToServer(request).ConfigureAwait(false);
-
+                var url =
+                    $"{newAddressBasic}/Worker/{id}?token={token}&sdkVersion={dllVersion}";
+                var newUrl = await HttpDelete(url, "application/x-www-form-urlencoded", true);
+                var url2 = $"{newAddressBasic}{newUrl}?token={token}";
+                return await HttpGet(url2, null, true);
             }
             catch (Exception ex)
             {
@@ -686,53 +652,32 @@ namespace Microting.eForm.Communication
 
         public async Task<string> SiteWorkerLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create($"{newAddressBasic}/Worker?token={token}&sdkVersion={dllVersion}");
-            request.Method = "GET";
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            return await PostToServer(request).ConfigureAwait(false);
+            var url = $"{newAddressBasic}/Worker?token={token}&sdkVersion={dllVersion}";
+            return await HttpGet(url, null, true);
         }
-
-        //
-
-        // folder
 
         public async Task<string> FolderLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create($"{newAddressBasic}/Folder?token={token}&sdkVersion={dllVersion}");
-            request.Method = "GET";
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            return await PostToServer(request).ConfigureAwait(false);
+            var url = $"{newAddressBasic}/Folder?token={token}&sdkVersion={dllVersion}";
+            return await HttpGet(url, null, true);
         }
 
         public async Task<string> FolderCreate(int uuid, int? parentId)
         {
-            WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/Folder?token={token}&uuid={uuid}&parentId={parentId}&sdkVersion={dllVersion}");
-            request.Method = "POST";
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            string newUrl = await PostToServerGetRedirect(request);
-
-            request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}");
-            request.Method = "GET";
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            string response = await PostToServer(request).ConfigureAwait(false);
-
+            var url =
+                $"{newAddressBasic}/Folder?token={token}&uuid={uuid}&parentId={parentId}&sdkVersion={dllVersion}";
+            var newUrl = await HttpPost(url, Array.Empty<byte>(), null, true);
+            var url2 = $"{newAddressBasic}{newUrl}?token={token}";
+            var response = await HttpGet(url2, null, true);
             return response;
         }
 
         public async Task<bool> FolderUpdate(int id, string name, string description, string languageCode, int? parentId)
         {
+            var url =
+                $"{newAddressBasic}/Folder/{id}?token={token}&languageCode={languageCode}&name={Uri.EscapeDataString(name)}&description={Uri.EscapeDataString(description)}&parentId={parentId}&sdkVersion={dllVersion}";
             //JObject contentToServer = JObject.FromObject(new { languageCode, name = Uri.EscapeDataString(name), description = Uri.EscapeDataString(description), parent_id = parentId });
-            WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/Folder/{id}?token={token}&languageCode={languageCode}&name={Uri.EscapeDataString(name)}&description={Uri.EscapeDataString(description)}&parentId={parentId}&sdkVersion={dllVersion}");
-            request.Method = "PUT";
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            await PostToServerGetRedirect(request);
+            await HttpPut(url, Array.Empty<byte>(), null, true);
             return true;
         }
 
@@ -740,74 +685,45 @@ namespace Microting.eForm.Communication
         {
             try
             {
-                WebRequest request = WebRequest.Create(
-                    $"{newAddressBasic}/Folder/{id}?token={token}&sdkVersion={dllVersion}");
-                request.Method = "DELETE";
-                request.ContentType = "application/x-www-form-urlencoded";
-                request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
-
-                request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}");
-                request.Method = "GET";
-                request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-                return await PostToServer(request).ConfigureAwait(false);
+                var url =
+                    $"{newAddressBasic}/Folder/{id}?token={token}&sdkVersion={dllVersion}";
+                var newUrl = await HttpDelete(url, "application/x-www-form-urlencoded", true);
+                var url2 =
+                    $"{newAddressBasic}{newUrl}?token={token}";
+                return await HttpGet(url2, null, true);
             }
             catch (Exception ex)
             {
                 throw new Exception("FolderDelete failed", ex);
             }
         }
-        //
 
-        // public Unit
         public async Task<string> UnitUpdate(int id, bool newOtp, int siteId, bool pushEnabled, bool syncDelayEnabled, bool syncDialogEnabled)
         {
-            JObject contentToServer = JObject.FromObject(new { model = new { unit_id = id } });
-            WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/Unit/{id}?token={token}&newOtp=true&pushEnabled={pushEnabled}&siteId={siteId}&syncDelayEnabled={syncDelayEnabled}&syncDialogEnabled={syncDialogEnabled}&sdkVersion={dllVersion}");
-            request.Method = "PUT";
-            byte[] content = Encoding.UTF8.GetBytes(contentToServer.ToString());
-            request.ContentType = "application/json; charset=utf-8";
-            request.ContentLength = content.Length;
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            string newUrl = await PostToServerGetRedirect(request, content);
-
-            request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}&sdkVersion={dllVersion}");
-            request.Method = "GET";
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            return await PostToServer(request).ConfigureAwait(false);
+            var contentToServer = JObject.FromObject(new { model = new { unit_id = id } });
+            var url =
+                $"{newAddressBasic}/Unit/{id}?token={token}&newOtp=true&pushEnabled={pushEnabled}&siteId={siteId}&syncDelayEnabled={syncDelayEnabled}&syncDialogEnabled={syncDialogEnabled}&sdkVersion={dllVersion}";
+            var content = Encoding.UTF8.GetBytes(contentToServer.ToString());
+            var newUrl = await HttpPut(url, content, "application/json; charset=utf-8", true); // todo maybe not need content type
+            var url2 = $"{newAddressBasic}{newUrl}?token={token}&sdkVersion={dllVersion}";
+            return await HttpGet(url2, null, true);
         }
 
         public async Task<string> UnitLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create($"{newAddressBasic}/Unit?token={token}&sdkVersion={dllVersion}");
-            request.Method = "GET";
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            return await PostToServer(request).ConfigureAwait(false);
+            var url = $"{newAddressBasic}/Unit?token={token}&sdkVersion={dllVersion}";
+            return await HttpGet(url, null, true);
         }
 
         public async Task<string> UnitDelete(int id)
         {
             try
             {
-                WebRequest request = WebRequest.Create(
-                    $"{newAddressBasic}/Unit/{id}?token={token}&sdkVersion={dllVersion}");
-                request.Method = "DELETE";
-                request.ContentType = "application/x-www-form-urlencoded";
-                request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
-
-                request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}&sdkVersion={dllVersion}");
-                request.Method = "GET";
-                request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-                return await PostToServer(request).ConfigureAwait(false);
+                var url =
+                    $"{newAddressBasic}/Unit/{id}?token={token}&sdkVersion={dllVersion}";
+                var newUrl = await HttpDelete(url, "application/x-www-form-urlencoded", true);
+                var url2 = $"{newAddressBasic}{newUrl}?token={token}&sdkVersion={dllVersion}";
+                return await HttpGet(url2, null, true);
 
             }
             catch (Exception ex)
@@ -820,19 +736,11 @@ namespace Microting.eForm.Communication
         {
             try
             {
-                WebRequest request = WebRequest.Create(
-                    $"{newAddressBasic}/Unit/{unitId}?token={token}&sdkVersion={dllVersion}&siteId={siteId}");
-                request.Method = "PUT";
-                request.ContentType = "application/x-www-form-urlencoded";
-                request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
-
-                request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}&sdkVersion={dllVersion}");
-                request.Method = "GET";
-                request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-                return await PostToServer(request).ConfigureAwait(false);
+                var url =
+                    $"{newAddressBasic}/Unit/{unitId}?token={token}&sdkVersion={dllVersion}&siteId={siteId}";
+                var newUrl = await HttpPut(url, Array.Empty<byte>(), "application/x-www-form-urlencoded", true);
+                var url2 = $"{newAddressBasic}{newUrl}?token={token}&sdkVersion={dllVersion}";
+                return await HttpGet(url2, null, true);
             }
             catch (Exception ex)
             {
@@ -844,20 +752,12 @@ namespace Microting.eForm.Communication
         {
             try
             {
-                JObject contentToMicroting = JObject.FromObject(new { site_id = siteMicrotingUid } );
-                WebRequest request = WebRequest.Create(
-                    $"{newAddressBasic}/Unit/?token={token}&siteId={siteMicrotingUid}&sdkVersion={dllVersion}");
-                request.Method = "POST";
-                request.ContentType = "application/x-www-form-urlencoded";
-                request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-                string newUrl = await PostToServerGetRedirect(request).ConfigureAwait(false);
-
-                request = WebRequest.Create($"{newAddressBasic}{newUrl}?token={token}&sdkVersion={dllVersion}");
-                request.Method = "GET";
-                request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-                return await PostToServer(request).ConfigureAwait(false);
+                //var contentToMicroting = JObject.FromObject(new { site_id = siteMicrotingUid } );
+                var url =
+                    $"{newAddressBasic}/Unit/?token={token}&siteId={siteMicrotingUid}&sdkVersion={dllVersion}";
+                var newUrl = await HttpPost(url, Array.Empty<byte>(), "application/x-www-form-urlencoded", true);
+                var url2 = $"{newAddressBasic}{newUrl}?token={token}&sdkVersion={dllVersion}";
+                return await HttpGet(url2, null, true);
             }
             catch (Exception ex)
             {
@@ -865,37 +765,37 @@ namespace Microting.eForm.Communication
             }
         }
 
-        //
-
-        // public Organization
         public async Task<string> OrganizationLoadAllFromRemote()
         {
-            WebRequest request = WebRequest.Create(newAddressBasic + "/Organization?token=" + token + "&sdkVersion=" + dllVersion);
-            request.Method = "GET";
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            return await PostToServer(request).ConfigureAwait(false);
+            var url = $"{newAddressBasic}/Organization?token={token}&sdkVersion={dllVersion}";
+            return await HttpGet(url, null, true);
         }
-        //
 
-        // SpeechToText
         public async Task<int> SpeechToText(Stream pathToAudioFile, string language, string extension)
         {
             try
             {
-                using WebClient client = new WebClient();
-                string url = $"{addressSpeechToText}/audio/?token={token}&sdk_ver={dllVersion}&lang={language}";
+                var url = $"{addressSpeechToText}/audio/?token={token}&sdk_ver={dllVersion}&lang={language}";
                 using var tempFiles = new TempFileCollection();
-                string file = tempFiles.AddExtension(extension);
-                await using (FileStream fs = File.OpenWrite(file))
-                {
-                    await pathToAudioFile.CopyToAsync(fs);
-                    await fs.FlushAsync();
-                    fs.Close();
-                }
-                byte[] responseArray = await client.UploadFileTaskAsync(url, file);
+                var file = tempFiles.AddExtension(extension);
+                await using var fs = File.OpenWrite(file);
+                await pathToAudioFile.CopyToAsync(fs);
+                await fs.FlushAsync();
+                fs.Close();
 
-                string result = Encoding.UTF8.GetString(responseArray);
+
+                var form = new MultipartFormDataContent();
+                var content = new StreamContent(fs);
+                content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                {
+                    Name = file,
+                    FileName = file,
+                };
+                form.Add(content);
+                using var client = new HttpClient();
+                var response = await client.PostAsync(url, form);
+                response.EnsureSuccessStatusCode();
+                var result = await response.Content.ReadAsStringAsync();
                 var parsedData = JToken.Parse(result);
                 return int.Parse(parsedData["id"]?.ToString() ?? throw new InvalidOperationException());
             }
@@ -907,304 +807,68 @@ namespace Microting.eForm.Communication
 
         public async Task<JToken> SpeechToText(int requestId)
         {
-            WebRequest request = WebRequest.Create(
-                $"{addressSpeechToText}/audio/{requestId}?token={token}&sdk_ver={dllVersion}");
-            request.Method = "GET";
-
-            string result = await PostToServer(request).ConfigureAwait(false);
-            JToken parsedData = JToken.Parse(result);
+            var url =
+                $"{addressSpeechToText}/audio/{requestId}?token={token}&sdk_ver={dllVersion}";
+            var result = await HttpGet(url);
+            var parsedData = JToken.Parse(result);
             return parsedData;
         }
-        //
-
-        // InSight
-
-        // SurveyConfiguration
 
         public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
         {
             if (addSite)
             {
-                WebRequest request = WebRequest.Create(
-                    $"{addressBasic}/v1/survey_configurations/{id}?token={token}&add_site=true&site_id={siteId}&sdk_ver={dllVersion}");
-                request.Method = "GET";
-
-                await PostToServer(request).ConfigureAwait(false);
+                var url =
+                    $"{addressBasic}/v1/survey_configurations/{id}?token={token}&add_site=true&site_id={siteId}&sdk_ver={dllVersion}";
+                await HttpGet(url);
             }
             else
             {
-                WebRequest request = WebRequest.Create(
-                    $"{addressBasic}/v1/survey_configurations/{id}?token={token}&remove_site=true&site_id={siteId}&sdk_ver={dllVersion}");
-                request.Method = "GET";
-
-                await PostToServer(request).ConfigureAwait(false);
+                var url =
+                    $"{addressBasic}/v1/survey_configurations/{id}?token={token}&remove_site=true&site_id={siteId}&sdk_ver={dllVersion}";
+                await HttpGet(url);
             }
 
             return true;
         }
 
-        public Task<string> GetAllSurveyConfigurations()
+        public async Task<string> GetAllSurveyConfigurations()
         {
-            WebRequest request = WebRequest.Create(
-                $"{addressBasic}/v1/survey_configurations?token={token}&sdk_ver={dllVersion}");
-            request.Method = "GET";
-
-            return PostToServer(request);
+            var url = $"{addressBasic}/v1/survey_configurations?token={token}&sdk_ver={dllVersion}";
+            return await HttpGet(url);
         }
 
-        public Task<string> GetSurveyConfiguration(int id)
+        public async Task<string> GetSurveyConfiguration(int id)
         {
-            WebRequest request = WebRequest.Create(
-                $"{addressBasic}/v1/survey_configurations/{id}?token={token}&sdk_ver={dllVersion}");
-            request.Method = "GET";
-
-            return PostToServer(request);
+            var url = $"{addressBasic}/v1/survey_configurations/{id}?token={token}&sdk_ver={dllVersion}";
+            return await HttpGet(url);
         }
 
-
-        //
-
-        // QuestionSet
-
-        public Task<string> GetAllQuestionSets()
+        public async Task<string> GetAllQuestionSets()
         {
-
-            WebRequest request = WebRequest.Create(
-                $"{addressBasic}/v1/question_sets?token={token}&sdk_ver={dllVersion}");
-            request.Method = "GET";
-
-            return PostToServer(request);
+            var url = $"{addressBasic}/v1/question_sets?token={token}&sdk_ver={dllVersion}";
+            return await HttpGet(url);
         }
 
-        public Task<string> GetQuestionSet(int id)
+        public async Task<string> GetQuestionSet(int id)
         {
-            WebRequest request = WebRequest.Create(
-                $"{addressBasic}/v1/question_sets/{id}?token={token}&sdk_ver={dllVersion}");
-            request.Method = "GET";
-
-            return PostToServer(request);
+            var url = $"{addressBasic}/v1/question_sets/{id}?token={token}&sdk_ver={dllVersion}";
+            return await HttpGet(url);
         }
 
-        //
-
-        // Answer
-
-        public Task<string> GetLastAnswer(int questionSetId, int lastAnswerId)
+        public async Task<string> GetLastAnswer(int questionSetId, int lastAnswerId)
         {
-            WebRequest request = WebRequest.Create(
-                $"{addressBasic}/v1/answers/{questionSetId}?token={token}&sdk_ver={dllVersion}&last_answer_id={lastAnswerId}");
-            request.Method = "GET";
-
-            return PostToServer(request);
+            var url = $"{addressBasic}/v1/answers/{questionSetId}?token={token}&sdk_ver={dllVersion}&last_answer_id={lastAnswerId}";
+            return await HttpGet(url);
         }
 
         public Task SendPushMessage(int microtingSiteId, string header, string body, int microtingUuid)
         {
-            WebRequest request = WebRequest.Create(
-                $"{newAddressBasic}/PushMessage?SiteId={microtingSiteId}&token={token}&Header={header}&Body={body}&sdkVersion={dllVersion}&scheduleId={microtingUuid}");
-            request.Method = "POST";
-            request.Headers.Add(HttpRequestHeader.Authorization, token);
-
-            return PostToServer(request);
+            var url = $"{newAddressBasic}/PushMessage?SiteId={microtingSiteId}&token={token}&Header={header}&Body={body}&sdkVersion={dllVersion}&scheduleId={microtingUuid}";
+            return HttpPost(url, Array.Empty<byte>(), null, true);
         }
 
-        //
-
-        //
-
-        //
-
-        // private
-        private async Task<string> PostToServer(WebRequest request, byte[] content)
-        {
-            Console.WriteLine($"[DBG] Http.PostToServer: Calling {request.RequestUri}");
-
-            // Hack for ignoring certificate validation.
-            DateTime start = DateTime.UtcNow;
-            WriteDebugConsoleLogEntry("Http.PostToServer", $"Called at {start}");
-            ServicePointManager.ServerCertificateValidationCallback = Validator;
-            Stream dataRequestStream = await request.GetRequestStreamAsync().ConfigureAwait(false);
-            await dataRequestStream.WriteAsync(content, 0, content.Length);
-            dataRequestStream.Close();
-
-            WebResponse response = await request.GetResponseAsync().ConfigureAwait(false);
-
-            Stream dataResponseStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataResponseStream);
-            string responseFromServer = await reader.ReadToEndAsync();
-
-            // Clean up the streams.
-
-            reader.Close();
-            dataResponseStream.Close();
-            response.Close();
-
-            WriteDebugConsoleLogEntry("Http.PostToServer", $"Finished at {DateTime.UtcNow} - took {(start - DateTime.UtcNow).ToString()}");
-            return responseFromServer;
-        }
-
-        private async Task<string> PostToServerGetRedirect(WebRequest request, byte[] content)
-        {
-            Console.WriteLine($"[DBG] Http.PostToServerGetRedirect: Calling {request.RequestUri}");
-
-            // Hack for ignoring certificate validation.
-            ServicePointManager.ServerCertificateValidationCallback = Validator;
-
-            Stream dataRequestStream = await request.GetRequestStreamAsync().ConfigureAwait(false);
-            await dataRequestStream.WriteAsync(content, 0, content.Length).ConfigureAwait(false);
-            dataRequestStream.Close();
-
-            HttpWebRequest httpRequest = (HttpWebRequest)request;
-            httpRequest.CookieContainer = new CookieContainer();
-            httpRequest.AllowAutoRedirect = false;
-
-            string newUrl = "";
-            HttpWebResponse response = (HttpWebResponse) await httpRequest.GetResponseAsync();
-            if (response.StatusCode == HttpStatusCode.Found)
-            {
-                newUrl = response.Headers["Location"];
-            }
-
-            return newUrl;
-        }
-
-        private async Task<string> PostToServerGetRedirect(WebRequest request)
-        {
-            Console.WriteLine($"[DBG] Http.PostToServerGetRedirect: Calling {request.RequestUri}");
-
-            // Hack for ignoring certificate validation.
-            ServicePointManager.ServerCertificateValidationCallback = Validator;
-
-            HttpWebRequest httpRequest = (HttpWebRequest)request;
-            httpRequest.CookieContainer = new CookieContainer();
-            httpRequest.AllowAutoRedirect = false;
-
-            HttpWebResponse response;
-
-            string newUrl = "";
-            response = (HttpWebResponse) await httpRequest.GetResponseAsync().ConfigureAwait(false);
-            if (response.StatusCode == HttpStatusCode.Found)
-            {
-                newUrl = response.Headers["Location"];
-            }
-
-            return newUrl;
-        }
-
-        private async Task<string> PostToServerNoRedirect(WebRequest request, byte[] content)
-        {
-            Console.WriteLine($"[DBG] Http.PostToServerNoRedirect: Calling {request.RequestUri}");
-
-            // Hack for ignoring certificate validation.
-            ServicePointManager.ServerCertificateValidationCallback = Validator;
-
-            Stream dataRequestStream = await request.GetRequestStreamAsync().ConfigureAwait(false);
-            await dataRequestStream.WriteAsync(content, 0, content.Length).ConfigureAwait(false);
-            dataRequestStream.Close();
-
-            HttpWebRequest httpRequest = (HttpWebRequest)request;
-            httpRequest.CookieContainer = new CookieContainer();
-            httpRequest.AllowAutoRedirect = false;
-
-            HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
-            Stream dataResponseStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataResponseStream ?? throw new InvalidOperationException());
-            string responseFromServer = await reader.ReadToEndAsync().ConfigureAwait(false);
-
-            // Clean up the streams.
-            try
-            {
-                reader.Close();
-                dataResponseStream.Close();
-                response.Close();
-            }
-            catch
-            {
-
-            }
-
-            return responseFromServer;
-        }
-
-        private async Task<string> PostToServer(WebRequest request)
-        {
-            Console.WriteLine($"[DBG] Http.PostToServer: Calling {request.RequestUri}");
-            // Hack for ignoring certificate validation.
-
-            ServicePointManager.ServerCertificateValidationCallback = Validator;
-
-            WebResponse response = await request.GetResponseAsync().ConfigureAwait(false);
-            Stream dataResponseStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataResponseStream ?? throw new InvalidOperationException());
-            string responseFromServer = await reader.ReadToEndAsync().ConfigureAwait(false);
-
-            // Clean up the streams.
-            try
-            {
-                reader.Close();
-                dataResponseStream.Close();
-                response.Close();
-            }
-            catch
-            {
-
-            }
-
-            return responseFromServer;
-        }
-
-        private async Task<string> PostToServerNoRedirect(WebRequest request)
-        {
-            Console.WriteLine($"[DBG] Http.PostToServerNoRedirect: Calling {request.RequestUri}");
-
-            // Hack for ignoring certificate validation.
-            ServicePointManager.ServerCertificateValidationCallback = Validator;
-
-            HttpWebRequest httpRequest = (HttpWebRequest)request;
-            httpRequest.CookieContainer = new CookieContainer();
-            httpRequest.AllowAutoRedirect = false;
-
-            HttpWebResponse response = (HttpWebResponse)httpRequest.GetResponse();
-            Stream dataResponseStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(dataResponseStream ?? throw new InvalidOperationException());
-            string responseFromServer = await reader.ReadToEndAsync().ConfigureAwait(false);
-
-            // Clean up the streams.
-            try
-            {
-                reader.Close();
-                dataResponseStream.Close();
-                response.Close();
-            }
-            catch
-            {
-
-            }
-
-            return responseFromServer;
-        }
-
-        /// <summary>
-        /// This method is a hack and will allways return true
-        /// </summary>
-        /// <param name='sender'>
-        /// The sender object
-        /// </param>
-        /// <param name='certificate'>
-        /// The certificate object
-        /// </param>
-        /// <param name='chain'>
-        /// The certificate chain
-        /// </param>
-        /// <param name='sslpolicyErrors'>
-        /// SslPolicy Enum
-        /// </param>
-        private bool Validator(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslpolicyErrors)
-        {
-            return true;
-        }
-
-        private void WriteDebugConsoleLogEntry(string classMethodName, string message)
+        private static void WriteDebugConsoleLogEntry(string classMethodName, string message)
         {
             var oldColor = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Gray;
@@ -1212,14 +876,12 @@ namespace Microting.eForm.Communication
             Console.ForegroundColor = oldColor;
         }
 
-        private void WriteErrorConsoleLogEntry(string classMethodName, string message)
+        private static void WriteErrorConsoleLogEntry(string classMethodName, string message)
         {
             var oldColor = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"[ERR] {classMethodName}: {message}");
             Console.ForegroundColor = oldColor;
         }
-
-        //
     }
 }
