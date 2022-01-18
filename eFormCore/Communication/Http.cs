@@ -78,7 +78,7 @@ namespace Microting.eForm.Communication
                 WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}",
                     $"called at {start}");
 
-                using var httpClient = new HttpClient(new HttpClientHandler() { AllowAutoRedirect = followRedirect});
+                using var httpClient = new HttpClient(new HttpClientHandler { AllowAutoRedirect = followRedirect});
                 if (contentType != null)
                 {
                     httpClient.DefaultRequestHeaders
@@ -117,7 +117,7 @@ namespace Microting.eForm.Communication
                 WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}",
                     $"called at {start}");
 
-                using var httpClient = new HttpClient(new HttpClientHandler() { AllowAutoRedirect = followRedirect});
+                using var httpClient = new HttpClient(new HttpClientHandler { AllowAutoRedirect = followRedirect});
                 if (contentType != null)
                 {
                     httpClient.DefaultRequestHeaders
@@ -190,7 +190,7 @@ namespace Microting.eForm.Communication
                 WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}",
                     $"called at {start}");
 
-                using var httpClient = new HttpClient(new HttpClientHandler() { AllowAutoRedirect = followRedirect});
+                using var httpClient = new HttpClient(new HttpClientHandler { AllowAutoRedirect = followRedirect});
                 if (contentType != null)
                 {
                     httpClient.DefaultRequestHeaders
