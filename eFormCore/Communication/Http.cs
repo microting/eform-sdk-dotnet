@@ -92,6 +92,11 @@ namespace Microting.eForm.Communication
                 }
 
                 var response = await httpClient.PostAsync(url, new ByteArrayContent(content));
+
+                if (response.StatusCode == HttpStatusCode.Found)
+                {
+                    return response.Headers.Location.ToString();
+                }
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync();
                 WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
@@ -126,6 +131,11 @@ namespace Microting.eForm.Communication
                 }
 
                 var response = await httpClient.PutAsync(url, new ByteArrayContent(content));
+
+                if (response.StatusCode == HttpStatusCode.Found)
+                {
+                    return response.Headers.Location.ToString();
+                }
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync();
                 WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
@@ -194,6 +204,10 @@ namespace Microting.eForm.Communication
                 }
 
                 var response = await httpClient.DeleteAsync(url);
+                if (response.StatusCode == HttpStatusCode.Found)
+                {
+                    return response.Headers.Location.ToString();
+                }
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync();
                 WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
@@ -428,8 +442,8 @@ namespace Microting.eForm.Communication
                 $"{addressApi}/gwt/inspection_app/searchable_item_groups/{entityGroupMuId}?token={token}&protocol={ProtocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}";
             var newUrl = await HttpPut(url, content, "application/json; charset=utf-8"); // todo maybe not need content type
 
-            var url2 = $"{newUrl}?token={token}";
-            var response = await HttpGet(url2);
+            // var url2 = $"{newUrl}?token={token}";
+            var response = await HttpGet(newUrl);
 
             return response.Contains("workflow_state\": \"created");
         }
@@ -440,10 +454,10 @@ namespace Microting.eForm.Communication
             {
                 var url =
                     $"{addressApi}/gwt/inspection_app/searchable_item_groups/{entityGroupId}.json?token={token}&protocol={ProtocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}";
-                var newUrl = await HttpDelete(url, "application/json; charset=utf-8"); // todo maybe not need content type
+                var newUrl = await HttpDelete(url, "application/json"); // todo maybe not need content type
 
-                var url2 = $"{newUrl}?token={token}";
-                var response = await HttpGet(url2);
+                // var url2 = $"{newUrl}?token={token}";
+                var response = await HttpGet(newUrl);
                 return response.Contains("workflow_state\": \"removed");
             }
             catch (Exception ex)
@@ -474,8 +488,8 @@ namespace Microting.eForm.Communication
             var url =
                 $"{addressApi}/gwt/inspection_app/searchable_items/{entitySelectItemId}?token={token}&protocol={ProtocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}";
             var newUrl = await HttpPut(url, Encoding.UTF8.GetBytes(contentToServer.ToString()), "application/json; charset=utf-8"); // todo maybe not need content type
-            var url2 = $"{newUrl}?token={token}";
-            var response = await HttpGet(url2);
+            // var url2 = $"{newUrl}?token={token}";
+            var response = await HttpGet(newUrl);
             return response.Contains("workflow_state\": \"created");
         }
 
@@ -485,8 +499,8 @@ namespace Microting.eForm.Communication
             var url =
                 $"{addressApi}/gwt/inspection_app/searchable_items/{entitySelectItemId}.json?token={token}&protocol={ProtocolEntitySelect}&organization_id={organizationId}&sdk_ver={dllVersion}";
             var newUrl = await HttpDelete(url, "application/json; charset=utf-8"); // todo maybe not need content type
-            var url2 = $"{newUrl}?token={token}";
-            var response = await HttpGet(url2);
+            // var url2 = $"{newUrl}?token={token}";
+            var response = await HttpGet(newUrl);
             return response.Contains("workflow_state\": \"removed");
 
         }
