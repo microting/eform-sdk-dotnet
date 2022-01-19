@@ -5448,7 +5448,7 @@ namespace eFormCore
                     {
                         await using (var stream = File.OpenRead(Path.Combine(_fileLocationPicture, fileName)))
                         {
-                            byte[] grr = await md5.ComputeHashAsync(stream);
+                            byte[] grr = await md5.ComputeHashAsync(stream).ConfigureAwait(false);
                             checkSum = BitConverter.ToString(grr).Replace("-", "").ToLower();
                         }
                     }
