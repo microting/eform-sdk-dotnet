@@ -2533,8 +2533,8 @@ namespace Microting.eForm.Infrastructure
                 await using var db = GetContext();
                 try
                 {
-                    Data.Entities.UploadedData dU = db.UploadedDatas.Where(x => x.FileLocation == urlString).First();
-                    FieldValue fV = await db.FieldValues.SingleOrDefaultAsync(x => x.UploadedDataId == dU.Id);
+                    Data.Entities.UploadedData dU = db.UploadedDatas.First(x => x.FileLocation == urlString);
+                    FieldValue fV = await db.FieldValues.FirstOrDefaultAsync(x => x.UploadedDataId == dU.Id);
                     if (fV == null)
                     {
                         ExtraFieldValue extraFieldValue =

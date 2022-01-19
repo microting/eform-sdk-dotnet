@@ -5428,8 +5428,8 @@ namespace eFormCore
                     {
                         try
                         {
-                            Log.LogStandard(methodName, $"Downloading file to #{_fileLocationPicture}/#{fileName}");
-                            client.DownloadFile(urlStr, _fileLocationPicture + fileName);
+                            Log.LogStandard(methodName, $"Downloading file to {_fileLocationPicture}/{fileName}");
+                            client.DownloadFile(urlStr, Path.Combine(_fileLocationPicture, fileName));
                         }
                         catch (Exception ex)
                         {
@@ -5443,13 +5443,13 @@ namespace eFormCore
 
                     // finding checkSum
 
-                    string chechSum = "";
+                    string checkSum = "";
                     using (var md5 = MD5.Create())
                     {
-                        await using (var stream = File.OpenRead(_fileLocationPicture + fileName))
+                        await using (var stream = File.OpenRead(Path.Combine(_fileLocationPicture, fileName)))
                         {
-                            byte[] grr = md5.ComputeHash(stream);
-                            chechSum = BitConverter.ToString(grr).Replace("-", "").ToLower();
+                            byte[] grr = await md5.ComputeHashAsync(stream);
+                            checkSum = BitConverter.ToString(grr).Replace("-", "").ToLower();
                         }
                     }
 
@@ -5457,17 +5457,17 @@ namespace eFormCore
 
                     // checks checkSum
 
-                    if (chechSum != fileName.AsSpan().Slice(fileName.LastIndexOf(".") - 32, 32).ToString())
+                    if (checkSum != fileName.AsSpan().Slice(fileName.LastIndexOf(".") - 32, 32).ToString())
                         //.Substring(fileName.LastIndexOf(".") - 32, 32))
                         Log.LogWarning(methodName, $"Download of '{urlStr}' failed. Check sum did not match");
 
                     //
 
-                    CaseDto dto = await _sqlController.FileCaseFindMUId(urlStr).ConfigureAwait(false);
-                    FileDto fDto = new FileDto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId.ToString(),
-                        dto.CheckUId.ToString(), _fileLocationPicture + fileName);
                     try
                     {
+                        CaseDto dto = await _sqlController.FileCaseFindMUId(urlStr).ConfigureAwait(false);
+                        FileDto fDto = new FileDto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId.ToString(),
+                            dto.CheckUId.ToString(), Path.Combine(_fileLocationPicture,fileName));
                         HandleFileDownloaded?.Invoke(fDto, EventArgs.Empty);
                     }
                     catch
@@ -5478,7 +5478,7 @@ namespace eFormCore
                     Log.LogStandard(methodName, "Downloaded file '" + urlStr + "'.");
 
                     await _sqlController
-                        .FileProcessed(urlStr, chechSum, _fileLocationPicture, fileName, uploadedData.Id)
+                        .FileProcessed(urlStr, checkSum, _fileLocationPicture, fileName, uploadedData.Id)
                         .ConfigureAwait(false);
 
                     if (_swiftEnabled || _s3Enabled)
@@ -5506,7 +5506,7 @@ namespace eFormCore
 
                                     image.Resize(newWidth, newHeight);
                                     image.Crop(newWidth, newHeight);
-                                    image.Write(filePathResized);
+                                    await image.WriteAsync(filePathResized);
                                     image.Dispose();
                                     await PutFileToStorageSystem(Path.Combine(_fileLocationPicture, smallFilename),
                                         smallFilename).ConfigureAwait(false);
@@ -5523,7 +5523,7 @@ namespace eFormCore
 
                                     image.Resize(newWidth, newHeight);
                                     image.Crop(newWidth, newHeight);
-                                    image.Write(filePathResized);
+                                    await image.WriteAsync(filePathResized);
                                     image.Dispose();
                                     await PutFileToStorageSystem(Path.Combine(_fileLocationPicture, bigFilename),
                                         bigFilename).ConfigureAwait(false);
@@ -5646,7 +5646,7 @@ namespace eFormCore
                     if (response.Reason == "Unauthorized")
                     {
                         fileStream.Close();
-                        fileStream.Dispose();
+                        await fileStream.DisposeAsync();
                         Log.LogWarning(methodName, "Check swift credentials : Unauthorized");
                         throw new UnauthorizedAccessException();
                     }
