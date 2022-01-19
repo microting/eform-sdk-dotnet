@@ -228,21 +228,20 @@ namespace Microting.eForm.Helpers
         public static void ConvertToPdf(string docxFileName, string outputFolder)
         {
             WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper", "ConvertToPdf called"));
+            WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper", "ConvertToPdf docxFileName: " + docxFileName));
+            WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper", "ConvertToPdf outputFolder: " + outputFolder));
             try
             {
-                using (Process pdfProcess = new Process())
-                {
-                    pdfProcess.StartInfo.UseShellExecute = false;
-                    pdfProcess.StartInfo.RedirectStandardOutput = true;
-                    pdfProcess.StartInfo.FileName = "soffice";
-                    pdfProcess.StartInfo.Arguments = $" --headless --convert-to pdf {docxFileName} --outdir {outputFolder}";
-                    pdfProcess.Start();
-                    string output = pdfProcess.StandardOutput.ReadToEnd();
-                    Trace.WriteLine(output);
-                    pdfProcess.WaitForExit();
-
-                }
-
+                outputFolder += "/";
+                using Process pdfProcess = new Process();
+                pdfProcess.StartInfo.UseShellExecute = false;
+                pdfProcess.StartInfo.RedirectStandardOutput = true;
+                pdfProcess.StartInfo.FileName = "soffice";
+                pdfProcess.StartInfo.Arguments = $" --headless --convert-to pdf {docxFileName} --outdir {outputFolder}";
+                pdfProcess.Start();
+                string output = pdfProcess.StandardOutput.ReadToEnd();
+                Trace.WriteLine(output);
+                pdfProcess.WaitForExit();
             }
             catch (Exception e)
             {

@@ -2954,18 +2954,18 @@ namespace eFormCore
             try
             {
                 if (!Running()) throw new Exception("Core is not running");
-                string chechSum = "";
+                string checkSum = "";
                 using (var md5 = MD5.Create())
                 {
                     await using (var stream = File.OpenRead(localPath))
                     {
-                        byte[] grr = md5.ComputeHash(stream);
-                        chechSum = BitConverter.ToString(grr).Replace("-", "").ToLower();
+                        byte[] grr = await md5.ComputeHashAsync(stream);
+                        checkSum = BitConverter.ToString(grr).Replace("-", "").ToLower();
                     }
                 }
 
-                if (await _communicator.PdfUpload(localPath, chechSum).ConfigureAwait(false))
-                    return chechSum;
+                if (await _communicator.PdfUpload(localPath, checkSum).ConfigureAwait(false))
+                    return checkSum;
                 Log.LogWarning(methodName, "Uploading of PDF failed");
                 return null;
             }
