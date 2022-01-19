@@ -75,6 +75,8 @@ using UploadedData = Microting.eForm.Infrastructure.Models.UploadedData;
 
 namespace eFormCore
 {
+    using System.Net.Http;
+
     public class Core : CoreBase
     {
         // events
@@ -497,11 +499,12 @@ namespace eFormCore
                     }
                 }
             }
-            catch (ThreadAbortException)
+            // obsolete
+            /*catch (ThreadAbortException)
             {
                 //"Even if you handle it, it will be automatically re-thrown by the CLR at the end of the try/catch/finally."
                 Thread.ResetAbort(); //This ends the re-throwning
-            }
+            }*/
             catch (Exception ex)
             {
                 FatalExpection(methodName + " failed. Core failed to close", ex).GetAwaiter().GetResult();
@@ -902,7 +905,7 @@ namespace eFormCore
                         {
                             ShowPdf showPdf = (ShowPdf)dataItem;
 
-                            if (PdfValidate(showPdf.Value, showPdf.Id).GetAwaiter().GetResult().Count != 0)
+                            if ((await PdfValidate(showPdf.Value, showPdf.Id)).Count != 0)
                             {
                                 try
                                 {
@@ -916,8 +919,11 @@ namespace eFormCore
 //                                        (new FileInfo(downloadPath)).Directory.Create();
                                         Directory.CreateDirectory(downloadPath);
 
-                                        using WebClient client = new WebClient();
-                                        client.DownloadFile(showPdf.Value, filePathAndFileName);
+                                        using var client = new HttpClient();
+                                        var streamFile = await client.GetStreamAsync(showPdf.Value);
+
+                                        await using var stream = new FileStream(filePathAndFileName, FileMode.Create);
+                                        await streamFile.CopyToAsync(stream);
                                     }
                                     catch (Exception ex)
                                     {
@@ -928,8 +934,10 @@ namespace eFormCore
                                             Directory.CreateDirectory(downloadPath);
 
                                             filePathAndFileName = Path.Combine(downloadPath, tempFileName);
-                                            using WebClient client = new WebClient();
-                                            client.DownloadFile(showPdf.Value, filePathAndFileName);
+                                            using var client = new HttpClient();
+                                            var streamFile = await client.GetStreamAsync(showPdf.Value);
+                                            await using var stream = new FileStream(filePathAndFileName, FileMode.Create);
+                                            await streamFile.CopyToAsync(stream);
                                         }
                                         catch (Exception e)
                                         {
@@ -2069,9 +2077,12 @@ namespace eFormCore
                 "JasperExporter.jar");
             if (!File.Exists(localJasperExporter))
             {
-                using WebClient webClient = new WebClient();
+                using var webClient = new HttpClient();
                 Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), "utils"));
-                webClient.DownloadFile("https://github.com/microting/JasperExporter/releases/download/stable/JasperExporter.jar", localJasperExporter);
+                var streamFile = await webClient.GetStreamAsync("https://github.com/microting/JasperExporter/releases/download/stable/JasperExporter.jar");
+
+                await using var stream = new FileStream(localJasperExporter, FileMode.Create);
+                await streamFile.CopyToAsync(stream);
             }
 
             string templateFile = Path.Combine(Path.GetTempPath(), "templates", jasperTemplate, "compact",
@@ -5424,12 +5435,15 @@ namespace eFormCore
 
                     // download file
 
-                    using (var client = new WebClient())
+                    using (var client = new HttpClient())
                     {
                         try
                         {
                             Log.LogStandard(methodName, $"Downloading file to {_fileLocationPicture}/{fileName}");
-                            client.DownloadFile(urlStr, Path.Combine(_fileLocationPicture, fileName));
+                            var streamFile = await client.GetStreamAsync(urlStr);
+
+                            await using var stream = new FileStream(_fileLocationPicture + fileName, FileMode.Create);
+                            await streamFile.CopyToAsync(stream);
                         }
                         catch (Exception ex)
                         {
