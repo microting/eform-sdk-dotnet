@@ -5162,7 +5162,7 @@ namespace eFormCore
 
         private async Task<string> GetJasperFieldValue(Field field, FieldValue answer, string customPathForUploadedData)
         {
-            await Task.Run(() => { }); // TODO FIX ME
+            var token = await GetSdkSetting(Settings.token);
             string jasperFieldXml = "";
             string latitude = answer.Latitude;
             string longitude = answer.Longitude;
@@ -5181,19 +5181,21 @@ namespace eFormCore
                         {
                             if (answer.UploadedDataObj.FileName != null)
                             {
+                                string bigFilename = $"{answer.UploadedDataObj.Id}_700_{answer.UploadedDataObj.Checksum}{answer.UploadedDataObj.Extension}";
                                 jasperFieldXml +=
                                     Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" +
                                     answer.Id + "\" " + gps + "><![CDATA[" + customPathForUploadedData +
-                                    answer.UploadedDataObj.FileName + "]]></F" + field.Id + "_value>";
+                                    bigFilename + "&token=" +token + "]]></F" + field.Id + "_value>";
                             }
                         }
                         else
                         {
                             if (answer.UploadedDataObj.FileName != null)
                             {
+                                string bigFilename = $"{answer.UploadedDataObj.Id}_700_{answer.UploadedDataObj.Checksum}{answer.UploadedDataObj.Extension}";
                                 jasperFieldXml +=
                                     Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" +
-                                    answer.Id + "\" " + gps + "><![CDATA[" + answer.UploadedDataObj.FileName +
+                                    answer.Id + "\" " + gps + "><![CDATA[" + bigFilename +
                                     "]]></F" + field.Id + "_value>";
                             }
                         }
