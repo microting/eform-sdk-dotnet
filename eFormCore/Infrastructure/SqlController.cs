@@ -2571,7 +2571,7 @@ namespace Microting.eForm.Infrastructure
                 uD.Checksum = checkSum;
                 uD.FileLocation = fileLocation;
                 uD.FileName = fileName;
-                uD.Local = 1;
+                uD.Local = 0;
                 uD.WorkflowState = Constants.Constants.WorkflowStates.Created;
                 await uD.Update(db).ConfigureAwait(false);
             }

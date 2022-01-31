@@ -281,7 +281,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Assert.NotNull(uploadedDataResult);
             Assert.NotNull(ud);
             Assert.AreEqual(Constants.WorkflowStates.Created, uploadedDataResult[0].WorkflowState);
-            Assert.AreEqual(1, uploadedDataResult[0].Local);
+            Assert.AreEqual(0, uploadedDataResult[0].Local);
             Assert.AreEqual(2, uploadedDataResult[0].Version);
             Assert.AreEqual("myChecksum", uploadedDataResult[0].Checksum);
             Assert.AreEqual("myFileLocation", uploadedDataResult[0].FileLocation);

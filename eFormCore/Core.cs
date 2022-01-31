@@ -5462,10 +5462,6 @@ namespace eFormCore
 
                         Log.LogStandard(methodName, $"Download of '{urlStr}' completed");
 
-                        await _sqlController
-                            .FileProcessed(urlStr, fileCheckSum, _fileLocationPicture, fileName, uploadedData.Id)
-                            .ConfigureAwait(false);
-
                         if (fileName.Contains("png") || fileName.Contains("jpg") || fileName.Contains("jpeg"))
                         {
                             string smallFilename = uploadedData.Id + "_300_" + urlStr.Remove(0, index);
@@ -5505,6 +5501,10 @@ namespace eFormCore
                         }
                         await baseMemoryStream.DisposeAsync();
                         baseMemoryStream.Close();
+
+                        await _sqlController
+                            .FileProcessed(urlStr, fileCheckSum, _fileLocationPicture, fileName, uploadedData.Id)
+                            .ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {
