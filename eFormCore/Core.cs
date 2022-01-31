@@ -5425,139 +5425,92 @@ namespace eFormCore
                     string urlStr = uploadedData.FileLocation;
                     Log.LogEverything(methodName, "Received file:" + uploadedData);
 
-                    // finding file name and creating folder if needed
-
-                    FileInfo file = new FileInfo(_fileLocationPicture);
-                    file.Directory?.Create(); // If the directory already exists, this method does nothing.
-
                     int index = urlStr.LastIndexOf("/") + 1;
                     string fileName = uploadedData.Id + "_" + urlStr.Remove(0, index);
 
-                    //
-
                     // download file
-
-                    using (var client = new HttpClient())
-                    {
-                        try
-                        {
-                            Log.LogStandard(methodName, $"Downloading file to {_fileLocationPicture}/{fileName}");
-                            var streamFile = await client.GetStreamAsync(urlStr);
-
-                            await using var stream = new FileStream(_fileLocationPicture + fileName, FileMode.Create);
-                            await streamFile.CopyToAsync(stream);
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.LogWarning(methodName, "We got an error " + ex.Message);
-                            throw new Exception("Downloading and creating fil locally failed.", ex);
-                        }
-
-                    }
-
-                    //
-
-                    // finding checkSum
-
-                    string checkSum = "";
-                    using (var md5 = MD5.Create())
-                    {
-                        await using (var stream = File.OpenRead(Path.Combine(_fileLocationPicture, fileName)))
-                        {
-                            byte[] grr = await md5.ComputeHashAsync(stream).ConfigureAwait(false);
-                            checkSum = BitConverter.ToString(grr).Replace("-", "").ToLower();
-                        }
-                    }
-
-                    //
-
-                    // checks checkSum
-
-                    if (checkSum != fileName.AsSpan().Slice(fileName.LastIndexOf(".") - 32, 32).ToString())
-                        //.Substring(fileName.LastIndexOf(".") - 32, 32))
-                        Log.LogWarning(methodName, $"Download of '{urlStr}' failed. Check sum did not match");
-
-                    //
-
+                    using var client = new HttpClient();
                     try
                     {
-                        CaseDto dto = await _sqlController.FileCaseFindMUId(urlStr).ConfigureAwait(false);
-                        FileDto fDto = new FileDto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId.ToString(),
-                            dto.CheckUId.ToString(), Path.Combine(_fileLocationPicture,fileName));
-                        HandleFileDownloaded?.Invoke(fDto, EventArgs.Empty);
-                    }
-                    catch
-                    {
-                        Log.LogWarning(methodName, "HandleFileDownloaded event's external logic suffered an Expection");
-                    }
+                        Log.LogStandard(methodName, $"Downloading file {fileName}");
+                        var stream = await client.GetStreamAsync(urlStr);
 
-                    Log.LogStandard(methodName, "Downloaded file '" + urlStr + "'.");
+                        MemoryStream baseMemoryStream = new MemoryStream();
+                        await stream.CopyToAsync(baseMemoryStream);
+                        await stream.DisposeAsync();
+                        stream.Close();
 
-                    await _sqlController
-                        .FileProcessed(urlStr, checkSum, _fileLocationPicture, fileName, uploadedData.Id)
-                        .ConfigureAwait(false);
+                        string fileCheckSum = fileName.AsSpan().Slice(fileName.LastIndexOf(".") - 32, 32).ToString();
 
-                    if (_swiftEnabled || _s3Enabled)
-                    {
-                        Log.LogStandard(methodName, $"Trying to upload file {fileName}");
-                        string filePath = Path.Combine(_fileLocationPicture, fileName);
-                        if (File.Exists(filePath))
+                        try
                         {
-                            Log.LogStandard(methodName, $"File exists at path {filePath}");
-                            await PutFileToStorageSystem(filePath, fileName).ConfigureAwait(false);
+                            CaseDto dto = await _sqlController.FileCaseFindMUId(urlStr).ConfigureAwait(false);
+                            FileDto fDto = new FileDto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId.ToString(),
+                                dto.CheckUId.ToString(), Path.Combine(_fileLocationPicture,fileName));
+                            HandleFileDownloaded?.Invoke(fDto, EventArgs.Empty);
+                        }
+                        catch
+                        {
+                            Log.LogWarning(methodName, "HandleFileDownloaded event's external logic suffered an Expection");
+                        }
 
-                            // Generate thumbnail and docx/pdf friendly file sizes
-                            if (fileName.Contains("png") || fileName.Contains("jpg") || fileName.Contains("jpeg"))
+                        MemoryStream s3Stream = new MemoryStream();
+                        await baseMemoryStream.CopyToAsync(s3Stream);
+                        baseMemoryStream.Seek(0, SeekOrigin.Begin);
+                        await PutFileToS3Storage(s3Stream, fileName);
+                        await s3Stream.DisposeAsync();
+
+                        Log.LogStandard(methodName, $"Download of '{urlStr}' completed");
+
+                        await _sqlController
+                            .FileProcessed(urlStr, fileCheckSum, _fileLocationPicture, fileName, uploadedData.Id)
+                            .ConfigureAwait(false);
+
+                        if (fileName.Contains("png") || fileName.Contains("jpg") || fileName.Contains("jpeg"))
+                        {
+                            string smallFilename = uploadedData.Id + "_300_" + urlStr.Remove(0, index);
+                            string bigFilename = uploadedData.Id + "_700_" + urlStr.Remove(0, index);
+                            using (var image = new MagickImage(baseMemoryStream))
                             {
-                                string smallFilename = uploadedData.Id + "_300_" + urlStr.Remove(0, index);
-                                string bigFilename = uploadedData.Id + "_700_" + urlStr.Remove(0, index);
-                                File.Copy(filePath, Path.Combine(_fileLocationPicture, smallFilename));
-                                File.Copy(filePath, Path.Combine(_fileLocationPicture, bigFilename));
-                                string filePathResized = Path.Combine(_fileLocationPicture, smallFilename);
-                                using (var image = new MagickImage(filePathResized))
-                                {
-                                    decimal currentRation = image.Height / (decimal) image.Width;
-                                    int newWidth = 300;
-                                    int newHeight = (int) Math.Round((currentRation * newWidth));
+                                decimal currentRation = image.Height / (decimal) image.Width;
+                                int newWidth = 300;
+                                int newHeight = (int) Math.Round((currentRation * newWidth));
 
-                                    image.Resize(newWidth, newHeight);
-                                    image.Crop(newWidth, newHeight);
-                                    await image.WriteAsync(filePathResized);
-                                    image.Dispose();
-                                    await PutFileToStorageSystem(Path.Combine(_fileLocationPicture, smallFilename),
-                                        smallFilename).ConfigureAwait(false);
-                                }
-
-                                // Cleanup locally, so we don't fill up disc space
-                                File.Delete(filePathResized);
-                                filePathResized = Path.Combine(_fileLocationPicture, bigFilename);
-                                using (var image = new MagickImage(filePathResized))
-                                {
-                                    decimal currentRation = image.Height / (decimal) image.Width;
-                                    int newWidth = 700;
-                                    int newHeight = (int) Math.Round((currentRation * newWidth));
-
-                                    image.Resize(newWidth, newHeight);
-                                    image.Crop(newWidth, newHeight);
-                                    await image.WriteAsync(filePathResized);
-                                    image.Dispose();
-                                    await PutFileToStorageSystem(Path.Combine(_fileLocationPicture, bigFilename),
-                                        bigFilename).ConfigureAwait(false);
-                                }
-
-                                // Cleanup locally, so we don't fill up disc space
-                                File.Delete(filePathResized);
+                                image.Resize(newWidth, newHeight);
+                                image.Crop(newWidth, newHeight);
+                                MemoryStream memoryStream = new MemoryStream();
+                                await image.WriteAsync(memoryStream);
+                                await PutFileToS3Storage(memoryStream, smallFilename);
+                                await memoryStream.DisposeAsync();
+                                memoryStream.Close();
+                                image.Dispose();
+                                baseMemoryStream.Seek(0, SeekOrigin.Begin);
                             }
 
-                            // Cleanup locally, so we don't fill up disc space
-                            File.Delete(filePath);
-                        }
-                        else
-                        {
-                            Log.LogWarning(methodName, $"File could not be found at filepath {filePath}");
-                        }
-                    }
+                            using (var image = new MagickImage(baseMemoryStream))
+                            {
+                                decimal currentRation = image.Height / (decimal) image.Width;
+                                int newWidth = 700;
+                                int newHeight = (int) Math.Round((currentRation * newWidth));
 
+                                image.Resize(newWidth, newHeight);
+                                image.Crop(newWidth, newHeight);
+                                MemoryStream memoryStream = new MemoryStream();
+                                await image.WriteAsync(memoryStream);
+                                await PutFileToS3Storage(memoryStream, bigFilename);
+                                await memoryStream.DisposeAsync();
+                                memoryStream.Close();
+                                image.Dispose();
+                            }
+                        }
+                        await baseMemoryStream.DisposeAsync();
+                        baseMemoryStream.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.LogWarning(methodName, "We got an error " + ex.Message);
+                        throw new Exception("Downloading and creating fil locally failed.", ex);
+                    }
                     return true;
                 }
             }
@@ -5690,6 +5643,28 @@ namespace eFormCore
             {
                 Log.LogCritical(methodName, $"File not found at {filePath}");
                 Log.LogCritical(methodName, ex.Message);
+            }
+        }
+
+        private async Task PutFileToS3Storage(Stream stream, string fileName)
+        {
+            string methodName = "Core.PutFileToS3Storage";
+            string bucketName = await _sqlController.SettingRead(Settings.s3BucketName);
+            Log.LogStandard(methodName, $"Trying to upload file {fileName} to {bucketName}");
+
+            PutObjectRequest putObjectRequest = new PutObjectRequest
+            {
+                BucketName = $"{await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false)}/{_customerNo}",
+                Key = fileName,
+                InputStream = stream
+            };
+            try
+            {
+                var response = await _s3Client.PutObjectAsync(putObjectRequest).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Log.LogWarning(methodName, $"Something went wrong, message was {ex.Message}");
             }
         }
 
