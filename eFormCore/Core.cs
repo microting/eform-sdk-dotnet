@@ -5442,23 +5442,12 @@ namespace eFormCore
 
                         string fileCheckSum = fileName.AsSpan().Slice(fileName.LastIndexOf(".") - 32, 32).ToString();
 
-                        try
-                        {
-                            CaseDto dto = await _sqlController.FileCaseFindMUId(urlStr).ConfigureAwait(false);
-                            FileDto fDto = new FileDto(dto.SiteUId, dto.CaseType, dto.CaseUId, dto.MicrotingUId.ToString(),
-                                dto.CheckUId.ToString(), Path.Combine(_fileLocationPicture,fileName));
-                            HandleFileDownloaded?.Invoke(fDto, EventArgs.Empty);
-                        }
-                        catch
-                        {
-                            Log.LogWarning(methodName, "HandleFileDownloaded event's external logic suffered an Expection");
-                        }
-
+                        baseMemoryStream.Seek(0, SeekOrigin.Begin);
                         MemoryStream s3Stream = new MemoryStream();
                         await baseMemoryStream.CopyToAsync(s3Stream);
-                        baseMemoryStream.Seek(0, SeekOrigin.Begin);
+                        s3Stream.Seek(0, SeekOrigin.Begin);
                         await PutFileToS3Storage(s3Stream, fileName);
-                        await s3Stream.DisposeAsync();
+                        baseMemoryStream.Seek(0, SeekOrigin.Begin);
 
                         Log.LogStandard(methodName, $"Download of '{urlStr}' completed");
 
