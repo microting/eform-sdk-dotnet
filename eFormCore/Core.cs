@@ -1339,6 +1339,38 @@ namespace eFormCore
             }
         }
 
+        public async Task<ReplyElement> CaseRead(int id, Language language)
+        {
+            string methodName = "Core.CaseRead";
+            try
+            {
+                if (!Running()) throw new Exception("Core is not running");
+                Log.LogStandard(methodName, "called");
+                // Log.LogVariable(methodName, nameof(microtingUId), microtingUId);
+                // Log.LogVariable(methodName, nameof(checkUId), checkUId);
+
+                // Microting.eForm.Infrastructure.Data.Entities.Case aCase = await _sqlController.CaseReadFull(id).ConfigureAwait(false);
+                // handling if no match case found
+                // if (aCase == null)
+                // {
+                //     Log.LogWarning(methodName, $"No case found with MuuId:'{microtingUId}'");
+                //     return null;
+                // }
+                //
+
+                // int id = aCase.Id;
+                // Log.LogEverything(methodName, $"aCase.Id:{aCase.Id}, found");
+
+                ReplyElement replyElement = await _sqlController.CheckRead(id, language);
+                return replyElement;
+            }
+            catch (Exception ex)
+            {
+                Log.LogException(methodName, "failed", ex);
+                return null;
+            }
+        }
+
         public async Task<CaseDto> CaseReadByCaseId(int id)
         {
             string methodName = "Core.CaseReadByCaseId";

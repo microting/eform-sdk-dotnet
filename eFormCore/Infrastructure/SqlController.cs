@@ -1404,6 +1404,72 @@ namespace Microting.eForm.Infrastructure
             }
         }
 
+        /// <summary>
+        /// Reads check from DB with given microtingUId and checkUId
+        /// </summary>
+        /// <param name="microtingUId"></param>
+        /// <param name="checkUId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public async Task<ReplyElement> CheckRead(int id, Language language)
+        {
+            string methodName = "SqlController.CheckRead";
+            try
+            {
+                await using var db = GetContext();
+                var aCase = await db.Cases.AsNoTracking().SingleAsync(x => x.Id == id);
+                var mainCheckList = await db.CheckLists.SingleAsync(x => x.Id == aCase.CheckListId);
+
+                CheckListTranslation checkListTranslation =
+                    await db.CheckListTranslations.SingleOrDefaultAsync(x =>
+                        x.CheckListId == mainCheckList.Id && x.LanguageId == language.Id);
+                if (checkListTranslation == null)
+                {
+                    language = await db.Languages.SingleAsync(x => x.LanguageCode == "da");
+                    checkListTranslation =
+                        await db.CheckListTranslations.SingleOrDefaultAsync(x =>
+                            x.CheckListId == mainCheckList.Id && x.LanguageId == language.Id);
+                }
+
+                ReplyElement replyElement = new ReplyElement();
+                if (aCase.CheckListId != null) replyElement.Id = (int) aCase.CheckListId;
+                replyElement.CaseType = aCase.Type;
+                replyElement.Custom = aCase.Custom;
+                if (aCase.DoneAtUserModifiable != null) replyElement.DoneAt = (DateTime) aCase.DoneAtUserModifiable;
+                if (aCase.WorkerId != null) replyElement.DoneById = (int) aCase.WorkerId;
+                replyElement.ElementList = new List<Element>();
+                //replyElement.EndDate
+                replyElement.FastNavigation = _t.Bool(mainCheckList.FastNavigation);
+                replyElement.Label = checkListTranslation.Text;
+                //replyElement.Language
+                replyElement.ManualSync = _t.Bool(mainCheckList.ManualSync);
+                replyElement.MultiApproval = _t.Bool(mainCheckList.MultiApproval);
+                if (mainCheckList.Repeated != null) replyElement.Repeated = (int) mainCheckList.Repeated;
+                //replyElement.StartDate
+                if (aCase.UnitId != null) replyElement.UnitId = (int) aCase.UnitId;
+                replyElement.MicrotingUId = aCase.MicrotingCheckUid;
+                Site site = await db.Sites.SingleOrDefaultAsync(x => x.Id == aCase.SiteId);
+                if (site != null)
+                {
+                    if (site.MicrotingUid != null) replyElement.SiteMicrotingUuid = (int) site.MicrotingUid;
+                }
+                replyElement.JasperExportEnabled = mainCheckList.JasperExportEnabled;
+                replyElement.DocxExportEnabled = mainCheckList.DocxExportEnabled;
+
+                CheckList checkList = await db.CheckLists.SingleAsync(x => x.Id == aCase.CheckListId);
+                foreach (CheckList subCheckList in await db.CheckLists.Where(x =>
+                    x.ParentId == checkList.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
+                {
+                    replyElement.ElementList.Add(await SubChecks(subCheckList.Id, aCase, language));
+                }
+                return replyElement;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
         //TODO
         private async Task<Element> SubChecks(int parentId, Case theCase, Language language)
         {
@@ -2876,6 +2942,34 @@ namespace Microting.eForm.Infrastructure
 
                 if (match.WorkerId != null)
                     match.WorkerId = db.Workers.SingleOrDefaultAsync(x => x.Id == match.WorkerId).GetAwaiter().GetResult().MicrotingUid;
+                return match;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="microtingUId"></param>
+        /// <param name="checkUId"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public async Task<Case> CaseReadFull(int id)
+        {
+            string methodName = "SqlController.CaseReadFull";
+            try
+            {
+                await using var db = GetContext();
+                Case match = await db.Cases.AsNoTracking().SingleOrDefaultAsync(x => x.Id == id);
+                // match.SiteId = db.Sites.SingleOrDefaultAsync(x => x.Id == match.SiteId).GetAwaiter().GetResult().MicrotingUid;
+                //
+                // if (match.UnitId != null)
+                //     match.UnitId = db.Units.SingleOrDefaultAsync(x => x.Id == match.UnitId).GetAwaiter().GetResult().MicrotingUid;
+                //
+                // if (match.WorkerId != null)
+                //     match.WorkerId = db.Workers.SingleOrDefaultAsync(x => x.Id == match.WorkerId).GetAwaiter().GetResult().MicrotingUid;
                 return match;
             }
             catch (Exception ex)

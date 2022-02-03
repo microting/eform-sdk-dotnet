@@ -67,7 +67,7 @@ namespace Microting.eForm.Infrastructure.Models
         public int DisplayOrder { get; set; }
         public string CheckListFolderName { get; set; }
         public int Repeated { get; set; }
-        public int MicrotingUId { get; set; }
+        public int? MicrotingUId { get; set; }
         public string Color { get; set; }
 //        public string OriginalId { get; set; }
 
