@@ -40,6 +40,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         [StringLength(255)]
         public string Email { get; set; }
 
+        public bool IsLocked { get; set; }
+
         public virtual ICollection<SiteWorker> SiteWorkers { get; set; }
 
         public string full_name()

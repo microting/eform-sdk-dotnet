@@ -540,7 +540,13 @@ namespace eFormSDK.Integration.Base.CoreTests
             // TODO: Improve the test for supporting random id.
 
             Site site = await testHelpers.CreateSite(siteName, siteMicrotingUid);
-            SiteNameDto siteName_Dto = new SiteNameDto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
+            SiteNameDto siteName_Dto = new SiteNameDto
+            {
+                SiteUId = (int)site.MicrotingUid,
+                SiteName = site.Name,
+                CreatedAt = site.CreatedAt,
+                UpdatedAt = site.UpdatedAt
+            };
             #endregion
 
             #region worker
@@ -587,7 +593,13 @@ namespace eFormSDK.Integration.Base.CoreTests
             // TODO: Improve the test for supporting random id.
 
             Site site = await testHelpers.CreateSite(siteName, siteMicrotingUid);
-            SiteNameDto siteName_Dto = new SiteNameDto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
+            SiteNameDto siteName_Dto = new SiteNameDto
+            {
+                SiteUId = (int)site.MicrotingUid,
+                SiteName = site.Name,
+                CreatedAt = site.CreatedAt,
+                UpdatedAt = site.UpdatedAt
+            };
 
             await using MicrotingDbContext db = _dbContextHelper.GetDbContext();
             EntityGroup entityGroup = new EntityGroup

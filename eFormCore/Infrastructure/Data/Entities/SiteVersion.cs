@@ -40,5 +40,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int SearchableEntityItemId { get; set; }
 
         public int SelectableEntityItemId { get; set; }
+
+        public bool IsLocked { get; set; }
     }
 }

@@ -53,6 +53,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public int SelectableEntityItemId { get; set; }
 
+        public bool IsLocked { get; set; }
+
         public virtual ICollection<Case> Cases { get; set; }
 
         public virtual ICollection<Unit> Units { get; set; }

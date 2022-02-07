@@ -40,5 +40,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public string Email { get; set; }
 
         public int? WorkerId { get; set; }
+
+        public bool IsLocked { get; set; }
     }
 }

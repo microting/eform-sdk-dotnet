@@ -28,61 +28,38 @@ namespace Microting.eForm.Dto
 {
     public class WorkerDto
     {
-        #region con
-        public WorkerDto()
-        {
-        }
-
-        public WorkerDto(int workerUId, string firstName, string lastName, string email, DateTime? createdAt, DateTime? updatedAt)
-        {
-            if (firstName == null)
-                firstName = "";
-
-            if (lastName == null)
-                lastName = "";
-
-            if (email == null)
-                email = "";
-
-            WorkerUId = workerUId;
-            FirstName = firstName;
-            LastName = lastName;
-            Email = email;
-            CreatedAt = createdAt;
-            UpdatedAt = updatedAt;
-        }
-        #endregion
-
         #region var
         /// <summary>
         ///...
         /// </summary>
-        public int WorkerUId { get; }
+        public int WorkerUId { get; set; }
 
         /// <summary>
         ///...
         /// </summary>
-        public string FirstName { get; }
+        public string FirstName { get; set; }
 
         /// <summary>
         ///...
         /// </summary>
-        public string LastName { get; }
+        public string LastName { get; set; }
 
         /// <summary>
         ///...
         /// </summary>
-        public string Email { get; }
+        public string Email { get; set; }
 
         /// <summary>
         ///...
         /// </summary>
-        public DateTime? CreatedAt { get; }
+        public DateTime? CreatedAt { get; set; }
 
         /// <summary>
         ///...
         /// </summary>
-        public DateTime? UpdatedAt { get; }
+        public DateTime? UpdatedAt { get; set; }
+
+        public bool IsLocked { get; set; }
 
         #endregion
 

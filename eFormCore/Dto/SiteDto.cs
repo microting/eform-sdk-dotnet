@@ -26,13 +26,6 @@ namespace Microting.eForm.Dto
 {
     public class SiteDto
     {
-        #region con
-        public SiteDto()
-        {
-        }
-
-        #endregion
-
         #region var
         /// <summary>
         ///...

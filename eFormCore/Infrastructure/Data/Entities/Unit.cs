@@ -38,37 +38,39 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int? SiteId { get; set; }
 
         public virtual Site Site { get; set; }
-        
+
         public string Os { get; set; }
-        
+
         public string OsVersion { get; set; }
-        
+
         public string eFormVersion { get; set; }
-        
+
         public string InSightVersion { get; set; }
-        
+
         public string Manufacturer { get; set; }
-        
+
         public string Model { get; set; }
-        
+
         public string Note { get; set; }
-        
+
         public string SerialNumber { get; set; }
-        
+
         public string LastIp { get; set; }
-        
+
         public bool SeparateFetchSend { get; set; }
-        
+
         public bool LeftMenuEnabled { get; set; }
-        
+
         public bool SyncDialog { get; set; }
-        
+
         public bool PushEnabled { get; set; }
-        
+
         public bool SyncDelayEnabled { get; set; }
-        
+
         public int SyncDefaultDelay { get; set; }
-        
+
         public int SyncDelayPrCheckList { get; set; }
+
+        public bool IsLocked { get; set; }
     }
 }

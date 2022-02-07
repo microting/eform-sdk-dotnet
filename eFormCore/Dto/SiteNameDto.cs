@@ -28,43 +28,26 @@ namespace Microting.eForm.Dto
 {
     public class SiteNameDto
     {
-        #region con
-        public SiteNameDto()
-        {
-        }
-
-        public SiteNameDto(int siteUId, string siteName, DateTime? createdAt, DateTime? updatedAt)
-        {
-            if (siteName == null)
-                siteName = "";
-
-            SiteUId = siteUId;
-            SiteName = siteName;
-            CreatedAt = createdAt;
-            UpdatedAt = updatedAt;
-        }
-        #endregion
-
         #region var
         /// <summary>
         ///...
         /// </summary>
-        public int SiteUId { get; }
+        public int SiteUId { get; set; }
 
         /// <summary>
         ///...
         /// </summary>
-        public string SiteName { get; }
+        public string SiteName { get; set; }
 
         /// <summary>
         ///...
         /// </summary>
-        public DateTime? CreatedAt { get; }
+        public DateTime? CreatedAt { get; set; }
 
         /// <summary>
         ///...
         /// </summary>
-        public DateTime? UpdatedAt { get; }
+        public DateTime? UpdatedAt { get; set; }
 
         #endregion
 

@@ -187,7 +187,13 @@ namespace Microting.eForm.Infrastructure
                 foreach (CheckListSite checkListSite in checkListSites)
                 {
                     Site site = await db.Sites.SingleAsync(x => x.Id == checkListSite.SiteId);
-                    SiteNameDto siteNameDto = new SiteNameDto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
+                    SiteNameDto siteNameDto = new SiteNameDto()
+                    {
+                        SiteUId = (int)site.MicrotingUid,
+                        SiteName = site.Name,
+                        CreatedAt = site.CreatedAt,
+                        UpdatedAt = site.UpdatedAt
+                    };
                     sites.Add(siteNameDto);
                 }
                 bool hasCases = db.Cases.Where(x => x.CheckListId == checkList.Id).AsQueryable().Count() != 0;
@@ -474,7 +480,13 @@ namespace Microting.eForm.Infrastructure
                         try
                         {
                             Site dbSite = await db.Sites.SingleAsync(x => x.Id == checkListSite.SiteId);
-                            SiteNameDto site = new SiteNameDto((int)dbSite.MicrotingUid, dbSite.Name, dbSite.CreatedAt, dbSite.UpdatedAt);
+                            SiteNameDto site = new SiteNameDto()
+                            {
+                                SiteUId = (int)dbSite.MicrotingUid,
+                                SiteName = dbSite.Name,
+                                CreatedAt = dbSite.CreatedAt,
+                                UpdatedAt = dbSite.UpdatedAt,
+                            };
                             sites.Add(site);
                             folderId = checkListSite.FolderId;
                         } catch (Exception innerEx)
@@ -3549,7 +3561,13 @@ namespace Microting.eForm.Infrastructure
 
             foreach (Site aSite in matches)
             {
-                SiteNameDto siteNameDto = new SiteNameDto((int)aSite.MicrotingUid, aSite.Name, aSite.CreatedAt, aSite.UpdatedAt);
+                SiteNameDto siteNameDto = new SiteNameDto
+                {
+                    SiteUId = (int)aSite.MicrotingUid,
+                    SiteName = aSite.Name,
+                    CreatedAt = aSite.CreatedAt,
+                    UpdatedAt = aSite.UpdatedAt
+                };
                 siteList.Add(siteNameDto);
             }
 
@@ -3670,8 +3688,15 @@ namespace Microting.eForm.Infrastructure
                 await using var db = GetContext();
                 Site site = await db.Sites.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid && x.WorkflowState == Constants.Constants.WorkflowStates.Created);
 
-                if (site != null)
-                    return new SiteNameDto((int)site.MicrotingUid, site.Name, site.CreatedAt, site.UpdatedAt);
+                if (site != null) {
+                    return new SiteNameDto
+                    {
+                        SiteUId = (int)site.MicrotingUid,
+                        SiteName = site.Name,
+                        CreatedAt = site.CreatedAt,
+                        UpdatedAt = site.UpdatedAt
+                    };
+                }
                 return null;
             }
             catch (Exception ex)
@@ -3823,7 +3848,16 @@ namespace Microting.eForm.Infrastructure
                 }
                 foreach (Worker worker in matches)
                 {
-                    WorkerDto workerDto = new WorkerDto(worker.MicrotingUid, worker.FirstName, worker.LastName, worker.Email, worker.CreatedAt, worker.UpdatedAt);
+                    WorkerDto workerDto = new WorkerDto()
+                    {
+                        WorkerUId = worker.MicrotingUid,
+                        FirstName = worker.FirstName,
+                        LastName = worker.LastName,
+                        Email = worker.Email,
+                        CreatedAt = worker.CreatedAt,
+                        UpdatedAt = worker.UpdatedAt,
+                        IsLocked = worker.IsLocked
+                    };
                     listWorkerDto.Add(workerDto);
                 }
                 return listWorkerDto;
@@ -3906,7 +3940,14 @@ namespace Microting.eForm.Infrastructure
                 Worker worker = await db.Workers.SingleOrDefaultAsync(x => x.MicrotingUid == microting_uid);
 
                 if (worker != null)
-                    return new WorkerDto(worker.MicrotingUid, worker.FirstName, worker.LastName, worker.Email, worker.CreatedAt, worker.UpdatedAt);
+                {
+                    return new WorkerDto
+                    {
+                        WorkerUId = worker.MicrotingUid, FirstName = worker.FirstName, LastName = worker.LastName,
+                        Email = worker.Email, CreatedAt = worker.CreatedAt, UpdatedAt = worker.UpdatedAt,
+                        IsLocked = worker.IsLocked
+                    };
+                }
                 return null;
             }
             catch (Exception ex)

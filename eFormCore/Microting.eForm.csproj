@@ -256,6 +256,8 @@
         <Compile Include="Migrations\20211108111024_AddingIsArchivedToCases.Designer.cs" />
         <Compile Include="Migrations\20211116085744_AddingDoneAtEditable.cs" />
         <Compile Include="Migrations\20211116085744_AddingDoneAtEditable.Designer.cs" />
+        <Compile Include="Migrations\20220207094729_AddingIsLockedToSiteUnitWorkers.cs" />
+        <Compile Include="Migrations\20220207094729_AddingIsLockedToSiteUnitWorkers.Designer.cs" />
         <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
         <Compile Include="Infrastructure\SqlController.cs" />
         <Compile Include="Services\Subscriber.cs" />

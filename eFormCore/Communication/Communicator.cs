@@ -331,7 +331,15 @@ namespace Microting.eForm.Communication
             int workerUid = int.Parse(parsedData["MicrotingUid"].ToString());
             DateTime? createdAt = DateTime.Parse(parsedData["CreatedAt"].ToString());
             DateTime? updatedAt = DateTime.Parse(parsedData["UpdatedAt"].ToString());
-            return new WorkerDto(workerUid, firstName, lastName, email, createdAt, updatedAt);
+            return new WorkerDto
+            {
+                WorkerUId = workerUid,
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email,
+                CreatedAt = createdAt,
+                UpdatedAt = updatedAt
+            };
         }
 
         public Task<bool> WorkerUpdate(int workerId, string firstName, string lastName, string email)
