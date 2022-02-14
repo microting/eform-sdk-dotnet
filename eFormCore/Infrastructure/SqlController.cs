@@ -6626,13 +6626,21 @@ namespace Microting.eForm.Infrastructure
                         break;
 
                     case Constants.Constants.FieldTypes.EntitySearch:
-                        field.DefaultValue = field.DefaultValue ?? "0";
+                        field.DefaultValue ??= "0";
+                        field.IsNum ??= 0;
+                        field.MinValue ??= "0";
+                        field.BarcodeEnabled ??= 0;
+                        field.Dummy ??= 0;
                         lstDataItem.Add(new EntitySearch(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
                             _t.Int(field.DefaultValue), _t.Int(field.EntityGroupId), _t.Bool(field.IsNum), field.QueryType, _t.Int(field.MinValue), _t.Bool(field.BarcodeEnabled), field.BarcodeType));
                         break;
 
                     case Constants.Constants.FieldTypes.EntitySelect:
-                        field.DefaultValue = field.DefaultValue ?? "0";
+                        field.DefaultValue ??= "0";
+                        field.IsNum ??= 0;
+                        field.MinValue ??= "0";
+                        field.BarcodeEnabled ??= 0;
+                        field.Dummy ??= 0;
                         lstDataItem.Add(new EntitySelect(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color, _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
                             _t.Int(field.DefaultValue), _t.Int(field.EntityGroupId)));
                         break;
