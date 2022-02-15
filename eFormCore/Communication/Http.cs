@@ -75,8 +75,8 @@ namespace Microting.eForm.Communication
             try
             {
                 var start = DateTime.UtcNow;
-                WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}",
-                    $"called at {start}");
+                WriteDebugConsoleLogEntry("HttpPost",
+                    $"called at {start} for url {url}");
 
                 using var httpClient = new HttpClient(new HttpClientHandler { AllowAutoRedirect = followRedirect});
                 if (contentType != null)
@@ -99,12 +99,12 @@ namespace Microting.eForm.Communication
                 }
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
+                WriteDebugConsoleLogEntry("HttpPost", $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
                 return responseBody;
             }
             catch (Exception ex)
             {
-                WriteErrorConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", ex.Message);
+                WriteErrorConsoleLogEntry("HttpPost", ex.Message);
                 throw;
             }
         }
@@ -114,8 +114,8 @@ namespace Microting.eForm.Communication
             try
             {
                 var start = DateTime.UtcNow;
-                WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}",
-                    $"called at {start}");
+                WriteDebugConsoleLogEntry("HttpPut",
+                    $"called at {start} for url {url}");
 
                 using var httpClient = new HttpClient(new HttpClientHandler { AllowAutoRedirect = followRedirect});
                 if (contentType != null)
@@ -138,12 +138,12 @@ namespace Microting.eForm.Communication
                 }
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
+                WriteDebugConsoleLogEntry("HttpPut", $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
                 return responseBody;
             }
             catch (Exception ex)
             {
-                WriteErrorConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", ex.Message);
+                WriteErrorConsoleLogEntry("HttpPut", ex.Message);
                 throw;
             }
         }
@@ -153,8 +153,8 @@ namespace Microting.eForm.Communication
             try
             {
                 var start = DateTime.UtcNow;
-                WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}",
-                    $"called at {start}");
+                WriteDebugConsoleLogEntry("HttpGet",
+                    $"called at {start} for url {url}");
 
                 using var httpClient = new HttpClient();
                 if (contentType != null)
@@ -172,12 +172,12 @@ namespace Microting.eForm.Communication
                 var response = await httpClient.GetAsync(url).ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
+                WriteDebugConsoleLogEntry("HttpGet", $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
                 return responseBody;
             }
             catch (Exception ex)
             {
-                WriteErrorConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", ex.Message);
+                WriteErrorConsoleLogEntry("HttpGet", ex.Message);
                 throw;
             }
         }
@@ -187,8 +187,8 @@ namespace Microting.eForm.Communication
             try
             {
                 var start = DateTime.UtcNow;
-                WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}",
-                    $"called at {start}");
+                WriteDebugConsoleLogEntry("HttpDelete",
+                    $"called at {start} for url {url}");
 
                 using var httpClient = new HttpClient(new HttpClientHandler { AllowAutoRedirect = followRedirect});
                 if (contentType != null)
@@ -210,12 +210,12 @@ namespace Microting.eForm.Communication
                 }
                 response.EnsureSuccessStatusCode();
                 var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
+                WriteDebugConsoleLogEntry("HttpDelete", $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
                 return responseBody;
             }
             catch (Exception ex)
             {
-                WriteErrorConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", ex.Message);
+                WriteErrorConsoleLogEntry("HttpDelete", ex.Message);
                 throw;
             }
         }
