@@ -2109,7 +2109,9 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                List<FieldValue> matches = db.FieldValues.Where(x => caseIds.Contains((int)x.CaseId)).ToList();
+                List<FieldValue> matches = db.FieldValues.Where(x =>
+                    caseIds.Contains((int)x.CaseId)
+                    && x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList();
                 List<Models.FieldValue> rtnLst = new List<Models.FieldValue>();
 
                 foreach (var item in matches)
@@ -2184,7 +2186,10 @@ namespace Microting.eForm.Infrastructure
                 await using var db = GetContext();
                 Field matchField = await db.Fields.SingleAsync(x => x.Id == fieldId);
 
-                List<FieldValue> matches = db.FieldValues.Where(x => x.FieldId == fieldId && caseIds.Contains((int)x.CaseId)).ToList();
+                List<FieldValue> matches = db.FieldValues.Where(x =>
+                    x.FieldId == fieldId
+                    && caseIds.Contains((int)x.CaseId)
+                    && x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList();
 
                 List<List<KeyValuePair>> rtrnLst = new List<List<KeyValuePair>>();
                 List<KeyValuePair> replyLst1 = new List<KeyValuePair>();
