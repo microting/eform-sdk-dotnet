@@ -1534,14 +1534,17 @@ namespace Microting.eForm.Infrastructure
                             foreach (Field subField in await db.Fields.Where(x =>
                                 x.ParentFieldId == field.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
                             {
-                                Models.Field _field = await DbFieldToField(subField, language);
+                                var _field = await DbFieldToField(subField, language);
                                 FieldTranslation fieldTranslation = await db.FieldTranslations.FirstAsync(x =>
                                     x.FieldId == _field.Id && x.LanguageId == language.Id);
 
                                 _field.FieldValues = new List<Models.FieldValue>();
                                 _field.Label = fieldTranslation.Text;
                                 _field.Description = new CDataValue {InderValue = fieldTranslation.Description};
-                                if (!db.FieldValues.Any(x => x.FieldId == field.Id && x.CaseId == theCase.Id))
+                                if (!db.FieldValues.Any(x =>
+                                        x.FieldId == field.Id
+                                        && x.CaseId == theCase.Id
+                                        && x.WorkflowState != Constants.Constants.WorkflowStates.Removed))
                                 {
                                     FieldValue fieldValue = new FieldValue()
                                     {
@@ -1552,7 +1555,9 @@ namespace Microting.eForm.Infrastructure
                                     await fieldValue.Create(db);
                                 }
                                 foreach (FieldValue fieldValue in await db.FieldValues.Where(x =>
-                                    x.FieldId == subField.Id && x.CaseId == theCase.Id).ToListAsync())
+                                    x.FieldId == subField.Id
+                                    && x.CaseId == theCase.Id
+                                    && x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToListAsync())
                                 {
                                     Models.FieldValue answer = await ReadFieldValue(fieldValue, subField, false, language);
                                     _field.FieldValues.Add(answer);
@@ -1590,9 +1595,12 @@ namespace Microting.eForm.Infrastructure
 
                             _field.Label = fieldTranslation.Text;
                             _field.Description = new CDataValue {InderValue = fieldTranslation.Description};
-                            if (!db.FieldValues.Any(x => x.FieldId == field.Id && x.CaseId == theCase.Id))
+                            if (!db.FieldValues.Any(x =>
+                                    x.FieldId == field.Id
+                                    && x.CaseId == theCase.Id
+                                    && x.WorkflowState != Constants.Constants.WorkflowStates.Removed))
                             {
-                                FieldValue fieldValue = new FieldValue()
+                                var fieldValue = new FieldValue()
                                 {
                                     FieldId = field.Id,
                                     CaseId = theCase.Id,
@@ -1600,10 +1608,12 @@ namespace Microting.eForm.Infrastructure
                                 };
                                 await fieldValue.Create(db);
                             }
-                            foreach (FieldValue fieldValue in await db.FieldValues.Where(x =>
-                                x.FieldId == field.Id && x.CaseId == theCase.Id).ToListAsync())
+                            foreach (var fieldValue in await db.FieldValues.Where(x =>
+                                x.FieldId == field.Id
+                                && x.CaseId == theCase.Id
+                                && x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToListAsync())
                             {
-                                Models.FieldValue value = await ReadFieldValue(fieldValue, field, false, language);
+                                var value = await ReadFieldValue(fieldValue, field, false, language);
                                 _field.FieldValues.Add(value);
                             }
                             dataItemList.Add(_field);
@@ -1611,15 +1621,18 @@ namespace Microting.eForm.Infrastructure
                     }
 
                     List<ExtraFieldValue> extraFieldValues =
-                        await db.ExtraFieldValues.Where(x => x.CaseId == theCase.Id
-                                                             && x.CheckListId == checkList.Id).ToListAsync();
+                        await db.ExtraFieldValues.Where(x =>
+                            x.CaseId == theCase.Id
+                            && x.CheckListId == checkList.Id
+                            && x.WorkflowState != Constants.Constants.WorkflowStates.Removed
+                            ).ToListAsync();
 
                     List<Models.FieldValue> extraPictures = new List<Models.FieldValue>();
                     List<Models.FieldValue> extraComments = new List<Models.FieldValue>();
                     List<Models.FieldValue> extraRecordings = new List<Models.FieldValue>();
                     foreach (ExtraFieldValue extraFieldValue in extraFieldValues)
                     {
-                        Models.FieldValue fieldValue = new Models.FieldValue
+                        var fieldValue = new Models.FieldValue
                         {
                             Heading = extraFieldValue.Heading,
                             Latitude = extraFieldValue.Latitude,
