@@ -1,5 +1,42 @@
 # Changelog
 
+## [v5.4.32](https://github.com/microting/eform-sdk-dotnet/tree/v5.4.32) (2022-02-22)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.4.31...v5.4.32)
+
+**Implemented enhancements:**
+
+- Bump AWSSDK.SQS from 3.7.2.20 to 3.7.2.22 [\#631](https://github.com/microting/eform-sdk-dotnet/issues/631)
+- Bump AWSSDK.S3 from 3.7.7.21 to 3.7.7.23 [\#630](https://github.com/microting/eform-sdk-dotnet/issues/630)
+- Bump AWSSDK.Core from 3.7.7 to 3.7.7.2 [\#629](https://github.com/microting/eform-sdk-dotnet/issues/629)
+
+## [v5.4.31](https://github.com/microting/eform-sdk-dotnet/tree/v5.4.31) (2022-02-16)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.4.30...v5.4.31)
+
+## [v5.4.30](https://github.com/microting/eform-sdk-dotnet/tree/v5.4.30) (2022-02-16)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.4.29...v5.4.30)
+
+## [v5.4.29](https://github.com/microting/eform-sdk-dotnet/tree/v5.4.29) (2022-02-15)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.4.28...v5.4.29)
+
+## [v5.4.28](https://github.com/microting/eform-sdk-dotnet/tree/v5.4.28) (2022-02-14)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.4.27...v5.4.28)
+
+**Implemented enhancements:**
+
+- Bump Magick.NET-Q16-x64 from 9.1.1 to 9.1.2 [\#620](https://github.com/microting/eform-sdk-dotnet/issues/620)
+- Bump AWSSDK.SQS from 3.7.2.19 to 3.7.2.20 [\#619](https://github.com/microting/eform-sdk-dotnet/issues/619)
+- Bump AWSSDK.S3 from 3.7.7.20 to 3.7.7.21 [\#618](https://github.com/microting/eform-sdk-dotnet/issues/618)
+- Bump AWSSDK.Core from 3.7.6.5 to 3.7.7 [\#617](https://github.com/microting/eform-sdk-dotnet/issues/617)
+
+## [v5.4.27](https://github.com/microting/eform-sdk-dotnet/tree/v5.4.27) (2022-02-11)
+
+[Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.3.27...v5.4.27)
+
 ## [v5.3.27](https://github.com/microting/eform-sdk-dotnet/tree/v5.3.27) (2022-02-11)
 
 [Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v5.3.26...v5.3.27)
@@ -248,7 +285,6 @@
 - Bump NUnit3TestAdapter from 4.0.0 to 4.1.0 [\#476](https://github.com/microting/eform-sdk-dotnet/pull/476) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump Microsoft.EntityFrameworkCore.Relational from 5.0.11 to 5.0.12 [\#475](https://github.com/microting/eform-sdk-dotnet/pull/475) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump Microsoft.EntityFrameworkCore from 5.0.11 to 5.0.12 [\#474](https://github.com/microting/eform-sdk-dotnet/pull/474) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump AWSSDK.SQS from 3.7.1.34 to 3.7.1.36 [\#473](https://github.com/microting/eform-sdk-dotnet/pull/473) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump AWSSDK.S3 from 3.7.3.24 to 3.7.4 [\#472](https://github.com/microting/eform-sdk-dotnet/pull/472) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump AWSSDK.Core from 3.7.3.31 to 3.7.3.33 [\#471](https://github.com/microting/eform-sdk-dotnet/pull/471) ([dependabot[bot]](https://github.com/apps/dependabot))
 
@@ -400,6 +436,7 @@
 
 **Merged pull requests:**
 
+- Bump AWSSDK.SQS from 3.7.1.34 to 3.7.1.36 [\#473](https://github.com/microting/eform-sdk-dotnet/pull/473) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump SharpZipLib from 1.3.2 to 1.3.3 [\#358](https://github.com/microting/eform-sdk-dotnet/pull/358) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v5.2.40](https://github.com/microting/eform-sdk-dotnet/tree/v5.2.40) (2021-09-16)
@@ -537,6 +574,7 @@
 **Implemented enhancements:**
 
 - Bump AWSSDK.SQS from 3.7.0.48 to 3.7.0.49 [\#267](https://github.com/microting/eform-sdk-dotnet/issues/267)
+- Bump AWSSDK.S3 from 3.7.1.19 to 3.7.1.20 [\#266](https://github.com/microting/eform-sdk-dotnet/issues/266)
 - Bump AWSSDK.Core from 3.7.1.3 to 3.7.1.4 [\#265](https://github.com/microting/eform-sdk-dotnet/issues/265)
 
 ## [v5.2.22](https://github.com/microting/eform-sdk-dotnet/tree/v5.2.22) (2021-08-01)
@@ -553,9 +591,9 @@
 
 **Implemented enhancements:**
 
-- Bump AWSSDK.S3 from 3.7.1.19 to 3.7.1.20 [\#266](https://github.com/microting/eform-sdk-dotnet/issues/266)
 - Bump AWSSDK.SQS from 3.7.0.46 to 3.7.0.48 [\#261](https://github.com/microting/eform-sdk-dotnet/issues/261)
 - Bump AWSSDK.S3 from 3.7.1.17 to 3.7.1.19 [\#258](https://github.com/microting/eform-sdk-dotnet/issues/258)
+- Bump AWSSDK.Core from 3.7.1.1 to 3.7.1.3 [\#257](https://github.com/microting/eform-sdk-dotnet/issues/257)
 
 ## [v5.2.19](https://github.com/microting/eform-sdk-dotnet/tree/v5.2.19) (2021-07-28)
 
@@ -563,7 +601,6 @@
 
 **Implemented enhancements:**
 
-- Bump AWSSDK.Core from 3.7.1.1 to 3.7.1.3 [\#257](https://github.com/microting/eform-sdk-dotnet/issues/257)
 - Bump AWSSDK.SQS from 3.7.0.44 to 3.7.0.46 [\#253](https://github.com/microting/eform-sdk-dotnet/issues/253)
 - Bump AWSSDK.S3 from 3.7.1.15 to 3.7.1.17 [\#252](https://github.com/microting/eform-sdk-dotnet/issues/252)
 - Bump AWSSDK.Core from 3.7.0.45 to 3.7.1.1 [\#251](https://github.com/microting/eform-sdk-dotnet/issues/251)
@@ -706,7 +743,6 @@
 - Bump AWSSDK.Core from 3.7.0.27 to 3.7.0.31 [\#172](https://github.com/microting/eform-sdk-dotnet/pull/172) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump AWSSDK.S3 from 3.7.0.28 to 3.7.0.32 [\#171](https://github.com/microting/eform-sdk-dotnet/pull/171) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump AWSSDK.SQS from 3.7.0.27 to 3.7.0.30 [\#170](https://github.com/microting/eform-sdk-dotnet/pull/170) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump Microsoft.NET.Test.Sdk from 16.9.4 to 16.10.0 [\#163](https://github.com/microting/eform-sdk-dotnet/pull/163) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v5.2.3](https://github.com/microting/eform-sdk-dotnet/tree/v5.2.3) (2021-05-25)
 
@@ -745,6 +781,7 @@
 
 **Merged pull requests:**
 
+- Bump Microsoft.NET.Test.Sdk from 16.9.4 to 16.10.0 [\#163](https://github.com/microting/eform-sdk-dotnet/pull/163) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump AWSSDK.Core from 3.7.0.20 to 3.7.0.21 [\#133](https://github.com/microting/eform-sdk-dotnet/pull/133) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump Microsoft.EntityFrameworkCore.Design from 5.0.5 to 5.0.6 [\#132](https://github.com/microting/eform-sdk-dotnet/pull/132) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump SharpZipLib from 1.3.1 to 1.3.2 [\#131](https://github.com/microting/eform-sdk-dotnet/pull/131) ([dependabot[bot]](https://github.com/apps/dependabot))
@@ -818,6 +855,7 @@
 - Bump DocumentFormat.OpenXml from 2.12.0 to 2.12.3 [\#111](https://github.com/microting/eform-sdk-dotnet/pull/111) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump NUnit from 3.13.1 to 3.13.2 [\#110](https://github.com/microting/eform-sdk-dotnet/pull/110) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Bump Newtonsoft.Json from 12.0.3 to 13.0.1 [\#109](https://github.com/microting/eform-sdk-dotnet/pull/109) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump Magick.NET-Q16-x64 from 7.22.3 to 7.23.4 [\#108](https://github.com/microting/eform-sdk-dotnet/pull/108) ([dependabot[bot]](https://github.com/apps/dependabot))
 
 ## [v5.0.1](https://github.com/microting/eform-sdk-dotnet/tree/v5.0.1) (2021-04-30)
 
@@ -825,7 +863,6 @@
 
 **Merged pull requests:**
 
-- Bump Magick.NET-Q16-x64 from 7.22.3 to 7.23.4 [\#108](https://github.com/microting/eform-sdk-dotnet/pull/108) ([dependabot[bot]](https://github.com/apps/dependabot))
 - Upgrade to GitHub-native Dependabot [\#107](https://github.com/microting/eform-sdk-dotnet/pull/107) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump System.Drawing.Common from 5.0.0 to 5.0.2 [\#106](https://github.com/microting/eform-sdk-dotnet/pull/106) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump Rebus from 6.0.0 to 6.5.5 [\#101](https://github.com/microting/eform-sdk-dotnet/pull/101) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
@@ -1082,14 +1119,11 @@
 - Bump AWSSDK.SQS from 3.5.1.24 to 3.5.1.25 [\#60](https://github.com/microting/eform-sdk-dotnet/issues/60)
 - Bump AWSSDK.S3 from 3.5.9.4 to 3.5.9.5 [\#59](https://github.com/microting/eform-sdk-dotnet/issues/59)
 - Bump AWSSDK.Core from 3.5.3.5 to 3.5.3.6 [\#58](https://github.com/microting/eform-sdk-dotnet/issues/58)
+- Bump Magick.NET-Q16-x64 from 7.23.2 to 7.23.2.1 [\#55](https://github.com/microting/eform-sdk-dotnet/issues/55)
 
 ## [v4.4.4](https://github.com/microting/eform-sdk-dotnet/tree/v4.4.4) (2021-03-09)
 
 [Full Changelog](https://github.com/microting/eform-sdk-dotnet/compare/v4.4.3...v4.4.4)
-
-**Implemented enhancements:**
-
-- Bump AWSSDK.S3 from 3.5.9.3 to 3.5.9.4 [\#57](https://github.com/microting/eform-sdk-dotnet/issues/57)
 
 ## [v4.4.3](https://github.com/microting/eform-sdk-dotnet/tree/v4.4.3) (2021-03-05)
 
@@ -1097,8 +1131,6 @@
 
 **Implemented enhancements:**
 
-- Bump DocumentFormat.OpenXml from 2.12.2 to 2.12.3 [\#56](https://github.com/microting/eform-sdk-dotnet/issues/56)
-- Bump Magick.NET-Q16-x64 from 7.23.2 to 7.23.2.1 [\#55](https://github.com/microting/eform-sdk-dotnet/issues/55)
 - Bump AWSSDK.SQS from 3.5.1.19 to 3.5.1.24 [\#54](https://github.com/microting/eform-sdk-dotnet/issues/54)
 - Bump AWSSDK.S3 from 3.5.8.8 to 3.5.9.3 [\#53](https://github.com/microting/eform-sdk-dotnet/issues/53)
 - Bump AWSSDK.Core from 3.5.3.2 to 3.5.3.5 [\#52](https://github.com/microting/eform-sdk-dotnet/issues/52)
@@ -1113,6 +1145,8 @@
 
 **Implemented enhancements:**
 
+- Bump AWSSDK.S3 from 3.5.9.3 to 3.5.9.4 [\#57](https://github.com/microting/eform-sdk-dotnet/issues/57)
+- Bump DocumentFormat.OpenXml from 2.12.2 to 2.12.3 [\#56](https://github.com/microting/eform-sdk-dotnet/issues/56)
 - Bump AWSSDK.S3 from 3.5.8.7 to 3.5.8.8 [\#47](https://github.com/microting/eform-sdk-dotnet/issues/47)
 - Bump AWSSDK.Core from 3.5.3.1 to 3.5.3.2 [\#46](https://github.com/microting/eform-sdk-dotnet/issues/46)
 
