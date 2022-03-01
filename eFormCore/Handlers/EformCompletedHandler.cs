@@ -85,6 +85,7 @@ namespace Microting.eForm.Handlers
             else
                 lstCase = await _sqlController.CaseReadByCaseUId(concreteCase.CaseUId);
 
+            bool noResults = true;
             foreach (CaseDto aCase in lstCase)
             {
                 if (aCase.SiteUId == concreteCase.SiteUId)
@@ -106,6 +107,7 @@ namespace Microting.eForm.Handlers
                             if (resp.Checks.Count > 0)
                             {
                                 await SaveResult(resp, respXml, dbContext, microtingUid, null, aCase).ConfigureAwait(false);
+                                noResults = false;
                             }
                         }
                         else
@@ -114,7 +116,6 @@ namespace Microting.eForm.Handlers
                             throw new Exception("Failed to retrive eForm " + microtingUid + " from site " + aCase.SiteUId);
                         }
                     }
-
                     else
                     {
                         respXml = "";
@@ -122,10 +123,20 @@ namespace Microting.eForm.Handlers
                         while (FetchData(microtingUid.ToString(), concreteCase, checkIdLastKnown.ToString(), ref respXml, ref resp))
                         {
                             checkIdLastKnown = await SaveResult(resp, respXml, dbContext, microtingUid, checkIdLastKnown, aCase).ConfigureAwait(false);
+                            noResults = false;
                         }
                     }
+
                 }
             }
+
+            if (noResults)
+            {
+                CaseDto cDto = await _sqlController.CaseReadByMUId(microtingUid);
+                Console.WriteLine($"{DateTime.Now} FireHandleCaseCompleted");
+                await _core.FireHandleCaseCompleted(cDto);
+            }
+
             return true;
         }
 
