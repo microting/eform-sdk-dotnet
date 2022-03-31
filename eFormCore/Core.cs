@@ -2573,7 +2573,16 @@ namespace eFormCore
                     await db.Sites.SingleOrDefaultAsync(x => x.MicrotingUid == siteResult.Item1.SiteId).ConfigureAwait(false);
                 if (site == null)
                 {
-                    Language language = db.Languages.Single(x => x.LanguageCode == languageCode);
+                    Language language = await db.Languages.SingleOrDefaultAsync(x => x.LanguageCode == languageCode);
+                    if (language == null)
+                    {
+                        if (languageCode == "da")
+                        {
+                            language = await db.Languages.SingleAsync(x => x.Name == "Danish");
+                            language.LanguageCode = "da";
+                            await language.Update(db);
+                        }
+                    }
                     site = new Site
                     {
                         MicrotingUid = siteId,
