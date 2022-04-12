@@ -5204,7 +5204,7 @@ namespace eFormCore
         private async Task<string> GetJasperFieldValue(Field field, FieldValue answer, string customPathForUploadedData)
         {
             var token = await GetSdkSetting(Settings.token);
-            string jasperFieldXml = "";
+            StringBuilder jasperFieldXml = new StringBuilder();
             string latitude = answer.Latitude;
             string longitude = answer.Longitude;
             string altitude = answer.Altitude;
@@ -5223,10 +5223,10 @@ namespace eFormCore
                             if (answer.UploadedDataObj.FileName != null)
                             {
                                 string bigFilename = $"{answer.UploadedDataObj.Id}_700_{answer.UploadedDataObj.Checksum}{answer.UploadedDataObj.Extension}";
-                                jasperFieldXml +=
-                                    Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" +
-                                    answer.Id + "\" " + gps + "><![CDATA[" + customPathForUploadedData +
-                                    bigFilename + "&token=" +token + "]]></F" + field.Id + "_value>";
+                                jasperFieldXml.Append(Environment.NewLine);
+                                jasperFieldXml.Append("<F" + field.Id + "_value field_value_id=\"" +
+                                                      answer.Id + "\" " + gps + "><![CDATA[" + customPathForUploadedData +
+                                                      bigFilename + "&token=" +token + "]]></F" + field.Id + "_value>");
                             }
                         }
                         else
@@ -5234,10 +5234,10 @@ namespace eFormCore
                             if (answer.UploadedDataObj.FileName != null)
                             {
                                 string bigFilename = $"{answer.UploadedDataObj.Id}_700_{answer.UploadedDataObj.Checksum}{answer.UploadedDataObj.Extension}";
-                                jasperFieldXml +=
-                                    Environment.NewLine + "<F" + field.Id + "_value field_value_id=\"" +
-                                    answer.Id + "\" " + gps + "><![CDATA[" + bigFilename +
-                                    "]]></F" + field.Id + "_value>";
+                                jasperFieldXml.Append(Environment.NewLine);
+                                jasperFieldXml.Append("<F" + field.Id + "_value field_value_id=\"" +
+                                                      answer.Id + "\" " + gps + "><![CDATA[" + bigFilename +
+                                                      "]]></F" + field.Id + "_value>");
                             }
                         }
                     }
@@ -5245,27 +5245,29 @@ namespace eFormCore
                     break;
                 case Constants.FieldTypes.Number:
                 case Constants.FieldTypes.NumberStepper:
-
-                    jasperFieldXml += Environment.NewLine + "<F" + field.Id +
-                                      "_value field_value_id=\"" + answer.Id + "\" " + gps + "><![CDATA[" +
-                                      (answer.ValueReadable.Replace(",",".") ?? string.Empty) + "]]></F" + field.Id +
-                                      "_value>";
+                    jasperFieldXml.Append(Environment.NewLine);
+                    jasperFieldXml.Append("<F" + field.Id +
+                                          "_value field_value_id=\"" + answer.Id + "\" " + gps + "><![CDATA[" +
+                                          (answer.ValueReadable.Replace(",",".") ?? string.Empty) + "]]></F" + field.Id +
+                                          "_value>");
                     break;
                 default:
                 {
-                    jasperFieldXml += Environment.NewLine + "<F" + field.Id +
-                                      "_value field_value_id=\"" + answer.Id + "\" " + gps + "><![CDATA[" +
-                                      (answer.ValueReadable ?? string.Empty) + "]]></F" + field.Id +
-                                      "_value>";
+                    jasperFieldXml.Append(Environment.NewLine);
+                    jasperFieldXml.Append("<F" + field.Id +
+                                          "_value field_value_id=\"" + answer.Id + "\" " + gps + "><![CDATA[" +
+                                          (answer.ValueReadable ?? string.Empty) + "]]></F" + field.Id +
+                                          "_value>");
                     break;
                 }
             }
 
-            return jasperFieldXml;
+            return jasperFieldXml.ToString();
         }
 
         private async Task<string> GetExtraFieldValues(int caseId, string customPathForUploadedData, Language language)
         {
+            var token = await GetSdkSetting(Settings.token);
             var db = DbContextHelper.GetDbContext();
             StringBuilder jasperFieldXml = new StringBuilder();
 
@@ -5339,15 +5341,17 @@ namespace eFormCore
                                 if (uploadedData.FileName != null)
                                 {
                                     jasperFieldXml.Append(Environment.NewLine);
-                                    jasperFieldXml.Append($"<picture id=\"{extraFieldValue.Id}\"><![CDATA[{customPathForUploadedData}{uploadedData.FileName}]]></picture>");
+                                    string bigFilename = $"{uploadedData.Id}_700_{uploadedData.Checksum}{uploadedData.Extension}";
+                                    jasperFieldXml.Append($"<picture id=\"{extraFieldValue.Id}\"><![CDATA[{customPathForUploadedData}{bigFilename}&token={token}]]></picture>");
                                 }
                             }
                             else
                             {
                                 if (uploadedData.FileName != null)
                                 {
+                                    string bigFilename = $"{uploadedData.Id}_700_{uploadedData.Checksum}{uploadedData.Extension}";
                                     jasperFieldXml.Append(Environment.NewLine);
-                                    jasperFieldXml.Append($"<picture id=\"{extraFieldValue.Id}\"><![CDATA[{uploadedData.FileName}]]></picture>");
+                                    jasperFieldXml.Append($"<picture id=\"{extraFieldValue.Id}\"><![CDATA[{bigFilename}&token={token}]]></picture>");
                                 }
                             }
                         }
@@ -5437,7 +5441,7 @@ namespace eFormCore
             if (total != 0)
             {
                 jasperFieldXml.Append(Environment.NewLine);
-                jasperFieldXml.Append("</extra_field>");    
+                jasperFieldXml.Append("</extra_field>");
             }
 
             return jasperFieldXml.ToString();
