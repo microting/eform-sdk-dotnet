@@ -5267,12 +5267,14 @@ namespace eFormCore
         private async Task<string> GetExtraFieldValues(int caseId, string customPathForUploadedData, Language language)
         {
             var db = DbContextHelper.GetDbContext();
-            string jasperFieldXml = "";
+            StringBuilder jasperFieldXml = new StringBuilder();
 
             var extraFieldValues = await db.ExtraFieldValues.Where(x => x.CaseId == caseId).OrderBy(x => x.CheckListId).ThenBy(x => x.FieldType).ToListAsync();
 
             int lastCheckListId = 0;
             string lastType = "";
+            int i = 1;
+            int total = extraFieldValues.Count;
             foreach (ExtraFieldValue extraFieldValue in extraFieldValues)
             {
                 var cl = db.CheckLists.SingleOrDefault(x => x.Id == extraFieldValue.CheckListId);
@@ -5280,8 +5282,27 @@ namespace eFormCore
 
                 if (lastCheckListId != extraFieldValue.CheckListId)
                 {
+                    switch (lastType)
+                    {
+                        case "picture":
+                            jasperFieldXml.Append(Environment.NewLine);
+                            jasperFieldXml.Append("</pictures>");
+                            jasperFieldXml.Append("</extra_field>");
+                            break;
+                        case "comment":
+                            jasperFieldXml.Append(Environment.NewLine);
+                            jasperFieldXml.Append("</comments>");
+                            jasperFieldXml.Append("</extra_field>");
+                            break;
+                        case "audio":
+                            jasperFieldXml.Append(Environment.NewLine);
+                            jasperFieldXml.Append("</audios>");
+                            jasperFieldXml.Append("</extra_field>");
+                            break;
+                    }
                     lastType = "";
-                    jasperFieldXml += Environment.NewLine + $"<extra_field name=\"{clt.Text}\">";
+                    jasperFieldXml.Append(Environment.NewLine);
+                    jasperFieldXml.Append($"<extra_field name=\"{clt.Text}\">");
                 }
 
                 if (lastType != extraFieldValue.FieldType)
@@ -5289,13 +5310,16 @@ namespace eFormCore
                     switch (lastType)
                     {
                         case "picture":
-                            jasperFieldXml += Environment.NewLine + "</pictures>";
+                            jasperFieldXml.Append(Environment.NewLine);
+                            jasperFieldXml.Append("</pictures>");
                             break;
                         case "comment":
-                            jasperFieldXml += Environment.NewLine + "</comments>";
+                            jasperFieldXml.Append(Environment.NewLine);
+                            jasperFieldXml.Append("</comments>");
                             break;
                         case "audio":
-                            jasperFieldXml += Environment.NewLine + "</audios>";
+                            jasperFieldXml.Append(Environment.NewLine);
+                            jasperFieldXml.Append("</audios>");
                             break;
                     }
                 }
@@ -5304,7 +5328,8 @@ namespace eFormCore
                     case "picture":
                         if (lastType != "picture")
                         {
-                            jasperFieldXml += Environment.NewLine + "<pictures>";
+                            jasperFieldXml.Append(Environment.NewLine);
+                            jasperFieldXml.Append("<pictures>");
                         }
                         var uploadedData = db.UploadedDatas.SingleOrDefault(x => x.Id == extraFieldValue.UploadedDataId);
                         if (uploadedData != null)
@@ -5313,46 +5338,109 @@ namespace eFormCore
                             {
                                 if (uploadedData.FileName != null)
                                 {
-                                    jasperFieldXml += $"<picture id=\"{extraFieldValue.Id}\"><![CDATA[" + customPathForUploadedData +
-                                                      uploadedData.FileName + "]]></picture>";
+                                    jasperFieldXml.Append(Environment.NewLine);
+                                    jasperFieldXml.Append($"<picture id=\"{extraFieldValue.Id}\"><![CDATA[{customPathForUploadedData}{uploadedData.FileName}]]></picture>");
                                 }
                             }
                             else
                             {
                                 if (uploadedData.FileName != null)
                                 {
-                                    jasperFieldXml += $"<picture id=\"{extraFieldValue.Id}\"><![CDATA[" + uploadedData.FileName + "]]></picture>";
+                                    jasperFieldXml.Append(Environment.NewLine);
+                                    jasperFieldXml.Append($"<picture id=\"{extraFieldValue.Id}\"><![CDATA[{uploadedData.FileName}]]></picture>");
                                 }
                             }
                         }
+
+                        lastType = "picture";
+
+                        // if (i == total)
+                        // {
+                        //     jasperFieldXml.Append(Environment.NewLine);
+                        //     jasperFieldXml.Append("</pictures>");
+                        // }
                         break;
                     case "comment":
                         if (lastType != "comment")
                         {
-                            jasperFieldXml += Environment.NewLine + "<comments>";
+                            jasperFieldXml.Append(Environment.NewLine);
+                            jasperFieldXml.Append("<comments>");
                         }
-                        jasperFieldXml += $"<comment id=\"{extraFieldValue.Id}\"><![CDATA[" + extraFieldValue.Value + "]]></comment>";
+                        jasperFieldXml.Append(Environment.NewLine);
+                        jasperFieldXml.Append($"<comment id=\"{extraFieldValue.Id}\"><![CDATA[{extraFieldValue.Value}]]></comment>");
+                        // if (i == total)
+                        // {
+                        //     jasperFieldXml.Append(Environment.NewLine);
+                        //     jasperFieldXml.Append("</comments>");
+                        // }
+                        lastType = "comment";
                         break;
                     case "audio":
                         if (lastType != "audio")
                         {
-                            jasperFieldXml += Environment.NewLine + "<audios>";
+                            jasperFieldXml.Append(Environment.NewLine);
+                            jasperFieldXml.Append("<audios>");
                         }
+
+                        // if (i == total)
+                        // {
+                        //     jasperFieldXml.Append(Environment.NewLine);
+                        //     jasperFieldXml.Append("</audios>");
+                        // }
+                        lastType = "audio";
                         break;
                 }
 
-                if (lastCheckListId != extraFieldValue.CheckListId)
-                {
-                    jasperFieldXml += Environment.NewLine + "</extra_field>";
-                }
+                // if (lastCheckListId != extraFieldValue.CheckListId)
+                // {
+                //     switch (lastType)
+                //     {
+                //         case "picture":
+                //             jasperFieldXml.Append(Environment.NewLine);
+                //             jasperFieldXml.Append("</pictures>");
+                //             break;
+                //         case "comment":
+                //             jasperFieldXml.Append(Environment.NewLine);
+                //             jasperFieldXml.Append("</comments>");
+                //             break;
+                //         case "audio":
+                //             jasperFieldXml.Append(Environment.NewLine);
+                //             jasperFieldXml.Append("</audios>");
+                //             break;
+                //     }
+                //     jasperFieldXml.Append(Environment.NewLine);
+                //     jasperFieldXml.Append("</extra_field>");
+                // }
 
                 lastCheckListId = (int)extraFieldValue.CheckListId;
                 // Environment.NewLine + "<F" + extraFieldValue.Id + "_value field_value_id=\"" +
                 // answer.Id + "\" " + gps + "><![CDATA[" + answer.UploadedDataObj.FileName +
                 // "]]></F" + field.Id + "_value>";
+                i++;
+            }
+            switch (lastType)
+            {
+                case "picture":
+                    jasperFieldXml.Append(Environment.NewLine);
+                    jasperFieldXml.Append("</pictures>");
+                    break;
+                case "comment":
+                    jasperFieldXml.Append(Environment.NewLine);
+                    jasperFieldXml.Append("</comments>");
+                    break;
+                case "audio":
+                    jasperFieldXml.Append(Environment.NewLine);
+                    jasperFieldXml.Append("</audios>");
+                    break;
             }
 
-            return jasperFieldXml;
+            if (total != 0)
+            {
+                jasperFieldXml.Append(Environment.NewLine);
+                jasperFieldXml.Append("</extra_field>");    
+            }
+
+            return jasperFieldXml.ToString();
 
         }
 
