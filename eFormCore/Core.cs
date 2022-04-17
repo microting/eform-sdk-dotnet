@@ -570,14 +570,20 @@ namespace eFormCore
                 xmlString = xmlString.Replace("xsi:type", "type");
 
 
-                xmlString = _t.ReplaceInsensitive(xmlString, "<main", "<Main");
-                xmlString = _t.ReplaceInsensitive(xmlString, "</main", "</Main");
+                // xmlString = _t.ReplaceInsensitive(xmlString, "<main", "<Main");
+                xmlString = xmlString.Replace("<main", "<Main");
+                // xmlString = _t.ReplaceInsensitive(xmlString, "</main", "</Main");
+                xmlString = xmlString.Replace("</main", "</Main");
 
-                xmlString = _t.ReplaceInsensitive(xmlString, "<element", "<Element");
-                xmlString = _t.ReplaceInsensitive(xmlString, "</element", "</Element");
+                // xmlString = _t.ReplaceInsensitive(xmlString, "<element", "<Element");
+                xmlString = xmlString.Replace("<element", "<Element");
+                // xmlString = _t.ReplaceInsensitive(xmlString, "</element", "</Element");
+                xmlString = xmlString.Replace("</element", "</Element");
 
-                xmlString = _t.ReplaceInsensitive(xmlString, "<dataItem", "<DataItem");
-                xmlString = _t.ReplaceInsensitive(xmlString, "</dataItem", "</DataItem");
+                // xmlString = _t.ReplaceInsensitive(xmlString, "<dataItem", "<DataItem");
+                xmlString = xmlString.Replace("<dataItem", "<DataItem");
+                // xmlString = _t.ReplaceInsensitive(xmlString, "</dataItem", "</DataItem");
+                xmlString = xmlString.Replace("</dataItem", "</DataItem");
 
                 List<string> keyWords = new List<string>();
                 keyWords.Add("GroupElement");
@@ -602,7 +608,10 @@ namespace eFormCore
                 keyWords.Add("Timer");
 
                 foreach (var item in keyWords)
-                    xmlString = _t.ReplaceInsensitive(xmlString, "=\"" + item + "\">", "=\"" + item + "\">");
+                {
+                    xmlString = xmlString.Replace("=\"" + item.ToLower() + "\">", "=\"" + item + "\">");
+                }
+                    // xmlString = _t.ReplaceInsensitive(xmlString, "=\"" + item + "\">", "=\"" + item + "\">");
 
                 xmlString = xmlString.Replace("<Main>", "<Main xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">");
                 xmlString = xmlString.Replace("<Element type=", "<Element xsi:type=");
@@ -676,8 +685,10 @@ namespace eFormCore
                 }
 
 //                xmlString = t.ReplaceAtLocationAll(xmlString, "<Id>", "</Id>", "1", false);
-                xmlString = _t.ReplaceInsensitive(xmlString, ">True<", ">true<");
-                xmlString = _t.ReplaceInsensitive(xmlString, ">False<", ">false<");
+                // xmlString = _t.ReplaceInsensitive(xmlString, ">True<", ">true<");
+                xmlString = xmlString.Replace(">True<", ">true<");
+                xmlString = xmlString.Replace(">False<", ">false<");
+                // xmlString = _t.ReplaceInsensitive(xmlString, ">False<", ">false<");
                 //
 
                 Log.LogEverything(methodName, "XML after possible corrections:");

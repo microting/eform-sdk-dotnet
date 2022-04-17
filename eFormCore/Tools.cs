@@ -210,163 +210,163 @@ namespace Microting.eForm
             }
         }
 
-        public string ReplaceInsensitive(string textStr, string oldStr, string newStr)
-        {
-            try
-            {
-                string textStrLower = textStr.ToLower();
-                string oldStrLower = oldStr.ToLower();
+        // public string ReplaceInsensitive(string textStr, string oldStr, string newStr)
+        // {
+        //     try
+        //     {
+        //         string textStrLower = textStr.ToLower();
+        //         string oldStrLower = oldStr.ToLower();
+        //
+        //         if (!textStrLower.Contains(oldStrLower))
+        //             return textStr;
+        //
+        //         int startIndex;
+        //         int marker = 0;
+        //         int newMarker = 0;
+        //         bool flag = true;
+        //
+        //         while (flag)
+        //         {
+        //             string temp = textStrLower.Remove(0, marker);
+        //             if (!temp.Contains(oldStrLower))
+        //                 break;
+        //
+        //             startIndex = textStrLower.IndexOf(oldStrLower, marker, StringComparison.Ordinal);
+        //             //textStr = textStr.Substring(0, startIndex) + newStr + textStr.Substring(startIndex + oldStrLower.Length);
+        //             textStr = textStr.AsSpan().Slice(0, startIndex).ToString() + newStr +
+        //                       textStr.AsSpan().Slice(startIndex + oldStrLower.Length).ToString();
+        //
+        //             newMarker = startIndex + newStr.Length;
+        //
+        //             if (newMarker == marker)
+        //                 flag = false;
+        //             else
+        //                 marker = newMarker;
+        //         }
+        //         return textStr;
+        //     }
+        //     catch
+        //     {
+        //         return null;
+        //     }
+        // }
 
-                if (!textStrLower.Contains(oldStrLower))
-                    return textStr;
+        // public string ReplaceAtLocation(string textStr, string startStr, string endStr, string newStr, bool caseSensitive)
+        // {
+        //     try
+        //     {
+        //         if (caseSensitive)
+        //         {
+        //             if (!textStr.Contains(startStr))
+        //                 return textStr;
+        //
+        //             if (!textStr.Contains(endStr))
+        //                 return textStr;
+        //
+        //             int startIndex = textStr.IndexOf(startStr) + startStr.Length;
+        //             int lenght = textStr.IndexOf(endStr, startIndex) - startIndex;
+        //             //textStr = textStr.Substring(0, startIndex) + newStr + textStr.Substring(startIndex + lenght);
+        //             textStr = textStr.AsSpan().Slice(0, startIndex).ToString() + newStr +
+        //                       textStr.AsSpan().Slice(startIndex + lenght).ToString();
+        //             return textStr;
+        //         }
+        //         else
+        //         {
+        //             string textStrLower = textStr.ToLower();
+        //             string startStrLower = startStr.ToLower();
+        //             string endStrLower = endStr.ToLower();
+        //
+        //             if (!textStrLower.Contains(startStrLower))
+        //                 return textStr;
+        //
+        //             if (!textStrLower.Contains(endStrLower))
+        //                 return textStr;
+        //
+        //             int startIndex = textStrLower.IndexOf(startStrLower) + startStrLower.Length;
+        //             int lenght = textStrLower.IndexOf(endStrLower, startIndex) - startIndex;
+        //             //textStr = textStr.Substring(0, startIndex) + newStr + textStr.Substring(startIndex + lenght);
+        //             textStr = textStr.AsSpan().Slice(0, startIndex).ToString() + newStr +
+        //                       textStr.AsSpan().Slice(startIndex + lenght).ToString();
+        //             return textStr;
+        //         }
+        //     }
+        //     catch
+        //     {
+        //         return null;
+        //     }
+        // }
 
-                int startIndex;
-                int marker = 0;
-                int newMarker = 0;
-                bool flag = true;
+        // public string ReplaceAtLocationAll(string textStr, string startStr, string endStr, string newStr, bool caseSensitive)
+        // {
+        //     try
+        //     {
+        //         string returnStr = "";
+        //         string txtToBeProcessed = textStr;
+        //         string startStrLow = startStr.ToLower();
+        //         string endStrLow = endStr.ToLower();
+        //         int marker = 0;
+        //
+        //         while (txtToBeProcessed.ToLower().Contains(startStrLow) && txtToBeProcessed.ToLower().Contains(endStrLow))
+        //         {
+        //             marker = txtToBeProcessed.ToLower().IndexOf(endStrLow) + endStrLow.Length;
+        //
+        //             //string txtBit = txtToBeProcessed.Substring(0, marker);
+        //             string txtBit = textStr.AsSpan().Slice(0, marker).ToString();
+        //
+        //             returnStr += ReplaceAtLocation(txtBit, startStr, endStr, newStr, caseSensitive);
+        //             txtToBeProcessed = txtToBeProcessed.Remove(0, marker);
+        //         }
+        //
+        //         returnStr += txtToBeProcessed;
+        //         return returnStr;
+        //     }
+        //     catch
+        //     {
+        //         return null;
+        //     }
+        // }
 
-                while (flag)
-                {
-                    string temp = textStrLower.Remove(0, marker);
-                    if (!temp.Contains(oldStrLower))
-                        break;
+        // public string ReadFirst(string textStr, string startStr, string endStr, bool keepStartAndEnd)
+        // {
+        //     try
+        //     {
+        //         int startIndex = textStr.IndexOf(startStr) + startStr.Length;
+        //         int lenght = textStr.IndexOf(endStr, startIndex) - startIndex;
+        //         if (keepStartAndEnd)
+        //             return startStr + textStr.Substring(startIndex, lenght) + endStr;
+        //         return textStr.Substring(startIndex, lenght).Trim();
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         throw new Exception("Unable to find:'" + startStr + "' or '" + endStr + "'.", ex);
+        //     }
+        // }
 
-                    startIndex = textStrLower.IndexOf(oldStrLower, marker, StringComparison.Ordinal);
-                    //textStr = textStr.Substring(0, startIndex) + newStr + textStr.Substring(startIndex + oldStrLower.Length);
-                    textStr = textStr.AsSpan().Slice(0, startIndex).ToString() + newStr +
-                              textStr.AsSpan().Slice(startIndex + oldStrLower.Length).ToString();
-
-                    newMarker = startIndex + newStr.Length;
-
-                    if (newMarker == marker)
-                        flag = false;
-                    else
-                        marker = newMarker;
-                }
-                return textStr;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        public string ReplaceAtLocation(string textStr, string startStr, string endStr, string newStr, bool caseSensitive)
-        {
-            try
-            {
-                if (caseSensitive)
-                {
-                    if (!textStr.Contains(startStr))
-                        return textStr;
-
-                    if (!textStr.Contains(endStr))
-                        return textStr;
-
-                    int startIndex = textStr.IndexOf(startStr) + startStr.Length;
-                    int lenght = textStr.IndexOf(endStr, startIndex) - startIndex;
-                    //textStr = textStr.Substring(0, startIndex) + newStr + textStr.Substring(startIndex + lenght);
-                    textStr = textStr.AsSpan().Slice(0, startIndex).ToString() + newStr +
-                              textStr.AsSpan().Slice(startIndex + lenght).ToString();
-                    return textStr;
-                }
-                else
-                {
-                    string textStrLower = textStr.ToLower();
-                    string startStrLower = startStr.ToLower();
-                    string endStrLower = endStr.ToLower();
-
-                    if (!textStrLower.Contains(startStrLower))
-                        return textStr;
-
-                    if (!textStrLower.Contains(endStrLower))
-                        return textStr;
-
-                    int startIndex = textStrLower.IndexOf(startStrLower) + startStrLower.Length;
-                    int lenght = textStrLower.IndexOf(endStrLower, startIndex) - startIndex;
-                    //textStr = textStr.Substring(0, startIndex) + newStr + textStr.Substring(startIndex + lenght);
-                    textStr = textStr.AsSpan().Slice(0, startIndex).ToString() + newStr +
-                              textStr.AsSpan().Slice(startIndex + lenght).ToString();
-                    return textStr;
-                }
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        public string ReplaceAtLocationAll(string textStr, string startStr, string endStr, string newStr, bool caseSensitive)
-        {
-            try
-            {
-                string returnStr = "";
-                string txtToBeProcessed = textStr;
-                string startStrLow = startStr.ToLower();
-                string endStrLow = endStr.ToLower();
-                int marker = 0;
-
-                while (txtToBeProcessed.ToLower().Contains(startStrLow) && txtToBeProcessed.ToLower().Contains(endStrLow))
-                {
-                    marker = txtToBeProcessed.ToLower().IndexOf(endStrLow) + endStrLow.Length;
-
-                    //string txtBit = txtToBeProcessed.Substring(0, marker);
-                    string txtBit = textStr.AsSpan().Slice(0, marker).ToString();
-
-                    returnStr += ReplaceAtLocation(txtBit, startStr, endStr, newStr, caseSensitive);
-                    txtToBeProcessed = txtToBeProcessed.Remove(0, marker);
-                }
-
-                returnStr += txtToBeProcessed;
-                return returnStr;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        public string ReadFirst(string textStr, string startStr, string endStr, bool keepStartAndEnd)
-        {
-            try
-            {
-                int startIndex = textStr.IndexOf(startStr) + startStr.Length;
-                int lenght = textStr.IndexOf(endStr, startIndex) - startIndex;
-                if (keepStartAndEnd)
-                    return startStr + textStr.Substring(startIndex, lenght) + endStr;
-                return textStr.Substring(startIndex, lenght).Trim();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Unable to find:'" + startStr + "' or '" + endStr + "'.", ex);
-            }
-        }
-
-        public string SplitToList(string textToBeSplit, byte index)
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(textToBeSplit))
-                    throw new ArgumentException("SplitFirst failed, due to textToBeSplit:'" + textToBeSplit + "'");
-
-                if (!textToBeSplit.Contains('|'))
-                    throw new ArgumentException("SplitFirst failed, due to '|' not found in textToBeSplit");
-
-                List<string> partsLst = textToBeSplit.Split('|').ToList();
-
-                if (partsLst.Count == 2)
-                    return partsLst[index];
-
-                //Not two resultats...
-                //more logic needed 
-
-                throw new ArgumentException("SplitFirst failed, due to count != 2");
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("SplitFirst failed.", ex);
-            }
-        }
+        // public string SplitToList(string textToBeSplit, byte index)
+        // {
+        //     try
+        //     {
+        //         if (string.IsNullOrEmpty(textToBeSplit))
+        //             throw new ArgumentException("SplitFirst failed, due to textToBeSplit:'" + textToBeSplit + "'");
+        //
+        //         if (!textToBeSplit.Contains('|'))
+        //             throw new ArgumentException("SplitFirst failed, due to '|' not found in textToBeSplit");
+        //
+        //         List<string> partsLst = textToBeSplit.Split('|').ToList();
+        //
+        //         if (partsLst.Count == 2)
+        //             return partsLst[index];
+        //
+        //         //Not two resultats...
+        //         //more logic needed
+        //
+        //         throw new ArgumentException("SplitFirst failed, due to count != 2");
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         throw new Exception("SplitFirst failed.", ex);
+        //     }
+        // }
 
         public string SplitToList(string textToBeSplit, byte index, bool lastInstedOfFirst)
         {
@@ -383,7 +383,7 @@ namespace Microting.eForm
                 if (partsLst.Count == 2)
                     return partsLst[index];
 
-                //Not two resultats... More logic needed 
+                //Not two resultats... More logic needed
                 if (partsLst.Count < 2)
                     throw new ArgumentException("SplitFirst failed, due to count < 2");
 
