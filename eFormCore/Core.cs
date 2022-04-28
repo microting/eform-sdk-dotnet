@@ -5779,7 +5779,7 @@ namespace eFormCore
             }
         }
 
-        private async Task PutFileToS3Storage(Stream stream, string fileName)
+        public async Task PutFileToS3Storage(Stream stream, string fileName)
         {
             string methodName = "Core.PutFileToS3Storage";
             string bucketName = await _sqlController.SettingRead(Settings.s3BucketName);
