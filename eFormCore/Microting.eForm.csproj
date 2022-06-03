@@ -281,8 +281,8 @@
         <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
         <PackageReference Include="Microting.Rebus" Version="7.3.7" />
-        <PackageReference Include="Microting.Rebus.Castle.Windsor" Version="7.2.6" />
-        <PackageReference Include="Microting.Rebus.RabbitMq" Version="8.2.6" />
+        <PackageReference Include="Microting.Rebus.Castle.Windsor" Version="7.2.7" />
+        <PackageReference Include="Microting.Rebus.RabbitMq" Version="8.2.7" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="OpenStack.NetCoreSwiftClient" Version="1.0.5" />
         <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
