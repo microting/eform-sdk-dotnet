@@ -6170,6 +6170,8 @@ namespace Microting.eForm.Infrastructure
                         field.IsNum = _t.Bool(entitySearch.IsNum);
                         field.QueryType = entitySearch.QueryType;
                         field.MinValue = entitySearch.MinSearchLenght.ToString();
+                        field.BarcodeEnabled = _t.Bool(entitySearch.BarcodeEnabled);
+                        field.BarcodeType = entitySearch.BarcodeType;
                         await field.Create(db);
                         fieldTranslation = new FieldTranslation
                         {
