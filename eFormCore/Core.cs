@@ -3735,7 +3735,8 @@ namespace eFormCore
             await using var db = DbContextHelper.GetDbContext();
             foreach (QuestionSet questionSet in await db.QuestionSets.ToListAsync())
             {
-                await GetAnswersForQuestionSet(questionSet.MicrotingUid).ConfigureAwait(false);
+                if (questionSet.MicrotingUid == 9014)
+                    await GetAnswersForQuestionSet(questionSet.MicrotingUid).ConfigureAwait(false);
             }
 
             return true;
@@ -3772,7 +3773,8 @@ namespace eFormCore
                 Answer result = null;
                 try
                 {
-                    result = await db.Answers.SingleOrDefaultAsync(x => x.MicrotingUid == answer.MicrotingUid)
+                    result = await db.Answers.SingleOrDefaultAsync(x => x.MicrotingUid == answer.MicrotingUid
+                                                                        && x.WorkflowState != Constants.WorkflowStates.Removed)
                         .ConfigureAwait(false);
                 }
                 catch (Exception ex)
@@ -3912,7 +3914,8 @@ namespace eFormCore
                 var lastAnswer = await db.Answers.OrderByDescending(x => x.Id)
                     .FirstOrDefaultAsync(x =>
                         x.QuestionSetId == questionSetId
-                        && x.WorkflowState != Constants.WorkflowStates.PreCreated)
+                        && x.WorkflowState != Constants.WorkflowStates.PreCreated
+                        && x.WorkflowState != Constants.WorkflowStates.Removed)
                     .ConfigureAwait(false);
                 JObject parsedData = null;
                 if (lastAnswer != null)
@@ -3924,7 +3927,8 @@ namespace eFormCore
                             lastAnswer = await db.Answers.OrderByDescending(x => x.Id)
                                 .FirstOrDefaultAsync(x =>
                                     x.QuestionSetId == questionSetId
-                                    && x.WorkflowState != Constants.WorkflowStates.PreCreated)
+                                    && x.WorkflowState != Constants.WorkflowStates.PreCreated
+                                    && x.WorkflowState != Constants.WorkflowStates.Removed)
                                 .ConfigureAwait(false);
                             if (lastAnswer != null)
                             {
@@ -3957,7 +3961,8 @@ namespace eFormCore
                             lastAnswer = await db.Answers.OrderByDescending(x => x.Id)
                                 .FirstOrDefaultAsync(x =>
                                     x.QuestionSetId == questionSetId
-                                    && x.WorkflowState != Constants.WorkflowStates.PreCreated)
+                                    && x.WorkflowState != Constants.WorkflowStates.PreCreated
+                                    && x.WorkflowState != Constants.WorkflowStates.Removed)
                                 .ConfigureAwait(false);
                             if (lastAnswer != null)
                             {
