@@ -60,6 +60,8 @@ namespace Microting.eForm.Dto
         rabbitMqUser,
         rabbitMqPassword,
         rabbitMqHost,
-        translationsMigrated
+        translationsMigrated,
+        pluginsEnabled,
+        servicesEnabled
     }
 }

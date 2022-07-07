@@ -4948,6 +4948,8 @@ namespace Microting.eForm.Infrastructure
             await SettingCreate(Settings.rabbitMqPassword);
             await SettingCreate(Settings.rabbitMqHost);
             await SettingCreate(Settings.translationsMigrated);
+            await SettingCreate(Settings.pluginsEnabled);
+            await SettingCreate(Settings.servicesEnabled);
 
             return true;
         }
@@ -5035,6 +5037,8 @@ namespace Microting.eForm.Infrastructure
                 case Settings.rabbitMqPassword: id = 33; defaultValue = "password"; break;
                 case Settings.rabbitMqHost: id = 34; defaultValue = "localhost"; break;
                 case Settings.translationsMigrated: id = 35; defaultValue = "false"; break;
+                case Settings.pluginsEnabled: id = 36; defaultValue = ""; break;
+                case Settings.servicesEnabled: id = 37; defaultValue = ""; break;
 
                 default:
                     throw new IndexOutOfRangeException(name + " is not a known/mapped Settings type");
