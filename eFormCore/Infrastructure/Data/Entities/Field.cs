@@ -136,10 +136,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             {
 List<Field> fields = await dbContext.Fields.ToListAsync();
             FieldType pdfFieldType =
-                await dbContext.FieldTypes.SingleOrDefaultAsync(x => x.Type == Constants.Constants.FieldTypes.ShowPdf);
-            Language language = await dbContext.Languages.SingleAsync(x => x.Name == "Danish");
-            Language englishLanguage = await dbContext.Languages.SingleAsync(x => x.Name == "English");
-            Language germanLanguage = await dbContext.Languages.SingleAsync(x => x.Name == "German");
+                await dbContext.FieldTypes.FirstOrDefaultAsync(x => x.Type == Constants.Constants.FieldTypes.ShowPdf);
+            Language language = await dbContext.Languages.FirstAsync(x => x.Name == "Danish");
+            Language englishLanguage = await dbContext.Languages.FirstAsync(x => x.Name == "English");
+            Language germanLanguage = await dbContext.Languages.FirstAsync(x => x.Name == "German");
             int i = 0;
             int totalFields = fields.Count;
             foreach (Field field in fields)
@@ -170,7 +170,7 @@ List<Field> fields = await dbContext.Fields.ToListAsync();
                         List<KeyValuePair> keyValuePairs = PairRead((field.KeyValuePairList));
                         foreach (KeyValuePair keyValuePair in keyValuePairs)
                         {
-                            FieldOption fieldOption = await dbContext.FieldOptions.SingleOrDefaultAsync(x =>
+                            FieldOption fieldOption = await dbContext.FieldOptions.FirstOrDefaultAsync(x =>
                                 x.FieldId == field.Id && x.Key == keyValuePair.Key);
                             if (fieldOption == null)
                             {
@@ -237,7 +237,7 @@ List<Field> fields = await dbContext.Fields.ToListAsync();
                         }
                     }
                     FieldTranslation fieldTranslation =
-                        await dbContext.FieldTranslations.SingleOrDefaultAsync(x =>
+                        await dbContext.FieldTranslations.FirstOrDefaultAsync(x =>
                             x.LanguageId == language.Id && x.FieldId == field.Id);
                     if (fieldTranslation == null)
                     {
@@ -249,7 +249,7 @@ List<Field> fields = await dbContext.Fields.ToListAsync();
                     if (defaultValue.Length > 1)
                     {
                         fieldTranslation =
-                            await dbContext.FieldTranslations.SingleOrDefaultAsync(x =>
+                            await dbContext.FieldTranslations.FirstOrDefaultAsync(x =>
                                 x.LanguageId == englishLanguage.Id && x.FieldId == field.Id);
                         if (fieldTranslation != null)
                         {
@@ -264,7 +264,7 @@ List<Field> fields = await dbContext.Fields.ToListAsync();
                     else
                     {
                         fieldTranslation =
-                            await dbContext.FieldTranslations.SingleOrDefaultAsync(x =>
+                            await dbContext.FieldTranslations.FirstOrDefaultAsync(x =>
                                 x.LanguageId == englishLanguage.Id && x.FieldId == field.Id);
                         if (fieldTranslation != null)
                         {
@@ -280,7 +280,7 @@ List<Field> fields = await dbContext.Fields.ToListAsync();
                     if (defaultValue.Length > 2)
                     {
                         fieldTranslation =
-                            await dbContext.FieldTranslations.SingleOrDefaultAsync(x =>
+                            await dbContext.FieldTranslations.FirstOrDefaultAsync(x =>
                                 x.LanguageId == germanLanguage.Id && x.FieldId == field.Id);
                         fieldTranslation.DefaultValue = defaultValue[2];
                         await fieldTranslation.Update(dbContext);
@@ -288,7 +288,7 @@ List<Field> fields = await dbContext.Fields.ToListAsync();
                     else
                     {
                         fieldTranslation =
-                            await dbContext.FieldTranslations.SingleOrDefaultAsync(x =>
+                            await dbContext.FieldTranslations.FirstOrDefaultAsync(x =>
                                 x.LanguageId == germanLanguage.Id && x.FieldId == field.Id);
                         if (fieldTranslation != null)
                         {

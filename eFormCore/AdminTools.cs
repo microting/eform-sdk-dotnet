@@ -221,7 +221,7 @@ namespace eFormCore
                     }
                     else
                     {
-                        site = await dbContext.Sites.SingleAsync(x => x.MicrotingUid == site.MicrotingUid);
+                        site = await dbContext.Sites.FirstAsync(x => x.MicrotingUid == site.MicrotingUid);
                         site.WorkflowState = item["WorkflowState"].ToString();
                         site.WorkflowState = site.WorkflowState == "active" ? "created" : site.WorkflowState;
                         site.WorkflowState = site.WorkflowState == "inactive" ? "removed" : site.WorkflowState;
@@ -252,7 +252,7 @@ namespace eFormCore
                     }
                     else
                     {
-                        worker = await dbContext.Workers.SingleAsync(x => x.MicrotingUid == worker.MicrotingUid);
+                        worker = await dbContext.Workers.FirstAsync(x => x.MicrotingUid == worker.MicrotingUid);
                         worker.WorkflowState = item["WorkflowState"].ToString();
                         worker.WorkflowState = worker.WorkflowState == "active" ? "created" : worker.WorkflowState;
                         worker.WorkflowState = worker.WorkflowState == "inactive" ? "removed" : worker.WorkflowState;
@@ -272,8 +272,8 @@ namespace eFormCore
 
                         SiteWorker siteWorker = JsonConvert.DeserializeObject<SiteWorker>(item.ToString(), settings);
 
-                        int localSiteId = dbContext.Sites.SingleAsync(x => x.MicrotingUid == siteWorker.SiteId).GetAwaiter().GetResult().Id;
-                        var workerAsync = await dbContext.Workers.SingleOrDefaultAsync(x => x.MicrotingUid == workerUId);
+                        int localSiteId = dbContext.Sites.FirstAsync(x => x.MicrotingUid == siteWorker.SiteId).GetAwaiter().GetResult().Id;
+                        var workerAsync = await dbContext.Workers.FirstOrDefaultAsync(x => x.MicrotingUid == workerUId);
                         if (workerAsync != null)
                         {
                             int localWorkerId = workerAsync.Id;
@@ -296,7 +296,7 @@ namespace eFormCore
                             }
                             else
                             {
-                                siteWorker = await dbContext.SiteWorkers.SingleAsync(x => x.MicrotingUid == siteWorker.MicrotingUid);
+                                siteWorker = await dbContext.SiteWorkers.FirstAsync(x => x.MicrotingUid == siteWorker.MicrotingUid);
                                 siteWorker.WorkflowState = item["WorkflowState"].ToString();
                                 siteWorker.WorkflowState = siteWorker.WorkflowState == "active" ? "created" : siteWorker.WorkflowState;
                                 siteWorker.WorkflowState = siteWorker.WorkflowState == "inactive" ? "removed" : siteWorker.WorkflowState;
@@ -319,7 +319,7 @@ namespace eFormCore
                 {
                     Unit unit = JsonConvert.DeserializeObject<Unit>(item.ToString(), settings);
 
-                    int localSiteId = dbContext.Sites.SingleAsync(x => x.MicrotingUid == unit.SiteId).GetAwaiter().GetResult().Id;
+                    int localSiteId = dbContext.Sites.FirstAsync(x => x.MicrotingUid == unit.SiteId).GetAwaiter().GetResult().Id;
 
                     if (!dbContext.Units.Any(x => x.MicrotingUid == unit.MicrotingUid))
                     {
@@ -340,7 +340,7 @@ namespace eFormCore
                     }
                     else
                     {
-                        unit = await dbContext.Units.SingleAsync(x => x.MicrotingUid == unit.MicrotingUid);
+                        unit = await dbContext.Units.FirstAsync(x => x.MicrotingUid == unit.MicrotingUid);
                         unit.WorkflowState = item["WorkflowState"].ToString();
                         unit.WorkflowState = unit.WorkflowState == "active" ? "created" : unit.WorkflowState;
                         unit.WorkflowState = unit.WorkflowState == "new" ? "created" : unit.WorkflowState;

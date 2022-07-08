@@ -48,7 +48,7 @@ namespace Microting.eForm.Helpers
 
         public async Task GenerateDefaultLanguages()
         {
-            language = await dbContext.Languages.SingleOrDefaultAsync(x => x.Name == "Danish");
+            language = await dbContext.Languages.FirstOrDefaultAsync(x => x.Name == "Danish");
         }
 
         private MicrotingDbContext GetContext(string connectionStr)
@@ -82,7 +82,7 @@ namespace Microting.eForm.Helpers
         public async Task<Site> CreateSite(string name, int microtingUId)
         {
 
-            Language language = await dbContext.Languages.SingleAsync(x => x.LanguageCode == "da");
+            Language language = await dbContext.Languages.FirstAsync(x => x.LanguageCode == "da");
             Site site = new Site
             {
                 Name = name,

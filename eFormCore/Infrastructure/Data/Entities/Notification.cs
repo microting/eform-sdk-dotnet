@@ -75,7 +75,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public async Task Update(MicrotingDbContext dbContext)
         {
-            Notification notification = await dbContext.Notifications.SingleOrDefaultAsync(x => x.Id == Id);
+            Notification notification = await dbContext.Notifications.FirstOrDefaultAsync(x => x.Id == Id);
 
             if (notification == null)
             {
@@ -103,7 +103,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public async Task Delete(MicrotingDbContext dbContext)
         {
-            Notification notification = await dbContext.Notifications.SingleOrDefaultAsync(x => x.Id == Id);
+            Notification notification = await dbContext.Notifications.FirstOrDefaultAsync(x => x.Id == Id);
 
             if (notification == null)
             {

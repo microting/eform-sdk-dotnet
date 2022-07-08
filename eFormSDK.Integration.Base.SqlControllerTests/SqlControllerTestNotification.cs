@@ -77,7 +77,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             await sut.NotificationCreate(notificationId, microtingUId, Constants.Notifications.RetrievedForm);
 
             // Assert
-            var notification = await DbContext.Notifications.SingleOrDefaultAsync(x => x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
+            var notification = await DbContext.Notifications.FirstOrDefaultAsync(x => x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
 
             Assert.NotNull(notification);
             Assert.AreEqual(1, DbContext.Notifications.Count());
@@ -97,7 +97,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             await sut.NotificationCreate(notificationId, microtingUId, Constants.Notifications.Completed);
 
             // Assert
-            var notification = await DbContext.Notifications.SingleOrDefaultAsync(x => x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
+            var notification = await DbContext.Notifications.FirstOrDefaultAsync(x => x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
 
             Assert.NotNull(notification);
             Assert.AreEqual(1, DbContext.Notifications.Count());
@@ -141,7 +141,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             await sut.NotificationUpdate(notificationUId, microtingUId, Constants.WorkflowStates.Processed, "", "");
 
             // Assert
-            var notification = await DbContext.Notifications.SingleOrDefaultAsync(x => x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId);
+            var notification = await DbContext.Notifications.FirstOrDefaultAsync(x => x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId);
 
             Assert.NotNull(notification);
             Assert.AreEqual(1, DbContext.Notifications.Count());

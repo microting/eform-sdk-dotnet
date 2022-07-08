@@ -806,7 +806,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
 
             // Assert
-            var newValue = await DbContext.FieldValues.AsNoTracking().SingleOrDefaultAsync(x => x.Id == field_Value1.Id);
+            var newValue = await DbContext.FieldValues.AsNoTracking().FirstOrDefaultAsync(x => x.Id == field_Value1.Id);
 
             Assert.AreEqual(newValue.Value, "udfyldt");
 

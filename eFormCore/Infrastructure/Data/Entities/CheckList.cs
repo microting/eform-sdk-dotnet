@@ -144,7 +144,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public static async Task MoveTranslations(MicrotingDbContext dbContext)
         {
             List<CheckList> checkLists = await dbContext.CheckLists.ToListAsync();
-            Language language = await dbContext.Languages.SingleAsync(x => x.Name == "Danish");
+            Language language = await dbContext.Languages.FirstAsync(x => x.Name == "Danish");
             foreach (CheckList checkList in checkLists)
             {
                 if (!string.IsNullOrEmpty(checkList.Label))

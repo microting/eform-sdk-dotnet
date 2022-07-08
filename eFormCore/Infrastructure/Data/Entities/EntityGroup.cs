@@ -49,7 +49,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             string nameFilter)
         {
             EntityGroup eG =
-                await dbContext.EntityGroups.SingleOrDefaultAsync(x => x.MicrotingUid == entityGroupMUId);
+                await dbContext.EntityGroups.FirstOrDefaultAsync(x => x.MicrotingUid == entityGroupMUId);
 
             if (eG == null)
                 return null;
