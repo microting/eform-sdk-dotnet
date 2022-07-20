@@ -2818,12 +2818,12 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                try
+
+                if (db.Cases.Count(x => x.MicrotingUid == microtingUId) == 1)
                 {
-                    Case aCase = await db.Cases.FirstAsync(x => x.MicrotingUid == microtingUId);
+                    var aCase = await db.Cases.FirstAsync(x => x.MicrotingUid == microtingUId);
                     return await CaseReadByCaseId(aCase.Id);
                 }
-                catch { }
 
                 try
                 {
@@ -2839,7 +2839,8 @@ namespace Microting.eForm.Infrastructure
                         stat = "Deleted";
                     //
 
-                    int remoteSiteId = (int)db.Sites.FirstAsync(x => x.Id == (int)cls.SiteId).GetAwaiter().GetResult().MicrotingUid;
+                    int remoteSiteId = (int)db.Sites.FirstAsync(x => x.Id == (int)cls.SiteId).GetAwaiter()
+                        .GetResult().MicrotingUid;
                     CaseDto returnCase = new CaseDto
                     {
                         CaseId = null,
@@ -2855,7 +2856,7 @@ namespace Microting.eForm.Infrastructure
                     };
                     return returnCase;
                 }
-                catch(Exception ex1)
+                catch (Exception ex1)
                 {
                     throw new Exception(methodName + " failed", ex1);
                 }
