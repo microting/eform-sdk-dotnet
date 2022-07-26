@@ -2536,37 +2536,37 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(match, Path.Combine(path, "output", "dataFolder", "pdf"));
 
         }
-        [Test]
-        public async Task Core_Case_SetHttpServerAddress_ReturnsTrue()
-        {
-            // Arrange
-
-            // Act
-            var match = await sut.SetSdkSetting(Settings.httpServerAddress, "http://localhost:3000");
-            // Assert
-            Assert.NotNull(match);
-            Assert.True(match);
-        }
-        [Test]
-        public async Task Core_Case_GetHttpServerAddress_returnsPath()
-        {
-            // Arrange
-            #region Arrance
-
-            var setting = DbContext.Settings.Single(x => x.Name == Settings.httpServerAddress.ToString());
-            setting.Value = "http://localhost:3000";
-            await DbContext.SaveChangesAsync();
-            #endregion
-            // Act
-
-            var match = await sut.GetSdkSetting(Settings.httpServerAddress);
-
-            // Assert
-            Assert.NotNull(match);
-            Assert.AreEqual("http://localhost:3000", match);
-
-
-        }
+        // [Test]
+        // public async Task Core_Case_SetHttpServerAddress_ReturnsTrue()
+        // {
+        //     // Arrange
+        //
+        //     // Act
+        //     var match = await sut.SetSdkSetting(Settings.httpServerAddress, "http://localhost:3000");
+        //     // Assert
+        //     Assert.NotNull(match);
+        //     Assert.True(match);
+        // }
+        // [Test]
+        // public async Task Core_Case_GetHttpServerAddress_returnsPath()
+        // {
+        //     // Arrange
+        //     #region Arrance
+        //
+        //     var setting = DbContext.Settings.Single(x => x.Name == Settings.httpServerAddress.ToString());
+        //     setting.Value = "http://localhost:3000";
+        //     await DbContext.SaveChangesAsync();
+        //     #endregion
+        //     // Act
+        //
+        //     var match = await sut.GetSdkSetting(Settings.httpServerAddress);
+        //
+        //     // Assert
+        //     Assert.NotNull(match);
+        //     Assert.AreEqual("http://localhost:3000", match);
+        //
+        //
+        // }
 
         [Test] // TODO add jaxml files
 #pragma warning disable 1998
