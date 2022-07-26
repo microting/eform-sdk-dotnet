@@ -1128,107 +1128,112 @@ namespace Microting.eForm.Infrastructure
                     {
                         int fieldId = int.Parse(dataItemReply.Id);
 
-                        Field f = await db.Fields.FirstAsync(x => x.Id == fieldId);
-                        FieldType fieldType = db.FieldTypes.Single(x => x.Id == f.FieldTypeId);
                         FieldValue fieldV = null;
+                        Field field = await db.Fields.FirstOrDefaultAsync(x => x.Id == fieldId);
+                        var fieldType = fieldId == 0
+                            ? db.FieldTypes.Single(x => x.Type == Constants.Constants.FieldTypes.None)
+                            : db.FieldTypes.Single(x => x.Id == field.FieldTypeId);
 
-                            if (!fieldTypeIds.Contains((int)f.FieldTypeId))
+                        if (fieldId != 0)
+                        {
+                            if (!fieldTypeIds.Contains((int) field.FieldTypeId))
                             {
-                                fieldV = await db.FieldValues.FirstOrDefaultAsync(x => x.FieldId == fieldId && x.CaseId == caseId && x.CheckListId == checkListId && x.WorkerId == userId);
+                                fieldV = await db.FieldValues.FirstOrDefaultAsync(x =>
+                                    x.FieldId == fieldId && x.CaseId == caseId && x.CheckListId == checkListId &&
+                                    x.WorkerId == userId);
                             }
+                        }
 
-                            if (fieldV == null)
+                        if (fieldV == null)
+                        {
+                            fieldV = new FieldValue();
+
+                            //= new field_values();
+
+                            // if contains a file
+                            string urlXml = dataItemReply.URL;
+                            if (urlXml != "" && urlXml != "none" && urlXml != null)
                             {
-                                fieldV = new FieldValue();
-
-                                //= new field_values();
-
-                                // if contains a file
-                                string urlXml = dataItemReply.URL;
-                                if (urlXml != "" && urlXml != "none" && urlXml != null)
+                                string fileLocation = dataItemReply.URL;
+                                Data.Entities.UploadedData dU = await db.UploadedDatas.FirstOrDefaultAsync(x => x.FileLocation == fileLocation);
+                                if (dU == null)
                                 {
-                                    string fileLocation = dataItemReply.URL;
-                                    Data.Entities.UploadedData dU = await db.UploadedDatas.FirstOrDefaultAsync(x => x.FileLocation == fileLocation);
-                                    if (dU == null)
+                                    dU = new Data.Entities.UploadedData
                                     {
-                                        dU = new Data.Entities.UploadedData
-                                        {
-                                            Extension = dataItemReply.Extension,
-                                            UploaderId = userId,
-                                            UploaderType = Constants.Constants.UploaderTypes.System,
-                                            Local = 0,
-                                            FileLocation = fileLocation
-                                        };
-                                        await dU.Create(db).ConfigureAwait(false);
-                                    }
-                                    fieldV.UploadedDataId = dU.Id;
-                                    uploadedDataIds.Add(dU.Id);
-
+                                        Extension = dataItemReply.Extension,
+                                        UploaderId = userId,
+                                        UploaderType = Constants.Constants.UploaderTypes.System,
+                                        Local = 0,
+                                        FileLocation = fileLocation
+                                    };
+                                    await dU.Create(db).ConfigureAwait(false);
                                 }
-                                string extractedValue = dataItemReply.Value.InderValue;
+                                fieldV.UploadedDataId = dU.Id;
+                                uploadedDataIds.Add(dU.Id);
 
-                                if (dataItemReply.Value.InderValue != null)
+                            }
+                            string extractedValue = dataItemReply.Value.InderValue;
+
+                            if (dataItemReply.Value.InderValue != null)
+                            {
+
+                                if (fieldType.Type == Constants.Constants.FieldTypes.Number ||
+                                    fieldType.Type == Constants.Constants.FieldTypes.NumberStepper)
                                 {
-
-                                    if (fieldType.Type == Constants.Constants.FieldTypes.Number ||
-                                        fieldType.Type == Constants.Constants.FieldTypes.NumberStepper)
-                                    {
 //                                        extractedValue = extractedValue.Replace(",", "|"); // commented as of 8. oct. 2019
-                                        extractedValue = extractedValue.Replace(".", ",");
-                                    }
+                                    extractedValue = extractedValue.Replace(".", ",");
                                 }
-
-
-                                fieldV.Value = extractedValue;
-                                Field field = await db.Fields.FirstOrDefaultAsync(x => x.Id == fieldId);
-                                fieldType = await db.FieldTypes.FirstAsync(x => x.Id == field.FieldTypeId);
-                                if (fieldType.Type == Constants.Constants.FieldTypes.EntitySearch
-                                    || fieldType.Type == Constants.Constants.FieldTypes.EntitySelect)
-                                {
-                                    if (!string.IsNullOrEmpty(extractedValue) && extractedValue != "null")
-                                    {
-                                        int id = EntityItemRead(extractedValue).GetAwaiter().GetResult().Id;
-                                        fieldV.Value = id.ToString();
-                                    }
-                                }
-
-                                //
-                                //geo
-                                fieldV.Latitude = dataItemReply.Geolocation.Latitude;
-                                fieldV.Longitude = dataItemReply.Geolocation.Longitude;
-                                fieldV.Altitude = dataItemReply.Geolocation.Altitude;
-                                fieldV.Heading = dataItemReply.Geolocation.Heading;
-                                fieldV.Accuracy = dataItemReply.Geolocation.Accuracy;
-                                if (DateTime.TryParse(dataItemReply.Geolocation.Date, out var date))
-                                {
-                                    fieldV.Date = DateTime.Parse(dataItemReply.Geolocation.Date);
-                                }
-                                else
-                                {
-                                    fieldV.Date = null;
-                                }
-                                fieldV.CaseId = responseCase.Id;
-                                fieldV.FieldId = fieldId;
-                                fieldV.WorkerId = userId;
-                                fieldV.CheckListId = clv.CheckListId;
-                                fieldV.DoneAt = _t.Date(response.Checks[xmlIndex].Date);
-
-                                await fieldV.Create(db).ConfigureAwait(false);
-
-                                // remove dataItem duplicate from TemplatDataItemLst
-                                int index = 0;
-                                foreach (var foo in eFormFieldList)
-                                {
-                                    if (fieldV.FieldId == foo.Id)
-                                    {
-                                        eFormFieldList.RemoveAt(index);
-                                        break;
-                                    }
-
-                                    index++;
-                                }
-                                //
                             }
+
+
+                            fieldV.Value = extractedValue;
+                            if (fieldType.Type == Constants.Constants.FieldTypes.EntitySearch
+                                || fieldType.Type == Constants.Constants.FieldTypes.EntitySelect)
+                            {
+                                if (!string.IsNullOrEmpty(extractedValue) && extractedValue != "null")
+                                {
+                                    int id = EntityItemRead(extractedValue).GetAwaiter().GetResult().Id;
+                                    fieldV.Value = id.ToString();
+                                }
+                            }
+
+                            //
+                            //geo
+                            fieldV.Latitude = dataItemReply.Geolocation.Latitude;
+                            fieldV.Longitude = dataItemReply.Geolocation.Longitude;
+                            fieldV.Altitude = dataItemReply.Geolocation.Altitude;
+                            fieldV.Heading = dataItemReply.Geolocation.Heading;
+                            fieldV.Accuracy = dataItemReply.Geolocation.Accuracy;
+                            if (DateTime.TryParse(dataItemReply.Geolocation.Date, out var date))
+                            {
+                                fieldV.Date = DateTime.Parse(dataItemReply.Geolocation.Date);
+                            }
+                            else
+                            {
+                                fieldV.Date = null;
+                            }
+                            fieldV.CaseId = responseCase.Id;
+                            fieldV.FieldId = fieldId;
+                            fieldV.WorkerId = userId;
+                            fieldV.CheckListId = clv.CheckListId;
+                            fieldV.DoneAt = _t.Date(response.Checks[xmlIndex].Date);
+
+                            await fieldV.Create(db).ConfigureAwait(false);
+
+                            // remove dataItem duplicate from TemplatDataItemLst
+                            int index = 0;
+                            foreach (var foo in eFormFieldList)
+                            {
+                                if (fieldV.FieldId == foo.Id)
+                                {
+                                    eFormFieldList.RemoveAt(index);
+                                    break;
+                                }
+
+                                index++;
+                            }
+                            //
+                        }
                     }
 
                     foreach (var dataItemReply in elementList.ExtraDataItemList)
@@ -2048,7 +2053,23 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                Field field = await db.Fields.FirstAsync(x => x.Id == reply.FieldId);
+                Field field = await db.Fields.FirstOrDefaultAsync(x => x.Id == reply.FieldId);
+                if (field == null)
+                {
+                    var result =
+                        await db.FieldValues.FirstAsync(x =>
+                            x.CaseId == reply.CaseId && x.FieldId == reply.FieldId);
+                    return new Models.FieldValue()
+                    {
+                        Id = result.Id,
+                        FieldId = 0,
+                        Value = result.Value,
+                        Accuracy = result.Accuracy,
+                        Latitude = result.Latitude,
+                        Altitude = result.Altitude,
+                        Date = result.Date
+                    };
+                }
 
                 return await ReadFieldValue(reply, field, joinUploadedData, language);
             }
