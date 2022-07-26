@@ -2553,6 +2553,9 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Arrange
             #region Arrance
 
+            var setting = DbContext.Settings.Single(x => x.Name == Settings.httpServerAddress.ToString());
+            setting.Value = "http://localhost:3000";
+            await DbContext.SaveChangesAsync();
             #endregion
             // Act
 

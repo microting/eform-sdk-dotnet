@@ -58,8 +58,8 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(languages);
             Assert.NotNull(languageVersions);
 
-            Assert.AreEqual(4,languages.Count());
-            Assert.AreEqual(4,languageVersions.Count());
+            Assert.AreEqual(4,languages.Count);
+            Assert.AreEqual(4,languageVersions.Count);
 
             Assert.AreEqual(language.CreatedAt.ToString(), languages[3].CreatedAt.ToString());
             Assert.AreEqual(language.Version, languages[3].Version);

@@ -1473,7 +1473,7 @@ CREATE TABLE `LanguageVersions` (
   PRIMARY KEY (`Id`),
   KEY `IX_language_versions_languageId` (`LanguageId`),
   CONSTRAINT `FK_language_versions_languages_LanguageId` FOREIGN KEY (`LanguageId`) REFERENCES `Languages` (`Id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1482,6 +1482,7 @@ CREATE TABLE `LanguageVersions` (
 
 LOCK TABLES `LanguageVersions` WRITE;
 /*!40000 ALTER TABLE `LanguageVersions` DISABLE KEYS */;
+INSERT INTO `LanguageVersions` VALUES (1,1,'created','2021-11-30 19:13:01.303334','2021-11-30 19:13:01.303378','Danish','da',1),(2,1,'created','2021-11-30 19:13:01.416989','2021-11-30 19:13:01.416989','English','en-US',2),(3,1,'created','2021-11-30 19:13:01.462160','2021-11-30 19:13:01.462161','German','de-DE',3);
 /*!40000 ALTER TABLE `LanguageVersions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2710,4 +2711,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-07-26 15:51:43
+-- Dump completed on 2022-07-26 16:23:27
