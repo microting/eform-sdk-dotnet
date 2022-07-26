@@ -23,7 +23,9 @@ SOFTWARE.
 */
 
 using System;
+using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using eFormCore;
 using Microting.eForm.Communication;
@@ -68,21 +70,21 @@ namespace Microting.eForm.Handlers
                 if (ud.FileName.Contains("3gp"))
                 {
                     log.LogStandard("TranscriptionCompletedHandler.Handle", "file_name contains 3gp");
-                    string urlStr = sqlController.SettingRead(Settings.comSpeechToText).Result + "/download_file/" + message.MicrotringUUID + ".wav?token=" + sqlController.SettingRead(Settings.token).GetAwaiter().GetResult();
-                    string fileLocationPicture = await sqlController.SettingRead(Settings.fileLocationPicture);
-                    using (var client = new WebClient())
+                    string urlStr = sqlController.SettingRead(Settings.comSpeechToText).GetAwaiter().GetResult() + "/download_file/" + message.MicrotringUUID + ".wav?token=" + sqlController.SettingRead(Settings.token).GetAwaiter().GetResult();
+                    using var client = new HttpClient();
+                    try
                     {
-                        try
-                        {
-                            log.LogStandard("TranscriptionCompletedHandler.Handle", "Trying to download file from : " + urlStr);
-                            client.DownloadFile(urlStr, fileLocationPicture + ud.FileName.Replace(".3gp", ".wav"));
-                            await core.PutFileToStorageSystem(fileLocationPicture + ud.FileName.Replace(".3gp", ".wav"),
-                                ud.FileName.Replace("3gp", "wav"));
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception("Downloading and creating fil locally failed.", ex);
-                        }
+                        log.LogStandard("TranscriptionCompletedHandler.Handle", "Trying to download file from : " + urlStr);
+                        var stream = await client.GetStreamAsync(urlStr);
+                        MemoryStream baseMemoryStream = new MemoryStream();
+                        await stream.CopyToAsync(baseMemoryStream);
+                        await stream.DisposeAsync();
+                        stream.Close();
+                        await core.PutFileToS3Storage(baseMemoryStream, ud.FileName.Replace(".3gp", ".wav"));
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Downloading and creating fil locally failed.", ex);
                     }
                 }
                 #endregion

@@ -83,10 +83,14 @@ namespace eFormCore
         public event EventHandler HandleCaseCreated;
         public event EventHandler HandleCaseRetrived;
         public event EventHandler HandleCaseCompleted;
+#pragma warning disable CS0067
         public event EventHandler HandleeFormProcessedByServer;
         public event EventHandler HandleeFormProsessingError;
+#pragma warning restore CS0067
         public event EventHandler HandleCaseDeleted;
+#pragma warning disable CS0067
         public event EventHandler HandleFileDownloaded;
+#pragma warning restore CS0067
         public event EventHandler HandleSiteActivated;
         public event EventHandler HandleNotificationNotFound;
         public event EventHandler HandleEventException;
