@@ -41,6 +41,7 @@ namespace Microting.eForm.Communication
         private Log _log;
         private IHttp _http;
         private Tools _t = new Tools();
+        private readonly string _connectionString;
         #endregion
 
         #region con
@@ -55,10 +56,11 @@ namespace Microting.eForm.Communication
         /// <param name="comAddressPdfUpload"></param>
         /// <param name="log"></param>
         /// <param name="comSpeechToText"></param>
-        public Communicator(string token, string comAddressApi, string comAddressBasic, string comOrganizationId, string comAddressPdfUpload, Log log, string comSpeechToText)
+        public Communicator(string token, string comAddressApi, string comAddressBasic, string comOrganizationId, string comAddressPdfUpload, Log log, string comSpeechToText, string connectionString)
         {
             //this.sqlController = sqlController;
             _log = log;
+            _connectionString = connectionString;
 
             //string token = sqlController.SettingRead(Settings.token);
             //string comAddressApi = sqlController.SettingRead(Settings.comAddressApi);
@@ -69,7 +71,7 @@ namespace Microting.eForm.Communication
             #region is unit test
             if (token == "abc1234567890abc1234567890abcdef")
             {
-                _http = new HttpFake();
+                _http = new HttpFake(connectionString);
                 return;
             }
             #endregion
@@ -478,7 +480,7 @@ namespace Microting.eForm.Communication
             IHttp specialHttp;
             if (token == "abc1234567890abc1234567890abcdef")
             {
-                specialHttp = new HttpFake();
+                specialHttp = new HttpFake(_connectionString);
             } else
             {
                 specialHttp = new Http(token, "https://basic.microting.com", "https://srv05.microting.com", "000", "", "https://speechtotext.microting.com");

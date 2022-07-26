@@ -33,6 +33,7 @@ using NUnit.Framework;
 
 namespace eFormSDK.InSight.Tests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class QuestionsUTest : DbTestFixture
     {
@@ -40,7 +41,7 @@ namespace eFormSDK.InSight.Tests
         public async Task Questions_Create_DoesCreate()
         {
             //Arrange
-            
+
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
@@ -76,21 +77,21 @@ namespace eFormSDK.InSight.Tests
             };
 
             //Act
-            
+
             await question.Create(DbContext).ConfigureAwait(false);
-            
+
             List<Question> questions = DbContext.Questions.AsNoTracking().ToList();
             List<QuestionVersion> questionVersions = DbContext.QuestionVersions.AsNoTracking().ToList();
-            
-            Assert.NotNull(questions);                                                             
-            Assert.NotNull(questionVersions);                                                             
 
-            Assert.AreEqual(1,questions.Count());  
-            Assert.AreEqual(1,questionVersions.Count());  
-            
-            Assert.AreEqual(question.CreatedAt.ToString(), questions[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(question.Version, questions[0].Version);                                      
-//            Assert.AreEqual(question.UpdatedAt.ToString(), questions[0].UpdatedAt.ToString());                                  
+            Assert.NotNull(questions);
+            Assert.NotNull(questionVersions);
+
+            Assert.AreEqual(1,questions.Count());
+            Assert.AreEqual(1,questionVersions.Count());
+
+            Assert.AreEqual(question.CreatedAt.ToString(), questions[0].CreatedAt.ToString());
+            Assert.AreEqual(question.Version, questions[0].Version);
+//            Assert.AreEqual(question.UpdatedAt.ToString(), questions[0].UpdatedAt.ToString());
             Assert.AreEqual(questions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(question.Id, questionVersions[0].Id);
             Assert.AreEqual(question.Image, questions[0].Image);
@@ -108,11 +109,11 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(question.ValidDisplay, questions[0].ValidDisplay);
             Assert.AreEqual(question.BackButtonEnabled, questions[0].BackButtonEnabled);
             Assert.AreEqual(question.QuestionSetId, questionSetForQuestion.Id);
-            
+
             //Versions
-            Assert.AreEqual(question.CreatedAt.ToString(), questionVersions[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(1, questionVersions[0].Version);                                      
-//            Assert.AreEqual(question.UpdatedAt.ToString(), questionVersions[0].UpdatedAt.ToString());                                  
+            Assert.AreEqual(question.CreatedAt.ToString(), questionVersions[0].CreatedAt.ToString());
+            Assert.AreEqual(1, questionVersions[0].Version);
+//            Assert.AreEqual(question.UpdatedAt.ToString(), questionVersions[0].UpdatedAt.ToString());
             Assert.AreEqual(questionVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(question.Id, questionVersions[0].QuestionId);
             Assert.AreEqual(question.Image, questionVersions[0].Image);
@@ -136,7 +137,7 @@ namespace eFormSDK.InSight.Tests
         public async Task Questions_Update_DoesUpdate()
         {
             //Arrange
-            
+
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
@@ -205,21 +206,21 @@ namespace eFormSDK.InSight.Tests
             question.ValidDisplay = randomBool;
             question.BackButtonEnabled = randomBool;
             question.ContinuousQuestionId = rnd.Next(1, 255);
-            
+
             await question.Update(DbContext).ConfigureAwait(false);
 
             List<Question> questions = DbContext.Questions.AsNoTracking().ToList();
             List<QuestionVersion> questionVersions = DbContext.QuestionVersions.AsNoTracking().ToList();
-            
-            Assert.NotNull(questions);                                                             
-            Assert.NotNull(questionVersions);                                                             
 
-            Assert.AreEqual(1,questions.Count());  
-            Assert.AreEqual(2,questionVersions.Count());  
-            
-            Assert.AreEqual(question.CreatedAt.ToString(), questions[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(question.Version, questions[0].Version);                                      
-//            Assert.AreEqual(question.UpdatedAt.ToString(), questions[0].UpdatedAt.ToString());                                  
+            Assert.NotNull(questions);
+            Assert.NotNull(questionVersions);
+
+            Assert.AreEqual(1,questions.Count());
+            Assert.AreEqual(2,questionVersions.Count());
+
+            Assert.AreEqual(question.CreatedAt.ToString(), questions[0].CreatedAt.ToString());
+            Assert.AreEqual(question.Version, questions[0].Version);
+//            Assert.AreEqual(question.UpdatedAt.ToString(), questions[0].UpdatedAt.ToString());
             Assert.AreEqual(questions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(question.Id, questionVersions[0].Id);
             Assert.AreEqual(question.Image, questions[0].Image);
@@ -237,11 +238,11 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(question.ValidDisplay, questions[0].ValidDisplay);
             Assert.AreEqual(question.BackButtonEnabled, questions[0].BackButtonEnabled);
             Assert.AreEqual(question.QuestionSetId, questionSetForQuestion.Id);
-            
+
             //Old Version
-            Assert.AreEqual(question.CreatedAt.ToString(), questionVersions[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(1, questionVersions[0].Version);                                      
-//            Assert.AreEqual(oldUpdatedAt.ToString(), questionVersions[0].UpdatedAt.ToString());                                  
+            Assert.AreEqual(question.CreatedAt.ToString(), questionVersions[0].CreatedAt.ToString());
+            Assert.AreEqual(1, questionVersions[0].Version);
+//            Assert.AreEqual(oldUpdatedAt.ToString(), questionVersions[0].UpdatedAt.ToString());
             Assert.AreEqual(questionVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(question.Id, questionVersions[0].QuestionId);
             Assert.AreEqual(oldImage, questionVersions[0].Image);
@@ -259,11 +260,11 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(oldValidDisplau, questionVersions[0].ValidDisplay);
             Assert.AreEqual(oldBackButtonEnabled, questionVersions[0].BackButtonEnabled);
             Assert.AreEqual(questionSetForQuestion.Id, questionVersions[0].QuestionSetId);
-            
+
             //New Version
-            Assert.AreEqual(question.CreatedAt.ToString(), questionVersions[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(2, questionVersions[1].Version);                                      
-//            Assert.AreEqual(question.UpdatedAt.ToString(), questionVersions[1].UpdatedAt.ToString());                                  
+            Assert.AreEqual(question.CreatedAt.ToString(), questionVersions[1].CreatedAt.ToString());
+            Assert.AreEqual(2, questionVersions[1].Version);
+//            Assert.AreEqual(question.UpdatedAt.ToString(), questionVersions[1].UpdatedAt.ToString());
             Assert.AreEqual(questionVersions[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(question.Id, questionVersions[0].QuestionId);
             Assert.AreEqual(question.Image, questionVersions[1].Image);
@@ -287,7 +288,7 @@ namespace eFormSDK.InSight.Tests
         public async Task Questions_Delete_DoesSetWorkflowStateToRemoved()
         {
             //Arrange
-            
+
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
@@ -331,16 +332,16 @@ namespace eFormSDK.InSight.Tests
 
             List<Question> questions = DbContext.Questions.AsNoTracking().ToList();
             List<QuestionVersion> questionVersions = DbContext.QuestionVersions.AsNoTracking().ToList();
-            
-            Assert.NotNull(questions);                                                             
-            Assert.NotNull(questionVersions);                                                             
 
-            Assert.AreEqual(1,questions.Count());  
-            Assert.AreEqual(2,questionVersions.Count());  
-            
-            Assert.AreEqual(question.CreatedAt.ToString(), questions[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(question.Version, questions[0].Version);                                      
-//            Assert.AreEqual(question.UpdatedAt.ToString(), questions[0].UpdatedAt.ToString());                                  
+            Assert.NotNull(questions);
+            Assert.NotNull(questionVersions);
+
+            Assert.AreEqual(1,questions.Count());
+            Assert.AreEqual(2,questionVersions.Count());
+
+            Assert.AreEqual(question.CreatedAt.ToString(), questions[0].CreatedAt.ToString());
+            Assert.AreEqual(question.Version, questions[0].Version);
+//            Assert.AreEqual(question.UpdatedAt.ToString(), questions[0].UpdatedAt.ToString());
             Assert.AreEqual(questions[0].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(question.Id, questionVersions[0].Id);
             Assert.AreEqual(question.Image, questions[0].Image);
@@ -358,11 +359,11 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(question.ValidDisplay, questions[0].ValidDisplay);
             Assert.AreEqual(question.BackButtonEnabled, questions[0].BackButtonEnabled);
             Assert.AreEqual(question.QuestionSetId, questionSetForQuestion.Id);
-            
+
             //Old Version
-            Assert.AreEqual(question.CreatedAt.ToString(), questionVersions[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(1, questionVersions[0].Version);                                      
-//            Assert.AreEqual(oldUpdatedAt.ToString(), questionVersions[0].UpdatedAt.ToString());                                  
+            Assert.AreEqual(question.CreatedAt.ToString(), questionVersions[0].CreatedAt.ToString());
+            Assert.AreEqual(1, questionVersions[0].Version);
+//            Assert.AreEqual(oldUpdatedAt.ToString(), questionVersions[0].UpdatedAt.ToString());
             Assert.AreEqual(questionVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(question.Id, questionVersions[0].QuestionId);
             Assert.AreEqual(question.Image, questionVersions[0].Image);
@@ -380,11 +381,11 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(question.ValidDisplay, questionVersions[0].ValidDisplay);
             Assert.AreEqual(question.BackButtonEnabled, questionVersions[0].BackButtonEnabled);
             Assert.AreEqual(questionSetForQuestion.Id, questionVersions[0].QuestionSetId);
-            
+
             //New Version
-            Assert.AreEqual(question.CreatedAt.ToString(), questionVersions[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(2, questionVersions[1].Version);                                      
-//            Assert.AreEqual(question.UpdatedAt.ToString(), questionVersions[1].UpdatedAt.ToString());                                  
+            Assert.AreEqual(question.CreatedAt.ToString(), questionVersions[1].CreatedAt.ToString());
+            Assert.AreEqual(2, questionVersions[1].Version);
+//            Assert.AreEqual(question.UpdatedAt.ToString(), questionVersions[1].UpdatedAt.ToString());
             Assert.AreEqual(questionVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(question.Id, questionVersions[0].QuestionId);
             Assert.AreEqual(question.Image, questionVersions[1].Image);

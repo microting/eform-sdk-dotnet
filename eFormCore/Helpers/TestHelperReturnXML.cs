@@ -37,9 +37,9 @@ namespace Microting.eForm.Helpers
         private TestHelpers testHelpers;
         Tools t = new Tools();
 
-        public TestHelperReturnXML()
+        public TestHelperReturnXML(string connectionString)
         {        Tools t = new Tools();
-            testHelpers = new TestHelpers();
+            testHelpers = new TestHelpers(connectionString);
 
         }
 

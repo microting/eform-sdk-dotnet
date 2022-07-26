@@ -41,6 +41,7 @@ using NUnit.Framework;
 
 namespace eFormSDK.Integration.Base.CoreTests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class CoreTestFolders : DbTestFixture
     {
@@ -72,7 +73,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
-            testHelpers = new TestHelpers();
+            testHelpers = new TestHelpers(ConnectionString);
             await testHelpers.GenerateDefaultLanguages();
             //sut.StartLog(new CoreBase());
         }

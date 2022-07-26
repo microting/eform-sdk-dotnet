@@ -279,7 +279,7 @@ namespace eFormCore
                     string comOrganizationId = await _sqlController.SettingRead(Settings.comOrganizationId).ConfigureAwait(false);
                     string comAddressPdfUpload = await _sqlController.SettingRead(Settings.comAddressPdfUpload).ConfigureAwait(false);
                     string comSpeechToText = await _sqlController.SettingRead(Settings.comSpeechToText).ConfigureAwait(false);
-                    _communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId, comAddressPdfUpload, Log, comSpeechToText);
+                    _communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId, comAddressPdfUpload, Log, comSpeechToText, connectionString);
 
                     _container = new WindsorContainer();
                     _container.Register(

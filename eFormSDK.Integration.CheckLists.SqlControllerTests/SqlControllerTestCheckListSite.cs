@@ -36,8 +36,9 @@ using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using NUnit.Framework;
 
-namespace eFormSDK.Integration.SqlControllerTests
+namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class SqlControllerTestCheckListSite : DbTestFixture
     {
@@ -57,7 +58,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             sut = new SqlController(dbContextHelper);
             sut.StartLog(new CoreBase());
-            testHelpers = new TestHelpers();
+            testHelpers = new TestHelpers(ConnectionString);
             await testHelpers.GenerateDefaultLanguages();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");

@@ -15,6 +15,7 @@ using NUnit.Framework;
 
 namespace eFormSDK.Integration.Base.SqlControllerTests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class SqlControllerTestWorker : DbTestFixture
     {
@@ -29,12 +30,12 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
             await sql.SettingUpdate(Settings.firstRunDone, "true");
             await sql.SettingUpdate(Settings.knownSitesDone, "true");
-            testHelpers = new TestHelpers();
+            testHelpers = new TestHelpers(ConnectionString);
             await testHelpers.GenerateDefaultLanguages();
 
             sut = new SqlController(dbContextHelper);
             sut.StartLog(new CoreBase());
-            testHelpers = new TestHelpers();
+            testHelpers = new TestHelpers(ConnectionString);
             await testHelpers.GenerateDefaultLanguages();
             await sut.SettingUpdate(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SettingUpdate(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));

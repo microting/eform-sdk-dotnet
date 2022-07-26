@@ -45,9 +45,14 @@ namespace Microting.eForm.Communication
 //        private string addressPdfUpload = "";
 
 //        private string dllVersion = "";
-//        private TestHelpers _testHelpers = new TestHelpers();
-        private readonly TestHelperReturnXML _testHelperReturnXml = new TestHelperReturnXML();
+//        private TestHelpers _testHelpers = new TestHelpers(ConnectionString);
+        private readonly TestHelperReturnXML _testHelperReturnXml;
 
+
+        public HttpFake(string connectionString)
+        {
+            _testHelperReturnXml = new TestHelperReturnXML(connectionString);
+        }
 
         Tools t = new Tools();
 

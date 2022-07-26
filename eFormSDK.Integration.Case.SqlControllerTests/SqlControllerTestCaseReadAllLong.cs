@@ -37,6 +37,7 @@ using NUnit.Framework;
 
 namespace eFormSDK.Integration.Case.SqlControllerTests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class SqlControllerTestCaseReadAllLong : DbTestFixture
     {
@@ -58,7 +59,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             sut = new SqlController(dbContextHelper);
             sut.StartLog(new CoreBase());
-            testHelpers = new TestHelpers();
+            testHelpers = new TestHelpers(ConnectionString);
             await testHelpers.GenerateDefaultLanguages();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");

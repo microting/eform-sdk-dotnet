@@ -38,8 +38,9 @@ using Microting.eForm.Infrastructure.Helpers;
 using Microting.eForm.Infrastructure.Models;
 using NUnit.Framework;
 
-namespace eFormSDK.Integration.CoreTests
+namespace eFormSDK.Integration.CheckLists.CoreTests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class CoreTesteFormQuickSyncXML : DbTestFixture
     {
@@ -72,7 +73,7 @@ namespace eFormSDK.Integration.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
-            testHelpers = new TestHelpers();
+            testHelpers = new TestHelpers(ConnectionString);
             await testHelpers.GenerateDefaultLanguages();
             //sut.StartLog(new CoreBase());
         }

@@ -27,6 +27,7 @@ using NUnit.Framework;
 
 namespace eFormSDK.Integration.Base.SqlControllerTests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class CanaryInAColeMine
     {
