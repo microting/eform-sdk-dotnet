@@ -8,7 +8,8 @@ using Microting.eForm.Infrastructure.Data.Entities;
 using NUnit.Framework;
 
 namespace eFormSDK.InSight.Tests
-{   
+{
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class QuestionTranslationUTest : DbTestFixture
     {
@@ -64,33 +65,33 @@ namespace eFormSDK.InSight.Tests
                 QuestionId = question.Id,
                 MicrotingUid = rnd.Next(1, 255)
             };
-            
+
             // Act
             await questionTranslation.Create(DbContext).ConfigureAwait(false);
 
             List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
-            
+
             // Assert
-            
+
             Assert.NotNull(questionTranslations);
             Assert.NotNull(questionTranslationVersions);
-            
+
             Assert.AreEqual(1, questionTranslations.Count);
             Assert.AreEqual(1, questionTranslationVersions.Count);
-            
+
             Assert.AreEqual(questionTranslation.LanguageId, questionTranslations[0].LanguageId);
             Assert.AreEqual(questionTranslation.Name, questionTranslations[0].Name);
             Assert.AreEqual(questionTranslation.QuestionId, questionTranslations[0].QuestionId);
             Assert.AreEqual(questionTranslation.MicrotingUid, questionTranslations[0].MicrotingUid);
-            
+
             Assert.AreEqual(questionTranslation.LanguageId, questionTranslationVersions[0].LanguageId);
             Assert.AreEqual(questionTranslation.Name, questionTranslationVersions[0].Name);
             Assert.AreEqual(questionTranslation.QuestionId, questionTranslationVersions[0].QuestionId);
             Assert.AreEqual(questionTranslation.MicrotingUid, questionTranslationVersions[0].MicrotingUid);
         }
-        
+
         [Test]
         public async Task QuestionTranslation_Create_DoesCreate_WO_MicrotingUID()
         {
@@ -131,7 +132,7 @@ namespace eFormSDK.InSight.Tests
 
             Language language = new Language
             {
-                LanguageCode = Guid.NewGuid().ToString(), 
+                LanguageCode = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
@@ -142,27 +143,27 @@ namespace eFormSDK.InSight.Tests
                 Name = Guid.NewGuid().ToString(),
                 QuestionId = question.Id
             };
-            
+
             // Act
             await questionTranslation.Create(DbContext).ConfigureAwait(false);
 
             List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
-            
+
             // Assert
-            
+
             Assert.NotNull(questionTranslations);
             Assert.NotNull(questionTranslationVersions);
-            
+
             Assert.AreEqual(1, questionTranslations.Count);
             Assert.AreEqual(1, questionTranslationVersions.Count);
-            
+
             Assert.AreEqual(questionTranslation.LanguageId, questionTranslations[0].LanguageId);
             Assert.AreEqual(questionTranslation.Name, questionTranslations[0].Name);
             Assert.AreEqual(questionTranslation.QuestionId, questionTranslations[0].QuestionId);
             Assert.AreEqual(null, questionTranslations[0].MicrotingUid);
-            
+
             Assert.AreEqual(questionTranslation.LanguageId, questionTranslationVersions[0].LanguageId);
             Assert.AreEqual(questionTranslation.Name, questionTranslationVersions[0].Name);
             Assert.AreEqual(questionTranslation.QuestionId, questionTranslationVersions[0].QuestionId);
@@ -270,35 +271,35 @@ namespace eFormSDK.InSight.Tests
             questionTranslation.MicrotingUid = rnd.Next(1, 255);
             // Act
             await questionTranslation.Update(DbContext).ConfigureAwait(false);
-            
+
             List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
-            
+
             // Assert
-            
+
             Assert.NotNull(questionTranslations);
             Assert.NotNull(questionTranslationVersions);
-            
+
             Assert.AreEqual(1, questionTranslations.Count);
             Assert.AreEqual(2, questionTranslationVersions.Count);
-            
+
             Assert.AreEqual(questionTranslation.LanguageId, questionTranslations[0].LanguageId);
             Assert.AreEqual(questionTranslation.Name, questionTranslations[0].Name);
             Assert.AreEqual(questionTranslation.QuestionId, questionTranslations[0].QuestionId);
             Assert.AreEqual(questionTranslation.MicrotingUid, questionTranslations[0].MicrotingUid);
-            
+
             Assert.AreEqual(questionTranslation.LanguageId, questionTranslationVersions[1].LanguageId);
             Assert.AreEqual(questionTranslation.Name, questionTranslationVersions[1].Name);
             Assert.AreEqual(questionTranslation.QuestionId, questionTranslationVersions[1].QuestionId);
             Assert.AreEqual(questionTranslation.MicrotingUid, questionTranslationVersions[1].MicrotingUid);
-            
+
             Assert.AreEqual(oldLanguageId, questionTranslationVersions[0].LanguageId);
             Assert.AreEqual(oldName, questionTranslationVersions[0].Name);
             Assert.AreEqual(oldQuestionId, questionTranslationVersions[0].QuestionId);
             Assert.AreEqual(oldMicrotingUid, questionTranslationVersions[0].MicrotingUid);
         }
-        
+
         [Test]
         public async Task QuestionTranslation_Update_DoesUpdate_WO_MicrotingUID()
         {
@@ -397,35 +398,35 @@ namespace eFormSDK.InSight.Tests
             questionTranslation.QuestionId = question2.Id;
             // Act
             await questionTranslation.Update(DbContext).ConfigureAwait(false);
-            
+
             List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
-            
+
             // Assert
-            
+
             Assert.NotNull(questionTranslations);
             Assert.NotNull(questionTranslationVersions);
-            
+
             Assert.AreEqual(1, questionTranslations.Count);
             Assert.AreEqual(2, questionTranslationVersions.Count);
-            
+
             Assert.AreEqual(questionTranslation.LanguageId, questionTranslations[0].LanguageId);
             Assert.AreEqual(questionTranslation.Name, questionTranslations[0].Name);
             Assert.AreEqual(questionTranslation.QuestionId, questionTranslations[0].QuestionId);
             Assert.AreEqual(questionTranslation.MicrotingUid, questionTranslations[0].MicrotingUid);
-            
+
             Assert.AreEqual(questionTranslation.LanguageId, questionTranslationVersions[1].LanguageId);
             Assert.AreEqual(questionTranslation.Name, questionTranslationVersions[1].Name);
             Assert.AreEqual(questionTranslation.QuestionId, questionTranslationVersions[1].QuestionId);
             Assert.AreEqual(null, questionTranslationVersions[1].MicrotingUid);
-            
+
             Assert.AreEqual(oldLanguageId, questionTranslationVersions[0].LanguageId);
             Assert.AreEqual(oldName, questionTranslationVersions[0].Name);
             Assert.AreEqual(oldQuestionId, questionTranslationVersions[0].QuestionId);
             Assert.AreEqual(null, questionTranslationVersions[0].MicrotingUid);
         }
-        
+
         [Test]
         public async Task QuestionTranslation_Update_DoesUpdate_W_MicrotingUID_RemovesUid()
         {
@@ -504,7 +505,7 @@ namespace eFormSDK.InSight.Tests
 
             Language language2 = new Language
             {
-                LanguageCode = Guid.NewGuid().ToString(), 
+                LanguageCode = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
             await language2.Create(DbContext).ConfigureAwait(false);
@@ -529,35 +530,35 @@ namespace eFormSDK.InSight.Tests
             questionTranslation.MicrotingUid = null;
             // Act
             await questionTranslation.Update(DbContext).ConfigureAwait(false);
-            
+
             List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
-            
+
             // Assert
-            
+
             Assert.NotNull(questionTranslations);
             Assert.NotNull(questionTranslationVersions);
-            
+
             Assert.AreEqual(1, questionTranslations.Count);
             Assert.AreEqual(2, questionTranslationVersions.Count);
-            
+
             Assert.AreEqual(questionTranslation.LanguageId, questionTranslations[0].LanguageId);
             Assert.AreEqual(questionTranslation.Name, questionTranslations[0].Name);
             Assert.AreEqual(questionTranslation.QuestionId, questionTranslations[0].QuestionId);
             Assert.AreEqual(questionTranslation.MicrotingUid, questionTranslations[0].MicrotingUid);
-            
+
             Assert.AreEqual(questionTranslation.LanguageId, questionTranslationVersions[1].LanguageId);
             Assert.AreEqual(questionTranslation.Name, questionTranslationVersions[1].Name);
             Assert.AreEqual(questionTranslation.QuestionId, questionTranslationVersions[1].QuestionId);
             Assert.AreEqual(null, questionTranslationVersions[1].MicrotingUid);
-            
+
             Assert.AreEqual(oldLanguageId, questionTranslationVersions[0].LanguageId);
             Assert.AreEqual(oldName, questionTranslationVersions[0].Name);
             Assert.AreEqual(oldQuestionId, questionTranslationVersions[0].QuestionId);
             Assert.AreEqual(oldMicrotingUid, questionTranslationVersions[0].MicrotingUid);
         }
-        
+
         [Test]
         public async Task QuestionTranslation_Update_DoesUpdate_WO_MicrotingUID_AddsUID()
         {
@@ -636,7 +637,7 @@ namespace eFormSDK.InSight.Tests
 
             Language language2 = new Language
             {
-                LanguageCode = Guid.NewGuid().ToString(), 
+                LanguageCode = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
             await language2.Create(DbContext).ConfigureAwait(false);
@@ -659,29 +660,29 @@ namespace eFormSDK.InSight.Tests
             questionTranslation.MicrotingUid = rnd.Next(1, 255);
             // Act
             await questionTranslation.Update(DbContext).ConfigureAwait(false);
-            
+
             List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
-            
+
             // Assert
-            
+
             Assert.NotNull(questionTranslations);
             Assert.NotNull(questionTranslationVersions);
-            
+
             Assert.AreEqual(1, questionTranslations.Count);
             Assert.AreEqual(2, questionTranslationVersions.Count);
-            
+
             Assert.AreEqual(questionTranslation.LanguageId, questionTranslations[0].LanguageId);
             Assert.AreEqual(questionTranslation.Name, questionTranslations[0].Name);
             Assert.AreEqual(questionTranslation.QuestionId, questionTranslations[0].QuestionId);
             Assert.AreEqual(questionTranslation.MicrotingUid, questionTranslations[0].MicrotingUid);
-            
+
             Assert.AreEqual(questionTranslation.LanguageId, questionTranslationVersions[1].LanguageId);
             Assert.AreEqual(questionTranslation.Name, questionTranslationVersions[1].Name);
             Assert.AreEqual(questionTranslation.QuestionId, questionTranslationVersions[1].QuestionId);
             Assert.AreEqual(questionTranslation.MicrotingUid, questionTranslationVersions[1].MicrotingUid);
-            
+
             Assert.AreEqual(oldLanguageId, questionTranslationVersions[0].LanguageId);
             Assert.AreEqual(oldName, questionTranslationVersions[0].Name);
             Assert.AreEqual(oldQuestionId, questionTranslationVersions[0].QuestionId);
@@ -731,7 +732,7 @@ namespace eFormSDK.InSight.Tests
                 LanguageCode = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
-            
+
             QuestionTranslation questionTranslation = new QuestionTranslation
             {
                 LanguageId = language.Id,
@@ -748,25 +749,25 @@ namespace eFormSDK.InSight.Tests
 
             // Act
             await questionTranslation.Delete(DbContext).ConfigureAwait(false);
-            
+
             List<QuestionTranslation> questionTranslations = DbContext.QuestionTranslations.AsNoTracking().ToList();
             List<QuestionTranslationVersion> questionTranslationVersions =
                 DbContext.QuestionTranslationVersions.AsNoTracking().ToList();
-            
+
             // Assert
-            
+
             Assert.NotNull(questionTranslations);
             Assert.NotNull(questionTranslationVersions);
-            
+
             Assert.AreEqual(1, questionTranslations.Count);
             Assert.AreEqual(2, questionTranslationVersions.Count);
-            
+
             Assert.AreEqual(questionTranslation.LanguageId, questionTranslations[0].LanguageId);
             Assert.AreEqual(questionTranslation.Name, questionTranslations[0].Name);
             Assert.AreEqual(questionTranslation.QuestionId, questionTranslations[0].QuestionId);
             Assert.AreEqual(questionTranslation.MicrotingUid, questionTranslations[0].MicrotingUid);
             Assert.AreEqual(Constants.WorkflowStates.Removed, questionTranslations[0].WorkflowState);
-            
+
             Assert.AreEqual(questionTranslation.LanguageId, questionTranslationVersions[1].LanguageId);
             Assert.AreEqual(questionTranslation.Name, questionTranslationVersions[1].Name);
             Assert.AreEqual(questionTranslation.QuestionId, questionTranslationVersions[1].QuestionId);
@@ -779,6 +780,6 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(oldMicrotingUid, questionTranslationVersions[0].MicrotingUid);
             Assert.AreEqual(Constants.WorkflowStates.Created, questionTranslationVersions[0].WorkflowState);
         }
-        
+
     }
 }

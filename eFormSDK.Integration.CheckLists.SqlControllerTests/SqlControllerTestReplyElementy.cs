@@ -39,8 +39,9 @@ using CheckListValue = Microting.eForm.Infrastructure.Data.Entities.CheckListVal
 using Field = Microting.eForm.Infrastructure.Data.Entities.Field;
 using FieldValue = Microting.eForm.Infrastructure.Data.Entities.FieldValue;
 
-namespace eFormSDK.Integration.SqlControllerTests
+namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class SqlControllerTestReplyElementy : DbTestFixture
     {
@@ -61,7 +62,7 @@ namespace eFormSDK.Integration.SqlControllerTests
 
             sut = new SqlController(dbContextHelper);
             sut.StartLog(new CoreBase());
-            testHelpers = new TestHelpers();
+            testHelpers = new TestHelpers(ConnectionString);
             await testHelpers.GenerateDefaultLanguages();
             await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
             await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");

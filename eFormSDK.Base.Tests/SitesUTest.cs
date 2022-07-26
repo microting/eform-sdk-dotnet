@@ -33,6 +33,7 @@ using NUnit.Framework;
 
 namespace eFormSDK.Base.Tests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class SitesUTest : DbTestFixture
     {
@@ -44,26 +45,26 @@ namespace eFormSDK.Base.Tests
 
             Site site = new Site
             {
-                Name = Guid.NewGuid().ToString(), 
+                Name = Guid.NewGuid().ToString(),
                 MicrotingUid = rnd.Next(1, 255)
             };
 
             //Act
-            
+
             await site.Create(DbContext).ConfigureAwait(false);
 
             Site dbSite = DbContext.Sites.AsNoTracking().First();
             List<Site> sitesList = DbContext.Sites.AsNoTracking().ToList();
-            
+
             //Assert
-            
+
             Assert.NotNull(dbSite);
             Assert.NotNull(dbSite.Id);
-            
+
             Assert.AreEqual(1, sitesList.Count());
             Assert.AreEqual(site.CreatedAt.ToString(), dbSite.CreatedAt.ToString());
             Assert.AreEqual(site.Version, dbSite.Version);
-//            Assert.AreEqual(site.UpdatedAt.ToString(), dbSites.UpdatedAt.ToString()); 
+//            Assert.AreEqual(site.UpdatedAt.ToString(), dbSites.UpdatedAt.ToString());
             Assert.AreEqual(dbSite.WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(site.Name, dbSite.Name);
             Assert.AreEqual(site.MicrotingUid, dbSite.MicrotingUid);
@@ -81,7 +82,7 @@ namespace eFormSDK.Base.Tests
 
             DbContext.Sites.Add(site);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
-            
+
             //Act
 
             site.Name = Guid.NewGuid().ToString();
@@ -90,17 +91,17 @@ namespace eFormSDK.Base.Tests
             Site dbSite = DbContext.Sites.AsNoTracking().First();
             List<Site> sitesList = DbContext.Sites.AsNoTracking().ToList();
             List<SiteVersion> sitesVersions = DbContext.SiteVersions.AsNoTracking().ToList();
-            
+
             //Assert
-            
-            Assert.NotNull(dbSite);                                                             
-            Assert.NotNull(dbSite.Id);                                                          
+
+            Assert.NotNull(dbSite);
+            Assert.NotNull(dbSite.Id);
 
             Assert.AreEqual(1,sitesList.Count());
             Assert.AreEqual(1, sitesVersions.Count());
 
-            Assert.AreEqual(site.CreatedAt.ToString(), dbSite.CreatedAt.ToString());                                  
-            Assert.AreEqual(site.Version, dbSite.Version);                                      
+            Assert.AreEqual(site.CreatedAt.ToString(), dbSite.CreatedAt.ToString());
+            Assert.AreEqual(site.Version, dbSite.Version);
 //            Assert.AreEqual(site.UpdatedAt.ToString(), dbSites.UpdatedAt.ToString());
             Assert.AreEqual(site.Name, dbSite.Name);
         }
@@ -122,22 +123,22 @@ namespace eFormSDK.Base.Tests
 
             await site.Delete(DbContext);
 
-            Site dbSite = DbContext.Sites.AsNoTracking().First();                               
+            Site dbSite = DbContext.Sites.AsNoTracking().First();
             List<Site> sitesList = DbContext.Sites.AsNoTracking().ToList();
             List<SiteVersion> sitesVersions = DbContext.SiteVersions.AsNoTracking().ToList();
 
-            //Assert                                                                            
+            //Assert
 
-            Assert.NotNull(dbSite);                                                             
-            Assert.NotNull(dbSite.Id);                                                          
+            Assert.NotNull(dbSite);
+            Assert.NotNull(dbSite.Id);
 
             Assert.AreEqual(1,sitesList.Count());
             Assert.AreEqual(1, sitesVersions.Count());
 
-            Assert.AreEqual(site.CreatedAt.ToString(), dbSite.CreatedAt.ToString());                                  
-            Assert.AreEqual(site.Version, dbSite.Version);                                      
+            Assert.AreEqual(site.CreatedAt.ToString(), dbSite.CreatedAt.ToString());
+            Assert.AreEqual(site.Version, dbSite.Version);
 //            Assert.AreEqual(site.UpdatedAt.ToString(), dbSites.UpdatedAt.ToString());
-            Assert.AreEqual(site.Name, dbSite.Name);    
+            Assert.AreEqual(site.Name, dbSite.Name);
 
             Assert.AreEqual(dbSite.WorkflowState, Constants.WorkflowStates.Removed);
         }

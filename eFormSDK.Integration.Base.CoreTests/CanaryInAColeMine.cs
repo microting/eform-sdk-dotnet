@@ -27,6 +27,7 @@ using NUnit.Framework;
 
 namespace eFormSDK.Integration.Base.CoreTests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class CanaryInAColeMine
     {

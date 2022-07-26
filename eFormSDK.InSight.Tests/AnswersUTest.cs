@@ -33,6 +33,7 @@ using NUnit.Framework;
 
 namespace eFormSDK.InSight.Tests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class AnswersUTest : DbTestFixture
     {
@@ -108,45 +109,45 @@ namespace eFormSDK.InSight.Tests
              };
 
              //Act
-            
+
              await answer.Create(DbContext).ConfigureAwait(false);
 
              List<Answer> answers = DbContext.Answers.AsNoTracking().ToList();
              List<AnswerVersion> answerVersions = DbContext.AnswerVersions.AsNoTracking().ToList();
-            
-            //Assert
-            
-            Assert.NotNull(answers);                                                             
-            Assert.NotNull(answerVersions);                                                             
 
-            Assert.AreEqual(1,answers.Count());  
-            Assert.AreEqual(1,answerVersions.Count());  
-            
-            Assert.AreEqual(answer.CreatedAt.ToString(), answers[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(answer.Version, answers[0].Version);                                      
-//            Assert.AreEqual(answer.UpdatedAt.ToString(), answers[0].UpdatedAt.ToString());                                  
+            //Assert
+
+            Assert.NotNull(answers);
+            Assert.NotNull(answerVersions);
+
+            Assert.AreEqual(1,answers.Count());
+            Assert.AreEqual(1,answerVersions.Count());
+
+            Assert.AreEqual(answer.CreatedAt.ToString(), answers[0].CreatedAt.ToString());
+            Assert.AreEqual(answer.Version, answers[0].Version);
+//            Assert.AreEqual(answer.UpdatedAt.ToString(), answers[0].UpdatedAt.ToString());
             Assert.AreEqual(answers[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(answer.Id, answers[0].Id);
             Assert.AreEqual(answer.AnswerDuration, answers[0].AnswerDuration);
-            Assert.AreEqual(answer.FinishedAt.ToString(), answers[0].FinishedAt.ToString()); 
-            Assert.AreEqual(answer.LanguageId, language.Id); 
+            Assert.AreEqual(answer.FinishedAt.ToString(), answers[0].FinishedAt.ToString());
+            Assert.AreEqual(answer.LanguageId, language.Id);
             Assert.AreEqual(answer.SiteId, site.Id);
             Assert.AreEqual(answer.TimeZone, answers[0].TimeZone);
             Assert.AreEqual(answer.UnitId, unit.Id);
             Assert.AreEqual(answer.UtcAdjusted, answers[0].UtcAdjusted);
             Assert.AreEqual(answer.QuestionSetId, questionSet.Id);
             Assert.AreEqual(answer.SurveyConfigurationId, surveyConfiguration.Id);
-            
+
 
             //Version 1
-            Assert.AreEqual(answer.CreatedAt.ToString(), answerVersions[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(1, answerVersions[0].Version);                                      
-//            Assert.AreEqual(answer.UpdatedAt.ToString(), answerVersions[0].UpdatedAt.ToString());                                  
+            Assert.AreEqual(answer.CreatedAt.ToString(), answerVersions[0].CreatedAt.ToString());
+            Assert.AreEqual(1, answerVersions[0].Version);
+//            Assert.AreEqual(answer.UpdatedAt.ToString(), answerVersions[0].UpdatedAt.ToString());
             Assert.AreEqual(answerVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(answer.Id, answerVersions[0].AnswerId);
             Assert.AreEqual(answer.AnswerDuration, answerVersions[0].AnswerDuration);
-            Assert.AreEqual(answer.FinishedAt.ToString(), answerVersions[0].FinishedAt.ToString()); 
-            Assert.AreEqual(language.Id, answerVersions[0].LanguageId); 
+            Assert.AreEqual(answer.FinishedAt.ToString(), answerVersions[0].FinishedAt.ToString());
+            Assert.AreEqual(language.Id, answerVersions[0].LanguageId);
             Assert.AreEqual(site.Id, answerVersions[0].SiteId);
             Assert.AreEqual(answer.TimeZone, answerVersions[0].TimeZone);
             Assert.AreEqual(unit.Id, answerVersions[0].UnitId);
@@ -226,7 +227,7 @@ namespace eFormSDK.InSight.Tests
                  SurveyConfigurationId = surveyConfiguration.Id
              };
              await answer.Create(DbContext).ConfigureAwait(false);
-            
+
             //Act
 
             DateTime? oldUpdatedAt = answer.UpdatedAt;
@@ -234,44 +235,44 @@ namespace eFormSDK.InSight.Tests
             DateTime oldFinishedAt = answer.FinishedAt;
             string oldTimeZone = answer.TimeZone;
             bool oldUtcAdjusted = answer.UtcAdjusted;
-            
+
             answer.AnswerDuration = rnd.Next(1, 255);
             answer.FinishedAt = DateTime.UtcNow;
             answer.TimeZone = Guid.NewGuid().ToString();
             answer.UtcAdjusted = randomBool;
-            
+
             await answer.Update(DbContext).ConfigureAwait(false);
-            
-            List<Answer> answers = DbContext.Answers.AsNoTracking().ToList();                            
-            List<AnswerVersion> answerVersions = DbContext.AnswerVersions.AsNoTracking().ToList(); 
-            
+
+            List<Answer> answers = DbContext.Answers.AsNoTracking().ToList();
+            List<AnswerVersion> answerVersions = DbContext.AnswerVersions.AsNoTracking().ToList();
+
             //Assert
-            
-            Assert.NotNull(answers);                                                             
-            Assert.NotNull(answerVersions);                                                          
+
+            Assert.NotNull(answers);
+            Assert.NotNull(answerVersions);
 
             Assert.AreEqual(1,answers.Count());
-            Assert.AreEqual(2,answerVersions.Count());  
-            
-            Assert.AreEqual(answer.CreatedAt.ToString(), answers[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(answer.Version, answers[0].Version);                                      
-//            Assert.AreEqual(answer.UpdatedAt.ToString(), answers[0].UpdatedAt.ToString());                                  
+            Assert.AreEqual(2,answerVersions.Count());
+
+            Assert.AreEqual(answer.CreatedAt.ToString(), answers[0].CreatedAt.ToString());
+            Assert.AreEqual(answer.Version, answers[0].Version);
+//            Assert.AreEqual(answer.UpdatedAt.ToString(), answers[0].UpdatedAt.ToString());
             Assert.AreEqual(answers[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(answer.Id, answers[0].Id);
             Assert.AreEqual(answer.AnswerDuration, answers[0].AnswerDuration);
-            Assert.AreEqual(answer.FinishedAt.ToString(), answers[0].FinishedAt.ToString()); 
-            Assert.AreEqual(answer.LanguageId, language.Id); 
+            Assert.AreEqual(answer.FinishedAt.ToString(), answers[0].FinishedAt.ToString());
+            Assert.AreEqual(answer.LanguageId, language.Id);
             Assert.AreEqual(answer.SiteId, site.Id);
             Assert.AreEqual(answer.TimeZone, answers[0].TimeZone);
             Assert.AreEqual(answer.UnitId, unit.Id);
             Assert.AreEqual(answer.UtcAdjusted, answers[0].UtcAdjusted);
             Assert.AreEqual(answer.QuestionSetId, questionSet.Id);
             Assert.AreEqual(answer.SurveyConfigurationId, surveyConfiguration.Id);
-            
+
             //Version 1 Old Version
-            Assert.AreEqual(answer.CreatedAt.ToString(), answerVersions[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(1, answerVersions[0].Version);                                      
-//            Assert.AreEqual(oldUpdatedAt.ToString(), answerVersions[0].UpdatedAt.ToString());                                  
+            Assert.AreEqual(answer.CreatedAt.ToString(), answerVersions[0].CreatedAt.ToString());
+            Assert.AreEqual(1, answerVersions[0].Version);
+//            Assert.AreEqual(oldUpdatedAt.ToString(), answerVersions[0].UpdatedAt.ToString());
             Assert.AreEqual(answerVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(oldAnswerDuration, answerVersions[0].AnswerDuration);
             Assert.AreEqual(oldFinishedAt.ToString(), answerVersions[0].FinishedAt.ToString());
@@ -280,14 +281,14 @@ namespace eFormSDK.InSight.Tests
 
 
             //Version 2 Updated Version
-            Assert.AreEqual(answer.CreatedAt.ToString(), answerVersions[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(2, answerVersions[1].Version);                                      
-//            Assert.AreEqual(answer.UpdatedAt.ToString(), answerVersions[1].UpdatedAt.ToString());                                  
+            Assert.AreEqual(answer.CreatedAt.ToString(), answerVersions[1].CreatedAt.ToString());
+            Assert.AreEqual(2, answerVersions[1].Version);
+//            Assert.AreEqual(answer.UpdatedAt.ToString(), answerVersions[1].UpdatedAt.ToString());
             Assert.AreEqual(answerVersions[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(answer.Id, answerVersions[1].AnswerId);
             Assert.AreEqual(answer.AnswerDuration, answerVersions[1].AnswerDuration);
-            Assert.AreEqual(answer.FinishedAt.ToString(), answerVersions[1].FinishedAt.ToString()); 
-            Assert.AreEqual(language.Id, answerVersions[1].LanguageId); 
+            Assert.AreEqual(answer.FinishedAt.ToString(), answerVersions[1].FinishedAt.ToString());
+            Assert.AreEqual(language.Id, answerVersions[1].LanguageId);
             Assert.AreEqual(site.Id, answerVersions[1].SiteId);
             Assert.AreEqual(answer.TimeZone, answerVersions[1].TimeZone);
             Assert.AreEqual(unit.Id, answerVersions[1].UnitId);
@@ -300,7 +301,7 @@ namespace eFormSDK.InSight.Tests
         public async Task Answer_Delete_DoesSetWorkflowStateToRemoved()
         {
              //Arrange
-            
+
              Random rnd = new Random();
 
              bool randomBool = rnd.Next(0, 2) > 0;
@@ -368,32 +369,32 @@ namespace eFormSDK.InSight.Tests
                  SurveyConfigurationId = surveyConfiguration.Id
              };
              await answer.Create(DbContext).ConfigureAwait(false);
-            
+
             //Act
-            
+
             DateTime? oldUpdatedAt = answer.UpdatedAt;
-            
+
             await answer.Delete(DbContext);
-            
-            List<Answer> answers = DbContext.Answers.AsNoTracking().ToList();                            
+
+            List<Answer> answers = DbContext.Answers.AsNoTracking().ToList();
             List<AnswerVersion> answerVersions = DbContext.AnswerVersions.AsNoTracking().ToList();
-            
+
             //Assert
-            
+
             Assert.NotNull(answers);
             Assert.NotNull(answerVersions);
-            
+
             Assert.AreEqual(1, answers.Count());
             Assert.AreEqual(2, answerVersions.Count());
-            
-            Assert.AreEqual(answer.CreatedAt.ToString(), answers[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(answer.Version, answers[0].Version);                                      
-//            Assert.AreEqual(answer.UpdatedAt.ToString(), answers[0].UpdatedAt.ToString());                                  
+
+            Assert.AreEqual(answer.CreatedAt.ToString(), answers[0].CreatedAt.ToString());
+            Assert.AreEqual(answer.Version, answers[0].Version);
+//            Assert.AreEqual(answer.UpdatedAt.ToString(), answers[0].UpdatedAt.ToString());
             Assert.AreEqual(answers[0].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(answer.Id, answers[0].Id);
             Assert.AreEqual(answer.AnswerDuration, answers[0].AnswerDuration);
-            Assert.AreEqual(answer.FinishedAt.ToString(), answers[0].FinishedAt.ToString()); 
-            Assert.AreEqual(answer.LanguageId, language.Id); 
+            Assert.AreEqual(answer.FinishedAt.ToString(), answers[0].FinishedAt.ToString());
+            Assert.AreEqual(answer.LanguageId, language.Id);
             Assert.AreEqual(answer.SiteId, site.Id);
             Assert.AreEqual(answer.TimeZone, answers[0].TimeZone);
             Assert.AreEqual(answer.UnitId, unit.Id);
@@ -402,14 +403,14 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(answer.SurveyConfigurationId, surveyConfiguration.Id);
 
             //Version 1 Old Version
-            Assert.AreEqual(answer.CreatedAt.ToString(), answerVersions[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(1, answerVersions[0].Version);                                      
-//            Assert.AreEqual(oldUpdatedAt.ToString(), answerVersions[0].UpdatedAt.ToString());                                  
+            Assert.AreEqual(answer.CreatedAt.ToString(), answerVersions[0].CreatedAt.ToString());
+            Assert.AreEqual(1, answerVersions[0].Version);
+//            Assert.AreEqual(oldUpdatedAt.ToString(), answerVersions[0].UpdatedAt.ToString());
             Assert.AreEqual(answerVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(answer.Id, answerVersions[0].AnswerId);
             Assert.AreEqual(answer.AnswerDuration, answerVersions[0].AnswerDuration);
-            Assert.AreEqual(answer.FinishedAt.ToString(), answerVersions[0].FinishedAt.ToString()); 
-            Assert.AreEqual(language.Id, answerVersions[0].LanguageId); 
+            Assert.AreEqual(answer.FinishedAt.ToString(), answerVersions[0].FinishedAt.ToString());
+            Assert.AreEqual(language.Id, answerVersions[0].LanguageId);
             Assert.AreEqual(site.Id, answerVersions[0].SiteId);
             Assert.AreEqual(answer.TimeZone, answerVersions[0].TimeZone);
             Assert.AreEqual(unit.Id, answerVersions[0].UnitId);
@@ -418,13 +419,13 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(surveyConfiguration.Id, answerVersions[0].SurveyConfigurationId);
 
             //Version 2 Deleted Version
-            Assert.AreEqual(answer.CreatedAt.ToString(), answerVersions[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(2, answerVersions[1].Version);                                      
-//            Assert.AreEqual(answer.UpdatedAt.ToString(), answerVersions[1].UpdatedAt.ToString());                                  
+            Assert.AreEqual(answer.CreatedAt.ToString(), answerVersions[1].CreatedAt.ToString());
+            Assert.AreEqual(2, answerVersions[1].Version);
+//            Assert.AreEqual(answer.UpdatedAt.ToString(), answerVersions[1].UpdatedAt.ToString());
             Assert.AreEqual(answer.Id, answerVersions[1].AnswerId);
             Assert.AreEqual(answer.AnswerDuration, answerVersions[1].AnswerDuration);
-            Assert.AreEqual(answer.FinishedAt.ToString(), answerVersions[1].FinishedAt.ToString()); 
-            Assert.AreEqual(language.Id, answerVersions[1].LanguageId); 
+            Assert.AreEqual(answer.FinishedAt.ToString(), answerVersions[1].FinishedAt.ToString());
+            Assert.AreEqual(language.Id, answerVersions[1].LanguageId);
             Assert.AreEqual(site.Id, answerVersions[1].SiteId);
             Assert.AreEqual(answer.TimeZone, answerVersions[1].TimeZone);
             Assert.AreEqual(unit.Id, answerVersions[1].UnitId);
@@ -433,6 +434,6 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(surveyConfiguration.Id, answerVersions[1].SurveyConfigurationId);
             Assert.AreEqual(answerVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
         }
-        
+
     }
 }

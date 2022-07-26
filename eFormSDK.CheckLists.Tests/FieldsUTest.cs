@@ -31,8 +31,9 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using NUnit.Framework;
 
-namespace eFormSDK.Tests
+namespace eFormSDK.CheckLists.Tests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class FieldsUTest : DbTestFixture
     {
@@ -41,9 +42,9 @@ namespace eFormSDK.Tests
         {
            short shortMinValue = Int16.MinValue;
             short shortmaxValue = Int16.MaxValue;
-            
+
             Random rnd = new Random();
-            
+
             bool randomBool = rnd.Next(0, 2) > 0;
 
             Site site = new Site
@@ -106,7 +107,7 @@ namespace eFormSDK.Tests
 
             FieldType fieldType = new FieldType
             {
-                Description = Guid.NewGuid().ToString(), 
+                Description = Guid.NewGuid().ToString(),
                 Type = Guid.NewGuid().ToString()
             };
             await fieldType.Create(DbContext).ConfigureAwait(false);
@@ -184,21 +185,21 @@ namespace eFormSDK.Tests
             };
 
             //Act
-            
+
             await field.Create(DbContext).ConfigureAwait(false);
-            
+
             List<Field> fields = DbContext.Fields.AsNoTracking().ToList();
             List<FieldVersion> fieldVersion = DbContext.FieldVersions.AsNoTracking().ToList();
-            
-            Assert.NotNull(fields);                                                             
-            Assert.NotNull(fieldVersion);                                                             
 
-            Assert.AreEqual(2,fields.Count());  
-            Assert.AreEqual(2,fieldVersion.Count()); 
-            
-            Assert.AreEqual(field.CreatedAt.ToString(), fields[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(field.Version, fields[1].Version);                                      
-//            Assert.AreEqual(field.UpdatedAt.ToString(), fields[1].UpdatedAt.ToString());                                  
+            Assert.NotNull(fields);
+            Assert.NotNull(fieldVersion);
+
+            Assert.AreEqual(2,fields.Count());
+            Assert.AreEqual(2,fieldVersion.Count());
+
+            Assert.AreEqual(field.CreatedAt.ToString(), fields[1].CreatedAt.ToString());
+            Assert.AreEqual(field.Version, fields[1].Version);
+//            Assert.AreEqual(field.UpdatedAt.ToString(), fields[1].UpdatedAt.ToString());
             Assert.AreEqual(fields[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(field.Id, fields[1].Id);
             Assert.AreEqual(field.Color, fields[1].Color);
@@ -233,12 +234,12 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.CheckListId, checklist.Id);
             Assert.AreEqual(field.StopOnSave, fields[1].StopOnSave);
             Assert.AreEqual(field.KeyValuePairList, fields[1].KeyValuePairList);
-         
-            
+
+
             //Versions
-            Assert.AreEqual(field.CreatedAt.ToString(), fieldVersion[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(1, fieldVersion[1].Version);                                      
-//            Assert.AreEqual(field.UpdatedAt.ToString(), fieldVersion[1].UpdatedAt.ToString());                                  
+            Assert.AreEqual(field.CreatedAt.ToString(), fieldVersion[1].CreatedAt.ToString());
+            Assert.AreEqual(1, fieldVersion[1].Version);
+//            Assert.AreEqual(field.UpdatedAt.ToString(), fieldVersion[1].UpdatedAt.ToString());
             Assert.AreEqual(fieldVersion[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(field.Id, fieldVersion[1].FieldId);
             Assert.AreEqual(field.Color, fieldVersion[1].Color);
@@ -280,9 +281,9 @@ namespace eFormSDK.Tests
         {
             short shortMinValue = Int16.MinValue;
             short shortmaxValue = Int16.MaxValue;
-            
+
             Random rnd = new Random();
-            
+
             bool randomBool = rnd.Next(0, 2) > 0;
 
             Site site = new Site
@@ -421,7 +422,7 @@ namespace eFormSDK.Tests
                 ParentFieldId = parentFIeld.Id
             };
             await field.Create(DbContext).ConfigureAwait(false);
-            
+
             //Act
 
             DateTime? oldUpdatedAt = field.UpdatedAt;
@@ -453,7 +454,7 @@ namespace eFormSDK.Tests
             string oldUnitName = field.UnitName;
             short? oldStopOnSave = field.StopOnSave;
             string oldKeyValuePairList = field.KeyValuePairList;
-            
+
             field.Color = Guid.NewGuid().ToString();
             field.Custom = Guid.NewGuid().ToString();
             field.Description = Guid.NewGuid().ToString();
@@ -487,16 +488,16 @@ namespace eFormSDK.Tests
 
             List<Field> fields = DbContext.Fields.AsNoTracking().ToList();
             List<FieldVersion> fieldVersion = DbContext.FieldVersions.AsNoTracking().ToList();
-            
-            Assert.NotNull(fields);                                                             
-            Assert.NotNull(fieldVersion);                                                             
 
-            Assert.AreEqual(2,fields.Count());  
-            Assert.AreEqual(3,fieldVersion.Count()); 
-            
-            Assert.AreEqual(field.CreatedAt.ToString(), fields[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(field.Version, fields[1].Version);                                      
-//            Assert.AreEqual(field.UpdatedAt.ToString(), fields[1].UpdatedAt.ToString());                                  
+            Assert.NotNull(fields);
+            Assert.NotNull(fieldVersion);
+
+            Assert.AreEqual(2,fields.Count());
+            Assert.AreEqual(3,fieldVersion.Count());
+
+            Assert.AreEqual(field.CreatedAt.ToString(), fields[1].CreatedAt.ToString());
+            Assert.AreEqual(field.Version, fields[1].Version);
+//            Assert.AreEqual(field.UpdatedAt.ToString(), fields[1].UpdatedAt.ToString());
             Assert.AreEqual(fields[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(field.Id, fields[1].Id);
             Assert.AreEqual(field.Color, fields[1].Color);
@@ -531,12 +532,12 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.CheckListId, checklist.Id);
             Assert.AreEqual(field.StopOnSave, fields[1].StopOnSave);
             Assert.AreEqual(field.KeyValuePairList, fields[1].KeyValuePairList);
-         
-            
+
+
             //Old Version
-            Assert.AreEqual(field.CreatedAt.ToString(), fieldVersion[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(1, fieldVersion[1].Version);                                      
-//            Assert.AreEqual(oldUpdatedAt.ToString(), fieldVersion[1].UpdatedAt.ToString());                                  
+            Assert.AreEqual(field.CreatedAt.ToString(), fieldVersion[1].CreatedAt.ToString());
+            Assert.AreEqual(1, fieldVersion[1].Version);
+//            Assert.AreEqual(oldUpdatedAt.ToString(), fieldVersion[1].UpdatedAt.ToString());
             Assert.AreEqual(fieldVersion[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(field.Id, fieldVersion[1].FieldId);
             Assert.AreEqual(oldColor, fieldVersion[1].Color);
@@ -571,11 +572,11 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checklist.Id, fieldVersion[1].CheckListId);
             Assert.AreEqual(oldStopOnSave, fieldVersion[1].StopOnSave);
             Assert.AreEqual(oldKeyValuePairList, fieldVersion[1].KeyValuePairList);
-            
+
             //New Version
-            Assert.AreEqual(field.CreatedAt.ToString(), fieldVersion[2].CreatedAt.ToString());                                  
-            Assert.AreEqual(2, fieldVersion[2].Version);                                      
-//            Assert.AreEqual(field.UpdatedAt.ToString(), fieldVersion[2].UpdatedAt.ToString());                                  
+            Assert.AreEqual(field.CreatedAt.ToString(), fieldVersion[2].CreatedAt.ToString());
+            Assert.AreEqual(2, fieldVersion[2].Version);
+//            Assert.AreEqual(field.UpdatedAt.ToString(), fieldVersion[2].UpdatedAt.ToString());
             Assert.AreEqual(fieldVersion[2].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(field.Id, fieldVersion[2].FieldId);
             Assert.AreEqual(field.Color, fieldVersion[2].Color);
@@ -617,9 +618,9 @@ namespace eFormSDK.Tests
         {
             short shortMinValue = Int16.MinValue;
             short shortmaxValue = Int16.MaxValue;
-            
+
             Random rnd = new Random();
-            
+
             bool randomBool = rnd.Next(0, 2) > 0;
 
             Site site = new Site
@@ -758,7 +759,7 @@ namespace eFormSDK.Tests
                 ParentFieldId = parentFIeld.Id
             };
             await field.Create(DbContext).ConfigureAwait(false);
-            
+
             //Act
 
             DateTime? oldUpdatedAt = field.UpdatedAt;
@@ -767,16 +768,16 @@ namespace eFormSDK.Tests
 
             List<Field> fields = DbContext.Fields.AsNoTracking().ToList();
             List<FieldVersion> fieldVersion = DbContext.FieldVersions.AsNoTracking().ToList();
-            
-            Assert.NotNull(fields);                                                             
-            Assert.NotNull(fieldVersion);                                                             
 
-            Assert.AreEqual(2,fields.Count());  
-            Assert.AreEqual(3,fieldVersion.Count()); 
-            
-            Assert.AreEqual(field.CreatedAt.ToString(), fields[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(field.Version, fields[1].Version);                                      
-//            Assert.AreEqual(field.UpdatedAt.ToString(), fields[1].UpdatedAt.ToString());                                  
+            Assert.NotNull(fields);
+            Assert.NotNull(fieldVersion);
+
+            Assert.AreEqual(2,fields.Count());
+            Assert.AreEqual(3,fieldVersion.Count());
+
+            Assert.AreEqual(field.CreatedAt.ToString(), fields[1].CreatedAt.ToString());
+            Assert.AreEqual(field.Version, fields[1].Version);
+//            Assert.AreEqual(field.UpdatedAt.ToString(), fields[1].UpdatedAt.ToString());
             Assert.AreEqual(fields[1].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(field.Id, fields[1].Id);
             Assert.AreEqual(field.Color, fields[1].Color);
@@ -811,12 +812,12 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.CheckListId, checklist.Id);
             Assert.AreEqual(field.StopOnSave, fields[1].StopOnSave);
             Assert.AreEqual(field.KeyValuePairList, fields[1].KeyValuePairList);
-         
-            
+
+
             //Old Version
-            Assert.AreEqual(field.CreatedAt.ToString(), fieldVersion[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(1, fieldVersion[1].Version);                                      
-//            Assert.AreEqual(oldUpdatedAt.ToString(), fieldVersion[1].UpdatedAt.ToString());                                  
+            Assert.AreEqual(field.CreatedAt.ToString(), fieldVersion[1].CreatedAt.ToString());
+            Assert.AreEqual(1, fieldVersion[1].Version);
+//            Assert.AreEqual(oldUpdatedAt.ToString(), fieldVersion[1].UpdatedAt.ToString());
             Assert.AreEqual(fieldVersion[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(field.Id, fieldVersion[1].FieldId);
             Assert.AreEqual(field.Color, fieldVersion[1].Color);
@@ -851,11 +852,11 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checklist.Id, fieldVersion[1].CheckListId);
             Assert.AreEqual(field.StopOnSave, fieldVersion[1].StopOnSave);
             Assert.AreEqual(field.KeyValuePairList, fieldVersion[1].KeyValuePairList);
-            
+
             //New Version
-            Assert.AreEqual(field.CreatedAt.ToString(), fieldVersion[2].CreatedAt.ToString());                                  
-            Assert.AreEqual(2, fieldVersion[2].Version);                                      
-//            Assert.AreEqual(field.UpdatedAt.ToString(), fieldVersion[2].UpdatedAt.ToString());                                  
+            Assert.AreEqual(field.CreatedAt.ToString(), fieldVersion[2].CreatedAt.ToString());
+            Assert.AreEqual(2, fieldVersion[2].Version);
+//            Assert.AreEqual(field.UpdatedAt.ToString(), fieldVersion[2].UpdatedAt.ToString());
             Assert.AreEqual(fieldVersion[2].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(field.Id, fieldVersion[2].FieldId);
             Assert.AreEqual(field.Color, fieldVersion[2].Color);
@@ -889,7 +890,7 @@ namespace eFormSDK.Tests
             Assert.AreEqual(field.ParentFieldId, fieldVersion[2].ParentFieldId);
             Assert.AreEqual(checklist.Id, fieldVersion[2].CheckListId);
             Assert.AreEqual(field.StopOnSave, fieldVersion[2].StopOnSave);
-            Assert.AreEqual(field.KeyValuePairList, fieldVersion[2].KeyValuePairList); 
+            Assert.AreEqual(field.KeyValuePairList, fieldVersion[2].KeyValuePairList);
         }
     }
 }

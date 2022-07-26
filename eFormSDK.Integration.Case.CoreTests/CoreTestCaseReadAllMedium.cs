@@ -30,7 +30,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using eFormCore;
-using eFormSDK.Integration.CheckLists.CoreTests;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
@@ -38,10 +37,10 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using NUnit.Framework;
-using Case = Microting.eForm.Infrastructure.Data.Entities.Case;
 
-namespace eFormSDK.Integration.CoreTests
+namespace eFormSDK.Integration.Case.CoreTests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class CoreTestCaseReadAllMedium : DbTestFixture
     {
@@ -74,7 +73,7 @@ namespace eFormSDK.Integration.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
-            testHelpers = new TestHelpers();
+            testHelpers = new TestHelpers(ConnectionString);
             await testHelpers.GenerateDefaultLanguages();
             //sut.StartLog(new CoreBase());
         }
@@ -178,7 +177,7 @@ namespace eFormSDK.Integration.CoreTests
             DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
             DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
 
-            Case aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
                 c1_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
 
@@ -189,7 +188,7 @@ namespace eFormSDK.Integration.CoreTests
             DateTime c2_ca = DateTime.UtcNow.AddDays(-7);
             DateTime c2_da = DateTime.UtcNow.AddDays(-6).AddHours(-12);
             DateTime c2_ua = DateTime.UtcNow.AddDays(-6);
-            Case aCase2 = await testHelpers.CreateCase("case2UId", cl1, c2_ca, "custom2",
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase2 = await testHelpers.CreateCase("case2UId", cl1, c2_ca, "custom2",
              c2_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 10, "caseType2", unit, c2_ua, 1, worker, Constants.WorkflowStates.Created);
             #endregion
@@ -199,7 +198,7 @@ namespace eFormSDK.Integration.CoreTests
             DateTime c3_da = DateTime.UtcNow.AddDays(-9).AddHours(-12);
             DateTime c3_ua = DateTime.UtcNow.AddDays(-9);
 
-            Case aCase3 = await testHelpers.CreateCase("case3UId", cl1, c3_ca, "custom3",
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase3 = await testHelpers.CreateCase("case3UId", cl1, c3_ca, "custom3",
               c3_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 15, "caseType3", unit, c3_ua, 1, worker, Constants.WorkflowStates.Created);
             #endregion
@@ -209,7 +208,7 @@ namespace eFormSDK.Integration.CoreTests
             DateTime c4_da = DateTime.UtcNow.AddDays(-7).AddHours(-12);
             DateTime c4_ua = DateTime.UtcNow.AddDays(-7);
 
-            Case aCase4 = await testHelpers.CreateCase("case4UId", cl1, c4_ca, "custom4",
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase4 = await testHelpers.CreateCase("case4UId", cl1, c4_ca, "custom4",
                 c4_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 100, "caseType4", unit, c4_ua, 1, worker, Constants.WorkflowStates.Created);
             #endregion
@@ -223,7 +222,7 @@ namespace eFormSDK.Integration.CoreTests
             DateTime c1Removed_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
             DateTime c1Removed_ua = DateTime.UtcNow.AddDays(-8);
 
-            Case aCase1Removed = await testHelpers.CreateCase("case1UId", cl1, c1Removed_ca, "custom1",
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase1Removed = await testHelpers.CreateCase("case1UId", cl1, c1Removed_ca, "custom1",
                 c1Removed_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 1, "caseType1", unit, c1Removed_ua, 1, worker, Constants.WorkflowStates.Removed);
 
@@ -234,7 +233,7 @@ namespace eFormSDK.Integration.CoreTests
             DateTime c2Removed_ca = DateTime.UtcNow.AddDays(-7);
             DateTime c2Removed_da = DateTime.UtcNow.AddDays(-6).AddHours(-12);
             DateTime c2Removed_ua = DateTime.UtcNow.AddDays(-6);
-            Case aCase2Removed = await testHelpers.CreateCase("case2UId", cl1, c2Removed_ca, "custom2",
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase2Removed = await testHelpers.CreateCase("case2UId", cl1, c2Removed_ca, "custom2",
              c2Removed_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 10, "caseType2", unit, c2Removed_ua, 1, worker, Constants.WorkflowStates.Removed);
             #endregion
@@ -244,7 +243,7 @@ namespace eFormSDK.Integration.CoreTests
             DateTime c3Removed_da = DateTime.UtcNow.AddDays(-9).AddHours(-12);
             DateTime c3Removed_ua = DateTime.UtcNow.AddDays(-9);
 
-            Case aCase3Removed = await testHelpers.CreateCase("case3UId", cl1, c3Removed_ca, "custom3",
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase3Removed = await testHelpers.CreateCase("case3UId", cl1, c3Removed_ca, "custom3",
               c3Removed_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 15, "caseType3", unit, c3Removed_ua, 1, worker, Constants.WorkflowStates.Removed);
             #endregion
@@ -254,7 +253,7 @@ namespace eFormSDK.Integration.CoreTests
             DateTime c4Removed_da = DateTime.UtcNow.AddDays(-7).AddHours(-12);
             DateTime c4Removed_ua = DateTime.UtcNow.AddDays(-7);
 
-            Case aCase4Removed = await testHelpers.CreateCase("case4UId", cl1, c4Removed_ca, "custom4",
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase4Removed = await testHelpers.CreateCase("case4UId", cl1, c4Removed_ca, "custom4",
                 c4Removed_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 100, "caseType4", unit, c4Removed_ua, 1, worker, Constants.WorkflowStates.Removed);
             #endregion
@@ -269,7 +268,7 @@ namespace eFormSDK.Integration.CoreTests
             DateTime c1Retracted_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
             DateTime c1Retracted_ua = DateTime.UtcNow.AddDays(-8);
 
-            Case aCase1Retracted = await testHelpers.CreateCase("case1UId", cl1, c1Retracted_ca, "custom1",
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase1Retracted = await testHelpers.CreateCase("case1UId", cl1, c1Retracted_ca, "custom1",
                 c1Retracted_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 1, "caseType1", unit, c1Retracted_ua, 1, worker, Constants.WorkflowStates.Retracted);
 
@@ -281,7 +280,7 @@ namespace eFormSDK.Integration.CoreTests
             DateTime c2Retracted_da = DateTime.UtcNow.AddDays(-6).AddHours(-12);
             DateTime c2Retracted_ua = DateTime.UtcNow.AddDays(-6);
 
-            Case aCase2Retracted = await testHelpers.CreateCase("case2UId", cl1, c2Retracted_ca, "custom2",
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase2Retracted = await testHelpers.CreateCase("case2UId", cl1, c2Retracted_ca, "custom2",
              c2Retracted_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 10, "caseType2", unit, c2Retracted_ua, 1, worker, Constants.WorkflowStates.Retracted);
             #endregion
@@ -291,7 +290,7 @@ namespace eFormSDK.Integration.CoreTests
             DateTime c3Retracted_da = DateTime.UtcNow.AddDays(-9).AddHours(-12);
             DateTime c3Retracted_ua = DateTime.UtcNow.AddDays(-9);
 
-            Case aCase3Retracted = await testHelpers.CreateCase("case3UId", cl1, c3Retracted_ca, "custom3",
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase3Retracted = await testHelpers.CreateCase("case3UId", cl1, c3Retracted_ca, "custom3",
               c3Retracted_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 15, "caseType3", unit, c3Retracted_ua, 1, worker, Constants.WorkflowStates.Retracted);
             #endregion
@@ -301,7 +300,7 @@ namespace eFormSDK.Integration.CoreTests
             DateTime c4Retracted_da = DateTime.UtcNow.AddDays(-7).AddHours(-12);
             DateTime c4Retracted_ua = DateTime.UtcNow.AddDays(-7);
 
-            Case aCase4Retracted = await testHelpers.CreateCase("case4UId", cl1, c4Retracted_ca, "custom4",
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase4Retracted = await testHelpers.CreateCase("case4UId", cl1, c4Retracted_ca, "custom4",
                 c4Retracted_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
                site, 100, "caseType4", unit, c4Retracted_ua, 1, worker, Constants.WorkflowStates.Retracted);
             #endregion

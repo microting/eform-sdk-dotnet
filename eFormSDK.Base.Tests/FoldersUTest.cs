@@ -33,6 +33,7 @@ using NUnit.Framework;
 
 namespace eFormSDK.Base.Tests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class FoldersUTest : DbTestFixture
     {
@@ -40,7 +41,7 @@ namespace eFormSDK.Base.Tests
         public async Task Folders_Create_DoesCreate()
         {
             //Arrange
-            
+
             Random rnd = new Random();
 
             Folder parentFolder = new Folder
@@ -60,31 +61,31 @@ namespace eFormSDK.Base.Tests
             };
 
             //Act
-            
+
             await folder.Create(DbContext).ConfigureAwait(false);
-            
+
             List<Folder> folders = DbContext.Folders.AsNoTracking().ToList();
             List<FolderVersion> folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
-            
-            Assert.NotNull(folders);                                                             
-            Assert.NotNull(folderVersions);                                                             
 
-            Assert.AreEqual(2,folders.Count());  
-            Assert.AreEqual(2,folderVersions.Count());  
-            
-            Assert.AreEqual(folder.CreatedAt.ToString(), folders[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(folder.Version, folders[1].Version);                                      
+            Assert.NotNull(folders);
+            Assert.NotNull(folderVersions);
+
+            Assert.AreEqual(2,folders.Count());
+            Assert.AreEqual(2,folderVersions.Count());
+
+            Assert.AreEqual(folder.CreatedAt.ToString(), folders[1].CreatedAt.ToString());
+            Assert.AreEqual(folder.Version, folders[1].Version);
             Assert.AreEqual(folders[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(folder.Id, folders[1].Id);
             Assert.AreEqual(folder.Description, folders[1].Description);
             Assert.AreEqual(folder.Name, folders[1].Name);
             Assert.AreEqual(folder.MicrotingUid, folders[1].MicrotingUid);
             Assert.AreEqual(folder.ParentId, parentFolder.Id);
-            
+
             //Versions
-            
-            Assert.AreEqual(folder.CreatedAt.ToString(), folderVersions[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(1, folderVersions[1].Version);                                      
+
+            Assert.AreEqual(folder.CreatedAt.ToString(), folderVersions[1].CreatedAt.ToString());
+            Assert.AreEqual(1, folderVersions[1].Version);
             Assert.AreEqual(folderVersions[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(folder.Id, folderVersions[1].FolderId);
             Assert.AreEqual(folder.Description, folderVersions[1].Description);
@@ -97,7 +98,7 @@ namespace eFormSDK.Base.Tests
         public async Task Folders_Update_DoesUpdate()
         {
             //Arrange
-            
+
             Random rnd = new Random();
 
             Folder parentFolder = new Folder
@@ -122,45 +123,45 @@ namespace eFormSDK.Base.Tests
             string oldDescription = folder.Description;
             string oldName = folder.Name;
             int? oldMicrotingUid = folder.MicrotingUid;
-            
+
             folder.Description = Guid.NewGuid().ToString();
             folder.Name = Guid.NewGuid().ToString();
             folder.MicrotingUid = rnd.Next(1, 255);
             await folder.Update(DbContext).ConfigureAwait(false);
-            
+
             List<Folder> folders = DbContext.Folders.AsNoTracking().ToList();
             List<FolderVersion> folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
-            
-            Assert.NotNull(folders);                                                             
-            Assert.NotNull(folderVersions);                                                             
 
-            Assert.AreEqual(2,folders.Count());  
-            Assert.AreEqual(3,folderVersions.Count());  
-            
-            Assert.AreEqual(folder.CreatedAt.ToString(), folders[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(folder.Version, folders[1].Version);                                      
+            Assert.NotNull(folders);
+            Assert.NotNull(folderVersions);
+
+            Assert.AreEqual(2,folders.Count());
+            Assert.AreEqual(3,folderVersions.Count());
+
+            Assert.AreEqual(folder.CreatedAt.ToString(), folders[1].CreatedAt.ToString());
+            Assert.AreEqual(folder.Version, folders[1].Version);
             Assert.AreEqual(folders[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(folder.Id, folders[1].Id);
             Assert.AreEqual(folder.Description, folders[1].Description);
             Assert.AreEqual(folder.Name, folders[1].Name);
             Assert.AreEqual(folder.MicrotingUid, folders[1].MicrotingUid);
             Assert.AreEqual(folder.ParentId, parentFolder.Id);
-            
+
             //Old Version
-            
-            Assert.AreEqual(folder.CreatedAt.ToString(), folderVersions[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(1, folderVersions[1].Version);                                      
+
+            Assert.AreEqual(folder.CreatedAt.ToString(), folderVersions[1].CreatedAt.ToString());
+            Assert.AreEqual(1, folderVersions[1].Version);
             Assert.AreEqual(folderVersions[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(folder.Id, folderVersions[1].FolderId);
             Assert.AreEqual(oldDescription, folderVersions[1].Description);
             Assert.AreEqual(oldName, folderVersions[1].Name);
             Assert.AreEqual(oldMicrotingUid, folderVersions[1].MicrotingUid);
             Assert.AreEqual(parentFolder.Id, folderVersions[1].ParentId);
-            
+
             //New Version
-            
-            Assert.AreEqual(folder.CreatedAt.ToString(), folderVersions[2].CreatedAt.ToString());                                  
-            Assert.AreEqual(2, folderVersions[2].Version);                                      
+
+            Assert.AreEqual(folder.CreatedAt.ToString(), folderVersions[2].CreatedAt.ToString());
+            Assert.AreEqual(2, folderVersions[2].Version);
             Assert.AreEqual(folderVersions[2].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(folder.Id, folderVersions[2].FolderId);
             Assert.AreEqual(folder.Description, folderVersions[2].Description);
@@ -173,7 +174,7 @@ namespace eFormSDK.Base.Tests
         public async Task Folders_Delete_DoesSetWorkflowStateToRemoved()
         {
              //Arrange
-            
+
             Random rnd = new Random();
 
             Folder parentFolder = new Folder
@@ -194,42 +195,42 @@ namespace eFormSDK.Base.Tests
             await folder.Create(DbContext).ConfigureAwait(false);
 
             //Act
-            
+
             await folder.Delete(DbContext);
-            
+
             List<Folder> folders = DbContext.Folders.AsNoTracking().ToList();
             List<FolderVersion> folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
-            
-            Assert.NotNull(folders);                                                             
-            Assert.NotNull(folderVersions);                                                             
 
-            Assert.AreEqual(2,folders.Count());  
-            Assert.AreEqual(3,folderVersions.Count());  
-            
-            Assert.AreEqual(folder.CreatedAt.ToString(), folders[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(folder.Version, folders[1].Version);                                      
+            Assert.NotNull(folders);
+            Assert.NotNull(folderVersions);
+
+            Assert.AreEqual(2,folders.Count());
+            Assert.AreEqual(3,folderVersions.Count());
+
+            Assert.AreEqual(folder.CreatedAt.ToString(), folders[1].CreatedAt.ToString());
+            Assert.AreEqual(folder.Version, folders[1].Version);
             Assert.AreEqual(folders[1].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(folder.Id, folders[1].Id);
             Assert.AreEqual(folder.Description, folders[1].Description);
             Assert.AreEqual(folder.Name, folders[1].Name);
             Assert.AreEqual(folder.MicrotingUid, folders[1].MicrotingUid);
             Assert.AreEqual(folder.ParentId, parentFolder.Id);
-            
+
             //Old Version
-            
-            Assert.AreEqual(folder.CreatedAt.ToString(), folderVersions[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(1, folderVersions[1].Version);                                      
+
+            Assert.AreEqual(folder.CreatedAt.ToString(), folderVersions[1].CreatedAt.ToString());
+            Assert.AreEqual(1, folderVersions[1].Version);
             Assert.AreEqual(folderVersions[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(folder.Id, folderVersions[1].FolderId);
             Assert.AreEqual(folder.Description, folderVersions[1].Description);
             Assert.AreEqual(folder.Name, folderVersions[1].Name);
             Assert.AreEqual(folder.MicrotingUid, folderVersions[1].MicrotingUid);
             Assert.AreEqual(parentFolder.Id, folderVersions[1].ParentId);
-            
+
             //New Version
-            
-            Assert.AreEqual(folder.CreatedAt.ToString(), folderVersions[2].CreatedAt.ToString());                                  
-            Assert.AreEqual(2, folderVersions[2].Version);                                      
+
+            Assert.AreEqual(folder.CreatedAt.ToString(), folderVersions[2].CreatedAt.ToString());
+            Assert.AreEqual(2, folderVersions[2].Version);
             Assert.AreEqual(folderVersions[2].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(folder.Id, folderVersions[2].FolderId);
             Assert.AreEqual(folder.Description, folderVersions[2].Description);

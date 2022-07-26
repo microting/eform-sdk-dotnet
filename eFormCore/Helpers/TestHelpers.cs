@@ -39,9 +39,9 @@ namespace Microting.eForm.Helpers
         public MicrotingDbContext dbContext;
         private Language language;
 
-        public TestHelpers()
+        public TestHelpers(string connectionString)
         {
-            string connectionString  = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; password = 'secretpassword'; Convert Zero Datetime = true;";
+            //string connectionString  = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; password = 'secretpassword'; Convert Zero Datetime = true;";
 
             dbContext = GetContext(connectionString);
             }

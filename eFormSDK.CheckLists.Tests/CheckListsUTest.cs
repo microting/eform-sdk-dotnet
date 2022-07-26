@@ -31,8 +31,9 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using NUnit.Framework;
 
-namespace eFormSDK.Tests
+namespace eFormSDK.CheckLists.Tests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class CheckListsUTest : DbTestFixture
     {
@@ -40,12 +41,12 @@ namespace eFormSDK.Tests
         public async Task Checklists_create_DoesCreate()
         {
             //Arrange
-            
+
             Random rnd = new Random();
-            
+
             short shortMinValue = Int16.MinValue;
             short shortmaxValue = Int16.MaxValue;
-            
+
             bool randomBool = rnd.Next(0, 2) > 0;
 
             CheckList checklistParent = new CheckList
@@ -117,23 +118,23 @@ namespace eFormSDK.Tests
             };
 
             //Act
-            
+
             await checklist.Create(DbContext).ConfigureAwait(false);
-            
+
             List<CheckList> checkLists = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListVersion> checkListVersion = DbContext.CheckListVersions.AsNoTracking().ToList();
-            
-            //Assert
-            
-            Assert.NotNull(checkLists);                                                             
-            Assert.NotNull(checkListVersion);                                                             
 
-            Assert.AreEqual(2,checkLists.Count());  
-            Assert.AreEqual(2,checkListVersion.Count());  
-            
-            Assert.AreEqual(checklist.CreatedAt.ToString(), checkLists[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(checklist.Version, checkLists[1].Version);                                      
-//            Assert.AreEqual(checklist.UpdatedAt.ToString(), checkLists[1].UpdatedAt.ToString());                                  
+            //Assert
+
+            Assert.NotNull(checkLists);
+            Assert.NotNull(checkListVersion);
+
+            Assert.AreEqual(2,checkLists.Count());
+            Assert.AreEqual(2,checkListVersion.Count());
+
+            Assert.AreEqual(checklist.CreatedAt.ToString(), checkLists[1].CreatedAt.ToString());
+            Assert.AreEqual(checklist.Version, checkLists[1].Version);
+//            Assert.AreEqual(checklist.UpdatedAt.ToString(), checkLists[1].UpdatedAt.ToString());
             Assert.AreEqual(checkLists[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(checklist.Id, checkLists[1].Id);
             Assert.AreEqual(checklist.Color, checkLists[1].Color);
@@ -167,11 +168,11 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checklist.ExtraFieldsEnabled, checkLists[1].ExtraFieldsEnabled);
             Assert.AreEqual(checklist.JasperExportEnabled, checkLists[1].JasperExportEnabled);
             Assert.AreEqual(checklist.QuickSyncEnabled, checkLists[1].QuickSyncEnabled);
-            
+
             //Versions
-            Assert.AreEqual(checklist.CreatedAt.ToString(), checkListVersion[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(1, checkListVersion[1].Version);                                      
-//            Assert.AreEqual(checklist.UpdatedAt.ToString(), checkListVersion[1].UpdatedAt.ToString());                                  
+            Assert.AreEqual(checklist.CreatedAt.ToString(), checkListVersion[1].CreatedAt.ToString());
+            Assert.AreEqual(1, checkListVersion[1].Version);
+//            Assert.AreEqual(checklist.UpdatedAt.ToString(), checkListVersion[1].UpdatedAt.ToString());
             Assert.AreEqual(checkListVersion[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(checklist.Id, checkListVersion[1].Id);
             Assert.AreEqual(checklist.Color, checkListVersion[1].Color);
@@ -211,12 +212,12 @@ namespace eFormSDK.Tests
         public async Task Checklists_Update_DoesUpdate()
         {
             //Arrange
-            
+
             Random rnd = new Random();
-            
+
             short shortMinValue = Int16.MinValue;
             short shortmaxValue = Int16.MaxValue;
-            
+
             bool randomBool = rnd.Next(0, 2) > 0;
 
             CheckList checklistParent = new CheckList
@@ -287,7 +288,7 @@ namespace eFormSDK.Tests
                 ParentId = checklistParent.Id
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
-            
+
             //Act
 
             DateTime? oldUpdatedAt = checklist.UpdatedAt;
@@ -321,7 +322,7 @@ namespace eFormSDK.Tests
             short? oldExtraFieldsEnabled = checklist.ExtraFieldsEnabled;
             bool oldJasperExportEnabled = checklist.JasperExportEnabled;
             short? oldQuickSyncEnabled = checklist.QuickSyncEnabled;
-            
+
             checklist.Color = Guid.NewGuid().ToString();
             checklist.Custom = Guid.NewGuid().ToString();
             checklist.Description = Guid.NewGuid().ToString();
@@ -351,24 +352,24 @@ namespace eFormSDK.Tests
             checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
             checklist.JasperExportEnabled = randomBool;
             checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            
+
             await checklist.Update(DbContext).ConfigureAwait(false);
 
 
             List<CheckList> checkLists = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListVersion> checkListVersion = DbContext.CheckListVersions.AsNoTracking().ToList();
-            
-            //Assert
-            
-            Assert.NotNull(checkLists);                                                             
-            Assert.NotNull(checkListVersion);                                                             
 
-            Assert.AreEqual(2,checkLists.Count());  
-            Assert.AreEqual(3,checkListVersion.Count());  
-            
-            Assert.AreEqual(checklist.CreatedAt.ToString(), checkLists[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(checklist.Version, checkLists[1].Version);                                      
-//            Assert.AreEqual(checklist.UpdatedAt.ToString(), checkLists[1].UpdatedAt.ToString());                                  
+            //Assert
+
+            Assert.NotNull(checkLists);
+            Assert.NotNull(checkListVersion);
+
+            Assert.AreEqual(2,checkLists.Count());
+            Assert.AreEqual(3,checkListVersion.Count());
+
+            Assert.AreEqual(checklist.CreatedAt.ToString(), checkLists[1].CreatedAt.ToString());
+            Assert.AreEqual(checklist.Version, checkLists[1].Version);
+//            Assert.AreEqual(checklist.UpdatedAt.ToString(), checkLists[1].UpdatedAt.ToString());
             Assert.AreEqual(checkLists[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(checklist.Id, checkLists[1].Id);
             Assert.AreEqual(checklist.Color, checkLists[1].Color);
@@ -402,11 +403,11 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checklist.ExtraFieldsEnabled, checkLists[1].ExtraFieldsEnabled);
             Assert.AreEqual(checklist.JasperExportEnabled, checkLists[1].JasperExportEnabled);
             Assert.AreEqual(checklist.QuickSyncEnabled, checkLists[1].QuickSyncEnabled);
-            
+
             //Old Version
-            Assert.AreEqual(checklist.CreatedAt.ToString(), checkListVersion[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(1, checkListVersion[1].Version);                                      
-//            Assert.AreEqual(oldUpdatedAt.ToString(), checkListVersion[1].UpdatedAt.ToString());                                  
+            Assert.AreEqual(checklist.CreatedAt.ToString(), checkListVersion[1].CreatedAt.ToString());
+            Assert.AreEqual(1, checkListVersion[1].Version);
+//            Assert.AreEqual(oldUpdatedAt.ToString(), checkListVersion[1].UpdatedAt.ToString());
             Assert.AreEqual(checkListVersion[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(checklist.Id, checkListVersion[1].CheckListId);
             Assert.AreEqual(oldColour, checkListVersion[1].Color);
@@ -440,11 +441,11 @@ namespace eFormSDK.Tests
             Assert.AreEqual(oldExtraFieldsEnabled, checkListVersion[1].ExtraFieldsEnabled);
             Assert.AreEqual(oldJasperExportEnabled, checkListVersion[1].JasperExportEnabled);
             Assert.AreEqual(oldQuickSyncEnabled, checkListVersion[1].QuickSyncEnabled);
-            
+
             //New Version
-            Assert.AreEqual(checklist.CreatedAt.ToString(), checkListVersion[2].CreatedAt.ToString());                                  
-            Assert.AreEqual(2, checkListVersion[2].Version);                                      
-//            Assert.AreEqual(checklist.UpdatedAt.ToString(), checkListVersion[2].UpdatedAt.ToString());                                  
+            Assert.AreEqual(checklist.CreatedAt.ToString(), checkListVersion[2].CreatedAt.ToString());
+            Assert.AreEqual(2, checkListVersion[2].Version);
+//            Assert.AreEqual(checklist.UpdatedAt.ToString(), checkListVersion[2].UpdatedAt.ToString());
             Assert.AreEqual(checkListVersion[2].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(checklist.Id, checkListVersion[2].CheckListId);
             Assert.AreEqual(checklist.Color, checkListVersion[2].Color);
@@ -484,12 +485,12 @@ namespace eFormSDK.Tests
         public async Task CheckLists_Delete_DoesSetWorkflowStateToRemoved()
         {
              //Arrange
-            
+
             Random rnd = new Random();
-            
+
             short shortMinValue = Int16.MinValue;
             short shortmaxValue = Int16.MaxValue;
-            
+
             bool randomBool = rnd.Next(0, 2) > 0;
 
             CheckList checklistParent = new CheckList
@@ -560,29 +561,29 @@ namespace eFormSDK.Tests
                 ParentId = checklistParent.Id
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
-            
+
             //Act
 
             DateTime? oldUpdatedAt = checklist.UpdatedAt;
-            
-            
+
+
             await checklist.Delete(DbContext);
 
 
             List<CheckList> checkLists = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListVersion> checkListVersion = DbContext.CheckListVersions.AsNoTracking().ToList();
-            
-            //Assert
-            
-            Assert.NotNull(checkLists);                                                             
-            Assert.NotNull(checkListVersion);                                                             
 
-            Assert.AreEqual(2,checkLists.Count());  
-            Assert.AreEqual(3,checkListVersion.Count());  
-            
-            Assert.AreEqual(checklist.CreatedAt.ToString(), checkLists[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(checklist.Version, checkLists[1].Version);                                      
-//            Assert.AreEqual(checklist.UpdatedAt.ToString(), checkLists[1].UpdatedAt.ToString());                                  
+            //Assert
+
+            Assert.NotNull(checkLists);
+            Assert.NotNull(checkListVersion);
+
+            Assert.AreEqual(2,checkLists.Count());
+            Assert.AreEqual(3,checkListVersion.Count());
+
+            Assert.AreEqual(checklist.CreatedAt.ToString(), checkLists[1].CreatedAt.ToString());
+            Assert.AreEqual(checklist.Version, checkLists[1].Version);
+//            Assert.AreEqual(checklist.UpdatedAt.ToString(), checkLists[1].UpdatedAt.ToString());
             Assert.AreEqual(checkLists[1].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(checklist.Id, checkLists[1].Id);
             Assert.AreEqual(checklist.Color, checkLists[1].Color);
@@ -616,11 +617,11 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checklist.ExtraFieldsEnabled, checkLists[1].ExtraFieldsEnabled);
             Assert.AreEqual(checklist.JasperExportEnabled, checkLists[1].JasperExportEnabled);
             Assert.AreEqual(checklist.QuickSyncEnabled, checkLists[1].QuickSyncEnabled);
-            
+
             //Old Version
-            Assert.AreEqual(checklist.CreatedAt.ToString(), checkListVersion[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(1, checkListVersion[1].Version);                                      
-//            Assert.AreEqual(oldUpdatedAt.ToString(), checkListVersion[1].UpdatedAt.ToString());                                  
+            Assert.AreEqual(checklist.CreatedAt.ToString(), checkListVersion[1].CreatedAt.ToString());
+            Assert.AreEqual(1, checkListVersion[1].Version);
+//            Assert.AreEqual(oldUpdatedAt.ToString(), checkListVersion[1].UpdatedAt.ToString());
             Assert.AreEqual(checkListVersion[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(checklist.Id, checkListVersion[1].CheckListId);
             Assert.AreEqual(checklist.Color, checkListVersion[1].Color);
@@ -654,11 +655,11 @@ namespace eFormSDK.Tests
             Assert.AreEqual(checklist.ExtraFieldsEnabled, checkListVersion[1].ExtraFieldsEnabled);
             Assert.AreEqual(checklist.JasperExportEnabled, checkListVersion[1].JasperExportEnabled);
             Assert.AreEqual(checklist.QuickSyncEnabled, checkListVersion[1].QuickSyncEnabled);
-            
+
             //New Version
-            Assert.AreEqual(checklist.CreatedAt.ToString(), checkListVersion[2].CreatedAt.ToString());                                  
-            Assert.AreEqual(2, checkListVersion[2].Version);                                      
-//            Assert.AreEqual(checklist.UpdatedAt.ToString(), checkListVersion[2].UpdatedAt.ToString());                                  
+            Assert.AreEqual(checklist.CreatedAt.ToString(), checkListVersion[2].CreatedAt.ToString());
+            Assert.AreEqual(2, checkListVersion[2].Version);
+//            Assert.AreEqual(checklist.UpdatedAt.ToString(), checkListVersion[2].UpdatedAt.ToString());
             Assert.AreEqual(checkListVersion[2].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(checklist.Id, checkListVersion[2].CheckListId);
             Assert.AreEqual(checklist.Color, checkListVersion[2].Color);

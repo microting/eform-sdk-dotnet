@@ -41,8 +41,9 @@ using NUnit.Framework;
 using Field = Microting.eForm.Infrastructure.Data.Entities.Field;
 using Tag = Microting.eForm.Infrastructure.Data.Entities.Tag;
 
-namespace eFormSDK.Integration.CoreTests
+namespace eFormSDK.Integration.CheckLists.CoreTests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class CoreTesteForm : DbTestFixture
     {
@@ -76,7 +77,7 @@ namespace eFormSDK.Integration.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
-            testHelpers = new TestHelpers();
+            testHelpers = new TestHelpers(ConnectionString);
             await testHelpers.GenerateDefaultLanguages();
             //sut.StartLog(new CoreBase());
             language = DbContext.Languages.Single(x => x.Name == "Danish");

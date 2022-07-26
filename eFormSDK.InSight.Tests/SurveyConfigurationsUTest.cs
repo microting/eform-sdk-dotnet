@@ -33,6 +33,7 @@ using NUnit.Framework;
 
 namespace eFormSDK.InSight.Tests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class SurveyConfigurationsUTest : DbTestFixture
     {
@@ -41,12 +42,12 @@ namespace eFormSDK.InSight.Tests
         {
             //Arrange
             Random rnd = new Random();
-            
+
             QuestionSet questionSet = new QuestionSet
             {
                 ParentId = 0
             };
-            
+
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
             SurveyConfiguration surveyConfiguration = new SurveyConfiguration
@@ -58,23 +59,23 @@ namespace eFormSDK.InSight.Tests
                 TimeToLive = rnd.Next(1, 255),
                 QuestionSetId = questionSet.Id
             };
-            
+
             //Act
-            
+
             await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
-            
+
             List<SurveyConfiguration> surveyConfigurations = DbContext.SurveyConfigurations.AsNoTracking().ToList();
             List<SurveyConfigurationVersion> surveyConfigurationVersions = DbContext.SurveyConfigurationVersions.AsNoTracking().ToList();
-            
-            Assert.NotNull(surveyConfigurations);                                                             
-            Assert.NotNull(surveyConfigurationVersions);                                                             
 
-            Assert.AreEqual(1,surveyConfigurations.Count());  
-            Assert.AreEqual(1,surveyConfigurationVersions.Count());  
-            
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurations[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(surveyConfiguration.Version, surveyConfigurations[0].Version);                                      
-//            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurations[0].UpdatedAt.ToString());                                  
+            Assert.NotNull(surveyConfigurations);
+            Assert.NotNull(surveyConfigurationVersions);
+
+            Assert.AreEqual(1,surveyConfigurations.Count());
+            Assert.AreEqual(1,surveyConfigurationVersions.Count());
+
+            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurations[0].CreatedAt.ToString());
+            Assert.AreEqual(surveyConfiguration.Version, surveyConfigurations[0].Version);
+//            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurations[0].UpdatedAt.ToString());
             Assert.AreEqual(surveyConfigurations[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(surveyConfiguration.Id, surveyConfigurations[0].Id);
             Assert.AreEqual(surveyConfiguration.Name, surveyConfigurations[0].Name);
@@ -82,12 +83,12 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(surveyConfiguration.Stop.ToString(), surveyConfigurations[0].Stop.ToString());
             Assert.AreEqual(surveyConfiguration.TimeOut, surveyConfigurations[0].TimeOut);
             Assert.AreEqual(surveyConfiguration.TimeToLive, surveyConfigurations[0].TimeToLive);
-            
+
             //Versions
-            
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurationVersions[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(1, surveyConfigurationVersions[0].Version);                                      
-//            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurationVersions[0].UpdatedAt.ToString());                                  
+
+            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurationVersions[0].CreatedAt.ToString());
+            Assert.AreEqual(1, surveyConfigurationVersions[0].Version);
+//            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurationVersions[0].UpdatedAt.ToString());
             Assert.AreEqual(surveyConfigurationVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(surveyConfiguration.Id, surveyConfigurationVersions[0].SurveyConfigurationId);
             Assert.AreEqual(surveyConfiguration.Name, surveyConfigurationVersions[0].Name);
@@ -107,9 +108,9 @@ namespace eFormSDK.InSight.Tests
             {
                 ParentId = 0
             };
-            
+
             await questionSet.Create(DbContext).ConfigureAwait(false);
-            
+
             SurveyConfiguration surveyConfiguration = new SurveyConfiguration
             {
                 Name = Guid.NewGuid().ToString(),
@@ -119,9 +120,9 @@ namespace eFormSDK.InSight.Tests
                 TimeToLive = rnd.Next(1, 255),
                 QuestionSetId = questionSet.Id
             };
-            
+
             await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
-            
+
             //Act
 
             DateTime? oldUpdatedAt = surveyConfiguration.UpdatedAt;
@@ -130,26 +131,26 @@ namespace eFormSDK.InSight.Tests
             DateTime? oldStop = surveyConfiguration.Stop;
             int? oldTimeOut = surveyConfiguration.TimeOut;
             int? oldTimeToLive = surveyConfiguration.TimeToLive;
-            
+
             surveyConfiguration.Name = Guid.NewGuid().ToString();
             surveyConfiguration.Start = DateTime.UtcNow;
             surveyConfiguration.Stop = DateTime.UtcNow;
             surveyConfiguration.TimeOut = rnd.Next(1, 255);
             surveyConfiguration.TimeToLive = rnd.Next(1, 255);
             await surveyConfiguration.Update(DbContext).ConfigureAwait(false);
-            
+
             List<SurveyConfiguration> surveyConfigurations = DbContext.SurveyConfigurations.AsNoTracking().ToList();
             List<SurveyConfigurationVersion> surveyConfigurationVersions = DbContext.SurveyConfigurationVersions.AsNoTracking().ToList();
-            
-            Assert.NotNull(surveyConfigurations);                                                             
-            Assert.NotNull(surveyConfigurationVersions);                                                             
 
-            Assert.AreEqual(1,surveyConfigurations.Count());  
-            Assert.AreEqual(2,surveyConfigurationVersions.Count());  
-            
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurations[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(surveyConfiguration.Version, surveyConfigurations[0].Version);                                      
-//            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurations[0].UpdatedAt.ToString());                                  
+            Assert.NotNull(surveyConfigurations);
+            Assert.NotNull(surveyConfigurationVersions);
+
+            Assert.AreEqual(1,surveyConfigurations.Count());
+            Assert.AreEqual(2,surveyConfigurationVersions.Count());
+
+            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurations[0].CreatedAt.ToString());
+            Assert.AreEqual(surveyConfiguration.Version, surveyConfigurations[0].Version);
+//            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurations[0].UpdatedAt.ToString());
             Assert.AreEqual(surveyConfigurations[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(surveyConfiguration.Id, surveyConfigurations[0].Id);
             Assert.AreEqual(surveyConfiguration.Name, surveyConfigurations[0].Name);
@@ -157,12 +158,12 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(surveyConfiguration.Stop.ToString(), surveyConfigurations[0].Stop.ToString());
             Assert.AreEqual(surveyConfiguration.TimeOut, surveyConfigurations[0].TimeOut);
             Assert.AreEqual(surveyConfiguration.TimeToLive, surveyConfigurations[0].TimeToLive);
-            
+
             //Old Version
-            
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurationVersions[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(1, surveyConfigurationVersions[0].Version);                                      
-//            Assert.AreEqual(oldUpdatedAt.ToString(), surveyConfigurationVersions[0].UpdatedAt.ToString());                                  
+
+            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurationVersions[0].CreatedAt.ToString());
+            Assert.AreEqual(1, surveyConfigurationVersions[0].Version);
+//            Assert.AreEqual(oldUpdatedAt.ToString(), surveyConfigurationVersions[0].UpdatedAt.ToString());
             Assert.AreEqual(surveyConfigurationVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(surveyConfiguration.Id, surveyConfigurationVersions[0].SurveyConfigurationId);
             Assert.AreEqual(oldName, surveyConfigurationVersions[0].Name);
@@ -170,12 +171,12 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(oldStop.ToString(), surveyConfigurationVersions[0].Stop.ToString());
             Assert.AreEqual(oldTimeOut, surveyConfigurationVersions[0].TimeOut);
             Assert.AreEqual(oldTimeToLive, surveyConfigurationVersions[0].TimeToLive);
-            
+
             //New Version
-            
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurationVersions[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(2, surveyConfigurationVersions[1].Version);                                      
-//            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurationVersions[1].UpdatedAt.ToString());                                  
+
+            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurationVersions[1].CreatedAt.ToString());
+            Assert.AreEqual(2, surveyConfigurationVersions[1].Version);
+//            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurationVersions[1].UpdatedAt.ToString());
             Assert.AreEqual(surveyConfigurationVersions[1].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(surveyConfiguration.Id, surveyConfigurationVersions[1].SurveyConfigurationId);
             Assert.AreEqual(surveyConfiguration.Name, surveyConfigurationVersions[1].Name);
@@ -190,12 +191,12 @@ namespace eFormSDK.InSight.Tests
         {
             //Arrange
             Random rnd = new Random();
-            
+
             QuestionSet questionSet = new QuestionSet
             {
                 ParentId = 0
             };
-            
+
             await questionSet.Create(DbContext).ConfigureAwait(false);
 
             SurveyConfiguration surveyConfiguration = new SurveyConfiguration
@@ -209,25 +210,25 @@ namespace eFormSDK.InSight.Tests
             };
             await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
 
-            
+
             //Act
 
             DateTime? oldUpdatedAt = surveyConfiguration.UpdatedAt;
-         
+
             await surveyConfiguration.Delete(DbContext);
-            
+
             List<SurveyConfiguration> surveyConfigurations = DbContext.SurveyConfigurations.AsNoTracking().ToList();
             List<SurveyConfigurationVersion> surveyConfigurationVersions = DbContext.SurveyConfigurationVersions.AsNoTracking().ToList();
-            
-            Assert.NotNull(surveyConfigurations);                                                             
-            Assert.NotNull(surveyConfigurationVersions);                                                             
 
-            Assert.AreEqual(1,surveyConfigurations.Count());  
-            Assert.AreEqual(2,surveyConfigurationVersions.Count());  
-            
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurations[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(surveyConfiguration.Version, surveyConfigurations[0].Version);                                      
-//            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurations[0].UpdatedAt.ToString());                                  
+            Assert.NotNull(surveyConfigurations);
+            Assert.NotNull(surveyConfigurationVersions);
+
+            Assert.AreEqual(1,surveyConfigurations.Count());
+            Assert.AreEqual(2,surveyConfigurationVersions.Count());
+
+            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurations[0].CreatedAt.ToString());
+            Assert.AreEqual(surveyConfiguration.Version, surveyConfigurations[0].Version);
+//            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurations[0].UpdatedAt.ToString());
             Assert.AreEqual(surveyConfigurations[0].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(surveyConfiguration.Id, surveyConfigurations[0].Id);
             Assert.AreEqual(surveyConfiguration.Name, surveyConfigurations[0].Name);
@@ -235,12 +236,12 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(surveyConfiguration.Stop.ToString(), surveyConfigurations[0].Stop.ToString());
             Assert.AreEqual(surveyConfiguration.TimeOut, surveyConfigurations[0].TimeOut);
             Assert.AreEqual(surveyConfiguration.TimeToLive, surveyConfigurations[0].TimeToLive);
-            
+
             //Old Version
-            
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurationVersions[0].CreatedAt.ToString());                                  
-            Assert.AreEqual(1, surveyConfigurationVersions[0].Version);                                      
-//            Assert.AreEqual(oldUpdatedAt.ToString(), surveyConfigurationVersions[0].UpdatedAt.ToString());                                  
+
+            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurationVersions[0].CreatedAt.ToString());
+            Assert.AreEqual(1, surveyConfigurationVersions[0].Version);
+//            Assert.AreEqual(oldUpdatedAt.ToString(), surveyConfigurationVersions[0].UpdatedAt.ToString());
             Assert.AreEqual(surveyConfigurationVersions[0].WorkflowState, Constants.WorkflowStates.Created);
             Assert.AreEqual(surveyConfiguration.Id, surveyConfigurationVersions[0].SurveyConfigurationId);
             Assert.AreEqual(surveyConfiguration.Name, surveyConfigurationVersions[0].Name);
@@ -248,12 +249,12 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(surveyConfiguration.Stop.ToString(), surveyConfigurationVersions[0].Stop.ToString());
             Assert.AreEqual(surveyConfiguration.TimeOut, surveyConfigurationVersions[0].TimeOut);
             Assert.AreEqual(surveyConfiguration.TimeToLive, surveyConfigurationVersions[0].TimeToLive);
-            
+
             //New Version
-            
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurationVersions[1].CreatedAt.ToString());                                  
-            Assert.AreEqual(2, surveyConfigurationVersions[1].Version);                                      
-//            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurationVersions[1].UpdatedAt.ToString());                                  
+
+            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurationVersions[1].CreatedAt.ToString());
+            Assert.AreEqual(2, surveyConfigurationVersions[1].Version);
+//            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurationVersions[1].UpdatedAt.ToString());
             Assert.AreEqual(surveyConfigurationVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(surveyConfiguration.Id, surveyConfigurationVersions[1].SurveyConfigurationId);
             Assert.AreEqual(surveyConfiguration.Name, surveyConfigurationVersions[1].Name);

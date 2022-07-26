@@ -25,8 +25,9 @@ SOFTWARE.
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace eFormSDK.Integration.CoreTests
+namespace eFormSDK.Integration.CheckLists.CoreTests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class CanaryInAColeMine
     {

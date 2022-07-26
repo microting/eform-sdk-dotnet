@@ -29,7 +29,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using eFormCore;
-using eFormSDK.Integration.CheckLists.CoreTests;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
@@ -37,10 +36,10 @@ using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using NUnit.Framework;
-using Case = Microting.eForm.Infrastructure.Data.Entities.Case;
 
-namespace eFormSDK.Integration.CoreTests
+namespace eFormSDK.Integration.Case.CoreTests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class CoreTest : DbTestFixture
     {
@@ -73,9 +72,9 @@ namespace eFormSDK.Integration.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
-            testHelpers = new TestHelpers();
+            testHelpers = new TestHelpers(ConnectionString);
             await testHelpers.GenerateDefaultLanguages();
-            testHelperReturnXml = new TestHelperReturnXML();
+            testHelperReturnXml = new TestHelperReturnXML(ConnectionString);
             //sut.StartLog(new CoreBase());
         }
 
@@ -89,7 +88,7 @@ namespace eFormSDK.Integration.CoreTests
             await sut.CheckStatusByMicrotingUid(int.Parse(microtingUuid)).ConfigureAwait(false);
 
             // Assert
-            List<Case> caseMatches = DbContext.Cases.AsNoTracking().ToList();
+            List<Microting.eForm.Infrastructure.Data.Entities.Case> caseMatches = DbContext.Cases.AsNoTracking().ToList();
             List<UploadedData> udMatches = DbContext.UploadedDatas.AsNoTracking().ToList();
             List<FieldValue> fvMatches = DbContext.FieldValues.AsNoTracking().ToList();
 

@@ -33,6 +33,7 @@ using NUnit.Framework;
 
 namespace eFormSDK.InSight.Tests
 {
+    [Parallelizable(ParallelScope.Fixtures)]
     [TestFixture]
     public class OptionTranslationUTest : DbTestFixture
     {
@@ -40,7 +41,7 @@ namespace eFormSDK.InSight.Tests
         public async Task OptionTranslation_Create_DoesCreate_W_MicrotingUid()
         {
             //Arrange
-            
+
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
@@ -104,31 +105,31 @@ namespace eFormSDK.InSight.Tests
             List<OptionTranslation> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
             List<OptionTranslationVersion> optionTranslationVersions =
                 DbContext.OptionTranslationVersions.AsNoTracking().ToList();
-            
+
             // Assert
-            
+
             Assert.NotNull(optionTranslations);
             Assert.NotNull(optionTranslationVersions);
-            
+
             Assert.AreEqual(1, optionTranslations.Count);
             Assert.AreEqual(1, optionTranslationVersions.Count);
-            
+
             Assert.AreEqual(optionTranslation.Name, optionTranslations[0].Name);
             Assert.AreEqual(optionTranslation.OptionId, optionTranslations[0].OptionId);
             Assert.AreEqual(optionTranslation.LanguageId, optionTranslations[0].LanguageId);
             Assert.AreEqual(optionTranslation.MicrotingUid, optionTranslations[0].MicrotingUid);
-            
+
             Assert.AreEqual(optionTranslation.Name, optionTranslationVersions[0].Name);
             Assert.AreEqual(optionTranslation.OptionId, optionTranslationVersions[0].OptionId);
             Assert.AreEqual(optionTranslation.LanguageId, optionTranslationVersions[0].LanguageId);
             Assert.AreEqual(optionTranslation.MicrotingUid, optionTranslationVersions[0].MicrotingUid);
         }
-            
+
         [Test]
         public async Task OptionTranslation_Create_DoesCreate_WO_MicrotingUid()
         {
             //Arrange
-            
+
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
@@ -190,31 +191,31 @@ namespace eFormSDK.InSight.Tests
             List<OptionTranslation> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
             List<OptionTranslationVersion> optionTranslationVersions =
                 DbContext.OptionTranslationVersions.AsNoTracking().ToList();
-            
+
             // Assert
-            
+
             Assert.NotNull(optionTranslations);
             Assert.NotNull(optionTranslationVersions);
-            
+
             Assert.AreEqual(1, optionTranslations.Count);
             Assert.AreEqual(1, optionTranslationVersions.Count);
-            
+
             Assert.AreEqual(optionTranslation.Name, optionTranslations[0].Name);
             Assert.AreEqual(optionTranslation.OptionId, optionTranslations[0].OptionId);
             Assert.AreEqual(optionTranslation.LanguageId, optionTranslations[0].LanguageId);
             Assert.AreEqual(null, optionTranslations[0].MicrotingUid);
-            
+
             Assert.AreEqual(optionTranslation.Name, optionTranslationVersions[0].Name);
             Assert.AreEqual(optionTranslation.OptionId, optionTranslationVersions[0].OptionId);
             Assert.AreEqual(optionTranslation.LanguageId, optionTranslationVersions[0].LanguageId);
             Assert.AreEqual(null, optionTranslationVersions[0].MicrotingUid);
         }
-        
+
         [Test]
         public async Task OptionTranslation_Update_DoesUpdate_W_MicrotingUid()
         {
             //Arrange
-            
+
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
@@ -304,7 +305,7 @@ namespace eFormSDK.InSight.Tests
 
             Language language2 = new Language
             {
-                LanguageCode = Guid.NewGuid().ToString(), 
+                LanguageCode = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
             await language2.Create(DbContext).ConfigureAwait(false);
@@ -327,43 +328,43 @@ namespace eFormSDK.InSight.Tests
             optionTranslation.LanguageId = language2.Id;
             optionTranslation.MicrotingUid = rnd.Next(1, 255);
             optionTranslation.OptionId = option2.Id;
-            
+
             // Act
             await optionTranslation.Update(DbContext).ConfigureAwait(false);
 
             List<OptionTranslation> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
             List<OptionTranslationVersion> optionTranslationVersions =
                 DbContext.OptionTranslationVersions.AsNoTracking().ToList();
-            
+
             // Assert
-            
+
             Assert.NotNull(optionTranslations);
             Assert.NotNull(optionTranslationVersions);
-            
+
             Assert.AreEqual(1, optionTranslations.Count);
             Assert.AreEqual(2, optionTranslationVersions.Count);
-            
+
             Assert.AreEqual(optionTranslation.Name, optionTranslations[0].Name);
             Assert.AreEqual(optionTranslation.OptionId, optionTranslations[0].OptionId);
             Assert.AreEqual(optionTranslation.LanguageId, optionTranslations[0].LanguageId);
             Assert.AreEqual(optionTranslation.MicrotingUid, optionTranslations[0].MicrotingUid);
-            
+
             Assert.AreEqual(oldName, optionTranslationVersions[0].Name);
             Assert.AreEqual(oldOptionId, optionTranslationVersions[0].OptionId);
             Assert.AreEqual(oldLanguageId, optionTranslationVersions[0].LanguageId);
             Assert.AreEqual(oldMicrotingUid, optionTranslationVersions[0].MicrotingUid);
-            
+
             Assert.AreEqual(optionTranslation.Name, optionTranslationVersions[1].Name);
             Assert.AreEqual(optionTranslation.OptionId, optionTranslationVersions[1].OptionId);
             Assert.AreEqual(optionTranslation.LanguageId, optionTranslationVersions[1].LanguageId);
             Assert.AreEqual(optionTranslation.MicrotingUid, optionTranslationVersions[1].MicrotingUid);
         }
-            
+
         [Test]
         public async Task OptionTranslation_Update_DoesUpdate_WO_MicrotingUid()
         {
             //Arrange
-            
+
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
@@ -472,43 +473,43 @@ namespace eFormSDK.InSight.Tests
             optionTranslation.Name = Guid.NewGuid().ToString();
             optionTranslation.LanguageId = language2.Id;
             optionTranslation.OptionId = option2.Id;
-            
+
             // Act
             await optionTranslation.Update(DbContext).ConfigureAwait(false);
 
             List<OptionTranslation> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
             List<OptionTranslationVersion> optionTranslationVersions =
                 DbContext.OptionTranslationVersions.AsNoTracking().ToList();
-            
+
             // Assert
-            
+
             Assert.NotNull(optionTranslations);
             Assert.NotNull(optionTranslationVersions);
-            
+
             Assert.AreEqual(1, optionTranslations.Count);
             Assert.AreEqual(2, optionTranslationVersions.Count);
-            
+
             Assert.AreEqual(optionTranslation.Name, optionTranslations[0].Name);
             Assert.AreEqual(optionTranslation.OptionId, optionTranslations[0].OptionId);
             Assert.AreEqual(optionTranslation.LanguageId, optionTranslations[0].LanguageId);
             Assert.AreEqual(optionTranslation.MicrotingUid, optionTranslations[0].MicrotingUid);
-            
+
             Assert.AreEqual(oldName, optionTranslationVersions[0].Name);
             Assert.AreEqual(oldOptionId, optionTranslationVersions[0].OptionId);
             Assert.AreEqual(oldLanguageId, optionTranslationVersions[0].LanguageId);
             Assert.AreEqual(null, optionTranslationVersions[0].MicrotingUid);
-            
+
             Assert.AreEqual(optionTranslation.Name, optionTranslationVersions[1].Name);
             Assert.AreEqual(optionTranslation.OptionId, optionTranslationVersions[1].OptionId);
             Assert.AreEqual(optionTranslation.LanguageId, optionTranslationVersions[1].LanguageId);
             Assert.AreEqual(null, optionTranslationVersions[1].MicrotingUid);
         }
-        
+
         [Test]
         public async Task OptionTranslation_Update_DoesUpdate_W_MicrotingUid_RemovesUid()
         {
             //Arrange
-            
+
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
@@ -591,14 +592,14 @@ namespace eFormSDK.InSight.Tests
 
             Language language = new Language
             {
-                LanguageCode = Guid.NewGuid().ToString(), 
+                LanguageCode = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
             Language language2 = new Language
             {
-                LanguageCode = Guid.NewGuid().ToString(), 
+                LanguageCode = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
             await language2.Create(DbContext).ConfigureAwait(false);
@@ -621,43 +622,43 @@ namespace eFormSDK.InSight.Tests
             optionTranslation.LanguageId = language2.Id;
             optionTranslation.MicrotingUid = null;
             optionTranslation.OptionId = option2.Id;
-            
+
             // Act
             await optionTranslation.Update(DbContext).ConfigureAwait(false);
 
             List<OptionTranslation> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
             List<OptionTranslationVersion> optionTranslationVersions =
                 DbContext.OptionTranslationVersions.AsNoTracking().ToList();
-            
+
             // Assert
-            
+
             Assert.NotNull(optionTranslations);
             Assert.NotNull(optionTranslationVersions);
-            
+
             Assert.AreEqual(1, optionTranslations.Count);
             Assert.AreEqual(2, optionTranslationVersions.Count);
-            
+
             Assert.AreEqual(optionTranslation.Name, optionTranslations[0].Name);
             Assert.AreEqual(optionTranslation.OptionId, optionTranslations[0].OptionId);
             Assert.AreEqual(optionTranslation.LanguageId, optionTranslations[0].LanguageId);
             Assert.AreEqual(null, optionTranslations[0].MicrotingUid);
-            
+
             Assert.AreEqual(oldName, optionTranslationVersions[0].Name);
             Assert.AreEqual(oldOptionId, optionTranslationVersions[0].OptionId);
             Assert.AreEqual(oldLanguageId, optionTranslationVersions[0].LanguageId);
             Assert.AreEqual(oldMicrotingUid, optionTranslationVersions[0].MicrotingUid);
-            
+
             Assert.AreEqual(optionTranslation.Name, optionTranslationVersions[1].Name);
             Assert.AreEqual(optionTranslation.OptionId, optionTranslationVersions[1].OptionId);
             Assert.AreEqual(optionTranslation.LanguageId, optionTranslationVersions[1].LanguageId);
             Assert.AreEqual(null, optionTranslationVersions[1].MicrotingUid);
         }
-            
+
         [Test]
         public async Task OptionTranslation_Update_DoesUpdate_WO_MicrotingUid_AddsUid()
         {
             //Arrange
-            
+
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
@@ -740,14 +741,14 @@ namespace eFormSDK.InSight.Tests
 
             Language language = new Language
             {
-                LanguageCode = Guid.NewGuid().ToString(), 
+                LanguageCode = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
 
             Language language2 = new Language
             {
-                LanguageCode = Guid.NewGuid().ToString(), 
+                LanguageCode = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString()
             };
             await language2.Create(DbContext).ConfigureAwait(false);
@@ -768,43 +769,43 @@ namespace eFormSDK.InSight.Tests
             optionTranslation.LanguageId = language2.Id;
             optionTranslation.OptionId = option2.Id;
             optionTranslation.MicrotingUid = rnd.Next(1, 255);
-            
+
             // Act
             await optionTranslation.Update(DbContext).ConfigureAwait(false);
 
             List<OptionTranslation> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
             List<OptionTranslationVersion> optionTranslationVersions =
                 DbContext.OptionTranslationVersions.AsNoTracking().ToList();
-            
+
             // Assert
-            
+
             Assert.NotNull(optionTranslations);
             Assert.NotNull(optionTranslationVersions);
-            
+
             Assert.AreEqual(1, optionTranslations.Count);
             Assert.AreEqual(2, optionTranslationVersions.Count);
-            
+
             Assert.AreEqual(optionTranslation.Name, optionTranslations[0].Name);
             Assert.AreEqual(optionTranslation.OptionId, optionTranslations[0].OptionId);
             Assert.AreEqual(optionTranslation.LanguageId, optionTranslations[0].LanguageId);
             Assert.AreEqual(optionTranslation.MicrotingUid, optionTranslations[0].MicrotingUid);
-            
+
             Assert.AreEqual(oldName, optionTranslationVersions[0].Name);
             Assert.AreEqual(oldOptionId, optionTranslationVersions[0].OptionId);
             Assert.AreEqual(oldLanguageId, optionTranslationVersions[0].LanguageId);
             Assert.AreEqual(null, optionTranslationVersions[0].MicrotingUid);
-            
+
             Assert.AreEqual(optionTranslation.Name, optionTranslationVersions[1].Name);
             Assert.AreEqual(optionTranslation.OptionId, optionTranslationVersions[1].OptionId);
             Assert.AreEqual(optionTranslation.LanguageId, optionTranslationVersions[1].LanguageId);
             Assert.AreEqual(optionTranslation.MicrotingUid, optionTranslationVersions[1].MicrotingUid);
         }
-                
+
         [Test]
         public async Task OptionTranslation_Delete_DoesDelete()
         {
             //Arrange
-            
+
             Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
@@ -854,7 +855,7 @@ namespace eFormSDK.InSight.Tests
                 LanguageCode = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
             };
             await language.Create(DbContext).ConfigureAwait(false);
-       
+
 
             OptionTranslation optionTranslation = new OptionTranslation
             {
@@ -876,22 +877,22 @@ namespace eFormSDK.InSight.Tests
             List<OptionTranslation> optionTranslations = DbContext.OptionTranslations.AsNoTracking().ToList();
             List<OptionTranslationVersion> optionTranslationVersions =
                 DbContext.OptionTranslationVersions.AsNoTracking().ToList();
-            
+
             // Assert
-            
+
             Assert.NotNull(optionTranslations);
             Assert.NotNull(optionTranslationVersions);
-            
+
             Assert.AreEqual(1, optionTranslations.Count);
             Assert.AreEqual(2, optionTranslationVersions.Count);
-            
+
             Assert.AreEqual(optionTranslation.Name, optionTranslations[0].Name);
             Assert.AreEqual(optionTranslation.OptionId, optionTranslations[0].OptionId);
             Assert.AreEqual(optionTranslation.LanguageId, optionTranslations[0].LanguageId);
             Assert.AreEqual(optionTranslation.MicrotingUid, optionTranslations[0].MicrotingUid);
             Assert.AreEqual(Constants.WorkflowStates.Removed, optionTranslations[0].WorkflowState);
-            
-            
+
+
             Assert.AreEqual(oldName, optionTranslationVersions[0].Name);
             Assert.AreEqual(oldOptionId, optionTranslationVersions[0].OptionId);
             Assert.AreEqual(oldLanguageId, optionTranslationVersions[0].LanguageId);
@@ -905,6 +906,6 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(Constants.WorkflowStates.Removed, optionTranslationVersions[1].WorkflowState);
 
         }
-        
+
     }
 }

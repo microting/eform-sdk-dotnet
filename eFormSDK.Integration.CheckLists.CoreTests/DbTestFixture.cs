@@ -22,25 +22,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using DotNet.Testcontainers.Builders;
+using DotNet.Testcontainers.Configurations;
+using DotNet.Testcontainers.Containers;
 using eFormCore;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure;
 using NUnit.Framework;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
-namespace eFormSDK.Integration.CoreTests
+namespace eFormSDK.Integration.CheckLists.CoreTests
 {
     [TestFixture]
     public abstract class DbTestFixture
     {
 
+        private readonly MySqlTestcontainer _mySqlTestcontainer = new TestcontainersBuilder<MySqlTestcontainer>()
+            .WithDatabase(new MySqlTestcontainerConfiguration(image: "mariadb:10.4.8")
+            {
+                Database = "eformsdk-tests",
+                Username = "bla",
+                Password = "secretpassword",
+            }).Build();
         protected MicrotingDbContext DbContext;
         protected string ConnectionString;
 
@@ -51,6 +59,7 @@ namespace eFormSDK.Integration.CoreTests
 
             dbContextOptionsBuilder.UseMySql(connectionStr, new MariaDbServerVersion(
                 new Version(10, 4, 0)));
+            //dbContextOptionsBuilder.UseLazyLoadingProxies(true);
             return new MicrotingDbContext(dbContextOptionsBuilder.Options);
 
         }
@@ -58,15 +67,17 @@ namespace eFormSDK.Integration.CoreTests
         [SetUp]
         public async Task Setup()
         {
-            ConnectionString = @"Server = localhost; port = 3306; Database = eformsdk-tests; user = root; password = 'secretpassword'; Convert Zero Datetime = true;";
 
-            DbContext = GetContext(ConnectionString);
+            await _mySqlTestcontainer.StartAsync();
+            ConnectionString = _mySqlTestcontainer.ConnectionString;
+
+            DbContext = GetContext(_mySqlTestcontainer.ConnectionString);
 
             DbContext.Database.SetCommandTimeout(300);
 
             try
             {
-                await ClearDb();
+                //await ClearDb();
             }
             catch
             {
@@ -76,11 +87,11 @@ namespace eFormSDK.Integration.CoreTests
             try
             {
                 Core core = new Core();
-                await core.StartSqlOnly(ConnectionString);
+                await core.StartSqlOnly(_mySqlTestcontainer.ConnectionString);
                 await core.Close();
             } catch
             {
-                AdminTools adminTools = new AdminTools(ConnectionString);
+                AdminTools adminTools = new AdminTools(_mySqlTestcontainer.ConnectionString);
                 await adminTools.DbSetup("abc1234567890abc1234567890abcdef");
             }
 
@@ -96,6 +107,8 @@ namespace eFormSDK.Integration.CoreTests
             ClearFile();
 
             await DbContext.DisposeAsync();
+
+            await _mySqlTestcontainer.StopAsync();
         }
 
         private async Task ClearDb()
@@ -165,6 +178,7 @@ namespace eFormSDK.Integration.CoreTests
                 "OptionTranslationVersions",
                 "OptionTranslations",
                 "LanguageQuestionSetVersions",
+                "LanguageQuestionSets",
                 "CheckListTranslations",
                 "CheckListTranslationVersions",
                 "FieldTranslations",

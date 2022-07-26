@@ -193,7 +193,7 @@ namespace eFormCore
             string comOrganizationId = await sqlController.SettingRead(Settings.comOrganizationId);
             string ComAddressPdfUpload = await sqlController.SettingRead(Settings.comAddressPdfUpload);
             string ComSpeechToText = await sqlController.SettingRead(Settings.comSpeechToText);
-            Communicator communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId, ComAddressPdfUpload, log, ComSpeechToText);
+            Communicator communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId, ComAddressPdfUpload, log, ComSpeechToText, connectionString);
 
             #region add site's data to db
             var settings = new JsonSerializerSettings { Error = (se, ev) => { ev.ErrorContext.Handled = true; } };
@@ -370,7 +370,7 @@ namespace eFormCore
 //                sqlController = new SqlController(connectionString);
 
                 string token = await sqlController.SettingRead(Settings.token);
-                Communicator communicator = new Communicator(token, @"https://srv05.microting.com", @"https://basic.microting.com", "", "", log, "https://speechtotext.microting.com");
+                Communicator communicator = new Communicator(token, @"https://srv05.microting.com", @"https://basic.microting.com", "", "", log, "https://speechtotext.microting.com", connectionString);
 
                 OrganizationDto organizationDto = await communicator.OrganizationLoadAllFromRemote(token);
                 await sqlController.SettingUpdate(Settings.token, token);
