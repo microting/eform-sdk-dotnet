@@ -42,8 +42,8 @@ namespace eFormSDK.Integration.Base.CoreTests
     public abstract class DbTestFixture
     {
 
-        private readonly MySqlTestcontainer _mySqlTestcontainer = new TestcontainersBuilder<MySqlTestcontainer>()
-            .WithDatabase(new MySqlTestcontainerConfiguration(image: "mariadb:10.4.8")
+        public readonly MySqlTestcontainer _mySqlTestcontainer = new TestcontainersBuilder<MySqlTestcontainer>()
+            .WithDatabase(new MySqlTestcontainerConfiguration(image: "mariadb:10.8")
             {
                 Database = "eformsdk-tests",
                 Username = "bla",
@@ -51,6 +51,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             }).Build();
         protected MicrotingDbContext DbContext;
         protected string ConnectionString;
+        private bool _firsRun = true;
 
         private MicrotingDbContext GetContext(string connectionStr)
         {
@@ -58,41 +59,36 @@ namespace eFormSDK.Integration.Base.CoreTests
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
 
             dbContextOptionsBuilder.UseMySql(connectionStr, new MariaDbServerVersion(
-                new Version(10, 4, 0)));
-            //dbContextOptionsBuilder.UseLazyLoadingProxies(true);
-            return new MicrotingDbContext(dbContextOptionsBuilder.Options);
+                new Version(10, 8)));
+            var microtingDbContext =  new MicrotingDbContext(dbContextOptionsBuilder.Options);
+            string file = Path.Combine("SQL", "eformsdk-tests.sql");
+            string rawSql = File.ReadAllText(file);
+
+            microtingDbContext.Database.EnsureCreated();
+            microtingDbContext.Database.ExecuteSqlRaw(rawSql);
+
+            return microtingDbContext;
 
         }
 
         [SetUp]
         public async Task Setup()
         {
-
-            await _mySqlTestcontainer.StartAsync();
+            if (_mySqlTestcontainer.State == TestcontainersState.Undefined)
+            {
+                await _mySqlTestcontainer.StartAsync();
+            }
             ConnectionString = _mySqlTestcontainer.ConnectionString;
 
             DbContext = GetContext(_mySqlTestcontainer.ConnectionString);
 
             DbContext.Database.SetCommandTimeout(300);
-
-            try
-            {
-                //await ClearDb();
-            }
-            catch
-            {
-                // ignored
-            }
-
-            try
-            {
-                Core core = new Core();
-                await core.StartSqlOnly(_mySqlTestcontainer.ConnectionString);
-                await core.Close();
-            } catch
+            
+            if (_firsRun)
             {
                 AdminTools adminTools = new AdminTools(_mySqlTestcontainer.ConnectionString);
                 await adminTools.DbSetup("abc1234567890abc1234567890abcdef");
+                _firsRun = false;
             }
 
             await DoSetup();
@@ -107,8 +103,6 @@ namespace eFormSDK.Integration.Base.CoreTests
             ClearFile();
 
             await DbContext.DisposeAsync();
-
-            await _mySqlTestcontainer.StopAsync();
         }
 
         private async Task ClearDb()
@@ -142,8 +136,6 @@ namespace eFormSDK.Integration.Base.CoreTests
                 "EntityItems",
                 "NotificationVersions",
                 "Notifications",
-                "SettingVersions",
-                "Settings",
                 "UnitVersions",
                 "Units",
                 "SiteWorkerVersions",
@@ -154,15 +146,12 @@ namespace eFormSDK.Integration.Base.CoreTests
                 "Sites",
                 "UploadedDatas",
                 "UploadedDataVersions",
-                "FieldTypes",
                 "SurveyConfigurations",
                 "SurveyConfigurationVersions",
                 "SiteSurveyConfigurations",
                 "SiteSurveyConfigurationVersions",
                 "SiteTagVersions",
                 "SiteTags",
-                "Languages",
-                "LanguageVersions",
                 "QuestionSets",
                 "QuestionSetVersions",
                 "Questions",

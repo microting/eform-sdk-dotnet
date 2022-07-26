@@ -44,7 +44,7 @@ namespace eFormSDK.Base.Tests
     {
 
         private readonly MySqlTestcontainer _mySqlTestcontainer = new TestcontainersBuilder<MySqlTestcontainer>()
-            .WithDatabase(new MySqlTestcontainerConfiguration(image: "mariadb:10.4.8")
+            .WithDatabase(new MySqlTestcontainerConfiguration(image: "mariadb:10.8")
             {
                 Database = "eformsdk-tests",
                 Username = "bla",
@@ -59,17 +59,24 @@ namespace eFormSDK.Base.Tests
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
 
             dbContextOptionsBuilder.UseMySql(connectionStr, new MariaDbServerVersion(
-                new Version(10, 4, 0)));
-            //dbContextOptionsBuilder.UseLazyLoadingProxies(true);
-            return new MicrotingDbContext(dbContextOptionsBuilder.Options);
+                new Version(10, 8)));
+            var microtingDbContext =  new MicrotingDbContext(dbContextOptionsBuilder.Options);
+            string file = Path.Combine("SQL", "eformsdk-tests.sql");
+            string rawSql = File.ReadAllText(file);
+
+            microtingDbContext.Database.EnsureCreated();
+            microtingDbContext.Database.ExecuteSqlRaw(rawSql);
+
+            return microtingDbContext;
 
         }
 
         [SetUp]
         public async Task Setup()
         {
-
+            Console.WriteLine($"{DateTime.Now} : Starting MariaDb Container...");
             await _mySqlTestcontainer.StartAsync();
+            Console.WriteLine($"{DateTime.Now} : Started MariaDb Container");
             ConnectionString = _mySqlTestcontainer.ConnectionString;
 
             DbContext = GetContext(_mySqlTestcontainer.ConnectionString);
@@ -88,12 +95,16 @@ namespace eFormSDK.Base.Tests
             try
             {
                 Core core = new Core();
+                Console.WriteLine($"{DateTime.Now} : StartSqlOnly...");
                 await core.StartSqlOnly(_mySqlTestcontainer.ConnectionString);
+                Console.WriteLine($"{DateTime.Now} : StartSqlOnly close...");
                 await core.Close();
             } catch
             {
                 AdminTools adminTools = new AdminTools(_mySqlTestcontainer.ConnectionString);
+                Console.WriteLine($"{DateTime.Now} : DbSetup...");
                 await adminTools.DbSetup("abc1234567890abc1234567890abcdef");
+                Console.WriteLine($"{DateTime.Now} : DbSetup done");
             }
 
             await DoSetup();
@@ -102,7 +113,7 @@ namespace eFormSDK.Base.Tests
         [TearDown]
         public async Task TearDown()
         {
-
+            Console.WriteLine($"{DateTime.Now} : TearDown...");
             await ClearDb();
 
             ClearFile();
@@ -114,7 +125,7 @@ namespace eFormSDK.Base.Tests
 
         private async Task ClearDb()
         {
-
+            Console.WriteLine($"{DateTime.Now} : ClearDb...");
             List<string> modelNames = new List<string>
             {
                 "CaseVersions",
@@ -197,6 +208,7 @@ namespace eFormSDK.Base.Tests
                 {
                     if (firstRunNotDone)
                     {
+                        Console.WriteLine($"{DateTime.Now} : Truncating {modelName}...");
                         await DbContext.Database.ExecuteSqlRawAsync(
                             $"SET FOREIGN_KEY_CHECKS = 0;TRUNCATE `eformsdk-tests`.`{modelName}`");
                     }

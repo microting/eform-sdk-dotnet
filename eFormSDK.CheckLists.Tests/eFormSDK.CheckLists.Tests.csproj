@@ -17,4 +17,11 @@
     <ProjectReference Include="..\eFormCore\Microting.eForm.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="..\eformsdk-tests.sql">
+      <Link>SQL/eformsdk-tests.sql</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

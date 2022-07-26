@@ -76,8 +76,9 @@ namespace Microting.eForm.Infrastructure
                 using var db = GetContext();
                 if (db.Database.GetPendingMigrations().Any())
                 {
-                    WriteDebugConsoleLogEntry(new LogEntry(2, methodName, "db.Database.Migrate() called"));
+                    WriteDebugConsoleLogEntry(new LogEntry(2, methodName, $"{DateTime.Now} : db.Database.Migrate() called"));
                     db.Database.Migrate();
+                    WriteDebugConsoleLogEntry(new LogEntry(2, methodName, $"{DateTime.Now} : db.Database.Migrate() done"));
                 }
             }
             catch (Exception ex)
