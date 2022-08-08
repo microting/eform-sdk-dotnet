@@ -3742,8 +3742,7 @@ namespace eFormCore
             await using var db = DbContextHelper.GetDbContext();
             foreach (QuestionSet questionSet in await db.QuestionSets.ToListAsync())
             {
-                if (questionSet.MicrotingUid == 9014)
-                    await GetAnswersForQuestionSet(questionSet.MicrotingUid).ConfigureAwait(false);
+                await GetAnswersForQuestionSet(questionSet.MicrotingUid).ConfigureAwait(false);
             }
 
             return true;
