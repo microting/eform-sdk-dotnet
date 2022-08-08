@@ -37,7 +37,7 @@ namespace Microting.eForm.Infrastructure.Factories
             var defaultCs = "Server = localhost; port = 3306; Database = eform-sdk; user = root; password = secretpassword; Convert Zero Datetime = true;";
             var optionsBuilder = new DbContextOptionsBuilder<MicrotingDbContext>();
             optionsBuilder.UseMySql(args.Any() ? args[0] : defaultCs, new MariaDbServerVersion(
-                new Version(10, 8)), mySqlOptionsAction: builder =>
+                ServerVersion.AutoDetect(args.Any() ? args[0] : defaultCs)), mySqlOptionsAction: builder =>
             {
                 builder.EnableRetryOnFailure();
             });

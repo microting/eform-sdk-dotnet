@@ -184,7 +184,10 @@ namespace eFormCore
 
                     if (connectionString.Contains("frontend"))
                     {
-                        _rabbitMqHost = $"frontend-{_customerNo}-rabbitmq";
+                        if (_rabbitMqHost == "localhost")
+                        {
+                            _rabbitMqHost = $"frontend-{_customerNo}-rabbitmq";
+                        }
                     }
 
                     _container.Install(

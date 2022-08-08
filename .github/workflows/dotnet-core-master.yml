@@ -18,7 +18,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: getong/rabbitmq-action@v1.2
       with:
-        rabbitmq version: '3.8.16-management-alpine'
+        rabbitmq version: 'latest'
         host port: 5672
         rabbitmq user: 'admin'
         rabbitmq password: 'password'
