@@ -2945,6 +2945,8 @@ namespace eFormCore
                     await _communicator.EntitySelectItemUpdate(eg.MicrotingUUID, et.MicrotingUUID, name, displayIndex, ownUuid).ConfigureAwait(false);
                 }
                 et.WorkflowState = Constants.WorkflowStates.Created;
+                et.DisplayIndex = displayIndex;
+                et.EntityItemUId = ownUuid;
                 await _sqlController.EntityItemUpdate(et).ConfigureAwait(false);
             }
             return et;
