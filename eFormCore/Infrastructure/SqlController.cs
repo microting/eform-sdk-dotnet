@@ -6423,6 +6423,7 @@ namespace Microting.eForm.Infrastructure
                 List<CheckList> lstElement = db.CheckLists
                     .Where(x => x.ParentId == elementId)
                     .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
+                    .OrderBy(x => x.DisplayIndex)
                     .ToList();
 
                 if (lstElement.Count > 0) //GroupElement
@@ -6495,7 +6496,9 @@ namespace Microting.eForm.Infrastructure
                             .Where(x => x.CheckListId == elementId)
                             .Where(x => x.ParentFieldId == null)
                             .Where(x => (x.Dummy == 1) != includeDummyFields)
-                            .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList();
+                            .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
+                            .OrderBy(x => x.DisplayIndex)
+                            .ToList();
                         foreach (var field in lstFields)
                         {
                             await GetDataItem(dElement.DataItemList, dElement.DataItemGroupList, field, language, includeDummyFields);
