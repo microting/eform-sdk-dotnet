@@ -3047,6 +3047,11 @@ namespace eFormCore
                 throw new Exception(methodName + " failed", ex);
             }
         }
+
+        public async Task PdfUpload(Stream stream, string hash, string fileName)
+        {
+            await _communicator.PdfUpload(stream, hash, fileName).ConfigureAwait(false);
+        }
         //
 
         // folder

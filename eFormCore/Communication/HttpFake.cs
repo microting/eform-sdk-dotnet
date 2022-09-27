@@ -188,6 +188,11 @@ namespace Microting.eForm.Communication
             await Task.Run(() => { });
             return true;
         }
+
+        public Task<bool> PdfUpload(Stream stream, string hash, string fileName)
+        {
+            throw new NotImplementedException();
+        }
         //
 
         // public TemplateDisplayIndexChange

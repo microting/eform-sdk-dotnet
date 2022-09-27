@@ -764,6 +764,22 @@ namespace Microting.eForm.Communication
             }
         }
 
+        public async Task<bool> PdfUpload(Stream stream, string hash, string fileName)
+        {
+            _log.LogEverything("Communicator.PdfUpload", "called");
+            _log.LogVariable("Communicator.PdfUpload", nameof(fileName), fileName);
+            _log.LogVariable("Communicator.PdfUpload", nameof(hash), hash);
+
+            try
+            {
+                return await _http.PdfUpload(stream, hash, fileName);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Communicator.PdfUpload" + " failed", ex);
+            }
+        }
+
         public async Task<string> TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex)
         {
             _log.LogEverything("Communicator.TemplateDisplayIndexChange", "called");

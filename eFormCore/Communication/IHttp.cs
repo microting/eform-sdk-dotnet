@@ -63,6 +63,7 @@ namespace Microting.eForm.Communication
         Task<bool> EntitySelectItemDelete(string entitySelectItemId);
 
         Task<bool> PdfUpload(string name, string hash);
+        Task<bool> PdfUpload(Stream stream, string hash, string fileName);
 
         Task<string> TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex);
 
