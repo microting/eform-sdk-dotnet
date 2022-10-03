@@ -2296,6 +2296,7 @@ namespace eFormCore
                                     using GetObjectResponse response =
                                         await GetFileFromS3Storage(fileName);
                                     using var image = new MagickImage(response.ResponseStream);
+                                    image.Rotate(90); // This is done, since all images are apparently rotated 90 degrees in the wrong direction.
                                     fileContent = image.ToBase64();
                                 }
                                 catch (Exception e)
