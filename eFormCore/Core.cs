@@ -2296,7 +2296,35 @@ namespace eFormCore
                                     using GetObjectResponse response =
                                         await GetFileFromS3Storage(fileName);
                                     using var image = new MagickImage(response.ResponseStream);
-                                    image.Rotate(90); // This is done, since all images are apparently rotated 90 degrees in the wrong direction.
+                                    var profile = image.GetExifProfile();
+                                    // Write all values to the console
+                                    try
+                                    {
+                                        foreach (var value in profile.Values)
+                                        {
+                                            Console.WriteLine("{0}({1}): {2}", value.Tag, value.DataType, value);
+
+                                            if (value.Tag == ExifTag.Orientation)
+                                            {
+                                                if (value.GetValue().ToString() == "6")
+                                                {
+                                                    image.Rotate(90);
+                                                }
+                                                else if (value.GetValue().ToString() == "8")
+                                                {
+                                                    image.Rotate(270);
+                                                }
+                                                else if (value.GetValue().ToString() == "3")
+                                                {
+                                                    image.Rotate(180);
+                                                }
+                                            }
+                                        }
+                                    } catch (Exception)
+                                    {
+                                        // Console.WriteLine(e);
+                                    }
+                                    //image.Rotate(90); // This is done, since all images are apparently rotated 90 degrees in the wrong direction.
                                     fileContent = image.ToBase64();
                                 }
                                 catch (Exception e)
@@ -5620,6 +5648,34 @@ namespace eFormCore
                             string bigFilename = uploadedData.Id + "_700_" + urlStr.Remove(0, index);
                             using (var image = new MagickImage(baseMemoryStream))
                             {
+                                try
+                                {
+                                    var profile = image.GetExifProfile();
+                                    if (profile != null)
+                                    {
+                                        foreach (var value in profile.Values)
+                                        {
+                                            if (value.Tag == ExifTag.Orientation)
+                                            {
+                                                if (value.GetValue().ToString() == "6")
+                                                {
+                                                    image.Rotate(90);
+                                                }
+                                                else if (value.GetValue().ToString() == "8")
+                                                {
+                                                    image.Rotate(270);
+                                                }
+                                                else if (value.GetValue().ToString() == "3")
+                                                {
+                                                    image.Rotate(180);
+                                                }
+                                            }
+                                        }
+                                    }
+                                } catch (Exception)
+                                {
+                                    // Console.WriteLine(e);
+                                }
                                 decimal currentRation = image.Height / (decimal) image.Width;
                                 int newWidth = 300;
                                 int newHeight = (int) Math.Round((currentRation * newWidth));
