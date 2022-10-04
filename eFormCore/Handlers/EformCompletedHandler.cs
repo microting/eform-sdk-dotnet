@@ -29,6 +29,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
 using eFormCore;
+using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Communication;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure;
@@ -175,7 +176,14 @@ namespace Microting.eForm.Handlers
                 foreach (Check check in resp.Checks)
                 {
 
-                    int? unitUId = dbContext.Units.Single(x => x.MicrotingUid == int.Parse(check.UnitId)).MicrotingUid; //sqlController.UnitRead(int.Parse(check.UnitId)).Result.UnitUId;
+                    var unit = await dbContext.Units.FirstAsync(x => x.MicrotingUid == int.Parse(check.UnitId));
+                    unit.Manufacturer = check.Manufacturer;
+                    unit.Model = check.Model;
+                    unit.OsVersion = check.OsVersion;
+                    unit.eFormVersion = check.SoftwareVersion;
+                    await unit.Update(dbContext);
+
+                    int? unitUId = unit.MicrotingUid; //sqlController.UnitRead(int.Parse(check.UnitId)).Result.UnitUId;
                     _log.LogVariable(_t.GetMethodName("EformCompletedHandler"), nameof(unitUId), unitUId);
                     int? workerUId = dbContext.Workers
                         .Single(x => x.MicrotingUid == int.Parse(check.WorkerId)).MicrotingUid; //sqlController.WorkerRead(int.Parse(check.WorkerId)).Result.WorkerUId;

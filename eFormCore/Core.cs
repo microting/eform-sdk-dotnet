@@ -5634,11 +5634,79 @@ namespace eFormCore
                         string fileCheckSum = fileName.AsSpan().Slice(fileName.LastIndexOf(".") - 32, 32).ToString();
 
                         baseMemoryStream.Seek(0, SeekOrigin.Begin);
-                        MemoryStream s3Stream = new MemoryStream();
-                        await baseMemoryStream.CopyToAsync(s3Stream);
-                        s3Stream.Seek(0, SeekOrigin.Begin);
-                        await PutFileToS3Storage(s3Stream, fileName);
-                        baseMemoryStream.Seek(0, SeekOrigin.Begin);
+                        var dbContext = DbContextHelper.GetDbContext();
+                        var unit = await dbContext.Units.FirstAsync(x => x.Id == uploadedData.UploaderId).ConfigureAwait(false);
+                        using (var image = new MagickImage(baseMemoryStream))
+                        {
+                            try
+                            {
+                                var profile = image.GetExifProfile();
+                                if (profile != null)
+                                {
+                                    foreach (var value in profile.Values)
+                                    {
+                                        Console.WriteLine($"value: {value}");
+                                        if (value.Tag == ExifTag.Orientation)
+                                        {
+                                            if (unit.Manufacturer == "iOS")
+                                            {
+                                                Console.WriteLine($"rotate value is {value.GetValue()}");
+                                                // CW90, Normal, 270 CW, Rotate 180
+                                                if (value.GetValue().ToString() == "6")
+                                                {
+                                                        image.Rotate(90);
+                                                        image.Orientation = OrientationType.TopLeft;
+                                                }
+                                                else if (value.GetValue().ToString() == "8")
+                                                {
+                                                    image.Rotate(270);
+                                                    image.Orientation = OrientationType.TopLeft;
+                                                }
+                                                else if (value.GetValue().ToString() == "3")
+                                                {
+                                                    image.Rotate(180);
+                                                    image.Orientation = OrientationType.TopLeft;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                // Console.WriteLine($"rotate value is {value.GetValue()}");
+                                                // if (value.GetValue().ToString() == "1")
+                                                // {
+                                                //     image.Rotate(90);
+                                                //     image.Orientation = OrientationType.TopLeft;
+                                                // }
+                                                // else if (value.GetValue().ToString() == "8")
+                                                // {
+                                                //     image.Rotate(270);
+                                                //     image.Orientation = OrientationType.TopLeft;
+                                                // }
+                                                // else if (value.GetValue().ToString() == "3")
+                                                // {
+                                                //     image.Rotate(180);
+                                                //     image.Orientation = OrientationType.TopLeft;
+                                                // }
+                                            }
+                                        }
+                                    }
+                                }
+                            } catch (Exception)
+                            {
+                                // Console.WriteLine(e);
+                            }
+                            MemoryStream memoryStream = new MemoryStream();
+                            await image.WriteAsync(memoryStream);
+                            await PutFileToS3Storage(memoryStream, fileName);
+                            await memoryStream.DisposeAsync();
+                            memoryStream.Close();
+                            image.Dispose();
+                            baseMemoryStream.Seek(0, SeekOrigin.Begin);
+                        }
+                        // MemoryStream s3Stream = new MemoryStream();
+                        // await baseMemoryStream.CopyToAsync(s3Stream);
+                        // s3Stream.Seek(0, SeekOrigin.Begin);
+                        // await PutFileToS3Storage(s3Stream, fileName);
+                        // baseMemoryStream.Seek(0, SeekOrigin.Begin);
 
                         Log.LogStandard(methodName, $"Download of '{urlStr}' completed");
 
@@ -5657,17 +5725,43 @@ namespace eFormCore
                                         {
                                             if (value.Tag == ExifTag.Orientation)
                                             {
-                                                if (value.GetValue().ToString() == "6")
+                                                if (unit.Manufacturer == "iOS")
                                                 {
-                                                    image.Rotate(90);
+                                                    Console.WriteLine($"rotate value is {value.GetValue()}");
+                                                    // CW90, Normal, 270 CW, Rotate 180
+                                                    if (value.GetValue().ToString() == "6")
+                                                    {
+                                                        image.Rotate(90);
+                                                        image.Orientation = OrientationType.TopLeft;
+                                                    }
+                                                    else if (value.GetValue().ToString() == "8")
+                                                    {
+                                                        image.Rotate(270);
+                                                        image.Orientation = OrientationType.TopLeft;
+                                                    }
+                                                    else if (value.GetValue().ToString() == "3")
+                                                    {
+                                                        image.Rotate(180);
+                                                        image.Orientation = OrientationType.TopLeft;
+                                                    }
                                                 }
-                                                else if (value.GetValue().ToString() == "8")
+                                                else
                                                 {
-                                                    image.Rotate(270);
-                                                }
-                                                else if (value.GetValue().ToString() == "3")
-                                                {
-                                                    image.Rotate(180);
+                                                    // if (value.GetValue().ToString() == "1")
+                                                    // {
+                                                    //     image.Rotate(90);
+                                                    //     image.Orientation = OrientationType.TopLeft;
+                                                    // }
+                                                    // else if (value.GetValue().ToString() == "8")
+                                                    // {
+                                                    //     image.Rotate(270);
+                                                    //     image.Orientation = OrientationType.TopLeft;
+                                                    // }
+                                                    // else if (value.GetValue().ToString() == "3")
+                                                    // {
+                                                    //     image.Rotate(180);
+                                                    //     image.Orientation = OrientationType.TopLeft;
+                                                    // }
                                                 }
                                             }
                                         }
@@ -5693,6 +5787,60 @@ namespace eFormCore
 
                             using (var image = new MagickImage(baseMemoryStream))
                             {
+                                try
+                                {
+                                    var profile = image.GetExifProfile();
+                                    if (profile != null)
+                                    {
+                                        foreach (var value in profile.Values)
+                                        {
+                                            if (value.Tag == ExifTag.Orientation)
+                                            {
+                                                if (unit.Manufacturer == "iOS")
+                                                {
+                                                    Console.WriteLine($"rotate value is {value.GetValue()}");
+                                                    // CW90, Normal, 270 CW, Rotate 180
+                                                    if (value.GetValue().ToString() == "6")
+                                                    {
+                                                        image.Rotate(90);
+                                                        image.Orientation = OrientationType.TopLeft;
+                                                    }
+                                                    else if (value.GetValue().ToString() == "8")
+                                                    {
+                                                        image.Rotate(270);
+                                                        image.Orientation = OrientationType.TopLeft;
+                                                    }
+                                                    else if (value.GetValue().ToString() == "3")
+                                                    {
+                                                        image.Rotate(180);
+                                                        image.Orientation = OrientationType.TopLeft;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    // if (value.GetValue().ToString() == "1")
+                                                    // {
+                                                    //     image.Rotate(90);
+                                                    //     image.Orientation = OrientationType.TopLeft;
+                                                    // }
+                                                    // else if (value.GetValue().ToString() == "8")
+                                                    // {
+                                                    //     image.Rotate(270);
+                                                    //     image.Orientation = OrientationType.TopLeft;
+                                                    // }
+                                                    // else if (value.GetValue().ToString() == "3")
+                                                    // {
+                                                    //     image.Rotate(180);
+                                                    //     image.Orientation = OrientationType.TopLeft;
+                                                    // }
+                                                }
+                                            }
+                                        }
+                                    }
+                                } catch (Exception)
+                                {
+                                    // Console.WriteLine(e);
+                                }
                                 decimal currentRation = image.Height / (decimal) image.Width;
                                 int newWidth = 700;
                                 int newHeight = (int) Math.Round((currentRation * newWidth));

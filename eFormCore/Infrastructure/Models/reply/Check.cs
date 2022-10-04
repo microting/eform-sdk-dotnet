@@ -49,6 +49,10 @@ namespace Microting.eForm.Infrastructure.Models.reply
         public string Worker { get; set; }
         public int? Id { get; set; }
         public string WorkerId { get; set; }
+        public string Manufacturer { get; set; }
+        public string Model { get; set; }
+        public string OsVersion { get; set; }
+        public string SoftwareVersion { get; set; }
 
         [XmlArray("ElementList"), XmlArrayItem(typeof(ElementList), ElementName = "Element")]
         public List<ElementList> ElementList { get; set; }

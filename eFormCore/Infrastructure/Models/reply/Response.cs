@@ -116,13 +116,18 @@ namespace Microting.eForm.Infrastructure.Models.reply
                 {
                     string rawXml = xmlCheck.OuterXml;
                     {
-                        Check check = new Check();
-
-                        check.UnitId = t.Locate(rawXml, " unit_id=\"", "\"");
-                        check.Date = t.Locate(rawXml, " date=\"", "\"");
-                        check.Worker = t.Locate(rawXml, " worker=\"", "\"");
-                        check.Id = int.Parse(t.Locate(rawXml, " id=\"", "\""));
-                        check.WorkerId = t.Locate(rawXml, " worker_id=\"", "\"");
+                        Check check = new Check
+                        {
+                            UnitId = t.Locate(rawXml, " unit_id=\"", "\""),
+                            Date = t.Locate(rawXml, " date=\"", "\""),
+                            Worker = t.Locate(rawXml, " worker=\"", "\""),
+                            Id = int.Parse(t.Locate(rawXml, " id=\"", "\"")),
+                            WorkerId = t.Locate(rawXml, " worker_id=\"", "\""),
+                            Manufacturer = t.Locate(rawXml,"manufacturer=\"","\""),
+                            Model = t.Locate(rawXml,"model=\"","\""),
+                            OsVersion = t.Locate(rawXml,"os_version=\"","\""),
+                            SoftwareVersion = t.Locate(rawXml,"software_version=\"","\""),
+                        };
 
                         while (rawXml.Contains("<ElementList>"))
                         {
@@ -206,13 +211,18 @@ namespace Microting.eForm.Infrastructure.Models.reply
                 string checkXmlStr = xmlStr;
                 while (checkXmlStr.Contains("<Check "))
                 {
-                    Check check = new Check();
-
-                    check.UnitId = t.Locate(checkXmlStr, " unit_id=\"", "\"");
-                    check.Date = t.Locate(checkXmlStr, " date=\"", "\"");
-                    check.Worker = t.Locate(checkXmlStr, " worker=\"", "\"");
-                    check.Id = int.Parse(t.Locate(checkXmlStr, " id=\"", "\""));
-                    check.WorkerId = t.Locate(checkXmlStr, " worker_id=\"", "\"");
+                    Check check = new Check
+                    {
+                        UnitId = t.Locate(checkXmlStr, " unit_id=\"", "\""),
+                        Date = t.Locate(checkXmlStr, " date=\"", "\""),
+                        Worker = t.Locate(checkXmlStr, " worker=\"", "\""),
+                        Id = int.Parse(t.Locate(checkXmlStr, " id=\"", "\"")),
+                        WorkerId = t.Locate(checkXmlStr, " worker_id=\"", "\""),
+                        Manufacturer = t.Locate(checkXmlStr,"manufacturer=\"","\""),
+                        Model = t.Locate(checkXmlStr,"model=\"","\""),
+                        OsVersion = t.Locate(checkXmlStr,"os_version=\"","\""),
+                        SoftwareVersion = t.Locate(checkXmlStr,"software_version=\"","\""),
+                    };
 
                     while (checkXmlStr.Contains("<ElementList>"))
                     {
@@ -276,7 +286,11 @@ namespace Microting.eForm.Infrastructure.Models.reply
                             Date = item["Date"]?.ToString(),
                             Worker = item["Worker"]?.ToString(),
                             Id = item["Id"]?.ToObject<int>(),
-                            WorkerId = item["WorkerId"]?.ToString()
+                            WorkerId = item["WorkerId"]?.ToString(),
+                            Manufacturer = item["manufacturer"]?.ToString(),
+                            Model = item["model"]?.ToString(),
+                            OsVersion = item["os_version"]?.ToString(),
+                            SoftwareVersion = item["software_version"]?.ToString(),
                         };
 
                         foreach (var el in item["ElementList"])
