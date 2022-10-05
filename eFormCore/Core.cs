@@ -5648,9 +5648,9 @@ namespace eFormCore
                                         Console.WriteLine($"value: {value}");
                                         if (value.Tag == ExifTag.Orientation)
                                         {
+                                            Console.WriteLine($"rotate value is {value.GetValue()}");
                                             if (unit.Manufacturer == "iOS")
                                             {
-                                                Console.WriteLine($"rotate value is {value.GetValue()}");
                                                 // CW90, Normal, 270 CW, Rotate 180
                                                 if (value.GetValue().ToString() == "6")
                                                 {
@@ -5671,21 +5671,21 @@ namespace eFormCore
                                             else
                                             {
                                                 // Console.WriteLine($"rotate value is {value.GetValue()}");
-                                                // if (value.GetValue().ToString() == "1")
-                                                // {
-                                                //     image.Rotate(90);
-                                                //     image.Orientation = OrientationType.TopLeft;
-                                                // }
-                                                // else if (value.GetValue().ToString() == "8")
-                                                // {
-                                                //     image.Rotate(270);
-                                                //     image.Orientation = OrientationType.TopLeft;
-                                                // }
-                                                // else if (value.GetValue().ToString() == "3")
-                                                // {
-                                                //     image.Rotate(180);
-                                                //     image.Orientation = OrientationType.TopLeft;
-                                                // }
+                                                if (value.GetValue().ToString() == "6")
+                                                {
+                                                    image.Rotate(90);
+                                                    image.Orientation = OrientationType.TopLeft;
+                                                }
+                                                else if (value.GetValue().ToString() == "8")
+                                                {
+                                                    image.Rotate(270);
+                                                    image.Orientation = OrientationType.TopLeft;
+                                                }
+                                                else if (value.GetValue().ToString() == "3")
+                                                {
+                                                    image.Rotate(180);
+                                                    image.Orientation = OrientationType.TopLeft;
+                                                }
                                             }
                                         }
                                     }
@@ -5747,21 +5747,21 @@ namespace eFormCore
                                                 }
                                                 else
                                                 {
-                                                    // if (value.GetValue().ToString() == "1")
-                                                    // {
-                                                    //     image.Rotate(90);
-                                                    //     image.Orientation = OrientationType.TopLeft;
-                                                    // }
-                                                    // else if (value.GetValue().ToString() == "8")
-                                                    // {
-                                                    //     image.Rotate(270);
-                                                    //     image.Orientation = OrientationType.TopLeft;
-                                                    // }
-                                                    // else if (value.GetValue().ToString() == "3")
-                                                    // {
-                                                    //     image.Rotate(180);
-                                                    //     image.Orientation = OrientationType.TopLeft;
-                                                    // }
+                                                    if (value.GetValue().ToString() == "6")
+                                                    {
+                                                        image.Rotate(90);
+                                                        image.Orientation = OrientationType.TopLeft;
+                                                    }
+                                                    else if (value.GetValue().ToString() == "8")
+                                                    {
+                                                        image.Rotate(270);
+                                                        image.Orientation = OrientationType.TopLeft;
+                                                    }
+                                                    else if (value.GetValue().ToString() == "3")
+                                                    {
+                                                        image.Rotate(180);
+                                                        image.Orientation = OrientationType.TopLeft;
+                                                    }
                                                 }
                                             }
                                         }
@@ -5818,21 +5818,21 @@ namespace eFormCore
                                                 }
                                                 else
                                                 {
-                                                    // if (value.GetValue().ToString() == "1")
-                                                    // {
-                                                    //     image.Rotate(90);
-                                                    //     image.Orientation = OrientationType.TopLeft;
-                                                    // }
-                                                    // else if (value.GetValue().ToString() == "8")
-                                                    // {
-                                                    //     image.Rotate(270);
-                                                    //     image.Orientation = OrientationType.TopLeft;
-                                                    // }
-                                                    // else if (value.GetValue().ToString() == "3")
-                                                    // {
-                                                    //     image.Rotate(180);
-                                                    //     image.Orientation = OrientationType.TopLeft;
-                                                    // }
+                                                    if (value.GetValue().ToString() == "6")
+                                                    {
+                                                        image.Rotate(90);
+                                                        image.Orientation = OrientationType.TopLeft;
+                                                    }
+                                                    else if (value.GetValue().ToString() == "8")
+                                                    {
+                                                        image.Rotate(270);
+                                                        image.Orientation = OrientationType.TopLeft;
+                                                    }
+                                                    else if (value.GetValue().ToString() == "3")
+                                                    {
+                                                        image.Rotate(180);
+                                                        image.Orientation = OrientationType.TopLeft;
+                                                    }
                                                 }
                                             }
                                         }
