@@ -9,16 +9,20 @@ A .NET SDK for integrating with the Microting eForm API v1.
 
 ## Supported Platforms
 
-| OS | .Net Standard 2.0 | .Net Core 3.1 | MySQL 5.5+ / MariaDB 10.4  |
-| ------------- |:-----:|:-----:|:-----:|
-| OSX 10.15.5 | X | X | X |
-| OSX 10.14.2 | X | X | X |
-| Ubuntu 20.04 | X | X | X |
-| Ubuntu 19.10 | X | X | X |
-| Ubuntu 19.04 | X | X | X |
-| Ubuntu 18.10 | X |  | X |
-| Ubuntu 18.04 | X |  | X |
-| Ubuntu 16.04 | X |  | X |
+| OS | .Net Core 6.x | MySQL 5.5+ / MariaDB 10.4  |
+| ------------- |:-----:|:-----:|
+| OSX 13 | X | X |
+| OSX 12 | X | X |
+| OSX 11 | X | X |
+| OSX 10.15.5 | X | X |
+| OSX 10.14.2 | X | X |
+| Ubuntu 22.04 | X | X |
+| Ubuntu 20.04 | X | X |
+| Ubuntu 19.04 | X | X |
+| Ubuntu 18.04 | X | X |
+| Ubuntu 16.04 | X | X |
+| Windows 10 | X | X |
+| Windows 11 | X | X |
 
 ## Setup
 
@@ -120,3 +124,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+## Thanks to all contributors ❤
+ <a href = "https://github.com/microting/eform-sdk-dotnet/graphs/contributors">
+   <img src = "https://contrib.rocks/image?repo=microting/eform-sdk-dotnet"/>
+ </a>
