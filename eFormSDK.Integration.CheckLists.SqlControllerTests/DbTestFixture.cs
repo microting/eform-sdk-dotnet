@@ -66,6 +66,7 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             microtingDbContext.Database.EnsureCreated();
             microtingDbContext.Database.ExecuteSqlRaw(rawSql);
+            microtingDbContext.Database.Migrate();
 
             return microtingDbContext;
 
@@ -83,7 +84,7 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
             DbContext = GetContext(_mySqlTestcontainer.ConnectionString);
 
             DbContext.Database.SetCommandTimeout(300);
-            
+
             if (_firsRun)
             {
                 AdminTools adminTools = new AdminTools(_mySqlTestcontainer.ConnectionString);

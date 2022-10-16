@@ -258,6 +258,8 @@
         <Compile Include="Migrations\20211116085744_AddingDoneAtEditable.Designer.cs" />
         <Compile Include="Migrations\20220207094729_AddingIsLockedToSiteUnitWorkers.cs" />
         <Compile Include="Migrations\20220207094729_AddingIsLockedToSiteUnitWorkers.Designer.cs" />
+        <Compile Include="Migrations\20221016081344_AddingIsActiveToLanguage.cs" />
+        <Compile Include="Migrations\20221016081344_AddingIsActiveToLanguage.Designer.cs" />
         <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
         <Compile Include="Infrastructure\SqlController.cs" />
         <Compile Include="Services\Subscriber.cs" />

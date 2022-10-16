@@ -66,6 +66,7 @@ namespace eFormSDK.Base.Tests
 
             microtingDbContext.Database.EnsureCreated();
             microtingDbContext.Database.ExecuteSqlRaw(rawSql);
+            microtingDbContext.Database.Migrate();
 
             return microtingDbContext;
 

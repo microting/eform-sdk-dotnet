@@ -32,6 +32,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public string LanguageCode { get; set; }
 
+        public bool IsActive { get; set; } = true;
+
         [ForeignKey("Language")]
         public int LanguageId { get; set; }
 
