@@ -3217,18 +3217,19 @@ namespace eFormCore
             {
                 if (!Running()) throw new Exception("Core is not running");
                 await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
-                Folder folder = await dbContext.Folders.FirstOrDefaultAsync(x => x.Id == id);
+                Folder folder = await dbContext.Folders.FirstAsync(x => x.Id == id);
                 //FolderDto folder = await FolderRead(id).ConfigureAwait(false);
                 int apiParentId = 0;
                 if (parentId != null)
                 {
-                    apiParentId = (int)dbContext.Folders.Single(x => x.Id == parentId).MicrotingUid;
+                    apiParentId = (int)dbContext.Folders.First(x => x.Id == parentId).MicrotingUid!;
                 }
 
                 foreach (CommonTranslationsModel translation in translations)
                 {
-                    Language language = await dbContext.Languages.FirstOrDefaultAsync(x => x.Id == translation.LanguageId);
-                    await _communicator.FolderUpdate((int)folder.MicrotingUid, translation.Name, translation.Description,
+                    Language language = await dbContext.Languages.FirstAsync(x => x.Id == translation.LanguageId);
+                    translation.Description ??= "";
+                    await _communicator.FolderUpdate((int)folder.MicrotingUid!, translation.Name, translation.Description,
                         language.LanguageCode, apiParentId);
                     FolderTranslation folderTranslation =
                         await dbContext.FolderTranslations.FirstOrDefaultAsync(x =>

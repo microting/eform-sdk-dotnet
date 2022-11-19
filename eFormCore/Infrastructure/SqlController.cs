@@ -1320,34 +1320,31 @@ namespace Microting.eForm.Infrastructure
 
                     if (fieldV == null)
                     {
-                        fieldV = new FieldValue();
-                        fieldV.CreatedAt = DateTime.UtcNow;
-                        fieldV.UpdatedAt = DateTime.UtcNow;
-
-                        fieldV.Value = null;
-
-                        //geo
-                        fieldV.Latitude = null;
-                        fieldV.Longitude = null;
-                        fieldV.Altitude = null;
-                        fieldV.Heading = null;
-                        fieldV.Accuracy = null;
-                        fieldV.Date = null;
-                        //
-                        fieldV.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                        fieldV.Version = 1;
-                        fieldV.CaseId = responseCase.Id;
-                        fieldV.FieldId = field.Id;
-                        fieldV.WorkerId = userId;
-                        fieldV.CheckListId = field.CheckListId;
-                        fieldV.DoneAt = _t.Date(response.Checks[xmlIndex].Date);
+                        fieldV = new FieldValue
+                        {
+                            CreatedAt = DateTime.UtcNow,
+                            UpdatedAt = DateTime.UtcNow,
+                            Value = null,
+                            //geo
+                            Latitude = null,
+                            Longitude = null,
+                            Altitude = null,
+                            Heading = null,
+                            Accuracy = null,
+                            Date = null,
+                            //
+                            WorkflowState = Constants.Constants.WorkflowStates.Created,
+                            Version = 1,
+                            CaseId = responseCase.Id,
+                            FieldId = field.Id,
+                            WorkerId = userId,
+                            CheckListId = field.CheckListId,
+                            DoneAt = _t.Date(response.Checks[xmlIndex].Date)
+                        };
 
                         await fieldV.Create(db).ConfigureAwait(false);
                     }
-
-
                 }
-                //
 
                 await CaseUpdateFieldValues(responseCase.Id, language);
                 return uploadedDataIds;
@@ -1377,37 +1374,40 @@ namespace Microting.eForm.Infrastructure
                 var mainCheckList = await db.CheckLists.FirstAsync(x => x.Id == aCase.CheckListId);
 
                 CheckListTranslation checkListTranslation =
-                    await db.CheckListTranslations.FirstOrDefaultAsync(x =>
+                    await db.CheckListTranslations.AsNoTracking().FirstOrDefaultAsync(x =>
                         x.CheckListId == mainCheckList.Id && x.LanguageId == language.Id);
                 if (checkListTranslation == null)
                 {
-                    language = await db.Languages.FirstAsync(x => x.LanguageCode == "da");
+                    language = await db.Languages.AsNoTracking().FirstAsync(x => x.LanguageCode == "da");
                     checkListTranslation =
-                        await db.CheckListTranslations.FirstOrDefaultAsync(x =>
+                        await db.CheckListTranslations.AsNoTracking().FirstOrDefaultAsync(x =>
                             x.CheckListId == mainCheckList.Id && x.LanguageId == language.Id);
                 }
 
-                ReplyElement replyElement = new ReplyElement();
+                ReplyElement replyElement = new ReplyElement
+                {
+                    ElementList = new List<Element>(),
+                    CaseType = aCase.Type,
+                    Custom = aCase.Custom,
+                    //replyElement.EndDate
+                    FastNavigation = _t.Bool(mainCheckList.FastNavigation),
+                    Label = checkListTranslation.Text,
+                    //replyElement.Language
+                    ManualSync = _t.Bool(mainCheckList.ManualSync),
+                    MultiApproval = _t.Bool(mainCheckList.MultiApproval),
+                    MicrotingUId = (int)aCase.MicrotingCheckUid,
+                    JasperExportEnabled = mainCheckList.JasperExportEnabled,
+                    DocxExportEnabled = mainCheckList.DocxExportEnabled
+                };
+
                 if (aCase.CheckListId != null) replyElement.Id = (int) aCase.CheckListId;
-                replyElement.CaseType = aCase.Type;
-                replyElement.Custom = aCase.Custom;
                 if (aCase.DoneAtUserModifiable != null) replyElement.DoneAt = (DateTime) aCase.DoneAtUserModifiable;
                 if (aCase.WorkerId != null) replyElement.DoneById = (int) aCase.WorkerId;
-                replyElement.ElementList = new List<Element>();
-                //replyElement.EndDate
-                replyElement.FastNavigation = _t.Bool(mainCheckList.FastNavigation);
-                replyElement.Label = checkListTranslation.Text;
-                //replyElement.Language
-                replyElement.ManualSync = _t.Bool(mainCheckList.ManualSync);
-                replyElement.MultiApproval = _t.Bool(mainCheckList.MultiApproval);
                 if (mainCheckList.Repeated != null) replyElement.Repeated = (int) mainCheckList.Repeated;
                 //replyElement.StartDate
                 if (aCase.UnitId != null) replyElement.UnitId = (int) aCase.UnitId;
-                replyElement.MicrotingUId = (int)aCase.MicrotingCheckUid;
                 Site site = await db.Sites.FirstAsync(x => x.Id == aCase.SiteId);
                 if (site.MicrotingUid != null) replyElement.SiteMicrotingUuid = (int) site.MicrotingUid;
-                replyElement.JasperExportEnabled = mainCheckList.JasperExportEnabled;
-                replyElement.DocxExportEnabled = mainCheckList.DocxExportEnabled;
 
                 CheckList checkList = await db.CheckLists.FirstAsync(x => x.Id == aCase.CheckListId);
                 foreach (CheckList subCheckList in await db.CheckLists.Where(x =>
@@ -1437,46 +1437,48 @@ namespace Microting.eForm.Infrastructure
             {
                 await using var db = GetContext();
                 var aCase = await db.Cases.AsNoTracking().FirstAsync(x => x.Id == id);
-                var mainCheckList = await db.CheckLists.FirstAsync(x => x.Id == aCase.CheckListId);
+                var mainCheckList = await db.CheckLists.AsNoTracking().FirstAsync(x => x.Id == aCase.CheckListId);
 
                 CheckListTranslation checkListTranslation =
-                    await db.CheckListTranslations.FirstOrDefaultAsync(x =>
+                    await db.CheckListTranslations.AsNoTracking().FirstOrDefaultAsync(x =>
                         x.CheckListId == mainCheckList.Id && x.LanguageId == language.Id);
                 if (checkListTranslation == null)
                 {
-                    language = await db.Languages.FirstAsync(x => x.LanguageCode == "da");
+                    language = await db.Languages.AsNoTracking().FirstAsync(x => x.LanguageCode == "da");
                     checkListTranslation =
-                        await db.CheckListTranslations.FirstOrDefaultAsync(x =>
+                        await db.CheckListTranslations.AsNoTracking().FirstOrDefaultAsync(x =>
                             x.CheckListId == mainCheckList.Id && x.LanguageId == language.Id);
                 }
 
-                ReplyElement replyElement = new ReplyElement();
+                ReplyElement replyElement = new ReplyElement
+                {
+                    CaseType = aCase.Type,
+                    Custom = aCase.Custom,
+                    ElementList = new List<Element>(),
+                    //replyElement.EndDate
+                    FastNavigation = _t.Bool(mainCheckList.FastNavigation),
+                    Label = checkListTranslation.Text,
+                    //replyElement.Language
+                    ManualSync = _t.Bool(mainCheckList.ManualSync),
+                    MultiApproval = _t.Bool(mainCheckList.MultiApproval),
+                    MicrotingUId = aCase.MicrotingCheckUid,
+                    JasperExportEnabled = mainCheckList.JasperExportEnabled,
+                    DocxExportEnabled = mainCheckList.DocxExportEnabled
+                };
                 if (aCase.CheckListId != null) replyElement.Id = (int) aCase.CheckListId;
-                replyElement.CaseType = aCase.Type;
-                replyElement.Custom = aCase.Custom;
                 if (aCase.DoneAtUserModifiable != null) replyElement.DoneAt = (DateTime) aCase.DoneAtUserModifiable;
                 if (aCase.WorkerId != null) replyElement.DoneById = (int) aCase.WorkerId;
-                replyElement.ElementList = new List<Element>();
-                //replyElement.EndDate
-                replyElement.FastNavigation = _t.Bool(mainCheckList.FastNavigation);
-                replyElement.Label = checkListTranslation.Text;
-                //replyElement.Language
-                replyElement.ManualSync = _t.Bool(mainCheckList.ManualSync);
-                replyElement.MultiApproval = _t.Bool(mainCheckList.MultiApproval);
                 if (mainCheckList.Repeated != null) replyElement.Repeated = (int) mainCheckList.Repeated;
                 //replyElement.StartDate
                 if (aCase.UnitId != null) replyElement.UnitId = (int) aCase.UnitId;
-                replyElement.MicrotingUId = aCase.MicrotingCheckUid;
                 Site site = await db.Sites.FirstOrDefaultAsync(x => x.Id == aCase.SiteId);
                 if (site != null)
                 {
                     if (site.MicrotingUid != null) replyElement.SiteMicrotingUuid = (int) site.MicrotingUid;
                 }
-                replyElement.JasperExportEnabled = mainCheckList.JasperExportEnabled;
-                replyElement.DocxExportEnabled = mainCheckList.DocxExportEnabled;
 
-                CheckList checkList = await db.CheckLists.FirstAsync(x => x.Id == aCase.CheckListId);
-                foreach (CheckList subCheckList in await db.CheckLists.Where(x =>
+                CheckList checkList = await db.CheckLists.AsNoTracking().FirstAsync(x => x.Id == aCase.CheckListId);
+                foreach (CheckList subCheckList in await db.CheckLists.AsNoTracking().Where(x =>
                     x.ParentId == checkList.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
                 {
                     replyElement.ElementList.Add(await SubChecks(subCheckList.Id, aCase, language));
@@ -1496,18 +1498,18 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                var checkList = await db.CheckLists.FirstAsync(x => x.Id == parentId);
+                var checkList = await db.CheckLists.AsNoTracking().FirstAsync(x => x.Id == parentId);
                 //Element element = new Element();
                 if (await db.CheckLists.AnyAsync(x => x.ParentId == checkList.Id))
                 {
                     List<Element> elementList = new List<Element>();
-                    foreach (CheckList subList in await db.CheckLists.Where(x =>
+                    foreach (CheckList subList in await db.CheckLists.AsNoTracking().Where(x =>
                         x.ParentId == checkList.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
                     {
                         elementList.Add(await SubChecks(subList.Id, theCase, language));
                     }
                     CheckListTranslation checkListTranslation =
-                        await db.CheckListTranslations.FirstAsync(x =>
+                        await db.CheckListTranslations.AsNoTracking().FirstAsync(x =>
                             x.CheckListId == checkList.Id && x.LanguageId == language.Id);
 
                     GroupElement element = new GroupElement(checkList.Id,
@@ -1528,17 +1530,17 @@ namespace Microting.eForm.Infrastructure
                 {
                     List<DataItemGroup> dataItemGroupList = new List<DataItemGroup>();
                     List<DataItem> dataItemList = new List<DataItem>();
-                    List<Field> fields = await db.Fields.Where(x =>
+                    List<Field> fields = await db.Fields.AsNoTracking().Where(x =>
                             x.CheckListId == checkList.Id
                             && x.ParentFieldId == null).OrderBy(x => x.DisplayIndex)
                         .ToListAsync();
                     foreach (Field field in fields)
                     {
-                        FieldType fieldType = db.FieldTypes.Single(x => x.Id == field.FieldTypeId);
+                        FieldType fieldType = await db.FieldTypes.AsNoTracking().FirstAsync(x => x.Id == field.FieldTypeId);
                         if (fieldType.Type == "FieldGroup")
                         {
                             List<DataItem> dataItemSubList = new List<DataItem>();
-                            foreach (Field subField in await db.Fields.Where(x =>
+                            foreach (Field subField in await db.Fields.AsNoTracking().Where(x =>
                                 x.ParentFieldId == field.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
                             {
                                 var _field = await DbFieldToField(subField, language);
@@ -1750,12 +1752,12 @@ namespace Microting.eForm.Infrastructure
 
         private async Task<Models.Field> DbFieldToField(Field dbField, Language language)
         {
-            using var db = GetContext();
+            await using var db = GetContext();
             Models.Field field = new Models.Field
             {
                 Label = dbField.Label,
                 Description = new CDataValue(),
-                FieldType = db.FieldTypes.Single(x => x.Id == dbField.FieldTypeId).Type,
+                FieldType = db.FieldTypes.AsNoTracking().First(x => x.Id == dbField.FieldTypeId).Type,
                 FieldValue = dbField.DefaultValue,
                 EntityGroupId = dbField.EntityGroupId,
                 Color = dbField.Color,
@@ -1766,7 +1768,7 @@ namespace Microting.eForm.Infrastructure
             if (field.FieldType == "SingleSelect")
             {
                 var singleSelectFieldOptions =
-                    await db.FieldOptions.Where(x => x.FieldId == field.Id)
+                    await db.FieldOptions.AsNoTracking().Where(x => x.FieldId == field.Id)
                         .Join(db.FieldOptionTranslations,
                             option => option.Id,
                             translation => translation.FieldOptionId,
@@ -1790,7 +1792,7 @@ namespace Microting.eForm.Infrastructure
             if (field.FieldType == "MultiSelect")
             {
                 var multiSelectFieldOptions =
-                    await db.FieldOptions.Where(x => x.FieldId == field.Id)
+                    await db.FieldOptions.AsNoTracking().Where(x => x.FieldId == field.Id)
                         .Join(db.FieldOptionTranslations,
                             option => option.Id,
                             translation => translation.FieldOptionId,
@@ -1821,7 +1823,7 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                Field dbField = await db.Fields.FirstOrDefaultAsync(x => x.Id == id);
+                Field dbField = await db.Fields.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
 
                 Models.Field field = await DbFieldToField(dbField, language);
                 return field;
@@ -1846,7 +1848,7 @@ namespace Microting.eForm.Infrastructure
                     Color = dbField.Color,
                     Date = reply.Date,
                     FieldId = _t.Int(reply.FieldId),
-                    FieldType = db.FieldTypes.Single(x => x.Id == dbField.FieldTypeId).Type,
+                    FieldType = db.FieldTypes.AsNoTracking().First(x => x.Id == dbField.FieldTypeId).Type,
                     DateOfDoing = _t.Date(reply.DoneAt),
                     Description = new CDataValue {InderValue = dbField.Description},
                     DisplayOrder = _t.Int(dbField.DisplayIndex),
@@ -1950,12 +1952,12 @@ namespace Microting.eForm.Infrastructure
                 {
                     string key = fieldValue.Value;
                     int fieldId = fieldValue.FieldId;
-                    FieldOption fieldOption = await db.FieldOptions.FirstOrDefaultAsync(x =>
+                    FieldOption fieldOption = await db.FieldOptions.AsNoTracking().FirstOrDefaultAsync(x =>
                         x.FieldId == fieldId && x.Key == key);
                     if (fieldOption != null)
                     {
                         FieldOptionTranslation fieldOptionTranslation =
-                            await db.FieldOptionTranslations.FirstAsync(x =>
+                            await db.FieldOptionTranslations.AsNoTracking().FirstAsync(x =>
                                 x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
                         fieldValue.ValueReadable = fieldOptionTranslation.Text;
                     }
@@ -1965,7 +1967,7 @@ namespace Microting.eForm.Infrastructure
                     }
 
                     List<FieldOption> fieldOptions =
-                        await db.FieldOptions.Where(x => x.FieldId == fieldValue.FieldId).ToListAsync();
+                        await db.FieldOptions.AsNoTracking().Where(x => x.FieldId == fieldValue.FieldId).ToListAsync();
 
                     fieldValue.KeyValuePairList = new List<KeyValuePair>();
                     foreach (FieldOption option in fieldOptions)
@@ -1994,12 +1996,12 @@ namespace Microting.eForm.Infrastructure
                     {
                         if (!string.IsNullOrEmpty(key))
                         {
-                            FieldOption fieldOption = await db.FieldOptions.FirstOrDefaultAsync(x =>
+                            FieldOption fieldOption = await db.FieldOptions.AsNoTracking().FirstOrDefaultAsync(x =>
                                 x.FieldId == fieldId && x.Key == key);
                             if (fieldOption != null)
                             {
                                 FieldOptionTranslation fieldOptionTranslation =
-                                    await db.FieldOptionTranslations.FirstAsync(x =>
+                                    await db.FieldOptionTranslations.AsNoTracking().FirstAsync(x =>
                                         x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
                                 if (fieldValue.ValueReadable != "")
                                 {
@@ -2010,13 +2012,13 @@ namespace Microting.eForm.Infrastructure
                         }
                     }
 
-                    List<FieldOption> fieldOptions = await db.FieldOptions.Where(x =>
+                    List<FieldOption> fieldOptions = await db.FieldOptions.AsNoTracking().Where(x =>
                         x.FieldId == fieldValue.FieldId).ToListAsync();
                     fieldValue.KeyValuePairList = new List<KeyValuePair>();
                     foreach (FieldOption option in fieldOptions)
                     {
                         var optionTranslation = await
-                            db.FieldOptionTranslations.FirstAsync(x =>
+                            db.FieldOptionTranslations.AsNoTracking().FirstAsync(x =>
                                 x.FieldOptionId == option.Id && x.LanguageId == language.Id);
                         KeyValuePair keyValuePair = new KeyValuePair(option.Key, optionTranslation.Text, false,
                             option.DisplayOrder);
@@ -2055,11 +2057,11 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                Field field = await db.Fields.FirstOrDefaultAsync(x => x.Id == reply.FieldId);
+                Field field = await db.Fields.AsNoTracking().FirstOrDefaultAsync(x => x.Id == reply.FieldId);
                 if (field == null)
                 {
                     var result =
-                        await db.FieldValues.FirstAsync(x =>
+                        await db.FieldValues.AsNoTracking().FirstAsync(x =>
                             x.CaseId == reply.CaseId && x.FieldId == reply.FieldId);
                     return new Models.FieldValue()
                     {
@@ -2087,7 +2089,7 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                List<FieldValue> matches = db.FieldValues.Where(x => x.FieldId == fieldId).OrderByDescending(z => z.CreatedAt).ToList();
+                List<FieldValue> matches = db.FieldValues.AsNoTracking().Where(x => x.FieldId == fieldId).OrderByDescending(z => z.CreatedAt).ToList();
 
                 if (matches.Count() > instancesBackInTime)
                     matches = matches.GetRange(0, instancesBackInTime);
@@ -2111,7 +2113,7 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                List<FieldValue> matches = db.FieldValues.Where(x => x.FieldId == fieldId && caseIds.Contains(x.Id)).ToList();
+                List<FieldValue> matches = db.FieldValues.AsNoTracking().Where(x => x.FieldId == fieldId && caseIds.Contains(x.Id)).ToList();
 
                 List<Models.FieldValue> rtnLst = new List<Models.FieldValue>();
 
@@ -2132,7 +2134,7 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                List<FieldValue> matches = db.FieldValues.Where(x =>
+                List<FieldValue> matches = db.FieldValues.AsNoTracking().Where(x =>
                     caseIds.Contains((int)x.CaseId)
                     && x.WorkflowState != Constants.Constants.WorkflowStates.Removed).ToList();
                 List<Models.FieldValue> rtnLst = new List<Models.FieldValue>();
@@ -2155,7 +2157,7 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                List<Data.Entities.CheckListValue> matches = db.CheckListValues.Where(x => caseIds.Contains((int)x.CaseId)).ToList();
+                List<Data.Entities.CheckListValue> matches = db.CheckListValues.AsNoTracking().Where(x => caseIds.Contains((int)x.CaseId)).ToList();
                 List<CheckListValue> rtnLst = new List<CheckListValue>();
 
                 foreach (var item in matches)
@@ -2821,7 +2823,7 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                Case aCase = await db.Cases.FirstAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
+                Case aCase = await db.Cases.AsNoTracking().FirstAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
                 return await CaseReadByCaseId(aCase.Id);
             } catch  (Exception ex)
             {
@@ -2844,14 +2846,14 @@ namespace Microting.eForm.Infrastructure
 
                 if (db.Cases.Count(x => x.MicrotingUid == microtingUId) == 1)
                 {
-                    var aCase = await db.Cases.FirstAsync(x => x.MicrotingUid == microtingUId);
+                    var aCase = await db.Cases.AsNoTracking().FirstAsync(x => x.MicrotingUid == microtingUId);
                     return await CaseReadByCaseId(aCase.Id);
                 }
 
                 try
                 {
-                    CheckListSite cls = await db.CheckListSites.FirstAsync(x => x.MicrotingUid == microtingUId);
-                    CheckList cL = await db.CheckLists.FirstAsync(x => x.Id == cls.CheckListId);
+                    CheckListSite cls = await db.CheckListSites.AsNoTracking().FirstAsync(x => x.MicrotingUid == microtingUId);
+                    CheckList cL = await db.CheckLists.AsNoTracking().FirstAsync(x => x.Id == cls.CheckListId);
 
                     // string stat = aCase.workflow_state ...
                     string stat = "";
@@ -2862,8 +2864,7 @@ namespace Microting.eForm.Infrastructure
                         stat = "Deleted";
                     //
 
-                    int remoteSiteId = (int)db.Sites.FirstAsync(x => x.Id == (int)cls.SiteId).GetAwaiter()
-                        .GetResult().MicrotingUid;
+                    int remoteSiteId = (int)db.Sites.AsNoTracking().First(x => x.Id == (int)cls.SiteId).MicrotingUid!;
                     CaseDto returnCase = new CaseDto
                     {
                         CaseId = null,
@@ -2903,7 +2904,7 @@ namespace Microting.eForm.Infrastructure
             {
                 await using var db = GetContext();
                 Case aCase = await db.Cases.AsNoTracking().FirstAsync(x => x.Id == caseId);
-                CheckList cL = await db.CheckLists.FirstAsync(x => x.Id == aCase.CheckListId);
+                CheckList cL = await db.CheckLists.AsNoTracking().FirstAsync(x => x.Id == aCase.CheckListId);
 
                 // string stat = aCase.workflow_state ...
                 string stat = "";
@@ -2920,7 +2921,7 @@ namespace Microting.eForm.Infrastructure
                     stat = "Deleted";
                 //
 
-                int remoteSiteId = (int)db.Sites.FirstAsync(x => x.Id == (int)aCase.SiteId).GetAwaiter().GetResult().MicrotingUid;
+                var remoteSiteId = (int)db.Sites.Where(x => x.Id == (int)aCase.SiteId).Select(x => x.MicrotingUid).First()!;
                 CaseDto caseDto = new CaseDto
                 {
                     CaseId = aCase.Id,
@@ -2961,11 +2962,11 @@ namespace Microting.eForm.Infrastructure
                     throw new Exception(methodName + " failed. Due invalid input:'ReversedCase'. This would return incorrect data");
 
                 await using var db = GetContext();
-                List<Case> matches = await db.Cases.Where(x => x.CaseUid == caseUId).ToListAsync();
+                List<int> matches = await db.Cases.AsNoTracking().Where(x => x.CaseUid == caseUId).Select(x => x.Id).ToListAsync();
                 List<CaseDto> lstDto = new List<CaseDto>();
 
-                foreach (Case aCase in matches)
-                    lstDto.Add(await CaseReadByCaseId(aCase.Id));
+                foreach (var caseId in matches)
+                    lstDto.Add(await CaseReadByCaseId(caseId));
 
                 return lstDto;
             }
@@ -2989,13 +2990,18 @@ namespace Microting.eForm.Infrastructure
             {
                 await using var db = GetContext();
                 Case match = await db.Cases.AsNoTracking().FirstOrDefaultAsync(x => x.MicrotingUid == microtingUId && x.MicrotingCheckUid == checkUId);
-                match.SiteId = db.Sites.FirstOrDefaultAsync(x => x.Id == match.SiteId).GetAwaiter().GetResult().MicrotingUid;
+                if (match != null)
+                {
+                    match.SiteId = db.Sites.AsNoTracking().FirstAsync(x => x.Id == match.SiteId).GetAwaiter().GetResult().MicrotingUid;
 
-                if (match.UnitId != null)
-                    match.UnitId = db.Units.FirstOrDefaultAsync(x => x.Id == match.UnitId).GetAwaiter().GetResult().MicrotingUid;
+                    if (match.UnitId != null)
+                        match.UnitId = db.Units.AsNoTracking().FirstAsync(x => x.Id == match.UnitId).GetAwaiter().GetResult()
+                            .MicrotingUid;
 
-                if (match.WorkerId != null)
-                    match.WorkerId = db.Workers.FirstOrDefaultAsync(x => x.Id == match.WorkerId).GetAwaiter().GetResult().MicrotingUid;
+                    if (match.WorkerId != null)
+                        match.WorkerId = db.Workers.AsNoTracking().FirstAsync(x => x.Id == match.WorkerId).GetAwaiter().GetResult()
+                            .MicrotingUid;
+                }
                 return match;
             }
             catch (Exception ex)
@@ -3008,6 +3014,7 @@ namespace Microting.eForm.Infrastructure
         /// </summary>
         /// <param name="microtingUId"></param>
         /// <param name="checkUId"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         public async Task<Case> CaseReadFull(int id)
@@ -3049,7 +3056,7 @@ namespace Microting.eForm.Infrastructure
             {
                 await using var db = GetContext();
                 //cases dbCase = null;
-                IQueryable<Case> subQuery = db.Cases.Where(x => x.CheckListId == templateId && x.Status == 100);
+                IQueryable<Case> subQuery = db.Cases.AsNoTracking().Where(x => x.CheckListId == templateId && x.Status == 100);
                 switch (workflowState)
                 {
                     case Constants.Constants.WorkflowStates.NotRetracted:
@@ -3072,12 +3079,7 @@ namespace Microting.eForm.Infrastructure
                 try
                 {
                     var result = await subQuery.FirstOrDefaultAsync().ConfigureAwait(false);
-                    if (result != null)
-                    {
-                        return result.Id;
-                    }
-
-                    return null;
+                    return result?.Id;
                 } catch (Exception ex)
                 {
                     throw new Exception(methodName + " failed", ex);
@@ -3105,31 +3107,31 @@ namespace Microting.eForm.Infrastructure
 
                 //db.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
 
-                List<Case> matches = null;
-                IQueryable<Case> sub_query = db.Cases.Where(x => x.DoneAtUserModifiable > start && x.DoneAtUserModifiable < end);
+                //List<Case> matches = null;
+                IQueryable<Case> subQuery = db.Cases.AsNoTracking().Where(x => x.DoneAtUserModifiable > start && x.DoneAtUserModifiable < end);
                 switch (workflowState)
                 {
                     case Constants.Constants.WorkflowStates.NotRetracted:
-                        sub_query = sub_query.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Retracted);
+                        subQuery = subQuery.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Retracted);
                         break;
                     case Constants.Constants.WorkflowStates.NotRemoved:
-                        sub_query = sub_query.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
+                        subQuery = subQuery.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
                         break;
                     case Constants.Constants.WorkflowStates.Created:
-                        sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created);
+                        subQuery = subQuery.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Created);
                         break;
                     case Constants.Constants.WorkflowStates.Retracted:
-                        sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Retracted);
+                        subQuery = subQuery.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Retracted);
                         break;
                     case Constants.Constants.WorkflowStates.Removed:
-                        sub_query = sub_query.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed);
+                        subQuery = subQuery.Where(x => x.WorkflowState == Constants.Constants.WorkflowStates.Removed);
                         break;
                 }
 
 
                 if (templatId != null)
                 {
-                    sub_query = sub_query.Where(x => x.CheckListId == templatId);
+                    subQuery = subQuery.Where(x => x.CheckListId == templatId);
                 }
 
                 if (!string.IsNullOrEmpty(searchKey))
@@ -3137,7 +3139,7 @@ namespace Microting.eForm.Infrastructure
                     if (searchKey.Contains("!"))
                     {
                         searchKey = searchKey.ToLower().Replace("!", "");
-                        IQueryable<Case> excludeQuery = db.Cases.Where(x => x.DoneAtUserModifiable > start && x.DoneAtUserModifiable < end);
+                        IQueryable<Case> excludeQuery = db.Cases.AsNoTracking().Where(x => x.DoneAtUserModifiable > start && x.DoneAtUserModifiable < end);
                         excludeQuery = excludeQuery.Where(x => x.FieldValue1.ToLower().Contains(searchKey) ||
                                                                x.FieldValue2.ToLower().Contains(searchKey) ||
                                                                x.FieldValue3.ToLower().Contains(searchKey) ||
@@ -3154,12 +3156,12 @@ namespace Microting.eForm.Infrastructure
                                                                x.Worker.LastName.ToLower().Contains(searchKey) ||
                                                                x.DoneAtUserModifiable.ToString().Contains(searchKey));
 
-                        sub_query = sub_query.Except(excludeQuery.ToList());
+                        subQuery = subQuery.Except(excludeQuery.ToList());
                     }
                     else
                     {
                         searchKey = searchKey.ToLower();
-                        sub_query = sub_query.Where(x => x.FieldValue1.ToLower().Contains(searchKey) ||
+                        subQuery = subQuery.Where(x => x.FieldValue1.ToLower().Contains(searchKey) ||
                                                          x.FieldValue2.ToLower().Contains(searchKey) ||
                                                          x.FieldValue3.ToLower().Contains(searchKey) ||
                                                          x.FieldValue4.ToLower().Contains(searchKey) ||
@@ -3181,133 +3183,127 @@ namespace Microting.eForm.Infrastructure
                 {
                     case Constants.Constants.CaseSortParameters.CreatedAt:
                         if (descendingSort)
-                            sub_query = sub_query.OrderByDescending(x => x.Id);
+                            subQuery = subQuery.OrderByDescending(x => x.Id);
                         else
-                            sub_query = sub_query.OrderBy(x => x.Id);
+                            subQuery = subQuery.OrderBy(x => x.Id);
                         break;
                     case Constants.Constants.CaseSortParameters.DoneAt:
                         if (descendingSort)
-                            sub_query = sub_query.OrderByDescending(x => x.DoneAtUserModifiable);
+                            subQuery = subQuery.OrderByDescending(x => x.DoneAtUserModifiable);
                         else
-                            sub_query = sub_query.OrderBy(x => x.DoneAtUserModifiable);
+                            subQuery = subQuery.OrderBy(x => x.DoneAtUserModifiable);
                         break;
                     case Constants.Constants.CaseSortParameters.WorkerName:
                         if (descendingSort)
-                            sub_query = sub_query.OrderByDescending(x => x.Worker.FirstName);
+                            subQuery = subQuery.OrderByDescending(x => x.Worker.FirstName);
                         else
-                            sub_query = sub_query.OrderBy(x => x.Worker.FirstName);
+                            subQuery = subQuery.OrderBy(x => x.Worker.FirstName);
                         break;
                     case Constants.Constants.CaseSortParameters.SiteName:
                         if (descendingSort)
-                            sub_query = sub_query.OrderByDescending(x => x.Site.Name);
+                            subQuery = subQuery.OrderByDescending(x => x.Site.Name);
                         else
-                            sub_query = sub_query.OrderBy(x => x.Site.Name);
+                            subQuery = subQuery.OrderBy(x => x.Site.Name);
                         break;
                     case Constants.Constants.CaseSortParameters.UnitId:
                         if (descendingSort)
-                            sub_query = sub_query.OrderByDescending(x => x.UnitId);
+                            subQuery = subQuery.OrderByDescending(x => x.UnitId);
                         else
-                            sub_query = sub_query.OrderBy(x => x.UnitId);
+                            subQuery = subQuery.OrderBy(x => x.UnitId);
                         break;
                     case Constants.Constants.CaseSortParameters.Status:
                         if (descendingSort)
-                            sub_query = sub_query.OrderByDescending(x => x.Status);
+                            subQuery = subQuery.OrderByDescending(x => x.Status);
                         else
-                            sub_query = sub_query.OrderBy(x => x.Status);
+                            subQuery = subQuery.OrderBy(x => x.Status);
                         break;
                     case Constants.Constants.CaseSortParameters.Field1:
                         if (descendingSort)
-                            sub_query = sub_query.OrderByDescending(x => x.FieldValue1);
+                            subQuery = subQuery.OrderByDescending(x => x.FieldValue1);
                         else
-                            sub_query = sub_query.OrderBy(x => x.FieldValue1);
+                            subQuery = subQuery.OrderBy(x => x.FieldValue1);
                         break;
                     case Constants.Constants.CaseSortParameters.Field2:
                         if (descendingSort)
-                            sub_query = sub_query.OrderByDescending(x => x.FieldValue2);
+                            subQuery = subQuery.OrderByDescending(x => x.FieldValue2);
                         else
-                            sub_query = sub_query.OrderBy(x => x.FieldValue2);
+                            subQuery = subQuery.OrderBy(x => x.FieldValue2);
                         break;
                     case Constants.Constants.CaseSortParameters.Field3:
                         if (descendingSort)
-                            sub_query = sub_query.OrderByDescending(x => x.FieldValue3);
+                            subQuery = subQuery.OrderByDescending(x => x.FieldValue3);
                         else
-                            sub_query = sub_query.OrderBy(x => x.FieldValue3);
+                            subQuery = subQuery.OrderBy(x => x.FieldValue3);
                         break;
                     case Constants.Constants.CaseSortParameters.Field4:
                         if (descendingSort)
-                            sub_query = sub_query.OrderByDescending(x => x.FieldValue4);
+                            subQuery = subQuery.OrderByDescending(x => x.FieldValue4);
                         else
-                            sub_query = sub_query.OrderBy(x => x.FieldValue4);
+                            subQuery = subQuery.OrderBy(x => x.FieldValue4);
                         break;
                     case Constants.Constants.CaseSortParameters.Field5:
                         if (descendingSort)
-                            sub_query = sub_query.OrderByDescending(x => x.FieldValue5);
+                            subQuery = subQuery.OrderByDescending(x => x.FieldValue5);
                         else
-                            sub_query = sub_query.OrderBy(x => x.FieldValue5);
+                            subQuery = subQuery.OrderBy(x => x.FieldValue5);
                         break;
                     case Constants.Constants.CaseSortParameters.Field6:
                         if (descendingSort)
-                            sub_query = sub_query.OrderByDescending(x => x.FieldValue6);
+                            subQuery = subQuery.OrderByDescending(x => x.FieldValue6);
                         else
-                            sub_query = sub_query.OrderBy(x => x.FieldValue6);
+                            subQuery = subQuery.OrderBy(x => x.FieldValue6);
                         break;
                     case Constants.Constants.CaseSortParameters.Field7:
                         if (descendingSort)
-                            sub_query = sub_query.OrderByDescending(x => x.FieldValue7);
+                            subQuery = subQuery.OrderByDescending(x => x.FieldValue7);
                         else
-                            sub_query = sub_query.OrderBy(x => x.FieldValue7);
+                            subQuery = subQuery.OrderBy(x => x.FieldValue7);
                         break;
                     case Constants.Constants.CaseSortParameters.Field8:
                         if (descendingSort)
-                            sub_query = sub_query.OrderByDescending(x => x.FieldValue8);
+                            subQuery = subQuery.OrderByDescending(x => x.FieldValue8);
                         else
-                            sub_query = sub_query.OrderBy(x => x.FieldValue8);
+                            subQuery = subQuery.OrderBy(x => x.FieldValue8);
                         break;
                     case Constants.Constants.CaseSortParameters.Field9:
                         if (descendingSort)
-                            sub_query = sub_query.OrderByDescending(x => x.FieldValue9);
+                            subQuery = subQuery.OrderByDescending(x => x.FieldValue9);
                         else
-                            sub_query = sub_query.OrderBy(x => x.FieldValue9);
+                            subQuery = subQuery.OrderBy(x => x.FieldValue9);
                         break;
                     case Constants.Constants.CaseSortParameters.Field10:
                         if (descendingSort)
-                            sub_query = sub_query.OrderByDescending(x => x.FieldValue10);
+                            subQuery = subQuery.OrderByDescending(x => x.FieldValue10);
                         else
-                            sub_query = sub_query.OrderBy(x => x.FieldValue10);
+                            subQuery = subQuery.OrderBy(x => x.FieldValue10);
                         break;
                     default:
                         if (descendingSort)
-                            sub_query = sub_query.OrderByDescending(x => x.Id);
+                            subQuery = subQuery.OrderByDescending(x => x.Id);
                         else
-                            sub_query = sub_query.OrderBy(x => x.Id);
+                            subQuery = subQuery.OrderBy(x => x.Id);
                         break;
                 }
 
 //                    string bla = sub_query.ToSql(db);
 //                    log.LogStandard("SQLController", $"Query is {bla}");
-                matches = await sub_query.AsNoTracking().ToListAsync();
+                //matches = subQuery.AsNoTracking();
 
                 List<Dto.Case> rtrnLst = new List<Dto.Case>();
                 int numOfElements = 0;
-                numOfElements = matches.Count();
+                numOfElements = subQuery.Count();
                 List<Case> dbCases = null;
 
-                if (numOfElements < pageSize)
-                {
-                    dbCases = matches.ToList();
-                }
-                else
-                {
-                    //offSet = offSet * pageSize;
-                    dbCases = matches.Skip(offSet).Take(pageSize).ToList();
-                }
+                dbCases = numOfElements < pageSize
+                    ? await subQuery.ToListAsync()
+                    : await subQuery.Skip(offSet).Take(pageSize).ToListAsync();
 
                 // cases -> Case
                 foreach (var dbCase in dbCases)
                 {
-                    Site site = await db.Sites.FirstAsync(x => x.Id == dbCase.SiteId);
-                    Unit unit = await db.Units.FirstAsync(x => x.Id == dbCase.UnitId);
-                    Worker worker = await db.Workers.FirstAsync(x => x.Id == dbCase.WorkerId);
+                    Site site = await db.Sites.AsNoTracking().FirstAsync(x => x.Id == dbCase.SiteId);
+                    Unit unit = await db.Units.AsNoTracking().FirstAsync(x => x.Id == dbCase.UnitId);
+                    Worker worker = await db.Workers.AsNoTracking().FirstAsync(x => x.Id == dbCase.WorkerId);
                     Dto.Case nCase = new Dto.Case
                     {
                         CaseType = dbCase.Type,
@@ -3427,44 +3423,44 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                Case lstMatchs = await db.Cases.FirstOrDefaultAsync(x => x.Id == caseId);
+                Case theCase = await db.Cases.FirstOrDefaultAsync(x => x.Id == caseId);
 
-                if (lstMatchs == null)
+                if (theCase == null)
+                {
                     return false;
+                }
 
-                lstMatchs.UpdatedAt = DateTime.UtcNow;
-                lstMatchs.Version = lstMatchs.Version + 1;
-                List<int?> case_fields = new List<int?>();
-                CheckList cl = await db.CheckLists.FirstAsync(x => x.Id == lstMatchs.CheckListId);
+                List<int?> caseFields = new List<int?>();
+                CheckList cl = await db.CheckLists.AsNoTracking().FirstAsync(x => x.Id == theCase.CheckListId);
 
-                case_fields.Add(cl.Field1);
-                case_fields.Add(cl.Field2);
-                case_fields.Add(cl.Field3);
-                case_fields.Add(cl.Field4);
-                case_fields.Add(cl.Field5);
-                case_fields.Add(cl.Field6);
-                case_fields.Add(cl.Field7);
-                case_fields.Add(cl.Field8);
-                case_fields.Add(cl.Field9);
-                case_fields.Add(cl.Field10);
+                caseFields.Add(cl.Field1);
+                caseFields.Add(cl.Field2);
+                caseFields.Add(cl.Field3);
+                caseFields.Add(cl.Field4);
+                caseFields.Add(cl.Field5);
+                caseFields.Add(cl.Field6);
+                caseFields.Add(cl.Field7);
+                caseFields.Add(cl.Field8);
+                caseFields.Add(cl.Field9);
+                caseFields.Add(cl.Field10);
 
-                lstMatchs.FieldValue1 = null;
-                lstMatchs.FieldValue2 = null;
-                lstMatchs.FieldValue3 = null;
-                lstMatchs.FieldValue4 = null;
-                lstMatchs.FieldValue5 = null;
-                lstMatchs.FieldValue6 = null;
-                lstMatchs.FieldValue7 = null;
-                lstMatchs.FieldValue8 = null;
-                lstMatchs.FieldValue9 = null;
-                lstMatchs.FieldValue10 = null;
+                theCase.FieldValue1 = null;
+                theCase.FieldValue2 = null;
+                theCase.FieldValue3 = null;
+                theCase.FieldValue4 = null;
+                theCase.FieldValue5 = null;
+                theCase.FieldValue6 = null;
+                theCase.FieldValue7 = null;
+                theCase.FieldValue8 = null;
+                theCase.FieldValue9 = null;
+                theCase.FieldValue10 = null;
 
-                List<FieldValue> fieldValues = db.FieldValues.Where(x => x.CaseId == lstMatchs.Id && case_fields.Contains(x.FieldId)).ToList();
+                List<FieldValue> fieldValues = await db.FieldValues.AsNoTracking().Where(x => x.CaseId == theCase.Id && caseFields.Contains(x.FieldId)).ToListAsync();
 
                 foreach (FieldValue item in fieldValues)
                 {
-                    Field field = await db.Fields.FirstAsync(x => x.Id == item.FieldId);
-                    FieldType fieldType = db.FieldTypes.Single(x => x.Id == field.FieldTypeId);
+                    Field field = await db.Fields.AsNoTracking().FirstAsync(x => x.Id == item.FieldId);
+                    FieldType fieldType = await db.FieldTypes.AsNoTracking().FirstAsync(x => x.Id == field.FieldTypeId);
                     string newValue = item.Value;
 
                     if (fieldType.Type == Constants.Constants.FieldTypes.EntitySearch || fieldType.Type == Constants.Constants.FieldTypes.EntitySelect)
@@ -3473,11 +3469,11 @@ namespace Microting.eForm.Infrastructure
                         {
                             if (item.Value != "" || item.Value != null)
                             {
-                                EntityItem match = await db.EntityItems.FirstOrDefaultAsync(x => x.Id == int.Parse(item.Value));
+                                var match = await db.EntityItems.AsNoTracking().Where(x => x.Id == int.Parse(item.Value)).Select(x => x.Name).FirstOrDefaultAsync();
 
                                 if (match != null)
                                 {
-                                    newValue = match.Name;
+                                    newValue = match;
                                 }
 
                             }
@@ -3489,7 +3485,7 @@ namespace Microting.eForm.Infrastructure
                     {
                         //string key = item.Value;
                         newValue = "";
-                        FieldOption fieldOption = await db.FieldOptions.FirstOrDefaultAsync(x => x.Key == item.Value && x.FieldId == field.Id);
+                        FieldOption fieldOption = await db.FieldOptions.AsNoTracking().FirstOrDefaultAsync(x => x.Key == item.Value && x.FieldId == field.Id);
                         if (fieldOption != null)
                         {
                             FieldOptionTranslation fieldOptionTranslation =
@@ -3513,11 +3509,11 @@ namespace Microting.eForm.Infrastructure
                         {
                             //string fullKey = _t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
 
-                            FieldOption fieldOption = await db.FieldOptions.FirstOrDefaultAsync(x => x.Key == key && x.FieldId == field.Id);
+                            FieldOption fieldOption = await db.FieldOptions.AsNoTracking().FirstOrDefaultAsync(x => x.Key == key && x.FieldId == field.Id);
                             if (fieldOption != null)
                             {
                                 FieldOptionTranslation fieldOptionTranslation =
-                                    await db.FieldOptionTranslations.FirstAsync(x =>
+                                    await db.FieldOptionTranslations.AsNoTracking().FirstAsync(x =>
                                         x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
                                 //string fullKey = _t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
                                 //newValue = _t.Locate(fullKey, "<key>", "</key>");
@@ -3536,43 +3532,43 @@ namespace Microting.eForm.Infrastructure
                     }
 
 
-                    int i = case_fields.IndexOf(item.FieldId);
+                    int i = caseFields.IndexOf(item.FieldId);
                     switch (i)
                     {
                         case 0:
-                            lstMatchs.FieldValue1 = newValue;
+                            theCase.FieldValue1 = newValue;
                             break;
                         case 1:
-                            lstMatchs.FieldValue2 = newValue;
+                            theCase.FieldValue2 = newValue;
                             break;
                         case 2:
-                            lstMatchs.FieldValue3 = newValue;
+                            theCase.FieldValue3 = newValue;
                             break;
                         case 3:
-                            lstMatchs.FieldValue4 = newValue;
+                            theCase.FieldValue4 = newValue;
                             break;
                         case 4:
-                            lstMatchs.FieldValue5 = newValue;
+                            theCase.FieldValue5 = newValue;
                             break;
                         case 5:
-                            lstMatchs.FieldValue6 = newValue;
+                            theCase.FieldValue6 = newValue;
                             break;
                         case 6:
-                            lstMatchs.FieldValue7 = newValue;
+                            theCase.FieldValue7 = newValue;
                             break;
                         case 7:
-                            lstMatchs.FieldValue8 = newValue;
+                            theCase.FieldValue8 = newValue;
                             break;
                         case 8:
-                            lstMatchs.FieldValue9 = newValue;
+                            theCase.FieldValue9 = newValue;
                             break;
                         case 9:
-                            lstMatchs.FieldValue10 = newValue;
+                            theCase.FieldValue10 = newValue;
                             break;
                     }
                 }
 
-                await lstMatchs.Update(db).ConfigureAwait(false);
+                await theCase.Update(db).ConfigureAwait(false);
 
                 return true;
             }
