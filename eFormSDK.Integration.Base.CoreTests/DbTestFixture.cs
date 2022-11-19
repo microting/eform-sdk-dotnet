@@ -75,7 +75,7 @@ namespace eFormSDK.Integration.Base.CoreTests
         [SetUp]
         public async Task Setup()
         {
-            if (_mySqlTestcontainer.State == TestcontainersState.Undefined)
+            if (_mySqlTestcontainer.State == TestcontainersStates.Undefined)
             {
                 await _mySqlTestcontainer.StartAsync();
             }
