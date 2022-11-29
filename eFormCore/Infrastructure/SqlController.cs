@@ -155,7 +155,9 @@ namespace Microting.eForm.Infrastructure
                     _t.Bool(mainCl.MultiApproval), _t.Bool(mainCl.FastNavigation), _t.Bool(mainCl.DownloadEntities), _t.Bool(mainCl.ManualSync), mainCl.CaseType, "", "", _t.Bool(mainCl.QuickSyncEnabled), new List<Element>(), mainCl.Color);
 
                 //getting elements
-                List<CheckList> lst = db.CheckLists.Where(x => x.ParentId == templateId).ToList();
+                List<CheckList> lst = db.CheckLists
+                    .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
+                    .Where(x => x.ParentId == templateId).ToList();
                 foreach (CheckList cl in lst)
                 {
                     mainElement.ElementList.Add(await GetElement(cl.Id, language, includeDummyFields));
