@@ -937,6 +937,7 @@ namespace Microting.eForm.Infrastructure
                 caseStd.WorkerId = userId;
                 caseStd.UnitId = unitId;
                 caseStd.MicrotingCheckUid = microtingCheckId;
+                caseStd.ReceivedByServerAt = DateTime.UtcNow;
                 // - update "check_list_sites" if needed
                 CheckListSite match = await db.CheckListSites.FirstOrDefaultAsync(x => x.MicrotingUid == microtingUId);
                 if (match != null)
