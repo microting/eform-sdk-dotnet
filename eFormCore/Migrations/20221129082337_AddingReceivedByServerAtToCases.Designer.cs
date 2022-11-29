@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microting.eForm.Infrastructure;
 
@@ -10,9 +11,10 @@ using Microting.eForm.Infrastructure;
 namespace Microting.eForm.Migrations
 {
     [DbContext(typeof(MicrotingDbContext))]
-    partial class MicrotingDbAnySqlModelSnapshot : ModelSnapshot
+    [Migration("20221129082337_AddingReceivedByServerAtToCases")]
+    partial class AddingReceivedByServerAtToCases
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

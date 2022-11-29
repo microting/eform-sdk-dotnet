@@ -97,5 +97,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public virtual Worker Worker { get; set; }
 
         public virtual Folder Folder { get; set; }
+
+        public DateTime? ReceivedByServerAt { get; set; }
     }
 }

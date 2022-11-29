@@ -1477,9 +1477,11 @@ namespace Microting.eForm.Infrastructure
                     if (site.MicrotingUid != null) replyElement.SiteMicrotingUuid = (int) site.MicrotingUid;
                 }
 
-                CheckList checkList = await db.CheckLists.AsNoTracking().FirstAsync(x => x.Id == aCase.CheckListId);
-                foreach (CheckList subCheckList in await db.CheckLists.AsNoTracking().Where(x =>
-                    x.ParentId == checkList.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
+                //CheckList checkList = await db.CheckLists.AsNoTracking().FirstAsync(x => x.Id == aCase.CheckListId);
+                foreach (CheckList subCheckList in await db.CheckLists.AsNoTracking()
+                             .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
+                             .Where(x => x.ParentId == mainCheckList.Id).OrderBy(x => x.DisplayIndex)
+                             .ToListAsync())
                 {
                     replyElement.ElementList.Add(await SubChecks(subCheckList.Id, aCase, language));
                 }
@@ -1503,8 +1505,10 @@ namespace Microting.eForm.Infrastructure
                 if (await db.CheckLists.AnyAsync(x => x.ParentId == checkList.Id))
                 {
                     List<Element> elementList = new List<Element>();
-                    foreach (CheckList subList in await db.CheckLists.AsNoTracking().Where(x =>
-                        x.ParentId == checkList.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
+                    foreach (CheckList subList in await db.CheckLists.AsNoTracking()
+                                 .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
+                                 .Where(x => x.ParentId == checkList.Id).OrderBy(x => x.DisplayIndex)
+                                 .ToListAsync())
                     {
                         elementList.Add(await SubChecks(subList.Id, theCase, language));
                     }
@@ -1530,7 +1534,9 @@ namespace Microting.eForm.Infrastructure
                 {
                     List<DataItemGroup> dataItemGroupList = new List<DataItemGroup>();
                     List<DataItem> dataItemList = new List<DataItem>();
-                    List<Field> fields = await db.Fields.AsNoTracking().Where(x =>
+                    List<Field> fields = await db.Fields.AsNoTracking()
+                        .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
+                        .Where(x =>
                             x.CheckListId == checkList.Id
                             && x.ParentFieldId == null).OrderBy(x => x.DisplayIndex)
                         .ToListAsync();
@@ -1540,8 +1546,10 @@ namespace Microting.eForm.Infrastructure
                         if (fieldType.Type == "FieldGroup")
                         {
                             List<DataItem> dataItemSubList = new List<DataItem>();
-                            foreach (Field subField in await db.Fields.AsNoTracking().Where(x =>
-                                x.ParentFieldId == field.Id).OrderBy(x => x.DisplayIndex).ToListAsync())
+                            foreach (Field subField in await db.Fields.AsNoTracking()
+                                         .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
+                                         .Where(x => x.ParentFieldId == field.Id).OrderBy(x => x.DisplayIndex)
+                                         .ToListAsync())
                             {
                                 var _field = await DbFieldToField(subField, language);
                                 FieldTranslation fieldTranslation = await db.FieldTranslations.FirstAsync(x =>

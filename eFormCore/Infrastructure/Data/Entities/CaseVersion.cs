@@ -80,5 +80,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public bool IsArchived { get; set; }
 
         public DateTime? DoneAtUserModifiable { get; set; }
+
+        public DateTime? ReceivedByServerAt { get; set; }
     }
 }
