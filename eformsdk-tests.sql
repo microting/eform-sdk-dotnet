@@ -207,7 +207,6 @@ CREATE TABLE `CaseVersions` (
   `FolderId` int(11) DEFAULT NULL,
   `IsArchived` tinyint(1) NOT NULL DEFAULT 0,
   `DoneAtUserModifiable` datetime(6) DEFAULT NULL,
-  `ReceivedByServerAt` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -258,7 +257,6 @@ CREATE TABLE `Cases` (
   `FolderId` int(11) DEFAULT NULL,
   `IsArchived` tinyint(1) NOT NULL DEFAULT 0,
   `DoneAtUserModifiable` datetime(6) DEFAULT NULL,
-  `ReceivedByServerAt` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `IX_cases_check_list_id` (`CheckListId`),
   KEY `IX_cases_done_by_user_id` (`WorkerId`),
