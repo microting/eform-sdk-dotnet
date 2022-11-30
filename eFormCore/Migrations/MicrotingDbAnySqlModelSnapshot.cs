@@ -16,7 +16,7 @@ namespace Microting.eForm.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("ProductVersion", "7.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.Answer", b =>
@@ -3414,6 +3414,40 @@ namespace Microting.eForm.Migrations
                     b.ToTable("Tags");
                 });
 
+            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.TagVersion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int?>("TagId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TaggingsCount")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("Version")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WorkflowState")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TagVersions");
+                });
+
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.Tagging", b =>
                 {
                     b.Property<int>("Id")
@@ -3485,40 +3519,6 @@ namespace Microting.eForm.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TaggingVersions");
-                });
-
-            modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.TagVersion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<int?>("TagId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TaggingsCount")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("Version")
-                        .HasColumnType("int");
-
-                    b.Property<string>("WorkflowState")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TagVersions");
                 });
 
             modelBuilder.Entity("Microting.eForm.Infrastructure.Data.Entities.Unit", b =>
