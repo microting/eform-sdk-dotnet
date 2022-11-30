@@ -59,8 +59,6 @@ using Microting.eForm.Installers;
 using Microting.eForm.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using OpenStack.NetCoreSwiftClient;
-using OpenStack.NetCoreSwiftClient.Infrastructure.Models;
 using Rebus.Bus;
 using Case = Microting.eForm.Dto.Case;
 using CheckListValue = Microting.eForm.Infrastructure.Models.CheckListValue;
@@ -140,7 +138,7 @@ namespace eFormCore
         private string _swiftPassword = "";
         private string _swiftEndpoint = "";
         private string _keystoneEndpoint = "";
-        private SwiftClientService _swiftClient;
+        // private SwiftClientService _swiftClient;
         //
 
         // s3
@@ -320,26 +318,26 @@ namespace eFormCore
 				        _swiftEndpoint = await _sqlController.SettingRead(Settings.swiftEndPoint).ConfigureAwait(false);
 				        _keystoneEndpoint = await _sqlController.SettingRead(Settings.keystoneEndPoint).ConfigureAwait(false);
 
-				        _swiftClient = new SwiftClientService(
-				            new SwiftClientConfig
-				            {
-				                AuthUrl = _keystoneEndpoint,
-				                Domain = "",
-				                Name = _swiftUserName,
-				                ObjectStoreUrl = _swiftEndpoint,
-				                Password = _swiftPassword
-				            });
-				        try
-				        {
-				            _swiftClient.AuthenticateAsync();
-				        }
-				        catch (Exception ex)
-				        {
-				            Log.LogWarning(methodName, ex.Message);
-				        }
-
-
-				        _container.Register(Component.For<SwiftClientService>().Instance(_swiftClient));
+				        // _swiftClient = new SwiftClientService(
+				        //     new SwiftClientConfig
+				        //     {
+				        //         AuthUrl = _keystoneEndpoint,
+				        //         Domain = "",
+				        //         Name = _swiftUserName,
+				        //         ObjectStoreUrl = _swiftEndpoint,
+				        //         Password = _swiftPassword
+				        //     });
+				        // try
+				        // {
+				        //     _swiftClient.AuthenticateAsync();
+				        // }
+				        // catch (Exception ex)
+				        // {
+				        //     Log.LogWarning(methodName, ex.Message);
+				        // }
+				        //
+				        //
+				        // _container.Register(Component.For<SwiftClientService>().Instance(_swiftClient));
 				    }
 
                     if (_s3Enabled)
@@ -2282,12 +2280,12 @@ namespace eFormCore
                             string fileName =
                                 $"{fieldValue.UploadedDataObj.Id}_700_{fieldValue.UploadedDataObj.Checksum}{fieldValue.UploadedDataObj.Extension}";
 
-                            if (_swiftEnabled)
-                            {
-                                using SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fileName).ConfigureAwait(false);
-                                using var image = new MagickImage(swiftObjectGetResponse.ObjectStreamContent);
-                                fileContent = image.ToBase64();
-                            }
+                            // if (_swiftEnabled)
+                            // {
+                            //     using SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fileName).ConfigureAwait(false);
+                            //     using var image = new MagickImage(swiftObjectGetResponse.ObjectStreamContent);
+                            //     fileContent = image.ToBase64();
+                            // }
 
                             if (_s3Enabled)
                             {
@@ -2392,12 +2390,12 @@ namespace eFormCore
                         {
                             Microting.eForm.Infrastructure.Data.Entities.Field field = await dbContext.Fields.FirstOrDefaultAsync(x => x.Id == fieldValue.FieldId);
 
-                            if (_swiftEnabled)
-                            {
-                                SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName).ConfigureAwait(false);
-                                using var image = new MagickImage(swiftObjectGetResponse.ObjectStreamContent);
-                                fileContent = image.ToBase64();
-                            }
+                            // if (_swiftEnabled)
+                            // {
+                            //     SwiftObjectGetResponse swiftObjectGetResponse = await GetFileFromSwiftStorage(fieldValue.UploadedDataObj.FileName).ConfigureAwait(false);
+                            //     using var image = new MagickImage(swiftObjectGetResponse.ObjectStreamContent);
+                            //     fileContent = image.ToBase64();
+                            // }
 
                             if (_s3Enabled)
                             {
@@ -5891,41 +5889,41 @@ namespace eFormCore
             return await _s3Client.GetObjectAsync(request);
         }
 
-        public async Task<SwiftObjectGetResponse> GetFileFromSwiftStorage(string fileName)
-        {
-            try
-            {
-                return await GetFileFromSwiftStorage(fileName, 0).ConfigureAwait(false);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                _swiftClient.AuthenticateAsyncV2(_keystoneEndpoint, _swiftUserName, _swiftPassword);
-
-                return await GetFileFromSwiftStorage(fileName, 0).ConfigureAwait(false);
-            }
-        }
-
-        private async Task<SwiftObjectGetResponse> GetFileFromSwiftStorage(string fileName, int retries)
-        {
-            string methodName = "Core.GetFileFromSwiftStorage";
-            if (!_swiftEnabled) throw new FileNotFoundException();
-            Log.LogStandard(methodName, $"Trying to get file {fileName} from {_customerNo}_uploaded_data");
-            SwiftObjectGetResponse response = await _swiftClient.ObjectGetAsync(_customerNo + "_uploaded_data", fileName).ConfigureAwait(false);
-            if (response.IsSuccess)
-            {
-                return response;
-            }
-
-            if (response.Reason == "Unauthorized")
-            {
-                Log.LogWarning(methodName, "Check swift credentials : Unauthorized");
-                throw new UnauthorizedAccessException();
-            }
-
-            Log.LogCritical(methodName, $"Could not get file {fileName}, reason is {response.Reason}");
-            throw new Exception($"Could not get file {fileName}");
-
-        }
+        // public async Task<SwiftObjectGetResponse> GetFileFromSwiftStorage(string fileName)
+        // {
+        //     try
+        //     {
+        //         return await GetFileFromSwiftStorage(fileName, 0).ConfigureAwait(false);
+        //     }
+        //     catch (UnauthorizedAccessException)
+        //     {
+        //         _swiftClient.AuthenticateAsyncV2(_keystoneEndpoint, _swiftUserName, _swiftPassword);
+        //
+        //         return await GetFileFromSwiftStorage(fileName, 0).ConfigureAwait(false);
+        //     }
+        // }
+        //
+        // private async Task<SwiftObjectGetResponse> GetFileFromSwiftStorage(string fileName, int retries)
+        // {
+        //     string methodName = "Core.GetFileFromSwiftStorage";
+        //     if (!_swiftEnabled) throw new FileNotFoundException();
+        //     Log.LogStandard(methodName, $"Trying to get file {fileName} from {_customerNo}_uploaded_data");
+        //     SwiftObjectGetResponse response = await _swiftClient.ObjectGetAsync(_customerNo + "_uploaded_data", fileName).ConfigureAwait(false);
+        //     if (response.IsSuccess)
+        //     {
+        //         return response;
+        //     }
+        //
+        //     if (response.Reason == "Unauthorized")
+        //     {
+        //         Log.LogWarning(methodName, "Check swift credentials : Unauthorized");
+        //         throw new UnauthorizedAccessException();
+        //     }
+        //
+        //     Log.LogCritical(methodName, $"Could not get file {fileName}, reason is {response.Reason}");
+        //     throw new Exception($"Could not get file {fileName}");
+        //
+        // }
 
         public async Task PutFileToStorageSystem(string filePath, string fileName)
         {
@@ -5935,7 +5933,7 @@ namespace eFormCore
             }
             catch (UnauthorizedAccessException)
             {
-                _swiftClient.AuthenticateAsyncV2(_keystoneEndpoint, _swiftUserName, _swiftPassword);
+                // _swiftClient.AuthenticateAsyncV2(_keystoneEndpoint, _swiftUserName, _swiftPassword);
                 await PutFileToStorageSystem(filePath, fileName, 0).ConfigureAwait(false);
             }
 
@@ -5943,10 +5941,10 @@ namespace eFormCore
 
         private async Task PutFileToStorageSystem(String filePath, string fileName, int tryCount)
         {
-            if (_swiftEnabled)
-            {
-                await PutFileToSwiftStorage(filePath, fileName, tryCount).ConfigureAwait(false);
-            }
+            // if (_swiftEnabled)
+            // {
+            //     await PutFileToSwiftStorage(filePath, fileName, tryCount).ConfigureAwait(false);
+            // }
 
             if (_s3Enabled)
             {
@@ -5954,54 +5952,54 @@ namespace eFormCore
             }
         }
 
-#pragma warning disable 1998
-        private async Task PutFileToSwiftStorage(string filePath, string fileName, int tryCount)
-#pragma warning restore 1998
-        {
-            string methodName = "Core.PutFileToSwiftStorage";
-            Log.LogStandard(methodName, $"Trying to upload file {fileName} to {_customerNo}_uploaded_data");
-            try
-            {
-                var fileStream = new FileStream(filePath, FileMode.Open);
-
-                SwiftBaseResponse response = _swiftClient
-                    .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).GetAwaiter().GetResult();
-
-                if (!response.IsSuccess)
-                {
-                    if (response.Reason == "Unauthorized")
-                    {
-                        fileStream.Close();
-                        await fileStream.DisposeAsync();
-                        Log.LogWarning(methodName, "Check swift credentials : Unauthorized");
-                        throw new UnauthorizedAccessException();
-                    }
-
-                    Log.LogWarning(methodName, $"Something went wrong, message was {response.Reason}");
-
-                    response = _swiftClient.ContainerPutAsync(_customerNo + "_uploaded_data").GetAwaiter().GetResult();
-                    if (response.IsSuccess)
-                    {
-                        response = _swiftClient
-                            .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).GetAwaiter().GetResult();
-                        if (!response.IsSuccess)
-                        {
-                            fileStream.Close();
-                            await fileStream.DisposeAsync();
-                            throw new Exception($"Could not upload file {fileName}");
-                        }
-                    }
-                }
-
-                fileStream.Close();
-                await fileStream.DisposeAsync();
-            }
-            catch (FileNotFoundException ex)
-            {
-                Log.LogCritical(methodName, $"File not found at {filePath}");
-                Log.LogCritical(methodName, ex.Message);
-            }
-        }
+// #pragma warning disable 1998
+//         private async Task PutFileToSwiftStorage(string filePath, string fileName, int tryCount)
+// #pragma warning restore 1998
+//         {
+//             string methodName = "Core.PutFileToSwiftStorage";
+//             Log.LogStandard(methodName, $"Trying to upload file {fileName} to {_customerNo}_uploaded_data");
+//             try
+//             {
+//                 var fileStream = new FileStream(filePath, FileMode.Open);
+//
+//                 SwiftBaseResponse response = _swiftClient
+//                     .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).GetAwaiter().GetResult();
+//
+//                 if (!response.IsSuccess)
+//                 {
+//                     if (response.Reason == "Unauthorized")
+//                     {
+//                         fileStream.Close();
+//                         await fileStream.DisposeAsync();
+//                         Log.LogWarning(methodName, "Check swift credentials : Unauthorized");
+//                         throw new UnauthorizedAccessException();
+//                     }
+//
+//                     Log.LogWarning(methodName, $"Something went wrong, message was {response.Reason}");
+//
+//                     response = _swiftClient.ContainerPutAsync(_customerNo + "_uploaded_data").GetAwaiter().GetResult();
+//                     if (response.IsSuccess)
+//                     {
+//                         response = _swiftClient
+//                             .ObjectPutAsync(_customerNo + "_uploaded_data", fileName, fileStream).GetAwaiter().GetResult();
+//                         if (!response.IsSuccess)
+//                         {
+//                             fileStream.Close();
+//                             await fileStream.DisposeAsync();
+//                             throw new Exception($"Could not upload file {fileName}");
+//                         }
+//                     }
+//                 }
+//
+//                 fileStream.Close();
+//                 await fileStream.DisposeAsync();
+//             }
+//             catch (FileNotFoundException ex)
+//             {
+//                 Log.LogCritical(methodName, $"File not found at {filePath}");
+//                 Log.LogCritical(methodName, ex.Message);
+//             }
+//         }
 
         public async Task PutFileToS3Storage(Stream stream, string fileName)
         {
