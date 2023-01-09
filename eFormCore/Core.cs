@@ -5623,7 +5623,12 @@ namespace eFormCore
                     try
                     {
                         Log.LogStandard(methodName, $"Downloading file {fileName}");
-                        var stream = await client.GetStreamAsync(urlStr);
+                        var result = await client.GetAsync(urlStr);
+                        if (result.StatusCode != HttpStatusCode.OK)
+                        {
+                            return false;
+                        }
+                        var stream = await result.Content.ReadAsStreamAsync();
 
                         MemoryStream baseMemoryStream = new MemoryStream();
                         await stream.CopyToAsync(baseMemoryStream);
@@ -5634,7 +5639,9 @@ namespace eFormCore
 
                         baseMemoryStream.Seek(0, SeekOrigin.Begin);
                         var dbContext = DbContextHelper.GetDbContext();
-                        var unit = await dbContext.Units.FirstAsync(x => x.Id == uploadedData.UploaderId).ConfigureAwait(false);
+                        var fv = await dbContext.FieldValues.FirstAsync(x => x.UploadedDataId == uploadedData.Id);
+                        var theCase = await dbContext.Cases.FirstAsync(x => x.Id == fv.CaseId);
+                        var unit = await dbContext.Units.FirstAsync(x => x.Id == theCase.UnitId);
                         using (var image = new MagickImage(baseMemoryStream))
                         {
                             try
