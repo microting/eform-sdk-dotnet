@@ -33,33 +33,33 @@ namespace Microting.eForm.Installers
 {
     public class RebusInstaller : IWindsorInstaller
     {
-        private readonly string connectionString;
-        private readonly int maxParallelism;
-        private readonly int numberOfWorkers;
-        private readonly string rabbitMqUser;
-        private readonly string rabbitMqPassword;
-        private readonly string rabbitMqHost;
+        private readonly int _maxParallelism;
+        private readonly int _numberOfWorkers;
+        private readonly string _rabbitMqUser;
+        private readonly string _rabbitMqPassword;
+        private readonly string _rabbitMqHost;
+        private readonly string _customerNo;
 
-        public RebusInstaller(string connectionString, int maxParallelism, int numberOfWorkers, string rabbitMqUser, string rabbitMqPassword, string rabbitMqHost)
+        public RebusInstaller(string customerNo, string connectionString, int maxParallelism, int numberOfWorkers, string rabbitMqUser, string rabbitMqPassword, string rabbitMqHost)
         {
             if (string.IsNullOrEmpty(connectionString)) throw new ArgumentNullException(nameof(connectionString));
-            this.connectionString = connectionString;
-            this.maxParallelism = maxParallelism;
-            this.numberOfWorkers = numberOfWorkers;
-            this.rabbitMqUser = rabbitMqUser;
-            this.rabbitMqPassword = rabbitMqPassword;
-            this.rabbitMqHost = rabbitMqHost;
+            _maxParallelism = maxParallelism;
+            _numberOfWorkers = numberOfWorkers;
+            _rabbitMqUser = rabbitMqUser;
+            _rabbitMqPassword = rabbitMqPassword;
+            _rabbitMqHost = rabbitMqHost;
+            _customerNo = customerNo;
         }
 
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             Configure.With(new CastleWindsorContainerAdapter(container))
                 .Logging(l => l.ColoredConsole(LogLevel.Info))
-                .Transport(t => t.UseRabbitMq($"amqp://{rabbitMqUser}:{rabbitMqPassword}@{rabbitMqHost}", "eformsdk-input"))
+                .Transport(t => t.UseRabbitMq($"amqp://{_rabbitMqUser}:{_rabbitMqPassword}@{_rabbitMqHost}", $"{_customerNo}-eformsdk-input"))
                 .Options(o =>
                 {
-                    o.SetMaxParallelism(maxParallelism);
-                    o.SetNumberOfWorkers(numberOfWorkers);
+                    o.SetMaxParallelism(_maxParallelism);
+                    o.SetNumberOfWorkers(_numberOfWorkers);
                 })
                 .Start();
         }

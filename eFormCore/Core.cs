@@ -172,11 +172,12 @@ namespace eFormCore
 
                     try
                     {
-                        _maxParallelism = int.Parse(await _sqlController.SettingRead(Settings.maxParallelism));
-                        _numberOfWorkers = int.Parse(await _sqlController.SettingRead(Settings.numberOfWorkers));
-                        _rabbitMqUser = await _sqlController.SettingRead(Settings.rabbitMqUser);
-                        _rabbitMqPassword = await _sqlController.SettingRead(Settings.rabbitMqPassword);
-                        _rabbitMqHost = await _sqlController.SettingRead(Settings.rabbitMqHost);
+                        _maxParallelism = int.Parse(await _sqlController.SettingRead(Settings.maxParallelism).ConfigureAwait(false));
+                        _numberOfWorkers = int.Parse(await _sqlController.SettingRead(Settings.numberOfWorkers).ConfigureAwait(false));
+                        _rabbitMqUser = await _sqlController.SettingRead(Settings.rabbitMqUser).ConfigureAwait(false);
+                        _rabbitMqPassword = await _sqlController.SettingRead(Settings.rabbitMqPassword).ConfigureAwait(false);
+                        _rabbitMqHost = await _sqlController.SettingRead(Settings.rabbitMqHost).ConfigureAwait(false);
+                        _customerNo = await _sqlController.SettingRead(Settings.customerNo).ConfigureAwait(false);
                     }
                     catch { }
 
@@ -190,7 +191,7 @@ namespace eFormCore
 
                     _container.Install(
 						new RebusHandlerInstaller()
-						, new RebusInstaller(connectionString, _maxParallelism, _numberOfWorkers, _rabbitMqUser, _rabbitMqPassword, _rabbitMqHost)
+						, new RebusInstaller(_customerNo, connectionString, _maxParallelism, _numberOfWorkers, _rabbitMqUser, _rabbitMqPassword, _rabbitMqHost)
 					);
 					_bus = _container.Resolve<IBus>();
 					Log.LogCritical(methodName, "called");
