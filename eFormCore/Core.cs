@@ -5607,7 +5607,8 @@ namespace eFormCore
         public async Task<bool> DownloadUploadedData(int uploadedDataId)
         {
             string methodName = "Core.DownloadUploadedData";
-            Microting.eForm.Infrastructure.Data.Entities.UploadedData uploadedData = await _sqlController.GetUploadedData(uploadedDataId).ConfigureAwait(false);
+            Microting.eForm.Infrastructure.Data.Entities.UploadedData uploadedData =
+                await _sqlController.GetUploadedData(uploadedDataId).ConfigureAwait(false);
 
             try
             {
@@ -5629,6 +5630,7 @@ namespace eFormCore
                         {
                             return false;
                         }
+
                         var stream = await result.Content.ReadAsStreamAsync();
 
                         MemoryStream baseMemoryStream = new MemoryStream();
@@ -5642,7 +5644,23 @@ namespace eFormCore
                         var dbContext = DbContextHelper.GetDbContext();
                         var fv = await dbContext.FieldValues.FirstAsync(x => x.UploadedDataId == uploadedData.Id);
                         var theCase = await dbContext.Cases.FirstAsync(x => x.Id == fv.CaseId);
-                        var unit = await dbContext.Units.FirstAsync(x => x.Id == theCase.UnitId);
+
+                        var unit = await dbContext.Units.FirstOrDefaultAsync(x => x.Id == theCase.UnitId);
+                        if (unit == null)
+                        {
+                            if (dbContext.Units.Count(x => x.SiteId == theCase.SiteId) == 1)
+                            {
+                                unit = await dbContext.Units.FirstAsync(x => x.SiteId == theCase.SiteId);
+                                theCase.UnitId = unit.Id;
+                                await theCase.Update(dbContext);
+                            }
+                            else
+                            {
+                                Log.LogWarning(methodName, $"No unit found for case {theCase.Id}");
+                                return false;
+                            }
+                        }
+
                         using (var image = new MagickImage(baseMemoryStream))
                         {
                             try
@@ -5661,8 +5679,8 @@ namespace eFormCore
                                                 // CW90, Normal, 270 CW, Rotate 180
                                                 if (value.GetValue().ToString() == "6")
                                                 {
-                                                        image.Rotate(90);
-                                                        image.Orientation = OrientationType.TopLeft;
+                                                    image.Rotate(90);
+                                                    image.Orientation = OrientationType.TopLeft;
                                                 }
                                                 else if (value.GetValue().ToString() == "8")
                                                 {
@@ -5697,10 +5715,12 @@ namespace eFormCore
                                         }
                                     }
                                 }
-                            } catch (Exception)
+                            }
+                            catch (Exception)
                             {
                                 // Console.WriteLine(e);
                             }
+
                             MemoryStream memoryStream = new MemoryStream();
                             await image.WriteAsync(memoryStream);
                             await PutFileToS3Storage(memoryStream, fileName);
@@ -5709,11 +5729,6 @@ namespace eFormCore
                             image.Dispose();
                             baseMemoryStream.Seek(0, SeekOrigin.Begin);
                         }
-                        // MemoryStream s3Stream = new MemoryStream();
-                        // await baseMemoryStream.CopyToAsync(s3Stream);
-                        // s3Stream.Seek(0, SeekOrigin.Begin);
-                        // await PutFileToS3Storage(s3Stream, fileName);
-                        // baseMemoryStream.Seek(0, SeekOrigin.Begin);
 
                         Log.LogStandard(methodName, $"Download of '{urlStr}' completed");
 
@@ -5773,13 +5788,15 @@ namespace eFormCore
                                             }
                                         }
                                     }
-                                } catch (Exception)
+                                }
+                                catch (Exception)
                                 {
                                     // Console.WriteLine(e);
                                 }
-                                decimal currentRation = image.Height / (decimal) image.Width;
+
+                                decimal currentRation = image.Height / (decimal)image.Width;
                                 int newWidth = 300;
-                                int newHeight = (int) Math.Round((currentRation * newWidth));
+                                int newHeight = (int)Math.Round((currentRation * newWidth));
 
                                 image.Resize(newWidth, newHeight);
                                 image.Crop(newWidth, newHeight);
@@ -5844,13 +5861,15 @@ namespace eFormCore
                                             }
                                         }
                                     }
-                                } catch (Exception)
+                                }
+                                catch (Exception)
                                 {
                                     // Console.WriteLine(e);
                                 }
-                                decimal currentRation = image.Height / (decimal) image.Width;
+
+                                decimal currentRation = image.Height / (decimal)image.Width;
                                 int newWidth = 700;
-                                int newHeight = (int) Math.Round((currentRation * newWidth));
+                                int newHeight = (int)Math.Round((currentRation * newWidth));
 
                                 image.Resize(newWidth, newHeight);
                                 image.Crop(newWidth, newHeight);
@@ -5862,6 +5881,7 @@ namespace eFormCore
                                 image.Dispose();
                             }
                         }
+
                         await baseMemoryStream.DisposeAsync();
                         baseMemoryStream.Close();
 
@@ -5874,6 +5894,8 @@ namespace eFormCore
                         Log.LogWarning(methodName, "We got an error " + ex.Message);
                         throw new Exception("Downloading and creating fil locally failed.", ex);
                     }
+
+                    Log.LogEverything(methodName, $"{urlStr} was processed correctly");
                     return true;
                 }
             }
@@ -5881,7 +5903,6 @@ namespace eFormCore
             {
                 Console.WriteLine(ex.Message);
             }
-
 
             return false;
         }
