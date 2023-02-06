@@ -5664,7 +5664,7 @@ namespace Microting.eForm.Infrastructure
                             Text = dataItem.Label.Split("|")[0],
                             Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[0] : "",
                             FieldId = field.Id,
-                            DefaultValue = comment.Value.Split("|")[0]
+                            DefaultValue = comment.Value != null ? comment.Value.Split("|")[0] : ""
                         };
                         await fieldTranslation.Create(db).ConfigureAwait(false);
 
@@ -6310,7 +6310,7 @@ namespace Microting.eForm.Infrastructure
                         {
                             LanguageId = language.Id,
                             Text = dataItem.Label.Split("|")[0],
-                            Description = dataItem.Description != null ? dataItem.Description.InderValue.Split("|")[0] : "",
+                            Description = dataItem.Description != null ? dataItem.Description.InderValue != null ? dataItem.Description.InderValue.Split("|")[0] : "" : "",
                             FieldId = field.Id
                         };
                         await fieldTranslation.Create(db).ConfigureAwait(false);
