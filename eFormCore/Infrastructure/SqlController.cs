@@ -1934,122 +1934,146 @@ namespace Microting.eForm.Infrastructure
                 // answer.ValueReadable = reply.value 'ish' //and if needed: answer.KeyValuePairList = ReadPairs(...);
                 fieldValue.ValueReadable = reply.Value;
 
-                if (fieldValue.FieldType == Constants.Constants.FieldTypes.EntitySearch ||
-                    fieldValue.FieldType == Constants.Constants.FieldTypes.EntitySelect)
+                switch (fieldValue.FieldType)
                 {
-                    try
-                    {
-                        if (reply.Value != "" || reply.Value != null)
+                    case Constants.Constants.FieldTypes.EntitySearch:
+                    case Constants.Constants.FieldTypes.EntitySelect:
+                        try
                         {
-                            int id = int.Parse(reply.Value);
-                            EntityItem match =
-                                await db.EntityItems.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
-
-                            if (match != null)
+                            if (reply.Value != "" || reply.Value != null)
                             {
-                                fieldValue.ValueReadable = match.Name;
-                                fieldValue.Value = match.Id.ToString();
-                                fieldValue.MicrotingUuid = match.MicrotingUid;
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
-                }
+                                int id = int.Parse(reply.Value);
+                                EntityItem match =
+                                    await db.EntityItems.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
 
-                if (fieldValue.FieldType == Constants.Constants.FieldTypes.SingleSelect)
-                {
-                    string key = fieldValue.Value;
-                    int fieldId = fieldValue.FieldId;
-                    FieldOption fieldOption = await db.FieldOptions.AsNoTracking().FirstOrDefaultAsync(x =>
-                        x.FieldId == fieldId && x.Key == key);
-                    if (fieldOption != null)
-                    {
-                        FieldOptionTranslation fieldOptionTranslation =
-                            await db.FieldOptionTranslations.AsNoTracking().FirstAsync(x =>
-                                x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
-                        fieldValue.ValueReadable = fieldOptionTranslation.Text;
-                    }
-                    else
-                    {
-                        fieldValue.ValueReadable = "";
-                    }
-
-                    List<FieldOption> fieldOptions =
-                        await db.FieldOptions.AsNoTracking().Where(x => x.FieldId == fieldValue.FieldId).ToListAsync();
-
-                    fieldValue.KeyValuePairList = new List<KeyValuePair>();
-                    foreach (FieldOption option in fieldOptions)
-                    {
-                        var optionTranslation = await
-                            db.FieldOptionTranslations.FirstAsync(x =>
-                                x.FieldOptionId == option.Id && x.LanguageId == language.Id);
-                        KeyValuePair keyValuePair = new KeyValuePair(
-                            option.Key,
-                            optionTranslation.Text,
-                            false,
-                            option.DisplayOrder);
-                        fieldValue.KeyValuePairList.Add(keyValuePair);
-                    }
-                }
-
-                if (fieldValue.FieldType == Constants.Constants.FieldTypes.MultiSelect)
-                {
-                    fieldValue.ValueReadable = "";
-
-                    string keys = fieldValue.Value;
-                    List<string> keyLst = string.IsNullOrEmpty(keys) ? new List<string>() : keys.Split('|').ToList();
-                    int fieldId = fieldValue.FieldId;
-                    fieldValue.ValueReadable = "";
-                    foreach (string key in keyLst)
-                    {
-                        if (!string.IsNullOrEmpty(key))
-                        {
-                            FieldOption fieldOption = await db.FieldOptions.AsNoTracking().FirstOrDefaultAsync(x =>
-                                x.FieldId == fieldId && x.Key == key);
-                            if (fieldOption != null)
-                            {
-                                FieldOptionTranslation fieldOptionTranslation =
-                                    await db.FieldOptionTranslations.AsNoTracking().FirstAsync(x =>
-                                        x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
-                                if (fieldValue.ValueReadable != "")
+                                if (match != null)
                                 {
-                                    fieldValue.ValueReadable += '|';
+                                    fieldValue.ValueReadable = match.Name;
+                                    fieldValue.Value = match.Id.ToString();
+                                    fieldValue.MicrotingUuid = match.MicrotingUid;
                                 }
-                                fieldValue.ValueReadable += fieldOptionTranslation.Text;
                             }
                         }
-                    }
+                        catch
+                        {
+                            // ignored
+                        }
 
-                    List<FieldOption> fieldOptions = await db.FieldOptions.AsNoTracking().Where(x =>
-                        x.FieldId == fieldValue.FieldId).ToListAsync();
-                    fieldValue.KeyValuePairList = new List<KeyValuePair>();
-                    foreach (FieldOption option in fieldOptions)
+                        break;
+                    case Constants.Constants.FieldTypes.SingleSelect:
                     {
-                        var optionTranslation = await
-                            db.FieldOptionTranslations.AsNoTracking().FirstAsync(x =>
-                                x.FieldOptionId == option.Id && x.LanguageId == language.Id);
-                        KeyValuePair keyValuePair = new KeyValuePair(option.Key, optionTranslation.Text, false,
-                            option.DisplayOrder);
-                        fieldValue.KeyValuePairList.Add(keyValuePair);
-                    }
-                }
+                        string key = fieldValue.Value;
+                        int fieldId = fieldValue.FieldId;
+                        FieldOption fieldOption = await db.FieldOptions.AsNoTracking().FirstOrDefaultAsync(x =>
+                            x.FieldId == fieldId && x.Key == key);
+                        if (fieldOption != null)
+                        {
+                            FieldOptionTranslation fieldOptionTranslation =
+                                await db.FieldOptionTranslations.AsNoTracking().FirstAsync(x =>
+                                    x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
+                            fieldValue.ValueReadable = fieldOptionTranslation.Text;
+                        }
+                        else
+                        {
+                            fieldValue.ValueReadable = "";
+                        }
 
-                if (fieldValue.FieldType == Constants.Constants.FieldTypes.Number ||
-                    fieldValue.FieldType == Constants.Constants.FieldTypes.NumberStepper)
-                {
-                    if (reply.Value != null)
-                    {
-                        fieldValue.ValueReadable = reply.Value.Replace(",", ".");
-                        fieldValue.Value = reply.Value.Replace(",", ".");
+                        List<FieldOption> fieldOptions =
+                            await db.FieldOptions.AsNoTracking().Where(x => x.FieldId == fieldValue.FieldId)
+                                .ToListAsync();
+
+                        fieldValue.KeyValuePairList = new List<KeyValuePair>();
+                        foreach (FieldOption option in fieldOptions)
+                        {
+                            var optionTranslation = await
+                                db.FieldOptionTranslations.FirstAsync(x =>
+                                    x.FieldOptionId == option.Id && x.LanguageId == language.Id);
+                            KeyValuePair keyValuePair = new KeyValuePair(
+                                option.Key,
+                                optionTranslation.Text,
+                                false,
+                                option.DisplayOrder);
+                            fieldValue.KeyValuePairList.Add(keyValuePair);
+                        }
+
+                        break;
                     }
-                    else
+                    case Constants.Constants.FieldTypes.MultiSelect:
                     {
                         fieldValue.ValueReadable = "";
-                        fieldValue.Value = "";
+
+                        string keys = fieldValue.Value;
+                        List<string> keyLst =
+                            string.IsNullOrEmpty(keys) ? new List<string>() : keys.Split('|').ToList();
+                        int fieldId = fieldValue.FieldId;
+                        fieldValue.ValueReadable = "";
+                        foreach (string key in keyLst)
+                        {
+                            if (!string.IsNullOrEmpty(key))
+                            {
+                                FieldOption fieldOption = await db.FieldOptions.AsNoTracking().FirstOrDefaultAsync(x =>
+                                    x.FieldId == fieldId && x.Key == key);
+                                if (fieldOption != null)
+                                {
+                                    FieldOptionTranslation fieldOptionTranslation =
+                                        await db.FieldOptionTranslations.AsNoTracking().FirstAsync(x =>
+                                            x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
+                                    if (fieldValue.ValueReadable != "")
+                                    {
+                                        fieldValue.ValueReadable += '|';
+                                    }
+
+                                    fieldValue.ValueReadable += fieldOptionTranslation.Text;
+                                }
+                            }
+                        }
+
+                        List<FieldOption> fieldOptions = await db.FieldOptions.AsNoTracking().Where(x =>
+                            x.FieldId == fieldValue.FieldId).ToListAsync();
+                        fieldValue.KeyValuePairList = new List<KeyValuePair>();
+                        foreach (FieldOption option in fieldOptions)
+                        {
+                            var optionTranslation = await
+                                db.FieldOptionTranslations.AsNoTracking().FirstAsync(x =>
+                                    x.FieldOptionId == option.Id && x.LanguageId == language.Id);
+                            KeyValuePair keyValuePair = new KeyValuePair(option.Key, optionTranslation.Text, false,
+                                option.DisplayOrder);
+                            fieldValue.KeyValuePairList.Add(keyValuePair);
+                        }
                     }
+                        break;
+                    case Constants.Constants.FieldTypes.Number:
+                    case Constants.Constants.FieldTypes.NumberStepper:
+                    {
+                        if (reply.Value != null)
+                        {
+                            fieldValue.ValueReadable = reply.Value.Replace(",", ".");
+                            fieldValue.Value = reply.Value.Replace(",", ".");
+                        }
+                        else
+                        {
+                            fieldValue.ValueReadable = "";
+                            fieldValue.Value = "";
+                        }
+                    }
+                        break;
+
+                    case Constants.Constants.FieldTypes.Date:
+                    {
+                        if (reply.Value != null)
+                        {
+                            fieldValue.ValueReadable = DateTime.TryParse(reply.Value, out DateTime date)
+                                ? date.ToString("dd-MM-yyyy")
+                                : "";
+                            fieldValue.Value = reply.Value;
+                        }
+                        else
+                        {
+                            fieldValue.ValueReadable = "";
+                            fieldValue.Value = "";
+                        }
+                    }
+                        break;
                 }
 
                 return fieldValue;
@@ -2074,7 +2098,7 @@ namespace Microting.eForm.Infrastructure
                     var result =
                         await db.FieldValues.AsNoTracking().FirstAsync(x =>
                             x.CaseId == reply.CaseId && x.FieldId == reply.FieldId);
-                    return new Models.FieldValue()
+                    return new Models.FieldValue
                     {
                         Id = result.Id,
                         FieldId = 0,

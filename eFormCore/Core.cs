@@ -42,6 +42,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
+using DocumentFormat.OpenXml.Packaging;
 using ICSharpCode.SharpZipLib.Zip;
 using ImageMagick;
 using Microsoft.EntityFrameworkCore;
@@ -2210,7 +2211,7 @@ namespace eFormCore
             return _resultDocument;
         }
 
-        private async Task<string> DocxToPdf(int caseId, string templateId, string timeStamp, ReplyElement reply, CaseDto cDto, string customPathForUploadedData, string customXmlContent, string fileType, Language language)
+        private async Task<string> DocxToPdf(int caseId, string templateId, string timeStamp, Microting.eForm.Infrastructure.Data.Entities.Case dbCase, CaseDto cDto, string customPathForUploadedData, string customXmlContent, string fileType, Language language)
         {
 
             SortedDictionary<string, string> valuePairs = new SortedDictionary<string, string>();
@@ -2218,14 +2219,19 @@ namespace eFormCore
             TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
             await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
 
-            reply.DoneAt = TimeZoneInfo.ConvertTimeFromUtc(reply.DoneAt, timeZoneInfo);
+            var checkListTranslations = await dbContext.CheckListTranslations
+                .Where(x => x.CheckListId == dbCase.CheckListId)
+                .Where(x => x.LanguageId == language.Id)
+                .ToListAsync();
+
+            var doneAt = TimeZoneInfo.ConvertTimeFromUtc((DateTime)dbCase.DoneAt, timeZoneInfo);
             // get base values
-            valuePairs.Add("F_CaseName", reply.Label.Replace("&", "&amp;"));
+            valuePairs.Add("F_CaseName", checkListTranslations.First().Text.Replace("&", "&amp;"));
             valuePairs.Add("F_SerialNumber", $"{caseId}/{cDto.MicrotingUId}");
-            valuePairs.Add("F_Worker", dbContext.Workers.Single(x => x.Id == reply.DoneById).full_name().Replace("&", "&amp;"));
-            valuePairs.Add("F_CheckId", reply.MicrotingUId.ToString());
-            valuePairs.Add("F_CheckDate", reply.DoneAt.ToString("yyyy-MM-dd HH:mm:ss"));
-            valuePairs.Add("F_SiteName", dbContext.Sites.Single(x=> x.MicrotingUid == reply.SiteMicrotingUuid).Name.Replace("&", "&amp;"));
+            valuePairs.Add("F_Worker", dbContext.Workers.Single(x => x.Id == dbCase.WorkerId).full_name().Replace("&", "&amp;"));
+            valuePairs.Add("F_CheckId", dbCase.MicrotingCheckUid.ToString());
+            valuePairs.Add("F_CheckDate", doneAt.ToString("dd-MM-yyyy"));
+            valuePairs.Add("F_SiteName", dbContext.Sites.Single(x=> x.Id == dbCase.SiteId).Name.Replace("&", "&amp;"));
 
             // get field_values
             List<KeyValuePair<string, List<string>>> pictures = new List<KeyValuePair<string, List<string>>>();
@@ -2265,7 +2271,6 @@ namespace eFormCore
                             fieldValue.ValueReadable.Replace("|", @"</w:t><w:br/><w:t>");
                         break;
                     case Constants.FieldTypes.Picture:
-                        imageFieldCountList[$"FCount_{fieldValue.FieldId}"] = 0;
                         if (fieldValue.UploadedDataObj != null)
                         {
                             Microting.eForm.Infrastructure.Data.Entities.Field field = await dbContext.Fields.FirstOrDefaultAsync(x => x.Id == fieldValue.FieldId);
@@ -2367,6 +2372,7 @@ namespace eFormCore
                             }
                             list.Add(fileContent);
                             list.Add(geoTag);
+                            list.Add(field.Id.ToString());
                             CheckListTranslation checkListTranslation =
                                 await dbContext.CheckListTranslations.FirstAsync(x =>
                                     x.CheckListId == checkList.Id && x.LanguageId == language.Id);
@@ -2383,6 +2389,10 @@ namespace eFormCore
                             if (imageFieldCountList.ContainsKey($"FCount_{fieldValue.FieldId}"))
                             {
                                 imageFieldCountList[$"FCount_{fieldValue.FieldId}"] += 1;
+                            }
+                            else
+                            {
+                                imageFieldCountList[$"FCount_{fieldValue.FieldId}"] = 1;
                             }
                         }
                         break;
@@ -2498,12 +2508,25 @@ namespace eFormCore
                 }
             }
 
-            ReportHelper.SearchAndReplace(valuePairs, resultDocument);
+            Log.LogEverything("WordprocessingDocument", "Open");
+            WordprocessingDocument wordDoc = WordprocessingDocument.Open(resultDocument, true);
 
-            ReportHelper.InsertImages(resultDocument, pictures);
+            Log.LogEverything("ReportHelper.SearchAndReplace", "Start");
+            ReportHelper.SearchAndReplace(valuePairs, wordDoc);
 
-            ReportHelper.InsertSignature(resultDocument, signatures);
-            ReportHelper.ValidateWordDocument(resultDocument);
+            Log.LogEverything("ReportHelper.InsertImages", "Start");
+            ReportHelper.InsertImages(wordDoc, pictures);
+
+            Log.LogEverything("ReportHelper.signatures", "Start");
+            ReportHelper.InsertSignature(wordDoc, signatures);
+            //ReportHelper.ValidateWordDocument(resultDocument);
+
+            Log.LogEverything("ReportHelper.signatures", "wordDoc.Save");
+            wordDoc.Save();
+            Log.LogEverything("ReportHelper.signatures", "wordDoc.Close");
+            wordDoc.Close();
+            Log.LogEverything("ReportHelper.signatures", "wordDoc.Dispose");
+            wordDoc.Dispose();
 
             if (fileType == "pdf")
             {
@@ -2537,6 +2560,8 @@ namespace eFormCore
 
         public async Task<string> CaseToPdf(int caseId, string jasperTemplate, string timeStamp, string customPathForUploadedData, string fileType, string customXmlContent, Language language)
         {
+
+
             if (fileType != "pdf" && fileType != "docx" && fileType != "pptx")
             {
                 throw new ArgumentException($"Filetypes allowed are only: pdf, docx, pptx, currently specified was {fileType}");
@@ -2552,18 +2577,21 @@ namespace eFormCore
 
                 timeStamp ??= DateTime.UtcNow.ToString("yyyyMMdd") + "_" + DateTime.UtcNow.ToString("hhmmss");
                 CaseDto cDto = await CaseLookupCaseId(caseId).ConfigureAwait(false);
-                ReplyElement reply = await CaseRead((int)cDto.MicrotingUId, (int)cDto.CheckUId, language).ConfigureAwait(false);
+                await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
+                var dbCase = await dbContext.Cases.FirstAsync(x => x.Id == caseId);
+                var checkList = await dbContext.CheckLists.FirstAsync(x => x.Id == dbCase.CheckListId);
 
                 string resultDocument = "";
 
-                if (reply.JasperExportEnabled)
+                if (checkList.JasperExportEnabled)
                 {
+                    ReplyElement reply = await CaseRead((int)cDto.MicrotingUId, (int)cDto.CheckUId, language).ConfigureAwait(false);
                     await CaseToJasperXml(cDto, reply, caseId, timeStamp, customPathForUploadedData, customXmlContent, language).ConfigureAwait(false);
                     resultDocument = await JasperToPdf(caseId, jasperTemplate, timeStamp).ConfigureAwait(false);
                 }
                 else
                 {
-                    resultDocument = await DocxToPdf(caseId, jasperTemplate, timeStamp, reply, cDto, customPathForUploadedData, customXmlContent, fileType, language).ConfigureAwait(false);
+                    resultDocument = await DocxToPdf(caseId, jasperTemplate, timeStamp, dbCase, cDto, customPathForUploadedData, customXmlContent, fileType, language).ConfigureAwait(false);
                 }
 
                 //return path

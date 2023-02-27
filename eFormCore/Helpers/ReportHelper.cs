@@ -41,24 +41,19 @@ namespace Microting.eForm.Helpers
 {
     public static class ReportHelper
     {
-        public static void SearchAndReplace(SortedDictionary<string, string> valuesToReplace, string outputFileName)
+        public static void SearchAndReplace(SortedDictionary<string, string> valuesToReplace, WordprocessingDocument wordDoc)
         {
-            WordprocessingDocument wordDoc = WordprocessingDocument.Open(outputFileName, true);
-
             SearchAndReplaceHeaders(wordDoc, valuesToReplace);
 
             SearchAndReplaceBody(wordDoc, valuesToReplace);
 
             SearchAndReplaceFooters(wordDoc, valuesToReplace);
-
-            wordDoc.Save();
-            wordDoc.Close();
-            wordDoc.Dispose();
         }
 
         private static void SearchAndReplaceHeaders(WordprocessingDocument wordDoc,
             SortedDictionary<string, string> valuesToReplace)
         {
+            WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper", "SearchAndReplaceHeaders called"));
             foreach (HeaderPart headerPart in wordDoc.MainDocumentPart.HeaderParts)
             {
                 string docText = null;
@@ -82,6 +77,7 @@ namespace Microting.eForm.Helpers
         private static void SearchAndReplaceBody(WordprocessingDocument wordDoc,
             SortedDictionary<string, string> valuesToReplace)
         {
+            WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper", "SearchAndReplaceBody called"));
             string docText = null;
             using (StreamReader sr = new StreamReader(wordDoc.MainDocumentPart.GetStream()))
             {
@@ -102,6 +98,7 @@ namespace Microting.eForm.Helpers
         private static void SearchAndReplaceFooters(WordprocessingDocument wordDoc,
             SortedDictionary<string, string> valuesToReplace)
         {
+            WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper", "SearchAndReplaceFooters called"));
             foreach (FooterPart footerPart in wordDoc.MainDocumentPart.FooterParts)
             {
                 string docText = null;
@@ -126,6 +123,7 @@ namespace Microting.eForm.Helpers
         {
             foreach (var fieldValue in valuesToReplace.Reverse())
             {
+                WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper.SearchAndReplace", $"replacing {fieldValue.Key} with {fieldValue.Value}"));
                 if (fieldValue.Value != null)
                 {
                     Regex regexText = new Regex(fieldValue.Key);
@@ -151,12 +149,11 @@ namespace Microting.eForm.Helpers
             return docText;
         }
 
-        public static void InsertSignature(string fullPathToDocument, List<KeyValuePair<string, string>> pictures)
+        public static void InsertSignature(WordprocessingDocument wordDoc, List<KeyValuePair<string, string>> pictures)
         {
-            WordprocessingDocument wordDoc = WordprocessingDocument.Open(fullPathToDocument, true);
-
             foreach (var keyValuePair in pictures)
             {
+                WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper.InsertSignature", $"inserting signature {keyValuePair.Key}"));
                 MainDocumentPart mainPart = wordDoc.MainDocumentPart;
                 ImagePart imagePart = mainPart.AddImagePart(ImagePartType.Jpeg);
 
@@ -185,44 +182,62 @@ namespace Microting.eForm.Helpers
 
                 AddSignatureToParagraph(wordDoc, mainPart.GetIdOfPart(imagePart), iWidth, iHeight, keyValuePair.Key);
             }
-
-            wordDoc.Save();
-            wordDoc.Close();
-            wordDoc.Dispose();
+            WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper.InsertSignature", "Done inserting signatures"));
         }
 
-        public static void InsertImages(string fullPathToDocument, List<KeyValuePair<string, List<string>>> pictures)
+        public static void InsertImages(WordprocessingDocument wordDoc, List<KeyValuePair<string, List<string>>> pictures)
         {
-            WordprocessingDocument wordDoc = WordprocessingDocument.Open(fullPathToDocument, true);
             string currentHeader = "";
+            List<Paragraph> foundEntriesToClearText = new List<Paragraph>();
 
             foreach (var keyValuePair in pictures)
             {
-                if (currentHeader != keyValuePair.Key)
+                WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper.InsertImages", $"inserting image {keyValuePair.Key}"));
+
+                var lookupKey = keyValuePair.Value[2];
+                lookupKey = $"FPictures_{lookupKey}";
+
+                var paragraphs = wordDoc.MainDocumentPart.Document.Body.Descendants<Paragraph>();
+                var paragraph = paragraphs.FirstOrDefault(p => p.InnerText.Contains(lookupKey));
+
+                if (paragraph != null)
                 {
-                    if (currentHeader != "")
-                    {
-                        SectionProperties sectPr = (SectionProperties)wordDoc.MainDocumentPart.Document.Body.ChildElements.Last();
 
-                        wordDoc.MainDocumentPart.Document.Body.InsertBefore(
-                            new Paragraph(
-                                new Run(
-                                    new Break {Type = BreakValues.Page}
-                                    )),
-                            sectPr
-                            );
-                    }
-                    InsertHeader(keyValuePair.Key, wordDoc, currentHeader);
+                    InsertPicture(keyValuePair.Value, wordDoc, paragraph);
+                    foundEntriesToClearText.Add(paragraph);
                 }
+                else
+                {
+                    if (currentHeader != keyValuePair.Key)
+                    {
+                        if (currentHeader != "")
+                        {
+                            SectionProperties sectPr = (SectionProperties)wordDoc.MainDocumentPart.Document.Body.ChildElements.Last();
 
-                currentHeader = keyValuePair.Key;
-                InsertPicture(keyValuePair.Value, wordDoc);
+                            wordDoc.MainDocumentPart.Document.Body.InsertBefore(
+                                new Paragraph(
+                                    new Run(
+                                        new Break {Type = BreakValues.Page}
+                                    )),
+                                sectPr
+                            );
+                        }
+                        InsertHeader(keyValuePair.Key, wordDoc, currentHeader);
+                    }
 
+                    currentHeader = keyValuePair.Key;
+                    InsertPicture(keyValuePair.Value, wordDoc);
+                }
             }
 
-            wordDoc.Save();
-            wordDoc.Close();
-            wordDoc.Dispose();
+            foreach (var paragraph in foundEntriesToClearText)
+            {
+                var run = paragraph.Descendants<Run>().FirstOrDefault();
+                var text = run.Descendants<Text>().FirstOrDefault();
+                text.Text = "";
+            }
+            WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper.InsertImages", "Done inserting images"));
+
         }
 
         public static void ConvertToPdf(string docxFileName, string outputFolder)
@@ -280,7 +295,8 @@ namespace Microting.eForm.Helpers
             }
         }
 
-        public static void InsertPicture(List<string> values, WordprocessingDocument wordDoc)
+        public static void InsertPicture(List<string> values, WordprocessingDocument wordDoc,
+            Paragraph paragraph = null)
         {
 
             MainDocumentPart mainPart = wordDoc.MainDocumentPart;
@@ -301,46 +317,77 @@ namespace Microting.eForm.Helpers
             double maxHeightCm = 20.0;
             const int emusPerCm = 360000;
             long maxWidthEmus = (long)(maxWidthCm * emusPerCm);
-            if (iWidth > maxWidthEmus) {
+            if (iWidth > maxWidthEmus)
+            {
                 var ratio = (iHeight * 1.0m) / iWidth;
                 iWidth = maxWidthEmus;
                 iHeight = (long)(iWidth * ratio);
             }
 
-            long maxHeightEmus = (long) (maxHeightCm * emusPerCm);
+            long maxHeightEmus = (long)(maxHeightCm * emusPerCm);
             if (iHeight > maxHeightEmus)
             {
                 var ratio = (iWidth * 1.0m) / iHeight;
                 iHeight = maxHeightEmus;
-                iWidth = (long) (iHeight * ratio);
+                iWidth = (long)(iHeight * ratio);
             }
 
             imagePart.FeedData(new MemoryStream(bytes));
 
+            values[1] = "http://dr.dk";
+
             if (!string.IsNullOrEmpty(values[1]))
             {
-                var rel = wordDoc.MainDocumentPart.AddHyperlinkRelationship(new Uri(values[1]), true);
-                SectionProperties sectPr = (SectionProperties)wordDoc.MainDocumentPart.Document.Body.ChildElements.Last();
+                if (paragraph == null)
+                {
+                    var rel = wordDoc.MainDocumentPart.AddHyperlinkRelationship(new Uri(values[1]), true);
+                    SectionProperties sectPr =
+                        (SectionProperties)wordDoc.MainDocumentPart.Document.Body.ChildElements.Last();
 
-                wordDoc.MainDocumentPart.Document.Body.InsertBefore(new Paragraph(
-                        new Hyperlink(
-                                new Run(
-                                    new RunProperties(
-                                        new RunStyle { Val = "InternetLink"},
-                                        new RunFonts { Ascii = "Arial", HighAnsi = "Arial"},
-                                        new Color { Val = "365F91", ThemeColor = ThemeColorValues.Accent1, ThemeShade = "BF" },
-                                        new Underline { Val = UnderlineValues.Single}
-                                    ),
-                                    new Text(values[1])
+                    wordDoc.MainDocumentPart.Document.Body.InsertBefore(new Paragraph(
+                            new Hyperlink(
+                                    new Run(
+                                        new RunProperties(
+                                            new RunStyle { Val = "InternetLink" },
+                                            new RunFonts { Ascii = "Arial", HighAnsi = "Arial" },
+                                            new Color
+                                            {
+                                                Val = "365F91", ThemeColor = ThemeColorValues.Accent1, ThemeShade = "BF"
+                                            },
+                                            new Underline { Val = UnderlineValues.Single }
+                                        ),
+                                        new Text(values[1])
+                                    )
                                 )
+                                { History = OnOffValue.FromBoolean(true), Id = rel.Id }
+                        ),
+                        sectPr
+                    );
+
+                }
+                else
+                {
+                    var rel = wordDoc.MainDocumentPart.AddHyperlinkRelationship(new Uri(values[1]), true);
+                    paragraph.Append(new Hyperlink(
+                            new Run(
+                                new RunProperties(
+                                    new RunStyle { Val = "InternetLink" },
+                                    new RunFonts { Ascii = "Arial", HighAnsi = "Arial" },
+                                    new Color
+                                    {
+                                        Val = "365F91", ThemeColor = ThemeColorValues.Accent1, ThemeShade = "BF"
+                                    },
+                                    new Underline { Val = UnderlineValues.Single }
+                                ),
+                                new Text(values[1])
                             )
-                            {History = OnOffValue.FromBoolean(true), Id = rel.Id}
-                    ),
-                    sectPr
-                );
+                        )
+                        { History = OnOffValue.FromBoolean(true), Id = rel.Id }
+                    );
+                }
             }
 
-            AddImageToBody(wordDoc, mainPart.GetIdOfPart(imagePart), iWidth, iHeight);
+            AddImageToBody(wordDoc, mainPart.GetIdOfPart(imagePart), iWidth, iHeight, paragraph);
         }
 
         public static void ValidateWordDocument(string filepath)
@@ -380,7 +427,7 @@ namespace Microting.eForm.Helpers
             }
         }
 
-        private static void AddImageToBody(WordprocessingDocument wordDoc, string relationshipId, Int64Value cx, Int64Value cy)
+        private static void AddImageToBody(WordprocessingDocument wordDoc, string relationshipId, Int64Value cx, Int64Value cy, Paragraph paragraph = null)
         {
             WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper", "AddImageToBody called"));
             // Define the reference of the image.
@@ -432,7 +479,14 @@ namespace Microting.eForm.Helpers
             // Append the reference to body, the element should be in a Run.
             SectionProperties sectPr = (SectionProperties)wordDoc.MainDocumentPart.Document.Body.ChildElements.Last();
 
-           wordDoc.MainDocumentPart.Document.Body.InsertBefore(new Paragraph(new Run(element)),sectPr);
+            if (paragraph != null)
+            {
+                paragraph.Append(new Run(element));
+            }
+            else
+            {
+                wordDoc.MainDocumentPart.Document.Body.InsertBefore(new Paragraph(new Run(element)), sectPr);
+            }
         }
 
         private static void AddSignatureToParagraph(WordprocessingDocument wordDoc, string relationshipId,
