@@ -334,8 +334,6 @@ namespace Microting.eForm.Helpers
 
             imagePart.FeedData(new MemoryStream(bytes));
 
-            values[1] = "http://dr.dk";
-
             if (!string.IsNullOrEmpty(values[1]))
             {
                 if (paragraph == null)

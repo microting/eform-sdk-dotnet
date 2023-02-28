@@ -43,6 +43,7 @@ using Amazon.S3.Model;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
 using ICSharpCode.SharpZipLib.Zip;
 using ImageMagick;
 using Microsoft.EntityFrameworkCore;
@@ -69,6 +70,7 @@ using EntityItem = Microting.eForm.Infrastructure.Models.EntityItem;
 using Field = Microting.eForm.Infrastructure.Models.Field;
 using FieldValue = Microting.eForm.Infrastructure.Models.FieldValue;
 using KeyValuePair = Microting.eForm.Dto.KeyValuePair;
+using Settings = Microting.eForm.Dto.Settings;
 using Tag = Microting.eForm.Dto.Tag;
 using UploadedData = Microting.eForm.Infrastructure.Models.UploadedData;
 
@@ -2395,6 +2397,10 @@ namespace eFormCore
                                 imageFieldCountList[$"FCount_{fieldValue.FieldId}"] = 1;
                             }
                         }
+                        else
+                        {
+                            imageFieldCountList[$"FCount_{fieldValue.FieldId}"] = 0;
+                        }
                         break;
                     case Constants.FieldTypes.Signature:
                         if (fieldValue.UploadedDataObj != null)
@@ -2455,8 +2461,14 @@ namespace eFormCore
                 }
             }
 
+            List<string> paragraphTextsForRemove = new List<string>();
+
             foreach (KeyValuePair<string,int> keyValuePair in imageFieldCountList)
             {
+                if (keyValuePair.Value == 0)
+                {
+                    paragraphTextsForRemove.Add(keyValuePair.Key.Replace("FCount_", "FPictures_"));
+                }
                 valuePairs.Add(keyValuePair.Key, keyValuePair.Value.ToString());
             }
 
@@ -2519,6 +2531,29 @@ namespace eFormCore
 
             Log.LogEverything("ReportHelper.signatures", "Start");
             ReportHelper.InsertSignature(wordDoc, signatures);
+
+            foreach (var text in paragraphTextsForRemove)
+            {
+                var paragraphs = wordDoc.MainDocumentPart.Document.Body.Descendants<Paragraph>();
+                var paragraph = paragraphs.FirstOrDefault(p => p.InnerText.Contains(text));
+                if (paragraph != null)
+                {
+                    var runs = paragraph.Descendants<Run>().ToList();
+                    foreach (var run in runs)
+                    {
+                        var textFields = run.Descendants<DocumentFormat.OpenXml.Wordprocessing.Text>().ToList();
+                        foreach (var textField in textFields)
+                        {
+                            textField.Text = "";
+                        }
+                    }
+
+                    // if (textField != null)
+                    // {
+                    //     textField.Text = "";
+                    // }
+                }
+            }
             //ReportHelper.ValidateWordDocument(resultDocument);
 
             Log.LogEverything("ReportHelper.signatures", "wordDoc.Save");
