@@ -2449,6 +2449,7 @@ namespace eFormCore
                             else
                             {
                                 fieldValue.ValueReadable = fieldValue.ValueReadable.Replace("<br>", "|||");
+                                fieldValue.ValueReadable = fieldValue.ValueReadable.Replace("\n", "|||");
                                 fieldValue.ValueReadable = Regex.Replace(fieldValue.ValueReadable, "<.*?>",
                                     string.Empty);
                                 fieldValue.ValueReadable = fieldValue.ValueReadable.Replace("\t", @"</w:t><w:tab/><w:t>");
