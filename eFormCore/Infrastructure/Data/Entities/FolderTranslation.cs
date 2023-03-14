@@ -8,11 +8,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public string Description { get; set; }
         public int MicrotingUid { get; set; }
 
-        [ForeignKey("Language")]
-        public int LanguageId { get; set; }
+        [ForeignKey("Language")] public int LanguageId { get; set; }
 
-        [ForeignKey("Folder")]
-        public int FolderId { get; set; }
+        [ForeignKey("Folder")] public int FolderId { get; set; }
 
         public virtual Folder Folder { get; set; }
 

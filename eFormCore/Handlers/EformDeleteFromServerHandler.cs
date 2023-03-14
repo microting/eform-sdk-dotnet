@@ -63,11 +63,14 @@ namespace Microting.eForm.Handlers
             {
                 try
                 {
-                    log.LogException(t.GetMethodName("EformDeleteFromServerHandler"), methodName + " (EformDeleteFromServer message) failed, with message.MicrotringUUID " + message.MicrotringUUID, ex);
+                    log.LogException(t.GetMethodName("EformDeleteFromServerHandler"),
+                        methodName + " (EformDeleteFromServer message) failed, with message.MicrotringUUID " +
+                        message.MicrotringUUID, ex);
                 }
                 catch
                 {
-                    log.LogException(t.GetMethodName("EformDeleteFromServerHandler"), methodName + " (EformDeleteFromServer message) failed", ex);
+                    log.LogException(t.GetMethodName("EformDeleteFromServerHandler"),
+                        methodName + " (EformDeleteFromServer message) failed", ex);
                 }
             }
         }
@@ -97,19 +100,23 @@ namespace Microting.eForm.Handlers
                 try
                 {
                     resp = resp.XmlToClass(xmlResponse);
-                    log.LogException(t.GetMethodName("EformDeleteFromServerHandler"), methodName + " failed", new Exception("Error from Microting server: " + resp.Value));
+                    log.LogException(t.GetMethodName("EformDeleteFromServerHandler"), methodName + " failed",
+                        new Exception("Error from Microting server: " + resp.Value));
                     return false;
                 }
                 catch (Exception ex)
                 {
                     try
                     {
-                        log.LogException(t.GetMethodName("EformDeleteFromServerHandler"), methodName + " (string " + microtingUId + ") failed", ex);
+                        log.LogException(t.GetMethodName("EformDeleteFromServerHandler"),
+                            methodName + " (string " + microtingUId + ") failed", ex);
                     }
                     catch
                     {
-                        log.LogException(t.GetMethodName("EformDeleteFromServerHandler"), methodName + " (string microtingUId) failed", ex);
+                        log.LogException(t.GetMethodName("EformDeleteFromServerHandler"),
+                            methodName + " (string microtingUId) failed", ex);
                     }
+
                     return false;
                 }
             }
@@ -140,7 +147,9 @@ namespace Microting.eForm.Handlers
 
                     return true;
                 }
-                catch { }
+                catch
+                {
+                }
 
                 try
                 {
@@ -152,8 +161,11 @@ namespace Microting.eForm.Handlers
 
                     return true;
                 }
-                catch { }
+                catch
+                {
+                }
             }
+
             return false;
         }
     }

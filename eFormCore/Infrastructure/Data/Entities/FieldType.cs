@@ -30,18 +30,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class FieldType
+    public class FieldType
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [StringLength(255)]
-        public string Type { get; set; }
+        [StringLength(255)] public string Type { get; set; }
 
-        [StringLength(255)]
-        public string Description { get; set; }
-        
+        [StringLength(255)] public string Description { get; set; }
+
         public async Task Create(MicrotingDbContext dbContext)
         {
             dbContext.FieldTypes.Add(this);
@@ -56,6 +54,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             {
                 throw new NullReferenceException($"Could not find Field Type with Id: {Id}");
             }
+
             fieldType.Description = Description;
             fieldType.Type = Type;
             if (dbContext.ChangeTracker.HasChanges())
@@ -72,6 +71,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             {
                 throw new NullReferenceException($"Could not find Field Type with Id: {Id}");
             }
+
             dbContext.Remove(fieldType);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }

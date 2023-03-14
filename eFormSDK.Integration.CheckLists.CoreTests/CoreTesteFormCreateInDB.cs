@@ -60,6 +60,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
             await sql.SettingUpdate(Settings.firstRunDone, "true");
             await sql.SettingUpdate(Settings.knownSitesDone, "true");
+
             #endregion
 
             sut = new Core();
@@ -72,7 +73,8 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             await sut.StartSqlOnly(ConnectionString);
             path = Assembly.GetExecutingAssembly().Location;
             path = Path.GetDirectoryName(path);
-            await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SetSdkSetting(Settings.fileLocationPicture,
+                Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers(ConnectionString);
@@ -132,9 +134,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListTranslation> checkLisTranslations =
-              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
+                await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
-              await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
+                await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
             Assert.NotNull(cl);
@@ -176,8 +178,6 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(0, _fields[0].ReadOnly); //false
             Assert.AreEqual(0, _fields[0].Mandatory); //false
             Assert.AreEqual(Constants.FieldColors.Default, _fields[0].Color);
-
-
         }
 
         [Test]
@@ -228,9 +228,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListTranslation> checkLisTranslations =
-              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
+                await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
-              await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
+                await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
             Assert.NotNull(cl);
@@ -239,7 +239,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
             // Assert.AreEqual("2028-04-25", match.EndDate); TODO
             // Assert.AreEqual("da", cl[0].language); TODO no method
-            Assert.AreEqual(0, cl[0].MultiApproval);//false
+            Assert.AreEqual(0, cl[0].MultiApproval); //false
             Assert.AreEqual(0, cl[0].FastNavigation); //false
             // Assert.AreEqual(0, cl[0].review); //TODO no method review
             // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
@@ -265,7 +265,6 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(0, _fields[0].DisplayIndex);
             Assert.AreEqual(0, _fields[0].Mandatory); //false
             Assert.AreEqual(Constants.FieldColors.Default, _fields[0].Color);
-
         }
 
         [Test]
@@ -321,9 +320,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListTranslation> checkLisTranslations =
-              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
+                await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
-              await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
+                await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
             Assert.NotNull(cl);
@@ -332,7 +331,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
             // Assert.AreEqual("2028-04-25", match.EndDate); TODO
             // Assert.AreEqual("da", cl[0].language); TODO no method
-            Assert.AreEqual(0, cl[0].MultiApproval);//false
+            Assert.AreEqual(0, cl[0].MultiApproval); //false
             Assert.AreEqual(0, cl[0].FastNavigation); //false
             // Assert.AreEqual(0, cl[0].review); //TODO no method review
             // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
@@ -362,7 +361,6 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(0, _fields[0].Mandatory); //false
             Assert.AreEqual(0, _fields[0].ReadOnly); //false
             Assert.AreEqual(Constants.FieldColors.Default, _fields[0].Color);
-
         }
 
         [Test]
@@ -415,9 +413,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListTranslation> checkLisTranslations =
-              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
+                await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
-              await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
+                await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
             Assert.NotNull(cl);
@@ -426,7 +424,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Assert.AreEqual("2017-08-04", match.StartDate); TODO
             // Assert.AreEqual("2027-08-04", match.EndDate); TODO
             // Assert.AreEqual("da", cl[0].language); TODO no method
-            Assert.AreEqual(0, cl[0].MultiApproval);//false
+            Assert.AreEqual(0, cl[0].MultiApproval); //false
             Assert.AreEqual(0, cl[0].FastNavigation); //false
             // Assert.AreEqual(0, cl[0].review); //TODO no method review
             // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
@@ -453,8 +451,6 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(null, _fields[0].DefaultValue); //false
             Assert.AreEqual("20d483dd7791cd6becf089432724c663", fieldTranslations[0].DefaultValue); //false
             Assert.AreEqual(Constants.FieldColors.Default, _fields[0].Color);
-
-
         }
 
         [Test]
@@ -536,9 +532,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListTranslation> checkLisTranslations =
-              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
+                await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
-              await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
+                await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
 
             // Assert
@@ -585,7 +581,6 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(Constants.FieldColors.Default, _fields[0].Color);
 
 
-
             Assert.AreEqual("Tjekboks før gruppe", fieldTranslations[2].Text);
             Assert.AreEqual("", fieldTranslations[2].Description);
             Assert.AreEqual(0, _fields[2].DisplayIndex);
@@ -594,15 +589,12 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(Constants.FieldColors.Default, _fields[2].Color);
 
 
-
             Assert.AreEqual("Tjekboks efter gruppe", fieldTranslations[3].Text);
             Assert.AreEqual("", fieldTranslations[3].Description);
             Assert.AreEqual(2, _fields[3].DisplayIndex);
             Assert.AreEqual(0, _fields[3].Selected); //false
             Assert.AreEqual(0, _fields[3].Mandatory); //false
             Assert.AreEqual(Constants.FieldColors.Default, _fields[3].Color);
-
-
         }
 
         [Test]
@@ -661,9 +653,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListTranslation> checkLisTranslations =
-              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
+                await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
-              await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
+                await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
 
             // Assert
@@ -701,12 +693,12 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             Assert.AreEqual("Skriv", fieldTranslations[1].Text);
-            Assert.AreEqual("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dui neque, molestie at maximus a, malesuada at mi. Cras venenatis porttitor augue nec sagittis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris urna massa, sagittis at fringilla ut, convallis sed dolor. Praesent scelerisque magna dolor, quis blandit metus pharetra eu. Cras euismod facilisis risus at ullamcorper. Pellentesque vitae maximus elit. Sed scelerisque nec velit dictum sodales. Duis sed dapibus odio. Sed non luctus sem. Donec eu mollis lectus, nec porta nisl. Aenean a consequat metus, ac auctor arcu. Cras sit amet blandit velit. Pellentesque faucibus eros sed ullamcorper rutrum.<br><br><br>Pellentesque ultrices ex erat. Pellentesque rhoncus eget lectus et scelerisque. Cras vitae diam ex. Ut felis ligula, venenatis ut lorem vel, venenatis convallis turpis. Sed rutrum ac odio ac auctor. Sed mauris ipsum, vulputate ut sodales a, mattis et purus. Nam convallis augue velit, nec blandit ipsum porta vitae. Quisque et iaculis lectus. Donec eu fringilla turpis, id rutrum mauris.<br><br><br>Proin eu sagittis sem. Aenean vel placerat sapien. Praesent et rutrum justo. Mauris consectetur venenatis est, eu vulputate enim elementum eget. In hac habitasse platea dictumst. Sed vehicula nec neque sed posuere. Aenean sodales lectus a purus posuere lacinia. Aenean ut enim vel odio varius placerat. Phasellus faucibus turpis sed arcu ultrices interdum. Sed porta, nisi nec vehicula lacinia, ante tortor tristique justo, vel sagittis felis ligula eu magna. Pellentesque a velit laoreet nunc aliquet ornare sit amet eget lorem. Duis aliquet viverra pretium. Etiam a mauris tellus. Sed viverra eros eget lectus lobortis, in vestibulum lorem rhoncus. Aliquam sem felis, suscipit a gravida ut, eleifend et ipsum. Nullam lacus lacus, rutrum quis sollicitudin et, porta et erat.", fieldTranslations[1].Description);
+            Assert.AreEqual(
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dui neque, molestie at maximus a, malesuada at mi. Cras venenatis porttitor augue nec sagittis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris urna massa, sagittis at fringilla ut, convallis sed dolor. Praesent scelerisque magna dolor, quis blandit metus pharetra eu. Cras euismod facilisis risus at ullamcorper. Pellentesque vitae maximus elit. Sed scelerisque nec velit dictum sodales. Duis sed dapibus odio. Sed non luctus sem. Donec eu mollis lectus, nec porta nisl. Aenean a consequat metus, ac auctor arcu. Cras sit amet blandit velit. Pellentesque faucibus eros sed ullamcorper rutrum.<br><br><br>Pellentesque ultrices ex erat. Pellentesque rhoncus eget lectus et scelerisque. Cras vitae diam ex. Ut felis ligula, venenatis ut lorem vel, venenatis convallis turpis. Sed rutrum ac odio ac auctor. Sed mauris ipsum, vulputate ut sodales a, mattis et purus. Nam convallis augue velit, nec blandit ipsum porta vitae. Quisque et iaculis lectus. Donec eu fringilla turpis, id rutrum mauris.<br><br><br>Proin eu sagittis sem. Aenean vel placerat sapien. Praesent et rutrum justo. Mauris consectetur venenatis est, eu vulputate enim elementum eget. In hac habitasse platea dictumst. Sed vehicula nec neque sed posuere. Aenean sodales lectus a purus posuere lacinia. Aenean ut enim vel odio varius placerat. Phasellus faucibus turpis sed arcu ultrices interdum. Sed porta, nisi nec vehicula lacinia, ante tortor tristique justo, vel sagittis felis ligula eu magna. Pellentesque a velit laoreet nunc aliquet ornare sit amet eget lorem. Duis aliquet viverra pretium. Etiam a mauris tellus. Sed viverra eros eget lectus lobortis, in vestibulum lorem rhoncus. Aliquam sem felis, suscipit a gravida ut, eleifend et ipsum. Nullam lacus lacus, rutrum quis sollicitudin et, porta et erat.",
+                fieldTranslations[1].Description);
             Assert.AreEqual(1, _fields[1].DisplayIndex);
             Assert.AreEqual(0, _fields[1].Mandatory); //false
             Assert.AreEqual(Constants.FieldColors.Default, _fields[1].Color);
-
-
         }
 
         [Test]
@@ -991,9 +983,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             int eFormId = await sut.TemplateCreate(mainElement); //TODO
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListTranslation> checkLisTranslations =
-              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
+                await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
-              await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
+                await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
 
             // Assert
@@ -1011,7 +1003,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             Assert.AreEqual(2, cl.Count());
             Assert.AreEqual("Muligheder med Microting eForm", checkLisTranslations[1].Text);
-            Assert.AreEqual("Tryk her og prøv hvordan du indsamler data med Microting eForm.<br><br><br>God fornøjelse :-)", checkLisTranslations[1].Description);
+            Assert.AreEqual(
+                "Tryk her og prøv hvordan du indsamler data med Microting eForm.<br><br><br>God fornøjelse :-)",
+                checkLisTranslations[1].Description);
             Assert.AreEqual(76, cl[1].DisplayIndex);
             Assert.AreEqual(0, cl[1].ReviewEnabled); //false
             // Assert.AreEqual(dE.manualsync, false); //TODO NO METHOD MANUALSYNC
@@ -1039,7 +1033,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             Assert.AreEqual("INFO", fieldTranslations[2].Text);
-            Assert.AreEqual("I dette tekstfelt vises ikke redigerbar tekst.<br><br>Er Microting eForm integreret med ERP-system, kan data fra ERP-systemet vises i dette felt fx. baggrundsinformation på kunder.<br>", fieldTranslations[2].Description);
+            Assert.AreEqual(
+                "I dette tekstfelt vises ikke redigerbar tekst.<br><br>Er Microting eForm integreret med ERP-system, kan data fra ERP-systemet vises i dette felt fx. baggrundsinformation på kunder.<br>",
+                fieldTranslations[2].Description);
             Assert.AreEqual(2, _fields[2].DisplayIndex);
 
 
@@ -1058,14 +1054,16 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             Assert.AreEqual("VÆLG", fieldTranslations[5].Text);
-            Assert.AreEqual("Vælg én eller flere i liste.<br><br>Er Microting eForm integreret med ERP-system, kan valgmulighederne komme derfra.<br>", fieldTranslations[5].Description);
+            Assert.AreEqual(
+                "Vælg én eller flere i liste.<br><br>Er Microting eForm integreret med ERP-system, kan valgmulighederne komme derfra.<br>",
+                fieldTranslations[5].Description);
             Assert.AreEqual(6, _fields[5].DisplayIndex);
             Assert.AreEqual(0, _fields[5].Mandatory); //false
 
             var fieldOptionsQuery = DbContext.FieldOptions.Where(x => x.FieldId == _fields[5].Id);
             List<int> fieldOptionIds = await fieldOptionsQuery.Select(x => x.Id).ToListAsync();
             List<FieldOptionTranslation> fieldOptionTranslations = await DbContext.FieldOptionTranslations
-              .Where(x => fieldOptionIds.Contains(x.FieldOptionId)).ToListAsync();
+                .Where(x => fieldOptionIds.Contains(x.FieldOptionId)).ToListAsync();
             List<FieldOption> fieldOptions = await fieldOptionsQuery.ToListAsync();
 
             //List<KeyValuePair> kvp = sut.PairRead(_fields[5].KeyValuePairList);
@@ -1126,14 +1124,16 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             Assert.AreEqual("VÆLG ÉN", fieldTranslations[6].Text);
-            Assert.AreEqual("Vælg én blandt flere valgmuligheder.<br><br>Er Microting eForm integreret med ERP-system, kan valgmulighederne komme derfra.", fieldTranslations[6].Description);
+            Assert.AreEqual(
+                "Vælg én blandt flere valgmuligheder.<br><br>Er Microting eForm integreret med ERP-system, kan valgmulighederne komme derfra.",
+                fieldTranslations[6].Description);
             Assert.AreEqual(7, _fields[6].DisplayIndex);
             Assert.AreEqual(0, _fields[6].Mandatory); //false
 
             fieldOptionsQuery = DbContext.FieldOptions.Where(x => x.FieldId == _fields[6].Id);
             fieldOptionIds = await fieldOptionsQuery.Select(x => x.Id).ToListAsync();
             fieldOptionTranslations = await DbContext.FieldOptionTranslations
-              .Where(x => fieldOptionIds.Contains(x.FieldOptionId)).ToListAsync();
+                .Where(x => fieldOptionIds.Contains(x.FieldOptionId)).ToListAsync();
             fieldOptions = await fieldOptionsQuery.ToListAsync();
 
 
@@ -1192,9 +1192,10 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual("10", fieldOptions[9].Key);
 
 
-
             Assert.AreEqual("DATO", fieldTranslations[7].Text);
-            Assert.AreEqual("Vælg dato<br><br>Er Microting eForm integreret med ERP-system, kan valgt dato leveres direkte i ERP-system.<br>", fieldTranslations[7].Description);
+            Assert.AreEqual(
+                "Vælg dato<br><br>Er Microting eForm integreret med ERP-system, kan valgt dato leveres direkte i ERP-system.<br>",
+                fieldTranslations[7].Description);
             Assert.AreEqual(8, _fields[7].DisplayIndex);
             // Assert.AreEqual("2016-06-09", d1.MinValue); TODO
             // Assert.AreEqual("2026-06-09", d1.MaxValue); TODO
@@ -1203,7 +1204,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             Assert.AreEqual("INDTAST TAL", fieldTranslations[8].Text);
-            Assert.AreEqual("Indtast tal og opsæt evt. regler for mindste/højeste tilladte værdi.<br><br>Er Microting eForm integreret med ERP-system, sendes de indtastede værdier direkte til ERP-systemet.<br>", fieldTranslations[8].Description);
+            Assert.AreEqual(
+                "Indtast tal og opsæt evt. regler for mindste/højeste tilladte værdi.<br><br>Er Microting eForm integreret med ERP-system, sendes de indtastede værdier direkte til ERP-systemet.<br>",
+                fieldTranslations[8].Description);
             Assert.AreEqual(9, _fields[8].DisplayIndex);
             // Assert.AreEqual("", _fields[8].min_value); todo
             // Assert.AreEqual("", _fields[8].max_value); todo
@@ -1225,7 +1228,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             Assert.AreEqual("FOTO", fieldTranslations[10].Text);
-            Assert.AreEqual("Tag billeder<br><br>Er Microting eForm integreret med ERP-system, kan billederne vises direkte i virksomhedens ERP/andet databasesystem.", fieldTranslations[10].Description);
+            Assert.AreEqual(
+                "Tag billeder<br><br>Er Microting eForm integreret med ERP-system, kan billederne vises direkte i virksomhedens ERP/andet databasesystem.",
+                fieldTranslations[10].Description);
             Assert.AreEqual(11, _fields[10].DisplayIndex);
             Assert.AreEqual(0, _fields[10].Mandatory); //false
 
@@ -1241,13 +1246,16 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             Assert.AreEqual("UNDERSKRIFT", fieldTranslations[12].Text);
-            Assert.AreEqual("Underskrift<br><br>Er Microting eForm integreret med ERP-system, kan underskrifterne sendes direkte til ERP/andet databasesystem.", fieldTranslations[12].Description);
+            Assert.AreEqual(
+                "Underskrift<br><br>Er Microting eForm integreret med ERP-system, kan underskrifterne sendes direkte til ERP/andet databasesystem.",
+                fieldTranslations[12].Description);
             Assert.AreEqual(13, _fields[12].DisplayIndex);
             Assert.AreEqual(0, _fields[12].Mandatory); //false
 
 
             Assert.AreEqual("GEM", fieldTranslations[13].Text);
-            Assert.AreEqual("<br>Tryk for at gemme data.<br>Press to save data.<br>", fieldTranslations[13].Description);
+            Assert.AreEqual("<br>Tryk for at gemme data.<br>Press to save data.<br>",
+                fieldTranslations[13].Description);
             Assert.AreEqual(14, _fields[13].DisplayIndex);
             Assert.AreEqual("GEM/SAVE", fieldTranslations[13].DefaultValue);
             Assert.AreEqual(null, _fields[13].DefaultValue);
@@ -1346,9 +1354,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListTranslation> checkLisTranslations =
-              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
+                await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
-              await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
+                await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
 
             // Assert
@@ -1390,7 +1398,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             var fieldOptionsQuery = DbContext.FieldOptions.Where(x => x.FieldId == _fields[0].Id);
             List<int> fieldOptionIds = await fieldOptionsQuery.Select(x => x.Id).ToListAsync();
             List<FieldOptionTranslation> fieldOptionTranslations = await DbContext.FieldOptionTranslations
-              .Where(x => fieldOptionIds.Contains(x.FieldOptionId)).ToListAsync();
+                .Where(x => fieldOptionIds.Contains(x.FieldOptionId)).ToListAsync();
             List<FieldOption> fieldOptions = await fieldOptionsQuery.ToListAsync();
 
             Assert.AreEqual("1", fieldOptions[0].Key);
@@ -1423,7 +1431,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             fieldOptionsQuery = DbContext.FieldOptions.Where(x => x.FieldId == _fields[1].Id);
             fieldOptionIds = await fieldOptionsQuery.Select(x => x.Id).ToListAsync();
             fieldOptionTranslations = await DbContext.FieldOptionTranslations
-              .Where(x => fieldOptionIds.Contains(x.FieldOptionId)).ToListAsync();
+                .Where(x => fieldOptionIds.Contains(x.FieldOptionId)).ToListAsync();
             fieldOptions = await fieldOptionsQuery.ToListAsync();
 
             Assert.AreEqual("1", fieldOptions[0].Key);
@@ -1435,13 +1443,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Assert.AreEqual(CData, fieldOptionTranslations[0].Text); todo
             Assert.AreEqual(false, fieldOptions[1].Selected); //false
             Assert.AreEqual("2", fieldOptions[1].DisplayOrder);
-
         }
 
         [Test]
         public async Task Core_eFormSimpleSingleSelectFormCreateInDB_ReturnseFormId()
         {
-
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -1535,9 +1541,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListTranslation> checkLisTranslations =
-              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
+                await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
-              await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
+                await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
 
             // Assert
@@ -1579,7 +1585,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             var fieldOptionsQuery = DbContext.FieldOptions.Where(x => x.FieldId == _fields[0].Id);
             List<int> fieldOptionIds = await fieldOptionsQuery.Select(x => x.Id).ToListAsync();
             List<FieldOptionTranslation> fieldOptionTranslations = await DbContext.FieldOptionTranslations
-              .Where(x => fieldOptionIds.Contains(x.FieldOptionId)).ToListAsync();
+                .Where(x => fieldOptionIds.Contains(x.FieldOptionId)).ToListAsync();
             List<FieldOption> fieldOptions = await fieldOptionsQuery.ToListAsync();
 
             Assert.AreEqual("1", fieldOptions[0].Key);
@@ -1624,14 +1630,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual("8", fieldOptions[7].DisplayOrder);
 
             Assert.AreEqual(Constants.FieldColors.Default, _fields[0].Color);
-
-
         }
 
         [Test] // Comment
         public async Task Core_eFormSimpleTextMultiLineFormCreateInDB_ReturnseFormId()
         {
-
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -1681,9 +1684,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListTranslation> checkLisTranslations =
-              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
+                await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
-              await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
+                await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
             Assert.NotNull(cl);
@@ -1692,7 +1695,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Assert.AreEqual("2017-08-04", match.StartDate); TODO
             // Assert.AreEqual("2027-08-04", match.EndDate); TODO
             // Assert.AreEqual("da", cl[0].language); TODO no method
-            Assert.AreEqual(0, cl[0].MultiApproval);//false
+            Assert.AreEqual(0, cl[0].MultiApproval); //false
             Assert.AreEqual(0, cl[0].FastNavigation); //false
             // Assert.AreEqual(0, cl[0].review); //TODO no method review
             // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
@@ -1723,13 +1726,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(0, _fields[0].ReadOnly); //false
             Assert.AreEqual(0, _fields[0].Mandatory); //false
             Assert.AreEqual(Constants.FieldColors.Default, _fields[0].Color);
-
         }
 
         [Test] // Text
         public async Task Core_eFormSimpleTextSingleLineFormCreateInDB_ReturnseFormId()
         {
-
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -1779,9 +1780,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListTranslation> checkLisTranslations =
-              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
+                await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
-              await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
+                await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
             Assert.NotNull(cl);
@@ -1790,7 +1791,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Assert.AreEqual("2017-08-04", match.StartDate); TODO
             // Assert.AreEqual("2027-08-04", match.EndDate); TODO
             // Assert.AreEqual("da", cl[0].language); TODO no method
-            Assert.AreEqual(0, cl[0].MultiApproval);//false
+            Assert.AreEqual(0, cl[0].MultiApproval); //false
             Assert.AreEqual(0, cl[0].FastNavigation); //false
             // Assert.AreEqual(0, cl[0].review); //TODO no method review
             // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
@@ -1822,14 +1823,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(0, _fields[0].ReadOnly); //false
             Assert.AreEqual(0, _fields[0].Mandatory); //false
             Assert.AreEqual(Constants.FieldColors.Default, _fields[0].Color);
-
-
         }
 
         [Test]
         public async Task Core_eFormSimpleNumberFormCreateInDB_ReturnseFormId()
         {
-
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -1879,9 +1877,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListTranslation> checkLisTranslations =
-              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
+                await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
-              await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
+                await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
             Assert.NotNull(cl);
@@ -1890,7 +1888,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Assert.AreEqual("2017-08-04", match.StartDate); TODO
             // Assert.AreEqual("2027-08-04", match.EndDate); TODO
             // Assert.AreEqual("da", cl[0].language); TODO no method
-            Assert.AreEqual(0, cl[0].MultiApproval);//false
+            Assert.AreEqual(0, cl[0].MultiApproval); //false
             Assert.AreEqual(0, cl[0].FastNavigation); //false
             // Assert.AreEqual(0, cl[0].review); //TODO no method review
             // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
@@ -1922,13 +1920,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(0, _fields[0].ReadOnly); //false
             Assert.AreEqual(1, _fields[0].Mandatory); //true
             Assert.AreEqual(Constants.FieldColors.Default, _fields[0].Color);
-
         }
 
         [Test]
         public async Task Core_eFormSimpleInfoboxFormCreateInDB_ReturnseFormId()
         {
-
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -1972,9 +1968,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListTranslation> checkLisTranslations =
-              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
+                await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
-              await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
+                await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
             Assert.NotNull(cl);
@@ -1983,7 +1979,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Assert.AreEqual("2017-08-04", match.StartDate); TODO
             // Assert.AreEqual("2027-08-04", match.EndDate); TODO
             // Assert.AreEqual("da", cl[0].language); TODO no method
-            Assert.AreEqual(0, cl[0].MultiApproval);//false
+            Assert.AreEqual(0, cl[0].MultiApproval); //false
             Assert.AreEqual(0, cl[0].FastNavigation); //false
             // Assert.AreEqual(0, cl[0].review); //TODO no method review
             // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
@@ -2008,13 +2004,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual("Info box 1 description", fieldTranslations[0].Description);
             Assert.AreEqual(0, _fields[0].DisplayIndex);
             Assert.AreEqual(Constants.FieldColors.Default, _fields[0].Color);
-
         }
 
         [Test]
         public async Task Core_eFormSimpleCheckBoxFormCreateInDB_ReturnseFormId()
         {
-
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -2060,9 +2054,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListTranslation> checkLisTranslations =
-              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
+                await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
-              await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
+                await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
             Assert.NotNull(cl);
@@ -2071,7 +2065,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Assert.AreEqual("2017-08-04", match.StartDate); TODO
             // Assert.AreEqual("2027-08-04", match.EndDate); TODO
             // Assert.AreEqual("da", cl[0].language); TODO no method
-            Assert.AreEqual(0, cl[0].MultiApproval);//false
+            Assert.AreEqual(0, cl[0].MultiApproval); //false
             Assert.AreEqual(0, cl[0].FastNavigation); //false
             // Assert.AreEqual(0, cl[0].review); //TODO no method review
             // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
@@ -2098,13 +2092,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(0, _fields[0].Selected); //false
             Assert.AreEqual(0, _fields[0].Mandatory); //false
             Assert.AreEqual(Constants.FieldColors.Default, _fields[0].Color);
-
         }
 
         [Test]
         public async Task Core_eFormSimpleTimerFormCreateInDB_ReturnseFormId()
         {
-
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -2150,9 +2142,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListTranslation> checkLisTranslations =
-              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
+                await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
-              await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
+                await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
             Assert.NotNull(cl);
@@ -2161,7 +2153,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Assert.AreEqual("2017-08-04", match.StartDate); TODO
             // Assert.AreEqual("2027-08-04", match.EndDate); TODO
             // Assert.AreEqual("da", cl[0].language); TODO no method
-            Assert.AreEqual(0, cl[0].MultiApproval);//false
+            Assert.AreEqual(0, cl[0].MultiApproval); //false
             Assert.AreEqual(0, cl[0].FastNavigation); //false
             // Assert.AreEqual(0, cl[0].review); //TODO no method review
             // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
@@ -2188,13 +2180,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Assert.AreEqual(0, _fields[0].stop_on_save); //todo meant to be false be was null
             Assert.AreEqual(0, _fields[0].Mandatory); //false
             Assert.AreEqual(Constants.FieldColors.Default, _fields[0].Color);
-
         }
 
         [Test]
         public async Task Core_eFormSimpleSaveButtonFormCreateInDB_ReturnseFormId()
         {
-
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -2239,9 +2229,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListTranslation> checkLisTranslations =
-              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
+                await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
-              await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
+                await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
             Assert.NotNull(cl);
@@ -2250,7 +2240,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Assert.AreEqual("2017-08-04", match.StartDate); TODO
             // Assert.AreEqual("2027-08-04", match.EndDate); TODO
             // Assert.AreEqual("da", cl[0].language); TODO no method
-            Assert.AreEqual(0, cl[0].MultiApproval);//false
+            Assert.AreEqual(0, cl[0].MultiApproval); //false
             Assert.AreEqual(0, cl[0].FastNavigation); //false
             // Assert.AreEqual(0, cl[0].review); //TODO no method review
             // Assert.AreEqual(0, cl[0].summary); //TODO no method summary
@@ -2276,7 +2266,6 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(0, _fields[0].DisplayIndex);
             // Assert.AreEqual(0, _fields[0].value); //todo meant to be false be was null
             Assert.AreEqual(Constants.FieldColors.Default, _fields[0].Color);
-
         }
 
         [Test]
@@ -2387,9 +2376,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             int eFormId = await sut.TemplateCreate(mainElement);
             List<CheckList> cl = DbContext.CheckLists.AsNoTracking().ToList();
             List<CheckListTranslation> checkLisTranslations =
-              await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
+                await DbContext.CheckListTranslations.AsNoTracking().ToListAsync();
             List<FieldTranslation> fieldTranslations =
-              await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
+                await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
             Assert.NotNull(cl);
@@ -2410,7 +2399,6 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual("1 lvl", checkLisTranslations[1].Text);
             Assert.AreEqual("1 lvl description", checkLisTranslations[1].Description);
             Assert.AreEqual(0, cl[1].DisplayIndex);
-
 
 
             Assert.AreEqual("1.1 lvl", checkLisTranslations[2].Text);
@@ -2471,41 +2459,41 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(0, _fields[2].Selected); //false
             Assert.AreEqual(0, _fields[2].Mandatory); //false
             Assert.AreEqual(Constants.FieldColors.Default, _fields[2].Color);
-
         }
 
 
         #region eventhandlers
+
         public void EventCaseCreated(object sender, EventArgs args)
         {
-          // Does nothing for web implementation
+            // Does nothing for web implementation
         }
 
         public void EventCaseRetrived(object sender, EventArgs args)
         {
-          // Does nothing for web implementation
+            // Does nothing for web implementation
         }
 
         public void EventCaseCompleted(object sender, EventArgs args)
         {
-          // Does nothing for web implementation
+            // Does nothing for web implementation
         }
 
         public void EventCaseDeleted(object sender, EventArgs args)
         {
-          // Does nothing for web implementation
+            // Does nothing for web implementation
         }
 
         public void EventFileDownloaded(object sender, EventArgs args)
         {
-          // Does nothing for web implementation
+            // Does nothing for web implementation
         }
 
         public void EventSiteActivated(object sender, EventArgs args)
         {
-          // Does nothing for web implementation
+            // Does nothing for web implementation
         }
+
         #endregion
     }
-
 }

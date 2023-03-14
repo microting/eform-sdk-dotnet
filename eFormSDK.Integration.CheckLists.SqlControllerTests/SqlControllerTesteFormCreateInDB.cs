@@ -49,6 +49,7 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
             await sql.SettingUpdate(Settings.firstRunDone, "true");
             await sql.SettingUpdate(Settings.knownSitesDone, "true");
+
             #endregion
 
             sut = new SqlController(dbContextHelper);
@@ -62,6 +63,7 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
 
         #region eventhandlers
+
 #pragma warning disable 1998
         public async Task EventCaseCreated(object sender, EventArgs args)
         {
@@ -93,7 +95,7 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
             // Does nothing for web implementation
         }
 #pragma warning restore 1998
+
         #endregion
     }
-
 }

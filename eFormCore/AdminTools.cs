@@ -41,13 +41,16 @@ namespace eFormCore
     public class AdminTools
     {
         #region var
+
         string connectionString;
         SqlController sqlController;
         Log log;
         Tools t = new Tools();
+
         #endregion
 
         #region con
+
         public AdminTools(string serverConnectionString)
         {
             connectionString = serverConnectionString;
@@ -55,30 +58,40 @@ namespace eFormCore
             sqlController = new SqlController(dbContextHelper);
             log = new Log(sqlController);
         }
+
         #endregion
 
         #region public
+
         public async Task RunConsole()
         {
             #region warning
+
             Console.WriteLine("");
-            Console.WriteLine("!!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!!");
-            Console.WriteLine("!!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!!");
+            Console.WriteLine(
+                "!!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!!");
+            Console.WriteLine(
+                "!!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!!");
             Console.WriteLine("");
-            Console.WriteLine("                These admin tools include; tools that will remove ALL data from database,");
+            Console.WriteLine(
+                "                These admin tools include; tools that will remove ALL data from database,");
             Console.WriteLine("                and other that could be VERY harmfull if used incorrect");
             Console.WriteLine("");
             Console.WriteLine("                - Use with great care");
             Console.WriteLine("");
-            Console.WriteLine("!!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!!");
-            Console.WriteLine("!!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!!");
+            Console.WriteLine(
+                "!!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!!");
+            Console.WriteLine(
+                "!!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!! - !!!WARNING!!!");
             Console.WriteLine("");
             Console.WriteLine("Admin tools program running.");
+
             #endregion
 
             while (true)
             {
                 #region text
+
                 Console.WriteLine("");
                 Console.WriteLine("Press the following keys to run:");
                 Console.WriteLine("");
@@ -97,6 +110,7 @@ namespace eFormCore
                 Console.WriteLine("");
                 Console.WriteLine("> 'Q' to close admin tools");
                 string input = Console.ReadLine();
+
                 #endregion
 
                 string reply = "";
@@ -110,6 +124,7 @@ namespace eFormCore
                 switch (input.ToUpper())
                 {
                     #region options
+
                     //case "C":
                     //    Console.WriteLine("Retract all known eForm on devices");
                     //    reply = RetractEforms();
@@ -148,8 +163,10 @@ namespace eFormCore
                             if (checkResult[0] == "NO SETTINGS PRESENT, NEEDS PRIMING!")
                                 reply = checkResult[0];
                             else
-                                reply = "Settings table is incomplete, please fix the following settings: " + String.Join(",", checkResult);
+                                reply = "Settings table is incomplete, please fix the following settings: " +
+                                        String.Join(",", checkResult);
                         }
+
                         break;
                     case "M":
                         Console.WriteLine("MigrateDb");
@@ -159,7 +176,8 @@ namespace eFormCore
                         Console.WriteLine("DbSettingsReloadRemote");
                         reply = DbSettingsReloadRemote().ToString();
                         break;
-                        #endregion
+
+                    #endregion
                 }
 
                 if (reply == "")
@@ -193,16 +211,17 @@ namespace eFormCore
             string comOrganizationId = await sqlController.SettingRead(Settings.comOrganizationId);
             string ComAddressPdfUpload = await sqlController.SettingRead(Settings.comAddressPdfUpload);
             string ComSpeechToText = await sqlController.SettingRead(Settings.comSpeechToText);
-            Communicator communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId, ComAddressPdfUpload, log, ComSpeechToText, connectionString);
+            Communicator communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId,
+                ComAddressPdfUpload, log, ComSpeechToText, connectionString);
 
             #region add site's data to db
+
             var settings = new JsonSerializerSettings { Error = (se, ev) => { ev.ErrorContext.Handled = true; } };
             var parsedData = JRaw.Parse(await communicator.SiteLoadAllFromRemote());
             using (var dbContext = dbContextHelper.GetDbContext())
             {
                 foreach (JToken item in parsedData)
                 {
-
                     Site site = JsonConvert.DeserializeObject<Site>(item.ToString(), settings);
                     if (!dbContext.Sites.Any(x => x.MicrotingUid == site.MicrotingUid))
                     {
@@ -213,6 +232,7 @@ namespace eFormCore
                         {
                             removed = true;
                         }
+
                         await site.Create(dbContext);
                         if (removed)
                         {
@@ -244,6 +264,7 @@ namespace eFormCore
                         {
                             removed = true;
                         }
+
                         await worker.Create(dbContext);
                         if (removed)
                         {
@@ -272,7 +293,8 @@ namespace eFormCore
 
                         SiteWorker siteWorker = JsonConvert.DeserializeObject<SiteWorker>(item.ToString(), settings);
 
-                        int localSiteId = dbContext.Sites.FirstAsync(x => x.MicrotingUid == siteWorker.SiteId).GetAwaiter().GetResult().Id;
+                        int localSiteId = dbContext.Sites.FirstAsync(x => x.MicrotingUid == siteWorker.SiteId)
+                            .GetAwaiter().GetResult().Id;
                         var workerAsync = await dbContext.Workers.FirstOrDefaultAsync(x => x.MicrotingUid == workerUId);
                         if (workerAsync != null)
                         {
@@ -282,12 +304,17 @@ namespace eFormCore
                                 bool removed = false;
                                 siteWorker.SiteId = localSiteId;
                                 siteWorker.WorkerId = localWorkerId;
-                                siteWorker.WorkflowState = siteWorker.WorkflowState == "active" ? "created" : siteWorker.WorkflowState;
-                                siteWorker.WorkflowState = siteWorker.WorkflowState == "inactive" ? "removed" : siteWorker.WorkflowState;
+                                siteWorker.WorkflowState = siteWorker.WorkflowState == "active"
+                                    ? "created"
+                                    : siteWorker.WorkflowState;
+                                siteWorker.WorkflowState = siteWorker.WorkflowState == "inactive"
+                                    ? "removed"
+                                    : siteWorker.WorkflowState;
                                 if (siteWorker.WorkflowState == "removed")
                                 {
                                     removed = true;
                                 }
+
                                 await siteWorker.Create(dbContext);
                                 if (removed)
                                 {
@@ -296,22 +323,28 @@ namespace eFormCore
                             }
                             else
                             {
-                                siteWorker = await dbContext.SiteWorkers.FirstAsync(x => x.MicrotingUid == siteWorker.MicrotingUid);
+                                siteWorker =
+                                    await dbContext.SiteWorkers.FirstAsync(x =>
+                                        x.MicrotingUid == siteWorker.MicrotingUid);
                                 siteWorker.WorkflowState = item["WorkflowState"].ToString();
-                                siteWorker.WorkflowState = siteWorker.WorkflowState == "active" ? "created" : siteWorker.WorkflowState;
-                                siteWorker.WorkflowState = siteWorker.WorkflowState == "inactive" ? "removed" : siteWorker.WorkflowState;
+                                siteWorker.WorkflowState = siteWorker.WorkflowState == "active"
+                                    ? "created"
+                                    : siteWorker.WorkflowState;
+                                siteWorker.WorkflowState = siteWorker.WorkflowState == "inactive"
+                                    ? "removed"
+                                    : siteWorker.WorkflowState;
                                 siteWorker.SiteId = localSiteId;
                                 siteWorker.WorkerId = localWorkerId;
                                 await siteWorker.Update(dbContext);
                             }
                         }
-
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
                     }
                 }
+
                 int customerNo = communicator.OrganizationLoadAllFromRemote(token).Result.CustomerNo;
 
                 parsedData = JRaw.Parse(await communicator.UnitLoadAllFromRemote(customerNo));
@@ -319,7 +352,8 @@ namespace eFormCore
                 {
                     Unit unit = JsonConvert.DeserializeObject<Unit>(item.ToString(), settings);
 
-                    int localSiteId = dbContext.Sites.FirstAsync(x => x.MicrotingUid == unit.SiteId).GetAwaiter().GetResult().Id;
+                    int localSiteId = dbContext.Sites.FirstAsync(x => x.MicrotingUid == unit.SiteId).GetAwaiter()
+                        .GetResult().Id;
 
                     if (!dbContext.Units.Any(x => x.MicrotingUid == unit.MicrotingUid))
                     {
@@ -332,6 +366,7 @@ namespace eFormCore
                         {
                             removed = true;
                         }
+
                         await unit.Create(dbContext);
                         if (removed)
                         {
@@ -354,8 +389,10 @@ namespace eFormCore
                     }
                 }
             }
+
             await sqlController.SettingUpdate(Settings.knownSitesDone, "true");
             await sqlController.SettingUpdate(Settings.firstRunDone, "true");
+
             #endregion
 
             return "";
@@ -370,7 +407,9 @@ namespace eFormCore
 //                sqlController = new SqlController(connectionString);
 
                 string token = await sqlController.SettingRead(Settings.token);
-                Communicator communicator = new Communicator(token, @"https://srv05.microting.com", @"https://basic.microting.com", "", "", log, "https://speechtotext.microting.com", connectionString);
+                Communicator communicator = new Communicator(token, @"https://srv05.microting.com",
+                    @"https://basic.microting.com", "", "", log, "https://speechtotext.microting.com",
+                    connectionString);
 
                 OrganizationDto organizationDto = await communicator.OrganizationLoadAllFromRemote(token);
                 await sqlController.SettingUpdate(Settings.token, token);
@@ -381,7 +420,8 @@ namespace eFormCore
                 await sqlController.SettingUpdate(Settings.awsAccessKeyId, organizationDto.AwsAccessKeyId);
                 await sqlController.SettingUpdate(Settings.awsSecretAccessKey, organizationDto.AwsSecretAccessKey);
                 await sqlController.SettingUpdate(Settings.awsEndPoint, organizationDto.AwsEndPoint);
-                await sqlController.SettingUpdate(Settings.unitLicenseNumber, organizationDto.UnitLicenseNumber.ToString());
+                await sqlController.SettingUpdate(Settings.unitLicenseNumber,
+                    organizationDto.UnitLicenseNumber.ToString());
                 await sqlController.SettingUpdate(Settings.comSpeechToText, organizationDto.ComSpeechToText);
                 if (!string.IsNullOrEmpty(organizationDto.S3Endpoint))
                 {
@@ -390,6 +430,7 @@ namespace eFormCore
                     await sqlController.SettingUpdate(Settings.s3AccessKeyId, organizationDto.S3Id);
                     await sqlController.SettingUpdate(Settings.s3SecrectAccessKey, organizationDto.S3Key);
                 }
+
                 if (await sqlController.SettingRead(Settings.logLevel) == "true")
                 {
                     await sqlController.SettingUpdate(Settings.logLevel, "2");
@@ -406,16 +447,17 @@ namespace eFormCore
         public async Task<List<string>> DbSetupCompleted()
         {
             return await sqlController.SettingCheckAll();
-
         }
 
 //        public bool MigrateDb()
 //        {
 //            return sqlController.MigrateDb();
 //        }
+
         #endregion
 
         #region private
+
         //private string DbSetupClear()
         //{
         //    try
@@ -483,6 +525,7 @@ namespace eFormCore
         //        return t.PrintException(t.GetMethodName() + " failed", ex);
         //    }
         //}
+
         #endregion
     }
 }

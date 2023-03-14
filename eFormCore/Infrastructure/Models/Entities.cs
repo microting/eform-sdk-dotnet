@@ -28,6 +28,7 @@ using System.Collections.Generic;
 namespace Microting.eForm.Infrastructure.Models
 {
     #region EntityGroup
+
     public class EntityGroup
     {
         public int Id { get; set; }
@@ -65,14 +66,15 @@ namespace Microting.eForm.Infrastructure.Models
             };
         }
     }
+
     #endregion
 
     #region EntityGroupList
+
     public class EntityGroupList
     {
         public EntityGroupList()
         {
-
         }
 
         public EntityGroupList(int numOfElements, int pageNum, List<EntityGroup> entityGroupList)
@@ -86,9 +88,11 @@ namespace Microting.eForm.Infrastructure.Models
         public int PageNum { get; }
         public List<EntityGroup> EntityGroups { get; }
     }
+
     #endregion
 
     #region EntityItem
+
     public class EntityItem
     {
         public EntityItem()
@@ -108,5 +112,6 @@ namespace Microting.eForm.Infrastructure.Models
         public int DisplayIndex { get; set; }
         public int EntityItemGroupId { get; set; }
     }
+
     #endregion
 }

@@ -30,7 +30,6 @@ namespace Microting.eForm.Dto
     {
         public CaseList()
         {
-            
         }
 
         public CaseList(int numOfElements, int pageNum, List<Case> caseList)

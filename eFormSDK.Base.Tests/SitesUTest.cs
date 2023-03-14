@@ -97,7 +97,7 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(dbSite);
             Assert.NotNull(dbSite.Id);
 
-            Assert.AreEqual(1,sitesList.Count());
+            Assert.AreEqual(1, sitesList.Count());
             Assert.AreEqual(1, sitesVersions.Count());
 
             Assert.AreEqual(site.CreatedAt.ToString(), dbSite.CreatedAt.ToString());
@@ -132,7 +132,7 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(dbSite);
             Assert.NotNull(dbSite.Id);
 
-            Assert.AreEqual(1,sitesList.Count());
+            Assert.AreEqual(1, sitesList.Count());
             Assert.AreEqual(1, sitesVersions.Count());
 
             Assert.AreEqual(site.CreatedAt.ToString(), dbSite.CreatedAt.ToString());

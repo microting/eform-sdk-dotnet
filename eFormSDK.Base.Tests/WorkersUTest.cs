@@ -64,8 +64,8 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(workers);
             Assert.NotNull(workersVersion);
 
-            Assert.AreEqual(1,workersVersion.Count());
-            Assert.AreEqual(1,workers.Count());
+            Assert.AreEqual(1, workersVersion.Count());
+            Assert.AreEqual(1, workers.Count());
 
             Assert.AreEqual(worker.CreatedAt.ToString(), workers[0].CreatedAt.ToString());
             Assert.AreEqual(worker.Version, workers[0].Version);
@@ -86,7 +86,6 @@ namespace eFormSDK.Base.Tests
             Assert.AreEqual(worker.FirstName, workersVersion[0].FirstName);
             Assert.AreEqual(worker.LastName, workersVersion[0].LastName);
             Assert.AreEqual(worker.MicrotingUid, workersVersion[0].MicrotingUid);
-
         }
 
         [Test]
@@ -130,7 +129,7 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(workers);
             Assert.NotNull(workersVersion);
 
-            Assert.AreEqual(1,workers.Count());
+            Assert.AreEqual(1, workers.Count());
             Assert.AreEqual(2, workersVersion.Count());
 
             Assert.AreEqual(worker.CreatedAt.ToString(), workers[0].CreatedAt.ToString());
@@ -160,7 +159,6 @@ namespace eFormSDK.Base.Tests
             Assert.AreEqual(worker.FirstName, workersVersion[1].FirstName);
             Assert.AreEqual(worker.LastName, workersVersion[1].LastName);
             Assert.AreEqual(worker.MicrotingUid, workersVersion[1].MicrotingUid);
-
         }
 
         [Test]
@@ -195,7 +193,7 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(workers);
             Assert.NotNull(workersVersion);
 
-            Assert.AreEqual(1,workers.Count());
+            Assert.AreEqual(1, workers.Count());
             Assert.AreEqual(2, workersVersion.Count());
 
             Assert.AreEqual(worker.CreatedAt.ToString(), workers[0].CreatedAt.ToString());

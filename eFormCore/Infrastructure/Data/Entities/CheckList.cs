@@ -53,11 +53,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public int? DisplayIndex { get; set; }
 
-        [StringLength(255)]
-        public string CaseType { get; set; }
+        [StringLength(255)] public string CaseType { get; set; }
 
-        [StringLength(255)]
-        public string FolderName { get; set; }
+        [StringLength(255)] public string FolderName { get; set; }
 
         public short? ReviewEnabled { get; set; }
 

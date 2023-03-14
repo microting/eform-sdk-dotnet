@@ -41,7 +41,8 @@ namespace Microting.eForm.Helpers
 {
     public static class ReportHelper
     {
-        public static void SearchAndReplace(SortedDictionary<string, string> valuesToReplace, WordprocessingDocument wordDoc)
+        public static void SearchAndReplace(SortedDictionary<string, string> valuesToReplace,
+            WordprocessingDocument wordDoc)
         {
             SearchAndReplaceHeaders(wordDoc, valuesToReplace);
 
@@ -123,7 +124,8 @@ namespace Microting.eForm.Helpers
         {
             foreach (var fieldValue in valuesToReplace.Reverse())
             {
-                WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper.SearchAndReplace", $"replacing {fieldValue.Key} with {fieldValue.Value}"));
+                WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper.SearchAndReplace",
+                    $"replacing {fieldValue.Key} with {fieldValue.Value}"));
                 if (fieldValue.Value != null)
                 {
                     Regex regexText = new Regex(fieldValue.Key);
@@ -143,6 +145,7 @@ namespace Microting.eForm.Helpers
                     docText = regexText.Replace(docText, "");
                 }
             }
+
             Regex regexText2 = new Regex("FreeSans");
             docText = regexText2.Replace(docText, "Arial");
 
@@ -153,7 +156,8 @@ namespace Microting.eForm.Helpers
         {
             foreach (var keyValuePair in pictures)
             {
-                WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper.InsertSignature", $"inserting signature {keyValuePair.Key}"));
+                WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper.InsertSignature",
+                    $"inserting signature {keyValuePair.Key}"));
                 MainDocumentPart mainPart = wordDoc.MainDocumentPart;
                 ImagePart imagePart = mainPart.AddImagePart(ImagePartType.Jpeg);
 
@@ -172,7 +176,8 @@ namespace Microting.eForm.Helpers
                 double maxWidthCm = 16.5;
                 const int emusPerCm = 360000;
                 long maxWidthEmus = (long)(maxWidthCm * emusPerCm);
-                if (iWidth > maxWidthEmus) {
+                if (iWidth > maxWidthEmus)
+                {
                     var ratio = (iHeight * 1.0m) / iWidth;
                     iWidth = maxWidthEmus;
                     iHeight = (long)(iWidth * ratio);
@@ -182,17 +187,20 @@ namespace Microting.eForm.Helpers
 
                 AddSignatureToParagraph(wordDoc, mainPart.GetIdOfPart(imagePart), iWidth, iHeight, keyValuePair.Key);
             }
+
             WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper.InsertSignature", "Done inserting signatures"));
         }
 
-        public static void InsertImages(WordprocessingDocument wordDoc, List<KeyValuePair<string, List<string>>> pictures)
+        public static void InsertImages(WordprocessingDocument wordDoc,
+            List<KeyValuePair<string, List<string>>> pictures)
         {
             string currentHeader = "";
             List<Paragraph> foundEntriesToClearText = new List<Paragraph>();
 
             foreach (var keyValuePair in pictures)
             {
-                WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper.InsertImages", $"inserting image {keyValuePair.Key}"));
+                WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper.InsertImages",
+                    $"inserting image {keyValuePair.Key}"));
 
                 var lookupKey = keyValuePair.Value[2];
                 lookupKey = $"FPictures_{lookupKey}";
@@ -202,7 +210,6 @@ namespace Microting.eForm.Helpers
 
                 if (paragraph != null)
                 {
-
                     InsertPicture(keyValuePair.Value, wordDoc, paragraph);
                     foundEntriesToClearText.Add(paragraph);
                 }
@@ -212,16 +219,18 @@ namespace Microting.eForm.Helpers
                     {
                         if (currentHeader != "")
                         {
-                            SectionProperties sectPr = (SectionProperties)wordDoc.MainDocumentPart.Document.Body.ChildElements.Last();
+                            SectionProperties sectPr =
+                                (SectionProperties)wordDoc.MainDocumentPart.Document.Body.ChildElements.Last();
 
                             wordDoc.MainDocumentPart.Document.Body.InsertBefore(
                                 new Paragraph(
                                     new Run(
-                                        new Break {Type = BreakValues.Page}
+                                        new Break { Type = BreakValues.Page }
                                     )),
                                 sectPr
                             );
                         }
+
                         InsertHeader(keyValuePair.Key, wordDoc, currentHeader);
                     }
 
@@ -236,8 +245,8 @@ namespace Microting.eForm.Helpers
                 var text = run.Descendants<Text>().FirstOrDefault();
                 text.Text = "";
             }
-            WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper.InsertImages", "Done inserting images"));
 
+            WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper.InsertImages", "Done inserting images"));
         }
 
         public static void ConvertToPdf(string docxFileName, string outputFolder)
@@ -275,12 +284,12 @@ namespace Microting.eForm.Helpers
                 {
                     currentHeader = header;
                     SectionProperties sectPr =
-                        (SectionProperties) wordDoc.MainDocumentPart.Document.Body.ChildElements.Last();
+                        (SectionProperties)wordDoc.MainDocumentPart.Document.Body.ChildElements.Last();
 
                     wordDoc.MainDocumentPart.Document.Body.InsertBefore(new Paragraph(
                             new Run(
                                 new RunProperties(
-                                    new RunFonts {Ascii = "Arial", HighAnsi = "Arial"}
+                                    new RunFonts { Ascii = "Arial", HighAnsi = "Arial" }
                                 ),
                                 new Text(currentHeader)
                             )
@@ -298,7 +307,6 @@ namespace Microting.eForm.Helpers
         public static void InsertPicture(List<string> values, WordprocessingDocument wordDoc,
             Paragraph paragraph = null)
         {
-
             MainDocumentPart mainPart = wordDoc.MainDocumentPart;
             ImagePart imagePart = mainPart.AddImagePart(ImagePartType.Jpeg);
 
@@ -361,7 +369,6 @@ namespace Microting.eForm.Helpers
                         ),
                         sectPr
                     );
-
                 }
                 else
                 {
@@ -391,14 +398,14 @@ namespace Microting.eForm.Helpers
         public static void ValidateWordDocument(string filepath)
         {
             using (WordprocessingDocument wordprocessingDocument =
-                WordprocessingDocument.Open(filepath, true))
+                   WordprocessingDocument.Open(filepath, true))
             {
                 try
                 {
                     OpenXmlValidator validator = new OpenXmlValidator();
                     int count = 0;
                     foreach (ValidationErrorInfo error in
-                        validator.Validate(wordprocessingDocument))
+                             validator.Validate(wordprocessingDocument))
                     {
                         count++;
                         Console.WriteLine("Error " + count);
@@ -425,54 +432,68 @@ namespace Microting.eForm.Helpers
             }
         }
 
-        private static void AddImageToBody(WordprocessingDocument wordDoc, string relationshipId, Int64Value cx, Int64Value cy, Paragraph paragraph = null)
+        private static void AddImageToBody(WordprocessingDocument wordDoc, string relationshipId, Int64Value cx,
+            Int64Value cy, Paragraph paragraph = null)
         {
             WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper", "AddImageToBody called"));
             // Define the reference of the image.
             var element =
-                 new Drawing(
-                     new DW.Inline(
-                         new DW.Extent { Cx = cx, Cy = cy },
-                         new DW.EffectExtent
-                         { LeftEdge = 0L, TopEdge = 0L,
-                             RightEdge = 0L, BottomEdge = 0L },
-                         new DW.DocProperties
-                         { Id = (UInt32Value)1U,
-                             Name = "Picture" },
-                         new DW.NonVisualGraphicFrameDrawingProperties(
-                             new A.GraphicFrameLocks { NoChangeAspect = true }),
-                         new A.Graphic(
-                             new A.GraphicData(
-                                 new PIC.Picture(
-                                     new PIC.NonVisualPictureProperties(
-                                         new PIC.NonVisualDrawingProperties
-                                         { Id = (UInt32Value)0U,
-                                                Name = "New Bitmap Image.jpg" },
-                                         new PIC.NonVisualPictureDrawingProperties()),
-                                     new PIC.BlipFill(
-                                         new A.Blip(
-                                             new A.BlipExtensionList(
-                                                 new A.BlipExtension
-                                                 { Uri =
-                                                        "{28A0092B-C50C-407E-A947-70E740481C1C}" })
-                                         )
-                                         { Embed = relationshipId,
-                                             CompressionState =
-                                             A.BlipCompressionValues.Print },
-                                         new A.Stretch(
-                                             new A.FillRectangle())),
-                                     new PIC.ShapeProperties(
-                                         new A.Transform2D(
-                                             new A.Offset { X = 0L, Y = 0L },
-                                             new A.Extents { Cx = 990000L, Cy = 792000L }),
-                                         new A.PresetGeometry(
-                                             new A.AdjustValueList()
-                                         ) { Preset = A.ShapeTypeValues.Rectangle }))
-                             ) { Uri = "http://schemas.openxmlformats.org/drawingml/2006/picture" })
-                     ) { DistanceFromTop = (UInt32Value)0U,
-                         DistanceFromBottom = (UInt32Value)0U,
-                         DistanceFromLeft = (UInt32Value)0U,
-                         DistanceFromRight = (UInt32Value)0U, EditId = "50D07946" });
+                new Drawing(
+                    new DW.Inline(
+                        new DW.Extent { Cx = cx, Cy = cy },
+                        new DW.EffectExtent
+                        {
+                            LeftEdge = 0L, TopEdge = 0L,
+                            RightEdge = 0L, BottomEdge = 0L
+                        },
+                        new DW.DocProperties
+                        {
+                            Id = (UInt32Value)1U,
+                            Name = "Picture"
+                        },
+                        new DW.NonVisualGraphicFrameDrawingProperties(
+                            new A.GraphicFrameLocks { NoChangeAspect = true }),
+                        new A.Graphic(
+                            new A.GraphicData(
+                                new PIC.Picture(
+                                    new PIC.NonVisualPictureProperties(
+                                        new PIC.NonVisualDrawingProperties
+                                        {
+                                            Id = (UInt32Value)0U,
+                                            Name = "New Bitmap Image.jpg"
+                                        },
+                                        new PIC.NonVisualPictureDrawingProperties()),
+                                    new PIC.BlipFill(
+                                        new A.Blip(
+                                            new A.BlipExtensionList(
+                                                new A.BlipExtension
+                                                {
+                                                    Uri =
+                                                        "{28A0092B-C50C-407E-A947-70E740481C1C}"
+                                                })
+                                        )
+                                        {
+                                            Embed = relationshipId,
+                                            CompressionState =
+                                                A.BlipCompressionValues.Print
+                                        },
+                                        new A.Stretch(
+                                            new A.FillRectangle())),
+                                    new PIC.ShapeProperties(
+                                        new A.Transform2D(
+                                            new A.Offset { X = 0L, Y = 0L },
+                                            new A.Extents { Cx = 990000L, Cy = 792000L }),
+                                        new A.PresetGeometry(
+                                            new A.AdjustValueList()
+                                        ) { Preset = A.ShapeTypeValues.Rectangle }))
+                            ) { Uri = "http://schemas.openxmlformats.org/drawingml/2006/picture" })
+                    )
+                    {
+                        DistanceFromTop = (UInt32Value)0U,
+                        DistanceFromBottom = (UInt32Value)0U,
+                        DistanceFromLeft = (UInt32Value)0U,
+                        DistanceFromRight = (UInt32Value)0U, EditId = "50D07946"
+                    });
 
             // Append the reference to body, the element should be in a Run.
             SectionProperties sectPr = (SectionProperties)wordDoc.MainDocumentPart.Document.Body.ChildElements.Last();
@@ -493,51 +514,65 @@ namespace Microting.eForm.Helpers
             WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper", "AddImageToBody called"));
             // Define the reference of the image.
             var element =
-                 new Drawing(
-                     new DW.Inline(
-                         new DW.Extent { Cx = cx, Cy = cy },
-                         new DW.EffectExtent
-                         { LeftEdge = 0L, TopEdge = 0L,
-                             RightEdge = 0L, BottomEdge = 0L },
-                         new DW.DocProperties
-                         { Id = (UInt32Value)1U,
-                             Name = "Picture" },
-                         new DW.NonVisualGraphicFrameDrawingProperties(
-                             new A.GraphicFrameLocks { NoChangeAspect = true }),
-                         new A.Graphic(
-                             new A.GraphicData(
-                                 new PIC.Picture(
-                                     new PIC.NonVisualPictureProperties(
-                                         new PIC.NonVisualDrawingProperties
-                                         { Id = (UInt32Value)0U,
-                                                Name = "New Bitmap Image.jpg" },
-                                         new PIC.NonVisualPictureDrawingProperties()),
-                                     new PIC.BlipFill(
-                                         new A.Blip(
-                                             new A.BlipExtensionList(
-                                                 new A.BlipExtension
-                                                 { Uri =
-                                                        "{28A0092B-C50C-407E-A947-70E740481C1C}" })
-                                         )
-                                         { Embed = relationshipId,
-                                             CompressionState =
-                                             A.BlipCompressionValues.Print },
-                                         new A.Stretch(
-                                             new A.FillRectangle())),
-                                     new PIC.ShapeProperties(
-                                         new A.Transform2D(
-                                             new A.Offset { X = 0L, Y = 0L },
-                                             new A.Extents { Cx = 990000L, Cy = 792000L }),
-                                         new A.PresetGeometry(
-                                             new A.AdjustValueList()
-                                         ) { Preset = A.ShapeTypeValues.Rectangle }))
-                             ) { Uri = "http://schemas.openxmlformats.org/drawingml/2006/picture" })
-                     ) { DistanceFromTop = (UInt32Value)0U,
-                         DistanceFromBottom = (UInt32Value)0U,
-                         DistanceFromLeft = (UInt32Value)0U,
-                         DistanceFromRight = (UInt32Value)0U, EditId = "50D07946" });
+                new Drawing(
+                    new DW.Inline(
+                        new DW.Extent { Cx = cx, Cy = cy },
+                        new DW.EffectExtent
+                        {
+                            LeftEdge = 0L, TopEdge = 0L,
+                            RightEdge = 0L, BottomEdge = 0L
+                        },
+                        new DW.DocProperties
+                        {
+                            Id = (UInt32Value)1U,
+                            Name = "Picture"
+                        },
+                        new DW.NonVisualGraphicFrameDrawingProperties(
+                            new A.GraphicFrameLocks { NoChangeAspect = true }),
+                        new A.Graphic(
+                            new A.GraphicData(
+                                new PIC.Picture(
+                                    new PIC.NonVisualPictureProperties(
+                                        new PIC.NonVisualDrawingProperties
+                                        {
+                                            Id = (UInt32Value)0U,
+                                            Name = "New Bitmap Image.jpg"
+                                        },
+                                        new PIC.NonVisualPictureDrawingProperties()),
+                                    new PIC.BlipFill(
+                                        new A.Blip(
+                                            new A.BlipExtensionList(
+                                                new A.BlipExtension
+                                                {
+                                                    Uri =
+                                                        "{28A0092B-C50C-407E-A947-70E740481C1C}"
+                                                })
+                                        )
+                                        {
+                                            Embed = relationshipId,
+                                            CompressionState =
+                                                A.BlipCompressionValues.Print
+                                        },
+                                        new A.Stretch(
+                                            new A.FillRectangle())),
+                                    new PIC.ShapeProperties(
+                                        new A.Transform2D(
+                                            new A.Offset { X = 0L, Y = 0L },
+                                            new A.Extents { Cx = 990000L, Cy = 792000L }),
+                                        new A.PresetGeometry(
+                                            new A.AdjustValueList()
+                                        ) { Preset = A.ShapeTypeValues.Rectangle }))
+                            ) { Uri = "http://schemas.openxmlformats.org/drawingml/2006/picture" })
+                    )
+                    {
+                        DistanceFromTop = (UInt32Value)0U,
+                        DistanceFromBottom = (UInt32Value)0U,
+                        DistanceFromLeft = (UInt32Value)0U,
+                        DistanceFromRight = (UInt32Value)0U, EditId = "50D07946"
+                    });
 
-            var tagNode = wordDoc.MainDocumentPart.Document.Body.Elements<Paragraph>().FirstOrDefault(f => f.InnerText.Contains(tagToReplace));
+            var tagNode = wordDoc.MainDocumentPart.Document.Body.Elements<Paragraph>()
+                .FirstOrDefault(f => f.InnerText.Contains(tagToReplace));
             if (tagNode != null)
             {
                 tagNode.InsertBeforeSelf(new Paragraph(new Run(element)));

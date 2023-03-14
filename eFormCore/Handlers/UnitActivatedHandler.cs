@@ -57,17 +57,22 @@ namespace Microting.eForm.Handlers
             {
                 UnitDto unitDto = await sqlController.UnitRead(message.MicrotringUUID);
                 await sqlController.UnitUpdate(unitDto.UnitUId, unitDto.CustomerNo, 0, unitDto.SiteUId);
-                await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
+                await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID,
+                    Constants.WorkflowStates.Processed, "", "");
 
-                log.LogStandard("UnitActivatedHandler.Handle", "Unit with id " + message.MicrotringUUID + " has been activated");
+                log.LogStandard("UnitActivatedHandler.Handle",
+                    "Unit with id " + message.MicrotringUUID + " has been activated");
 
-                NoteDto note_Dto = new NoteDto(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed);
+                NoteDto note_Dto = new NoteDto(message.notificationUId, message.MicrotringUUID,
+                    Constants.WorkflowStates.Processed);
                 await core.FireHandleSiteActivated(note_Dto);
             }
             catch (Exception ex)
             {
-                await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace);
-                NoteDto note_Dto = new NoteDto(message.notificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound);
+                await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID,
+                    Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace);
+                NoteDto note_Dto = new NoteDto(message.notificationUId, message.MicrotringUUID,
+                    Constants.WorkflowStates.NotFound);
                 await core.FireHandleNotificationNotFound(note_Dto);
             }
         }

@@ -29,16 +29,15 @@ namespace Microting.eForm.Infrastructure.Data.Entities
     public class QuestionTranslationVersion : BaseEntity
     {
         public int QuestionId { get; set; }
-        
+
         public int LanguageId { get; set; }
-        
+
         public string Name { get; set; }
-        
-        [ForeignKey("QuestionTranslation")]
-        public int QuestionTranslationId { get; set; }
+
+        [ForeignKey("QuestionTranslation")] public int QuestionTranslationId { get; set; }
 
         public virtual QuestionTranslation QuestionTranslation { get; set; }
-        
+
         public int? MicrotingUid { get; set; }
     }
 }

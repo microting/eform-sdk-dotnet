@@ -904,8 +904,6 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(optionTranslation.LanguageId, optionTranslationVersions[1].LanguageId);
             Assert.AreEqual(optionTranslation.MicrotingUid, optionTranslationVersions[1].MicrotingUid);
             Assert.AreEqual(Constants.WorkflowStates.Removed, optionTranslationVersions[1].WorkflowState);
-
         }
-
     }
 }

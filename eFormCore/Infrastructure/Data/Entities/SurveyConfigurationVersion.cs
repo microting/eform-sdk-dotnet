@@ -27,25 +27,24 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class SurveyConfigurationVersion : BaseEntity
+    public class SurveyConfigurationVersion : BaseEntity
     {
         public DateTime Start { get; set; }
-        
+
         public DateTime Stop { get; set; }
-        
+
         public int TimeToLive { get; set; }
-        
+
         public string Name { get; set; }
-        
+
         public int TimeOut { get; set; }
-        
+
         public int QuestionSetId { get; set; }
-        
-        [ForeignKey("SurveyConfiguration")]
-        public int SurveyConfigurationId { get; set; }
-        
+
+        [ForeignKey("SurveyConfiguration")] public int SurveyConfigurationId { get; set; }
+
         public virtual SurveyConfiguration SurveyConfiguration { get; set; }
-        
+
         public int? MicrotingUid { get; set; }
     }
 }

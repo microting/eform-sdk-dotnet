@@ -62,6 +62,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
             await sql.SettingUpdate(Settings.firstRunDone, "true");
             await sql.SettingUpdate(Settings.knownSitesDone, "true");
+
             #endregion
 
             sut = new Core();
@@ -74,7 +75,8 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             await sut.StartSqlOnly(ConnectionString);
             path = Assembly.GetExecutingAssembly().Location;
             path = Path.GetDirectoryName(path).Replace(@"file:", "");
-            await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SetSdkSetting(Settings.fileLocationPicture,
+                Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers(ConnectionString);
@@ -89,6 +91,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
         public async Task Core_Template_TemplateItemReadAll_DoesReturnSortedTemplates()
         {
             // Arrance
+
             #region Tags
 
             string tagName1 = "TagFor1CL";
@@ -133,34 +136,38 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             CheckList cl1 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "A", "D", "CheckList",
                 "TemplateFolderName", 1, 1);
+
             #endregion
 
             #region Template2
 
-            CheckList cl2 =await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "B", "C", "CheckList",
+            CheckList cl2 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "B", "C", "CheckList",
                 "TemplateFolderName", 1, 1);
 
             await cl2.Delete(DbContext);
+
             #endregion
 
             #region Template3
 
             CheckList cl3 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "D", "B", "CheckList",
                 "TemplateFolderName", 1, 1);
+
             #endregion
 
             #region Template4
 
             CheckList cl4 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "C", "A", "CheckList",
                 "TemplateFolderName", 1, 1);
+
             #endregion
 
             #region assigning Tags
+
             List<int> tagIds1 = new List<int>();
             List<int> tagIds2 = new List<int>();
             List<int> tagIds3 = new List<int>();
             List<int> tagIds4 = new List<int>();
-
 
 
             tagIds1.Add(tag1.Id);
@@ -180,41 +187,84 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             List<int> emptyList = new List<int>();
 
             // Default sorting including removed
-            List<Template_Dto> templateListId = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, "", emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListLabel = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Label, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescription = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Description, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListCreatedAt = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.CreatedAt, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListTag = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Tags, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListSpecificTag = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Tags, tagIds2, timeZoneInfo, language);
+            List<Template_Dto> templateListId = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created,
+                "", false, "", emptyList, timeZoneInfo, language);
+            List<Template_Dto> templateListLabel = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created,
+                "", false, Constants.eFormSortParameters.Label, emptyList, timeZoneInfo, language);
+            List<Template_Dto> templateListDescription = await sut.TemplateItemReadAll(true,
+                Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Description, emptyList,
+                timeZoneInfo, language);
+            List<Template_Dto> templateListCreatedAt = await sut.TemplateItemReadAll(true,
+                Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.CreatedAt, emptyList,
+                timeZoneInfo, language);
+            List<Template_Dto> templateListTag = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created,
+                "", false, Constants.eFormSortParameters.Tags, emptyList, timeZoneInfo, language);
+            List<Template_Dto> templateListSpecificTag = await sut.TemplateItemReadAll(true,
+                Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Tags, tagIds2, timeZoneInfo,
+                language);
 
 
             // Descending including removed
-            List<Template_Dto> templateListDescengingId = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, "", emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescengingLabel = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Label, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescengingDescription = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Description, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescengingCreatedAt = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.CreatedAt, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescendingTag = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescendingSpecificTag = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, tagIds2, timeZoneInfo, language);
+            List<Template_Dto> templateListDescengingId = await sut.TemplateItemReadAll(true,
+                Constants.WorkflowStates.Created, "", true, "", emptyList, timeZoneInfo, language);
+            List<Template_Dto> templateListDescengingLabel = await sut.TemplateItemReadAll(true,
+                Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Label, emptyList,
+                timeZoneInfo, language);
+            List<Template_Dto> templateListDescengingDescription = await sut.TemplateItemReadAll(true,
+                Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Description, emptyList,
+                timeZoneInfo, language);
+            List<Template_Dto> templateListDescengingCreatedAt = await sut.TemplateItemReadAll(true,
+                Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.CreatedAt, emptyList,
+                timeZoneInfo, language);
+            List<Template_Dto> templateListDescendingTag = await sut.TemplateItemReadAll(true,
+                Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, emptyList, timeZoneInfo,
+                language);
+            List<Template_Dto> templateListDescendingSpecificTag = await sut.TemplateItemReadAll(true,
+                Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, tagIds2, timeZoneInfo,
+                language);
 
             // Default sorting excluding removed
-            List<Template_Dto> templateListIdNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, "", emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListLabelNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Label, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescriptionNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Description, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListCreatedAtNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.CreatedAt, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListTagNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Tags, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListSpecificTagNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Tags, tagIds2, timeZoneInfo, language);
+            List<Template_Dto> templateListIdNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created,
+                "", false, "", emptyList, timeZoneInfo, language);
+            List<Template_Dto> templateListLabelNr = await sut.TemplateItemReadAll(false,
+                Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Label, emptyList,
+                timeZoneInfo, language);
+            List<Template_Dto> templateListDescriptionNr = await sut.TemplateItemReadAll(false,
+                Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Description, emptyList,
+                timeZoneInfo, language);
+            List<Template_Dto> templateListCreatedAtNr = await sut.TemplateItemReadAll(false,
+                Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.CreatedAt, emptyList,
+                timeZoneInfo, language);
+            List<Template_Dto> templateListTagNr = await sut.TemplateItemReadAll(false,
+                Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Tags, emptyList,
+                timeZoneInfo, language);
+            List<Template_Dto> templateListSpecificTagNr = await sut.TemplateItemReadAll(false,
+                Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Tags, tagIds2, timeZoneInfo,
+                language);
 
             // Descending excluding removed
-            List<Template_Dto> templateListDescengingIdNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, "", emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescengingLabelNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Label, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescengingDescriptionNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Description, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescengingCreatedAtNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.CreatedAt, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescendingTagNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescendingSpecificTagNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, tagIds2, timeZoneInfo, language);
+            List<Template_Dto> templateListDescengingIdNr = await sut.TemplateItemReadAll(false,
+                Constants.WorkflowStates.Created, "", true, "", emptyList, timeZoneInfo, language);
+            List<Template_Dto> templateListDescengingLabelNr = await sut.TemplateItemReadAll(false,
+                Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Label, emptyList,
+                timeZoneInfo, language);
+            List<Template_Dto> templateListDescengingDescriptionNr = await sut.TemplateItemReadAll(false,
+                Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Description, emptyList,
+                timeZoneInfo, language);
+            List<Template_Dto> templateListDescengingCreatedAtNr = await sut.TemplateItemReadAll(false,
+                Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.CreatedAt, emptyList,
+                timeZoneInfo, language);
+            List<Template_Dto> templateListDescendingTagNr = await sut.TemplateItemReadAll(false,
+                Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, emptyList, timeZoneInfo,
+                language);
+            List<Template_Dto> templateListDescendingSpecificTagNr = await sut.TemplateItemReadAll(false,
+                Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Tags, tagIds2, timeZoneInfo,
+                language);
 
             // Assert
 
             #region include removed
+
             // Default sorting including removed
             // Id
             Assert.NotNull(templateListId);
@@ -376,9 +426,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(1, templateListDescendingSpecificTag[1].Tags.Count());
             Assert.AreEqual("TagFor2CLs", templateListDescendingSpecificTag[0].Tags[0].Value);
             Assert.AreEqual("TagFor2CLs", templateListDescendingSpecificTag[1].Tags[0].Value);
+
             #endregion
 
             #region Exclude removed
+
             // Default sorting excluding removed
             // Id
             Assert.NotNull(templateListIdNr);
@@ -514,8 +566,8 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual("TagFor2CLs", templateListDescendingSpecificTagNr[0].Tags[0].Value);
 
             #endregion
-
         }
+
         [Test]
         public async Task Core_Template_TemplateValidation_ReturnsErrorLst()
         {
@@ -534,6 +586,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.NotNull(match);
             Assert.AreEqual(match.Count(), 0);
         }
+
         [Test]
         public async Task Core_Template_TemplateUploAddAsyncata_ReturnsmainElement()
         {
@@ -549,7 +602,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Act
             var match = await sut.TemplateUploadData(main);
             // Assert
+
             #region Assert
+
             Assert.NotNull(match);
             Assert.AreEqual(match.CaseType, main.CaseType);
             Assert.AreEqual(match.CheckListFolderName, main.CheckListFolderName);
@@ -571,12 +626,13 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(match.StartDate, main.StartDate);
             Assert.AreEqual(match.StartDateString, main.StartDateString);
             Assert.AreEqual(match, main);
+
             #endregion
         }
+
         [Test]
         public async Task Core_Template_TemplateCreate_CreatesTemplate()
         {
-
             // Arrange
             CoreElement CElement = new CoreElement();
             //CElement.ElementList = new List<Element>();
@@ -592,17 +648,19 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             Assert.NotNull(match);
             Assert.AreEqual(match, main.Id);
-
         }
+
         [Test]
         public async Task Core_Template_TemplateRead_ReturnsTemplate()
         {
             // Arrange
+
             #region Tempalte
 
             DateTime cl1_ca = DateTime.UtcNow;
             DateTime cl1_ua = DateTime.UtcNow;
-            CheckList cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+            CheckList cl1 =
+                await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
 
@@ -619,42 +677,49 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(match.ManualSync, false);
             Assert.AreEqual(match.MultiApproval, false);
             Assert.AreEqual(match.Repeated, cl1.Repeated);
-
-
         }
 
         [Test]
         public async Task Core_Template_TemplateDelete_SetsWorkflowStateToRemoved()
         {
             // Arrange
+
             #region Tempalte1
 
             DateTime cl1_ca = DateTime.UtcNow;
             DateTime cl1_ua = DateTime.UtcNow;
-            CheckList cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+            CheckList cl1 =
+                await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
+
             #region Tempalte2
 
             DateTime cl2_ca = DateTime.UtcNow;
             DateTime cl2_ua = DateTime.UtcNow;
-            CheckList cl2 = await testHelpers.CreateTemplate(cl2_ca, cl2_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+            CheckList cl2 =
+                await testHelpers.CreateTemplate(cl2_ca, cl2_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
+
             #region Tempalte3
 
             DateTime cl3_ca = DateTime.UtcNow;
             DateTime cl3_ua = DateTime.UtcNow;
-            CheckList cl3 = await testHelpers.CreateTemplate(cl3_ca, cl3_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+            CheckList cl3 =
+                await testHelpers.CreateTemplate(cl3_ca, cl3_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
+
             #region Tempalte4
 
             DateTime cl4_ca = DateTime.UtcNow;
             DateTime cl4_ua = DateTime.UtcNow;
-            CheckList cl4 = await testHelpers.CreateTemplate(cl4_ca, cl4_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+            CheckList cl4 =
+                await testHelpers.CreateTemplate(cl4_ca, cl4_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
+
             // Act
             var deleteTemplate1 = await sut.TemplateDelete(cl1.Id);
             var deleteTemplate2 = await sut.TemplateDelete(cl2.Id);
@@ -669,15 +734,17 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.True(deleteTemplate2);
             Assert.True(deleteTemplate3);
             Assert.True(deleteTemplate4);
-
         }
+
         [Test]
         public async Task Core_Template_TemplateItemRead_ReadsTemplateItems()
         {
             // Arrance
+
             #region Templates
 
             #region template1
+
             DateTime cl1_ca = DateTime.UtcNow;
             DateTime cl1_ua = DateTime.UtcNow;
             CheckList Template1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "Label1", "Description1",
@@ -686,6 +753,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             #endregion
 
             #region template2
+
             DateTime cl2_ca = DateTime.UtcNow;
             DateTime cl2_ua = DateTime.UtcNow;
             CheckList Template2 = await testHelpers.CreateTemplate(cl2_ca, cl2_ua, "Label2", "Description2",
@@ -694,6 +762,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             #endregion
 
             #region template3
+
             DateTime cl3_ca = DateTime.UtcNow;
             DateTime cl3_ua = DateTime.UtcNow;
             CheckList Template3 = await testHelpers.CreateTemplate(cl3_ca, cl3_ua, "Label3", "Description3",
@@ -702,6 +771,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             #endregion
 
             #region template4
+
             DateTime cl4_ca = DateTime.UtcNow;
             DateTime cl4_ua = DateTime.UtcNow;
             CheckList Template4 = await testHelpers.CreateTemplate(cl4_ca, cl4_ua, "Label4", "Description4",
@@ -747,15 +817,18 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             #region Field1
 
-            Field Field1 = await testHelpers.CreateField(1, "barcode", subTemplate1, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+            Field Field1 = await testHelpers.CreateField(1, "barcode", subTemplate1, "e2f4fb", "custom", null, "",
+                "Comment field description",
+                5, 1, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55,
+                "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
 
             #endregion
 
             #region Field2
 
-            Field Field2 = await testHelpers.CreateField(1, "barcode", subTemplate1, "f5eafa", "custom", null, "", "showPDf Description",
+            Field Field2 = await testHelpers.CreateField(1, "barcode", subTemplate1, "f5eafa", "custom", null, "",
+                "showPDf Description",
                 45, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
@@ -763,76 +836,75 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             #region Field3
 
-            Field Field3 = await testHelpers.CreateField(0, "barcode", subTemplate2, "f0f8db", "custom", 3, "", "Number Field Description",
+            Field Field3 = await testHelpers.CreateField(0, "barcode", subTemplate2, "f0f8db", "custom", 3, "",
+                "Number Field Description",
                 83, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field4
 
-            Field Field4 = await testHelpers.CreateField(1, "barcode", subTemplate2, "fff6df", "custom", null, "", "date Description",
+            Field Field4 = await testHelpers.CreateField(1, "barcode", subTemplate2, "fff6df", "custom", null, "",
+                "date Description",
                 84, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field5
 
-            Field Field5 = await testHelpers.CreateField(0, "barcode", subTemplate2, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field5 = await testHelpers.CreateField(0, "barcode", subTemplate2, "ffe4e4", "custom", null, "",
+                "picture Description",
                 85, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field6
 
-            Field Field6 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field6 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "",
+                "picture Description",
                 86, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field7
 
-            Field Field7 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field7 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "",
+                "picture Description",
                 87, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field8
 
-            Field Field8 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field8 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "",
+                "picture Description",
                 88, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field9
 
-            Field Field9 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field9 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "",
+                "picture Description",
                 89, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field10
 
-            Field Field10 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field10 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "",
+                "picture Description",
                 90, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
-
             #endregion
-
 
             #endregion
 
@@ -841,6 +913,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             //tags tag = await testHelpers.CreateTag("Tag1", Constants.WorkflowStates.Created, 1);
 
             #endregion
+
             // Act
 
             var match1 = await sut.TemplateItemRead(Template1.Id, language);
@@ -850,7 +923,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
+
             #region template1
+
             Assert.NotNull(match1);
             Assert.AreEqual(match1.Description, "Description1");
             Assert.AreEqual(match1.Label, "Label1");
@@ -858,9 +933,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(match1.FolderName, "FolderWithTemplate");
             Assert.AreEqual(match1.Id, Template1.Id);
 //            Assert.AreEqual(match1.UpdatedAt.ToString(), Template1.UpdatedAt.ToString());
+
             #endregion
 
             #region template2
+
             Assert.NotNull(match1);
             Assert.AreEqual(match2.Description, "Description2");
             Assert.AreEqual(match2.Label, "Label2");
@@ -868,9 +945,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(match2.FolderName, "FolderWithTemplate");
             Assert.AreEqual(match2.Id, Template2.Id);
 //            Assert.AreEqual(match2.UpdatedAt.ToString(), Template2.UpdatedAt.ToString());
+
             #endregion
 
             #region template3
+
             Assert.NotNull(match1);
             Assert.AreEqual(match3.Description, "Description3");
             Assert.AreEqual(match3.Label, "Label3");
@@ -878,9 +957,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(match3.FolderName, "FolderWithTemplate");
             Assert.AreEqual(match3.Id, Template3.Id);
 //            Assert.AreEqual(match3.UpdatedAt.ToString(), Template3.UpdatedAt.ToString());
+
             #endregion
 
             #region template4
+
             Assert.NotNull(match1);
             Assert.AreEqual(match4.Description, "Description4");
             Assert.AreEqual(match4.Label, "Label4");
@@ -888,12 +969,14 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(match4.FolderName, "FolderWithTemplate");
             Assert.AreEqual(match4.Id, Template4.Id);
 //            Assert.AreEqual(match4.UpdatedAt.ToString(), Template4.UpdatedAt.ToString());
+
             #endregion
         }
 
         #endregion
 
         #region eventhandlers
+
         public void EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
@@ -923,7 +1006,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
         {
             // Does nothing for web implementation
         }
+
         #endregion
     }
-
 }

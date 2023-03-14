@@ -37,11 +37,13 @@ namespace Microting.eForm.Communication
     public class Communicator
     {
         #region var
+
         //SqlController sqlController;
         private Log _log;
         private IHttp _http;
         private Tools _t = new Tools();
         private readonly string _connectionString;
+
         #endregion
 
         #region con
@@ -56,7 +58,8 @@ namespace Microting.eForm.Communication
         /// <param name="comAddressPdfUpload"></param>
         /// <param name="log"></param>
         /// <param name="comSpeechToText"></param>
-        public Communicator(string token, string comAddressApi, string comAddressBasic, string comOrganizationId, string comAddressPdfUpload, Log log, string comSpeechToText, string connectionString)
+        public Communicator(string token, string comAddressApi, string comAddressBasic, string comOrganizationId,
+            string comAddressPdfUpload, Log log, string comSpeechToText, string connectionString)
         {
             //this.sqlController = sqlController;
             _log = log;
@@ -69,14 +72,17 @@ namespace Microting.eForm.Communication
             //string ComAddressPdfUpload = sqlController.SettingRead(Settings.comAddressPdfUpload);
 
             #region is unit test
+
             if (token == "abc1234567890abc1234567890abcdef")
             {
                 _http = new HttpFake(connectionString);
                 return;
             }
+
             #endregion
 
             #region CheckInput token & serverAddress
+
             string errorsFound = "";
 
             if (token.Length != 32)
@@ -96,13 +102,17 @@ namespace Microting.eForm.Communication
 
             if (errorsFound != "")
                 throw new InvalidOperationException(errorsFound.TrimEnd());
+
             #endregion
 
-            _http = new Http(token, comAddressBasic, comAddressApi, comOrganizationId, comAddressPdfUpload, comSpeechToText);
+            _http = new Http(token, comAddressBasic, comAddressApi, comOrganizationId, comAddressPdfUpload,
+                comSpeechToText);
         }
+
         #endregion
 
         #region public api
+
         /// <summary>
         /// Posts the XML eForm to Microting and returns the XML encoded restponse (Does not support the complex elements Entity_Search or Entity_Select).
         /// </summary>
@@ -244,10 +254,13 @@ namespace Microting.eForm.Communication
 
             return _http.Delete(eFormId, siteId.ToString());
         }
+
         #endregion
 
         #region public site
+
         #region public siteName
+
         public async Task<Tuple<SiteDto, UnitDto>> SiteCreate(string name, string languageCode)
         {
             _log.LogEverything("Communicator.SiteCreate", "called");
@@ -318,9 +331,11 @@ namespace Microting.eForm.Communication
 
             return _http.SiteLoadAllFromRemote();
         }
+
         #endregion
 
         #region public worker
+
         public async Task<WorkerDto> WorkerCreate(string firstName, string lastName, string email)
         {
             _log.LogEverything("Communicator.WorkerCreate", "called");
@@ -374,9 +389,11 @@ namespace Microting.eForm.Communication
 
             return _http.WorkerLoadAllFromRemote();
         }
+
         #endregion
 
         #region public site_worker
+
         public async Task<SiteWorkerDto> SiteWorkerCreate(int siteId, int workerId)
         {
             _log.LogEverything("Communicator.SiteWorkerCreate", "called");
@@ -402,16 +419,19 @@ namespace Microting.eForm.Communication
             return false;
         }
 
-        public  Task<string> SiteWorkerLoadAllFromRemote()
+        public Task<string> SiteWorkerLoadAllFromRemote()
         {
             _log.LogEverything("Communicator.SiteWorkerLoadAllFromRemote", "called");
 
             return _http.SiteWorkerLoadAllFromRemote();
         }
+
         #endregion
 
         #region public unit
-        public Task<string> UnitRequestOtp(int microtingUid, int siteId, bool newOtp, bool pushEnabled, bool syncDelayEnabled, bool syncDialogEnabled)
+
+        public Task<string> UnitRequestOtp(int microtingUid, int siteId, bool newOtp, bool pushEnabled,
+            bool syncDelayEnabled, bool syncDialogEnabled)
         {
             _log.LogEverything("Communicator.UnitRequestOtp", "called");
             _log.LogVariable("Communicator.UnitRequestOtp", nameof(microtingUid), microtingUid);
@@ -456,6 +476,7 @@ namespace Microting.eForm.Communication
             {
                 return response;
             }
+
             throw new Exception("Unable to create the unit");
         }
 
@@ -473,6 +494,7 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region public organization
+
         public async Task<OrganizationDto> OrganizationLoadAllFromRemote(string token)
         {
             _log.LogEverything("Communicator.OrganizationLoadAllFromRemote", "called");
@@ -481,9 +503,11 @@ namespace Microting.eForm.Communication
             if (token == "abc1234567890abc1234567890abcdef")
             {
                 specialHttp = new HttpFake(_connectionString);
-            } else
+            }
+            else
             {
-                specialHttp = new Http(token, "https://basic.microting.com", "https://srv05.microting.com", "000", "", "https://speechtotext.microting.com");
+                specialHttp = new Http(token, "https://basic.microting.com", "https://srv05.microting.com", "000", "",
+                    "https://speechtotext.microting.com");
             }
 
             JToken orgResult = JToken.Parse(await specialHttp.OrganizationLoadAllFromRemote());
@@ -521,7 +545,7 @@ namespace Microting.eForm.Communication
         {
             var parsedData = JToken.Parse(await _http.FolderCreate(uuid, parentId).ConfigureAwait(false));
 
-            int microtingUuid  = int.Parse(parsedData["MicrotingUid"].ToString());
+            int microtingUuid = int.Parse(parsedData["MicrotingUid"].ToString());
 
             return microtingUuid;
         }
@@ -540,6 +564,7 @@ namespace Microting.eForm.Communication
             {
                 return true;
             }
+
             return false;
         }
 
@@ -548,6 +573,7 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region speech2text
+
         public int uploadAudioFile(string path)
         {
             return 1;
@@ -561,6 +587,7 @@ namespace Microting.eForm.Communication
         #endregion
 
         #region public entity
+
         public async Task<string> EntityGroupCreate(string entityType, string name, string id)
         {
             _log.LogEverything("Communicator.EntityGroupCreate", "called");
@@ -658,7 +685,8 @@ namespace Microting.eForm.Communication
             }
         }
 
-        public async Task<string> EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id)
+        public async Task<string> EntitySearchItemCreate(string entitySearchGroupId, string name, string description,
+            string id)
         {
             _log.LogEverything("Communicator.EntitySearchItemCreate", "called");
             _log.LogVariable("Communicator.EntitySearchItemCreate", nameof(entitySearchGroupId), entitySearchGroupId);
@@ -676,7 +704,8 @@ namespace Microting.eForm.Communication
             }
         }
 
-        public Task<bool> EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
+        public Task<bool> EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name,
+            string description, string id)
         {
             _log.LogEverything("Communicator.EntitySearchItemUpdate", "called");
             _log.LogVariable("Communicator.EntitySearchItemUpdate", nameof(entitySearchGroupId), entitySearchGroupId);
@@ -703,7 +732,8 @@ namespace Microting.eForm.Communication
             }
         }
 
-        public async Task<string> EntitySelectItemCreate(string entitySearchGroupId, string name, int displayOrder, string ownUUID)
+        public async Task<string> EntitySelectItemCreate(string entitySearchGroupId, string name, int displayOrder,
+            string ownUUID)
         {
             _log.LogEverything("Communicator.EntitySelectItemCreate", "called");
             _log.LogVariable("Communicator.EntitySelectItemCreate", nameof(entitySearchGroupId), entitySearchGroupId);
@@ -721,7 +751,8 @@ namespace Microting.eForm.Communication
             }
         }
 
-        public Task<bool> EntitySelectItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, int displayOrder, string ownUUID)
+        public Task<bool> EntitySelectItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name,
+            int displayOrder, string ownUUID)
         {
             _log.LogEverything("Communicator.EntitySelectItemUpdate", "called");
             _log.LogVariable("Communicator.EntitySelectItemUpdate", nameof(entitySearchGroupId), entitySearchGroupId);
@@ -796,9 +827,11 @@ namespace Microting.eForm.Communication
                 throw new Exception("Communicator.TemplateDisplayIndexChange" + " failed", ex);
             }
         }
+
         #endregion
 
         #region public speechToText
+
         public async Task<int> SpeechToText(Stream pathToAudioFile, string extension)
         {
             _log.LogEverything("Communicator.SpeechToText", "called");
@@ -827,6 +860,7 @@ namespace Microting.eForm.Communication
                 throw new Exception("Communicator.SpeechToText" + " failed", ex);
             }
         }
+
         #endregion
 
         #region InSight

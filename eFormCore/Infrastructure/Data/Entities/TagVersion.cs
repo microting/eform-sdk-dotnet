@@ -26,10 +26,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class TagVersion : BaseEntity
+    public class TagVersion : BaseEntity
     {
-        [StringLength(255)]
-        public string Name { get; set; }
+        [StringLength(255)] public string Name { get; set; }
 
         public int? TaggingsCount { get; set; }
 

@@ -26,7 +26,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class FieldVersion : BaseEntity
+    public class FieldVersion : BaseEntity
     {
         public int? FieldId { get; set; }
 
@@ -44,23 +44,19 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public string Description { get; set; }
 
-        [StringLength(255)]
-        public string Color { get; set; }
+        [StringLength(255)] public string Color { get; set; }
 
         public int? DisplayIndex { get; set; }
 
         public short? Dummy { get; set; }
-        
+
         public string DefaultValue { get; set; }
 
-        [StringLength(255)]
-        public string UnitName { get; set; }
+        [StringLength(255)] public string UnitName { get; set; }
 
-        [StringLength(255)]
-        public string MinValue { get; set; }
+        [StringLength(255)] public string MinValue { get; set; }
 
-        [StringLength(255)]
-        public string MaxValue { get; set; }
+        [StringLength(255)] public string MaxValue { get; set; }
 
         public int? MaxLength { get; set; }
 
@@ -86,11 +82,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public short? BarcodeEnabled { get; set; }
 
-        [StringLength(255)]
-        public string BarcodeType { get; set; }
+        [StringLength(255)] public string BarcodeType { get; set; }
 
-        [StringLength(255)]
-        public string QueryType { get; set; }
+        [StringLength(255)] public string QueryType { get; set; }
 
         public string KeyValuePairList { get; set; }
 

@@ -51,7 +51,6 @@ namespace Microting.eForm.Infrastructure.Constants
             public const string FailedToSync = "failed_to_sync";
             public const string NotRemoved = "not_removed";
             public const string NotRetracted = "not_retracted";
-
         }
 
         public static class UploaderTypes
@@ -163,14 +162,14 @@ namespace Microting.eForm.Infrastructure.Constants
             public const string UpcA = "UPC_A";
             public const string UpcB = "UPC_E";
         }
+
         public static class CheckListValues
         {
             public const string Checked = "Checked";
             public const string NotChecked = "Not Checked";
             public const string NotApproved = "Not Approved";
-
-
         }
+
         public static class QuestionTypes
         {
             public const string Smiley = "smiley";

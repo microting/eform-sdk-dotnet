@@ -28,23 +28,20 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public class AnswerValue : PnBase
     {
-        [ForeignKey("Answer")]
-        public int AnswerId { get; set; }
-        
-        [ForeignKey("Question")]
-        public int QuestionId { get; set; }
-        
-        [ForeignKey("Option")]
-        public int OptionId { get; set; }
-        
+        [ForeignKey("Answer")] public int AnswerId { get; set; }
+
+        [ForeignKey("Question")] public int QuestionId { get; set; }
+
+        [ForeignKey("Option")] public int OptionId { get; set; }
+
         public string Value { get; set; }
-        
+
         public int? MicrotingUid { get; set; }
-        
+
         public virtual Answer Answer { get; set; }
-        
+
         public virtual Question Question { get; set; }
-        
+
         public virtual Option Option { get; set; }
     }
 }

@@ -54,6 +54,7 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
             await sql.SettingUpdate(Settings.firstRunDone, "true");
             await sql.SettingUpdate(Settings.knownSitesDone, "true");
+
             #endregion
 
             sut = new SqlController(dbContextHelper);
@@ -86,7 +87,6 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
             Assert.AreEqual(1, checkListSiteResult.Count);
             Assert.AreEqual(Constants.WorkflowStates.Created, checkListSiteResult[0].WorkflowState);
             Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches[0].WorkflowState);
-
         }
 
         [Test]
@@ -96,18 +96,22 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
             Site site1 = await testHelpers.CreateSite("mySite2", 331);
             DateTime cl1_Ca = DateTime.UtcNow;
             DateTime cl1_Ua = DateTime.UtcNow;
-            CheckList cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template2", "template_desc", "", "", 1, 1);
+            CheckList cl1 =
+                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template2", "template_desc", "", "", 1, 1);
 
             string guid = Guid.NewGuid().ToString();
             string guid2 = Guid.NewGuid().ToString();
             int lastCheckUid1 = rnd.Next(1, 255);
             int lastCheckUid2 = rnd.Next(1, 255);
 
-            CheckListSite cls1 = await testHelpers.CreateCheckListSite(cl1, cl1_Ca, site1, cl1_Ua, 1, Constants.WorkflowStates.Created, lastCheckUid1);
-            CheckListSite cls2 = await testHelpers.CreateCheckListSite(cl1, cl1_Ca, site1, cl1_Ua, 2, Constants.WorkflowStates.Created, lastCheckUid2);
+            CheckListSite cls1 = await testHelpers.CreateCheckListSite(cl1, cl1_Ca, site1, cl1_Ua, 1,
+                Constants.WorkflowStates.Created, lastCheckUid1);
+            CheckListSite cls2 = await testHelpers.CreateCheckListSite(cl1, cl1_Ca, site1, cl1_Ua, 2,
+                Constants.WorkflowStates.Created, lastCheckUid2);
 
             // Act
-            List<int> matches = await sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, Constants.WorkflowStates.NotRemoved);
+            List<int> matches =
+                await sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, Constants.WorkflowStates.NotRemoved);
             List<int> matches2 = await sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, null);
             List<CheckListSite> checkListSiteResult1 = DbContext.CheckListSites.AsNoTracking().ToList();
             var versionedMatches1 = DbContext.CheckListSiteVersions.AsNoTracking().ToList();
@@ -137,7 +141,8 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
             int lastCheckUid1 = rnd.Next(1, 255);
 
 
-            CheckListSite cls1 = await testHelpers.CreateCheckListSite(cl1, cl1_Ca, site, cl1_Ua, 1, Constants.WorkflowStates.Created, lastCheckUid1);
+            CheckListSite cls1 = await testHelpers.CreateCheckListSite(cl1, cl1_Ca, site, cl1_Ua, 1,
+                Constants.WorkflowStates.Created, lastCheckUid1);
 
             // Act
             await sut.CaseDeleteReversed(cls1.MicrotingUid);
@@ -148,11 +153,11 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
             Assert.NotNull(checkListSiteResult);
             Assert.AreEqual(1, checkListSiteResult.Count);
             Assert.AreEqual(Constants.WorkflowStates.Removed, checkListSiteResult[0].WorkflowState);
-
         }
 
 
         #region eventhandlers
+
 #pragma warning disable 1998
         public async Task EventCaseCreated(object sender, EventArgs args)
         {
@@ -184,7 +189,7 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
             // Does nothing for web implementation
         }
 #pragma warning restore 1998
+
         #endregion
     }
-
 }

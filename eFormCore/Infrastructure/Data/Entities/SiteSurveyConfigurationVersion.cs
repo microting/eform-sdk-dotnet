@@ -26,17 +26,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class SiteSurveyConfigurationVersion : BaseEntity
+    public class SiteSurveyConfigurationVersion : BaseEntity
     {
         public int SiteId { get; set; }
-        
+
         public int SurveyConfigurationId { get; set; }
-        
+
         [ForeignKey("SiteSurveyConfiguration")]
         public int SiteSurveyConfigurationId { get; set; }
-        
+
         public virtual SiteSurveyConfiguration SiteSurveyConfiguration { get; set; }
-        
+
         public int? MicrotingUid { get; set; }
     }
 }

@@ -30,8 +30,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
     {
         public int? CheckListValueId { get; set; }
 
-        [StringLength(255)]
-        public string Status { get; set; }
+        [StringLength(255)] public string Status { get; set; }
 
         public int? UserId { get; set; }
 

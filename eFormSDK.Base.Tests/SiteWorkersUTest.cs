@@ -77,8 +77,8 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(siteWorkers);
             Assert.NotNull(siteWorkerVersions);
 
-            Assert.AreEqual(1,siteWorkers.Count());
-            Assert.AreEqual(1,siteWorkerVersions.Count());
+            Assert.AreEqual(1, siteWorkers.Count());
+            Assert.AreEqual(1, siteWorkerVersions.Count());
 
             Assert.AreEqual(siteWorker.CreatedAt.ToString(), siteWorkers[0].CreatedAt.ToString());
             Assert.AreEqual(siteWorker.Version, siteWorkers[0].Version);
@@ -149,8 +149,8 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(siteWorkers);
             Assert.NotNull(siteWorkerVersions);
 
-            Assert.AreEqual(1,siteWorkers.Count());
-            Assert.AreEqual(2,siteWorkerVersions.Count());
+            Assert.AreEqual(1, siteWorkers.Count());
+            Assert.AreEqual(2, siteWorkerVersions.Count());
 
             Assert.AreEqual(siteWorker.CreatedAt.ToString(), siteWorkers[0].CreatedAt.ToString());
             Assert.AreEqual(siteWorker.Version, siteWorkers[0].Version);
@@ -229,8 +229,8 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(siteWorkers);
             Assert.NotNull(siteWorkerVersions);
 
-            Assert.AreEqual(1,siteWorkers.Count());
-            Assert.AreEqual(2,siteWorkerVersions.Count());
+            Assert.AreEqual(1, siteWorkers.Count());
+            Assert.AreEqual(2, siteWorkerVersions.Count());
 
             Assert.AreEqual(siteWorker.CreatedAt.ToString(), siteWorkers[0].CreatedAt.ToString());
             Assert.AreEqual(siteWorker.Version, siteWorkers[0].Version);

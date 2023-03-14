@@ -27,6 +27,7 @@ namespace Microting.eForm.Dto
     public class SiteDto
     {
         #region var
+
         /// <summary>
         ///...
         /// </summary>
@@ -68,11 +69,14 @@ namespace Microting.eForm.Dto
         public int? WorkerUid { get; set; }
 
         public string Email { get; set; }
+
         #endregion
 
         public override string ToString()
         {
-            return "SiteId:" + SiteId + " / SiteName:" + SiteName + " / FirstName:" + FirstName + " / LastName:" + LastName + " / CustomerNo:" + CustomerNo + " / OtpCode:" + OtpCode + "UnitId:" + UnitId + "WorkerUid:" + WorkerUid + ".";
+            return "SiteId:" + SiteId + " / SiteName:" + SiteName + " / FirstName:" + FirstName + " / LastName:" +
+                   LastName + " / CustomerNo:" + CustomerNo + " / OtpCode:" + OtpCode + "UnitId:" + UnitId +
+                   "WorkerUid:" + WorkerUid + ".";
         }
     }
 }

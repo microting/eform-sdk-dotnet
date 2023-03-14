@@ -56,6 +56,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
             await sql.SettingUpdate(Settings.firstRunDone, "true");
             await sql.SettingUpdate(Settings.knownSitesDone, "true");
+
             #endregion
 
             sut = new Core();
@@ -68,7 +69,8 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             await sut.StartSqlOnly(ConnectionString);
             path = Assembly.GetExecutingAssembly().Location;
             path = Path.GetDirectoryName(path).Replace(@"file:", "");
-            await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SetSdkSetting(Settings.fileLocationPicture,
+                Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers(ConnectionString);
@@ -163,8 +165,6 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(false, commentField.ReadOnly);
             Assert.AreEqual(false, commentField.Mandatory);
             Assert.AreEqual(Constants.FieldColors.Default, commentField.Color);
-
-
         }
 
         [Test]
@@ -245,7 +245,6 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(0, pictureField.DisplayOrder);
             Assert.AreEqual(false, pictureField.Mandatory);
             Assert.AreEqual(Constants.FieldColors.Default, pictureField.Color);
-
         }
 
         [Test]
@@ -333,7 +332,6 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(false, dateField.Mandatory);
             Assert.AreEqual(false, dateField.ReadOnly);
             Assert.AreEqual(Constants.FieldColors.Default, dateField.Color);
-
         }
 
         [Test]
@@ -413,9 +411,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Assert.AreEqual(dateField.Description, CDataValue) //TODO
             Assert.AreEqual(0, showPDFField.DisplayOrder);
             Assert.AreEqual(Constants.FieldColors.Default, showPDFField.Color);
-            Assert.AreEqual("https://eform.microting.com/app_files/uploads/20170804132716_13790_20d483dd7791cd6becf089432724c663.pdf", showPDFField.Value);
-
-
+            Assert.AreEqual(
+                "https://eform.microting.com/app_files/uploads/20170804132716_13790_20d483dd7791cd6becf089432724c663.pdf",
+                showPDFField.Value);
         }
 
         [Test]
@@ -555,8 +553,6 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(false, checkboxField1.Selected);
             Assert.AreEqual(false, checkboxField1.Mandatory);
             Assert.AreEqual(Constants.FieldColors.Default, checkboxField1.Color);
-
-
         }
 
         [Test]
@@ -654,8 +650,6 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(1, fE1.DisplayOrder);
             Assert.AreEqual(false, fE1.Mandatory);
             Assert.AreEqual(Constants.FieldColors.Default, fE1.Color);
-
-
         }
 
         [Test]
@@ -985,7 +979,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual("PDF", sp.Label);
             // Assert.AreEqual("Her vises PDF-filer.", sp.Description); TODO
             Assert.AreEqual(3, sp.DisplayOrder);
-            Assert.AreEqual("https://eform.microting.com/app_files/uploads/20160609143348_366_a60ad2d8c22ed24780bfa9a348376232.pdf", sp.Value);
+            Assert.AreEqual(
+                "https://eform.microting.com/app_files/uploads/20160609143348_366_a60ad2d8c22ed24780bfa9a348376232.pdf",
+                sp.Value);
 
             CheckBox cB = (CheckBox)dE.DataItemList[4];
             Assert.AreEqual("TJEK", cB.Label);
@@ -1137,10 +1133,10 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual("INDTAST TAL", n2.Label);
             // Assert.AreEqual("Indtast tal og opsæt evt. regler for mindste/højeste tilladte værdi.<br><br>Er Microting eForm integreret med ERP-system, sendes de indtastede værdier direkte til ERP-systemet]></", cB.Description); TODO
             Assert.AreEqual(9, n2.DisplayOrder);
-   //         Assert.AreEqual("", n2.MinValue);
-   //         Assert.AreEqual("", n2.MaxValue);
-   //         Assert.AreEqual("", n2.DecimalCount);
-   //         Assert.AreEqual("", n2.UnitName);
+            //         Assert.AreEqual("", n2.MinValue);
+            //         Assert.AreEqual("", n2.MaxValue);
+            //         Assert.AreEqual("", n2.DecimalCount);
+            //         Assert.AreEqual("", n2.UnitName);
             Assert.AreEqual(false, d1.Mandatory);
 
             Text tt1 = (Text)dE.DataItemList[9];
@@ -1181,15 +1177,6 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Assert.AreEqual("Tryk for at gemme data.<br>Press to save data.", ssB.Description);
             Assert.AreEqual(14, ssB.DisplayOrder);
             Assert.AreEqual("GEM/SAVE", ssB.Value);
-
-
-
-
-
-
-
-
-
         }
 
         [Test]
@@ -1359,15 +1346,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Assert.AreEqual(CData, kkP2.Value); TODO
             Assert.AreEqual(false, kkP2.Selected);
             Assert.AreEqual("2", kkP2.DisplayOrder);
-
-
-
         }
 
         [Test]
         public async Task Core_eFormSimpleSingleSelectFormFromXML_ReturnseMainElement()
         {
-
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -1543,14 +1526,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual("8", kP8.DisplayOrder);
 
             Assert.AreEqual(Constants.FieldColors.Default, sS.Color);
-
-
         }
 
         [Test] // Comment
         public async Task Core_eFormSimpleTextMultiLineFormFromXML_ReturnseMainElement()
         {
-
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -1636,13 +1616,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(false, cc.ReadOnly);
             Assert.AreEqual(false, cc.Mandatory);
             Assert.AreEqual(Constants.FieldColors.Default, cc.Color);
-
         }
 
         [Test] // Text
         public async Task Core_eFormSimpleTextSingleLineFormFromXML_ReturnseMainElement()
         {
-
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -1728,14 +1706,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(false, t.ReadOnly);
             Assert.AreEqual(false, t.Mandatory);
             Assert.AreEqual(Constants.FieldColors.Default, t.Color);
-
-
         }
 
         [Test]
         public async Task Core_eFormSimpleNumberFormFromXML_ReturnseMainElement()
         {
-
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -1821,13 +1796,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(true, n.Mandatory);
             Assert.AreEqual("", n.UnitName);
             Assert.AreEqual(Constants.FieldColors.Default, n.Color);
-
         }
 
         [Test]
         public async Task Core_eFormSimpleInfoboxFormFromXML_ReturnseMainElement()
         {
-
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -1901,13 +1874,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Assert.AreEqual(CDataValue, t.Description); //TODO
             Assert.AreEqual(0, n.DisplayOrder);
             Assert.AreEqual(Constants.FieldColors.Default, n.Color);
-
         }
 
         [Test]
         public async Task Core_eFormSimpleCheckBoxFormFromXML_ReturnseMainElement()
         {
-
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -1985,13 +1956,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(false, cB.Selected);
             Assert.AreEqual(false, cB.Mandatory);
             Assert.AreEqual(Constants.FieldColors.Default, cB.Color);
-
         }
 
         [Test]
         public async Task Core_eFormSimpleTimerFormFromXML_ReturnseMainElement()
         {
-
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -2069,13 +2038,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(false, t.StopOnSave);
             Assert.AreEqual(false, t.Mandatory);
             Assert.AreEqual(Constants.FieldColors.Default, t.Color);
-
         }
 
         [Test]
         public async Task Core_eFormSimpleSaveButtonFormFromXML_ReturnseMainElement()
         {
-
             string xmlstring = @"
                 <?xml version='1.0' encoding='UTF-8'?>
                 <Main>
@@ -2151,7 +2118,6 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(0, sB.DisplayOrder);
             Assert.AreEqual("", sB.Value);
             Assert.AreEqual(Constants.FieldColors.Default, sB.Color);
-
         }
 
         [Test]
@@ -2340,42 +2306,41 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(false, cb3.Selected);
             Assert.AreEqual(false, cb3.Mandatory);
             Assert.AreEqual(Constants.FieldColors.Default, cb3.Color);
-
-
         }
 
 
         #region eventhandlers
+
         public void EventCaseCreated(object sender, EventArgs args)
         {
-          // Does nothing for web implementation
+            // Does nothing for web implementation
         }
 
         public void EventCaseRetrived(object sender, EventArgs args)
         {
-          // Does nothing for web implementation
+            // Does nothing for web implementation
         }
 
         public void EventCaseCompleted(object sender, EventArgs args)
         {
-          // Does nothing for web implementation
+            // Does nothing for web implementation
         }
 
         public void EventCaseDeleted(object sender, EventArgs args)
         {
-          // Does nothing for web implementation
+            // Does nothing for web implementation
         }
 
         public void EventFileDownloaded(object sender, EventArgs args)
         {
-          // Does nothing for web implementation
+            // Does nothing for web implementation
         }
 
         public void EventSiteActivated(object sender, EventArgs args)
         {
-          // Does nothing for web implementation
+            // Does nothing for web implementation
         }
+
         #endregion
     }
-
 }

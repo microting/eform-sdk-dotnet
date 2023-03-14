@@ -28,18 +28,16 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public class OptionTranslation : PnBase
     {
-        [ForeignKey("Option")]
-        public int OptionId { get; set; }
-        
-        [ForeignKey("Language")]
-        public int LanguageId { get; set; }
-        
+        [ForeignKey("Option")] public int OptionId { get; set; }
+
+        [ForeignKey("Language")] public int LanguageId { get; set; }
+
         public string Name { get; set; }
 
         public virtual Option Option { get; set; }
-        
+
         public virtual Language Language { get; set; }
-        
+
         public int? MicrotingUid { get; set; }
     }
 }

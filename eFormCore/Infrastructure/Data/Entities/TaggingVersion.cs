@@ -24,7 +24,7 @@ SOFTWARE.
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class TaggingVersion : BaseEntity
+    public class TaggingVersion : BaseEntity
     {
         public int? TagId { get; set; }
 

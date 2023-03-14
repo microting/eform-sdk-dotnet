@@ -27,9 +27,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
     public class SiteTagVersion : BaseEntity
     {
         public int? TagId { get; set; }
-        
+
         public int? SiteId { get; set; }
-        
+
         public int SiteTagId { get; set; }
     }
 }

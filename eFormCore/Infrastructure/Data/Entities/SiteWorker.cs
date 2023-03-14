@@ -26,13 +26,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class SiteWorker : PnBase
+    public class SiteWorker : PnBase
     {
-        [ForeignKey("site")]
-        public int? SiteId { get; set; }
+        [ForeignKey("site")] public int? SiteId { get; set; }
 
-        [ForeignKey("worker")]
-        public int? WorkerId { get; set; }
+        [ForeignKey("worker")] public int? WorkerId { get; set; }
 
         public int? MicrotingUid { get; set; }
 

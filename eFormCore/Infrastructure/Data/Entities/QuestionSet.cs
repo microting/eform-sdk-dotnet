@@ -26,22 +26,22 @@ using System.Collections.Generic;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class QuestionSet : PnBase
+    public class QuestionSet : PnBase
     {
         public string Name { get; set; }
-        
+
         public bool HasChild { get; set; }
-        
+
         public bool PossiblyDeployed { get; set; }
-        
+
         public int ParentId { get; set; }
-        
+
         public bool Share { get; set; }
-        
+
         public int? MicrotingUid { get; set; }
-        
+
         public virtual ICollection<LanguageQuestionSet> LanguageQuestionSetses { get; set; }
-        
+
         public virtual ICollection<Question> Questions { get; set; }
     }
 }

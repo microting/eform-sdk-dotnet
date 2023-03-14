@@ -41,87 +41,87 @@ namespace eFormSDK.InSight.Tests
         public async Task Answers_Create_DoesCreate()
         {
             //Arrange
-             Random rnd = new Random();
+            Random rnd = new Random();
 
-             bool randomBool = rnd.Next(0, 2) > 0;
+            bool randomBool = rnd.Next(0, 2) > 0;
 
-             Site site = new Site
-             {
-                 Name = Guid.NewGuid().ToString(),
-                 MicrotingUid = rnd.Next(1, 255)
-             };
-             await site.Create(DbContext).ConfigureAwait(false);
+            Site site = new Site
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
+            await site.Create(DbContext).ConfigureAwait(false);
 
-             Site siteForUnit = new Site
-             {
-                 Name = Guid.NewGuid().ToString(),
-                 MicrotingUid = rnd.Next(1, 255)
-             };
-             await siteForUnit.Create(DbContext).ConfigureAwait(false);
+            Site siteForUnit = new Site
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
+            await siteForUnit.Create(DbContext).ConfigureAwait(false);
 
-             Unit unit = new Unit
-             {
-                 SiteId = siteForUnit.Id,
-                 CustomerNo = rnd.Next(1, 255),
-                 MicrotingUid = rnd.Next(1, 255),
-                 OtpCode = rnd.Next(1, 255)
-             };
-             await unit.Create(DbContext).ConfigureAwait(false);
+            Unit unit = new Unit
+            {
+                SiteId = siteForUnit.Id,
+                CustomerNo = rnd.Next(1, 255),
+                MicrotingUid = rnd.Next(1, 255),
+                OtpCode = rnd.Next(1, 255)
+            };
+            await unit.Create(DbContext).ConfigureAwait(false);
 
-             Language language = new Language
-             {
-                 LanguageCode = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
-             };
-             await language.Create(DbContext).ConfigureAwait(false);
+            Language language = new Language
+            {
+                LanguageCode = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+            };
+            await language.Create(DbContext).ConfigureAwait(false);
 
-             QuestionSet questionSet = new QuestionSet
-             {
-                 Name = Guid.NewGuid().ToString(),
-                 Share = randomBool,
-                 HasChild = randomBool,
-                 PossiblyDeployed = randomBool
-             };
-             await questionSet.Create(DbContext).ConfigureAwait(false);
+            QuestionSet questionSet = new QuestionSet
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                PossiblyDeployed = randomBool
+            };
+            await questionSet.Create(DbContext).ConfigureAwait(false);
 
-             SurveyConfiguration surveyConfiguration = new SurveyConfiguration
-             {
-                 Name = Guid.NewGuid().ToString(),
-                 Start = DateTime.UtcNow,
-                 Stop = DateTime.UtcNow,
-                 TimeOut = rnd.Next(1, 255),
-                 TimeToLive = rnd.Next(1, 255),
-                 QuestionSetId = questionSet.Id
-             };
-             await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
+            SurveyConfiguration surveyConfiguration = new SurveyConfiguration
+            {
+                Name = Guid.NewGuid().ToString(),
+                Start = DateTime.UtcNow,
+                Stop = DateTime.UtcNow,
+                TimeOut = rnd.Next(1, 255),
+                TimeToLive = rnd.Next(1, 255),
+                QuestionSetId = questionSet.Id
+            };
+            await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
 
-             Answer answer = new Answer
-             {
-                 AnswerDuration = rnd.Next(1, 255),
-                 FinishedAt = DateTime.UtcNow,
-                 LanguageId = language.Id,
-                 Language = language,
-                 SiteId = site.Id,
-                 UnitId = unit.Id,
-                 QuestionSetId = questionSet.Id,
-                 SurveyConfigurationId = surveyConfiguration.Id,
-                 TimeZone = Guid.NewGuid().ToString(),
-                 UtcAdjusted = randomBool
-             };
+            Answer answer = new Answer
+            {
+                AnswerDuration = rnd.Next(1, 255),
+                FinishedAt = DateTime.UtcNow,
+                LanguageId = language.Id,
+                Language = language,
+                SiteId = site.Id,
+                UnitId = unit.Id,
+                QuestionSetId = questionSet.Id,
+                SurveyConfigurationId = surveyConfiguration.Id,
+                TimeZone = Guid.NewGuid().ToString(),
+                UtcAdjusted = randomBool
+            };
 
-             //Act
+            //Act
 
-             await answer.Create(DbContext).ConfigureAwait(false);
+            await answer.Create(DbContext).ConfigureAwait(false);
 
-             List<Answer> answers = DbContext.Answers.AsNoTracking().ToList();
-             List<AnswerVersion> answerVersions = DbContext.AnswerVersions.AsNoTracking().ToList();
+            List<Answer> answers = DbContext.Answers.AsNoTracking().ToList();
+            List<AnswerVersion> answerVersions = DbContext.AnswerVersions.AsNoTracking().ToList();
 
             //Assert
 
             Assert.NotNull(answers);
             Assert.NotNull(answerVersions);
 
-            Assert.AreEqual(1,answers.Count());
-            Assert.AreEqual(1,answerVersions.Count());
+            Assert.AreEqual(1, answers.Count());
+            Assert.AreEqual(1, answerVersions.Count());
 
             Assert.AreEqual(answer.CreatedAt.ToString(), answers[0].CreatedAt.ToString());
             Assert.AreEqual(answer.Version, answers[0].Version);
@@ -159,74 +159,74 @@ namespace eFormSDK.InSight.Tests
         [Test]
         public async Task Answer_update_DoesUpdate()
         {
-             Random rnd = new Random();
+            Random rnd = new Random();
 
-             bool randomBool = rnd.Next(0, 2) > 0;
+            bool randomBool = rnd.Next(0, 2) > 0;
 
-             Site site = new Site
-             {
-                 Name = Guid.NewGuid().ToString(),
-                 MicrotingUid = rnd.Next(1, 255)
-             };
-             await site.Create(DbContext).ConfigureAwait(false);
+            Site site = new Site
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
+            await site.Create(DbContext).ConfigureAwait(false);
 
-             Site siteForUnit = new Site
-             {
-                 Name = Guid.NewGuid().ToString(),
-                 MicrotingUid = rnd.Next(1, 255)
-             };
-             await siteForUnit.Create(DbContext).ConfigureAwait(false);
+            Site siteForUnit = new Site
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
+            await siteForUnit.Create(DbContext).ConfigureAwait(false);
 
-             Unit unit = new Unit
-             {
-                 SiteId = siteForUnit.Id,
-                 CustomerNo = rnd.Next(1, 255),
-                 MicrotingUid = rnd.Next(1, 255),
-                 OtpCode = rnd.Next(1, 255)
-             };
-             await unit.Create(DbContext).ConfigureAwait(false);
+            Unit unit = new Unit
+            {
+                SiteId = siteForUnit.Id,
+                CustomerNo = rnd.Next(1, 255),
+                MicrotingUid = rnd.Next(1, 255),
+                OtpCode = rnd.Next(1, 255)
+            };
+            await unit.Create(DbContext).ConfigureAwait(false);
 
-             Language language = new Language
-             {
-                 LanguageCode = Guid.NewGuid().ToString(),
-                 Name = Guid.NewGuid().ToString()
-             };
-             await language.Create(DbContext).ConfigureAwait(false);
+            Language language = new Language
+            {
+                LanguageCode = Guid.NewGuid().ToString(),
+                Name = Guid.NewGuid().ToString()
+            };
+            await language.Create(DbContext).ConfigureAwait(false);
 
-             QuestionSet questionSet = new QuestionSet
-             {
-                 Name = Guid.NewGuid().ToString(),
-                 Share = randomBool,
-                 HasChild = randomBool,
-                 PossiblyDeployed = randomBool
-             };
-             await questionSet.Create(DbContext).ConfigureAwait(false);
+            QuestionSet questionSet = new QuestionSet
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                PossiblyDeployed = randomBool
+            };
+            await questionSet.Create(DbContext).ConfigureAwait(false);
 
-             SurveyConfiguration surveyConfiguration = new SurveyConfiguration
-             {
-                 Name = Guid.NewGuid().ToString(),
-                 Start = DateTime.UtcNow,
-                 Stop = DateTime.UtcNow,
-                 TimeOut = rnd.Next(1, 255),
-                 TimeToLive = rnd.Next(1, 255),
-                 QuestionSetId = questionSet.Id
-             };
-             await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
+            SurveyConfiguration surveyConfiguration = new SurveyConfiguration
+            {
+                Name = Guid.NewGuid().ToString(),
+                Start = DateTime.UtcNow,
+                Stop = DateTime.UtcNow,
+                TimeOut = rnd.Next(1, 255),
+                TimeToLive = rnd.Next(1, 255),
+                QuestionSetId = questionSet.Id
+            };
+            await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
 
-             Answer answer = new Answer
-             {
-                 AnswerDuration = rnd.Next(1, 255),
-                 FinishedAt = DateTime.UtcNow,
-                 LanguageId = language.Id,
-                 SiteId = site.Id,
-                 SurveyConfiguration = surveyConfiguration,
-                 TimeZone = Guid.NewGuid().ToString(),
-                 UnitId = unit.Id,
-                 UtcAdjusted = randomBool,
-                 QuestionSetId = questionSet.Id,
-                 SurveyConfigurationId = surveyConfiguration.Id
-             };
-             await answer.Create(DbContext).ConfigureAwait(false);
+            Answer answer = new Answer
+            {
+                AnswerDuration = rnd.Next(1, 255),
+                FinishedAt = DateTime.UtcNow,
+                LanguageId = language.Id,
+                SiteId = site.Id,
+                SurveyConfiguration = surveyConfiguration,
+                TimeZone = Guid.NewGuid().ToString(),
+                UnitId = unit.Id,
+                UtcAdjusted = randomBool,
+                QuestionSetId = questionSet.Id,
+                SurveyConfigurationId = surveyConfiguration.Id
+            };
+            await answer.Create(DbContext).ConfigureAwait(false);
 
             //Act
 
@@ -251,8 +251,8 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(answers);
             Assert.NotNull(answerVersions);
 
-            Assert.AreEqual(1,answers.Count());
-            Assert.AreEqual(2,answerVersions.Count());
+            Assert.AreEqual(1, answers.Count());
+            Assert.AreEqual(2, answerVersions.Count());
 
             Assert.AreEqual(answer.CreatedAt.ToString(), answers[0].CreatedAt.ToString());
             Assert.AreEqual(answer.Version, answers[0].Version);
@@ -300,75 +300,75 @@ namespace eFormSDK.InSight.Tests
         [Test]
         public async Task Answer_Delete_DoesSetWorkflowStateToRemoved()
         {
-             //Arrange
+            //Arrange
 
-             Random rnd = new Random();
+            Random rnd = new Random();
 
-             bool randomBool = rnd.Next(0, 2) > 0;
+            bool randomBool = rnd.Next(0, 2) > 0;
 
-             Site site = new Site
-             {
-                 Name = Guid.NewGuid().ToString(),
-                 MicrotingUid = rnd.Next(1, 255)
-             };
-             await site.Create(DbContext).ConfigureAwait(false);
+            Site site = new Site
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
+            await site.Create(DbContext).ConfigureAwait(false);
 
-             Site siteForUnit = new Site
-             {
-                 Name = Guid.NewGuid().ToString(),
-                 MicrotingUid = rnd.Next(1, 255)
-             };
-             await siteForUnit.Create(DbContext).ConfigureAwait(false);
+            Site siteForUnit = new Site
+            {
+                Name = Guid.NewGuid().ToString(),
+                MicrotingUid = rnd.Next(1, 255)
+            };
+            await siteForUnit.Create(DbContext).ConfigureAwait(false);
 
-             Unit unit = new Unit
-             {
-                 CustomerNo = rnd.Next(1, 255),
-                 MicrotingUid = rnd.Next(1, 255),
-                 OtpCode = rnd.Next(1, 255),
-                 SiteId = siteForUnit.Id
-             };
-             await unit.Create(DbContext).ConfigureAwait(false);
+            Unit unit = new Unit
+            {
+                CustomerNo = rnd.Next(1, 255),
+                MicrotingUid = rnd.Next(1, 255),
+                OtpCode = rnd.Next(1, 255),
+                SiteId = siteForUnit.Id
+            };
+            await unit.Create(DbContext).ConfigureAwait(false);
 
-             Language language = new Language
-             {
-                 LanguageCode = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
-             };
-             await language.Create(DbContext).ConfigureAwait(false);
+            Language language = new Language
+            {
+                LanguageCode = Guid.NewGuid().ToString(), Name = Guid.NewGuid().ToString()
+            };
+            await language.Create(DbContext).ConfigureAwait(false);
 
-             QuestionSet questionSet = new QuestionSet
-             {
-                 Name = Guid.NewGuid().ToString(),
-                 Share = randomBool,
-                 HasChild = randomBool,
-                 PossiblyDeployed = randomBool
-             };
+            QuestionSet questionSet = new QuestionSet
+            {
+                Name = Guid.NewGuid().ToString(),
+                Share = randomBool,
+                HasChild = randomBool,
+                PossiblyDeployed = randomBool
+            };
 
-             await questionSet.Create(DbContext).ConfigureAwait(false);
+            await questionSet.Create(DbContext).ConfigureAwait(false);
 
-             SurveyConfiguration surveyConfiguration = new SurveyConfiguration
-             {
-                 Name = Guid.NewGuid().ToString(),
-                 Start = DateTime.UtcNow,
-                 Stop = DateTime.UtcNow,
-                 TimeOut = rnd.Next(1, 255),
-                 TimeToLive = rnd.Next(1, 255),
-                 QuestionSetId = questionSet.Id
-             };
-             await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
+            SurveyConfiguration surveyConfiguration = new SurveyConfiguration
+            {
+                Name = Guid.NewGuid().ToString(),
+                Start = DateTime.UtcNow,
+                Stop = DateTime.UtcNow,
+                TimeOut = rnd.Next(1, 255),
+                TimeToLive = rnd.Next(1, 255),
+                QuestionSetId = questionSet.Id
+            };
+            await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
 
-             Answer answer = new Answer
-             {
-                 AnswerDuration = rnd.Next(1, 255),
-                 FinishedAt = DateTime.UtcNow,
-                 LanguageId = language.Id,
-                 SiteId = site.Id,
-                 TimeZone = Guid.NewGuid().ToString(),
-                 UnitId = unit.Id,
-                 UtcAdjusted = randomBool,
-                 QuestionSetId = questionSet.Id,
-                 SurveyConfigurationId = surveyConfiguration.Id
-             };
-             await answer.Create(DbContext).ConfigureAwait(false);
+            Answer answer = new Answer
+            {
+                AnswerDuration = rnd.Next(1, 255),
+                FinishedAt = DateTime.UtcNow,
+                LanguageId = language.Id,
+                SiteId = site.Id,
+                TimeZone = Guid.NewGuid().ToString(),
+                UnitId = unit.Id,
+                UtcAdjusted = randomBool,
+                QuestionSetId = questionSet.Id,
+                SurveyConfigurationId = surveyConfiguration.Id
+            };
+            await answer.Create(DbContext).ConfigureAwait(false);
 
             //Act
 
@@ -434,6 +434,5 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(surveyConfiguration.Id, answerVersions[1].SurveyConfigurationId);
             Assert.AreEqual(answerVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
         }
-
     }
 }

@@ -58,6 +58,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef").ConfigureAwait(false);
             await sql.SettingUpdate(Settings.firstRunDone, "true").ConfigureAwait(false);
             await sql.SettingUpdate(Settings.knownSitesDone, "true").ConfigureAwait(false);
+
             #endregion
 
             sut = new Core();
@@ -70,7 +71,8 @@ namespace eFormSDK.Integration.Base.CoreTests
             await sut.StartSqlOnly(ConnectionString).ConfigureAwait(false);
             path = Assembly.GetExecutingAssembly().Location;
             path = Path.GetDirectoryName(path).Replace(@"file:", "");
-            await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SetSdkSetting(Settings.fileLocationPicture,
+                Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers(ConnectionString);
@@ -93,8 +95,8 @@ namespace eFormSDK.Integration.Base.CoreTests
             List<KeyValuePair<string, string>> names = new List<KeyValuePair<string, string>>();
             List<KeyValuePair<string, string>> descriptions = new List<KeyValuePair<string, string>>();
 
-            names.Add(new KeyValuePair<string, string> ("da", folderName));
-            descriptions.Add(new KeyValuePair<string, string>("da",folderDescription.Replace("&nbsp;", " ")));
+            names.Add(new KeyValuePair<string, string>("da", folderName));
+            descriptions.Add(new KeyValuePair<string, string>("da", folderDescription.Replace("&nbsp;", " ")));
             await sut.FolderCreate(names, descriptions, null).ConfigureAwait(false);
 
             //Assert
@@ -127,7 +129,6 @@ namespace eFormSDK.Integration.Base.CoreTests
             Assert.AreEqual(folderName, folderTranslationVersions[0].Name);
             Assert.AreEqual(folderDescription, folderTranslationVersions[0].Description);
             Assert.AreEqual(folderTranslationVersions[0].WorkflowState, Constants.WorkflowStates.Created);
-
         }
 
 
@@ -148,12 +149,12 @@ namespace eFormSDK.Integration.Base.CoreTests
             List<KeyValuePair<string, string>> names = new List<KeyValuePair<string, string>>();
             List<KeyValuePair<string, string>> descriptions = new List<KeyValuePair<string, string>>();
 
-            names.Add(new KeyValuePair<string, string> ("da", folderName));
-            names.Add(new KeyValuePair<string, string> ("en-US", enfolderName));
-            names.Add(new KeyValuePair<string, string> ("de-DE", defolderName));
-            descriptions.Add(new KeyValuePair<string, string>("da",folderDescription.Replace("&nbsp;", " ")));
-            descriptions.Add(new KeyValuePair<string, string>("en-US",enfolderDescription.Replace("&nbsp;", " ")));
-            descriptions.Add(new KeyValuePair<string, string>("de-DE",defolderDescription.Replace("&nbsp;", " ")));
+            names.Add(new KeyValuePair<string, string>("da", folderName));
+            names.Add(new KeyValuePair<string, string>("en-US", enfolderName));
+            names.Add(new KeyValuePair<string, string>("de-DE", defolderName));
+            descriptions.Add(new KeyValuePair<string, string>("da", folderDescription.Replace("&nbsp;", " ")));
+            descriptions.Add(new KeyValuePair<string, string>("en-US", enfolderDescription.Replace("&nbsp;", " ")));
+            descriptions.Add(new KeyValuePair<string, string>("de-DE", defolderDescription.Replace("&nbsp;", " ")));
             await sut.FolderCreate(names, descriptions, null).ConfigureAwait(false);
 
             //Assert
@@ -177,7 +178,7 @@ namespace eFormSDK.Integration.Base.CoreTests
 
             Assert.AreEqual(null, folderVersions[0].Name);
             Assert.AreEqual(null, folderVersions[0].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created,folderVersions[0].WorkflowState);
+            Assert.AreEqual(Constants.WorkflowStates.Created, folderVersions[0].WorkflowState);
 
             Assert.AreEqual(folderName, folderTranslations[0].Name);
             Assert.AreEqual(folderDescription, folderTranslations[0].Description);
@@ -202,7 +203,6 @@ namespace eFormSDK.Integration.Base.CoreTests
             Assert.AreEqual(defolderName, folderTranslationVersions[2].Name);
             Assert.AreEqual(defolderDescription, folderTranslationVersions[2].Description);
             Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslationVersions[2].WorkflowState);
-
         }
 
         [Test]
@@ -216,8 +216,8 @@ namespace eFormSDK.Integration.Base.CoreTests
             List<KeyValuePair<string, string>> names = new List<KeyValuePair<string, string>>();
             List<KeyValuePair<string, string>> descriptions = new List<KeyValuePair<string, string>>();
 
-            names.Add(new KeyValuePair<string, string> ("da", folderName));
-            descriptions.Add(new KeyValuePair<string, string>("da",folderDescription.Replace("&nbsp;", " ")));
+            names.Add(new KeyValuePair<string, string>("da", folderName));
+            descriptions.Add(new KeyValuePair<string, string>("da", folderDescription.Replace("&nbsp;", " ")));
             await sut.FolderCreate(names, descriptions, null).ConfigureAwait(false);
 
             int firstFolderId = DbContext.Folders.First().Id;
@@ -231,8 +231,8 @@ namespace eFormSDK.Integration.Base.CoreTests
             List<KeyValuePair<string, string>> names1 = new List<KeyValuePair<string, string>>();
             List<KeyValuePair<string, string>> descriptions1 = new List<KeyValuePair<string, string>>();
 
-            names1.Add(new KeyValuePair<string, string> ("da", subFolderName));
-            descriptions1.Add(new KeyValuePair<string, string>("da",subFolderDescription.Replace("&nbsp;", " ")));
+            names1.Add(new KeyValuePair<string, string>("da", subFolderName));
+            descriptions1.Add(new KeyValuePair<string, string>("da", subFolderDescription.Replace("&nbsp;", " ")));
             await sut.FolderCreate(names1, descriptions1, firstFolderId).ConfigureAwait(false);
 
             var folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
@@ -248,40 +248,40 @@ namespace eFormSDK.Integration.Base.CoreTests
             Assert.AreEqual(2, folderTranslations.Count);
             Assert.AreEqual(2, folderTranslationVersions.Count);
 
-            Assert.AreEqual(null,folders[0].Name);
-            Assert.AreEqual(null,folders[0].Description);
+            Assert.AreEqual(null, folders[0].Name);
+            Assert.AreEqual(null, folders[0].Description);
 
-            Assert.AreEqual(null,folders[1].Name);
-            Assert.AreEqual(null,folders[1].Description);
+            Assert.AreEqual(null, folders[1].Name);
+            Assert.AreEqual(null, folders[1].Description);
             Assert.AreEqual(folders[1].ParentId, firstFolderId);
 
-            Assert.AreEqual(null,folderVersions[0].Name);
-            Assert.AreEqual(null,folderVersions[0].Description);
+            Assert.AreEqual(null, folderVersions[0].Name);
+            Assert.AreEqual(null, folderVersions[0].Description);
             Assert.AreEqual(null, folderVersions[0].ParentId);
 
-            Assert.AreEqual(null,folderVersions[1].Name);
-            Assert.AreEqual(null,folderVersions[1].Description);
+            Assert.AreEqual(null, folderVersions[1].Name);
+            Assert.AreEqual(null, folderVersions[1].Description);
             Assert.AreEqual(null, folderVersions[1].ParentId);
 
-            Assert.AreEqual(null,folderVersions[2].Name);
-            Assert.AreEqual(null,folderVersions[2].Description);
+            Assert.AreEqual(null, folderVersions[2].Name);
+            Assert.AreEqual(null, folderVersions[2].Description);
             Assert.AreEqual(firstFolderId, folderVersions[2].ParentId);
 
-            Assert.AreEqual(null,folderVersions[3].Name);
-            Assert.AreEqual(null,folderVersions[3].Description);
+            Assert.AreEqual(null, folderVersions[3].Name);
+            Assert.AreEqual(null, folderVersions[3].Description);
             Assert.AreEqual(firstFolderId, folderVersions[3].ParentId);
 
-            Assert.AreEqual(folderName,folderTranslations[0].Name);
-            Assert.AreEqual(folderDescription,folderTranslations[0].Description);
+            Assert.AreEqual(folderName, folderTranslations[0].Name);
+            Assert.AreEqual(folderDescription, folderTranslations[0].Description);
 
-            Assert.AreEqual(subFolderName,folderTranslations[1].Name);
-            Assert.AreEqual(subFolderDescription,folderTranslations[1].Description);
+            Assert.AreEqual(subFolderName, folderTranslations[1].Name);
+            Assert.AreEqual(subFolderDescription, folderTranslations[1].Description);
 
-            Assert.AreEqual(folderName,folderTranslationVersions[0].Name);
-            Assert.AreEqual(folderDescription,folderTranslationVersions[0].Description);
+            Assert.AreEqual(folderName, folderTranslationVersions[0].Name);
+            Assert.AreEqual(folderDescription, folderTranslationVersions[0].Description);
 
-            Assert.AreEqual(subFolderName,folderTranslationVersions[1].Name);
-            Assert.AreEqual(subFolderDescription,folderTranslationVersions[1].Description);
+            Assert.AreEqual(subFolderName, folderTranslationVersions[1].Name);
+            Assert.AreEqual(subFolderDescription, folderTranslationVersions[1].Description);
         }
 
         [Test]
@@ -299,12 +299,12 @@ namespace eFormSDK.Integration.Base.CoreTests
             List<KeyValuePair<string, string>> names = new List<KeyValuePair<string, string>>();
             List<KeyValuePair<string, string>> descriptions = new List<KeyValuePair<string, string>>();
 
-            names.Add(new KeyValuePair<string, string> ("da", folderName));
-            names.Add(new KeyValuePair<string, string> ("en-US", enfolderName));
-            names.Add(new KeyValuePair<string, string> ("de-DE", defolderName));
-            descriptions.Add(new KeyValuePair<string, string>("da",folderDescription.Replace("&nbsp;", " ")));
-            descriptions.Add(new KeyValuePair<string, string>("en-US",enfolderDescription.Replace("&nbsp;", " ")));
-            descriptions.Add(new KeyValuePair<string, string>("de-DE",defolderDescription.Replace("&nbsp;", " ")));
+            names.Add(new KeyValuePair<string, string>("da", folderName));
+            names.Add(new KeyValuePair<string, string>("en-US", enfolderName));
+            names.Add(new KeyValuePair<string, string>("de-DE", defolderName));
+            descriptions.Add(new KeyValuePair<string, string>("da", folderDescription.Replace("&nbsp;", " ")));
+            descriptions.Add(new KeyValuePair<string, string>("en-US", enfolderDescription.Replace("&nbsp;", " ")));
+            descriptions.Add(new KeyValuePair<string, string>("de-DE", defolderDescription.Replace("&nbsp;", " ")));
             await sut.FolderCreate(names, descriptions, null).ConfigureAwait(false);
 
             int firstFolderId = DbContext.Folders.First().Id;
@@ -322,12 +322,12 @@ namespace eFormSDK.Integration.Base.CoreTests
             List<KeyValuePair<string, string>> names1 = new List<KeyValuePair<string, string>>();
             List<KeyValuePair<string, string>> descriptions1 = new List<KeyValuePair<string, string>>();
 
-            names1.Add(new KeyValuePair<string, string> ("da", subFolderName));
-            names1.Add(new KeyValuePair<string, string> ("en-US", ensubFolderName));
-            names1.Add(new KeyValuePair<string, string> ("de-DE", desubFolderName));
-            descriptions1.Add(new KeyValuePair<string, string>("da",subFolderDescription.Replace("&nbsp;", " ")));
-            descriptions1.Add(new KeyValuePair<string, string>("en-US",ensubFolderDescription.Replace("&nbsp;", " ")));
-            descriptions1.Add(new KeyValuePair<string, string>("de-DE",desubFolderDescription.Replace("&nbsp;", " ")));
+            names1.Add(new KeyValuePair<string, string>("da", subFolderName));
+            names1.Add(new KeyValuePair<string, string>("en-US", ensubFolderName));
+            names1.Add(new KeyValuePair<string, string>("de-DE", desubFolderName));
+            descriptions1.Add(new KeyValuePair<string, string>("da", subFolderDescription.Replace("&nbsp;", " ")));
+            descriptions1.Add(new KeyValuePair<string, string>("en-US", ensubFolderDescription.Replace("&nbsp;", " ")));
+            descriptions1.Add(new KeyValuePair<string, string>("de-DE", desubFolderDescription.Replace("&nbsp;", " ")));
             await sut.FolderCreate(names1, descriptions1, firstFolderId).ConfigureAwait(false);
 
             var folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
@@ -343,64 +343,64 @@ namespace eFormSDK.Integration.Base.CoreTests
             Assert.AreEqual(6, folderTranslations.Count);
             Assert.AreEqual(6, folderTranslationVersions.Count);
 
-            Assert.AreEqual(null,folders[0].Name);
-            Assert.AreEqual(null,folders[0].Description);
+            Assert.AreEqual(null, folders[0].Name);
+            Assert.AreEqual(null, folders[0].Description);
 
-            Assert.AreEqual(null,folders[1].Name);
-            Assert.AreEqual(null,folders[1].Description);
-            Assert.AreEqual( firstFolderId,folders[1].ParentId);
+            Assert.AreEqual(null, folders[1].Name);
+            Assert.AreEqual(null, folders[1].Description);
+            Assert.AreEqual(firstFolderId, folders[1].ParentId);
 
-            Assert.AreEqual(null,folderVersions[0].Name);
-            Assert.AreEqual(null,folderVersions[0].Description);
+            Assert.AreEqual(null, folderVersions[0].Name);
+            Assert.AreEqual(null, folderVersions[0].Description);
             Assert.AreEqual(null, folderVersions[0].ParentId);
 
-            Assert.AreEqual(null,folderVersions[1].Name);
-            Assert.AreEqual(null,folderVersions[1].Description);
+            Assert.AreEqual(null, folderVersions[1].Name);
+            Assert.AreEqual(null, folderVersions[1].Description);
             Assert.AreEqual(null, folderVersions[1].ParentId);
 
-            Assert.AreEqual(null,folderVersions[2].Name);
-            Assert.AreEqual(null,folderVersions[2].Description);
+            Assert.AreEqual(null, folderVersions[2].Name);
+            Assert.AreEqual(null, folderVersions[2].Description);
             Assert.AreEqual(firstFolderId, folderVersions[2].ParentId);
 
-            Assert.AreEqual(null,folderVersions[3].Name);
-            Assert.AreEqual(null,folderVersions[3].Description);
+            Assert.AreEqual(null, folderVersions[3].Name);
+            Assert.AreEqual(null, folderVersions[3].Description);
             Assert.AreEqual(firstFolderId, folderVersions[3].ParentId);
 
-            Assert.AreEqual(folderName,folderTranslations[0].Name);
-            Assert.AreEqual(folderDescription,folderTranslations[0].Description);
+            Assert.AreEqual(folderName, folderTranslations[0].Name);
+            Assert.AreEqual(folderDescription, folderTranslations[0].Description);
 
-            Assert.AreEqual(enfolderName,folderTranslations[1].Name);
-            Assert.AreEqual(enfolderDescription,folderTranslations[1].Description);
+            Assert.AreEqual(enfolderName, folderTranslations[1].Name);
+            Assert.AreEqual(enfolderDescription, folderTranslations[1].Description);
 
-            Assert.AreEqual(defolderName,folderTranslations[2].Name);
-            Assert.AreEqual(defolderDescription,folderTranslations[2].Description);
+            Assert.AreEqual(defolderName, folderTranslations[2].Name);
+            Assert.AreEqual(defolderDescription, folderTranslations[2].Description);
 
-            Assert.AreEqual(subFolderName,folderTranslations[3].Name);
-            Assert.AreEqual(subFolderDescription,folderTranslations[3].Description);
+            Assert.AreEqual(subFolderName, folderTranslations[3].Name);
+            Assert.AreEqual(subFolderDescription, folderTranslations[3].Description);
 
-            Assert.AreEqual(ensubFolderName,folderTranslations[4].Name);
-            Assert.AreEqual(ensubFolderDescription,folderTranslations[4].Description);
+            Assert.AreEqual(ensubFolderName, folderTranslations[4].Name);
+            Assert.AreEqual(ensubFolderDescription, folderTranslations[4].Description);
 
-            Assert.AreEqual(desubFolderName,folderTranslations[5].Name);
-            Assert.AreEqual(desubFolderDescription,folderTranslations[5].Description);
+            Assert.AreEqual(desubFolderName, folderTranslations[5].Name);
+            Assert.AreEqual(desubFolderDescription, folderTranslations[5].Description);
 
-            Assert.AreEqual(folderName,folderTranslationVersions[0].Name);
-            Assert.AreEqual(folderDescription,folderTranslationVersions[0].Description);
+            Assert.AreEqual(folderName, folderTranslationVersions[0].Name);
+            Assert.AreEqual(folderDescription, folderTranslationVersions[0].Description);
 
-            Assert.AreEqual(enfolderName,folderTranslationVersions[1].Name);
-            Assert.AreEqual(enfolderDescription,folderTranslationVersions[1].Description);
+            Assert.AreEqual(enfolderName, folderTranslationVersions[1].Name);
+            Assert.AreEqual(enfolderDescription, folderTranslationVersions[1].Description);
 
-            Assert.AreEqual(defolderName,folderTranslationVersions[2].Name);
-            Assert.AreEqual(defolderDescription,folderTranslationVersions[2].Description);
+            Assert.AreEqual(defolderName, folderTranslationVersions[2].Name);
+            Assert.AreEqual(defolderDescription, folderTranslationVersions[2].Description);
 
-            Assert.AreEqual(subFolderName,folderTranslationVersions[3].Name);
-            Assert.AreEqual(subFolderDescription,folderTranslationVersions[3].Description);
+            Assert.AreEqual(subFolderName, folderTranslationVersions[3].Name);
+            Assert.AreEqual(subFolderDescription, folderTranslationVersions[3].Description);
 
-            Assert.AreEqual(ensubFolderName,folderTranslationVersions[4].Name);
-            Assert.AreEqual(ensubFolderDescription,folderTranslationVersions[4].Description);
+            Assert.AreEqual(ensubFolderName, folderTranslationVersions[4].Name);
+            Assert.AreEqual(ensubFolderDescription, folderTranslationVersions[4].Description);
 
-            Assert.AreEqual(desubFolderName,folderTranslationVersions[5].Name);
-            Assert.AreEqual(desubFolderDescription,folderTranslationVersions[5].Description);
+            Assert.AreEqual(desubFolderName, folderTranslationVersions[5].Name);
+            Assert.AreEqual(desubFolderDescription, folderTranslationVersions[5].Description);
         }
 
         [Test]
@@ -455,7 +455,7 @@ namespace eFormSDK.Integration.Base.CoreTests
 
             string folderName = Guid.NewGuid().ToString();
             string folderDescription = Guid.NewGuid().ToString();
-            Folder folder = new Folder {WorkflowState = Constants.WorkflowStates.Created, MicrotingUid = 23123};
+            Folder folder = new Folder { WorkflowState = Constants.WorkflowStates.Created, MicrotingUid = 23123 };
 
             await folder.Create(DbContext).ConfigureAwait(false);
 
@@ -476,8 +476,8 @@ namespace eFormSDK.Integration.Base.CoreTests
             List<KeyValuePair<string, string>> names1 = new List<KeyValuePair<string, string>>();
             List<KeyValuePair<string, string>> descriptions1 = new List<KeyValuePair<string, string>>();
 
-            names1.Add(new KeyValuePair<string, string> ("da", newFolderName));
-            descriptions1.Add(new KeyValuePair<string, string>("da",newDescription.Replace("&nbsp;", " ")));
+            names1.Add(new KeyValuePair<string, string>("da", newFolderName));
+            descriptions1.Add(new KeyValuePair<string, string>("da", newDescription.Replace("&nbsp;", " ")));
             await sut.FolderUpdate(folder.Id, names1, descriptions1, null).ConfigureAwait(false);
             //await sut.FolderUpdate(folder.Id, newFolderName, newDescription, null).ConfigureAwait(false);
 
@@ -500,7 +500,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             Assert.AreEqual(null, folders[0].Description);
             Assert.AreEqual(Constants.WorkflowStates.Created, folders[0].WorkflowState);
 
-            Assert.AreEqual(null,folderVersions[0].Name);
+            Assert.AreEqual(null, folderVersions[0].Name);
             Assert.AreEqual(null, folderVersions[0].Description);
             Assert.AreEqual(Constants.WorkflowStates.Created, folderVersions[0].WorkflowState);
 
@@ -528,7 +528,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             string folderDescription = Guid.NewGuid().ToString();
             string enfolderDescription = Guid.NewGuid().ToString();
             string defolderDescription = Guid.NewGuid().ToString();
-            Folder folder = new Folder {WorkflowState = Constants.WorkflowStates.Created, MicrotingUid = 23123};
+            Folder folder = new Folder { WorkflowState = Constants.WorkflowStates.Created, MicrotingUid = 23123 };
 
             await folder.Create(DbContext).ConfigureAwait(false);
 
@@ -573,12 +573,12 @@ namespace eFormSDK.Integration.Base.CoreTests
             List<KeyValuePair<string, string>> names1 = new List<KeyValuePair<string, string>>();
             List<KeyValuePair<string, string>> descriptions1 = new List<KeyValuePair<string, string>>();
 
-            names1.Add(new KeyValuePair<string, string> ("da", newFolderName));
-            names1.Add(new KeyValuePair<string, string> ("en-US", ennewFolderName));
-            names1.Add(new KeyValuePair<string, string> ("de-DE", denewFolderName));
-            descriptions1.Add(new KeyValuePair<string, string>("da",newDescription.Replace("&nbsp;", " ")));
-            descriptions1.Add(new KeyValuePair<string, string>("en-US",ennewDescription.Replace("&nbsp;", " ")));
-            descriptions1.Add(new KeyValuePair<string, string>("de-DE",denewDescription.Replace("&nbsp;", " ")));
+            names1.Add(new KeyValuePair<string, string>("da", newFolderName));
+            names1.Add(new KeyValuePair<string, string>("en-US", ennewFolderName));
+            names1.Add(new KeyValuePair<string, string>("de-DE", denewFolderName));
+            descriptions1.Add(new KeyValuePair<string, string>("da", newDescription.Replace("&nbsp;", " ")));
+            descriptions1.Add(new KeyValuePair<string, string>("en-US", ennewDescription.Replace("&nbsp;", " ")));
+            descriptions1.Add(new KeyValuePair<string, string>("de-DE", denewDescription.Replace("&nbsp;", " ")));
             await sut.FolderUpdate(folder.Id, names1, descriptions1, null).ConfigureAwait(false);
             //await sut.FolderUpdate(folder.Id, newFolderName, newDescription, null).ConfigureAwait(false);
 
@@ -600,7 +600,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             Assert.AreEqual(null, folders[0].Name);
             Assert.AreEqual(null, folders[0].Description);
 
-            Assert.AreEqual(null,folderVersions[0].Name);
+            Assert.AreEqual(null, folderVersions[0].Name);
             Assert.AreEqual(null, folderVersions[0].Description);
 
             Assert.AreEqual(newFolderName, folderTranslations[0].Name);
@@ -651,7 +651,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             string folderDescription = Guid.NewGuid().ToString();
             string enfolderDescription = Guid.NewGuid().ToString();
             string defolderDescription = Guid.NewGuid().ToString();
-            Folder folder = new Folder {WorkflowState = Constants.WorkflowStates.Created, MicrotingUid = 23123};
+            Folder folder = new Folder { WorkflowState = Constants.WorkflowStates.Created, MicrotingUid = 23123 };
 
             await folder.Create(DbContext).ConfigureAwait(false);
 
@@ -696,8 +696,8 @@ namespace eFormSDK.Integration.Base.CoreTests
             List<KeyValuePair<string, string>> names1 = new List<KeyValuePair<string, string>>();
             List<KeyValuePair<string, string>> descriptions1 = new List<KeyValuePair<string, string>>();
 
-            names1.Add(new KeyValuePair<string, string> ("de-DE", denewFolderName));
-            descriptions1.Add(new KeyValuePair<string, string>("de-DE",denewDescription.Replace("&nbsp;", " ")));
+            names1.Add(new KeyValuePair<string, string>("de-DE", denewFolderName));
+            descriptions1.Add(new KeyValuePair<string, string>("de-DE", denewDescription.Replace("&nbsp;", " ")));
             await sut.FolderUpdate(folder.Id, names1, descriptions1, null).ConfigureAwait(false);
             //await sut.FolderUpdate(folder.Id, newFolderName, newDescription, null).ConfigureAwait(false);
 
@@ -719,7 +719,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             Assert.AreEqual(null, folders[0].Name);
             Assert.AreEqual(null, folders[0].Description);
 
-            Assert.AreEqual(null,folderVersions[0].Name);
+            Assert.AreEqual(null, folderVersions[0].Name);
             Assert.AreEqual(null, folderVersions[0].Description);
 
             Assert.AreEqual(folderName, folderTranslations[0].Name);
@@ -754,6 +754,7 @@ namespace eFormSDK.Integration.Base.CoreTests
         #endregion
 
         #region eventhandlers
+
         public void EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
@@ -783,6 +784,7 @@ namespace eFormSDK.Integration.Base.CoreTests
         {
             // Does nothing for web implementation
         }
+
         #endregion
     }
 }

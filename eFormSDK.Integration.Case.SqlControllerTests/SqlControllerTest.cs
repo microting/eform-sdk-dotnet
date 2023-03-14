@@ -44,7 +44,6 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
         //path = System.IO.Path.GetDirectoryName(path).Replace(@"file:", "");
 
 
-
         public override async Task DoSetup()
         {
             DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
@@ -52,13 +51,11 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             sut.StartLog(new CoreBase());
             // testHelpers = new TestHelpers(ConnectionString);
             //await testHelpers.GenerateDefaultLanguages();
-            await sut.SettingUpdate(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SettingUpdate(Settings.fileLocationPicture,
+                Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SettingUpdate(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SettingUpdate(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
         }
-
-
-
 
 
         #region public "reply"
@@ -352,7 +349,6 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 //
 //        }
 
-
         #endregion
 
 
@@ -529,7 +525,6 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
         //    //f3.workflow_state = Constants.WorkflowStates.Created;
 
 
-
         //    //DbContext.fields.Add(f3);
         //    //await dbContext.SaveChangesAsync().ConfigureAwait(false);
         //    //Thread.Sleep(2000);
@@ -639,22 +634,19 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
         //    // Act
 
 
-
         //    // Assert
         //} //private method
-
 
         #endregion
 
         #region (post) case
 
-
-
-
         #endregion
 
         //TODO in here, Migration required
+
         #region Public WriteLog TODO
+
         [Test]
 #pragma warning disable 1998
         public async Task SQL_WriteLog_StartLog_ReturnsLog()
@@ -704,7 +696,6 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
         }
 #pragma warning restore 1998
 
-
         #endregion
 
         // Arrance
@@ -714,6 +705,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
         // Assert
 
         #region helperMethods
+
 //        public async Task<workers> CreateWorker(string email, string firstName, string lastName, int microtingUId)
 //        {
 //            workers worker = new workers();
@@ -972,10 +964,6 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 //            return cls;
 //        }
 
-
         #endregion
-
     }
 }
-
-

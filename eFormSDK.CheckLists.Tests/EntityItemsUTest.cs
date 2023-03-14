@@ -59,7 +59,7 @@ namespace eFormSDK.CheckLists.Tests
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString(),
-                Synced = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Synced = (short)rnd.Next(shortMinValue, shortmaxValue),
                 DisplayIndex = rnd.Next(1, 255),
                 MicrotingUid = Guid.NewGuid().ToString(),
                 EntityItemUid = Guid.NewGuid().ToString(),
@@ -71,15 +71,15 @@ namespace eFormSDK.CheckLists.Tests
             await entityItem.Create(DbContext).ConfigureAwait(false);
 
             List<EntityItem> entityItems = DbContext.EntityItems.AsNoTracking().ToList();
-            List<EntityItemVersion> entityItemVersion= DbContext.EntityItemVersions.AsNoTracking().ToList();
+            List<EntityItemVersion> entityItemVersion = DbContext.EntityItemVersions.AsNoTracking().ToList();
 
             //Assert
 
             Assert.NotNull(entityItems);
             Assert.NotNull(entityItemVersion);
 
-            Assert.AreEqual(1,entityItems.Count());
-            Assert.AreEqual(1,entityItemVersion.Count());
+            Assert.AreEqual(1, entityItems.Count());
+            Assert.AreEqual(1, entityItemVersion.Count());
 
             Assert.AreEqual(entityItem.CreatedAt.ToString(), entityItems[0].CreatedAt.ToString());
             Assert.AreEqual(entityItem.Version, entityItems[0].Version);
@@ -130,7 +130,7 @@ namespace eFormSDK.CheckLists.Tests
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString(),
-                Synced = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Synced = (short)rnd.Next(shortMinValue, shortmaxValue),
                 DisplayIndex = rnd.Next(1, 255),
                 MicrotingUid = Guid.NewGuid().ToString(),
                 EntityItemUid = Guid.NewGuid().ToString(),
@@ -158,15 +158,15 @@ namespace eFormSDK.CheckLists.Tests
             await entityItem.Update(DbContext).ConfigureAwait(false);
 
             List<EntityItem> entityItems = DbContext.EntityItems.AsNoTracking().ToList();
-            List<EntityItemVersion> entityItemVersion= DbContext.EntityItemVersions.AsNoTracking().ToList();
+            List<EntityItemVersion> entityItemVersion = DbContext.EntityItemVersions.AsNoTracking().ToList();
 
             //Assert
 
             Assert.NotNull(entityItems);
             Assert.NotNull(entityItemVersion);
 
-            Assert.AreEqual(1,entityItems.Count());
-            Assert.AreEqual(2,entityItemVersion.Count());
+            Assert.AreEqual(1, entityItems.Count());
+            Assert.AreEqual(2, entityItemVersion.Count());
 
             Assert.AreEqual(entityItem.CreatedAt.ToString(), entityItems[0].CreatedAt.ToString());
             Assert.AreEqual(entityItem.Version, entityItems[0].Version);
@@ -231,7 +231,7 @@ namespace eFormSDK.CheckLists.Tests
             {
                 Description = Guid.NewGuid().ToString(),
                 Name = Guid.NewGuid().ToString(),
-                Synced = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Synced = (short)rnd.Next(shortMinValue, shortmaxValue),
                 DisplayIndex = rnd.Next(1, 255),
                 MicrotingUid = Guid.NewGuid().ToString(),
                 EntityItemUid = Guid.NewGuid().ToString(),
@@ -246,15 +246,15 @@ namespace eFormSDK.CheckLists.Tests
             await entityItem.Delete(DbContext);
 
             List<EntityItem> entityItems = DbContext.EntityItems.AsNoTracking().ToList();
-            List<EntityItemVersion> entityItemVersion= DbContext.EntityItemVersions.AsNoTracking().ToList();
+            List<EntityItemVersion> entityItemVersion = DbContext.EntityItemVersions.AsNoTracking().ToList();
 
             //Assert
 
             Assert.NotNull(entityItems);
             Assert.NotNull(entityItemVersion);
 
-            Assert.AreEqual(1,entityItems.Count());
-            Assert.AreEqual(2,entityItemVersion.Count());
+            Assert.AreEqual(1, entityItems.Count());
+            Assert.AreEqual(2, entityItemVersion.Count());
 
             Assert.AreEqual(entityItem.CreatedAt.ToString(), entityItems[0].CreatedAt.ToString());
             Assert.AreEqual(entityItem.Version, entityItems[0].Version);

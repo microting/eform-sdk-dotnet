@@ -33,11 +33,10 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-                
+
         public int? Version { get; set; }
 
-        [StringLength(255)]
-        public string WorkflowState { get; set; }
+        [StringLength(255)] public string WorkflowState { get; set; }
 
         public DateTime? CreatedAt { get; set; }
 

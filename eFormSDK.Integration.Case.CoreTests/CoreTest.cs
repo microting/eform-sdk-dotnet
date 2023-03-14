@@ -57,6 +57,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef").ConfigureAwait(false);
             await sql.SettingUpdate(Settings.firstRunDone, "true").ConfigureAwait(false);
             await sql.SettingUpdate(Settings.knownSitesDone, "true").ConfigureAwait(false);
+
             #endregion
 
             sut = new Core();
@@ -69,7 +70,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             await sut.StartSqlOnly(ConnectionString).ConfigureAwait(false);
             path = Assembly.GetExecutingAssembly().Location;
             path = Path.GetDirectoryName(path).Replace(@"file:", "");
-            await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SetSdkSetting(Settings.fileLocationPicture,
+                Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers(ConnectionString);
@@ -88,7 +90,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             await sut.CheckStatusByMicrotingUid(int.Parse(microtingUuid)).ConfigureAwait(false);
 
             // Assert
-            List<Microting.eForm.Infrastructure.Data.Entities.Case> caseMatches = DbContext.Cases.AsNoTracking().ToList();
+            List<Microting.eForm.Infrastructure.Data.Entities.Case> caseMatches =
+                DbContext.Cases.AsNoTracking().ToList();
             List<UploadedData> udMatches = DbContext.UploadedDatas.AsNoTracking().ToList();
             List<FieldValue> fvMatches = DbContext.FieldValues.AsNoTracking().ToList();
 
@@ -98,10 +101,10 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(1, caseMatches.Count());
             Assert.AreEqual(1, udMatches.Count());
             Assert.AreEqual(1, fvMatches.Count());
-
         }
 
         #region eventhandlers
+
         public void EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
@@ -131,7 +134,9 @@ namespace eFormSDK.Integration.Case.CoreTests
         {
             // Does nothing for web implementation
         }
+
         #endregion
+
         // Arrange
 
         // Act

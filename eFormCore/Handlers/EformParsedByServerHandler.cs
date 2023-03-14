@@ -51,7 +51,8 @@ namespace Microting.eForm.Handlers
 #pragma warning disable 1998
         public async Task Handle(EformParsedByServer message)
         {
-            await sqlController.NotificationCreate(message.NotificationId, message.MicrotringUUID, Constants.Notifications.EformParsedByServer);
+            await sqlController.NotificationCreate(message.NotificationId, message.MicrotringUUID,
+                Constants.Notifications.EformParsedByServer);
 
             CaseDto cDto = await sqlController.CaseReadByMUId(message.MicrotringUUID);
             await core.FireHandleCaseProcessedByServer(cDto);

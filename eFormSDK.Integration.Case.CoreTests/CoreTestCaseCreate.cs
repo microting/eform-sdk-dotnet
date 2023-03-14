@@ -21,7 +21,6 @@ namespace eFormSDK.Integration.Case.CoreTests
 
         public override async Task DoSetup()
         {
-
             if (sut == null)
             {
                 sut = new Core();
@@ -33,9 +32,11 @@ namespace eFormSDK.Integration.Case.CoreTests
                 sut.HandleSiteActivated += EventSiteActivated;
                 await sut.StartSqlOnly(ConnectionString);
             }
+
             path = Assembly.GetExecutingAssembly().Location;
             path = Path.GetDirectoryName(path).Replace(@"file:", "");
-            await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SetSdkSetting(Settings.fileLocationPicture,
+                Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers(ConnectionString);
@@ -43,15 +44,18 @@ namespace eFormSDK.Integration.Case.CoreTests
             //await sut.StartLog(new CoreBase());
         }
 
-        [Test]//needs http mock done
+        [Test] //needs http mock done
         public async Task Core_Case_CaseCreate_CreatesCase()
         {
             // Arrange
+
             #region Template1
+
             DateTime c1_Ca = DateTime.Now;
             DateTime c1_Ua = DateTime.Now;
 
-            CheckList cl1 = await testHelpers.CreateTemplate(c1_Ca, c1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+            CheckList cl1 =
+                await testHelpers.CreateTemplate(c1_Ca, c1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
 
@@ -117,6 +121,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 //            #endregion
 
             #region site
+
             Site site = await testHelpers.CreateSite("SiteName", 88);
 
             #endregion
@@ -133,11 +138,12 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Act
             var match = await sut.CaseCreate(main, "", (int)site.MicrotingUid, null);
             // Assert
-             Assert.NotNull(match);
+            Assert.NotNull(match);
         }
 
 
         #region eventhandlers
+
         public void EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
@@ -167,7 +173,7 @@ namespace eFormSDK.Integration.Case.CoreTests
         {
             // Does nothing for web implementation
         }
+
         #endregion
     }
-
 }

@@ -62,8 +62,8 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(tags);
             Assert.NotNull(tagVersions);
 
-            Assert.AreEqual(1,tags.Count());
-            Assert.AreEqual(1,tagVersions.Count());
+            Assert.AreEqual(1, tags.Count());
+            Assert.AreEqual(1, tagVersions.Count());
 
             Assert.AreEqual(tag.CreatedAt.ToString(), tags[0].CreatedAt.ToString());
             Assert.AreEqual(tag.Version, tags[0].Version);
@@ -114,8 +114,8 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(tags);
             Assert.NotNull(tagVersions);
 
-            Assert.AreEqual(1,tags.Count());
-            Assert.AreEqual(2,tagVersions.Count());
+            Assert.AreEqual(1, tags.Count());
+            Assert.AreEqual(2, tagVersions.Count());
 
             Assert.AreEqual(tag.CreatedAt.ToString(), tags[0].CreatedAt.ToString());
             Assert.AreEqual(tag.Version, tags[0].Version);
@@ -168,8 +168,8 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(tags);
             Assert.NotNull(tagVersions);
 
-            Assert.AreEqual(1,tags.Count());
-            Assert.AreEqual(2,tagVersions.Count());
+            Assert.AreEqual(1, tags.Count());
+            Assert.AreEqual(2, tagVersions.Count());
 
             Assert.AreEqual(tag.CreatedAt.ToString(), tags[0].CreatedAt.ToString());
             Assert.AreEqual(tag.Version, tags[0].Version);
@@ -193,7 +193,6 @@ namespace eFormSDK.Base.Tests
             Assert.AreEqual(tagVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
             Assert.AreEqual(tag.Name, tagVersions[1].Name);
             Assert.AreEqual(tag.Id, tagVersions[1].TagId);
-
         }
     }
 }

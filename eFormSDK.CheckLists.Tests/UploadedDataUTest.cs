@@ -50,7 +50,7 @@ namespace eFormSDK.CheckLists.Tests
             {
                 Checksum = Guid.NewGuid().ToString(),
                 Extension = Guid.NewGuid().ToString(),
-                Local = (short) rnd.Next(minValue, maxValue),
+                Local = (short)rnd.Next(minValue, maxValue),
                 CurrentFile = Guid.NewGuid().ToString(),
                 ExpirationDate = DateTime.UtcNow,
                 FileLocation = Guid.NewGuid().ToString(),
@@ -72,8 +72,8 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(uploadedDatas);
             Assert.NotNull(uploadedDataVersions);
 
-            Assert.AreEqual(1,uploadedDatas.Count());
-            Assert.AreEqual(1,uploadedDataVersions.Count());
+            Assert.AreEqual(1, uploadedDatas.Count());
+            Assert.AreEqual(1, uploadedDataVersions.Count());
 
 
             Assert.AreEqual(uploadedData.CreatedAt.ToString(), uploadedDatas[0].CreatedAt.ToString());
@@ -106,7 +106,6 @@ namespace eFormSDK.CheckLists.Tests
             Assert.AreEqual(uploadedData.UploaderId, uploadedDataVersions[0].UploaderId);
             Assert.AreEqual(uploadedData.UploaderType, uploadedDataVersions[0].UploaderType);
             Assert.AreEqual(uploadedData.TranscriptionId, uploadedDataVersions[0].TranscriptionId);
-
         }
 
         [Test]
@@ -124,7 +123,7 @@ namespace eFormSDK.CheckLists.Tests
             {
                 Checksum = Guid.NewGuid().ToString(),
                 Extension = Guid.NewGuid().ToString(),
-                Local = (short) rnd.Next(minValue, maxValue),
+                Local = (short)rnd.Next(minValue, maxValue),
                 CurrentFile = Guid.NewGuid().ToString(),
                 ExpirationDate = DateTime.UtcNow,
                 FileLocation = Guid.NewGuid().ToString(),
@@ -151,7 +150,6 @@ namespace eFormSDK.CheckLists.Tests
             string oldUploaderType = uploadedData.UploaderType;
 
 
-
             uploadedData.Checksum = Guid.NewGuid().ToString();
             uploadedData.Extension = Guid.NewGuid().ToString();
             uploadedData.Local = (short)rnd.Next(minValue, maxValue);
@@ -174,7 +172,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(uploadedDatas);
             Assert.NotNull(uploadedDataVersions);
 
-            Assert.AreEqual(1,uploadedDatas.Count());
+            Assert.AreEqual(1, uploadedDatas.Count());
             Assert.AreEqual(2, uploadedDataVersions.Count());
 
             Assert.AreEqual(uploadedData.CreatedAt.ToString(), uploadedDatas[0].CreatedAt.ToString());
@@ -236,7 +234,7 @@ namespace eFormSDK.CheckLists.Tests
             {
                 Checksum = Guid.NewGuid().ToString(),
                 Extension = Guid.NewGuid().ToString(),
-                Local = (short) rnd.Next(minValue, maxValue),
+                Local = (short)rnd.Next(minValue, maxValue),
                 CurrentFile = Guid.NewGuid().ToString(),
                 ExpirationDate = DateTime.UtcNow,
                 FileLocation = Guid.NewGuid().ToString(),
@@ -262,7 +260,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(uploadedDatas);
             Assert.NotNull(uploadedDataVersions);
 
-            Assert.AreEqual(1,uploadedDatas.Count());
+            Assert.AreEqual(1, uploadedDatas.Count());
             Assert.AreEqual(2, uploadedDataVersions.Count());
 
             Assert.AreEqual(uploadedData.CreatedAt.ToString(), uploadedDatas[0].CreatedAt.ToString());

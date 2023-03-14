@@ -46,7 +46,8 @@ namespace Microting.eForm.Communication
 
         Task<string> EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id);
 
-        Task<bool> EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id);
+        Task<bool> EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name,
+            string description, string id);
 
         Task<bool> EntitySearchItemDelete(string entitySearchItemId);
 
@@ -58,7 +59,8 @@ namespace Microting.eForm.Communication
 
         Task<string> EntitySelectItemCreate(string entitySelectGroupId, string name, int displayOrder, string id);
 
-        Task<bool> EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayOrder, string id);
+        Task<bool> EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name,
+            int displayOrder, string id);
 
         Task<bool> EntitySelectItemDelete(string entitySelectItemId);
 
@@ -97,7 +99,8 @@ namespace Microting.eForm.Communication
 
         Task<string> FolderDelete(int id);
 
-        Task<string> UnitUpdate(int id, bool newOtp, int siteId, bool pushEnabled, bool syncDelayEnabled, bool syncDialogEnabled);
+        Task<string> UnitUpdate(int id, bool newOtp, int siteId, bool pushEnabled, bool syncDelayEnabled,
+            bool syncDialogEnabled);
 
         Task<string> UnitLoadAllFromRemote();
 

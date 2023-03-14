@@ -30,47 +30,46 @@ using System.Threading.Tasks;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class Question : PnBase
+    public class Question : PnBase
     {
-        [ForeignKey("QuestionSet")]
-        public int QuestionSetId { get; set; }
-        
+        [ForeignKey("QuestionSet")] public int QuestionSetId { get; set; }
+
         public string QuestionType { get; set; }
-        
+
         public int Minimum { get; set; }
-        
+
         public int Maximum { get; set; }
-        
+
         public string Type { get; set; }
-        
+
         public int RefId { get; set; }
-        
+
         public int QuestionIndex { get; set; }
-        
+
         public bool Image { get; set; }
-        
+
         public int ContinuousQuestionId { get; set; }
-        
+
         public string ImagePosition { get; set; }
-        
+
         public bool Prioritised { get; set; }
-        
+
         public bool BackButtonEnabled { get; set; }
-        
+
         public string FontSize { get; set; }
-        
+
         public int MinDuration { get; set; }
-        
+
         public int MaxDuration { get; set; }
-        
+
         public bool ValidDisplay { get; set; }
-        
+
         public int? MicrotingUid { get; set; }
 
         public virtual QuestionSet QuestionSet { get; set; }
 
         public virtual ICollection<QuestionTranslation> QuestionTranslationses { get; set; }
-        
+
         public virtual ICollection<Option> Options { get; set; }
 
         public async Task Create(MicrotingDbContext dbContext, bool CreateSpecialQuestionTypes)
@@ -81,6 +80,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 await GenerateSpecialQuestionTypes(dbContext, 1);
             }
         }
+
         public bool IsSmiley()
         {
             switch (QuestionType)
@@ -103,38 +103,38 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         private async Task GenerateSmileyOptions(MicrotingDbContext dbContext, int languageId)
         {
-            string[] smileys = {""};
-            switch (QuestionType)  
+            string[] smileys = { "" };
+            switch (QuestionType)
             {
                 case Constants.Constants.QuestionTypes.Smiley:
-                    smileys = new[] {"smiley1", "smiley2", "smiley3", "smiley5", "smiley6"};
+                    smileys = new[] { "smiley1", "smiley2", "smiley3", "smiley5", "smiley6" };
                     break;
                 case Constants.Constants.QuestionTypes.Smiley2:
-                    smileys = new[] {"smiley1", "smiley2", "smiley3","smiley4", "smiley5", "smiley6"};
+                    smileys = new[] { "smiley1", "smiley2", "smiley3", "smiley4", "smiley5", "smiley6" };
                     break;
                 case Constants.Constants.QuestionTypes.Smiley3:
-                    smileys = new[] {"smiley1", "smiley5"};
+                    smileys = new[] { "smiley1", "smiley5" };
                     break;
                 case Constants.Constants.QuestionTypes.Smiley4:
-                    smileys = new[] {"smiley1", "smiley5", "smiley6"};
+                    smileys = new[] { "smiley1", "smiley5", "smiley6" };
                     break;
                 case Constants.Constants.QuestionTypes.Smiley5:
-                    smileys = new[] {"smiley1", "smiley3", "smiley5"};
+                    smileys = new[] { "smiley1", "smiley3", "smiley5" };
                     break;
                 case Constants.Constants.QuestionTypes.Smiley6:
-                    smileys = new[] {"smiley1", "smiley3", "smiley5", "smiley6"};
+                    smileys = new[] { "smiley1", "smiley3", "smiley5", "smiley6" };
                     break;
                 case Constants.Constants.QuestionTypes.Smiley7:
-                    smileys = new[] {"smiley1", "smiley2", "smiley3", "smiley5"};
+                    smileys = new[] { "smiley1", "smiley2", "smiley3", "smiley5" };
                     break;
                 case Constants.Constants.QuestionTypes.Smiley8:
-                    smileys = new[] {"smiley1", "smiley2", "smiley4", "smiley5"};
+                    smileys = new[] { "smiley1", "smiley2", "smiley4", "smiley5" };
                     break;
                 case Constants.Constants.QuestionTypes.Smiley9:
-                    smileys = new[] {"smiley1", "smiley2", "smiley4", "smiley5", "smiley6"};
+                    smileys = new[] { "smiley1", "smiley2", "smiley4", "smiley5", "smiley6" };
                     break;
                 case Constants.Constants.QuestionTypes.Smiley10:
-                    smileys = new[] {"smiley1", "smiley2", "smiley3", "smiley4", "smiley5"};
+                    smileys = new[] { "smiley1", "smiley2", "smiley3", "smiley4", "smiley5" };
                     break;
             }
 
@@ -206,20 +206,22 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 case Constants.Constants.QuestionTypes.Smiley9:
                 case Constants.Constants.QuestionTypes.Smiley10:
                     await GenerateSmileyOptions(dbContext, languageId);
-                    break;;
+                    break;
+                    ;
             }
         }
 
-        private async Task CreateSpecialOption(MicrotingDbContext dbContext, int weight, int weightedValue, string text, int languageId, int optionIndex)
+        private async Task CreateSpecialOption(MicrotingDbContext dbContext, int weight, int weightedValue, string text,
+            int languageId, int optionIndex)
         {
             var result = (from ot in dbContext.OptionTranslations
                 join o in dbContext.Options
                     on ot.OptionId equals o.Id
-                    where o.Weight == weight 
-                          && o.WeightValue == weightedValue
-                          && ot.Name == text
-                          && ot.LanguageId == languageId
-                          && o.QuestionId == Id
+                where o.Weight == weight
+                      && o.WeightValue == weightedValue
+                      && ot.Name == text
+                      && ot.LanguageId == languageId
+                      && o.QuestionId == Id
                 select new
                 {
                     o.Id
@@ -236,7 +238,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 };
 
                 await option.Create(dbContext).ConfigureAwait(false);
-                
+
                 OptionTranslation optionTranslation = new OptionTranslation
                 {
                     OptionId = option.Id,

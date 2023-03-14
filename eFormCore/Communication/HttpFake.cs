@@ -62,7 +62,8 @@ namespace Microting.eForm.Communication
 
         // public
         // public API
-        public async Task<string> Post(string xmlData, string siteId, string contentType = "application/x-www-form-urlencoded")
+        public async Task<string> Post(string xmlData, string siteId,
+            string contentType = "application/x-www-form-urlencoded")
         {
             await Task.Run(() => { });
             if (xmlData.Contains("throw new Exception"))
@@ -72,7 +73,8 @@ namespace Microting.eForm.Communication
                 throw new Exception("Post created 'other' Exception as per request");
 
             if (contentType == "application/xml")
-                return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + t.GetRandomInt(5) + "</Value></Response>";
+                return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" +
+                       t.GetRandomInt(5) + "</Value></Response>";
 
             return @"{
                         Value: {
@@ -86,7 +88,8 @@ namespace Microting.eForm.Communication
         public async Task<string> Status(string elementId, string siteId)
         {
             await Task.Run(() => { });
-            return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "success" + "</Value><Unit fetched_at=\"\" id=\"\"/></Response>";
+            return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "success" +
+                   "</Value><Unit fetched_at=\"\" id=\"\"/></Response>";
         }
 
         public async Task<string> Retrieve(string microtingUuid, string microtingCheckUuid, int siteId)
@@ -102,7 +105,8 @@ namespace Microting.eForm.Communication
         public async Task<string> Delete(string elementId, string siteId)
         {
             await Task.Run(() => { });
-            return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "success" + "</Value><Unit fetched_at=\"\" id=\"\"/></Response>";
+            return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "success" +
+                   "</Value><Unit fetched_at=\"\" id=\"\"/></Response>";
         }
         //
 
@@ -125,13 +129,15 @@ namespace Microting.eForm.Communication
             return true;
         }
 
-        public async Task<string> EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id)
+        public async Task<string> EntitySearchItemCreate(string entitySearchGroupId, string name, string description,
+            string id)
         {
             await Task.Run(() => { });
             return t.GetRandomInt(6).ToString();
         }
 
-        public async Task<bool> EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name, string description, string id)
+        public async Task<bool> EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId,
+            string name, string description, string id)
         {
             await Task.Run(() => { });
             return true;
@@ -163,13 +169,15 @@ namespace Microting.eForm.Communication
             return true;
         }
 
-        public async Task<string> EntitySelectItemCreate(string entitySelectGroupId, string name, int displayOrder, string id)
+        public async Task<string> EntitySelectItemCreate(string entitySelectGroupId, string name, int displayOrder,
+            string id)
         {
             await Task.Run(() => { });
             return t.GetRandomInt(6).ToString();
         }
 
-        public async Task<bool> EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name, int displayOrder, string id)
+        public async Task<bool> EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId,
+            string name, int displayOrder, string id)
         {
             await Task.Run(() => { });
             return true;
@@ -210,12 +218,19 @@ namespace Microting.eForm.Communication
             if (name == "John Noname Doe")
             {
                 int MicrotingUid = t.GetRandomInt(6);
-                JObject contentToServer = JObject.FromObject(new {Name = name, MicrotingUid, CreatedAt = "2018-01-12T01:01:00Z", UpdatedAt = "2018-01-12T01:01:10Z" });
+                JObject contentToServer = JObject.FromObject(new
+                {
+                    Name = name, MicrotingUid, CreatedAt = "2018-01-12T01:01:00Z", UpdatedAt = "2018-01-12T01:01:10Z"
+                });
                 return contentToServer.ToString();
-            } else
+            }
+            else
             {
                 int MicrotingUid = t.GetRandomInt(6);
-                JObject contentToServer = JObject.FromObject(new {Name = name, MicrotingUid, CreatedAt = "2018-01-12T01:01:00Z", UpdatedAt = "2018-01-12T01:01:10Z" });
+                JObject contentToServer = JObject.FromObject(new
+                {
+                    Name = name, MicrotingUid, CreatedAt = "2018-01-12T01:01:00Z", UpdatedAt = "2018-01-12T01:01:10Z"
+                });
                 return contentToServer.ToString();
             }
 
@@ -261,7 +276,11 @@ namespace Microting.eForm.Communication
         {
             await Task.Run(() => { });
             int MicrotingUid = t.GetRandomInt(6);
-            JObject contentToServer = JObject.FromObject(new {firstName, MicrotingUid, lastName, email, CreatedAt = "2018-01-12T01:01:00Z", UpdatedAt = "2018-01-12T01:01:10Z" });
+            JObject contentToServer = JObject.FromObject(new
+            {
+                firstName, MicrotingUid, lastName, email, CreatedAt = "2018-01-12T01:01:00Z",
+                UpdatedAt = "2018-01-12T01:01:10Z"
+            });
             return contentToServer.ToString();
 //            if (firstName == "John Noname")
 //            {
@@ -311,7 +330,8 @@ namespace Microting.eForm.Communication
         {
             await Task.Run(() => { });
             int MicrotingUid = t.GetRandomInt(6);
-            JObject contentToServer = JObject.FromObject(new {MicrotingUid, CreatedAt = "2018-01-12T01:01:00Z", UpdatedAt = "2018-01-12T01:01:10Z" });
+            JObject contentToServer = JObject.FromObject(new
+                { MicrotingUid, CreatedAt = "2018-01-12T01:01:00Z", UpdatedAt = "2018-01-12T01:01:10Z" });
             return contentToServer.ToString();
         }
 
@@ -354,11 +374,12 @@ namespace Microting.eForm.Communication
             await Task.Run(() => { });
             int id = t.GetRandomInt(6);
             JObject contentToServer = JObject.FromObject(new
-                {MicrotingUid = id, ParentId = parentId});
+                { MicrotingUid = id, ParentId = parentId });
             return contentToServer.ToString();
         }
 
-        public async Task<bool> FolderUpdate(int id, string name, string description, string languageCode, int? parentId)
+        public async Task<bool> FolderUpdate(int id, string name, string description, string languageCode,
+            int? parentId)
         {
             await Task.Run(() => { });
             return true;
@@ -368,7 +389,11 @@ namespace Microting.eForm.Communication
         {
             await Task.Run(() => { });
 
-            JObject contentToServer = JObject.FromObject(new {name = "Some Name", description = "Some Description", id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z", WorkflowState = Constants.WorkflowStates.Removed });
+            JObject contentToServer = JObject.FromObject(new
+            {
+                name = "Some Name", description = "Some Description", id, created_at = "2018-01-12T01:01:00Z",
+                updated_at = "2018-01-12T01:01:10Z", WorkflowState = Constants.WorkflowStates.Removed
+            });
             return contentToServer.ToString();
 ////            if (id == 1)
 ////            {
@@ -381,7 +406,8 @@ namespace Microting.eForm.Communication
         //
 
         // public Unit
-        public async Task<string> UnitUpdate(int id, bool newOtp, int siteId, bool pushEnabled, bool syncDelayEnabled, bool syncDialogEnabled)
+        public async Task<string> UnitUpdate(int id, bool newOtp, int siteId, bool pushEnabled, bool syncDelayEnabled,
+            bool syncDialogEnabled)
         {
             await Task.Run(() => { });
             JObject contentToServer = JObject.FromObject(new
@@ -418,7 +444,8 @@ namespace Microting.eForm.Communication
 
             int MicrotingUid = t.GetRandomInt(6);
             int otpCode = t.GetRandomInt(6);
-            JObject contentToServer = JObject.FromObject(new { MicrotingUid, WorkflowState = Constants.WorkflowStates.Created, OtpCode = otpCode });
+            JObject contentToServer = JObject.FromObject(new
+                { MicrotingUid, WorkflowState = Constants.WorkflowStates.Created, OtpCode = otpCode });
             return contentToServer.ToString();
         }
         //
@@ -428,29 +455,33 @@ namespace Microting.eForm.Communication
         {
             await Task.Run(() => { });
 //            int id = t.GetRandomInt(6);
-            JObject contentToServer = JObject.FromObject(new { my_organization = new
+            JObject contentToServer = JObject.FromObject(new
             {
-                AwsEndpoint = "https://sqs.eu-central-1.amazonaws.com/564456879978/",
-                AwsId = "3T98EGIO4Y9H8W2",
-                AwsKey = "098u34098uergijt3098w",
-                CreatedAt = "2018-01-12T01:01:00Z",
-                CustomerNo = "342345",
-                Id = 64856189,
-                Name = "John Doe corporation Ltd.",
-                PaymentOverdue = false,
-                PaymentStatus = "OK",
-                UnitLicenseNumber = 55,
-                UpdatedAt = "2018-01-12T01:01:10Z",
-                WorkflowState = "new",
-                Token = _token,
-                TokenExpires = "2034-01-12T01:01:10Z",
-                ComAddress = "http://srv05.microting.com",
-                ComAddressBasic = "https://basic.microting.com",
-                ComAddressPdfUpload = "https://srv16.microting.com",
-                ComSpeechToText = "https://srv16.microting.com",
-                S3EndPoint = "",
-                S3Id = "sfsefregwef43r2fsfr",
-                S3Key = "john_doen_corporation_ltd" } });
+                my_organization = new
+                {
+                    AwsEndpoint = "https://sqs.eu-central-1.amazonaws.com/564456879978/",
+                    AwsId = "3T98EGIO4Y9H8W2",
+                    AwsKey = "098u34098uergijt3098w",
+                    CreatedAt = "2018-01-12T01:01:00Z",
+                    CustomerNo = "342345",
+                    Id = 64856189,
+                    Name = "John Doe corporation Ltd.",
+                    PaymentOverdue = false,
+                    PaymentStatus = "OK",
+                    UnitLicenseNumber = 55,
+                    UpdatedAt = "2018-01-12T01:01:10Z",
+                    WorkflowState = "new",
+                    Token = _token,
+                    TokenExpires = "2034-01-12T01:01:10Z",
+                    ComAddress = "http://srv05.microting.com",
+                    ComAddressBasic = "https://basic.microting.com",
+                    ComAddressPdfUpload = "https://srv16.microting.com",
+                    ComSpeechToText = "https://srv16.microting.com",
+                    S3EndPoint = "",
+                    S3Id = "sfsefregwef43r2fsfr",
+                    S3Key = "john_doen_corporation_ltd"
+                }
+            });
             return contentToServer.ToString();
         }
         //
@@ -479,34 +510,31 @@ namespace Microting.eForm.Communication
 
         public async Task<string> GetAllSurveyConfigurations()
         {
-            await Task.Run(() => {
-            });
-            return "{}";        }
+            await Task.Run(() => { });
+            return "{}";
+        }
 
         public async Task<string> GetSurveyConfiguration(int id)
         {
-            await Task.Run(() => {
-            });
-            return "{}";        }
+            await Task.Run(() => { });
+            return "{}";
+        }
 
         public async Task<string> GetAllQuestionSets()
         {
-            await Task.Run(() => {
-            });
+            await Task.Run(() => { });
             return "{}";
         }
 
         public async Task<string> GetQuestionSet(int id)
         {
-            await Task.Run(() => {
-            });
+            await Task.Run(() => { });
             return "{}";
         }
 
         public async Task<string> GetLastAnswer(int questionSetId, int lastAnswerId)
         {
-            await Task.Run(() => {
-            });
+            await Task.Run(() => { });
             return "{}";
         }
 
@@ -565,7 +593,8 @@ namespace Microting.eForm.Communication
         /// <param name='sslpolicyErrors'>
         /// SslPolicy Enum
         /// </param>
-        private bool Validator(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslpolicyErrors)
+        private bool Validator(object sender, X509Certificate certificate, X509Chain chain,
+            SslPolicyErrors sslpolicyErrors)
         {
             return true;
         }

@@ -29,40 +29,34 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public class Answer : PnBase
     {
-        
-        [ForeignKey("unit")]
-        public int? UnitId { get; set; }
-        
-        [ForeignKey("site")]
-        public int SiteId { get; set; }
-        
+        [ForeignKey("unit")] public int? UnitId { get; set; }
+
+        [ForeignKey("site")] public int SiteId { get; set; }
+
         public int AnswerDuration { get; set; }
-        
-        [ForeignKey("language")]
-        public int LanguageId { get; set; }
-        
-        [ForeignKey("survey_configuration")]
-        public int? SurveyConfigurationId { get; set; }
-        
+
+        [ForeignKey("language")] public int LanguageId { get; set; }
+
+        [ForeignKey("survey_configuration")] public int? SurveyConfigurationId { get; set; }
+
         public DateTime FinishedAt { get; set; }
-        
-        [ForeignKey("question_set")]
-        public int QuestionSetId { get; set; }
-        
+
+        [ForeignKey("question_set")] public int QuestionSetId { get; set; }
+
         public bool UtcAdjusted { get; set; }
-        
+
         public string TimeZone { get; set; }
-        
+
         public virtual Site Site { get; set; }
 
         public virtual Unit Unit { get; set; }
-        
+
         public virtual Language Language { get; set; }
-        
+
         public virtual SurveyConfiguration SurveyConfiguration { get; set; }
-        
+
         public virtual QuestionSet QuestionSet { get; set; }
-        
+
         public int? MicrotingUid { get; set; }
     }
 }

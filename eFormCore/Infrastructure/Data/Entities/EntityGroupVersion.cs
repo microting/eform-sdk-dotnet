@@ -26,7 +26,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class EntityGroupVersion : BaseEntity
+    public class EntityGroupVersion : BaseEntity
     {
         public int EntityGroupId { get; set; }
 
@@ -34,8 +34,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public string Name { get; set; }
 
-        [StringLength(50)]
-        public string Type { get; set; }
+        [StringLength(50)] public string Type { get; set; }
 
         public string Description { get; set; }
 

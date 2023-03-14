@@ -34,10 +34,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
         [Test]
         public async Task CanPeep()
         {
-            await Task.Run(() =>
-            {
-                Assert.True(true);
-            });
+            await Task.Run(() => { Assert.True(true); });
         }
     }
 }

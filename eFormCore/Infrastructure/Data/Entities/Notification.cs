@@ -30,14 +30,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class Notification
+    public class Notification
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [StringLength(255)]
-        public string WorkflowState { get; set; }
+        [StringLength(255)] public string WorkflowState { get; set; }
 
         public DateTime? CreatedAt { get; set; }
 
@@ -47,15 +46,14 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public string Transmission { get; set; }
 
-        [StringLength(255)]
-        public string NotificationUid { get; set; }
+        [StringLength(255)] public string NotificationUid { get; set; }
 
         public string Activity { get; set; }
 
         public string Exception { get; set; }
 
         public string Stacktrace { get; set; }
-        
+
         public int Version { get; set; }
 
         public async Task Create(MicrotingDbContext dbContext)
@@ -70,7 +68,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
             dbContext.NotificationVersions.Add(MapVersions(this));
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            
         }
 
         public async Task Update(MicrotingDbContext dbContext)
@@ -98,7 +95,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 dbContext.NotificationVersions.Add(MapVersions(notification));
                 await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
-            
         }
 
         public async Task Delete(MicrotingDbContext dbContext)
@@ -109,9 +105,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             {
                 throw new NullReferenceException($"Could not find notification with id {Id}");
             }
-            
+
             notification.WorkflowState = Constants.Constants.WorkflowStates.Removed;
-            
+
             if (dbContext.ChangeTracker.HasChanges())
             {
                 notification.UpdatedAt = DateTime.UtcNow;

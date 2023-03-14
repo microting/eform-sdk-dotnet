@@ -26,14 +26,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class EntityItemVersion : BaseEntity
+    public class EntityItemVersion : BaseEntity
     {
         public int EntityItemId { get; set; }
 
         public int? EntityGroupId { get; set; }
 
-        [StringLength(50)]
-        public string EntityItemUid { get; set; }
+        [StringLength(50)] public string EntityItemUid { get; set; }
 
         public string MicrotingUid { get; set; }
 

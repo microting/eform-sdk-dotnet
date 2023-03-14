@@ -30,12 +30,13 @@ namespace Microting.eForm.Infrastructure
 {
     public class MicrotingDbContext : DbContext
     {
-        public MicrotingDbContext() { }
+        public MicrotingDbContext()
+        {
+        }
 
         public MicrotingDbContext(DbContextOptions options)
-          : base(options)
+            : base(options)
         {
-
         }
 
         public virtual DbSet<AnswerValue> AnswerValues { get; set; }
@@ -133,7 +134,7 @@ namespace Microting.eForm.Infrastructure
                     p => p.Children).HasForeignKey(d => d.ParentFieldId);
             });
 
-            modelBuilder.Entity<Case>().HasIndex(p => new {p.MicrotingUid, p.MicrotingCheckUid});
+            modelBuilder.Entity<Case>().HasIndex(p => new { p.MicrotingUid, p.MicrotingCheckUid });
 
 #pragma warning restore 612, 618
         }
@@ -155,7 +156,5 @@ namespace Microting.eForm.Infrastructure
 // //            optionsBuilder.EnableSensitiveDataLogging();
 // //            optionsBuilder.UseLoggerFactory(MyLoggerFactory);
 //         }
-
-
     }
 }

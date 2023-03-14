@@ -59,8 +59,8 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(languages);
             Assert.NotNull(languageVersions);
 
-            Assert.AreEqual(15,languages.Count);
-            Assert.AreEqual(15,languageVersions.Count);
+            Assert.AreEqual(15, languages.Count);
+            Assert.AreEqual(15, languageVersions.Count);
 
             Assert.AreEqual(language.CreatedAt.ToString(), languages[14].CreatedAt.ToString());
             Assert.AreEqual(language.Version, languages[14].Version);
@@ -111,8 +111,8 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(languages);
             Assert.NotNull(languageVersions);
 
-            Assert.AreEqual(15,languages.Count);
-            Assert.AreEqual(16,languageVersions.Count);
+            Assert.AreEqual(15, languages.Count);
+            Assert.AreEqual(16, languageVersions.Count);
 
             Assert.AreEqual(language.CreatedAt.ToString(), languages[14].CreatedAt.ToString());
             Assert.AreEqual(language.Version, languages[14].Version);
@@ -142,6 +142,7 @@ namespace eFormSDK.Base.Tests
             Assert.AreEqual(language.Name, languageVersions[15].Name);
             Assert.AreEqual(true, languageVersions[15].IsActive);
         }
+
         [Test]
         public async Task Languages_Delete_DoesSetWorkflowStateToRemoved()
         {
@@ -166,8 +167,8 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(languages);
             Assert.NotNull(languageVersions);
 
-            Assert.AreEqual(15,languages.Count);
-            Assert.AreEqual(16,languageVersions.Count);
+            Assert.AreEqual(15, languages.Count);
+            Assert.AreEqual(16, languageVersions.Count);
 
             Assert.AreEqual(language.CreatedAt.ToString(), languages[14].CreatedAt.ToString());
             Assert.AreEqual(language.Version, languages[14].Version);

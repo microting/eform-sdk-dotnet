@@ -57,6 +57,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
             await sql.SettingUpdate(Settings.firstRunDone, "true");
             await sql.SettingUpdate(Settings.knownSitesDone, "true");
+
             #endregion
 
             sut = new Core();
@@ -69,7 +70,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             await sut.StartSqlOnly(ConnectionString);
             path = Assembly.GetExecutingAssembly().Location;
             path = Path.GetDirectoryName(path).Replace(@"file:", "");
-            await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SetSdkSetting(Settings.fileLocationPicture,
+                Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers(ConnectionString);
@@ -81,80 +83,90 @@ namespace eFormSDK.Integration.Case.CoreTests
         public async Task Core_Case_CaseReadAll_Long()
         {
             // Arrance
+
             #region Arrance
+
             #region Template1
+
             DateTime cl1_ca = DateTime.UtcNow;
             DateTime cl1_ua = DateTime.UtcNow;
             Random rnd = new Random();
-            CheckList cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+            CheckList cl1 =
+                await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
 
             #region SubTemplate1
-            CheckList cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
 
+            CheckList cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
 
             #endregion
 
             #region Fields
+
             #region field1
 
-
-            Field f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+            Field f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "",
+                "Comment field description",
+                5, 1, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55,
+                "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
 
             #endregion
 
             #region field2
 
-
-            Field f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "", "showPDf Description",
+            Field f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "",
+                "showPDf Description",
                 45, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
-
 
             #endregion
 
             #region field3
 
-            Field f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "", "Number Field Description",
+            Field f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "",
+                "Number Field Description",
                 83, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-
 
             #endregion
 
             #region field4
 
-
-            Field f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "", "date Description",
+            Field f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "",
+                "date Description",
                 84, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region field5
 
-            Field f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "", "picture Description",
+            Field f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "",
+                "picture Description",
                 85, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
-
             #endregion
+
             #endregion
 
             #region Worker
 
-            Worker worker1 = await testHelpers.CreateWorker("aa@tak1.dk", "Arne1", "Jensen", await testHelpers.GetRandomInt());
-            Worker worker2 = await testHelpers.CreateWorker("aa@tak2.dk", "Arne2", "Jensen", await testHelpers.GetRandomInt());
-            Worker worker3 = await testHelpers.CreateWorker("aa@tak3.dk", "Arne3", "Jensen", await testHelpers.GetRandomInt());
-            Worker worker4 = await testHelpers.CreateWorker("aa@tak4.dk", "Arne4", "Jensen", await testHelpers.GetRandomInt());
+            Worker worker1 =
+                await testHelpers.CreateWorker("aa@tak1.dk", "Arne1", "Jensen", await testHelpers.GetRandomInt());
+            Worker worker2 =
+                await testHelpers.CreateWorker("aa@tak2.dk", "Arne2", "Jensen", await testHelpers.GetRandomInt());
+            Worker worker3 =
+                await testHelpers.CreateWorker("aa@tak3.dk", "Arne3", "Jensen", await testHelpers.GetRandomInt());
+            Worker worker4 =
+                await testHelpers.CreateWorker("aa@tak4.dk", "Arne4", "Jensen", await testHelpers.GetRandomInt());
 
             #endregion
 
             #region site
+
             Site site1 = await testHelpers.CreateSite("SiteName1", await testHelpers.GetRandomInt());
             Site site2 = await testHelpers.CreateSite("SiteName2", await testHelpers.GetRandomInt());
             Site site3 = await testHelpers.CreateSite("SiteName3", await testHelpers.GetRandomInt());
@@ -163,6 +175,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #endregion
 
             #region units
+
             Unit unit1 = await testHelpers.CreateUnit(await testHelpers.GetRandomInt(), 49, site1, 348);
             Unit unit2 = await testHelpers.CreateUnit(await testHelpers.GetRandomInt(), 49, site2, 348);
             Unit unit3 = await testHelpers.CreateUnit(await testHelpers.GetRandomInt(), 49, site3, 348);
@@ -171,24 +184,32 @@ namespace eFormSDK.Integration.Case.CoreTests
             #endregion
 
             #region site_workers
-            SiteWorker site_workers1 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site1, worker1);
-            SiteWorker site_workers2 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site2, worker2);
-            SiteWorker site_workers3 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site3, worker3);
-            SiteWorker site_workers4 = await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site4, worker4);
+
+            SiteWorker site_workers1 =
+                await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site1, worker1);
+            SiteWorker site_workers2 =
+                await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site2, worker2);
+            SiteWorker site_workers3 =
+                await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site3, worker3);
+            SiteWorker site_workers4 =
+                await testHelpers.CreateSiteWorker(await testHelpers.GetRandomInt(), site4, worker4);
 
             #endregion
 
             #region cases
+
             #region cases created
+
             #region Case1
 
             DateTime c1_ca = DateTime.UtcNow.AddDays(-9);
             DateTime c1_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
             DateTime c1_ua = DateTime.UtcNow.AddDays(-8);
 
-            Microting.eForm.Infrastructure.Data.Entities.Case aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase1 = await testHelpers.CreateCase("case1UId", cl1,
+                c1_ca, "custom1",
                 c1_da, worker1, rnd.Next(1, 255), rnd.Next(1, 255),
-               site1, 1, "caseType1", unit1, c1_ua, 1, worker1, Constants.WorkflowStates.Created);
+                site1, 1, "caseType1", unit1, c1_ua, 1, worker1, Constants.WorkflowStates.Created);
 
             #endregion
 
@@ -197,30 +218,39 @@ namespace eFormSDK.Integration.Case.CoreTests
             DateTime c2_ca = DateTime.UtcNow.AddDays(-7);
             DateTime c2_da = DateTime.UtcNow.AddDays(-6).AddHours(-12);
             DateTime c2_ua = DateTime.UtcNow.AddDays(-6);
-            Microting.eForm.Infrastructure.Data.Entities.Case aCase2 = await testHelpers.CreateCase("case2UId", cl1, c2_ca, "custom2",
-             c2_da, worker2, rnd.Next(1, 255), rnd.Next(1, 255),
-               site2, 10, "caseType2", unit2, c2_ua, 1, worker2, Constants.WorkflowStates.Created);
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase2 = await testHelpers.CreateCase("case2UId", cl1,
+                c2_ca, "custom2",
+                c2_da, worker2, rnd.Next(1, 255), rnd.Next(1, 255),
+                site2, 10, "caseType2", unit2, c2_ua, 1, worker2, Constants.WorkflowStates.Created);
+
             #endregion
 
             #region Case3
+
             DateTime c3_ca = DateTime.UtcNow.AddDays(-10);
             DateTime c3_da = DateTime.UtcNow.AddDays(-9).AddHours(-12);
             DateTime c3_ua = DateTime.UtcNow.AddDays(-9);
 
-            Microting.eForm.Infrastructure.Data.Entities.Case aCase3 = await testHelpers.CreateCase("case3UId", cl1, c3_ca, "custom3",
-              c3_da, worker3, rnd.Next(1, 255), rnd.Next(1, 255),
-               site3, 15, "caseType3", unit3, c3_ua, 1, worker3, Constants.WorkflowStates.Created);
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase3 = await testHelpers.CreateCase("case3UId", cl1,
+                c3_ca, "custom3",
+                c3_da, worker3, rnd.Next(1, 255), rnd.Next(1, 255),
+                site3, 15, "caseType3", unit3, c3_ua, 1, worker3, Constants.WorkflowStates.Created);
+
             #endregion
 
             #region Case4
+
             DateTime c4_ca = DateTime.UtcNow.AddDays(-8);
             DateTime c4_da = DateTime.UtcNow.AddDays(-7).AddHours(-12);
             DateTime c4_ua = DateTime.UtcNow.AddDays(-7);
 
-            Microting.eForm.Infrastructure.Data.Entities.Case aCase4 = await testHelpers.CreateCase("case4UId", cl1, c4_ca, "custom4",
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase4 = await testHelpers.CreateCase("case4UId", cl1,
+                c4_ca, "custom4",
                 c4_da, worker4, rnd.Next(1, 255), rnd.Next(1, 255),
-               site4, 100, "caseType4", unit4, c4_ua, 1, worker4, Constants.WorkflowStates.Created);
+                site4, 100, "caseType4", unit4, c4_ua, 1, worker4, Constants.WorkflowStates.Created);
+
             #endregion
+
             #endregion
 
             #region cases removed
@@ -231,9 +261,10 @@ namespace eFormSDK.Integration.Case.CoreTests
             DateTime c1Removed_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
             DateTime c1Removed_ua = DateTime.UtcNow.AddDays(-8);
 
-            Microting.eForm.Infrastructure.Data.Entities.Case aCase1Removed = await testHelpers.CreateCase("case1UId", cl1, c1Removed_ca, "custom1",
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase1Removed = await testHelpers.CreateCase("case1UId",
+                cl1, c1Removed_ca, "custom1",
                 c1Removed_da, worker1, rnd.Next(1, 255), rnd.Next(1, 255),
-               site1, 1, "caseType1", unit1, c1Removed_ua, 1, worker1, Constants.WorkflowStates.Removed);
+                site1, 1, "caseType1", unit1, c1Removed_ua, 1, worker1, Constants.WorkflowStates.Removed);
 
             #endregion
 
@@ -242,29 +273,37 @@ namespace eFormSDK.Integration.Case.CoreTests
             DateTime c2Removed_ca = DateTime.UtcNow.AddDays(-7);
             DateTime c2Removed_da = DateTime.UtcNow.AddDays(-6).AddHours(-12);
             DateTime c2Removed_ua = DateTime.UtcNow.AddDays(-6);
-            Microting.eForm.Infrastructure.Data.Entities.Case aCase2Removed = await testHelpers.CreateCase("case2UId", cl1, c2Removed_ca, "custom2",
-             c2Removed_da, worker2, rnd.Next(1, 255), rnd.Next(1, 255),
-               site2, 10, "caseType2", unit2, c2Removed_ua, 1, worker2, Constants.WorkflowStates.Removed);
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase2Removed = await testHelpers.CreateCase("case2UId",
+                cl1, c2Removed_ca, "custom2",
+                c2Removed_da, worker2, rnd.Next(1, 255), rnd.Next(1, 255),
+                site2, 10, "caseType2", unit2, c2Removed_ua, 1, worker2, Constants.WorkflowStates.Removed);
+
             #endregion
 
             #region Case3Removed
+
             DateTime c3Removed_ca = DateTime.UtcNow.AddDays(-10);
             DateTime c3Removed_da = DateTime.UtcNow.AddDays(-9).AddHours(-12);
             DateTime c3Removed_ua = DateTime.UtcNow.AddDays(-9);
 
-            Microting.eForm.Infrastructure.Data.Entities.Case aCase3Removed = await testHelpers.CreateCase("case3UId", cl1, c3Removed_ca, "custom3",
-              c3Removed_da, worker3, rnd.Next(1, 255), rnd.Next(1, 255),
-               site3, 15, "caseType3", unit3, c3Removed_ua, 1, worker3, Constants.WorkflowStates.Removed);
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase3Removed = await testHelpers.CreateCase("case3UId",
+                cl1, c3Removed_ca, "custom3",
+                c3Removed_da, worker3, rnd.Next(1, 255), rnd.Next(1, 255),
+                site3, 15, "caseType3", unit3, c3Removed_ua, 1, worker3, Constants.WorkflowStates.Removed);
+
             #endregion
 
             #region Case4Removed
+
             DateTime c4Removed_ca = DateTime.UtcNow.AddDays(-8);
             DateTime c4Removed_da = DateTime.UtcNow.AddDays(-7).AddHours(-12);
             DateTime c4Removed_ua = DateTime.UtcNow.AddDays(-7);
 
-            Microting.eForm.Infrastructure.Data.Entities.Case aCase4Removed = await testHelpers.CreateCase("case4UId", cl1, c4Removed_ca, "custom4",
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase4Removed = await testHelpers.CreateCase("case4UId",
+                cl1, c4Removed_ca, "custom4",
                 c4Removed_da, worker4, rnd.Next(1, 255), rnd.Next(1, 255),
-               site4, 100, "caseType4", unit4, c4Removed_ua, 1, worker4, Constants.WorkflowStates.Removed);
+                site4, 100, "caseType4", unit4, c4Removed_ua, 1, worker4, Constants.WorkflowStates.Removed);
+
             #endregion
 
             #endregion
@@ -277,9 +316,10 @@ namespace eFormSDK.Integration.Case.CoreTests
             DateTime c1Retracted_da = DateTime.UtcNow.AddDays(-8).AddHours(-12);
             DateTime c1Retracted_ua = DateTime.UtcNow.AddDays(-8);
 
-            Microting.eForm.Infrastructure.Data.Entities.Case aCase1Retracted = await testHelpers.CreateCase("case1UId", cl1, c1Retracted_ca, "custom1",
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase1Retracted = await testHelpers.CreateCase("case1UId",
+                cl1, c1Retracted_ca, "custom1",
                 c1Retracted_da, worker1, rnd.Next(1, 255), rnd.Next(1, 255),
-               site1, 1, "caseType1", unit1, c1Retracted_ua, 1, worker1, Constants.WorkflowStates.Retracted);
+                site1, 1, "caseType1", unit1, c1Retracted_ua, 1, worker1, Constants.WorkflowStates.Retracted);
 
             #endregion
 
@@ -289,46 +329,57 @@ namespace eFormSDK.Integration.Case.CoreTests
             DateTime c2Retracted_da = DateTime.UtcNow.AddDays(-6).AddHours(-12);
             DateTime c2Retracted_ua = DateTime.UtcNow.AddDays(-6);
 
-            Microting.eForm.Infrastructure.Data.Entities.Case aCase2Retracted = await testHelpers.CreateCase("case2UId", cl1, c2Retracted_ca, "custom2",
-             c2Retracted_da, worker2, rnd.Next(1, 255), rnd.Next(1, 255),
-               site2, 10, "caseType2", unit2, c2Retracted_ua, 1, worker2, Constants.WorkflowStates.Retracted);
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase2Retracted = await testHelpers.CreateCase("case2UId",
+                cl1, c2Retracted_ca, "custom2",
+                c2Retracted_da, worker2, rnd.Next(1, 255), rnd.Next(1, 255),
+                site2, 10, "caseType2", unit2, c2Retracted_ua, 1, worker2, Constants.WorkflowStates.Retracted);
+
             #endregion
 
             #region Case3Retracted
+
             DateTime c3Retracted_ca = DateTime.UtcNow.AddDays(-10);
             DateTime c3Retracted_da = DateTime.UtcNow.AddDays(-9).AddHours(-12);
             DateTime c3Retracted_ua = DateTime.UtcNow.AddDays(-9);
 
-            Microting.eForm.Infrastructure.Data.Entities.Case aCase3Retracted = await testHelpers.CreateCase("case3UId", cl1, c3Retracted_ca, "custom3",
-              c3Retracted_da, worker3, rnd.Next(1, 255), rnd.Next(1, 255),
-               site3, 15, "caseType3", unit3, c3Retracted_ua, 1, worker3, Constants.WorkflowStates.Retracted);
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase3Retracted = await testHelpers.CreateCase("case3UId",
+                cl1, c3Retracted_ca, "custom3",
+                c3Retracted_da, worker3, rnd.Next(1, 255), rnd.Next(1, 255),
+                site3, 15, "caseType3", unit3, c3Retracted_ua, 1, worker3, Constants.WorkflowStates.Retracted);
+
             #endregion
 
             #region Case4Retracted
+
             DateTime c4Retracted_ca = DateTime.UtcNow.AddDays(-8);
             DateTime c4Retracted_da = DateTime.UtcNow.AddDays(-7).AddHours(-12);
             DateTime c4Retracted_ua = DateTime.UtcNow.AddDays(-7);
 
-            Microting.eForm.Infrastructure.Data.Entities.Case aCase4Retracted = await testHelpers.CreateCase("case4UId", cl1, c4Retracted_ca, "custom4",
+            Microting.eForm.Infrastructure.Data.Entities.Case aCase4Retracted = await testHelpers.CreateCase("case4UId",
+                cl1, c4Retracted_ca, "custom4",
                 c4Retracted_da, worker4, rnd.Next(1, 255), rnd.Next(1, 255),
-               site4, 100, "caseType4", unit4, c4Retracted_ua, 1, worker4, Constants.WorkflowStates.Retracted);
-            #endregion
-
-            #endregion
-
+                site4, 100, "caseType4", unit4, c4Retracted_ua, 1, worker4, Constants.WorkflowStates.Retracted);
 
             #endregion
 
             #endregion
+
+            #endregion
+
+            #endregion
+
             // Act
+
             #region sorting by WorkflowState created
 
             #region Default sorting
 
             #region Default sorting ascending
+
             // Default sorting ascending
             //List<Case> caseListCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.FieldValue3);
@@ -340,15 +391,20 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region Default sorting descending
+
             //Default sorting descending
             //List<Case> caseListDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.FieldValue3);
@@ -360,15 +416,21 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListDescendingSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListDescendingWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region Default sorting ascending, with DateTime
+
             // Default sorting ascending, with DateTime
             //List<Case> caseListDtCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListDtDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListDtDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", false,
+                Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseDtListFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.FieldValue3);
@@ -380,15 +442,23 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseDtListFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListDtStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListDtUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListDtStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", false,
+                Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListDtUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", false,
+                Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListDtWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region Default sorting descending, with DateTime
+
             //Default sorting descending, with DateTime
             //List<Case> caseListDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", true,
+                Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.FieldValue3);
@@ -400,9 +470,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListDescendingSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListDtDescendingStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListDtDescendingUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListDtDescendingStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", true,
+                Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListDtDescendingUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", true,
+                Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListDescendingWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #endregion
@@ -410,9 +485,12 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region case sorting
 
             #region aCase sorting ascending
+
             #region aCase1 sorting ascendng
+
             //List<Case> caseListC1SortCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListC1SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "10000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC1SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "10000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListC1SortFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC1SortFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC1SortFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -424,14 +502,19 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListC1SortFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC1SortFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC1SortSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListC1SortStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "10000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListC1SortUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "10000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC1SortStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "10000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC1SortUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "10000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListC1SortWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase2 sorting ascendng
+
             //List<Case> caseListC2SortCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListC2SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC2SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListC2SortFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC2SortFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue3);
@@ -443,14 +526,19 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListC2SortFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC2SortFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC2SortSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListC2SortStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListC2SortUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC2SortStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC2SortUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListC2SortWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase3 sorting ascendng
+
             //List<Case> caseListC3SortCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListC3SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC3SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListC3SortFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC3SortFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC3SortFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue3);
@@ -462,14 +550,19 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListC3SortFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC3SortFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListC3SortStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListC3SortUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC3SortStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC3SortUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListC3SortWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase4 sorting ascendng
+
             //List<Case> caseListC4SortCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListC4SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC4SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListC4SortFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC4SortFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC4SortFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue3);
@@ -481,17 +574,23 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListC4SortFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC4SortFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListC4SortStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListC4SortUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC4SortStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC4SortUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListC4SortWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #endregion
 
             #region aCase sorting Descending
+
             #region aCase1 sorting Descending
+
             //List<Case> caseListC1SortDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListC1SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC1SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListC1SortDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC1SortDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC1SortDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue3);
@@ -503,14 +602,19 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListC1SortDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC1SortDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC1SortDescendingSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListC1SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListC1SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC1SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC1SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListC1SortDescendingWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase2 sorting Descending
+
             //List<Case> caseListC2SortDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListC2SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC2SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListC2SortDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDescendingDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC2SortDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue3);
@@ -522,14 +626,19 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListC2SortDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC2SortDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC2SortDescendingSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListC2SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListC2SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC2SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC2SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListC2SortDescendingWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase3 sorting Descending
+
             //List<Case> caseListC3SortDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListC3SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC3SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListC3SortDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC3SortDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC3SortDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue3);
@@ -541,14 +650,19 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListC3SortDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC3SortDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDescendingSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListC3SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListC3SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC3SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC3SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListC3SortDescendingWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase4 sorting Descending
+
             //List<Case> caseListC4SortDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListC4SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC4SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListC4SortDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC4SortDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC4SortDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue3);
@@ -560,17 +674,24 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListC4SortDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC4SortDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortDescendingSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListC4SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListC4SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC4SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC4SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListC4SortDescendingWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #endregion
 
             #region aCase sorting ascending w. Dt
+
             #region aCase1 sorting ascendng w. Dt
+
             //List<Case> caseListC1SortDtCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListC1SortDtDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC1SortDtDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1000",
+                false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListC1SortDtFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC1SortDtFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC1SortDtFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -582,14 +703,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListC1SortDtFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC1SortDtFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC1SortDtSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListC1SortDtStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListC1SortDtUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "0001", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC1SortDtStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1000",
+                false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC1SortDtUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "0001",
+                false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListC1SortDtWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase2 sorting ascendng w. Dt
+
             //List<Case> caseListC2SortDtCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListC2SortDtDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC2SortDtDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2000",
+                false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListC2SortDtFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDtFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC2SortDtFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue3);
@@ -601,14 +730,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListC2SortDtFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC2SortDtFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC2SortDtSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListC2SortDtStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListC2SortDtUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC2SortDtStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2000",
+                false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC2SortDtUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2000",
+                false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListC2SortDtWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase3 sorting ascendng w. Dt
+
             //List<Case> caseListC3SortDtCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListC3SortDtDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC3SortDtDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3000",
+                false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListC3SortDtFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC3SortDtFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC3SortDtFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue3);
@@ -620,14 +757,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListC3SortDtFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC3SortDtFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDtSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListC3SortDtStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListC3SortDtUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC3SortDtStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3000",
+                false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC3SortDtUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3000",
+                false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListC3SortDtWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase4 sorting ascendng w. Dt
+
             //List<Case> caseListC4SortDtCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListC4SortDtDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC4SortDtDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4000",
+                false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListC4SortDtFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC4SortDtFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC4SortDtFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue3);
@@ -639,17 +784,26 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListC4SortDtFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC4SortDtFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortDtSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListC4SortDtStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListC4SortDtUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC4SortDtStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4000",
+                false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC4SortDtUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4000",
+                false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListC4SortDtWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #endregion
 
             #region aCase sorting Descending w. Dt
+
             #region aCase1 sorting Descending w. Dt
+
             //List<Case> caseListC1SortDtDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListC1SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC1SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1000",
+                true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListC1SortDtDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC1SortDtDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC1SortDtDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue3);
@@ -661,14 +815,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListC1SortDtDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC1SortDtDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC1SortvDescendingSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListC1SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListC1SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC1SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1000",
+                true, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC1SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1000",
+                true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListC1SortDtDescendingWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "1", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase2 sorting Descending w. Dt
+
             //List<Case> caseListC2SortDtDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListC2SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC2SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2000",
+                true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListC2SortDtDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDtDescendingDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC2SortDtDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue3);
@@ -680,14 +842,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListC2SortDtDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC2SortDtDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC2SortDtDescendingSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListC2SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListC2SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC2SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2000",
+                true, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC2SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2000",
+                true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListC2SortDtDescendingWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Created, "2", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase3 sorting Descending w. Dt
+
             //List<Case> caseListC3SortDtDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListC3SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC3SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3000",
+                true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListC3SortDtDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC3SortDtDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC3SortDtDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue3);
@@ -699,14 +869,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListC3SortDtDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC3SortDtDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDtDescendingSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListC3SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListC3SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC3SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3000",
+                true, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC3SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3000",
+                true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListC3SortDtDescendingWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "3", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase4 sorting Descending w. Dt
+
             //List<Case> caseListC4SortDtDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListC4SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC4SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4000",
+                true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListC4SortDtDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC4SortDtDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListC4SortDtDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue3);
@@ -718,14 +896,20 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListC4SortDtDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListC4SortDtDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortDtDescendingSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListC4SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListC4SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC4SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4000",
+                true, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListC4SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4000",
+                true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListC4SortDtDescendingWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Created, "4", true, Constants.CaseSortParameters.WorkerName);
-            #endregion
 
             #endregion
 
             #endregion
+
+            #endregion
+
             #endregion
 
             #region sorting by WorkflowState removed
@@ -733,9 +917,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region Default sorting
 
             #region Default sorting ascending
+
             // Default sorting ascending
             //List<Case> caseListRemovedCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseLisrtRemovedFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseLisrtRemovedFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseLisrtRemovedFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.FieldValue3);
@@ -747,15 +933,20 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseLisrtRemovedFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseLisrtRemovedFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRemovedWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region Default sorting descending
+
             //Default sorting descending
             //List<Case> caseListRemovedDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListRemovedDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.FieldValue3);
@@ -767,15 +958,21 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRemovedDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedDescendingSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRemovedDescendingWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region Default sorting ascending, with DateTime
+
             // Default sorting ascending, with DateTime
             //List<Case> caseListRemovedDtCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedDtDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedDtDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", false,
+                Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseDtListRemovedFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRemovedFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRemovedFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.FieldValue3);
@@ -787,15 +984,23 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseDtListRemovedFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRemovedFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRemovedSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedDtStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedDtUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedDtStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", false,
+                Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedDtUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", false,
+                Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRemovedDtWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region Default sorting descending, with DateTime
+
             //Default sorting descending, with DateTime
             //List<Case> caseListRemovedDtDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", true,
+                Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListRemovedDtDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedDtDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedDtDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.FieldValue3);
@@ -807,9 +1012,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRemovedDtDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedDtDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedDtDescendingSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedDtDescendingStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedDtDescendingUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedDtDescendingStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", true,
+                Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedDtDescendingUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", true,
+                Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRemovedDtDescendingWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #endregion
@@ -817,9 +1027,12 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region case sorting
 
             #region aCase sorting ascending
+
             #region aCase1 sorting ascendng
+
             //List<Case> caseListRemovedC1SortCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListRemovedC1SortFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC1SortFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC1SortFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -831,14 +1044,19 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRemovedC1SortFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC1SortFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC1SortSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedC1SortStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedC1SortUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC1SortStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC1SortUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRemovedC1SortWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase2 sorting ascendng
+
             //List<Case> caseListRemovedC2SortCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListRemovedC2SortFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC2SortFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC2SortFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue3);
@@ -850,14 +1068,19 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRemovedC2SortFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC2SortFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC2SortSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedC2SortStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedC2SortUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC2SortStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC2SortUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRemovedC2SortWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase3 sorting ascendng
+
             //List<Case> caseListRemovedC3SortCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListRemovedC3SortFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC3SortFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC3SortFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue3);
@@ -869,14 +1092,19 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRemovedC3SortFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC3SortFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC3SortSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedC3SortStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedC3SortUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC3SortStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC3SortUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRemovedC3SortWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase4 sorting ascendng
+
             //List<Case> caseListRemovedC4SortCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListRemovedC4SortFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC4SortFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC4SortFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue3);
@@ -888,17 +1116,24 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRemovedC4SortFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC4SortFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedC4SortStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedC4SortUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC4SortStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC4SortUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRemovedC4SortWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #endregion
 
             #region aCase sorting Descending
+
             #region aCase1 sorting Descending
+
             //List<Case> caseListRemovedC1SortDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.DoneAt,
+                timeZoneInfo);
             //List<Case> caseListRemovedC1SortDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC1SortDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC1SortDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue3);
@@ -910,14 +1145,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRemovedC1SortDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC1SortDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC1SortDescendingSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.Status,
+                timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.UnitId,
+                timeZoneInfo);
             //List<Case> caseListRemovedC1SortDescendingWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase2 sorting Descending
+
             //List<Case> caseListRemovedC2SortDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.DoneAt,
+                timeZoneInfo);
             //List<Case> caseListRemovedC2SortDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDescendingDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC2SortDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue3);
@@ -929,14 +1172,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRemovedC2SortDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC2SortDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC2SortDescendingSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.Status,
+                timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.UnitId,
+                timeZoneInfo);
             //List<Case> caseListRemovedC2SortDescendingWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase3 sorting Descending
+
             //List<Case> caseListRemovedC3SortDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.DoneAt,
+                timeZoneInfo);
             //List<Case> caseListRemovedC3SortDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC3SortDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC3SortDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue3);
@@ -948,14 +1199,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRemovedC3SortDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC3SortDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDescendingSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.Status,
+                timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.UnitId,
+                timeZoneInfo);
             //List<Case> caseListRemovedC3SortDescendingWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase4 sorting Descending
+
             //List<Case> caseListRemovedC4SortDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.DoneAt,
+                timeZoneInfo);
             //List<Case> caseListRemovedC4SortDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC4SortDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC4SortDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue3);
@@ -967,17 +1226,26 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRemovedC4SortDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC4SortDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortDescendingSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.Status,
+                timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.UnitId,
+                timeZoneInfo);
             //List<Case> caseListRemovedC4SortDescendingWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #endregion
 
             #region aCase sorting ascending w. Dt
+
             #region aCase1 sorting ascendng w. Dt
+
             //List<Case> caseListRemovedC1SortDtCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDtDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDtDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1000",
+                false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListRemovedC1SortDtFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC1SortDtFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC1SortDtFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -989,14 +1257,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRemovedC1SortDtFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC1SortDtFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC1SortDtSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDtStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDtUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDtStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1000",
+                false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDtUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1000",
+                false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRemovedC1SortDtWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase2 sorting ascendng w. Dt
+
             //List<Case> caseListRemovedC2SortDtCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDtDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDtDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2000",
+                false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListRemovedC2SortDtFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC2SortDtFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC2SortDtFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue3);
@@ -1008,14 +1284,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRemovedC2SortDtFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC2SortDtFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC2SortDtSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDtStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDtUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDtStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2000",
+                false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDtUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2000",
+                false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRemovedC2SortDtWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase3 sorting ascendng w. Dt
+
             //List<Case> caseListRemovedC3SortDtCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDtDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDtDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3000",
+                false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListRemovedC3SortDtFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC3SortDtFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC3SortDtFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue3);
@@ -1027,14 +1311,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRemovedC3SortDtFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC3SortDtFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC3SortDtSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDtStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDtUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDtStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3000",
+                false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDtUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3000",
+                false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRemovedC3SortDtWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase4 sorting ascendng w. Dt
+
             //List<Case> caseListRemovedC4SortDtCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDtDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDtDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4000",
+                false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListRemovedC4SortDtFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC4SortDtFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC4SortDtFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue3);
@@ -1046,17 +1338,26 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRemovedC4SortDtFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC4SortDtFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC4SortDtSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDtStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDtUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDtStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4000",
+                false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDtUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4000",
+                false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRemovedC4SortDtWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #endregion
 
             #region aCase sorting Descending w. Dt
+
             #region aCase1 sorting Descending w. Dt
+
             //List<Case> caseListRemovedC1SortDtDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1000",
+                true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListRemovedC1SortDtDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC1SortDtDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC1SortDtDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue3);
@@ -1068,14 +1369,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRemovedC1SortDtDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC1SortDtDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC1SortvDescendingSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1000",
+                true, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC1SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1000",
+                true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRemovedC1SortDtDescendingWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "1", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase2 sorting Descending w. Dt
+
             //List<Case> caseListRemovedC2SortDtDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2000",
+                true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListRemovedC2SortDtDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDtDescendingDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC2SortDtDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue3);
@@ -1087,14 +1396,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRemovedC2SortDtDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC2SortDtDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC2SortDtDescendingSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2000",
+                true, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC2SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2000",
+                true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRemovedC2SortDtDescendingWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Removed, "2", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase3 sorting Descending w. Dt
+
             //List<Case> caseListRemovedC3SortDtDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3000",
+                true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListRemovedC3SortDtDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC3SortDtDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC3SortDtDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue3);
@@ -1106,14 +1423,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRemovedC3SortDtDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC3SortDtDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDtDescendingSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3000",
+                true, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC3SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3000",
+                true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRemovedC3SortDtDescendingWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "3", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase4 sorting Descending w. Dt
+
             //List<Case> caseListRemovedC4SortDtDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4000",
+                true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListRemovedC4SortDtDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRemovedC4SortDtDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRemovedC4SortDtDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue3);
@@ -1125,9 +1450,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRemovedC4SortDtDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRemovedC4SortDtDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRemovedC4SortDtDescendingSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4000",
+                true, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRemovedC4SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4000",
+                true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRemovedC4SortDtDescendingWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Removed, "4", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #endregion
@@ -1139,10 +1469,13 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region sorting by WorkflowState Retracted
 
             #region Default sorting
+
             #region Default sorting ascending
+
             // Default sorting ascending
             //List<Case> caseListRetractedCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseLisrtRetractedFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseLisrtRetractedFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseLisrtRetractedFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.FieldValue3);
@@ -1154,15 +1487,20 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseLisrtRetractedFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseLisrtRetractedFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRetractedSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRetractedWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region Default sorting descending
+
             //Default sorting descending
             //List<Case> caseListRetractedDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListRetractedDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.FieldValue3);
@@ -1174,16 +1512,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRetractedDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRetractedDescendingSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRetractedDescendingWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
 
             #region Default sorting ascending, with DateTime
+
             // Default sorting ascending, with DateTime
             //List<Case> caseDtListRetractedDtCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedDtDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedDtDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "",
+                false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseDtListRetractedFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.FieldValue3);
@@ -1195,15 +1539,23 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseDtListRetractedFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRemovedSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedDtStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedDtUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedDtStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "",
+                false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedDtUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "",
+                false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseDtListRetractedDtWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region Default sorting descending, with DateTime
+
             //Default sorting descending, with DateTime
             //List<Case> caseDtListRetractedDtDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", true,
+                Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseDtListRetractedDtDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedDtDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedDtDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.FieldValue3);
@@ -1215,9 +1567,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseDtListRetractedDtDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedDtDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedDtDescendingSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedDtDescendingStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedDtDescendingUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedDtDescendingStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", true,
+                Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedDtDescendingUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", true,
+                Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseDtListRetractedDtDescendingWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #endregion
@@ -1225,9 +1582,12 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region case sorting
 
             #region aCase sorting ascending
+
             #region aCase1 sorting ascendng
+
             //List<Case> caseListRetractedC1SortCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListRetractedC1SortFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC1SortFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC1SortFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -1239,14 +1599,19 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRetractedC1SortFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC1SortFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRetractedC1SortSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedC1SortStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedC1SortUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC1SortStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC1SortUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRetractedC1SortWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase2 sorting ascendng
+
             //List<Case> caseListRetractedC2SortCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListRetractedC2SortFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC2SortFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC2SortFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue3);
@@ -1258,14 +1623,19 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRetractedC2SortFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC2SortFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRetractedC2SortSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedC2SortStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedC2SortUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC2SortStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC2SortUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRetractedC2SortWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase3 sorting ascendng
+
             //List<Case> caseListRetractedC3SortCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListRetractedC3SortFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC3SortFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC3SortFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue3);
@@ -1277,14 +1647,19 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRetractedC3SortFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC3SortFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRetractedC3SortSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedC3SortStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedC3SortUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC3SortStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC3SortUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRetractedC3SortWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase4 sorting ascendng
+
             //List<Case> caseListRetractedC4SortCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDoneAt = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseListRetractedC4SortFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC4SortFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC4SortFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue3);
@@ -1296,17 +1671,24 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRetractedC4SortFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC4SortFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedC4SortStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedC4SortUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC4SortStatus = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC4SortUnitId = await sut.CaseReadAll(cl1.Id, null, null,
+                Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseListRetractedC4SortWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #endregion
 
             #region aCase sorting Descending
+
             #region aCase1 sorting Descending
+
             //List<Case> caseListRetractedC1SortDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.DoneAt,
+                timeZoneInfo);
             //List<Case> caseListRetractedC1SortDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC1SortDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC1SortDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue3);
@@ -1318,14 +1700,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRetractedC1SortDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC1SortDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRetractedC1SortDescendingSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.Status,
+                timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.UnitId,
+                timeZoneInfo);
             //List<Case> caseListRetractedC1SortDescendingWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase2 sorting Descending
+
             //List<Case> caseListRetractedC2SortDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.DoneAt,
+                timeZoneInfo);
             //List<Case> caseListRetractedC2SortDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDescendingDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC2SortDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue3);
@@ -1337,14 +1727,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRetractedC2SortDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC2SortDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListRetractedC2SortDescendingSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.Status,
+                timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.UnitId,
+                timeZoneInfo);
             //List<Case> caseListRetractedC2SortDescendingWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase3 sorting Descending
+
             //List<Case> caseListRetractedC3SortDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.DoneAt,
+                timeZoneInfo);
             //List<Case> caseListRetractedC3SortDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC3SortDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC3SortDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue3);
@@ -1356,14 +1754,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRetractedC3SortDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC3SortDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDescendingSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.Status,
+                timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.UnitId,
+                timeZoneInfo);
             //List<Case> caseListRetractedC3SortDescendingWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase4 sorting Descending
+
             //List<Case> caseListRetractedC4SortDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDescendingDoneAt = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.DoneAt,
+                timeZoneInfo);
             //List<Case> caseListRetractedC4SortDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListRetractedC4SortDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseListRetractedC4SortDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue3);
@@ -1375,17 +1781,26 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseListRetractedC4SortDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseListRetractedC4SortDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC4SortDescendingSiteName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDescendingStatus = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.Status,
+                timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDescendingUnitId = await sut.CaseReadAll(cl1.Id, null,
+                null, Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.UnitId,
+                timeZoneInfo);
             //List<Case> caseListRetractedC4SortDescendingWorkerName = await sut.CaseReadAll(cl1.Id, null, null, Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #endregion
 
             #region aCase sorting ascending w. Dt
+
             #region aCase1 sorting ascendng w. Dt
+
             //List<Case> caseDtListRetractedC1SortDtCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDtDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDtDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1000",
+                false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseDtListRetractedC1SortDtFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC1SortDtFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC1SortDtFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue3);
@@ -1397,14 +1812,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseDtListRetractedC1SortDtFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC1SortDtFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC1SortDtSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDtStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDtUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDtStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1000",
+                false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDtUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1000",
+                false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseDtListRetractedC1SortDtWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase2 sorting ascendng w. Dt
+
             //List<Case> caseDtListRetractedC2SortDtCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDtDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDtDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2000",
+                false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseDtListRetractedC2SortDtFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC2SortDtFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC2SortDtFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue3);
@@ -1416,14 +1839,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseDtListRetractedC2SortDtFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC2SortDtFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC2SortDtSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDtStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDtUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDtStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2000",
+                false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDtUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2000",
+                false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseDtListRetractedC2SortDtWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase3 sorting ascendng w. Dt
+
             //List<Case> caseDtListRetractedC3SortDtCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDtDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDtDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3000",
+                false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseDtListRetractedC3SortDtFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC3SortDtFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC3SortDtFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue3);
@@ -1435,14 +1866,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseDtListRetractedC3SortDtFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC3SortDtFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC3SortDtSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDtStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDtUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDtStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3000",
+                false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDtUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3000",
+                false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseDtListRetractedC3SortDtWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase4 sorting ascendng w. Dt
+
             //List<Case> caseDtListRetractedC4SortDtCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDtDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDtDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4000",
+                false, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseDtListRetractedC4SortDtFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC4SortDtFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC4SortDtFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue3);
@@ -1454,17 +1893,26 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseDtListRetractedC4SortDtFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC4SortDtFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC4SortDtSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDtStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDtUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDtStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4000",
+                false, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDtUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4000",
+                false, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseDtListRetractedC4SortDtWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4", false, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #endregion
 
             #region aCase sorting Descending w. Dt
+
             #region aCase1 sorting Descending w. Dt
+
             //List<Case> caseDtListRetractedC1SortDtDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1000",
+                true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue3);
@@ -1476,14 +1924,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC1SortDtDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC1SortvDescendingSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1000",
+                true, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC1SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1000",
+                true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseDtListRetractedC1SortDtDescendingWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "1", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase2 sorting Descending w. Dt
+
             //List<Case> caseDtListRetractedC2SortDtDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2000",
+                true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseDtListRetractedC2SortDtDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseListC2SortDtDescendingDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC2SortDtDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue3);
@@ -1495,14 +1951,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseDtListRetractedC2SortDtDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC2SortDtDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC2SortDtDescendingSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2000",
+                true, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC2SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2000",
+                true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseDtListRetractedC2SortDtDescendingWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-10), DateTime.UtcNow.AddDays(-8), Constants.WorkflowStates.Retracted, "2", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase3 sorting Descending w. Dt
+
             //List<Case> caseDtListRetractedC3SortDtDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3000",
+                true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue3);
@@ -1514,14 +1978,22 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC3SortDtDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseListC3SortDtDescendingSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3000",
+                true, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC3SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3000",
+                true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseDtListRetractedC3SortDtDescendingWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "3", true, Constants.CaseSortParameters.WorkerName);
+
             #endregion
 
             #region aCase4 sorting Descending w. Dt
+
             //List<Case> caseDtListRetractedC4SortDtDescendingCreatedAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.CreatedAt);
-            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDtDescendingDoneAt = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4000",
+                true, Constants.CaseSortParameters.DoneAt, timeZoneInfo);
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue1 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue1);
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue2 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue2);
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue3 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue3);
@@ -1533,23 +2005,34 @@ namespace eFormSDK.Integration.Case.CoreTests
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue9 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue9);
             //List<Case> caseDtListRetractedC4SortDtDescendingFieldValue10 = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.FieldValue10);
             //List<Case> caseDtListRetractedC4SortDtDescendingSiteName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.SiteName);
-            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.Status, timeZoneInfo);
-            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4000", true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDtDescendingStatus = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4000",
+                true, Constants.CaseSortParameters.Status, timeZoneInfo);
+            List<Microting.eForm.Dto.Case> caseListRetractedC4SortDtDescendingUnitId = await sut.CaseReadAll(cl1.Id,
+                DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4000",
+                true, Constants.CaseSortParameters.UnitId, timeZoneInfo);
             //List<Case> caseDtListRetractedC4SortDtDescendingWorkerName = await sut.CaseReadAll(cl1.Id, DateTime.UtcNow.AddDays(-8), DateTime.UtcNow.AddDays(-6), Constants.WorkflowStates.Retracted, "4", true, Constants.CaseSortParameters.WorkerName);
+
+            #endregion
+
             #endregion
 
             #endregion
 
-
-            #endregion
             #endregion
 
             // Assert
+
             #region sort by WorkflowState Created
+
             #region Def Sort
+
             #region Def Sort Asc
+
             #region caseListDoneAt Def Sort Asc
+
             #region caseListDoneAt aCase1
+
             Assert.NotNull(caseListDoneAt);
             Assert.AreEqual(4, caseListDoneAt.Count);
             Assert.AreEqual(aCase1.Type, caseListDoneAt[1].CaseType);
@@ -1569,9 +2052,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1.Version, caseListDoneAt[1].Version);
             Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName, caseListDoneAt[1].WorkerName);
             Assert.AreEqual(aCase1.WorkflowState, caseListDoneAt[1].WorkflowState);
+
             #endregion
 
             #region caseListDoneAt aCase2
+
             Assert.AreEqual(aCase2.Type, caseListDoneAt[3].CaseType);
             Assert.AreEqual(aCase2.CaseUid, caseListDoneAt[3].CaseUId);
             Assert.AreEqual(aCase2.MicrotingCheckUid, caseListDoneAt[3].CheckUIid);
@@ -1589,9 +2074,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase2.Version, caseListDoneAt[3].Version);
             Assert.AreEqual(aCase2.Worker.FirstName + " " + aCase2.Worker.LastName, caseListDoneAt[3].WorkerName);
             Assert.AreEqual(aCase2.WorkflowState, caseListDoneAt[3].WorkflowState);
+
             #endregion
 
             #region caseListDoneAt aCase3
+
             Assert.AreEqual(aCase3.Type, caseListDoneAt[0].CaseType);
             Assert.AreEqual(aCase3.CaseUid, caseListDoneAt[0].CaseUId);
             Assert.AreEqual(aCase3.MicrotingCheckUid, caseListDoneAt[0].CheckUIid);
@@ -1609,9 +2096,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3.Version, caseListDoneAt[0].Version);
             Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName, caseListDoneAt[0].WorkerName);
             Assert.AreEqual(aCase3.WorkflowState, caseListDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListDoneAt aCase4
+
             Assert.AreEqual(aCase4.Type, caseListDoneAt[2].CaseType);
             Assert.AreEqual(aCase4.CaseUid, caseListDoneAt[2].CaseUId);
             Assert.AreEqual(aCase4.MicrotingCheckUid, caseListDoneAt[2].CheckUIid);
@@ -1629,6 +2118,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase4.Version, caseListDoneAt[2].Version);
             Assert.AreEqual(aCase4.Worker.FirstName + " " + aCase4.Worker.LastName, caseListDoneAt[2].WorkerName);
             Assert.AreEqual(aCase4.WorkflowState, caseListDoneAt[2].WorkflowState);
+
             #endregion
 
             #endregion
@@ -1730,6 +2220,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListUnitId Def Sort Asc
 
             #region caseListUnitId aCase1
+
             Assert.NotNull(caseListUnitId);
             Assert.AreEqual(4, caseListUnitId.Count);
             Assert.AreEqual(aCase1.Type, caseListUnitId[0].CaseType);
@@ -1753,6 +2244,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #endregion
 
             #region caseListUnitId aCase2
+
             Assert.AreEqual(aCase2.Type, caseListUnitId[1].CaseType);
             Assert.AreEqual(aCase2.CaseUid, caseListUnitId[1].CaseUId);
             Assert.AreEqual(aCase2.MicrotingCheckUid, caseListUnitId[1].CheckUIid);
@@ -1774,6 +2266,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #endregion
 
             #region caseListUnitId aCase3
+
             Assert.AreEqual(aCase3.Type, caseListUnitId[2].CaseType);
             Assert.AreEqual(aCase3.CaseUid, caseListUnitId[2].CaseUId);
             Assert.AreEqual(aCase3.MicrotingCheckUid, caseListUnitId[2].CheckUIid);
@@ -1795,6 +2288,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #endregion
 
             #region caseListUnitId aCase4
+
             Assert.AreEqual(aCase4.Type, caseListUnitId[3].CaseType);
             Assert.AreEqual(aCase4.CaseUid, caseListUnitId[3].CaseUId);
             Assert.AreEqual(aCase4.MicrotingCheckUid, caseListUnitId[3].CheckUIid);
@@ -1822,7 +2316,9 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region Def Sort Des
 
             #region caseListDescendingDoneAt Def Sort Des
+
             #region caseListDescendingDoneAt aCase1
+
             Assert.NotNull(caseListDescendingDoneAt);
             Assert.AreEqual(4, caseListDescendingDoneAt.Count);
             Assert.AreEqual(aCase1.Type, caseListDescendingDoneAt[2].CaseType);
@@ -1840,11 +2336,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1.Unit.MicrotingUid, caseListDescendingDoneAt[2].UnitId);
 //            Assert.AreEqual(c1_ua.ToString(), caseListDescendingDoneAt[2].UpdatedAt.ToString());
             Assert.AreEqual(aCase1.Version, caseListDescendingDoneAt[2].Version);
-            Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName, caseListDescendingDoneAt[2].WorkerName);
+            Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName,
+                caseListDescendingDoneAt[2].WorkerName);
             Assert.AreEqual(aCase1.WorkflowState, caseListDescendingDoneAt[2].WorkflowState);
+
             #endregion
 
             #region caseListDescendingDoneAt aCase2
+
             Assert.AreEqual(aCase2.Type, caseListDescendingDoneAt[0].CaseType);
             Assert.AreEqual(aCase2.CaseUid, caseListDescendingDoneAt[0].CaseUId);
             Assert.AreEqual(aCase2.MicrotingCheckUid, caseListDescendingDoneAt[0].CheckUIid);
@@ -1860,11 +2359,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase2.Unit.MicrotingUid, caseListDescendingDoneAt[0].UnitId);
 //            Assert.AreEqual(c2_ua.ToString(), caseListDescendingDoneAt[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase2.Version, caseListDescendingDoneAt[0].Version);
-            Assert.AreEqual(aCase2.Worker.FirstName + " " + aCase2.Worker.LastName, caseListDescendingDoneAt[0].WorkerName);
+            Assert.AreEqual(aCase2.Worker.FirstName + " " + aCase2.Worker.LastName,
+                caseListDescendingDoneAt[0].WorkerName);
             Assert.AreEqual(aCase2.WorkflowState, caseListDescendingDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListDescendingDoneAt aCase3
+
             Assert.AreEqual(aCase3.Type, caseListDescendingDoneAt[3].CaseType);
             Assert.AreEqual(aCase3.CaseUid, caseListDescendingDoneAt[3].CaseUId);
             Assert.AreEqual(aCase3.MicrotingCheckUid, caseListDescendingDoneAt[3].CheckUIid);
@@ -1880,11 +2382,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3.Unit.MicrotingUid, caseListDescendingDoneAt[3].UnitId);
 //            Assert.AreEqual(c3_ua.ToString(), caseListDescendingDoneAt[3].UpdatedAt.ToString());
             Assert.AreEqual(aCase3.Version, caseListDescendingDoneAt[3].Version);
-            Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName, caseListDescendingDoneAt[3].WorkerName);
+            Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName,
+                caseListDescendingDoneAt[3].WorkerName);
             Assert.AreEqual(aCase3.WorkflowState, caseListDescendingDoneAt[3].WorkflowState);
+
             #endregion
 
             #region caseListDescendingDoneAt aCase4
+
             Assert.AreEqual(aCase4.Type, caseListDescendingDoneAt[1].CaseType);
             Assert.AreEqual(aCase4.CaseUid, caseListDescendingDoneAt[1].CaseUId);
             Assert.AreEqual(aCase4.MicrotingCheckUid, caseListDescendingDoneAt[1].CheckUIid);
@@ -1900,8 +2405,10 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase4.Unit.MicrotingUid, caseListDescendingDoneAt[1].UnitId);
 //            Assert.AreEqual(c4_ua.ToString(), caseListDescendingDoneAt[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase4.Version, caseListDescendingDoneAt[1].Version);
-            Assert.AreEqual(aCase4.Worker.FirstName + " " + aCase4.Worker.LastName, caseListDescendingDoneAt[1].WorkerName);
+            Assert.AreEqual(aCase4.Worker.FirstName + " " + aCase4.Worker.LastName,
+                caseListDescendingDoneAt[1].WorkerName);
             Assert.AreEqual(aCase4.WorkflowState, caseListDescendingDoneAt[1].WorkflowState);
+
             #endregion
 
             #endregion
@@ -1927,7 +2434,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1.Unit.MicrotingUid, caseListDescendingStatus[3].UnitId);
 //            Assert.AreEqual(c1_ua.ToString(), caseListDescendingStatus[3].UpdatedAt.ToString());
             Assert.AreEqual(aCase1.Version, caseListDescendingStatus[3].Version);
-            Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName, caseListDescendingStatus[3].WorkerName);
+            Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName,
+                caseListDescendingStatus[3].WorkerName);
             Assert.AreEqual(aCase1.WorkflowState, caseListDescendingStatus[3].WorkflowState);
 
             #endregion
@@ -1949,7 +2457,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase2.Unit.MicrotingUid, caseListDescendingStatus[2].UnitId);
 //            Assert.AreEqual(c2_ua.ToString(), caseListDescendingStatus[2].UpdatedAt.ToString());
             Assert.AreEqual(aCase2.Version, caseListDescendingStatus[2].Version);
-            Assert.AreEqual(aCase2.Worker.FirstName + " " + aCase2.Worker.LastName, caseListDescendingStatus[2].WorkerName);
+            Assert.AreEqual(aCase2.Worker.FirstName + " " + aCase2.Worker.LastName,
+                caseListDescendingStatus[2].WorkerName);
             Assert.AreEqual(aCase2.WorkflowState, caseListDescendingStatus[2].WorkflowState);
 
             #endregion
@@ -1971,7 +2480,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3.Unit.MicrotingUid, caseListDescendingStatus[1].UnitId);
 //            Assert.AreEqual(c3_ua.ToString(), caseListDescendingStatus[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase3.Version, caseListDescendingStatus[1].Version);
-            Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName, caseListDescendingStatus[1].WorkerName);
+            Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName,
+                caseListDescendingStatus[1].WorkerName);
             Assert.AreEqual(aCase3.WorkflowState, caseListDescendingStatus[1].WorkflowState);
 
             #endregion
@@ -1993,7 +2503,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase4.Unit.MicrotingUid, caseListDescendingStatus[0].UnitId);
 //            Assert.AreEqual(c4_ua.ToString(), caseListDescendingStatus[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase4.Version, caseListDescendingStatus[0].Version);
-            Assert.AreEqual(aCase4.Worker.FirstName + " " + aCase4.Worker.LastName, caseListDescendingStatus[0].WorkerName);
+            Assert.AreEqual(aCase4.Worker.FirstName + " " + aCase4.Worker.LastName,
+                caseListDescendingStatus[0].WorkerName);
             Assert.AreEqual(aCase4.WorkflowState, caseListDescendingStatus[0].WorkflowState);
 
             #endregion
@@ -2003,6 +2514,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListDescendingUnitId Def Sort Des
 
             #region caseListDescendingUnitId aCase1
+
             Assert.NotNull(caseListDescendingUnitId);
             Assert.AreEqual(4, caseListDescendingUnitId.Count);
             Assert.AreEqual(aCase1.Type, caseListDescendingUnitId[3].CaseType);
@@ -2020,12 +2532,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1.Unit.MicrotingUid, caseListDescendingUnitId[3].UnitId);
 //            Assert.AreEqual(c1_ua.ToString(), caseListDescendingUnitId[3].UpdatedAt.ToString());
             Assert.AreEqual(aCase1.Version, caseListDescendingUnitId[3].Version);
-            Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName, caseListDescendingUnitId[3].WorkerName);
+            Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName,
+                caseListDescendingUnitId[3].WorkerName);
             Assert.AreEqual(aCase1.WorkflowState, caseListDescendingUnitId[3].WorkflowState);
 
             #endregion
 
             #region caseListDescendingUnitId aCase2
+
             Assert.AreEqual(aCase2.Type, caseListDescendingUnitId[2].CaseType);
             Assert.AreEqual(aCase2.CaseUid, caseListDescendingUnitId[2].CaseUId);
             Assert.AreEqual(aCase2.MicrotingCheckUid, caseListDescendingUnitId[2].CheckUIid);
@@ -2041,12 +2555,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase2.Unit.MicrotingUid, caseListDescendingUnitId[2].UnitId);
 //            Assert.AreEqual(c2_ua.ToString(), caseListDescendingUnitId[2].UpdatedAt.ToString());
             Assert.AreEqual(aCase2.Version, caseListDescendingUnitId[2].Version);
-            Assert.AreEqual(aCase2.Worker.FirstName + " " + aCase2.Worker.LastName, caseListDescendingUnitId[2].WorkerName);
+            Assert.AreEqual(aCase2.Worker.FirstName + " " + aCase2.Worker.LastName,
+                caseListDescendingUnitId[2].WorkerName);
             Assert.AreEqual(aCase2.WorkflowState, caseListDescendingUnitId[2].WorkflowState);
 
             #endregion
 
             #region caseListDescendingUnitId aCase3
+
             Assert.AreEqual(aCase3.Type, caseListDescendingUnitId[1].CaseType);
             Assert.AreEqual(aCase3.CaseUid, caseListDescendingUnitId[1].CaseUId);
             Assert.AreEqual(aCase3.MicrotingCheckUid, caseListDescendingUnitId[1].CheckUIid);
@@ -2062,12 +2578,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3.Unit.MicrotingUid, caseListDescendingUnitId[1].UnitId);
 //            Assert.AreEqual(c3_ua.ToString(), caseListDescendingUnitId[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase3.Version, caseListDescendingUnitId[1].Version);
-            Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName, caseListDescendingUnitId[1].WorkerName);
+            Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName,
+                caseListDescendingUnitId[1].WorkerName);
             Assert.AreEqual(aCase3.WorkflowState, caseListDescendingUnitId[1].WorkflowState);
 
             #endregion
 
             #region caseListDescendingUnitId aCase4
+
             Assert.AreEqual(aCase4.Type, caseListDescendingUnitId[0].CaseType);
             Assert.AreEqual(aCase4.CaseUid, caseListDescendingUnitId[0].CaseUId);
             Assert.AreEqual(aCase4.MicrotingCheckUid, caseListDescendingUnitId[0].CheckUIid);
@@ -2083,7 +2601,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase4.Unit.MicrotingUid, caseListDescendingUnitId[0].UnitId);
 //            Assert.AreEqual(c4_ua.ToString(), caseListDescendingUnitId[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase4.Version, caseListDescendingUnitId[0].Version);
-            Assert.AreEqual(aCase4.Worker.FirstName + " " + aCase4.Worker.LastName, caseListDescendingUnitId[0].WorkerName);
+            Assert.AreEqual(aCase4.Worker.FirstName + " " + aCase4.Worker.LastName,
+                caseListDescendingUnitId[0].WorkerName);
             Assert.AreEqual(aCase4.WorkflowState, caseListDescendingUnitId[0].WorkflowState);
 
             #endregion
@@ -2094,9 +2613,10 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region Def Sort Asc w. DateTime
 
-
             #region caseListDtDoneAt Def Sort Asc w. DateTime
+
             #region caseListDtDoneAt aCase1
+
             Assert.NotNull(caseListDtDoneAt);
             Assert.AreEqual(2, caseListDtDoneAt.Count);
             Assert.AreEqual(aCase1.Type, caseListDtDoneAt[1].CaseType);
@@ -2116,9 +2636,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1.Version, caseListDtDoneAt[1].Version);
             Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName, caseListDtDoneAt[1].WorkerName);
             Assert.AreEqual(aCase1.WorkflowState, caseListDtDoneAt[1].WorkflowState);
+
             #endregion
 
             #region caseListDtDoneAt aCase3
+
             Assert.AreEqual(aCase3.Type, caseListDtDoneAt[0].CaseType);
             Assert.AreEqual(aCase3.CaseUid, caseListDtDoneAt[0].CaseUId);
             Assert.AreEqual(aCase3.MicrotingCheckUid, caseListDtDoneAt[0].CheckUIid);
@@ -2136,8 +2658,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3.Version, caseListDtDoneAt[0].Version);
             Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName, caseListDtDoneAt[0].WorkerName);
             Assert.AreEqual(aCase3.WorkflowState, caseListDtDoneAt[0].WorkflowState);
-            #endregion
 
+            #endregion
 
             #endregion
 
@@ -2239,17 +2761,16 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #endregion
 
-
-
             #endregion
 
             #endregion
 
             #region Def Sort Des w. DateTime
+
             #region caseListDtDescendingDoneAt Def Sort Des
 
-
             #region caseListDtDescendingDoneAt aCase1
+
             Assert.NotNull(caseListDtDescendingDoneAt);
             Assert.AreEqual(2, caseListDtDescendingDoneAt.Count);
             Assert.AreEqual(aCase1.Type, caseListDtDescendingDoneAt[0].CaseType);
@@ -2267,8 +2788,10 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1.Unit.MicrotingUid, caseListDtDescendingDoneAt[0].UnitId);
 //            Assert.AreEqual(c1_ua.ToString(), caseListDtDescendingDoneAt[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase1.Version, caseListDtDescendingDoneAt[0].Version);
-            Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName, caseListDtDescendingDoneAt[0].WorkerName);
+            Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName,
+                caseListDtDescendingDoneAt[0].WorkerName);
             Assert.AreEqual(aCase1.WorkflowState, caseListDtDescendingDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListDtDescendingDoneAt aCase4
@@ -2288,17 +2811,18 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3.Unit.MicrotingUid, caseListDtDescendingDoneAt[1].UnitId);
 //            Assert.AreEqual(c3_ua.ToString(), caseListDtDescendingDoneAt[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase3.Version, caseListDtDescendingDoneAt[1].Version);
-            Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName, caseListDtDescendingDoneAt[1].WorkerName);
+            Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName,
+                caseListDtDescendingDoneAt[1].WorkerName);
             Assert.AreEqual(aCase3.WorkflowState, caseListDtDescendingDoneAt[1].WorkflowState);
+
             #endregion
 
             #endregion
 
             #region caseListDtDescendingStatus Def Sort Des
 
-
-
             #region caseListDtDescendingStatus aCase1
+
             Assert.NotNull(caseListDtDescendingStatus);
             Assert.AreEqual(2, caseListDtDescendingStatus.Count);
             Assert.AreEqual(aCase1.Type, caseListDtDescendingStatus[1].CaseType);
@@ -2316,7 +2840,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1.Unit.MicrotingUid, caseListDtDescendingStatus[1].UnitId);
 //            Assert.AreEqual(c1_ua.ToString(), caseListDtDescendingStatus[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase1.Version, caseListDtDescendingStatus[1].Version);
-            Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName, caseListDtDescendingStatus[1].WorkerName);
+            Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName,
+                caseListDtDescendingStatus[1].WorkerName);
             Assert.AreEqual(aCase1.WorkflowState, caseListDtDescendingStatus[1].WorkflowState);
 
             #endregion
@@ -2338,7 +2863,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3.Unit.MicrotingUid, caseListDtDescendingStatus[0].UnitId);
 //            Assert.AreEqual(c3_ua.ToString(), caseListDtDescendingStatus[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase3.Version, caseListDtDescendingStatus[0].Version);
-            Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName, caseListDtDescendingStatus[0].WorkerName);
+            Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName,
+                caseListDtDescendingStatus[0].WorkerName);
             Assert.AreEqual(aCase3.WorkflowState, caseListDtDescendingStatus[0].WorkflowState);
 
             #endregion
@@ -2348,6 +2874,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListDtDescendingUnitId Def Sort Des
 
             #region caseListDtDescendingUnitId aCase3
+
             Assert.NotNull(caseListDtDescendingUnitId);
             Assert.AreEqual(2, caseListDtDescendingUnitId.Count);
 
@@ -2366,12 +2893,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1.Unit.MicrotingUid, caseListDtDescendingUnitId[1].UnitId);
 //            Assert.AreEqual(c1_ua.ToString(), caseListDtDescendingUnitId[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase1.Version, caseListDtDescendingUnitId[1].Version);
-            Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName, caseListDtDescendingUnitId[1].WorkerName);
+            Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName,
+                caseListDtDescendingUnitId[1].WorkerName);
             Assert.AreEqual(aCase1.WorkflowState, caseListDtDescendingUnitId[1].WorkflowState);
 
             #endregion
 
             #region caseListDtDescendingUnitId aCase3
+
             Assert.AreEqual(aCase3.Type, caseListDtDescendingUnitId[0].CaseType);
             Assert.AreEqual(aCase3.CaseUid, caseListDtDescendingUnitId[0].CaseUId);
             Assert.AreEqual(aCase3.MicrotingCheckUid, caseListDtDescendingUnitId[0].CheckUIid);
@@ -2387,7 +2916,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3.Unit.MicrotingUid, caseListDtDescendingUnitId[0].UnitId);
 //            Assert.AreEqual(c3_ua.ToString(), caseListDtDescendingUnitId[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase3.Version, caseListDtDescendingUnitId[0].Version);
-            Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName, caseListDtDescendingUnitId[0].WorkerName);
+            Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName,
+                caseListDtDescendingUnitId[0].WorkerName);
             Assert.AreEqual(aCase3.WorkflowState, caseListDtDescendingUnitId[0].WorkflowState);
 
             #endregion
@@ -2395,6 +2925,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #endregion
 
             #endregion
+
             #endregion
 
             #region Case Sort
@@ -2404,6 +2935,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region aCase1 sort asc
 
             #region caseListC1DoneAt aCase1
+
             Assert.NotNull(caseListC1SortDoneAt);
             Assert.AreEqual(0, caseListC1SortDoneAt.Count);
             // Assert.AreEqual(aCase1.type, caseListC1SortDoneAt[0].CaseType);
@@ -2423,9 +2955,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1.version, caseListC1SortDoneAt[0].Version);
             // Assert.AreEqual(aCase1.worker.first_name + " " + aCase1.worker.last_name, caseListC1SortDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase1.workflow_state, caseListC1SortDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListC1SortStatus aCase1
+
             Assert.NotNull(caseListC1SortStatus);
             Assert.AreEqual(0, caseListC1SortStatus.Count);
             // Assert.AreEqual(aCase1.type, caseListC1SortStatus[0].CaseType);
@@ -2445,6 +2979,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1.version, caseListC1SortStatus[0].Version);
             // Assert.AreEqual(aCase1.worker.first_name + " " + aCase1.worker.last_name, caseListC1SortStatus[0].WorkerName);
             // Assert.AreEqual(aCase1.workflow_state, caseListC1SortStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListC1SortUnitId
@@ -2471,13 +3006,12 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #endregion
 
-
-
             #endregion
 
             #region aCase2 sort asc
 
             #region caseListC2DoneAt aCase2
+
             Assert.NotNull(caseListC2SortDoneAt);
             Assert.AreEqual(0, caseListC2SortDoneAt.Count);
             // Assert.AreEqual(aCase2.type, caseListC2SortDoneAt[0].CaseType);
@@ -2497,9 +3031,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2.version, caseListC2SortDoneAt[0].Version);
             // Assert.AreEqual(aCase2.worker.first_name + " " + aCase2.worker.last_name, caseListC2SortDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase2.workflow_state, caseListC2SortDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListC2SortStatus aCase2
+
             Assert.NotNull(caseListC2SortStatus);
             Assert.AreEqual(0, caseListC2SortStatus.Count);
             // Assert.AreEqual(aCase2.type, caseListC2SortStatus[0].CaseType);
@@ -2519,9 +3055,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2.version, caseListC2SortStatus[0].Version);
             // Assert.AreEqual(aCase2.worker.first_name + " " + aCase2.worker.last_name, caseListC2SortStatus[0].WorkerName);
             // Assert.AreEqual(aCase2.workflow_state, caseListC2SortStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListC2SortUnitId aCase2
+
             Assert.NotNull(caseListC2SortUnitId);
             Assert.AreEqual(0, caseListC2SortUnitId.Count);
             // Assert.AreEqual(aCase2.type, caseListC2SortUnitId[0].CaseType);
@@ -2541,6 +3079,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2.version, caseListC2SortUnitId[0].Version);
             // Assert.AreEqual(aCase2.worker.first_name + " " + aCase2.worker.last_name, caseListC2SortUnitId[0].WorkerName);
             // Assert.AreEqual(aCase2.workflow_state, caseListC2SortUnitId[0].WorkflowState);
+
             #endregion
 
             #endregion
@@ -2548,6 +3087,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region aCase3 sort asc
 
             #region caseListC3DoneAt aCase3
+
             Assert.NotNull(caseListC3SortDoneAt);
             Assert.AreEqual(0, caseListC3SortDoneAt.Count);
             // Assert.AreEqual(aCase3.type, caseListC3SortDoneAt[0].CaseType);
@@ -2567,9 +3107,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3.version, caseListC3SortDoneAt[0].Version);
             // Assert.AreEqual(aCase3.worker.first_name + " " + aCase3.worker.last_name, caseListC3SortDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase3.workflow_state, caseListC3SortDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListC3status aCase3
+
             Assert.NotNull(caseListC3SortStatus);
             Assert.AreEqual(0, caseListC3SortStatus.Count);
             // Assert.AreEqual(aCase3.type, caseListC3SortStatus[0].CaseType);
@@ -2589,9 +3131,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3.version, caseListC3SortStatus[0].Version);
             // Assert.AreEqual(aCase3.worker.first_name + " " + aCase3.worker.last_name, caseListC3SortStatus[0].WorkerName);
             // Assert.AreEqual(aCase3.workflow_state, caseListC3SortStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListC3UnitId aCase3
+
             Assert.NotNull(caseListC3SortUnitId);
             Assert.AreEqual(0, caseListC3SortUnitId.Count);
             // Assert.AreEqual(aCase3.type, caseListC3SortUnitId[0].CaseType);
@@ -2611,15 +3155,15 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3.version, caseListC3SortUnitId[0].Version);
             // Assert.AreEqual(aCase3.worker.first_name + " " + aCase3.worker.last_name, caseListC3SortUnitId[0].WorkerName);
             // Assert.AreEqual(aCase3.workflow_state, caseListC3SortUnitId[0].WorkflowState);
+
             #endregion
-
-
 
             #endregion
 
             #region aCase4 sort asc
 
             #region caseListC4SortDoneAt aCase4
+
             Assert.NotNull(caseListC4SortDoneAt);
             Assert.AreEqual(0, caseListC4SortDoneAt.Count);
             // Assert.AreEqual(aCase4.type, caseListC4SortDoneAt[0].CaseType);
@@ -2639,9 +3183,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4.version, caseListC4SortDoneAt[0].Version);
             // Assert.AreEqual(aCase4.worker.first_name + " " + aCase4.worker.last_name, caseListC4SortDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase4.workflow_state, caseListC4SortDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListC4SortStatus aCase4
+
             Assert.NotNull(caseListC1SortDoneAt);
             Assert.AreEqual(0, caseListC1SortDoneAt.Count);
             // Assert.AreEqual(aCase4.type, caseListC1SortDoneAt[0].CaseType);
@@ -2661,6 +3207,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4.version, caseListC1SortDoneAt[0].Version);
             // Assert.AreEqual(aCase4.worker.first_name + " " + aCase4.worker.last_name, caseListC1SortDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase4.workflow_state, caseListC1SortDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListC4SortUnitId aCase4
@@ -2686,8 +3233,6 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4.workflow_state, caseListC4SortDoneAt[0].WorkflowState);
 
             #endregion
-
-
 
             #endregion
 
@@ -2768,9 +3313,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1.workflow_state, caseListC1SortDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
 
             #region aCase2 Sort Des
+
             #region caseListC2SortDescendingDoneAt aCase2
 
             Assert.NotNull(caseListC2SortDescendingDoneAt);
@@ -2842,9 +3389,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2.workflow_state, caseListC2SortDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
 
             #region aCase3 Sort Des
+
             #region caseListC3SortDescendingDoneAt aCase3
 
             Assert.NotNull(caseListC3SortDescendingDoneAt);
@@ -2920,6 +3469,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #endregion
 
             #region aCase4 Sort Des
+
             #region caseListC4SortDescendingDoneAt aCase4
 
             Assert.NotNull(caseListC4SortDescendingDoneAt);
@@ -2991,7 +3541,9 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4.workflow_state, caseListC4SortDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
+
             #endregion
 
             #region aCase Sort Asc w. DateTime
@@ -2999,6 +3551,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region aCase1 sort asc w. DateTime
 
             #region caseListC1SortDtDoneAt aCase1
+
             Assert.NotNull(caseListC1SortDtDoneAt);
             Assert.AreEqual(0, caseListC1SortDtDoneAt.Count);
             // Assert.AreEqual(aCase1.type, caseListC1SortDtDoneAt[0].CaseType);
@@ -3018,9 +3571,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1.version, caseListC1SortDtDoneAt[0].Version);
             // Assert.AreEqual(aCase1.worker.first_name + " " + aCase1.worker.last_name, caseListC1SortDtDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase1.workflow_state, caseListC1SortDtDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListC1SortDtStatus aCase1
+
             Assert.NotNull(caseListC1SortDtStatus);
             Assert.AreEqual(0, caseListC1SortDtStatus.Count);
             // Assert.AreEqual(aCase1.type, caseListC1SortDtStatus[0].CaseType);
@@ -3040,9 +3595,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1.version, caseListC1SortDtStatus[0].Version);
             // Assert.AreEqual(aCase1.worker.first_name + " " + aCase1.worker.last_name, caseListC1SortDtStatus[0].WorkerName);
             // Assert.AreEqual(aCase1.workflow_state, caseListC1SortDtStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListC1SortDtUnitId aCase1
+
             Assert.NotNull(caseListC1SortDtUnitId);
             Assert.AreEqual(0, caseListC1SortDtUnitId.Count);
             // Assert.AreEqual(aCase1.type, caseListC1SortDtUnitId[0].CaseType);
@@ -3062,6 +3619,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1.version, caseListC1SortDtUnitId[0].Version);
             // Assert.AreEqual(aCase1.worker.first_name + " " + aCase1.worker.last_name, caseListC1SortDtUnitId[0].WorkerName);
             // Assert.AreEqual(aCase1.workflow_state, caseListC1SortDtUnitId[0].WorkflowState);
+
             #endregion
 
             #endregion
@@ -3069,6 +3627,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region aCase2 sort asc w. DateTime
 
             #region caseListC2SortDtDoneAt aCase2
+
             Assert.NotNull(caseListC2SortDtDoneAt);
             Assert.AreEqual(0, caseListC2SortDtDoneAt.Count);
             // Assert.AreEqual(aCase2.type, caseListC2SortDtDoneAt[0].CaseType);
@@ -3088,9 +3647,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2.version, caseListC2SortDtDoneAt[0].Version);
             // Assert.AreEqual(aCase2.worker.first_name + " " + aCase2.worker.last_name, caseListC2SortDtDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase2.workflow_state, caseListC2SortDtDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListC2SortDtStatus aCase2
+
             Assert.NotNull(caseListC2SortDtStatus);
             Assert.AreEqual(0, caseListC2SortDtStatus.Count);
             // Assert.AreEqual(aCase2.type, caseListC2SortDtStatus[0].CaseType);
@@ -3110,9 +3671,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2.version, caseListC2SortDtStatus[0].Version);
             // Assert.AreEqual(aCase2.worker.first_name + " " + aCase2.worker.last_name, caseListC2SortDtStatus[0].WorkerName);
             // Assert.AreEqual(aCase2.workflow_state, caseListC2SortDtStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListC2SortDtUnitId aCase2
+
             Assert.NotNull(caseListC2SortDtUnitId);
             Assert.AreEqual(0, caseListC2SortDtUnitId.Count);
             // Assert.AreEqual(aCase2.type, caseListC2SortDtUnitId[0].CaseType);
@@ -3132,6 +3695,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2.version, caseListC2SortDtUnitId[0].Version);
             // Assert.AreEqual(aCase2.worker.first_name + " " + aCase2.worker.last_name, caseListC2SortDtUnitId[0].WorkerName);
             // Assert.AreEqual(aCase2.workflow_state, caseListC2SortDtUnitId[0].WorkflowState);
+
             #endregion
 
             #endregion
@@ -3139,6 +3703,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region aCase3 sort asc w. DateTime
 
             #region caseListC3SortDtDoneAt aCase3
+
             Assert.NotNull(caseListC3SortDtDoneAt);
             Assert.AreEqual(0, caseListC3SortDtDoneAt.Count);
             // Assert.AreEqual(aCase3.type, caseListC3SortDtDoneAt[0].CaseType);
@@ -3158,9 +3723,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3.version, caseListC3SortDtDoneAt[0].Version);
             // Assert.AreEqual(aCase3.worker.first_name + " " + aCase3.worker.last_name, caseListC3SortDtDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase3.workflow_state, caseListC3SortDtDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListC3SortDtStatus aCase3
+
             Assert.NotNull(caseListC3SortDtStatus);
             Assert.AreEqual(0, caseListC3SortDtStatus.Count);
             // Assert.AreEqual(aCase3.type, caseListC3SortDtStatus[0].CaseType);
@@ -3180,9 +3747,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3.version, caseListC3SortDtStatus[0].Version);
             // Assert.AreEqual(aCase3.worker.first_name + " " + aCase3.worker.last_name, caseListC3SortDtStatus[0].WorkerName);
             // Assert.AreEqual(aCase3.workflow_state, caseListC3SortDtStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListC3SortDtUnitId aCase3
+
             Assert.NotNull(caseListC3SortDtUnitId);
             Assert.AreEqual(0, caseListC3SortDtUnitId.Count);
             // Assert.AreEqual(aCase3.type, caseListC3SortDtUnitId[0].CaseType);
@@ -3202,14 +3771,15 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3.version, caseListC3SortDtUnitId[0].Version);
             // Assert.AreEqual(aCase3.worker.first_name + " " + aCase3.worker.last_name, caseListC3SortDtUnitId[0].WorkerName);
             // Assert.AreEqual(aCase3.workflow_state, caseListC3SortDtUnitId[0].WorkflowState);
-            #endregion
 
+            #endregion
 
             #endregion
 
             #region aCase4 sort asc w. DateTime
 
             #region caseListC4SortDtDoneAt aCase4
+
             Assert.NotNull(caseListC4SortDtDoneAt);
             Assert.AreEqual(0, caseListC4SortDtDoneAt.Count);
             // Assert.AreEqual(aCase4.type, caseListC4SortDtDoneAt[0].CaseType);
@@ -3229,9 +3799,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4.version, caseListC4SortDtDoneAt[0].Version);
             // Assert.AreEqual(aCase4.worker.first_name + " " + aCase4.worker.last_name, caseListC4SortDtDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase4.workflow_state, caseListC4SortDtDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListC4SortDtStatus aCase4
+
             Assert.NotNull(caseListC4SortDtStatus);
             Assert.AreEqual(0, caseListC4SortDtStatus.Count);
             // Assert.AreEqual(aCase4.type, caseListC4SortDtStatus[0].CaseType);
@@ -3251,9 +3823,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4.version, caseListC4SortDtStatus[0].Version);
             // Assert.AreEqual(aCase4.worker.first_name + " " + aCase4.worker.last_name, caseListC4SortDtStatus[0].WorkerName);
             // Assert.AreEqual(aCase4.workflow_state, caseListC4SortDtStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListC4SortDtUnitId aCase4
+
             Assert.NotNull(caseListC4SortDtUnitId);
             Assert.AreEqual(0, caseListC4SortDtUnitId.Count);
             // Assert.AreEqual(aCase4.type, caseListC4SortDtUnitId[0].CaseType);
@@ -3273,16 +3847,17 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4.version, caseListC4SortDtUnitId[0].Version);
             // Assert.AreEqual(aCase4.worker.first_name + " " + aCase4.worker.last_name, caseListC4SortDtUnitId[0].WorkerName);
             // Assert.AreEqual(aCase4.workflow_state, caseListC4SortDtUnitId[0].WorkflowState);
+
             #endregion
-
-
 
             #endregion
 
             #endregion
 
             #region aCase Sort Des w. DateTime
+
             #region aCase1 Sort Des w. DateTime
+
             #region caseListC1SortDtDescendingDoneAt aCase1
 
             Assert.NotNull(caseListC1SortDtDescendingDoneAt);
@@ -3354,9 +3929,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1.workflow_state, caseListC1SortDtDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
 
             #region aCase2 Sort Des w. DateTime
+
             #region caseListC2SortDtDescendingDoneAt aCase2
 
             Assert.NotNull(caseListC2SortDtDescendingDoneAt);
@@ -3428,9 +4005,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2.workflow_state, caseListC2SortDtDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
 
             #region aCase3 Sort Des w. DateTime
+
             #region caseListC3SortDtDescendingDoneAt aCase3
 
             Assert.NotNull(caseListC3SortDtDescendingDoneAt);
@@ -3502,9 +4081,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3.workflow_state, caseListC3SortDtDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
 
             #region aCase4 Sort Des w. DateTime
+
             #region caseListC4SortDtDescendingDoneAt aCase4
 
             Assert.NotNull(caseListC4SortDtDescendingDoneAt);
@@ -3576,6 +4157,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4.workflow_state, caseListC4SortDtDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
 
             #endregion
@@ -3587,9 +4169,13 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region sort by WorkflowState removed
 
             #region Def Sort
+
             #region Def Sort Asc
+
             #region caseListRemovedDoneAt Def Sort Asc
+
             #region caseListRemovedDoneAt aCase1Removed
+
             Assert.NotNull(caseListRemovedDoneAt);
             Assert.AreEqual(4, caseListRemovedDoneAt.Count);
             Assert.AreEqual(aCase1Removed.Type, caseListRemovedDoneAt[1].CaseType);
@@ -3607,11 +4193,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Removed.Unit.MicrotingUid, caseListRemovedDoneAt[1].UnitId);
 //            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedDoneAt[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Removed.Version, caseListRemovedDoneAt[1].Version);
-            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName, caseListRemovedDoneAt[1].WorkerName);
+            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName,
+                caseListRemovedDoneAt[1].WorkerName);
             Assert.AreEqual(aCase1Removed.WorkflowState, caseListRemovedDoneAt[1].WorkflowState);
+
             #endregion
 
             #region caseListRemovedDoneAt aCase2Removed
+
             Assert.AreEqual(aCase2Removed.Type, caseListRemovedDoneAt[3].CaseType);
             Assert.AreEqual(aCase2Removed.CaseUid, caseListRemovedDoneAt[3].CaseUId);
             Assert.AreEqual(aCase2Removed.MicrotingCheckUid, caseListRemovedDoneAt[3].CheckUIid);
@@ -3627,11 +4216,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase2Removed.Unit.MicrotingUid, caseListRemovedDoneAt[3].UnitId);
 //            Assert.AreEqual(c2Removed_ua.ToString(), caseListRemovedDoneAt[3].UpdatedAt.ToString());
             Assert.AreEqual(aCase2Removed.Version, caseListRemovedDoneAt[3].Version);
-            Assert.AreEqual(aCase2Removed.Worker.FirstName + " " + aCase2Removed.Worker.LastName, caseListRemovedDoneAt[3].WorkerName);
+            Assert.AreEqual(aCase2Removed.Worker.FirstName + " " + aCase2Removed.Worker.LastName,
+                caseListRemovedDoneAt[3].WorkerName);
             Assert.AreEqual(aCase2Removed.WorkflowState, caseListRemovedDoneAt[3].WorkflowState);
+
             #endregion
 
             #region caseListRemovedDoneAt aCase3Removed
+
             Assert.AreEqual(aCase3Removed.Type, caseListRemovedDoneAt[0].CaseType);
             Assert.AreEqual(aCase3Removed.CaseUid, caseListRemovedDoneAt[0].CaseUId);
             Assert.AreEqual(aCase3Removed.MicrotingCheckUid, caseListRemovedDoneAt[0].CheckUIid);
@@ -3647,11 +4239,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Removed.Unit.MicrotingUid, caseListRemovedDoneAt[0].UnitId);
 //            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedDoneAt[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Removed.Version, caseListRemovedDoneAt[0].Version);
-            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName, caseListRemovedDoneAt[0].WorkerName);
+            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName,
+                caseListRemovedDoneAt[0].WorkerName);
             Assert.AreEqual(aCase3Removed.WorkflowState, caseListRemovedDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRemovedDoneAt aCase4Removed
+
             Assert.AreEqual(aCase4Removed.Type, caseListRemovedDoneAt[2].CaseType);
             Assert.AreEqual(aCase4Removed.CaseUid, caseListRemovedDoneAt[2].CaseUId);
             Assert.AreEqual(aCase4Removed.MicrotingCheckUid, caseListRemovedDoneAt[2].CheckUIid);
@@ -3667,8 +4262,10 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase4Removed.Unit.MicrotingUid, caseListRemovedDoneAt[2].UnitId);
 //            Assert.AreEqual(c4Removed_ua.ToString(), caseListRemovedDoneAt[2].UpdatedAt.ToString());
             Assert.AreEqual(aCase4Removed.Version, caseListRemovedDoneAt[2].Version);
-            Assert.AreEqual(aCase4Removed.Worker.FirstName + " " + aCase4Removed.Worker.LastName, caseListRemovedDoneAt[2].WorkerName);
+            Assert.AreEqual(aCase4Removed.Worker.FirstName + " " + aCase4Removed.Worker.LastName,
+                caseListRemovedDoneAt[2].WorkerName);
             Assert.AreEqual(aCase4Removed.WorkflowState, caseListRemovedDoneAt[2].WorkflowState);
+
             #endregion
 
             #endregion
@@ -3694,7 +4291,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Removed.Unit.MicrotingUid, caseListRemovedStatus[0].UnitId);
 //            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedStatus[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Removed.Version, caseListRemovedStatus[0].Version);
-            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName, caseListRemovedStatus[0].WorkerName);
+            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName,
+                caseListRemovedStatus[0].WorkerName);
             Assert.AreEqual(aCase1Removed.WorkflowState, caseListRemovedStatus[0].WorkflowState);
 
             #endregion
@@ -3716,7 +4314,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase2Removed.Unit.MicrotingUid, caseListRemovedStatus[1].UnitId);
 //            Assert.AreEqual(c2Removed_ua.ToString(), caseListRemovedStatus[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase2Removed.Version, caseListRemovedStatus[1].Version);
-            Assert.AreEqual(aCase2Removed.Worker.FirstName + " " + aCase2Removed.Worker.LastName, caseListRemovedStatus[1].WorkerName);
+            Assert.AreEqual(aCase2Removed.Worker.FirstName + " " + aCase2Removed.Worker.LastName,
+                caseListRemovedStatus[1].WorkerName);
             Assert.AreEqual(aCase2Removed.WorkflowState, caseListRemovedStatus[1].WorkflowState);
 
             #endregion
@@ -3738,7 +4337,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Removed.Unit.MicrotingUid, caseListRemovedStatus[2].UnitId);
 //            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedStatus[2].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Removed.Version, caseListRemovedStatus[2].Version);
-            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName, caseListRemovedStatus[2].WorkerName);
+            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName,
+                caseListRemovedStatus[2].WorkerName);
             Assert.AreEqual(aCase3Removed.WorkflowState, caseListRemovedStatus[2].WorkflowState);
 
             #endregion
@@ -3760,7 +4360,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase4Removed.Unit.MicrotingUid, caseListRemovedStatus[3].UnitId);
 //            Assert.AreEqual(c4Removed_ua.ToString(), caseListRemovedStatus[3].UpdatedAt.ToString());
             Assert.AreEqual(aCase4Removed.Version, caseListRemovedStatus[3].Version);
-            Assert.AreEqual(aCase4Removed.Worker.FirstName + " " + aCase4Removed.Worker.LastName, caseListRemovedStatus[3].WorkerName);
+            Assert.AreEqual(aCase4Removed.Worker.FirstName + " " + aCase4Removed.Worker.LastName,
+                caseListRemovedStatus[3].WorkerName);
             Assert.AreEqual(aCase4Removed.WorkflowState, caseListRemovedStatus[3].WorkflowState);
 
             #endregion
@@ -3770,6 +4371,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedUnitId Def Sort Asc
 
             #region caseListRemovedUnitId aCase1Removed
+
             Assert.NotNull(caseListRemovedUnitId);
             Assert.AreEqual(4, caseListRemovedUnitId.Count);
             Assert.AreEqual(aCase1Removed.Type, caseListRemovedUnitId[0].CaseType);
@@ -3787,12 +4389,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Removed.Unit.MicrotingUid, caseListRemovedUnitId[0].UnitId);
 //            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedUnitId[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Removed.Version, caseListRemovedUnitId[0].Version);
-            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName, caseListRemovedUnitId[0].WorkerName);
+            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName,
+                caseListRemovedUnitId[0].WorkerName);
             Assert.AreEqual(aCase1Removed.WorkflowState, caseListRemovedUnitId[0].WorkflowState);
 
             #endregion
 
             #region caseListRemovedUnitId aCase2Removed
+
             Assert.AreEqual(aCase2Removed.Type, caseListRemovedUnitId[1].CaseType);
             Assert.AreEqual(aCase2Removed.CaseUid, caseListRemovedUnitId[1].CaseUId);
             Assert.AreEqual(aCase2Removed.MicrotingCheckUid, caseListRemovedUnitId[1].CheckUIid);
@@ -3808,12 +4412,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase2Removed.Unit.MicrotingUid, caseListRemovedUnitId[1].UnitId);
 //            Assert.AreEqual(c2Removed_ua.ToString(), caseListRemovedUnitId[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase2Removed.Version, caseListRemovedUnitId[1].Version);
-            Assert.AreEqual(aCase2Removed.Worker.FirstName + " " + aCase2Removed.Worker.LastName, caseListRemovedUnitId[1].WorkerName);
+            Assert.AreEqual(aCase2Removed.Worker.FirstName + " " + aCase2Removed.Worker.LastName,
+                caseListRemovedUnitId[1].WorkerName);
             Assert.AreEqual(aCase2Removed.WorkflowState, caseListRemovedUnitId[1].WorkflowState);
 
             #endregion
 
             #region caseListRemovedUnitId aCase3Removed
+
             Assert.AreEqual(aCase3Removed.Type, caseListRemovedUnitId[2].CaseType);
             Assert.AreEqual(aCase3Removed.CaseUid, caseListRemovedUnitId[2].CaseUId);
             Assert.AreEqual(aCase3Removed.MicrotingCheckUid, caseListRemovedUnitId[2].CheckUIid);
@@ -3829,12 +4435,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Removed.Unit.MicrotingUid, caseListRemovedUnitId[2].UnitId);
 //            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedUnitId[2].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Removed.Version, caseListRemovedUnitId[2].Version);
-            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName, caseListRemovedUnitId[2].WorkerName);
+            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName,
+                caseListRemovedUnitId[2].WorkerName);
             Assert.AreEqual(aCase3Removed.WorkflowState, caseListRemovedUnitId[2].WorkflowState);
 
             #endregion
 
             #region caseListRemovedUnitId aCase4Removed
+
             Assert.AreEqual(aCase4Removed.Type, caseListRemovedUnitId[3].CaseType);
             Assert.AreEqual(aCase4Removed.CaseUid, caseListRemovedUnitId[3].CaseUId);
             Assert.AreEqual(aCase4Removed.MicrotingCheckUid, caseListRemovedUnitId[3].CheckUIid);
@@ -3850,7 +4458,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase4Removed.Unit.MicrotingUid, caseListRemovedUnitId[3].UnitId);
 //            Assert.AreEqual(c4Removed_ua.ToString(), caseListRemovedUnitId[3].UpdatedAt.ToString());
             Assert.AreEqual(aCase4Removed.Version, caseListRemovedUnitId[3].Version);
-            Assert.AreEqual(aCase4Removed.Worker.FirstName + " " + aCase4Removed.Worker.LastName, caseListRemovedUnitId[3].WorkerName);
+            Assert.AreEqual(aCase4Removed.Worker.FirstName + " " + aCase4Removed.Worker.LastName,
+                caseListRemovedUnitId[3].WorkerName);
             Assert.AreEqual(aCase4Removed.WorkflowState, caseListRemovedUnitId[3].WorkflowState);
 
             #endregion
@@ -3860,8 +4469,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             #endregion
 
             #region Def Sort Des
+
             #region caseListRemovedDescendingDoneAt Def Sort Des
+
             #region caseListRemovedDescendingDoneAt aCase1Removed
+
             Assert.NotNull(caseListRemovedDescendingDoneAt);
             Assert.AreEqual(4, caseListRemovedDescendingDoneAt.Count);
             Assert.AreEqual(aCase1Removed.Type, caseListRemovedDescendingDoneAt[2].CaseType);
@@ -3879,11 +4491,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Removed.Unit.MicrotingUid, caseListRemovedDescendingDoneAt[2].UnitId);
 //            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedDescendingDoneAt[2].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Removed.Version, caseListRemovedDescendingDoneAt[2].Version);
-            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName, caseListRemovedDescendingDoneAt[2].WorkerName);
+            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName,
+                caseListRemovedDescendingDoneAt[2].WorkerName);
             Assert.AreEqual(aCase1Removed.WorkflowState, caseListRemovedDescendingDoneAt[2].WorkflowState);
+
             #endregion
 
             #region caseListRemovedDescendingDoneAt aCase2Removed
+
             Assert.AreEqual(aCase2Removed.Type, caseListRemovedDescendingDoneAt[0].CaseType);
             Assert.AreEqual(aCase2Removed.CaseUid, caseListRemovedDescendingDoneAt[0].CaseUId);
             Assert.AreEqual(aCase2Removed.MicrotingCheckUid, caseListRemovedDescendingDoneAt[0].CheckUIid);
@@ -3899,11 +4514,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase2Removed.Unit.MicrotingUid, caseListRemovedDescendingDoneAt[0].UnitId);
 //            Assert.AreEqual(c2Removed_ua.ToString(), caseListRemovedDescendingDoneAt[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase2Removed.Version, caseListRemovedDescendingDoneAt[0].Version);
-            Assert.AreEqual(aCase2Removed.Worker.FirstName + " " + aCase2Removed.Worker.LastName, caseListRemovedDescendingDoneAt[0].WorkerName);
+            Assert.AreEqual(aCase2Removed.Worker.FirstName + " " + aCase2Removed.Worker.LastName,
+                caseListRemovedDescendingDoneAt[0].WorkerName);
             Assert.AreEqual(aCase2Removed.WorkflowState, caseListRemovedDescendingDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRemovedDescendingDoneAt aCase3Removed
+
             Assert.AreEqual(aCase3Removed.Type, caseListRemovedDescendingDoneAt[3].CaseType);
             Assert.AreEqual(aCase3Removed.CaseUid, caseListRemovedDescendingDoneAt[3].CaseUId);
             Assert.AreEqual(aCase3Removed.MicrotingCheckUid, caseListRemovedDescendingDoneAt[3].CheckUIid);
@@ -3919,11 +4537,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Removed.Unit.MicrotingUid, caseListRemovedDescendingDoneAt[3].UnitId);
 //            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedDescendingDoneAt[3].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Removed.Version, caseListRemovedDescendingDoneAt[3].Version);
-            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName, caseListRemovedDescendingDoneAt[3].WorkerName);
+            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName,
+                caseListRemovedDescendingDoneAt[3].WorkerName);
             Assert.AreEqual(aCase3Removed.WorkflowState, caseListRemovedDescendingDoneAt[3].WorkflowState);
+
             #endregion
 
             #region caseListRemovedDescendingDoneAt aCase4Removed
+
             Assert.AreEqual(aCase4Removed.Type, caseListRemovedDescendingDoneAt[1].CaseType);
             Assert.AreEqual(aCase4Removed.CaseUid, caseListRemovedDescendingDoneAt[1].CaseUId);
             Assert.AreEqual(aCase4Removed.MicrotingCheckUid, caseListRemovedDescendingDoneAt[1].CheckUIid);
@@ -3939,8 +4560,10 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase4Removed.Unit.MicrotingUid, caseListRemovedDescendingDoneAt[1].UnitId);
 //            Assert.AreEqual(c4Removed_ua.ToString(), caseListRemovedDescendingDoneAt[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase4Removed.Version, caseListRemovedDescendingDoneAt[1].Version);
-            Assert.AreEqual(aCase4Removed.Worker.FirstName + " " + aCase4Removed.Worker.LastName, caseListRemovedDescendingDoneAt[1].WorkerName);
+            Assert.AreEqual(aCase4Removed.Worker.FirstName + " " + aCase4Removed.Worker.LastName,
+                caseListRemovedDescendingDoneAt[1].WorkerName);
             Assert.AreEqual(aCase4Removed.WorkflowState, caseListRemovedDescendingDoneAt[1].WorkflowState);
+
             #endregion
 
             #endregion
@@ -3966,7 +4589,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Removed.Unit.MicrotingUid, caseListRemovedDescendingStatus[3].UnitId);
 //            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedDescendingStatus[3].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Removed.Version, caseListRemovedDescendingStatus[3].Version);
-            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName, caseListRemovedDescendingStatus[3].WorkerName);
+            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName,
+                caseListRemovedDescendingStatus[3].WorkerName);
             Assert.AreEqual(aCase1Removed.WorkflowState, caseListRemovedDescendingStatus[3].WorkflowState);
 
             #endregion
@@ -3988,7 +4612,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase2Removed.Unit.MicrotingUid, caseListRemovedDescendingStatus[2].UnitId);
 //            Assert.AreEqual(c2Removed_ua.ToString(), caseListRemovedDescendingStatus[2].UpdatedAt.ToString());
             Assert.AreEqual(aCase2Removed.Version, caseListRemovedDescendingStatus[2].Version);
-            Assert.AreEqual(aCase2Removed.Worker.FirstName + " " + aCase2Removed.Worker.LastName, caseListRemovedDescendingStatus[2].WorkerName);
+            Assert.AreEqual(aCase2Removed.Worker.FirstName + " " + aCase2Removed.Worker.LastName,
+                caseListRemovedDescendingStatus[2].WorkerName);
             Assert.AreEqual(aCase2Removed.WorkflowState, caseListRemovedDescendingStatus[2].WorkflowState);
 
             #endregion
@@ -4010,7 +4635,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Removed.Unit.MicrotingUid, caseListRemovedDescendingStatus[1].UnitId);
 //            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedDescendingStatus[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Removed.Version, caseListRemovedDescendingStatus[1].Version);
-            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName, caseListRemovedDescendingStatus[1].WorkerName);
+            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName,
+                caseListRemovedDescendingStatus[1].WorkerName);
             Assert.AreEqual(aCase3Removed.WorkflowState, caseListRemovedDescendingStatus[1].WorkflowState);
 
             #endregion
@@ -4032,7 +4658,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase4Removed.Unit.MicrotingUid, caseListRemovedDescendingStatus[0].UnitId);
 //            Assert.AreEqual(c4Removed_ua.ToString(), caseListRemovedDescendingStatus[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase4Removed.Version, caseListRemovedDescendingStatus[0].Version);
-            Assert.AreEqual(aCase4Removed.Worker.FirstName + " " + aCase4Removed.Worker.LastName, caseListRemovedDescendingStatus[0].WorkerName);
+            Assert.AreEqual(aCase4Removed.Worker.FirstName + " " + aCase4Removed.Worker.LastName,
+                caseListRemovedDescendingStatus[0].WorkerName);
             Assert.AreEqual(aCase4Removed.WorkflowState, caseListRemovedDescendingStatus[0].WorkflowState);
 
             #endregion
@@ -4042,6 +4669,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedDescendingUnitId Def Sort Des
 
             #region caseListRemovedDescendingUnitId aCase1Removed
+
             Assert.NotNull(caseListRemovedDescendingUnitId);
             Assert.AreEqual(4, caseListRemovedDescendingUnitId.Count);
             Assert.AreEqual(aCase1Removed.Type, caseListRemovedDescendingUnitId[3].CaseType);
@@ -4059,12 +4687,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Removed.Unit.MicrotingUid, caseListRemovedDescendingUnitId[3].UnitId);
 //            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedDescendingUnitId[3].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Removed.Version, caseListRemovedDescendingUnitId[3].Version);
-            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName, caseListRemovedDescendingUnitId[3].WorkerName);
+            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName,
+                caseListRemovedDescendingUnitId[3].WorkerName);
             Assert.AreEqual(aCase1Removed.WorkflowState, caseListRemovedDescendingUnitId[3].WorkflowState);
 
             #endregion
 
             #region caseListRemovedDescendingUnitId aCase2Removed
+
             Assert.AreEqual(aCase2Removed.Type, caseListRemovedDescendingUnitId[2].CaseType);
             Assert.AreEqual(aCase2Removed.CaseUid, caseListRemovedDescendingUnitId[2].CaseUId);
             Assert.AreEqual(aCase2Removed.MicrotingCheckUid, caseListRemovedDescendingUnitId[2].CheckUIid);
@@ -4080,12 +4710,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase2Removed.Unit.MicrotingUid, caseListRemovedDescendingUnitId[2].UnitId);
 //            Assert.AreEqual(c2Removed_ua.ToString(), caseListRemovedDescendingUnitId[2].UpdatedAt.ToString());
             Assert.AreEqual(aCase2Removed.Version, caseListRemovedDescendingUnitId[2].Version);
-            Assert.AreEqual(aCase2Removed.Worker.FirstName + " " + aCase2Removed.Worker.LastName, caseListRemovedDescendingUnitId[2].WorkerName);
+            Assert.AreEqual(aCase2Removed.Worker.FirstName + " " + aCase2Removed.Worker.LastName,
+                caseListRemovedDescendingUnitId[2].WorkerName);
             Assert.AreEqual(aCase2Removed.WorkflowState, caseListRemovedDescendingUnitId[2].WorkflowState);
 
             #endregion
 
             #region caseListRemovedDescendingUnitId aCase3Removed
+
             Assert.AreEqual(aCase3Removed.Type, caseListRemovedDescendingUnitId[1].CaseType);
             Assert.AreEqual(aCase3Removed.CaseUid, caseListRemovedDescendingUnitId[1].CaseUId);
             Assert.AreEqual(aCase3Removed.MicrotingCheckUid, caseListRemovedDescendingUnitId[1].CheckUIid);
@@ -4101,12 +4733,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Removed.Unit.MicrotingUid, caseListRemovedDescendingUnitId[1].UnitId);
 //            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedDescendingUnitId[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Removed.Version, caseListRemovedDescendingUnitId[1].Version);
-            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName, caseListRemovedDescendingUnitId[1].WorkerName);
+            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName,
+                caseListRemovedDescendingUnitId[1].WorkerName);
             Assert.AreEqual(aCase3Removed.WorkflowState, caseListRemovedDescendingUnitId[1].WorkflowState);
 
             #endregion
 
             #region caseListRemovedDescendingUnitId aCase4Removed
+
             Assert.AreEqual(aCase4Removed.Type, caseListRemovedDescendingUnitId[0].CaseType);
             Assert.AreEqual(aCase4Removed.CaseUid, caseListRemovedDescendingUnitId[0].CaseUId);
             Assert.AreEqual(aCase4Removed.MicrotingCheckUid, caseListRemovedDescendingUnitId[0].CheckUIid);
@@ -4122,7 +4756,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase4Removed.Unit.MicrotingUid, caseListRemovedDescendingUnitId[0].UnitId);
 //            Assert.AreEqual(c4Removed_ua.ToString(), caseListRemovedDescendingUnitId[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase4Removed.Version, caseListRemovedDescendingUnitId[0].Version);
-            Assert.AreEqual(aCase4Removed.Worker.FirstName + " " + aCase4Removed.Worker.LastName, caseListRemovedDescendingUnitId[0].WorkerName);
+            Assert.AreEqual(aCase4Removed.Worker.FirstName + " " + aCase4Removed.Worker.LastName,
+                caseListRemovedDescendingUnitId[0].WorkerName);
             Assert.AreEqual(aCase4Removed.WorkflowState, caseListRemovedDescendingUnitId[0].WorkflowState);
 
             #endregion
@@ -4133,9 +4768,10 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region Def Sort Asc w. DateTime
 
-
             #region caseListRemovedDtDoneAt Def Sort Asc w. DateTime
+
             #region caseListRemovedDtDoneAt aCase1Removed
+
             Assert.NotNull(caseListRemovedDtDoneAt);
             Assert.AreEqual(2, caseListRemovedDtDoneAt.Count);
             Assert.AreEqual(aCase1Removed.Type, caseListRemovedDtDoneAt[1].CaseType);
@@ -4153,11 +4789,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Removed.Unit.MicrotingUid, caseListRemovedDtDoneAt[1].UnitId);
 //            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedDtDoneAt[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Removed.Version, caseListRemovedDtDoneAt[1].Version);
-            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName, caseListRemovedDtDoneAt[1].WorkerName);
+            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName,
+                caseListRemovedDtDoneAt[1].WorkerName);
             Assert.AreEqual(aCase1Removed.WorkflowState, caseListRemovedDtDoneAt[1].WorkflowState);
+
             #endregion
 
             #region caseListRemovedDtDoneAt aCase3Removed
+
             Assert.AreEqual(aCase3Removed.Type, caseListRemovedDtDoneAt[0].CaseType);
             Assert.AreEqual(aCase3Removed.CaseUid, caseListRemovedDtDoneAt[0].CaseUId);
             Assert.AreEqual(aCase3Removed.MicrotingCheckUid, caseListRemovedDtDoneAt[0].CheckUIid);
@@ -4173,10 +4812,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Removed.Unit.MicrotingUid, caseListRemovedDtDoneAt[0].UnitId);
 //            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedDtDoneAt[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Removed.Version, caseListRemovedDtDoneAt[0].Version);
-            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName, caseListRemovedDtDoneAt[0].WorkerName);
+            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName,
+                caseListRemovedDtDoneAt[0].WorkerName);
             Assert.AreEqual(aCase3Removed.WorkflowState, caseListRemovedDtDoneAt[0].WorkflowState);
-            #endregion
 
+            #endregion
 
             #endregion
 
@@ -4201,7 +4841,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Removed.Unit.MicrotingUid, caseListRemovedDtStatus[0].UnitId);
 //            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedDtStatus[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Removed.Version, caseListRemovedDtStatus[0].Version);
-            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName, caseListRemovedDtStatus[0].WorkerName);
+            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName,
+                caseListRemovedDtStatus[0].WorkerName);
             Assert.AreEqual(aCase1Removed.WorkflowState, caseListRemovedDtStatus[0].WorkflowState);
 
             #endregion
@@ -4223,12 +4864,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Removed.Unit.MicrotingUid, caseListRemovedDtStatus[1].UnitId);
 //            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedDtStatus[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Removed.Version, caseListRemovedDtStatus[1].Version);
-            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName, caseListRemovedDtStatus[1].WorkerName);
+            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName,
+                caseListRemovedDtStatus[1].WorkerName);
             Assert.AreEqual(aCase3Removed.WorkflowState, caseListRemovedDtStatus[1].WorkflowState);
 
             #endregion
-
-
 
             #endregion
 
@@ -4253,11 +4893,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Removed.Unit.MicrotingUid, caseListRemovedDtUnitId[0].UnitId);
 //            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedDtUnitId[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Removed.Version, caseListRemovedDtUnitId[0].Version);
-            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName, caseListRemovedDtUnitId[0].WorkerName);
+            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName,
+                caseListRemovedDtUnitId[0].WorkerName);
             Assert.AreEqual(aCase1Removed.WorkflowState, caseListRemovedDtUnitId[0].WorkflowState);
 
             #endregion
-
 
 
             #region caseListRemovedDtUnitId aCase3Removed
@@ -4277,19 +4917,20 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Removed.Unit.MicrotingUid, caseListRemovedDtUnitId[1].UnitId);
 //            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedDtUnitId[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Removed.Version, caseListRemovedDtUnitId[1].Version);
-            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName, caseListRemovedDtUnitId[1].WorkerName);
+            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName,
+                caseListRemovedDtUnitId[1].WorkerName);
             Assert.AreEqual(aCase3Removed.WorkflowState, caseListRemovedDtUnitId[1].WorkflowState);
 
             #endregion
-
-
 
             #endregion
 
             #endregion
 
             #region Def Sort Des w. DateTime
+
             #region caseListRemovedDtDescendingDoneAt Def Sort Des
+
             #region caseListRemovedDtDescendingDoneAt aCase1Removed
 
             Assert.NotNull(caseListRemovedDtDescendingDoneAt);
@@ -4309,8 +4950,10 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Removed.Unit.MicrotingUid, caseListRemovedDtDescendingDoneAt[0].UnitId);
 //            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedDtDescendingDoneAt[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Removed.Version, caseListRemovedDtDescendingDoneAt[0].Version);
-            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName, caseListRemovedDtDescendingDoneAt[0].WorkerName);
+            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName,
+                caseListRemovedDtDescendingDoneAt[0].WorkerName);
             Assert.AreEqual(aCase1Removed.WorkflowState, caseListRemovedDtDescendingDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRemovedDtDescendingDoneAt aCase3Removed
@@ -4330,8 +4973,10 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Removed.Unit.MicrotingUid, caseListRemovedDtDescendingDoneAt[1].UnitId);
 //            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedDtDescendingDoneAt[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Removed.Version, caseListRemovedDtDescendingDoneAt[1].Version);
-            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName, caseListRemovedDtDescendingDoneAt[1].WorkerName);
+            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName,
+                caseListRemovedDtDescendingDoneAt[1].WorkerName);
             Assert.AreEqual(aCase3Removed.WorkflowState, caseListRemovedDtDescendingDoneAt[1].WorkflowState);
+
             #endregion
 
             #endregion
@@ -4357,11 +5002,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Removed.Unit.MicrotingUid, caseListRemovedDtDescendingStatus[1].UnitId);
 //            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedDtDescendingStatus[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Removed.Version, caseListRemovedDtDescendingStatus[1].Version);
-            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName, caseListRemovedDtDescendingStatus[1].WorkerName);
+            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName,
+                caseListRemovedDtDescendingStatus[1].WorkerName);
             Assert.AreEqual(aCase1Removed.WorkflowState, caseListRemovedDtDescendingStatus[1].WorkflowState);
 
             #endregion
-
 
 
             #region caseListRemovedDtDescendingStatus aCase3Removed
@@ -4381,18 +5026,18 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Removed.Unit.MicrotingUid, caseListRemovedDtDescendingStatus[0].UnitId);
 //            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedDtDescendingStatus[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Removed.Version, caseListRemovedDtDescendingStatus[0].Version);
-            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName, caseListRemovedDtDescendingStatus[0].WorkerName);
+            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName,
+                caseListRemovedDtDescendingStatus[0].WorkerName);
             Assert.AreEqual(aCase3Removed.WorkflowState, caseListRemovedDtDescendingStatus[0].WorkflowState);
 
             #endregion
-
-
 
             #endregion
 
             #region caseListRemovedDtDescendingUnitId Def Sort Des
 
             #region caseListRemovedDtDescendingUnitId aCase1Removed
+
             Assert.NotNull(caseListRemovedDtDescendingUnitId);
             Assert.AreEqual(2, caseListRemovedDtDescendingUnitId.Count);
 
@@ -4411,14 +5056,15 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Removed.Unit.MicrotingUid, caseListRemovedDtDescendingUnitId[1].UnitId);
 //            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedDtDescendingUnitId[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Removed.Version, caseListRemovedDtDescendingUnitId[1].Version);
-            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName, caseListRemovedDtDescendingUnitId[1].WorkerName);
+            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName,
+                caseListRemovedDtDescendingUnitId[1].WorkerName);
             Assert.AreEqual(aCase1Removed.WorkflowState, caseListRemovedDtDescendingUnitId[1].WorkflowState);
 
             #endregion
 
 
-
             #region caseListRemovedDtDescendingUnitId aCase3Removed
+
             Assert.AreEqual(aCase3Removed.Type, caseListRemovedDtDescendingUnitId[0].CaseType);
             Assert.AreEqual(aCase3Removed.CaseUid, caseListRemovedDtDescendingUnitId[0].CaseUId);
             Assert.AreEqual(aCase3Removed.MicrotingCheckUid, caseListRemovedDtDescendingUnitId[0].CheckUIid);
@@ -4434,12 +5080,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Removed.Unit.MicrotingUid, caseListRemovedDtDescendingUnitId[0].UnitId);
 //            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedDtDescendingUnitId[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Removed.Version, caseListRemovedDtDescendingUnitId[0].Version);
-            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName, caseListRemovedDtDescendingUnitId[0].WorkerName);
+            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName,
+                caseListRemovedDtDescendingUnitId[0].WorkerName);
             Assert.AreEqual(aCase3Removed.WorkflowState, caseListRemovedDtDescendingUnitId[0].WorkflowState);
 
             #endregion
-
-
 
             #endregion
 
@@ -4454,6 +5099,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region aCase1Removed sort asc
 
             #region caseListC1DoneAt aCase1Removed
+
             Assert.NotNull(caseListRemovedC1SortDoneAt);
             Assert.AreEqual(0, caseListRemovedC1SortDoneAt.Count);
             // Assert.AreEqual(aCase1Removed.type, caseListRemovedC1SortDoneAt[0].CaseType);
@@ -4473,9 +5119,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1Removed.version, caseListRemovedC1SortDoneAt[0].Version);
             // Assert.AreEqual(aCase1Removed.worker.first_name + " " + aCase1Removed.worker.last_name, caseListRemovedC1SortDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase1Removed.workflow_state, caseListRemovedC1SortDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRemovedC1SortStatus aCase1Removed
+
             Assert.NotNull(caseListRemovedC1SortStatus);
             Assert.AreEqual(0, caseListRemovedC1SortStatus.Count);
             // Assert.AreEqual(aCase1Removed.type, caseListRemovedC1SortStatus[0].CaseType);
@@ -4495,6 +5143,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1Removed.version, caseListRemovedC1SortStatus[0].Version);
             // Assert.AreEqual(aCase1Removed.worker.first_name + " " + aCase1Removed.worker.last_name, caseListRemovedC1SortStatus[0].WorkerName);
             // Assert.AreEqual(aCase1Removed.workflow_state, caseListRemovedC1SortStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListRemovedC1SortUnitId
@@ -4521,13 +5170,12 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #endregion
 
-
-
             #endregion
 
             #region aCase2Removed sort asc
 
             #region caseListC2DoneAt aCase2Removed
+
             Assert.NotNull(caseListRemovedC2SortDoneAt);
             Assert.AreEqual(0, caseListRemovedC2SortDoneAt.Count);
             // Assert.AreEqual(aCase2Removed.type, caseListRemovedC2SortDoneAt[0].CaseType);
@@ -4547,9 +5195,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2Removed.version, caseListRemovedC2SortDoneAt[0].Version);
             // Assert.AreEqual(aCase2Removed.worker.first_name + " " + aCase2Removed.worker.last_name, caseListRemovedC2SortDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase2Removed.workflow_state, caseListRemovedC2SortDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRemovedC2SortStatus aCase2Removed
+
             Assert.NotNull(caseListRemovedC2SortStatus);
             Assert.AreEqual(0, caseListRemovedC2SortStatus.Count);
             // Assert.AreEqual(aCase2Removed.type, caseListRemovedC2SortStatus[0].CaseType);
@@ -4569,9 +5219,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2Removed.version, caseListRemovedC2SortStatus[0].Version);
             // Assert.AreEqual(aCase2Removed.worker.first_name + " " + aCase2Removed.worker.last_name, caseListRemovedC2SortStatus[0].WorkerName);
             // Assert.AreEqual(aCase2Removed.workflow_state, caseListRemovedC2SortStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListRemovedC2SortUnitId aCase2Removed
+
             Assert.NotNull(caseListRemovedC2SortUnitId);
             Assert.AreEqual(0, caseListRemovedC2SortUnitId.Count);
             // Assert.AreEqual(aCase2Removed.type, caseListRemovedC2SortUnitId[0].CaseType);
@@ -4591,6 +5243,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2Removed.version, caseListRemovedC2SortUnitId[0].Version);
             // Assert.AreEqual(aCase2Removed.worker.first_name + " " + aCase2Removed.worker.last_name, caseListRemovedC2SortUnitId[0].WorkerName);
             // Assert.AreEqual(aCase2Removed.workflow_state, caseListRemovedC2SortUnitId[0].WorkflowState);
+
             #endregion
 
             #endregion
@@ -4598,6 +5251,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region aCase3Removed sort asc
 
             #region caseListC3DoneAt aCase3Removed
+
             Assert.NotNull(caseListRemovedC3SortDoneAt);
             Assert.AreEqual(0, caseListRemovedC3SortDoneAt.Count);
             // Assert.AreEqual(aCase3Removed.type, caseListRemovedC3SortDoneAt[0].CaseType);
@@ -4617,9 +5271,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3Removed.version, caseListRemovedC3SortDoneAt[0].Version);
             // Assert.AreEqual(aCase3Removed.worker.first_name + " " + aCase3Removed.worker.last_name, caseListRemovedC3SortDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase3Removed.workflow_state, caseListRemovedC3SortDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListC3status aCase3Removed
+
             Assert.NotNull(caseListRemovedC3SortStatus);
             Assert.AreEqual(0, caseListRemovedC3SortStatus.Count);
             // Assert.AreEqual(aCase3Removed.type, caseListRemovedC3SortStatus[0].CaseType);
@@ -4639,9 +5295,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3Removed.version, caseListRemovedC3SortStatus[0].Version);
             // Assert.AreEqual(aCase3Removed.worker.first_name + " " + aCase3Removed.worker.last_name, caseListRemovedC3SortStatus[0].WorkerName);
             // Assert.AreEqual(aCase3Removed.workflow_state, caseListRemovedC3SortStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListC3UnitId aCase3Removed
+
             Assert.NotNull(caseListRemovedC3SortUnitId);
             Assert.AreEqual(0, caseListRemovedC3SortUnitId.Count);
             // Assert.AreEqual(aCase3Removed.type, caseListRemovedC3SortUnitId[0].CaseType);
@@ -4661,16 +5319,15 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3Removed.version, caseListRemovedC3SortUnitId[0].Version);
             // Assert.AreEqual(aCase3Removed.worker.first_name + " " + aCase3Removed.worker.last_name, caseListRemovedC3SortUnitId[0].WorkerName);
             // Assert.AreEqual(aCase3Removed.workflow_state, caseListRemovedC3SortUnitId[0].WorkflowState);
+
             #endregion
-
-
 
             #endregion
 
             #region aCase4Removed sort asc
 
-
             #region caseListRemovedC4SortDoneAt aCase4Removed
+
             Assert.NotNull(caseListRemovedC4SortDoneAt);
             Assert.AreEqual(0, caseListRemovedC4SortDoneAt.Count);
             // Assert.AreEqual(aCase4Removed.type, caseListRemovedC4SortDoneAt[0].CaseType);
@@ -4690,9 +5347,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4Removed.version, caseListRemovedC4SortDoneAt[0].Version);
             // Assert.AreEqual(aCase4Removed.worker.first_name + " " + aCase4Removed.worker.last_name, caseListRemovedC4SortDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase4Removed.workflow_state, caseListRemovedC4SortDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRemovedC4SortStatus aCase4Removed
+
             Assert.NotNull(caseListRemovedC4SortStatus);
             Assert.AreEqual(0, caseListRemovedC4SortStatus.Count);
             // Assert.AreEqual(aCase4Removed.type, caseListRemovedC4SortStatus[0].CaseType);
@@ -4712,6 +5371,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4Removed.version, caseListRemovedC4SortStatus[0].Version);
             // Assert.AreEqual(aCase4Removed.worker.first_name + " " + aCase4Removed.worker.last_name, caseListRemovedC4SortStatus[0].WorkerName);
             // Assert.AreEqual(aCase4Removed.workflow_state, caseListRemovedC4SortStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListRemovedC4SortUnitId aCase4Removed
@@ -4745,6 +5405,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region aCase Sort Des
 
             #region aCase1Removed Sort Des
+
             #region caseListRemovedC1SortDescendingDoneAt aCase1Removed
 
             Assert.NotNull(caseListRemovedC1SortDescendingDoneAt);
@@ -4816,9 +5477,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1Removed.workflow_state, caseListRemovedC1SortDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
 
             #region aCase2Removed Sort Des
+
             #region caseListRemovedC2SortDescendingDoneAt aCase2Removed
 
             Assert.NotNull(caseListRemovedC2SortDescendingDoneAt);
@@ -4890,9 +5553,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2Removed.workflow_state, caseListRemovedC2SortDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
 
             #region aCase3Removed Sort Des
+
             #region caseListRemovedC3SortDescendingDoneAt aCase3Removed
 
             Assert.NotNull(caseListRemovedC3SortDescendingDoneAt);
@@ -4968,6 +5633,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #endregion
 
             #region aCase4Removed Sort Des
+
             #region caseListRemovedC4SortDescendingDoneAt aCase4Removed
 
             Assert.NotNull(caseListRemovedC4SortDescendingDoneAt);
@@ -5039,7 +5705,9 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4Removed.workflow_state, caseListRemovedC4SortDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
+
             #endregion
 
             #region aCase Sort Asc w. DateTime
@@ -5047,6 +5715,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region aCase1Removed sort asc w. DateTime
 
             #region caseListRemovedC1SortDtDoneAt aCase1Removed
+
             Assert.NotNull(caseListRemovedC1SortDtDoneAt);
             Assert.AreEqual(0, caseListRemovedC1SortDtDoneAt.Count);
             // Assert.AreEqual(aCase1Removed.type, caseListRemovedC1SortDtDoneAt[0].CaseType);
@@ -5066,9 +5735,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1Removed.version, caseListRemovedC1SortDtDoneAt[0].Version);
             // Assert.AreEqual(aCase1Removed.worker.first_name + " " + aCase1Removed.worker.last_name, caseListRemovedC1SortDtDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase1Removed.workflow_state, caseListRemovedC1SortDtDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRemovedC1SortDtStatus aCase1Removed
+
             Assert.NotNull(caseListRemovedC1SortDtStatus);
             Assert.AreEqual(0, caseListRemovedC1SortDtStatus.Count);
             // Assert.AreEqual(aCase1Removed.type, caseListRemovedC1SortDtStatus[0].CaseType);
@@ -5088,9 +5759,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1Removed.version, caseListRemovedC1SortDtStatus[0].Version);
             // Assert.AreEqual(aCase1Removed.worker.first_name + " " + aCase1Removed.worker.last_name, caseListRemovedC1SortDtStatus[0].WorkerName);
             // Assert.AreEqual(aCase1Removed.workflow_state, caseListRemovedC1SortDtStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListRemovedC1SortDtUnitId aCase1Removed
+
             Assert.NotNull(caseListRemovedC1SortDtUnitId);
             Assert.AreEqual(0, caseListRemovedC1SortDtUnitId.Count);
             // Assert.AreEqual(aCase1Removed.type, caseListRemovedC1SortDtUnitId[0].CaseType);
@@ -5110,15 +5783,15 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1Removed.version, caseListRemovedC1SortDtUnitId[0].Version);
             // Assert.AreEqual(aCase1Removed.worker.first_name + " " + aCase1Removed.worker.last_name, caseListRemovedC1SortDtUnitId[0].WorkerName);
             // Assert.AreEqual(aCase1Removed.workflow_state, caseListRemovedC1SortDtUnitId[0].WorkflowState);
+
             #endregion
-
-
 
             #endregion
 
             #region aCase2Removed sort asc w. DateTime
 
             #region caseListRemovedC2SortDtDoneAt aCase2Removed
+
             Assert.NotNull(caseListRemovedC2SortDtDoneAt);
             Assert.AreEqual(0, caseListRemovedC2SortDtDoneAt.Count);
             // Assert.AreEqual(aCase2Removed.type, caseListRemovedC2SortDtDoneAt[0].CaseType);
@@ -5138,9 +5811,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2Removed.version, caseListRemovedC2SortDtDoneAt[0].Version);
             // Assert.AreEqual(aCase2Removed.worker.first_name + " " + aCase2Removed.worker.last_name, caseListRemovedC2SortDtDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase2Removed.workflow_state, caseListRemovedC2SortDtDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRemovedC2SortDtStatus aCase2Removed
+
             Assert.NotNull(caseListRemovedC2SortDtStatus);
             Assert.AreEqual(0, caseListRemovedC2SortDtStatus.Count);
             // Assert.AreEqual(aCase2Removed.type, caseListRemovedC2SortDtStatus[0].CaseType);
@@ -5160,9 +5835,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2Removed.version, caseListRemovedC2SortDtStatus[0].Version);
             // Assert.AreEqual(aCase2Removed.worker.first_name + " " + aCase2Removed.worker.last_name, caseListRemovedC2SortDtStatus[0].WorkerName);
             // Assert.AreEqual(aCase2Removed.workflow_state, caseListRemovedC2SortDtStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListRemovedC2SortDtUnitId aCase2Removed
+
             Assert.NotNull(caseListRemovedC2SortDtUnitId);
             Assert.AreEqual(0, caseListRemovedC2SortDtUnitId.Count);
             // Assert.AreEqual(aCase2Removed.type, caseListRemovedC2SortDtUnitId[0].CaseType);
@@ -5182,6 +5859,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2Removed.version, caseListRemovedC2SortDtUnitId[0].Version);
             // Assert.AreEqual(aCase2Removed.worker.first_name + " " + aCase2Removed.worker.last_name, caseListRemovedC2SortDtUnitId[0].WorkerName);
             // Assert.AreEqual(aCase2Removed.workflow_state, caseListRemovedC2SortDtUnitId[0].WorkflowState);
+
             #endregion
 
             #endregion
@@ -5189,6 +5867,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region aCase3Removed sort asc w. DateTime
 
             #region caseListRemovedC3SortDtDoneAt aCase3Removed
+
             Assert.NotNull(caseListRemovedC3SortDtDoneAt);
             Assert.AreEqual(0, caseListRemovedC3SortDtDoneAt.Count);
             // Assert.AreEqual(aCase3Removed.type, caseListRemovedC3SortDtDoneAt[0].CaseType);
@@ -5208,9 +5887,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3Removed.version, caseListRemovedC3SortDtDoneAt[0].Version);
             // Assert.AreEqual(aCase3Removed.worker.first_name + " " + aCase3Removed.worker.last_name, caseListRemovedC3SortDtDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase3Removed.workflow_state, caseListRemovedC3SortDtDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRemovedC3SortDtStatus aCase3Removed
+
             Assert.NotNull(caseListRemovedC3SortDtStatus);
             Assert.AreEqual(0, caseListRemovedC3SortDtStatus.Count);
             // Assert.AreEqual(aCase3Removed.type, caseListRemovedC3SortDtStatus[0].CaseType);
@@ -5230,9 +5911,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3Removed.version, caseListRemovedC3SortDtStatus[0].Version);
             // Assert.AreEqual(aCase3Removed.worker.first_name + " " + aCase3Removed.worker.last_name, caseListRemovedC3SortDtStatus[0].WorkerName);
             // Assert.AreEqual(aCase3Removed.workflow_state, caseListRemovedC3SortDtStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListRemovedC3SortDtUnitId aCase3Removed
+
             Assert.NotNull(caseListRemovedC3SortDtUnitId);
             Assert.AreEqual(0, caseListRemovedC3SortDtUnitId.Count);
             // Assert.AreEqual(aCase3Removed.type, caseListRemovedC3SortDtUnitId[0].CaseType);
@@ -5252,14 +5935,15 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3Removed.version, caseListRemovedC3SortDtUnitId[0].Version);
             // Assert.AreEqual(aCase3Removed.worker.first_name + " " + aCase3Removed.worker.last_name, caseListRemovedC3SortDtUnitId[0].WorkerName);
             // Assert.AreEqual(aCase3Removed.workflow_state, caseListRemovedC3SortDtUnitId[0].WorkflowState);
-            #endregion
 
+            #endregion
 
             #endregion
 
             #region aCase4Removed sort asc w. DateTime
 
             #region caseListRemovedC4SortDtDoneAt aCase4Removed
+
             Assert.NotNull(caseListRemovedC4SortDtDoneAt);
             Assert.AreEqual(0, caseListRemovedC4SortDtDoneAt.Count);
             // Assert.AreEqual(aCase4Removed.type, caseListRemovedC4SortDtDoneAt[0].CaseType);
@@ -5279,9 +5963,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4Removed.version, caseListRemovedC4SortDtDoneAt[0].Version);
             // Assert.AreEqual(aCase4Removed.worker.first_name + " " + aCase4Removed.worker.last_name, caseListRemovedC4SortDtDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase4Removed.workflow_state, caseListRemovedC4SortDtDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRemovedC4SortDtStatus aCase4Removed
+
             Assert.NotNull(caseListRemovedC4SortDtStatus);
             Assert.AreEqual(0, caseListRemovedC4SortDtStatus.Count);
             // Assert.AreEqual(aCase4Removed.type, caseListRemovedC4SortDtStatus[0].CaseType);
@@ -5301,9 +5987,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4Removed.version, caseListRemovedC4SortDtStatus[0].Version);
             // Assert.AreEqual(aCase4Removed.worker.first_name + " " + aCase4Removed.worker.last_name, caseListRemovedC4SortDtStatus[0].WorkerName);
             // Assert.AreEqual(aCase4Removed.workflow_state, caseListRemovedC4SortDtStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListRemovedC4SortDtUnitId aCase4Removed
+
             Assert.NotNull(caseListRemovedC4SortDtUnitId);
             Assert.AreEqual(0, caseListRemovedC4SortDtUnitId.Count);
             // Assert.AreEqual(aCase4Removed.type, caseListRemovedC4SortDtUnitId[0].CaseType);
@@ -5323,16 +6011,17 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4Removed.version, caseListRemovedC4SortDtUnitId[0].Version);
             // Assert.AreEqual(aCase4Removed.worker.first_name + " " + aCase4Removed.worker.last_name, caseListRemovedC4SortDtUnitId[0].WorkerName);
             // Assert.AreEqual(aCase4Removed.workflow_state, caseListRemovedC4SortDtUnitId[0].WorkflowState);
+
             #endregion
-
-
 
             #endregion
 
             #endregion
 
             #region aCase Sort Des w. DateTime
+
             #region aCase1Removed Sort Des w. DateTime
+
             #region caseListRemovedC1SortDtDescendingDoneAt aCase1Removed
 
             Assert.NotNull(caseListRemovedC1SortDtDescendingDoneAt);
@@ -5404,9 +6093,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1Removed.workflow_state, caseListRemovedC1SortDtDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
 
             #region aCase2Removed Sort Des w. DateTime
+
             #region caseListRemovedC2SortDtDescendingDoneAt aCase2Removed
 
             Assert.NotNull(caseListRemovedC2SortDtDescendingDoneAt);
@@ -5478,9 +6169,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2Removed.workflow_state, caseListRemovedC2SortDtDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
 
             #region aCase3Removed Sort Des w. DateTime
+
             #region caseListRemovedC3SortDtDescendingDoneAt aCase3Removed
 
             Assert.NotNull(caseListRemovedC3SortDtDescendingDoneAt);
@@ -5552,9 +6245,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3Removed.workflow_state, caseListRemovedC3SortDtDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
 
             #region aCase4Removed Sort Des w. DateTime
+
             #region caseListRemovedC4SortDtDescendingDoneAt aCase4Removed
 
             Assert.NotNull(caseListRemovedC4SortDtDescendingDoneAt);
@@ -5626,6 +6321,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4Removed.workflow_state, caseListRemovedC4SortDtDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
 
             #endregion
@@ -5637,9 +6333,13 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region sort by WorkflowState Retracted
 
             #region Def Sort
+
             #region Def Sort Asc
+
             #region caseListRetractedDoneAt Def Sort Asc
+
             #region caseListRetractedDoneAt aCase1Retracted
+
             Assert.NotNull(caseListRetractedDoneAt);
             Assert.AreEqual(4, caseListRetractedDoneAt.Count);
             Assert.AreEqual(aCase1Retracted.Type, caseListRetractedDoneAt[1].CaseType);
@@ -5657,11 +6357,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Retracted.Unit.MicrotingUid, caseListRetractedDoneAt[1].UnitId);
 //            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedDoneAt[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Retracted.Version, caseListRetractedDoneAt[1].Version);
-            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName, caseListRetractedDoneAt[1].WorkerName);
+            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName,
+                caseListRetractedDoneAt[1].WorkerName);
             Assert.AreEqual(aCase1Retracted.WorkflowState, caseListRetractedDoneAt[1].WorkflowState);
+
             #endregion
 
             #region caseListRetractedDoneAt aCase2Retracted
+
             Assert.AreEqual(aCase2Retracted.Type, caseListRetractedDoneAt[3].CaseType);
             Assert.AreEqual(aCase2Retracted.CaseUid, caseListRetractedDoneAt[3].CaseUId);
             Assert.AreEqual(aCase2Retracted.MicrotingCheckUid, caseListRetractedDoneAt[3].CheckUIid);
@@ -5677,11 +6380,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase2Retracted.Unit.MicrotingUid, caseListRetractedDoneAt[3].UnitId);
 //            Assert.AreEqual(c2Retracted_ua.ToString(), caseListRetractedDoneAt[3].UpdatedAt.ToString());
             Assert.AreEqual(aCase2Retracted.Version, caseListRetractedDoneAt[3].Version);
-            Assert.AreEqual(aCase2Retracted.Worker.FirstName + " " + aCase2Retracted.Worker.LastName, caseListRetractedDoneAt[3].WorkerName);
+            Assert.AreEqual(aCase2Retracted.Worker.FirstName + " " + aCase2Retracted.Worker.LastName,
+                caseListRetractedDoneAt[3].WorkerName);
             Assert.AreEqual(aCase2Retracted.WorkflowState, caseListRetractedDoneAt[3].WorkflowState);
+
             #endregion
 
             #region caseListRetractedDoneAt aCase3Retracted
+
             Assert.AreEqual(aCase3Retracted.Type, caseListRetractedDoneAt[0].CaseType);
             Assert.AreEqual(aCase3Retracted.CaseUid, caseListRetractedDoneAt[0].CaseUId);
             Assert.AreEqual(aCase3Retracted.MicrotingCheckUid, caseListRetractedDoneAt[0].CheckUIid);
@@ -5697,11 +6403,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Retracted.Unit.MicrotingUid, caseListRetractedDoneAt[0].UnitId);
 //            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedDoneAt[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Retracted.Version, caseListRetractedDoneAt[0].Version);
-            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName, caseListRetractedDoneAt[0].WorkerName);
+            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName,
+                caseListRetractedDoneAt[0].WorkerName);
             Assert.AreEqual(aCase3Retracted.WorkflowState, caseListRetractedDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRetractedDoneAt aCase4Retracted
+
             Assert.AreEqual(aCase4Retracted.Type, caseListRetractedDoneAt[2].CaseType);
             Assert.AreEqual(aCase4Retracted.CaseUid, caseListRetractedDoneAt[2].CaseUId);
             Assert.AreEqual(aCase4Retracted.MicrotingCheckUid, caseListRetractedDoneAt[2].CheckUIid);
@@ -5717,8 +6426,10 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase4Retracted.Unit.MicrotingUid, caseListRetractedDoneAt[2].UnitId);
 //            Assert.AreEqual(c4Retracted_ua.ToString(), caseListRetractedDoneAt[2].UpdatedAt.ToString());
             Assert.AreEqual(aCase4Retracted.Version, caseListRetractedDoneAt[2].Version);
-            Assert.AreEqual(aCase4Retracted.Worker.FirstName + " " + aCase4Retracted.Worker.LastName, caseListRetractedDoneAt[2].WorkerName);
+            Assert.AreEqual(aCase4Retracted.Worker.FirstName + " " + aCase4Retracted.Worker.LastName,
+                caseListRetractedDoneAt[2].WorkerName);
             Assert.AreEqual(aCase4Retracted.WorkflowState, caseListRetractedDoneAt[2].WorkflowState);
+
             #endregion
 
             #endregion
@@ -5744,7 +6455,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Retracted.Unit.MicrotingUid, caseListRetractedStatus[0].UnitId);
 //            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedStatus[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Retracted.Version, caseListRetractedStatus[0].Version);
-            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName, caseListRetractedStatus[0].WorkerName);
+            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName,
+                caseListRetractedStatus[0].WorkerName);
             Assert.AreEqual(aCase1Retracted.WorkflowState, caseListRetractedStatus[0].WorkflowState);
 
             #endregion
@@ -5766,7 +6478,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase2Retracted.Unit.MicrotingUid, caseListRetractedStatus[1].UnitId);
 //            Assert.AreEqual(c2Retracted_ua.ToString(), caseListRetractedStatus[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase2Retracted.Version, caseListRetractedStatus[1].Version);
-            Assert.AreEqual(aCase2Retracted.Worker.FirstName + " " + aCase2Retracted.Worker.LastName, caseListRetractedStatus[1].WorkerName);
+            Assert.AreEqual(aCase2Retracted.Worker.FirstName + " " + aCase2Retracted.Worker.LastName,
+                caseListRetractedStatus[1].WorkerName);
             Assert.AreEqual(aCase2Retracted.WorkflowState, caseListRetractedStatus[1].WorkflowState);
 
             #endregion
@@ -5788,7 +6501,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Retracted.Unit.MicrotingUid, caseListRetractedStatus[2].UnitId);
 //            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedStatus[2].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Retracted.Version, caseListRetractedStatus[2].Version);
-            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName, caseListRetractedStatus[2].WorkerName);
+            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName,
+                caseListRetractedStatus[2].WorkerName);
             Assert.AreEqual(aCase3Retracted.WorkflowState, caseListRetractedStatus[2].WorkflowState);
 
             #endregion
@@ -5810,7 +6524,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase4Retracted.Unit.MicrotingUid, caseListRetractedStatus[3].UnitId);
 //            Assert.AreEqual(c4Retracted_ua.ToString(), caseListRetractedStatus[3].UpdatedAt.ToString());
             Assert.AreEqual(aCase4Retracted.Version, caseListRetractedStatus[3].Version);
-            Assert.AreEqual(aCase4Retracted.Worker.FirstName + " " + aCase4Retracted.Worker.LastName, caseListRetractedStatus[3].WorkerName);
+            Assert.AreEqual(aCase4Retracted.Worker.FirstName + " " + aCase4Retracted.Worker.LastName,
+                caseListRetractedStatus[3].WorkerName);
             Assert.AreEqual(aCase4Retracted.WorkflowState, caseListRetractedStatus[3].WorkflowState);
 
             #endregion
@@ -5820,6 +6535,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedUnitId Def Sort Asc
 
             #region caseListRetractedUnitId aCase1Retracted
+
             Assert.NotNull(caseListRetractedUnitId);
             Assert.AreEqual(4, caseListRetractedUnitId.Count);
             Assert.AreEqual(aCase1Retracted.Type, caseListRetractedUnitId[0].CaseType);
@@ -5837,12 +6553,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Retracted.Unit.MicrotingUid, caseListRetractedUnitId[0].UnitId);
 //            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedUnitId[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Retracted.Version, caseListRetractedUnitId[0].Version);
-            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName, caseListRetractedUnitId[0].WorkerName);
+            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName,
+                caseListRetractedUnitId[0].WorkerName);
             Assert.AreEqual(aCase1Retracted.WorkflowState, caseListRetractedUnitId[0].WorkflowState);
 
             #endregion
 
             #region caseListRetractedUnitId aCase2Retracted
+
             Assert.AreEqual(aCase2Retracted.Type, caseListRetractedUnitId[1].CaseType);
             Assert.AreEqual(aCase2Retracted.CaseUid, caseListRetractedUnitId[1].CaseUId);
             Assert.AreEqual(aCase2Retracted.MicrotingCheckUid, caseListRetractedUnitId[1].CheckUIid);
@@ -5858,12 +6576,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase2Retracted.Unit.MicrotingUid, caseListRetractedUnitId[1].UnitId);
 //            Assert.AreEqual(c2Retracted_ua.ToString(), caseListRetractedUnitId[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase2Retracted.Version, caseListRetractedUnitId[1].Version);
-            Assert.AreEqual(aCase2Retracted.Worker.FirstName + " " + aCase2Retracted.Worker.LastName, caseListRetractedUnitId[1].WorkerName);
+            Assert.AreEqual(aCase2Retracted.Worker.FirstName + " " + aCase2Retracted.Worker.LastName,
+                caseListRetractedUnitId[1].WorkerName);
             Assert.AreEqual(aCase2Retracted.WorkflowState, caseListRetractedUnitId[1].WorkflowState);
 
             #endregion
 
             #region caseListRetractedUnitId aCase3Retracted
+
             Assert.AreEqual(aCase3Retracted.Type, caseListRetractedUnitId[2].CaseType);
             Assert.AreEqual(aCase3Retracted.CaseUid, caseListRetractedUnitId[2].CaseUId);
             Assert.AreEqual(aCase3Retracted.MicrotingCheckUid, caseListRetractedUnitId[2].CheckUIid);
@@ -5879,12 +6599,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Retracted.Unit.MicrotingUid, caseListRetractedUnitId[2].UnitId);
 //            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedUnitId[2].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Retracted.Version, caseListRetractedUnitId[2].Version);
-            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName, caseListRetractedUnitId[2].WorkerName);
+            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName,
+                caseListRetractedUnitId[2].WorkerName);
             Assert.AreEqual(aCase3Retracted.WorkflowState, caseListRetractedUnitId[2].WorkflowState);
 
             #endregion
 
             #region caseListRetractedUnitId aCase4Retracted
+
             Assert.AreEqual(aCase4Retracted.Type, caseListRetractedUnitId[3].CaseType);
             Assert.AreEqual(aCase4Retracted.CaseUid, caseListRetractedUnitId[3].CaseUId);
             Assert.AreEqual(aCase4Retracted.MicrotingCheckUid, caseListRetractedUnitId[3].CheckUIid);
@@ -5900,7 +6622,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase4Retracted.Unit.MicrotingUid, caseListRetractedUnitId[3].UnitId);
 //            Assert.AreEqual(c4Retracted_ua.ToString(), caseListRetractedUnitId[3].UpdatedAt.ToString());
             Assert.AreEqual(aCase4Retracted.Version, caseListRetractedUnitId[3].Version);
-            Assert.AreEqual(aCase4Retracted.Worker.FirstName + " " + aCase4Retracted.Worker.LastName, caseListRetractedUnitId[3].WorkerName);
+            Assert.AreEqual(aCase4Retracted.Worker.FirstName + " " + aCase4Retracted.Worker.LastName,
+                caseListRetractedUnitId[3].WorkerName);
             Assert.AreEqual(aCase4Retracted.WorkflowState, caseListRetractedUnitId[3].WorkflowState);
 
             #endregion
@@ -5910,8 +6633,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             #endregion
 
             #region Def Sort Des
+
             #region caseListRetractedDescendingDoneAt Def Sort Des
+
             #region caseListRetractedDescendingDoneAt aCase1Retracted
+
             Assert.NotNull(caseListRetractedDescendingDoneAt);
             Assert.AreEqual(4, caseListRetractedDescendingDoneAt.Count);
             Assert.AreEqual(aCase1Retracted.Type, caseListRetractedDescendingDoneAt[2].CaseType);
@@ -5929,11 +6655,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Retracted.Unit.MicrotingUid, caseListRetractedDescendingDoneAt[2].UnitId);
 //            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedDescendingDoneAt[2].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Retracted.Version, caseListRetractedDescendingDoneAt[2].Version);
-            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName, caseListRetractedDescendingDoneAt[2].WorkerName);
+            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName,
+                caseListRetractedDescendingDoneAt[2].WorkerName);
             Assert.AreEqual(aCase1Retracted.WorkflowState, caseListRetractedDescendingDoneAt[2].WorkflowState);
+
             #endregion
 
             #region caseListRetractedDescendingDoneAt aCase2Retracted
+
             Assert.AreEqual(aCase2Retracted.Type, caseListRetractedDescendingDoneAt[0].CaseType);
             Assert.AreEqual(aCase2Retracted.CaseUid, caseListRetractedDescendingDoneAt[0].CaseUId);
             Assert.AreEqual(aCase2Retracted.MicrotingCheckUid, caseListRetractedDescendingDoneAt[0].CheckUIid);
@@ -5949,11 +6678,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase2Retracted.Unit.MicrotingUid, caseListRetractedDescendingDoneAt[0].UnitId);
 //            Assert.AreEqual(c2Retracted_ua.ToString(), caseListRetractedDescendingDoneAt[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase2Retracted.Version, caseListRetractedDescendingDoneAt[0].Version);
-            Assert.AreEqual(aCase2Retracted.Worker.FirstName + " " + aCase2Retracted.Worker.LastName, caseListRetractedDescendingDoneAt[0].WorkerName);
+            Assert.AreEqual(aCase2Retracted.Worker.FirstName + " " + aCase2Retracted.Worker.LastName,
+                caseListRetractedDescendingDoneAt[0].WorkerName);
             Assert.AreEqual(aCase2Retracted.WorkflowState, caseListRetractedDescendingDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRetractedDescendingDoneAt aCase3Retracted
+
             Assert.AreEqual(aCase3Retracted.Type, caseListRetractedDescendingDoneAt[3].CaseType);
             Assert.AreEqual(aCase3Retracted.CaseUid, caseListRetractedDescendingDoneAt[3].CaseUId);
             Assert.AreEqual(aCase3Retracted.MicrotingCheckUid, caseListRetractedDescendingDoneAt[3].CheckUIid);
@@ -5969,11 +6701,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Retracted.Unit.MicrotingUid, caseListRetractedDescendingDoneAt[3].UnitId);
 //            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedDescendingDoneAt[3].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Retracted.Version, caseListRetractedDescendingDoneAt[3].Version);
-            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName, caseListRetractedDescendingDoneAt[3].WorkerName);
+            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName,
+                caseListRetractedDescendingDoneAt[3].WorkerName);
             Assert.AreEqual(aCase3Retracted.WorkflowState, caseListRetractedDescendingDoneAt[3].WorkflowState);
+
             #endregion
 
             #region caseListRetractedDescendingDoneAt aCase4Retracted
+
             Assert.AreEqual(aCase4Retracted.Type, caseListRetractedDescendingDoneAt[1].CaseType);
             Assert.AreEqual(aCase4Retracted.CaseUid, caseListRetractedDescendingDoneAt[1].CaseUId);
             Assert.AreEqual(aCase4Retracted.MicrotingCheckUid, caseListRetractedDescendingDoneAt[1].CheckUIid);
@@ -5989,10 +6724,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase4Retracted.Unit.MicrotingUid, caseListRetractedDescendingDoneAt[1].UnitId);
 //            Assert.AreEqual(c4Retracted_ua.ToString(), caseListRetractedDescendingDoneAt[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase4Retracted.Version, caseListRetractedDescendingDoneAt[1].Version);
-            Assert.AreEqual(aCase4Retracted.Worker.FirstName + " " + aCase4Retracted.Worker.LastName, caseListRetractedDescendingDoneAt[1].WorkerName);
+            Assert.AreEqual(aCase4Retracted.Worker.FirstName + " " + aCase4Retracted.Worker.LastName,
+                caseListRetractedDescendingDoneAt[1].WorkerName);
             Assert.AreEqual(aCase4Retracted.WorkflowState, caseListRetractedDescendingDoneAt[1].WorkflowState);
-            #endregion
 
+            #endregion
 
             #endregion
 
@@ -6017,7 +6753,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Retracted.Unit.MicrotingUid, caseListRetractedDescendingStatus[3].UnitId);
 //            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedDescendingStatus[3].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Retracted.Version, caseListRetractedDescendingStatus[3].Version);
-            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName, caseListRetractedDescendingStatus[3].WorkerName);
+            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName,
+                caseListRetractedDescendingStatus[3].WorkerName);
             Assert.AreEqual(aCase1Retracted.WorkflowState, caseListRetractedDescendingStatus[3].WorkflowState);
 
             #endregion
@@ -6039,7 +6776,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase2Retracted.Unit.MicrotingUid, caseListRetractedDescendingStatus[2].UnitId);
 //            Assert.AreEqual(c2Retracted_ua.ToString(), caseListRetractedDescendingStatus[2].UpdatedAt.ToString());
             Assert.AreEqual(aCase2Retracted.Version, caseListRetractedDescendingStatus[2].Version);
-            Assert.AreEqual(aCase2Retracted.Worker.FirstName + " " + aCase2Retracted.Worker.LastName, caseListRetractedDescendingStatus[2].WorkerName);
+            Assert.AreEqual(aCase2Retracted.Worker.FirstName + " " + aCase2Retracted.Worker.LastName,
+                caseListRetractedDescendingStatus[2].WorkerName);
             Assert.AreEqual(aCase2Retracted.WorkflowState, caseListRetractedDescendingStatus[2].WorkflowState);
 
             #endregion
@@ -6061,7 +6799,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Retracted.Unit.MicrotingUid, caseListRetractedDescendingStatus[1].UnitId);
 //            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedDescendingStatus[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Retracted.Version, caseListRetractedDescendingStatus[1].Version);
-            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName, caseListRetractedDescendingStatus[1].WorkerName);
+            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName,
+                caseListRetractedDescendingStatus[1].WorkerName);
             Assert.AreEqual(aCase3Retracted.WorkflowState, caseListRetractedDescendingStatus[1].WorkflowState);
 
             #endregion
@@ -6083,7 +6822,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase4Retracted.Unit.MicrotingUid, caseListRetractedDescendingStatus[0].UnitId);
 //            Assert.AreEqual(c4Retracted_ua.ToString(), caseListRetractedDescendingStatus[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase4Retracted.Version, caseListRetractedDescendingStatus[0].Version);
-            Assert.AreEqual(aCase4Retracted.Worker.FirstName + " " + aCase4Retracted.Worker.LastName, caseListRetractedDescendingStatus[0].WorkerName);
+            Assert.AreEqual(aCase4Retracted.Worker.FirstName + " " + aCase4Retracted.Worker.LastName,
+                caseListRetractedDescendingStatus[0].WorkerName);
             Assert.AreEqual(aCase4Retracted.WorkflowState, caseListRetractedDescendingStatus[0].WorkflowState);
 
             #endregion
@@ -6093,6 +6833,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedDescendingUnitId Def Sort Des
 
             #region caseListRetractedDescendingUnitId aCase1Retracted
+
             Assert.NotNull(caseListRetractedDescendingUnitId);
             Assert.AreEqual(4, caseListRetractedDescendingUnitId.Count);
             Assert.AreEqual(aCase1Retracted.Type, caseListRetractedDescendingUnitId[3].CaseType);
@@ -6110,12 +6851,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Retracted.Unit.MicrotingUid, caseListRetractedDescendingUnitId[3].UnitId);
 //            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedDescendingUnitId[3].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Retracted.Version, caseListRetractedDescendingUnitId[3].Version);
-            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName, caseListRetractedDescendingUnitId[3].WorkerName);
+            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName,
+                caseListRetractedDescendingUnitId[3].WorkerName);
             Assert.AreEqual(aCase1Retracted.WorkflowState, caseListRetractedDescendingUnitId[3].WorkflowState);
 
             #endregion
 
             #region caseListRetractedDescendingUnitId aCase2Retracted
+
             Assert.AreEqual(aCase2Retracted.Type, caseListRetractedDescendingUnitId[2].CaseType);
             Assert.AreEqual(aCase2Retracted.CaseUid, caseListRetractedDescendingUnitId[2].CaseUId);
             Assert.AreEqual(aCase2Retracted.MicrotingCheckUid, caseListRetractedDescendingUnitId[2].CheckUIid);
@@ -6131,12 +6874,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase2Retracted.Unit.MicrotingUid, caseListRetractedDescendingUnitId[2].UnitId);
 //            Assert.AreEqual(c2Retracted_ua.ToString(), caseListRetractedDescendingUnitId[2].UpdatedAt.ToString());
             Assert.AreEqual(aCase2Retracted.Version, caseListRetractedDescendingUnitId[2].Version);
-            Assert.AreEqual(aCase2Retracted.Worker.FirstName + " " + aCase2Retracted.Worker.LastName, caseListRetractedDescendingUnitId[2].WorkerName);
+            Assert.AreEqual(aCase2Retracted.Worker.FirstName + " " + aCase2Retracted.Worker.LastName,
+                caseListRetractedDescendingUnitId[2].WorkerName);
             Assert.AreEqual(aCase2Retracted.WorkflowState, caseListRetractedDescendingUnitId[2].WorkflowState);
 
             #endregion
 
             #region caseListRetractedDescendingUnitId aCase3Retracted
+
             Assert.AreEqual(aCase3Retracted.Type, caseListRetractedDescendingUnitId[1].CaseType);
             Assert.AreEqual(aCase3Retracted.CaseUid, caseListRetractedDescendingUnitId[1].CaseUId);
             Assert.AreEqual(aCase3Retracted.MicrotingCheckUid, caseListRetractedDescendingUnitId[1].CheckUIid);
@@ -6152,12 +6897,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Retracted.Unit.MicrotingUid, caseListRetractedDescendingUnitId[1].UnitId);
 //            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedDescendingUnitId[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Retracted.Version, caseListRetractedDescendingUnitId[1].Version);
-            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName, caseListRetractedDescendingUnitId[1].WorkerName);
+            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName,
+                caseListRetractedDescendingUnitId[1].WorkerName);
             Assert.AreEqual(aCase3Retracted.WorkflowState, caseListRetractedDescendingUnitId[1].WorkflowState);
 
             #endregion
 
             #region caseListRetractedDescendingUnitId aCase4Retracted
+
             Assert.AreEqual(aCase4Retracted.Type, caseListRetractedDescendingUnitId[0].CaseType);
             Assert.AreEqual(aCase4Retracted.CaseUid, caseListRetractedDescendingUnitId[0].CaseUId);
             Assert.AreEqual(aCase4Retracted.MicrotingCheckUid, caseListRetractedDescendingUnitId[0].CheckUIid);
@@ -6173,7 +6920,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase4Retracted.Unit.MicrotingUid, caseListRetractedDescendingUnitId[0].UnitId);
 //            Assert.AreEqual(c4Retracted_ua.ToString(), caseListRetractedDescendingUnitId[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase4Retracted.Version, caseListRetractedDescendingUnitId[0].Version);
-            Assert.AreEqual(aCase4Retracted.Worker.FirstName + " " + aCase4Retracted.Worker.LastName, caseListRetractedDescendingUnitId[0].WorkerName);
+            Assert.AreEqual(aCase4Retracted.Worker.FirstName + " " + aCase4Retracted.Worker.LastName,
+                caseListRetractedDescendingUnitId[0].WorkerName);
             Assert.AreEqual(aCase4Retracted.WorkflowState, caseListRetractedDescendingUnitId[0].WorkflowState);
 
             #endregion
@@ -6184,9 +6932,10 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region Def Sort Asc w. DateTime
 
-
             #region caseListRetractedDtDoneAt Def Sort Asc w. DateTime
+
             #region caseListRetractedDtDoneAt aCase1Retracted
+
             Assert.NotNull(caseListRetractedDtDoneAt);
             Assert.AreEqual(2, caseListRetractedDtDoneAt.Count);
             Assert.AreEqual(aCase1Retracted.Type, caseListRetractedDtDoneAt[1].CaseType);
@@ -6204,11 +6953,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Retracted.Unit.MicrotingUid, caseListRetractedDtDoneAt[1].UnitId);
 //            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedDtDoneAt[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Retracted.Version, caseListRetractedDtDoneAt[1].Version);
-            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName, caseListRetractedDtDoneAt[1].WorkerName);
+            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName,
+                caseListRetractedDtDoneAt[1].WorkerName);
             Assert.AreEqual(aCase1Retracted.WorkflowState, caseListRetractedDtDoneAt[1].WorkflowState);
+
             #endregion
 
             #region caseListRetractedDtDoneAt aCase3Retracted
+
             Assert.AreEqual(aCase3Retracted.Type, caseListRetractedDtDoneAt[0].CaseType);
             Assert.AreEqual(aCase3Retracted.CaseUid, caseListRetractedDtDoneAt[0].CaseUId);
             Assert.AreEqual(aCase3Retracted.MicrotingCheckUid, caseListRetractedDtDoneAt[0].CheckUIid);
@@ -6224,8 +6976,10 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Retracted.Unit.MicrotingUid, caseListRetractedDtDoneAt[0].UnitId);
 //            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedDtDoneAt[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Retracted.Version, caseListRetractedDtDoneAt[0].Version);
-            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName, caseListRetractedDtDoneAt[0].WorkerName);
+            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName,
+                caseListRetractedDtDoneAt[0].WorkerName);
             Assert.AreEqual(aCase3Retracted.WorkflowState, caseListRetractedDtDoneAt[0].WorkflowState);
+
             #endregion
 
             #endregion
@@ -6251,11 +7005,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Retracted.Unit.MicrotingUid, caseListRetractedDtStatus[0].UnitId);
 //            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedDtStatus[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Retracted.Version, caseListRetractedDtStatus[0].Version);
-            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName, caseListRetractedDtStatus[0].WorkerName);
+            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName,
+                caseListRetractedDtStatus[0].WorkerName);
             Assert.AreEqual(aCase1Retracted.WorkflowState, caseListRetractedDtStatus[0].WorkflowState);
 
             #endregion
-
 
 
             #region caseListRetractedDtStatus aCase3Retracted
@@ -6275,12 +7029,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Retracted.Unit.MicrotingUid, caseListRetractedDtStatus[1].UnitId);
 //            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedDtStatus[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Retracted.Version, caseListRetractedDtStatus[1].Version);
-            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName, caseListRetractedDtStatus[1].WorkerName);
+            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName,
+                caseListRetractedDtStatus[1].WorkerName);
             Assert.AreEqual(aCase3Retracted.WorkflowState, caseListRetractedDtStatus[1].WorkflowState);
 
             #endregion
-
-
 
             #endregion
 
@@ -6305,11 +7058,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Retracted.Unit.MicrotingUid, caseListRetractedDtUnitId[0].UnitId);
 //            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedDtUnitId[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Retracted.Version, caseListRetractedDtUnitId[0].Version);
-            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName, caseListRetractedDtUnitId[0].WorkerName);
+            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName,
+                caseListRetractedDtUnitId[0].WorkerName);
             Assert.AreEqual(aCase1Retracted.WorkflowState, caseListRetractedDtUnitId[0].WorkflowState);
 
             #endregion
-
 
 
             #region caseListRetractedDtUnitId aCase3Retracted
@@ -6329,19 +7082,20 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Retracted.Unit.MicrotingUid, caseListRetractedDtUnitId[1].UnitId);
 //            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedDtUnitId[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Retracted.Version, caseListRetractedDtUnitId[1].Version);
-            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName, caseListRetractedDtUnitId[1].WorkerName);
+            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName,
+                caseListRetractedDtUnitId[1].WorkerName);
             Assert.AreEqual(aCase3Retracted.WorkflowState, caseListRetractedDtUnitId[1].WorkflowState);
 
             #endregion
-
-
 
             #endregion
 
             #endregion
 
             #region Def Sort Des w. DateTime
+
             #region caseListRetractedDtDescendingDoneAt Def Sort Des
+
             #region caseListRetractedDtDescendingDoneAt aCase1Retracted
 
             Assert.NotNull(caseListRetractedDtDescendingDoneAt);
@@ -6361,8 +7115,10 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Retracted.Unit.MicrotingUid, caseListRetractedDtDescendingDoneAt[0].UnitId);
 //            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedDtDescendingDoneAt[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Retracted.Version, caseListRetractedDtDescendingDoneAt[0].Version);
-            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName, caseListRetractedDtDescendingDoneAt[0].WorkerName);
+            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName,
+                caseListRetractedDtDescendingDoneAt[0].WorkerName);
             Assert.AreEqual(aCase1Retracted.WorkflowState, caseListRetractedDtDescendingDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRetractedDtDescendingDoneAt aCase3Retracted
@@ -6382,8 +7138,10 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Retracted.Unit.MicrotingUid, caseListRetractedDtDescendingDoneAt[1].UnitId);
 //            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedDtDescendingDoneAt[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Retracted.Version, caseListRetractedDtDescendingDoneAt[1].Version);
-            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName, caseListRetractedDtDescendingDoneAt[1].WorkerName);
+            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName,
+                caseListRetractedDtDescendingDoneAt[1].WorkerName);
             Assert.AreEqual(aCase3Retracted.WorkflowState, caseListRetractedDtDescendingDoneAt[1].WorkflowState);
+
             #endregion
 
             #endregion
@@ -6409,8 +7167,10 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Retracted.Unit.MicrotingUid, caseListRetractedDtDescendingStatus[0].UnitId);
 //            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedDtDescendingStatus[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Retracted.Version, caseListRetractedDtDescendingStatus[0].Version);
-            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName, caseListRetractedDtDescendingStatus[0].WorkerName);
+            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName,
+                caseListRetractedDtDescendingStatus[0].WorkerName);
             Assert.AreEqual(aCase3Retracted.WorkflowState, caseListRetractedDtDescendingStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListRetractedDtDescendingStatus aCase3Retracted
@@ -6430,17 +7190,18 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Retracted.Unit.MicrotingUid, caseListRetractedDtDescendingStatus[1].UnitId);
 //            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedDtDescendingStatus[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Retracted.Version, caseListRetractedDtDescendingStatus[1].Version);
-            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName, caseListRetractedDtDescendingStatus[1].WorkerName);
+            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName,
+                caseListRetractedDtDescendingStatus[1].WorkerName);
             Assert.AreEqual(aCase1Retracted.WorkflowState, caseListRetractedDtDescendingStatus[1].WorkflowState);
 
             #endregion
-
 
             #endregion
 
             #region caseListRetractedDtDescendingUnitId Def Sort Des
 
             #region caseListRetractedDtDescendingUnitId aCase1Retracted
+
             Assert.NotNull(caseListRetractedDtDescendingUnitId);
             Assert.AreEqual(2, caseListRetractedDtDescendingUnitId.Count);
 
@@ -6459,12 +7220,14 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase3Retracted.Unit.MicrotingUid, caseListRetractedDtDescendingUnitId[0].UnitId);
 //            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedDtDescendingUnitId[0].UpdatedAt.ToString());
             Assert.AreEqual(aCase3Retracted.Version, caseListRetractedDtDescendingUnitId[0].Version);
-            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName, caseListRetractedDtDescendingUnitId[0].WorkerName);
+            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName,
+                caseListRetractedDtDescendingUnitId[0].WorkerName);
             Assert.AreEqual(aCase3Retracted.WorkflowState, caseListRetractedDtDescendingUnitId[0].WorkflowState);
 
             #endregion
 
             #region caseListRetractedDtDescendingUnitId aCase3Retracted
+
             Assert.AreEqual(aCase1Retracted.Type, caseListRetractedDtDescendingUnitId[1].CaseType);
             Assert.AreEqual(aCase1Retracted.CaseUid, caseListRetractedDtDescendingUnitId[1].CaseUId);
             Assert.AreEqual(aCase1Retracted.MicrotingCheckUid, caseListRetractedDtDescendingUnitId[1].CheckUIid);
@@ -6480,7 +7243,8 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.AreEqual(aCase1Retracted.Unit.MicrotingUid, caseListRetractedDtDescendingUnitId[1].UnitId);
 //            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedDtDescendingUnitId[1].UpdatedAt.ToString());
             Assert.AreEqual(aCase1Retracted.Version, caseListRetractedDtDescendingUnitId[1].Version);
-            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName, caseListRetractedDtDescendingUnitId[1].WorkerName);
+            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName,
+                caseListRetractedDtDescendingUnitId[1].WorkerName);
             Assert.AreEqual(aCase1Retracted.WorkflowState, caseListRetractedDtDescendingUnitId[1].WorkflowState);
 
             #endregion
@@ -6498,6 +7262,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region aCase1Retracted sort asc
 
             #region caseListC1DoneAt aCase1Retracted
+
             Assert.NotNull(caseListRetractedC1SortDoneAt);
             Assert.AreEqual(0, caseListRetractedC1SortDoneAt.Count);
             // Assert.AreEqual(aCase1Retracted.type, caseListRetractedC1SortDoneAt[0].CaseType);
@@ -6517,9 +7282,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1Retracted.version, caseListRetractedC1SortDoneAt[0].Version);
             // Assert.AreEqual(aCase1Retracted.worker.first_name + " " + aCase1Retracted.worker.last_name, caseListRetractedC1SortDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase1Retracted.workflow_state, caseListRetractedC1SortDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRetractedC1SortStatus aCase1Retracted
+
             Assert.NotNull(caseListRetractedC1SortStatus);
             Assert.AreEqual(0, caseListRetractedC1SortStatus.Count);
             // Assert.AreEqual(aCase1Retracted.type, caseListRetractedC1SortStatus[0].CaseType);
@@ -6539,6 +7306,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1Retracted.version, caseListRetractedC1SortStatus[0].Version);
             // Assert.AreEqual(aCase1Retracted.worker.first_name + " " + aCase1Retracted.worker.last_name, caseListRetractedC1SortStatus[0].WorkerName);
             // Assert.AreEqual(aCase1Retracted.workflow_state, caseListRetractedC1SortStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListRetractedC1SortUnitId
@@ -6570,6 +7338,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region aCase2Retracted sort asc
 
             #region caseListC2DoneAt aCase2Retracted
+
             Assert.NotNull(caseListRetractedC2SortDoneAt);
             Assert.AreEqual(0, caseListRetractedC2SortDoneAt.Count);
             // Assert.AreEqual(aCase2Retracted.type, caseListRetractedC2SortDoneAt[0].CaseType);
@@ -6589,9 +7358,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2Retracted.version, caseListRetractedC2SortDoneAt[0].Version);
             // Assert.AreEqual(aCase2Retracted.worker.first_name + " " + aCase2Retracted.worker.last_name, caseListRetractedC2SortDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase2Retracted.workflow_state, caseListRetractedC2SortDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRetractedC2SortStatus aCase2Retracted
+
             Assert.NotNull(caseListRetractedC2SortStatus);
             Assert.AreEqual(0, caseListRetractedC2SortStatus.Count);
             // Assert.AreEqual(aCase2Retracted.type, caseListRetractedC2SortStatus[0].CaseType);
@@ -6611,9 +7382,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2Retracted.version, caseListRetractedC2SortStatus[0].Version);
             // Assert.AreEqual(aCase2Retracted.worker.first_name + " " + aCase2Retracted.worker.last_name, caseListRetractedC2SortStatus[0].WorkerName);
             // Assert.AreEqual(aCase2Retracted.workflow_state, caseListRetractedC2SortStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListRetractedC2SortUnitId aCase2Retracted
+
             Assert.NotNull(caseListRetractedC2SortUnitId);
             Assert.AreEqual(0, caseListRetractedC2SortUnitId.Count);
             // Assert.AreEqual(aCase2Retracted.type, caseListRetractedC2SortUnitId[0].CaseType);
@@ -6633,6 +7406,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2Retracted.version, caseListRetractedC2SortUnitId[0].Version);
             // Assert.AreEqual(aCase2Retracted.worker.first_name + " " + aCase2Retracted.worker.last_name, caseListRetractedC2SortUnitId[0].WorkerName);
             // Assert.AreEqual(aCase2Retracted.workflow_state, caseListRetractedC2SortUnitId[0].WorkflowState);
+
             #endregion
 
             #endregion
@@ -6640,6 +7414,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region aCase3Retracted sort asc
 
             #region caseListC3DoneAt aCase3Retracted
+
             Assert.NotNull(caseListRetractedC3SortDoneAt);
             Assert.AreEqual(0, caseListRetractedC3SortDoneAt.Count);
             // Assert.AreEqual(aCase3Retracted.type, caseListRetractedC3SortDoneAt[0].CaseType);
@@ -6659,9 +7434,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3Retracted.version, caseListRetractedC3SortDoneAt[0].Version);
             // Assert.AreEqual(aCase3Retracted.worker.first_name + " " + aCase3Retracted.worker.last_name, caseListRetractedC3SortDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase3Retracted.workflow_state, caseListRetractedC3SortDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListC3status aCase3Retracted
+
             Assert.NotNull(caseListRetractedC3SortStatus);
             Assert.AreEqual(0, caseListRetractedC3SortStatus.Count);
             // Assert.AreEqual(aCase3Retracted.type, caseListRetractedC3SortStatus[0].CaseType);
@@ -6681,9 +7458,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3Retracted.version, caseListRetractedC3SortStatus[0].Version);
             // Assert.AreEqual(aCase3Retracted.worker.first_name + " " + aCase3Retracted.worker.last_name, caseListRetractedC3SortStatus[0].WorkerName);
             // Assert.AreEqual(aCase3Retracted.workflow_state, caseListRetractedC3SortStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListC3UnitId aCase3Retracted
+
             Assert.NotNull(caseListRetractedC3SortUnitId);
             Assert.AreEqual(0, caseListRetractedC3SortUnitId.Count);
             // Assert.AreEqual(aCase3Retracted.type, caseListRetractedC3SortUnitId[0].CaseType);
@@ -6703,6 +7482,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3Retracted.version, caseListRetractedC3SortUnitId[0].Version);
             // Assert.AreEqual(aCase3Retracted.worker.first_name + " " + aCase3Retracted.worker.last_name, caseListRetractedC3SortUnitId[0].WorkerName);
             // Assert.AreEqual(aCase3Retracted.workflow_state, caseListRetractedC3SortUnitId[0].WorkflowState);
+
             #endregion
 
             #endregion
@@ -6710,6 +7490,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region aCase4Retracted sort asc
 
             #region caseListRetractedC4SortDoneAt aCase4Retracted
+
             Assert.NotNull(caseListRetractedC4SortDoneAt);
             Assert.AreEqual(0, caseListRetractedC4SortDoneAt.Count);
             // Assert.AreEqual(aCase4Retracted.type, caseListRetractedC4SortDoneAt[0].CaseType);
@@ -6729,9 +7510,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4Retracted.version, caseListRetractedC4SortDoneAt[0].Version);
             // Assert.AreEqual(aCase4Retracted.worker.first_name + " " + aCase4Retracted.worker.last_name, caseListRetractedC4SortDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase4Retracted.workflow_state, caseListRetractedC4SortDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRetractedC4SortStatus aCase4Retracted
+
             Assert.NotNull(caseListRetractedC4SortStatus);
             Assert.AreEqual(0, caseListRetractedC4SortStatus.Count);
             // Assert.AreEqual(aCase4Retracted.type, caseListRetractedC4SortStatus[0].CaseType);
@@ -6751,6 +7534,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4Retracted.version, caseListRetractedC4SortStatus[0].Version);
             // Assert.AreEqual(aCase4Retracted.worker.first_name + " " + aCase4Retracted.worker.last_name, caseListRetractedC4SortStatus[0].WorkerName);
             // Assert.AreEqual(aCase4Retracted.workflow_state, caseListRetractedC4SortStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListRetractedC4SortUnitId aCase4Retracted
@@ -6784,6 +7568,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region aCase Sort Des
 
             #region aCase1Retracted Sort Des
+
             #region caseListRetractedC1SortDescendingDoneAt aCase1Retracted
 
             Assert.NotNull(caseListRetractedC1SortDescendingDoneAt);
@@ -6855,9 +7640,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1Retracted.workflow_state, caseListRetractedC1SortDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
 
             #region aCase2Retracted Sort Des
+
             #region caseListRetractedC2SortDescendingDoneAt aCase2Retracted
 
             Assert.NotNull(caseListRetractedC2SortDescendingDoneAt);
@@ -6929,9 +7716,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2Retracted.workflow_state, caseListRetractedC2SortDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
 
             #region aCase3Retracted Sort Des
+
             #region caseListRetractedC3SortDescendingDoneAt aCase3Retracted
 
             Assert.NotNull(caseListRetractedC3SortDescendingDoneAt);
@@ -7007,6 +7796,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #endregion
 
             #region aCase4Retracted Sort Des
+
             #region caseListRetractedC4SortDescendingDoneAt aCase4Retracted
 
             Assert.NotNull(caseListRetractedC4SortDescendingDoneAt);
@@ -7078,7 +7868,9 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4Retracted.workflow_state, caseListRetractedC4SortDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
+
             #endregion
 
             #region aCase Sort Asc w. DateTime
@@ -7086,6 +7878,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region aCase1Retracted sort asc w. DateTime
 
             #region caseListRetractedC1SortDtDoneAt aCase1Retracted
+
             Assert.NotNull(caseListRetractedC1SortDtDoneAt);
             Assert.AreEqual(0, caseListRetractedC1SortDtDoneAt.Count);
             // Assert.AreEqual(aCase1Retracted.type, caseListRetractedC1SortDtDoneAt[0].CaseType);
@@ -7105,9 +7898,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1Retracted.version, caseListRetractedC1SortDtDoneAt[0].Version);
             // Assert.AreEqual(aCase1Retracted.worker.first_name + " " + aCase1Retracted.worker.last_name, caseListRetractedC1SortDtDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase1Retracted.workflow_state, caseListRetractedC1SortDtDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRetractedC1SortDtStatus aCase1Retracted
+
             Assert.NotNull(caseListRetractedC1SortDtStatus);
             Assert.AreEqual(0, caseListRetractedC1SortDtStatus.Count);
             // Assert.AreEqual(aCase1Retracted.type, caseListRetractedC1SortDtStatus[0].CaseType);
@@ -7127,9 +7922,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1Retracted.version, caseListRetractedC1SortDtStatus[0].Version);
             // Assert.AreEqual(aCase1Retracted.worker.first_name + " " + aCase1Retracted.worker.last_name, caseListRetractedC1SortDtStatus[0].WorkerName);
             // Assert.AreEqual(aCase1Retracted.workflow_state, caseListRetractedC1SortDtStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListRetractedC1SortDtUnitId aCase1Retracted
+
             Assert.NotNull(caseListRetractedC1SortDtUnitId);
             Assert.AreEqual(0, caseListRetractedC1SortDtUnitId.Count);
             // Assert.AreEqual(aCase1Retracted.type, caseListRetractedC1SortDtUnitId[0].CaseType);
@@ -7149,6 +7946,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1Retracted.version, caseListRetractedC1SortDtUnitId[0].Version);
             // Assert.AreEqual(aCase1Retracted.worker.first_name + " " + aCase1Retracted.worker.last_name, caseListRetractedC1SortDtUnitId[0].WorkerName);
             // Assert.AreEqual(aCase1Retracted.workflow_state, caseListRetractedC1SortDtUnitId[0].WorkflowState);
+
             #endregion
 
             #endregion
@@ -7156,6 +7954,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region aCase2Retracted sort asc w. DateTime
 
             #region caseListRetractedC2SortDtDoneAt aCase2Retracted
+
             Assert.NotNull(caseListRetractedC2SortDtDoneAt);
             Assert.AreEqual(0, caseListRetractedC2SortDtDoneAt.Count);
             // Assert.AreEqual(aCase2Retracted.type, caseListRetractedC2SortDtDoneAt[0].CaseType);
@@ -7175,9 +7974,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2Retracted.version, caseListRetractedC2SortDtDoneAt[0].Version);
             // Assert.AreEqual(aCase2Retracted.worker.first_name + " " + aCase2Retracted.worker.last_name, caseListRetractedC2SortDtDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase2Retracted.workflow_state, caseListRetractedC2SortDtDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRetractedC2SortDtStatus aCase2Retracted
+
             Assert.NotNull(caseListRetractedC2SortDtStatus);
             Assert.AreEqual(0, caseListRetractedC2SortDtStatus.Count);
             // Assert.AreEqual(aCase2Retracted.type, caseListRetractedC2SortDtStatus[0].CaseType);
@@ -7197,9 +7998,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2Retracted.version, caseListRetractedC2SortDtStatus[0].Version);
             // Assert.AreEqual(aCase2Retracted.worker.first_name + " " + aCase2Retracted.worker.last_name, caseListRetractedC2SortDtStatus[0].WorkerName);
             // Assert.AreEqual(aCase2Retracted.workflow_state, caseListRetractedC2SortDtStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListRetractedC2SortDtUnitId aCase2Retracted
+
             Assert.NotNull(caseListRetractedC2SortDtUnitId);
             Assert.AreEqual(0, caseListRetractedC2SortDtUnitId.Count);
             // Assert.AreEqual(aCase2Retracted.type, caseListRetractedC2SortDtUnitId[0].CaseType);
@@ -7219,6 +8022,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2Retracted.version, caseListRetractedC2SortDtUnitId[0].Version);
             // Assert.AreEqual(aCase2Retracted.worker.first_name + " " + aCase2Retracted.worker.last_name, caseListRetractedC2SortDtUnitId[0].WorkerName);
             // Assert.AreEqual(aCase2Retracted.workflow_state, caseListRetractedC2SortDtUnitId[0].WorkflowState);
+
             #endregion
 
             #endregion
@@ -7226,6 +8030,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region aCase3Retracted sort asc w. DateTime
 
             #region caseListRetractedC3SortDtDoneAt aCase3Retracted
+
             Assert.NotNull(caseListRetractedC3SortDtDoneAt);
             Assert.AreEqual(0, caseListRetractedC3SortDtDoneAt.Count);
             // Assert.AreEqual(aCase3Retracted.type, caseListRetractedC3SortDtDoneAt[0].CaseType);
@@ -7245,9 +8050,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3Retracted.version, caseListRetractedC3SortDtDoneAt[0].Version);
             // Assert.AreEqual(aCase3Retracted.worker.first_name + " " + aCase3Retracted.worker.last_name, caseListRetractedC3SortDtDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase3Retracted.workflow_state, caseListRetractedC3SortDtDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRetractedC3SortDtStatus aCase3Retracted
+
             Assert.NotNull(caseListRetractedC3SortDtStatus);
             Assert.AreEqual(0, caseListRetractedC3SortDtStatus.Count);
             // Assert.AreEqual(aCase3Retracted.type, caseListRetractedC3SortDtStatus[0].CaseType);
@@ -7267,9 +8074,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3Retracted.version, caseListRetractedC3SortDtStatus[0].Version);
             // Assert.AreEqual(aCase3Retracted.worker.first_name + " " + aCase3Retracted.worker.last_name, caseListRetractedC3SortDtStatus[0].WorkerName);
             // Assert.AreEqual(aCase3Retracted.workflow_state, caseListRetractedC3SortDtStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListRetractedC3SortDtUnitId aCase3Retracted
+
             Assert.NotNull(caseListRetractedC3SortDtUnitId);
             Assert.AreEqual(0, caseListRetractedC3SortDtUnitId.Count);
             // Assert.AreEqual(aCase3Retracted.type, caseListRetractedC3SortDtUnitId[0].CaseType);
@@ -7289,6 +8098,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3Retracted.version, caseListRetractedC3SortDtUnitId[0].Version);
             // Assert.AreEqual(aCase3Retracted.worker.first_name + " " + aCase3Retracted.worker.last_name, caseListRetractedC3SortDtUnitId[0].WorkerName);
             // Assert.AreEqual(aCase3Retracted.workflow_state, caseListRetractedC3SortDtUnitId[0].WorkflowState);
+
             #endregion
 
             #endregion
@@ -7296,6 +8106,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region aCase4Retracted sort asc w. DateTime
 
             #region caseListRetractedC4SortDtDoneAt aCase4Retracted
+
             Assert.NotNull(caseListRetractedC4SortDtDoneAt);
             Assert.AreEqual(0, caseListRetractedC4SortDtDoneAt.Count);
             // Assert.AreEqual(aCase4Retracted.type, caseListRetractedC4SortDtDoneAt[0].CaseType);
@@ -7315,9 +8126,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4Retracted.version, caseListRetractedC4SortDtDoneAt[0].Version);
             // Assert.AreEqual(aCase4Retracted.worker.first_name + " " + aCase4Retracted.worker.last_name, caseListRetractedC4SortDtDoneAt[0].WorkerName);
             // Assert.AreEqual(aCase4Retracted.workflow_state, caseListRetractedC4SortDtDoneAt[0].WorkflowState);
+
             #endregion
 
             #region caseListRetractedC4SortDtStatus aCase4Retracted
+
             Assert.NotNull(caseListRetractedC4SortDtStatus);
             Assert.AreEqual(0, caseListRetractedC4SortDtStatus.Count);
             // Assert.AreEqual(aCase4Retracted.type, caseListRetractedC4SortDtStatus[0].CaseType);
@@ -7337,9 +8150,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4Retracted.version, caseListRetractedC4SortDtStatus[0].Version);
             // Assert.AreEqual(aCase4Retracted.worker.first_name + " " + aCase4Retracted.worker.last_name, caseListRetractedC4SortDtStatus[0].WorkerName);
             // Assert.AreEqual(aCase4Retracted.workflow_state, caseListRetractedC4SortDtStatus[0].WorkflowState);
+
             #endregion
 
             #region caseListRetractedC4SortDtUnitId aCase4Retracted
+
             Assert.NotNull(caseListRetractedC4SortDtUnitId);
             Assert.AreEqual(0, caseListRetractedC4SortDtUnitId.Count);
             // Assert.AreEqual(aCase4Retracted.type, caseListRetractedC4SortDtUnitId[0].CaseType);
@@ -7359,6 +8174,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4Retracted.version, caseListRetractedC4SortDtUnitId[0].Version);
             // Assert.AreEqual(aCase4Retracted.worker.first_name + " " + aCase4Retracted.worker.last_name, caseListRetractedC4SortDtUnitId[0].WorkerName);
             // Assert.AreEqual(aCase4Retracted.workflow_state, caseListRetractedC4SortDtUnitId[0].WorkflowState);
+
             #endregion
 
             #endregion
@@ -7366,7 +8182,9 @@ namespace eFormSDK.Integration.Case.CoreTests
             #endregion
 
             #region aCase Sort Des w. DateTime
+
             #region aCase1Retracted Sort Des w. DateTime
+
             #region caseListRetractedC1SortDtDescendingDoneAt aCase1Retracted
 
             Assert.NotNull(caseListRetractedC1SortDtDescendingDoneAt);
@@ -7438,9 +8256,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase1Retracted.workflow_state, caseListRetractedC1SortDtDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
 
             #region aCase2Retracted Sort Des w. DateTime
+
             #region caseListRetractedC2SortDtDescendingDoneAt aCase2Retracted
 
             Assert.NotNull(caseListRetractedC2SortDtDescendingDoneAt);
@@ -7512,9 +8332,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase2Retracted.workflow_state, caseListRetractedC2SortDtDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
 
             #region aCase3Retracted Sort Des w. DateTime
+
             #region caseListRetractedC3SortDtDescendingDoneAt aCase3Retracted
 
             Assert.NotNull(caseListRetractedC3SortDtDescendingDoneAt);
@@ -7586,9 +8408,11 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase3Retracted.workflow_state, caseListRetractedC3SortDtDescendingUnitId[0].WorkflowState);
 
             #endregion
+
             #endregion
 
             #region aCase4Retracted Sort Des w. DateTime
+
             #region caseListRetractedC4SortDtDescendingDoneAt aCase4Retracted
 
             Assert.NotNull(caseListRetractedC4SortDtDescendingDoneAt);
@@ -7660,7 +8484,6 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert.AreEqual(aCase4Retracted.workflow_state, caseListRetractedC4SortDtDescendingUnitId[0].WorkflowState);
 
             #endregion
-            #endregion
 
             #endregion
 
@@ -7668,10 +8491,11 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #endregion
 
-
+            #endregion
         }
 
         #region eventhandlers
+
         public void EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
@@ -7701,7 +8525,7 @@ namespace eFormSDK.Integration.Case.CoreTests
         {
             // Does nothing for web implementation
         }
+
         #endregion
     }
-
 }

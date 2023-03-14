@@ -20,11 +20,13 @@ namespace Microting.eForm.Handlers
             this.log = log;
             this.core = core;
         }
+
         public async Task Handle(SurveyConfigurationChanged message)
         {
             try
             {
-                log.LogEverything("SurveyConfigurationChangedHandler.Handle", "Calling GetAllQuestionSets to load all question sets");
+                log.LogEverything("SurveyConfigurationChangedHandler.Handle",
+                    "Calling GetAllQuestionSets to load all question sets");
                 await core.GetAllQuestionSets().ConfigureAwait(false);
                 await sqlController.NotificationUpdate(message.NotificationUId,
                     message.MicrotringUUID,

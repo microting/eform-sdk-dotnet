@@ -54,7 +54,7 @@ namespace Microting.eForm.Handlers
             {
                 await core.TranscribeUploadedData(message.uploadedDataId);
             }
-            catch 
+            catch
             {
             }
         }

@@ -27,9 +27,9 @@ namespace Microting.eForm.Dto
     public class FieldDto
     {
         #region con
+
         public FieldDto()
         {
-
         }
 
         public FieldDto(int id, string label, string description, int fieldTypeId, string fieldType, int checkListId)
@@ -41,9 +41,11 @@ namespace Microting.eForm.Dto
             FieldType = fieldType;
             CheckListId = checkListId;
         }
+
         #endregion
 
         #region var
+
         /// <summary>
         /// Id
         /// </summary>

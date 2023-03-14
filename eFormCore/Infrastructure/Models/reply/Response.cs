@@ -32,11 +32,11 @@ using Newtonsoft.Json.Linq;
 
 namespace Microting.eForm.Infrastructure.Models.reply
 {
-
     public class Value
     {
         public string Type;
     }
+
     public class Response
     {
         // con
@@ -59,6 +59,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
         public string UnitFetchedAt { get; set; }
         public string UnitId { get; set; }
         public List<Check> Checks { get; set; }
+
         Tools t = new Tools();
         //
 
@@ -74,7 +75,8 @@ namespace Microting.eForm.Infrastructure.Models.reply
                 if (xmlStr.Contains("<Value type="))
                 {
                     string subXmlStr = t.Locate(xmlStr, "<Response>", "</Response>").Trim();
-                    string valueTypeLower = t.Locate(xmlStr, "Value type=\"", "\"").Trim().ToLower(); //digs out value's type
+                    string valueTypeLower =
+                        t.Locate(xmlStr, "Value type=\"", "\"").Trim().ToLower(); //digs out value's type
                     value = t.Locate(xmlStr, "\">", "</").Trim();
 
                     switch (valueTypeLower)
@@ -100,7 +102,8 @@ namespace Microting.eForm.Infrastructure.Models.reply
                             break;
 
                         default:
-                            throw new IndexOutOfRangeException("ResponseType:'" + valueTypeLower + "' is not known. " + xmlStr);
+                            throw new IndexOutOfRangeException("ResponseType:'" + valueTypeLower + "' is not known. " +
+                                                               xmlStr);
                     }
                 }
                 //
@@ -123,15 +126,16 @@ namespace Microting.eForm.Infrastructure.Models.reply
                             Worker = t.Locate(rawXml, " worker=\"", "\""),
                             Id = int.Parse(t.Locate(rawXml, " id=\"", "\"")),
                             WorkerId = t.Locate(rawXml, " worker_id=\"", "\""),
-                            Manufacturer = t.Locate(rawXml,"manufacturer=\"","\""),
-                            Model = t.Locate(rawXml,"model=\"","\""),
-                            OsVersion = t.Locate(rawXml,"os_version=\"","\""),
-                            SoftwareVersion = t.Locate(rawXml,"software_version=\"","\""),
+                            Manufacturer = t.Locate(rawXml, "manufacturer=\"", "\""),
+                            Model = t.Locate(rawXml, "model=\"", "\""),
+                            OsVersion = t.Locate(rawXml, "os_version=\"", "\""),
+                            SoftwareVersion = t.Locate(rawXml, "software_version=\"", "\""),
                         };
 
                         while (rawXml.Contains("<ElementList>"))
                         {
-                            string inderXmlStr = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?><ElementList>" + t.Locate(rawXml, "<ElementList>", "</ElementList>") + "</ElementList>";
+                            string inderXmlStr = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?><ElementList>" +
+                                                 t.Locate(rawXml, "<ElementList>", "</ElementList>") + "</ElementList>";
                             ElementList eResp = XmlToClassCheck(inderXmlStr);
                             check.ElementList.Add(eResp);
 
@@ -162,7 +166,8 @@ namespace Microting.eForm.Infrastructure.Models.reply
                 if (xmlStr.Contains("<Value type="))
                 {
                     string subXmlStr = t.Locate(xmlStr, "<Response>", "</Response>").Trim();
-                    string valueTypeLower = t.Locate(xmlStr, "Value type=\"", "\"").Trim().ToLower(); //digs out value's type
+                    string valueTypeLower =
+                        t.Locate(xmlStr, "Value type=\"", "\"").Trim().ToLower(); //digs out value's type
                     value = t.Locate(xmlStr, "\">", "</").Trim();
 
                     switch (valueTypeLower)
@@ -188,7 +193,8 @@ namespace Microting.eForm.Infrastructure.Models.reply
                             break;
 
                         default:
-                            throw new IndexOutOfRangeException("ResponseType:'" + valueTypeLower + "' is not known. " + xmlStr);
+                            throw new IndexOutOfRangeException("ResponseType:'" + valueTypeLower + "' is not known. " +
+                                                               xmlStr);
                     }
                 }
                 //
@@ -198,9 +204,12 @@ namespace Microting.eForm.Infrastructure.Models.reply
                 // Unit fetched
                 if (xmlStr.Contains("<Unit fetched_at="))
                 {
-                    string subXmlStr = xmlStr.Substring(xmlStr.IndexOf("<Unit fetched_at=\"") + 18); // 18 magic int = "<Unit fetched_at=\"".Length;
+                    string subXmlStr =
+                        xmlStr.Substring(xmlStr.IndexOf("<Unit fetched_at=\"") +
+                                         18); // 18 magic int = "<Unit fetched_at=\"".Length;
                     string dateTimeStr = subXmlStr.Substring(0, subXmlStr.IndexOf("\"")); //digs out unit's dateTime
-                    string idStr = subXmlStr.Substring(dateTimeStr.Length + 6, subXmlStr.IndexOf("\"/>") - dateTimeStr.Length - 6); //digs out value's text
+                    string idStr = subXmlStr.Substring(dateTimeStr.Length + 6,
+                        subXmlStr.IndexOf("\"/>") - dateTimeStr.Length - 6); //digs out value's text
 
                     resp.UnitFetchedAt = dateTimeStr;
                     resp.UnitId = idStr;
@@ -218,15 +227,17 @@ namespace Microting.eForm.Infrastructure.Models.reply
                         Worker = t.Locate(checkXmlStr, " worker=\"", "\""),
                         Id = int.Parse(t.Locate(checkXmlStr, " id=\"", "\"")),
                         WorkerId = t.Locate(checkXmlStr, " worker_id=\"", "\""),
-                        Manufacturer = t.Locate(checkXmlStr,"manufacturer=\"","\""),
-                        Model = t.Locate(checkXmlStr,"model=\"","\""),
-                        OsVersion = t.Locate(checkXmlStr,"os_version=\"","\""),
-                        SoftwareVersion = t.Locate(checkXmlStr,"software_version=\"","\""),
+                        Manufacturer = t.Locate(checkXmlStr, "manufacturer=\"", "\""),
+                        Model = t.Locate(checkXmlStr, "model=\"", "\""),
+                        OsVersion = t.Locate(checkXmlStr, "os_version=\"", "\""),
+                        SoftwareVersion = t.Locate(checkXmlStr, "software_version=\"", "\""),
                     };
 
                     while (checkXmlStr.Contains("<ElementList>"))
                     {
-                        string inderXmlStr = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?><ElementList>" + t.Locate(checkXmlStr, "<ElementList>", "</ElementList>") + "</ElementList>";
+                        string inderXmlStr = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?><ElementList>" +
+                                             t.Locate(checkXmlStr, "<ElementList>", "</ElementList>") +
+                                             "</ElementList>";
                         ElementList eResp = XmlToClassCheck(inderXmlStr);
                         check.ElementList.Add(eResp);
 
@@ -261,7 +272,8 @@ namespace Microting.eForm.Infrastructure.Models.reply
                     value = jObject["Value"]["Value"]?.ToString();
                     var parsed = Enum.TryParse(jObject["Value"]["Type"].ToString(), true, out rType);
                     if (!parsed)
-                        throw new IndexOutOfRangeException("ResponseType:'" + jObject["Value"]["Type"] + "' is not known. " + json);
+                        throw new IndexOutOfRangeException("ResponseType:'" + jObject["Value"]["Type"] +
+                                                           "' is not known. " + json);
                 }
                 //
 
@@ -315,24 +327,29 @@ namespace Microting.eForm.Infrastructure.Models.reply
             try
             {
                 string xmlStr = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine +
-                                      "<Response>" + Environment.NewLine +
-                                      "<Value type=\"" + Type + "\">" + Value + "</Value>" + Environment.NewLine;
+                                "<Response>" + Environment.NewLine +
+                                "<Value type=\"" + Type + "\">" + Value + "</Value>" + Environment.NewLine;
                 if (UnitId != null)
-                    xmlStr += "<Unit fetched_at=\"" + UnitFetchedAt + "\" id=\"" + UnitId + "\"/>" + Environment.NewLine;
+                    xmlStr += "<Unit fetched_at=\"" + UnitFetchedAt + "\" id=\"" + UnitId + "\"/>" +
+                              Environment.NewLine;
                 if (Checks.Count > 0)
                 {
                     xmlStr += "<Checks>" + Environment.NewLine;
                     foreach (Check chk in Checks)
                     {
-                        xmlStr += "<Check unit_id=\"" + chk.UnitId + "\" date=\"" + chk.Date + "\" worker=\"" + chk.Worker + "\" id=\"" + chk.Id + "\" worker_id=\"" + chk.WorkerId + "\">";
+                        xmlStr += "<Check unit_id=\"" + chk.UnitId + "\" date=\"" + chk.Date + "\" worker=\"" +
+                                  chk.Worker + "\" id=\"" + chk.Id + "\" worker_id=\"" + chk.WorkerId + "\">";
                         foreach (ElementList elemLst in chk.ElementList)
                         {
                             xmlStr += PureXml(ClassToXmlCheck(elemLst)) + Environment.NewLine;
                         }
+
                         xmlStr += "</Check>" + Environment.NewLine;
                     }
+
                     xmlStr += "</Checks>" + Environment.NewLine;
                 }
+
                 xmlStr += "</Response>";
 
                 return xmlStr;
@@ -376,6 +393,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
                     serializer.Serialize(writer, elementList);
                     xmlStr = writer.ToString();
                 }
+
                 return xmlStr;
             }
             catch (Exception ex)
@@ -392,7 +410,9 @@ namespace Microting.eForm.Infrastructure.Models.reply
         private string PureXml(string xmlStr)
         {
             xmlStr = xmlStr.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "");
-            xmlStr = xmlStr.Replace("<ElementList xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">", "<ElementList>");
+            xmlStr = xmlStr.Replace(
+                "<ElementList xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">",
+                "<ElementList>");
 
             return xmlStr.Trim();
         }

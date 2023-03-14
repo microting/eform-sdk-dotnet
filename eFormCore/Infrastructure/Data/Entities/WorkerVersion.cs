@@ -26,18 +26,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class WorkerVersion : BaseEntity
+    public class WorkerVersion : BaseEntity
     {
         public int MicrotingUid { get; set; }
 
-        [StringLength(255)]
-        public string FirstName { get; set; }
+        [StringLength(255)] public string FirstName { get; set; }
 
-        [StringLength(255)]
-        public string LastName { get; set; }
+        [StringLength(255)] public string LastName { get; set; }
 
-        [StringLength(255)]
-        public string Email { get; set; }
+        [StringLength(255)] public string Email { get; set; }
 
         public int? WorkerId { get; set; }
 

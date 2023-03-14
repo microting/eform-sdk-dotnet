@@ -71,7 +71,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             var returnObj = Activator.CreateInstance(resultType);
 
             var curreList = obj.GetType().GetProperties();
-            foreach(var prop in curreList)
+            foreach (var prop in curreList)
             {
                 if (!prop.PropertyType.FullName.Contains("Microting.eForm.Infrastructure.Data.Entities"))
                 {
@@ -85,7 +85,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                             PropertyInfo targetProp = targetType.GetProperty(propName);
 
                             targetProp.SetValue(returnObj, propValue, null);
-                        } else {
+                        }
+                        else
+                        {
                             var propValue = prop.GetValue(obj);
                             Type targetType = returnObj.GetType();
                             PropertyInfo targetProp = targetType.GetProperty($"{FirstCharToUpper(className)}Id");
@@ -95,7 +97,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine($"{ex.Message} - Property:{prop.Name} probably not found on Class {returnObj.GetType().Name}");
+                        Console.WriteLine(
+                            $"{ex.Message} - Property:{prop.Name} probably not found on Class {returnObj.GetType().Name}");
                     }
                 }
             }

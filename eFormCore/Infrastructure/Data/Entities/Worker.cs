@@ -27,18 +27,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class Worker : PnBase
+    public class Worker : PnBase
     {
         public int MicrotingUid { get; set; }
 
-        [StringLength(255)]
-        public string FirstName { get; set; }
+        [StringLength(255)] public string FirstName { get; set; }
 
-        [StringLength(255)]
-        public string LastName { get; set; }
+        [StringLength(255)] public string LastName { get; set; }
 
-        [StringLength(255)]
-        public string Email { get; set; }
+        [StringLength(255)] public string Email { get; set; }
 
         public bool IsLocked { get; set; }
 

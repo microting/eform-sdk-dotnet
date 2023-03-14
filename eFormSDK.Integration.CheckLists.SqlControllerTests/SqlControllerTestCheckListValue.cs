@@ -36,9 +36,11 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
                 sut = new SqlController(dbContextHelper);
                 sut.StartLog(new CoreBase());
             }
+
             testHelpers = new TestHelpers(ConnectionString);
             await testHelpers.GenerateDefaultLanguages();
-            await sut.SettingUpdate(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SettingUpdate(Settings.fileLocationPicture,
+                Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SettingUpdate(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SettingUpdate(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
         }
@@ -49,17 +51,21 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
             // Arrance
 
             Random rnd = new Random();
+
             #region Arrance
+
             #region Template1
+
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
-            CheckList cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+            CheckList cl1 =
+                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
 
             #region SubTemplate1
-            CheckList cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
 
+            CheckList cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
 
             #endregion
 
@@ -119,11 +125,13 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
             #endregion
 
             #region site
+
             Site site = await testHelpers.CreateSite("SiteName", 88);
 
             #endregion
 
             #region units
+
             Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
 
             #endregion
@@ -137,7 +145,7 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             Case aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
                 worker, rnd.Next(1, 255), rnd.Next(1, 255),
-               site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
+                site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
 
@@ -170,8 +178,8 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 //            #endregion
 
             #region Check List Values
-            CheckListValue checkListValue = await testHelpers.CreateCheckListValue(aCase, cl2, "checked", null, 865);
 
+            CheckListValue checkListValue = await testHelpers.CreateCheckListValue(aCase, cl2, "checked", null, 865);
 
             #endregion
 
@@ -203,30 +211,37 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 //
 //
 //            #endregion
+
             #endregion
+
             // Act
             var match = await sut.CheckListValueStatusRead(aCase.Id, cl2.Id);
             // Assert
 
             Assert.AreEqual(match, "checked");
-
         }
+
         [Test]
         public async Task SQL_Check_CheckListValueStatusUpdate_UpdatesCheckListValues()
         {
             // Arrance
+
             #region Arrance
+
             Random rnd = new Random();
+
             #region Template1
+
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
-            CheckList cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+            CheckList cl1 =
+                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
             #endregion
 
             #region SubTemplate1
-            CheckList cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
 
+            CheckList cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
 
             #endregion
 
@@ -286,11 +301,13 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
             #endregion
 
             #region site
+
             Site site = await testHelpers.CreateSite("SiteName", 88);
 
             #endregion
 
             #region units
+
             Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
 
             #endregion
@@ -304,7 +321,7 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             Case aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.Now, "custom", DateTime.Now,
                 worker, rnd.Next(1, 255), rnd.Next(1, 255),
-               site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
+                site, 66, "caseType", unit, DateTime.Now, 1, worker, Constants.WorkflowStates.Created);
 
             #endregion
 
@@ -337,8 +354,8 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 //            #endregion
 
             #region Check List Values
-            CheckListValue checkListValue = await testHelpers.CreateCheckListValue(aCase, cl2, "checked", null, 865);
 
+            CheckListValue checkListValue = await testHelpers.CreateCheckListValue(aCase, cl2, "checked", null, 865);
 
             #endregion
 
@@ -370,22 +387,23 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 //
 //
 //            #endregion
+
             #endregion
+
             // Act
 
             await sut.CheckListValueStatusUpdate(aCase.Id, cl2.Id, "not_approved");
 
             // Assert
-            var newValue = await DbContext.CheckListValues.AsNoTracking().FirstOrDefaultAsync(x => x.Id == checkListValue.Id);
+            var newValue = await DbContext.CheckListValues.AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == checkListValue.Id);
 
             Assert.AreEqual(newValue.Status, "not_approved");
-
-
         }
 
 
-
         #region eventhandlers
+
 #pragma warning disable 1998
         public async Task EventCaseCreated(object sender, EventArgs args)
         {
@@ -417,7 +435,7 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
             // Does nothing for web implementation
         }
 #pragma warning restore 1998
+
         #endregion
     }
-
 }

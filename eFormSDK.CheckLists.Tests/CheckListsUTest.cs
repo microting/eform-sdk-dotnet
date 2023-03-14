@@ -65,21 +65,21 @@ namespace eFormSDK.CheckLists.Tests
                 Field10 = rnd.Next(1, 255),
                 Label = Guid.NewGuid().ToString(),
                 Repeated = rnd.Next(1, 255),
-                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 CaseType = Guid.NewGuid().ToString(),
                 DisplayIndex = rnd.Next(1, 255),
-                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
-                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DownloadEntities = (short)rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short)rnd.Next(shortMinValue, shortmaxValue),
                 FolderName = Guid.NewGuid().ToString(),
-                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
-                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ManualSync = (short)rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short)rnd.Next(shortMinValue, shortmaxValue),
                 OriginalId = Guid.NewGuid().ToString(),
-                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ReviewEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 DocxExportEnabled = randomBool,
-                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
-                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DoneButtonEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 JasperExportEnabled = randomBool,
-                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
+                QuickSyncEnabled = (short)rnd.Next(shortMinValue, shortmaxValue)
             };
             await checklistParent.Create(DbContext).ConfigureAwait(false);
 
@@ -99,21 +99,21 @@ namespace eFormSDK.CheckLists.Tests
                 Field10 = rnd.Next(1, 255),
                 Label = Guid.NewGuid().ToString(),
                 Repeated = rnd.Next(1, 255),
-                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 CaseType = Guid.NewGuid().ToString(),
                 DisplayIndex = rnd.Next(1, 255),
-                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
-                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DownloadEntities = (short)rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short)rnd.Next(shortMinValue, shortmaxValue),
                 FolderName = Guid.NewGuid().ToString(),
-                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
-                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ManualSync = (short)rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short)rnd.Next(shortMinValue, shortmaxValue),
                 OriginalId = Guid.NewGuid().ToString(),
-                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ReviewEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 DocxExportEnabled = randomBool,
-                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
-                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DoneButtonEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 JasperExportEnabled = randomBool,
-                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                QuickSyncEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 ParentId = checklistParent.Id
             };
 
@@ -129,8 +129,8 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(checkLists);
             Assert.NotNull(checkListVersion);
 
-            Assert.AreEqual(2,checkLists.Count());
-            Assert.AreEqual(2,checkListVersion.Count());
+            Assert.AreEqual(2, checkLists.Count());
+            Assert.AreEqual(2, checkListVersion.Count());
 
             Assert.AreEqual(checklist.CreatedAt.ToString(), checkLists[1].CreatedAt.ToString());
             Assert.AreEqual(checklist.Version, checkLists[1].Version);
@@ -236,21 +236,21 @@ namespace eFormSDK.CheckLists.Tests
                 Field10 = rnd.Next(1, 255),
                 Label = Guid.NewGuid().ToString(),
                 Repeated = rnd.Next(1, 255),
-                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 CaseType = Guid.NewGuid().ToString(),
                 DisplayIndex = rnd.Next(1, 255),
-                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
-                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DownloadEntities = (short)rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short)rnd.Next(shortMinValue, shortmaxValue),
                 FolderName = Guid.NewGuid().ToString(),
-                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
-                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ManualSync = (short)rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short)rnd.Next(shortMinValue, shortmaxValue),
                 OriginalId = Guid.NewGuid().ToString(),
-                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ReviewEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 DocxExportEnabled = randomBool,
-                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
-                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DoneButtonEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 JasperExportEnabled = randomBool,
-                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
+                QuickSyncEnabled = (short)rnd.Next(shortMinValue, shortmaxValue)
             };
             await checklistParent.Create(DbContext).ConfigureAwait(false);
 
@@ -270,21 +270,21 @@ namespace eFormSDK.CheckLists.Tests
                 Field10 = rnd.Next(1, 255),
                 Label = Guid.NewGuid().ToString(),
                 Repeated = rnd.Next(1, 255),
-                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 CaseType = Guid.NewGuid().ToString(),
                 DisplayIndex = rnd.Next(1, 255),
-                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
-                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DownloadEntities = (short)rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short)rnd.Next(shortMinValue, shortmaxValue),
                 FolderName = Guid.NewGuid().ToString(),
-                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
-                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ManualSync = (short)rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short)rnd.Next(shortMinValue, shortmaxValue),
                 OriginalId = Guid.NewGuid().ToString(),
-                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ReviewEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 DocxExportEnabled = randomBool,
-                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
-                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DoneButtonEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 JasperExportEnabled = randomBool,
-                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                QuickSyncEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 ParentId = checklistParent.Id
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
@@ -340,18 +340,18 @@ namespace eFormSDK.CheckLists.Tests
             checklist.ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue);
             checklist.CaseType = Guid.NewGuid().ToString();
             checklist.DisplayIndex = rnd.Next(1, 255);
-            checklist.DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue);
+            checklist.DownloadEntities = (short)rnd.Next(shortMinValue, shortmaxValue);
+            checklist.FastNavigation = (short)rnd.Next(shortMinValue, shortmaxValue);
             checklist.FolderName = Guid.NewGuid().ToString();
-            checklist.ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue);
+            checklist.ManualSync = (short)rnd.Next(shortMinValue, shortmaxValue);
+            checklist.MultiApproval = (short)rnd.Next(shortMinValue, shortmaxValue);
             checklist.OriginalId = Guid.NewGuid().ToString();
-            checklist.ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
+            checklist.ReviewEnabled = (short)rnd.Next(shortMinValue, shortmaxValue);
             checklist.DocxExportEnabled = randomBool;
-            checklist.DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            checklist.ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
+            checklist.DoneButtonEnabled = (short)rnd.Next(shortMinValue, shortmaxValue);
+            checklist.ExtraFieldsEnabled = (short)rnd.Next(shortMinValue, shortmaxValue);
             checklist.JasperExportEnabled = randomBool;
-            checklist.QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
+            checklist.QuickSyncEnabled = (short)rnd.Next(shortMinValue, shortmaxValue);
 
             await checklist.Update(DbContext).ConfigureAwait(false);
 
@@ -364,8 +364,8 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(checkLists);
             Assert.NotNull(checkListVersion);
 
-            Assert.AreEqual(2,checkLists.Count());
-            Assert.AreEqual(3,checkListVersion.Count());
+            Assert.AreEqual(2, checkLists.Count());
+            Assert.AreEqual(3, checkListVersion.Count());
 
             Assert.AreEqual(checklist.CreatedAt.ToString(), checkLists[1].CreatedAt.ToString());
             Assert.AreEqual(checklist.Version, checkLists[1].Version);
@@ -484,7 +484,7 @@ namespace eFormSDK.CheckLists.Tests
         [Test]
         public async Task CheckLists_Delete_DoesSetWorkflowStateToRemoved()
         {
-             //Arrange
+            //Arrange
 
             Random rnd = new Random();
 
@@ -509,21 +509,21 @@ namespace eFormSDK.CheckLists.Tests
                 Field10 = rnd.Next(1, 255),
                 Label = Guid.NewGuid().ToString(),
                 Repeated = rnd.Next(1, 255),
-                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 CaseType = Guid.NewGuid().ToString(),
                 DisplayIndex = rnd.Next(1, 255),
-                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
-                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DownloadEntities = (short)rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short)rnd.Next(shortMinValue, shortmaxValue),
                 FolderName = Guid.NewGuid().ToString(),
-                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
-                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ManualSync = (short)rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short)rnd.Next(shortMinValue, shortmaxValue),
                 OriginalId = Guid.NewGuid().ToString(),
-                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ReviewEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 DocxExportEnabled = randomBool,
-                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
-                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DoneButtonEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 JasperExportEnabled = randomBool,
-                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
+                QuickSyncEnabled = (short)rnd.Next(shortMinValue, shortmaxValue)
             };
             await checklistParent.Create(DbContext).ConfigureAwait(false);
 
@@ -543,21 +543,21 @@ namespace eFormSDK.CheckLists.Tests
                 Field10 = rnd.Next(1, 255),
                 Label = Guid.NewGuid().ToString(),
                 Repeated = rnd.Next(1, 255),
-                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 CaseType = Guid.NewGuid().ToString(),
                 DisplayIndex = rnd.Next(1, 255),
-                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
-                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DownloadEntities = (short)rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short)rnd.Next(shortMinValue, shortmaxValue),
                 FolderName = Guid.NewGuid().ToString(),
-                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
-                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ManualSync = (short)rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short)rnd.Next(shortMinValue, shortmaxValue),
                 OriginalId = Guid.NewGuid().ToString(),
-                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ReviewEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 DocxExportEnabled = randomBool,
-                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
-                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DoneButtonEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 JasperExportEnabled = randomBool,
-                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                QuickSyncEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 ParentId = checklistParent.Id
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
@@ -578,8 +578,8 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(checkLists);
             Assert.NotNull(checkListVersion);
 
-            Assert.AreEqual(2,checkLists.Count());
-            Assert.AreEqual(3,checkListVersion.Count());
+            Assert.AreEqual(2, checkLists.Count());
+            Assert.AreEqual(3, checkListVersion.Count());
 
             Assert.AreEqual(checklist.CreatedAt.ToString(), checkLists[1].CreatedAt.ToString());
             Assert.AreEqual(checklist.Version, checkLists[1].Version);
@@ -694,6 +694,5 @@ namespace eFormSDK.CheckLists.Tests
             Assert.AreEqual(checklist.JasperExportEnabled, checkListVersion[2].JasperExportEnabled);
             Assert.AreEqual(checklist.QuickSyncEnabled, checkListVersion[2].QuickSyncEnabled);
         }
-
     }
 }

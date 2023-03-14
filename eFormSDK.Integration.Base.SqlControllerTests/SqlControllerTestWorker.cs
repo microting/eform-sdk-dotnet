@@ -37,7 +37,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             sut.StartLog(new CoreBase());
             testHelpers = new TestHelpers(ConnectionString);
             await testHelpers.GenerateDefaultLanguages();
-            await sut.SettingUpdate(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SettingUpdate(Settings.fileLocationPicture,
+                Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SettingUpdate(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SettingUpdate(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
         }
@@ -49,12 +50,15 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
         public async Task SQL_Worker_WorkerGetAll_ReturnsAllWorkers()
         {
             // Arrance
+
             #region Arrance
 
             #region Checklist
+
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
-            CheckList Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+            CheckList Cl1 =
+                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
             #endregion
 
@@ -163,51 +167,61 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region Workers
 
             #region worker1
+
             Worker worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
             #endregion
 
             #region worker2
+
             Worker worker2 = await testHelpers.CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
 
             #endregion
 
             #region worker3
+
             Worker worker3 = await testHelpers.CreateWorker("ac@tak.dk", "Svend", "Jensen", 22);
 
             #endregion
 
             #region worker4
+
             Worker worker4 = await testHelpers.CreateWorker("ad@tak.dk", "Bjarne", "Nielsen", 23);
 
             #endregion
 
             #region worker5
+
             Worker worker5 = await testHelpers.CreateWorker("ae@tak.dk", "Ib", "Hansen", 24);
 
             #endregion
 
             #region worker6
+
             Worker worker6 = await testHelpers.CreateWorker("af@tak.dk", "Hozan", "Aziz", 25);
 
             #endregion
 
             #region worker7
+
             Worker worker7 = await testHelpers.CreateWorker("ag@tak.dk", "Nicolai", "Peders", 26);
 
             #endregion
 
             #region worker8
+
             Worker worker8 = await testHelpers.CreateWorker("ah@tak.dk", "Amin", "Safari", 27);
 
             #endregion
 
             #region worker9
+
             Worker worker9 = await testHelpers.CreateWorker("ai@tak.dk", "Leo", "Rebaz", 28);
 
             #endregion
 
             #region worker10
+
             Worker worker10 = await testHelpers.CreateWorker("aj@tak.dk", "Stig", "Berthelsen", 29);
 
             #endregion
@@ -217,6 +231,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region sites
 
             #region Site1
+
             Site site1 = await testHelpers.CreateSite("SiteName1", 88);
 
             #endregion
@@ -279,6 +294,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //            #endregion
 
             #endregion
+
             // Act
 
             var getAllCreatedWorkers = await sut.WorkerGetAll(Constants.WorkflowStates.Created, 0, 1);
@@ -313,6 +329,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Assert.AreEqual(worker9.LastName, getAllCreatedWorkers[8].LastName);
             Assert.AreEqual(worker10.LastName, getAllCreatedWorkers[9].LastName);
         }
+
         [Test]
         public async Task SQL_Worker_WorkerCreate_ReturnsWorkerId()
         {
@@ -328,16 +345,20 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Assert.AreEqual(1, workers.Count());
             Assert.AreEqual(Constants.WorkflowStates.Created, workers[0].WorkflowState);
         }
+
         [Test]
         public async Task SQL_Worker_WorkerNameRead_ReadsName()
         {
             // Arrance
+
             #region Arrance
 
             #region Checklist
+
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
-            CheckList Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+            CheckList Cl1 =
+                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
             #endregion
 
@@ -446,6 +467,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region Workers
 
             #region worker1
+
             Worker worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
             #endregion
@@ -500,6 +522,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region sites
 
             #region Site1
+
             Site site1 = await testHelpers.CreateSite("SiteName1", 88);
 
             #endregion
@@ -562,6 +585,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //            #endregion
 
             #endregion
+
             // Act
 
             var match = await sut.WorkerNameRead(worker1.Id);
@@ -569,19 +593,21 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Assert
 
             Assert.AreEqual(worker1.FirstName + " " + worker1.LastName, match);
-
-
         }
+
         [Test]
         public async Task SQL_Worker_WorkerRead_ReadsWorker()
         {
             // Arrance
+
             #region Arrance
 
             #region Checklist
+
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
-            CheckList Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+            CheckList Cl1 =
+                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
             #endregion
 
@@ -690,6 +716,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region Workers
 
             #region worker1
+
             Worker worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
             #endregion
@@ -744,6 +771,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region sites
 
             #region Site1
+
             Site site1 = await testHelpers.CreateSite("SiteName1", 88);
 
             #endregion
@@ -806,6 +834,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //            #endregion
 
             #endregion
+
             // Act
 
             var match = await sut.WorkerRead(worker1.MicrotingUid);
@@ -814,20 +843,21 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             Assert.AreEqual(worker1.MicrotingUid, match.WorkerUId);
             Assert.AreEqual(worker1.FirstName, match.FirstName);
-
-
-
         }
+
         [Test]
         public async Task SQL_Worker_WorkerUpdate_UpdatesWorker()
         {
             // Arrance
+
             #region Arrance
 
             #region Checklist
+
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
-            CheckList Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+            CheckList Cl1 =
+                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
             #endregion
 
@@ -936,6 +966,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region Workers
 
             #region worker1
+
             Worker worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
             #endregion
@@ -990,6 +1021,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region sites
 
             #region Site1
+
             Site site1 = await testHelpers.CreateSite("SiteName1", 88);
 
             #endregion
@@ -1052,25 +1084,31 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //            #endregion
 
             #endregion
+
             // Act
 
-            var match = await sut.WorkerUpdate(worker1.MicrotingUid, worker1.FirstName, worker1.LastName, worker1.Email);
+            var match = await sut.WorkerUpdate(worker1.MicrotingUid, worker1.FirstName, worker1.LastName,
+                worker1.Email);
 
 
             // Assert
 
             Assert.True(match);
         }
+
         [Test]
         public async Task SQL_Worker_WorkerDelete_DeletesWorker()
         {
             // Arrance
+
             #region Arrance
 
             #region Checklist
+
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
-            CheckList Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+            CheckList Cl1 =
+                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
             #endregion
 
@@ -1179,6 +1217,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region Workers
 
             #region worker1
+
             Worker worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
             #endregion
@@ -1233,6 +1272,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region sites
 
             #region Site1
+
             Site site1 = await testHelpers.CreateSite("SiteName1", 88);
 
             #endregion
@@ -1295,6 +1335,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //            #endregion
 
             #endregion
+
             // Act
 
             var match = await sut.WorkerDelete(worker1.MicrotingUid);
@@ -1302,12 +1343,13 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Assert
 
             Assert.True(match);
-
         }
+
         #endregion
 
 
         #region eventhandlers
+
 #pragma warning disable 1998
         public async Task EventCaseCreated(object sender, EventArgs args)
         {
@@ -1339,7 +1381,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Does nothing for web implementation
         }
 #pragma warning restore 1998
+
         #endregion
     }
-
 }

@@ -55,6 +55,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
             await sql.SettingUpdate(Settings.firstRunDone, "true");
             await sql.SettingUpdate(Settings.knownSitesDone, "true");
+
             #endregion
 
             sut = new SqlController(dbContextHelper);
@@ -67,6 +68,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
         }
 
         #region uploaded_data
+
         [Test]
         public async Task SQL_UploadedData_FileRead_DoesReturnOneUploadedData()
         {
@@ -112,7 +114,6 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Assert.AreEqual(dU.FileLocation, ud.FileLocation);
             Assert.AreEqual(dU.FileName, ud.FileName);
             // Assert.AreEqual(dU.local, ud.);
-
         }
 
         [Test]
@@ -162,7 +163,6 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Assert.AreEqual(ud.FileName, dU.FileName);
             Assert.AreEqual(ud.CurrentFile, dU.CurrentFile);
             Assert.AreEqual(ud.Checksum, dU.Checksum);
-
         }
 
 
@@ -200,10 +200,6 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Assert.AreEqual(Ud.FileName, ud.FileName);
             Assert.AreEqual(Ud.Id, ud.Id);
             Assert.AreEqual(Constants.WorkflowStates.PreCreated, ud.WorkflowState);
-
-
-
-
         }
 
         [Test]
@@ -213,7 +209,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Site site1 = await testHelpers.CreateSite("MySite", 22);
             DateTime cl1_Ca = DateTime.UtcNow;
             DateTime cl1_Ua = DateTime.UtcNow;
-            CheckList cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template1", "template_desc", "", "", 1, 1);
+            CheckList cl1 =
+                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template1", "template_desc", "", "", 1, 1);
 
             string guid = Guid.NewGuid().ToString();
 
@@ -226,7 +223,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             Case aCase1 = await testHelpers.CreateCase("case1UId", cl1, c1_ca, "custom1",
                 c1_da, worker, rnd.Next(1, 255), rnd.Next(1, 255),
-               site1, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
+                site1, 1, "caseType1", unit, c1_ua, 1, worker, Constants.WorkflowStates.Created);
 
             UploadedData ud = new UploadedData
             {
@@ -258,7 +255,6 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             Assert.NotNull(fVs);
             Assert.AreEqual(fVs.CaseId, aCase1.Id);
-
         }
 
         [Test]
@@ -288,7 +284,6 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Assert.AreEqual("myFileLocation", uploadedDataResult[0].FileLocation);
             Assert.AreEqual("myFileName", uploadedDataResult[0].FileName);
             Assert.AreEqual(ud.Id, uploadedDataResult[0].Id);
-
         }
 
         [Test]
@@ -307,13 +302,12 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Assert.NotNull(ud);
             Assert.NotNull(uploadedDataResult);
             Assert.AreEqual(ud.Id, uploadedDataResult[0].Id);
-
         }
 
         [Test]
         public async Task SQL_File_DeleteFile_doesFileGetDeleted()
         {
-            UploadedData ud = new UploadedData {WorkflowState = Constants.WorkflowStates.Created, Version = 1};
+            UploadedData ud = new UploadedData { WorkflowState = Constants.WorkflowStates.Created, Version = 1 };
 
             DbContext.UploadedDatas.Add(ud);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -333,6 +327,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
         #endregion
 
         #region eventhandlers
+
 #pragma warning disable 1998
         public async Task EventCaseCreated(object sender, EventArgs args)
         {
@@ -364,7 +359,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Does nothing for web implementation
         }
 #pragma warning restore 1998
+
         #endregion
     }
-
 }

@@ -31,7 +31,7 @@ using Microting.eForm.Infrastructure.Extensions;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class EntityGroup : PnBase
+    public class EntityGroup : PnBase
     {
         public string MicrotingUid { get; set; }
 
@@ -45,7 +45,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         [StringLength(50)] public string Type { get; set; }
 
-        public static async Task<Models.EntityGroup> ReadSorted(MicrotingDbContext dbContext, string entityGroupMUId, string sort,
+        public static async Task<Models.EntityGroup> ReadSorted(MicrotingDbContext dbContext, string entityGroupMUId,
+            string sort,
             string nameFilter)
         {
             EntityGroup eG =
@@ -75,19 +76,19 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             if (string.IsNullOrEmpty(nameFilter))
             {
                 eILst = dbContext.EntityItems.Where(x => x.EntityGroupId == eG.Id
-                                                          && x.WorkflowState !=
-                                                          Constants.Constants.WorkflowStates.Removed
-                                                          && x.WorkflowState != Constants.Constants.WorkflowStates
-                                                              .FailedToSync).CustomOrderBy(sort).ToList();
+                                                         && x.WorkflowState !=
+                                                         Constants.Constants.WorkflowStates.Removed
+                                                         && x.WorkflowState != Constants.Constants.WorkflowStates
+                                                             .FailedToSync).CustomOrderBy(sort).ToList();
             }
             else
             {
                 eILst = dbContext.EntityItems.Where(x => x.EntityGroupId == eG.Id
-                                                          && x.WorkflowState !=
-                                                          Constants.Constants.WorkflowStates.Removed
-                                                          && x.WorkflowState != Constants.Constants.WorkflowStates
-                                                              .FailedToSync
-                                                          && x.Name.Contains(nameFilter)).CustomOrderBy(sort).ToList();
+                                                         && x.WorkflowState !=
+                                                         Constants.Constants.WorkflowStates.Removed
+                                                         && x.WorkflowState != Constants.Constants.WorkflowStates
+                                                             .FailedToSync
+                                                         && x.Name.Contains(nameFilter)).CustomOrderBy(sort).ToList();
             }
 
             if (eILst.Count > 0)

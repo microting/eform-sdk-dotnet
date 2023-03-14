@@ -43,15 +43,13 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public int? CheckListId { get; set; }
 
-        [StringLength(255)]
-        public string Type { get; set; }
+        [StringLength(255)] public string Type { get; set; }
 
         public int? MicrotingUid { get; set; }
 
         public int? MicrotingCheckUid { get; set; }
 
-        [StringLength(255)]
-        public string CaseUid { get; set; }
+        [StringLength(255)] public string CaseUid { get; set; }
 
         public string Custom { get; set; }
 

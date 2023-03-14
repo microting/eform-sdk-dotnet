@@ -27,19 +27,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class Tag : PnBase
+    public class Tag : PnBase
     {
         public Tag()
         {
             Taggings = new HashSet<Tagging>();
         }
 
-        [StringLength(255)]
-        public string Name { get; set; }
+        [StringLength(255)] public string Name { get; set; }
 
         public int? TaggingsCount { get; set; }
 
         public virtual ICollection<Tagging> Taggings { get; set; }
-
     }
 }

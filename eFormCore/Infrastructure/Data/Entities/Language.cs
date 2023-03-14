@@ -27,7 +27,7 @@ using System.Threading.Tasks;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class Language : PnBase
+    public class Language : PnBase
     {
         public string Name { get; set; }
 
@@ -47,6 +47,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 };
                 await language.Create(dbContext);
             }
+
             if (dbContext.Languages.FirstOrDefault(x => x.Name == "English") == null)
             {
                 Language language = new Language
@@ -57,6 +58,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 };
                 await language.Create(dbContext);
             }
+
             if (dbContext.Languages.FirstOrDefault(x => x.Name == "German") == null)
             {
                 Language language = new Language
@@ -67,6 +69,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 };
                 await language.Create(dbContext);
             }
+
             if (dbContext.Languages.FirstOrDefault(x => x.Name == "Ukrainian") == null)
             {
                 Language language = new Language
@@ -77,6 +80,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 };
                 await language.Create(dbContext);
             }
+
             if (dbContext.Languages.FirstOrDefault(x => x.Name == "Polish") == null)
             {
                 Language language = new Language
@@ -87,6 +91,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 };
                 await language.Create(dbContext);
             }
+
             if (dbContext.Languages.FirstOrDefault(x => x.Name == "Norwegian") == null)
             {
                 Language language = new Language
@@ -97,6 +102,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 };
                 await language.Create(dbContext);
             }
+
             if (dbContext.Languages.FirstOrDefault(x => x.Name == "Swedish") == null)
             {
                 Language language = new Language
@@ -107,6 +113,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 };
                 await language.Create(dbContext);
             }
+
             if (dbContext.Languages.FirstOrDefault(x => x.Name == "Spanish") == null)
             {
                 Language language = new Language
@@ -117,6 +124,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 };
                 await language.Create(dbContext);
             }
+
             if (dbContext.Languages.FirstOrDefault(x => x.Name == "French") == null)
             {
                 Language language = new Language
@@ -127,6 +135,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 };
                 await language.Create(dbContext);
             }
+
             if (dbContext.Languages.FirstOrDefault(x => x.Name == "Italian") == null)
             {
                 Language language = new Language
@@ -137,6 +146,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 };
                 await language.Create(dbContext);
             }
+
             if (dbContext.Languages.FirstOrDefault(x => x.Name == "Dutch") == null)
             {
                 Language language = new Language
@@ -147,6 +157,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 };
                 await language.Create(dbContext);
             }
+
             if (dbContext.Languages.FirstOrDefault(x => x.Name == "Brazilian Portuguese") == null)
             {
                 Language language = new Language
@@ -157,6 +168,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 };
                 await language.Create(dbContext);
             }
+
             if (dbContext.Languages.FirstOrDefault(x => x.Name == "Portuguese") == null)
             {
                 Language language = new Language
@@ -167,6 +179,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 };
                 await language.Create(dbContext);
             }
+
             if (dbContext.Languages.FirstOrDefault(x => x.Name == "Finish") == null)
             {
                 Language language = new Language

@@ -26,7 +26,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class LanguageVersion : BaseEntity
+    public class LanguageVersion : BaseEntity
     {
         public string Name { get; set; }
 
@@ -34,8 +34,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public bool IsActive { get; set; } = true;
 
-        [ForeignKey("Language")]
-        public int LanguageId { get; set; }
+        [ForeignKey("Language")] public int LanguageId { get; set; }
 
         public virtual Language Language { get; set; }
     }

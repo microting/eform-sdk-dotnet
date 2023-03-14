@@ -57,17 +57,21 @@ namespace Microting.eForm.Handlers
             _core = core;
         }
 
-        #pragma warning disable 1998
+#pragma warning disable 1998
         public async Task Handle(EformCompleted message)
         {
             try
             {
                 await CheckStatusByMicrotingUid(message.MicrotringUUID);
-                await _sqlController.NotificationUpdate(message.NotificationUId, message.MicrotringUUID, Constants.WorkflowStates.Processed, "", "");
-            } catch (Exception ex)
+                await _sqlController.NotificationUpdate(message.NotificationUId, message.MicrotringUUID,
+                    Constants.WorkflowStates.Processed, "", "");
+            }
+            catch (Exception ex)
             {
-                await _sqlController.NotificationUpdate(message.NotificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace);
-                NoteDto noteDto = new NoteDto(message.NotificationUId, message.MicrotringUUID, Constants.WorkflowStates.NotFound);
+                await _sqlController.NotificationUpdate(message.NotificationUId, message.MicrotringUUID,
+                    Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace);
+                NoteDto noteDto = new NoteDto(message.NotificationUId, message.MicrotringUUID,
+                    Constants.WorkflowStates.NotFound);
                 await _core.FireHandleNotificationNotFound(noteDto);
             }
         }
@@ -91,8 +95,11 @@ namespace Microting.eForm.Handlers
             {
                 if (aCase.SiteUId == concreteCase.SiteUId)
                 {
-                    int? checkIdLastKnown = await _sqlController.CaseReadLastCheckIdByMicrotingUId(microtingUid); //null if NOT a checkListSite
-                    _log.LogVariable(_t.GetMethodName("EformCompletedHandler"), nameof(checkIdLastKnown), checkIdLastKnown);
+                    int? checkIdLastKnown =
+                        await _sqlController
+                            .CaseReadLastCheckIdByMicrotingUId(microtingUid); //null if NOT a checkListSite
+                    _log.LogVariable(_t.GetMethodName("EformCompletedHandler"), nameof(checkIdLastKnown),
+                        checkIdLastKnown);
 
                     string respXml;
                     if (checkIdLastKnown == null)
@@ -104,30 +111,36 @@ namespace Microting.eForm.Handlers
 
                         if (resp.Type == Response.ResponseTypes.Success)
                         {
-                            _log.LogEverything(_t.GetMethodName("EformCompletedHandler"), "resp.Type == Response.ResponseTypes.Success (true)");
+                            _log.LogEverything(_t.GetMethodName("EformCompletedHandler"),
+                                "resp.Type == Response.ResponseTypes.Success (true)");
                             if (resp.Checks.Count > 0)
                             {
-                                await SaveResult(resp, respXml, dbContext, microtingUid, null, aCase).ConfigureAwait(false);
+                                await SaveResult(resp, respXml, dbContext, microtingUid, null, aCase)
+                                    .ConfigureAwait(false);
                                 noResults = false;
                             }
                         }
                         else
                         {
-                            _log.LogEverything(_t.GetMethodName("EformCompletedHandler"), "resp.Type == Response.ResponseTypes.Success (false)");
-                            throw new Exception("Failed to retrive eForm " + microtingUid + " from site " + aCase.SiteUId);
+                            _log.LogEverything(_t.GetMethodName("EformCompletedHandler"),
+                                "resp.Type == Response.ResponseTypes.Success (false)");
+                            throw new Exception("Failed to retrive eForm " + microtingUid + " from site " +
+                                                aCase.SiteUId);
                         }
                     }
                     else
                     {
                         respXml = "";
                         Response resp = null;
-                        while (FetchData(microtingUid.ToString(), concreteCase, checkIdLastKnown.ToString(), ref respXml, ref resp))
+                        while (FetchData(microtingUid.ToString(), concreteCase, checkIdLastKnown.ToString(),
+                                   ref respXml, ref resp))
                         {
-                            checkIdLastKnown = await SaveResult(resp, respXml, dbContext, microtingUid, checkIdLastKnown, aCase).ConfigureAwait(false);
+                            checkIdLastKnown =
+                                await SaveResult(resp, respXml, dbContext, microtingUid, checkIdLastKnown, aCase)
+                                    .ConfigureAwait(false);
                             noResults = false;
                         }
                     }
-
                 }
             }
 
@@ -141,19 +154,23 @@ namespace Microting.eForm.Handlers
             return true;
         }
 
-        private bool FetchData(string microtingUid, CaseDto concreteCase, string checkIdLastKnown, ref string respXml, ref Response resp)
+        private bool FetchData(string microtingUid, CaseDto concreteCase, string checkIdLastKnown, ref string respXml,
+            ref Response resp)
         {
-            respXml = _communicator.RetrieveFromId(microtingUid, concreteCase.SiteUId, checkIdLastKnown).GetAwaiter().GetResult();
+            respXml = _communicator.RetrieveFromId(microtingUid, concreteCase.SiteUId, checkIdLastKnown).GetAwaiter()
+                .GetResult();
             resp = new Response();
 
-            respXml = respXml.Replace("<Response>", "<Response xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">");
+            respXml = respXml.Replace("<Response>",
+                "<Response xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">");
             respXml = respXml.Replace("<DataItem type=\"comment\"", "<DataItem xsi:type=\"Comment\"");
             respXml = respXml.Replace("<DataItem type=\"picture\"", "<DataItem xsi:type=\"Picture\"");
             respXml = respXml.Replace("<DataItem type=\"audio\"", "<DataItem xsi:type=\"Audio\"");
             resp = resp.XmlToClassUsingXmlDocument(respXml);
             if (resp.Type == Response.ResponseTypes.Success)
             {
-                _log.LogEverything(_t.GetMethodName("EformCompletedHandler"), "resp.Type == Response.ResponseTypes.Success (true)");
+                _log.LogEverything(_t.GetMethodName("EformCompletedHandler"),
+                    "resp.Type == Response.ResponseTypes.Success (true)");
                 if (resp.Checks.Count > 0)
                 {
                     return true;
@@ -163,7 +180,8 @@ namespace Microting.eForm.Handlers
             return false;
         }
 
-        private async Task<int> SaveResult(Response resp, string respXml, MicrotingDbContext dbContext, int microtingUid, int? checkIdLastKnown, CaseDto aCase)
+        private async Task<int> SaveResult(Response resp, string respXml, MicrotingDbContext dbContext,
+            int microtingUid, int? checkIdLastKnown, CaseDto aCase)
         {
             XmlDocument xDoc = new XmlDocument();
 
@@ -175,7 +193,6 @@ namespace Microting.eForm.Handlers
                 int i = 0;
                 foreach (Check check in resp.Checks)
                 {
-
                     var unit = await dbContext.Units.FirstAsync(x => x.MicrotingUid == int.Parse(check.UnitId));
                     unit.Manufacturer = check.Manufacturer;
                     unit.Model = check.Model;
@@ -186,11 +203,13 @@ namespace Microting.eForm.Handlers
                     int? unitUId = unit.MicrotingUid; //sqlController.UnitRead(int.Parse(check.UnitId)).Result.UnitUId;
                     _log.LogVariable(_t.GetMethodName("EformCompletedHandler"), nameof(unitUId), unitUId);
                     int? workerUId = dbContext.Workers
-                        .Single(x => x.MicrotingUid == int.Parse(check.WorkerId)).MicrotingUid; //sqlController.WorkerRead(int.Parse(check.WorkerId)).Result.WorkerUId;
+                        .Single(x => x.MicrotingUid == int.Parse(check.WorkerId))
+                        .MicrotingUid; //sqlController.WorkerRead(int.Parse(check.WorkerId)).Result.WorkerUId;
                     _log.LogVariable(_t.GetMethodName("EformCompletedHandler"), nameof(workerUId), workerUId);
                     Console.WriteLine($"{DateTime.Now} ChecksCreate start");
 
-                    List<int> uploadedDataIds = await _sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml, i);
+                    List<int> uploadedDataIds =
+                        await _sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml, i);
                     Console.WriteLine($"{DateTime.Now} ChecksCreate end");
 
                     Console.WriteLine($"{DateTime.Now} uploadedDataIds");
@@ -199,18 +218,24 @@ namespace Microting.eForm.Handlers
                         if (await _core.DownloadUploadedData(uploadedDataid))
                         {
                             await _core.TranscribeUploadedData(uploadedDataid);
-                        } else
+                        }
+                        else
                         {
-                            _log.LogEverything(_t.GetMethodName("Core"), "downloadUploadedData failed for uploadedDataid :" + uploadedDataid);
+                            _log.LogEverything(_t.GetMethodName("Core"),
+                                "downloadUploadedData failed for uploadedDataid :" + uploadedDataid);
                         }
                     }
+
                     CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
                     DateTime dateTime = DateTime.ParseExact(check.Date, "yyyy-MM-dd HH:mm:ss", culture);
                     _log.LogEverything(_t.GetMethodName("EformCompletedHandler"), $"XML date is {check.Date}");
-                    _log.LogEverything(_t.GetMethodName("EformCompletedHandler"), $"Parsed date is {dateTime.ToString(CultureInfo.InvariantCulture)}");
+                    _log.LogEverything(_t.GetMethodName("EformCompletedHandler"),
+                        $"Parsed date is {dateTime.ToString(CultureInfo.InvariantCulture)}");
 
-                    await _sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, dateTime, (int)workerUId, (int)unitUId);
-                    _log.LogEverything(_t.GetMethodName("EformCompletedHandler"), "sqlController.CaseUpdateCompleted(...)");
+                    await _sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, dateTime, (int)workerUId,
+                        (int)unitUId);
+                    _log.LogEverything(_t.GetMethodName("EformCompletedHandler"),
+                        "sqlController.CaseUpdateCompleted(...)");
 
                     // IF needed retract case, thereby completing the process
 
@@ -221,10 +246,13 @@ namespace Microting.eForm.Handlers
 
                         if (respXml.Contains("<Value type=\"success\">"))
                         {
-                            _log.LogEverything(_t.GetMethodName("EformCompletedHandler"), aCase + " has been retracted");
+                            _log.LogEverything(_t.GetMethodName("EformCompletedHandler"),
+                                aCase + " has been retracted");
                         }
                         else
-                            _log.LogWarning(_t.GetMethodName("EformCompletedHandler"), "Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" + aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
+                            _log.LogWarning(_t.GetMethodName("EformCompletedHandler"),
+                                "Failed to retract eForm MicrotingUId:" + aCase.MicrotingUId + "/SideId:" +
+                                aCase.SiteUId + ". Not a critical issue, but needs to be fixed if repeated");
                     }
 
                     await _sqlController.CaseRetract(microtingUid, (int)check.Id);

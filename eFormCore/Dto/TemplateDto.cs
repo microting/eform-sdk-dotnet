@@ -28,15 +28,18 @@ using System.Collections.Generic;
 namespace Microting.eForm.Dto
 {
     #region Template_Dto
+
     public class Template_Dto
     {
         #region con
+
         public Template_Dto()
         {
-
         }
 
-        public Template_Dto(int id, DateTime? createdAt, DateTime? updatedAt, string label, string description, int repeated, string folderName, string workflowState, List<SiteNameDto> deployedSites, bool hasCases, int? displayIndex, List<KeyValuePair<int, string>> tags)
+        public Template_Dto(int id, DateTime? createdAt, DateTime? updatedAt, string label, string description,
+            int repeated, string folderName, string workflowState, List<SiteNameDto> deployedSites, bool hasCases,
+            int? displayIndex, List<KeyValuePair<int, string>> tags)
         {
             Id = id;
             Label = label;
@@ -103,9 +106,11 @@ namespace Microting.eForm.Dto
             DocxExportEnabled = docxExportEnabled;
             ExcelExportEnabled = excelExportEnabled;
         }
+
         #endregion
 
         #region var
+
         /// <summary>
         /// Id
         /// </summary>
@@ -246,5 +251,6 @@ namespace Microting.eForm.Dto
 
         #endregion
     }
+
     #endregion
 }

@@ -34,10 +34,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
         [Test]
         public async Task CanPeep()
         {
-            await Task.Run(() =>
-            {
-                Assert.True(true);
-            });
+            await Task.Run(() => { Assert.True(true); });
         }
     }
 }

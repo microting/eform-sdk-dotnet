@@ -28,25 +28,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class SettingVersion
+    public class SettingVersion
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string Name { get; set; }
+        [Required] [StringLength(50)] public string Name { get; set; }
 
         public string Value { get; set; }
-        
+
         public string ChangedByName { get; set; }
 
         public DateTime? CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
-        
+
         public int Version { get; set; }
-        
+
         public int SettingId { get; set; }
     }
 }

@@ -65,13 +65,14 @@ namespace eFormSDK.InSight.Tests
             await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
 
             List<SurveyConfiguration> surveyConfigurations = DbContext.SurveyConfigurations.AsNoTracking().ToList();
-            List<SurveyConfigurationVersion> surveyConfigurationVersions = DbContext.SurveyConfigurationVersions.AsNoTracking().ToList();
+            List<SurveyConfigurationVersion> surveyConfigurationVersions =
+                DbContext.SurveyConfigurationVersions.AsNoTracking().ToList();
 
             Assert.NotNull(surveyConfigurations);
             Assert.NotNull(surveyConfigurationVersions);
 
-            Assert.AreEqual(1,surveyConfigurations.Count());
-            Assert.AreEqual(1,surveyConfigurationVersions.Count());
+            Assert.AreEqual(1, surveyConfigurations.Count());
+            Assert.AreEqual(1, surveyConfigurationVersions.Count());
 
             Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurations[0].CreatedAt.ToString());
             Assert.AreEqual(surveyConfiguration.Version, surveyConfigurations[0].Version);
@@ -86,7 +87,8 @@ namespace eFormSDK.InSight.Tests
 
             //Versions
 
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurationVersions[0].CreatedAt.ToString());
+            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(),
+                surveyConfigurationVersions[0].CreatedAt.ToString());
             Assert.AreEqual(1, surveyConfigurationVersions[0].Version);
 //            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurationVersions[0].UpdatedAt.ToString());
             Assert.AreEqual(surveyConfigurationVersions[0].WorkflowState, Constants.WorkflowStates.Created);
@@ -140,13 +142,14 @@ namespace eFormSDK.InSight.Tests
             await surveyConfiguration.Update(DbContext).ConfigureAwait(false);
 
             List<SurveyConfiguration> surveyConfigurations = DbContext.SurveyConfigurations.AsNoTracking().ToList();
-            List<SurveyConfigurationVersion> surveyConfigurationVersions = DbContext.SurveyConfigurationVersions.AsNoTracking().ToList();
+            List<SurveyConfigurationVersion> surveyConfigurationVersions =
+                DbContext.SurveyConfigurationVersions.AsNoTracking().ToList();
 
             Assert.NotNull(surveyConfigurations);
             Assert.NotNull(surveyConfigurationVersions);
 
-            Assert.AreEqual(1,surveyConfigurations.Count());
-            Assert.AreEqual(2,surveyConfigurationVersions.Count());
+            Assert.AreEqual(1, surveyConfigurations.Count());
+            Assert.AreEqual(2, surveyConfigurationVersions.Count());
 
             Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurations[0].CreatedAt.ToString());
             Assert.AreEqual(surveyConfiguration.Version, surveyConfigurations[0].Version);
@@ -161,7 +164,8 @@ namespace eFormSDK.InSight.Tests
 
             //Old Version
 
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurationVersions[0].CreatedAt.ToString());
+            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(),
+                surveyConfigurationVersions[0].CreatedAt.ToString());
             Assert.AreEqual(1, surveyConfigurationVersions[0].Version);
 //            Assert.AreEqual(oldUpdatedAt.ToString(), surveyConfigurationVersions[0].UpdatedAt.ToString());
             Assert.AreEqual(surveyConfigurationVersions[0].WorkflowState, Constants.WorkflowStates.Created);
@@ -174,7 +178,8 @@ namespace eFormSDK.InSight.Tests
 
             //New Version
 
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurationVersions[1].CreatedAt.ToString());
+            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(),
+                surveyConfigurationVersions[1].CreatedAt.ToString());
             Assert.AreEqual(2, surveyConfigurationVersions[1].Version);
 //            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurationVersions[1].UpdatedAt.ToString());
             Assert.AreEqual(surveyConfigurationVersions[1].WorkflowState, Constants.WorkflowStates.Created);
@@ -218,13 +223,14 @@ namespace eFormSDK.InSight.Tests
             await surveyConfiguration.Delete(DbContext);
 
             List<SurveyConfiguration> surveyConfigurations = DbContext.SurveyConfigurations.AsNoTracking().ToList();
-            List<SurveyConfigurationVersion> surveyConfigurationVersions = DbContext.SurveyConfigurationVersions.AsNoTracking().ToList();
+            List<SurveyConfigurationVersion> surveyConfigurationVersions =
+                DbContext.SurveyConfigurationVersions.AsNoTracking().ToList();
 
             Assert.NotNull(surveyConfigurations);
             Assert.NotNull(surveyConfigurationVersions);
 
-            Assert.AreEqual(1,surveyConfigurations.Count());
-            Assert.AreEqual(2,surveyConfigurationVersions.Count());
+            Assert.AreEqual(1, surveyConfigurations.Count());
+            Assert.AreEqual(2, surveyConfigurationVersions.Count());
 
             Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurations[0].CreatedAt.ToString());
             Assert.AreEqual(surveyConfiguration.Version, surveyConfigurations[0].Version);
@@ -239,7 +245,8 @@ namespace eFormSDK.InSight.Tests
 
             //Old Version
 
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurationVersions[0].CreatedAt.ToString());
+            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(),
+                surveyConfigurationVersions[0].CreatedAt.ToString());
             Assert.AreEqual(1, surveyConfigurationVersions[0].Version);
 //            Assert.AreEqual(oldUpdatedAt.ToString(), surveyConfigurationVersions[0].UpdatedAt.ToString());
             Assert.AreEqual(surveyConfigurationVersions[0].WorkflowState, Constants.WorkflowStates.Created);
@@ -252,7 +259,8 @@ namespace eFormSDK.InSight.Tests
 
             //New Version
 
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurationVersions[1].CreatedAt.ToString());
+            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(),
+                surveyConfigurationVersions[1].CreatedAt.ToString());
             Assert.AreEqual(2, surveyConfigurationVersions[1].Version);
 //            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurationVersions[1].UpdatedAt.ToString());
             Assert.AreEqual(surveyConfigurationVersions[1].WorkflowState, Constants.WorkflowStates.Removed);

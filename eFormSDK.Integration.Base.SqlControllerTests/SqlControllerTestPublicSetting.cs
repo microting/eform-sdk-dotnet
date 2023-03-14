@@ -53,6 +53,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
             await sql.SettingUpdate(Settings.firstRunDone, "true");
             await sql.SettingUpdate(Settings.knownSitesDone, "true");
+
             #endregion
 
             sut = new SqlController(dbContextHelper);
@@ -77,7 +78,6 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Assert
 
             Assert.True(match);
-
         }
 
 
@@ -123,7 +123,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Assert.True(match15);
             Assert.True(match16);
             Assert.True(match17);
-            
+
             var matchb1 = await sut.SettingRead(Settings.awsAccessKeyId);
             var matchb2 = await sut.SettingRead(Settings.awsEndPoint);
             var matchb3 = await sut.SettingRead(Settings.awsSecretAccessKey);
@@ -161,8 +161,6 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Assert.AreEqual(matchb15, "25000");
             Assert.AreEqual(matchb16, "abc1234567890abc1234567890abcdef");
             Assert.AreEqual(matchb17, "55");
-
-
         }
 
 
@@ -302,10 +300,12 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
         //     #endregion
         //
         // }
+
         #endregion
 
 
         #region eventhandlers
+
 #pragma warning disable 1998
         public async Task EventCaseCreated(object sender, EventArgs args)
         {
@@ -337,7 +337,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Does nothing for web implementation
         }
 #pragma warning restore 1998
+
         #endregion
     }
-
 }

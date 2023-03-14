@@ -24,7 +24,7 @@ SOFTWARE.
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class UnitVersion : BaseEntity
+    public class UnitVersion : BaseEntity
     {
         public int? MicrotingUid { get; set; }
 

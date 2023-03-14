@@ -4,11 +4,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public class FieldOptionTranslation : PnBase
     {
-        [ForeignKey("FieldOption")]
-        public int FieldOptionId { get; set; }
+        [ForeignKey("FieldOption")] public int FieldOptionId { get; set; }
 
-        [ForeignKey("Language")]
-        public int LanguageId { get; set; }
+        [ForeignKey("Language")] public int LanguageId { get; set; }
 
         public string Text { get; set; }
 

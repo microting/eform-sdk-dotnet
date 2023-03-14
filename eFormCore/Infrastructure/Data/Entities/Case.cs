@@ -37,27 +37,21 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public DateTime? DoneAt { get; set; }
 
-        [ForeignKey("Site")]
-        public int? SiteId { get; set; }
+        [ForeignKey("Site")] public int? SiteId { get; set; }
 
-        [ForeignKey("Unit")]
-        public int? UnitId { get; set; }
+        [ForeignKey("Unit")] public int? UnitId { get; set; }
 
-        [ForeignKey("Worker")]
-        public int? WorkerId { get; set; }
+        [ForeignKey("Worker")] public int? WorkerId { get; set; }
 
-        [ForeignKey("CheckList")]
-        public int? CheckListId { get; set; }
+        [ForeignKey("CheckList")] public int? CheckListId { get; set; }
 
-        [StringLength(255)]
-        public string Type { get; set; }
+        [StringLength(255)] public string Type { get; set; }
 
         public int? MicrotingUid { get; set; }
 
         public int? MicrotingCheckUid { get; set; }
 
-        [StringLength(255)]
-        public string CaseUid { get; set; }
+        [StringLength(255)] public string CaseUid { get; set; }
 
         public string Custom { get; set; }
 
@@ -81,8 +75,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public string FieldValue10 { get; set; }
 
-        [ForeignKey("Folder")]
-        public int? FolderId { get; set; }
+        [ForeignKey("Folder")] public int? FolderId { get; set; }
 
         public bool IsArchived { get; set; }
 

@@ -233,7 +233,6 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(languageQuestionSet.LanguageId, languageQuestionSetVersions[1].LanguageId);
             Assert.AreEqual(languageQuestionSet.QuestionSetId, languageQuestionSetVersions[1].QuestionSetId);
             Assert.AreEqual(languageQuestionSet.MicrotingUid, languageQuestionSetVersions[1].MicrotingUid);
-
         }
 
         [Test]
@@ -404,7 +403,6 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(languageQuestionSet.LanguageId, languageQuestionSetVersions[1].LanguageId);
             Assert.AreEqual(languageQuestionSet.QuestionSetId, languageQuestionSetVersions[1].QuestionSetId);
             Assert.AreEqual(null, languageQuestionSetVersions[1].MicrotingUid);
-
         }
 
         [Test]

@@ -29,6 +29,7 @@ namespace Microting.eForm.Dto
     public class UnitDto
     {
         #region var
+
         /// <summary>
         ///...
         /// </summary>
@@ -58,7 +59,7 @@ namespace Microting.eForm.Dto
         ///...
         /// </summary>
         public DateTime? UpdatedAt { get; set; }
-        
+
         public string WorkflowState { get; set; }
 
         #endregion

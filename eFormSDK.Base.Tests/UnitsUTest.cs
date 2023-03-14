@@ -91,11 +91,11 @@ namespace eFormSDK.Base.Tests
             Assert.AreEqual(unit.Version, units[0].Version);
             Assert.AreEqual(unit.Id, units[0].Id);
 //            Assert.AreEqual(unit.UpdatedAt.ToString(), units[0].UpdatedAt.ToString());
-            Assert.AreEqual(unit.Model , units[0].Model);
-            Assert.AreEqual(unit.Manufacturer , units[0].Manufacturer);
-            Assert.AreEqual(unit.eFormVersion , units[0].eFormVersion);
-            Assert.AreEqual(unit.InSightVersion , units[0].InSightVersion);
-            Assert.AreEqual(unit.Note , units[0].Note);
+            Assert.AreEqual(unit.Model, units[0].Model);
+            Assert.AreEqual(unit.Manufacturer, units[0].Manufacturer);
+            Assert.AreEqual(unit.eFormVersion, units[0].eFormVersion);
+            Assert.AreEqual(unit.InSightVersion, units[0].InSightVersion);
+            Assert.AreEqual(unit.Note, units[0].Note);
 
 
             //Versions
@@ -108,11 +108,11 @@ namespace eFormSDK.Base.Tests
             Assert.AreEqual(1, unitsVersions[0].Version);
             Assert.AreEqual(unit.Id, unitsVersions[0].Id);
 //            Assert.AreEqual(unit.UpdatedAt.ToString(), unitsVersions[0].UpdatedAt.ToString());
-            Assert.AreEqual(unit.Model , unitsVersions[0].Model);
-            Assert.AreEqual(unit.Manufacturer , unitsVersions[0].Manufacturer);
-            Assert.AreEqual(unit.eFormVersion , unitsVersions[0].eFormVersion);
-            Assert.AreEqual(unit.InSightVersion , unitsVersions[0].InSightVersion);
-            Assert.AreEqual(unit.Note , unitsVersions[0].Note);
+            Assert.AreEqual(unit.Model, unitsVersions[0].Model);
+            Assert.AreEqual(unit.Manufacturer, unitsVersions[0].Manufacturer);
+            Assert.AreEqual(unit.eFormVersion, unitsVersions[0].eFormVersion);
+            Assert.AreEqual(unit.InSightVersion, unitsVersions[0].InSightVersion);
+            Assert.AreEqual(unit.Note, unitsVersions[0].Note);
         }
 
         [Test]
@@ -186,11 +186,11 @@ namespace eFormSDK.Base.Tests
             Assert.AreEqual(unit.Version, units[0].Version);
 //            Assert.AreEqual(unit.UpdatedAt.ToString(), units[0].UpdatedAt.ToString());
             Assert.AreEqual(unit.Id, units[0].Id);
-            Assert.AreEqual(unit.Model , units[0].Model);
-            Assert.AreEqual(unit.Manufacturer , units[0].Manufacturer);
-            Assert.AreEqual(unit.eFormVersion , units[0].eFormVersion);
-            Assert.AreEqual(unit.InSightVersion , units[0].InSightVersion);
-            Assert.AreEqual(unit.Note , units[0].Note);
+            Assert.AreEqual(unit.Model, units[0].Model);
+            Assert.AreEqual(unit.Manufacturer, units[0].Manufacturer);
+            Assert.AreEqual(unit.eFormVersion, units[0].eFormVersion);
+            Assert.AreEqual(unit.InSightVersion, units[0].InSightVersion);
+            Assert.AreEqual(unit.Note, units[0].Note);
             //Version 1 Old Version
             Assert.AreEqual(oldCustomerNo, unitsVersions[0].CustomerNo);
             Assert.AreEqual(oldMicrotingUid, unitsVersions[0].MicrotingUid);
@@ -200,11 +200,11 @@ namespace eFormSDK.Base.Tests
             Assert.AreEqual(1, unitsVersions[0].Version);
 //            Assert.AreEqual(oldUpdatedAt.ToString(), unitsVersions[0].UpdatedAt.ToString());
             Assert.AreEqual(oldId, unitsVersions[0].UnitId);
-            Assert.AreEqual(oldModel , unitsVersions[0].Model);
-            Assert.AreEqual(oldManufacturer , unitsVersions[0].Manufacturer);
-            Assert.AreEqual(unitEFormVersion , unitsVersions[0].eFormVersion);
-            Assert.AreEqual(unitInSightVersion , unitsVersions[0].InSightVersion);
-            Assert.AreEqual(oldNote , unitsVersions[0].Note);
+            Assert.AreEqual(oldModel, unitsVersions[0].Model);
+            Assert.AreEqual(oldManufacturer, unitsVersions[0].Manufacturer);
+            Assert.AreEqual(unitEFormVersion, unitsVersions[0].eFormVersion);
+            Assert.AreEqual(unitInSightVersion, unitsVersions[0].InSightVersion);
+            Assert.AreEqual(oldNote, unitsVersions[0].Note);
 
             //Version 2 Updated Version
             Assert.AreEqual(unit.CustomerNo, unitsVersions[1].CustomerNo);
@@ -215,12 +215,11 @@ namespace eFormSDK.Base.Tests
             Assert.AreEqual(2, unitsVersions[1].Version);
 //            Assert.AreEqual(unit.UpdatedAt.ToString(), unitsVersions[1].UpdatedAt.ToString());
             Assert.AreEqual(unit.Id, unitsVersions[1].UnitId);
-            Assert.AreEqual(unit.Model , unitsVersions[1].Model);
-            Assert.AreEqual(unit.Manufacturer , unitsVersions[1].Manufacturer);
-            Assert.AreEqual(unit.eFormVersion , unitsVersions[1].eFormVersion);
-            Assert.AreEqual(unit.InSightVersion , unitsVersions[1].InSightVersion);
-            Assert.AreEqual(unit.Note , unitsVersions[1].Note);
-
+            Assert.AreEqual(unit.Model, unitsVersions[1].Model);
+            Assert.AreEqual(unit.Manufacturer, unitsVersions[1].Manufacturer);
+            Assert.AreEqual(unit.eFormVersion, unitsVersions[1].eFormVersion);
+            Assert.AreEqual(unit.InSightVersion, unitsVersions[1].InSightVersion);
+            Assert.AreEqual(unit.Note, unitsVersions[1].Note);
         }
 
         [Test]
@@ -279,11 +278,11 @@ namespace eFormSDK.Base.Tests
 //            Assert.AreEqual(unit.UpdatedAt.ToString(), units[0].UpdatedAt.ToString());
             Assert.AreEqual(unit.Id, units[0].Id);
             Assert.AreEqual(units[0].WorkflowState, Constants.WorkflowStates.Removed);
-            Assert.AreEqual(unit.Model , units[0].Model);
-            Assert.AreEqual(unit.Manufacturer , units[0].Manufacturer);
-            Assert.AreEqual(unit.eFormVersion , units[0].eFormVersion);
-            Assert.AreEqual(unit.InSightVersion , units[0].InSightVersion);
-            Assert.AreEqual(unit.Note , units[0].Note);
+            Assert.AreEqual(unit.Model, units[0].Model);
+            Assert.AreEqual(unit.Manufacturer, units[0].Manufacturer);
+            Assert.AreEqual(unit.eFormVersion, units[0].eFormVersion);
+            Assert.AreEqual(unit.InSightVersion, units[0].InSightVersion);
+            Assert.AreEqual(unit.Note, units[0].Note);
 
             //Version 1
             Assert.AreEqual(unit.CustomerNo, unitsVersions[0].CustomerNo);
@@ -294,11 +293,11 @@ namespace eFormSDK.Base.Tests
             Assert.AreEqual(1, unitsVersions[0].Version);
 //            Assert.AreEqual(oldUpdatedAt.ToString(), unitsVersions[0].UpdatedAt.ToString());
             Assert.AreEqual(unit.Id, unitsVersions[0].UnitId);
-            Assert.AreEqual(unit.Model , unitsVersions[0].Model);
-            Assert.AreEqual(unit.Manufacturer , unitsVersions[0].Manufacturer);
-            Assert.AreEqual(unit.eFormVersion , unitsVersions[0].eFormVersion);
-            Assert.AreEqual(unit.InSightVersion , unitsVersions[0].InSightVersion);
-            Assert.AreEqual(unit.Note , unitsVersions[0].Note);
+            Assert.AreEqual(unit.Model, unitsVersions[0].Model);
+            Assert.AreEqual(unit.Manufacturer, unitsVersions[0].Manufacturer);
+            Assert.AreEqual(unit.eFormVersion, unitsVersions[0].eFormVersion);
+            Assert.AreEqual(unit.InSightVersion, unitsVersions[0].InSightVersion);
+            Assert.AreEqual(unit.Note, unitsVersions[0].Note);
             Assert.AreEqual(unitsVersions[0].WorkflowState, Constants.WorkflowStates.Created);
 
             //Version 2 Deleted Version
@@ -310,13 +309,12 @@ namespace eFormSDK.Base.Tests
             Assert.AreEqual(2, unitsVersions[1].Version);
 //            Assert.AreEqual(unit.UpdatedAt.ToString(), unitsVersions[1].UpdatedAt.ToString());
             Assert.AreEqual(unit.Id, unitsVersions[1].UnitId);
-            Assert.AreEqual(unit.Model , unitsVersions[1].Model);
-            Assert.AreEqual(unit.Manufacturer , unitsVersions[1].Manufacturer);
-            Assert.AreEqual(unit.eFormVersion , unitsVersions[1].eFormVersion);
-            Assert.AreEqual(unit.InSightVersion , unitsVersions[1].InSightVersion);
-            Assert.AreEqual(unit.Note , unitsVersions[1].Note);
+            Assert.AreEqual(unit.Model, unitsVersions[1].Model);
+            Assert.AreEqual(unit.Manufacturer, unitsVersions[1].Manufacturer);
+            Assert.AreEqual(unit.eFormVersion, unitsVersions[1].eFormVersion);
+            Assert.AreEqual(unit.InSightVersion, unitsVersions[1].InSightVersion);
+            Assert.AreEqual(unit.Note, unitsVersions[1].Note);
             Assert.AreEqual(unitsVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
-
         }
     }
 }

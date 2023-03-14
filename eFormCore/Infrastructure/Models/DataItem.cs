@@ -56,7 +56,6 @@ namespace Microting.eForm.Infrastructure.Models
         // con
         internal DataItem()
         {
-
         }
         //
 
@@ -66,13 +65,12 @@ namespace Microting.eForm.Infrastructure.Models
         public bool ReadOnly { get; set; }
         public string Label { get; set; }
 
-        [XmlElement("Description")]
-        public CDataValue Description { get; set; }
+        [XmlElement("Description")] public CDataValue Description { get; set; }
         public string Color { get; set; }
         public int DisplayOrder { get; set; }
 
-        [XmlIgnore]
-        public bool Dummy { get; set; }
+        [XmlIgnore] public bool Dummy { get; set; }
+
         public string OriginalId { get; set; }
         //
     }
@@ -83,10 +81,10 @@ namespace Microting.eForm.Infrastructure.Models
     {
         internal Audio()
         {
-
         }
 
-        public Audio(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public Audio(int id, bool mandatory, bool readOnly, string label, string description, string color,
+            int displayOrder, bool dummy,
             int multi)
         {
             Id = id;
@@ -111,10 +109,10 @@ namespace Microting.eForm.Infrastructure.Models
     {
         internal CheckBox()
         {
-
         }
 
-        public CheckBox(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public CheckBox(int id, bool mandatory, bool readOnly, string label, string description, string color,
+            int displayOrder, bool dummy,
             bool defaultValue, bool selected)
         {
             Id = id;
@@ -133,6 +131,7 @@ namespace Microting.eForm.Infrastructure.Models
 
         // var
         public bool DefaultValue { get; set; }
+
         public bool Selected { get; set; }
         //
     }
@@ -143,10 +142,10 @@ namespace Microting.eForm.Infrastructure.Models
     {
         internal Comment()
         {
-
         }
 
-        public Comment(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public Comment(int id, bool mandatory, bool readOnly, string label, string description, string color,
+            int displayOrder, bool dummy,
             string value, int maxLength, bool split)
         {
             Id = id;
@@ -167,6 +166,7 @@ namespace Microting.eForm.Infrastructure.Models
         // var
         public string Value { get; set; }
         public int Maxlength { get; set; }
+
         public bool Split { get; set; }
         //
     }
@@ -177,10 +177,10 @@ namespace Microting.eForm.Infrastructure.Models
     {
         internal Date()
         {
-
         }
 
-        public Date(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public Date(int id, bool mandatory, bool readOnly, string label, string description, string color,
+            int displayOrder, bool dummy,
             DateTime minValue, DateTime maxValue, string defaultValue)
         {
             Id = id;
@@ -202,8 +202,7 @@ namespace Microting.eForm.Infrastructure.Models
         public string DefaultValue { get; set; }
 
         // public string/DateTime MaxValue { get; set; }
-        [XmlIgnore]
-        public DateTime MaxValue { get; set; }
+        [XmlIgnore] public DateTime MaxValue { get; set; }
 
         [XmlElement("MaxValue")]
         public string MaxValueString
@@ -214,8 +213,7 @@ namespace Microting.eForm.Infrastructure.Models
         //
 
         // public string/DateTime MinValue { get; set; }
-        [XmlIgnore]
-        public DateTime MinValue { get; set; }
+        [XmlIgnore] public DateTime MinValue { get; set; }
 
         [XmlElement("MinValue")]
         public string MinValueString
@@ -233,10 +231,10 @@ namespace Microting.eForm.Infrastructure.Models
     {
         internal None()
         {
-
         }
 
-        public None(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy)
+        public None(int id, bool mandatory, bool readOnly, string label, string description, string color,
+            int displayOrder, bool dummy)
         {
             Id = id;
             Mandatory = mandatory;
@@ -256,10 +254,10 @@ namespace Microting.eForm.Infrastructure.Models
     {
         internal Number()
         {
-
         }
 
-        public Number(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public Number(int id, bool mandatory, bool readOnly, string label, string description, string color,
+            int displayOrder, bool dummy,
             string minValue, string maxValue, int defaultValue, int decimalCount, string unitName)
         {
             Id = id;
@@ -284,6 +282,7 @@ namespace Microting.eForm.Infrastructure.Models
         public string MaxValue { get; set; }
         public int DefaultValue { get; set; }
         public int DecimalCount { get; set; }
+
         public string UnitName { get; set; }
         //
     }
@@ -294,10 +293,10 @@ namespace Microting.eForm.Infrastructure.Models
     {
         internal NumberStepper()
         {
-
         }
 
-        public NumberStepper(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public NumberStepper(int id, bool mandatory, bool readOnly, string label, string description, string color,
+            int displayOrder, bool dummy,
             string minValue, string maxValue, int defaultValue, int decimalCount, string unitName)
         {
             Id = id;
@@ -322,6 +321,7 @@ namespace Microting.eForm.Infrastructure.Models
         public string MaxValue { get; set; }
         public int DefaultValue { get; set; }
         public int DecimalCount { get; set; }
+
         public string UnitName { get; set; }
         //
     }
@@ -335,7 +335,8 @@ namespace Microting.eForm.Infrastructure.Models
             KeyValuePairList = new List<KeyValuePair>();
         }
 
-        public MultiSelect(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy, System.Collections.Generic.List<KeyValuePair> keyValuePairList)
+        public MultiSelect(int id, bool mandatory, bool readOnly, string label, string description, string color,
+            int displayOrder, bool dummy, System.Collections.Generic.List<KeyValuePair> keyValuePairList)
         {
             KeyValuePairList = new List<KeyValuePair>();
 
@@ -362,10 +363,10 @@ namespace Microting.eForm.Infrastructure.Models
     {
         internal Picture()
         {
-
         }
 
-        public Picture(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public Picture(int id, bool mandatory, bool readOnly, string label, string description, string color,
+            int displayOrder, bool dummy,
             int multi, bool geolocationEnabled)
         {
             Id = id;
@@ -384,6 +385,7 @@ namespace Microting.eForm.Infrastructure.Models
 
         // var
         public int Multi { get; set; }
+
         public bool GeolocationEnabled { get; set; }
         //
     }
@@ -394,10 +396,10 @@ namespace Microting.eForm.Infrastructure.Models
     {
         internal ShowPdf()
         {
-
         }
 
-        public ShowPdf(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public ShowPdf(int id, bool mandatory, bool readOnly, string label, string description, string color,
+            int displayOrder, bool dummy,
             string value)
         {
             Id = id;
@@ -422,10 +424,10 @@ namespace Microting.eForm.Infrastructure.Models
     {
         internal SaveButton()
         {
-
         }
 
-        public SaveButton(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public SaveButton(int id, bool mandatory, bool readOnly, string label, string description, string color,
+            int displayOrder, bool dummy,
             string value)
         {
             Id = id;
@@ -450,10 +452,10 @@ namespace Microting.eForm.Infrastructure.Models
     {
         internal Signature()
         {
-
         }
 
-        public Signature(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy)
+        public Signature(int id, bool mandatory, bool readOnly, string label, string description, string color,
+            int displayOrder, bool dummy)
         {
             Id = id;
             Mandatory = mandatory;
@@ -476,7 +478,8 @@ namespace Microting.eForm.Infrastructure.Models
             KeyValuePairList = new List<KeyValuePair>();
         }
 
-        public SingleSelect(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy, System.Collections.Generic.List<KeyValuePair> keyValuePairList)
+        public SingleSelect(int id, bool mandatory, bool readOnly, string label, string description, string color,
+            int displayOrder, bool dummy, System.Collections.Generic.List<KeyValuePair> keyValuePairList)
         {
             KeyValuePairList = new List<KeyValuePair>();
 
@@ -503,11 +506,12 @@ namespace Microting.eForm.Infrastructure.Models
     {
         internal Text()
         {
-
         }
 
-        public Text(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
-            string value, int maxLength, bool geolocationEnabled, bool geolocationForced, bool geolocationhidden, bool barcodeEnabled, string barcodeType)
+        public Text(int id, bool mandatory, bool readOnly, string label, string description, string color,
+            int displayOrder, bool dummy,
+            string value, int maxLength, bool geolocationEnabled, bool geolocationForced, bool geolocationhidden,
+            bool barcodeEnabled, string barcodeType)
         {
             Id = id;
             Mandatory = mandatory;
@@ -535,6 +539,7 @@ namespace Microting.eForm.Infrastructure.Models
         public bool GeolocationForced { get; set; }
         public bool GeolocationHidden { get; set; }
         public bool BarcodeEnabled { get; set; }
+
         public string BarcodeType { get; set; }
         //
     }
@@ -545,10 +550,10 @@ namespace Microting.eForm.Infrastructure.Models
     {
         internal Timer()
         {
-
         }
 
-        public Timer(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public Timer(int id, bool mandatory, bool readOnly, string label, string description, string color,
+            int displayOrder, bool dummy,
             bool stopOnSave)
         {
             Id = id;
@@ -574,11 +579,12 @@ namespace Microting.eForm.Infrastructure.Models
         // con
         internal EntitySearch()
         {
-
         }
 
-        public EntitySearch(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
-            int defaultValue, int entityTypeId, bool isNum, string queryType, int minSearchLenght, bool barcodeEnabled, string barcodeType)
+        public EntitySearch(int id, bool mandatory, bool readOnly, string label, string description, string color,
+            int displayOrder, bool dummy,
+            int defaultValue, int entityTypeId, bool isNum, string queryType, int minSearchLenght, bool barcodeEnabled,
+            string barcodeType)
         {
             Id = id;
             Mandatory = mandatory;
@@ -608,6 +614,7 @@ namespace Microting.eForm.Infrastructure.Models
         public string QueryType { get; set; }
         public int MinSearchLenght { get; set; }
         public bool BarcodeEnabled { get; set; }
+
         public string BarcodeType { get; set; }
         //
     }
@@ -619,10 +626,10 @@ namespace Microting.eForm.Infrastructure.Models
         // con
         internal EntitySelect()
         {
-
         }
 
-        public EntitySelect(int id, bool mandatory, bool readOnly, string label, string description, string color, int displayOrder, bool dummy,
+        public EntitySelect(int id, bool mandatory, bool readOnly, string label, string description, string color,
+            int displayOrder, bool dummy,
             int defaultValue, int source)
 
         {
@@ -643,6 +650,7 @@ namespace Microting.eForm.Infrastructure.Models
 
         // var
         public int DefaultValue { get; set; }
+
         public int Source { get; set; }
         //
     }
@@ -660,7 +668,6 @@ namespace Microting.eForm.Infrastructure.Models
 
     public class FieldValue : DataItem
     {
-
         public int FieldId { get; set; }
         public string FieldType { get; set; }
         public DateTime DateOfDoing { get; set; }
@@ -682,10 +689,10 @@ namespace Microting.eForm.Infrastructure.Models
     {
         internal FieldContainer()
         {
-
         }
 
-        public FieldContainer(int id, string label, CDataValue description, string color, int displayOrder, string value, List<DataItem> dataItemList)
+        public FieldContainer(int id, string label, CDataValue description, string color, int displayOrder,
+            string value, List<DataItem> dataItemList)
         {
             Id = id;
             Label = label;
@@ -708,7 +715,8 @@ namespace Microting.eForm.Infrastructure.Models
         {
             CDataValue description = new CDataValue();
             description.InderValue = dataItemGroup.Description;
-            FieldContainer fg = new FieldContainer(int.Parse(dataItemGroup.Id), dataItemGroup.Label, description, dataItemGroup.Color, dataItemGroup.DisplayOrder, "", dataItemGroup.DataItemList);
+            FieldContainer fg = new FieldContainer(int.Parse(dataItemGroup.Id), dataItemGroup.Label, description,
+                dataItemGroup.Color, dataItemGroup.DisplayOrder, "", dataItemGroup.DataItemList);
             return fg;
         }
     }
@@ -723,7 +731,6 @@ namespace Microting.eForm.Infrastructure.Models
         public string UploaderType { get; set; }
         public string FileLocation { get; set; }
         public string FileName { get; set; }
-
     }
 
     public enum DataItemColors

@@ -38,6 +38,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
         }
 
         #region var
+
         public string Id { get; set; }
         public string Status { get; set; }
 
@@ -46,6 +47,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
 
         [XmlArray("ExtraDataItemList"), XmlArrayItem(typeof(DataItemReply), ElementName = "DataItem")]
         public List<DataItemReply> ExtraDataItemList { get; set; }
+
         #endregion
     }
 }

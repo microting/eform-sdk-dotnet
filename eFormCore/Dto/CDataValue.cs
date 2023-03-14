@@ -30,8 +30,7 @@ namespace Microting.eForm.Dto
 {
     public class CDataValue
     {
-        [XmlIgnore]
-        public string InderValue { get; set; }
+        [XmlIgnore] public string InderValue { get; set; }
 
         [XmlText]
         public XmlNode[] CDataWrapper

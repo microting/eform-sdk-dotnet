@@ -40,7 +40,7 @@ namespace eFormSDK.CheckLists.Tests
         [Test]
         public async Task Fields_Create_DoesCreate()
         {
-           short shortMinValue = Int16.MinValue;
+            short shortMinValue = Int16.MinValue;
             short shortmaxValue = Int16.MaxValue;
 
             Random rnd = new Random();
@@ -79,21 +79,21 @@ namespace eFormSDK.CheckLists.Tests
                 Field10 = rnd.Next(1, 255),
                 Label = Guid.NewGuid().ToString(),
                 Repeated = rnd.Next(1, 255),
-                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 CaseType = Guid.NewGuid().ToString(),
                 DisplayIndex = rnd.Next(1, 255),
-                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
-                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DownloadEntities = (short)rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short)rnd.Next(shortMinValue, shortmaxValue),
                 FolderName = Guid.NewGuid().ToString(),
-                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
-                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ManualSync = (short)rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short)rnd.Next(shortMinValue, shortmaxValue),
                 OriginalId = Guid.NewGuid().ToString(),
-                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ReviewEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 DocxExportEnabled = randomBool,
-                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
-                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DoneButtonEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 JasperExportEnabled = randomBool,
-                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
+                QuickSyncEnabled = (short)rnd.Next(shortMinValue, shortmaxValue)
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
@@ -117,30 +117,30 @@ namespace eFormSDK.CheckLists.Tests
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
                 Description = Guid.NewGuid().ToString(),
-                Dummy = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Dummy = (short)rnd.Next(shortMinValue, shortmaxValue),
                 Label = Guid.NewGuid().ToString(),
-                Mandatory = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Mandatory = (short)rnd.Next(shortMinValue, shortmaxValue),
                 Multi = rnd.Next(1, 255),
-                Optional = (short) rnd.Next(shortMinValue, shortmaxValue),
-                Selected = (short) rnd.Next(shortMinValue, shortmaxValue),
-                BarcodeEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Optional = (short)rnd.Next(shortMinValue, shortmaxValue),
+                Selected = (short)rnd.Next(shortMinValue, shortmaxValue),
+                BarcodeEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 BarcodeType = Guid.NewGuid().ToString(),
                 DecimalCount = rnd.Next(1, 255),
                 DefaultValue = Guid.NewGuid().ToString(),
                 DisplayIndex = rnd.Next(1, 255),
-                GeolocationEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
-                GeolocationForced = (short) rnd.Next(shortMinValue, shortmaxValue),
-                GeolocationHidden = (short) rnd.Next(shortMinValue, shortmaxValue),
-                IsNum = (short) rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationForced = (short)rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationHidden = (short)rnd.Next(shortMinValue, shortmaxValue),
+                IsNum = (short)rnd.Next(shortMinValue, shortmaxValue),
                 MaxLength = rnd.Next(1, 255),
                 MaxValue = Guid.NewGuid().ToString(),
                 MinValue = Guid.NewGuid().ToString(),
                 OriginalId = Guid.NewGuid().ToString(),
                 QueryType = Guid.NewGuid().ToString(),
-                ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue),
-                Split = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ReadOnly = (short)rnd.Next(shortMinValue, shortmaxValue),
+                Split = (short)rnd.Next(shortMinValue, shortmaxValue),
                 UnitName = Guid.NewGuid().ToString(),
-                StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue),
+                StopOnSave = (short)rnd.Next(shortMinValue, shortmaxValue),
                 KeyValuePairList = Guid.NewGuid().ToString(),
                 CheckListId = checklist.Id,
                 EntityGroupId = entityGroup.Id,
@@ -153,30 +153,30 @@ namespace eFormSDK.CheckLists.Tests
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
                 Description = Guid.NewGuid().ToString(),
-                Dummy = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Dummy = (short)rnd.Next(shortMinValue, shortmaxValue),
                 Label = Guid.NewGuid().ToString(),
-                Mandatory = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Mandatory = (short)rnd.Next(shortMinValue, shortmaxValue),
                 Multi = rnd.Next(1, 255),
-                Optional = (short) rnd.Next(shortMinValue, shortmaxValue),
-                Selected = (short) rnd.Next(shortMinValue, shortmaxValue),
-                BarcodeEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Optional = (short)rnd.Next(shortMinValue, shortmaxValue),
+                Selected = (short)rnd.Next(shortMinValue, shortmaxValue),
+                BarcodeEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 BarcodeType = Guid.NewGuid().ToString(),
                 DecimalCount = rnd.Next(1, 255),
                 DefaultValue = Guid.NewGuid().ToString(),
                 DisplayIndex = rnd.Next(1, 255),
-                GeolocationEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
-                GeolocationForced = (short) rnd.Next(shortMinValue, shortmaxValue),
-                GeolocationHidden = (short) rnd.Next(shortMinValue, shortmaxValue),
-                IsNum = (short) rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationForced = (short)rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationHidden = (short)rnd.Next(shortMinValue, shortmaxValue),
+                IsNum = (short)rnd.Next(shortMinValue, shortmaxValue),
                 MaxLength = rnd.Next(1, 255),
                 MaxValue = Guid.NewGuid().ToString(),
                 MinValue = Guid.NewGuid().ToString(),
                 OriginalId = Guid.NewGuid().ToString(),
                 QueryType = Guid.NewGuid().ToString(),
-                ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue),
-                Split = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ReadOnly = (short)rnd.Next(shortMinValue, shortmaxValue),
+                Split = (short)rnd.Next(shortMinValue, shortmaxValue),
                 UnitName = Guid.NewGuid().ToString(),
-                StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue),
+                StopOnSave = (short)rnd.Next(shortMinValue, shortmaxValue),
                 KeyValuePairList = Guid.NewGuid().ToString(),
                 CheckListId = checklist.Id,
                 EntityGroupId = entityGroup.Id,
@@ -194,8 +194,8 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(fields);
             Assert.NotNull(fieldVersion);
 
-            Assert.AreEqual(2,fields.Count());
-            Assert.AreEqual(2,fieldVersion.Count());
+            Assert.AreEqual(2, fields.Count());
+            Assert.AreEqual(2, fieldVersion.Count());
 
             Assert.AreEqual(field.CreatedAt.ToString(), fields[1].CreatedAt.ToString());
             Assert.AreEqual(field.Version, fields[1].Version);
@@ -318,21 +318,21 @@ namespace eFormSDK.CheckLists.Tests
                 Field10 = rnd.Next(1, 255),
                 Label = Guid.NewGuid().ToString(),
                 Repeated = rnd.Next(1, 255),
-                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 CaseType = Guid.NewGuid().ToString(),
                 DisplayIndex = rnd.Next(1, 255),
-                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
-                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DownloadEntities = (short)rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short)rnd.Next(shortMinValue, shortmaxValue),
                 FolderName = Guid.NewGuid().ToString(),
-                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
-                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ManualSync = (short)rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short)rnd.Next(shortMinValue, shortmaxValue),
                 OriginalId = Guid.NewGuid().ToString(),
-                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ReviewEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 DocxExportEnabled = randomBool,
-                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
-                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DoneButtonEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 JasperExportEnabled = randomBool,
-                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
+                QuickSyncEnabled = (short)rnd.Next(shortMinValue, shortmaxValue)
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
@@ -355,30 +355,30 @@ namespace eFormSDK.CheckLists.Tests
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
                 Description = Guid.NewGuid().ToString(),
-                Dummy = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Dummy = (short)rnd.Next(shortMinValue, shortmaxValue),
                 Label = Guid.NewGuid().ToString(),
-                Mandatory = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Mandatory = (short)rnd.Next(shortMinValue, shortmaxValue),
                 Multi = rnd.Next(1, 255),
-                Optional = (short) rnd.Next(shortMinValue, shortmaxValue),
-                Selected = (short) rnd.Next(shortMinValue, shortmaxValue),
-                BarcodeEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Optional = (short)rnd.Next(shortMinValue, shortmaxValue),
+                Selected = (short)rnd.Next(shortMinValue, shortmaxValue),
+                BarcodeEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 BarcodeType = Guid.NewGuid().ToString(),
                 DecimalCount = rnd.Next(1, 255),
                 DefaultValue = Guid.NewGuid().ToString(),
                 DisplayIndex = rnd.Next(1, 255),
-                GeolocationEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
-                GeolocationForced = (short) rnd.Next(shortMinValue, shortmaxValue),
-                GeolocationHidden = (short) rnd.Next(shortMinValue, shortmaxValue),
-                IsNum = (short) rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationForced = (short)rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationHidden = (short)rnd.Next(shortMinValue, shortmaxValue),
+                IsNum = (short)rnd.Next(shortMinValue, shortmaxValue),
                 MaxLength = rnd.Next(1, 255),
                 MaxValue = Guid.NewGuid().ToString(),
                 MinValue = Guid.NewGuid().ToString(),
                 OriginalId = Guid.NewGuid().ToString(),
                 QueryType = Guid.NewGuid().ToString(),
-                ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue),
-                Split = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ReadOnly = (short)rnd.Next(shortMinValue, shortmaxValue),
+                Split = (short)rnd.Next(shortMinValue, shortmaxValue),
                 UnitName = Guid.NewGuid().ToString(),
-                StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue),
+                StopOnSave = (short)rnd.Next(shortMinValue, shortmaxValue),
                 KeyValuePairList = Guid.NewGuid().ToString(),
                 CheckListId = checklist.Id,
                 EntityGroupId = entityGroup.Id,
@@ -391,30 +391,30 @@ namespace eFormSDK.CheckLists.Tests
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
                 Description = Guid.NewGuid().ToString(),
-                Dummy = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Dummy = (short)rnd.Next(shortMinValue, shortmaxValue),
                 Label = Guid.NewGuid().ToString(),
-                Mandatory = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Mandatory = (short)rnd.Next(shortMinValue, shortmaxValue),
                 Multi = rnd.Next(1, 255),
-                Optional = (short) rnd.Next(shortMinValue, shortmaxValue),
-                Selected = (short) rnd.Next(shortMinValue, shortmaxValue),
-                BarcodeEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Optional = (short)rnd.Next(shortMinValue, shortmaxValue),
+                Selected = (short)rnd.Next(shortMinValue, shortmaxValue),
+                BarcodeEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 BarcodeType = Guid.NewGuid().ToString(),
                 DecimalCount = rnd.Next(1, 255),
                 DefaultValue = Guid.NewGuid().ToString(),
                 DisplayIndex = rnd.Next(1, 255),
-                GeolocationEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
-                GeolocationForced = (short) rnd.Next(shortMinValue, shortmaxValue),
-                GeolocationHidden = (short) rnd.Next(shortMinValue, shortmaxValue),
-                IsNum = (short) rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationForced = (short)rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationHidden = (short)rnd.Next(shortMinValue, shortmaxValue),
+                IsNum = (short)rnd.Next(shortMinValue, shortmaxValue),
                 MaxLength = rnd.Next(1, 255),
                 MaxValue = Guid.NewGuid().ToString(),
                 MinValue = Guid.NewGuid().ToString(),
                 OriginalId = Guid.NewGuid().ToString(),
                 QueryType = Guid.NewGuid().ToString(),
-                ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue),
-                Split = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ReadOnly = (short)rnd.Next(shortMinValue, shortmaxValue),
+                Split = (short)rnd.Next(shortMinValue, shortmaxValue),
                 UnitName = Guid.NewGuid().ToString(),
-                StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue),
+                StopOnSave = (short)rnd.Next(shortMinValue, shortmaxValue),
                 KeyValuePairList = Guid.NewGuid().ToString(),
                 CheckListId = checklist.Id,
                 EntityGroupId = entityGroup.Id,
@@ -460,28 +460,28 @@ namespace eFormSDK.CheckLists.Tests
             field.Description = Guid.NewGuid().ToString();
             field.Dummy = (short)rnd.Next(shortMinValue, shortmaxValue);
             field.Label = Guid.NewGuid().ToString();
-            field.Mandatory = (short) rnd.Next(shortMinValue, shortmaxValue);
+            field.Mandatory = (short)rnd.Next(shortMinValue, shortmaxValue);
             field.Multi = rnd.Next(1, 255);
             field.Optional = (short)rnd.Next(shortMinValue, shortmaxValue);
-            field.Selected = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.BarcodeEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
+            field.Selected = (short)rnd.Next(shortMinValue, shortmaxValue);
+            field.BarcodeEnabled = (short)rnd.Next(shortMinValue, shortmaxValue);
             field.BarcodeType = Guid.NewGuid().ToString();
             field.DecimalCount = rnd.Next(1, 255);
             field.DefaultValue = Guid.NewGuid().ToString();
             field.DisplayIndex = rnd.Next(1, 255);
-            field.GeolocationEnabled = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.GeolocationForced = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.GeolocationHidden = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.IsNum = (short) rnd.Next(shortMinValue, shortmaxValue);
+            field.GeolocationEnabled = (short)rnd.Next(shortMinValue, shortmaxValue);
+            field.GeolocationForced = (short)rnd.Next(shortMinValue, shortmaxValue);
+            field.GeolocationHidden = (short)rnd.Next(shortMinValue, shortmaxValue);
+            field.IsNum = (short)rnd.Next(shortMinValue, shortmaxValue);
             field.MaxLength = rnd.Next(1, 255);
             field.MaxValue = Guid.NewGuid().ToString();
             field.MinValue = Guid.NewGuid().ToString();
             field.OriginalId = Guid.NewGuid().ToString();
             field.QueryType = Guid.NewGuid().ToString();
-            field.ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue);
-            field.Split = (short) rnd.Next(shortMinValue, shortmaxValue);
+            field.ReadOnly = (short)rnd.Next(shortMinValue, shortmaxValue);
+            field.Split = (short)rnd.Next(shortMinValue, shortmaxValue);
             field.UnitName = Guid.NewGuid().ToString();
-            field.StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue);
+            field.StopOnSave = (short)rnd.Next(shortMinValue, shortmaxValue);
             field.KeyValuePairList = Guid.NewGuid().ToString();
 
             await field.Update(DbContext).ConfigureAwait(false);
@@ -492,8 +492,8 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(fields);
             Assert.NotNull(fieldVersion);
 
-            Assert.AreEqual(2,fields.Count());
-            Assert.AreEqual(3,fieldVersion.Count());
+            Assert.AreEqual(2, fields.Count());
+            Assert.AreEqual(3, fieldVersion.Count());
 
             Assert.AreEqual(field.CreatedAt.ToString(), fields[1].CreatedAt.ToString());
             Assert.AreEqual(field.Version, fields[1].Version);
@@ -655,21 +655,21 @@ namespace eFormSDK.CheckLists.Tests
                 Field10 = rnd.Next(1, 255),
                 Label = Guid.NewGuid().ToString(),
                 Repeated = rnd.Next(1, 255),
-                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 CaseType = Guid.NewGuid().ToString(),
                 DisplayIndex = rnd.Next(1, 255),
-                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
-                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DownloadEntities = (short)rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short)rnd.Next(shortMinValue, shortmaxValue),
                 FolderName = Guid.NewGuid().ToString(),
-                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
-                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ManualSync = (short)rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short)rnd.Next(shortMinValue, shortmaxValue),
                 OriginalId = Guid.NewGuid().ToString(),
-                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ReviewEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 DocxExportEnabled = randomBool,
-                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
-                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DoneButtonEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 JasperExportEnabled = randomBool,
-                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
+                QuickSyncEnabled = (short)rnd.Next(shortMinValue, shortmaxValue)
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
@@ -692,30 +692,30 @@ namespace eFormSDK.CheckLists.Tests
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
                 Description = Guid.NewGuid().ToString(),
-                Dummy = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Dummy = (short)rnd.Next(shortMinValue, shortmaxValue),
                 Label = Guid.NewGuid().ToString(),
-                Mandatory = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Mandatory = (short)rnd.Next(shortMinValue, shortmaxValue),
                 Multi = rnd.Next(1, 255),
-                Optional = (short) rnd.Next(shortMinValue, shortmaxValue),
-                Selected = (short) rnd.Next(shortMinValue, shortmaxValue),
-                BarcodeEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Optional = (short)rnd.Next(shortMinValue, shortmaxValue),
+                Selected = (short)rnd.Next(shortMinValue, shortmaxValue),
+                BarcodeEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 BarcodeType = Guid.NewGuid().ToString(),
                 DecimalCount = rnd.Next(1, 255),
                 DefaultValue = Guid.NewGuid().ToString(),
                 DisplayIndex = rnd.Next(1, 255),
-                GeolocationEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
-                GeolocationForced = (short) rnd.Next(shortMinValue, shortmaxValue),
-                GeolocationHidden = (short) rnd.Next(shortMinValue, shortmaxValue),
-                IsNum = (short) rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationForced = (short)rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationHidden = (short)rnd.Next(shortMinValue, shortmaxValue),
+                IsNum = (short)rnd.Next(shortMinValue, shortmaxValue),
                 MaxLength = rnd.Next(1, 255),
                 MaxValue = Guid.NewGuid().ToString(),
                 MinValue = Guid.NewGuid().ToString(),
                 OriginalId = Guid.NewGuid().ToString(),
                 QueryType = Guid.NewGuid().ToString(),
-                ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue),
-                Split = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ReadOnly = (short)rnd.Next(shortMinValue, shortmaxValue),
+                Split = (short)rnd.Next(shortMinValue, shortmaxValue),
                 UnitName = Guid.NewGuid().ToString(),
-                StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue),
+                StopOnSave = (short)rnd.Next(shortMinValue, shortmaxValue),
                 KeyValuePairList = Guid.NewGuid().ToString(),
                 CheckListId = checklist.Id,
                 EntityGroupId = entityGroup.Id,
@@ -728,30 +728,30 @@ namespace eFormSDK.CheckLists.Tests
                 Color = Guid.NewGuid().ToString(),
                 Custom = Guid.NewGuid().ToString(),
                 Description = Guid.NewGuid().ToString(),
-                Dummy = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Dummy = (short)rnd.Next(shortMinValue, shortmaxValue),
                 Label = Guid.NewGuid().ToString(),
-                Mandatory = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Mandatory = (short)rnd.Next(shortMinValue, shortmaxValue),
                 Multi = rnd.Next(1, 255),
-                Optional = (short) rnd.Next(shortMinValue, shortmaxValue),
-                Selected = (short) rnd.Next(shortMinValue, shortmaxValue),
-                BarcodeEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                Optional = (short)rnd.Next(shortMinValue, shortmaxValue),
+                Selected = (short)rnd.Next(shortMinValue, shortmaxValue),
+                BarcodeEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 BarcodeType = Guid.NewGuid().ToString(),
                 DecimalCount = rnd.Next(1, 255),
                 DefaultValue = Guid.NewGuid().ToString(),
                 DisplayIndex = rnd.Next(1, 255),
-                GeolocationEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
-                GeolocationForced = (short) rnd.Next(shortMinValue, shortmaxValue),
-                GeolocationHidden = (short) rnd.Next(shortMinValue, shortmaxValue),
-                IsNum = (short) rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationForced = (short)rnd.Next(shortMinValue, shortmaxValue),
+                GeolocationHidden = (short)rnd.Next(shortMinValue, shortmaxValue),
+                IsNum = (short)rnd.Next(shortMinValue, shortmaxValue),
                 MaxLength = rnd.Next(1, 255),
                 MaxValue = Guid.NewGuid().ToString(),
                 MinValue = Guid.NewGuid().ToString(),
                 OriginalId = Guid.NewGuid().ToString(),
                 QueryType = Guid.NewGuid().ToString(),
-                ReadOnly = (short) rnd.Next(shortMinValue, shortmaxValue),
-                Split = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ReadOnly = (short)rnd.Next(shortMinValue, shortmaxValue),
+                Split = (short)rnd.Next(shortMinValue, shortmaxValue),
                 UnitName = Guid.NewGuid().ToString(),
-                StopOnSave = (short) rnd.Next(shortMinValue, shortmaxValue),
+                StopOnSave = (short)rnd.Next(shortMinValue, shortmaxValue),
                 KeyValuePairList = Guid.NewGuid().ToString(),
                 CheckListId = checklist.Id,
                 EntityGroupId = entityGroup.Id,
@@ -772,8 +772,8 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(fields);
             Assert.NotNull(fieldVersion);
 
-            Assert.AreEqual(2,fields.Count());
-            Assert.AreEqual(3,fieldVersion.Count());
+            Assert.AreEqual(2, fields.Count());
+            Assert.AreEqual(3, fieldVersion.Count());
 
             Assert.AreEqual(field.CreatedAt.ToString(), fields[1].CreatedAt.ToString());
             Assert.AreEqual(field.Version, fields[1].Version);

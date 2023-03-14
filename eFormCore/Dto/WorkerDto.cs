@@ -29,6 +29,7 @@ namespace Microting.eForm.Dto
     public class WorkerDto
     {
         #region var
+
         /// <summary>
         ///...
         /// </summary>
@@ -65,7 +66,8 @@ namespace Microting.eForm.Dto
 
         public override string ToString()
         {
-            return "WorkerUId:" + WorkerUId + " / FirstName:" + FirstName + " / LastName:" + LastName + " / Email:" + Email + " / CreatedAt:" + CreatedAt + " / UpdatedAt:" + UpdatedAt + ".";
+            return "WorkerUId:" + WorkerUId + " / FirstName:" + FirstName + " / LastName:" + LastName + " / Email:" +
+                   Email + " / CreatedAt:" + CreatedAt + " / UpdatedAt:" + UpdatedAt + ".";
         }
     }
 }

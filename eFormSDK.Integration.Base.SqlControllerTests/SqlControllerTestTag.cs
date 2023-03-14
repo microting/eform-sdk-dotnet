@@ -55,6 +55,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
             await sql.SettingUpdate(Settings.firstRunDone, "true");
             await sql.SettingUpdate(Settings.knownSitesDone, "true");
+
             #endregion
 
             sut = new SqlController(dbContextHelper);
@@ -68,6 +69,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
 
         #region tag
+
         [Test]
         public async Task SQL_Tags_CreateTag_DoesCreateNewTag()
         {
@@ -215,7 +217,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
-            List<int> tags = new List<int> {tag.Id};
+            List<int> tags = new List<int> { tag.Id };
             await sut.TemplateSetTags(cl1.Id, tags);
 
 
@@ -227,10 +229,12 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Assert.AreEqual(cl1.Id, result[0].CheckListId);
             Assert.True(true);
         }
+
         #endregion
 
 
         #region eventhandlers
+
 #pragma warning disable 1998
         public async Task EventCaseCreated(object sender, EventArgs args)
         {
@@ -262,7 +266,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Does nothing for web implementation
         }
 #pragma warning restore 1998
+
         #endregion
     }
-
 }

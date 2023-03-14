@@ -37,7 +37,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             sut = new SqlController(dbContextHelper);
             sut.StartLog(new CoreBase());
 
-            await sut.SettingUpdate(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SettingUpdate(Settings.fileLocationPicture,
+                Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SettingUpdate(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SettingUpdate(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
         }
@@ -47,14 +48,16 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
         [Test]
         public async Task SQL_Unit_UnitGetAll_ReturnsAllUnits()
         {
-
             // Arrance
+
             #region Arrance
 
             #region Checklist
+
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
-            CheckList Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+            CheckList Cl1 =
+                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
             #endregion
 
@@ -217,51 +220,61 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region sites
 
             #region Site1
+
             Site site1 = await testHelpers.CreateSite("SiteName1", 88);
 
             #endregion
 
             #region Site2
+
             Site site2 = await testHelpers.CreateSite("SiteName2", 89);
 
             #endregion
 
             #region Site3
+
             Site site3 = await testHelpers.CreateSite("SiteName3", 90);
 
             #endregion
 
             #region Site4
+
             Site site4 = await testHelpers.CreateSite("SiteName4", 91);
 
             #endregion
 
             #region Site5
+
             Site site5 = await testHelpers.CreateSite("SiteName5", 92);
 
             #endregion
 
             #region Site6
+
             Site site6 = await testHelpers.CreateSite("SiteName6", 93);
 
             #endregion
 
             #region Site7
+
             Site site7 = await testHelpers.CreateSite("SiteName7", 94);
 
             #endregion
 
             #region Site8
+
             Site site8 = await testHelpers.CreateSite("SiteName8", 95);
 
             #endregion
 
             #region Site9
+
             Site site9 = await testHelpers.CreateSite("SiteName9", 96);
 
             #endregion
 
             #region Site10
+
             Site site10 = await testHelpers.CreateSite("SiteName10", 97);
 
             #endregion
@@ -271,45 +284,64 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region units
 
             #region Unit1
+
             Unit unit1 = await testHelpers.CreateUnit(48, 49, site1, 348);
+
             #endregion
 
             #region Unit2
+
             Unit unit2 = await testHelpers.CreateUnit(2, 55, site2, 349);
+
             #endregion
 
             #region Unit3
+
             Unit unit3 = await testHelpers.CreateUnit(3, 51, site3, 350);
+
             #endregion
 
             #region Unit4
+
             Unit unit4 = await testHelpers.CreateUnit(4, 52, site4, 351);
+
             #endregion
 
             #region Unit5
+
             Unit unit5 = await testHelpers.CreateUnit(5, 6, site5, 352);
+
             #endregion
 
             #region Unit6
+
             Unit unit6 = await testHelpers.CreateUnit(6, 85, site6, 353);
+
             #endregion
 
             #region Unit7
+
             Unit unit7 = await testHelpers.CreateUnit(7, 62, site7, 354);
+
             #endregion
 
             #region Unit8
+
             Unit unit8 = await testHelpers.CreateUnit(8, 96, site8, 355);
+
             #endregion
 
             #region Unit9
+
             Unit unit9 = await testHelpers.CreateUnit(9, 69, site9, 356);
+
             #endregion
 
             #region Unit10
-            Unit unit10 = await testHelpers.CreateUnit(10, 100, site10, 357);
-            #endregion
 
+            Unit unit10 = await testHelpers.CreateUnit(10, 100, site10, 357);
+
+            #endregion
 
             #endregion
 
@@ -319,6 +351,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //            #endregion
 
             #endregion
+
             // Act
 
             var getAllUnits = await sut.UnitGetAll();
@@ -342,12 +375,14 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
         [Test]
         public async Task SQL_Unit_UnitCreate_CreatesUnit()
         {
-
             // Arrance
+
             #region Checklist
+
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
-            CheckList Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+            CheckList Cl1 =
+                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
             #endregion
 
@@ -510,6 +545,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region sites
 
             #region Site1
+
             Site site1 = await testHelpers.CreateSite("SiteName1", 88);
 
             #endregion
@@ -560,6 +596,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //            #endregion
 
             #endregion
+
             // Act
             var match = await sut.UnitCreate(5, 654, 88, (int)site1.MicrotingUid);
             // Assert
@@ -568,21 +605,21 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Assert.NotNull(match);
             Assert.AreEqual(1, units.Count());
             Assert.AreEqual(Constants.WorkflowStates.Created, units[0].WorkflowState);
-
-
         }
 
         [Test]
         public async Task SQL_Unit_UnitRead_ReadsUnit()
         {
-
             // Arrance
+
             #region Arrance
 
             #region Checklist
+
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
-            CheckList Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+            CheckList Cl1 =
+                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
             #endregion
 
@@ -691,6 +728,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region Workers
 
             #region worker1
+
             Worker worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
             #endregion
@@ -745,51 +783,61 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region sites
 
             #region Site1
+
             Site site1 = await testHelpers.CreateSite("SiteName1", 88);
 
             #endregion
 
             #region Site2
+
             Site site2 = await testHelpers.CreateSite("SiteName2", 89);
 
             #endregion
 
             #region Site3
+
             Site site3 = await testHelpers.CreateSite("SiteName3", 90);
 
             #endregion
 
             #region Site4
+
             Site site4 = await testHelpers.CreateSite("SiteName4", 91);
 
             #endregion
 
             #region Site5
+
             Site site5 = await testHelpers.CreateSite("SiteName5", 92);
 
             #endregion
 
             #region Site6
+
             Site site6 = await testHelpers.CreateSite("SiteName6", 93);
 
             #endregion
 
             #region Site7
+
             Site site7 = await testHelpers.CreateSite("SiteName7", 94);
 
             #endregion
 
             #region Site8
+
             Site site8 = await testHelpers.CreateSite("SiteName8", 95);
 
             #endregion
 
             #region Site9
+
             Site site9 = await testHelpers.CreateSite("SiteName9", 96);
 
             #endregion
 
             #region Site10
+
             Site site10 = await testHelpers.CreateSite("SiteName10", 97);
 
             #endregion
@@ -799,7 +847,9 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region units
 
             #region Unit1
+
             Unit unit1 = await testHelpers.CreateUnit(48, 49, site1, 348);
+
             #endregion
 
 //            #region Unit2
@@ -838,7 +888,6 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //            units unit10 = await testHelpers.CreateUnit(10, 100, site10, 357);
 //            #endregion
 
-
             #endregion
 
 //            #region site_workers
@@ -847,6 +896,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //            #endregion
 
             #endregion
+
             // Act
 
             var match = await sut.UnitRead((int)unit1.MicrotingUid);
@@ -855,21 +905,21 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             Assert.AreEqual(unit1.MicrotingUid, match.UnitUId);
             Assert.AreEqual(unit1.CustomerNo, match.CustomerNo);
-
-
         }
 
         [Test]
         public async Task SQL_Unit_UnitUpdate_UpdatesUnit()
         {
-
             // Arrance
+
             #region Arrance
 
             #region Checklist
+
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
-            CheckList Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+            CheckList Cl1 =
+                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
             #endregion
 
@@ -978,6 +1028,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region Workers
 
             #region worker1
+
             Worker worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
             #endregion
@@ -1032,51 +1083,61 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region sites
 
             #region Site1
+
             Site site1 = await testHelpers.CreateSite("SiteName1", 88);
 
             #endregion
 
             #region Site2
+
             Site site2 = await testHelpers.CreateSite("SiteName2", 89);
 
             #endregion
 
             #region Site3
+
             Site site3 = await testHelpers.CreateSite("SiteName3", 90);
 
             #endregion
 
             #region Site4
+
             Site site4 = await testHelpers.CreateSite("SiteName4", 91);
 
             #endregion
 
             #region Site5
+
             Site site5 = await testHelpers.CreateSite("SiteName5", 92);
 
             #endregion
 
             #region Site6
+
             Site site6 = await testHelpers.CreateSite("SiteName6", 93);
 
             #endregion
 
             #region Site7
+
             Site site7 = await testHelpers.CreateSite("SiteName7", 94);
 
             #endregion
 
             #region Site8
+
             Site site8 = await testHelpers.CreateSite("SiteName8", 95);
 
             #endregion
 
             #region Site9
+
             Site site9 = await testHelpers.CreateSite("SiteName9", 96);
 
             #endregion
 
             #region Site10
+
             Site site10 = await testHelpers.CreateSite("SiteName10", 97);
 
             #endregion
@@ -1086,7 +1147,9 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region units
 
             #region Unit1
+
             Unit unit1 = await testHelpers.CreateUnit(48, 49, site1, 348);
+
             #endregion
 
 //            #region Unit2
@@ -1134,21 +1197,27 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //            #endregion
 
             #endregion
+
             // Act
-            var match = await sut.UnitUpdate((int)unit1.MicrotingUid, (int)unit1.CustomerNo, (int)unit1.OtpCode, (int)unit1.SiteId);
+            var match = await sut.UnitUpdate((int)unit1.MicrotingUid, (int)unit1.CustomerNo, (int)unit1.OtpCode,
+                (int)unit1.SiteId);
             // Assert
             Assert.True(match);
         }
 
         [Test]
         public async Task SQL_Unit_UnitDelete_DeletesUnit()
-        {  // Arrance
+        {
+            // Arrance
+
             #region Arrance
 
             #region Checklist
+
             DateTime cl1_Ca = DateTime.Now;
             DateTime cl1_Ua = DateTime.Now;
-            CheckList Cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+            CheckList Cl1 =
+                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
             #endregion
 
@@ -1257,6 +1326,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region Workers
 
             #region worker1
+
             Worker worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
             #endregion
@@ -1311,62 +1381,74 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             #region sites
 
             #region Site1
+
             Site site1 = await testHelpers.CreateSite("SiteName1", 88);
 
             #endregion
 
             #region Site2
+
             Site site2 = await testHelpers.CreateSite("SiteName2", 89);
 
             #endregion
 
             #region Site3
+
             Site site3 = await testHelpers.CreateSite("SiteName3", 90);
 
             #endregion
 
             #region Site4
+
             Site site4 = await testHelpers.CreateSite("SiteName4", 91);
 
             #endregion
 
             #region Site5
+
             Site site5 = await testHelpers.CreateSite("SiteName5", 92);
+
             #endregion
 
             #region Site6
+
             Site site6 = await testHelpers.CreateSite("SiteName6", 93);
 
             #endregion
 
             #region Site7
+
             Site site7 = await testHelpers.CreateSite("SiteName7", 94);
 
             #endregion
 
             #region Site8
+
             Site site8 = await testHelpers.CreateSite("SiteName8", 95);
 
             #endregion
 
             #region Site9
+
             Site site9 = await testHelpers.CreateSite("SiteName9", 96);
 
             #endregion
 
             #region Site10
+
             Site site10 = await testHelpers.CreateSite("SiteName10", 97);
 
             #endregion
+
             #endregion
-
-
 
 
             #region units
 
             #region Unit1
+
             Unit unit1 = await testHelpers.CreateUnit(48, 49, site1, 348);
+
             #endregion
 
 //            #region Unit2
@@ -1404,7 +1486,6 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //            #region Unit10
 //            units unit10 = await testHelpers.CreateUnit(10, 100, site10, 357);
 //            #endregion
-
 
             #endregion
 
@@ -1425,6 +1506,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
 
         #region eventhandlers
+
 #pragma warning disable 1998
         public async Task EventCaseCreated(object sender, EventArgs args)
         {
@@ -1456,7 +1538,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Does nothing for web implementation
         }
 #pragma warning restore 1998
+
         #endregion
     }
-
 }

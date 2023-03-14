@@ -79,7 +79,6 @@ namespace eFormSDK.Base.Tests
 
             Assert.AreEqual(siteTag.SiteId, siteTagVersions[0].SiteId);
             Assert.AreEqual(siteTag.TagId, siteTagVersions[0].TagId);
-
         }
 
         [Test]
@@ -118,7 +117,6 @@ namespace eFormSDK.Base.Tests
             await tag2.Create(DbContext).ConfigureAwait(false);
 
 
-
             SiteTag siteTag = new SiteTag
             {
                 SiteId = site.Id,
@@ -155,7 +153,7 @@ namespace eFormSDK.Base.Tests
         [Test]
         public async Task SiteTags_Delete_DoesDelete()
         {
-                        // Arrange
+            // Arrange
             Random rnd = new Random();
 
             Site site = new Site
@@ -200,7 +198,6 @@ namespace eFormSDK.Base.Tests
             Assert.AreEqual(siteTag.SiteId, siteTagVersions[1].SiteId);
             Assert.AreEqual(siteTag.TagId, siteTagVersions[1].TagId);
             Assert.AreEqual(siteTagVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
-
         }
 
         [Test]
@@ -260,7 +257,6 @@ namespace eFormSDK.Base.Tests
             Assert.AreEqual(siteTag.SiteId, siteTagVersions[3].SiteId);
             Assert.AreEqual(siteTag.TagId, siteTagVersions[3].TagId);
             Assert.AreEqual(siteTagVersions[3].WorkflowState, Constants.WorkflowStates.Removed);
-
         }
     }
 }

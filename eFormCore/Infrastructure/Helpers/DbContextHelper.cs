@@ -28,8 +28,8 @@ namespace Microting.eForm.Infrastructure.Helpers
 {
     public class DbContextHelper
     {
-        private string ConnectionString { get;}
-        
+        private string ConnectionString { get; }
+
         public DbContextHelper(string connectionString)
         {
             ConnectionString = connectionString;
@@ -39,7 +39,7 @@ namespace Microting.eForm.Infrastructure.Helpers
         {
             MicrotingDbContextFactory contextFactory = new MicrotingDbContextFactory();
 
-            return contextFactory.CreateDbContext(new[] {ConnectionString});
+            return contextFactory.CreateDbContext(new[] { ConnectionString });
         }
     }
 }

@@ -91,8 +91,8 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(options);
             Assert.NotNull(optionVersions);
 
-            Assert.AreEqual(1,options.Count());
-            Assert.AreEqual(1,optionVersions.Count());
+            Assert.AreEqual(1, options.Count());
+            Assert.AreEqual(1, optionVersions.Count());
 
             Assert.AreEqual(option.CreatedAt.ToString(), options[0].CreatedAt.ToString());
             Assert.AreEqual(option.Version, options[0].Version);
@@ -178,8 +178,8 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(options);
             Assert.NotNull(optionVersions);
 
-            Assert.AreEqual(1,options.Count());
-            Assert.AreEqual(2,optionVersions.Count());
+            Assert.AreEqual(1, options.Count());
+            Assert.AreEqual(2, optionVersions.Count());
 
             Assert.AreEqual(option.CreatedAt.ToString(), options[0].CreatedAt.ToString());
             Assert.AreEqual(option.Version, options[0].Version);
@@ -271,8 +271,8 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(options);
             Assert.NotNull(optionVersions);
 
-            Assert.AreEqual(1,options.Count());
-            Assert.AreEqual(2,optionVersions.Count());
+            Assert.AreEqual(1, options.Count());
+            Assert.AreEqual(2, optionVersions.Count());
 
             Assert.AreEqual(option.CreatedAt.ToString(), options[0].CreatedAt.ToString());
             Assert.AreEqual(option.Version, options[0].Version);

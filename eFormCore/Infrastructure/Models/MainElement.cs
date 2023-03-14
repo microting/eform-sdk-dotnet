@@ -39,8 +39,10 @@ namespace Microting.eForm.Infrastructure.Models
             ElementList = new List<Element>();
         }
 
-        public CoreElement(int id, string label, int displayOrder, string checkListFolderName, int repeated, DateTime startDate, DateTime endDate, string language,
-            bool multiApproval, bool fastNavigation, bool downloadEntities, bool manualSync, string caseType, List<Element> elementList, string color)
+        public CoreElement(int id, string label, int displayOrder, string checkListFolderName, int repeated,
+            DateTime startDate, DateTime endDate, string language,
+            bool multiApproval, bool fastNavigation, bool downloadEntities, bool manualSync, string caseType,
+            List<Element> elementList, string color)
         {
             Id = id;
             Label = label;
@@ -68,15 +70,14 @@ namespace Microting.eForm.Infrastructure.Models
         public string CheckListFolderName { get; set; }
         public int Repeated { get; set; }
         public int? MicrotingUId { get; set; }
+
         public string Color { get; set; }
 //        public string OriginalId { get; set; }
 
-        [XmlIgnore]
-        public string CaseType { get; set; }
+        [XmlIgnore] public string CaseType { get; set; }
 
         // public string/DateTime StartDate { get; set; }
-        [XmlIgnore]
-        public DateTime StartDate { get; set; }
+        [XmlIgnore] public DateTime StartDate { get; set; }
 
         [XmlElement("StartDate")]
         public string StartDateString
@@ -87,8 +88,7 @@ namespace Microting.eForm.Infrastructure.Models
         //
 
         // public string/DateTime EndDate { get; set; }
-        [XmlIgnore]
-        public DateTime EndDate { get; set; }
+        [XmlIgnore] public DateTime EndDate { get; set; }
 
         [XmlElement("EndDate")]
         public string EndDateString
@@ -132,6 +132,7 @@ namespace Microting.eForm.Infrastructure.Models
                     {
                         dataItemLst.Add(item);
                     }
+
                     foreach (DataItemGroup item in dataE.DataItemGroupList)
                     {
                         foreach (DataItem subItem in item.DataItemList)
@@ -147,6 +148,7 @@ namespace Microting.eForm.Infrastructure.Models
                     DataItemGetAllFromList(groupE.ElementList, dataItemLst);
                 }
             }
+
             return dataItemLst;
         }
 
@@ -173,7 +175,6 @@ namespace Microting.eForm.Infrastructure.Models
 
             return returnElements;
         }
-
     }
 
     // MainElement : CoreElement
@@ -210,8 +211,11 @@ namespace Microting.eForm.Infrastructure.Models
             PushMessageBody = "";
         }
 
-        public MainElement(int id, string label, int displayOrder, string checkListFolderName, int repeated, DateTime startDate, DateTime endDate, string language,
-            bool multiApproval, bool fastNavigation, bool downloadEntities, bool manualSync, string caseType, string pushMessageTitle, string pushMessageBody, bool enableQuickSync, List<Element> elementList, string color)
+        public MainElement(int id, string label, int displayOrder, string checkListFolderName, int repeated,
+            DateTime startDate, DateTime endDate, string language,
+            bool multiApproval, bool fastNavigation, bool downloadEntities, bool manualSync, string caseType,
+            string pushMessageTitle, string pushMessageBody, bool enableQuickSync, List<Element> elementList,
+            string color)
         {
             Id = id;
             Label = label;
@@ -237,6 +241,7 @@ namespace Microting.eForm.Infrastructure.Models
         // var
         // public string PushMessageTitle { get; set; }
         private string pushMessageTitle;
+
         public string PushMessageTitle
         {
             get
@@ -246,11 +251,9 @@ namespace Microting.eForm.Infrastructure.Models
                     return pushMessageTitle.AsSpan().Slice(0, 255).ToString();
                 return pushMessageTitle;
             }
-            set
-            {
-                pushMessageTitle = value;
-            }
+            set { pushMessageTitle = value; }
         }
+
         //
         public string PushMessageBody { get; set; }
         //
@@ -309,7 +312,6 @@ namespace Microting.eForm.Infrastructure.Models
             try
             {
                 return JsonConvert.SerializeObject(this);
-
             }
             catch (Exception ex)
             {
@@ -364,6 +366,7 @@ namespace Microting.eForm.Infrastructure.Models
         public int UnitId { get; set; }
         public int SiteMicrotingUuid { get; set; }
         public bool JasperExportEnabled { get; set; }
+
         public bool DocxExportEnabled { get; set; }
 //        public string OriginalId { get; set; }
         //

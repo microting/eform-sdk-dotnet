@@ -5,13 +5,12 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public class FieldOption : PnBase
     {
-
         public FieldOption()
         {
             FieldOptionTranslations = new HashSet<FieldOptionTranslation>();
         }
-        [ForeignKey("Field")]
-        public int FieldId { get; set; }
+
+        [ForeignKey("Field")] public int FieldId { get; set; }
 
         public string Key { get; set; }
 

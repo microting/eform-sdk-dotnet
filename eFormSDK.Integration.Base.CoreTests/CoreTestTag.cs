@@ -59,6 +59,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
             await sql.SettingUpdate(Settings.firstRunDone, "true");
             await sql.SettingUpdate(Settings.knownSitesDone, "true");
+
             #endregion
 
             sut = new Core();
@@ -71,7 +72,8 @@ namespace eFormSDK.Integration.Base.CoreTests
             await sut.StartSqlOnly(ConnectionString);
             path = Assembly.GetExecutingAssembly().Location;
             path = Path.GetDirectoryName(path).Replace(@"file:", "");
-            await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SetSdkSetting(Settings.fileLocationPicture,
+                Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers(ConnectionString);
@@ -80,6 +82,7 @@ namespace eFormSDK.Integration.Base.CoreTests
         }
 
         #region tag
+
         [Test]
         public async Task Core_Tags_CreateTag_DoesCreateNewTag()
         {
@@ -101,7 +104,7 @@ namespace eFormSDK.Integration.Base.CoreTests
         {
             // Arrance
             string tagName = "Tag1";
-            Tag tag = new Tag {Name = tagName, WorkflowState = Constants.WorkflowStates.Created};
+            Tag tag = new Tag { Name = tagName, WorkflowState = Constants.WorkflowStates.Created };
 
             DbContext.Tags.Add(tag);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -122,7 +125,7 @@ namespace eFormSDK.Integration.Base.CoreTests
         {
             // Arrance
             string tagName = "Tag1";
-            Tag tag = new Tag {Name = tagName, WorkflowState = Constants.WorkflowStates.Removed};
+            Tag tag = new Tag { Name = tagName, WorkflowState = Constants.WorkflowStates.Removed };
 
             DbContext.Tags.Add(tag);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -143,19 +146,19 @@ namespace eFormSDK.Integration.Base.CoreTests
         {
             // Arrance
             string tagName1 = "Tag1";
-            Tag tag = new Tag {Name = tagName1, WorkflowState = Constants.WorkflowStates.Removed};
+            Tag tag = new Tag { Name = tagName1, WorkflowState = Constants.WorkflowStates.Removed };
 
             DbContext.Tags.Add(tag);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName2 = "Tag2";
-            tag = new Tag {Name = tagName2, WorkflowState = Constants.WorkflowStates.Removed};
+            tag = new Tag { Name = tagName2, WorkflowState = Constants.WorkflowStates.Removed };
 
 
             DbContext.Tags.Add(tag);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
             string tagName3 = "Tag3";
-            tag = new Tag {Name = tagName3, WorkflowState = Constants.WorkflowStates.Removed};
+            tag = new Tag { Name = tagName3, WorkflowState = Constants.WorkflowStates.Removed };
 
 
             DbContext.Tags.Add(tag);
@@ -197,13 +200,13 @@ namespace eFormSDK.Integration.Base.CoreTests
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             string tagName1 = "Tag1";
-            Tag tag = new Tag {Name = tagName1, WorkflowState = Constants.WorkflowStates.Created};
+            Tag tag = new Tag { Name = tagName1, WorkflowState = Constants.WorkflowStates.Created };
 
             DbContext.Tags.Add(tag);
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
-            List<int> tags = new List<int> {tag.Id};
+            List<int> tags = new List<int> { tag.Id };
             await sut.TemplateSetTags(cl1.Id, tags);
 
 
@@ -274,7 +277,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             #endregion
 
             // Act
-            List<int> tags = new List<int> {tag1.Id, tag3.Id};
+            List<int> tags = new List<int> { tag1.Id, tag3.Id };
             await sut.TemplateSetTags(cl1.Id, tags);
             await sut.TemplateSetTags(cl1.Id, tags);
 
@@ -286,11 +289,12 @@ namespace eFormSDK.Integration.Base.CoreTests
             Assert.AreEqual(tag3.Id, result[1].TagId);
             Assert.AreEqual(cl1.Id, result[0].CheckListId);
             // Assert.True(true);
-
         }
+
         #endregion
 
         #region eventhandlers
+
         public void EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
@@ -320,7 +324,7 @@ namespace eFormSDK.Integration.Base.CoreTests
         {
             // Does nothing for web implementation
         }
+
         #endregion
     }
-
 }

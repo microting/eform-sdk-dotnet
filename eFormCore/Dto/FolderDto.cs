@@ -30,7 +30,8 @@ namespace Microting.eForm.Dto
     {
         #region con
 
-        public FolderDto(int? id, string name, string description, int? parentId, DateTime? createdAt, DateTime? updatedAt,int? microtingUId)
+        public FolderDto(int? id, string name, string description, int? parentId, DateTime? createdAt,
+            DateTime? updatedAt, int? microtingUId)
         {
             Id = id;
             Name = name;
@@ -40,15 +41,17 @@ namespace Microting.eForm.Dto
             UpdatedAt = updatedAt;
             MicrotingUId = microtingUId;
         }
+
         #endregion
-        
+
         #region var
+
         public int? Id { get; }
-        
+
         public string Name { get; }
-        
+
         public string Description { get; }
-        
+
         public int? ParentId { get; }
 
         /// <summary>
@@ -60,10 +63,12 @@ namespace Microting.eForm.Dto
         ///...
         /// </summary>
         public DateTime? UpdatedAt { get; }
+
         /// <summary>
         ///...
         /// </summary>
         public int? MicrotingUId { get; }
+
         #endregion
     }
 }

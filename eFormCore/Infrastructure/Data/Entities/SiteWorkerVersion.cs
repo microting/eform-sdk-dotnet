@@ -24,7 +24,7 @@ SOFTWARE.
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class SiteWorkerVersion : BaseEntity
+    public class SiteWorkerVersion : BaseEntity
     {
         public int? SiteId { get; set; }
 

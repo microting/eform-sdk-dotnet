@@ -29,14 +29,13 @@ namespace Microting.eForm.Infrastructure.Data.Entities
     public class LanguageQuestionSetVersion : BaseEntity
     {
         public int LanguageId { get; set; }
-        
+
         public int QuestionSetId { get; set; }
-        
-        [ForeignKey("LanguageQuestionSet")]
-        public int LanguageQuestionSetId { get; set; }
-        
+
+        [ForeignKey("LanguageQuestionSet")] public int LanguageQuestionSetId { get; set; }
+
         public virtual LanguageQuestionSet LanguageQuestionSet { get; set; }
-        
+
         public int? MicrotingUid { get; set; }
     }
 }

@@ -58,6 +58,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
             await sql.SettingUpdate(Settings.firstRunDone, "true");
             await sql.SettingUpdate(Settings.knownSitesDone, "true");
+
             #endregion
 
             sut = new Core();
@@ -70,7 +71,8 @@ namespace eFormSDK.Integration.Base.CoreTests
             await sut.StartSqlOnly(ConnectionString);
             path = Assembly.GetExecutingAssembly().Location;
             path = Path.GetDirectoryName(path).Replace(@"file:", "");
-            await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SetSdkSetting(Settings.fileLocationPicture,
+                Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers(ConnectionString);
@@ -79,6 +81,7 @@ namespace eFormSDK.Integration.Base.CoreTests
         }
 
         #region site
+
         [Test]
         public async Task Core_Site_SiteCreate_ReturnsSiteId()
         {
@@ -96,9 +99,9 @@ namespace eFormSDK.Integration.Base.CoreTests
 
             Assert.AreEqual(1, sites.Count());
             Assert.AreEqual(Constants.WorkflowStates.Created, sites[0].WorkflowState);
-
         }
-        [Test]//Using communicator, needs httpMock
+
+        [Test] //Using communicator, needs httpMock
 #pragma warning disable 1998
         public async Task Core_Site_SiteCreate_ReturnSiteId()
         {
@@ -291,18 +294,23 @@ namespace eFormSDK.Integration.Base.CoreTests
             #endregion
 
             #region site
+
             Site site = await testHelpers.CreateSite("SiteName", 88);
 
             #endregion
 
             #region units
+
             Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
 
             #endregion
+
             #region site_workers
+
             await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
+
             // Act
 
             var match = await sut.SiteRead((int)site.MicrotingUid);
@@ -311,13 +319,11 @@ namespace eFormSDK.Integration.Base.CoreTests
             Assert.NotNull(match);
             Assert.AreEqual(match.SiteId, site.MicrotingUid);
             Assert.AreEqual(match.SiteName, site.Name);
-
-
         }
+
         [Test]
         public async Task Core_Site_SiteReadAll_ReturnsSites()
         {
-
             // Arrange
 //            #region Template1
 //            DateTime cl1_Ca = DateTime.UtcNow;
@@ -490,19 +496,23 @@ namespace eFormSDK.Integration.Base.CoreTests
             #endregion
 
             #region site
+
             Site site = await testHelpers.CreateSite("SiteName", 88);
 
             #endregion
 
             #region units
+
             Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
 
             #endregion
 
             #region site_workers
+
             SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
 
             #endregion
+
             // Act
             var matchNotRemoved = await sut.SiteReadAll(false);
             var matchInclRemoved = await sut.SiteReadAll(true);
@@ -512,30 +522,32 @@ namespace eFormSDK.Integration.Base.CoreTests
 
             Assert.AreEqual(matchInclRemoved.Count, 1);
             Assert.AreEqual(matchNotRemoved.Count, 1);
-
-
-
         }
-        [Test]//Using Communicatorn needs httpMock
+
+        [Test] //Using Communicatorn needs httpMock
         public async Task Core_Site_SiteReset_ReturnsSite()
         {
-
             // Arrange
+
             #region site
+
             Site site = await testHelpers.CreateSite("SiteName", 88);
 
             #endregion
+
             // Act
 
             // Assert
-
         }
-        [Test]//Using Communicatorn needs httpMock
+
+        [Test] //Using Communicatorn needs httpMock
         public async Task Core_Site_SiteUpdate_returnsTrue()
         {
             // Arrange
             // Arrange
+
             #region site
+
             string siteName = Guid.NewGuid().ToString();
             int siteMicrotingUid = 1; // This needs to be 1 for our tests to pass through the FakeHttp
             // TODO: Improve the test for supporting random id.
@@ -548,9 +560,11 @@ namespace eFormSDK.Integration.Base.CoreTests
                 CreatedAt = site.CreatedAt,
                 UpdatedAt = site.UpdatedAt
             };
+
             #endregion
 
             #region worker
+
             string email = Guid.NewGuid().ToString();
             string firstName = Guid.NewGuid().ToString();
             string lastName = Guid.NewGuid().ToString();
@@ -559,14 +573,19 @@ namespace eFormSDK.Integration.Base.CoreTests
             // TODO: Improve the test for supporting random id.
 
             Worker worker = await testHelpers.CreateWorker(email, firstName, lastName, workerMicrotingUid);
+
             #endregion
 
             #region site_worker
+
             SiteWorker siteWorker = await testHelpers.CreateSiteWorker(1, site, worker);
+
             #endregion
 
             #region unit
+
             Unit unit = await testHelpers.CreateUnit(1, 1, site, 1);
+
             #endregion
 
             var match = await sut.SiteUpdate((int)site.MicrotingUid, site.Name, firstName, lastName, email, "da");
@@ -585,7 +604,8 @@ namespace eFormSDK.Integration.Base.CoreTests
 
             Assert.True(match);
         }
-        [Test]//Using Communicatorn needs httpMock
+
+        [Test] //Using Communicatorn needs httpMock
         public async Task Core_Site_SiteDelete_ReturnsTrue()
         {
             // Arrange
@@ -642,6 +662,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             await site.Update(db);
 
             #region worker
+
             string email = Guid.NewGuid().ToString();
             string firstName = Guid.NewGuid().ToString();
             string lastName = Guid.NewGuid().ToString();
@@ -650,15 +671,21 @@ namespace eFormSDK.Integration.Base.CoreTests
             // TODO: Improve the test for supporting random id.
 
             Worker worker = await testHelpers.CreateWorker(email, firstName, lastName, workerMicrotingUid);
+
             #endregion
 
             #region site_worker
+
             SiteWorker siteWorker = await testHelpers.CreateSiteWorker(1, site, worker);
+
             #endregion
 
             #region unit
+
             Unit unit = await testHelpers.CreateUnit(1, 1, site, 1);
+
             #endregion
+
             // Act
             var match = await sut.SiteDelete((int)site.MicrotingUid);
             // Assert
@@ -666,18 +693,10 @@ namespace eFormSDK.Integration.Base.CoreTests
             //#endregion
         }
 
-
-
-
-
-
-
-
-
-
         #endregion
 
         #region eventhandlers
+
         public void EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
@@ -707,7 +726,7 @@ namespace eFormSDK.Integration.Base.CoreTests
         {
             // Does nothing for web implementation
         }
+
         #endregion
     }
-
 }

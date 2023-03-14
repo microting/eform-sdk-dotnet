@@ -26,7 +26,6 @@ namespace Microting.eForm
 {
     public static class DbConfig
     {
-        public static bool IsMySQL = false;      
-        
+        public static bool IsMySQL = false;
     }
 }

@@ -70,8 +70,8 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
 
-            Assert.AreEqual(2,folders.Count());
-            Assert.AreEqual(2,folderVersions.Count());
+            Assert.AreEqual(2, folders.Count());
+            Assert.AreEqual(2, folderVersions.Count());
 
             Assert.AreEqual(folder.CreatedAt.ToString(), folders[1].CreatedAt.ToString());
             Assert.AreEqual(folder.Version, folders[1].Version);
@@ -135,8 +135,8 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
 
-            Assert.AreEqual(2,folders.Count());
-            Assert.AreEqual(3,folderVersions.Count());
+            Assert.AreEqual(2, folders.Count());
+            Assert.AreEqual(3, folderVersions.Count());
 
             Assert.AreEqual(folder.CreatedAt.ToString(), folders[1].CreatedAt.ToString());
             Assert.AreEqual(folder.Version, folders[1].Version);
@@ -173,7 +173,7 @@ namespace eFormSDK.Base.Tests
         [Test]
         public async Task Folders_Delete_DoesSetWorkflowStateToRemoved()
         {
-             //Arrange
+            //Arrange
 
             Random rnd = new Random();
 
@@ -204,8 +204,8 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
 
-            Assert.AreEqual(2,folders.Count());
-            Assert.AreEqual(3,folderVersions.Count());
+            Assert.AreEqual(2, folders.Count());
+            Assert.AreEqual(3, folderVersions.Count());
 
             Assert.AreEqual(folder.CreatedAt.ToString(), folders[1].CreatedAt.ToString());
             Assert.AreEqual(folder.Version, folders[1].Version);

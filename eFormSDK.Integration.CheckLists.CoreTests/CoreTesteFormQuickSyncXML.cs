@@ -44,7 +44,6 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
     [TestFixture]
     public class CoreTesteFormQuickSyncXML : DbTestFixture
     {
-
         private Core sut;
         private TestHelpers testHelpers;
         private string path;
@@ -58,6 +57,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
             await sql.SettingUpdate(Settings.firstRunDone, "true");
             await sql.SettingUpdate(Settings.knownSitesDone, "true");
+
             #endregion
 
             sut = new Core();
@@ -70,7 +70,8 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             await sut.StartSqlOnly(ConnectionString);
             path = Assembly.GetExecutingAssembly().Location;
             path = Path.GetDirectoryName(path).Replace(@"file:", "");
-            await sut.SetSdkSetting(Settings.fileLocationPicture, Path.Combine(path, "output", "dataFolder", "picture"));
+            await sut.SetSdkSetting(Settings.fileLocationPicture,
+                Path.Combine(path, "output", "dataFolder", "picture"));
             await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers(ConnectionString);
@@ -181,8 +182,6 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(false, commentField.ReadOnly);
             Assert.AreEqual(false, commentField.Mandatory);
             // Assert.AreEqual(Constants.FieldColors.Grey, commentField.Color);
-
-
         }
 
 
@@ -190,11 +189,13 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
         public async Task Core_Template_TemplateRead_ReturnsTemplateWithQuickSync()
         {
             // Arrange
+
             #region Tempalte
 
             DateTime cl1_ca = DateTime.UtcNow;
             DateTime cl1_ua = DateTime.UtcNow;
-            CheckList cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+            CheckList cl1 =
+                await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
             //cl1.quick_sync_enabled = 1;
             CheckList cl_ud = await DbContext.CheckLists.FirstAsync(x => x.Id == cl1.Id);
             //DbContext.check_lists.Add(cl1);
@@ -217,11 +218,10 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.AreEqual(match.MultiApproval, false);
             Assert.AreEqual(match.Repeated, cl1.Repeated);
             Assert.AreEqual(match.EnableQuickSync, true);
-
-
         }
 
         #region eventhandlers
+
         public void EventCaseCreated(object sender, EventArgs args)
         {
             // Does nothing for web implementation
@@ -251,6 +251,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
         {
             // Does nothing for web implementation
         }
+
         #endregion
     }
 }

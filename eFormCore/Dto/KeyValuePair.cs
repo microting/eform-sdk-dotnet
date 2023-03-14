@@ -33,7 +33,6 @@ namespace Microting.eForm.Dto
 
         internal KeyValuePair()
         {
-
         }
 
         public KeyValuePair(string key, string value, bool selected, string displayOrder)

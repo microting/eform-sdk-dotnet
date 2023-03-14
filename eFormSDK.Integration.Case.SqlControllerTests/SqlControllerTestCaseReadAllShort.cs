@@ -46,7 +46,9 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
     public class SqlControllerTestCaseReadAllShort : DbTestFixture
     {
         private SqlController sut;
+
         private TestHelpers testHelpers;
+
 //        private string path;
         TimeZoneInfo timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById("Europe/Copenhagen");
         private Language language;
@@ -54,6 +56,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
         public override async Task DoSetup()
         {
             #region Setup SettingsTableContent
+
             #region Setup SettingsTableContent
 
             DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
@@ -61,6 +64,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
             await sql.SettingUpdate(Settings.firstRunDone, "true");
             await sql.SettingUpdate(Settings.knownSitesDone, "true");
+
             #endregion
 
             sut = new SqlController(dbContextHelper);
@@ -74,15 +78,17 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
         }
 
         #region template
+
         [Test]
         public async Task SQL_Template_TemplateItemReadAll_DoesSortAccordingly()
         {
-
             // Arrance
 
             #region Template1
+
             CheckList cl1 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "A", "D",
                 "CheckList", "Template1FolderName", 1, 0);
+
             #endregion
 
             #region Template2
@@ -90,18 +96,21 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             CheckList cl2 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "B", "C",
                 "CheckList", "Template1FolderName", 1, 0);
             await cl2.Delete(DbContext);
+
             #endregion
 
             #region Template3
 
             CheckList cl3 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "D", "B",
                 "CheckList", "Template1FolderName", 1, 0);
+
             #endregion
 
             #region Template4
 
             CheckList cl4 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "C", "A",
                 "CheckList", "Template1FolderName", 1, 0);
+
             #endregion
 
 
@@ -109,33 +118,61 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             List<int> emptyList = new List<int>();
 
             // Default sorting including removed
-            List<Template_Dto> templateListId = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, "", emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListLabel = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Label, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescription = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Description, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListCreatedAt = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.CreatedAt, emptyList, timeZoneInfo, language);
+            List<Template_Dto> templateListId = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created,
+                "", false, "", emptyList, timeZoneInfo, language);
+            List<Template_Dto> templateListLabel = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created,
+                "", false, Constants.eFormSortParameters.Label, emptyList, timeZoneInfo, language);
+            List<Template_Dto> templateListDescription = await sut.TemplateItemReadAll(true,
+                Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Description, emptyList,
+                timeZoneInfo, language);
+            List<Template_Dto> templateListCreatedAt = await sut.TemplateItemReadAll(true,
+                Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.CreatedAt, emptyList,
+                timeZoneInfo, language);
 
             // Descending including removed
-            List<Template_Dto> templateListDescengingId = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, "", emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescengingLabel = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Label, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescengingDescription = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Description, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescengingCreatedAt = await sut.TemplateItemReadAll(true, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.CreatedAt, emptyList, timeZoneInfo, language);
+            List<Template_Dto> templateListDescengingId = await sut.TemplateItemReadAll(true,
+                Constants.WorkflowStates.Created, "", true, "", emptyList, timeZoneInfo, language);
+            List<Template_Dto> templateListDescengingLabel = await sut.TemplateItemReadAll(true,
+                Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Label, emptyList,
+                timeZoneInfo, language);
+            List<Template_Dto> templateListDescengingDescription = await sut.TemplateItemReadAll(true,
+                Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Description, emptyList,
+                timeZoneInfo, language);
+            List<Template_Dto> templateListDescengingCreatedAt = await sut.TemplateItemReadAll(true,
+                Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.CreatedAt, emptyList,
+                timeZoneInfo, language);
 
             // Default sorting excluding removed
-            List<Template_Dto> templateListIdNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, "", emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListLabelNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Label, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescriptionNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Description, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListCreatedAtNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.CreatedAt, emptyList, timeZoneInfo, language);
+            List<Template_Dto> templateListIdNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created,
+                "", false, "", emptyList, timeZoneInfo, language);
+            List<Template_Dto> templateListLabelNr = await sut.TemplateItemReadAll(false,
+                Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Label, emptyList,
+                timeZoneInfo, language);
+            List<Template_Dto> templateListDescriptionNr = await sut.TemplateItemReadAll(false,
+                Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.Description, emptyList,
+                timeZoneInfo, language);
+            List<Template_Dto> templateListCreatedAtNr = await sut.TemplateItemReadAll(false,
+                Constants.WorkflowStates.Created, "", false, Constants.eFormSortParameters.CreatedAt, emptyList,
+                timeZoneInfo, language);
 
             // Descending excluding removed
-            List<Template_Dto> templateListDescengingIdNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, "", emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescengingLabelNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Label, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescengingDescriptionNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Description, emptyList, timeZoneInfo, language);
-            List<Template_Dto> templateListDescengingCreatedAtNr = await sut.TemplateItemReadAll(false, Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.CreatedAt, emptyList, timeZoneInfo, language);
+            List<Template_Dto> templateListDescengingIdNr = await sut.TemplateItemReadAll(false,
+                Constants.WorkflowStates.Created, "", true, "", emptyList, timeZoneInfo, language);
+            List<Template_Dto> templateListDescengingLabelNr = await sut.TemplateItemReadAll(false,
+                Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Label, emptyList,
+                timeZoneInfo, language);
+            List<Template_Dto> templateListDescengingDescriptionNr = await sut.TemplateItemReadAll(false,
+                Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.Description, emptyList,
+                timeZoneInfo, language);
+            List<Template_Dto> templateListDescengingCreatedAtNr = await sut.TemplateItemReadAll(false,
+                Constants.WorkflowStates.Created, "", true, Constants.eFormSortParameters.CreatedAt, emptyList,
+                timeZoneInfo, language);
 
 
             // Assert
 
             #region include removed
+
             // Default sorting including removed
             // Id
             Assert.NotNull(templateListId);
@@ -239,9 +276,11 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.AreEqual(0, templateListDescengingCreatedAt[1].Tags.Count());
             Assert.AreEqual(0, templateListDescengingCreatedAt[2].Tags.Count());
             Assert.AreEqual(0, templateListDescengingCreatedAt[3].Tags.Count());
+
             #endregion
 
             #region Exclude removed
+
             // Default sorting including removed
             // Id
             Assert.NotNull(templateListIdNr);
@@ -331,18 +370,20 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.AreEqual(0, templateListDescengingCreatedAtNr[2].Tags.Count());
 
             #endregion
-
         }
 
         [Test]
         public async Task SQL_Template_TemplateDelete_DoesMarkTemplateAsRemoved()
         {
             // Arrance
+
             #region Template1
 
             CheckList cl1 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "A", "D",
                 "CheckList", "Template1FolderName", 1, 0);
+
             #endregion
+
             // Act
 
             await sut.TemplateDelete(cl1.Id);
@@ -356,7 +397,6 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.NotNull(clResult);
             Assert.AreEqual(1, checkLists.Count());
             Assert.AreEqual(Constants.WorkflowStates.Removed, checkLists[0].WorkflowState);
-
         }
 
 //        [Test]
@@ -393,7 +433,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.IsNull(cl1.ParentId);
             Assert.AreEqual(cl1.Id, templateId);
             Assert.AreEqual(cl1.Label, null);
-            Assert.AreEqual("label1", checkLisTranslations[0].Text );
+            Assert.AreEqual("label1", checkLisTranslations[0].Text);
             Assert.AreEqual(cl1.FolderName, "folderWithList");
             Assert.AreEqual(cl1.CaseType, "type1");
             Assert.AreEqual(cl1.DisplayIndex, 4);
@@ -408,16 +448,17 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.AreEqual(cl1.ApprovalEnabled, 0);
             Assert.AreEqual(cl1.ReviewEnabled, 0);
             Assert.AreEqual(cl1.Repeated, 1);
-
         }
 
         [Test]
         public async Task SQL_Template_TemplateItemRead_ReadsItems()
         {
             // Arrance
+
             #region Templates
 
             #region template1
+
             DateTime cl1_ca = DateTime.UtcNow;
             DateTime cl1_ua = DateTime.UtcNow;
             CheckList Template1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "Label1", "Description1",
@@ -426,6 +467,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #endregion
 
             #region template2
+
             DateTime cl2_ca = DateTime.UtcNow;
             DateTime cl2_ua = DateTime.UtcNow;
             CheckList Template2 = await testHelpers.CreateTemplate(cl2_ca, cl2_ua, "Label2", "Description2",
@@ -434,6 +476,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #endregion
 
             #region template3
+
             DateTime cl3_ca = DateTime.UtcNow;
             DateTime cl3_ua = DateTime.UtcNow;
             CheckList Template3 = await testHelpers.CreateTemplate(cl3_ca, cl3_ua, "Label3", "Description3",
@@ -442,6 +485,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #endregion
 
             #region template4
+
             DateTime cl4_ca = DateTime.UtcNow;
             DateTime cl4_ua = DateTime.UtcNow;
             CheckList Template4 = await testHelpers.CreateTemplate(cl4_ca, cl4_ua, "Label4", "Description4",
@@ -487,15 +531,18 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             #region Field1
 
-            Field Field1 = await testHelpers.CreateField(1, "barcode", subTemplate1, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+            Field Field1 = await testHelpers.CreateField(1, "barcode", subTemplate1, "e2f4fb", "custom", null, "",
+                "Comment field description",
+                5, 1, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55,
+                "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
 
             #endregion
 
             #region Field2
 
-            Field Field2 = await testHelpers.CreateField(1, "barcode", subTemplate1, "f5eafa", "custom", null, "", "showPDf Description",
+            Field Field2 = await testHelpers.CreateField(1, "barcode", subTemplate1, "f5eafa", "custom", null, "",
+                "showPDf Description",
                 45, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
@@ -503,76 +550,75 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             #region Field3
 
-            Field Field3 = await testHelpers.CreateField(0, "barcode", subTemplate2, "f0f8db", "custom", 3, "", "Number Field Description",
+            Field Field3 = await testHelpers.CreateField(0, "barcode", subTemplate2, "f0f8db", "custom", 3, "",
+                "Number Field Description",
                 83, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field4
 
-            Field Field4 = await testHelpers.CreateField(1, "barcode", subTemplate2, "fff6df", "custom", null, "", "date Description",
+            Field Field4 = await testHelpers.CreateField(1, "barcode", subTemplate2, "fff6df", "custom", null, "",
+                "date Description",
                 84, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field5
 
-            Field Field5 = await testHelpers.CreateField(0, "barcode", subTemplate2, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field5 = await testHelpers.CreateField(0, "barcode", subTemplate2, "ffe4e4", "custom", null, "",
+                "picture Description",
                 85, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field6
 
-            Field Field6 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field6 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "",
+                "picture Description",
                 86, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field7
 
-            Field Field7 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field7 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "",
+                "picture Description",
                 87, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field8
 
-            Field Field8 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field8 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "",
+                "picture Description",
                 88, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field9
 
-            Field Field9 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field9 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "",
+                "picture Description",
                 89, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field10
 
-            Field Field10 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field10 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "",
+                "picture Description",
                 90, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
-
             #endregion
-
 
             #endregion
 
@@ -581,6 +627,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Tag tag = await testHelpers.CreateTag("Tag1", Constants.WorkflowStates.Created, 1);
 
             #endregion
+
             // Act
 
             var match1 = await sut.TemplateItemRead(Template1.Id, language);
@@ -590,7 +637,9 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
 
             // Assert
+
             #region template1
+
             Assert.NotNull(match1);
             Assert.AreEqual(match1.Description, "Description1");
             Assert.AreEqual(match1.Label, "Label1");
@@ -598,9 +647,11 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.AreEqual(match1.FolderName, "FolderWithTemplate");
             Assert.AreEqual(match1.Id, Template1.Id);
 //            Assert.AreEqual(match1.UpdatedAt.ToString(), Template1.UpdatedAt.ToString());
+
             #endregion
 
             #region template2
+
             Assert.NotNull(match1);
             Assert.AreEqual(match2.Description, "Description2");
             Assert.AreEqual(match2.Label, "Label2");
@@ -608,9 +659,11 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.AreEqual(match2.FolderName, "FolderWithTemplate");
             Assert.AreEqual(match2.Id, Template2.Id);
 //            Assert.AreEqual(match2.UpdatedAt.ToString(), Template2.UpdatedAt.ToString());
+
             #endregion
 
             #region template3
+
             Assert.NotNull(match1);
             Assert.AreEqual(match3.Description, "Description3");
             Assert.AreEqual(match3.Label, "Label3");
@@ -618,9 +671,11 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.AreEqual(match3.FolderName, "FolderWithTemplate");
             Assert.AreEqual(match3.Id, Template3.Id);
 //            Assert.AreEqual(match3.UpdatedAt.ToString(), Template3.UpdatedAt.ToString());
+
             #endregion
 
             #region template4
+
             Assert.NotNull(match1);
             Assert.AreEqual(match4.Description, "Description4");
             Assert.AreEqual(match4.Label, "Label4");
@@ -628,20 +683,19 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.AreEqual(match4.FolderName, "FolderWithTemplate");
             Assert.AreEqual(match4.Id, Template4.Id);
 //            Assert.AreEqual(match4.UpdatedAt.ToString(), Template4.UpdatedAt.ToString());
+
             #endregion
-
-
-
-
         }
 
         [Test]
         public async Task SQL_Template_TemplateFieldReadAll_ReturnsFieldList()
         {
             // Arrance
+
             #region Templates
 
             #region template1
+
             DateTime cl1_ca = DateTime.UtcNow;
             DateTime cl1_ua = DateTime.UtcNow;
             CheckList Template1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "Label1", "Description1",
@@ -650,6 +704,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #endregion
 
             #region template2
+
             DateTime cl2_ca = DateTime.UtcNow;
             DateTime cl2_ua = DateTime.UtcNow;
             CheckList Template2 = await testHelpers.CreateTemplate(cl2_ca, cl2_ua, "Label2", "Description2",
@@ -658,6 +713,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #endregion
 
             #region template3
+
             DateTime cl3_ca = DateTime.UtcNow;
             DateTime cl3_ua = DateTime.UtcNow;
             CheckList Template3 = await testHelpers.CreateTemplate(cl3_ca, cl3_ua, "Label3", "Description3",
@@ -666,6 +722,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #endregion
 
             #region template4
+
             DateTime cl4_ca = DateTime.UtcNow;
             DateTime cl4_ua = DateTime.UtcNow;
             CheckList Template4 = await testHelpers.CreateTemplate(cl4_ca, cl4_ua, "Label4", "Description4",
@@ -711,15 +768,18 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             #region Field1
 
-            Field Field1 = await testHelpers.CreateField(1, "barcode", subTemplate1, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+            Field Field1 = await testHelpers.CreateField(1, "barcode", subTemplate1, "e2f4fb", "custom", null, "",
+                "Comment field description",
+                5, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55,
+                "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
 
             #endregion
 
             #region Field2
 
-            Field Field2 = await testHelpers.CreateField(1, "barcode", subTemplate1, "f5eafa", "custom", null, "", "showPDf Description",
+            Field Field2 = await testHelpers.CreateField(1, "barcode", subTemplate1, "f5eafa", "custom", null, "",
+                "showPDf Description",
                 45, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
@@ -727,78 +787,78 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             #region Field3
 
-            Field Field3 = await testHelpers.CreateField(0, "barcode", subTemplate2, "f0f8db", "custom", 3, "", "Number Field Description",
+            Field Field3 = await testHelpers.CreateField(0, "barcode", subTemplate2, "f0f8db", "custom", 3, "",
+                "Number Field Description",
                 83, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field4
 
-            Field Field4 = await testHelpers.CreateField(1, "barcode", subTemplate2, "fff6df", "custom", null, "", "date Description",
+            Field Field4 = await testHelpers.CreateField(1, "barcode", subTemplate2, "fff6df", "custom", null, "",
+                "date Description",
                 84, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field5
 
-            Field Field5 = await testHelpers.CreateField(0, "barcode", subTemplate2, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field5 = await testHelpers.CreateField(0, "barcode", subTemplate2, "ffe4e4", "custom", null, "",
+                "picture Description",
                 85, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field6
 
-            Field Field6 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field6 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "",
+                "picture Description",
                 86, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field7
 
-            Field Field7 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field7 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "",
+                "picture Description",
                 87, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field8
 
-            Field Field8 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field8 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "",
+                "picture Description",
                 88, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field9
 
-            Field Field9 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field9 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "",
+                "picture Description",
                 89, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field10
 
-            Field Field10 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field10 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "",
+                "picture Description",
                 90, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
+            #endregion
 
             #endregion
 
-
-            #endregion
             // Act
 
             var match1 = await sut.TemplateFieldReadAll(Template1.Id, language);
@@ -807,7 +867,9 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             var match4 = await sut.TemplateFieldReadAll(Template4.Id, language);
 
             // Assert
+
             #region template1
+
             Assert.NotNull(match1);
             Assert.AreEqual(match1[0].Description, Field1.Description);
             Assert.AreEqual(match1[0].FieldType, "Picture");
@@ -818,9 +880,11 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.AreEqual(match1[1].FieldType, "Comment");
             Assert.AreEqual(match1[1].Label, Field2.Label);
             Assert.AreEqual(match1[1].Id, Field2.Id);
+
             #endregion
 
             #region template2
+
             Assert.NotNull(match2);
             Assert.AreEqual(match2[0].Description, Field3.Description);
             Assert.AreEqual(match2[0].FieldType, "Picture");
@@ -836,9 +900,11 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.AreEqual(match2[2].FieldType, "Comment");
             Assert.AreEqual(match2[2].Label, Field5.Label);
             Assert.AreEqual(match2[2].Id, Field5.Id);
+
             #endregion
 
             #region template3
+
             Assert.NotNull(match3);
             Assert.AreEqual(match3[0].Description, Field6.Description);
             Assert.AreEqual(match3[0].FieldType, "Comment");
@@ -849,9 +915,11 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.AreEqual(match3[1].FieldType, "Comment");
             Assert.AreEqual(match3[1].Label, Field7.Label);
             Assert.AreEqual(match3[1].Id, Field7.Id);
+
             #endregion
 
             #region template4
+
             Assert.NotNull(match4);
             Assert.AreEqual(match4[0].Description, Field8.Description);
             Assert.AreEqual(match4[0].FieldType, "Comment");
@@ -867,17 +935,19 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.AreEqual(match4[2].FieldType, "Comment");
             Assert.AreEqual(match4[2].Label, Field10.Label);
             Assert.AreEqual(match4[2].Id, Field10.Id);
-            #endregion
 
+            #endregion
         }
 
         [Test]
         public async Task SQL_Template_TemplateDisplayIndexChange_ChangesDisplayIndex()
         {
             // Arrance
+
             #region Templates
 
             #region template1
+
             DateTime cl1_ca = DateTime.UtcNow;
             DateTime cl1_ua = DateTime.UtcNow;
             CheckList Template1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "Label1", "Description1",
@@ -886,6 +956,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #endregion
 
             #region template2
+
             DateTime cl2_ca = DateTime.UtcNow;
             DateTime cl2_ua = DateTime.UtcNow;
             CheckList Template2 = await testHelpers.CreateTemplate(cl2_ca, cl2_ua, "Label2", "Description2",
@@ -894,6 +965,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #endregion
 
             #region template3
+
             DateTime cl3_ca = DateTime.UtcNow;
             DateTime cl3_ua = DateTime.UtcNow;
             CheckList Template3 = await testHelpers.CreateTemplate(cl3_ca, cl3_ua, "Label3", "Description3",
@@ -902,6 +974,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #endregion
 
             #region template4
+
             DateTime cl4_ca = DateTime.UtcNow;
             DateTime cl4_ua = DateTime.UtcNow;
             CheckList Template4 = await testHelpers.CreateTemplate(cl4_ca, cl4_ua, "Label4", "Description4",
@@ -910,6 +983,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #endregion
 
             #endregion
+
             // Act
             var match1 = await sut.TemplateDisplayIndexChange(Template1.Id, 5);
             var match2 = await sut.TemplateDisplayIndexChange(Template2.Id, 1);
@@ -924,16 +998,17 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.True(match2);
             Assert.True(match3);
             Assert.True(match4);
-
         }
 
         [Test]
         public async Task SQL_Template_TemplateSetTags_SetsTag()
         {
             // Arrance
+
             #region Templates
 
             #region template1
+
             DateTime cl1_ca = DateTime.UtcNow;
             DateTime cl1_ua = DateTime.UtcNow;
             CheckList Template1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "Label1", "Description1",
@@ -942,6 +1017,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #endregion
 
             #region template2
+
             DateTime cl2_ca = DateTime.UtcNow;
             DateTime cl2_ua = DateTime.UtcNow;
             CheckList Template2 = await testHelpers.CreateTemplate(cl2_ca, cl2_ua, "Label2", "Description2",
@@ -950,6 +1026,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #endregion
 
             #region template3
+
             DateTime cl3_ca = DateTime.UtcNow;
             DateTime cl3_ua = DateTime.UtcNow;
             CheckList Template3 = await testHelpers.CreateTemplate(cl3_ca, cl3_ua, "Label3", "Description3",
@@ -958,6 +1035,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #endregion
 
             #region template4
+
             DateTime cl4_ca = DateTime.UtcNow;
             DateTime cl4_ua = DateTime.UtcNow;
             CheckList Template4 = await testHelpers.CreateTemplate(cl4_ca, cl4_ua, "Label4", "Description4",
@@ -1003,15 +1081,18 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             #region Field1
 
-            Field Field1 = await testHelpers.CreateField(1, "barcode", subTemplate1, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+            Field Field1 = await testHelpers.CreateField(1, "barcode", subTemplate1, "e2f4fb", "custom", null, "",
+                "Comment field description",
+                5, 1, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55,
+                "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
 
             #endregion
 
             #region Field2
 
-            Field Field2 = await testHelpers.CreateField(1, "barcode", subTemplate1, "f5eafa", "custom", null, "", "showPDf Description",
+            Field Field2 = await testHelpers.CreateField(1, "barcode", subTemplate1, "f5eafa", "custom", null, "",
+                "showPDf Description",
                 45, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
@@ -1019,107 +1100,118 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             #region Field3
 
-            Field Field3 = await testHelpers.CreateField(0, "barcode", subTemplate2, "f0f8db", "custom", 3, "", "Number Field Description",
+            Field Field3 = await testHelpers.CreateField(0, "barcode", subTemplate2, "f0f8db", "custom", 3, "",
+                "Number Field Description",
                 83, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field4
 
-            Field Field4 = await testHelpers.CreateField(1, "barcode", subTemplate2, "fff6df", "custom", null, "", "date Description",
+            Field Field4 = await testHelpers.CreateField(1, "barcode", subTemplate2, "fff6df", "custom", null, "",
+                "date Description",
                 84, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field5
 
-            Field Field5 = await testHelpers.CreateField(0, "barcode", subTemplate2, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field5 = await testHelpers.CreateField(0, "barcode", subTemplate2, "ffe4e4", "custom", null, "",
+                "picture Description",
                 85, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field6
 
-            Field Field6 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field6 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "",
+                "picture Description",
                 86, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field7
 
-            Field Field7 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field7 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "",
+                "picture Description",
                 87, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field8
 
-            Field Field8 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field8 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "",
+                "picture Description",
                 88, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field9
 
-            Field Field9 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field9 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "",
+                "picture Description",
                 89, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field10
 
-            Field Field10 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field10 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "",
+                "picture Description",
                 90, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
-
             #endregion
-
 
             #endregion
 
             #region Tags
 
             #region Tag1
+
             Tag tag1 = await testHelpers.CreateTag("Tag1", Constants.WorkflowStates.Created, 1);
+
             #endregion
 
             #region Tag2
+
             Tag tag2 = await testHelpers.CreateTag("Tag2", Constants.WorkflowStates.Created, 1);
+
             #endregion
 
             #region Tag3
+
             Tag tag3 = await testHelpers.CreateTag("Tag3", Constants.WorkflowStates.Created, 1);
+
             #endregion
 
             #region Tag4
+
             Tag tag4 = await testHelpers.CreateTag("Tag4", Constants.WorkflowStates.Created, 1);
+
             #endregion
 
             #region Tag5
+
             Tag tag5 = await testHelpers.CreateTag("Tag5", Constants.WorkflowStates.Created, 1);
+
             #endregion
 
             #region Tag6
+
             Tag tag6 = await testHelpers.CreateTag("Tag6", Constants.WorkflowStates.Created, 1);
-            #endregion
-
 
             #endregion
+
+            #endregion
+
             // Act
             List<int> taglist = new List<int>
             {
@@ -1146,17 +1238,17 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.True(match2);
             Assert.True(match3);
             Assert.True(match4);
-
-
         }
 
         [Test]
         public async Task SQL_Template_TemplateUpdateFieldIdsForColumns_UpdatesIds()
         {
             // Arrance
+
             #region Templates
 
             #region template1
+
             DateTime cl1_ca = DateTime.UtcNow;
             DateTime cl1_ua = DateTime.UtcNow;
             CheckList Template1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "Label1", "Description1",
@@ -1165,6 +1257,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #endregion
 
             #region template2
+
             DateTime cl2_ca = DateTime.UtcNow;
             DateTime cl2_ua = DateTime.UtcNow;
             CheckList Template2 = await testHelpers.CreateTemplate(cl2_ca, cl2_ua, "Label2", "Description2",
@@ -1173,6 +1266,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #endregion
 
             #region template3
+
             DateTime cl3_ca = DateTime.UtcNow;
             DateTime cl3_ua = DateTime.UtcNow;
             CheckList Template3 = await testHelpers.CreateTemplate(cl3_ca, cl3_ua, "Label3", "Description3",
@@ -1181,6 +1275,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #endregion
 
             #region template4
+
             DateTime cl4_ca = DateTime.UtcNow;
             DateTime cl4_ua = DateTime.UtcNow;
             CheckList Template4 = await testHelpers.CreateTemplate(cl4_ca, cl4_ua, "Label4", "Description4",
@@ -1226,15 +1321,18 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             #region Field1
 
-            Field Field1 = await testHelpers.CreateField(1, "barcode", subTemplate1, "e2f4fb", "custom", null, "", "Comment field description",
-                5, 1, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55, "55", "0", 0, 0, null, 1, 0,
+            Field Field1 = await testHelpers.CreateField(1, "barcode", subTemplate1, "e2f4fb", "custom", null, "",
+                "Comment field description",
+                5, 1, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55,
+                "55", "0", 0, 0, null, 1, 0,
                 0, 0, "", 49);
 
             #endregion
 
             #region Field2
 
-            Field Field2 = await testHelpers.CreateField(1, "barcode", subTemplate1, "f5eafa", "custom", null, "", "showPDf Description",
+            Field Field2 = await testHelpers.CreateField(1, "barcode", subTemplate1, "f5eafa", "custom", null, "",
+                "showPDf Description",
                 45, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 1, 0, 0,
                 "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
@@ -1242,84 +1340,88 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             #region Field3
 
-            Field Field3 = await testHelpers.CreateField(0, "barcode", subTemplate2, "f0f8db", "custom", 3, "", "Number Field Description",
+            Field Field3 = await testHelpers.CreateField(0, "barcode", subTemplate2, "f0f8db", "custom", 3, "",
+                "Number Field Description",
                 83, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0,
                 "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field4
 
-            Field Field4 = await testHelpers.CreateField(1, "barcode", subTemplate2, "fff6df", "custom", null, "", "date Description",
+            Field Field4 = await testHelpers.CreateField(1, "barcode", subTemplate2, "fff6df", "custom", null, "",
+                "date Description",
                 84, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0,
                 "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field5
 
-            Field Field5 = await testHelpers.CreateField(0, "barcode", subTemplate2, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field5 = await testHelpers.CreateField(0, "barcode", subTemplate2, "ffe4e4", "custom", null, "",
+                "picture Description",
                 85, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field6
 
-            Field Field6 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field6 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "",
+                "picture Description",
                 86, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field7
 
-            Field Field7 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field7 = await testHelpers.CreateField(0, "barcode", subTemplate3, "ffe4e4", "custom", null, "",
+                "picture Description",
                 87, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field8
 
-            Field Field8 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field8 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "",
+                "picture Description",
                 88, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field9
 
-            Field Field9 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field9 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "",
+                "picture Description",
                 89, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
 
             #endregion
 
             #region Field10
 
-            Field Field10 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "", "picture Description",
+            Field Field10 = await testHelpers.CreateField(0, "barcode", subTemplate4, "ffe4e4", "custom", null, "",
+                "picture Description",
                 90, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
                 "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
+            #endregion
 
             #endregion
 
-
-            #endregion
             // Act
 
-            var match1 = await sut.TemplateUpdateFieldIdsForColumns(Template1.Id, Field1.Id, Field2.Id, Field3.Id, Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
-            var match2 = await sut.TemplateUpdateFieldIdsForColumns(Template2.Id, Field1.Id, Field2.Id, Field3.Id, Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
-            var match3 = await sut.TemplateUpdateFieldIdsForColumns(Template3.Id, Field1.Id, Field2.Id, Field3.Id, Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
-            var match4 = await sut.TemplateUpdateFieldIdsForColumns(Template4.Id, Field1.Id, Field2.Id, Field3.Id, Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
+            var match1 = await sut.TemplateUpdateFieldIdsForColumns(Template1.Id, Field1.Id, Field2.Id, Field3.Id,
+                Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
+            var match2 = await sut.TemplateUpdateFieldIdsForColumns(Template2.Id, Field1.Id, Field2.Id, Field3.Id,
+                Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
+            var match3 = await sut.TemplateUpdateFieldIdsForColumns(Template3.Id, Field1.Id, Field2.Id, Field3.Id,
+                Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
+            var match4 = await sut.TemplateUpdateFieldIdsForColumns(Template4.Id, Field1.Id, Field2.Id, Field3.Id,
+                Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
 
             // Assert
             Assert.NotNull(match1);
@@ -1330,14 +1432,13 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.True(match2);
             Assert.True(match3);
             Assert.True(match4);
-
         }
-
 
         #endregion
 
 
         #region eventhandlers
+
 #pragma warning disable 1998
         public async Task EventCaseCreated(object sender, EventArgs args)
         {
@@ -1369,8 +1470,9 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             // Does nothing for web implementation
         }
 #pragma warning restore 1998
+
         #endregion
     }
-
 }
+
 #endregion

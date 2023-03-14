@@ -35,32 +35,29 @@ using eFormCore;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure;
 using NUnit.Framework;
+using Testcontainers.MariaDb;
 
 namespace eFormSDK.Integration.Case.SqlControllerTests
 {
     [TestFixture]
     public abstract class DbTestFixture
     {
+        private readonly MariaDbContainer _mariadbTestcontainer = new MariaDbBuilder()
+            .WithDatabase(
+                "eformsdk-tests").WithUsername("bla").WithPassword("secretpassword")
+            .Build();
 
-        public readonly MySqlTestcontainer _mySqlTestcontainer = new TestcontainersBuilder<MySqlTestcontainer>()
-            .WithDatabase(new MySqlTestcontainerConfiguration(image: "mariadb:10.8")
-            {
-                Database = "eformsdk-tests",
-                Username = "bla",
-                Password = "secretpassword",
-            }).Build();
         protected MicrotingDbContext DbContext;
         protected string ConnectionString;
         private bool _firsRun = true;
 
         private MicrotingDbContext GetContext(string connectionStr)
         {
-
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
 
             dbContextOptionsBuilder.UseMySql(connectionStr, new MariaDbServerVersion(
                 new Version(10, 8)));
-            var microtingDbContext =  new MicrotingDbContext(dbContextOptionsBuilder.Options);
+            var microtingDbContext = new MicrotingDbContext(dbContextOptionsBuilder.Options);
             string file = Path.Combine("SQL", "eformsdk-tests.sql");
             string rawSql = File.ReadAllText(file);
 
@@ -69,25 +66,25 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             microtingDbContext.Database.Migrate();
 
             return microtingDbContext;
-
         }
 
         [SetUp]
         public async Task Setup()
         {
-            if (_mySqlTestcontainer.State == TestcontainersStates.Undefined)
+            if (_mariadbTestcontainer.State == TestcontainersStates.Undefined)
             {
-                await _mySqlTestcontainer.StartAsync();
+                await _mariadbTestcontainer.StartAsync();
             }
-            ConnectionString = _mySqlTestcontainer.ConnectionString;
 
-            DbContext = GetContext(_mySqlTestcontainer.ConnectionString);
+            ConnectionString = _mariadbTestcontainer.GetConnectionString();
+
+            DbContext = GetContext(_mariadbTestcontainer.GetConnectionString());
 
             DbContext.Database.SetCommandTimeout(300);
 
             if (_firsRun)
             {
-                AdminTools adminTools = new AdminTools(_mySqlTestcontainer.ConnectionString);
+                AdminTools adminTools = new AdminTools(_mariadbTestcontainer.GetConnectionString());
                 await adminTools.DbSetup("abc1234567890abc1234567890abcdef");
                 _firsRun = false;
             }
@@ -98,7 +95,6 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
         [TearDown]
         public async Task TearDown()
         {
-
             await ClearDb();
 
             ClearFile();
@@ -108,7 +104,6 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
         private async Task ClearDb()
         {
-
             List<string> modelNames = new List<string>
             {
                 "CaseVersions",
@@ -203,6 +198,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
                 }
             }
         }
+
         private string _path;
 
         private void ClearFile()
@@ -237,8 +233,9 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             }
         }
 #pragma warning disable 1998
-        public virtual async Task DoSetup() { }
+        public virtual async Task DoSetup()
+        {
+        }
 #pragma warning restore 1998
-
     }
 }

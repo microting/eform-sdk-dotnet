@@ -33,9 +33,9 @@ namespace Microting.eForm.Infrastructure.Models
     public class DataItemGroup
     {
         #region con
+
         internal DataItemGroup()
         {
-
         }
 
         //public DataItemGroup(string id, string label, string description, string color, int displayOrder, string value, List<DataItem> dataItemList)
@@ -49,9 +49,11 @@ namespace Microting.eForm.Infrastructure.Models
         //    value = value;
         //    DataItemList = dataItemList;
         //}
+
         #endregion
 
         #region var
+
         public string Id { get; set; }
         public string Label { get; set; }
         public string Description { get; set; }
@@ -61,18 +63,20 @@ namespace Microting.eForm.Infrastructure.Models
 
         [XmlArray("DataItemList"), XmlArrayItem(typeof(DataItem), ElementName = "DataItem")]
         public List<DataItem> DataItemList { get; set; }
+
         #endregion
     }
 
     #region FieldGroup : DataItemGroup
+
     public class FieldGroup : DataItemGroup
     {
         internal FieldGroup()
         {
-
         }
 
-        public FieldGroup(string id, string label, string description, string color, int displayOrder, string value, List<DataItem> dataItemList)
+        public FieldGroup(string id, string label, string description, string color, int displayOrder, string value,
+            List<DataItem> dataItemList)
         {
             Id = id;
             Label = label;
@@ -89,5 +93,6 @@ namespace Microting.eForm.Infrastructure.Models
         //[XmlArray("DataItemList"), XmlArrayItem(typeof(DataItem), ElementName = "DataItem")]
         //public List<DataItem> DataItemList { get; set; }
     }
+
     #endregion
 }

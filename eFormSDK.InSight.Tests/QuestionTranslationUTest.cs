@@ -173,7 +173,7 @@ namespace eFormSDK.InSight.Tests
         [Test]
         public async Task QuestionTranslation_Update_DoesUpdate_W_MicrotingUID()
         {
-                        Random rnd = new Random();
+            Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
@@ -303,7 +303,7 @@ namespace eFormSDK.InSight.Tests
         [Test]
         public async Task QuestionTranslation_Update_DoesUpdate_WO_MicrotingUID()
         {
-                        Random rnd = new Random();
+            Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
@@ -430,7 +430,7 @@ namespace eFormSDK.InSight.Tests
         [Test]
         public async Task QuestionTranslation_Update_DoesUpdate_W_MicrotingUID_RemovesUid()
         {
-                        Random rnd = new Random();
+            Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
@@ -562,7 +562,7 @@ namespace eFormSDK.InSight.Tests
         [Test]
         public async Task QuestionTranslation_Update_DoesUpdate_WO_MicrotingUID_AddsUID()
         {
-                        Random rnd = new Random();
+            Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
@@ -692,7 +692,7 @@ namespace eFormSDK.InSight.Tests
         [Test]
         public async Task QuestionTranslation_Delete_DoesDelete()
         {
-                                    Random rnd = new Random();
+            Random rnd = new Random();
 
             bool randomBool = rnd.Next(0, 2) > 0;
 
@@ -780,6 +780,5 @@ namespace eFormSDK.InSight.Tests
             Assert.AreEqual(oldMicrotingUid, questionTranslationVersions[0].MicrotingUid);
             Assert.AreEqual(Constants.WorkflowStates.Created, questionTranslationVersions[0].WorkflowState);
         }
-
     }
 }

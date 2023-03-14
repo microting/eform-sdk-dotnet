@@ -36,17 +36,28 @@ namespace Microting.eForm.Installers
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                Component.For<IHandleMessages<EformCompleted>>().ImplementedBy<EformCompletedHandler>().LifestyleTransient(),
-                Component.For<IHandleMessages<EformDeleteFromServer>>().ImplementedBy<EformDeleteFromServerHandler>().LifestyleTransient(),
-                Component.For<IHandleMessages<EformParsedByServer>>().ImplementedBy<EformParsedByServerHandler>().LifestyleTransient(),
-                Component.For<IHandleMessages<EformParsingError>>().ImplementedBy<EformParsingErrorHandler>().LifestyleTransient(),
-                Component.For<IHandleMessages<EformRetrieved>>().ImplementedBy<EformRetrievedHandler>().LifestyleTransient(),
-                Component.For<IHandleMessages<TranscribeAudioFile>>().ImplementedBy<TranscribeAudioFileHandler>().LifestyleTransient(),
-                Component.For<IHandleMessages<TranscriptionCompleted>>().ImplementedBy<TranscriptionCompletedHandler>().LifestyleTransient(),
-                Component.For<IHandleMessages<UnitActivated>>().ImplementedBy<UnitActivatedHandler>().LifestyleTransient(),
-                Component.For<IHandleMessages<AnswerCompleted>>().ImplementedBy<AnswerCompletedHandler>().LifestyleTransient(),
-                Component.For<IHandleMessages<SurveyConfigurationCreated>>().ImplementedBy<SurveyConfigurationCreatedHandler>().LifestyleTransient(),
-                Component.For<IHandleMessages<SurveyConfigurationChanged>>().ImplementedBy<SurveyConfigurationChangedHandler>().LifestyleTransient());
+                Component.For<IHandleMessages<EformCompleted>>().ImplementedBy<EformCompletedHandler>()
+                    .LifestyleTransient(),
+                Component.For<IHandleMessages<EformDeleteFromServer>>().ImplementedBy<EformDeleteFromServerHandler>()
+                    .LifestyleTransient(),
+                Component.For<IHandleMessages<EformParsedByServer>>().ImplementedBy<EformParsedByServerHandler>()
+                    .LifestyleTransient(),
+                Component.For<IHandleMessages<EformParsingError>>().ImplementedBy<EformParsingErrorHandler>()
+                    .LifestyleTransient(),
+                Component.For<IHandleMessages<EformRetrieved>>().ImplementedBy<EformRetrievedHandler>()
+                    .LifestyleTransient(),
+                Component.For<IHandleMessages<TranscribeAudioFile>>().ImplementedBy<TranscribeAudioFileHandler>()
+                    .LifestyleTransient(),
+                Component.For<IHandleMessages<TranscriptionCompleted>>().ImplementedBy<TranscriptionCompletedHandler>()
+                    .LifestyleTransient(),
+                Component.For<IHandleMessages<UnitActivated>>().ImplementedBy<UnitActivatedHandler>()
+                    .LifestyleTransient(),
+                Component.For<IHandleMessages<AnswerCompleted>>().ImplementedBy<AnswerCompletedHandler>()
+                    .LifestyleTransient(),
+                Component.For<IHandleMessages<SurveyConfigurationCreated>>()
+                    .ImplementedBy<SurveyConfigurationCreatedHandler>().LifestyleTransient(),
+                Component.For<IHandleMessages<SurveyConfigurationChanged>>()
+                    .ImplementedBy<SurveyConfigurationChangedHandler>().LifestyleTransient());
         }
     }
 }

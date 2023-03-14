@@ -59,8 +59,8 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(entityGroups);
             Assert.NotNull(entityGroupVersion);
 
-            Assert.AreEqual(1,entityGroups.Count());
-            Assert.AreEqual(1,entityGroupVersion.Count());
+            Assert.AreEqual(1, entityGroups.Count());
+            Assert.AreEqual(1, entityGroupVersion.Count());
 
             Assert.AreEqual(entityGroup.CreatedAt.ToString(), entityGroups[0].CreatedAt.ToString());
             Assert.AreEqual(entityGroup.Version, entityGroups[0].Version);
@@ -114,8 +114,8 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(entityGroups);
             Assert.NotNull(entityGroupVersion);
 
-            Assert.AreEqual(1,entityGroups.Count());
-            Assert.AreEqual(2,entityGroupVersion.Count());
+            Assert.AreEqual(1, entityGroups.Count());
+            Assert.AreEqual(2, entityGroupVersion.Count());
 
             Assert.AreEqual(entityGroup.CreatedAt.ToString(), entityGroups[0].CreatedAt.ToString());
             Assert.AreEqual(entityGroup.Version, entityGroups[0].Version);
@@ -172,8 +172,8 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(entityGroups);
             Assert.NotNull(entityGroupVersion);
 
-            Assert.AreEqual(1,entityGroups.Count());
-            Assert.AreEqual(2,entityGroupVersion.Count());
+            Assert.AreEqual(1, entityGroups.Count());
+            Assert.AreEqual(2, entityGroupVersion.Count());
 
             Assert.AreEqual(entityGroup.CreatedAt.ToString(), entityGroups[0].CreatedAt.ToString());
             Assert.AreEqual(entityGroup.Version, entityGroups[0].Version);

@@ -12,8 +12,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public string Description { get; set; }
 
-        [ForeignKey("FieldTranslation")]
-        public int FieldTranslationId { get; set; }
+        [ForeignKey("FieldTranslation")] public int FieldTranslationId { get; set; }
 
         public string DefaultValue { get; set; }
 

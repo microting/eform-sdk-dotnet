@@ -29,6 +29,7 @@ namespace Microting.eForm.Dto
     public class SiteNameDto
     {
         #region var
+
         /// <summary>
         ///...
         /// </summary>
@@ -53,7 +54,8 @@ namespace Microting.eForm.Dto
 
         public override string ToString()
         {
-            return "SiteUId:" + SiteUId + " / SiteName:" + SiteName + " / CreatedAt:" + CreatedAt + " / UpdatedAt:" + UpdatedAt + ".";
+            return "SiteUId:" + SiteUId + " / SiteName:" + SiteName + " / CreatedAt:" + CreatedAt + " / UpdatedAt:" +
+                   UpdatedAt + ".";
         }
     }
 }

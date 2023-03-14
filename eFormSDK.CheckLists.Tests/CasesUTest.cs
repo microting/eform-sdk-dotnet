@@ -90,21 +90,21 @@ namespace eFormSDK.CheckLists.Tests
                 Field10 = rnd.Next(1, 255),
                 Label = Guid.NewGuid().ToString(),
                 Repeated = rnd.Next(1, 255),
-                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 CaseType = Guid.NewGuid().ToString(),
                 DisplayIndex = rnd.Next(1, 255),
-                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
-                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DownloadEntities = (short)rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short)rnd.Next(shortMinValue, shortmaxValue),
                 FolderName = Guid.NewGuid().ToString(),
-                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
-                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ManualSync = (short)rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short)rnd.Next(shortMinValue, shortmaxValue),
                 OriginalId = Guid.NewGuid().ToString(),
-                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ReviewEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 DocxExportEnabled = randomBool,
-                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
-                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DoneButtonEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 JasperExportEnabled = randomBool,
-                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
+                QuickSyncEnabled = (short)rnd.Next(shortMinValue, shortmaxValue)
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
@@ -134,7 +134,6 @@ namespace eFormSDK.CheckLists.Tests
             };
 
 
-
             //Act
 
             await theCase.Create(DbContext).ConfigureAwait(false);
@@ -144,66 +143,66 @@ namespace eFormSDK.CheckLists.Tests
 
             //Assert
 
-             Assert.NotNull(cases);
-             Assert.NotNull(caseVersions);
+            Assert.NotNull(cases);
+            Assert.NotNull(caseVersions);
 
-             Assert.AreEqual(1,cases.Count());
-             Assert.AreEqual(1,caseVersions.Count());
+            Assert.AreEqual(1, cases.Count());
+            Assert.AreEqual(1, caseVersions.Count());
 
-             Assert.AreEqual(theCase.CreatedAt.ToString(), cases[0].CreatedAt.ToString());
-             Assert.AreEqual(theCase.Version, cases[0].Version);
+            Assert.AreEqual(theCase.CreatedAt.ToString(), cases[0].CreatedAt.ToString());
+            Assert.AreEqual(theCase.Version, cases[0].Version);
 //             Assert.AreEqual(theCase.UpdatedAt.ToString(), cases[0].UpdatedAt.ToString());
-             Assert.AreEqual(cases[0].WorkflowState, Constants.WorkflowStates.Created);
-             Assert.AreEqual(theCase.Id, cases[0].Id);
-             Assert.AreEqual(theCase.Custom, cases[0].Custom);
-             Assert.AreEqual(theCase.SiteId, site.Id);
-             Assert.AreEqual(theCase.Status, cases[0].Status);
-             Assert.AreEqual(theCase.Type, cases[0].Type);
-             Assert.AreEqual(theCase.UnitId, unit.Id);
-             Assert.AreEqual(theCase.WorkerId, worker.Id);
-             Assert.AreEqual(theCase.CaseUid, cases[0].CaseUid);
-             Assert.AreEqual(theCase.CheckListId, checklist.Id);
-             Assert.AreEqual(theCase.DoneAt.ToString(), cases[0].DoneAt.ToString());
-             Assert.AreEqual(theCase.FieldValue1, cases[0].FieldValue1);
-             Assert.AreEqual(theCase.FieldValue2, cases[0].FieldValue2);
-             Assert.AreEqual(theCase.FieldValue3, cases[0].FieldValue3);
-             Assert.AreEqual(theCase.FieldValue4, cases[0].FieldValue4);
-             Assert.AreEqual(theCase.FieldValue5, cases[0].FieldValue5);
-             Assert.AreEqual(theCase.FieldValue6, cases[0].FieldValue6);
-             Assert.AreEqual(theCase.FieldValue7, cases[0].FieldValue7);
-             Assert.AreEqual(theCase.FieldValue8, cases[0].FieldValue8);
-             Assert.AreEqual(theCase.FieldValue9, cases[0].FieldValue9);
-             Assert.AreEqual(theCase.FieldValue10, cases[0].FieldValue10);
-             Assert.AreEqual(theCase.MicrotingUid, cases[0].MicrotingUid);
-             Assert.AreEqual(theCase.MicrotingCheckUid, cases[0].MicrotingCheckUid);
+            Assert.AreEqual(cases[0].WorkflowState, Constants.WorkflowStates.Created);
+            Assert.AreEqual(theCase.Id, cases[0].Id);
+            Assert.AreEqual(theCase.Custom, cases[0].Custom);
+            Assert.AreEqual(theCase.SiteId, site.Id);
+            Assert.AreEqual(theCase.Status, cases[0].Status);
+            Assert.AreEqual(theCase.Type, cases[0].Type);
+            Assert.AreEqual(theCase.UnitId, unit.Id);
+            Assert.AreEqual(theCase.WorkerId, worker.Id);
+            Assert.AreEqual(theCase.CaseUid, cases[0].CaseUid);
+            Assert.AreEqual(theCase.CheckListId, checklist.Id);
+            Assert.AreEqual(theCase.DoneAt.ToString(), cases[0].DoneAt.ToString());
+            Assert.AreEqual(theCase.FieldValue1, cases[0].FieldValue1);
+            Assert.AreEqual(theCase.FieldValue2, cases[0].FieldValue2);
+            Assert.AreEqual(theCase.FieldValue3, cases[0].FieldValue3);
+            Assert.AreEqual(theCase.FieldValue4, cases[0].FieldValue4);
+            Assert.AreEqual(theCase.FieldValue5, cases[0].FieldValue5);
+            Assert.AreEqual(theCase.FieldValue6, cases[0].FieldValue6);
+            Assert.AreEqual(theCase.FieldValue7, cases[0].FieldValue7);
+            Assert.AreEqual(theCase.FieldValue8, cases[0].FieldValue8);
+            Assert.AreEqual(theCase.FieldValue9, cases[0].FieldValue9);
+            Assert.AreEqual(theCase.FieldValue10, cases[0].FieldValue10);
+            Assert.AreEqual(theCase.MicrotingUid, cases[0].MicrotingUid);
+            Assert.AreEqual(theCase.MicrotingCheckUid, cases[0].MicrotingCheckUid);
 
-             //Versions
-             Assert.AreEqual(theCase.CreatedAt.ToString(), caseVersions[0].CreatedAt.ToString());
-             Assert.AreEqual(1, caseVersions[0].Version);
+            //Versions
+            Assert.AreEqual(theCase.CreatedAt.ToString(), caseVersions[0].CreatedAt.ToString());
+            Assert.AreEqual(1, caseVersions[0].Version);
 //             Assert.AreEqual(theCase.UpdatedAt.ToString(), caseVersions[0].UpdatedAt.ToString());
-             Assert.AreEqual(caseVersions[0].WorkflowState, Constants.WorkflowStates.Created);
-             Assert.AreEqual(theCase.Id, caseVersions[0].CaseId);
-             Assert.AreEqual(theCase.Custom, caseVersions[0].Custom);
-             Assert.AreEqual(site.Id, caseVersions[0].SiteId);
-             Assert.AreEqual(theCase.Status, caseVersions[0].Status);
-             Assert.AreEqual(theCase.Type, caseVersions[0].Type);
-             Assert.AreEqual(unit.Id, caseVersions[0].UnitId);
-             Assert.AreEqual(worker.Id, caseVersions[0].WorkerId);
-             Assert.AreEqual(theCase.CaseUid, caseVersions[0].CaseUid);
-             Assert.AreEqual(checklist.Id, caseVersions[0].CheckListId);
-             Assert.AreEqual(theCase.DoneAt.ToString(), caseVersions[0].DoneAt.ToString());
-             Assert.AreEqual(theCase.FieldValue1, caseVersions[0].FieldValue1);
-             Assert.AreEqual(theCase.FieldValue2, caseVersions[0].FieldValue2);
-             Assert.AreEqual(theCase.FieldValue3, caseVersions[0].FieldValue3);
-             Assert.AreEqual(theCase.FieldValue4, caseVersions[0].FieldValue4);
-             Assert.AreEqual(theCase.FieldValue5, caseVersions[0].FieldValue5);
-             Assert.AreEqual(theCase.FieldValue6, caseVersions[0].FieldValue6);
-             Assert.AreEqual(theCase.FieldValue7, caseVersions[0].FieldValue7);
-             Assert.AreEqual(theCase.FieldValue8, caseVersions[0].FieldValue8);
-             Assert.AreEqual(theCase.FieldValue9, caseVersions[0].FieldValue9);
-             Assert.AreEqual(theCase.FieldValue10, caseVersions[0].FieldValue10);
-             Assert.AreEqual(theCase.MicrotingUid, caseVersions[0].MicrotingUid);
-             Assert.AreEqual(theCase.MicrotingCheckUid, caseVersions[0].MicrotingCheckUid);
+            Assert.AreEqual(caseVersions[0].WorkflowState, Constants.WorkflowStates.Created);
+            Assert.AreEqual(theCase.Id, caseVersions[0].CaseId);
+            Assert.AreEqual(theCase.Custom, caseVersions[0].Custom);
+            Assert.AreEqual(site.Id, caseVersions[0].SiteId);
+            Assert.AreEqual(theCase.Status, caseVersions[0].Status);
+            Assert.AreEqual(theCase.Type, caseVersions[0].Type);
+            Assert.AreEqual(unit.Id, caseVersions[0].UnitId);
+            Assert.AreEqual(worker.Id, caseVersions[0].WorkerId);
+            Assert.AreEqual(theCase.CaseUid, caseVersions[0].CaseUid);
+            Assert.AreEqual(checklist.Id, caseVersions[0].CheckListId);
+            Assert.AreEqual(theCase.DoneAt.ToString(), caseVersions[0].DoneAt.ToString());
+            Assert.AreEqual(theCase.FieldValue1, caseVersions[0].FieldValue1);
+            Assert.AreEqual(theCase.FieldValue2, caseVersions[0].FieldValue2);
+            Assert.AreEqual(theCase.FieldValue3, caseVersions[0].FieldValue3);
+            Assert.AreEqual(theCase.FieldValue4, caseVersions[0].FieldValue4);
+            Assert.AreEqual(theCase.FieldValue5, caseVersions[0].FieldValue5);
+            Assert.AreEqual(theCase.FieldValue6, caseVersions[0].FieldValue6);
+            Assert.AreEqual(theCase.FieldValue7, caseVersions[0].FieldValue7);
+            Assert.AreEqual(theCase.FieldValue8, caseVersions[0].FieldValue8);
+            Assert.AreEqual(theCase.FieldValue9, caseVersions[0].FieldValue9);
+            Assert.AreEqual(theCase.FieldValue10, caseVersions[0].FieldValue10);
+            Assert.AreEqual(theCase.MicrotingUid, caseVersions[0].MicrotingUid);
+            Assert.AreEqual(theCase.MicrotingCheckUid, caseVersions[0].MicrotingCheckUid);
         }
 
         [Test]
@@ -259,21 +258,21 @@ namespace eFormSDK.CheckLists.Tests
                 Field10 = rnd.Next(1, 255),
                 Label = Guid.NewGuid().ToString(),
                 Repeated = rnd.Next(1, 255),
-                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 CaseType = Guid.NewGuid().ToString(),
                 DisplayIndex = rnd.Next(1, 255),
-                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
-                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DownloadEntities = (short)rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short)rnd.Next(shortMinValue, shortmaxValue),
                 FolderName = Guid.NewGuid().ToString(),
-                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
-                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ManualSync = (short)rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short)rnd.Next(shortMinValue, shortmaxValue),
                 OriginalId = Guid.NewGuid().ToString(),
-                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ReviewEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 DocxExportEnabled = randomBool,
-                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
-                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DoneButtonEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 JasperExportEnabled = randomBool,
-                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
+                QuickSyncEnabled = (short)rnd.Next(shortMinValue, shortmaxValue)
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
@@ -353,8 +352,8 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(cases);
             Assert.NotNull(caseVersions);
 
-            Assert.AreEqual(1,cases.Count());
-            Assert.AreEqual(2,caseVersions.Count());
+            Assert.AreEqual(1, cases.Count());
+            Assert.AreEqual(2, caseVersions.Count());
 
             Assert.AreEqual(theCase.CreatedAt.ToString(), cases[0].CreatedAt.ToString());
             Assert.AreEqual(theCase.Version, cases[0].Version);
@@ -383,7 +382,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.AreEqual(theCase.MicrotingUid, cases[0].MicrotingUid);
             Assert.AreEqual(theCase.MicrotingCheckUid, cases[0].MicrotingCheckUid);
 
-             //Old Versions
+            //Old Versions
             Assert.AreEqual(theCase.CreatedAt.ToString(), caseVersions[0].CreatedAt.ToString());
             Assert.AreEqual(1, caseVersions[0].Version);
 //            Assert.AreEqual(oldUpdatedAt.ToString(), caseVersions[0].UpdatedAt.ToString());
@@ -443,7 +442,7 @@ namespace eFormSDK.CheckLists.Tests
         [Test]
         public async Task Cases_Delete_DoesSetWorkflowStateToRemoved()
         {
-             //Arrange
+            //Arrange
 
             Random rnd = new Random();
 
@@ -493,21 +492,21 @@ namespace eFormSDK.CheckLists.Tests
                 Field10 = rnd.Next(1, 255),
                 Label = Guid.NewGuid().ToString(),
                 Repeated = rnd.Next(1, 255),
-                ApprovalEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 CaseType = Guid.NewGuid().ToString(),
                 DisplayIndex = rnd.Next(1, 255),
-                DownloadEntities = (short) rnd.Next(shortMinValue, shortmaxValue),
-                FastNavigation = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DownloadEntities = (short)rnd.Next(shortMinValue, shortmaxValue),
+                FastNavigation = (short)rnd.Next(shortMinValue, shortmaxValue),
                 FolderName = Guid.NewGuid().ToString(),
-                ManualSync = (short) rnd.Next(shortMinValue, shortmaxValue),
-                MultiApproval = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ManualSync = (short)rnd.Next(shortMinValue, shortmaxValue),
+                MultiApproval = (short)rnd.Next(shortMinValue, shortmaxValue),
                 OriginalId = Guid.NewGuid().ToString(),
-                ReviewEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                ReviewEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 DocxExportEnabled = randomBool,
-                DoneButtonEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
-                ExtraFieldsEnabled = (short) rnd.Next(shortMinValue, shortmaxValue),
+                DoneButtonEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+                ExtraFieldsEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
                 JasperExportEnabled = randomBool,
-                QuickSyncEnabled = (short) rnd.Next(shortMinValue, shortmaxValue)
+                QuickSyncEnabled = (short)rnd.Next(shortMinValue, shortmaxValue)
             };
             await checklist.Create(DbContext).ConfigureAwait(false);
 
@@ -553,8 +552,8 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(cases);
             Assert.NotNull(caseVersions);
 
-            Assert.AreEqual(1,cases.Count());
-            Assert.AreEqual(2,caseVersions.Count());
+            Assert.AreEqual(1, cases.Count());
+            Assert.AreEqual(2, caseVersions.Count());
 
             Assert.AreEqual(theCase.CreatedAt.ToString(), cases[0].CreatedAt.ToString());
             Assert.AreEqual(theCase.Version, cases[0].Version);

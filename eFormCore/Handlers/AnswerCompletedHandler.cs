@@ -44,7 +44,7 @@ namespace Microting.eForm.Handlers
             this.log = log;
             this.core = core;
         }
-        
+
         public async Task Handle(AnswerCompleted message)
         {
             try
@@ -52,22 +52,22 @@ namespace Microting.eForm.Handlers
                 log.LogEverything("AnswerCompletedHandler.Handle", $"Parsing answer for id {message.MicrotringUUID}");
                 await core.GetAllSurveyConfigurations().ConfigureAwait(false);
                 await core.GetAnswersForQuestionSet(message.MicrotringUUID).ConfigureAwait(false);
-                await sqlController.NotificationUpdate(message.NotificationUId, 
+                await sqlController.NotificationUpdate(message.NotificationUId,
                     message.MicrotringUUID,
-                    Constants.WorkflowStates.Processed, 
-                    "", 
+                    Constants.WorkflowStates.Processed,
+                    "",
                     "").ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                log.LogException("AnswerCompletedHandler.Handle", $"Could not parse answer for id {message.MicrotringUUID}, got exception {ex.Message}", ex);
-                await sqlController.NotificationUpdate(message.NotificationUId, 
-                    message.MicrotringUUID, 
-                    Constants.WorkflowStates.NotFound, 
-                    ex.Message, 
+                log.LogException("AnswerCompletedHandler.Handle",
+                    $"Could not parse answer for id {message.MicrotringUUID}, got exception {ex.Message}", ex);
+                await sqlController.NotificationUpdate(message.NotificationUId,
+                    message.MicrotringUUID,
+                    Constants.WorkflowStates.NotFound,
+                    ex.Message,
                     ex.StackTrace).ConfigureAwait(false);
             }
         }
-
     }
 }

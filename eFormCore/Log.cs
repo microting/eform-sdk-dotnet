@@ -36,6 +36,7 @@ namespace Microting.eForm
         private readonly LogWriter logWriter;
         private readonly Tools t = new Tools();
         private readonly List<ExceptionClass> exceptionLst = new List<ExceptionClass>();
+
         #endregion
 
         // con
@@ -45,12 +46,14 @@ namespace Microting.eForm
         }
 
         #region public
+
         public void LogEverything(string type, string message)
         {
             LogLogic(new LogEntry(4, type, message));
         }
 
         #region public void     LogVariable (string type, ... variableName, string variableContent)
+
         public void LogVariable(string type, string variableName, string variableContent)
         {
             if (variableContent == null)
@@ -73,6 +76,7 @@ namespace Microting.eForm
         {
             LogVariable(type, variableName, variableContent.ToString());
         }
+
         #endregion
 
         public void LogStandard(string type, string message)
@@ -110,7 +114,9 @@ namespace Microting.eForm
                     if (sameExceptionCountMax < item.Occurrence)
                         sameExceptionCountMax = item.Occurrence;
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         public void LogFatalException(string exceptionDescription, Exception exception)
@@ -119,16 +125,21 @@ namespace Microting.eForm
             {
                 LogLogic(new LogEntry(-3, "FatalException", t.PrintException(exceptionDescription, exception)));
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         #endregion
 
         #region private
+
         private int CheckExceptionLst(ExceptionClass exceptionClass)
         {
             int count = 0;
+
             #region find count
+
             try
             {
                 //remove Exceptions older than an hour
@@ -143,18 +154,23 @@ namespace Microting.eForm
                 //find court of the same Exception
                 if (exceptionLst.Count > 0)
                 {
-                    string thisOne = t.Locate(exceptionClass.Description, "######## EXCEPTION FOUND; BEGIN ########", "######## EXCEPTION FOUND; ENDED ########");
+                    string thisOne = t.Locate(exceptionClass.Description, "######## EXCEPTION FOUND; BEGIN ########",
+                        "######## EXCEPTION FOUND; ENDED ########");
 
                     foreach (ExceptionClass exCls in exceptionLst)
                     {
-                        string fromLst = t.Locate(exCls.Description, "######## EXCEPTION FOUND; BEGIN ########", "######## EXCEPTION FOUND; ENDED ########");
+                        string fromLst = t.Locate(exCls.Description, "######## EXCEPTION FOUND; BEGIN ########",
+                            "######## EXCEPTION FOUND; ENDED ########");
 
                         if (thisOne == fromLst)
                             count++;
                     }
                 }
             }
-            catch { }
+            catch
+            {
+            }
+
             #endregion
 
             exceptionClass.Occurrence = count;
@@ -166,7 +182,7 @@ namespace Microting.eForm
         {
             logWriter.WriteLogEntry(logEntry);
         }
-        
+
         #endregion
     }
 
@@ -174,7 +190,8 @@ namespace Microting.eForm
     {
         public virtual Task Restart(int sameExceptionCount, int sameExceptionCountMax)
         {
-            throw new Exception("CoreBase." + "Restart" + " method should never actually be called. Core should override");
+            throw new Exception("CoreBase." + "Restart" +
+                                " method should never actually be called. Core should override");
         }
     }
 
@@ -183,13 +200,15 @@ namespace Microting.eForm
 #pragma warning disable 1998
         public virtual void WriteLogEntry(LogEntry logEntry)
         {
-            throw new Exception("SqlControllerBase." + "LogText" + " method should never actually be called. SqlController should override");
+            throw new Exception("SqlControllerBase." + "LogText" +
+                                " method should never actually be called. SqlController should override");
         }
 #pragma warning restore 1998
 
         public virtual void WriteIfFailed(string str)
         {
-            throw new Exception("SqlControllerBase." + "LogText" + " method should never actually be called. SqlController should override");
+            throw new Exception("SqlControllerBase." + "LogText" +
+                                " method should never actually be called. SqlController should override");
         }
     }
 

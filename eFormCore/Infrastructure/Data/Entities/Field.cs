@@ -33,7 +33,7 @@ using KeyValuePair = Microting.eForm.Dto.KeyValuePair;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class Field : PnBase
+    public class Field : PnBase
     {
         public Field()
         {
@@ -45,11 +45,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public int? ParentFieldId { get; set; }
 
-        [ForeignKey("CheckList")]
-        public int? CheckListId { get; set; }
+        [ForeignKey("CheckList")] public int? CheckListId { get; set; }
 
-        [ForeignKey("FieldType")]
-        public int? FieldTypeId { get; set; }
+        [ForeignKey("FieldType")] public int? FieldTypeId { get; set; }
 
         public short? Mandatory { get; set; }
 
@@ -59,8 +57,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public string Description { get; set; }
 
-        [StringLength(255)]
-        public string Color { get; set; }
+        [StringLength(255)] public string Color { get; set; }
 
         public int? DisplayIndex { get; set; }
 
@@ -68,14 +65,11 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public string DefaultValue { get; set; }
 
-        [StringLength(255)]
-        public string UnitName { get; set; }
+        [StringLength(255)] public string UnitName { get; set; }
 
-        [StringLength(255)]
-        public string MinValue { get; set; }
+        [StringLength(255)] public string MinValue { get; set; }
 
-        [StringLength(255)]
-        public string MaxValue { get; set; }
+        [StringLength(255)] public string MaxValue { get; set; }
 
         public int? MaxLength { get; set; }
 
@@ -101,11 +95,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public short? BarcodeEnabled { get; set; }
 
-        [StringLength(255)]
-        public string BarcodeType { get; set; }
+        [StringLength(255)] public string BarcodeType { get; set; }
 
-        [StringLength(255)]
-        public string QueryType { get; set; }
+        [StringLength(255)] public string QueryType { get; set; }
 
         public string KeyValuePairList { get; set; }
 
@@ -134,180 +126,186 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         {
             try
             {
-List<Field> fields = await dbContext.Fields.ToListAsync();
-            FieldType pdfFieldType =
-                await dbContext.FieldTypes.FirstOrDefaultAsync(x => x.Type == Constants.Constants.FieldTypes.ShowPdf);
-            Language language = await dbContext.Languages.FirstAsync(x => x.Name == "Danish");
-            Language englishLanguage = await dbContext.Languages.FirstAsync(x => x.Name == "English");
-            Language germanLanguage = await dbContext.Languages.FirstAsync(x => x.Name == "German");
-            int i = 0;
-            int totalFields = fields.Count;
-            foreach (Field field in fields)
-            {
-                i++;
-                Console.WriteLine($"Updating field no {i} of {totalFields}");
-                if (!string.IsNullOrEmpty(field.Label))
+                List<Field> fields = await dbContext.Fields.ToListAsync();
+                FieldType pdfFieldType =
+                    await dbContext.FieldTypes.FirstOrDefaultAsync(
+                        x => x.Type == Constants.Constants.FieldTypes.ShowPdf);
+                Language language = await dbContext.Languages.FirstAsync(x => x.Name == "Danish");
+                Language englishLanguage = await dbContext.Languages.FirstAsync(x => x.Name == "English");
+                Language germanLanguage = await dbContext.Languages.FirstAsync(x => x.Name == "German");
+                int i = 0;
+                int totalFields = fields.Count;
+                foreach (Field field in fields)
                 {
-                    FieldTranslation fieldTranslation = new FieldTranslation
+                    i++;
+                    Console.WriteLine($"Updating field no {i} of {totalFields}");
+                    if (!string.IsNullOrEmpty(field.Label))
                     {
-                        Text = field.Label,
-                        Description = field.Description,
-                        FieldId = field.Id,
-                        LanguageId = language.Id
-                    };
-                    await fieldTranslation.Create(dbContext);
-                    field.Label = null;
-                    field.Description = null;
-                    await field.Update(dbContext);
-                }
-
-                if (!string.IsNullOrEmpty(field.KeyValuePairList))
-                {
-                    List<FieldOption> fieldOptions =
-                        await dbContext.FieldOptions.Where(x => x.FieldId == field.Id).ToListAsync();
-                    if (!fieldOptions.Any())
-                    {
-                        List<KeyValuePair> keyValuePairs = PairRead((field.KeyValuePairList));
-                        foreach (KeyValuePair keyValuePair in keyValuePairs)
+                        FieldTranslation fieldTranslation = new FieldTranslation
                         {
-                            FieldOption fieldOption = await dbContext.FieldOptions.FirstOrDefaultAsync(x =>
-                                x.FieldId == field.Id && x.Key == keyValuePair.Key);
-                            if (fieldOption == null)
-                            {
-                                fieldOption = new FieldOption
-                                {
-                                    FieldId = field.Id,
-                                    Key = keyValuePair.Key,
-                                    DisplayOrder = keyValuePair.DisplayOrder
-                                };
-                                await fieldOption.Create(dbContext);
-                                FieldOptionTranslation fieldOptionTranslation = new FieldOptionTranslation
-                                {
-                                    FieldOptionId = fieldOption.Id,
-                                    LanguageId = language.Id,
-                                    Text = keyValuePair.Value
-                                };
-                                await fieldOptionTranslation.Create(dbContext);
-                            }
-                        }
-
-                        field.KeyValuePairList = null;
+                            Text = field.Label,
+                            Description = field.Description,
+                            FieldId = field.Id,
+                            LanguageId = language.Id
+                        };
+                        await fieldTranslation.Create(dbContext);
+                        field.Label = null;
+                        field.Description = null;
                         await field.Update(dbContext);
                     }
-                }
 
-                if (field.FieldTypeId == pdfFieldType.Id)
-                {
+                    if (!string.IsNullOrEmpty(field.KeyValuePairList))
+                    {
+                        List<FieldOption> fieldOptions =
+                            await dbContext.FieldOptions.Where(x => x.FieldId == field.Id).ToListAsync();
+                        if (!fieldOptions.Any())
+                        {
+                            List<KeyValuePair> keyValuePairs = PairRead((field.KeyValuePairList));
+                            foreach (KeyValuePair keyValuePair in keyValuePairs)
+                            {
+                                FieldOption fieldOption = await dbContext.FieldOptions.FirstOrDefaultAsync(x =>
+                                    x.FieldId == field.Id && x.Key == keyValuePair.Key);
+                                if (fieldOption == null)
+                                {
+                                    fieldOption = new FieldOption
+                                    {
+                                        FieldId = field.Id,
+                                        Key = keyValuePair.Key,
+                                        DisplayOrder = keyValuePair.DisplayOrder
+                                    };
+                                    await fieldOption.Create(dbContext);
+                                    FieldOptionTranslation fieldOptionTranslation = new FieldOptionTranslation
+                                    {
+                                        FieldOptionId = fieldOption.Id,
+                                        LanguageId = language.Id,
+                                        Text = keyValuePair.Value
+                                    };
+                                    await fieldOptionTranslation.Create(dbContext);
+                                }
+                            }
+
+                            field.KeyValuePairList = null;
+                            await field.Update(dbContext);
+                        }
+                    }
+
+                    if (field.FieldTypeId == pdfFieldType.Id)
+                    {
+                        if (!string.IsNullOrEmpty(field.DefaultValue))
+                        {
+                            int number =
+                                dbContext.FieldTranslations.Count(x => x.FieldId == field.Id);
+                            if (number > 1)
+                            {
+                                field.DefaultValue = number > 2
+                                    ? $"{field.DefaultValue}|{field.DefaultValue}|{field.DefaultValue}"
+                                    : $"{field.DefaultValue}|{field.DefaultValue}";
+                            }
+
+                            await field.Update(dbContext);
+                        }
+                    }
+
                     if (!string.IsNullOrEmpty(field.DefaultValue))
                     {
-                        int number =
-                            dbContext.FieldTranslations.Count(x => x.FieldId == field.Id);
-                        if (number > 1)
+                        var defaultValue = field.DefaultValue.Split("|");
+                        if (dbContext.FieldTranslations.Count(x =>
+                                x.LanguageId == language.Id && x.FieldId == field.Id) > 1)
                         {
-                            field.DefaultValue = number > 2 ?
-                                $"{field.DefaultValue}|{field.DefaultValue}|{field.DefaultValue}" :
-                                $"{field.DefaultValue}|{field.DefaultValue}";
+                            var theList = await dbContext.FieldTranslations.Where(x =>
+                                x.LanguageId == language.Id && x.FieldId == field.Id).ToListAsync();
+                            var currentTranslationText = "";
+                            var currentTranslationDescription = "";
+                            foreach (FieldTranslation translation in theList)
+                            {
+                                if (currentTranslationText == translation.Text &&
+                                    currentTranslationDescription == translation.Description)
+                                {
+                                    dbContext.FieldTranslations.Remove(translation);
+                                    await dbContext.SaveChangesAsync();
+                                    Console.WriteLine(
+                                        $"{translation.Id} is duplicated for field {field.Id} with language {language.Id}, so deleting the duplicate");
+                                }
+
+                                currentTranslationText = translation.Text;
+                                currentTranslationDescription = translation.Description;
+                            }
                         }
 
+                        FieldTranslation fieldTranslation =
+                            await dbContext.FieldTranslations.FirstOrDefaultAsync(x =>
+                                x.LanguageId == language.Id && x.FieldId == field.Id);
+                        if (fieldTranslation == null)
+                        {
+                            Console.WriteLine($"We could not find a translation for Danish and FieldId : {field.Id}");
+                        }
+
+                        fieldTranslation.DefaultValue = defaultValue[0];
+                        await fieldTranslation.Update(dbContext);
+
+                        if (defaultValue.Length > 1)
+                        {
+                            fieldTranslation =
+                                await dbContext.FieldTranslations.FirstOrDefaultAsync(x =>
+                                    x.LanguageId == englishLanguage.Id && x.FieldId == field.Id);
+                            if (fieldTranslation != null)
+                            {
+                                fieldTranslation.DefaultValue = defaultValue[1];
+                                await fieldTranslation.Update(dbContext);
+                            }
+                            else
+                            {
+                                Console.WriteLine(
+                                    $"We could not find a translation for English and FieldId : {field.Id}");
+                            }
+                        }
+                        else
+                        {
+                            fieldTranslation =
+                                await dbContext.FieldTranslations.FirstOrDefaultAsync(x =>
+                                    x.LanguageId == englishLanguage.Id && x.FieldId == field.Id);
+                            if (fieldTranslation != null)
+                            {
+                                fieldTranslation.DefaultValue = defaultValue[0];
+                                await fieldTranslation.Update(dbContext);
+                            }
+                            else
+                            {
+                                Console.WriteLine(
+                                    $"We could not find a translation for English and FieldId : {field.Id}");
+                            }
+                        }
+
+                        if (defaultValue.Length > 2)
+                        {
+                            fieldTranslation =
+                                await dbContext.FieldTranslations.FirstOrDefaultAsync(x =>
+                                    x.LanguageId == germanLanguage.Id && x.FieldId == field.Id);
+                            fieldTranslation.DefaultValue = defaultValue[2];
+                            await fieldTranslation.Update(dbContext);
+                        }
+                        else
+                        {
+                            fieldTranslation =
+                                await dbContext.FieldTranslations.FirstOrDefaultAsync(x =>
+                                    x.LanguageId == germanLanguage.Id && x.FieldId == field.Id);
+                            if (fieldTranslation != null)
+                            {
+                                fieldTranslation.DefaultValue = defaultValue[0];
+                                await fieldTranslation.Update(dbContext);
+                            }
+                        }
+
+                        field.DefaultValue = null;
                         await field.Update(dbContext);
                     }
                 }
-
-                if (!string.IsNullOrEmpty(field.DefaultValue))
-                {
-                    var defaultValue = field.DefaultValue.Split("|");
-                    if (dbContext.FieldTranslations.Count(x =>
-                        x.LanguageId == language.Id && x.FieldId == field.Id) > 1)
-                    {
-                        var theList = await dbContext.FieldTranslations.Where(x =>
-                            x.LanguageId == language.Id && x.FieldId == field.Id).ToListAsync();
-                        var currentTranslationText = "";
-                        var currentTranslationDescription = "";
-                        foreach (FieldTranslation translation in theList)
-                        {
-                            if (currentTranslationText == translation.Text &&
-                                currentTranslationDescription == translation.Description)
-                            {
-                                dbContext.FieldTranslations.Remove(translation);
-                                await dbContext.SaveChangesAsync();
-                                Console.WriteLine($"{translation.Id} is duplicated for field {field.Id} with language {language.Id}, so deleting the duplicate");
-                            }
-                            currentTranslationText = translation.Text;
-                            currentTranslationDescription = translation.Description;
-                        }
-                    }
-                    FieldTranslation fieldTranslation =
-                        await dbContext.FieldTranslations.FirstOrDefaultAsync(x =>
-                            x.LanguageId == language.Id && x.FieldId == field.Id);
-                    if (fieldTranslation == null)
-                    {
-                        Console.WriteLine($"We could not find a translation for Danish and FieldId : {field.Id}");
-                    }
-                    fieldTranslation.DefaultValue = defaultValue[0];
-                    await fieldTranslation.Update(dbContext);
-
-                    if (defaultValue.Length > 1)
-                    {
-                        fieldTranslation =
-                            await dbContext.FieldTranslations.FirstOrDefaultAsync(x =>
-                                x.LanguageId == englishLanguage.Id && x.FieldId == field.Id);
-                        if (fieldTranslation != null)
-                        {
-                            fieldTranslation.DefaultValue = defaultValue[1];
-                            await fieldTranslation.Update(dbContext);
-                        }
-                        else
-                        {
-                            Console.WriteLine($"We could not find a translation for English and FieldId : {field.Id}");
-                        }
-                    }
-                    else
-                    {
-                        fieldTranslation =
-                            await dbContext.FieldTranslations.FirstOrDefaultAsync(x =>
-                                x.LanguageId == englishLanguage.Id && x.FieldId == field.Id);
-                        if (fieldTranslation != null)
-                        {
-                            fieldTranslation.DefaultValue = defaultValue[0];
-                            await fieldTranslation.Update(dbContext);
-                        }
-                        else
-                        {
-                            Console.WriteLine($"We could not find a translation for English and FieldId : {field.Id}");
-                        }
-                    }
-
-                    if (defaultValue.Length > 2)
-                    {
-                        fieldTranslation =
-                            await dbContext.FieldTranslations.FirstOrDefaultAsync(x =>
-                                x.LanguageId == germanLanguage.Id && x.FieldId == field.Id);
-                        fieldTranslation.DefaultValue = defaultValue[2];
-                        await fieldTranslation.Update(dbContext);
-                    }
-                    else
-                    {
-                        fieldTranslation =
-                            await dbContext.FieldTranslations.FirstOrDefaultAsync(x =>
-                                x.LanguageId == germanLanguage.Id && x.FieldId == field.Id);
-                        if (fieldTranslation != null)
-                        {
-                            fieldTranslation.DefaultValue = defaultValue[0];
-                            await fieldTranslation.Update(dbContext);
-                        }
-                    }
-
-                    field.DefaultValue = null;
-                    await field.Update(dbContext);
-                }
-            }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 throw;
             }
-
         }
 
         private static List<KeyValuePair> PairRead(string str)

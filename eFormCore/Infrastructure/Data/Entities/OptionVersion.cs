@@ -26,27 +26,26 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class OptionVersion : BaseEntity
+    public class OptionVersion : BaseEntity
     {
         public int? NextQuestionId { get; set; }
-        
+
         public int Weight { get; set; }
-        
+
         public int WeightValue { get; set; }
-        
+
         public int ContinuousOptionId { get; set; }
-        
+
         public int QuestionId { get; set; }
-        
+
         public int OptionIndex { get; set; }
-        
-        [ForeignKey("Option")]
-        public int OptionId { get; set; }
-        
+
+        [ForeignKey("Option")] public int OptionId { get; set; }
+
         public virtual Option Option { get; set; }
-        
+
         public int? MicrotingUid { get; set; }
-        
+
         public int DisplayIndex { get; set; }
     }
 }

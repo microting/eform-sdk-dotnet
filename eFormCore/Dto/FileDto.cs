@@ -27,7 +27,9 @@ namespace Microting.eForm.Dto
     public class FileDto
     {
         #region con
-        public FileDto(int siteUId, string caseType, string caseUId, string microtingUId, string checkUId, string fileLocation)
+
+        public FileDto(int siteUId, string caseType, string caseUId, string microtingUId, string checkUId,
+            string fileLocation)
         {
             if (caseType == null)
                 caseType = "";
@@ -47,9 +49,11 @@ namespace Microting.eForm.Dto
             CheckUId = checkUId;
             FileLocation = fileLocation;
         }
+
         #endregion
 
         #region var
+
         /// <summary>
         /// Unique identifier of device
         /// </summary>
@@ -79,11 +83,13 @@ namespace Microting.eForm.Dto
         /// Location of the fil
         /// </summary>
         public string FileLocation { get; set; }
+
         #endregion
 
         public override string ToString()
         {
-            return "SiteUId:" + SiteUId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" + MicrotingUId + " / CheckId:" + CheckUId + " / FileLocation:" + FileLocation;
+            return "SiteUId:" + SiteUId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" +
+                   MicrotingUId + " / CheckId:" + CheckUId + " / FileLocation:" + FileLocation;
         }
     }
 }

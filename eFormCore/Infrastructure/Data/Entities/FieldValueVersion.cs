@@ -27,10 +27,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class FieldValueVersion : BaseEntity
+    public class FieldValueVersion : BaseEntity
     {
         public int? FieldValueId { get; set; }
-        
+
         public DateTime? DoneAt { get; set; }
 
         public DateTime? Date { get; set; }
@@ -49,19 +49,14 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public string Value { get; set; }
 
-        [StringLength(255)]
-        public string Latitude { get; set; }
+        [StringLength(255)] public string Latitude { get; set; }
 
-        [StringLength(255)]
-        public string Longitude { get; set; }
+        [StringLength(255)] public string Longitude { get; set; }
 
-        [StringLength(255)]
-        public string Altitude { get; set; }
+        [StringLength(255)] public string Altitude { get; set; }
 
-        [StringLength(255)]
-        public string Heading { get; set; }
+        [StringLength(255)] public string Heading { get; set; }
 
-        [StringLength(255)]
-        public string Accuracy { get; set; }
+        [StringLength(255)] public string Accuracy { get; set; }
     }
 }

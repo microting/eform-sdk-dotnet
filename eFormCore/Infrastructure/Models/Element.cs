@@ -39,7 +39,6 @@ namespace Microting.eForm.Infrastructure.Models
         // con
         internal Element()
         {
-
         }
         //
 
@@ -48,14 +47,14 @@ namespace Microting.eForm.Infrastructure.Models
         public string Label { get; set; }
         public int DisplayOrder { get; set; }
 
-        [XmlElement("Description")]
-        public CDataValue Description { get; set; }
+        [XmlElement("Description")] public CDataValue Description { get; set; }
         public bool ApprovalEnabled { get; set; }
         public bool ReviewEnabled { get; set; }
         public bool DoneButtonEnabled { get; set; }
         public bool ExtraFieldsEnabled { get; set; }
         public string PinkBarText { get; set; }
         public bool QuickSyncEnabled { get; set; }
+
         public string OriginalId { get; set; }
         //
     }
@@ -68,7 +67,8 @@ namespace Microting.eForm.Infrastructure.Models
             ElementList = new List<Element>();
         }
 
-        public GroupElement(int id, string label, int displayOrder, string description, bool approvedEnabled, bool reviewEnabled, bool doneButtonEnabled,
+        public GroupElement(int id, string label, int displayOrder, string description, bool approvedEnabled,
+            bool reviewEnabled, bool doneButtonEnabled,
             bool extraDataElementsEnabled, string pinkBarText, bool quickSyncEnabled, List<Element> elementList)
         {
             ElementList = new List<Element>();
@@ -76,7 +76,7 @@ namespace Microting.eForm.Infrastructure.Models
             Id = id;
             Label = label;
             DisplayOrder = displayOrder;
-            Description = new CDataValue {InderValue = description};
+            Description = new CDataValue { InderValue = description };
             ApprovalEnabled = approvedEnabled;
             ReviewEnabled = reviewEnabled;
             DoneButtonEnabled = doneButtonEnabled;
@@ -101,8 +101,10 @@ namespace Microting.eForm.Infrastructure.Models
             DataItemList = new List<DataItem>();
         }
 
-        public DataElement(int id, string label, int displayOrder, string description, bool approvalEnabled, bool reviewEnabled, bool doneButtonEnabled,
-            bool extraDataElementsEnabled, string pinkBarText, bool quickSyncEnabled, List<DataItemGroup> dataItemGroupList, List<DataItem> dataItemList)
+        public DataElement(int id, string label, int displayOrder, string description, bool approvalEnabled,
+            bool reviewEnabled, bool doneButtonEnabled,
+            bool extraDataElementsEnabled, string pinkBarText, bool quickSyncEnabled,
+            List<DataItemGroup> dataItemGroupList, List<DataItem> dataItemList)
         {
             //DataItemGroupList = new List<DataItemGroup>();
             //DataItemList = new List<DataItem>();
@@ -129,12 +131,9 @@ namespace Microting.eForm.Infrastructure.Models
         [XmlArray("DataItemList"), XmlArrayItem(typeof(DataItem), ElementName = "DataItem")]
         public List<DataItem> DataItemList { get; set; }
 
-        [XmlIgnore]
-        public List<Models.FieldValue> ExtraPictures { get; set; }
-        [XmlIgnore]
-        public List<Models.FieldValue> ExtraRecordings { get; set; }
-        [XmlIgnore]
-        public List<Models.FieldValue> ExtraComments { get; set; }
+        [XmlIgnore] public List<Models.FieldValue> ExtraPictures { get; set; }
+        [XmlIgnore] public List<Models.FieldValue> ExtraRecordings { get; set; }
+        [XmlIgnore] public List<Models.FieldValue> ExtraComments { get; set; }
     }
     //
 
@@ -177,6 +176,7 @@ namespace Microting.eForm.Infrastructure.Models
 
         [XmlArray("DataItemList"), XmlArrayItem(typeof(DataItem), ElementName = "DataItem")]
         public List<DataItem> DataItemList { get; set; }
+
         public List<FieldValue> ExtraPictures { get; set; }
         public List<FieldValue> ExtraRecordings { get; set; }
         public List<FieldValue> ExtraComments { get; set; }

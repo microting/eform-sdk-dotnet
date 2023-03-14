@@ -34,6 +34,7 @@ namespace Microting.eForm
     public class Tools
     {
         #region Entity Framework Get
+
         public bool Bool(short? input)
         {
             if (input == null)
@@ -149,9 +150,11 @@ namespace Microting.eForm
             strLst = str.Split('|').ToList();
             return strLst;
         }
+
         #endregion
 
         #region Text Manipulation
+
         public string Locate(string textStr, string startStr, string endStr)
         {
             try
@@ -202,6 +205,7 @@ namespace Microting.eForm
                     else
                         flag = false;
                 }
+
                 return lst;
             }
             catch
@@ -402,9 +406,11 @@ namespace Microting.eForm
                 throw new Exception("SplitFirst failed.", ex);
             }
         }
+
         #endregion
 
         #region PrintException
+
         public string PrintException(string exceptionDescription, Exception ex)
         {
             string fullExceptionDescription = "";
@@ -430,13 +436,14 @@ namespace Microting.eForm
                 return "";
 
             return
-            "######## -Expection at level " + level + "- ########" + Environment.NewLine +
-            "Type    :" + ex.GetType().Name + Environment.NewLine +
-            "Message    :" + ex.Message + Environment.NewLine +
-            "Source     :" + ex.Source + Environment.NewLine +
-            "StackTrace :" + ex.StackTrace + Environment.NewLine +
-            PrintInnerException(ex.InnerException, level + 1).TrimEnd();
+                "######## -Expection at level " + level + "- ########" + Environment.NewLine +
+                "Type    :" + ex.GetType().Name + Environment.NewLine +
+                "Message    :" + ex.Message + Environment.NewLine +
+                "Source     :" + ex.Source + Environment.NewLine +
+                "StackTrace :" + ex.StackTrace + Environment.NewLine +
+                PrintInnerException(ex.InnerException, level + 1).TrimEnd();
         }
+
         #endregion
 
         public string GetRandomString(int lenght)

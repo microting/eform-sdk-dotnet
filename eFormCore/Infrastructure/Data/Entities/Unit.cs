@@ -26,7 +26,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class Unit : PnBase
+    public class Unit : PnBase
     {
         public int? MicrotingUid { get; set; }
 
@@ -34,8 +34,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public int? CustomerNo { get; set; }
 
-        [ForeignKey("Site")]
-        public int? SiteId { get; set; }
+        [ForeignKey("Site")] public int? SiteId { get; set; }
 
         public virtual Site Site { get; set; }
 

@@ -26,18 +26,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class SiteSurveyConfiguration : PnBase
+    public class SiteSurveyConfiguration : PnBase
     {
-        [ForeignKey("Site")]
-        public int SiteId { get; set; }
+        [ForeignKey("Site")] public int SiteId { get; set; }
 
-        [ForeignKey("SurveyConfiguration")]
-        public int SurveyConfigurationId { get; set; }
+        [ForeignKey("SurveyConfiguration")] public int SurveyConfigurationId { get; set; }
 
         public virtual Site Site { get; set; }
-        
+
         public virtual SurveyConfiguration SurveyConfiguration { get; set; }
-        
+
         public int? MicrotingUid { get; set; }
     }
 }

@@ -86,8 +86,8 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(questions);
             Assert.NotNull(questionVersions);
 
-            Assert.AreEqual(1,questions.Count());
-            Assert.AreEqual(1,questionVersions.Count());
+            Assert.AreEqual(1, questions.Count());
+            Assert.AreEqual(1, questionVersions.Count());
 
             Assert.AreEqual(question.CreatedAt.ToString(), questions[0].CreatedAt.ToString());
             Assert.AreEqual(question.Version, questions[0].Version);
@@ -215,8 +215,8 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(questions);
             Assert.NotNull(questionVersions);
 
-            Assert.AreEqual(1,questions.Count());
-            Assert.AreEqual(2,questionVersions.Count());
+            Assert.AreEqual(1, questions.Count());
+            Assert.AreEqual(2, questionVersions.Count());
 
             Assert.AreEqual(question.CreatedAt.ToString(), questions[0].CreatedAt.ToString());
             Assert.AreEqual(question.Version, questions[0].Version);
@@ -336,8 +336,8 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(questions);
             Assert.NotNull(questionVersions);
 
-            Assert.AreEqual(1,questions.Count());
-            Assert.AreEqual(2,questionVersions.Count());
+            Assert.AreEqual(1, questions.Count());
+            Assert.AreEqual(2, questionVersions.Count());
 
             Assert.AreEqual(question.CreatedAt.ToString(), questions[0].CreatedAt.ToString());
             Assert.AreEqual(question.Version, questions[0].Version);

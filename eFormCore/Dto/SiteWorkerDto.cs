@@ -27,6 +27,7 @@ namespace Microting.eForm.Dto
     public class SiteWorkerDto
     {
         #region con
+
         public SiteWorkerDto()
         {
         }
@@ -37,9 +38,11 @@ namespace Microting.eForm.Dto
             SiteUId = siteUId;
             WorkerUId = workerUId;
         }
+
         #endregion
 
         #region var
+
         /// <summary>
         ///...
         /// </summary>

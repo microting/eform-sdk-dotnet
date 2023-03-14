@@ -30,7 +30,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Microting.eForm.Infrastructure.Data.Entities
 {
-    public  class Site : PnBase
+    public class Site : PnBase
     {
         public Site()
         {
@@ -41,13 +41,11 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             SiteTags = new List<SiteTag>();
         }
 
-        [StringLength(255)]
-        public string Name { get; set; }
+        [StringLength(255)] public string Name { get; set; }
 
         public int? MicrotingUid { get; set; }
 
-        [ForeignKey("Language")]
-        public int LanguageId { get; set; }
+        [ForeignKey("Language")] public int LanguageId { get; set; }
 
         public int SearchableEntityItemId { get; set; }
 

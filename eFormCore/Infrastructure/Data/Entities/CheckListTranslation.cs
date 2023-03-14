@@ -4,11 +4,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 {
     public class CheckListTranslation : PnBase
     {
-        [ForeignKey("CheckList")]
-        public int CheckListId { get; set; }
+        [ForeignKey("CheckList")] public int CheckListId { get; set; }
 
-        [ForeignKey("Language")]
-        public int LanguageId { get; set; }
+        [ForeignKey("Language")] public int LanguageId { get; set; }
 
         public string Text { get; set; }
 

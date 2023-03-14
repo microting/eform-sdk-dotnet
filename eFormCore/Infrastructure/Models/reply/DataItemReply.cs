@@ -38,24 +38,35 @@ namespace Microting.eForm.Infrastructure.Models.reply
     {
         internal DataItemReply()
         {
-
         }
 
         #region var
+
         public string Id { get; set; }
 
         public GeolocationData Geolocation { get; set; }
 
-        [XmlElement("Value")]
-        public CDataValue Value { get; set; }
+        [XmlElement("Value")] public CDataValue Value { get; set; }
 
         public string Extension { get; set; }
         public string URL { get; set; }
+
         #endregion
     }
 
-    public class DataItem : DataItemReply {}
-    public class Picture : DataItemReply {}
-    public class Audio : DataItemReply {}
-    public class Comment : DataItemReply {}
+    public class DataItem : DataItemReply
+    {
+    }
+
+    public class Picture : DataItemReply
+    {
+    }
+
+    public class Audio : DataItemReply
+    {
+    }
+
+    public class Comment : DataItemReply
+    {
+    }
 }

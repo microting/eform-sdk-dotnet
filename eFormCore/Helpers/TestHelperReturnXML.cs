@@ -33,17 +33,17 @@ namespace Microting.eForm.Helpers
 {
     public class TestHelperReturnXML
     {
-
         private TestHelpers testHelpers;
         Tools t = new Tools();
 
         public TestHelperReturnXML(string connectionString)
-        {        Tools t = new Tools();
+        {
+            Tools t = new Tools();
             testHelpers = new TestHelpers(connectionString);
-
         }
 
         #region "prep sever information for full load"
+
         public async Task<string> CreateSiteUnitWorkersForFullLoaed(bool create)
         {
             if (create)
@@ -55,7 +55,8 @@ namespace Microting.eForm.Helpers
                 id = t.GetRandomInt(6);
                 string userFirstName = Guid.NewGuid().ToString();
                 string userLastName = Guid.NewGuid().ToString();
-                Worker worker = await testHelpers.CreateWorker("sfsdfsdf23ref@invalid.com", userFirstName, userLastName, id);
+                Worker worker =
+                    await testHelpers.CreateWorker("sfsdfsdf23ref@invalid.com", userFirstName, userLastName, id);
                 return "";
             }
 
@@ -78,9 +79,11 @@ namespace Microting.eForm.Helpers
                 return "{}";
             }
         }
+
         #endregion
 
         #region
+
         public async Task<string> CreateMultiPictureXMLResult(bool create)
         {
             if (create)
@@ -92,10 +95,15 @@ namespace Microting.eForm.Helpers
                 SiteWorker sw = await testHelpers.CreateSiteWorker(242345, site, worker);
                 DateTime cl1_ca = DateTime.UtcNow;
                 DateTime cl1_ua = DateTime.UtcNow;
-                CheckList cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "MultiPictureXMLResult", "MultiPictureXMLResult_Description", "", "", 0, 0);
+                CheckList cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "MultiPictureXMLResult",
+                    "MultiPictureXMLResult_Description", "", "", 0, 0);
                 CheckList cl2 = await testHelpers.CreateSubTemplate("Sub1", "Sub1Description", "", 0, 0, cl1);
-                Field f1 = await testHelpers.CreateField(0, "", cl2, Constants.FieldColors.Blue, "", null, "", "PictureDescription", 0, 0, testHelpers.dbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 0, 0, "Take picture", 0, 0, "", "", 0, 0, "", 0, 0, 0, 0, "", 0);
-                CheckListSite cls = await testHelpers.CreateCheckListSite(cl1, cl1_ca, site, cl1_ua, 0, Constants.WorkflowStates.Created, 555);
+                Field f1 = await testHelpers.CreateField(0, "", cl2, Constants.FieldColors.Blue, "", null, "",
+                    "PictureDescription", 0, 0,
+                    testHelpers.dbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 0, 0,
+                    "Take picture", 0, 0, "", "", 0, 0, "", 0, 0, 0, 0, "", 0);
+                CheckListSite cls = await testHelpers.CreateCheckListSite(cl1, cl1_ca, site, cl1_ua, 0,
+                    Constants.WorkflowStates.Created, 555);
                 //returnXML = ;
                 return "555";
 //                return 12;
@@ -110,6 +118,7 @@ namespace Microting.eForm.Helpers
                 Field f1 = testHelpers.dbContext.Fields.First();
 
                 #region return xml
+
                 return $@"<?xml version='1.0' encoding='UTF-8'?>
                 <Response>
                     <Value type='success'>555</Value>
@@ -139,11 +148,11 @@ namespace Microting.eForm.Helpers
                         </Check>                     
                     </Checks>
                 </Response>".Replace("'", "\"");
+
                 #endregion
             }
-
-
         }
+
         #endregion
     }
 }

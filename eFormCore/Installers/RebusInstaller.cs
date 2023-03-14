@@ -40,7 +40,8 @@ namespace Microting.eForm.Installers
         private readonly string _rabbitMqHost;
         private readonly string _customerNo;
 
-        public RebusInstaller(string customerNo, string connectionString, int maxParallelism, int numberOfWorkers, string rabbitMqUser, string rabbitMqPassword, string rabbitMqHost)
+        public RebusInstaller(string customerNo, string connectionString, int maxParallelism, int numberOfWorkers,
+            string rabbitMqUser, string rabbitMqPassword, string rabbitMqHost)
         {
             if (string.IsNullOrEmpty(connectionString)) throw new ArgumentNullException(nameof(connectionString));
             _maxParallelism = maxParallelism;
@@ -55,7 +56,8 @@ namespace Microting.eForm.Installers
         {
             Configure.With(new CastleWindsorContainerAdapter(container))
                 .Logging(l => l.ColoredConsole(LogLevel.Info))
-                .Transport(t => t.UseRabbitMq($"amqp://{_rabbitMqUser}:{_rabbitMqPassword}@{_rabbitMqHost}", $"{_customerNo}-eformsdk-input"))
+                .Transport(t => t.UseRabbitMq($"amqp://{_rabbitMqUser}:{_rabbitMqPassword}@{_rabbitMqHost}",
+                    $"{_customerNo}-eformsdk-input"))
                 .Options(o =>
                 {
                     o.SetMaxParallelism(_maxParallelism);

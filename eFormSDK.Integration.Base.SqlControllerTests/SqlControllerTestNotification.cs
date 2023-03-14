@@ -54,6 +54,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
             await sql.SettingUpdate(Settings.firstRunDone, "true");
             await sql.SettingUpdate(Settings.knownSitesDone, "true");
+
             #endregion
 
             sut = new SqlController(dbContextHelper);
@@ -66,6 +67,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
         }
 
         #region notification
+
         [Test]
         public async Task SQL_Notification_NewNotificationCreateRetrievedForm_DoesStoreNotification()
         {
@@ -78,7 +80,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             await sut.NotificationCreate(notificationId, microtingUId, Constants.Notifications.RetrievedForm);
 
             // Assert
-            var notification = await DbContext.Notifications.FirstOrDefaultAsync(x => x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
+            var notification = await DbContext.Notifications.FirstOrDefaultAsync(x =>
+                x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
 
             Assert.NotNull(notification);
             Assert.AreEqual(1, DbContext.Notifications.Count());
@@ -98,7 +101,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             await sut.NotificationCreate(notificationId, microtingUId, Constants.Notifications.Completed);
 
             // Assert
-            var notification = await DbContext.Notifications.FirstOrDefaultAsync(x => x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
+            var notification = await DbContext.Notifications.FirstOrDefaultAsync(x =>
+                x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
 
             Assert.NotNull(notification);
             Assert.AreEqual(1, DbContext.Notifications.Count());
@@ -142,7 +146,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             await sut.NotificationUpdate(notificationUId, microtingUId, Constants.WorkflowStates.Processed, "", "");
 
             // Assert
-            var notification = await DbContext.Notifications.FirstOrDefaultAsync(x => x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId);
+            var notification = await DbContext.Notifications.FirstOrDefaultAsync(x =>
+                x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId);
 
             Assert.NotNull(notification);
             Assert.AreEqual(1, DbContext.Notifications.Count());
@@ -154,11 +159,10 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
         [Test]
         public async Task SQL_Notification_Notificationcreate_isCreated()
         {
-
-
             // Act
             Random rnd = new Random();
-            await sut.NotificationCreate(Guid.NewGuid().ToString(), rnd.Next(1, 255), Constants.Notifications.UnitActivate);
+            await sut.NotificationCreate(Guid.NewGuid().ToString(), rnd.Next(1, 255),
+                Constants.Notifications.UnitActivate);
             List<Notification> notificationResult = DbContext.Notifications.AsNoTracking().ToList();
             var versionedMatches = DbContext.Notifications.AsNoTracking().ToList();
 
@@ -169,9 +173,6 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Assert.AreEqual(Constants.Notifications.UnitActivate, notificationResult[0].Activity);
             Assert.AreEqual(Constants.WorkflowStates.Created, notificationResult[0].WorkflowState);
             Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches[0].WorkflowState);
-
-
-
         }
 
         [Test]
@@ -200,8 +201,6 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Assert
             Assert.AreEqual(Constants.WorkflowStates.Created, notificationResult[0].WorkflowState);
-
-
         }
 
         [Test]
@@ -223,7 +222,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
             // Act
-            await sut.NotificationUpdate(aNote1.NotificationUid, (int)aNote1.MicrotingUid, aNote1.WorkflowState, aNote1.Exception, "");
+            await sut.NotificationUpdate(aNote1.NotificationUid, (int)aNote1.MicrotingUid, aNote1.WorkflowState,
+                aNote1.Exception, "");
             List<Notification> notificationResult = DbContext.Notifications.AsNoTracking().ToList();
             var versionedMatches = DbContext.Notifications.AsNoTracking().ToList();
 
@@ -232,10 +232,12 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Assert.AreEqual(aNote1.NotificationUid, notificationResult[0].NotificationUid);
             Assert.AreEqual(aNote1.MicrotingUid, notificationResult[0].MicrotingUid);
         }
+
         #endregion
 
 
         #region eventhandlers
+
 #pragma warning disable 1998
         public async Task EventCaseCreated(object sender, EventArgs args)
         {
@@ -267,7 +269,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Does nothing for web implementation
         }
 #pragma warning restore 1998
+
         #endregion
     }
-
 }

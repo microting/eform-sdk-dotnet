@@ -28,39 +28,32 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using DotNet.Testcontainers.Builders;
-using DotNet.Testcontainers.Configurations;
-using DotNet.Testcontainers.Containers;
 using eFormCore;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure;
 using NUnit.Framework;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Testcontainers.MariaDb;
 
 namespace eFormSDK.Base.Tests
 {
     [TestFixture]
     public abstract class DbTestFixture
     {
+        private readonly MariaDbContainer _mariadbTestcontainer = new MariaDbBuilder()
+            .WithDatabase(
+                "eformsdk-tests").WithUsername("bla").WithPassword("secretpassword")
+            .Build();
 
-        private readonly MySqlTestcontainer _mySqlTestcontainer = new TestcontainersBuilder<MySqlTestcontainer>()
-            .WithDatabase(new MySqlTestcontainerConfiguration(image: "mariadb:10.8")
-            {
-                Database = "eformsdk-tests",
-                Username = "bla",
-                Password = "secretpassword",
-            }).Build();
         protected MicrotingDbContext DbContext;
         protected string ConnectionString;
 
         private MicrotingDbContext GetContext(string connectionStr)
         {
-
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
 
             dbContextOptionsBuilder.UseMySql(connectionStr, new MariaDbServerVersion(
                 new Version(10, 8)));
-            var microtingDbContext =  new MicrotingDbContext(dbContextOptionsBuilder.Options);
+            var microtingDbContext = new MicrotingDbContext(dbContextOptionsBuilder.Options);
             string file = Path.Combine("SQL", "eformsdk-tests.sql");
             string rawSql = File.ReadAllText(file);
 
@@ -69,18 +62,17 @@ namespace eFormSDK.Base.Tests
             microtingDbContext.Database.Migrate();
 
             return microtingDbContext;
-
         }
 
         [SetUp]
         public async Task Setup()
         {
             Console.WriteLine($"{DateTime.Now} : Starting MariaDb Container...");
-            await _mySqlTestcontainer.StartAsync();
+            await _mariadbTestcontainer.StartAsync();
             Console.WriteLine($"{DateTime.Now} : Started MariaDb Container");
-            ConnectionString = _mySqlTestcontainer.ConnectionString;
+            ConnectionString = _mariadbTestcontainer.GetConnectionString();
 
-            DbContext = GetContext(_mySqlTestcontainer.ConnectionString);
+            DbContext = GetContext(_mariadbTestcontainer.GetConnectionString());
 
             DbContext.Database.SetCommandTimeout(300);
 
@@ -97,12 +89,13 @@ namespace eFormSDK.Base.Tests
             {
                 Core core = new Core();
                 Console.WriteLine($"{DateTime.Now} : StartSqlOnly...");
-                await core.StartSqlOnly(_mySqlTestcontainer.ConnectionString);
+                await core.StartSqlOnly(_mariadbTestcontainer.GetConnectionString());
                 Console.WriteLine($"{DateTime.Now} : StartSqlOnly close...");
                 await core.Close();
-            } catch
+            }
+            catch
             {
-                AdminTools adminTools = new AdminTools(_mySqlTestcontainer.ConnectionString);
+                AdminTools adminTools = new AdminTools(_mariadbTestcontainer.GetConnectionString());
                 Console.WriteLine($"{DateTime.Now} : DbSetup...");
                 await adminTools.DbSetup("abc1234567890abc1234567890abcdef");
                 Console.WriteLine($"{DateTime.Now} : DbSetup done");
@@ -121,7 +114,7 @@ namespace eFormSDK.Base.Tests
 
             await DbContext.DisposeAsync();
 
-            await _mySqlTestcontainer.StopAsync();
+            await _mariadbTestcontainer.StopAsync();
         }
 
         private async Task ClearDb()
@@ -227,6 +220,7 @@ namespace eFormSDK.Base.Tests
                 }
             }
         }
+
         private string _path;
 
         private void ClearFile()
@@ -261,8 +255,9 @@ namespace eFormSDK.Base.Tests
             }
         }
 #pragma warning disable 1998
-        public virtual async Task DoSetup() { }
+        public virtual async Task DoSetup()
+        {
+        }
 #pragma warning restore 1998
-
     }
 }

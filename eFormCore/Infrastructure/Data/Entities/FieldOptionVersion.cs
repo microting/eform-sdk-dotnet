@@ -12,7 +12,6 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public string DisplayOrder { get; set; }
 
-        [ForeignKey("FieldOption")]
-        public int FieldOptionId { get; set; }
+        [ForeignKey("FieldOption")] public int FieldOptionId { get; set; }
     }
 }
