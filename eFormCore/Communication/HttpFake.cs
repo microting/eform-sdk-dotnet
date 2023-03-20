@@ -197,9 +197,10 @@ namespace Microting.eForm.Communication
             return true;
         }
 
-        public Task<bool> PdfUpload(Stream stream, string hash, string fileName)
+        public async Task<bool> PdfUpload(Stream stream, string hash, string fileName)
         {
-            throw new NotImplementedException();
+            await Task.Run(() => { });
+            return true;
         }
         //
 
