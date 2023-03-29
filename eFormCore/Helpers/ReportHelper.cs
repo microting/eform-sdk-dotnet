@@ -241,9 +241,17 @@ namespace Microting.eForm.Helpers
 
             foreach (var paragraph in foundEntriesToClearText)
             {
-                var run = paragraph.Descendants<Run>().FirstOrDefault();
-                var text = run.Descendants<Text>().FirstOrDefault();
-                text.Text = "";
+                try
+                {
+                    var run = paragraph.Descendants<Run>().FirstOrDefault();
+                    var text = run.Descendants<Text>().FirstOrDefault();
+                    text.Text = "";
+                } catch (Exception e)
+                {
+                    WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper.InsertImages",
+                        $"Error clearing text: {e.Message}"));
+                }
+
             }
 
             WriteDebugConsoleLogEntry(new LogEntry(2, "ReportHelper.InsertImages", "Done inserting images"));
