@@ -544,7 +544,7 @@ namespace Microting.eForm.Infrastructure
                                 SiteUId = (int)dbSite.MicrotingUid,
                                 SiteName = dbSite.Name,
                                 CreatedAt = dbSite.CreatedAt,
-                                UpdatedAt = dbSite.UpdatedAt,
+                                UpdatedAt = dbSite.UpdatedAt
                             };
                             sites.Add(site);
                             folderId = checkListSite.FolderId;
@@ -5850,7 +5850,7 @@ namespace Microting.eForm.Infrastructure
                                     ? groupElement.Description.InderValue.Split("|")[1]
                                     : "")
                                 : ""
-                            : "",
+                            : ""
                     };
                     await checkListTranslation.Create(db).ConfigureAwait(false);
                 }
@@ -5868,7 +5868,7 @@ namespace Microting.eForm.Infrastructure
                                     ? groupElement.Description.InderValue.Split("|")[2]
                                     : "")
                                 : ""
-                            : "",
+                            : ""
                     };
                     await checkListTranslation.Create(db).ConfigureAwait(false);
                 }
@@ -5901,7 +5901,7 @@ namespace Microting.eForm.Infrastructure
                     ExtraFieldsEnabled = _t.Bool(dataElement.ExtraFieldsEnabled),
                     DoneButtonEnabled = _t.Bool(dataElement.DoneButtonEnabled),
                     ApprovalEnabled = _t.Bool(dataElement.ApprovalEnabled),
-                    OriginalId = dataElement.OriginalId,
+                    OriginalId = dataElement.OriginalId
                     // Description = dataElement.Description != null
                     //     ? dataElement.Description.InderValue
                     //     : ""

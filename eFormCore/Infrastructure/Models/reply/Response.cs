@@ -129,7 +129,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
                             Manufacturer = t.Locate(rawXml, "manufacturer=\"", "\""),
                             Model = t.Locate(rawXml, "model=\"", "\""),
                             OsVersion = t.Locate(rawXml, "os_version=\"", "\""),
-                            SoftwareVersion = t.Locate(rawXml, "software_version=\"", "\""),
+                            SoftwareVersion = t.Locate(rawXml, "software_version=\"", "\"")
                         };
 
                         while (rawXml.Contains("<ElementList>"))
@@ -230,7 +230,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
                         Manufacturer = t.Locate(checkXmlStr, "manufacturer=\"", "\""),
                         Model = t.Locate(checkXmlStr, "model=\"", "\""),
                         OsVersion = t.Locate(checkXmlStr, "os_version=\"", "\""),
-                        SoftwareVersion = t.Locate(checkXmlStr, "software_version=\"", "\""),
+                        SoftwareVersion = t.Locate(checkXmlStr, "software_version=\"", "\"")
                     };
 
                     while (checkXmlStr.Contains("<ElementList>"))
@@ -302,7 +302,7 @@ namespace Microting.eForm.Infrastructure.Models.reply
                             Manufacturer = item["manufacturer"]?.ToString(),
                             Model = item["model"]?.ToString(),
                             OsVersion = item["os_version"]?.ToString(),
-                            SoftwareVersion = item["software_version"]?.ToString(),
+                            SoftwareVersion = item["software_version"]?.ToString()
                         };
 
                         foreach (var el in item["ElementList"])

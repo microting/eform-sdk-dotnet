@@ -891,7 +891,7 @@ namespace Microting.eForm.Communication
                 content.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
                 {
                     Name = file,
-                    FileName = file,
+                    FileName = file
                 };
                 form.Add(content);
                 using var client = new HttpClient();

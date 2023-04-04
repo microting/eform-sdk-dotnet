@@ -393,7 +393,7 @@ namespace eFormCore
                             {
                                 _s3Client = new AmazonS3Client(_s3AccessKeyId, _s3SecretAccessKey, new AmazonS3Config
                                 {
-                                    ServiceURL = _s3Endpoint,
+                                    ServiceURL = _s3Endpoint
                                 });
                             }
                             else
@@ -3195,7 +3195,7 @@ namespace eFormCore
                         EntityItemUId = ownUuid,
                         WorkflowState = Constants.WorkflowStates.Created,
                         MicrotingUUID = microtingUId,
-                        DisplayIndex = displayIndex,
+                        DisplayIndex = displayIndex
                     };
                     return await _sqlController.EntityItemCreate(eg.Id, et).ConfigureAwait(false);
                 }
