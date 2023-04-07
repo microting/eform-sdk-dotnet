@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
@@ -271,7 +271,7 @@
     <ItemGroup>
         <PackageReference Include="AWSSDK.Core" Version="3.7.106.11" />
         <PackageReference Include="AWSSDK.S3" Version="3.7.103.41" />
-        <PackageReference Include="AWSSDK.SQS" Version="3.7.100.104" />
+        <PackageReference Include="AWSSDK.SQS" Version="3.7.100.107" />
         <PackageReference Include="Castle.Core" Version="5.1.0" />
         <PackageReference Include="DocumentFormat.OpenXml" Version="2.19.0" />
         <PackageReference Include="Magick.NET-Q16-x64" Version="13.0.1" />
