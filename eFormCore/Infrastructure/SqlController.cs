@@ -7083,12 +7083,14 @@ namespace Microting.eForm.Infrastructure
                         break;
 
                     case Constants.Constants.FieldTypes.Number:
+                        int defaultValue = 0;
+                        int.TryParse(fieldTranslation.DefaultValue, out defaultValue);
                         lstDataItem.Add(new Number(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly),
                             fieldTranslation.Text, fieldTranslation.Description, field.Color,
                             _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
                             string.IsNullOrEmpty(field.MinValue) ? int.MinValue.ToString() : field.MinValue,
                             string.IsNullOrEmpty(field.MaxValue) ? int.MaxValue.ToString() : field.MaxValue,
-                            int.Parse(fieldTranslation.DefaultValue), _t.Int(field.DecimalCount),
+                            defaultValue, _t.Int(field.DecimalCount),
                             string.IsNullOrEmpty(field.UnitName) ? "" : field.UnitName));
                         break;
 

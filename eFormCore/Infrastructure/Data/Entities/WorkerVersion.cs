@@ -36,6 +36,8 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         [StringLength(255)] public string Email { get; set; }
 
+        [StringLength(3)] public string Initials { get; set; }
+
         public int? WorkerId { get; set; }
 
         public bool IsLocked { get; set; }
