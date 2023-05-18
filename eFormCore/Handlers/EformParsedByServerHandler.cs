@@ -24,7 +24,6 @@ SOFTWARE.
 
 using System.Threading.Tasks;
 using eFormCore;
-using Microting.eForm.Communication;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
@@ -35,27 +34,23 @@ namespace Microting.eForm.Handlers
 {
     public class EformParsedByServerHandler : IHandleMessages<EformParsedByServer>
     {
-        private readonly SqlController sqlController;
-        private readonly Communicator communicator;
-        private readonly Log log;
-        private readonly Core core;
+        private readonly SqlController _sqlController;
+        private readonly Core _core;
 
-        public EformParsedByServerHandler(SqlController sqlController, Communicator communicator, Log log, Core core)
+        public EformParsedByServerHandler(SqlController sqlController, Core core)
         {
-            this.sqlController = sqlController;
-            this.communicator = communicator;
-            this.log = log;
-            this.core = core;
+            _sqlController = sqlController;
+            _core = core;
         }
 
 #pragma warning disable 1998
         public async Task Handle(EformParsedByServer message)
         {
-            await sqlController.NotificationCreate(message.NotificationId, message.MicrotringUUID,
+            await _sqlController.NotificationCreate(message.NotificationId, message.MicrotringUUID,
                 Constants.Notifications.EformParsedByServer);
 
-            CaseDto cDto = await sqlController.CaseReadByMUId(message.MicrotringUUID);
-            await core.FireHandleCaseProcessedByServer(cDto);
+            CaseDto cDto = await _sqlController.CaseReadByMUId(message.MicrotringUUID);
+            await _core.FireHandleCaseProcessedByServer(cDto);
             // Potentially send new message onto local queue
         }
     }

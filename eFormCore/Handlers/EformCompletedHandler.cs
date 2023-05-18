@@ -80,7 +80,6 @@ namespace Microting.eForm.Handlers
         {
             await using MicrotingDbContext dbContext = _core.DbContextHelper.GetDbContext();
             List<CaseDto> lstCase = new List<CaseDto>();
-            MainElement mainElement = new MainElement();
 
             CaseDto concreteCase = await _sqlController.CaseReadByMUId(microtingUid);
             _log.LogEverything("EformCompletedHandler.CheckStatusByMicrotingUid", concreteCase + " has been matched");

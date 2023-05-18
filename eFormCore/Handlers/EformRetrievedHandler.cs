@@ -25,7 +25,6 @@ SOFTWARE.
 using System;
 using System.Threading.Tasks;
 using eFormCore;
-using Microting.eForm.Communication;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
@@ -36,18 +35,16 @@ namespace Microting.eForm.Handlers
 {
     public class EformRetrievedHandler : IHandleMessages<EformRetrieved>
     {
-        private readonly SqlController sqlController;
-        private readonly Communicator communicator;
-        private readonly Log log;
-        private readonly Core core;
-        Tools t = new Tools();
+        private readonly SqlController _sqlController;
+        private readonly Log _log;
+        private readonly Core _core;
+        private readonly Tools _t = new Tools();
 
-        public EformRetrievedHandler(SqlController sqlController, Communicator communicator, Log log, Core core)
+        public EformRetrievedHandler(SqlController sqlController, Log log, Core core)
         {
-            this.sqlController = sqlController;
-            this.communicator = communicator;
-            this.log = log;
-            this.core = core;
+            _sqlController = sqlController;
+            _log = log;
+            _core = core;
         }
 
 #pragma warning disable 1998
@@ -55,22 +52,22 @@ namespace Microting.eForm.Handlers
         {
             try
             {
-                await sqlController.CaseUpdateRetrieved(message.MicrotringUUID);
+                await _sqlController.CaseUpdateRetrieved(message.MicrotringUUID);
 
-                await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID,
+                await _sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID,
                     Constants.WorkflowStates.Processed, "", "");
 
-                CaseDto cDto = await sqlController.CaseReadByMUId(message.MicrotringUUID);
-                log.LogStandard(t.GetMethodName("EformRetrievedHandler"), cDto + " has been retrieved");
-                await core.FireHandleCaseRetrived(cDto);
+                CaseDto cDto = await _sqlController.CaseReadByMUId(message.MicrotringUUID);
+                _log.LogStandard(_t.GetMethodName("EformRetrievedHandler"), cDto + " has been retrieved");
+                await _core.FireHandleCaseRetrived(cDto);
             }
             catch (Exception ex)
             {
-                await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID,
+                await _sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID,
                     Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace);
                 NoteDto noteDto = new NoteDto(message.notificationUId, message.MicrotringUUID,
                     Constants.WorkflowStates.NotFound);
-                await core.FireHandleNotificationNotFound(noteDto);
+                await _core.FireHandleNotificationNotFound(noteDto);
             }
         }
     }

@@ -6652,7 +6652,7 @@ namespace eFormCore
 
             try
             {
-                HandleeFormProcessedByServer.Invoke(caseDto, EventArgs.Empty);
+                HandleeFormProcessedByServer?.Invoke(caseDto, EventArgs.Empty);
             }
             catch (Exception ex)
             {
@@ -6671,7 +6671,7 @@ namespace eFormCore
 
             try
             {
-                HandleeFormProsessingError.Invoke(caseDto, EventArgs.Empty);
+                HandleeFormProsessingError?.Invoke(caseDto, EventArgs.Empty);
             }
             catch (Exception ex)
             {
@@ -6690,7 +6690,7 @@ namespace eFormCore
 
             try
             {
-                HandleCaseRetrived.Invoke(caseDto, EventArgs.Empty);
+                HandleCaseRetrived?.Invoke(caseDto, EventArgs.Empty);
             }
             catch (Exception ex)
             {
