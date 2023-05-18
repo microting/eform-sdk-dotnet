@@ -36,16 +36,19 @@ namespace Microting.eForm.Handlers
     {
         private readonly SqlController _sqlController;
         private readonly Core _core;
+        private readonly Log _log;
 
-        public EformParsedByServerHandler(SqlController sqlController, Core core)
+        public EformParsedByServerHandler(SqlController sqlController, Core core, Log log)
         {
             _sqlController = sqlController;
             _core = core;
+            _log = log;
         }
 
 #pragma warning disable 1998
         public async Task Handle(EformParsedByServer message)
         {
+            _log.LogStandard("EformParsedByServer.Handle called", $"NotificationId: {message.NotificationId}, MicrotringUUID: {message.MicrotringUUID}");
             await _sqlController.NotificationCreate(message.NotificationId, message.MicrotringUUID,
                 Constants.Notifications.EformParsedByServer);
 

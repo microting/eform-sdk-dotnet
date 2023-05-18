@@ -154,40 +154,40 @@ namespace Microting.eForm.Services
                                     case Constants.Notifications.Completed:
                                         _sqlController.NotificationCreate(notificationUId, microtingUId,
                                             Constants.Notifications.Completed).GetAwaiter().GetResult();
-                                        _bus.SendLocal(new EformCompleted(notificationUId, microtingUId));
+                                        _bus.SendLocal(new EformCompleted(notificationUId, microtingUId)).GetAwaiter().GetResult();
                                         break;
                                     case Constants.Notifications.EformParsedByServer:
-                                        _bus.SendLocal(new EformParsedByServer(notificationUId, microtingUId));
+                                        _bus.SendLocal(new EformParsedByServer(notificationUId, microtingUId)).GetAwaiter().GetResult();
                                         break;
                                     case Constants.Notifications.EformParsingError:
-                                        _bus.SendLocal(new EformParsingError(notificationUId, microtingUId));
+                                        _bus.SendLocal(new EformParsingError(notificationUId, microtingUId)).GetAwaiter().GetResult();
                                         break;
                                     case Constants.Notifications.RetrievedForm:
                                         _sqlController.NotificationCreate(notificationUId, microtingUId,
                                             Constants.Notifications.RetrievedForm).GetAwaiter().GetResult();
-                                        _bus.SendLocal(new EformRetrieved(notificationUId, microtingUId));
+                                        _bus.SendLocal(new EformRetrieved(notificationUId, microtingUId)).GetAwaiter().GetResult();
                                         break;
                                     case Constants.Notifications.UnitActivate:
                                         _sqlController.NotificationCreate(notificationUId, microtingUId,
                                             Constants.Notifications.UnitActivate).GetAwaiter().GetResult();
-                                        _bus.SendLocal(new UnitActivated(notificationUId, microtingUId));
+                                        _bus.SendLocal(new UnitActivated(notificationUId, microtingUId)).GetAwaiter().GetResult();
                                         break;
                                     case Constants.Notifications.SpeechToTextCompleted:
                                         _sqlController.NotificationCreate(notificationUId, microtingUId,
                                             Constants.Notifications.SpeechToTextCompleted).GetAwaiter().GetResult();
-                                        _bus.SendLocal(new TranscriptionCompleted(notificationUId, microtingUId));
+                                        _bus.SendLocal(new TranscriptionCompleted(notificationUId, microtingUId)).GetAwaiter().GetResult();
                                         break;
                                     case Constants.Notifications.InSightAnswerDone:
                                         _sqlController.NotificationCreate(notificationUId, microtingUId,
                                             Constants.Notifications.InSightAnswerDone).GetAwaiter().GetResult();
-                                        _bus.SendLocal(new AnswerCompleted(notificationUId, microtingUId));
+                                        _bus.SendLocal(new AnswerCompleted(notificationUId, microtingUId)).GetAwaiter().GetResult();
                                         break;
                                     case Constants.Notifications.InSightSurveyConfigurationChanged:
                                     case Constants.Notifications.InSightSurveyConfigurationCreated:
                                         _sqlController.NotificationCreate(notificationUId, microtingUId,
                                                 Constants.Notifications.InSightSurveyConfigurationChanged).GetAwaiter()
                                             .GetResult();
-                                        _bus.SendLocal(new SurveyConfigurationChanged(notificationUId, microtingUId));
+                                        _bus.SendLocal(new SurveyConfigurationChanged(notificationUId, microtingUId)).GetAwaiter().GetResult();
                                         break;
                                 }
 
