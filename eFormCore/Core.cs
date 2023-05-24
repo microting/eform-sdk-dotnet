@@ -6428,7 +6428,7 @@ namespace eFormCore
             };
             try
             {
-                var response = await _s3Client.PutObjectAsync(putObjectRequest).ConfigureAwait(false);
+                await _s3Client.PutObjectAsync(putObjectRequest).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -6451,7 +6451,7 @@ namespace eFormCore
             };
             try
             {
-                var response = await _s3Client.PutObjectAsync(putObjectRequest).ConfigureAwait(false);
+                await _s3Client.PutObjectAsync(putObjectRequest).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
