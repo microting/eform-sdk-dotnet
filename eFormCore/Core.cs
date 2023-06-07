@@ -6304,41 +6304,28 @@ namespace eFormCore
                 GetObjectRequest request = new GetObjectRequest
                 {
                     BucketName =
-                        $"{await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false)}/{_customerNo}",
-                    Key = fileName
+                        $"{await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false)}",
+                    Key = $"{_customerNo}/{fileName}"
                 };
+
                 return await _s3Client.GetObjectAsync(request);
             }
-            catch (Exception e)
+            catch (AmazonS3Exception ex)
             {
-                try
+                if (isRetry)
                 {
-                    GetObjectRequest request = new GetObjectRequest
-                    {
-                        BucketName =
-                            $"{await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false)}",
-                        Key = $"{_customerNo}/{fileName}"
-                    };
-
-                    return await _s3Client.GetObjectAsync(request);
-                }
-                catch (AmazonS3Exception ex)
-                {
-                    if (isRetry)
-                    {
-                        throw new UnauthorizedAccessException("Access denied for S3 storage", ex);
-                    }
-
-                    var dbContext = DbContextHelper.GetDbContext();
-                    var uD = await dbContext.UploadedDatas.SingleAsync(x => x.FileName == fileName);
-                    await DownloadUploadedData(uD.Id);
-                    return await GetFileFromS3Storage(fileName, true);
+                    throw new UnauthorizedAccessException("Access denied for S3 storage", ex);
                 }
 
-                catch (Exception ex)
-                {
-                    throw new Exception($"Unable to auto recover for file: {fileName}", ex);
-                }
+                var dbContext = DbContextHelper.GetDbContext();
+                var uD = await dbContext.UploadedDatas.SingleAsync(x => x.FileName == fileName);
+                await DownloadUploadedData(uD.Id);
+                return await GetFileFromS3Storage(fileName, true);
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception($"Unable to auto recover for file: {fileName}", ex);
             }
         }
 
@@ -6462,8 +6449,8 @@ namespace eFormCore
             PutObjectRequest putObjectRequest = new PutObjectRequest
             {
                 BucketName =
-                    $"{await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false)}/{_customerNo}",
-                Key = fileName,
+                    $"{await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false)}",
+                Key = $"{_customerNo}/{fileName}",
                 InputStream = stream
             };
             try
