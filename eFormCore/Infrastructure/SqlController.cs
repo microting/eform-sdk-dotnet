@@ -1260,7 +1260,8 @@ namespace Microting.eForm.Infrastructure
                                         UploaderId = userId,
                                         UploaderType = Constants.Constants.UploaderTypes.System,
                                         Local = 0,
-                                        FileLocation = fileLocation
+                                        FileLocation = fileLocation,
+                                        OriginalFileLocation = fileLocation
                                     };
                                     await dU.Create(db).ConfigureAwait(false);
                                 }

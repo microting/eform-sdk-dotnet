@@ -264,6 +264,8 @@
         <Compile Include="Migrations\20221129082337_AddingReceivedByServerAtToCases.Designer.cs" />
         <Compile Include="Migrations\20230506062507_AddingInitialsToWorkers.cs" />
         <Compile Include="Migrations\20230506062507_AddingInitialsToWorkers.Designer.cs" />
+        <Compile Include="Migrations\20230607084834_AddingOriginalFileLocationToUploadedData.cs" />
+        <Compile Include="Migrations\20230607084834_AddingOriginalFileLocationToUploadedData.Designer.cs" />
         <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
         <Compile Include="Infrastructure\SqlController.cs" />
         <Compile Include="Services\Subscriber.cs" />

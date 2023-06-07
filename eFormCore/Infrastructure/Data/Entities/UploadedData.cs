@@ -48,5 +48,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public short? Local { get; set; }
 
         public int? TranscriptionId { get; set; }
+
+        public string OriginalFileLocation { get; set; }
     }
 }
