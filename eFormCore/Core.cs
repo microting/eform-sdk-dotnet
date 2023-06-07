@@ -6292,14 +6292,35 @@ namespace eFormCore
 
         public async Task<GetObjectResponse> GetFileFromS3Storage(string fileName)
         {
-            GetObjectRequest request = new GetObjectRequest
+            try
             {
-                BucketName =
-                    $"{await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false)}/{_customerNo}",
-                Key = fileName
-            };
+                GetObjectRequest request = new GetObjectRequest
+                {
+                    BucketName =
+                        $"{await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false)}/{_customerNo}",
+                    Key = fileName
+                };
+                return await _s3Client.GetObjectAsync(request);
+            }
+            catch (Exception e)
+            {
+                try
+                {
+                    GetObjectRequest request = new GetObjectRequest
+                    {
+                        BucketName =
+                            $"{await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false)}",
+                        Key = $"{_customerNo}/{fileName}"
+                    };
 
-            return await _s3Client.GetObjectAsync(request);
+                    return await _s3Client.GetObjectAsync(request);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    throw;
+                }
+            }
         }
 
         // public async Task<SwiftObjectGetResponse> GetFileFromSwiftStorage(string fileName)
