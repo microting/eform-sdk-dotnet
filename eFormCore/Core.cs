@@ -5998,9 +5998,16 @@ namespace eFormCore
                 if (uploadedData != null)
                 {
                     string urlStr = uploadedData.FileLocation;
+
+                    if (urlStr == "/tmp/pictures")
+                    {
+                        // https://srv05.microting.com/app_files/inspection_app/uploads/1092/4926e2815deed8fedfa8d016b91631c0.jpeg
+                        urlStr = $"{await _sqlController.SettingRead(Settings.comAddressApi).ConfigureAwait(false)}/app_files/inspection_app/uploads/{await _sqlController.SettingRead(Settings.comOrganizationId).ConfigureAwait(false)}/{uploadedData.Checksum}{uploadedData.Extension}";
+                    }
+
                     Log.LogEverything(methodName, "Received file:" + uploadedData);
 
-                    int index = urlStr.LastIndexOf("/") + 1;
+                    int index = urlStr.LastIndexOf("/", StringComparison.Ordinal) + 1;
                     string fileName = uploadedData.Id + "_" + urlStr.Remove(0, index);
 
                     // download file
@@ -6290,7 +6297,7 @@ namespace eFormCore
             return false;
         }
 
-        public async Task<GetObjectResponse> GetFileFromS3Storage(string fileName)
+        public async Task<GetObjectResponse> GetFileFromS3Storage(string fileName, bool isRetry = false)
         {
             try
             {
@@ -6315,10 +6322,22 @@ namespace eFormCore
 
                     return await _s3Client.GetObjectAsync(request);
                 }
+                catch (AmazonS3Exception ex)
+                {
+                    if (isRetry)
+                    {
+                        throw new UnauthorizedAccessException("Access denied for S3 storage", ex);
+                    }
+
+                    var dbContext = DbContextHelper.GetDbContext();
+                    var uD = await dbContext.UploadedDatas.SingleAsync(x => x.FileName == fileName);
+                    await DownloadUploadedData(uD.Id);
+                    return await GetFileFromS3Storage(fileName, true);
+                }
+
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
-                    throw;
+                    throw new Exception($"Unable to auto recover for file: {fileName}", ex);
                 }
             }
         }
@@ -6451,9 +6470,25 @@ namespace eFormCore
             {
                 await _s3Client.PutObjectAsync(putObjectRequest).ConfigureAwait(false);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Log.LogWarning(methodName, $"Something went wrong, message was {ex.Message}");
+                putObjectRequest = new PutObjectRequest
+                {
+                    BucketName =
+                        $"{await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false)}",
+                    Key = $"{_customerNo}/{fileName}",
+                    InputStream = stream
+                };
+                try
+                {
+                    await _s3Client.PutObjectAsync(putObjectRequest).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    Log.LogWarning(methodName, $"Something went wrong, message was {ex.Message}");
+                }
+
+                Log.LogWarning(methodName, $"Something went wrong, message was {e.Message}");
             }
         }
 
