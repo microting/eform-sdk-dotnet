@@ -436,7 +436,7 @@ namespace Microting.eForm.Helpers
                     Console.WriteLine(ex.Message);
                 }
 
-                wordprocessingDocument.Close();
+                wordprocessingDocument.Dispose();
             }
         }
 

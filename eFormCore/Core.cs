@@ -2699,8 +2699,6 @@ namespace eFormCore
 
             Log.LogEverything("ReportHelper.signatures", "wordDoc.Save");
             wordDoc.Save();
-            Log.LogEverything("ReportHelper.signatures", "wordDoc.Close");
-            wordDoc.Close();
             Log.LogEverything("ReportHelper.signatures", "wordDoc.Dispose");
             wordDoc.Dispose();
 
@@ -6488,8 +6486,8 @@ namespace eFormCore
             PutObjectRequest putObjectRequest = new PutObjectRequest
             {
                 BucketName =
-                    $"{await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false)}/{_customerNo}",
-                Key = fileName,
+                    $"{await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false)}",
+                Key = $"{_customerNo}/{fileName}",
                 FilePath = filePath
             };
             try
