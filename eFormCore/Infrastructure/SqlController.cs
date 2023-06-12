@@ -5582,6 +5582,18 @@ namespace Microting.eForm.Infrastructure
                     try
                     {
                         string readSetting = await SettingRead((Settings)setting);
+                        if (setting.ToString() == "fileLocationPicture")
+                        {
+                            continue;
+                        }
+                        if (setting.ToString() == "fileLocationPdf")
+                        {
+                            continue;
+                        }
+                        if (setting.ToString() == "fileLocationJasper")
+                        {
+                            continue;
+                        }
                         if (string.IsNullOrEmpty(readSetting))
                             result.Add(setting + " has an empty value!");
                     }
