@@ -61,13 +61,3 @@ jobs:
       run: dotnet pack eFormCore/Microting.eForm.csproj -c Release -o ./artifacts -p:PackageVersion=${{ steps.get_version.outputs.VERSION }}
     - name: Push generated package to GitHub registry
       run: dotnet nuget push /home/runner/work/eform-sdk-dotnet/eform-sdk-dotnet/artifacts/Microting.eForm.${{ steps.get_version.outputs.VERSION }}.nupkg -k ${{secrets.NUGET_SECRET_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols
-    - name: Notify slack fail
-      if: ${{ failure() }}
-      env:
-        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-      uses: voxmedia/github-action-slack-notify-build@v1
-      with:
-        message_id: ${{ steps.slack.outputs.message_id }}
-        channel_id: C013XLR1C3F
-        status: FAILED
-        color: danger
