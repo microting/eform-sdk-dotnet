@@ -82,7 +82,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             testHelpers = new TestHelpers(ConnectionString);
             await testHelpers.GenerateDefaultLanguages();
             //sut.StartLog(new CoreBase());
-            language = DbContext.Languages.Single(x => x.Name == "Danish");
+            language = DbContext.Languages.Single(x => x.Name == "Dansk");
         }
 
         #region template

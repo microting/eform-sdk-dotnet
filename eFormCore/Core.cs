@@ -2833,7 +2833,7 @@ namespace eFormCore
                     {
                         if (languageCode == "da")
                         {
-                            language = await db.Languages.FirstAsync(x => x.Name == "Danish");
+                            language = await db.Languages.FirstAsync(x => x.Name == "Dansk");
                             language.LanguageCode = "da";
                             await language.Update(db);
                         }
@@ -4012,12 +4012,12 @@ namespace eFormCore
             };
 
             await using var db = DbContextHelper.GetDbContext();
-            var language = await db.Languages.FirstOrDefaultAsync(x => x.Name == "Danish").ConfigureAwait(false);
+            var language = await db.Languages.FirstOrDefaultAsync(x => x.Name == "Dansk").ConfigureAwait(false);
             if (language == null)
             {
                 language = new Language
                 {
-                    Name = "Danish"
+                    Name = "Dansk"
                 };
                 await language.Create(db);
             }
@@ -4152,7 +4152,7 @@ namespace eFormCore
                         }
 
                         answer.QuestionSet = null;
-                        answer.LanguageId = db.Languages.Single(x => x.Name == "Danish").Id;
+                        answer.LanguageId = db.Languages.Single(x => x.Name == "Dansk").Id;
                         await answer.Create(db).ConfigureAwait(false);
 
                         foreach (JToken avItem in subItem["AnswerValues"])

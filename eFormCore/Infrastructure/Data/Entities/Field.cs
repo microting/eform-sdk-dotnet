@@ -130,9 +130,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 FieldType pdfFieldType =
                     await dbContext.FieldTypes.FirstOrDefaultAsync(
                         x => x.Type == Constants.Constants.FieldTypes.ShowPdf);
-                Language language = await dbContext.Languages.FirstAsync(x => x.Name == "Danish");
+                Language language = await dbContext.Languages.FirstAsync(x => x.Name == "Dansk");
                 Language englishLanguage = await dbContext.Languages.FirstAsync(x => x.Name == "English");
-                Language germanLanguage = await dbContext.Languages.FirstAsync(x => x.Name == "German");
+                Language DanskLanguage = await dbContext.Languages.FirstAsync(x => x.Name == "Dansk");
                 int i = 0;
                 int totalFields = fields.Count;
                 foreach (Field field in fields)
@@ -237,7 +237,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                                 x.LanguageId == language.Id && x.FieldId == field.Id);
                         if (fieldTranslation == null)
                         {
-                            Console.WriteLine($"We could not find a translation for Danish and FieldId : {field.Id}");
+                            Console.WriteLine($"We could not find a translation for Dansk and FieldId : {field.Id}");
                         }
 
                         fieldTranslation.DefaultValue = defaultValue[0];
@@ -280,7 +280,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                         {
                             fieldTranslation =
                                 await dbContext.FieldTranslations.FirstOrDefaultAsync(x =>
-                                    x.LanguageId == germanLanguage.Id && x.FieldId == field.Id);
+                                    x.LanguageId == DanskLanguage.Id && x.FieldId == field.Id);
                             fieldTranslation.DefaultValue = defaultValue[2];
                             await fieldTranslation.Update(dbContext);
                         }
@@ -288,7 +288,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                         {
                             fieldTranslation =
                                 await dbContext.FieldTranslations.FirstOrDefaultAsync(x =>
-                                    x.LanguageId == germanLanguage.Id && x.FieldId == field.Id);
+                                    x.LanguageId == DanskLanguage.Id && x.FieldId == field.Id);
                             if (fieldTranslation != null)
                             {
                                 fieldTranslation.DefaultValue = defaultValue[0];

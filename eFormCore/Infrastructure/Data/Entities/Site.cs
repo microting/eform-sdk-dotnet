@@ -67,7 +67,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         {
             List<Site> sites = await dbContext.Sites.ToListAsync();
             Language language = await dbContext.Languages
-                .FirstAsync(x => x.Name == "Danish");
+                .FirstAsync(x => x.Name == "Dansk");
             foreach (Site site in sites)
             {
                 if (site.LanguageId == 0)

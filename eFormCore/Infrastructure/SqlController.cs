@@ -5711,9 +5711,9 @@ namespace Microting.eForm.Infrastructure
                 await using var db = GetContext();
                 GetConverter();
 
-                Language language = await db.Languages.FirstAsync(x => x.Name == "Danish").ConfigureAwait(false);
+                Language language = await db.Languages.FirstAsync(x => x.Name == "Dansk").ConfigureAwait(false);
                 Language ukLanguage = await db.Languages.FirstAsync(x => x.Name == "English").ConfigureAwait(false);
-                Language deLanguage = await db.Languages.FirstAsync(x => x.Name == "German").ConfigureAwait(false);
+                Language deLanguage = await db.Languages.FirstAsync(x => x.Name == "Deutsch").ConfigureAwait(false);
 
                 // mainElement
 
@@ -5836,7 +5836,7 @@ namespace Microting.eForm.Infrastructure
                 };
                 await cl.Create(db).ConfigureAwait(false);
                 Language ukLanguage = await db.Languages.FirstAsync(x => x.Name == "English").ConfigureAwait(false);
-                Language deLanguage = await db.Languages.FirstAsync(x => x.Name == "German").ConfigureAwait(false);
+                Language deLanguage = await db.Languages.FirstAsync(x => x.Name == "Deutsch").ConfigureAwait(false);
 
                 CheckListTranslation checkListTranslation = new CheckListTranslation
                 {
@@ -5922,7 +5922,7 @@ namespace Microting.eForm.Infrastructure
                 await cl.Create(db).ConfigureAwait(false);
 
                 Language ukLanguage = await db.Languages.FirstAsync(x => x.Name == "English");
-                Language deLanguage = await db.Languages.FirstAsync(x => x.Name == "German");
+                Language deLanguage = await db.Languages.FirstAsync(x => x.Name == "Deutsch");
 
                 CheckListTranslation checkListTranslation = new CheckListTranslation
                 {
@@ -6001,7 +6001,7 @@ namespace Microting.eForm.Infrastructure
                 int fieldTypeId = Find(typeStr);
 
                 Language ukLanguage = await db.Languages.FirstAsync(x => x.Name == "English").ConfigureAwait(false);
-                Language deLanguage = await db.Languages.FirstAsync(x => x.Name == "German").ConfigureAwait(false);
+                Language deLanguage = await db.Languages.FirstAsync(x => x.Name == "Deutsch").ConfigureAwait(false);
 
                 Field field = new Field
                 {
