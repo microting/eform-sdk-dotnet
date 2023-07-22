@@ -289,8 +289,8 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
         <PackageReference Include="Microting.Castle.Windsor" Version="6.0.1" />
         <PackageReference Include="Microting.Rebus" Version="8.0.0" />
-        <PackageReference Include="Microting.Rebus.Castle.Windsor" Version="7.2.11" />
-        <PackageReference Include="Microting.Rebus.RabbitMq" Version="8.2.11" />
+        <PackageReference Include="Microting.Rebus.Castle.Windsor" Version="8.0.1" />
+        <PackageReference Include="Microting.Rebus.RabbitMq" Version="8.5.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
         <PackageReference Include="Remotion.Linq" Version="2.2.0" />
