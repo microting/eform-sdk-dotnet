@@ -98,12 +98,12 @@ namespace Microting.eForm.Infrastructure
             }
 
 
-            if (SettingRead(Settings.translationsMigrated).GetAwaiter().GetResult() == "2.0") return;
+            if (SettingRead(Settings.translationsMigrated).GetAwaiter().GetResult() == "3.0") return;
             Language.AddDefaultLanguages(GetContext()).GetAwaiter().GetResult();
-            Site.AddLanguage(GetContext()).GetAwaiter().GetResult();
+            // Site.AddLanguage(GetContext()).GetAwaiter().GetResult();
             //CheckList.MoveTranslations(GetContext()).GetAwaiter().GetResult();
             //Field.MoveTranslations(GetContext()).GetAwaiter().GetResult();
-            SettingUpdate(Settings.translationsMigrated, "2.0").GetAwaiter().GetResult();
+            SettingUpdate(Settings.translationsMigrated, "3.0").GetAwaiter().GetResult();
         }
 
         private MicrotingDbContext GetContext()

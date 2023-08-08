@@ -105,7 +105,7 @@ namespace Microting.eForm.Infrastructure.Data.Entities
             if (dbContext.Languages.FirstOrDefault(x => x.Name == "Polish") != null)
             {
                 Language language = dbContext.Languages.First(x => x.Name == "Polish");
-                language.Name = "Polsk";
+                language.Name = "Polski";
                 await language.Update(dbContext);
             }
 
