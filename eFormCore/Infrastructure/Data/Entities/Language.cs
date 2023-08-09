@@ -292,6 +292,138 @@ namespace Microting.eForm.Infrastructure.Data.Entities
                 };
                 await language.Create(dbContext);
             }
+
+            if (dbContext.Languages.FirstOrDefault(x => x.Name == "Eesti") == null)
+            {
+                Language language = new Language
+                {
+                    Name = "Eesti",
+                    LanguageCode = "et-ET",
+                    IsActive = false
+                };
+                await language.Create(dbContext);
+            }
+
+            if (dbContext.Languages.FirstOrDefault(x => x.Name == "Latviski") == null)
+            {
+                Language language = new Language
+                {
+                    Name = "Latviski",
+                    LanguageCode = "lv-LV",
+                    IsActive = false
+                };
+                await language.Create(dbContext);
+            }
+
+            if (dbContext.Languages.FirstOrDefault(x => x.Name == "Lietuvių") == null)
+            {
+                Language language = new Language
+                {
+                    Name = "Lietuvių",
+                    LanguageCode = "lt-LT",
+                    IsActive = false
+                };
+                await language.Create(dbContext);
+            }
+
+            if (dbContext.Languages.FirstOrDefault(x => x.Name == "Română") == null)
+            {
+                Language language = new Language
+                {
+                    Name = "Română",
+                    LanguageCode = "ro-RO",
+                    IsActive = false
+                };
+                await language.Create(dbContext);
+            }
+
+            if (dbContext.Languages.FirstOrDefault(x => x.Name == "български") == null)
+            {
+                Language language = new Language
+                {
+                    Name = "български",
+                    LanguageCode = "bg-BG",
+                    IsActive = false
+                };
+                await language.Create(dbContext);
+            }
+
+            if (dbContext.Languages.FirstOrDefault(x => x.Name == "Slovenský") == null)
+            {
+                Language language = new Language
+                {
+                    Name = "Slovenský",
+                    LanguageCode = "sk-SK",
+                    IsActive = false
+                };
+                await language.Create(dbContext);
+            }
+
+            if (dbContext.Languages.FirstOrDefault(x => x.Name == "Slovenščina") == null)
+            {
+                Language language = new Language
+                {
+                    Name = "Slovenščina",
+                    LanguageCode = "sl-SL",
+                    IsActive = false
+                };
+                await language.Create(dbContext);
+            }
+
+            if (dbContext.Languages.FirstOrDefault(x => x.Name == "Íslenska") == null)
+            {
+                Language language = new Language
+                {
+                    Name = "Íslenska",
+                    LanguageCode = "is-IS",
+                    IsActive = false
+                };
+                await language.Create(dbContext);
+            }
+
+            if (dbContext.Languages.FirstOrDefault(x => x.Name == "Čeština") == null)
+            {
+                Language language = new Language
+                {
+                    Name = "Čeština",
+                    LanguageCode = "cs-CZ",
+                    IsActive = false
+                };
+                await language.Create(dbContext);
+            }
+
+            if (dbContext.Languages.FirstOrDefault(x => x.Name == "Hrvatski") == null)
+            {
+                Language language = new Language
+                {
+                    Name = "Hrvatski",
+                    LanguageCode = "hr-HR",
+                    IsActive = false
+                };
+                await language.Create(dbContext);
+            }
+
+            if (dbContext.Languages.FirstOrDefault(x => x.Name == "Ελληνικά") == null)
+            {
+                Language language = new Language
+                {
+                    Name = "Ελληνικά",
+                    LanguageCode = "el-GR",
+                    IsActive = false
+                };
+                await language.Create(dbContext);
+            }
+
+            if (dbContext.Languages.FirstOrDefault(x => x.Name == "Magyar") == null)
+            {
+                Language language = new Language
+                {
+                    Name = "Magyar",
+                    LanguageCode = "hu-HU",
+                    IsActive = false
+                };
+                await language.Create(dbContext);
+            }
         }
     }
 }
