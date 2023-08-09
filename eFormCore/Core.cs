@@ -3593,11 +3593,16 @@ namespace eFormCore
                 if (!Running()) throw new Exception("Core is not running");
                 await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
                 Folder folder = await dbContext.Folders.FirstOrDefaultAsync(x => x.Id == id);
+                var children = await dbContext.Folders.Where(x => x.ParentId == id).ToListAsync();
                 //FolderDto folder = await FolderRead(id).ConfigureAwait(false);
                 bool success = await _communicator.FolderDelete((int)folder.MicrotingUid).ConfigureAwait(false);
                 if (success)
                 {
                     await folder.Delete(dbContext);
+                }
+                foreach (var child in children)
+                {
+                    await FolderDelete(child.Id);
                 }
             }
             catch (Exception ex)
