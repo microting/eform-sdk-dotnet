@@ -3595,11 +3595,16 @@ namespace eFormCore
                 Folder folder = await dbContext.Folders.FirstOrDefaultAsync(x => x.Id == id);
                 var children = await dbContext.Folders.Where(x => x.ParentId == id).ToListAsync();
                 //FolderDto folder = await FolderRead(id).ConfigureAwait(false);
-                bool success = await _communicator.FolderDelete((int)folder.MicrotingUid).ConfigureAwait(false);
-                if (success)
+                if (folder.MicrotingUid != null)
                 {
-                    await folder.Delete(dbContext);
+                    try { await _communicator.FolderDelete((int) folder.MicrotingUid).ConfigureAwait(false); }
+                    catch
+                    {
+                        // ignored
+                    }
                 }
+                await folder.Delete(dbContext);
+
                 foreach (var child in children)
                 {
                     await FolderDelete(child.Id);
@@ -3608,7 +3613,7 @@ namespace eFormCore
             catch (Exception ex)
             {
                 Log.LogException(methodName, "FolderDelete failed", ex);
-                throw new Exception("FolderDelete failed", ex);
+                // throw new Exception("FolderDelete failed", ex);
             }
         }
         //
