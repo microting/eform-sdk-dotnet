@@ -284,7 +284,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.10" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.11" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
         <PackageReference Include="Microting.Castle.Windsor" Version="6.0.1" />
