@@ -6040,8 +6040,19 @@ namespace eFormCore
 
                         baseMemoryStream.Seek(0, SeekOrigin.Begin);
                         var dbContext = DbContextHelper.GetDbContext();
-                        var fv = await dbContext.FieldValues.FirstAsync(x => x.UploadedDataId == uploadedData.Id);
-                        var theCase = await dbContext.Cases.FirstAsync(x => x.Id == fv.CaseId);
+
+                        int caseId = 0;
+                        if (dbContext.FieldValues.Any(x => x.UploadedDataId == uploadedData.Id))
+                        {
+                            var fv = await dbContext.FieldValues.FirstOrDefaultAsync(x => x.UploadedDataId == uploadedData.Id);
+                            caseId = (int) fv.CaseId!;
+                        }
+                        else
+                        {
+                            var fv = await dbContext.ExtraFieldValues.FirstOrDefaultAsync(x => x.UploadedDataId == uploadedData.Id);
+                            caseId = (int) fv.CaseId!;
+                        }
+                        var theCase = await dbContext.Cases.FirstAsync(x => x.Id == caseId);
 
                         var unit = await dbContext.Units.FirstOrDefaultAsync(x => x.Id == theCase.UnitId);
                         if (unit == null)
@@ -6290,6 +6301,7 @@ namespace eFormCore
                     catch (Exception ex)
                     {
                         Log.LogWarning(methodName, "We got an error " + ex.Message);
+                        Log.LogWarning(methodName, "We got an error " + ex.StackTrace);
                         throw new Exception("Downloading and creating fil locally failed.", ex);
                     }
 
