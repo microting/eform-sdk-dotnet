@@ -1294,6 +1294,21 @@ namespace Microting.eForm.Infrastructure
                                 }
                             }
 
+                            if (fieldType.Type == Constants.Constants.FieldTypes.CheckBox)
+                            {
+                                if (!string.IsNullOrEmpty(extractedValue) && extractedValue != "null")
+                                {
+                                    if (extractedValue.ToLower() == "true")
+                                    {
+                                        fieldV.Value = "checked";
+                                    }
+                                    else
+                                    {
+                                        fieldV.Value = extractedValue.ToLower() == "false" ? "unchecked" : extractedValue;
+                                    }
+                                }
+                            }
+
                             //
                             //geo
                             fieldV.Latitude = dataItemReply.Geolocation.Latitude;
@@ -1303,7 +1318,7 @@ namespace Microting.eForm.Infrastructure
                             fieldV.Accuracy = dataItemReply.Geolocation.Accuracy;
                             if (DateTime.TryParse(dataItemReply.Geolocation.Date, out var date))
                             {
-                                fieldV.Date = DateTime.Parse(dataItemReply.Geolocation.Date);
+                                fieldV.Date = date;
                             }
                             else
                             {
@@ -2187,6 +2202,20 @@ namespace Microting.eForm.Infrastructure
                             fieldValue.Value = "";
                         }
                     }
+                        break;
+                    case Constants.Constants.FieldTypes.CheckBox:
+                        if (reply.Value != null)
+                        {
+                            if (reply.Value == "true")
+                            {
+                                fieldValue.Value = "checked";
+                            }
+                            else
+                            {
+                                fieldValue.Value = reply.Value == "false" ? "unchecked" : reply.Value;
+                            }
+                        }
+
                         break;
                 }
 
