@@ -273,7 +273,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="AWSSDK.Core" Version="3.7.204.15" />
+        <PackageReference Include="AWSSDK.Core" Version="3.7.300.13" />
         <PackageReference Include="AWSSDK.S3" Version="3.7.205.25" />
         <PackageReference Include="AWSSDK.SQS" Version="3.7.202" />
         <PackageReference Include="Castle.Core" Version="5.1.1" />
