@@ -2264,13 +2264,13 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                List<FieldValue> matches = db.FieldValues.AsNoTracking()
+                List<FieldValue> fieldValues = db.FieldValues.AsNoTracking()
                     .Where(x => x.FieldId == fieldId && caseIds.Contains(x.Id)).ToList();
 
                 List<Models.FieldValue> rtnLst = new List<Models.FieldValue>();
 
-                foreach (var item in matches)
-                    rtnLst.Add(await FieldValueRead(item, true, language));
+                foreach (var fieldValue in fieldValues)
+                    rtnLst.Add(await FieldValueRead(fieldValue, true, language));
 
                 return rtnLst;
             }
