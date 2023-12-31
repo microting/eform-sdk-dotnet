@@ -279,20 +279,20 @@
         <PackageReference Include="Castle.Core" Version="5.1.1" />
         <PackageReference Include="DocumentFormat.OpenXml" Version="3.0.0" />
         <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.5.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.13" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.13">
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.13" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
         <PackageReference Include="Microting.Castle.Windsor" Version="6.0.1" />
-        <PackageReference Include="Microting.Rebus" Version="8.0.0" />
-        <PackageReference Include="Microting.Rebus.Castle.Windsor" Version="8.0.1" />
-        <PackageReference Include="Microting.Rebus.RabbitMq" Version="8.5.0" />
+        <PackageReference Include="Microting.Rebus" Version="8.0.1" />
+        <PackageReference Include="Microting.Rebus.Castle.Windsor" Version="8.0.2" />
+        <PackageReference Include="Microting.Rebus.RabbitMq" Version="8.5.1" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
+        <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.0-beta.2" />
         <PackageReference Include="Remotion.Linq" Version="2.2.0" />
         <PackageReference Include="SharpZipLib" Version="1.4.2" />
         <PackageReference Include="System.CodeDom" Version="8.0.0" />
