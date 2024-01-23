@@ -1656,39 +1656,39 @@ namespace Microting.eForm.Infrastructure
                 {
                     List<DataItemGroup> dataItemGroupList = new List<DataItemGroup>();
                     List<DataItem> dataItemList = new List<DataItem>();
-                    List<Field> fields = await db.Fields.AsNoTracking()
+                    List<Field> dbFields = await db.Fields.AsNoTracking()
                         .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
                         .Where(x =>
                             x.CheckListId == checkList.Id
                             && x.ParentFieldId == null).OrderBy(x => x.DisplayIndex)
                         .ToListAsync();
-                    foreach (Field field in fields)
+                    foreach (Field dbField in dbFields)
                     {
                         FieldType fieldType =
-                            await db.FieldTypes.AsNoTracking().FirstAsync(x => x.Id == field.FieldTypeId);
+                            await db.FieldTypes.AsNoTracking().FirstAsync(x => x.Id == dbField.FieldTypeId);
                         if (fieldType.Type == "FieldGroup")
                         {
                             List<DataItem> dataItemSubList = new List<DataItem>();
-                            foreach (Field subField in await db.Fields.AsNoTracking()
+                            foreach (Field subDbField in await db.Fields.AsNoTracking()
                                          .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
-                                         .Where(x => x.ParentFieldId == field.Id).OrderBy(x => x.DisplayIndex)
+                                         .Where(x => x.ParentFieldId == dbField.Id).OrderBy(x => x.DisplayIndex)
                                          .ToListAsync())
                             {
-                                var _field = await DbFieldToField(subField, language);
+                                var field = await DbFieldToField(subDbField, language);
                                 FieldTranslation fieldTranslation = await db.FieldTranslations.FirstAsync(x =>
-                                    x.FieldId == _field.Id && x.LanguageId == language.Id);
+                                    x.FieldId == field.Id && x.LanguageId == language.Id);
 
-                                _field.FieldValues = new List<Models.FieldValue>();
-                                _field.Label = fieldTranslation.Text;
-                                _field.Description = new CDataValue { InderValue = fieldTranslation.Description };
+                                field.FieldValues = new List<Models.FieldValue>();
+                                field.Label = fieldTranslation.Text;
+                                field.Description = new CDataValue { InderValue = fieldTranslation.Description };
                                 if (!db.FieldValues.Any(x =>
-                                        x.FieldId == field.Id
+                                        x.FieldId == subDbField.Id
                                         && x.CaseId == theCase.Id
                                         && x.WorkflowState != Constants.Constants.WorkflowStates.Removed))
                                 {
-                                    FieldValue fieldValue = new FieldValue()
+                                    FieldValue fieldValue = new FieldValue
                                     {
-                                        FieldId = field.Id,
+                                        FieldId = subDbField.Id,
                                         CaseId = theCase.Id,
                                         DoneAt = theCase.DoneAt
                                     };
@@ -1696,57 +1696,57 @@ namespace Microting.eForm.Infrastructure
                                 }
 
                                 foreach (FieldValue fieldValue in await db.FieldValues.Where(x =>
-                                                 x.FieldId == subField.Id
+                                                 x.FieldId == subDbField.Id
                                                  && x.CaseId == theCase.Id
                                                  && x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
                                              .ToListAsync())
                                 {
                                     Models.FieldValue answer =
-                                        await ReadFieldValue(fieldValue, subField, false, language);
-                                    _field.FieldValues.Add(answer);
+                                        await ReadFieldValue(fieldValue, subDbField, false, language);
+                                    field.FieldValues.Add(answer);
                                 }
 
-                                dataItemSubList.Add(_field);
+                                dataItemSubList.Add(field);
                             }
 
                             FieldTranslation fieldTranslationFc = await db.FieldTranslations.FirstAsync(x =>
-                                x.FieldId == field.Id && x.LanguageId == language.Id);
+                                x.FieldId == dbField.Id && x.LanguageId == language.Id);
 
                             FieldContainer fC = new FieldContainer
                             {
-                                Id = field.Id,
+                                Id = dbField.Id,
                                 Label = fieldTranslationFc.Text,
                                 Description = new CDataValue
                                 {
                                     InderValue = fieldTranslationFc.Description
                                 },
-                                Color = field.Color,
-                                DisplayOrder = (int)field.DisplayIndex,
-                                Value = field.DefaultValue,
+                                Color = dbField.Color,
+                                DisplayOrder = (int)dbField.DisplayIndex,
+                                Value = dbField.DefaultValue,
                                 DataItemList = dataItemSubList,
-                                OriginalId = field.OriginalId,
+                                OriginalId = dbField.OriginalId,
                                 FieldType = "FieldContainer"
                             };
                             dataItemList.Add(fC);
                         }
                         else
                         {
-                            Models.Field _field = await DbFieldToField(field, language);
+                            Models.Field field = await DbFieldToField(dbField, language);
 
                             FieldTranslation fieldTranslation = await db.FieldTranslations.FirstAsync(x =>
-                                x.FieldId == _field.Id && x.LanguageId == language.Id);
-                            _field.FieldValues = new List<Models.FieldValue>();
+                                x.FieldId == field.Id && x.LanguageId == language.Id);
+                            field.FieldValues = new List<Models.FieldValue>();
 
-                            _field.Label = fieldTranslation.Text;
-                            _field.Description = new CDataValue { InderValue = fieldTranslation.Description };
+                            field.Label = fieldTranslation.Text;
+                            field.Description = new CDataValue { InderValue = fieldTranslation.Description };
                             if (!db.FieldValues.Any(x =>
-                                    x.FieldId == field.Id
+                                    x.FieldId == dbField.Id
                                     && x.CaseId == theCase.Id
                                     && x.WorkflowState != Constants.Constants.WorkflowStates.Removed))
                             {
                                 var fieldValue = new FieldValue()
                                 {
-                                    FieldId = field.Id,
+                                    FieldId = dbField.Id,
                                     CaseId = theCase.Id,
                                     DoneAt = theCase.DoneAt
                                 };
@@ -1754,16 +1754,16 @@ namespace Microting.eForm.Infrastructure
                             }
 
                             foreach (var fieldValue in await db.FieldValues.Where(x =>
-                                             x.FieldId == field.Id
+                                             x.FieldId == dbField.Id
                                              && x.CaseId == theCase.Id
                                              && x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
                                          .ToListAsync())
                             {
-                                var value = await ReadFieldValue(fieldValue, field, false, language);
-                                _field.FieldValues.Add(value);
+                                var value = await ReadFieldValue(fieldValue, dbField, false, language);
+                                field.FieldValues.Add(value);
                             }
 
-                            dataItemList.Add(_field);
+                            dataItemList.Add(field);
                         }
                     }
 
