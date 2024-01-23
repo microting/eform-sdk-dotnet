@@ -1689,13 +1689,24 @@ namespace Microting.eForm.Infrastructure
                                         && x.CaseId == theCase.Id
                                         && x.WorkflowState != Constants.Constants.WorkflowStates.Removed))
                                 {
-                                    FieldValue fieldValue = new FieldValue
+                                    var dbFieldValue = await db.FieldValues.FirstOrDefaultAsync(x =>
+                                        x.FieldId == subDbField.Id
+                                        && x.CaseId == theCase.Id);
+                                    if (dbFieldValue == null)
                                     {
-                                        FieldId = subDbField.Id,
-                                        CaseId = theCase.Id,
-                                        DoneAt = theCase.DoneAt
-                                    };
-                                    await fieldValue.Create(db);
+                                        FieldValue fieldValue = new FieldValue
+                                        {
+                                            FieldId = subDbField.Id,
+                                            CaseId = theCase.Id,
+                                            DoneAt = theCase.DoneAt
+                                        };
+                                        await fieldValue.Create(db);
+                                    }
+                                    else
+                                    {
+                                        dbFieldValue.WorkflowState = Constants.Constants.WorkflowStates.Created;
+                                        await dbFieldValue.Update(db);
+                                    }
                                 }
 
                                 foreach (FieldValue fieldValue in await db.FieldValues.Where(x =>
@@ -1742,18 +1753,30 @@ namespace Microting.eForm.Infrastructure
 
                             field.Label = fieldTranslation.Text;
                             field.Description = new CDataValue { InderValue = fieldTranslation.Description };
+
                             if (!db.FieldValues.Any(x =>
                                     x.FieldId == dbField.Id
                                     && x.CaseId == theCase.Id
                                     && x.WorkflowState != Constants.Constants.WorkflowStates.Removed))
                             {
-                                var fieldValue = new FieldValue
+                                var dbFieldValue = await db.FieldValues.FirstOrDefaultAsync(x =>
+                                x.FieldId == dbField.Id
+                                && x.CaseId == theCase.Id);
+                                if (dbFieldValue == null)
                                 {
-                                    FieldId = dbField.Id,
-                                    CaseId = theCase.Id,
-                                    DoneAt = theCase.DoneAt
-                                };
-                                await fieldValue.Create(db);
+                                    FieldValue fieldValue = new FieldValue
+                                    {
+                                        FieldId = dbField.Id,
+                                        CaseId = theCase.Id,
+                                        DoneAt = theCase.DoneAt
+                                    };
+                                    await fieldValue.Create(db);
+                                }
+                                else
+                                {
+                                    dbFieldValue.WorkflowState = Constants.Constants.WorkflowStates.Created;
+                                    await dbFieldValue.Update(db);
+                                }
                             }
 
                             foreach (var fieldValue in await db.FieldValues.Where(x =>
