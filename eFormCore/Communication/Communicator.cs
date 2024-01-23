@@ -274,7 +274,7 @@ namespace Microting.eForm.Communication
             int unitId = int.Parse(parsedUnitData["MicrotingUid"].ToString());
             int otpCode = int.Parse(parsedUnitData["OtpCode"].ToString());
 
-            SiteDto siteDto = new SiteDto()
+            SiteDto siteDto = new SiteDto
             {
                 SiteId = int.Parse(parsedSiteData["MicrotingUid"].ToString()),
                 SiteName = parsedSiteData["Name"].ToString(),
