@@ -46,6 +46,7 @@ namespace Microting.eForm.Communication
 
         private readonly string _token;
         private readonly string _addressApi;
+        private readonly string _addressNewApi;
         private readonly string _addressBasic;
         private readonly string _newAddressBasic;
         private readonly string _addressPdfUpload;
@@ -57,15 +58,16 @@ namespace Microting.eForm.Communication
 
         //private object _lock = new object(); // todo maybe need delete
         public Http(string token, string comAddressBasic, string comAddressApi, string comOrganizationId,
-            string comAddressPdfUpload, string comSpeechToText)
+            string comAddressPdfUpload, string comSpeechToText, string comAddressNewApi)
         {
-            this._token = token;
+            _token = token;
             _addressBasic = comAddressBasic;
             _addressApi = comAddressApi;
             _addressPdfUpload = comAddressPdfUpload;
             _organizationId = comOrganizationId;
             _addressSpeechToText = comSpeechToText;
             _newAddressBasic = "https://microcore.microting.com";
+            _addressNewApi = comAddressNewApi;
 
             _dllVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
         }
@@ -246,11 +248,23 @@ namespace Microting.eForm.Communication
             {
                 WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}",
                     $"called at {DateTime.UtcNow}");
-                var url =
-                    $"{_addressApi}/gwt/inspection_app/integration/?token={_token}&protocol={ProtocolXml}&site_id={siteId}&sdk_ver={_dllVersion}";
-                var content = new StringContent(data, Encoding.UTF8, contentType);
 
-                return await HttpPost(url, content, contentType).ConfigureAwait(false);
+                if (_addressNewApi != "none")
+                {
+                    var url =
+                        $"{_addressNewApi}/integration/create?token={_token}&siteId={siteId}&sdkVer={_dllVersion}";
+
+                    var content = new StringContent(data, Encoding.UTF8, contentType);
+                    return await HttpPost(url, content, contentType, true).ConfigureAwait(false);
+                }
+                else
+                {
+                    var url =
+                        $"{_addressApi}/gwt/inspection_app/integration/?token={_token}&protocol={ProtocolXml}&site_id={siteId}&sdk_ver={_dllVersion}";
+                    var content = new StringContent(data, Encoding.UTF8, contentType);
+
+                    return await HttpPost(url, content, contentType).ConfigureAwait(false);
+                }
             }
             catch (Exception ex)
             {
@@ -273,9 +287,18 @@ namespace Microting.eForm.Communication
         {
             try
             {
-                var url =
-                    $"{_addressApi}/gwt/inspection_app/integration/{elementId}?token={_token}&protocol={ProtocolXml}&site_id={siteId}&download=false&delete=false&sdk_ver={_dllVersion}";
-                return await HttpGet(url).ConfigureAwait(false);
+                if (_addressNewApi != "none")
+                {
+                    var url =
+                        $"{_addressNewApi}/integration/status?id={elementId}?token={_token}";
+
+                    return await HttpGet(url, null, true).ConfigureAwait(false);
+                } else
+                {
+                    var url =
+                        $"{_addressApi}/gwt/inspection_app/integration/{elementId}?token={_token}&protocol={ProtocolXml}&site_id={siteId}&download=false&delete=false&sdk_ver={_dllVersion}";
+                    return await HttpGet(url).ConfigureAwait(false);
+                }
             }
             catch (Exception ex)
             {
@@ -295,9 +318,19 @@ namespace Microting.eForm.Communication
         {
             try
             {
-                var url =
-                    $"{_addressApi}/gwt/inspection_app/integration/{microtingUuid}?token={_token}&protocol={ProtocolXml}&site_id={siteId}&download=true&delete=false&last_check_id={microtingCheckUuid}&sdk_ver={_dllVersion}";
-                return await HttpGet(url).ConfigureAwait(false);
+                if (_addressNewApi != "none")
+                {
+                    var url =
+                        $"{_addressNewApi}/integration/get?id={microtingUuid}?token={_token}&siteId={siteId}&sdkVer={_dllVersion}";
+
+                    return await HttpGet(url, null, true).ConfigureAwait(false);
+                }
+                else
+                {
+                    var url =
+                        $"{_addressApi}/gwt/inspection_app/integration/{microtingUuid}?token={_token}&protocol={ProtocolXml}&site_id={siteId}&download=true&delete=false&last_check_id={microtingCheckUuid}&sdk_ver={_dllVersion}";
+                    return await HttpGet(url).ConfigureAwait(false);
+                }
             }
             catch (Exception ex)
             {
@@ -314,18 +347,27 @@ namespace Microting.eForm.Communication
         public async Task<string> Delete(string elementId, string siteId)
         {
             try
-            {
-                var url =
-                    $"{_addressApi}/gwt/inspection_app/integration/{elementId}?token={_token}&protocol={ProtocolXml}&site_id={siteId}&download=false&delete=true&sdk_ver={_dllVersion}";
-                var result = await HttpGet(url).ConfigureAwait(false);
-
-                if (result.Contains("No database connection information was found"))
+            {if (_addressNewApi != "none")
                 {
-                    Thread.Sleep(5000);
-                    result = await HttpGet(url).ConfigureAwait(false);
-                }
+                    var url =
+                        $"{_addressNewApi}/integration/delete?id={elementId}?token={_token}&siteId={siteId}";
 
-                return result;
+                    return await HttpDelete(url, null, true).ConfigureAwait(false);
+                }
+                else
+                {
+                    var url =
+                        $"{_addressApi}/gwt/inspection_app/integration/{elementId}?token={_token}&protocol={ProtocolXml}&site_id={siteId}&download=false&delete=true&sdk_ver={_dllVersion}";
+                    var result = await HttpGet(url).ConfigureAwait(false);
+
+                    if (result.Contains("No database connection information was found"))
+                    {
+                        Thread.Sleep(5000);
+                        result = await HttpGet(url).ConfigureAwait(false);
+                    }
+
+                    return result;
+                }
             }
             catch (Exception ex)
             {

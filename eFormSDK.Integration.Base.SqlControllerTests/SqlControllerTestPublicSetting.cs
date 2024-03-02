@@ -104,6 +104,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var match15 = await sut.SettingCreate(Settings.awsEndPoint);
             var match16 = await sut.SettingCreate(Settings.unitLicenseNumber);
             var match17 = await sut.SettingCreate(Settings.httpServerAddress);
+            var match18 = await sut.SettingCreate(Settings.comAddressNewApi);
 
             // Assert
             Assert.True(match1);
@@ -123,6 +124,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Assert.True(match15);
             Assert.True(match16);
             Assert.True(match17);
+            Assert.True(match18);
 
             var matchb1 = await sut.SettingRead(Settings.awsAccessKeyId);
             var matchb2 = await sut.SettingRead(Settings.awsEndPoint);
@@ -141,6 +143,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var matchb15 = await sut.SettingRead(Settings.logLimit);
             var matchb16 = await sut.SettingRead(Settings.token);
             var matchb17 = await sut.SettingRead(Settings.unitLicenseNumber);
+            var matchb18 = await sut.SettingRead(Settings.comAddressNewApi);
 
 
             // Assert
@@ -161,6 +164,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Assert.AreEqual(matchb15, "25000");
             Assert.AreEqual(matchb16, "abc1234567890abc1234567890abcdef");
             Assert.AreEqual(matchb17, "55");
+            Assert.AreEqual(matchb18, "none");
         }
 
 

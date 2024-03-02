@@ -62,6 +62,7 @@ namespace Microting.eForm.Dto
         rabbitMqHost,
         translationsMigrated,
         pluginsEnabled,
-        servicesEnabled
+        servicesEnabled,
+        comAddressNewApi
     }
 }
