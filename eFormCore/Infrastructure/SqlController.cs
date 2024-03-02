@@ -5483,6 +5483,10 @@ namespace Microting.eForm.Infrastructure
                     id = 37;
                     defaultValue = "none";
                     break;
+                case Settings.comAddressNewApi:
+                    id = 38;
+                    defaultValue = "none";
+                    break;
 
                 default:
                     throw new IndexOutOfRangeException(name + " is not a known/mapped Settings type");

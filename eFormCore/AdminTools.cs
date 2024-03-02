@@ -212,7 +212,7 @@ namespace eFormCore
             string ComAddressPdfUpload = await sqlController.SettingRead(Settings.comAddressPdfUpload);
             string ComSpeechToText = await sqlController.SettingRead(Settings.comSpeechToText);
             Communicator communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId,
-                ComAddressPdfUpload, log, ComSpeechToText, connectionString);
+                ComAddressPdfUpload, log, ComSpeechToText, connectionString, "none");
 
             #region add site's data to db
 
@@ -409,13 +409,14 @@ namespace eFormCore
                 string token = await sqlController.SettingRead(Settings.token);
                 Communicator communicator = new Communicator(token, @"https://srv05.microting.com",
                     @"https://basic.microting.com", "", "", log, "https://speechtotext.microting.com",
-                    connectionString);
+                    connectionString, "none");
 
                 OrganizationDto organizationDto = await communicator.OrganizationLoadAllFromRemote(token);
                 await sqlController.SettingUpdate(Settings.token, token);
                 await sqlController.SettingUpdate(Settings.comAddressBasic, organizationDto.ComAddressBasic);
                 await sqlController.SettingUpdate(Settings.comAddressPdfUpload, organizationDto.ComAddressPdfUpload);
                 await sqlController.SettingUpdate(Settings.comAddressApi, organizationDto.ComAddressApi);
+                await sqlController.SettingUpdate(Settings.comAddressNewApi, "none");
                 await sqlController.SettingUpdate(Settings.comOrganizationId, organizationDto.Id.ToString());
                 await sqlController.SettingUpdate(Settings.awsAccessKeyId, organizationDto.AwsAccessKeyId);
                 await sqlController.SettingUpdate(Settings.awsSecretAccessKey, organizationDto.AwsSecretAccessKey);
@@ -440,7 +441,7 @@ namespace eFormCore
             }
             catch (Exception ex)
             {
-                return t.PrintException(t.GetMethodName("AdminTools") + " failed", ex);
+               return t.PrintException(t.GetMethodName("AdminTools") + " failed", ex);
             }
         }
 

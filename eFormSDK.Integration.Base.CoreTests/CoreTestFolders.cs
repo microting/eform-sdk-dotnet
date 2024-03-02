@@ -58,6 +58,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef").ConfigureAwait(false);
             await sql.SettingUpdate(Settings.firstRunDone, "true").ConfigureAwait(false);
             await sql.SettingUpdate(Settings.knownSitesDone, "true").ConfigureAwait(false);
+            await sql.SettingUpdate(Settings.comAddressNewApi, "none");
 
             #endregion
 
