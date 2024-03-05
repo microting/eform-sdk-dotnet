@@ -321,7 +321,7 @@ namespace Microting.eForm.Communication
                 if (_addressNewApi != "none")
                 {
                     var url =
-                        $"{_addressNewApi}/integration/get?id={microtingUuid}&token={_token}&siteId={siteId}&sdkVer={_dllVersion}";
+                        $"{_addressNewApi}/integration/get?id={microtingUuid}&token={_token}&siteId={siteId}&sdkVer={_dllVersion}&lastCheckId={microtingCheckUuid}";
 
                     return await HttpGet(url, null, true).ConfigureAwait(false);
                 }
