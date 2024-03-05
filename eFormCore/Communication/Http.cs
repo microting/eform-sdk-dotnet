@@ -290,7 +290,7 @@ namespace Microting.eForm.Communication
                 if (_addressNewApi != "none")
                 {
                     var url =
-                        $"{_addressNewApi}/integration/status?id={elementId}?token={_token}";
+                        $"{_addressNewApi}/integration/status?id={elementId}&token={_token}";
 
                     return await HttpGet(url, null, true).ConfigureAwait(false);
                 } else
@@ -321,7 +321,7 @@ namespace Microting.eForm.Communication
                 if (_addressNewApi != "none")
                 {
                     var url =
-                        $"{_addressNewApi}/integration/get?id={microtingUuid}?token={_token}&siteId={siteId}&sdkVer={_dllVersion}";
+                        $"{_addressNewApi}/integration/get?id={microtingUuid}&token={_token}&siteId={siteId}&sdkVer={_dllVersion}";
 
                     return await HttpGet(url, null, true).ConfigureAwait(false);
                 }
@@ -350,7 +350,7 @@ namespace Microting.eForm.Communication
             {if (_addressNewApi != "none")
                 {
                     var url =
-                        $"{_addressNewApi}/integration/delete?id={elementId}?token={_token}&siteId={siteId}";
+                        $"{_addressNewApi}/integration/delete?id={elementId}&token={_token}&siteId={siteId}";
 
                     return await HttpDelete(url, null, true).ConfigureAwait(false);
                 }
