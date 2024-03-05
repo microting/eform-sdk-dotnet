@@ -304,6 +304,8 @@ namespace eFormCore
                     string token = await _sqlController.SettingRead(Settings.token).ConfigureAwait(false);
                     string comAddressApi =
                         await _sqlController.SettingRead(Settings.comAddressApi).ConfigureAwait(false);
+                    string comAddressNewApi =
+                        await _sqlController.SettingRead(Settings.comAddressNewApi).ConfigureAwait(false);
                     string comAddressBasic =
                         await _sqlController.SettingRead(Settings.comAddressBasic).ConfigureAwait(false);
                     string comOrganizationId =
@@ -313,7 +315,7 @@ namespace eFormCore
                     string comSpeechToText =
                         await _sqlController.SettingRead(Settings.comSpeechToText).ConfigureAwait(false);
                     _communicator = new Communicator(token, comAddressApi, comAddressBasic, comOrganizationId,
-                        comAddressPdfUpload, Log, comSpeechToText, connectionString);
+                        comAddressPdfUpload, Log, comSpeechToText, connectionString, comAddressNewApi);
 
                     _container = new WindsorContainer();
                     _container.Register(

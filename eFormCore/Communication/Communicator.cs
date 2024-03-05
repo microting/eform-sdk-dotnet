@@ -59,7 +59,7 @@ namespace Microting.eForm.Communication
         /// <param name="log"></param>
         /// <param name="comSpeechToText"></param>
         public Communicator(string token, string comAddressApi, string comAddressBasic, string comOrganizationId,
-            string comAddressPdfUpload, Log log, string comSpeechToText, string connectionString)
+            string comAddressPdfUpload, Log log, string comSpeechToText, string connectionString, string comAddressNewApi)
         {
             //this.sqlController = sqlController;
             _log = log;
@@ -106,7 +106,7 @@ namespace Microting.eForm.Communication
             #endregion
 
             _http = new Http(token, comAddressBasic, comAddressApi, comOrganizationId, comAddressPdfUpload,
-                comSpeechToText);
+                comSpeechToText, comAddressNewApi);
         }
 
         #endregion
@@ -274,7 +274,7 @@ namespace Microting.eForm.Communication
             int unitId = int.Parse(parsedUnitData["MicrotingUid"].ToString());
             int otpCode = int.Parse(parsedUnitData["OtpCode"].ToString());
 
-            SiteDto siteDto = new SiteDto()
+            SiteDto siteDto = new SiteDto
             {
                 SiteId = int.Parse(parsedSiteData["MicrotingUid"].ToString()),
                 SiteName = parsedSiteData["Name"].ToString(),
@@ -507,7 +507,7 @@ namespace Microting.eForm.Communication
             else
             {
                 specialHttp = new Http(token, "https://basic.microting.com", "https://srv05.microting.com", "000", "",
-                    "https://speechtotext.microting.com");
+                    "https://speechtotext.microting.com", "none");
             }
 
             JToken orgResult = JToken.Parse(await specialHttp.OrganizationLoadAllFromRemote());

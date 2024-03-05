@@ -45,6 +45,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
         private readonly MariaDbContainer _mariadbTestcontainer = new MariaDbBuilder()
             .WithDatabase(
                 "eformsdk-tests").WithUsername("bla").WithPassword("secretpassword")
+            .WithImage("mariadb:11.0.2")
             .Build();
 
         protected MicrotingDbContext DbContext;
@@ -56,7 +57,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
 
             dbContextOptionsBuilder.UseMySql(connectionStr, new MariaDbServerVersion(
-                new Version(10, 8)));
+                ServerVersion.AutoDetect(connectionStr)));
             var microtingDbContext = new MicrotingDbContext(dbContextOptionsBuilder.Options);
             string file = Path.Combine("SQL", "eformsdk-tests.sql");
             string rawSql = File.ReadAllText(file);

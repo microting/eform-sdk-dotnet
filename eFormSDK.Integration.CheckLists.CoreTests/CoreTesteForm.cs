@@ -62,6 +62,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
             await sql.SettingUpdate(Settings.firstRunDone, "true");
             await sql.SettingUpdate(Settings.knownSitesDone, "true");
+            await sql.SettingUpdate(Settings.comAddressNewApi, "none");
 
             #endregion
 
