@@ -5286,6 +5286,7 @@ namespace Microting.eForm.Infrastructure
             await SettingCreate(Settings.translationsMigrated);
             await SettingCreate(Settings.pluginsEnabled);
             await SettingCreate(Settings.servicesEnabled);
+            await SettingCreate(Settings.comAddressNewApi);
 
             return true;
         }
