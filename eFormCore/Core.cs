@@ -3238,7 +3238,7 @@ namespace eFormCore
             }
 
             if (et.Name != name || et.Description != description || et.DisplayIndex != displayIndex ||
-                et.EntityItemUid != ownUuid)
+                et.EntityItemUid != ownUuid || et.WorkflowState == Constants.WorkflowStates.Removed)
             {
                 Microting.eForm.Infrastructure.Data.Entities.EntityGroup eg =
                     await dbContext.EntityGroups.FirstOrDefaultAsync(x =>
@@ -3265,6 +3265,7 @@ namespace eFormCore
                     et.Name = name;
                     et.Description = description;
                     et.EntityItemUid = ownUuid;
+                    et.WorkflowState = Constants.WorkflowStates.Created;
                     await et.Update(dbContext);
                 }
                 else
