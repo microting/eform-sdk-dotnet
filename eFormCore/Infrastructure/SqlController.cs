@@ -2135,6 +2135,7 @@ namespace Microting.eForm.Infrastructure
 
                         List<FieldOption> fieldOptions =
                             await db.FieldOptions.AsNoTracking().Where(x => x.FieldId == fieldValue.FieldId)
+                                .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
                                 .ToListAsync();
 
                         fieldValue.KeyValuePairList = new List<KeyValuePair>();
@@ -3764,6 +3765,7 @@ namespace Microting.eForm.Infrastructure
                         //string key = item.Value;
                         newValue = "";
                         FieldOption fieldOption = await db.FieldOptions.AsNoTracking()
+                            .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
                             .FirstOrDefaultAsync(x => x.Key == item.Value && x.FieldId == field.Id);
                         if (fieldOption != null)
                         {
@@ -3788,6 +3790,7 @@ namespace Microting.eForm.Infrastructure
                             //string fullKey = _t.Locate(item.Field.KeyValuePairList, "<" + key + ">", "</" + key + ">");
 
                             FieldOption fieldOption = await db.FieldOptions.AsNoTracking()
+                                .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
                                 .FirstOrDefaultAsync(x => x.Key == key && x.FieldId == field.Id);
                             if (fieldOption != null)
                             {
