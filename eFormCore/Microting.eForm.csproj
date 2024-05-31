@@ -280,7 +280,7 @@
         <PackageReference Include="DocumentFormat.OpenXml" Version="2.20.0" />
         <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.8.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.5">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
