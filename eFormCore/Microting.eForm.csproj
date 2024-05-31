@@ -278,7 +278,7 @@
         <PackageReference Include="AWSSDK.SQS" Version="3.7.301.11" />
         <PackageReference Include="Castle.Core" Version="5.1.1" />
         <PackageReference Include="DocumentFormat.OpenXml" Version="2.20.0" />
-        <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.8.0" />
+        <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.9.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
