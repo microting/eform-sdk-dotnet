@@ -41,6 +41,12 @@ namespace Microting.eForm.Infrastructure.Data.Entities
 
         public bool IsLocked { get; set; }
 
+        [StringLength(50)]
+        public string PinCode { get; set; }
+
+        [StringLength(50)]
+        public string EmployeeNo { get; set; }
+
         public virtual ICollection<SiteWorker> SiteWorkers { get; set; }
 
         public string full_name()

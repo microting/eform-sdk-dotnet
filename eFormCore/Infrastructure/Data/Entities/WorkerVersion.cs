@@ -41,5 +41,11 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int? WorkerId { get; set; }
 
         public bool IsLocked { get; set; }
+
+        [StringLength(50)]
+        public string PinCode { get; set; }
+
+        [StringLength(50)]
+        public string EmployeeNo { get; set; }
     }
 }
