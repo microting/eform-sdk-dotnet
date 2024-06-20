@@ -78,7 +78,9 @@ namespace Microting.eForm.Helpers
                 UpdatedAt = DateTime.UtcNow,
                 MicrotingUid = microtingUId,
                 WorkflowState = Constants.WorkflowStates.Created,
-                Version = 69
+                Version = 69,
+                PinCode = "1234",
+                EmployeeNo = ""
             };
             await dbContext.Workers.AddAsync(worker);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
