@@ -153,7 +153,9 @@ namespace eFormSDK.CheckLists.Tests
                 Email = Guid.NewGuid().ToString(),
                 FirstName = Guid.NewGuid().ToString(),
                 LastName = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255)
+                MicrotingUid = rnd.Next(1, 255),
+                PinCode = "1234",
+                EmployeeNo = ""
             };
             await worker.Create(DbContext).ConfigureAwait(false);
 
@@ -382,7 +384,9 @@ namespace eFormSDK.CheckLists.Tests
                 Email = Guid.NewGuid().ToString(),
                 FirstName = Guid.NewGuid().ToString(),
                 LastName = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255)
+                MicrotingUid = rnd.Next(1, 255),
+                PinCode = "1234",
+                EmployeeNo = ""
             };
             await worker.Create(DbContext).ConfigureAwait(false);
 
@@ -650,7 +654,9 @@ namespace eFormSDK.CheckLists.Tests
                 Email = Guid.NewGuid().ToString(),
                 FirstName = Guid.NewGuid().ToString(),
                 LastName = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255)
+                MicrotingUid = rnd.Next(1, 255),
+                PinCode = "1234",
+                EmployeeNo = ""
             };
             await worker.Create(DbContext).ConfigureAwait(false);
 
