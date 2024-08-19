@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\eFormCore\Microting.eForm.csproj"/>
+        <ProjectReference Include="..\eFormCore\Microting.eForm.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -15,6 +15,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="System.CodeDom" Version="8.0.0" />
     </ItemGroup>
 
 </Project>
