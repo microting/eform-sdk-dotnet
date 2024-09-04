@@ -11,8 +11,8 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="NUnit" Version="3.14.0" />
         <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
-        <PackageReference Include="Testcontainers" Version="3.9.0" />
-        <PackageReference Include="Testcontainers.MariaDb" Version="3.9.0" />
+        <PackageReference Include="Testcontainers" Version="3.10.0" />
+        <PackageReference Include="Testcontainers.MariaDb" Version="3.10.0" />
     </ItemGroup>
 
     <ItemGroup>
