@@ -287,7 +287,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Assert
             var siteWorkers = DbContext.SiteWorkers.AsNoTracking().ToList();
 
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(siteWorkers.Count(), Is.EqualTo(1));
             Assert.That(siteWorkers[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
         }

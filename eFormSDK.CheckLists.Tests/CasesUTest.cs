@@ -145,8 +145,8 @@ namespace eFormSDK.CheckLists.Tests
 
             //Assert
 
-            Assert.NotNull(cases);
-            Assert.NotNull(caseVersions);
+            Assert.That(cases, Is.Not.EqualTo(null));
+            Assert.That(caseVersions, Is.Not.EqualTo(null));
 
             Assert.That(cases.Count(), Is.EqualTo(1));
             Assert.That(caseVersions.Count(), Is.EqualTo(1));
@@ -353,8 +353,8 @@ namespace eFormSDK.CheckLists.Tests
 
             //Assert
 
-            Assert.NotNull(cases);
-            Assert.NotNull(caseVersions);
+            Assert.That(cases, Is.Not.EqualTo(null));
+            Assert.That(caseVersions, Is.Not.EqualTo(null));
 
             Assert.That(cases.Count(), Is.EqualTo(1));
             Assert.That(caseVersions.Count(), Is.EqualTo(2));
@@ -555,8 +555,8 @@ namespace eFormSDK.CheckLists.Tests
 
             //Assert
 
-            Assert.NotNull(cases);
-            Assert.NotNull(caseVersions);
+            Assert.That(cases, Is.Not.EqualTo(null));
+            Assert.That(caseVersions, Is.Not.EqualTo(null));
 
             Assert.That(cases.Count(), Is.EqualTo(1));
             Assert.That(caseVersions.Count(), Is.EqualTo(2));

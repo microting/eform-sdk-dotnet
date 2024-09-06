@@ -109,8 +109,8 @@ namespace eFormSDK.Base.Tests
 
             //Assert
 
-            Assert.NotNull(taggings);
-            Assert.NotNull(taggingVersions);
+            Assert.That(taggings, Is.Not.EqualTo(null));
+            Assert.That(taggingVersions, Is.Not.EqualTo(null));
 
             Assert.That(taggings.Count(), Is.EqualTo(1));
             Assert.That(taggingVersions.Count(), Is.EqualTo(1));
@@ -212,8 +212,8 @@ namespace eFormSDK.Base.Tests
 
             //Assert
 
-            Assert.NotNull(taggings);
-            Assert.NotNull(taggingVersions);
+            Assert.That(taggings, Is.Not.EqualTo(null));
+            Assert.That(taggingVersions, Is.Not.EqualTo(null));
 
             Assert.That(taggings.Count(), Is.EqualTo(1));
             Assert.That(taggingVersions.Count(), Is.EqualTo(2));

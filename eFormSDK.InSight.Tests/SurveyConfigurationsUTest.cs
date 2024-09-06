@@ -68,8 +68,8 @@ namespace eFormSDK.InSight.Tests
             List<SurveyConfigurationVersion> surveyConfigurationVersions =
                 DbContext.SurveyConfigurationVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(surveyConfigurations);
-            Assert.NotNull(surveyConfigurationVersions);
+            Assert.That(surveyConfigurations, Is.Not.EqualTo(null));
+            Assert.That(surveyConfigurationVersions, Is.Not.EqualTo(null));
 
             Assert.That(surveyConfigurations.Count(), Is.EqualTo(1));
             Assert.That(surveyConfigurationVersions.Count(), Is.EqualTo(1));
@@ -145,8 +145,8 @@ namespace eFormSDK.InSight.Tests
             List<SurveyConfigurationVersion> surveyConfigurationVersions =
                 DbContext.SurveyConfigurationVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(surveyConfigurations);
-            Assert.NotNull(surveyConfigurationVersions);
+            Assert.That(surveyConfigurations, Is.Not.EqualTo(null));
+            Assert.That(surveyConfigurationVersions, Is.Not.EqualTo(null));
 
             Assert.That(surveyConfigurations.Count(), Is.EqualTo(1));
             Assert.That(surveyConfigurationVersions.Count(), Is.EqualTo(2));
@@ -226,8 +226,8 @@ namespace eFormSDK.InSight.Tests
             List<SurveyConfigurationVersion> surveyConfigurationVersions =
                 DbContext.SurveyConfigurationVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(surveyConfigurations);
-            Assert.NotNull(surveyConfigurationVersions);
+            Assert.That(surveyConfigurations, Is.Not.EqualTo(null));
+            Assert.That(surveyConfigurationVersions, Is.Not.EqualTo(null));
 
             Assert.That(surveyConfigurations.Count(), Is.EqualTo(1));
             Assert.That(surveyConfigurationVersions.Count(), Is.EqualTo(2));

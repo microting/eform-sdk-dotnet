@@ -103,8 +103,8 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             List<FieldTranslation> fieldTranslations = await DbContext.FieldTranslations.ToListAsync();
 
             // Assert
-            Assert.NotNull(mainelement);
-            Assert.NotNull(match);
+            Assert.That(mainelement, Is.Not.EqualTo(null));
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(listOfCL.Count(), Is.EqualTo(15));
             Assert.That(listOfFields.Count, Is.EqualTo(681));
 

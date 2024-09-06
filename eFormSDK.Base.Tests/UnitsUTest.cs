@@ -75,8 +75,8 @@ namespace eFormSDK.Base.Tests
 
             //Assert
 
-            Assert.NotNull(units);
-            Assert.NotNull(unitsVersions);
+            Assert.That(units, Is.Not.EqualTo(null));
+            Assert.That(unitsVersions, Is.Not.EqualTo(null));
 
             Assert.That(units.Count(), Is.EqualTo(1));
             Assert.That(unitsVersions.Count(), Is.EqualTo(1));
@@ -172,8 +172,8 @@ namespace eFormSDK.Base.Tests
 
             //Assert
 
-            Assert.NotNull(units);
-            Assert.NotNull(unitsVersions);
+            Assert.That(units, Is.Not.EqualTo(null));
+            Assert.That(unitsVersions, Is.Not.EqualTo(null));
 
             Assert.That(units.Count(), Is.EqualTo(1));
             Assert.That(unitsVersions.Count(), Is.EqualTo(2));
@@ -263,8 +263,8 @@ namespace eFormSDK.Base.Tests
 
             //Assert
 
-            Assert.NotNull(units);
-            Assert.NotNull(unitsVersions);
+            Assert.That(units, Is.Not.EqualTo(null));
+            Assert.That(unitsVersions, Is.Not.EqualTo(null));
 
             Assert.That(units.Count(), Is.EqualTo(1));
             Assert.That(unitsVersions.Count(), Is.EqualTo(2));

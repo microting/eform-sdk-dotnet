@@ -60,8 +60,8 @@ namespace eFormSDK.InSight.Tests
             List<QuestionSet> questionSets = DbContext.QuestionSets.AsNoTracking().ToList();
             List<QuestionSetVersion> questionSetVersions = DbContext.QuestionSetVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(questionSets);
-            Assert.NotNull(questionSetVersions);
+            Assert.That(questionSets, Is.Not.EqualTo(null));
+            Assert.That(questionSetVersions, Is.Not.EqualTo(null));
 
             Assert.That(questionSets.Count(), Is.EqualTo(1));
             Assert.That(questionSetVersions.Count(), Is.EqualTo(1));
@@ -124,8 +124,8 @@ namespace eFormSDK.InSight.Tests
             List<QuestionSet> questionSets = DbContext.QuestionSets.AsNoTracking().ToList();
             List<QuestionSetVersion> questionSetVersions = DbContext.QuestionSetVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(questionSets);
-            Assert.NotNull(questionSetVersions);
+            Assert.That(questionSets, Is.Not.EqualTo(null));
+            Assert.That(questionSetVersions, Is.Not.EqualTo(null));
 
             Assert.That(questionSets.Count(), Is.EqualTo(1));
             Assert.That(questionSetVersions.Count(), Is.EqualTo(2));
@@ -190,8 +190,8 @@ namespace eFormSDK.InSight.Tests
             List<QuestionSet> questionSets = DbContext.QuestionSets.AsNoTracking().ToList();
             List<QuestionSetVersion> questionSetVersions = DbContext.QuestionSetVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(questionSets);
-            Assert.NotNull(questionSetVersions);
+            Assert.That(questionSets, Is.Not.EqualTo(null));
+            Assert.That(questionSetVersions, Is.Not.EqualTo(null));
 
             Assert.That(questionSets.Count(), Is.EqualTo(1));
             Assert.That(questionSetVersions.Count(), Is.EqualTo(2));

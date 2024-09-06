@@ -96,7 +96,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Assert
 
-            Assert.NotNull(matches);
+            Assert.That(matches, Is.Not.EqualTo(null));
             // Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches1[1].workflow_state);
             // Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches1[0].workflow_state);
         }
@@ -176,7 +176,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             // Assert
 
 
-            Assert.NotNull(caseResults);
+            Assert.That(caseResults, Is.Not.EqualTo(null));
             Assert.That(caseResults.Count, Is.EqualTo(1));
             Assert.That(caseResults[0], Is.Not.EqualTo(null));
         }
@@ -218,7 +218,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             //sut.CaseUpdateCompleted(aCase1.microting_uid, aCase1.microting_check_uid, c1_ua, aCase1.Id, aCase1.Id);
             List<Microting.eForm.Infrastructure.Data.Entities.Case> caseResults = DbContext.Cases.AsNoTracking()
                 .Where(x => x.MicrotingUid == aCase1.MicrotingUid).ToList();
-            Assert.NotNull(caseResults);
+            Assert.That(caseResults, Is.Not.EqualTo(null));
             Assert.That(caseResults.Count(), Is.EqualTo(1));
             Assert.That(caseResults[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(caseResults[0].Status, Is.EqualTo(66));
@@ -233,7 +233,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             // Assert
 
 
-            Assert.NotNull(caseResults);
+            Assert.That(caseResults, Is.Not.EqualTo(null));
             Assert.That(caseResults.Count(), Is.EqualTo(1));
             Assert.That(versionedMatches1.Count(), Is.EqualTo(1));
             Assert.That(caseResults[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
@@ -292,7 +292,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             var versionedMatches = DbContext.CaseVersions.AsNoTracking().ToList();
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.Count, Is.EqualTo(1));
             Assert.That(versionedMatches.Count, Is.EqualTo(1));
             Assert.That(match[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Retracted));
@@ -333,7 +333,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             var versionedMatches = DbContext.CaseVersions.AsNoTracking().ToList();
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.Count, Is.EqualTo(1));
             Assert.That(versionedMatches.Count, Is.EqualTo(1));
             Assert.That(match[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
@@ -374,7 +374,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             var versionedMatches = DbContext.CaseVersions.AsNoTracking().ToList();
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.Count, Is.EqualTo(1));
             Assert.That(versionedMatches.Count, Is.EqualTo(1));
             Assert.That(match[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
@@ -1048,7 +1048,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Act
             Microting.eForm.Infrastructure.Data.Entities.Case theCase = DbContext.Cases.First();
-            Assert.NotNull(theCase);
+            Assert.That(theCase, Is.Not.EqualTo(null));
             CheckList theCheckList = DbContext.CheckLists.First();
 
             theCheckList.Field1 = f1.Id;
@@ -1078,7 +1078,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             // Assert
             Microting.eForm.Infrastructure.Data.Entities.Case theCaseAfter = DbContext.Cases.AsNoTracking().First();
 
-            Assert.NotNull(theCaseAfter);
+            Assert.That(theCaseAfter, Is.Not.EqualTo(null));
 
             theCaseAfter.FieldValue1 = field_Value1.Value;
             theCaseAfter.FieldValue2 = field_Value2.Value;

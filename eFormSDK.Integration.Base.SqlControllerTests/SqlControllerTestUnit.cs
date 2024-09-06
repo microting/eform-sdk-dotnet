@@ -602,7 +602,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Assert
             var units = DbContext.Units.AsNoTracking().ToList();
 
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(units.Count(), Is.EqualTo(1));
             Assert.That(units[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
         }

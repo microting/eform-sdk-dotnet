@@ -95,9 +95,9 @@ namespace eFormSDK.Integration.Case.CoreTests
             List<UploadedData> udMatches = DbContext.UploadedDatas.AsNoTracking().ToList();
             List<FieldValue> fvMatches = DbContext.FieldValues.AsNoTracking().ToList();
 
-            Assert.NotNull(caseMatches);
-            Assert.NotNull(udMatches);
-            Assert.NotNull(fvMatches);
+            Assert.That(caseMatches, Is.Not.EqualTo(null));
+            Assert.That(udMatches, Is.Not.EqualTo(null));
+            Assert.That(fvMatches, Is.Not.EqualTo(null));
             Assert.That(caseMatches.Count(), Is.EqualTo(1));
             Assert.That(udMatches.Count(), Is.EqualTo(1));
             Assert.That(fvMatches.Count(), Is.EqualTo(1));

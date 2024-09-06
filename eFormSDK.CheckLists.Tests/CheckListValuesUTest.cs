@@ -152,8 +152,8 @@ namespace eFormSDK.CheckLists.Tests
             List<CheckListValueVersion> checkListValueVersions =
                 DbContext.CheckListValueVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(checkListValues);
-            Assert.NotNull(checkListValueVersions);
+            Assert.That(checkListValues, Is.Not.EqualTo(null));
+            Assert.That(checkListValueVersions, Is.Not.EqualTo(null));
 
             Assert.That(checkListValues.Count(), Is.EqualTo(1));
             Assert.That(checkListValueVersions.Count(), Is.EqualTo(1));
@@ -299,8 +299,8 @@ namespace eFormSDK.CheckLists.Tests
             List<CheckListValueVersion> checkListValueVersions =
                 DbContext.CheckListValueVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(checkListValues);
-            Assert.NotNull(checkListValueVersions);
+            Assert.That(checkListValues, Is.Not.EqualTo(null));
+            Assert.That(checkListValueVersions, Is.Not.EqualTo(null));
 
             Assert.That(checkListValues.Count(), Is.EqualTo(1));
             Assert.That(checkListValueVersions.Count(), Is.EqualTo(2));
@@ -453,8 +453,8 @@ namespace eFormSDK.CheckLists.Tests
             List<CheckListValueVersion> checkListValueVersions =
                 DbContext.CheckListValueVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(checkListValues);
-            Assert.NotNull(checkListValueVersions);
+            Assert.That(checkListValues, Is.Not.EqualTo(null));
+            Assert.That(checkListValueVersions, Is.Not.EqualTo(null));
 
             Assert.That(checkListValues.Count(), Is.EqualTo(1));
             Assert.That(checkListValueVersions.Count(), Is.EqualTo(2));

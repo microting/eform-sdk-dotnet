@@ -175,7 +175,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Default sorting including removed
             // Id
-            Assert.NotNull(templateListId);
+            Assert.That(templateListId, Is.Not.EqualTo(null));
             Assert.That(templateListId.Count(), Is.EqualTo(4));
             Assert.That(templateListId[0].Label, Is.EqualTo("A"));
             Assert.That(templateListId[1].Label, Is.EqualTo("B"));
@@ -188,7 +188,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Default sorting including removed
             // Label
-            Assert.NotNull(templateListLabel);
+            Assert.That(templateListLabel, Is.Not.EqualTo(null));
             Assert.That(templateListLabel.Count(), Is.EqualTo(4));
             Assert.That(templateListLabel[0].Label, Is.EqualTo("A"));
             Assert.That(templateListLabel[1].Label, Is.EqualTo("B"));
@@ -201,7 +201,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Default sorting including removed
             // Description
-            Assert.NotNull(templateListDescription);
+            Assert.That(templateListDescription, Is.Not.EqualTo(null));
             Assert.That(templateListDescription.Count(), Is.EqualTo(4));
             Assert.That(templateListDescription[0].Label, Is.EqualTo("C"));
             Assert.That(templateListDescription[1].Label, Is.EqualTo("D"));
@@ -214,7 +214,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Default sorting including removed
             // Created At
-            Assert.NotNull(templateListCreatedAt);
+            Assert.That(templateListCreatedAt, Is.Not.EqualTo(null));
             Assert.That(templateListCreatedAt.Count(), Is.EqualTo(4));
             Assert.That(templateListCreatedAt[0].Label, Is.EqualTo("A"));
             Assert.That(templateListCreatedAt[1].Label, Is.EqualTo("B"));
@@ -227,7 +227,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Descending sorting including removed
             // Id
-            Assert.NotNull(templateListDescengingId);
+            Assert.That(templateListDescengingId, Is.Not.EqualTo(null));
             Assert.That(templateListDescengingId.Count(), Is.EqualTo(4));
             Assert.That(templateListDescengingId[0].Label, Is.EqualTo("C"));
             Assert.That(templateListDescengingId[1].Label, Is.EqualTo("D"));
@@ -240,7 +240,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Descending sorting including removed
             // Label
-            Assert.NotNull(templateListDescengingLabel);
+            Assert.That(templateListDescengingLabel, Is.Not.EqualTo(null));
             Assert.That(templateListDescengingLabel.Count(), Is.EqualTo(4));
             Assert.That(templateListDescengingLabel[0].Label, Is.EqualTo("D"));
             Assert.That(templateListDescengingLabel[1].Label, Is.EqualTo("C"));
@@ -253,7 +253,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Descending sorting including removed
             // Description
-            Assert.NotNull(templateListDescengingDescription);
+            Assert.That(templateListDescengingDescription, Is.Not.EqualTo(null));
             Assert.That(templateListDescengingDescription.Count(), Is.EqualTo(4));
             Assert.That(templateListDescengingDescription[0].Label, Is.EqualTo("A"));
             Assert.That(templateListDescengingDescription[1].Label, Is.EqualTo("B"));
@@ -266,7 +266,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Descending sorting including removed
             // Created At
-            Assert.NotNull(templateListDescengingCreatedAt);
+            Assert.That(templateListDescengingCreatedAt, Is.Not.EqualTo(null));
             Assert.That(templateListDescengingCreatedAt.Count(), Is.EqualTo(4));
             Assert.That(templateListDescengingCreatedAt[0].Label, Is.EqualTo("C"));
             Assert.That(templateListDescengingCreatedAt[1].Label, Is.EqualTo("D"));
@@ -283,7 +283,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Default sorting including removed
             // Id
-            Assert.NotNull(templateListIdNr);
+            Assert.That(templateListIdNr, Is.Not.EqualTo(null));
             Assert.That(templateListIdNr.Count(), Is.EqualTo(3));
             Assert.That(templateListIdNr[0].Label, Is.EqualTo("A"));
             Assert.That(templateListIdNr[1].Label, Is.EqualTo("D"));
@@ -294,7 +294,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Default sorting including removed
             // Label
-            Assert.NotNull(templateListLabelNr);
+            Assert.That(templateListLabelNr, Is.Not.EqualTo(null));
             Assert.That(templateListLabelNr.Count(), Is.EqualTo(3));
             Assert.That(templateListLabelNr[0].Label, Is.EqualTo("A"));
             Assert.That(templateListLabelNr[1].Label, Is.EqualTo("C"));
@@ -305,7 +305,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Default sorting including removed
             // Description
-            Assert.NotNull(templateListDescriptionNr);
+            Assert.That(templateListDescriptionNr, Is.Not.EqualTo(null));
             Assert.That(templateListDescriptionNr.Count(), Is.EqualTo(3));
             Assert.That(templateListDescriptionNr[0].Label, Is.EqualTo("C"));
             Assert.That(templateListDescriptionNr[1].Label, Is.EqualTo("D"));
@@ -316,7 +316,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Default sorting including removed
             // Created At
-            Assert.NotNull(templateListCreatedAtNr);
+            Assert.That(templateListCreatedAtNr, Is.Not.EqualTo(null));
             Assert.That(templateListCreatedAtNr.Count(), Is.EqualTo(3));
             Assert.That(templateListCreatedAtNr[0].Label, Is.EqualTo("A"));
             Assert.That(templateListCreatedAtNr[1].Label, Is.EqualTo("D"));
@@ -327,7 +327,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Descending sorting including removed
             // Id
-            Assert.NotNull(templateListDescengingIdNr);
+            Assert.That(templateListDescengingIdNr, Is.Not.EqualTo(null));
             Assert.That(templateListDescengingIdNr.Count(), Is.EqualTo(3));
             Assert.That(templateListDescengingIdNr[0].Label, Is.EqualTo("C"));
             Assert.That(templateListDescengingIdNr[1].Label, Is.EqualTo("D"));
@@ -338,7 +338,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Descending sorting including removed
             // Label
-            Assert.NotNull(templateListDescengingLabelNr);
+            Assert.That(templateListDescengingLabelNr, Is.Not.EqualTo(null));
             Assert.That(templateListDescengingLabelNr.Count(), Is.EqualTo(3));
             Assert.That(templateListDescengingLabelNr[0].Label, Is.EqualTo("D"));
             Assert.That(templateListDescengingLabelNr[1].Label, Is.EqualTo("C"));
@@ -349,7 +349,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Descending sorting including removed
             // Description
-            Assert.NotNull(templateListDescengingDescriptionNr);
+            Assert.That(templateListDescengingDescriptionNr, Is.Not.EqualTo(null));
             Assert.That(templateListDescengingDescriptionNr.Count(), Is.EqualTo(3));
             Assert.That(templateListDescengingDescriptionNr[0].Label, Is.EqualTo("A"));
             Assert.That(templateListDescengingDescriptionNr[1].Label, Is.EqualTo("D"));
@@ -360,7 +360,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Descending sorting including removed
             // Created At
-            Assert.NotNull(templateListDescengingCreatedAtNr);
+            Assert.That(templateListDescengingCreatedAtNr, Is.Not.EqualTo(null));
             Assert.That(templateListDescengingCreatedAtNr.Count(), Is.EqualTo(3));
             Assert.That(templateListDescengingCreatedAtNr[0].Label, Is.EqualTo("C"));
             Assert.That(templateListDescengingCreatedAtNr[1].Label, Is.EqualTo("D"));
@@ -394,7 +394,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             var checkLists = DbContext.CheckLists.AsNoTracking().ToList();
 
-            Assert.NotNull(clResult);
+            Assert.That(clResult, Is.Not.EqualTo(null));
             Assert.That(checkLists.Count(), Is.EqualTo(1));
             Assert.That(checkLists[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
         }
@@ -429,8 +429,8 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             CheckList cl1 = DbContext.CheckLists.AsNoTracking().First();
             // Assert
-            Assert.NotNull(templateId);
-            Assert.IsNull(cl1.ParentId);
+            Assert.That(templateId, Is.Not.EqualTo(null));
+            Assert.That(cl1.ParentId, Is.EqualTo(null));
             Assert.That(templateId, Is.EqualTo(cl1.Id));
             Assert.That(cl1.Label, Is.Null);
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("label1"));
@@ -640,7 +640,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             #region template1
 
-            Assert.NotNull(match1);
+            Assert.That(match1, Is.Not.EqualTo(null));
             Assert.That("Description1", Is.EqualTo(match1.Description));
             Assert.That("Label1", Is.EqualTo(match1.Label));
             Assert.That(Template1.CreatedAt.ToString(), Is.EqualTo(match1.CreatedAt.ToString()));
@@ -652,7 +652,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             #region template2
 
-            Assert.NotNull(match1);
+            Assert.That(match1, Is.Not.EqualTo(null));
             Assert.That("Description2", Is.EqualTo(match2.Description));
             Assert.That("Label2", Is.EqualTo(match2.Label));
             Assert.That(Template2.CreatedAt.ToString(), Is.EqualTo(match2.CreatedAt.ToString()));
@@ -664,7 +664,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             #region template3
 
-            Assert.NotNull(match1);
+            Assert.That(match1, Is.Not.EqualTo(null));
             Assert.That("Description3", Is.EqualTo(match3.Description));
             Assert.That("Label3", Is.EqualTo(match3.Label));
             Assert.That(Template3.CreatedAt.ToString(), Is.EqualTo(match3.CreatedAt.ToString()));
@@ -676,7 +676,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             #region template4
 
-            Assert.NotNull(match1);
+            Assert.That(match1, Is.Not.EqualTo(null));
             Assert.That("Description4", Is.EqualTo(match4.Description));
             Assert.That("Label4", Is.EqualTo(match4.Label));
             Assert.That(Template4.CreatedAt.ToString(), Is.EqualTo(match4.CreatedAt.ToString()));
@@ -870,7 +870,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             #region template1
 
-            Assert.NotNull(match1);
+            Assert.That(match1, Is.Not.EqualTo(null));
             Assert.That(Field1.Description, Is.EqualTo(match1[0].Description));
             Assert.That("Picture", Is.EqualTo(match1[0].FieldType));
             Assert.That(Field1.Label, Is.EqualTo(match1[0].Label));
@@ -885,7 +885,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             #region template2
 
-            Assert.NotNull(match2);
+            Assert.That(match2, Is.Not.EqualTo(null));
             Assert.That(Field3.Description, Is.EqualTo(match2[0].Description));
             Assert.That("Picture", Is.EqualTo(match2[0].FieldType));
             Assert.That(Field3.Label, Is.EqualTo(match2[0].Label));
@@ -905,7 +905,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             #region template3
 
-            Assert.NotNull(match3);
+            Assert.That(match3, Is.Not.EqualTo(null));
             Assert.That(Field6.Description, Is.EqualTo(match3[0].Description));
             Assert.That("Comment", Is.EqualTo(match3[0].FieldType));
             Assert.That(Field6.Label, Is.EqualTo(match3[0].Label));
@@ -920,7 +920,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             #region template4
 
-            Assert.NotNull(match4);
+            Assert.That(match4, Is.Not.EqualTo(null));
             Assert.That(Field8.Description, Is.EqualTo(match4[0].Description));
             Assert.That("Comment", Is.EqualTo(match4[0].FieldType));
             Assert.That(Field8.Label, Is.EqualTo(match4[0].Label));
@@ -990,10 +990,10 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             var match3 = await sut.TemplateDisplayIndexChange(Template3.Id, 2);
             var match4 = await sut.TemplateDisplayIndexChange(Template4.Id, 3);
             // Assert
-            Assert.NotNull(match1);
-            Assert.NotNull(match2);
-            Assert.NotNull(match3);
-            Assert.NotNull(match4);
+            Assert.That(match1, Is.Not.EqualTo(null));
+            Assert.That(match2, Is.Not.EqualTo(null));
+            Assert.That(match3, Is.Not.EqualTo(null));
+            Assert.That(match4, Is.Not.EqualTo(null));
             Assert.That(match1, Is.True);
             Assert.That(match2, Is.True);
             Assert.That(match3, Is.True);
@@ -1230,10 +1230,10 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Assert
 
-            Assert.NotNull(match1);
-            Assert.NotNull(match2);
-            Assert.NotNull(match3);
-            Assert.NotNull(match4);
+            Assert.That(match1, Is.Not.EqualTo(null));
+            Assert.That(match2, Is.Not.EqualTo(null));
+            Assert.That(match3, Is.Not.EqualTo(null));
+            Assert.That(match4, Is.Not.EqualTo(null));
             Assert.That(match1, Is.True);
             Assert.That(match2, Is.True);
             Assert.That(match3, Is.True);
@@ -1424,10 +1424,10 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
                 Field4.Id, Field5.Id, Field6.Id, Field7.Id, Field8.Id, Field9.Id, Field10.Id);
 
             // Assert
-            Assert.NotNull(match1);
-            Assert.NotNull(match2);
-            Assert.NotNull(match3);
-            Assert.NotNull(match4);
+            Assert.That(match1, Is.Not.EqualTo(null));
+            Assert.That(match2, Is.Not.EqualTo(null));
+            Assert.That(match3, Is.Not.EqualTo(null));
+            Assert.That(match4, Is.Not.EqualTo(null));
             Assert.That(match1, Is.True);
             Assert.That(match2, Is.True);
             Assert.That(match3, Is.True);

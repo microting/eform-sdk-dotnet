@@ -83,8 +83,8 @@ namespace eFormSDK.InSight.Tests
             List<SiteSurveyConfigurationVersion> siteSurveyConfigurationVersions =
                 DbContext.SiteSurveyConfigurationVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(siteSurveyConfigurations);
-            Assert.NotNull(siteSurveyConfigurationVersions);
+            Assert.That(siteSurveyConfigurations, Is.Not.EqualTo(null));
+            Assert.That(siteSurveyConfigurationVersions, Is.Not.EqualTo(null));
 
             Assert.That(siteSurveyConfigurations.Count(), Is.EqualTo(1));
             Assert.That(siteSurveyConfigurationVersions.Count(), Is.EqualTo(1));
@@ -161,8 +161,8 @@ namespace eFormSDK.InSight.Tests
             List<SiteSurveyConfigurationVersion> siteSurveyConfigurationVersions =
                 DbContext.SiteSurveyConfigurationVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(siteSurveyConfigurations);
-            Assert.NotNull(siteSurveyConfigurationVersions);
+            Assert.That(siteSurveyConfigurations, Is.Not.EqualTo(null));
+            Assert.That(siteSurveyConfigurationVersions, Is.Not.EqualTo(null));
 
             Assert.That(siteSurveyConfigurations.Count(), Is.EqualTo(1));
             Assert.That(siteSurveyConfigurationVersions.Count(), Is.EqualTo(2));

@@ -67,8 +67,8 @@ namespace eFormSDK.Base.Tests
             List<Folder> folders = DbContext.Folders.AsNoTracking().ToList();
             List<FolderVersion> folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(folders);
-            Assert.NotNull(folderVersions);
+            Assert.That(folders, Is.Not.EqualTo(null));
+            Assert.That(folderVersions, Is.Not.EqualTo(null));
 
             Assert.That(folders.Count(), Is.EqualTo(2));
             Assert.That(folderVersions.Count(), Is.EqualTo(2));
@@ -132,8 +132,8 @@ namespace eFormSDK.Base.Tests
             List<Folder> folders = DbContext.Folders.AsNoTracking().ToList();
             List<FolderVersion> folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(folders);
-            Assert.NotNull(folderVersions);
+            Assert.That(folders, Is.Not.EqualTo(null));
+            Assert.That(folderVersions, Is.Not.EqualTo(null));
 
             Assert.That(folders.Count(), Is.EqualTo(2));
             Assert.That(folderVersions.Count(), Is.EqualTo(3));
@@ -201,8 +201,8 @@ namespace eFormSDK.Base.Tests
             List<Folder> folders = DbContext.Folders.AsNoTracking().ToList();
             List<FolderVersion> folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(folders);
-            Assert.NotNull(folderVersions);
+            Assert.That(folders, Is.Not.EqualTo(null));
+            Assert.That(folderVersions, Is.Not.EqualTo(null));
 
             Assert.That(folders.Count(), Is.EqualTo(2));
             Assert.That(folderVersions.Count(), Is.EqualTo(3));

@@ -88,8 +88,8 @@ namespace eFormSDK.InSight.Tests
             List<Option> options = DbContext.Options.AsNoTracking().ToList();
             List<OptionVersion> optionVersions = DbContext.OptionVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(options);
-            Assert.NotNull(optionVersions);
+            Assert.That(options, Is.Not.EqualTo(null));
+            Assert.That(optionVersions, Is.Not.EqualTo(null));
 
             Assert.That(options.Count(), Is.EqualTo(1));
             Assert.That(optionVersions.Count(), Is.EqualTo(1));
@@ -175,8 +175,8 @@ namespace eFormSDK.InSight.Tests
             List<Option> options = DbContext.Options.AsNoTracking().ToList();
             List<OptionVersion> optionVersions = DbContext.OptionVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(options);
-            Assert.NotNull(optionVersions);
+            Assert.That(options, Is.Not.EqualTo(null));
+            Assert.That(optionVersions, Is.Not.EqualTo(null));
 
             Assert.That(options.Count(), Is.EqualTo(1));
             Assert.That(optionVersions.Count(), Is.EqualTo(2));
@@ -268,8 +268,8 @@ namespace eFormSDK.InSight.Tests
             List<Option> options = DbContext.Options.AsNoTracking().ToList();
             List<OptionVersion> optionVersions = DbContext.OptionVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(options);
-            Assert.NotNull(optionVersions);
+            Assert.That(options, Is.Not.EqualTo(null));
+            Assert.That(optionVersions, Is.Not.EqualTo(null));
 
             Assert.That(options.Count(), Is.EqualTo(1));
             Assert.That(optionVersions.Count(), Is.EqualTo(2));

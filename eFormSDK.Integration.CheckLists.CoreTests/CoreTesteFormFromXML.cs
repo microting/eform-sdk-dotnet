@@ -130,7 +130,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             var match = await sut.TemplateFromXml(xmlstring);
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.CaseType, Is.EqualTo(""));
             Assert.That(match.Repeated, Is.EqualTo(1));
             Assert.That(match.OriginalId, Is.EqualTo("9060"));
@@ -216,7 +216,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.Repeated, Is.EqualTo(1));
             Assert.That(match.Label, Is.EqualTo("Picture test"));
             // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
@@ -300,7 +300,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.Repeated, Is.EqualTo(1));
             Assert.That(match.Label, Is.EqualTo("Date"));
             // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
@@ -383,7 +383,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.Repeated, Is.EqualTo(1));
             Assert.That(match.Label, Is.EqualTo("ny pdf"));
             // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
@@ -496,7 +496,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.Repeated, Is.EqualTo(1));
             Assert.That(match.Label, Is.EqualTo("Tester grupper"));
             // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
@@ -612,7 +612,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.Repeated, Is.EqualTo(1));
             Assert.That(match.Label, Is.EqualTo("Billede og signatur"));
             // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
@@ -934,7 +934,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.Repeated, Is.EqualTo(1));
             Assert.That(match.Label, Is.EqualTo("Muligheder med Microting eForm"));
             // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
@@ -1273,7 +1273,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.Repeated, Is.EqualTo(1));
             Assert.That(match.Label, Is.EqualTo("Multiselect"));
             // Assert.AreEqual("2017-01-22", match.StartDate); TODO
@@ -1445,7 +1445,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.Repeated, Is.EqualTo(1));
             Assert.That(match.Label, Is.EqualTo("Single Select"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO
@@ -1580,7 +1580,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.Repeated, Is.EqualTo(1));
             Assert.That(match.Label, Is.EqualTo("comment"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO
@@ -1670,7 +1670,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.Repeated, Is.EqualTo(1));
             Assert.That(match.Label, Is.EqualTo("Single line"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO
@@ -1760,7 +1760,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.Repeated, Is.EqualTo(1));
             Assert.That(match.Label, Is.EqualTo("Number 1"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO
@@ -1844,7 +1844,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.Repeated, Is.EqualTo(1));
             Assert.That(match.Label, Is.EqualTo("Info box"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO
@@ -1924,7 +1924,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.Repeated, Is.EqualTo(1));
             Assert.That(match.Label, Is.EqualTo("checkbox"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO
@@ -2006,7 +2006,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.Repeated, Is.EqualTo(1));
             Assert.That(match.Label, Is.EqualTo("TimerStartStop"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO
@@ -2087,7 +2087,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.Repeated, Is.EqualTo(1));
             Assert.That(match.Label, Is.EqualTo("Save button"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO
@@ -2229,7 +2229,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.Repeated, Is.EqualTo(1));
             Assert.That(match.Label, Is.EqualTo("MultiLvlTest"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO

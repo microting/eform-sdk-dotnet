@@ -108,8 +108,8 @@ namespace eFormSDK.InSight.Tests
 
             // Assert
 
-            Assert.NotNull(optionTranslations);
-            Assert.NotNull(optionTranslationVersions);
+            Assert.That(optionTranslations, Is.Not.EqualTo(null));
+            Assert.That(optionTranslationVersions, Is.Not.EqualTo(null));
 
             Assert.That(optionTranslations.Count, Is.EqualTo(1));
             Assert.That(optionTranslationVersions.Count, Is.EqualTo(1));
@@ -194,8 +194,8 @@ namespace eFormSDK.InSight.Tests
 
             // Assert
 
-            Assert.NotNull(optionTranslations);
-            Assert.NotNull(optionTranslationVersions);
+            Assert.That(optionTranslations, Is.Not.EqualTo(null));
+            Assert.That(optionTranslationVersions, Is.Not.EqualTo(null));
 
             Assert.That(optionTranslations.Count, Is.EqualTo(1));
             Assert.That(optionTranslationVersions.Count, Is.EqualTo(1));
@@ -338,8 +338,8 @@ namespace eFormSDK.InSight.Tests
 
             // Assert
 
-            Assert.NotNull(optionTranslations);
-            Assert.NotNull(optionTranslationVersions);
+            Assert.That(optionTranslations, Is.Not.EqualTo(null));
+            Assert.That(optionTranslationVersions, Is.Not.EqualTo(null));
 
             Assert.That(optionTranslations.Count, Is.EqualTo(1));
             Assert.That(optionTranslationVersions.Count, Is.EqualTo(2));
@@ -483,8 +483,8 @@ namespace eFormSDK.InSight.Tests
 
             // Assert
 
-            Assert.NotNull(optionTranslations);
-            Assert.NotNull(optionTranslationVersions);
+            Assert.That(optionTranslations, Is.Not.EqualTo(null));
+            Assert.That(optionTranslationVersions, Is.Not.EqualTo(null));
 
             Assert.That(optionTranslations.Count, Is.EqualTo(1));
             Assert.That(optionTranslationVersions.Count, Is.EqualTo(2));
@@ -632,8 +632,8 @@ namespace eFormSDK.InSight.Tests
 
             // Assert
 
-            Assert.NotNull(optionTranslations);
-            Assert.NotNull(optionTranslationVersions);
+            Assert.That(optionTranslations, Is.Not.EqualTo(null));
+            Assert.That(optionTranslationVersions, Is.Not.EqualTo(null));
 
             Assert.That(optionTranslations.Count, Is.EqualTo(1));
             Assert.That(optionTranslationVersions.Count, Is.EqualTo(2));
@@ -779,8 +779,8 @@ namespace eFormSDK.InSight.Tests
 
             // Assert
 
-            Assert.NotNull(optionTranslations);
-            Assert.NotNull(optionTranslationVersions);
+            Assert.That(optionTranslations, Is.Not.EqualTo(null));
+            Assert.That(optionTranslationVersions, Is.Not.EqualTo(null));
 
             Assert.That(optionTranslations.Count, Is.EqualTo(1));
             Assert.That(optionTranslationVersions.Count, Is.EqualTo(2));
@@ -880,8 +880,8 @@ namespace eFormSDK.InSight.Tests
 
             // Assert
 
-            Assert.NotNull(optionTranslations);
-            Assert.NotNull(optionTranslationVersions);
+            Assert.That(optionTranslations, Is.Not.EqualTo(null));
+            Assert.That(optionTranslationVersions, Is.Not.EqualTo(null));
 
             Assert.That(optionTranslations.Count, Is.EqualTo(1));
             Assert.That(optionTranslationVersions.Count, Is.EqualTo(2));

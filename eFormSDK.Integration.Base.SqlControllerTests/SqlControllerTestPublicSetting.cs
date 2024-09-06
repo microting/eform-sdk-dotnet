@@ -241,7 +241,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
         //     var match = DbContext.Settings.AsNoTracking().ToList();
         //
         //     // Assert
-        //     Assert.NotNull(match);
+        //     Assert.That(match, Is.Not.EqualTo(null));
         //     #region Name
         //
         //     Assert.AreEqual(match[0].Name, "firstRunDone");

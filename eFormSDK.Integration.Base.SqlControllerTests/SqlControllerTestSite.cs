@@ -495,7 +495,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Assert
             var sites = DbContext.Sites.AsNoTracking().ToList();
 
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
 
             Assert.That(sites.Count(), Is.EqualTo(1));
             Assert.That(sites[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));

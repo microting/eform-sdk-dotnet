@@ -104,7 +104,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Microting.eForm.Infrastructure.Models.UploadedData ud = await sut.FileRead();
 
             // Assert
-            Assert.NotNull(ud);
+            Assert.That(ud, Is.Not.EqualTo(null));
             Assert.That(ud.Id, Is.EqualTo(dU.Id));
             Assert.That(ud.Checksum, Is.EqualTo(dU.Checksum));
             Assert.That(ud.Extension, Is.EqualTo(dU.Extension));
@@ -151,7 +151,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             UploadedData ud = await sut.GetUploadedData(dU.Id);
 
             // Assert
-            Assert.NotNull(ud);
+            Assert.That(ud, Is.Not.EqualTo(null));
             Assert.That(dU.Id, Is.EqualTo(ud.Id));
             Assert.That(dU.Extension, Is.EqualTo(ud.Extension));
             Assert.That(dU.UploaderId, Is.EqualTo(ud.UploaderId));
@@ -189,8 +189,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Assert
 
-            Assert.NotNull(ud);
-            Assert.NotNull(Ud);
+            Assert.That(ud, Is.Not.EqualTo(null));
             Assert.That(ud.Checksum, Is.EqualTo(Ud.Checksum));
             Assert.That(ud.Extension, Is.EqualTo(Ud.Extension));
             Assert.That(ud.CurrentFile, Is.EqualTo(Ud.CurrentFile));
@@ -253,7 +252,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             await sut.FileCaseFindMUId("url");
 
 
-            Assert.NotNull(fVs);
+            Assert.That(fVs, Is.Not.EqualTo(null));
             Assert.That(aCase1.Id, Is.EqualTo(fVs.CaseId));
         }
 
@@ -275,8 +274,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Assert
 
-            Assert.NotNull(uploadedDataResult);
-            Assert.NotNull(ud);
+            Assert.That(uploadedDataResult, Is.Not.EqualTo(null));
+            Assert.That(ud, Is.Not.EqualTo(null));
             Assert.That(uploadedDataResult[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(uploadedDataResult[0].Local, Is.EqualTo(0));
             Assert.That(uploadedDataResult[0].Version, Is.EqualTo(2));
@@ -299,8 +298,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             List<UploadedData> uploadedDataResult = DbContext.UploadedDatas.AsNoTracking().ToList();
 
 
-            Assert.NotNull(ud);
-            Assert.NotNull(uploadedDataResult);
+            Assert.That(ud, Is.Not.EqualTo(null));
+            Assert.That(uploadedDataResult, Is.Not.EqualTo(null));
             Assert.That(uploadedDataResult[0].Id, Is.EqualTo(ud.Id));
         }
 
@@ -317,8 +316,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             List<UploadedData> uploadedDataResult = DbContext.UploadedDatas.AsNoTracking().ToList();
 
             // Assert
-            Assert.NotNull(ud);
-            Assert.NotNull(uploadedDataResult);
+            Assert.That(ud, Is.Not.EqualTo(null));
+            Assert.That(uploadedDataResult, Is.Not.EqualTo(null));
             Assert.That(uploadedDataResult[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(uploadedDataResult[0].Version, Is.EqualTo(2));
             Assert.That(uploadedDataResult[0].Id, Is.EqualTo(ud.Id));

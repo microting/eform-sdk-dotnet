@@ -140,7 +140,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
                 await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
-            Assert.NotNull(cl);
+            Assert.That(cl, Is.Not.EqualTo(null));
             Assert.That(cl[0].CaseType, Is.EqualTo(""));
             Assert.That(cl[0].Repeated, Is.EqualTo(1));
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("CommentMain"));
@@ -165,7 +165,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
-            Assert.NotNull(_fields);
+            Assert.That(_fields, Is.Not.EqualTo(null));
             Assert.That(_fields.Count(), Is.EqualTo(1));
             Assert.That(_fields[0].CheckListId, Is.EqualTo(cl[1].Id));
             //Comment commentField = (Comment)dE.DataItemList[0];
@@ -234,7 +234,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
                 await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
-            Assert.NotNull(cl);
+            Assert.That(cl, Is.Not.EqualTo(null));
             Assert.That(cl[0].Repeated, Is.EqualTo(1));
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("Picture test"));
             // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
@@ -258,7 +258,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
-            Assert.NotNull(_fields);
+            Assert.That(_fields, Is.Not.EqualTo(null));
             Assert.That(_fields.Count(), Is.EqualTo(1));
             Assert.That(_fields[0].CheckListId, Is.EqualTo(cl[1].Id));
             Assert.That(fieldTranslations[0].Text, Is.EqualTo("Take two pictures"));
@@ -326,7 +326,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
                 await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
-            Assert.NotNull(cl);
+            Assert.That(cl, Is.Not.EqualTo(null));
             Assert.That(cl[0].Repeated, Is.EqualTo(1));
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("Date"));
             // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
@@ -350,7 +350,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
-            Assert.NotNull(_fields);
+            Assert.That(_fields, Is.Not.EqualTo(null));
             Assert.That(_fields.Count(), Is.EqualTo(1));
             Assert.That(_fields[0].CheckListId, Is.EqualTo(cl[1].Id));
             Assert.That(fieldTranslations[0].Text, Is.EqualTo("Select date"));
@@ -419,7 +419,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
                 await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
-            Assert.NotNull(cl);
+            Assert.That(cl, Is.Not.EqualTo(null));
             Assert.That(cl[0].Repeated, Is.EqualTo(1));
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("ny pdf"));
             // Assert.AreEqual("2017-08-04", match.StartDate); TODO
@@ -443,7 +443,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
-            Assert.NotNull(_fields);
+            Assert.That(_fields, Is.Not.EqualTo(null));
             Assert.That(_fields.Count(), Is.EqualTo(1));
             Assert.That(_fields[0].CheckListId, Is.EqualTo(cl[1].Id));
             Assert.That(fieldTranslations[0].Text, Is.EqualTo("bla"));
@@ -539,7 +539,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(cl);
+            Assert.That(cl, Is.Not.EqualTo(null));
             Assert.That(cl[0].Repeated, Is.EqualTo(1));
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("Tester grupper"));
             // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
@@ -660,7 +660,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(cl);
+            Assert.That(cl, Is.Not.EqualTo(null));
             Assert.That(cl[0].Repeated, Is.EqualTo(1));
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("Billede og signatur"));
             // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
@@ -990,7 +990,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(cl);
+            Assert.That(cl, Is.Not.EqualTo(null));
             Assert.That(cl[0].Repeated, Is.EqualTo(1));
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("Muligheder med Microting eForm"));
             // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
@@ -1361,7 +1361,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(cl);
+            Assert.That(cl, Is.Not.EqualTo(null));
             Assert.That(cl[0].Repeated, Is.EqualTo(1));
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("Multiselect"));
             // Assert.AreEqual("2017-01-22", match.StartDate); TODO
@@ -1548,7 +1548,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
 
             // Assert
-            Assert.NotNull(cl);
+            Assert.That(cl, Is.Not.EqualTo(null));
             Assert.That(cl[0].Repeated, Is.EqualTo(1));
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("Single Select"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO
@@ -1690,7 +1690,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
                 await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
-            Assert.NotNull(cl);
+            Assert.That(cl, Is.Not.EqualTo(null));
             Assert.That(cl[0].Repeated, Is.EqualTo(1));
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("comment"));
             // Assert.AreEqual("2017-08-04", match.StartDate); TODO
@@ -1714,7 +1714,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
-            Assert.NotNull(_fields);
+            Assert.That(_fields, Is.Not.EqualTo(null));
             Assert.That(_fields.Count(), Is.EqualTo(1));
             Assert.That(_fields[0].CheckListId, Is.EqualTo(cl[1].Id));
             Assert.That(fieldTranslations[0].Text, Is.EqualTo("Comment"));
@@ -1786,7 +1786,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
                 await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
-            Assert.NotNull(cl);
+            Assert.That(cl, Is.Not.EqualTo(null));
             Assert.That(cl[0].Repeated, Is.EqualTo(1));
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("Single line"));
             // Assert.AreEqual("2017-08-04", match.StartDate); TODO
@@ -1810,7 +1810,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
-            Assert.NotNull(_fields);
+            Assert.That(_fields, Is.Not.EqualTo(null));
             Assert.That(_fields.Count(), Is.EqualTo(1));
             Assert.That(_fields[0].CheckListId, Is.EqualTo(cl[1].Id));
             Assert.That(fieldTranslations[0].Text, Is.EqualTo("Single line 1"));
@@ -1883,7 +1883,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
                 await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
-            Assert.NotNull(cl);
+            Assert.That(cl, Is.Not.EqualTo(null));
             Assert.That(cl[0].Repeated, Is.EqualTo(1));
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("Number 1"));
             // Assert.AreEqual("2017-08-04", match.StartDate); TODO
@@ -1907,7 +1907,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
-            Assert.NotNull(_fields);
+            Assert.That(_fields, Is.Not.EqualTo(null));
             Assert.That(_fields.Count(), Is.EqualTo(1));
             Assert.That(_fields[0].CheckListId, Is.EqualTo(cl[1].Id));
             Assert.That(fieldTranslations[0].Text, Is.EqualTo("Number 1"));
@@ -1974,7 +1974,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
                 await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
-            Assert.NotNull(cl);
+            Assert.That(cl, Is.Not.EqualTo(null));
             Assert.That(cl[0].Repeated, Is.EqualTo(1));
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("Info box"));
             // Assert.AreEqual("2017-08-04", match.StartDate); TODO
@@ -1998,7 +1998,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
-            Assert.NotNull(_fields);
+            Assert.That(_fields, Is.Not.EqualTo(null));
             Assert.That(_fields.Count(), Is.EqualTo(1));
             Assert.That(_fields[0].CheckListId, Is.EqualTo(cl[1].Id));
             Assert.That(fieldTranslations[0].Text, Is.EqualTo("Info box 1"));
@@ -2060,7 +2060,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
                 await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
-            Assert.NotNull(cl);
+            Assert.That(cl, Is.Not.EqualTo(null));
             Assert.That(cl[0].Repeated, Is.EqualTo(1));
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("checkbox"));
             // Assert.AreEqual("2017-08-04", match.StartDate); TODO
@@ -2084,7 +2084,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
-            Assert.NotNull(_fields);
+            Assert.That(_fields, Is.Not.EqualTo(null));
             Assert.That(_fields.Count(), Is.EqualTo(1));
             Assert.That(_fields[0].CheckListId, Is.EqualTo(cl[1].Id));
             Assert.That(fieldTranslations[0].Text, Is.EqualTo("Checkbox 1"));
@@ -2148,7 +2148,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
                 await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
-            Assert.NotNull(cl);
+            Assert.That(cl, Is.Not.EqualTo(null));
             Assert.That(cl[0].Repeated, Is.EqualTo(1));
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("TimerStartStop"));
             // Assert.AreEqual("2017-08-04", match.StartDate); TODO
@@ -2172,7 +2172,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
-            Assert.NotNull(_fields);
+            Assert.That(_fields, Is.Not.EqualTo(null));
             Assert.That(_fields.Count(), Is.EqualTo(1));
             Assert.That(_fields[0].CheckListId, Is.EqualTo(cl[1].Id));
             Assert.That(fieldTranslations[0].Text, Is.EqualTo("Timer Start Stop 1"));
@@ -2235,7 +2235,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
                 await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
-            Assert.NotNull(cl);
+            Assert.That(cl, Is.Not.EqualTo(null));
             Assert.That(cl[0].Repeated, Is.EqualTo(1));
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("Save button"));
             // Assert.AreEqual("2017-08-04", match.StartDate); TODO
@@ -2259,7 +2259,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             List<Field> _fields = DbContext.Fields.AsNoTracking().ToList();
 
-            Assert.NotNull(_fields);
+            Assert.That(_fields, Is.Not.EqualTo(null));
             Assert.That(_fields.Count(), Is.EqualTo(1));
             Assert.That(_fields[0].CheckListId, Is.EqualTo(cl[1].Id));
             Assert.That(fieldTranslations[0].Text, Is.EqualTo("Save button 1"));
@@ -2382,7 +2382,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
                 await DbContext.FieldTranslations.AsNoTracking().ToListAsync();
 
             // Assert
-            Assert.NotNull(cl);
+            Assert.That(cl, Is.Not.EqualTo(null));
             Assert.That(cl[0].Repeated, Is.EqualTo(1));
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("MultiLvlTest"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO

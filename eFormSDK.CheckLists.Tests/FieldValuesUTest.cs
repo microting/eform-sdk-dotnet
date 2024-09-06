@@ -224,8 +224,8 @@ namespace eFormSDK.CheckLists.Tests
             List<FieldValue> fieldValues = DbContext.FieldValues.AsNoTracking().ToList();
             List<FieldValueVersion> fieldValueVersions = DbContext.FieldValueVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(fieldValues);
-            Assert.NotNull(fieldValueVersions);
+            Assert.That(fieldValues, Is.Not.EqualTo(null));
+            Assert.That(fieldValueVersions, Is.Not.EqualTo(null));
 
             Assert.That(fieldValues.Count(), Is.EqualTo(1));
             Assert.That(fieldValueVersions.Count(), Is.EqualTo(1));
@@ -475,8 +475,8 @@ namespace eFormSDK.CheckLists.Tests
             List<FieldValue> fieldValues = DbContext.FieldValues.AsNoTracking().ToList();
             List<FieldValueVersion> fieldValueVersions = DbContext.FieldValueVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(fieldValues);
-            Assert.NotNull(fieldValueVersions);
+            Assert.That(fieldValues, Is.Not.EqualTo(null));
+            Assert.That(fieldValueVersions, Is.Not.EqualTo(null));
 
             Assert.That(fieldValues.Count(), Is.EqualTo(1));
             Assert.That(fieldValueVersions.Count(), Is.EqualTo(2));
@@ -729,8 +729,8 @@ namespace eFormSDK.CheckLists.Tests
             List<FieldValue> fieldValues = DbContext.FieldValues.AsNoTracking().ToList();
             List<FieldValueVersion> fieldValueVersions = DbContext.FieldValueVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(fieldValues);
-            Assert.NotNull(fieldValueVersions);
+            Assert.That(fieldValues, Is.Not.EqualTo(null));
+            Assert.That(fieldValueVersions, Is.Not.EqualTo(null));
 
             Assert.That(fieldValues.Count(), Is.EqualTo(1));
             Assert.That(fieldValueVersions.Count(), Is.EqualTo(2));

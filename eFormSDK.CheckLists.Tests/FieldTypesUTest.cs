@@ -53,7 +53,7 @@ namespace eFormSDK.CheckLists.Tests
 
             //Assert Before creating new field type
 
-            Assert.NotNull(fieldTypes);
+            Assert.That(fieldTypes, Is.Not.EqualTo(null));
             Assert.That(fieldTypes.Count(), Is.EqualTo(19));
 
             //Assert after creating new field type
@@ -91,7 +91,7 @@ namespace eFormSDK.CheckLists.Tests
 
             //Assert
 
-            Assert.NotNull(fieldTypes);
+            Assert.That(fieldTypes, Is.Not.EqualTo(null));
             Assert.That(fieldTypes.Count(), Is.EqualTo(20));
 
             Assert.That(fieldTypes[19].Description, Is.EqualTo(fieldType.Description));
@@ -117,7 +117,7 @@ namespace eFormSDK.CheckLists.Tests
 
             //Assert before delete
 
-            Assert.NotNull(fieldTypes);
+            Assert.That(fieldTypes, Is.Not.EqualTo(null));
             Assert.That(fieldTypes.Count(), Is.EqualTo(20));
 
             //Assert after delete

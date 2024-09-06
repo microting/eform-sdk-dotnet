@@ -83,7 +83,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var notification = await DbContext.Notifications.FirstOrDefaultAsync(x =>
                 x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
 
-            Assert.NotNull(notification);
+            Assert.That(notification, Is.Not.EqualTo(null));
             Assert.That(DbContext.Notifications.Count(), Is.EqualTo(1));
             Assert.That(notification.Activity, Is.EqualTo(Constants.Notifications.RetrievedForm));
             Assert.That(notification.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
@@ -104,7 +104,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var notification = await DbContext.Notifications.FirstOrDefaultAsync(x =>
                 x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
 
-            Assert.NotNull(notification);
+            Assert.That(notification, Is.Not.EqualTo(null));
             Assert.That(DbContext.Notifications.Count(), Is.EqualTo(1));
             Assert.That(notification.Activity, Is.EqualTo(Constants.Notifications.Completed));
             Assert.That(notification.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
@@ -127,7 +127,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Assert
             NoteDto notification = await sut.NotificationReadFirst();
 
-            Assert.NotNull(notification);
+            Assert.That(notification, Is.Not.EqualTo(null));
             Assert.That(DbContext.Notifications.Count(), Is.EqualTo(2));
             Assert.That(notification.Activity, Is.EqualTo(Constants.Notifications.Completed));
             Assert.That(notification.MicrotingUId, Is.EqualTo(microtingUId1));
@@ -149,7 +149,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var notification = await DbContext.Notifications.FirstOrDefaultAsync(x =>
                 x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId);
 
-            Assert.NotNull(notification);
+            Assert.That(notification, Is.Not.EqualTo(null));
             Assert.That(DbContext.Notifications.Count(), Is.EqualTo(1));
             Assert.That(notification.Activity, Is.EqualTo(Constants.Notifications.Completed));
             Assert.That(notification.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Processed));
@@ -168,7 +168,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Assert
 
-            Assert.NotNull(notificationResult);
+            Assert.That(notificationResult, Is.Not.EqualTo(null));
             Assert.That(notificationResult.Count, Is.EqualTo(1));
             Assert.That(notificationResult[0].Activity, Is.EqualTo(Constants.Notifications.UnitActivate));
             Assert.That(notificationResult[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));

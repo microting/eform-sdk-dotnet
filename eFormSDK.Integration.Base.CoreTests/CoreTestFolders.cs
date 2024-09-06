@@ -107,8 +107,8 @@ namespace eFormSDK.Integration.Base.CoreTests
             var folderTranslations = DbContext.FolderTranslations.AsNoTracking().ToList();
             var folderTranslationVersions = DbContext.FolderTranslationVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(folders);
-            Assert.NotNull(folderVersions);
+            Assert.That(folders, Is.Not.EqualTo(null));
+            Assert.That(folderVersions, Is.Not.EqualTo(null));
 
             Assert.That(folders.Count, Is.EqualTo(1));
             Assert.That(folderVersions.Count, Is.EqualTo(2));
@@ -165,8 +165,8 @@ namespace eFormSDK.Integration.Base.CoreTests
             var folderTranslations = DbContext.FolderTranslations.AsNoTracking().ToList();
             var folderTranslationVersions = DbContext.FolderTranslationVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(folders);
-            Assert.NotNull(folderVersions);
+            Assert.That(folders, Is.Not.EqualTo(null));
+            Assert.That(folderVersions, Is.Not.EqualTo(null));
 
             Assert.That(folders.Count, Is.EqualTo(1));
             Assert.That(folderVersions.Count, Is.EqualTo(2));
@@ -241,8 +241,8 @@ namespace eFormSDK.Integration.Base.CoreTests
             var folderTranslations = DbContext.FolderTranslations.AsNoTracking().ToList();
             var folderTranslationVersions = DbContext.FolderTranslationVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(folders);
-            Assert.NotNull(folderVersions);
+            Assert.That(folders, Is.Not.EqualTo(null));
+            Assert.That(folderVersions, Is.Not.EqualTo(null));
 
             Assert.That(folders.Count, Is.EqualTo(2));
             Assert.That(folderVersions.Count, Is.EqualTo(4));
@@ -336,8 +336,8 @@ namespace eFormSDK.Integration.Base.CoreTests
             var folderTranslations = DbContext.FolderTranslations.AsNoTracking().ToList();
             var folderTranslationVersions = DbContext.FolderTranslationVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(folders);
-            Assert.NotNull(folderVersions);
+            Assert.That(folders, Is.Not.EqualTo(null));
+            Assert.That(folderVersions, Is.Not.EqualTo(null));
 
             Assert.That(folders.Count, Is.EqualTo(2));
             Assert.That(folderVersions.Count, Is.EqualTo(4));
@@ -428,8 +428,8 @@ namespace eFormSDK.Integration.Base.CoreTests
 
             //Assert
 
-            Assert.NotNull(folders);
-            Assert.NotNull(folderVersions);
+            Assert.That(folders, Is.Not.EqualTo(null));
+            Assert.That(folderVersions, Is.Not.EqualTo(null));
 
             Assert.That(folders.Count, Is.EqualTo(1));
             Assert.That(folderVersions.Count, Is.EqualTo(2));
@@ -489,8 +489,8 @@ namespace eFormSDK.Integration.Base.CoreTests
 
             //Assert
 
-            Assert.NotNull(folders);
-            Assert.NotNull(folderVersions);
+            Assert.That(folders, Is.Not.EqualTo(null));
+            Assert.That(folderVersions, Is.Not.EqualTo(null));
 
             Assert.That(folders.Count, Is.EqualTo(1));
             Assert.That(folderVersions.Count, Is.EqualTo(1));
@@ -590,8 +590,8 @@ namespace eFormSDK.Integration.Base.CoreTests
 
             //Assert
 
-            Assert.NotNull(folders);
-            Assert.NotNull(folderVersions);
+            Assert.That(folders, Is.Not.EqualTo(null));
+            Assert.That(folderVersions, Is.Not.EqualTo(null));
 
             Assert.That(folders.Count, Is.EqualTo(1));
             Assert.That(folderVersions.Count, Is.EqualTo(1));
@@ -709,8 +709,8 @@ namespace eFormSDK.Integration.Base.CoreTests
 
             //Assert
 
-            Assert.NotNull(folders);
-            Assert.NotNull(folderVersions);
+            Assert.That(folders, Is.Not.EqualTo(null));
+            Assert.That(folderVersions, Is.Not.EqualTo(null));
 
             Assert.That(folders.Count, Is.EqualTo(1));
             Assert.That(folderVersions.Count, Is.EqualTo(1));

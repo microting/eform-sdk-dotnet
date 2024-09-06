@@ -1197,7 +1197,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListDoneAt aCase1
 
-            Assert.NotNull(caseListDoneAt);
+            Assert.That(caseListDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListDoneAt.Count, Is.EqualTo(4));
             Assert.That(caseListDoneAt[0].CaseType, Is.EqualTo(aCase1.Type));
             Assert.That(caseListDoneAt[0].CaseUId, Is.EqualTo(aCase1.CaseUid));
@@ -1291,7 +1291,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListStatus aCase1
 
-            Assert.NotNull(caseListStatus);
+            Assert.That(caseListStatus, Is.Not.EqualTo(null));
             Assert.That(caseListStatus.Count, Is.EqualTo(4));
             Assert.That(caseListStatus[0].CaseType, Is.EqualTo(aCase1.Type));
             Assert.That(caseListStatus[0].CaseUId, Is.EqualTo(aCase1.CaseUid));
@@ -1385,7 +1385,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListUnitId aCase1
 
-            Assert.NotNull(caseListUnitId);
+            Assert.That(caseListUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListUnitId.Count, Is.EqualTo(4));
             Assert.That(caseListUnitId[0].CaseType, Is.EqualTo(aCase1.Type));
             Assert.That(caseListUnitId[0].CaseUId, Is.EqualTo(aCase1.CaseUid));
@@ -1484,7 +1484,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListDtDoneAt aCase1
 
-            Assert.NotNull(caseListDtDoneAt);
+            Assert.That(caseListDtDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListDtDoneAt.Count, Is.EqualTo(2));
             Assert.That(caseListDtDoneAt[0].CaseType, Is.EqualTo(aCase1.Type));
             Assert.That(caseListDtDoneAt[0].CaseUId, Is.EqualTo(aCase1.CaseUid));
@@ -1534,7 +1534,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListDtStatus aCase1
 
-            Assert.NotNull(caseListDtStatus);
+            Assert.That(caseListDtStatus, Is.Not.EqualTo(null));
             Assert.That(caseListDtStatus.Count, Is.EqualTo(2));
             Assert.That(caseListDtStatus[0].CaseType, Is.EqualTo(aCase1.Type));
             Assert.That(caseListDtStatus[0].CaseUId, Is.EqualTo(aCase1.CaseUid));
@@ -1584,7 +1584,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListDtUnitId aCase1
 
-            Assert.NotNull(caseListDtUnitId);
+            Assert.That(caseListDtUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListDtUnitId.Count, Is.EqualTo(2));
             Assert.That(caseListDtUnitId[0].CaseType, Is.EqualTo(aCase1.Type));
             Assert.That(caseListDtUnitId[0].CaseUId, Is.EqualTo(aCase1.CaseUid));
@@ -1642,7 +1642,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC1DoneAt aCase1
 
-            Assert.NotNull(caseListC1SortDoneAt);
+            Assert.That(caseListC1SortDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListC1SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1.type, caseListC1SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase1.case_uid, caseListC1SortDoneAt[0].CaseUId);
@@ -1666,7 +1666,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC1SortStatus aCase1
 
-            Assert.NotNull(caseListC1SortStatus);
+            Assert.That(caseListC1SortStatus, Is.Not.EqualTo(null));
             Assert.That(caseListC1SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1.type, caseListC1SortStatus[0].CaseType);
             // Assert.AreEqual(aCase1.case_uid, caseListC1SortStatus[0].CaseUId);
@@ -1690,7 +1690,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC1SortUnitId
 
-            Assert.NotNull(caseListC1SortUnitId);
+            Assert.That(caseListC1SortUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListC1SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1.type, caseListC1SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase1.case_uid, caseListC1SortUnitId[0].CaseUId);
@@ -1718,7 +1718,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC2DoneAt aCase2
 
-            Assert.NotNull(caseListC2SortDoneAt);
+            Assert.That(caseListC2SortDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListC2SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2.type, caseListC2SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase2.case_uid, caseListC2SortDoneAt[0].CaseUId);
@@ -1742,7 +1742,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC2SortStatus aCase2
 
-            Assert.NotNull(caseListC2SortStatus);
+            Assert.That(caseListC2SortStatus, Is.Not.EqualTo(null));
             Assert.That(caseListC2SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2.type, caseListC2SortStatus[0].CaseType);
             // Assert.AreEqual(aCase2.case_uid, caseListC2SortStatus[0].CaseUId);
@@ -1766,7 +1766,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC2SortUnitId aCase2
 
-            Assert.NotNull(caseListC2SortUnitId);
+            Assert.That(caseListC2SortUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListC2SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2.type, caseListC2SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase2.case_uid, caseListC2SortUnitId[0].CaseUId);
@@ -1794,7 +1794,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC3DoneAt aCase3
 
-            Assert.NotNull(caseListC3SortDoneAt);
+            Assert.That(caseListC3SortDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListC3SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3.type, caseListC3SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase3.case_uid, caseListC3SortDoneAt[0].CaseUId);
@@ -1818,7 +1818,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC3status aCase3
 
-            Assert.NotNull(caseListC3SortStatus);
+            Assert.That(caseListC3SortStatus, Is.Not.EqualTo(null));
             Assert.That(caseListC3SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3.type, caseListC3SortStatus[0].CaseType);
             // Assert.AreEqual(aCase3.case_uid, caseListC3SortStatus[0].CaseUId);
@@ -1842,7 +1842,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC3UnitId aCase3
 
-            Assert.NotNull(caseListC3SortUnitId);
+            Assert.That(caseListC3SortUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListC3SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3.type, caseListC3SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase3.case_uid, caseListC3SortUnitId[0].CaseUId);
@@ -1870,7 +1870,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC4SortDoneAt aCase4
 
-            Assert.NotNull(caseListC4SortDoneAt);
+            Assert.That(caseListC4SortDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListC4SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4.type, caseListC4SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase4.case_uid, caseListC4SortDoneAt[0].CaseUId);
@@ -1894,7 +1894,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC4SortStatus aCase4
 
-            Assert.NotNull(caseListC1SortDoneAt);
+            Assert.That(caseListC1SortDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListC1SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4.type, caseListC1SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase4.case_uid, caseListC1SortDoneAt[0].CaseUId);
@@ -1918,7 +1918,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC4SortUnitId aCase4
 
-            Assert.NotNull(caseListC4SortDoneAt);
+            Assert.That(caseListC4SortDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListC4SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4.type, caseListC4SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase4.case_uid, caseListC4SortDoneAt[0].CaseUId);
@@ -1951,7 +1951,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC1SortDtDoneAt aCase1
 
-            Assert.NotNull(caseListC1SortDtDoneAt);
+            Assert.That(caseListC1SortDtDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListC1SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1.type, caseListC1SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase1.case_uid, caseListC1SortDtDoneAt[0].CaseUId);
@@ -1975,7 +1975,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC1SortDtStatus aCase1
 
-            Assert.NotNull(caseListC1SortDtStatus);
+            Assert.That(caseListC1SortDtStatus, Is.Not.EqualTo(null));
             Assert.That(caseListC1SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1.type, caseListC1SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase1.case_uid, caseListC1SortDtStatus[0].CaseUId);
@@ -1999,7 +1999,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC1SortDtUnitId aCase1
 
-            Assert.NotNull(caseListC1SortDtUnitId);
+            Assert.That(caseListC1SortDtUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListC1SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1.type, caseListC1SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase1.case_uid, caseListC1SortDtUnitId[0].CaseUId);
@@ -2027,7 +2027,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC2SortDtDoneAt aCase2
 
-            Assert.NotNull(caseListC2SortDtDoneAt);
+            Assert.That(caseListC2SortDtDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListC2SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2.type, caseListC2SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase2.case_uid, caseListC2SortDtDoneAt[0].CaseUId);
@@ -2051,7 +2051,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC2SortDtStatus aCase2
 
-            Assert.NotNull(caseListC2SortDtStatus);
+            Assert.That(caseListC2SortDtStatus, Is.Not.EqualTo(null));
             Assert.That(caseListC2SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2.type, caseListC2SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase2.case_uid, caseListC2SortDtStatus[0].CaseUId);
@@ -2075,7 +2075,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC2SortDtUnitId aCase2
 
-            Assert.NotNull(caseListC2SortDtUnitId);
+            Assert.That(caseListC2SortDtUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListC2SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2.type, caseListC2SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase2.case_uid, caseListC2SortDtUnitId[0].CaseUId);
@@ -2103,7 +2103,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC3SortDtDoneAt aCase3
 
-            Assert.NotNull(caseListC3SortDtDoneAt);
+            Assert.That(caseListC3SortDtDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListC3SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3.type, caseListC3SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase3.case_uid, caseListC3SortDtDoneAt[0].CaseUId);
@@ -2127,7 +2127,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC3SortDtStatus aCase3
 
-            Assert.NotNull(caseListC3SortDtStatus);
+            Assert.That(caseListC3SortDtStatus, Is.Not.EqualTo(null));
             Assert.That(caseListC3SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3.type, caseListC3SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase3.case_uid, caseListC3SortDtStatus[0].CaseUId);
@@ -2151,7 +2151,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC3SortDtUnitId aCase3
 
-            Assert.NotNull(caseListC3SortDtUnitId);
+            Assert.That(caseListC3SortDtUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListC3SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3.type, caseListC3SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase3.case_uid, caseListC3SortDtUnitId[0].CaseUId);
@@ -2179,7 +2179,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC4SortDtDoneAt aCase4
 
-            Assert.NotNull(caseListC4SortDtDoneAt);
+            Assert.That(caseListC4SortDtDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListC4SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4.type, caseListC4SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase4.case_uid, caseListC4SortDtDoneAt[0].CaseUId);
@@ -2203,7 +2203,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC4SortDtStatus aCase4
 
-            Assert.NotNull(caseListC4SortDtStatus);
+            Assert.That(caseListC4SortDtStatus, Is.Not.EqualTo(null));
             Assert.That(caseListC4SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4.type, caseListC4SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase4.case_uid, caseListC4SortDtStatus[0].CaseUId);
@@ -2227,7 +2227,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC4SortDtUnitId aCase4
 
-            Assert.NotNull(caseListC4SortDtUnitId);
+            Assert.That(caseListC4SortDtUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListC4SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4.type, caseListC4SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase4.case_uid, caseListC4SortDtUnitId[0].CaseUId);
@@ -2267,7 +2267,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedDoneAt aCase1Removed
 
-            Assert.NotNull(caseListRemovedDoneAt);
+            Assert.That(caseListRemovedDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedDoneAt.Count, Is.EqualTo(4));
             Assert.That(caseListRemovedDoneAt[0].CaseType, Is.EqualTo(aCase1Removed.Type));
             Assert.That(caseListRemovedDoneAt[0].CaseUId, Is.EqualTo(aCase1Removed.CaseUid));
@@ -2365,7 +2365,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedStatus aCase1Removed
 
-            Assert.NotNull(caseListRemovedStatus);
+            Assert.That(caseListRemovedStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedStatus.Count, Is.EqualTo(4));
             Assert.That(caseListRemovedStatus[0].CaseType, Is.EqualTo(aCase1Removed.Type));
             Assert.That(caseListRemovedStatus[0].CaseUId, Is.EqualTo(aCase1Removed.CaseUid));
@@ -2463,7 +2463,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedUnitId aCase1Removed
 
-            Assert.NotNull(caseListRemovedUnitId);
+            Assert.That(caseListRemovedUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedUnitId.Count, Is.EqualTo(4));
             Assert.That(caseListRemovedUnitId[0].CaseType, Is.EqualTo(aCase1Removed.Type));
             Assert.That(caseListRemovedUnitId[0].CaseUId, Is.EqualTo(aCase1Removed.CaseUid));
@@ -2566,7 +2566,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedDtDoneAt aCase1Removed
 
-            Assert.NotNull(caseListRemovedDtDoneAt);
+            Assert.That(caseListRemovedDtDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedDtDoneAt.Count, Is.EqualTo(2));
             Assert.That(caseListRemovedDtDoneAt[0].CaseType, Is.EqualTo(aCase1Removed.Type));
             Assert.That(caseListRemovedDtDoneAt[0].CaseUId, Is.EqualTo(aCase1Removed.CaseUid));
@@ -2618,7 +2618,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedDtStatus aCase1Removed
 
-            Assert.NotNull(caseListRemovedDtStatus);
+            Assert.That(caseListRemovedDtStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedDtStatus.Count, Is.EqualTo(2));
             Assert.That(caseListRemovedDtStatus[0].CaseType, Is.EqualTo(aCase1Removed.Type));
             Assert.That(caseListRemovedDtStatus[0].CaseUId, Is.EqualTo(aCase1Removed.CaseUid));
@@ -2670,7 +2670,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedDtUnitId aCase1Removed
 
-            Assert.NotNull(caseListRemovedDtUnitId);
+            Assert.That(caseListRemovedDtUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedDtUnitId.Count, Is.EqualTo(2));
             Assert.That(caseListRemovedDtUnitId[0].CaseType, Is.EqualTo(aCase1Removed.Type));
             Assert.That(caseListRemovedDtUnitId[0].CaseUId, Is.EqualTo(aCase1Removed.CaseUid));
@@ -2731,7 +2731,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC1DoneAt aCase1Removed
 
-            Assert.NotNull(caseListRemovedC1SortDoneAt);
+            Assert.That(caseListRemovedC1SortDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC1SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Removed.type, caseListRemovedC1SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase1Removed.case_uid, caseListRemovedC1SortDoneAt[0].CaseUId);
@@ -2755,7 +2755,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedC1SortStatus aCase1Removed
 
-            Assert.NotNull(caseListRemovedC1SortStatus);
+            Assert.That(caseListRemovedC1SortStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC1SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Removed.type, caseListRemovedC1SortStatus[0].CaseType);
             // Assert.AreEqual(aCase1Removed.case_uid, caseListRemovedC1SortStatus[0].CaseUId);
@@ -2779,7 +2779,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedC1SortUnitId
 
-            Assert.NotNull(caseListRemovedC1SortUnitId);
+            Assert.That(caseListRemovedC1SortUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC1SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Removed.type, caseListRemovedC1SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase1Removed.case_uid, caseListRemovedC1SortUnitId[0].CaseUId);
@@ -2807,7 +2807,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC2DoneAt aCase2Removed
 
-            Assert.NotNull(caseListRemovedC2SortDoneAt);
+            Assert.That(caseListRemovedC2SortDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC2SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Removed.type, caseListRemovedC2SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase2Removed.case_uid, caseListRemovedC2SortDoneAt[0].CaseUId);
@@ -2831,7 +2831,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedC2SortStatus aCase2Removed
 
-            Assert.NotNull(caseListRemovedC2SortStatus);
+            Assert.That(caseListRemovedC2SortStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC2SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Removed.type, caseListRemovedC2SortStatus[0].CaseType);
             // Assert.AreEqual(aCase2Removed.case_uid, caseListRemovedC2SortStatus[0].CaseUId);
@@ -2855,7 +2855,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedC2SortUnitId aCase2Removed
 
-            Assert.NotNull(caseListRemovedC2SortUnitId);
+            Assert.That(caseListRemovedC2SortUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC2SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Removed.type, caseListRemovedC2SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase2Removed.case_uid, caseListRemovedC2SortUnitId[0].CaseUId);
@@ -2883,7 +2883,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC3DoneAt aCase3Removed
 
-            Assert.NotNull(caseListRemovedC3SortDoneAt);
+            Assert.That(caseListRemovedC3SortDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC3SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Removed.type, caseListRemovedC3SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase3Removed.case_uid, caseListRemovedC3SortDoneAt[0].CaseUId);
@@ -2907,7 +2907,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC3status aCase3Removed
 
-            Assert.NotNull(caseListRemovedC3SortStatus);
+            Assert.That(caseListRemovedC3SortStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC3SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Removed.type, caseListRemovedC3SortStatus[0].CaseType);
             // Assert.AreEqual(aCase3Removed.case_uid, caseListRemovedC3SortStatus[0].CaseUId);
@@ -2931,7 +2931,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC3UnitId aCase3Removed
 
-            Assert.NotNull(caseListRemovedC3SortUnitId);
+            Assert.That(caseListRemovedC3SortUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC3SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Removed.type, caseListRemovedC3SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase3Removed.case_uid, caseListRemovedC3SortUnitId[0].CaseUId);
@@ -2959,7 +2959,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedC4SortDoneAt aCase4Removed
 
-            Assert.NotNull(caseListRemovedC4SortDoneAt);
+            Assert.That(caseListRemovedC4SortDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC4SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Removed.type, caseListRemovedC4SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase4Removed.case_uid, caseListRemovedC4SortDoneAt[0].CaseUId);
@@ -2983,7 +2983,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedC4SortStatus aCase4Removed
 
-            Assert.NotNull(caseListRemovedC4SortStatus);
+            Assert.That(caseListRemovedC4SortStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC4SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Removed.type, caseListRemovedC4SortStatus[0].CaseType);
             // Assert.AreEqual(aCase4Removed.case_uid, caseListRemovedC4SortStatus[0].CaseUId);
@@ -3007,7 +3007,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedC4SortUnitId aCase4Removed
 
-            Assert.NotNull(caseListRemovedC4SortUnitId);
+            Assert.That(caseListRemovedC4SortUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC4SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Removed.type, caseListRemovedC4SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase4Removed.case_uid, caseListRemovedC4SortUnitId[0].CaseUId);
@@ -3040,7 +3040,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedC1SortDtDoneAt aCase1Removed
 
-            Assert.NotNull(caseListRemovedC1SortDtDoneAt);
+            Assert.That(caseListRemovedC1SortDtDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC1SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Removed.type, caseListRemovedC1SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase1Removed.case_uid, caseListRemovedC1SortDtDoneAt[0].CaseUId);
@@ -3064,7 +3064,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedC1SortDtStatus aCase1Removed
 
-            Assert.NotNull(caseListRemovedC1SortDtStatus);
+            Assert.That(caseListRemovedC1SortDtStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC1SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Removed.type, caseListRemovedC1SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase1Removed.case_uid, caseListRemovedC1SortDtStatus[0].CaseUId);
@@ -3088,7 +3088,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedC1SortDtUnitId aCase1Removed
 
-            Assert.NotNull(caseListRemovedC1SortDtUnitId);
+            Assert.That(caseListRemovedC1SortDtUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC1SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Removed.type, caseListRemovedC1SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase1Removed.case_uid, caseListRemovedC1SortDtUnitId[0].CaseUId);
@@ -3116,7 +3116,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedC2SortDtDoneAt aCase2Removed
 
-            Assert.NotNull(caseListRemovedC2SortDtDoneAt);
+            Assert.That(caseListRemovedC2SortDtDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC2SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Removed.type, caseListRemovedC2SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase2Removed.case_uid, caseListRemovedC2SortDtDoneAt[0].CaseUId);
@@ -3140,7 +3140,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedC2SortDtStatus aCase2Removed
 
-            Assert.NotNull(caseListRemovedC2SortDtStatus);
+            Assert.That(caseListRemovedC2SortDtStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC2SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Removed.type, caseListRemovedC2SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase2Removed.case_uid, caseListRemovedC2SortDtStatus[0].CaseUId);
@@ -3164,7 +3164,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedC2SortDtUnitId aCase2Removed
 
-            Assert.NotNull(caseListRemovedC2SortDtUnitId);
+            Assert.That(caseListRemovedC2SortDtUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC2SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Removed.type, caseListRemovedC2SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase2Removed.case_uid, caseListRemovedC2SortDtUnitId[0].CaseUId);
@@ -3192,7 +3192,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedC3SortDtDoneAt aCase3Removed
 
-            Assert.NotNull(caseListRemovedC3SortDtDoneAt);
+            Assert.That(caseListRemovedC3SortDtDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC3SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Removed.type, caseListRemovedC3SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase3Removed.case_uid, caseListRemovedC3SortDtDoneAt[0].CaseUId);
@@ -3216,7 +3216,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedC3SortDtStatus aCase3Removed
 
-            Assert.NotNull(caseListRemovedC3SortDtStatus);
+            Assert.That(caseListRemovedC3SortDtStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC3SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Removed.type, caseListRemovedC3SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase3Removed.case_uid, caseListRemovedC3SortDtStatus[0].CaseUId);
@@ -3240,7 +3240,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedC3SortDtUnitId aCase3Removed
 
-            Assert.NotNull(caseListRemovedC3SortDtUnitId);
+            Assert.That(caseListRemovedC3SortDtUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC3SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Removed.type, caseListRemovedC3SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase3Removed.case_uid, caseListRemovedC3SortDtUnitId[0].CaseUId);
@@ -3268,7 +3268,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedC4SortDtDoneAt aCase4Removed
 
-            Assert.NotNull(caseListRemovedC4SortDtDoneAt);
+            Assert.That(caseListRemovedC4SortDtDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC4SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Removed.type, caseListRemovedC4SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase4Removed.case_uid, caseListRemovedC4SortDtDoneAt[0].CaseUId);
@@ -3292,7 +3292,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedC4SortDtStatus aCase4Removed
 
-            Assert.NotNull(caseListRemovedC4SortDtStatus);
+            Assert.That(caseListRemovedC4SortDtStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC4SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Removed.type, caseListRemovedC4SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase4Removed.case_uid, caseListRemovedC4SortDtStatus[0].CaseUId);
@@ -3316,7 +3316,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRemovedC4SortDtUnitId aCase4Removed
 
-            Assert.NotNull(caseListRemovedC4SortDtUnitId);
+            Assert.That(caseListRemovedC4SortDtUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRemovedC4SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Removed.type, caseListRemovedC4SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase4Removed.case_uid, caseListRemovedC4SortDtUnitId[0].CaseUId);
@@ -3356,7 +3356,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedDoneAt aCase1Retracted
 
-            Assert.NotNull(caseListRetractedDoneAt);
+            Assert.That(caseListRetractedDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedDoneAt.Count, Is.EqualTo(4));
             Assert.That(caseListRetractedDoneAt[0].CaseType, Is.EqualTo(aCase1Retracted.Type));
             Assert.That(caseListRetractedDoneAt[0].CaseUId, Is.EqualTo(aCase1Retracted.CaseUid));
@@ -3454,7 +3454,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedStatus aCase1Retracted
 
-            Assert.NotNull(caseListRetractedStatus);
+            Assert.That(caseListRetractedStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedStatus.Count, Is.EqualTo(4));
             Assert.That(caseListRetractedStatus[0].CaseType, Is.EqualTo(aCase1Retracted.Type));
             Assert.That(caseListRetractedStatus[0].CaseUId, Is.EqualTo(aCase1Retracted.CaseUid));
@@ -3552,7 +3552,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedUnitId aCase1Retracted
 
-            Assert.NotNull(caseListRetractedUnitId);
+            Assert.That(caseListRetractedUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedUnitId.Count, Is.EqualTo(4));
             Assert.That(caseListRetractedUnitId[0].CaseType, Is.EqualTo(aCase1Retracted.Type));
             Assert.That(caseListRetractedUnitId[0].CaseUId, Is.EqualTo(aCase1Retracted.CaseUid));
@@ -3655,7 +3655,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedDtDoneAt aCase1Retracted
 
-            Assert.NotNull(caseListRetractedDtDoneAt);
+            Assert.That(caseListRetractedDtDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedDtDoneAt.Count, Is.EqualTo(2));
             Assert.That(caseListRetractedDtDoneAt[0].CaseType, Is.EqualTo(aCase1Retracted.Type));
             Assert.That(caseListRetractedDtDoneAt[0].CaseUId, Is.EqualTo(aCase1Retracted.CaseUid));
@@ -3707,7 +3707,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedDtStatus aCase1Retracted
 
-            Assert.NotNull(caseListRetractedDtStatus);
+            Assert.That(caseListRetractedDtStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedDtStatus.Count, Is.EqualTo(2));
             Assert.That(caseListRetractedDtStatus[0].CaseType, Is.EqualTo(aCase1Retracted.Type));
             Assert.That(caseListRetractedDtStatus[0].CaseUId, Is.EqualTo(aCase1Retracted.CaseUid));
@@ -3760,7 +3760,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedDtUnitId aCase1Retracted
 
-            Assert.NotNull(caseListRetractedDtUnitId);
+            Assert.That(caseListRetractedDtUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedDtUnitId.Count, Is.EqualTo(2));
             Assert.That(caseListRetractedDtUnitId[0].CaseType, Is.EqualTo(aCase1Retracted.Type));
             Assert.That(caseListRetractedDtUnitId[0].CaseUId, Is.EqualTo(aCase1Retracted.CaseUid));
@@ -3821,7 +3821,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC1DoneAt aCase1Retracted
 
-            Assert.NotNull(caseListRetractedC1SortDoneAt);
+            Assert.That(caseListRetractedC1SortDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC1SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Retracted.type, caseListRetractedC1SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase1Retracted.case_uid, caseListRetractedC1SortDoneAt[0].CaseUId);
@@ -3845,7 +3845,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedC1SortStatus aCase1Retracted
 
-            Assert.NotNull(caseListRetractedC1SortStatus);
+            Assert.That(caseListRetractedC1SortStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC1SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Retracted.type, caseListRetractedC1SortStatus[0].CaseType);
             // Assert.AreEqual(aCase1Retracted.case_uid, caseListRetractedC1SortStatus[0].CaseUId);
@@ -3869,7 +3869,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedC1SortUnitId
 
-            Assert.NotNull(caseListRetractedC1SortUnitId);
+            Assert.That(caseListRetractedC1SortUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC1SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Retracted.type, caseListRetractedC1SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase1Retracted.case_uid, caseListRetractedC1SortUnitId[0].CaseUId);
@@ -3897,7 +3897,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC2DoneAt aCase2Retracted
 
-            Assert.NotNull(caseListRetractedC2SortDoneAt);
+            Assert.That(caseListRetractedC2SortDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC2SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Retracted.type, caseListRetractedC2SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase2Retracted.case_uid, caseListRetractedC2SortDoneAt[0].CaseUId);
@@ -3921,7 +3921,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedC2SortStatus aCase2Retracted
 
-            Assert.NotNull(caseListRetractedC2SortStatus);
+            Assert.That(caseListRetractedC2SortStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC2SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Retracted.type, caseListRetractedC2SortStatus[0].CaseType);
             // Assert.AreEqual(aCase2Retracted.case_uid, caseListRetractedC2SortStatus[0].CaseUId);
@@ -3945,7 +3945,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedC2SortUnitId aCase2Retracted
 
-            Assert.NotNull(caseListRetractedC2SortUnitId);
+            Assert.That(caseListRetractedC2SortUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC2SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Retracted.type, caseListRetractedC2SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase2Retracted.case_uid, caseListRetractedC2SortUnitId[0].CaseUId);
@@ -3973,7 +3973,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC3DoneAt aCase3Retracted
 
-            Assert.NotNull(caseListRetractedC3SortDoneAt);
+            Assert.That(caseListRetractedC3SortDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC3SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Retracted.type, caseListRetractedC3SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase3Retracted.case_uid, caseListRetractedC3SortDoneAt[0].CaseUId);
@@ -3997,7 +3997,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC3status aCase3Retracted
 
-            Assert.NotNull(caseListRetractedC3SortStatus);
+            Assert.That(caseListRetractedC3SortStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC3SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Retracted.type, caseListRetractedC3SortStatus[0].CaseType);
             // Assert.AreEqual(aCase3Retracted.case_uid, caseListRetractedC3SortStatus[0].CaseUId);
@@ -4021,7 +4021,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListC3UnitId aCase3Retracted
 
-            Assert.NotNull(caseListRetractedC3SortUnitId);
+            Assert.That(caseListRetractedC3SortUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC3SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Retracted.type, caseListRetractedC3SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase3Retracted.case_uid, caseListRetractedC3SortUnitId[0].CaseUId);
@@ -4049,7 +4049,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedC4SortDoneAt aCase4Retracted
 
-            Assert.NotNull(caseListRetractedC4SortDoneAt);
+            Assert.That(caseListRetractedC4SortDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC4SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Retracted.type, caseListRetractedC4SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase4Retracted.case_uid, caseListRetractedC4SortDoneAt[0].CaseUId);
@@ -4073,7 +4073,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedC4SortStatus aCase4Retracted
 
-            Assert.NotNull(caseListRetractedC4SortStatus);
+            Assert.That(caseListRetractedC4SortStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC4SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Retracted.type, caseListRetractedC4SortStatus[0].CaseType);
             // Assert.AreEqual(aCase4Retracted.case_uid, caseListRetractedC4SortStatus[0].CaseUId);
@@ -4097,7 +4097,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedC4SortUnitId aCase4Retracted
 
-            Assert.NotNull(caseListRetractedC4SortUnitId);
+            Assert.That(caseListRetractedC4SortUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC4SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Retracted.type, caseListRetractedC4SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase4Retracted.case_uid, caseListRetractedC4SortUnitId[0].CaseUId);
@@ -4130,7 +4130,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedC1SortDtDoneAt aCase1Retracted
 
-            Assert.NotNull(caseListRetractedC1SortDtDoneAt);
+            Assert.That(caseListRetractedC1SortDtDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC1SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Retracted.type, caseListRetractedC1SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase1Retracted.case_uid, caseListRetractedC1SortDtDoneAt[0].CaseUId);
@@ -4154,7 +4154,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedC1SortDtStatus aCase1Retracted
 
-            Assert.NotNull(caseListRetractedC1SortDtStatus);
+            Assert.That(caseListRetractedC1SortDtStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC1SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Retracted.type, caseListRetractedC1SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase1Retracted.case_uid, caseListRetractedC1SortDtStatus[0].CaseUId);
@@ -4178,7 +4178,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedC1SortDtUnitId aCase1Retracted
 
-            Assert.NotNull(caseListRetractedC1SortDtUnitId);
+            Assert.That(caseListRetractedC1SortDtUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC1SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Retracted.type, caseListRetractedC1SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase1Retracted.case_uid, caseListRetractedC1SortDtUnitId[0].CaseUId);
@@ -4206,7 +4206,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedC2SortDtDoneAt aCase2Retracted
 
-            Assert.NotNull(caseListRetractedC2SortDtDoneAt);
+            Assert.That(caseListRetractedC2SortDtDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC2SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Retracted.type, caseListRetractedC2SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase2Retracted.case_uid, caseListRetractedC2SortDtDoneAt[0].CaseUId);
@@ -4230,7 +4230,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedC2SortDtStatus aCase2Retracted
 
-            Assert.NotNull(caseListRetractedC2SortDtStatus);
+            Assert.That(caseListRetractedC2SortDtStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC2SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Retracted.type, caseListRetractedC2SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase2Retracted.case_uid, caseListRetractedC2SortDtStatus[0].CaseUId);
@@ -4254,7 +4254,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedC2SortDtUnitId aCase2Retracted
 
-            Assert.NotNull(caseListRetractedC2SortDtUnitId);
+            Assert.That(caseListRetractedC2SortDtUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC2SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Retracted.type, caseListRetractedC2SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase2Retracted.case_uid, caseListRetractedC2SortDtUnitId[0].CaseUId);
@@ -4282,7 +4282,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedC3SortDtDoneAt aCase3Retracted
 
-            Assert.NotNull(caseListRetractedC3SortDtDoneAt);
+            Assert.That(caseListRetractedC3SortDtDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC3SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Retracted.type, caseListRetractedC3SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase3Retracted.case_uid, caseListRetractedC3SortDtDoneAt[0].CaseUId);
@@ -4306,7 +4306,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedC3SortDtStatus aCase3Retracted
 
-            Assert.NotNull(caseListRetractedC3SortDtStatus);
+            Assert.That(caseListRetractedC3SortDtStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC3SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Retracted.type, caseListRetractedC3SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase3Retracted.case_uid, caseListRetractedC3SortDtStatus[0].CaseUId);
@@ -4330,7 +4330,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedC3SortDtUnitId aCase3Retracted
 
-            Assert.NotNull(caseListRetractedC3SortDtUnitId);
+            Assert.That(caseListRetractedC3SortDtUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC3SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Retracted.type, caseListRetractedC3SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase3Retracted.case_uid, caseListRetractedC3SortDtUnitId[0].CaseUId);
@@ -4358,7 +4358,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedC4SortDtDoneAt aCase4Retracted
 
-            Assert.NotNull(caseListRetractedC4SortDtDoneAt);
+            Assert.That(caseListRetractedC4SortDtDoneAt, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC4SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Retracted.type, caseListRetractedC4SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase4Retracted.case_uid, caseListRetractedC4SortDtDoneAt[0].CaseUId);
@@ -4382,7 +4382,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedC4SortDtStatus aCase4Retracted
 
-            Assert.NotNull(caseListRetractedC4SortDtStatus);
+            Assert.That(caseListRetractedC4SortDtStatus, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC4SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Retracted.type, caseListRetractedC4SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase4Retracted.case_uid, caseListRetractedC4SortDtStatus[0].CaseUId);
@@ -4406,7 +4406,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             #region caseListRetractedC4SortDtUnitId aCase4Retracted
 
-            Assert.NotNull(caseListRetractedC4SortDtUnitId);
+            Assert.That(caseListRetractedC4SortDtUnitId, Is.Not.EqualTo(null));
             Assert.That(caseListRetractedC4SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Retracted.type, caseListRetractedC4SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase4Retracted.case_uid, caseListRetractedC4SortDtUnitId[0].CaseUId);

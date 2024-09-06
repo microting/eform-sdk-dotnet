@@ -684,7 +684,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchCreated
 
-            Assert.NotNull(matchEntityGroupAllSearchCreated);
+            Assert.That(matchEntityGroupAllSearchCreated, Is.Not.EqualTo(null));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchCreated.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreated.NumOfElements));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreated.EntityGroups.Count()));
@@ -693,7 +693,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectCreated
 
-            Assert.NotNull(matchEntityGroupAllSelectCreated);
+            Assert.That(matchEntityGroupAllSelectCreated, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreated.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectCreated.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreated.EntityGroups.Count()));
@@ -702,7 +702,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchRemoved
 
-            Assert.NotNull(matchEntityGroupAllSearchRemoved);
+            Assert.That(matchEntityGroupAllSearchRemoved, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemoved.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchRemoved.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemoved.EntityGroups.Count()));
@@ -711,7 +711,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectRemoved
 
-            Assert.NotNull(matchEntityGroupAllSelectRemoved);
+            Assert.That(matchEntityGroupAllSelectRemoved, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemoved.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectRemoved.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemoved.EntityGroups.Count()));
@@ -720,7 +720,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchNotRemoved
 
-            Assert.NotNull(matchEntityGroupAllSearchNotRemoved);
+            Assert.That(matchEntityGroupAllSearchNotRemoved, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemoved.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchNotRemoved.PageNum));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemoved.EntityGroups.Count));
@@ -729,7 +729,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectNotRemoved
 
-            Assert.NotNull(matchEntityGroupAllSelectNotRemoved);
+            Assert.That(matchEntityGroupAllSelectNotRemoved, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemoved.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectNotRemoved.PageNum));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemoved.EntityGroups.Count));
@@ -742,7 +742,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchCreatedWDesc
 
-            Assert.NotNull(matchEntityGroupAllSearchCreatedWDesc);
+            Assert.That(matchEntityGroupAllSearchCreatedWDesc, Is.Not.EqualTo(null));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchCreatedWDesc.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedWDesc.NumOfElements));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedWDesc.EntityGroups.Count));
@@ -751,7 +751,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectCreatedWDesc
 
-            Assert.NotNull(matchEntityGroupAllSelectCreatedWDesc);
+            Assert.That(matchEntityGroupAllSelectCreatedWDesc, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedWDesc.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectCreatedWDesc.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedWDesc.EntityGroups.Count));
@@ -760,7 +760,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchRemovedWDesc
 
-            Assert.NotNull(matchEntityGroupAllSearchRemovedWDesc);
+            Assert.That(matchEntityGroupAllSearchRemovedWDesc, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedWDesc.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchRemovedWDesc.PageNum));
 
@@ -768,7 +768,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectRemovedWDesc
 
-            Assert.NotNull(matchEntityGroupAllSelectRemovedWDesc);
+            Assert.That(matchEntityGroupAllSelectRemovedWDesc, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedWDesc.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectRemovedWDesc.PageNum));
 
@@ -776,7 +776,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchNotRemovedWDesc
 
-            Assert.NotNull(matchEntityGroupAllSearchNotRemovedWDesc);
+            Assert.That(matchEntityGroupAllSearchNotRemovedWDesc, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedWDesc.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchNotRemovedWDesc.PageNum));
 
@@ -784,7 +784,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectNotRemovedWDesc
 
-            Assert.NotNull(matchEntityGroupAllSelectNotRemovedWDesc);
+            Assert.That(matchEntityGroupAllSelectNotRemovedWDesc, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedWDesc.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectNotRemovedWDesc.PageNum));
 
@@ -800,7 +800,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchCreatedNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSearchCreatedNoNameFilter);
+            Assert.That(matchEntityGroupAllSearchCreatedNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchCreatedNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedNoNameFilter.NumOfElements));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedNoNameFilter.EntityGroups.Count()));
@@ -809,7 +809,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectCreatedNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSelectCreatedNoNameFilter);
+            Assert.That(matchEntityGroupAllSelectCreatedNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectCreatedNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedNoNameFilter.EntityGroups.Count()));
@@ -818,7 +818,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchRemovedNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSearchRemovedNoNameFilter);
+            Assert.That(matchEntityGroupAllSearchRemovedNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchRemovedNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedNoNameFilter.EntityGroups.Count()));
@@ -827,7 +827,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectRemovedNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSelectRemovedNoNameFilter);
+            Assert.That(matchEntityGroupAllSelectRemovedNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectRemovedNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedNoNameFilter.EntityGroups.Count()));
@@ -836,7 +836,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchNotRemovedNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSearchNotRemovedNoNameFilter);
+            Assert.That(matchEntityGroupAllSearchNotRemovedNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchNotRemovedNoNameFilter.PageNum));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedNoNameFilter.EntityGroups.Count()));
@@ -845,7 +845,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectNotRemovedNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSelectNotRemovedNoNameFilter);
+            Assert.That(matchEntityGroupAllSelectNotRemovedNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectNotRemovedNoNameFilter.PageNum));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedNoNameFilter.EntityGroups.Count()));
@@ -858,7 +858,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchCreatedWDescNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSearchCreatedWDescNoNameFilter);
+            Assert.That(matchEntityGroupAllSearchCreatedWDescNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchCreatedWDescNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedWDescNoNameFilter.NumOfElements));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedWDescNoNameFilter.EntityGroups.Count()));
@@ -867,7 +867,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectCreatedWDescNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSelectCreatedWDescNoNameFilter);
+            Assert.That(matchEntityGroupAllSelectCreatedWDescNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedWDescNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectCreatedWDescNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedWDescNoNameFilter.EntityGroups.Count()));
@@ -876,7 +876,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchRemovedWDescNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSearchRemovedWDescNoNameFilter);
+            Assert.That(matchEntityGroupAllSearchRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedWDescNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchRemovedWDescNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedWDescNoNameFilter.EntityGroups.Count()));
@@ -885,7 +885,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectRemovedWDescNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSelectRemovedWDescNoNameFilter);
+            Assert.That(matchEntityGroupAllSelectRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedWDescNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectRemovedWDescNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedWDescNoNameFilter.EntityGroups.Count()));
@@ -894,7 +894,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchNotRemovedWDescNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter);
+            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.PageNum));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.EntityGroups.Count()));
@@ -903,7 +903,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectNotRemovedWDescNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter);
+            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.PageNum));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.EntityGroups.Count()));
@@ -920,7 +920,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchCreatedNoSort
 
-            Assert.NotNull(matchEntityGroupAllSearchCreatedNoSort);
+            Assert.That(matchEntityGroupAllSearchCreatedNoSort, Is.Not.EqualTo(null));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchCreatedNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedNoSort.NumOfElements));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedNoSort.EntityGroups.Count()));
@@ -929,7 +929,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectCreatedNoSort
 
-            Assert.NotNull(matchEntityGroupAllSelectCreatedNoSort);
+            Assert.That(matchEntityGroupAllSelectCreatedNoSort, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectCreatedNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedNoSort.EntityGroups.Count()));
@@ -938,7 +938,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchRemovedNoSort
 
-            Assert.NotNull(matchEntityGroupAllSearchRemovedNoSort);
+            Assert.That(matchEntityGroupAllSearchRemovedNoSort, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchRemovedNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedNoSort.EntityGroups.Count()));
@@ -947,7 +947,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectRemovedNoSort
 
-            Assert.NotNull(matchEntityGroupAllSelectRemovedNoSort);
+            Assert.That(matchEntityGroupAllSelectRemovedNoSort, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectRemovedNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedNoSort.EntityGroups.Count()));
@@ -956,7 +956,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchNotRemovedNoSort
 
-            Assert.NotNull(matchEntityGroupAllSearchNotRemovedNoSort);
+            Assert.That(matchEntityGroupAllSearchNotRemovedNoSort, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchNotRemovedNoSort.PageNum));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedNoSort.EntityGroups.Count()));
@@ -965,7 +965,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectNotRemovedNoSort
 
-            Assert.NotNull(matchEntityGroupAllSelectNotRemovedNoSort);
+            Assert.That(matchEntityGroupAllSelectNotRemovedNoSort, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectNotRemovedNoSort.PageNum));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedNoSort.EntityGroups.Count()));
@@ -978,7 +978,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchCreatedWDescNoSort
 
-            Assert.NotNull(matchEntityGroupAllSearchCreatedWDescNoSort);
+            Assert.That(matchEntityGroupAllSearchCreatedWDescNoSort, Is.Not.EqualTo(null));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchCreatedWDescNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedWDescNoSort.NumOfElements));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedWDescNoSort.EntityGroups.Count()));
@@ -987,7 +987,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectCreatedWDescNoSort
 
-            Assert.NotNull(matchEntityGroupAllSelectCreatedWDescNoSort);
+            Assert.That(matchEntityGroupAllSelectCreatedWDescNoSort, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedWDescNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectCreatedWDescNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedWDescNoSort.EntityGroups.Count()));
@@ -996,7 +996,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchRemovedWDescNoSort
 
-            Assert.NotNull(matchEntityGroupAllSearchRemovedWDescNoSort);
+            Assert.That(matchEntityGroupAllSearchRemovedWDescNoSort, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedWDescNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchRemovedWDescNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedWDescNoSort.EntityGroups.Count()));
@@ -1005,7 +1005,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectRemovedWDescNoSort
 
-            Assert.NotNull(matchEntityGroupAllSelectRemovedWDescNoSort);
+            Assert.That(matchEntityGroupAllSelectRemovedWDescNoSort, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedWDescNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectRemovedWDescNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedWDescNoSort.EntityGroups.Count()));
@@ -1014,7 +1014,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchNotRemovedWDescNoSort
 
-            Assert.NotNull(matchEntityGroupAllSearchNotRemovedWDescNoSort);
+            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoSort, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedWDescNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchNotRemovedWDescNoSort.PageNum));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedWDescNoSort.EntityGroups.Count()));
@@ -1023,7 +1023,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectNotRemovedWDescNoSort
 
-            Assert.NotNull(matchEntityGroupAllSelectNotRemovedWDescNoSort);
+            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoSort, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedWDescNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectNotRemovedWDescNoSort.PageNum));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedWDescNoSort.EntityGroups.Count()));
@@ -1787,7 +1787,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchCreated
 
-            Assert.NotNull(matchEntityGroupAllSearchCreated);
+            Assert.That(matchEntityGroupAllSearchCreated, Is.Not.EqualTo(null));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchCreated.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreated.NumOfElements));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchCreated.EntityGroups.Count()));
@@ -1796,7 +1796,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectCreated
 
-            Assert.NotNull(matchEntityGroupAllSelectCreated);
+            Assert.That(matchEntityGroupAllSelectCreated, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreated.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectCreated.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectCreated.EntityGroups.Count()));
@@ -1805,7 +1805,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchRemoved
 
-            Assert.NotNull(matchEntityGroupAllSearchRemoved);
+            Assert.That(matchEntityGroupAllSearchRemoved, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemoved.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchRemoved.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchRemoved.EntityGroups.Count()));
@@ -1814,7 +1814,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectRemoved
 
-            Assert.NotNull(matchEntityGroupAllSelectRemoved);
+            Assert.That(matchEntityGroupAllSelectRemoved, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemoved.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectRemoved.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectRemoved.EntityGroups.Count()));
@@ -1823,7 +1823,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchNotRemoved
 
-            Assert.NotNull(matchEntityGroupAllSearchNotRemoved);
+            Assert.That(matchEntityGroupAllSearchNotRemoved, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemoved.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchNotRemoved.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchNotRemoved.EntityGroups.Count));
@@ -1832,7 +1832,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectNotRemoved
 
-            Assert.NotNull(matchEntityGroupAllSelectNotRemoved);
+            Assert.That(matchEntityGroupAllSelectNotRemoved, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemoved.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectNotRemoved.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectNotRemoved.EntityGroups.Count));
@@ -1845,7 +1845,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchCreatedWDesc
 
-            Assert.NotNull(matchEntityGroupAllSearchCreatedWDesc);
+            Assert.That(matchEntityGroupAllSearchCreatedWDesc, Is.Not.EqualTo(null));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchCreatedWDesc.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedWDesc.NumOfElements));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchCreatedWDesc.EntityGroups.Count));
@@ -1854,7 +1854,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectCreatedWDesc
 
-            Assert.NotNull(matchEntityGroupAllSelectCreatedWDesc);
+            Assert.That(matchEntityGroupAllSelectCreatedWDesc, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedWDesc.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectCreatedWDesc.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectCreatedWDesc.EntityGroups.Count));
@@ -1863,7 +1863,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchRemovedWDesc
 
-            Assert.NotNull(matchEntityGroupAllSearchRemovedWDesc);
+            Assert.That(matchEntityGroupAllSearchRemovedWDesc, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedWDesc.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchRemovedWDesc.PageNum));
 
@@ -1871,7 +1871,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectRemovedWDesc
 
-            Assert.NotNull(matchEntityGroupAllSelectRemovedWDesc);
+            Assert.That(matchEntityGroupAllSelectRemovedWDesc, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedWDesc.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectRemovedWDesc.PageNum));
 
@@ -1879,7 +1879,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchNotRemovedWDesc
 
-            Assert.NotNull(matchEntityGroupAllSearchNotRemovedWDesc);
+            Assert.That(matchEntityGroupAllSearchNotRemovedWDesc, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedWDesc.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchNotRemovedWDesc.PageNum));
 
@@ -1887,7 +1887,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectNotRemovedWDesc
 
-            Assert.NotNull(matchEntityGroupAllSelectNotRemovedWDesc);
+            Assert.That(matchEntityGroupAllSelectNotRemovedWDesc, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedWDesc.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectNotRemovedWDesc.PageNum));
 
@@ -1903,7 +1903,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchCreatedNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSearchCreatedNoNameFilter);
+            Assert.That(matchEntityGroupAllSearchCreatedNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchCreatedNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedNoNameFilter.NumOfElements));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchCreatedNoNameFilter.EntityGroups.Count()));
@@ -1912,7 +1912,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectCreatedNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSelectCreatedNoNameFilter);
+            Assert.That(matchEntityGroupAllSelectCreatedNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectCreatedNoNameFilter.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectCreatedNoNameFilter.EntityGroups.Count()));
@@ -1921,7 +1921,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchRemovedNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSearchRemovedNoNameFilter);
+            Assert.That(matchEntityGroupAllSearchRemovedNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchRemovedNoNameFilter.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchRemovedNoNameFilter.EntityGroups.Count()));
@@ -1930,7 +1930,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectRemovedNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSelectRemovedNoNameFilter);
+            Assert.That(matchEntityGroupAllSelectRemovedNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectRemovedNoNameFilter.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectRemovedNoNameFilter.EntityGroups.Count()));
@@ -1939,7 +1939,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchNotRemovedNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSearchNotRemovedNoNameFilter);
+            Assert.That(matchEntityGroupAllSearchNotRemovedNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchNotRemovedNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchNotRemovedNoNameFilter.EntityGroups.Count()));
@@ -1948,7 +1948,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectNotRemovedNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSelectNotRemovedNoNameFilter);
+            Assert.That(matchEntityGroupAllSelectNotRemovedNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectNotRemovedNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectNotRemovedNoNameFilter.EntityGroups.Count()));
@@ -1961,7 +1961,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchCreatedWDescNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSearchCreatedWDescNoNameFilter);
+            Assert.That(matchEntityGroupAllSearchCreatedWDescNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchCreatedWDescNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedWDescNoNameFilter.NumOfElements));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchCreatedWDescNoNameFilter.EntityGroups.Count()));
@@ -1970,7 +1970,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectCreatedWDescNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSelectCreatedWDescNoNameFilter);
+            Assert.That(matchEntityGroupAllSelectCreatedWDescNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedWDescNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectCreatedWDescNoNameFilter.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectCreatedWDescNoNameFilter.EntityGroups.Count()));
@@ -1979,7 +1979,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchRemovedWDescNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSearchRemovedWDescNoNameFilter);
+            Assert.That(matchEntityGroupAllSearchRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedWDescNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchRemovedWDescNoNameFilter.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchRemovedWDescNoNameFilter.EntityGroups.Count()));
@@ -1988,7 +1988,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectRemovedWDescNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSelectRemovedWDescNoNameFilter);
+            Assert.That(matchEntityGroupAllSelectRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedWDescNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectRemovedWDescNoNameFilter.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectRemovedWDescNoNameFilter.EntityGroups.Count()));
@@ -1997,7 +1997,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchNotRemovedWDescNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter);
+            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.EntityGroups.Count()));
@@ -2006,7 +2006,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectNotRemovedWDescNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter);
+            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.EntityGroups.Count()));
@@ -2023,7 +2023,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchCreatedNoSort
 
-            Assert.NotNull(matchEntityGroupAllSearchCreatedNoSort);
+            Assert.That(matchEntityGroupAllSearchCreatedNoSort, Is.Not.EqualTo(null));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchCreatedNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedNoSort.NumOfElements));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchCreatedNoSort.EntityGroups.Count()));
@@ -2032,7 +2032,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectCreatedNoSort
 
-            Assert.NotNull(matchEntityGroupAllSelectCreatedNoSort);
+            Assert.That(matchEntityGroupAllSelectCreatedNoSort, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectCreatedNoSort.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectCreatedNoSort.EntityGroups.Count()));
@@ -2041,7 +2041,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchRemovedNoSort
 
-            Assert.NotNull(matchEntityGroupAllSearchRemovedNoSort);
+            Assert.That(matchEntityGroupAllSearchRemovedNoSort, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchRemovedNoSort.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchRemovedNoSort.EntityGroups.Count()));
@@ -2050,7 +2050,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectRemovedNoSort
 
-            Assert.NotNull(matchEntityGroupAllSelectRemovedNoSort);
+            Assert.That(matchEntityGroupAllSelectRemovedNoSort, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectRemovedNoSort.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectRemovedNoSort.EntityGroups.Count()));
@@ -2059,7 +2059,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchNotRemovedNoSort
 
-            Assert.NotNull(matchEntityGroupAllSearchNotRemovedNoSort);
+            Assert.That(matchEntityGroupAllSearchNotRemovedNoSort, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchNotRemovedNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchNotRemovedNoSort.EntityGroups.Count()));
@@ -2068,7 +2068,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectNotRemovedNoSort
 
-            Assert.NotNull(matchEntityGroupAllSelectNotRemovedNoSort);
+            Assert.That(matchEntityGroupAllSelectNotRemovedNoSort, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectNotRemovedNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectNotRemovedNoSort.EntityGroups.Count()));
@@ -2081,7 +2081,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchCreatedWDescNoSort
 
-            Assert.NotNull(matchEntityGroupAllSearchCreatedWDescNoSort);
+            Assert.That(matchEntityGroupAllSearchCreatedWDescNoSort, Is.Not.EqualTo(null));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchCreatedWDescNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedWDescNoSort.NumOfElements));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchCreatedWDescNoSort.EntityGroups.Count()));
@@ -2090,7 +2090,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectCreatedWDescNoSort
 
-            Assert.NotNull(matchEntityGroupAllSelectCreatedWDescNoSort);
+            Assert.That(matchEntityGroupAllSelectCreatedWDescNoSort, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedWDescNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectCreatedWDescNoSort.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectCreatedWDescNoSort.EntityGroups.Count()));
@@ -2099,7 +2099,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchRemovedWDescNoSort
 
-            Assert.NotNull(matchEntityGroupAllSearchRemovedWDescNoSort);
+            Assert.That(matchEntityGroupAllSearchRemovedWDescNoSort, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedWDescNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchRemovedWDescNoSort.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchRemovedWDescNoSort.EntityGroups.Count()));
@@ -2108,7 +2108,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectRemovedWDescNoSort
 
-            Assert.NotNull(matchEntityGroupAllSelectRemovedWDescNoSort);
+            Assert.That(matchEntityGroupAllSelectRemovedWDescNoSort, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedWDescNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectRemovedWDescNoSort.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectRemovedWDescNoSort.EntityGroups.Count()));
@@ -2117,7 +2117,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchNotRemovedWDescNoSort
 
-            Assert.NotNull(matchEntityGroupAllSearchNotRemovedWDescNoSort);
+            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoSort, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedWDescNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSearchNotRemovedWDescNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchNotRemovedWDescNoSort.EntityGroups.Count()));
@@ -2126,7 +2126,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectNotRemovedWDescNoSort
 
-            Assert.NotNull(matchEntityGroupAllSelectNotRemovedWDescNoSort);
+            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoSort, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedWDescNoSort.NumOfElements));
             Assert.That(0, Is.EqualTo(matchEntityGroupAllSelectNotRemovedWDescNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectNotRemovedWDescNoSort.EntityGroups.Count()));
@@ -2151,7 +2151,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchCreatedB
 
-            Assert.NotNull(matchEntityGroupAllSearchCreatedB);
+            Assert.That(matchEntityGroupAllSearchCreatedB, Is.Not.EqualTo(null));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSearchCreatedB.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedB.NumOfElements));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchCreatedB.EntityGroups.Count()));
@@ -2160,7 +2160,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectCreatedB
 
-            Assert.NotNull(matchEntityGroupAllSelectCreatedB);
+            Assert.That(matchEntityGroupAllSelectCreatedB, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedB.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSelectCreatedB.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectCreatedB.EntityGroups.Count()));
@@ -2169,7 +2169,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchRemovedB
 
-            Assert.NotNull(matchEntityGroupAllSearchRemovedB);
+            Assert.That(matchEntityGroupAllSearchRemovedB, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedB.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSearchRemovedB.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchRemovedB.EntityGroups.Count()));
@@ -2178,7 +2178,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectRemovedB
 
-            Assert.NotNull(matchEntityGroupAllSelectRemovedB);
+            Assert.That(matchEntityGroupAllSelectRemovedB, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedB.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSelectRemovedB.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectRemovedB.EntityGroups.Count()));
@@ -2187,7 +2187,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchNotRemovedB
 
-            Assert.NotNull(matchEntityGroupAllSearchNotRemovedB);
+            Assert.That(matchEntityGroupAllSearchNotRemovedB, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedB.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSearchNotRemovedB.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchNotRemovedB.EntityGroups.Count));
@@ -2196,7 +2196,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectNotRemovedB
 
-            Assert.NotNull(matchEntityGroupAllSelectNotRemovedB);
+            Assert.That(matchEntityGroupAllSelectNotRemovedB, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedB.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSelectNotRemovedB.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectNotRemovedB.EntityGroups.Count));
@@ -2209,7 +2209,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchCreatedBWDesc
 
-            Assert.NotNull(matchEntityGroupAllSearchCreatedBWDesc);
+            Assert.That(matchEntityGroupAllSearchCreatedBWDesc, Is.Not.EqualTo(null));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSearchCreatedBWDesc.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedBWDesc.NumOfElements));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchCreatedBWDesc.EntityGroups.Count));
@@ -2218,7 +2218,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectCreatedBWDesc
 
-            Assert.NotNull(matchEntityGroupAllSelectCreatedBWDesc);
+            Assert.That(matchEntityGroupAllSelectCreatedBWDesc, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedBWDesc.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSelectCreatedBWDesc.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectCreatedBWDesc.EntityGroups.Count));
@@ -2227,7 +2227,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchRemovedBWDesc
 
-            Assert.NotNull(matchEntityGroupAllSearchRemovedBWDesc);
+            Assert.That(matchEntityGroupAllSearchRemovedBWDesc, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedBWDesc.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSearchRemovedBWDesc.PageNum));
 
@@ -2235,7 +2235,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectRemovedBWDesc
 
-            Assert.NotNull(matchEntityGroupAllSelectRemovedBWDesc);
+            Assert.That(matchEntityGroupAllSelectRemovedBWDesc, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedBWDesc.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSelectRemovedBWDesc.PageNum));
 
@@ -2243,7 +2243,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchNotRemovedBWDesc
 
-            Assert.NotNull(matchEntityGroupAllSearchNotRemovedBWDesc);
+            Assert.That(matchEntityGroupAllSearchNotRemovedBWDesc, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedBWDesc.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSearchNotRemovedBWDesc.PageNum));
 
@@ -2251,7 +2251,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectNotRemovedBWDesc
 
-            Assert.NotNull(matchEntityGroupAllSelectNotRemovedBWDesc);
+            Assert.That(matchEntityGroupAllSelectNotRemovedBWDesc, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedBWDesc.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSelectNotRemovedBWDesc.PageNum));
 
@@ -2267,7 +2267,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchCreatedBNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSearchCreatedBNoNameFilter);
+            Assert.That(matchEntityGroupAllSearchCreatedBNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSearchCreatedBNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedBNoNameFilter.NumOfElements));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchCreatedBNoNameFilter.EntityGroups.Count()));
@@ -2276,7 +2276,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectCreatedBNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSelectCreatedBNoNameFilter);
+            Assert.That(matchEntityGroupAllSelectCreatedBNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedBNoNameFilter.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSelectCreatedBNoNameFilter.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectCreatedBNoNameFilter.EntityGroups.Count()));
@@ -2285,7 +2285,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchRemovedBNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSearchRemovedBNoNameFilter);
+            Assert.That(matchEntityGroupAllSearchRemovedBNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedBNoNameFilter.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSearchRemovedBNoNameFilter.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchRemovedBNoNameFilter.EntityGroups.Count()));
@@ -2294,7 +2294,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectRemovedBNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSelectRemovedBNoNameFilter);
+            Assert.That(matchEntityGroupAllSelectRemovedBNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedBNoNameFilter.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSelectRemovedBNoNameFilter.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectRemovedBNoNameFilter.EntityGroups.Count()));
@@ -2303,7 +2303,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchNotRemovedBNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSearchNotRemovedBNoNameFilter);
+            Assert.That(matchEntityGroupAllSearchNotRemovedBNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedBNoNameFilter.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSearchNotRemovedBNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchNotRemovedBNoNameFilter.EntityGroups.Count()));
@@ -2312,7 +2312,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectNotRemovedBNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSelectNotRemovedBNoNameFilter);
+            Assert.That(matchEntityGroupAllSelectNotRemovedBNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedBNoNameFilter.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSelectNotRemovedBNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectNotRemovedBNoNameFilter.EntityGroups.Count()));
@@ -2325,7 +2325,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchCreatedBWDescNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSearchCreatedBWDescNoNameFilter);
+            Assert.That(matchEntityGroupAllSearchCreatedBWDescNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSearchCreatedBWDescNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedBWDescNoNameFilter.NumOfElements));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchCreatedBWDescNoNameFilter.EntityGroups.Count()));
@@ -2334,7 +2334,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectCreatedBWDescNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSelectCreatedBWDescNoNameFilter);
+            Assert.That(matchEntityGroupAllSelectCreatedBWDescNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedBWDescNoNameFilter.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSelectCreatedBWDescNoNameFilter.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectCreatedBWDescNoNameFilter.EntityGroups.Count()));
@@ -2343,7 +2343,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchRemovedBWDescNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSearchRemovedBWDescNoNameFilter);
+            Assert.That(matchEntityGroupAllSearchRemovedBWDescNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedBWDescNoNameFilter.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSearchRemovedBWDescNoNameFilter.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchRemovedBWDescNoNameFilter.EntityGroups.Count()));
@@ -2352,7 +2352,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectRemovedBWDescNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSelectRemovedBWDescNoNameFilter);
+            Assert.That(matchEntityGroupAllSelectRemovedBWDescNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedBWDescNoNameFilter.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSelectRemovedBWDescNoNameFilter.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectRemovedBWDescNoNameFilter.EntityGroups.Count()));
@@ -2361,7 +2361,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter);
+            Assert.That(matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter.EntityGroups.Count()));
@@ -2370,7 +2370,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter
 
-            Assert.NotNull(matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter);
+            Assert.That(matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter.EntityGroups.Count()));
@@ -2387,7 +2387,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchCreatedBNoSort
 
-            Assert.NotNull(matchEntityGroupAllSearchCreatedBNoSort);
+            Assert.That(matchEntityGroupAllSearchCreatedBNoSort, Is.Not.EqualTo(null));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSearchCreatedBNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedBNoSort.NumOfElements));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchCreatedBNoSort.EntityGroups.Count()));
@@ -2396,7 +2396,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectCreatedBNoSort
 
-            Assert.NotNull(matchEntityGroupAllSelectCreatedBNoSort);
+            Assert.That(matchEntityGroupAllSelectCreatedBNoSort, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedBNoSort.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSelectCreatedBNoSort.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectCreatedBNoSort.EntityGroups.Count()));
@@ -2405,7 +2405,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchRemovedBNoSort
 
-            Assert.NotNull(matchEntityGroupAllSearchRemovedBNoSort);
+            Assert.That(matchEntityGroupAllSearchRemovedBNoSort, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedBNoSort.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSearchRemovedBNoSort.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchRemovedBNoSort.EntityGroups.Count()));
@@ -2414,7 +2414,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectRemovedBNoSort
 
-            Assert.NotNull(matchEntityGroupAllSelectRemovedBNoSort);
+            Assert.That(matchEntityGroupAllSelectRemovedBNoSort, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedBNoSort.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSelectRemovedBNoSort.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectRemovedBNoSort.EntityGroups.Count()));
@@ -2423,7 +2423,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchNotRemovedBNoSort
 
-            Assert.NotNull(matchEntityGroupAllSearchNotRemovedBNoSort);
+            Assert.That(matchEntityGroupAllSearchNotRemovedBNoSort, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedBNoSort.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSearchNotRemovedBNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchNotRemovedBNoSort.EntityGroups.Count()));
@@ -2432,7 +2432,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectNotRemovedBNoSort
 
-            Assert.NotNull(matchEntityGroupAllSelectNotRemovedBNoSort);
+            Assert.That(matchEntityGroupAllSelectNotRemovedBNoSort, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedBNoSort.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSelectNotRemovedBNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectNotRemovedBNoSort.EntityGroups.Count()));
@@ -2445,7 +2445,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchCreatedBWDescNoSort
 
-            Assert.NotNull(matchEntityGroupAllSearchCreatedBWDescNoSort);
+            Assert.That(matchEntityGroupAllSearchCreatedBWDescNoSort, Is.Not.EqualTo(null));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSearchCreatedBWDescNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchCreatedBWDescNoSort.NumOfElements));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchCreatedBWDescNoSort.EntityGroups.Count()));
@@ -2454,7 +2454,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectCreatedBWDescNoSort
 
-            Assert.NotNull(matchEntityGroupAllSelectCreatedBWDescNoSort);
+            Assert.That(matchEntityGroupAllSelectCreatedBWDescNoSort, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectCreatedBWDescNoSort.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSelectCreatedBWDescNoSort.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectCreatedBWDescNoSort.EntityGroups.Count()));
@@ -2463,7 +2463,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchRemovedBWDescNoSort
 
-            Assert.NotNull(matchEntityGroupAllSearchRemovedBWDescNoSort);
+            Assert.That(matchEntityGroupAllSearchRemovedBWDescNoSort, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchRemovedBWDescNoSort.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSearchRemovedBWDescNoSort.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSearchRemovedBWDescNoSort.EntityGroups.Count()));
@@ -2472,7 +2472,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectRemovedBWDescNoSort
 
-            Assert.NotNull(matchEntityGroupAllSelectRemovedBWDescNoSort);
+            Assert.That(matchEntityGroupAllSelectRemovedBWDescNoSort, Is.Not.EqualTo(null));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectRemovedBWDescNoSort.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSelectRemovedBWDescNoSort.PageNum));
             Assert.That(5, Is.EqualTo(matchEntityGroupAllSelectRemovedBWDescNoSort.EntityGroups.Count()));
@@ -2481,7 +2481,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSearchNotRemovedBWDescNoSort
 
-            Assert.NotNull(matchEntityGroupAllSearchNotRemovedBWDescNoSort);
+            Assert.That(matchEntityGroupAllSearchNotRemovedBWDescNoSort, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSearchNotRemovedBWDescNoSort.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSearchNotRemovedBWDescNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSearchNotRemovedBWDescNoSort.EntityGroups.Count()));
@@ -2490,7 +2490,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region matchEntityGroupAllSelectNotRemovedBWDescNoSort
 
-            Assert.NotNull(matchEntityGroupAllSelectNotRemovedBWDescNoSort);
+            Assert.That(matchEntityGroupAllSelectNotRemovedBWDescNoSort, Is.Not.EqualTo(null));
             Assert.That(20, Is.EqualTo(matchEntityGroupAllSelectNotRemovedBWDescNoSort.NumOfElements));
             Assert.That(1, Is.EqualTo(matchEntityGroupAllSelectNotRemovedBWDescNoSort.PageNum));
             Assert.That(10, Is.EqualTo(matchEntityGroupAllSelectNotRemovedBWDescNoSort.EntityGroups.Count()));
@@ -2859,9 +2859,9 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             //// Assert
             //#region Created
-            // Assert.NotNull(entityGroupSortByIdCreated);
-            // Assert.NotNull(entityGroupSortByIdNameCreated);
-            // Assert.NotNull(entityGroupSortByNameCreated);
+            // Assert.That(entityGroupSortByIdCreated, Is.Not.EqualTo(null));
+            // Assert.That(entityGroupSortByIdNameCreated, Is.Not.EqualTo(null));
+            // Assert.That(entityGroupSortByNameCreated, Is.Not.EqualTo(null));
             // Assert.AreEqual(10, entityGroupSortByIdCreated.EntityGroupMUId.Count());
 
 

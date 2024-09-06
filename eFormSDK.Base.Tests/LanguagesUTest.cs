@@ -56,8 +56,8 @@ namespace eFormSDK.Base.Tests
             List<Language> languages = DbContext.Languages.AsNoTracking().ToList();
             List<LanguageVersion> languageVersions = DbContext.LanguageVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(languages);
-            Assert.NotNull(languageVersions);
+            Assert.That(languages, Is.Not.EqualTo(null));
+            Assert.That(languageVersions, Is.Not.EqualTo(null));
 
             Assert.That(languages.Count, Is.EqualTo(29));
             Assert.That(languageVersions.Count, Is.EqualTo(31));
@@ -108,8 +108,8 @@ namespace eFormSDK.Base.Tests
             List<Language> languages = DbContext.Languages.AsNoTracking().ToList();
             List<LanguageVersion> languageVersions = DbContext.LanguageVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(languages);
-            Assert.NotNull(languageVersions);
+            Assert.That(languages, Is.Not.EqualTo(null));
+            Assert.That(languageVersions, Is.Not.EqualTo(null));
 
             Assert.That(languages.Count, Is.EqualTo(29));
             Assert.That(languageVersions.Count, Is.EqualTo(32));
@@ -164,8 +164,8 @@ namespace eFormSDK.Base.Tests
             List<Language> languages = DbContext.Languages.AsNoTracking().ToList();
             List<LanguageVersion> languageVersions = DbContext.LanguageVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(languages);
-            Assert.NotNull(languageVersions);
+            Assert.That(languages, Is.Not.EqualTo(null));
+            Assert.That(languageVersions, Is.Not.EqualTo(null));
 
             Assert.That(languages.Count, Is.EqualTo(29));
             Assert.That(languageVersions.Count, Is.EqualTo(32));

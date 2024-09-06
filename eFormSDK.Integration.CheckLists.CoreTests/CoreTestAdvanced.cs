@@ -109,7 +109,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Act
             bool match = await sut.Advanced_TemplateDisplayIndexChangeDb(cl1.Id, 5).ConfigureAwait(false);
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match, Is.True);
         }
 
@@ -133,7 +133,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             //// Act
             //bool match = await sut.Advanced_TemplateDisplayIndexChangeServer(cl1.Id,(int)site.microting_uid, 5);
             //// Assert
-            // Assert.NotNull(match);
+            // Assert.That(match, Is.Not.EqualTo(null));
             // Assert.True(match);
         }
 #pragma warning restore 1998
@@ -328,7 +328,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
                     f8.Id, f9.Id, f10.Id).ConfigureAwait(false);
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match, Is.True);
         }
 
@@ -513,7 +513,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             #region template1
 
-            Assert.NotNull(match1);
+            Assert.That(match1, Is.Not.EqualTo(null));
             Assert.That(Field1.Description, Is.EqualTo(match1[0].Description));
             Assert.That("Picture", Is.EqualTo(match1[0].FieldType));
             Assert.That(Field1.Label, Is.EqualTo(match1[0].Label));
@@ -528,7 +528,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             #region template2
 
-            Assert.NotNull(match2);
+            Assert.That(match2, Is.Not.EqualTo(null));
             Assert.That(Field3.Description, Is.EqualTo(match2[0].Description));
             Assert.That("Picture", Is.EqualTo(match2[0].FieldType));
             Assert.That(Field3.Label, Is.EqualTo(match2[0].Label));
@@ -548,7 +548,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             #region template3
 
-            Assert.NotNull(match3);
+            Assert.That(match3, Is.Not.EqualTo(null));
             Assert.That(Field6.Description, Is.EqualTo(match3[0].Description));
             Assert.That("Comment", Is.EqualTo(match3[0].FieldType));
             Assert.That(Field6.Label, Is.EqualTo(match3[0].Label));
@@ -563,7 +563,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             #region template4
 
-            Assert.NotNull(match4);
+            Assert.That(match4, Is.Not.EqualTo(null));
             Assert.That(Field8.Description, Is.EqualTo(match4[0].Description));
             Assert.That("Comment", Is.EqualTo(match4[0].FieldType));
             Assert.That(Field8.Label, Is.EqualTo(match4[0].Label));
@@ -1039,10 +1039,10 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
 
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(siteName_Dto.SiteUId, Is.EqualTo(match.SiteUId));
             Assert.That(worker_Dto.WorkerUId, Is.EqualTo(match.WorkerUId));
-            Assert.NotNull(match.MicrotingUId);
+            Assert.That(match.MicrotingUId, Is.Not.EqualTo(null));
         }
 
         [Test]
@@ -1308,7 +1308,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             var match = await sut.Advanced_SiteWorkerRead(siteWorker.MicrotingUid, site1.Id, worker1.Id);
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(siteWorker.MicrotingUid, Is.EqualTo(match.MicrotingUId));
             Assert.That(siteWorker.Site.MicrotingUid, Is.EqualTo(match.SiteUId));
             Assert.That(siteWorker.Worker.MicrotingUid, Is.EqualTo(match.WorkerUId));
@@ -1647,7 +1647,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             UnitDto match = await sut.Advanced_UnitRead((int)unit.MicrotingUid);
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.UnitUId, Is.EqualTo(unit.MicrotingUid));
             Assert.That(match.CustomerNo, Is.EqualTo(unit.CustomerNo));
         }
@@ -2965,7 +2965,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Act
             Case theCase = DbContext.Cases.First();
-            Assert.NotNull(theCase);
+            Assert.That(theCase, Is.Not.EqualTo(null));
             CheckList theCheckList = DbContext.CheckLists.First();
 
             theCheckList.Field1 = f1.Id;
@@ -2995,7 +2995,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Assert
             Case theCaseAfter = DbContext.Cases.AsNoTracking().First();
 
-            Assert.NotNull(theCaseAfter);
+            Assert.That(theCaseAfter, Is.Not.EqualTo(null));
 
             theCaseAfter.FieldValue1 = field_Value1.Value;
             theCaseAfter.FieldValue2 = field_Value2.Value;

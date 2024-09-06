@@ -113,7 +113,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             Microting.eForm.Infrastructure.Models.UploadedData ud = await sut.Advanced_UploadedDataRead(dU.Id);
 
             // Assert
-            Assert.NotNull(ud);
+            Assert.That(ud, Is.Not.EqualTo(null));
             Assert.That(dU.Id, Is.EqualTo(ud.Id));
             Assert.That(dU.Extension, Is.EqualTo(ud.Extension));
             Assert.That(dU.UploaderId, Is.EqualTo(ud.UploaderId));

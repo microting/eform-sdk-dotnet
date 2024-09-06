@@ -75,8 +75,8 @@ namespace eFormSDK.InSight.Tests
 
             // Assert
 
-            Assert.NotNull(questionTranslations);
-            Assert.NotNull(questionTranslationVersions);
+            Assert.That(questionTranslations, Is.Not.EqualTo(null));
+            Assert.That(questionTranslationVersions, Is.Not.EqualTo(null));
 
             Assert.That(questionTranslations.Count, Is.EqualTo(1));
             Assert.That(questionTranslationVersions.Count, Is.EqualTo(1));
@@ -153,8 +153,8 @@ namespace eFormSDK.InSight.Tests
 
             // Assert
 
-            Assert.NotNull(questionTranslations);
-            Assert.NotNull(questionTranslationVersions);
+            Assert.That(questionTranslations, Is.Not.EqualTo(null));
+            Assert.That(questionTranslationVersions, Is.Not.EqualTo(null));
 
             Assert.That(questionTranslations.Count, Is.EqualTo(1));
             Assert.That(questionTranslationVersions.Count, Is.EqualTo(1));
@@ -278,8 +278,8 @@ namespace eFormSDK.InSight.Tests
 
             // Assert
 
-            Assert.NotNull(questionTranslations);
-            Assert.NotNull(questionTranslationVersions);
+            Assert.That(questionTranslations, Is.Not.EqualTo(null));
+            Assert.That(questionTranslationVersions, Is.Not.EqualTo(null));
 
             Assert.That(questionTranslations.Count, Is.EqualTo(1));
             Assert.That(questionTranslationVersions.Count, Is.EqualTo(2));
@@ -405,8 +405,8 @@ namespace eFormSDK.InSight.Tests
 
             // Assert
 
-            Assert.NotNull(questionTranslations);
-            Assert.NotNull(questionTranslationVersions);
+            Assert.That(questionTranslations, Is.Not.EqualTo(null));
+            Assert.That(questionTranslationVersions, Is.Not.EqualTo(null));
 
             Assert.That(questionTranslations.Count, Is.EqualTo(1));
             Assert.That(questionTranslationVersions.Count, Is.EqualTo(2));
@@ -537,8 +537,8 @@ namespace eFormSDK.InSight.Tests
 
             // Assert
 
-            Assert.NotNull(questionTranslations);
-            Assert.NotNull(questionTranslationVersions);
+            Assert.That(questionTranslations, Is.Not.EqualTo(null));
+            Assert.That(questionTranslationVersions, Is.Not.EqualTo(null));
 
             Assert.That(questionTranslations.Count, Is.EqualTo(1));
             Assert.That(questionTranslationVersions.Count, Is.EqualTo(2));
@@ -667,8 +667,8 @@ namespace eFormSDK.InSight.Tests
 
             // Assert
 
-            Assert.NotNull(questionTranslations);
-            Assert.NotNull(questionTranslationVersions);
+            Assert.That(questionTranslations, Is.Not.EqualTo(null));
+            Assert.That(questionTranslationVersions, Is.Not.EqualTo(null));
 
             Assert.That(questionTranslations.Count, Is.EqualTo(1));
             Assert.That(questionTranslationVersions.Count, Is.EqualTo(2));
@@ -756,8 +756,8 @@ namespace eFormSDK.InSight.Tests
 
             // Assert
 
-            Assert.NotNull(questionTranslations);
-            Assert.NotNull(questionTranslationVersions);
+            Assert.That(questionTranslations, Is.Not.EqualTo(null));
+            Assert.That(questionTranslationVersions, Is.Not.EqualTo(null));
 
             Assert.That(questionTranslations.Count, Is.EqualTo(1));
             Assert.That(questionTranslationVersions.Count, Is.EqualTo(2));

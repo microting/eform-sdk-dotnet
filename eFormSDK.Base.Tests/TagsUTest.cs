@@ -59,8 +59,8 @@ namespace eFormSDK.Base.Tests
 
             //Assert
 
-            Assert.NotNull(tags);
-            Assert.NotNull(tagVersions);
+            Assert.That(tags, Is.Not.EqualTo(null));
+            Assert.That(tagVersions, Is.Not.EqualTo(null));
 
             Assert.That(tags.Count(), Is.EqualTo(1));
             Assert.That(tagVersions.Count(), Is.EqualTo(1));
@@ -111,8 +111,8 @@ namespace eFormSDK.Base.Tests
 
             //Assert
 
-            Assert.NotNull(tags);
-            Assert.NotNull(tagVersions);
+            Assert.That(tags, Is.Not.EqualTo(null));
+            Assert.That(tagVersions, Is.Not.EqualTo(null));
 
             Assert.That(tags.Count(), Is.EqualTo(1));
             Assert.That(tagVersions.Count(), Is.EqualTo(2));
@@ -165,8 +165,8 @@ namespace eFormSDK.Base.Tests
 
             //Assert
 
-            Assert.NotNull(tags);
-            Assert.NotNull(tagVersions);
+            Assert.That(tags, Is.Not.EqualTo(null));
+            Assert.That(tagVersions, Is.Not.EqualTo(null));
 
             Assert.That(tags.Count(), Is.EqualTo(1));
             Assert.That(tagVersions.Count(), Is.EqualTo(2));

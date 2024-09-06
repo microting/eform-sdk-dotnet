@@ -181,8 +181,8 @@ namespace eFormSDK.InSight.Tests
 
             //Assert
 
-            Assert.NotNull(answerValues);
-            Assert.NotNull(answerValueVersions);
+            Assert.That(answerValues, Is.Not.EqualTo(null));
+            Assert.That(answerValueVersions, Is.Not.EqualTo(null));
 
             Assert.That(answerValues.Count(), Is.EqualTo(1));
             Assert.That(answerValueVersions.Count(), Is.EqualTo(1));
@@ -360,8 +360,8 @@ namespace eFormSDK.InSight.Tests
 
             //Assert
 
-            Assert.NotNull(answerValues);
-            Assert.NotNull(answerValueVersions);
+            Assert.That(answerValues, Is.Not.EqualTo(null));
+            Assert.That(answerValueVersions, Is.Not.EqualTo(null));
 
             Assert.That(answerValues.Count(), Is.EqualTo(1));
             Assert.That(answerValueVersions.Count(), Is.EqualTo(2));
@@ -546,8 +546,8 @@ namespace eFormSDK.InSight.Tests
 
             //Assert
 
-            Assert.NotNull(answerValues);
-            Assert.NotNull(answerValueVersions);
+            Assert.That(answerValues, Is.Not.EqualTo(null));
+            Assert.That(answerValueVersions, Is.Not.EqualTo(null));
 
             Assert.That(answerValues.Count(), Is.EqualTo(1));
             Assert.That(answerValueVersions.Count(), Is.EqualTo(2));

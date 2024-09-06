@@ -138,7 +138,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Act
             var match = await sut.CaseCreate(main, "", (int)site.MicrotingUid, null);
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
         }
 
 

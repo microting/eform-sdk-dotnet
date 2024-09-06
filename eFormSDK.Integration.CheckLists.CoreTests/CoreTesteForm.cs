@@ -268,7 +268,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Default sorting including removed
             // Id
-            Assert.NotNull(templateListId);
+            Assert.That(templateListId, Is.Not.EqualTo(null));
             Assert.That(templateListId.Count(), Is.EqualTo(4));
             Assert.That(templateListId[0].Label, Is.EqualTo("A"));
             Assert.That(templateListId[1].Label, Is.EqualTo("B"));
@@ -281,7 +281,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Default sorting including removed
             // Label
-            Assert.NotNull(templateListLabel);
+            Assert.That(templateListLabel, Is.Not.EqualTo(null));
             Assert.That(templateListLabel.Count(), Is.EqualTo(4));
             Assert.That(templateListLabel[0].Label, Is.EqualTo("A"));
             Assert.That(templateListLabel[1].Label, Is.EqualTo("B"));
@@ -294,7 +294,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Default sorting including removed
             // Description
-            Assert.NotNull(templateListDescription);
+            Assert.That(templateListDescription, Is.Not.EqualTo(null));
             Assert.That(templateListDescription.Count(), Is.EqualTo(4));
             Assert.That(templateListDescription[0].Label, Is.EqualTo("C"));
             Assert.That(templateListDescription[1].Label, Is.EqualTo("D"));
@@ -307,7 +307,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Default sorting including removed
             // Created At
-            Assert.NotNull(templateListCreatedAt);
+            Assert.That(templateListCreatedAt, Is.Not.EqualTo(null));
             Assert.That(templateListCreatedAt.Count(), Is.EqualTo(4));
             Assert.That(templateListCreatedAt[0].Label, Is.EqualTo("A"));
             Assert.That(templateListCreatedAt[1].Label, Is.EqualTo("B"));
@@ -320,7 +320,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Default sorting including removed
             // Tag
-            Assert.NotNull(templateListTag);
+            Assert.That(templateListTag, Is.Not.EqualTo(null));
             Assert.That(templateListTag.Count(), Is.EqualTo(4));
             Assert.That(templateListTag[0].Label, Is.EqualTo("A"));
             Assert.That(templateListTag[1].Label, Is.EqualTo("B"));
@@ -338,7 +338,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Default sorting including removed
             // Tagid
-            Assert.NotNull(templateListSpecificTag);
+            Assert.That(templateListSpecificTag, Is.Not.EqualTo(null));
             Assert.That(templateListSpecificTag.Count(), Is.EqualTo(2));
             Assert.That(templateListSpecificTag[0].Label, Is.EqualTo("B"));
             Assert.That(templateListSpecificTag[1].Label, Is.EqualTo("D"));
@@ -349,7 +349,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Descending sorting including removed
             // Id
-            Assert.NotNull(templateListDescengingId);
+            Assert.That(templateListDescengingId, Is.Not.EqualTo(null));
             Assert.That(templateListDescengingId.Count(), Is.EqualTo(4));
             Assert.That(templateListDescengingId[0].Label, Is.EqualTo("C"));
             Assert.That(templateListDescengingId[1].Label, Is.EqualTo("D"));
@@ -362,7 +362,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Descending sorting including removed
             // Label
-            Assert.NotNull(templateListDescengingLabel);
+            Assert.That(templateListDescengingLabel, Is.Not.EqualTo(null));
             Assert.That(templateListDescengingLabel.Count(), Is.EqualTo(4));
             Assert.That(templateListDescengingLabel[0].Label, Is.EqualTo("D"));
             Assert.That(templateListDescengingLabel[1].Label, Is.EqualTo("C"));
@@ -375,7 +375,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Descending sorting including removed
             // Description
-            Assert.NotNull(templateListDescengingDescription);
+            Assert.That(templateListDescengingDescription, Is.Not.EqualTo(null));
             Assert.That(templateListDescengingDescription.Count(), Is.EqualTo(4));
             Assert.That(templateListDescengingDescription[0].Label, Is.EqualTo("A"));
             Assert.That(templateListDescengingDescription[1].Label, Is.EqualTo("B"));
@@ -388,7 +388,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Descending sorting including removed
             // Created At
-            Assert.NotNull(templateListDescengingCreatedAt);
+            Assert.That(templateListDescengingCreatedAt, Is.Not.EqualTo(null));
             Assert.That(templateListDescengingCreatedAt.Count(), Is.EqualTo(4));
             Assert.That(templateListDescengingCreatedAt[0].Label, Is.EqualTo("C"));
             Assert.That(templateListDescengingCreatedAt[1].Label, Is.EqualTo("D"));
@@ -401,7 +401,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Descending sorting including removed
             // Tag
-            Assert.NotNull(templateListTag);
+            Assert.That(templateListTag, Is.Not.EqualTo(null));
             Assert.That(templateListTag.Count(), Is.EqualTo(4));
             Assert.That(templateListDescendingTag[0].Label, Is.EqualTo("C"));
             Assert.That(templateListDescendingTag[1].Label, Is.EqualTo("D"));
@@ -419,7 +419,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Descending sorting including removed
             // Tagid
-            Assert.NotNull(templateListDescendingSpecificTag);
+            Assert.That(templateListDescendingSpecificTag, Is.Not.EqualTo(null));
             Assert.That(templateListDescendingSpecificTag.Count(), Is.EqualTo(2));
             Assert.That(templateListDescendingSpecificTag[0].Label, Is.EqualTo("D"));
             Assert.That(templateListDescendingSpecificTag[1].Label, Is.EqualTo("B"));
@@ -434,7 +434,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Default sorting excluding removed
             // Id
-            Assert.NotNull(templateListIdNr);
+            Assert.That(templateListIdNr, Is.Not.EqualTo(null));
             Assert.That(templateListIdNr.Count(), Is.EqualTo(3));
             Assert.That(templateListIdNr[0].Label, Is.EqualTo("A"));
             Assert.That(templateListIdNr[1].Label, Is.EqualTo("D"));
@@ -445,7 +445,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Default sorting excluding removed
             // Label
-            Assert.NotNull(templateListLabelNr);
+            Assert.That(templateListLabelNr, Is.Not.EqualTo(null));
             Assert.That(templateListLabelNr.Count(), Is.EqualTo(3));
             Assert.That(templateListLabelNr[0].Label, Is.EqualTo("A"));
             Assert.That(templateListLabelNr[1].Label, Is.EqualTo("C"));
@@ -456,7 +456,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Default sorting excluding removed
             // Description
-            Assert.NotNull(templateListDescriptionNr);
+            Assert.That(templateListDescriptionNr, Is.Not.EqualTo(null));
             Assert.That(templateListDescriptionNr.Count(), Is.EqualTo(3));
             Assert.That(templateListDescriptionNr[0].Label, Is.EqualTo("C"));
             Assert.That(templateListDescriptionNr[1].Label, Is.EqualTo("D"));
@@ -467,7 +467,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Default sorting excluding removed
             // Created At
-            Assert.NotNull(templateListCreatedAtNr);
+            Assert.That(templateListCreatedAtNr, Is.Not.EqualTo(null));
             Assert.That(templateListCreatedAtNr.Count(), Is.EqualTo(3));
             Assert.That(templateListCreatedAtNr[0].Label, Is.EqualTo("A"));
             Assert.That(templateListCreatedAtNr[1].Label, Is.EqualTo("D"));
@@ -478,7 +478,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Default sorting excluding removed
             // Tag
-            Assert.NotNull(templateListTag);
+            Assert.That(templateListTag, Is.Not.EqualTo(null));
             Assert.That(templateListTag.Count(), Is.EqualTo(4));
             Assert.That(templateListTagNr[0].Label, Is.EqualTo("A"));
             Assert.That(templateListTagNr[1].Label, Is.EqualTo("D"));
@@ -493,7 +493,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Default sorting excluding removed
             // Tagid
-            Assert.NotNull(templateListSpecificTagNr);
+            Assert.That(templateListSpecificTagNr, Is.Not.EqualTo(null));
             Assert.That(templateListSpecificTagNr.Count(), Is.EqualTo(1));
             Assert.That(templateListSpecificTagNr[0].Label, Is.EqualTo("D"));
             Assert.That(templateListSpecificTagNr[0].Tags.Count(), Is.EqualTo(1));
@@ -501,7 +501,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Descending sorting excluding removed
             // Id
-            Assert.NotNull(templateListDescengingIdNr);
+            Assert.That(templateListDescengingIdNr, Is.Not.EqualTo(null));
             Assert.That(templateListDescengingIdNr.Count(), Is.EqualTo(3));
             Assert.That(templateListDescengingIdNr[0].Label, Is.EqualTo("C"));
             Assert.That(templateListDescengingIdNr[1].Label, Is.EqualTo("D"));
@@ -512,7 +512,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Descending sorting excluding removed
             // Label
-            Assert.NotNull(templateListDescengingLabelNr);
+            Assert.That(templateListDescengingLabelNr, Is.Not.EqualTo(null));
             Assert.That(templateListDescengingLabelNr.Count(), Is.EqualTo(3));
             Assert.That(templateListDescengingLabelNr[0].Label, Is.EqualTo("D"));
             Assert.That(templateListDescengingLabelNr[1].Label, Is.EqualTo("C"));
@@ -523,7 +523,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Descending sorting excluding removed
             // Description
-            Assert.NotNull(templateListDescengingDescriptionNr);
+            Assert.That(templateListDescengingDescriptionNr, Is.Not.EqualTo(null));
             Assert.That(templateListDescengingDescriptionNr.Count(), Is.EqualTo(3));
             Assert.That(templateListDescengingDescriptionNr[0].Label, Is.EqualTo("A"));
             Assert.That(templateListDescengingDescriptionNr[1].Label, Is.EqualTo("D"));
@@ -534,7 +534,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Descending sorting excluding removed
             // Created At
-            Assert.NotNull(templateListDescengingCreatedAtNr);
+            Assert.That(templateListDescengingCreatedAtNr, Is.Not.EqualTo(null));
             Assert.That(templateListDescengingCreatedAtNr.Count(), Is.EqualTo(3));
             Assert.That(templateListDescengingCreatedAtNr[0].Label, Is.EqualTo("C"));
             Assert.That(templateListDescengingCreatedAtNr[1].Label, Is.EqualTo("D"));
@@ -545,7 +545,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Descending sorting excluding removed
             // Tag
-            Assert.NotNull(templateListTag);
+            Assert.That(templateListTag, Is.Not.EqualTo(null));
             Assert.That(templateListTag.Count(), Is.EqualTo(4));
             Assert.That(templateListDescendingTagNr[0].Label, Is.EqualTo("C"));
             Assert.That(templateListDescendingTagNr[1].Label, Is.EqualTo("D"));
@@ -560,7 +560,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Descending sorting excluding removed
             // Tagid
-            Assert.NotNull(templateListDescendingSpecificTagNr);
+            Assert.That(templateListDescendingSpecificTagNr, Is.Not.EqualTo(null));
             Assert.That(templateListDescendingSpecificTagNr.Count(), Is.EqualTo(1));
             Assert.That(templateListDescendingSpecificTagNr[0].Label, Is.EqualTo("D"));
             Assert.That(templateListDescendingSpecificTagNr[0].Tags.Count(), Is.EqualTo(1));
@@ -584,7 +584,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Act
             var match = await sut.TemplateValidation(main);
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(0, Is.EqualTo(match.Count()));
         }
 
@@ -606,7 +606,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             #region Assert
 
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(main.CaseType, Is.EqualTo(match.CaseType));
             Assert.That(main.CheckListFolderName, Is.EqualTo(match.CheckListFolderName));
             Assert.That(main.DisplayOrder, Is.EqualTo(match.DisplayOrder));
@@ -647,7 +647,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             var match = await sut.TemplateCreate(main);
             // Assert
 
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(main.Id, Is.EqualTo(match));
         }
 
@@ -670,7 +670,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             var match = await sut.ReadeForm(cl1.Id, language);
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(cl1.Id, Is.EqualTo(match.Id));
             Assert.That(cl1.CaseType, Is.EqualTo(match.CaseType));
             Assert.That(false, Is.EqualTo(match.FastNavigation));
@@ -727,10 +727,10 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             var deleteTemplate3 = await sut.TemplateDelete(cl3.Id);
             var deleteTemplate4 = await sut.TemplateDelete(cl4.Id);
             // Assert
-            Assert.NotNull(deleteTemplate1);
-            Assert.NotNull(deleteTemplate2);
-            Assert.NotNull(deleteTemplate3);
-            Assert.NotNull(deleteTemplate4);
+            Assert.That(deleteTemplate1, Is.Not.EqualTo(null));
+            Assert.That(deleteTemplate2, Is.Not.EqualTo(null));
+            Assert.That(deleteTemplate3, Is.Not.EqualTo(null));
+            Assert.That(deleteTemplate4, Is.Not.EqualTo(null));
             Assert.That(deleteTemplate1, Is.True);
             Assert.That(deleteTemplate2, Is.True);
             Assert.That(deleteTemplate3, Is.True);
@@ -927,7 +927,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             #region template1
 
-            Assert.NotNull(match1);
+            Assert.That(match1, Is.Not.EqualTo(null));
             Assert.That("Description1", Is.EqualTo(match1.Description));
             Assert.That("Label1", Is.EqualTo(match1.Label));
             Assert.That(Template1.CreatedAt.ToString(), Is.EqualTo(match1.CreatedAt.ToString()));
@@ -939,7 +939,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             #region template2
 
-            Assert.NotNull(match1);
+            Assert.That(match1, Is.Not.EqualTo(null));
             Assert.That("Description2", Is.EqualTo(match2.Description));
             Assert.That("Label2", Is.EqualTo(match2.Label));
             Assert.That(Template2.CreatedAt.ToString(), Is.EqualTo(match2.CreatedAt.ToString()));
@@ -951,7 +951,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             #region template3
 
-            Assert.NotNull(match1);
+            Assert.That(match1, Is.Not.EqualTo(null));
             Assert.That("Description3", Is.EqualTo(match3.Description));
             Assert.That("Label3", Is.EqualTo(match3.Label));
             Assert.That(Template3.CreatedAt.ToString(), Is.EqualTo(match3.CreatedAt.ToString()));
@@ -963,7 +963,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             #region template4
 
-            Assert.NotNull(match1);
+            Assert.That(match1, Is.Not.EqualTo(null));
             Assert.That("Description4", Is.EqualTo(match4.Description));
             Assert.That("Label4", Is.EqualTo(match4.Label));
             Assert.That(Template4.CreatedAt.ToString(), Is.EqualTo(match4.CreatedAt.ToString()));

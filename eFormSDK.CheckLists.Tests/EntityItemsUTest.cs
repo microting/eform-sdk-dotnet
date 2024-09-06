@@ -75,8 +75,8 @@ namespace eFormSDK.CheckLists.Tests
 
             //Assert
 
-            Assert.NotNull(entityItems);
-            Assert.NotNull(entityItemVersion);
+            Assert.That(entityItems, Is.Not.EqualTo(null));
+            Assert.That(entityItemVersion, Is.Not.EqualTo(null));
 
             Assert.That(entityItems.Count(), Is.EqualTo(1));
             Assert.That(entityItemVersion.Count(), Is.EqualTo(1));
@@ -162,8 +162,8 @@ namespace eFormSDK.CheckLists.Tests
 
             //Assert
 
-            Assert.NotNull(entityItems);
-            Assert.NotNull(entityItemVersion);
+            Assert.That(entityItems, Is.Not.EqualTo(null));
+            Assert.That(entityItemVersion, Is.Not.EqualTo(null));
 
             Assert.That(entityItems.Count(), Is.EqualTo(1));
             Assert.That(entityItemVersion.Count(), Is.EqualTo(2));
@@ -250,8 +250,8 @@ namespace eFormSDK.CheckLists.Tests
 
             //Assert
 
-            Assert.NotNull(entityItems);
-            Assert.NotNull(entityItemVersion);
+            Assert.That(entityItems, Is.Not.EqualTo(null));
+            Assert.That(entityItemVersion, Is.Not.EqualTo(null));
 
             Assert.That(entityItems.Count(), Is.EqualTo(1));
             Assert.That(entityItemVersion.Count(), Is.EqualTo(2));

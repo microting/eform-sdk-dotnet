@@ -69,8 +69,8 @@ namespace eFormSDK.CheckLists.Tests
 
             //Assert
 
-            Assert.NotNull(uploadedDatas);
-            Assert.NotNull(uploadedDataVersions);
+            Assert.That(uploadedDatas, Is.Not.EqualTo(null));
+            Assert.That(uploadedDataVersions, Is.Not.EqualTo(null));
 
             Assert.That(uploadedDatas.Count(), Is.EqualTo(1));
             Assert.That(uploadedDataVersions.Count(), Is.EqualTo(1));
@@ -169,8 +169,8 @@ namespace eFormSDK.CheckLists.Tests
             //Assert
 
 
-            Assert.NotNull(uploadedDatas);
-            Assert.NotNull(uploadedDataVersions);
+            Assert.That(uploadedDatas, Is.Not.EqualTo(null));
+            Assert.That(uploadedDataVersions, Is.Not.EqualTo(null));
 
             Assert.That(uploadedDatas.Count(), Is.EqualTo(1));
             Assert.That(uploadedDataVersions.Count(), Is.EqualTo(2));
@@ -257,8 +257,8 @@ namespace eFormSDK.CheckLists.Tests
             //Assert
 
 
-            Assert.NotNull(uploadedDatas);
-            Assert.NotNull(uploadedDataVersions);
+            Assert.That(uploadedDatas, Is.Not.EqualTo(null));
+            Assert.That(uploadedDataVersions, Is.Not.EqualTo(null));
 
             Assert.That(uploadedDatas.Count(), Is.EqualTo(1));
             Assert.That(uploadedDataVersions.Count(), Is.EqualTo(2));

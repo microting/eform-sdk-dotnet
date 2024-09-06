@@ -95,7 +95,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             CaseDto theCase = await sut.CaseLookupCaseId(aCase.Id);
 
             // Assert
-            Assert.NotNull(theCase);
+            Assert.That(theCase, Is.Not.EqualTo(null));
             Assert.That(theCase.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
         }
 
@@ -167,7 +167,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             var match = await sut.CaseRead((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid, language);
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(aCase.Type, Is.EqualTo(match.CaseType));
         }
 
@@ -754,7 +754,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             var match = await sut.CaseUpdate(aCase1.Id, FVPlist, CLVlist);
 
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match, Is.True);
         }
 //         [Test]// TODO needs mocks
@@ -1136,7 +1136,7 @@ namespace eFormSDK.Integration.Case.CoreTests
         //// Act
         //var match = await sut.CaseDelete(cl2.Id, (int)cls1.site.microting_uid, Constants.WorkflowStates.Created);
         //// Assert
-        // Assert.NotNull(match);
+        // Assert.That(match, Is.Not.EqualTo(null));
         // Assert.True(match);
 
         // }
@@ -1498,7 +1498,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             // Act
             Microting.eForm.Infrastructure.Data.Entities.Case theCase = DbContext.Cases.First();
-            Assert.NotNull(theCase);
+            Assert.That(theCase, Is.Not.EqualTo(null));
             CheckList theCheckList = DbContext.CheckLists.First();
 
             theCheckList.Field1 = f1.Id;
@@ -1528,7 +1528,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Assert
             Microting.eForm.Infrastructure.Data.Entities.Case theCaseAfter = DbContext.Cases.AsNoTracking().First();
 
-            Assert.NotNull(theCaseAfter);
+            Assert.That(theCaseAfter, Is.Not.EqualTo(null));
 
             theCaseAfter.FieldValue1 = field_Value1.Value;
             theCaseAfter.FieldValue2 = field_Value2.Value;
@@ -1782,7 +1782,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Act
             var match = await sut.CaseIdLookup((int)aCase1.MicrotingUid, (int)aCase1.MicrotingCheckUid);
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match, Is.EqualTo(aCase1.Id));
         }
 
@@ -2189,7 +2189,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 //            //var match = await sut.CasesToExcel(aCase1.check_list_id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(1), ud1.file_location + ud1.file_name, "mappe/");
 //
 //            //// Assert
-//            // Assert.NotNull(match);
+//            // Assert.That(match, Is.Not.EqualTo(null));
 //            // Assert.AreEqual(match, "C:\\Users\\soipi\\DesktopFile1.xlsx");
 //
 //
@@ -2598,7 +2598,7 @@ namespace eFormSDK.Integration.Case.CoreTests
         //var match = await sut.CasesToCsv(aCase1.check_list_id, DateTime.Now.AddDays(-10), DateTime.Now.AddDays(1), ud1.file_location + ud1.file_name, "mappe/");
 
         // Assert
-        // Assert.NotNull(match);
+        // Assert.That(match, Is.Not.EqualTo(null));
         // Assert.AreEqual(match, "C:\\Users\\soipi\\DesktopFile1.csv");
 
 
@@ -2681,7 +2681,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             var match = await sut.CaseToJasperXml(cDto, reply, aCase2.Id, timeStamp, pdfPath, "", language);
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(pdfPath, Is.EqualTo(match));
         }
 
@@ -2699,7 +2699,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             var match = await sut.GetSdkSetting(Settings.fileLocationJasper);
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(Path.Combine(path, "output", "dataFolder", "reports"), Is.EqualTo(match));
         }
 
@@ -2711,7 +2711,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Act
             var match = await sut.SetSdkSetting(Settings.fileLocationJasper, @"C:\local\gitgud");
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match, Is.True);
         }
 
@@ -2729,7 +2729,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             var match = await sut.GetSdkSetting(Settings.fileLocationPicture);
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(Path.Combine(path, "output", "dataFolder", "picture"), Is.EqualTo(match));
         }
 
@@ -2741,7 +2741,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Act
             var match = await sut.SetSdkSetting(Settings.fileLocationPicture, @"C:\local");
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match, Is.True);
         }
 
@@ -2759,7 +2759,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             var match = await sut.GetSdkSetting(Settings.fileLocationPdf);
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(Path.Combine(path, "output", "dataFolder", "pdf"), Is.EqualTo(match));
         }
         // [Test]
@@ -2770,7 +2770,7 @@ namespace eFormSDK.Integration.Case.CoreTests
         //     // Act
         //     var match = await sut.SetSdkSetting(Settings.httpServerAddress, "http://localhost:3000");
         //     // Assert
-        //     Assert.NotNull(match);
+        //     Assert.That(match, Is.Not.EqualTo(null));
         //     Assert.True(match);
         // }
         // [Test]
@@ -2788,7 +2788,7 @@ namespace eFormSDK.Integration.Case.CoreTests
         //     var match = await sut.GetSdkSetting(Settings.httpServerAddress);
         //
         //     // Assert
-        //     Assert.NotNull(match);
+        //     Assert.That(match, Is.Not.EqualTo(null));
         //     Assert.AreEqual("http://localhost:3000", match);
         //
         //

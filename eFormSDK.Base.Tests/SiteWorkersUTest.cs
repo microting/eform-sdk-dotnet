@@ -74,8 +74,8 @@ namespace eFormSDK.Base.Tests
             List<SiteWorker> siteWorkers = DbContext.SiteWorkers.AsNoTracking().ToList();
             List<SiteWorkerVersion> siteWorkerVersions = DbContext.SiteWorkerVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(siteWorkers);
-            Assert.NotNull(siteWorkerVersions);
+            Assert.That(siteWorkers, Is.Not.EqualTo(null));
+            Assert.That(siteWorkerVersions, Is.Not.EqualTo(null));
 
             Assert.That(siteWorkers.Count(), Is.EqualTo(1));
             Assert.That(siteWorkerVersions.Count(), Is.EqualTo(1));
@@ -146,8 +146,8 @@ namespace eFormSDK.Base.Tests
             List<SiteWorker> siteWorkers = DbContext.SiteWorkers.AsNoTracking().ToList();
             List<SiteWorkerVersion> siteWorkerVersions = DbContext.SiteWorkerVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(siteWorkers);
-            Assert.NotNull(siteWorkerVersions);
+            Assert.That(siteWorkers, Is.Not.EqualTo(null));
+            Assert.That(siteWorkerVersions, Is.Not.EqualTo(null));
 
             Assert.That(siteWorkers.Count(), Is.EqualTo(1));
             Assert.That(siteWorkerVersions.Count(), Is.EqualTo(2));
@@ -226,8 +226,8 @@ namespace eFormSDK.Base.Tests
             List<SiteWorker> siteWorkers = DbContext.SiteWorkers.AsNoTracking().ToList();
             List<SiteWorkerVersion> siteWorkerVersions = DbContext.SiteWorkerVersions.AsNoTracking().ToList();
 
-            Assert.NotNull(siteWorkers);
-            Assert.NotNull(siteWorkerVersions);
+            Assert.That(siteWorkers, Is.Not.EqualTo(null));
+            Assert.That(siteWorkerVersions, Is.Not.EqualTo(null));
 
             Assert.That(siteWorkers.Count(), Is.EqualTo(1));
             Assert.That(siteWorkerVersions.Count(), Is.EqualTo(2));

@@ -145,7 +145,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             MainElement match = await sut.TemplateFromXml(xmlstring);
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(match.CaseType, Is.EqualTo(""));
             Assert.That(match.Repeated, Is.EqualTo(1));
             Assert.That(match.OriginalId, Is.EqualTo("35"));
@@ -210,7 +210,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             MainElement match = await sut.ReadeForm(cl1.Id, language);
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(cl1.Id, Is.EqualTo(match.Id));
             Assert.That(cl1.CaseType, Is.EqualTo(match.CaseType));
             Assert.That(false, Is.EqualTo(match.FastNavigation));

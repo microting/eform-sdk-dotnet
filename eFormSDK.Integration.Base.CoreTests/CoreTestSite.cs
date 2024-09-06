@@ -96,7 +96,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             // Assert
             var sites = DbContext.Sites.AsNoTracking().ToList();
 
-            Assert.NotNull(sites);
+            Assert.That(sites, Is.Not.EqualTo(null));
 
             Assert.That(sites.Count(), Is.EqualTo(1));
             Assert.That(sites[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
@@ -113,7 +113,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             //var site = await sut.SiteCreate("site1", "René", "Madsen", "rm@rm.dk");
 
             //// Assert
-            // Assert.NotNull(site);
+            // Assert.That(site, Is.Not.EqualTo(null));
             // Assert.AreEqual(site.SiteName, "site1");
             // Assert.AreEqual(site.FirstName, "René");
             // Assert.AreEqual(site.LastName, "Madsen");
@@ -317,7 +317,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             var match = await sut.SiteRead((int)site.MicrotingUid);
 
             // Assert
-            Assert.NotNull(match);
+            Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(site.MicrotingUid, Is.EqualTo(match.SiteId));
             Assert.That(site.Name, Is.EqualTo(match.SiteName));
         }
@@ -518,8 +518,8 @@ namespace eFormSDK.Integration.Base.CoreTests
             var matchNotRemoved = await sut.SiteReadAll(false);
             var matchInclRemoved = await sut.SiteReadAll(true);
             // Assert
-            Assert.NotNull(matchInclRemoved);
-            Assert.NotNull(matchNotRemoved);
+            Assert.That(matchInclRemoved, Is.Not.EqualTo(null));
+            Assert.That(matchNotRemoved, Is.Not.EqualTo(null));
 
             Assert.That(1, Is.EqualTo(matchInclRemoved.Count));
             Assert.That(1, Is.EqualTo(matchNotRemoved.Count));

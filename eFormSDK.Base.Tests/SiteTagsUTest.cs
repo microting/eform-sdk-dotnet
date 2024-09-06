@@ -70,8 +70,8 @@ namespace eFormSDK.Base.Tests
             List<SiteTag> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
             List<SiteTagVersion> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
             // Assert
-            Assert.NotNull(siteTags);
-            Assert.NotNull(siteTagVersions);
+            Assert.That(siteTags, Is.Not.EqualTo(null));
+            Assert.That(siteTagVersions, Is.Not.EqualTo(null));
 
             Assert.That(siteTags[0].SiteId, Is.EqualTo(siteTag.SiteId));
             Assert.That(siteTags[0].TagId, Is.EqualTo(siteTag.TagId));
@@ -136,8 +136,8 @@ namespace eFormSDK.Base.Tests
             List<SiteTag> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
             List<SiteTagVersion> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
             // Assert
-            Assert.NotNull(siteTags);
-            Assert.NotNull(siteTagVersions);
+            Assert.That(siteTags, Is.Not.EqualTo(null));
+            Assert.That(siteTagVersions, Is.Not.EqualTo(null));
 
             Assert.That(siteTags[0].SiteId, Is.EqualTo(siteTag.SiteId));
             Assert.That(siteTags[0].TagId, Is.EqualTo(siteTag.TagId));
@@ -184,8 +184,8 @@ namespace eFormSDK.Base.Tests
             List<SiteTag> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
             List<SiteTagVersion> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
             // Assert
-            Assert.NotNull(siteTags);
-            Assert.NotNull(siteTagVersions);
+            Assert.That(siteTags, Is.Not.EqualTo(null));
+            Assert.That(siteTagVersions, Is.Not.EqualTo(null));
 
             Assert.That(siteTags[0].SiteId, Is.EqualTo(siteTag.SiteId));
             Assert.That(siteTags[0].TagId, Is.EqualTo(siteTag.TagId));
@@ -235,8 +235,8 @@ namespace eFormSDK.Base.Tests
             List<SiteTag> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
             List<SiteTagVersion> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
             // Assert
-            Assert.NotNull(siteTags);
-            Assert.NotNull(siteTagVersions);
+            Assert.That(siteTags, Is.Not.EqualTo(null));
+            Assert.That(siteTagVersions, Is.Not.EqualTo(null));
 
             Assert.That(siteTags[0].SiteId, Is.EqualTo(siteTag.SiteId));
             Assert.That(siteTags[0].TagId, Is.EqualTo(siteTag.TagId));
