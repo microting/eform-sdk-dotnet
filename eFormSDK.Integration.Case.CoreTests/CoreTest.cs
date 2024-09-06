@@ -98,9 +98,9 @@ namespace eFormSDK.Integration.Case.CoreTests
             Assert.NotNull(caseMatches);
             Assert.NotNull(udMatches);
             Assert.NotNull(fvMatches);
-            Assert.AreEqual(1, caseMatches.Count());
-            Assert.AreEqual(1, udMatches.Count());
-            Assert.AreEqual(1, fvMatches.Count());
+            Assert.That(caseMatches.Count(), Is.EqualTo(1));
+            Assert.That(udMatches.Count(), Is.EqualTo(1));
+            Assert.That(fvMatches.Count(), Is.EqualTo(1));
         }
 
         #region eventhandlers

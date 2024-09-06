@@ -71,33 +71,33 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(surveyConfigurations);
             Assert.NotNull(surveyConfigurationVersions);
 
-            Assert.AreEqual(1, surveyConfigurations.Count());
-            Assert.AreEqual(1, surveyConfigurationVersions.Count());
+            Assert.That(surveyConfigurations.Count(), Is.EqualTo(1));
+            Assert.That(surveyConfigurationVersions.Count(), Is.EqualTo(1));
 
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurations[0].CreatedAt.ToString());
-            Assert.AreEqual(surveyConfiguration.Version, surveyConfigurations[0].Version);
-//            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurations[0].UpdatedAt.ToString());
-            Assert.AreEqual(surveyConfigurations[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(surveyConfiguration.Id, surveyConfigurations[0].Id);
-            Assert.AreEqual(surveyConfiguration.Name, surveyConfigurations[0].Name);
-            Assert.AreEqual(surveyConfiguration.Start.ToString(), surveyConfigurations[0].Start.ToString());
-            Assert.AreEqual(surveyConfiguration.Stop.ToString(), surveyConfigurations[0].Stop.ToString());
-            Assert.AreEqual(surveyConfiguration.TimeOut, surveyConfigurations[0].TimeOut);
-            Assert.AreEqual(surveyConfiguration.TimeToLive, surveyConfigurations[0].TimeToLive);
+            Assert.That(surveyConfigurations[0].CreatedAt.ToString(), Is.EqualTo(surveyConfiguration.CreatedAt.ToString()));
+            Assert.That(surveyConfigurations[0].Version, Is.EqualTo(surveyConfiguration.Version));
+            //            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurations[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(surveyConfigurations[0].WorkflowState));
+            Assert.That(surveyConfigurations[0].Id, Is.EqualTo(surveyConfiguration.Id));
+            Assert.That(surveyConfigurations[0].Name, Is.EqualTo(surveyConfiguration.Name));
+            Assert.That(surveyConfigurations[0].Start.ToString(), Is.EqualTo(surveyConfiguration.Start.ToString()));
+            Assert.That(surveyConfigurations[0].Stop.ToString(), Is.EqualTo(surveyConfiguration.Stop.ToString()));
+            Assert.That(surveyConfigurations[0].TimeOut, Is.EqualTo(surveyConfiguration.TimeOut));
+            Assert.That(surveyConfigurations[0].TimeToLive, Is.EqualTo(surveyConfiguration.TimeToLive));
 
             //Versions
 
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(),
-                surveyConfigurationVersions[0].CreatedAt.ToString());
-            Assert.AreEqual(1, surveyConfigurationVersions[0].Version);
-//            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurationVersions[0].UpdatedAt.ToString());
-            Assert.AreEqual(surveyConfigurationVersions[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(surveyConfiguration.Id, surveyConfigurationVersions[0].SurveyConfigurationId);
-            Assert.AreEqual(surveyConfiguration.Name, surveyConfigurationVersions[0].Name);
-            Assert.AreEqual(surveyConfiguration.Start.ToString(), surveyConfigurationVersions[0].Start.ToString());
-            Assert.AreEqual(surveyConfiguration.Stop.ToString(), surveyConfigurationVersions[0].Stop.ToString());
-            Assert.AreEqual(surveyConfiguration.TimeOut, surveyConfigurationVersions[0].TimeOut);
-            Assert.AreEqual(surveyConfiguration.TimeToLive, surveyConfigurationVersions[0].TimeToLive);
+            Assert.That(surveyConfigurationVersions[0].CreatedAt.ToString(),
+                Is.EqualTo(surveyConfiguration.CreatedAt.ToString()));
+            Assert.That(surveyConfigurationVersions[0].Version, Is.EqualTo(1));
+            //            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurationVersions[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(surveyConfigurationVersions[0].WorkflowState));
+            Assert.That(surveyConfigurationVersions[0].SurveyConfigurationId, Is.EqualTo(surveyConfiguration.Id));
+            Assert.That(surveyConfigurationVersions[0].Name, Is.EqualTo(surveyConfiguration.Name));
+            Assert.That(surveyConfigurationVersions[0].Start.ToString(), Is.EqualTo(surveyConfiguration.Start.ToString()));
+            Assert.That(surveyConfigurationVersions[0].Stop.ToString(), Is.EqualTo(surveyConfiguration.Stop.ToString()));
+            Assert.That(surveyConfigurationVersions[0].TimeOut, Is.EqualTo(surveyConfiguration.TimeOut));
+            Assert.That(surveyConfigurationVersions[0].TimeToLive, Is.EqualTo(surveyConfiguration.TimeToLive));
         }
 
         [Test]
@@ -148,47 +148,47 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(surveyConfigurations);
             Assert.NotNull(surveyConfigurationVersions);
 
-            Assert.AreEqual(1, surveyConfigurations.Count());
-            Assert.AreEqual(2, surveyConfigurationVersions.Count());
+            Assert.That(surveyConfigurations.Count(), Is.EqualTo(1));
+            Assert.That(surveyConfigurationVersions.Count(), Is.EqualTo(2));
 
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurations[0].CreatedAt.ToString());
-            Assert.AreEqual(surveyConfiguration.Version, surveyConfigurations[0].Version);
-//            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurations[0].UpdatedAt.ToString());
-            Assert.AreEqual(surveyConfigurations[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(surveyConfiguration.Id, surveyConfigurations[0].Id);
-            Assert.AreEqual(surveyConfiguration.Name, surveyConfigurations[0].Name);
-            Assert.AreEqual(surveyConfiguration.Start.ToString(), surveyConfigurations[0].Start.ToString());
-            Assert.AreEqual(surveyConfiguration.Stop.ToString(), surveyConfigurations[0].Stop.ToString());
-            Assert.AreEqual(surveyConfiguration.TimeOut, surveyConfigurations[0].TimeOut);
-            Assert.AreEqual(surveyConfiguration.TimeToLive, surveyConfigurations[0].TimeToLive);
+            Assert.That(surveyConfigurations[0].CreatedAt.ToString(), Is.EqualTo(surveyConfiguration.CreatedAt.ToString()));
+            Assert.That(surveyConfigurations[0].Version, Is.EqualTo(surveyConfiguration.Version));
+            //            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurations[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(surveyConfigurations[0].WorkflowState));
+            Assert.That(surveyConfigurations[0].Id, Is.EqualTo(surveyConfiguration.Id));
+            Assert.That(surveyConfigurations[0].Name, Is.EqualTo(surveyConfiguration.Name));
+            Assert.That(surveyConfigurations[0].Start.ToString(), Is.EqualTo(surveyConfiguration.Start.ToString()));
+            Assert.That(surveyConfigurations[0].Stop.ToString(), Is.EqualTo(surveyConfiguration.Stop.ToString()));
+            Assert.That(surveyConfigurations[0].TimeOut, Is.EqualTo(surveyConfiguration.TimeOut));
+            Assert.That(surveyConfigurations[0].TimeToLive, Is.EqualTo(surveyConfiguration.TimeToLive));
 
             //Old Version
 
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(),
-                surveyConfigurationVersions[0].CreatedAt.ToString());
-            Assert.AreEqual(1, surveyConfigurationVersions[0].Version);
-//            Assert.AreEqual(oldUpdatedAt.ToString(), surveyConfigurationVersions[0].UpdatedAt.ToString());
-            Assert.AreEqual(surveyConfigurationVersions[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(surveyConfiguration.Id, surveyConfigurationVersions[0].SurveyConfigurationId);
-            Assert.AreEqual(oldName, surveyConfigurationVersions[0].Name);
-            Assert.AreEqual(oldStart.ToString(), surveyConfigurationVersions[0].Start.ToString());
-            Assert.AreEqual(oldStop.ToString(), surveyConfigurationVersions[0].Stop.ToString());
-            Assert.AreEqual(oldTimeOut, surveyConfigurationVersions[0].TimeOut);
-            Assert.AreEqual(oldTimeToLive, surveyConfigurationVersions[0].TimeToLive);
+            Assert.That(surveyConfigurationVersions[0].CreatedAt.ToString(),
+                Is.EqualTo(surveyConfiguration.CreatedAt.ToString()));
+            Assert.That(surveyConfigurationVersions[0].Version, Is.EqualTo(1));
+            //            Assert.AreEqual(oldUpdatedAt.ToString(), surveyConfigurationVersions[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(surveyConfigurationVersions[0].WorkflowState));
+            Assert.That(surveyConfigurationVersions[0].SurveyConfigurationId, Is.EqualTo(surveyConfiguration.Id));
+            Assert.That(surveyConfigurationVersions[0].Name, Is.EqualTo(oldName));
+            Assert.That(surveyConfigurationVersions[0].Start.ToString(), Is.EqualTo(oldStart.ToString()));
+            Assert.That(surveyConfigurationVersions[0].Stop.ToString(), Is.EqualTo(oldStop.ToString()));
+            Assert.That(surveyConfigurationVersions[0].TimeOut, Is.EqualTo(oldTimeOut));
+            Assert.That(surveyConfigurationVersions[0].TimeToLive, Is.EqualTo(oldTimeToLive));
 
             //New Version
 
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(),
-                surveyConfigurationVersions[1].CreatedAt.ToString());
-            Assert.AreEqual(2, surveyConfigurationVersions[1].Version);
-//            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurationVersions[1].UpdatedAt.ToString());
-            Assert.AreEqual(surveyConfigurationVersions[1].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(surveyConfiguration.Id, surveyConfigurationVersions[1].SurveyConfigurationId);
-            Assert.AreEqual(surveyConfiguration.Name, surveyConfigurationVersions[1].Name);
-            Assert.AreEqual(surveyConfiguration.Start.ToString(), surveyConfigurationVersions[1].Start.ToString());
-            Assert.AreEqual(surveyConfiguration.Stop.ToString(), surveyConfigurationVersions[1].Stop.ToString());
-            Assert.AreEqual(surveyConfiguration.TimeOut, surveyConfigurationVersions[1].TimeOut);
-            Assert.AreEqual(surveyConfiguration.TimeToLive, surveyConfigurationVersions[1].TimeToLive);
+            Assert.That(surveyConfigurationVersions[1].CreatedAt.ToString(),
+                Is.EqualTo(surveyConfiguration.CreatedAt.ToString()));
+            Assert.That(surveyConfigurationVersions[1].Version, Is.EqualTo(2));
+            //            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurationVersions[1].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(surveyConfigurationVersions[1].WorkflowState));
+            Assert.That(surveyConfigurationVersions[1].SurveyConfigurationId, Is.EqualTo(surveyConfiguration.Id));
+            Assert.That(surveyConfigurationVersions[1].Name, Is.EqualTo(surveyConfiguration.Name));
+            Assert.That(surveyConfigurationVersions[1].Start.ToString(), Is.EqualTo(surveyConfiguration.Start.ToString()));
+            Assert.That(surveyConfigurationVersions[1].Stop.ToString(), Is.EqualTo(surveyConfiguration.Stop.ToString()));
+            Assert.That(surveyConfigurationVersions[1].TimeOut, Is.EqualTo(surveyConfiguration.TimeOut));
+            Assert.That(surveyConfigurationVersions[1].TimeToLive, Is.EqualTo(surveyConfiguration.TimeToLive));
         }
 
         [Test]
@@ -229,47 +229,47 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(surveyConfigurations);
             Assert.NotNull(surveyConfigurationVersions);
 
-            Assert.AreEqual(1, surveyConfigurations.Count());
-            Assert.AreEqual(2, surveyConfigurationVersions.Count());
+            Assert.That(surveyConfigurations.Count(), Is.EqualTo(1));
+            Assert.That(surveyConfigurationVersions.Count(), Is.EqualTo(2));
 
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(), surveyConfigurations[0].CreatedAt.ToString());
-            Assert.AreEqual(surveyConfiguration.Version, surveyConfigurations[0].Version);
-//            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurations[0].UpdatedAt.ToString());
-            Assert.AreEqual(surveyConfigurations[0].WorkflowState, Constants.WorkflowStates.Removed);
-            Assert.AreEqual(surveyConfiguration.Id, surveyConfigurations[0].Id);
-            Assert.AreEqual(surveyConfiguration.Name, surveyConfigurations[0].Name);
-            Assert.AreEqual(surveyConfiguration.Start.ToString(), surveyConfigurations[0].Start.ToString());
-            Assert.AreEqual(surveyConfiguration.Stop.ToString(), surveyConfigurations[0].Stop.ToString());
-            Assert.AreEqual(surveyConfiguration.TimeOut, surveyConfigurations[0].TimeOut);
-            Assert.AreEqual(surveyConfiguration.TimeToLive, surveyConfigurations[0].TimeToLive);
+            Assert.That(surveyConfigurations[0].CreatedAt.ToString(), Is.EqualTo(surveyConfiguration.CreatedAt.ToString()));
+            Assert.That(surveyConfigurations[0].Version, Is.EqualTo(surveyConfiguration.Version));
+            //            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurations[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(surveyConfigurations[0].WorkflowState));
+            Assert.That(surveyConfigurations[0].Id, Is.EqualTo(surveyConfiguration.Id));
+            Assert.That(surveyConfigurations[0].Name, Is.EqualTo(surveyConfiguration.Name));
+            Assert.That(surveyConfigurations[0].Start.ToString(), Is.EqualTo(surveyConfiguration.Start.ToString()));
+            Assert.That(surveyConfigurations[0].Stop.ToString(), Is.EqualTo(surveyConfiguration.Stop.ToString()));
+            Assert.That(surveyConfigurations[0].TimeOut, Is.EqualTo(surveyConfiguration.TimeOut));
+            Assert.That(surveyConfigurations[0].TimeToLive, Is.EqualTo(surveyConfiguration.TimeToLive));
 
             //Old Version
 
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(),
-                surveyConfigurationVersions[0].CreatedAt.ToString());
-            Assert.AreEqual(1, surveyConfigurationVersions[0].Version);
-//            Assert.AreEqual(oldUpdatedAt.ToString(), surveyConfigurationVersions[0].UpdatedAt.ToString());
-            Assert.AreEqual(surveyConfigurationVersions[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(surveyConfiguration.Id, surveyConfigurationVersions[0].SurveyConfigurationId);
-            Assert.AreEqual(surveyConfiguration.Name, surveyConfigurationVersions[0].Name);
-            Assert.AreEqual(surveyConfiguration.Start.ToString(), surveyConfigurationVersions[0].Start.ToString());
-            Assert.AreEqual(surveyConfiguration.Stop.ToString(), surveyConfigurationVersions[0].Stop.ToString());
-            Assert.AreEqual(surveyConfiguration.TimeOut, surveyConfigurationVersions[0].TimeOut);
-            Assert.AreEqual(surveyConfiguration.TimeToLive, surveyConfigurationVersions[0].TimeToLive);
+            Assert.That(surveyConfigurationVersions[0].CreatedAt.ToString(),
+                Is.EqualTo(surveyConfiguration.CreatedAt.ToString()));
+            Assert.That(surveyConfigurationVersions[0].Version, Is.EqualTo(1));
+            //            Assert.AreEqual(oldUpdatedAt.ToString(), surveyConfigurationVersions[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(surveyConfigurationVersions[0].WorkflowState));
+            Assert.That(surveyConfigurationVersions[0].SurveyConfigurationId, Is.EqualTo(surveyConfiguration.Id));
+            Assert.That(surveyConfigurationVersions[0].Name, Is.EqualTo(surveyConfiguration.Name));
+            Assert.That(surveyConfigurationVersions[0].Start.ToString(), Is.EqualTo(surveyConfiguration.Start.ToString()));
+            Assert.That(surveyConfigurationVersions[0].Stop.ToString(), Is.EqualTo(surveyConfiguration.Stop.ToString()));
+            Assert.That(surveyConfigurationVersions[0].TimeOut, Is.EqualTo(surveyConfiguration.TimeOut));
+            Assert.That(surveyConfigurationVersions[0].TimeToLive, Is.EqualTo(surveyConfiguration.TimeToLive));
 
             //New Version
 
-            Assert.AreEqual(surveyConfiguration.CreatedAt.ToString(),
-                surveyConfigurationVersions[1].CreatedAt.ToString());
-            Assert.AreEqual(2, surveyConfigurationVersions[1].Version);
-//            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurationVersions[1].UpdatedAt.ToString());
-            Assert.AreEqual(surveyConfigurationVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
-            Assert.AreEqual(surveyConfiguration.Id, surveyConfigurationVersions[1].SurveyConfigurationId);
-            Assert.AreEqual(surveyConfiguration.Name, surveyConfigurationVersions[1].Name);
-            Assert.AreEqual(surveyConfiguration.Start.ToString(), surveyConfigurationVersions[1].Start.ToString());
-            Assert.AreEqual(surveyConfiguration.Stop.ToString(), surveyConfigurationVersions[1].Stop.ToString());
-            Assert.AreEqual(surveyConfiguration.TimeOut, surveyConfigurationVersions[1].TimeOut);
-            Assert.AreEqual(surveyConfiguration.TimeToLive, surveyConfigurationVersions[1].TimeToLive);
+            Assert.That(surveyConfigurationVersions[1].CreatedAt.ToString(),
+                Is.EqualTo(surveyConfiguration.CreatedAt.ToString()));
+            Assert.That(surveyConfigurationVersions[1].Version, Is.EqualTo(2));
+            //            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurationVersions[1].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(surveyConfigurationVersions[1].WorkflowState));
+            Assert.That(surveyConfigurationVersions[1].SurveyConfigurationId, Is.EqualTo(surveyConfiguration.Id));
+            Assert.That(surveyConfigurationVersions[1].Name, Is.EqualTo(surveyConfiguration.Name));
+            Assert.That(surveyConfigurationVersions[1].Start.ToString(), Is.EqualTo(surveyConfiguration.Start.ToString()));
+            Assert.That(surveyConfigurationVersions[1].Stop.ToString(), Is.EqualTo(surveyConfiguration.Stop.ToString()));
+            Assert.That(surveyConfigurationVersions[1].TimeOut, Is.EqualTo(surveyConfiguration.TimeOut));
+            Assert.That(surveyConfigurationVersions[1].TimeToLive, Is.EqualTo(surveyConfiguration.TimeToLive));
         }
     }
 }

@@ -131,41 +131,41 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual("", match.CaseType);
-            Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual("9060", match.OriginalId);
-            Assert.AreEqual(0, match.Id);
-            Assert.AreEqual("CommentMain", match.Label);
-            Assert.AreEqual("da", match.Language);
-            Assert.AreEqual(false, match.MultiApproval);
-            Assert.AreEqual(false, match.FastNavigation);
-            Assert.AreEqual(0, match.DisplayOrder);
-            Assert.AreEqual(1, match.ElementList.Count());
+            Assert.That(match.CaseType, Is.EqualTo(""));
+            Assert.That(match.Repeated, Is.EqualTo(1));
+            Assert.That(match.OriginalId, Is.EqualTo("9060"));
+            Assert.That(match.Id, Is.EqualTo(0));
+            Assert.That(match.Label, Is.EqualTo("CommentMain"));
+            Assert.That(match.Language, Is.EqualTo("da"));
+            Assert.That(match.MultiApproval, Is.EqualTo(false));
+            Assert.That(match.FastNavigation, Is.EqualTo(false));
+            Assert.That(match.DisplayOrder, Is.EqualTo(0));
+            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.AreEqual(dE.DataItemList.Count(), 1);
-            Assert.AreEqual("CommentDataElement", dE.Label);
+            Assert.That(1, Is.EqualTo(dE.DataItemList.Count()));
+            Assert.That(dE.Label, Is.EqualTo("CommentDataElement"));
 
             CDataValue cd = new CDataValue();
 
             // Assert.AreEqual(dE.Description, cd); TODO
-            Assert.AreEqual(0, dE.DisplayOrder);
-            Assert.AreEqual(false, dE.ReviewEnabled);
+            Assert.That(dE.DisplayOrder, Is.EqualTo(0));
+            Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(dE.ManualSync) //TODO No Method for ManualSync
-            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO DoneButtonDisabled no method found
-            Assert.AreEqual(false, dE.ApprovalEnabled);
+            Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
 
             Comment commentField = (Comment)dE.DataItemList[0];
-            Assert.AreEqual("CommentField", commentField.Label);
+            Assert.That(commentField.Label, Is.EqualTo("CommentField"));
             // Assert.AreEqual(commentField.Description, cd);
-            Assert.AreEqual(0, commentField.DisplayOrder);
+            Assert.That(commentField.DisplayOrder, Is.EqualTo(0));
             // Assert.AreEqual(commentField.Multi, 0) //TODO No method MULTI
             // Assert.AreEqual(commentField.geolocation, false) //TODO no method geolocation
             // Assert.AreEqual(commentField.Split, false) //TODO no method Split
-            Assert.AreEqual("", commentField.Value);
-            Assert.AreEqual(false, commentField.ReadOnly);
-            Assert.AreEqual(false, commentField.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Default, commentField.Color);
+            Assert.That(commentField.Value, Is.EqualTo(""));
+            Assert.That(commentField.ReadOnly, Is.EqualTo(false));
+            Assert.That(commentField.Mandatory, Is.EqualTo(false));
+            Assert.That(commentField.Color, Is.EqualTo(Constants.FieldColors.Default));
         }
 
         [Test]
@@ -217,35 +217,35 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual("Picture test", match.Label);
+            Assert.That(match.Repeated, Is.EqualTo(1));
+            Assert.That(match.Label, Is.EqualTo("Picture test"));
             // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
             // Assert.AreEqual("2028-04-25", match.EndDate); TODO
-            Assert.AreEqual("da", match.Language);
-            Assert.AreEqual(false, match.MultiApproval);
-            Assert.AreEqual(false, match.FastNavigation);
+            Assert.That(match.Language, Is.EqualTo("da"));
+            Assert.That(match.MultiApproval, Is.EqualTo(false));
+            Assert.That(match.FastNavigation, Is.EqualTo(false));
             // Assert.AreEqual(match.review, false); //TODO no method review
             // Assert.AreEqual(match.summary, false); //TODO no method summary
-            Assert.AreEqual(0, match.DisplayOrder);
+            Assert.That(match.DisplayOrder, Is.EqualTo(0));
 
-            Assert.AreEqual(1, match.ElementList.Count());
+            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.AreEqual(1, dE.DataItemList.Count());
-            Assert.AreEqual("Picture test", dE.Label);
+            Assert.That(dE.DataItemList.Count(), Is.EqualTo(1));
+            Assert.That(dE.Label, Is.EqualTo("Picture test"));
             // Assert.AreEqual(dE.DisplayOrder, CDataValue); //TODO
-            Assert.AreEqual(0, dE.DisplayOrder);
-            Assert.AreEqual(false, dE.ReviewEnabled);
+            Assert.That(dE.DisplayOrder, Is.EqualTo(0));
+            Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(dE.manualsync, false); //TODO NO METHOD MANUALSYNC
-            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO no method donebuttondisabled
-            Assert.AreEqual(false, dE.ApprovalEnabled);
+            Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
 
             Picture pictureField = (Picture)dE.DataItemList[0];
-            Assert.AreEqual("Take two pictures", pictureField.Label);
+            Assert.That(pictureField.Label, Is.EqualTo("Take two pictures"));
             // Assert.AreEqual(pictureField.Description, CDataValue) //TODO
-            Assert.AreEqual(0, pictureField.DisplayOrder);
-            Assert.AreEqual(false, pictureField.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Default, pictureField.Color);
+            Assert.That(pictureField.DisplayOrder, Is.EqualTo(0));
+            Assert.That(pictureField.Mandatory, Is.EqualTo(false));
+            Assert.That(pictureField.Color, Is.EqualTo(Constants.FieldColors.Default));
         }
 
         [Test]
@@ -301,38 +301,38 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual("Date", match.Label);
+            Assert.That(match.Repeated, Is.EqualTo(1));
+            Assert.That(match.Label, Is.EqualTo("Date"));
             // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
             // Assert.AreEqual("2028-04-25", match.EndDate); TODO
-            Assert.AreEqual("da", match.Language);
-            Assert.AreEqual(false, match.MultiApproval);
-            Assert.AreEqual(false, match.FastNavigation);
+            Assert.That(match.Language, Is.EqualTo("da"));
+            Assert.That(match.MultiApproval, Is.EqualTo(false));
+            Assert.That(match.FastNavigation, Is.EqualTo(false));
             // Assert.AreEqual(match.review, false); //TODO no method review
             // Assert.AreEqual(match.summary, false); //TODO no method summary
-            Assert.AreEqual(0, match.DisplayOrder);
+            Assert.That(match.DisplayOrder, Is.EqualTo(0));
 
-            Assert.AreEqual(1, match.ElementList.Count());
+            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.AreEqual(1, dE.DataItemList.Count());
-            Assert.AreEqual("Date", dE.Label);
+            Assert.That(dE.DataItemList.Count(), Is.EqualTo(1));
+            Assert.That(dE.Label, Is.EqualTo("Date"));
             // Assert.AreEqual(dE.DisplayOrder, CDataValue); //TODO
-            Assert.AreEqual(0, dE.DisplayOrder);
-            Assert.AreEqual(false, dE.ReviewEnabled);
+            Assert.That(dE.DisplayOrder, Is.EqualTo(0));
+            Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(dE.manualsync, false); //TODO NO METHOD MANUALSYNC
-            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO no method donebuttondisabled
-            Assert.AreEqual(false, dE.ApprovalEnabled);
+            Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
 
             Date dateField = (Date)dE.DataItemList[0];
-            Assert.AreEqual("Select date", dateField.Label);
+            Assert.That(dateField.Label, Is.EqualTo("Select date"));
             // Assert.AreEqual(dateField.Description, CDataValue) //TODO
-            Assert.AreEqual(0, dateField.DisplayOrder);
+            Assert.That(dateField.DisplayOrder, Is.EqualTo(0));
             // Assert.AreEqual("2018-04-25 00:00:00", dateField.MinValue); //TODO
             // Assert.AreEqual("2028-04-25", dateField.MaxValue); //TODO
-            Assert.AreEqual(false, dateField.Mandatory);
-            Assert.AreEqual(false, dateField.ReadOnly);
-            Assert.AreEqual(Constants.FieldColors.Default, dateField.Color);
+            Assert.That(dateField.Mandatory, Is.EqualTo(false));
+            Assert.That(dateField.ReadOnly, Is.EqualTo(false));
+            Assert.That(dateField.Color, Is.EqualTo(Constants.FieldColors.Default));
         }
 
         [Test]
@@ -384,37 +384,37 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual("ny pdf", match.Label);
+            Assert.That(match.Repeated, Is.EqualTo(1));
+            Assert.That(match.Label, Is.EqualTo("ny pdf"));
             // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
             // Assert.AreEqual("2028-04-25", match.EndDate); TODO
-            Assert.AreEqual("da", match.Language);
-            Assert.AreEqual(false, match.MultiApproval);
-            Assert.AreEqual(false, match.FastNavigation);
+            Assert.That(match.Language, Is.EqualTo("da"));
+            Assert.That(match.MultiApproval, Is.EqualTo(false));
+            Assert.That(match.FastNavigation, Is.EqualTo(false));
             // Assert.AreEqual(match.review, false); //TODO no method review
             // Assert.AreEqual(match.summary, false); //TODO no method summary
-            Assert.AreEqual(0, match.DisplayOrder);
+            Assert.That(match.DisplayOrder, Is.EqualTo(0));
 
-            Assert.AreEqual(1, match.ElementList.Count());
+            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.AreEqual(1, dE.DataItemList.Count());
-            Assert.AreEqual("ny pdf", dE.Label);
+            Assert.That(dE.DataItemList.Count(), Is.EqualTo(1));
+            Assert.That(dE.Label, Is.EqualTo("ny pdf"));
             // Assert.AreEqual(dE.DisplayOrder, CDataValue); //TODO
-            Assert.AreEqual(0, dE.DisplayOrder);
-            Assert.AreEqual(false, dE.ReviewEnabled);
+            Assert.That(dE.DisplayOrder, Is.EqualTo(0));
+            Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(dE.manualsync, false); //TODO NO METHOD MANUALSYNC
-            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO no method donebuttondisabled
-            Assert.AreEqual(false, dE.ApprovalEnabled);
+            Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
 
             ShowPdf showPDFField = (ShowPdf)dE.DataItemList[0];
-            Assert.AreEqual("bla", showPDFField.Label);
+            Assert.That(showPDFField.Label, Is.EqualTo("bla"));
             // Assert.AreEqual(dateField.Description, CDataValue) //TODO
-            Assert.AreEqual(0, showPDFField.DisplayOrder);
-            Assert.AreEqual(Constants.FieldColors.Default, showPDFField.Color);
-            Assert.AreEqual(
-                "https://eform.microting.com/app_files/uploads/20170804132716_13790_20d483dd7791cd6becf089432724c663.pdf",
-                showPDFField.Value);
+            Assert.That(showPDFField.DisplayOrder, Is.EqualTo(0));
+            Assert.That(showPDFField.Color, Is.EqualTo(Constants.FieldColors.Default));
+            Assert.That(
+                showPDFField.Value,
+                Is.EqualTo("https://eform.microting.com/app_files/uploads/20170804132716_13790_20d483dd7791cd6becf089432724c663.pdf"));
         }
 
         [Test]
@@ -497,63 +497,63 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual("Tester grupper", match.Label);
+            Assert.That(match.Repeated, Is.EqualTo(1));
+            Assert.That(match.Label, Is.EqualTo("Tester grupper"));
             // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
             // Assert.AreEqual("2028-04-25", match.EndDate); TODO
-            Assert.AreEqual("da", match.Language);
-            Assert.AreEqual(false, match.MultiApproval);
-            Assert.AreEqual(false, match.FastNavigation);
+            Assert.That(match.Language, Is.EqualTo("da"));
+            Assert.That(match.MultiApproval, Is.EqualTo(false));
+            Assert.That(match.FastNavigation, Is.EqualTo(false));
             // Assert.AreEqual(match.review, false); //TODO no method review
             // Assert.AreEqual(match.summary, false); //TODO no method summary
-            Assert.AreEqual(0, match.DisplayOrder);
+            Assert.That(match.DisplayOrder, Is.EqualTo(0));
 
 
-            Assert.AreEqual(1, match.ElementList.Count());
+            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.AreEqual(3, dE.DataItemList.Count());
-            Assert.AreEqual("Tester grupper", dE.Label);
+            Assert.That(dE.DataItemList.Count(), Is.EqualTo(3));
+            Assert.That(dE.Label, Is.EqualTo("Tester grupper"));
             // Assert.AreEqual(dE.DisplayOrder, CDataValue); //TODO
-            Assert.AreEqual(0, dE.DisplayOrder);
-            Assert.AreEqual(false, dE.ReviewEnabled);
+            Assert.That(dE.DisplayOrder, Is.EqualTo(0));
+            Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(dE.manualsync, false); //TODO NO METHOD MANUALSYNC
-            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO no method donebuttondisabled
-            Assert.AreEqual(false, dE.ApprovalEnabled);
+            Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
 
 
             FieldContainer fC = (FieldContainer)dE.DataItemList[0];
-            Assert.AreEqual("Gruppe efter tjekboks", fC.Label);
+            Assert.That(fC.Label, Is.EqualTo("Gruppe efter tjekboks"));
             // Assert.AreEqual(CDataValue, fE.Description); TODO
-            Assert.AreEqual(1, fC.DisplayOrder);
-            Assert.AreEqual("Closed", fC.Value);
-            Assert.AreEqual(Constants.FieldColors.Default, fC.Color);
+            Assert.That(fC.DisplayOrder, Is.EqualTo(1));
+            Assert.That(fC.Value, Is.EqualTo("Closed"));
+            Assert.That(fC.Color, Is.EqualTo(Constants.FieldColors.Default));
 
             CheckBox fE = (CheckBox)fC.DataItemList[0];
-            Assert.AreEqual("Tjekboks inde i gruppe", fE.Label);
+            Assert.That(fE.Label, Is.EqualTo("Tjekboks inde i gruppe"));
             // Assert.AreEqual(dateField.Description, CDataValue) //TODO
-            Assert.AreEqual(0, fE.DisplayOrder);
-            Assert.AreEqual(false, fE.Selected);
-            Assert.AreEqual(false, fE.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Default, fE.Color);
+            Assert.That(fE.DisplayOrder, Is.EqualTo(0));
+            Assert.That(fE.Selected, Is.EqualTo(false));
+            Assert.That(fE.Mandatory, Is.EqualTo(false));
+            Assert.That(fE.Color, Is.EqualTo(Constants.FieldColors.Default));
 
 
             CheckBox checkboxField = (CheckBox)dE.DataItemList[1];
-            Assert.AreEqual("Tjekboks før gruppe", checkboxField.Label);
+            Assert.That(checkboxField.Label, Is.EqualTo("Tjekboks før gruppe"));
             // Assert.AreEqual(dateField.Description, CDataValue) //TODO
-            Assert.AreEqual(0, checkboxField.DisplayOrder);
-            Assert.AreEqual(false, checkboxField.Selected);
-            Assert.AreEqual(false, checkboxField.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Default, checkboxField.Color);
+            Assert.That(checkboxField.DisplayOrder, Is.EqualTo(0));
+            Assert.That(checkboxField.Selected, Is.EqualTo(false));
+            Assert.That(checkboxField.Mandatory, Is.EqualTo(false));
+            Assert.That(checkboxField.Color, Is.EqualTo(Constants.FieldColors.Default));
 
 
             CheckBox checkboxField1 = (CheckBox)dE.DataItemList[2];
-            Assert.AreEqual("Tjekboks efter gruppe", checkboxField1.Label);
+            Assert.That(checkboxField1.Label, Is.EqualTo("Tjekboks efter gruppe"));
             // Assert.AreEqual(dateField.Description, CDataValue) //TODO
-            Assert.AreEqual(2, checkboxField1.DisplayOrder);
-            Assert.AreEqual(false, checkboxField1.Selected);
-            Assert.AreEqual(false, checkboxField1.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Default, checkboxField1.Color);
+            Assert.That(checkboxField1.DisplayOrder, Is.EqualTo(2));
+            Assert.That(checkboxField1.Selected, Is.EqualTo(false));
+            Assert.That(checkboxField1.Mandatory, Is.EqualTo(false));
+            Assert.That(checkboxField1.Color, Is.EqualTo(Constants.FieldColors.Default));
         }
 
         [Test]
@@ -613,44 +613,44 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual("Billede og signatur", match.Label);
+            Assert.That(match.Repeated, Is.EqualTo(1));
+            Assert.That(match.Label, Is.EqualTo("Billede og signatur"));
             // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
             // Assert.AreEqual("2028-04-25", match.EndDate); TODO
-            Assert.AreEqual("da", match.Language);
-            Assert.AreEqual(false, match.MultiApproval);
-            Assert.AreEqual(false, match.FastNavigation);
+            Assert.That(match.Language, Is.EqualTo("da"));
+            Assert.That(match.MultiApproval, Is.EqualTo(false));
+            Assert.That(match.FastNavigation, Is.EqualTo(false));
             // Assert.AreEqual(match.review, false); //TODO no method review
             // Assert.AreEqual(match.summary, false); //TODO no method summary
-            Assert.AreEqual(0, match.DisplayOrder);
+            Assert.That(match.DisplayOrder, Is.EqualTo(0));
 
 
-            Assert.AreEqual(1, match.ElementList.Count());
+            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.AreEqual(2, dE.DataItemList.Count());
-            Assert.AreEqual("Billede og signatur", dE.Label);
+            Assert.That(dE.DataItemList.Count(), Is.EqualTo(2));
+            Assert.That(dE.Label, Is.EqualTo("Billede og signatur"));
             // Assert.AreEqual(CD.Datavalue, de.description); //TODO
-            Assert.AreEqual(0, dE.DisplayOrder);
-            Assert.AreEqual(false, dE.ReviewEnabled);
+            Assert.That(dE.DisplayOrder, Is.EqualTo(0));
+            Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(dE.manualsync, false); //TODO NO METHOD MANUALSYNC
-            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO no method donebuttondisabled
-            Assert.AreEqual(false, dE.ApprovalEnabled);
+            Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
 
             Picture fE = (Picture)dE.DataItemList[0];
-            Assert.AreEqual("Tag et billede", fE.Label);
+            Assert.That(fE.Label, Is.EqualTo("Tag et billede"));
             // Assert.AreEqual(cD.Datavalue, fe.description) //TODO
-            Assert.AreEqual(0, fE.DisplayOrder);
-            Assert.AreEqual(false, fE.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Default, fE.Color);
+            Assert.That(fE.DisplayOrder, Is.EqualTo(0));
+            Assert.That(fE.Mandatory, Is.EqualTo(false));
+            Assert.That(fE.Color, Is.EqualTo(Constants.FieldColors.Default));
 
             Signature fE1 = (Signature)dE.DataItemList[1];
-            Assert.AreEqual("Skriv", fE1.Label);
+            Assert.That(fE1.Label, Is.EqualTo("Skriv"));
             //TODO Statement below -> CD.Datavalue
             // Assert.AreEqual("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam dui neque, molestie at maximus a, malesuada at mi. Cras venenatis porttitor augue nec sagittis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris urna massa, sagittis at fringilla ut, convallis sed dolor. Praesent scelerisque magna dolor, quis blandit metus pharetra eu. Cras euismod facilisis risus at ullamcorper. Pellentesque vitae maximus elit. Sed scelerisque nec velit dictum sodales. Duis sed dapibus odio. Sed non luctus sem. Donec eu mollis lectus, nec porta nisl. Aenean a consequat metus, ac auctor arcu. Cras sit amet blandit velit. Pellentesque faucibus eros sed ullamcorper rutrum.<br><br><br>Pellentesque ultrices ex erat. Pellentesque rhoncus eget lectus et scelerisque. Cras vitae diam ex. Ut felis ligula, venenatis ut lorem vel, venenatis convallis turpis. Sed rutrum ac odio ac auctor. Sed mauris ipsum, vulputate ut sodales a, mattis et purus. Nam convallis augue velit, nec blandit ipsum porta vitae. Quisque et iaculis lectus. Donec eu fringilla turpis, id rutrum mauris.<br><br><br>Proin eu sagittis sem. Aenean vel placerat sapien. Praesent et rutrum justo. Mauris consectetur venenatis est, eu vulputate enim elementum eget. In hac habitasse platea dictumst. Sed vehicula nec neque sed posuere. Aenean sodales lectus a purus posuere lacinia. Aenean ut enim vel odio varius placerat. Phasellus faucibus turpis sed arcu ultrices interdum. Sed porta, nisi nec vehicula lacinia, ante tortor tristique justo, vel sagittis felis ligula eu magna. Pellentesque a velit laoreet nunc aliquet ornare sit amet eget lorem. Duis aliquet viverra pretium. Etiam a mauris tellus. Sed viverra eros eget lectus lobortis, in vestibulum lorem rhoncus. Aliquam sem felis, suscipit a gravida ut, eleifend et ipsum. Nullam lacus lacus, rutrum quis sollicitudin et, porta et erat", fE1.Description);
-            Assert.AreEqual(1, fE1.DisplayOrder);
-            Assert.AreEqual(false, fE1.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Default, fE1.Color);
+            Assert.That(fE1.DisplayOrder, Is.EqualTo(1));
+            Assert.That(fE1.Mandatory, Is.EqualTo(false));
+            Assert.That(fE1.Color, Is.EqualTo(Constants.FieldColors.Default));
         }
 
         [Test]
@@ -935,249 +935,249 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual("Muligheder med Microting eForm", match.Label);
+            Assert.That(match.Repeated, Is.EqualTo(1));
+            Assert.That(match.Label, Is.EqualTo("Muligheder med Microting eForm"));
             // Assert.AreEqual("2018-04-25 00:00:00", match.StartDate); TODO
             // Assert.AreEqual("2028-04-25", match.EndDate); TODO
-            Assert.AreEqual("da", match.Language);
-            Assert.AreEqual(false, match.MultiApproval);
-            Assert.AreEqual(false, match.FastNavigation);
+            Assert.That(match.Language, Is.EqualTo("da"));
+            Assert.That(match.MultiApproval, Is.EqualTo(false));
+            Assert.That(match.FastNavigation, Is.EqualTo(false));
             // Assert.AreEqual(match.review, false); //TODO no method review
             // Assert.AreEqual(match.summary, false); //TODO no method summary
-            Assert.AreEqual(76, match.DisplayOrder);
+            Assert.That(match.DisplayOrder, Is.EqualTo(76));
 
-            Assert.AreEqual(1, match.ElementList.Count());
+            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.AreEqual(14, dE.DataItemList.Count());
-            Assert.AreEqual("Muligheder med Microting eForm", dE.Label);
+            Assert.That(dE.DataItemList.Count(), Is.EqualTo(14));
+            Assert.That(dE.Label, Is.EqualTo("Muligheder med Microting eForm"));
             // Assert.AreEqual(CDataValue, "Tryk her og prøv hvordan du indsamler data med Microting eForm.<br><br>God fornøjelse :-)"); //TODO
-            Assert.AreEqual(76, dE.DisplayOrder);
-            Assert.AreEqual(false, dE.ReviewEnabled);
+            Assert.That(dE.DisplayOrder, Is.EqualTo(76));
+            Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(dE.manualsync, false); //TODO NO METHOD MANUALSYNC
-            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(dE.DoneButtonDisabled, true); //TODO no method donebuttondisabled
-            Assert.AreEqual(false, dE.ApprovalEnabled);
+            Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
 
             SaveButton sB = (SaveButton)dE.DataItemList[0];
-            Assert.AreEqual("GEM", sB.Label);
+            Assert.That(sB.Label, Is.EqualTo("GEM"));
             // Assert.AreEqual("Tryk her for at gemme dine indtastede data", CDataValue) //TODO
-            Assert.AreEqual(0, sB.DisplayOrder);
-            Assert.AreEqual("GEM", sB.Value);
+            Assert.That(sB.DisplayOrder, Is.EqualTo(0));
+            Assert.That(sB.Value, Is.EqualTo("GEM"));
 
             Timer t1 = (Timer)dE.DataItemList[1];
-            Assert.AreEqual("START-STOP TID", t1.Label);
+            Assert.That(t1.Label, Is.EqualTo("START-STOP TID"));
             // Assert.AreEqual("Start-stop tid.", CDataValue) //TODO
-            Assert.AreEqual(0, sB.DisplayOrder);
-            Assert.AreEqual(false, t1.StopOnSave);
-            Assert.AreEqual(false, t1.Mandatory);
+            Assert.That(sB.DisplayOrder, Is.EqualTo(0));
+            Assert.That(t1.StopOnSave, Is.EqualTo(false));
+            Assert.That(t1.Mandatory, Is.EqualTo(false));
 
             None n1 = (None)dE.DataItemList[2];
-            Assert.AreEqual("INFO", n1.Label);
+            Assert.That(n1.Label, Is.EqualTo("INFO"));
             // Assert.AreEqual("I dette tekstfelt vises ikke redigerbar tekst.", n1.Description); TODO
-            Assert.AreEqual(2, n1.DisplayOrder);
+            Assert.That(n1.DisplayOrder, Is.EqualTo(2));
 
             ShowPdf sp = (ShowPdf)dE.DataItemList[3];
-            Assert.AreEqual("PDF", sp.Label);
+            Assert.That(sp.Label, Is.EqualTo("PDF"));
             // Assert.AreEqual("Her vises PDF-filer.", sp.Description); TODO
-            Assert.AreEqual(3, sp.DisplayOrder);
-            Assert.AreEqual(
-                "https://eform.microting.com/app_files/uploads/20160609143348_366_a60ad2d8c22ed24780bfa9a348376232.pdf",
-                sp.Value);
+            Assert.That(sp.DisplayOrder, Is.EqualTo(3));
+            Assert.That(
+                sp.Value,
+                Is.EqualTo("https://eform.microting.com/app_files/uploads/20160609143348_366_a60ad2d8c22ed24780bfa9a348376232.pdf"));
 
             CheckBox cB = (CheckBox)dE.DataItemList[4];
-            Assert.AreEqual("TJEK", cB.Label);
+            Assert.That(cB.Label, Is.EqualTo("TJEK"));
             // Assert.AreEqual("I et tjekfelt sættes et flueben.", cB.Description); TODO
-            Assert.AreEqual(5, cB.DisplayOrder);
-            Assert.AreEqual(false, cB.Selected);
-            Assert.AreEqual(false, cB.Mandatory);
+            Assert.That(cB.DisplayOrder, Is.EqualTo(5));
+            Assert.That(cB.Selected, Is.EqualTo(false));
+            Assert.That(cB.Mandatory, Is.EqualTo(false));
 
             MultiSelect mS = (MultiSelect)dE.DataItemList[5];
-            Assert.AreEqual("VÆLG", mS.Label);
+            Assert.That(mS.Label, Is.EqualTo("VÆLG"));
             // Assert.AreEqual("Vælg en eller flere i liste. er Microting eform integereret med ERP-System, kan valgmulighederne komme derfra", cB.Description); TODO
-            Assert.AreEqual(6, mS.DisplayOrder);
-            Assert.AreEqual(false, mS.Mandatory);
+            Assert.That(mS.DisplayOrder, Is.EqualTo(6));
+            Assert.That(mS.Mandatory, Is.EqualTo(false));
 
             KeyValuePair kP = mS.KeyValuePairList[0];
-            Assert.AreEqual("1", kP.Key);
-            Assert.AreEqual("Valgmulighed 1", kP.Value);
-            Assert.AreEqual(false, kP.Selected);
-            Assert.AreEqual("1", kP.DisplayOrder);
+            Assert.That(kP.Key, Is.EqualTo("1"));
+            Assert.That(kP.Value, Is.EqualTo("Valgmulighed 1"));
+            Assert.That(kP.Selected, Is.EqualTo(false));
+            Assert.That(kP.DisplayOrder, Is.EqualTo("1"));
 
             KeyValuePair kP1 = mS.KeyValuePairList[1];
-            Assert.AreEqual("2", kP1.Key);
-            Assert.AreEqual("Valgmulighed 2", kP1.Value);
-            Assert.AreEqual(false, kP1.Selected);
-            Assert.AreEqual("2", kP1.DisplayOrder);
+            Assert.That(kP1.Key, Is.EqualTo("2"));
+            Assert.That(kP1.Value, Is.EqualTo("Valgmulighed 2"));
+            Assert.That(kP1.Selected, Is.EqualTo(false));
+            Assert.That(kP1.DisplayOrder, Is.EqualTo("2"));
 
             KeyValuePair kP2 = mS.KeyValuePairList[2];
-            Assert.AreEqual("3", kP2.Key);
-            Assert.AreEqual("Valgmulighed 3", kP2.Value);
-            Assert.AreEqual(false, kP2.Selected);
-            Assert.AreEqual("3", kP2.DisplayOrder);
+            Assert.That(kP2.Key, Is.EqualTo("3"));
+            Assert.That(kP2.Value, Is.EqualTo("Valgmulighed 3"));
+            Assert.That(kP2.Selected, Is.EqualTo(false));
+            Assert.That(kP2.DisplayOrder, Is.EqualTo("3"));
 
             KeyValuePair kP3 = mS.KeyValuePairList[3];
-            Assert.AreEqual("4", kP3.Key);
-            Assert.AreEqual("Valgmulighed 4", kP3.Value);
-            Assert.AreEqual(false, kP3.Selected);
-            Assert.AreEqual("4", kP3.DisplayOrder);
+            Assert.That(kP3.Key, Is.EqualTo("4"));
+            Assert.That(kP3.Value, Is.EqualTo("Valgmulighed 4"));
+            Assert.That(kP3.Selected, Is.EqualTo(false));
+            Assert.That(kP3.DisplayOrder, Is.EqualTo("4"));
 
             KeyValuePair kP4 = mS.KeyValuePairList[4];
-            Assert.AreEqual("5", kP4.Key);
-            Assert.AreEqual("Valgmulighed 5", kP4.Value);
-            Assert.AreEqual(false, kP4.Selected);
-            Assert.AreEqual("5", kP4.DisplayOrder);
+            Assert.That(kP4.Key, Is.EqualTo("5"));
+            Assert.That(kP4.Value, Is.EqualTo("Valgmulighed 5"));
+            Assert.That(kP4.Selected, Is.EqualTo(false));
+            Assert.That(kP4.DisplayOrder, Is.EqualTo("5"));
 
             KeyValuePair kP5 = mS.KeyValuePairList[5];
-            Assert.AreEqual("6", kP5.Key);
-            Assert.AreEqual("Valgmulighed 6", kP5.Value);
-            Assert.AreEqual(false, kP5.Selected);
-            Assert.AreEqual("6", kP5.DisplayOrder);
+            Assert.That(kP5.Key, Is.EqualTo("6"));
+            Assert.That(kP5.Value, Is.EqualTo("Valgmulighed 6"));
+            Assert.That(kP5.Selected, Is.EqualTo(false));
+            Assert.That(kP5.DisplayOrder, Is.EqualTo("6"));
 
             KeyValuePair kP6 = mS.KeyValuePairList[6];
-            Assert.AreEqual("7", kP6.Key);
-            Assert.AreEqual("Valgmulighed 7", kP6.Value);
-            Assert.AreEqual(false, kP6.Selected);
-            Assert.AreEqual("7", kP6.DisplayOrder);
+            Assert.That(kP6.Key, Is.EqualTo("7"));
+            Assert.That(kP6.Value, Is.EqualTo("Valgmulighed 7"));
+            Assert.That(kP6.Selected, Is.EqualTo(false));
+            Assert.That(kP6.DisplayOrder, Is.EqualTo("7"));
 
             KeyValuePair kP7 = mS.KeyValuePairList[7];
-            Assert.AreEqual("8", kP7.Key);
-            Assert.AreEqual("Valgmulighed 8", kP7.Value);
-            Assert.AreEqual(false, kP7.Selected);
-            Assert.AreEqual("8", kP7.DisplayOrder);
+            Assert.That(kP7.Key, Is.EqualTo("8"));
+            Assert.That(kP7.Value, Is.EqualTo("Valgmulighed 8"));
+            Assert.That(kP7.Selected, Is.EqualTo(false));
+            Assert.That(kP7.DisplayOrder, Is.EqualTo("8"));
 
             KeyValuePair kP8 = mS.KeyValuePairList[8];
-            Assert.AreEqual("9", kP8.Key);
-            Assert.AreEqual("Valgmulighed 9", kP8.Value);
-            Assert.AreEqual(false, kP8.Selected);
-            Assert.AreEqual("9", kP8.DisplayOrder);
+            Assert.That(kP8.Key, Is.EqualTo("9"));
+            Assert.That(kP8.Value, Is.EqualTo("Valgmulighed 9"));
+            Assert.That(kP8.Selected, Is.EqualTo(false));
+            Assert.That(kP8.DisplayOrder, Is.EqualTo("9"));
 
             KeyValuePair kP9 = mS.KeyValuePairList[9];
-            Assert.AreEqual("Valgmulighed N", kP9.Value);
-            Assert.AreEqual(false, kP9.Selected);
-            Assert.AreEqual("10", kP9.DisplayOrder);
+            Assert.That(kP9.Value, Is.EqualTo("Valgmulighed N"));
+            Assert.That(kP9.Selected, Is.EqualTo(false));
+            Assert.That(kP9.DisplayOrder, Is.EqualTo("10"));
 
             SingleSelect sS = (SingleSelect)dE.DataItemList[6];
-            Assert.AreEqual("VÆLG ÉN", sS.Label);
+            Assert.That(sS.Label, Is.EqualTo("VÆLG ÉN"));
             // Assert.AreEqual("Vælg én blandt flere valgmuligheder.<br><br>Er Microting eForm integreret med ERP-system, kan valgmulighederne komme derfra.]]></", cB.Description); TODO
-            Assert.AreEqual(7, sS.DisplayOrder);
-            Assert.AreEqual(false, sS.Mandatory);
+            Assert.That(sS.DisplayOrder, Is.EqualTo(7));
+            Assert.That(sS.Mandatory, Is.EqualTo(false));
 
             KeyValuePair skP = mS.KeyValuePairList[0];
-            Assert.AreEqual("1", kP.Key);
-            Assert.AreEqual("Valgmulighed 1", kP.Value);
-            Assert.AreEqual(false, kP.Selected);
-            Assert.AreEqual("1", kP.DisplayOrder);
+            Assert.That(kP.Key, Is.EqualTo("1"));
+            Assert.That(kP.Value, Is.EqualTo("Valgmulighed 1"));
+            Assert.That(kP.Selected, Is.EqualTo(false));
+            Assert.That(kP.DisplayOrder, Is.EqualTo("1"));
 
             KeyValuePair skP1 = mS.KeyValuePairList[1];
-            Assert.AreEqual("2", kP1.Key);
-            Assert.AreEqual("Valgmulighed 2", kP1.Value);
-            Assert.AreEqual(false, kP1.Selected);
-            Assert.AreEqual("2", kP1.DisplayOrder);
+            Assert.That(kP1.Key, Is.EqualTo("2"));
+            Assert.That(kP1.Value, Is.EqualTo("Valgmulighed 2"));
+            Assert.That(kP1.Selected, Is.EqualTo(false));
+            Assert.That(kP1.DisplayOrder, Is.EqualTo("2"));
 
             KeyValuePair skP2 = mS.KeyValuePairList[2];
-            Assert.AreEqual("3", kP2.Key);
-            Assert.AreEqual("Valgmulighed 3", kP2.Value);
-            Assert.AreEqual(false, kP2.Selected);
-            Assert.AreEqual("3", kP2.DisplayOrder);
+            Assert.That(kP2.Key, Is.EqualTo("3"));
+            Assert.That(kP2.Value, Is.EqualTo("Valgmulighed 3"));
+            Assert.That(kP2.Selected, Is.EqualTo(false));
+            Assert.That(kP2.DisplayOrder, Is.EqualTo("3"));
 
             KeyValuePair skP3 = mS.KeyValuePairList[3];
-            Assert.AreEqual("4", kP3.Key);
-            Assert.AreEqual("Valgmulighed 4", kP3.Value);
-            Assert.AreEqual(false, kP3.Selected);
-            Assert.AreEqual("4", kP3.DisplayOrder);
+            Assert.That(kP3.Key, Is.EqualTo("4"));
+            Assert.That(kP3.Value, Is.EqualTo("Valgmulighed 4"));
+            Assert.That(kP3.Selected, Is.EqualTo(false));
+            Assert.That(kP3.DisplayOrder, Is.EqualTo("4"));
 
             KeyValuePair skP4 = mS.KeyValuePairList[4];
-            Assert.AreEqual("5", kP4.Key);
-            Assert.AreEqual("Valgmulighed 5", kP4.Value);
-            Assert.AreEqual(false, kP4.Selected);
-            Assert.AreEqual("5", kP4.DisplayOrder);
+            Assert.That(kP4.Key, Is.EqualTo("5"));
+            Assert.That(kP4.Value, Is.EqualTo("Valgmulighed 5"));
+            Assert.That(kP4.Selected, Is.EqualTo(false));
+            Assert.That(kP4.DisplayOrder, Is.EqualTo("5"));
 
             KeyValuePair skP5 = mS.KeyValuePairList[5];
-            Assert.AreEqual("6", kP5.Key);
-            Assert.AreEqual("Valgmulighed 6", kP5.Value);
-            Assert.AreEqual(false, kP5.Selected);
-            Assert.AreEqual("6", kP5.DisplayOrder);
+            Assert.That(kP5.Key, Is.EqualTo("6"));
+            Assert.That(kP5.Value, Is.EqualTo("Valgmulighed 6"));
+            Assert.That(kP5.Selected, Is.EqualTo(false));
+            Assert.That(kP5.DisplayOrder, Is.EqualTo("6"));
 
             KeyValuePair skP6 = mS.KeyValuePairList[6];
-            Assert.AreEqual("7", kP6.Key);
-            Assert.AreEqual("Valgmulighed 7", kP6.Value);
-            Assert.AreEqual(false, kP6.Selected);
-            Assert.AreEqual("7", kP6.DisplayOrder);
+            Assert.That(kP6.Key, Is.EqualTo("7"));
+            Assert.That(kP6.Value, Is.EqualTo("Valgmulighed 7"));
+            Assert.That(kP6.Selected, Is.EqualTo(false));
+            Assert.That(kP6.DisplayOrder, Is.EqualTo("7"));
 
             KeyValuePair skP7 = mS.KeyValuePairList[7];
-            Assert.AreEqual("8", kP7.Key);
-            Assert.AreEqual("Valgmulighed 8", kP7.Value);
-            Assert.AreEqual(false, kP7.Selected);
-            Assert.AreEqual("8", kP7.DisplayOrder);
+            Assert.That(kP7.Key, Is.EqualTo("8"));
+            Assert.That(kP7.Value, Is.EqualTo("Valgmulighed 8"));
+            Assert.That(kP7.Selected, Is.EqualTo(false));
+            Assert.That(kP7.DisplayOrder, Is.EqualTo("8"));
 
             KeyValuePair skP8 = mS.KeyValuePairList[8];
-            Assert.AreEqual("9", kP8.Key);
-            Assert.AreEqual("Valgmulighed 9", kP8.Value);
-            Assert.AreEqual(false, kP8.Selected);
-            Assert.AreEqual("9", kP8.DisplayOrder);
+            Assert.That(kP8.Key, Is.EqualTo("9"));
+            Assert.That(kP8.Value, Is.EqualTo("Valgmulighed 9"));
+            Assert.That(kP8.Selected, Is.EqualTo(false));
+            Assert.That(kP8.DisplayOrder, Is.EqualTo("9"));
 
             KeyValuePair skP9 = mS.KeyValuePairList[9];
-            Assert.AreEqual("Valgmulighed N", kP9.Value);
-            Assert.AreEqual(false, kP9.Selected);
-            Assert.AreEqual("10", kP9.DisplayOrder);
+            Assert.That(kP9.Value, Is.EqualTo("Valgmulighed N"));
+            Assert.That(kP9.Selected, Is.EqualTo(false));
+            Assert.That(kP9.DisplayOrder, Is.EqualTo("10"));
 
             Date d1 = (Date)dE.DataItemList[7];
-            Assert.AreEqual("DATO", d1.Label);
+            Assert.That(d1.Label, Is.EqualTo("DATO"));
             // Assert.AreEqual("Vælg dato<br><br>Er Microting eForm integreret med ERP-system, kan valgt dato leveres direkte i ERP-system]]></", cB.Description); TODO
-            Assert.AreEqual(8, d1.DisplayOrder);
+            Assert.That(d1.DisplayOrder, Is.EqualTo(8));
             // Assert.AreEqual("2016-06-09", d1.MinValue); TODO
             // Assert.AreEqual("2026-06-09", d1.MaxValue); TODO
-            Assert.AreEqual(false, d1.Mandatory);
-            Assert.AreEqual(false, d1.ReadOnly);
+            Assert.That(d1.Mandatory, Is.EqualTo(false));
+            Assert.That(d1.ReadOnly, Is.EqualTo(false));
 
             Number n2 = (Number)dE.DataItemList[8];
-            Assert.AreEqual("INDTAST TAL", n2.Label);
+            Assert.That(n2.Label, Is.EqualTo("INDTAST TAL"));
             // Assert.AreEqual("Indtast tal og opsæt evt. regler for mindste/højeste tilladte værdi.<br><br>Er Microting eForm integreret med ERP-system, sendes de indtastede værdier direkte til ERP-systemet]></", cB.Description); TODO
-            Assert.AreEqual(9, n2.DisplayOrder);
+            Assert.That(n2.DisplayOrder, Is.EqualTo(9));
             //         Assert.AreEqual("", n2.MinValue);
             //         Assert.AreEqual("", n2.MaxValue);
             //         Assert.AreEqual("", n2.DecimalCount);
             //         Assert.AreEqual("", n2.UnitName);
-            Assert.AreEqual(false, d1.Mandatory);
+            Assert.That(d1.Mandatory, Is.EqualTo(false));
 
             Text tt1 = (Text)dE.DataItemList[9];
-            Assert.AreEqual("SKRIV KORT KOMMENTAR", tt1.Label);
+            Assert.That(tt1.Label, Is.EqualTo("SKRIV KORT KOMMENTAR"));
             // Assert.AreEqual(" Skriv kort kommentar uden linieskift]></", cB.Description); TODO
-            Assert.AreEqual(10, tt1.DisplayOrder);
+            Assert.That(tt1.DisplayOrder, Is.EqualTo(10));
             // Assert.AreEqual(0, tt1.multi) TODO
-            Assert.AreEqual(false, tt1.GeolocationEnabled);
+            Assert.That(tt1.GeolocationEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, tt1.split) TODO
             // Assert.AreEqual("", tt1.Value); TODO
-            Assert.AreEqual(false, tt1.ReadOnly);
-            Assert.AreEqual(false, tt1.Mandatory);
+            Assert.That(tt1.ReadOnly, Is.EqualTo(false));
+            Assert.That(tt1.Mandatory, Is.EqualTo(false));
 
             Picture pp1 = (Picture)dE.DataItemList[10];
-            Assert.AreEqual("FOTO", pp1.Label);
+            Assert.That(pp1.Label, Is.EqualTo("FOTO"));
             // Assert.AreEqual("Er Microting eForm integreret med ERP-system, kan billederne vises direkte i virksomhedens ERP/andet databasesystem.", pp1.Description);
-            Assert.AreEqual(11, pp1.DisplayOrder);
-            Assert.AreEqual(false, pp1.Mandatory);
+            Assert.That(pp1.DisplayOrder, Is.EqualTo(11));
+            Assert.That(pp1.Mandatory, Is.EqualTo(false));
 
             Comment cc1 = (Comment)dE.DataItemList[11];
-            Assert.AreEqual("SKRIV LANG KOMMENTAR", cc1.Label);
+            Assert.That(cc1.Label, Is.EqualTo("SKRIV LANG KOMMENTAR"));
             // Assert.AreEqual("Skriv længere kommentar med mulighed for linieskift.", cc1.Description);
-            Assert.AreEqual(12, cc1.DisplayOrder);
+            Assert.That(cc1.DisplayOrder, Is.EqualTo(12));
             // Assert.AreEqual(1, cc1.multi);
             // Assert.AreEqual(false, cc1.geolocation);
-            Assert.AreEqual("", cc1.Value);
-            Assert.AreEqual(false, cc1.ReadOnly);
-            Assert.AreEqual(false, cc1.Mandatory);
+            Assert.That(cc1.Value, Is.EqualTo(""));
+            Assert.That(cc1.ReadOnly, Is.EqualTo(false));
+            Assert.That(cc1.Mandatory, Is.EqualTo(false));
 
             Signature ss1 = (Signature)dE.DataItemList[12];
-            Assert.AreEqual("UNDERSKRIFT", ss1.Label);
+            Assert.That(ss1.Label, Is.EqualTo("UNDERSKRIFT"));
             // Assert.AreEqual("Underskrift<br><br>Er Microting eForm integreret med ERP-system, kan underskrifterne sendes direkte til ERP/andet databasesystem.", ss1.Description);
-            Assert.AreEqual(13, ss1.DisplayOrder);
-            Assert.AreEqual(false, ss1.Mandatory);
+            Assert.That(ss1.DisplayOrder, Is.EqualTo(13));
+            Assert.That(ss1.Mandatory, Is.EqualTo(false));
 
             SaveButton ssB = (SaveButton)dE.DataItemList[13];
-            Assert.AreEqual("GEM", ssB.Label);
+            Assert.That(ssB.Label, Is.EqualTo("GEM"));
             // Assert.AreEqual("Tryk for at gemme data.<br>Press to save data.", ssB.Description);
-            Assert.AreEqual(14, ssB.DisplayOrder);
-            Assert.AreEqual("GEM/SAVE", ssB.Value);
+            Assert.That(ssB.DisplayOrder, Is.EqualTo(14));
+            Assert.That(ssB.Value, Is.EqualTo("GEM/SAVE"));
         }
 
         [Test]
@@ -1274,79 +1274,79 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual("Multiselect", match.Label);
+            Assert.That(match.Repeated, Is.EqualTo(1));
+            Assert.That(match.Label, Is.EqualTo("Multiselect"));
             // Assert.AreEqual("2017-01-22", match.StartDate); TODO
             // Assert.AreEqual("2027-01-22", match.EndDate); TODO
-            Assert.AreEqual("da", match.Language);
-            Assert.AreEqual(false, match.MultiApproval);
-            Assert.AreEqual(false, match.FastNavigation);
+            Assert.That(match.Language, Is.EqualTo("da"));
+            Assert.That(match.MultiApproval, Is.EqualTo(false));
+            Assert.That(match.FastNavigation, Is.EqualTo(false));
             // Assert.AreEqual(match.review, false); //TODO no method review
             // Assert.AreEqual(match.summary, false); //TODO no method summary
-            Assert.AreEqual(0, match.DisplayOrder);
+            Assert.That(match.DisplayOrder, Is.EqualTo(0));
 
-            Assert.AreEqual(1, match.ElementList.Count());
+            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.AreEqual(2, dE.DataItemList.Count());
+            Assert.That(dE.DataItemList.Count(), Is.EqualTo(2));
 
-            Assert.AreEqual("Multiselect", dE.Label);
+            Assert.That(dE.Label, Is.EqualTo("Multiselect"));
             // Assert.AreEqual(CDataValue, dE.Label); //TODO
-            Assert.AreEqual(0, dE.DisplayOrder);
-            Assert.AreEqual(false, dE.ReviewEnabled);
+            Assert.That(dE.DisplayOrder, Is.EqualTo(0));
+            Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.manualSync) //TODO
-            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.DoneButtondisabled); //TODO
-            Assert.AreEqual(false, dE.ApprovalEnabled);
+            Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
 
             MultiSelect mS = (MultiSelect)dE.DataItemList[0];
 
 
-            Assert.AreEqual("Flere valg", mS.Label);
+            Assert.That(mS.Label, Is.EqualTo("Flere valg"));
             // Assert.AreEqual(CDataValue, de.description)"); //TODO
-            Assert.AreEqual(0, mS.DisplayOrder);
-            Assert.AreEqual(false, mS.Mandatory);
+            Assert.That(mS.DisplayOrder, Is.EqualTo(0));
+            Assert.That(mS.Mandatory, Is.EqualTo(false));
 
             KeyValuePair kP = mS.KeyValuePairList[0];
-            Assert.AreEqual("1", kP.Key);
+            Assert.That(kP.Key, Is.EqualTo("1"));
             // Assert.AreEqual(CData, kP.Value); TODO
-            Assert.AreEqual(false, kP.Selected);
-            Assert.AreEqual("1", kP.DisplayOrder);
+            Assert.That(kP.Selected, Is.EqualTo(false));
+            Assert.That(kP.DisplayOrder, Is.EqualTo("1"));
 
             KeyValuePair kP2 = mS.KeyValuePairList[1];
-            Assert.AreEqual("2", kP2.Key);
+            Assert.That(kP2.Key, Is.EqualTo("2"));
             // Assert.AreEqual(CData, kP.Value); TODO
-            Assert.AreEqual(false, kP2.Selected);
-            Assert.AreEqual("2", kP2.DisplayOrder);
+            Assert.That(kP2.Selected, Is.EqualTo(false));
+            Assert.That(kP2.DisplayOrder, Is.EqualTo("2"));
 
             KeyValuePair kP3 = mS.KeyValuePairList[2];
-            Assert.AreEqual("3", kP3.Key);
+            Assert.That(kP3.Key, Is.EqualTo("3"));
             // Assert.AreEqual(CData, kP.Value); TODO
-            Assert.AreEqual(false, kP3.Selected);
-            Assert.AreEqual("3", kP3.DisplayOrder);
+            Assert.That(kP3.Selected, Is.EqualTo(false));
+            Assert.That(kP3.DisplayOrder, Is.EqualTo("3"));
 
             KeyValuePair kP4 = mS.KeyValuePairList[3];
-            Assert.AreEqual("4", kP4.Key);
+            Assert.That(kP4.Key, Is.EqualTo("4"));
             // Assert.AreEqual(CData, kP.Value); TODO
-            Assert.AreEqual(false, kP4.Selected);
-            Assert.AreEqual("4", kP4.DisplayOrder);
+            Assert.That(kP4.Selected, Is.EqualTo(false));
+            Assert.That(kP4.DisplayOrder, Is.EqualTo("4"));
 
             SingleSelect sS = (SingleSelect)dE.DataItemList[1];
-            Assert.AreEqual("Choose one option", sS.Label);
+            Assert.That(sS.Label, Is.EqualTo("Choose one option"));
             // Assert.AreEqual("This is a description", sS.Description) //TODO
-            Assert.AreEqual(1, sS.DisplayOrder);
-            Assert.AreEqual(false, sS.Mandatory);
+            Assert.That(sS.DisplayOrder, Is.EqualTo(1));
+            Assert.That(sS.Mandatory, Is.EqualTo(false));
 
             KeyValuePair kkP = sS.KeyValuePairList[0];
-            Assert.AreEqual("1", kkP.Key);
+            Assert.That(kkP.Key, Is.EqualTo("1"));
             // Assert.AreEqual(CData, kkP.Value); TODO
-            Assert.AreEqual(false, kkP.Selected);
-            Assert.AreEqual("1", kkP.DisplayOrder);
+            Assert.That(kkP.Selected, Is.EqualTo(false));
+            Assert.That(kkP.DisplayOrder, Is.EqualTo("1"));
 
             KeyValuePair kkP2 = sS.KeyValuePairList[1];
-            Assert.AreEqual("2", kkP2.Key);
+            Assert.That(kkP2.Key, Is.EqualTo("2"));
             // Assert.AreEqual(CData, kkP2.Value); TODO
-            Assert.AreEqual(false, kkP2.Selected);
-            Assert.AreEqual("2", kkP2.DisplayOrder);
+            Assert.That(kkP2.Selected, Is.EqualTo(false));
+            Assert.That(kkP2.DisplayOrder, Is.EqualTo("2"));
         }
 
         [Test]
@@ -1446,87 +1446,87 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual("Single Select", match.Label);
+            Assert.That(match.Repeated, Is.EqualTo(1));
+            Assert.That(match.Label, Is.EqualTo("Single Select"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO
             // Assert.AreEqual("2028-05-08", match.EndDate); TODO
-            Assert.AreEqual("da", match.Language);
-            Assert.AreEqual(false, match.MultiApproval);
-            Assert.AreEqual(false, match.FastNavigation);
+            Assert.That(match.Language, Is.EqualTo("da"));
+            Assert.That(match.MultiApproval, Is.EqualTo(false));
+            Assert.That(match.FastNavigation, Is.EqualTo(false));
             // Assert.AreEqual(match.review, false); //TODO no method review
             // Assert.AreEqual(match.summary, false); //TODO no method summary
-            Assert.AreEqual(0, match.DisplayOrder);
+            Assert.That(match.DisplayOrder, Is.EqualTo(0));
 
-            Assert.AreEqual(1, match.ElementList.Count());
+            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.AreEqual(1, dE.DataItemList.Count());
+            Assert.That(dE.DataItemList.Count(), Is.EqualTo(1));
 
-            Assert.AreEqual("Single Select", dE.Label);
+            Assert.That(dE.Label, Is.EqualTo("Single Select"));
             // Assert.AreEqual(CDataValue, dE.Label); //TODO
-            Assert.AreEqual(0, dE.DisplayOrder);
-            Assert.AreEqual(false, dE.ReviewEnabled);
+            Assert.That(dE.DisplayOrder, Is.EqualTo(0));
+            Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.manualSync) //TODO
-            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.DoneButtondisabled); //TODO
-            Assert.AreEqual(false, dE.ApprovalEnabled);
+            Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
 
             SingleSelect sS = (SingleSelect)dE.DataItemList[0];
 
 
-            Assert.AreEqual("Single Select 1", sS.Label);
+            Assert.That(sS.Label, Is.EqualTo("Single Select 1"));
             // Assert.AreEqual(CDataValue, ss.description)"); //TODO
-            Assert.AreEqual(0, sS.DisplayOrder);
-            Assert.AreEqual(false, sS.Mandatory);
+            Assert.That(sS.DisplayOrder, Is.EqualTo(0));
+            Assert.That(sS.Mandatory, Is.EqualTo(false));
 
             KeyValuePair kP = sS.KeyValuePairList[0];
-            Assert.AreEqual("1", kP.Key);
+            Assert.That(kP.Key, Is.EqualTo("1"));
             // Assert.AreEqual(CData, kP.Value); TODO
-            Assert.AreEqual(false, kP.Selected);
-            Assert.AreEqual("1", kP.DisplayOrder);
+            Assert.That(kP.Selected, Is.EqualTo(false));
+            Assert.That(kP.DisplayOrder, Is.EqualTo("1"));
 
             KeyValuePair kP2 = sS.KeyValuePairList[1];
-            Assert.AreEqual("2", kP2.Key);
+            Assert.That(kP2.Key, Is.EqualTo("2"));
             // Assert.AreEqual(CData, kP.Value); TODO
-            Assert.AreEqual(false, kP2.Selected);
-            Assert.AreEqual("2", kP2.DisplayOrder);
+            Assert.That(kP2.Selected, Is.EqualTo(false));
+            Assert.That(kP2.DisplayOrder, Is.EqualTo("2"));
 
             KeyValuePair kP3 = sS.KeyValuePairList[2];
-            Assert.AreEqual("3", kP3.Key);
+            Assert.That(kP3.Key, Is.EqualTo("3"));
             // Assert.AreEqual(CData, kP.Value); TODO
-            Assert.AreEqual(false, kP3.Selected);
-            Assert.AreEqual("3", kP3.DisplayOrder);
+            Assert.That(kP3.Selected, Is.EqualTo(false));
+            Assert.That(kP3.DisplayOrder, Is.EqualTo("3"));
 
             KeyValuePair kP4 = sS.KeyValuePairList[3];
-            Assert.AreEqual("4", kP4.Key);
+            Assert.That(kP4.Key, Is.EqualTo("4"));
             // Assert.AreEqual(CData, kP.Value); TODO
-            Assert.AreEqual(false, kP4.Selected);
-            Assert.AreEqual("4", kP4.DisplayOrder);
+            Assert.That(kP4.Selected, Is.EqualTo(false));
+            Assert.That(kP4.DisplayOrder, Is.EqualTo("4"));
 
             KeyValuePair kP5 = sS.KeyValuePairList[4];
-            Assert.AreEqual("5", kP5.Key);
+            Assert.That(kP5.Key, Is.EqualTo("5"));
             // Assert.AreEqual(CData, kP.Value); TODO
-            Assert.AreEqual(false, kP5.Selected);
-            Assert.AreEqual("5", kP5.DisplayOrder);
+            Assert.That(kP5.Selected, Is.EqualTo(false));
+            Assert.That(kP5.DisplayOrder, Is.EqualTo("5"));
 
             KeyValuePair kP6 = sS.KeyValuePairList[5];
-            Assert.AreEqual("6", kP6.Key);
+            Assert.That(kP6.Key, Is.EqualTo("6"));
             // Assert.AreEqual(CData, kP.Value); TODO
-            Assert.AreEqual(false, kP6.Selected);
-            Assert.AreEqual("6", kP6.DisplayOrder);
+            Assert.That(kP6.Selected, Is.EqualTo(false));
+            Assert.That(kP6.DisplayOrder, Is.EqualTo("6"));
 
             KeyValuePair kP7 = sS.KeyValuePairList[6];
-            Assert.AreEqual("7", kP7.Key);
+            Assert.That(kP7.Key, Is.EqualTo("7"));
             // Assert.AreEqual(CData, kP.Value); TODO
-            Assert.AreEqual(false, kP7.Selected);
-            Assert.AreEqual("7", kP7.DisplayOrder);
+            Assert.That(kP7.Selected, Is.EqualTo(false));
+            Assert.That(kP7.DisplayOrder, Is.EqualTo("7"));
 
             KeyValuePair kP8 = sS.KeyValuePairList[7];
-            Assert.AreEqual("8", kP8.Key);
+            Assert.That(kP8.Key, Is.EqualTo("8"));
             // Assert.AreEqual(CData, kP.Value); TODO
-            Assert.AreEqual(false, kP8.Selected);
-            Assert.AreEqual("8", kP8.DisplayOrder);
+            Assert.That(kP8.Selected, Is.EqualTo(false));
+            Assert.That(kP8.DisplayOrder, Is.EqualTo("8"));
 
-            Assert.AreEqual(Constants.FieldColors.Default, sS.Color);
+            Assert.That(sS.Color, Is.EqualTo(Constants.FieldColors.Default));
         }
 
         [Test] // Comment
@@ -1581,42 +1581,42 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual("comment", match.Label);
+            Assert.That(match.Repeated, Is.EqualTo(1));
+            Assert.That(match.Label, Is.EqualTo("comment"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO
             // Assert.AreEqual("2028-05-08", match.EndDate); TODO
-            Assert.AreEqual("da", match.Language);
-            Assert.AreEqual(false, match.MultiApproval);
-            Assert.AreEqual(false, match.FastNavigation);
+            Assert.That(match.Language, Is.EqualTo("da"));
+            Assert.That(match.MultiApproval, Is.EqualTo(false));
+            Assert.That(match.FastNavigation, Is.EqualTo(false));
             // Assert.AreEqual(match.review, false); //TODO no method review
             // Assert.AreEqual(match.summary, false); //TODO no method summary
-            Assert.AreEqual(0, match.DisplayOrder);
+            Assert.That(match.DisplayOrder, Is.EqualTo(0));
 
-            Assert.AreEqual(1, match.ElementList.Count());
+            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.AreEqual(1, dE.DataItemList.Count());
+            Assert.That(dE.DataItemList.Count(), Is.EqualTo(1));
 
-            Assert.AreEqual("comment", dE.Label);
+            Assert.That(dE.Label, Is.EqualTo("comment"));
             // Assert.AreEqual(CDataValue, dE.Description); //TODO
-            Assert.AreEqual(0, dE.DisplayOrder);
-            Assert.AreEqual(false, dE.ReviewEnabled);
+            Assert.That(dE.DisplayOrder, Is.EqualTo(0));
+            Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.manualSync) //TODO
-            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.DoneButtondisabled); //todo
-            Assert.AreEqual(false, dE.ApprovalEnabled);
+            Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
 
             Comment cc = (Comment)dE.DataItemList[0];
 
-            Assert.AreEqual("Comment", cc.Label);
+            Assert.That(cc.Label, Is.EqualTo("Comment"));
             // Assert.AreEqual(CDataValue, cc.Description); //todo
-            Assert.AreEqual(0, cc.DisplayOrder);
+            Assert.That(cc.DisplayOrder, Is.EqualTo(0));
             // Assert.AreEqual(1, cc.multi) //TODO
             // Assert.AreEqual(false, cc.geolocation) //todo
             // Assert.AreEqual(false, cc.split) //TODO
-            Assert.AreEqual("", cc.Value);
-            Assert.AreEqual(false, cc.ReadOnly);
-            Assert.AreEqual(false, cc.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Default, cc.Color);
+            Assert.That(cc.Value, Is.EqualTo(""));
+            Assert.That(cc.ReadOnly, Is.EqualTo(false));
+            Assert.That(cc.Mandatory, Is.EqualTo(false));
+            Assert.That(cc.Color, Is.EqualTo(Constants.FieldColors.Default));
         }
 
         [Test] // Text
@@ -1671,42 +1671,42 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual("Single line", match.Label);
+            Assert.That(match.Repeated, Is.EqualTo(1));
+            Assert.That(match.Label, Is.EqualTo("Single line"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO
             // Assert.AreEqual("2028-05-08", match.EndDate); TODO
-            Assert.AreEqual("da", match.Language);
-            Assert.AreEqual(false, match.MultiApproval);
-            Assert.AreEqual(false, match.FastNavigation);
+            Assert.That(match.Language, Is.EqualTo("da"));
+            Assert.That(match.MultiApproval, Is.EqualTo(false));
+            Assert.That(match.FastNavigation, Is.EqualTo(false));
             // Assert.AreEqual(match.review, false); //TODO no method review
             // Assert.AreEqual(match.summary, false); //TODO no method summary
-            Assert.AreEqual(0, match.DisplayOrder);
+            Assert.That(match.DisplayOrder, Is.EqualTo(0));
 
-            Assert.AreEqual(1, match.ElementList.Count());
+            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.AreEqual(1, dE.DataItemList.Count());
+            Assert.That(dE.DataItemList.Count(), Is.EqualTo(1));
 
-            Assert.AreEqual("Single line", dE.Label);
+            Assert.That(dE.Label, Is.EqualTo("Single line"));
             // Assert.AreEqual(CDataValue, dE.Description); //TODO
-            Assert.AreEqual(0, dE.DisplayOrder);
-            Assert.AreEqual(false, dE.ReviewEnabled);
+            Assert.That(dE.DisplayOrder, Is.EqualTo(0));
+            Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.manualSync) //TODO
-            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.DoneButtondisabled); //todo
-            Assert.AreEqual(false, dE.ApprovalEnabled);
+            Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
 
             Text t = (Text)dE.DataItemList[0];
 
-            Assert.AreEqual("Single line 1", t.Label);
+            Assert.That(t.Label, Is.EqualTo("Single line 1"));
             // Assert.AreEqual(CDataValue, t.Description); //TODO
-            Assert.AreEqual(0, t.DisplayOrder);
+            Assert.That(t.DisplayOrder, Is.EqualTo(0));
             // Assert.AreEqual(0, t.multi) //TODO
-            Assert.AreEqual(false, t.GeolocationEnabled);
+            Assert.That(t.GeolocationEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, t.split) //TODO
-            Assert.AreEqual("", t.Value);
-            Assert.AreEqual(false, t.ReadOnly);
-            Assert.AreEqual(false, t.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Default, t.Color);
+            Assert.That(t.Value, Is.EqualTo(""));
+            Assert.That(t.ReadOnly, Is.EqualTo(false));
+            Assert.That(t.Mandatory, Is.EqualTo(false));
+            Assert.That(t.Color, Is.EqualTo(Constants.FieldColors.Default));
         }
 
         [Test]
@@ -1761,42 +1761,42 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual("Number 1", match.Label);
+            Assert.That(match.Repeated, Is.EqualTo(1));
+            Assert.That(match.Label, Is.EqualTo("Number 1"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO
             // Assert.AreEqual("2028-05-08", match.EndDate); TODO
-            Assert.AreEqual("da", match.Language);
-            Assert.AreEqual(false, match.MultiApproval);
-            Assert.AreEqual(false, match.FastNavigation);
+            Assert.That(match.Language, Is.EqualTo("da"));
+            Assert.That(match.MultiApproval, Is.EqualTo(false));
+            Assert.That(match.FastNavigation, Is.EqualTo(false));
             // Assert.AreEqual(match.review, false); //TODO no method review
             // Assert.AreEqual(match.summary, false); //TODO no method summary
-            Assert.AreEqual(0, match.DisplayOrder);
+            Assert.That(match.DisplayOrder, Is.EqualTo(0));
 
-            Assert.AreEqual(1, match.ElementList.Count());
+            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.AreEqual(1, dE.DataItemList.Count());
+            Assert.That(dE.DataItemList.Count(), Is.EqualTo(1));
 
-            Assert.AreEqual("Number 1", dE.Label);
+            Assert.That(dE.Label, Is.EqualTo("Number 1"));
             // Assert.AreEqual(CDataValue, dE.Description); //TODO
-            Assert.AreEqual(0, dE.DisplayOrder);
-            Assert.AreEqual(false, dE.ReviewEnabled);
+            Assert.That(dE.DisplayOrder, Is.EqualTo(0));
+            Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.manualSync) //TODO
-            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.DoneButtondisabled); //todo
-            Assert.AreEqual(false, dE.ApprovalEnabled);
+            Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
 
             Number n = (Number)dE.DataItemList[0];
 
-            Assert.AreEqual("Number 1", n.Label);
+            Assert.That(n.Label, Is.EqualTo("Number 1"));
             // Assert.AreEqual(CDataValue, t.Description); //TODO
-            Assert.AreEqual(0, n.DisplayOrder);
-            Assert.AreEqual("1", n.MinValue);
-            Assert.AreEqual("1100", n.MaxValue);
+            Assert.That(n.DisplayOrder, Is.EqualTo(0));
+            Assert.That(n.MinValue, Is.EqualTo("1"));
+            Assert.That(n.MaxValue, Is.EqualTo("1100"));
             // Assert.AreEqual(24, n.value) //TODO
-            Assert.AreEqual(2, n.DecimalCount);
-            Assert.AreEqual(true, n.Mandatory);
-            Assert.AreEqual("", n.UnitName);
-            Assert.AreEqual(Constants.FieldColors.Default, n.Color);
+            Assert.That(n.DecimalCount, Is.EqualTo(2));
+            Assert.That(n.Mandatory, Is.EqualTo(true));
+            Assert.That(n.UnitName, Is.EqualTo(""));
+            Assert.That(n.Color, Is.EqualTo(Constants.FieldColors.Default));
         }
 
         [Test]
@@ -1845,36 +1845,36 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual("Info box", match.Label);
+            Assert.That(match.Repeated, Is.EqualTo(1));
+            Assert.That(match.Label, Is.EqualTo("Info box"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO
             // Assert.AreEqual("2028-05-08", match.EndDate); TODO
-            Assert.AreEqual("da", match.Language);
-            Assert.AreEqual(false, match.MultiApproval);
-            Assert.AreEqual(false, match.FastNavigation);
+            Assert.That(match.Language, Is.EqualTo("da"));
+            Assert.That(match.MultiApproval, Is.EqualTo(false));
+            Assert.That(match.FastNavigation, Is.EqualTo(false));
             // Assert.AreEqual(match.review, false); //TODO no method review
             // Assert.AreEqual(match.summary, false); //TODO no method summary
-            Assert.AreEqual(0, match.DisplayOrder);
+            Assert.That(match.DisplayOrder, Is.EqualTo(0));
 
-            Assert.AreEqual(1, match.ElementList.Count());
+            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.AreEqual(1, dE.DataItemList.Count());
+            Assert.That(dE.DataItemList.Count(), Is.EqualTo(1));
 
-            Assert.AreEqual("Info box", dE.Label);
+            Assert.That(dE.Label, Is.EqualTo("Info box"));
             // Assert.AreEqual(CDataValue, dE.Description); //TODO
-            Assert.AreEqual(0, dE.DisplayOrder);
-            Assert.AreEqual(false, dE.ReviewEnabled);
+            Assert.That(dE.DisplayOrder, Is.EqualTo(0));
+            Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.manualSync) //TODO
-            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.DoneButtondisabled); //todo
-            Assert.AreEqual(false, dE.ApprovalEnabled);
+            Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
 
             None n = (None)dE.DataItemList[0];
 
-            Assert.AreEqual("Info box 1", n.Label);
+            Assert.That(n.Label, Is.EqualTo("Info box 1"));
             // Assert.AreEqual(CDataValue, t.Description); //TODO
-            Assert.AreEqual(0, n.DisplayOrder);
-            Assert.AreEqual(Constants.FieldColors.Default, n.Color);
+            Assert.That(n.DisplayOrder, Is.EqualTo(0));
+            Assert.That(n.Color, Is.EqualTo(Constants.FieldColors.Default));
         }
 
         [Test]
@@ -1925,38 +1925,38 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual("checkbox", match.Label);
+            Assert.That(match.Repeated, Is.EqualTo(1));
+            Assert.That(match.Label, Is.EqualTo("checkbox"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO
             // Assert.AreEqual("2028-05-08", match.EndDate); TODO
-            Assert.AreEqual("da", match.Language);
-            Assert.AreEqual(false, match.MultiApproval);
-            Assert.AreEqual(false, match.FastNavigation);
+            Assert.That(match.Language, Is.EqualTo("da"));
+            Assert.That(match.MultiApproval, Is.EqualTo(false));
+            Assert.That(match.FastNavigation, Is.EqualTo(false));
             // Assert.AreEqual(match.review, false); //TODO no method review
             // Assert.AreEqual(match.summary, false); //TODO no method summary
-            Assert.AreEqual(0, match.DisplayOrder);
+            Assert.That(match.DisplayOrder, Is.EqualTo(0));
 
-            Assert.AreEqual(1, match.ElementList.Count());
+            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.AreEqual(1, dE.DataItemList.Count());
+            Assert.That(dE.DataItemList.Count(), Is.EqualTo(1));
 
-            Assert.AreEqual("checkbox", dE.Label);
+            Assert.That(dE.Label, Is.EqualTo("checkbox"));
             // Assert.AreEqual(CDataValue, dE.Description); //TODO
-            Assert.AreEqual(0, dE.DisplayOrder);
-            Assert.AreEqual(false, dE.ReviewEnabled);
+            Assert.That(dE.DisplayOrder, Is.EqualTo(0));
+            Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.manualSync) //TODO
-            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.DoneButtondisabled); //todo
-            Assert.AreEqual(false, dE.ApprovalEnabled);
+            Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
 
             CheckBox cB = (CheckBox)dE.DataItemList[0];
 
-            Assert.AreEqual("Checkbox 1", cB.Label);
+            Assert.That(cB.Label, Is.EqualTo("Checkbox 1"));
             // Assert.AreEqual(CDataValue, t.Description); //TODO
-            Assert.AreEqual(0, cB.DisplayOrder);
-            Assert.AreEqual(false, cB.Selected);
-            Assert.AreEqual(false, cB.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Default, cB.Color);
+            Assert.That(cB.DisplayOrder, Is.EqualTo(0));
+            Assert.That(cB.Selected, Is.EqualTo(false));
+            Assert.That(cB.Mandatory, Is.EqualTo(false));
+            Assert.That(cB.Color, Is.EqualTo(Constants.FieldColors.Default));
         }
 
         [Test]
@@ -2007,38 +2007,38 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual("TimerStartStop", match.Label);
+            Assert.That(match.Repeated, Is.EqualTo(1));
+            Assert.That(match.Label, Is.EqualTo("TimerStartStop"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO
             // Assert.AreEqual("2028-05-08", match.EndDate); TODO
-            Assert.AreEqual("da", match.Language);
-            Assert.AreEqual(false, match.MultiApproval);
-            Assert.AreEqual(false, match.FastNavigation);
+            Assert.That(match.Language, Is.EqualTo("da"));
+            Assert.That(match.MultiApproval, Is.EqualTo(false));
+            Assert.That(match.FastNavigation, Is.EqualTo(false));
             // Assert.AreEqual(match.review, false); //TODO no method review
             // Assert.AreEqual(match.summary, false); //TODO no method summary
-            Assert.AreEqual(0, match.DisplayOrder);
+            Assert.That(match.DisplayOrder, Is.EqualTo(0));
 
-            Assert.AreEqual(1, match.ElementList.Count());
+            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.AreEqual(1, dE.DataItemList.Count());
+            Assert.That(dE.DataItemList.Count(), Is.EqualTo(1));
 
-            Assert.AreEqual("TimerStartStop", dE.Label);
+            Assert.That(dE.Label, Is.EqualTo("TimerStartStop"));
             // Assert.AreEqual(CDataValue, dE.Description); //TODO
-            Assert.AreEqual(0, dE.DisplayOrder);
-            Assert.AreEqual(false, dE.ReviewEnabled);
+            Assert.That(dE.DisplayOrder, Is.EqualTo(0));
+            Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.manualSync) //TODO
-            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.DoneButtondisabled); //todo
-            Assert.AreEqual(false, dE.ApprovalEnabled);
+            Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
 
             Timer t = (Timer)dE.DataItemList[0];
 
-            Assert.AreEqual("Timer Start Stop 1", t.Label);
+            Assert.That(t.Label, Is.EqualTo("Timer Start Stop 1"));
             // Assert.AreEqual(CDataValue, t.Description); //TODO
-            Assert.AreEqual(0, t.DisplayOrder);
-            Assert.AreEqual(false, t.StopOnSave);
-            Assert.AreEqual(false, t.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Default, t.Color);
+            Assert.That(t.DisplayOrder, Is.EqualTo(0));
+            Assert.That(t.StopOnSave, Is.EqualTo(false));
+            Assert.That(t.Mandatory, Is.EqualTo(false));
+            Assert.That(t.Color, Is.EqualTo(Constants.FieldColors.Default));
         }
 
         [Test]
@@ -2088,37 +2088,37 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual("Save button", match.Label);
+            Assert.That(match.Repeated, Is.EqualTo(1));
+            Assert.That(match.Label, Is.EqualTo("Save button"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO
             // Assert.AreEqual("2028-05-08", match.EndDate); TODO
-            Assert.AreEqual("da", match.Language);
-            Assert.AreEqual(false, match.MultiApproval);
-            Assert.AreEqual(false, match.FastNavigation);
+            Assert.That(match.Language, Is.EqualTo("da"));
+            Assert.That(match.MultiApproval, Is.EqualTo(false));
+            Assert.That(match.FastNavigation, Is.EqualTo(false));
             // Assert.AreEqual(match.review, false); //TODO no method review
             // Assert.AreEqual(match.summary, false); //TODO no method summary
-            Assert.AreEqual(0, match.DisplayOrder);
+            Assert.That(match.DisplayOrder, Is.EqualTo(0));
 
-            Assert.AreEqual(1, match.ElementList.Count());
+            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.AreEqual(1, dE.DataItemList.Count());
+            Assert.That(dE.DataItemList.Count(), Is.EqualTo(1));
 
-            Assert.AreEqual("Save button", dE.Label);
+            Assert.That(dE.Label, Is.EqualTo("Save button"));
             // Assert.AreEqual(CDataValue, dE.Description); //TODO
-            Assert.AreEqual(0, dE.DisplayOrder);
-            Assert.AreEqual(false, dE.ReviewEnabled);
+            Assert.That(dE.DisplayOrder, Is.EqualTo(0));
+            Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.manualSync) //TODO
-            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.DoneButtondisabled); //todo
-            Assert.AreEqual(false, dE.ApprovalEnabled);
+            Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
 
             SaveButton sB = (SaveButton)dE.DataItemList[0];
 
-            Assert.AreEqual("Save button 1", sB.Label);
+            Assert.That(sB.Label, Is.EqualTo("Save button 1"));
             // Assert.AreEqual(CDataValue, t.Description); //TODO
-            Assert.AreEqual(0, sB.DisplayOrder);
-            Assert.AreEqual("", sB.Value);
-            Assert.AreEqual(Constants.FieldColors.Default, sB.Color);
+            Assert.That(sB.DisplayOrder, Is.EqualTo(0));
+            Assert.That(sB.Value, Is.EqualTo(""));
+            Assert.That(sB.Color, Is.EqualTo(Constants.FieldColors.Default));
         }
 
         [Test]
@@ -2230,83 +2230,83 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual("MultiLvlTest", match.Label);
+            Assert.That(match.Repeated, Is.EqualTo(1));
+            Assert.That(match.Label, Is.EqualTo("MultiLvlTest"));
             // Assert.AreEqual("2018-05-08", match.StartDate); TODO
             // Assert.AreEqual("2028-05-08", match.EndDate); TODO
-            Assert.AreEqual("da", match.Language);
-            Assert.AreEqual(false, match.MultiApproval);
-            Assert.AreEqual(false, match.FastNavigation);
+            Assert.That(match.Language, Is.EqualTo("da"));
+            Assert.That(match.MultiApproval, Is.EqualTo(false));
+            Assert.That(match.FastNavigation, Is.EqualTo(false));
             // Assert.AreEqual(match.review, false); //TODO no method review
             // Assert.AreEqual(match.summary, false); //TODO no method summary
-            Assert.AreEqual(0, match.DisplayOrder);
+            Assert.That(match.DisplayOrder, Is.EqualTo(0));
 
-            Assert.AreEqual(1, match.ElementList.Count());
+            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
             GroupElement gE = (GroupElement)match.ElementList[0];
-            Assert.AreEqual(3, gE.ElementList.Count());
+            Assert.That(gE.ElementList.Count(), Is.EqualTo(3));
 
-            Assert.AreEqual("1 lvl", gE.Label);
+            Assert.That(gE.Label, Is.EqualTo("1 lvl"));
             // Assert.AreEqual("1 lvl description", gE.Description); //TODO
-            Assert.AreEqual(0, gE.DisplayOrder);
+            Assert.That(gE.DisplayOrder, Is.EqualTo(0));
 
             DataElement dE = (DataElement)gE.ElementList[0];
-            Assert.AreEqual("1.1 lvl", dE.Label);
+            Assert.That(dE.Label, Is.EqualTo("1.1 lvl"));
             // Assert.AreEqual("1.1 lvl description", de.description); TODO
-            Assert.AreEqual(0, dE.DisplayOrder);
-            Assert.AreEqual(false, dE.ReviewEnabled);
+            Assert.That(dE.DisplayOrder, Is.EqualTo(0));
+            Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.manualSync) //TODO
-            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE.DoneButtondisabled); //todo
-            Assert.AreEqual(false, dE.ApprovalEnabled);
+            Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
 
             CheckBox cB = (CheckBox)dE.DataItemList[0];
-            Assert.AreEqual("1.1 lvl checkbox", cB.Label);
+            Assert.That(cB.Label, Is.EqualTo("1.1 lvl checkbox"));
             // Assert.AreEqual("1.1 lvl cehckbox description", cB.Description) //TODO
-            Assert.AreEqual(0, cB.DisplayOrder);
-            Assert.AreEqual(false, cB.Selected);
-            Assert.AreEqual(false, cB.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Default, cB.Color);
+            Assert.That(cB.DisplayOrder, Is.EqualTo(0));
+            Assert.That(cB.Selected, Is.EqualTo(false));
+            Assert.That(cB.Mandatory, Is.EqualTo(false));
+            Assert.That(cB.Color, Is.EqualTo(Constants.FieldColors.Default));
 
             DataElement dE2 = (DataElement)gE.ElementList[1];
-            Assert.AreEqual("1.2 lvl", dE2.Label);
+            Assert.That(dE2.Label, Is.EqualTo("1.2 lvl"));
             // Assert.AreEqual("1.2 lvl description", dE2.Description); //TODO
-            Assert.AreEqual(1, dE2.DisplayOrder);
-            Assert.AreEqual(false, dE2.ReviewEnabled);
+            Assert.That(dE2.DisplayOrder, Is.EqualTo(1));
+            Assert.That(dE2.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE2.manualsync)//TODO
-            Assert.AreEqual(false, dE2.ExtraFieldsEnabled);
+            Assert.That(dE2.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, dE2.DoneButtonDisabled); //TODO
-            Assert.AreEqual(false, dE2.ApprovalEnabled);
+            Assert.That(dE2.ApprovalEnabled, Is.EqualTo(false));
 
             CheckBox cb2 = (CheckBox)dE2.DataItemList[0];
-            Assert.AreEqual("1.2 lvl checkbox", cb2.Label);
+            Assert.That(cb2.Label, Is.EqualTo("1.2 lvl checkbox"));
             // Assert.AreEqual("1.2 lvl checkbox description", cb2.Description) //TODO
-            Assert.AreEqual(0, cb2.DisplayOrder);
-            Assert.AreEqual(false, cb2.Selected);
-            Assert.AreEqual(false, cb2.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Default, cb2.Color);
+            Assert.That(cb2.DisplayOrder, Is.EqualTo(0));
+            Assert.That(cb2.Selected, Is.EqualTo(false));
+            Assert.That(cb2.Mandatory, Is.EqualTo(false));
+            Assert.That(cb2.Color, Is.EqualTo(Constants.FieldColors.Default));
 
             GroupElement gE2 = (GroupElement)gE.ElementList[2];
-            Assert.AreEqual("1.3 lvl", gE2.Label);
+            Assert.That(gE2.Label, Is.EqualTo("1.3 lvl"));
             // Assert.AreEqual("1.3 lvl description", gE2.Description); //TODO
-            Assert.AreEqual(2, gE2.DisplayOrder);
+            Assert.That(gE2.DisplayOrder, Is.EqualTo(2));
 
             DataElement de3 = (DataElement)gE2.ElementList[0];
-            Assert.AreEqual("1.3.1 lvl", de3.Label);
+            Assert.That(de3.Label, Is.EqualTo("1.3.1 lvl"));
             // Assert.AreEqual("1.3.1.1 lvl description", de3.Description) //TODO
-            Assert.AreEqual(0, cb2.DisplayOrder);
-            Assert.AreEqual(false, de3.ReviewEnabled);
+            Assert.That(cb2.DisplayOrder, Is.EqualTo(0));
+            Assert.That(de3.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, de3.manualsync);//TODO
-            Assert.AreEqual(false, de3.ExtraFieldsEnabled);
+            Assert.That(de3.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(false, de3.donebuttondisabled)//TODO
-            Assert.AreEqual(false, de3.ApprovalEnabled);
+            Assert.That(de3.ApprovalEnabled, Is.EqualTo(false));
 
             CheckBox cb3 = (CheckBox)de3.DataItemList[0];
-            Assert.AreEqual("1.3.1 lvl checkbox", cb3.Label);
+            Assert.That(cb3.Label, Is.EqualTo("1.3.1 lvl checkbox"));
             // Assert.AreEqual("1.2 lvl checkbox description", cb2.Description) //TODO
-            Assert.AreEqual(0, cb3.DisplayOrder);
-            Assert.AreEqual(false, cb3.Selected);
-            Assert.AreEqual(false, cb3.Mandatory);
-            Assert.AreEqual(Constants.FieldColors.Default, cb3.Color);
+            Assert.That(cb3.DisplayOrder, Is.EqualTo(0));
+            Assert.That(cb3.Selected, Is.EqualTo(false));
+            Assert.That(cb3.Mandatory, Is.EqualTo(false));
+            Assert.That(cb3.Color, Is.EqualTo(Constants.FieldColors.Default));
         }
 
 

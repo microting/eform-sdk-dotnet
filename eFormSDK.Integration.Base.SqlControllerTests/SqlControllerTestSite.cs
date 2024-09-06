@@ -243,33 +243,33 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
 
             // Assert
-            Assert.True(true);
+            Assert.That(true, Is.True);
 
-            Assert.AreEqual(10, getAllSitesOnlyCreated.Count());
-            Assert.AreEqual(10, getAllSitesInclRemoved.Count());
+            Assert.That(getAllSitesOnlyCreated.Count(), Is.EqualTo(10));
+            Assert.That(getAllSitesInclRemoved.Count(), Is.EqualTo(10));
 
-            Assert.AreEqual(site1.Name, getAllSitesOnlyCreated[0].SiteName);
-            Assert.AreEqual(site2.Name, getAllSitesOnlyCreated[1].SiteName);
-            Assert.AreEqual(site3.Name, getAllSitesOnlyCreated[2].SiteName);
-            Assert.AreEqual(site4.Name, getAllSitesOnlyCreated[3].SiteName);
-            Assert.AreEqual(site5.Name, getAllSitesOnlyCreated[4].SiteName);
-            Assert.AreEqual(site6.Name, getAllSitesOnlyCreated[5].SiteName);
-            Assert.AreEqual(site7.Name, getAllSitesOnlyCreated[6].SiteName);
-            Assert.AreEqual(site8.Name, getAllSitesOnlyCreated[7].SiteName);
-            Assert.AreEqual(site9.Name, getAllSitesOnlyCreated[8].SiteName);
-            Assert.AreEqual(site10.Name, getAllSitesOnlyCreated[9].SiteName);
+            Assert.That(getAllSitesOnlyCreated[0].SiteName, Is.EqualTo(site1.Name));
+            Assert.That(getAllSitesOnlyCreated[1].SiteName, Is.EqualTo(site2.Name));
+            Assert.That(getAllSitesOnlyCreated[2].SiteName, Is.EqualTo(site3.Name));
+            Assert.That(getAllSitesOnlyCreated[3].SiteName, Is.EqualTo(site4.Name));
+            Assert.That(getAllSitesOnlyCreated[4].SiteName, Is.EqualTo(site5.Name));
+            Assert.That(getAllSitesOnlyCreated[5].SiteName, Is.EqualTo(site6.Name));
+            Assert.That(getAllSitesOnlyCreated[6].SiteName, Is.EqualTo(site7.Name));
+            Assert.That(getAllSitesOnlyCreated[7].SiteName, Is.EqualTo(site8.Name));
+            Assert.That(getAllSitesOnlyCreated[8].SiteName, Is.EqualTo(site9.Name));
+            Assert.That(getAllSitesOnlyCreated[9].SiteName, Is.EqualTo(site10.Name));
 
 
-            Assert.AreEqual(site1.Name, getAllSitesInclRemoved[0].SiteName);
-            Assert.AreEqual(site2.Name, getAllSitesInclRemoved[1].SiteName);
-            Assert.AreEqual(site3.Name, getAllSitesInclRemoved[2].SiteName);
-            Assert.AreEqual(site4.Name, getAllSitesInclRemoved[3].SiteName);
-            Assert.AreEqual(site5.Name, getAllSitesInclRemoved[4].SiteName);
-            Assert.AreEqual(site6.Name, getAllSitesInclRemoved[5].SiteName);
-            Assert.AreEqual(site7.Name, getAllSitesInclRemoved[6].SiteName);
-            Assert.AreEqual(site8.Name, getAllSitesInclRemoved[7].SiteName);
-            Assert.AreEqual(site9.Name, getAllSitesInclRemoved[8].SiteName);
-            Assert.AreEqual(site10.Name, getAllSitesInclRemoved[9].SiteName);
+            Assert.That(getAllSitesInclRemoved[0].SiteName, Is.EqualTo(site1.Name));
+            Assert.That(getAllSitesInclRemoved[1].SiteName, Is.EqualTo(site2.Name));
+            Assert.That(getAllSitesInclRemoved[2].SiteName, Is.EqualTo(site3.Name));
+            Assert.That(getAllSitesInclRemoved[3].SiteName, Is.EqualTo(site4.Name));
+            Assert.That(getAllSitesInclRemoved[4].SiteName, Is.EqualTo(site5.Name));
+            Assert.That(getAllSitesInclRemoved[5].SiteName, Is.EqualTo(site6.Name));
+            Assert.That(getAllSitesInclRemoved[6].SiteName, Is.EqualTo(site7.Name));
+            Assert.That(getAllSitesInclRemoved[7].SiteName, Is.EqualTo(site8.Name));
+            Assert.That(getAllSitesInclRemoved[8].SiteName, Is.EqualTo(site9.Name));
+            Assert.That(getAllSitesInclRemoved[9].SiteName, Is.EqualTo(site10.Name));
         }
 
         [Test]
@@ -467,19 +467,19 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
 
             // Assert
-            Assert.AreEqual(10, match.Count());
+            Assert.That(match.Count(), Is.EqualTo(10));
 
 
-            Assert.AreEqual(site1.Name, match[0].SiteName);
-            Assert.AreEqual(site2.Name, match[1].SiteName);
-            Assert.AreEqual(site3.Name, match[2].SiteName);
-            Assert.AreEqual(site4.Name, match[3].SiteName);
-            Assert.AreEqual(site5.Name, match[4].SiteName);
-            Assert.AreEqual(site6.Name, match[5].SiteName);
-            Assert.AreEqual(site7.Name, match[6].SiteName);
-            Assert.AreEqual(site8.Name, match[7].SiteName);
-            Assert.AreEqual(site9.Name, match[8].SiteName);
-            Assert.AreEqual(site10.Name, match[9].SiteName);
+            Assert.That(match[0].SiteName, Is.EqualTo(site1.Name));
+            Assert.That(match[1].SiteName, Is.EqualTo(site2.Name));
+            Assert.That(match[2].SiteName, Is.EqualTo(site3.Name));
+            Assert.That(match[3].SiteName, Is.EqualTo(site4.Name));
+            Assert.That(match[4].SiteName, Is.EqualTo(site5.Name));
+            Assert.That(match[5].SiteName, Is.EqualTo(site6.Name));
+            Assert.That(match[6].SiteName, Is.EqualTo(site7.Name));
+            Assert.That(match[7].SiteName, Is.EqualTo(site8.Name));
+            Assert.That(match[8].SiteName, Is.EqualTo(site9.Name));
+            Assert.That(match[9].SiteName, Is.EqualTo(site10.Name));
         }
 
         [Test]
@@ -497,8 +497,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             Assert.NotNull(match);
 
-            Assert.AreEqual(1, sites.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Created, sites[0].WorkflowState);
+            Assert.That(sites.Count(), Is.EqualTo(1));
+            Assert.That(sites[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
         }
 
         [Test]
@@ -687,8 +687,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var match = await sut.SiteRead((int)site1.MicrotingUid);
 
             // Assert
-            Assert.AreEqual(site1.MicrotingUid, match.SiteUId);
-            Assert.AreEqual(site1.Name, match.SiteName);
+            Assert.That(match.SiteUId, Is.EqualTo(site1.MicrotingUid));
+            Assert.That(match.SiteName, Is.EqualTo(site1.Name));
         }
 
         [Test]
@@ -891,8 +891,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var match = await sut.SiteReadSimple((int)site1.MicrotingUid);
 
             // Assert
-            Assert.AreEqual(site1.MicrotingUid, match.SiteId);
-            Assert.AreEqual(site1.Name, match.SiteName);
+            Assert.That(match.SiteId, Is.EqualTo(site1.MicrotingUid));
+            Assert.That(match.SiteName, Is.EqualTo(site1.Name));
         }
 
         [Test]
@@ -1091,7 +1091,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var match = await sut.SiteUpdate((int)site1.MicrotingUid, site1.Name);
 
             // Assert
-            Assert.True(match);
+            Assert.That(match, Is.True);
         }
 
         [Test]
@@ -1290,7 +1290,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var match = await sut.SiteDelete((int)site1.MicrotingUid);
 
             // Assert
-            Assert.True(match);
+            Assert.That(match, Is.True);
         }
 
         #endregion

@@ -61,13 +61,13 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(dbSite);
             Assert.NotNull(dbSite.Id);
 
-            Assert.AreEqual(1, sitesList.Count());
-            Assert.AreEqual(site.CreatedAt.ToString(), dbSite.CreatedAt.ToString());
-            Assert.AreEqual(site.Version, dbSite.Version);
-//            Assert.AreEqual(site.UpdatedAt.ToString(), dbSites.UpdatedAt.ToString());
-            Assert.AreEqual(dbSite.WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(site.Name, dbSite.Name);
-            Assert.AreEqual(site.MicrotingUid, dbSite.MicrotingUid);
+            Assert.That(sitesList.Count(), Is.EqualTo(1));
+            Assert.That(dbSite.CreatedAt.ToString(), Is.EqualTo(site.CreatedAt.ToString()));
+            Assert.That(dbSite.Version, Is.EqualTo(site.Version));
+            //            Assert.AreEqual(site.UpdatedAt.ToString(), dbSites.UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(dbSite.WorkflowState));
+            Assert.That(dbSite.Name, Is.EqualTo(site.Name));
+            Assert.That(dbSite.MicrotingUid, Is.EqualTo(site.MicrotingUid));
         }
 
         [Test]
@@ -97,13 +97,13 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(dbSite);
             Assert.NotNull(dbSite.Id);
 
-            Assert.AreEqual(1, sitesList.Count());
-            Assert.AreEqual(1, sitesVersions.Count());
+            Assert.That(sitesList.Count(), Is.EqualTo(1));
+            Assert.That(sitesVersions.Count(), Is.EqualTo(1));
 
-            Assert.AreEqual(site.CreatedAt.ToString(), dbSite.CreatedAt.ToString());
-            Assert.AreEqual(site.Version, dbSite.Version);
-//            Assert.AreEqual(site.UpdatedAt.ToString(), dbSites.UpdatedAt.ToString());
-            Assert.AreEqual(site.Name, dbSite.Name);
+            Assert.That(dbSite.CreatedAt.ToString(), Is.EqualTo(site.CreatedAt.ToString()));
+            Assert.That(dbSite.Version, Is.EqualTo(site.Version));
+            //            Assert.AreEqual(site.UpdatedAt.ToString(), dbSites.UpdatedAt.ToString());
+            Assert.That(dbSite.Name, Is.EqualTo(site.Name));
         }
 
         [Test]
@@ -132,15 +132,15 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(dbSite);
             Assert.NotNull(dbSite.Id);
 
-            Assert.AreEqual(1, sitesList.Count());
-            Assert.AreEqual(1, sitesVersions.Count());
+            Assert.That(sitesList.Count(), Is.EqualTo(1));
+            Assert.That(sitesVersions.Count(), Is.EqualTo(1));
 
-            Assert.AreEqual(site.CreatedAt.ToString(), dbSite.CreatedAt.ToString());
-            Assert.AreEqual(site.Version, dbSite.Version);
-//            Assert.AreEqual(site.UpdatedAt.ToString(), dbSites.UpdatedAt.ToString());
-            Assert.AreEqual(site.Name, dbSite.Name);
+            Assert.That(dbSite.CreatedAt.ToString(), Is.EqualTo(site.CreatedAt.ToString()));
+            Assert.That(dbSite.Version, Is.EqualTo(site.Version));
+            //            Assert.AreEqual(site.UpdatedAt.ToString(), dbSites.UpdatedAt.ToString());
+            Assert.That(dbSite.Name, Is.EqualTo(site.Name));
 
-            Assert.AreEqual(dbSite.WorkflowState, Constants.WorkflowStates.Removed);
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(dbSite.WorkflowState));
         }
     }
 }

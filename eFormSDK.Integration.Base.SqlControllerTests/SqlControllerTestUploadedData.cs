@@ -105,14 +105,14 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Assert
             Assert.NotNull(ud);
-            Assert.AreEqual(dU.Id, ud.Id);
-            Assert.AreEqual(dU.Checksum, ud.Checksum);
-            Assert.AreEqual(dU.Extension, ud.Extension);
-            Assert.AreEqual(dU.CurrentFile, ud.CurrentFile);
-            Assert.AreEqual(dU.UploaderId, ud.UploaderId);
-            Assert.AreEqual(dU.UploaderType, ud.UploaderType);
-            Assert.AreEqual(dU.FileLocation, ud.FileLocation);
-            Assert.AreEqual(dU.FileName, ud.FileName);
+            Assert.That(ud.Id, Is.EqualTo(dU.Id));
+            Assert.That(ud.Checksum, Is.EqualTo(dU.Checksum));
+            Assert.That(ud.Extension, Is.EqualTo(dU.Extension));
+            Assert.That(ud.CurrentFile, Is.EqualTo(dU.CurrentFile));
+            Assert.That(ud.UploaderId, Is.EqualTo(dU.UploaderId));
+            Assert.That(ud.UploaderType, Is.EqualTo(dU.UploaderType));
+            Assert.That(ud.FileLocation, Is.EqualTo(dU.FileLocation));
+            Assert.That(ud.FileName, Is.EqualTo(dU.FileName));
             // Assert.AreEqual(dU.local, ud.);
         }
 
@@ -152,17 +152,17 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Assert
             Assert.NotNull(ud);
-            Assert.AreEqual(ud.Id, dU.Id);
-            Assert.AreEqual(ud.Extension, dU.Extension);
-            Assert.AreEqual(ud.UploaderId, dU.UploaderId);
-            Assert.AreEqual(ud.UploaderType, dU.UploaderType);
-            Assert.AreEqual(ud.WorkflowState, dU.WorkflowState);
-            Assert.AreEqual(ud.Version, 1);
-            Assert.AreEqual(ud.Local, 0);
-            Assert.AreEqual(ud.FileLocation, dU.FileLocation);
-            Assert.AreEqual(ud.FileName, dU.FileName);
-            Assert.AreEqual(ud.CurrentFile, dU.CurrentFile);
-            Assert.AreEqual(ud.Checksum, dU.Checksum);
+            Assert.That(dU.Id, Is.EqualTo(ud.Id));
+            Assert.That(dU.Extension, Is.EqualTo(ud.Extension));
+            Assert.That(dU.UploaderId, Is.EqualTo(ud.UploaderId));
+            Assert.That(dU.UploaderType, Is.EqualTo(ud.UploaderType));
+            Assert.That(dU.WorkflowState, Is.EqualTo(ud.WorkflowState));
+            Assert.That(1, Is.EqualTo(ud.Version));
+            Assert.That(0, Is.EqualTo(ud.Local));
+            Assert.That(dU.FileLocation, Is.EqualTo(ud.FileLocation));
+            Assert.That(dU.FileName, Is.EqualTo(ud.FileName));
+            Assert.That(dU.CurrentFile, Is.EqualTo(ud.CurrentFile));
+            Assert.That(dU.Checksum, Is.EqualTo(ud.Checksum));
         }
 
 
@@ -191,15 +191,15 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             Assert.NotNull(ud);
             Assert.NotNull(Ud);
-            Assert.AreEqual(Ud.Checksum, ud.Checksum);
-            Assert.AreEqual(Ud.Extension, ud.Extension);
-            Assert.AreEqual(Ud.CurrentFile, ud.CurrentFile);
-            Assert.AreEqual(Ud.UploaderId, ud.UploaderId);
-            Assert.AreEqual(Ud.UploaderType, ud.UploaderType);
-            Assert.AreEqual(Ud.FileLocation, ud.FileLocation);
-            Assert.AreEqual(Ud.FileName, ud.FileName);
-            Assert.AreEqual(Ud.Id, ud.Id);
-            Assert.AreEqual(Constants.WorkflowStates.PreCreated, ud.WorkflowState);
+            Assert.That(ud.Checksum, Is.EqualTo(Ud.Checksum));
+            Assert.That(ud.Extension, Is.EqualTo(Ud.Extension));
+            Assert.That(ud.CurrentFile, Is.EqualTo(Ud.CurrentFile));
+            Assert.That(ud.UploaderId, Is.EqualTo(Ud.UploaderId));
+            Assert.That(ud.UploaderType, Is.EqualTo(Ud.UploaderType));
+            Assert.That(ud.FileLocation, Is.EqualTo(Ud.FileLocation));
+            Assert.That(ud.FileName, Is.EqualTo(Ud.FileName));
+            Assert.That(ud.Id, Is.EqualTo(Ud.Id));
+            Assert.That(ud.WorkflowState, Is.EqualTo(Constants.WorkflowStates.PreCreated));
         }
 
         [Test]
@@ -254,7 +254,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
 
             Assert.NotNull(fVs);
-            Assert.AreEqual(fVs.CaseId, aCase1.Id);
+            Assert.That(aCase1.Id, Is.EqualTo(fVs.CaseId));
         }
 
         [Test]
@@ -277,13 +277,13 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             Assert.NotNull(uploadedDataResult);
             Assert.NotNull(ud);
-            Assert.AreEqual(Constants.WorkflowStates.Created, uploadedDataResult[0].WorkflowState);
-            Assert.AreEqual(0, uploadedDataResult[0].Local);
-            Assert.AreEqual(2, uploadedDataResult[0].Version);
-            Assert.AreEqual("myChecksum", uploadedDataResult[0].Checksum);
-            Assert.AreEqual("myFileLocation", uploadedDataResult[0].FileLocation);
-            Assert.AreEqual("myFileName", uploadedDataResult[0].FileName);
-            Assert.AreEqual(ud.Id, uploadedDataResult[0].Id);
+            Assert.That(uploadedDataResult[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+            Assert.That(uploadedDataResult[0].Local, Is.EqualTo(0));
+            Assert.That(uploadedDataResult[0].Version, Is.EqualTo(2));
+            Assert.That(uploadedDataResult[0].Checksum, Is.EqualTo("myChecksum"));
+            Assert.That(uploadedDataResult[0].FileLocation, Is.EqualTo("myFileLocation"));
+            Assert.That(uploadedDataResult[0].FileName, Is.EqualTo("myFileName"));
+            Assert.That(uploadedDataResult[0].Id, Is.EqualTo(ud.Id));
         }
 
         [Test]
@@ -301,7 +301,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             Assert.NotNull(ud);
             Assert.NotNull(uploadedDataResult);
-            Assert.AreEqual(ud.Id, uploadedDataResult[0].Id);
+            Assert.That(uploadedDataResult[0].Id, Is.EqualTo(ud.Id));
         }
 
         [Test]
@@ -319,9 +319,9 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Assert
             Assert.NotNull(ud);
             Assert.NotNull(uploadedDataResult);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, uploadedDataResult[0].WorkflowState);
-            Assert.AreEqual(2, uploadedDataResult[0].Version);
-            Assert.AreEqual(ud.Id, uploadedDataResult[0].Id);
+            Assert.That(uploadedDataResult[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+            Assert.That(uploadedDataResult[0].Version, Is.EqualTo(2));
+            Assert.That(uploadedDataResult[0].Id, Is.EqualTo(ud.Id));
         }
 
         #endregion

@@ -98,8 +98,8 @@ namespace eFormSDK.Integration.Base.CoreTests
 
             Assert.NotNull(sites);
 
-            Assert.AreEqual(1, sites.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Created, sites[0].WorkflowState);
+            Assert.That(sites.Count(), Is.EqualTo(1));
+            Assert.That(sites[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
         }
 
         [Test] //Using communicator, needs httpMock
@@ -318,8 +318,8 @@ namespace eFormSDK.Integration.Base.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(match.SiteId, site.MicrotingUid);
-            Assert.AreEqual(match.SiteName, site.Name);
+            Assert.That(site.MicrotingUid, Is.EqualTo(match.SiteId));
+            Assert.That(site.Name, Is.EqualTo(match.SiteName));
         }
 
         [Test]
@@ -521,8 +521,8 @@ namespace eFormSDK.Integration.Base.CoreTests
             Assert.NotNull(matchInclRemoved);
             Assert.NotNull(matchNotRemoved);
 
-            Assert.AreEqual(matchInclRemoved.Count, 1);
-            Assert.AreEqual(matchNotRemoved.Count, 1);
+            Assert.That(1, Is.EqualTo(matchInclRemoved.Count));
+            Assert.That(1, Is.EqualTo(matchNotRemoved.Count));
         }
 
         [Test] //Using Communicatorn needs httpMock
@@ -598,12 +598,12 @@ namespace eFormSDK.Integration.Base.CoreTests
             var groups = await dbContext.EntityGroups.CountAsync();
             var groupVersions = await dbContext.EntityGroupVersions.CountAsync();
 
-            Assert.AreEqual(2, items);
-            Assert.AreEqual(2, itemVersions);
-            Assert.AreEqual(2, groups);
-            Assert.AreEqual(4, groupVersions);
+            Assert.That(items, Is.EqualTo(2));
+            Assert.That(itemVersions, Is.EqualTo(2));
+            Assert.That(groups, Is.EqualTo(2));
+            Assert.That(groupVersions, Is.EqualTo(4));
 
-            Assert.True(match);
+            Assert.That(match, Is.True);
         }
 
         [Test] //Using Communicatorn needs httpMock
@@ -690,7 +690,7 @@ namespace eFormSDK.Integration.Base.CoreTests
             // Act
             var match = await sut.SiteDelete((int)site.MicrotingUid);
             // Assert
-            Assert.True(match);
+            Assert.That(match, Is.True);
             //#endregion
         }
 

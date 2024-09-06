@@ -129,7 +129,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
 
             // Assert
-            Assert.AreEqual(cls1.LastCheckId, matches);
+            Assert.That(matches, Is.EqualTo(cls1.LastCheckId));
         }
 
         [Test]
@@ -177,8 +177,8 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
 
             Assert.NotNull(caseResults);
-            Assert.AreEqual(1, caseResults.Count);
-            Assert.AreNotEqual(1, caseResults[0]);
+            Assert.That(caseResults.Count, Is.EqualTo(1));
+            Assert.That(caseResults[0], Is.Not.EqualTo(null));
         }
 
         [Test]
@@ -219,9 +219,9 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             List<Microting.eForm.Infrastructure.Data.Entities.Case> caseResults = DbContext.Cases.AsNoTracking()
                 .Where(x => x.MicrotingUid == aCase1.MicrotingUid).ToList();
             Assert.NotNull(caseResults);
-            Assert.AreEqual(1, caseResults.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Created, caseResults[0].WorkflowState);
-            Assert.AreEqual(66, caseResults[0].Status);
+            Assert.That(caseResults.Count(), Is.EqualTo(1));
+            Assert.That(caseResults[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+            Assert.That(caseResults[0].Status, Is.EqualTo(66));
 
             await sut.CaseUpdateCompleted((int)aCase1.MicrotingUid, (int)aCase1.MicrotingCheckUid, c1_da,
                 aCase1.Worker.MicrotingUid, (int)unit.MicrotingUid);
@@ -234,22 +234,22 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
 
             Assert.NotNull(caseResults);
-            Assert.AreEqual(1, caseResults.Count());
-            Assert.AreEqual(1, versionedMatches1.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Created, caseResults[0].WorkflowState);
-            Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches1[0].WorkflowState);
-            Assert.AreEqual(100, caseResults[0].Status);
-            Assert.AreEqual(100, versionedMatches1[0].Status);
-            Assert.AreEqual("06/11/2020 10:08:16",
-                caseResults[0].DoneAt.Value.ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
-            Assert.AreEqual("06/11/2020 10:08:16",
-                caseResults[0].DoneAtUserModifiable.Value
-                    .ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
-            Assert.AreEqual("06/11/2020 10:08:16",
-                versionedMatches1[0].DoneAt.Value.ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
-            Assert.AreEqual("06/11/2020 10:08:16",
-                versionedMatches1[0].DoneAtUserModifiable.Value
-                    .ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture));
+            Assert.That(caseResults.Count(), Is.EqualTo(1));
+            Assert.That(versionedMatches1.Count(), Is.EqualTo(1));
+            Assert.That(caseResults[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+            Assert.That(versionedMatches1[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+            Assert.That(caseResults[0].Status, Is.EqualTo(100));
+            Assert.That(versionedMatches1[0].Status, Is.EqualTo(100));
+            Assert.That(caseResults[0].DoneAt.Value.ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture),
+                Is.EqualTo("06/11/2020 10:08:16"));
+            Assert.That(caseResults[0].DoneAtUserModifiable.Value
+                    .ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture),
+                Is.EqualTo("06/11/2020 10:08:16"));
+            Assert.That(versionedMatches1[0].DoneAt.Value.ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture),
+                Is.EqualTo("06/11/2020 10:08:16"));
+            Assert.That(versionedMatches1[0].DoneAtUserModifiable.Value
+                    .ToString("MM/dd/yyyy HH:mm:ss", CultureInfo.InvariantCulture),
+                Is.EqualTo("06/11/2020 10:08:16"));
         }
 
         [Test]
@@ -293,10 +293,10 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(1, match.Count);
-            Assert.AreEqual(1, versionedMatches.Count);
-            Assert.AreEqual(Constants.WorkflowStates.Retracted, match[0].WorkflowState);
-            Assert.AreEqual(Constants.WorkflowStates.Retracted, versionedMatches[0].WorkflowState);
+            Assert.That(match.Count, Is.EqualTo(1));
+            Assert.That(versionedMatches.Count, Is.EqualTo(1));
+            Assert.That(match[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Retracted));
+            Assert.That(versionedMatches[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Retracted));
         }
 
         [Test]
@@ -334,10 +334,10 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(1, match.Count);
-            Assert.AreEqual(1, versionedMatches.Count);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, match[0].WorkflowState);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, versionedMatches[0].WorkflowState);
+            Assert.That(match.Count, Is.EqualTo(1));
+            Assert.That(versionedMatches.Count, Is.EqualTo(1));
+            Assert.That(match[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+            Assert.That(versionedMatches[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
         }
 
         [Test]
@@ -375,10 +375,10 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(1, match.Count);
-            Assert.AreEqual(1, versionedMatches.Count);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, match[0].WorkflowState);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, versionedMatches[0].WorkflowState);
+            Assert.That(match.Count, Is.EqualTo(1));
+            Assert.That(versionedMatches.Count, Is.EqualTo(1));
+            Assert.That(match[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+            Assert.That(versionedMatches[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
         }
 
         [Test]
@@ -486,7 +486,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             // Act
             var match = await sut.CaseReadFirstId(aCase.CheckListId, Constants.WorkflowStates.NotRemoved);
             // Assert
-            Assert.AreEqual(aCase.Id, match);
+            Assert.That(match, Is.EqualTo(aCase.Id));
         }
 
         [Test]
@@ -654,10 +654,10 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             List<CaseDto> aCase3Custom = await sut.CaseFindCustomMatchs(aCase3.Custom);
             List<CaseDto> aCase4Custom = await sut.CaseFindCustomMatchs(aCase4.Custom);
             // Assert
-            Assert.AreEqual(aCase1.Custom, aCase1Custom[0].Custom);
-            Assert.AreEqual(aCase2.Custom, aCase2Custom[0].Custom);
-            Assert.AreEqual(aCase3.Custom, aCase3Custom[0].Custom);
-            Assert.AreEqual(aCase4.Custom, aCase4Custom[0].Custom);
+            Assert.That(aCase1Custom[0].Custom, Is.EqualTo(aCase1.Custom));
+            Assert.That(aCase2Custom[0].Custom, Is.EqualTo(aCase2.Custom));
+            Assert.That(aCase3Custom[0].Custom, Is.EqualTo(aCase3.Custom));
+            Assert.That(aCase4Custom[0].Custom, Is.EqualTo(aCase4.Custom));
         }
 
         [Test]
@@ -1062,16 +1062,16 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             theCheckList.Field9 = f9.Id;
             theCheckList.Field10 = f10.Id;
 
-            Assert.AreEqual(null, theCase.FieldValue1);
-            Assert.AreEqual(null, theCase.FieldValue2);
-            Assert.AreEqual(null, theCase.FieldValue3);
-            Assert.AreEqual(null, theCase.FieldValue4);
-            Assert.AreEqual(null, theCase.FieldValue5);
-            Assert.AreEqual(null, theCase.FieldValue6);
-            Assert.AreEqual(null, theCase.FieldValue7);
-            Assert.AreEqual(null, theCase.FieldValue8);
-            Assert.AreEqual(null, theCase.FieldValue9);
-            Assert.AreEqual(null, theCase.FieldValue10);
+            Assert.That(theCase.FieldValue1, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue2, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue3, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue4, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue5, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue6, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue7, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue8, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue9, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue10, Is.EqualTo(null));
 
             var testThis = await sut.CaseUpdateFieldValues(aCase1.Id, language);
 
@@ -1092,18 +1092,18 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             theCaseAfter.FieldValue10 = field_Value10.Value;
 
 
-            Assert.True(testThis);
+            Assert.That(testThis, Is.True);
 
-            Assert.AreEqual("tomt1", theCaseAfter.FieldValue1);
-            Assert.AreEqual("tomt2", theCaseAfter.FieldValue2);
-            Assert.AreEqual("tomt3", theCaseAfter.FieldValue3);
-            Assert.AreEqual("tomt4", theCaseAfter.FieldValue4);
-            Assert.AreEqual("tomt5", theCaseAfter.FieldValue5);
-            Assert.AreEqual("tomt6", theCaseAfter.FieldValue6);
-            Assert.AreEqual("tomt7", theCaseAfter.FieldValue7);
-            Assert.AreEqual("tomt8", theCaseAfter.FieldValue8);
-            Assert.AreEqual("tomt9", theCaseAfter.FieldValue9);
-            Assert.AreEqual("tomt10", theCaseAfter.FieldValue10);
+            Assert.That(theCaseAfter.FieldValue1, Is.EqualTo("tomt1"));
+            Assert.That(theCaseAfter.FieldValue2, Is.EqualTo("tomt2"));
+            Assert.That(theCaseAfter.FieldValue3, Is.EqualTo("tomt3"));
+            Assert.That(theCaseAfter.FieldValue4, Is.EqualTo("tomt4"));
+            Assert.That(theCaseAfter.FieldValue5, Is.EqualTo("tomt5"));
+            Assert.That(theCaseAfter.FieldValue6, Is.EqualTo("tomt6"));
+            Assert.That(theCaseAfter.FieldValue7, Is.EqualTo("tomt7"));
+            Assert.That(theCaseAfter.FieldValue8, Is.EqualTo("tomt8"));
+            Assert.That(theCaseAfter.FieldValue9, Is.EqualTo("tomt9"));
+            Assert.That(theCaseAfter.FieldValue10, Is.EqualTo("tomt10"));
         }
 
         [Test]
@@ -1311,7 +1311,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Assert
 
-            Assert.AreEqual(aCase.MicrotingUid, match.MicrotingUId);
+            Assert.That(match.MicrotingUId, Is.EqualTo(aCase.MicrotingUid));
         }
 
         [Test]
@@ -1430,7 +1430,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Assert
 
-            Assert.AreEqual(aCase.Id, match.CaseId);
+            Assert.That(match.CaseId, Is.EqualTo(aCase.Id));
         }
 
         [Test]
@@ -1550,7 +1550,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             // Assert
 
-            Assert.AreEqual(aCase.CaseUid, match[0].CaseUId);
+            Assert.That(match[0].CaseUId, Is.EqualTo(aCase.CaseUid));
         }
 
         [Test]
@@ -1665,8 +1665,8 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             // Act
             var match = await sut.CaseReadFull((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid);
             // Assert
-            Assert.AreEqual(aCase.MicrotingUid, match.MicrotingUid);
-            Assert.AreEqual(aCase.MicrotingCheckUid, match.MicrotingCheckUid);
+            Assert.That(match.MicrotingUid, Is.EqualTo(aCase.MicrotingUid));
+            Assert.That(match.MicrotingCheckUid, Is.EqualTo(aCase.MicrotingCheckUid));
         }
 
 

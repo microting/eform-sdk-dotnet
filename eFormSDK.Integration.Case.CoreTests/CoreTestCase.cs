@@ -96,7 +96,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             // Assert
             Assert.NotNull(theCase);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, theCase.WorkflowState);
+            Assert.That(theCase.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
         }
 
 //         [Test]// TODO needs http mock done
@@ -168,7 +168,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(match.CaseType, aCase.Type);
+            Assert.That(aCase.Type, Is.EqualTo(match.CaseType));
         }
 
         [Test]
@@ -223,7 +223,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             // Assert
 
-            Assert.AreEqual(aCase.Id, match.CaseId);
+            Assert.That(match.CaseId, Is.EqualTo(aCase.Id));
         }
 
         [Test]
@@ -274,7 +274,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             // Act
             var match = await sut.CaseReadFirstId(aCase.CheckList.Id, aCase.WorkflowState);
             // Assert
-            Assert.AreEqual(aCase.Id, match);
+            Assert.That(match, Is.EqualTo(aCase.Id));
         }
 
         [Test]
@@ -755,7 +755,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             var match = await sut.CaseUpdate(aCase1.Id, FVPlist, CLVlist);
 
             Assert.NotNull(match);
-            Assert.True(match);
+            Assert.That(match, Is.True);
         }
 //         [Test]// TODO needs mocks
 // #pragma warning disable 1998
@@ -1512,16 +1512,16 @@ namespace eFormSDK.Integration.Case.CoreTests
             theCheckList.Field9 = f9.Id;
             theCheckList.Field10 = f10.Id;
 
-            Assert.AreEqual(null, theCase.FieldValue1);
-            Assert.AreEqual(null, theCase.FieldValue2);
-            Assert.AreEqual(null, theCase.FieldValue3);
-            Assert.AreEqual(null, theCase.FieldValue4);
-            Assert.AreEqual(null, theCase.FieldValue5);
-            Assert.AreEqual(null, theCase.FieldValue6);
-            Assert.AreEqual(null, theCase.FieldValue7);
-            Assert.AreEqual(null, theCase.FieldValue8);
-            Assert.AreEqual(null, theCase.FieldValue9);
-            Assert.AreEqual(null, theCase.FieldValue10);
+            Assert.That(theCase.FieldValue1, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue2, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue3, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue4, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue5, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue6, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue7, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue8, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue9, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue10, Is.EqualTo(null));
 
             var testThis = await sut.CaseUpdateFieldValues(aCase1.Id, language);
 
@@ -1542,18 +1542,18 @@ namespace eFormSDK.Integration.Case.CoreTests
             theCaseAfter.FieldValue10 = field_Value10.Value;
 
 
-            Assert.True(testThis);
+            Assert.That(testThis, Is.True);
 
-            Assert.AreEqual("tomt1", theCaseAfter.FieldValue1);
-            Assert.AreEqual("tomt2", theCaseAfter.FieldValue2);
-            Assert.AreEqual("tomt3", theCaseAfter.FieldValue3);
-            Assert.AreEqual("tomt4", theCaseAfter.FieldValue4);
-            Assert.AreEqual("tomt5", theCaseAfter.FieldValue5);
-            Assert.AreEqual("tomt6", theCaseAfter.FieldValue6);
-            Assert.AreEqual("tomt7", theCaseAfter.FieldValue7);
-            Assert.AreEqual("tomt8", theCaseAfter.FieldValue8);
-            Assert.AreEqual("tomt9", theCaseAfter.FieldValue9);
-            Assert.AreEqual("tomt10", theCaseAfter.FieldValue10);
+            Assert.That(theCaseAfter.FieldValue1, Is.EqualTo("tomt1"));
+            Assert.That(theCaseAfter.FieldValue2, Is.EqualTo("tomt2"));
+            Assert.That(theCaseAfter.FieldValue3, Is.EqualTo("tomt3"));
+            Assert.That(theCaseAfter.FieldValue4, Is.EqualTo("tomt4"));
+            Assert.That(theCaseAfter.FieldValue5, Is.EqualTo("tomt5"));
+            Assert.That(theCaseAfter.FieldValue6, Is.EqualTo("tomt6"));
+            Assert.That(theCaseAfter.FieldValue7, Is.EqualTo("tomt7"));
+            Assert.That(theCaseAfter.FieldValue8, Is.EqualTo("tomt8"));
+            Assert.That(theCaseAfter.FieldValue9, Is.EqualTo("tomt9"));
+            Assert.That(theCaseAfter.FieldValue10, Is.EqualTo("tomt10"));
         }
 
         [Test]
@@ -1608,7 +1608,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             // Assert
 
-            Assert.AreEqual(aCase.MicrotingUid, match.MicrotingUId);
+            Assert.That(match.MicrotingUId, Is.EqualTo(aCase.MicrotingUid));
         }
 
         [Test]
@@ -1663,7 +1663,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             // Assert
 
-            Assert.AreEqual(aCase.Id, match.CaseId);
+            Assert.That(match.CaseId, Is.EqualTo(aCase.Id));
         }
 
         [Test]
@@ -1719,7 +1719,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             // Assert
 
-            Assert.AreEqual(aCase.CaseUid, match[0].CaseUId);
+            Assert.That(match[0].CaseUId, Is.EqualTo(aCase.CaseUid));
         }
 
         [Test]
@@ -1783,7 +1783,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             var match = await sut.CaseIdLookup((int)aCase1.MicrotingUid, (int)aCase1.MicrotingCheckUid);
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(aCase1.Id, match);
+            Assert.That(match, Is.EqualTo(aCase1.Id));
         }
 
         #region Core_Case_CasesToExcel_returnsPathAndName
@@ -2682,7 +2682,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(match, pdfPath);
+            Assert.That(pdfPath, Is.EqualTo(match));
         }
 
         [Test]
@@ -2700,7 +2700,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(match, Path.Combine(path, "output", "dataFolder", "reports"));
+            Assert.That(Path.Combine(path, "output", "dataFolder", "reports"), Is.EqualTo(match));
         }
 
         [Test]
@@ -2712,7 +2712,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             var match = await sut.SetSdkSetting(Settings.fileLocationJasper, @"C:\local\gitgud");
             // Assert
             Assert.NotNull(match);
-            Assert.True(match);
+            Assert.That(match, Is.True);
         }
 
         [Test]
@@ -2730,7 +2730,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(match, Path.Combine(path, "output", "dataFolder", "picture"));
+            Assert.That(Path.Combine(path, "output", "dataFolder", "picture"), Is.EqualTo(match));
         }
 
         [Test]
@@ -2742,7 +2742,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             var match = await sut.SetSdkSetting(Settings.fileLocationPicture, @"C:\local");
             // Assert
             Assert.NotNull(match);
-            Assert.True(match);
+            Assert.That(match, Is.True);
         }
 
         [Test]
@@ -2760,7 +2760,7 @@ namespace eFormSDK.Integration.Case.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(match, Path.Combine(path, "output", "dataFolder", "pdf"));
+            Assert.That(Path.Combine(path, "output", "dataFolder", "pdf"), Is.EqualTo(match));
         }
         // [Test]
         // public async Task Core_Case_SetHttpServerAddress_ReturnsTrue()

@@ -77,7 +77,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var match = await sut.SettingCreateDefaults();
             // Assert
 
-            Assert.True(match);
+            Assert.That(match, Is.True);
         }
 
 
@@ -107,24 +107,24 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var match18 = await sut.SettingCreate(Settings.comAddressNewApi);
 
             // Assert
-            Assert.True(match1);
-            Assert.True(match2);
-            Assert.True(match3);
-            Assert.True(match4);
-            Assert.True(match5);
-            Assert.True(match6);
-            Assert.True(match7);
-            Assert.True(match8);
-            Assert.True(match9);
-            Assert.True(match10);
-            Assert.True(match11);
-            Assert.True(match12);
-            Assert.True(match13);
-            Assert.True(match14);
-            Assert.True(match15);
-            Assert.True(match16);
-            Assert.True(match17);
-            Assert.True(match18);
+            Assert.That(match1, Is.True);
+            Assert.That(match2, Is.True);
+            Assert.That(match3, Is.True);
+            Assert.That(match4, Is.True);
+            Assert.That(match5, Is.True);
+            Assert.That(match6, Is.True);
+            Assert.That(match7, Is.True);
+            Assert.That(match8, Is.True);
+            Assert.That(match9, Is.True);
+            Assert.That(match10, Is.True);
+            Assert.That(match11, Is.True);
+            Assert.That(match12, Is.True);
+            Assert.That(match13, Is.True);
+            Assert.That(match14, Is.True);
+            Assert.That(match15, Is.True);
+            Assert.That(match16, Is.True);
+            Assert.That(match17, Is.True);
+            Assert.That(match18, Is.True);
 
             var matchb1 = await sut.SettingRead(Settings.awsAccessKeyId);
             var matchb2 = await sut.SettingRead(Settings.awsEndPoint);
@@ -147,24 +147,24 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
 
             // Assert
-            Assert.AreEqual(matchb1, "3T98EGIO4Y9H8W2");
-            Assert.AreEqual(matchb2, "https://sqs.eu-central-1.amazonaws.com/564456879978/");
-            Assert.AreEqual(matchb3, "098u34098uergijt3098w");
-            Assert.AreEqual(matchb4, "http://srv05.microting.com");
-            Assert.AreEqual(matchb5, "https://basic.microting.com");
-            Assert.AreEqual(matchb6, "https://srv16.microting.com");
-            Assert.AreEqual(matchb7, "64856189");
-            Assert.AreEqual(matchb8, @"\output\dataFolder\reports\");
-            Assert.AreEqual(matchb9, @"\output\dataFolder\pdf\");
-            Assert.AreEqual(matchb10, @"\output\dataFolder\picture\");
-            Assert.AreEqual(matchb11, "true");
-            Assert.AreEqual(matchb12, "http://localhost:3000");
-            Assert.AreEqual(matchb13, "true");
-            Assert.AreEqual(matchb14, "4");
-            Assert.AreEqual(matchb15, "25000");
-            Assert.AreEqual(matchb16, "abc1234567890abc1234567890abcdef");
-            Assert.AreEqual(matchb17, "55");
-            Assert.AreEqual(matchb18, "none");
+            Assert.That("3T98EGIO4Y9H8W2", Is.EqualTo(matchb1));
+            Assert.That("https://sqs.eu-central-1.amazonaws.com/564456879978/", Is.EqualTo(matchb2));
+            Assert.That("098u34098uergijt3098w", Is.EqualTo(matchb3));
+            Assert.That("http://srv05.microting.com", Is.EqualTo(matchb4));
+            Assert.That("https://basic.microting.com", Is.EqualTo(matchb5));
+            Assert.That("https://srv16.microting.com", Is.EqualTo(matchb6));
+            Assert.That("64856189", Is.EqualTo(matchb7));
+            Assert.That(@"\output\dataFolder\reports\", Is.EqualTo(matchb8));
+            Assert.That(@"\output\dataFolder\pdf\", Is.EqualTo(matchb9));
+            Assert.That(@"\output\dataFolder\picture\", Is.EqualTo(matchb10));
+            Assert.That("true", Is.EqualTo(matchb11));
+            Assert.That("http://localhost:3000", Is.EqualTo(matchb12));
+            Assert.That("true", Is.EqualTo(matchb13));
+            Assert.That("4", Is.EqualTo(matchb14));
+            Assert.That("25000", Is.EqualTo(matchb15));
+            Assert.That("abc1234567890abc1234567890abcdef", Is.EqualTo(matchb16));
+            Assert.That("55", Is.EqualTo(matchb17));
+            Assert.That("none", Is.EqualTo(matchb18));
         }
 
 
@@ -226,7 +226,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var match = DbContext.Settings.AsNoTracking().ToList();
 
             // Assert
-            Assert.AreEqual(match[7].Value, "player");
+            Assert.That("player", Is.EqualTo(match[7].Value));
         }
 
 

@@ -73,12 +73,12 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(siteTags);
             Assert.NotNull(siteTagVersions);
 
-            Assert.AreEqual(siteTag.SiteId, siteTags[0].SiteId);
-            Assert.AreEqual(siteTag.TagId, siteTags[0].TagId);
+            Assert.That(siteTags[0].SiteId, Is.EqualTo(siteTag.SiteId));
+            Assert.That(siteTags[0].TagId, Is.EqualTo(siteTag.TagId));
 
 
-            Assert.AreEqual(siteTag.SiteId, siteTagVersions[0].SiteId);
-            Assert.AreEqual(siteTag.TagId, siteTagVersions[0].TagId);
+            Assert.That(siteTagVersions[0].SiteId, Is.EqualTo(siteTag.SiteId));
+            Assert.That(siteTagVersions[0].TagId, Is.EqualTo(siteTag.TagId));
         }
 
         [Test]
@@ -139,15 +139,15 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(siteTags);
             Assert.NotNull(siteTagVersions);
 
-            Assert.AreEqual(siteTag.SiteId, siteTags[0].SiteId);
-            Assert.AreEqual(siteTag.TagId, siteTags[0].TagId);
+            Assert.That(siteTags[0].SiteId, Is.EqualTo(siteTag.SiteId));
+            Assert.That(siteTags[0].TagId, Is.EqualTo(siteTag.TagId));
 
 
-            Assert.AreEqual(oldSiteId, siteTagVersions[0].SiteId);
-            Assert.AreEqual(oldTagId, siteTagVersions[0].TagId);
+            Assert.That(siteTagVersions[0].SiteId, Is.EqualTo(oldSiteId));
+            Assert.That(siteTagVersions[0].TagId, Is.EqualTo(oldTagId));
 
-            Assert.AreEqual(siteTag.SiteId, siteTagVersions[1].SiteId);
-            Assert.AreEqual(siteTag.TagId, siteTagVersions[1].TagId);
+            Assert.That(siteTagVersions[1].SiteId, Is.EqualTo(siteTag.SiteId));
+            Assert.That(siteTagVersions[1].TagId, Is.EqualTo(siteTag.TagId));
         }
 
         [Test]
@@ -187,17 +187,17 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(siteTags);
             Assert.NotNull(siteTagVersions);
 
-            Assert.AreEqual(siteTag.SiteId, siteTags[0].SiteId);
-            Assert.AreEqual(siteTag.TagId, siteTags[0].TagId);
-            Assert.AreEqual(siteTag.WorkflowState, Constants.WorkflowStates.Removed);
+            Assert.That(siteTags[0].SiteId, Is.EqualTo(siteTag.SiteId));
+            Assert.That(siteTags[0].TagId, Is.EqualTo(siteTag.TagId));
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(siteTag.WorkflowState));
 
-            Assert.AreEqual(siteTag.SiteId, siteTagVersions[0].SiteId);
-            Assert.AreEqual(siteTag.TagId, siteTagVersions[0].TagId);
-            Assert.AreEqual(siteTagVersions[0].WorkflowState, Constants.WorkflowStates.Created);
+            Assert.That(siteTagVersions[0].SiteId, Is.EqualTo(siteTag.SiteId));
+            Assert.That(siteTagVersions[0].TagId, Is.EqualTo(siteTag.TagId));
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(siteTagVersions[0].WorkflowState));
 
-            Assert.AreEqual(siteTag.SiteId, siteTagVersions[1].SiteId);
-            Assert.AreEqual(siteTag.TagId, siteTagVersions[1].TagId);
-            Assert.AreEqual(siteTagVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
+            Assert.That(siteTagVersions[1].SiteId, Is.EqualTo(siteTag.SiteId));
+            Assert.That(siteTagVersions[1].TagId, Is.EqualTo(siteTag.TagId));
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(siteTagVersions[1].WorkflowState));
         }
 
         [Test]
@@ -238,25 +238,25 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(siteTags);
             Assert.NotNull(siteTagVersions);
 
-            Assert.AreEqual(siteTag.SiteId, siteTags[0].SiteId);
-            Assert.AreEqual(siteTag.TagId, siteTags[0].TagId);
-            Assert.AreEqual(siteTag.WorkflowState, Constants.WorkflowStates.Removed);
+            Assert.That(siteTags[0].SiteId, Is.EqualTo(siteTag.SiteId));
+            Assert.That(siteTags[0].TagId, Is.EqualTo(siteTag.TagId));
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(siteTag.WorkflowState));
 
-            Assert.AreEqual(siteTag.SiteId, siteTagVersions[0].SiteId);
-            Assert.AreEqual(siteTag.TagId, siteTagVersions[0].TagId);
-            Assert.AreEqual(siteTagVersions[0].WorkflowState, Constants.WorkflowStates.Created);
+            Assert.That(siteTagVersions[0].SiteId, Is.EqualTo(siteTag.SiteId));
+            Assert.That(siteTagVersions[0].TagId, Is.EqualTo(siteTag.TagId));
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(siteTagVersions[0].WorkflowState));
 
-            Assert.AreEqual(siteTag.SiteId, siteTagVersions[1].SiteId);
-            Assert.AreEqual(siteTag.TagId, siteTagVersions[1].TagId);
-            Assert.AreEqual(siteTagVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
+            Assert.That(siteTagVersions[1].SiteId, Is.EqualTo(siteTag.SiteId));
+            Assert.That(siteTagVersions[1].TagId, Is.EqualTo(siteTag.TagId));
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(siteTagVersions[1].WorkflowState));
 
-            Assert.AreEqual(siteTag.SiteId, siteTagVersions[2].SiteId);
-            Assert.AreEqual(siteTag.TagId, siteTagVersions[2].TagId);
-            Assert.AreEqual(siteTagVersions[2].WorkflowState, Constants.WorkflowStates.Created);
+            Assert.That(siteTagVersions[2].SiteId, Is.EqualTo(siteTag.SiteId));
+            Assert.That(siteTagVersions[2].TagId, Is.EqualTo(siteTag.TagId));
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(siteTagVersions[2].WorkflowState));
 
-            Assert.AreEqual(siteTag.SiteId, siteTagVersions[3].SiteId);
-            Assert.AreEqual(siteTag.TagId, siteTagVersions[3].TagId);
-            Assert.AreEqual(siteTagVersions[3].WorkflowState, Constants.WorkflowStates.Removed);
+            Assert.That(siteTagVersions[3].SiteId, Is.EqualTo(siteTag.SiteId));
+            Assert.That(siteTagVersions[3].TagId, Is.EqualTo(siteTag.TagId));
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(siteTagVersions[3].WorkflowState));
         }
     }
 }

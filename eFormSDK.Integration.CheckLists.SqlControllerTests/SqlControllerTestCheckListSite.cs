@@ -84,9 +84,9 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
             // Assert
 
             Assert.NotNull(checkListSiteResult);
-            Assert.AreEqual(1, checkListSiteResult.Count);
-            Assert.AreEqual(Constants.WorkflowStates.Created, checkListSiteResult[0].WorkflowState);
-            Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches[0].WorkflowState);
+            Assert.That(checkListSiteResult.Count, Is.EqualTo(1));
+            Assert.That(checkListSiteResult[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+            Assert.That(versionedMatches[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
         }
 
         [Test]
@@ -119,11 +119,11 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             // Assert
             Assert.NotNull(matches);
-            Assert.AreEqual(2, matches.Count);
-            Assert.AreEqual(2, matches2.Count);
-            Assert.AreEqual(cls1.MicrotingUid, matches[0]);
-            Assert.AreEqual(cls1.MicrotingUid, matches2[0]);
-            Assert.AreEqual(cls2.MicrotingUid, matches2[1]);
+            Assert.That(matches.Count, Is.EqualTo(2));
+            Assert.That(matches2.Count, Is.EqualTo(2));
+            Assert.That(matches[0], Is.EqualTo(cls1.MicrotingUid));
+            Assert.That(matches2[0], Is.EqualTo(cls1.MicrotingUid));
+            Assert.That(matches2[1], Is.EqualTo(cls2.MicrotingUid));
         }
 
 
@@ -151,8 +151,8 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
             // Assert
 
             Assert.NotNull(checkListSiteResult);
-            Assert.AreEqual(1, checkListSiteResult.Count);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, checkListSiteResult[0].WorkflowState);
+            Assert.That(checkListSiteResult.Count, Is.EqualTo(1));
+            Assert.That(checkListSiteResult[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
         }
 
 

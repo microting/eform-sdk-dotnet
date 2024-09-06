@@ -288,8 +288,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var siteWorkers = DbContext.SiteWorkers.AsNoTracking().ToList();
 
             Assert.NotNull(match);
-            Assert.AreEqual(1, siteWorkers.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Created, siteWorkers[0].WorkflowState);
+            Assert.That(siteWorkers.Count(), Is.EqualTo(1));
+            Assert.That(siteWorkers[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
         }
 
         [Test]
@@ -539,9 +539,9 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Assert
 
-            Assert.AreEqual(siteWorker.MicrotingUid, match.MicrotingUId);
-            Assert.AreEqual(siteWorker.Worker.MicrotingUid, match.WorkerUId);
-            Assert.AreEqual(siteWorker.Site.MicrotingUid, match.SiteUId);
+            Assert.That(match.MicrotingUId, Is.EqualTo(siteWorker.MicrotingUid));
+            Assert.That(match.WorkerUId, Is.EqualTo(siteWorker.Worker.MicrotingUid));
+            Assert.That(match.SiteUId, Is.EqualTo(siteWorker.Site.MicrotingUid));
         }
 
         [Test]
@@ -791,7 +791,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Assert
 
-            Assert.True(match);
+            Assert.That(match, Is.True);
         }
 
         [Test]
@@ -1040,7 +1040,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var match = await sut.SiteWorkerDelete((int)siteWorker.MicrotingUid);
 
             // Assert
-            Assert.True(match);
+            Assert.That(match, Is.True);
         }
 
         #endregion

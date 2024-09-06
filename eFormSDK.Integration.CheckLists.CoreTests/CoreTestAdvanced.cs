@@ -110,7 +110,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             bool match = await sut.Advanced_TemplateDisplayIndexChangeDb(cl1.Id, 5).ConfigureAwait(false);
             // Assert
             Assert.NotNull(match);
-            Assert.True(match);
+            Assert.That(match, Is.True);
         }
 
         [Test] // TODO Needs to use mocks
@@ -329,7 +329,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.True(match);
+            Assert.That(match, Is.True);
         }
 
         [Test]
@@ -514,70 +514,70 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             #region template1
 
             Assert.NotNull(match1);
-            Assert.AreEqual(match1[0].Description, Field1.Description);
-            Assert.AreEqual(match1[0].FieldType, "Picture");
-            Assert.AreEqual(match1[0].Label, Field1.Label);
-            Assert.AreEqual(match1[0].Id, Field1.Id);
+            Assert.That(Field1.Description, Is.EqualTo(match1[0].Description));
+            Assert.That("Picture", Is.EqualTo(match1[0].FieldType));
+            Assert.That(Field1.Label, Is.EqualTo(match1[0].Label));
+            Assert.That(Field1.Id, Is.EqualTo(match1[0].Id));
 
-            Assert.AreEqual(match1[1].Description, Field2.Description);
-            Assert.AreEqual(match1[1].FieldType, "Comment");
-            Assert.AreEqual(match1[1].Label, Field2.Label);
-            Assert.AreEqual(match1[1].Id, Field2.Id);
+            Assert.That(Field2.Description, Is.EqualTo(match1[1].Description));
+            Assert.That("Comment", Is.EqualTo(match1[1].FieldType));
+            Assert.That(Field2.Label, Is.EqualTo(match1[1].Label));
+            Assert.That(Field2.Id, Is.EqualTo(match1[1].Id));
 
             #endregion
 
             #region template2
 
             Assert.NotNull(match2);
-            Assert.AreEqual(match2[0].Description, Field3.Description);
-            Assert.AreEqual(match2[0].FieldType, "Picture");
-            Assert.AreEqual(match2[0].Label, Field3.Label);
-            Assert.AreEqual(match2[0].Id, Field3.Id);
+            Assert.That(Field3.Description, Is.EqualTo(match2[0].Description));
+            Assert.That("Picture", Is.EqualTo(match2[0].FieldType));
+            Assert.That(Field3.Label, Is.EqualTo(match2[0].Label));
+            Assert.That(Field3.Id, Is.EqualTo(match2[0].Id));
 
-            Assert.AreEqual(match2[1].Description, Field4.Description);
-            Assert.AreEqual(match2[1].FieldType, "Picture");
-            Assert.AreEqual(match2[1].Label, Field4.Label);
-            Assert.AreEqual(match2[1].Id, Field4.Id);
+            Assert.That(Field4.Description, Is.EqualTo(match2[1].Description));
+            Assert.That("Picture", Is.EqualTo(match2[1].FieldType));
+            Assert.That(Field4.Label, Is.EqualTo(match2[1].Label));
+            Assert.That(Field4.Id, Is.EqualTo(match2[1].Id));
 
-            Assert.AreEqual(match2[2].Description, Field5.Description);
-            Assert.AreEqual(match2[2].FieldType, "Comment");
-            Assert.AreEqual(match2[2].Label, Field5.Label);
-            Assert.AreEqual(match2[2].Id, Field5.Id);
+            Assert.That(Field5.Description, Is.EqualTo(match2[2].Description));
+            Assert.That("Comment", Is.EqualTo(match2[2].FieldType));
+            Assert.That(Field5.Label, Is.EqualTo(match2[2].Label));
+            Assert.That(Field5.Id, Is.EqualTo(match2[2].Id));
 
             #endregion
 
             #region template3
 
             Assert.NotNull(match3);
-            Assert.AreEqual(match3[0].Description, Field6.Description);
-            Assert.AreEqual(match3[0].FieldType, "Comment");
-            Assert.AreEqual(match3[0].Label, Field6.Label);
-            Assert.AreEqual(match3[0].Id, Field6.Id);
+            Assert.That(Field6.Description, Is.EqualTo(match3[0].Description));
+            Assert.That("Comment", Is.EqualTo(match3[0].FieldType));
+            Assert.That(Field6.Label, Is.EqualTo(match3[0].Label));
+            Assert.That(Field6.Id, Is.EqualTo(match3[0].Id));
 
-            Assert.AreEqual(match3[1].Description, Field7.Description);
-            Assert.AreEqual(match3[1].FieldType, "Comment");
-            Assert.AreEqual(match3[1].Label, Field7.Label);
-            Assert.AreEqual(match3[1].Id, Field7.Id);
+            Assert.That(Field7.Description, Is.EqualTo(match3[1].Description));
+            Assert.That("Comment", Is.EqualTo(match3[1].FieldType));
+            Assert.That(Field7.Label, Is.EqualTo(match3[1].Label));
+            Assert.That(Field7.Id, Is.EqualTo(match3[1].Id));
 
             #endregion
 
             #region template4
 
             Assert.NotNull(match4);
-            Assert.AreEqual(match4[0].Description, Field8.Description);
-            Assert.AreEqual(match4[0].FieldType, "Comment");
-            Assert.AreEqual(match4[0].Label, Field8.Label);
-            Assert.AreEqual(match4[0].Id, Field8.Id);
+            Assert.That(Field8.Description, Is.EqualTo(match4[0].Description));
+            Assert.That("Comment", Is.EqualTo(match4[0].FieldType));
+            Assert.That(Field8.Label, Is.EqualTo(match4[0].Label));
+            Assert.That(Field8.Id, Is.EqualTo(match4[0].Id));
 
-            Assert.AreEqual(match4[1].Description, Field9.Description);
-            Assert.AreEqual(match4[1].FieldType, "Comment");
-            Assert.AreEqual(match4[1].Label, Field9.Label);
-            Assert.AreEqual(match4[1].Id, Field9.Id);
+            Assert.That(Field9.Description, Is.EqualTo(match4[1].Description));
+            Assert.That("Comment", Is.EqualTo(match4[1].FieldType));
+            Assert.That(Field9.Label, Is.EqualTo(match4[1].Label));
+            Assert.That(Field9.Id, Is.EqualTo(match4[1].Id));
 
-            Assert.AreEqual(match4[2].Description, Field10.Description);
-            Assert.AreEqual(match4[2].FieldType, "Comment");
-            Assert.AreEqual(match4[2].Label, Field10.Label);
-            Assert.AreEqual(match4[2].Id, Field10.Id);
+            Assert.That(Field10.Description, Is.EqualTo(match4[2].Description));
+            Assert.That("Comment", Is.EqualTo(match4[2].FieldType));
+            Assert.That(Field10.Label, Is.EqualTo(match4[2].Label));
+            Assert.That(Field10.Id, Is.EqualTo(match4[2].Id));
 
             #endregion
         }
@@ -1040,8 +1040,8 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Assert
 
             Assert.NotNull(match);
-            Assert.AreEqual(match.SiteUId, siteName_Dto.SiteUId);
-            Assert.AreEqual(match.WorkerUId, worker_Dto.WorkerUId);
+            Assert.That(siteName_Dto.SiteUId, Is.EqualTo(match.SiteUId));
+            Assert.That(worker_Dto.WorkerUId, Is.EqualTo(match.WorkerUId));
             Assert.NotNull(match.MicrotingUId);
         }
 
@@ -1309,9 +1309,9 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(match.MicrotingUId, siteWorker.MicrotingUid);
-            Assert.AreEqual(match.SiteUId, siteWorker.Site.MicrotingUid);
-            Assert.AreEqual(match.WorkerUId, siteWorker.Worker.MicrotingUid);
+            Assert.That(siteWorker.MicrotingUid, Is.EqualTo(match.MicrotingUId));
+            Assert.That(siteWorker.Site.MicrotingUid, Is.EqualTo(match.SiteUId));
+            Assert.That(siteWorker.Worker.MicrotingUid, Is.EqualTo(match.WorkerUId));
         }
 
         [Test]
@@ -1367,8 +1367,8 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
 
-            Assert.True(match2);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, result[0].WorkflowState);
+            Assert.That(match2, Is.True);
+            Assert.That(result[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
         }
 
         [Test]
@@ -1384,11 +1384,11 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             var resultVersioned = DbContext.WorkerVersions.AsNoTracking().ToList();
             // Assert
 
-            Assert.True(match);
-            Assert.AreEqual(1, result.Count());
-            Assert.AreEqual(1, resultVersioned.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Removed, result[0].WorkflowState);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, resultVersioned[0].WorkflowState);
+            Assert.That(match, Is.True);
+            Assert.That(result.Count(), Is.EqualTo(1));
+            Assert.That(resultVersioned.Count(), Is.EqualTo(1));
+            Assert.That(result[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+            Assert.That(resultVersioned[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
         }
 
         #endregion
@@ -1648,8 +1648,8 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(unit.MicrotingUid, match.UnitUId);
-            Assert.AreEqual(unit.CustomerNo, match.CustomerNo);
+            Assert.That(match.UnitUId, Is.EqualTo(unit.MicrotingUid));
+            Assert.That(match.CustomerNo, Is.EqualTo(unit.CustomerNo));
         }
 
         [Test]
@@ -1966,18 +1966,18 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
 
-            Assert.AreEqual(10, getAllUnits.Count());
+            Assert.That(getAllUnits.Count(), Is.EqualTo(10));
 
-            Assert.AreEqual(unit1.MicrotingUid, getAllUnits[0].UnitUId);
-            Assert.AreEqual(unit2.MicrotingUid, getAllUnits[1].UnitUId);
-            Assert.AreEqual(unit3.MicrotingUid, getAllUnits[2].UnitUId);
-            Assert.AreEqual(unit4.MicrotingUid, getAllUnits[3].UnitUId);
-            Assert.AreEqual(unit5.MicrotingUid, getAllUnits[4].UnitUId);
-            Assert.AreEqual(unit6.MicrotingUid, getAllUnits[5].UnitUId);
-            Assert.AreEqual(unit7.MicrotingUid, getAllUnits[6].UnitUId);
-            Assert.AreEqual(unit8.MicrotingUid, getAllUnits[7].UnitUId);
-            Assert.AreEqual(unit9.MicrotingUid, getAllUnits[8].UnitUId);
-            Assert.AreEqual(unit10.MicrotingUid, getAllUnits[9].UnitUId);
+            Assert.That(getAllUnits[0].UnitUId, Is.EqualTo(unit1.MicrotingUid));
+            Assert.That(getAllUnits[1].UnitUId, Is.EqualTo(unit2.MicrotingUid));
+            Assert.That(getAllUnits[2].UnitUId, Is.EqualTo(unit3.MicrotingUid));
+            Assert.That(getAllUnits[3].UnitUId, Is.EqualTo(unit4.MicrotingUid));
+            Assert.That(getAllUnits[4].UnitUId, Is.EqualTo(unit5.MicrotingUid));
+            Assert.That(getAllUnits[5].UnitUId, Is.EqualTo(unit6.MicrotingUid));
+            Assert.That(getAllUnits[6].UnitUId, Is.EqualTo(unit7.MicrotingUid));
+            Assert.That(getAllUnits[7].UnitUId, Is.EqualTo(unit8.MicrotingUid));
+            Assert.That(getAllUnits[8].UnitUId, Is.EqualTo(unit9.MicrotingUid));
+            Assert.That(getAllUnits[9].UnitUId, Is.EqualTo(unit10.MicrotingUid));
         }
 
         #endregion
@@ -2060,7 +2060,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
 
-            Assert.AreEqual(f1.Id, match.Id);
+            Assert.That(match.Id, Is.EqualTo(f1.Id));
         }
 
         [Test]
@@ -2215,7 +2215,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
 
-            Assert.AreEqual(field_Value1.Value, match[0].Value);
+            Assert.That(match[0].Value, Is.EqualTo(field_Value1.Value));
         }
 
         #endregion
@@ -2472,7 +2472,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             // Act
             bool match = await sut.Advanced_DeleteUploadedData(f2.Id, ud1.Id);
             // Assert
-            Assert.True(match);
+            Assert.That(match, Is.True);
         }
 
         [Test]
@@ -2979,16 +2979,16 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             theCheckList.Field9 = f9.Id;
             theCheckList.Field10 = f10.Id;
 
-            Assert.AreEqual(null, theCase.FieldValue1);
-            Assert.AreEqual(null, theCase.FieldValue2);
-            Assert.AreEqual(null, theCase.FieldValue3);
-            Assert.AreEqual(null, theCase.FieldValue4);
-            Assert.AreEqual(null, theCase.FieldValue5);
-            Assert.AreEqual(null, theCase.FieldValue6);
-            Assert.AreEqual(null, theCase.FieldValue7);
-            Assert.AreEqual(null, theCase.FieldValue8);
-            Assert.AreEqual(null, theCase.FieldValue9);
-            Assert.AreEqual(null, theCase.FieldValue10);
+            Assert.That(theCase.FieldValue1, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue2, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue3, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue4, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue5, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue6, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue7, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue8, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue9, Is.EqualTo(null));
+            Assert.That(theCase.FieldValue10, Is.EqualTo(null));
 
             var testThis = await sut.Advanced_UpdateCaseFieldValue(aCase1.Id, language);
 
@@ -3009,18 +3009,18 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             theCaseAfter.FieldValue10 = field_Value10.Value;
 
 
-            Assert.True(testThis);
+            Assert.That(testThis, Is.True);
 
-            Assert.AreEqual("tomt1", theCaseAfter.FieldValue1);
-            Assert.AreEqual("tomt2", theCaseAfter.FieldValue2);
-            Assert.AreEqual("tomt3", theCaseAfter.FieldValue3);
-            Assert.AreEqual("tomt4", theCaseAfter.FieldValue4);
-            Assert.AreEqual("tomt5", theCaseAfter.FieldValue5);
-            Assert.AreEqual("tomt6", theCaseAfter.FieldValue6);
-            Assert.AreEqual("tomt7", theCaseAfter.FieldValue7);
-            Assert.AreEqual("tomt8", theCaseAfter.FieldValue8);
-            Assert.AreEqual("tomt9", theCaseAfter.FieldValue9);
-            Assert.AreEqual("tomt10", theCaseAfter.FieldValue10);
+            Assert.That(theCaseAfter.FieldValue1, Is.EqualTo("tomt1"));
+            Assert.That(theCaseAfter.FieldValue2, Is.EqualTo("tomt2"));
+            Assert.That(theCaseAfter.FieldValue3, Is.EqualTo("tomt3"));
+            Assert.That(theCaseAfter.FieldValue4, Is.EqualTo("tomt4"));
+            Assert.That(theCaseAfter.FieldValue5, Is.EqualTo("tomt5"));
+            Assert.That(theCaseAfter.FieldValue6, Is.EqualTo("tomt6"));
+            Assert.That(theCaseAfter.FieldValue7, Is.EqualTo("tomt7"));
+            Assert.That(theCaseAfter.FieldValue8, Is.EqualTo("tomt8"));
+            Assert.That(theCaseAfter.FieldValue9, Is.EqualTo("tomt9"));
+            Assert.That(theCaseAfter.FieldValue10, Is.EqualTo("tomt10"));
         }
 
         #endregion

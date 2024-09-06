@@ -146,42 +146,42 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual("", match.CaseType);
-            Assert.AreEqual(1, match.Repeated);
-            Assert.AreEqual("35", match.OriginalId);
-            Assert.AreEqual(0, match.Id);
-            Assert.AreEqual("Lorem ipsum", match.Label);
-            Assert.AreEqual("da", match.Language);
-            Assert.AreEqual(false, match.MultiApproval);
-            Assert.AreEqual(false, match.FastNavigation);
-            Assert.AreEqual(0, match.DisplayOrder);
-            Assert.AreEqual(1, match.ElementList.Count());
-            Assert.AreEqual(true, match.EnableQuickSync);
+            Assert.That(match.CaseType, Is.EqualTo(""));
+            Assert.That(match.Repeated, Is.EqualTo(1));
+            Assert.That(match.OriginalId, Is.EqualTo("35"));
+            Assert.That(match.Id, Is.EqualTo(0));
+            Assert.That(match.Label, Is.EqualTo("Lorem ipsum"));
+            Assert.That(match.Language, Is.EqualTo("da"));
+            Assert.That(match.MultiApproval, Is.EqualTo(false));
+            Assert.That(match.FastNavigation, Is.EqualTo(false));
+            Assert.That(match.DisplayOrder, Is.EqualTo(0));
+            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
+            Assert.That(match.EnableQuickSync, Is.EqualTo(true));
 
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.AreEqual(dE.DataItemList.Count(), 1);
-            Assert.AreEqual("Lorem ipsum", dE.Label);
+            Assert.That(1, Is.EqualTo(dE.DataItemList.Count()));
+            Assert.That(dE.Label, Is.EqualTo("Lorem ipsum"));
 
             CDataValue cd = new CDataValue();
 
             // Assert.AreEqual(dE.Description, cd); TODO
-            Assert.AreEqual(0, dE.DisplayOrder);
-            Assert.AreEqual(false, dE.ReviewEnabled);
+            Assert.That(dE.DisplayOrder, Is.EqualTo(0));
+            Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
             // Assert.AreEqual(dE.ManualSync) //TODO No Method for ManualSync
-            Assert.AreEqual(false, dE.ExtraFieldsEnabled);
+            Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
             // Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO DoneButtonDisabled no method found
-            Assert.AreEqual(false, dE.ApprovalEnabled);
+            Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
 
             SingleSelect commentField = (SingleSelect)dE.DataItemList[0];
-            Assert.AreEqual("Is everything OK:", commentField.Label);
+            Assert.That(commentField.Label, Is.EqualTo("Is everything OK:"));
             // Assert.AreEqual(commentField.Description, cd);
-            Assert.AreEqual(1, commentField.DisplayOrder);
+            Assert.That(commentField.DisplayOrder, Is.EqualTo(1));
             // Assert.AreEqual(commentField.Multi, 0) //TODO No method MULTI
             // Assert.AreEqual(commentField.geolocation, false) //TODO no method geolocation
             // Assert.AreEqual(commentField.Split, false) //TODO no method Split
             // Assert.AreEqual("", commentField.Value);
-            Assert.AreEqual(false, commentField.ReadOnly);
-            Assert.AreEqual(false, commentField.Mandatory);
+            Assert.That(commentField.ReadOnly, Is.EqualTo(false));
+            Assert.That(commentField.Mandatory, Is.EqualTo(false));
             // Assert.AreEqual(Constants.FieldColors.Grey, commentField.Color);
         }
 
@@ -211,14 +211,14 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             // Assert
             Assert.NotNull(match);
-            Assert.AreEqual(match.Id, cl1.Id);
-            Assert.AreEqual(match.CaseType, cl1.CaseType);
-            Assert.AreEqual(match.FastNavigation, false);
-            Assert.AreEqual(match.Label, "A");
-            Assert.AreEqual(match.ManualSync, false);
-            Assert.AreEqual(match.MultiApproval, false);
-            Assert.AreEqual(match.Repeated, cl1.Repeated);
-            Assert.AreEqual(match.EnableQuickSync, true);
+            Assert.That(cl1.Id, Is.EqualTo(match.Id));
+            Assert.That(cl1.CaseType, Is.EqualTo(match.CaseType));
+            Assert.That(false, Is.EqualTo(match.FastNavigation));
+            Assert.That("A", Is.EqualTo(match.Label));
+            Assert.That(false, Is.EqualTo(match.ManualSync));
+            Assert.That(false, Is.EqualTo(match.MultiApproval));
+            Assert.That(cl1.Repeated, Is.EqualTo(match.Repeated));
+            Assert.That(true, Is.EqualTo(match.EnableQuickSync));
         }
 
         #region eventhandlers

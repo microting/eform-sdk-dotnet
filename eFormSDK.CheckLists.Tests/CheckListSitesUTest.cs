@@ -110,29 +110,29 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(checkListSites);
             Assert.NotNull(checkListSitesVersion);
 
-            Assert.AreEqual(1, checkListSites.Count());
-            Assert.AreEqual(1, checkListSitesVersion.Count());
+            Assert.That(checkListSites.Count(), Is.EqualTo(1));
+            Assert.That(checkListSitesVersion.Count(), Is.EqualTo(1));
 
-            Assert.AreEqual(checkListSite.CreatedAt.ToString(), checkListSites[0].CreatedAt.ToString());
-            Assert.AreEqual(checkListSite.Version, checkListSites[0].Version);
-//            Assert.AreEqual(checkListSite.UpdatedAt.ToString(), checkListSites[0].UpdatedAt.ToString());
-            Assert.AreEqual(Constants.WorkflowStates.Created, checkListSites[0].WorkflowState);
-            Assert.AreEqual(checkListSite.Id, checkListSites[0].Id);
-            Assert.AreEqual(checkListSite.MicrotingUid, checkListSites[0].MicrotingUid);
-            Assert.AreEqual(checkListSite.SiteId, site.Id);
-            Assert.AreEqual(checkListSite.CheckListId, checklist.Id);
-            Assert.AreEqual(checkListSite.LastCheckId, checkListSites[0].LastCheckId);
+            Assert.That(checkListSites[0].CreatedAt.ToString(), Is.EqualTo(checkListSite.CreatedAt.ToString()));
+            Assert.That(checkListSites[0].Version, Is.EqualTo(checkListSite.Version));
+            //            Assert.AreEqual(checkListSite.UpdatedAt.ToString(), checkListSites[0].UpdatedAt.ToString());
+            Assert.That(checkListSites[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+            Assert.That(checkListSites[0].Id, Is.EqualTo(checkListSite.Id));
+            Assert.That(checkListSites[0].MicrotingUid, Is.EqualTo(checkListSite.MicrotingUid));
+            Assert.That(site.Id, Is.EqualTo(checkListSite.SiteId));
+            Assert.That(checklist.Id, Is.EqualTo(checkListSite.CheckListId));
+            Assert.That(checkListSites[0].LastCheckId, Is.EqualTo(checkListSite.LastCheckId));
 
             //Versions
-            Assert.AreEqual(checkListSite.CreatedAt.ToString(), checkListSitesVersion[0].CreatedAt.ToString());
-            Assert.AreEqual(checkListSite.Version, checkListSitesVersion[0].Version);
-//            Assert.AreEqual(checkListSite.UpdatedAt.ToString(), checkListSitesVersion[0].UpdatedAt.ToString());
-            Assert.AreEqual(checkListSite.WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(checkListSite.Id, checkListSitesVersion[0].Id);
-            Assert.AreEqual(checkListSite.MicrotingUid, checkListSitesVersion[0].MicrotingUid);
-            Assert.AreEqual(site.Id, checkListSitesVersion[0].SiteId);
-            Assert.AreEqual(checklist.Id, checkListSitesVersion[0].CheckListId);
-            Assert.AreEqual(checkListSite.LastCheckId, checkListSitesVersion[0].LastCheckId);
+            Assert.That(checkListSitesVersion[0].CreatedAt.ToString(), Is.EqualTo(checkListSite.CreatedAt.ToString()));
+            Assert.That(checkListSitesVersion[0].Version, Is.EqualTo(checkListSite.Version));
+            //            Assert.AreEqual(checkListSite.UpdatedAt.ToString(), checkListSitesVersion[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(checkListSite.WorkflowState));
+            Assert.That(checkListSitesVersion[0].Id, Is.EqualTo(checkListSite.Id));
+            Assert.That(checkListSitesVersion[0].MicrotingUid, Is.EqualTo(checkListSite.MicrotingUid));
+            Assert.That(checkListSitesVersion[0].SiteId, Is.EqualTo(site.Id));
+            Assert.That(checkListSitesVersion[0].CheckListId, Is.EqualTo(checklist.Id));
+            Assert.That(checkListSitesVersion[0].LastCheckId, Is.EqualTo(checkListSite.LastCheckId));
         }
 
         [Test]
@@ -216,40 +216,40 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(checkListSites);
             Assert.NotNull(checkListSitesVersion);
 
-            Assert.AreEqual(1, checkListSites.Count());
-            Assert.AreEqual(2, checkListSitesVersion.Count());
+            Assert.That(checkListSites.Count(), Is.EqualTo(1));
+            Assert.That(checkListSitesVersion.Count(), Is.EqualTo(2));
 
-            Assert.AreEqual(checkListSite.CreatedAt.ToString(), checkListSites[0].CreatedAt.ToString());
-            Assert.AreEqual(checkListSite.Version, checkListSites[0].Version);
-//            Assert.AreEqual(checkListSite.UpdatedAt.ToString(), checkListSites[0].UpdatedAt.ToString());
-            Assert.AreEqual(Constants.WorkflowStates.Created, checkListSites[0].WorkflowState);
-            Assert.AreEqual(checkListSite.Id, checkListSites[0].Id);
-            Assert.AreEqual(checkListSite.MicrotingUid, checkListSites[0].MicrotingUid);
-            Assert.AreEqual(checkListSite.SiteId, site.Id);
-            Assert.AreEqual(checkListSite.CheckListId, checklist.Id);
-            Assert.AreEqual(checkListSite.LastCheckId, checkListSites[0].LastCheckId);
+            Assert.That(checkListSites[0].CreatedAt.ToString(), Is.EqualTo(checkListSite.CreatedAt.ToString()));
+            Assert.That(checkListSites[0].Version, Is.EqualTo(checkListSite.Version));
+            //            Assert.AreEqual(checkListSite.UpdatedAt.ToString(), checkListSites[0].UpdatedAt.ToString());
+            Assert.That(checkListSites[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+            Assert.That(checkListSites[0].Id, Is.EqualTo(checkListSite.Id));
+            Assert.That(checkListSites[0].MicrotingUid, Is.EqualTo(checkListSite.MicrotingUid));
+            Assert.That(site.Id, Is.EqualTo(checkListSite.SiteId));
+            Assert.That(checklist.Id, Is.EqualTo(checkListSite.CheckListId));
+            Assert.That(checkListSites[0].LastCheckId, Is.EqualTo(checkListSite.LastCheckId));
 
             //Old Version
-            Assert.AreEqual(checkListSite.CreatedAt.ToString(), checkListSitesVersion[0].CreatedAt.ToString());
-            Assert.AreEqual(1, checkListSitesVersion[0].Version);
-//            Assert.AreEqual(oldUpdatedAt.ToString(), checkListSitesVersion[0].UpdatedAt.ToString());
-            Assert.AreEqual(checkListSite.WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(checkListSite.Id, checkListSitesVersion[0].Id);
-            Assert.AreEqual(oldMicrotingUid, checkListSitesVersion[0].MicrotingUid);
-            Assert.AreEqual(site.Id, checkListSitesVersion[0].SiteId);
-            Assert.AreEqual(checklist.Id, checkListSitesVersion[0].CheckListId);
-            Assert.AreEqual(oldLastCheckId, checkListSitesVersion[0].LastCheckId);
+            Assert.That(checkListSitesVersion[0].CreatedAt.ToString(), Is.EqualTo(checkListSite.CreatedAt.ToString()));
+            Assert.That(checkListSitesVersion[0].Version, Is.EqualTo(1));
+            //            Assert.AreEqual(oldUpdatedAt.ToString(), checkListSitesVersion[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(checkListSite.WorkflowState));
+            Assert.That(checkListSitesVersion[0].Id, Is.EqualTo(checkListSite.Id));
+            Assert.That(checkListSitesVersion[0].MicrotingUid, Is.EqualTo(oldMicrotingUid));
+            Assert.That(checkListSitesVersion[0].SiteId, Is.EqualTo(site.Id));
+            Assert.That(checkListSitesVersion[0].CheckListId, Is.EqualTo(checklist.Id));
+            Assert.That(checkListSitesVersion[0].LastCheckId, Is.EqualTo(oldLastCheckId));
 
             //New Version
-            Assert.AreEqual(checkListSite.CreatedAt.ToString(), checkListSitesVersion[1].CreatedAt.ToString());
-            Assert.AreEqual(2, checkListSitesVersion[1].Version);
-//            Assert.AreEqual(checkListSite.UpdatedAt.ToString(), checkListSitesVersion[1].UpdatedAt.ToString());
-            Assert.AreEqual(Constants.WorkflowStates.Created, checkListSitesVersion[1].WorkflowState);
-            Assert.AreEqual(checkListSite.Id, checkListSitesVersion[1].CheckListId);
-            Assert.AreEqual(checkListSite.MicrotingUid, checkListSitesVersion[1].MicrotingUid);
-            Assert.AreEqual(site.Id, checkListSitesVersion[1].SiteId);
-            Assert.AreEqual(checklist.Id, checkListSitesVersion[1].CheckListId);
-            Assert.AreEqual(checkListSite.LastCheckId, checkListSitesVersion[1].LastCheckId);
+            Assert.That(checkListSitesVersion[1].CreatedAt.ToString(), Is.EqualTo(checkListSite.CreatedAt.ToString()));
+            Assert.That(checkListSitesVersion[1].Version, Is.EqualTo(2));
+            //            Assert.AreEqual(checkListSite.UpdatedAt.ToString(), checkListSitesVersion[1].UpdatedAt.ToString());
+            Assert.That(checkListSitesVersion[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+            Assert.That(checkListSitesVersion[1].CheckListId, Is.EqualTo(checkListSite.Id));
+            Assert.That(checkListSitesVersion[1].MicrotingUid, Is.EqualTo(checkListSite.MicrotingUid));
+            Assert.That(checkListSitesVersion[1].SiteId, Is.EqualTo(site.Id));
+            Assert.That(checkListSitesVersion[1].CheckListId, Is.EqualTo(checklist.Id));
+            Assert.That(checkListSitesVersion[1].LastCheckId, Is.EqualTo(checkListSite.LastCheckId));
         }
 
         [Test]
@@ -328,40 +328,40 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(checkListSites);
             Assert.NotNull(checkListSitesVersion);
 
-            Assert.AreEqual(1, checkListSites.Count());
-            Assert.AreEqual(2, checkListSitesVersion.Count());
+            Assert.That(checkListSites.Count(), Is.EqualTo(1));
+            Assert.That(checkListSitesVersion.Count(), Is.EqualTo(2));
 
-            Assert.AreEqual(checkListSite.CreatedAt.ToString(), checkListSites[0].CreatedAt.ToString());
-            Assert.AreEqual(checkListSite.Version, checkListSites[0].Version);
-//            Assert.AreEqual(checkListSite.UpdatedAt.ToString(), checkListSites[0].UpdatedAt.ToString());
-            Assert.AreEqual(Constants.WorkflowStates.Removed, checkListSites[0].WorkflowState);
-            Assert.AreEqual(checkListSite.Id, checkListSites[0].Id);
-            Assert.AreEqual(checkListSite.MicrotingUid, checkListSites[0].MicrotingUid);
-            Assert.AreEqual(checkListSite.SiteId, site.Id);
-            Assert.AreEqual(checkListSite.CheckListId, checklist.Id);
-            Assert.AreEqual(checkListSite.LastCheckId, checkListSites[0].LastCheckId);
+            Assert.That(checkListSites[0].CreatedAt.ToString(), Is.EqualTo(checkListSite.CreatedAt.ToString()));
+            Assert.That(checkListSites[0].Version, Is.EqualTo(checkListSite.Version));
+            //            Assert.AreEqual(checkListSite.UpdatedAt.ToString(), checkListSites[0].UpdatedAt.ToString());
+            Assert.That(checkListSites[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+            Assert.That(checkListSites[0].Id, Is.EqualTo(checkListSite.Id));
+            Assert.That(checkListSites[0].MicrotingUid, Is.EqualTo(checkListSite.MicrotingUid));
+            Assert.That(site.Id, Is.EqualTo(checkListSite.SiteId));
+            Assert.That(checklist.Id, Is.EqualTo(checkListSite.CheckListId));
+            Assert.That(checkListSites[0].LastCheckId, Is.EqualTo(checkListSite.LastCheckId));
 
             //Old Version
-            Assert.AreEqual(checkListSite.CreatedAt.ToString(), checkListSitesVersion[0].CreatedAt.ToString());
-            Assert.AreEqual(1, checkListSitesVersion[0].Version);
-//            Assert.AreEqual(oldUpdatedAt.ToString(), checkListSitesVersion[0].UpdatedAt.ToString());
-            Assert.AreEqual(checkListSitesVersion[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(checkListSite.Id, checkListSitesVersion[0].Id);
-            Assert.AreEqual(site.Id, checkListSitesVersion[0].SiteId);
-            Assert.AreEqual(checklist.Id, checkListSitesVersion[0].CheckListId);
-            Assert.AreEqual(checkListSite.LastCheckId, checkListSitesVersion[0].LastCheckId);
-            Assert.AreEqual(checkListSite.MicrotingUid, checkListSitesVersion[0].MicrotingUid);
+            Assert.That(checkListSitesVersion[0].CreatedAt.ToString(), Is.EqualTo(checkListSite.CreatedAt.ToString()));
+            Assert.That(checkListSitesVersion[0].Version, Is.EqualTo(1));
+            //            Assert.AreEqual(oldUpdatedAt.ToString(), checkListSitesVersion[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(checkListSitesVersion[0].WorkflowState));
+            Assert.That(checkListSitesVersion[0].Id, Is.EqualTo(checkListSite.Id));
+            Assert.That(checkListSitesVersion[0].SiteId, Is.EqualTo(site.Id));
+            Assert.That(checkListSitesVersion[0].CheckListId, Is.EqualTo(checklist.Id));
+            Assert.That(checkListSitesVersion[0].LastCheckId, Is.EqualTo(checkListSite.LastCheckId));
+            Assert.That(checkListSitesVersion[0].MicrotingUid, Is.EqualTo(checkListSite.MicrotingUid));
 
             //New Version
-            Assert.AreEqual(checkListSite.CreatedAt.ToString(), checkListSitesVersion[1].CreatedAt.ToString());
-            Assert.AreEqual(2, checkListSitesVersion[1].Version);
-//            Assert.AreEqual(checkListSite.UpdatedAt.ToString(), checkListSitesVersion[1].UpdatedAt.ToString());
-            Assert.AreEqual(Constants.WorkflowStates.Removed, checkListSitesVersion[1].WorkflowState);
-            Assert.AreEqual(checkListSite.Id, checkListSitesVersion[1].CheckListSiteId);
-            Assert.AreEqual(checkListSite.MicrotingUid, checkListSitesVersion[1].MicrotingUid);
-            Assert.AreEqual(site.Id, checkListSitesVersion[1].SiteId);
-            Assert.AreEqual(checklist.Id, checkListSitesVersion[1].CheckListId);
-            Assert.AreEqual(checkListSite.LastCheckId, checkListSitesVersion[1].LastCheckId);
+            Assert.That(checkListSitesVersion[1].CreatedAt.ToString(), Is.EqualTo(checkListSite.CreatedAt.ToString()));
+            Assert.That(checkListSitesVersion[1].Version, Is.EqualTo(2));
+            //            Assert.AreEqual(checkListSite.UpdatedAt.ToString(), checkListSitesVersion[1].UpdatedAt.ToString());
+            Assert.That(checkListSitesVersion[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+            Assert.That(checkListSitesVersion[1].CheckListSiteId, Is.EqualTo(checkListSite.Id));
+            Assert.That(checkListSitesVersion[1].MicrotingUid, Is.EqualTo(checkListSite.MicrotingUid));
+            Assert.That(checkListSitesVersion[1].SiteId, Is.EqualTo(site.Id));
+            Assert.That(checkListSitesVersion[1].CheckListId, Is.EqualTo(checklist.Id));
+            Assert.That(checkListSitesVersion[1].LastCheckId, Is.EqualTo(checkListSite.LastCheckId));
         }
     }
 }

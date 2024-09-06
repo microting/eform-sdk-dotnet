@@ -238,34 +238,34 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region Assert
 
-            Assert.True(match is Microting.eForm.Infrastructure.Models.FieldValue);
-            Assert.AreEqual(field_Value1.Accuracy, match.Accuracy);
-            Assert.AreEqual(field_Value1.Altitude, match.Altitude);
+            Assert.That(match is Microting.eForm.Infrastructure.Models.FieldValue, Is.True);
+            Assert.That(match.Accuracy, Is.EqualTo(field_Value1.Accuracy));
+            Assert.That(match.Altitude, Is.EqualTo(field_Value1.Altitude));
             // Assert.AreEqual(field_Value1.case_id, match.case_id);
             // Assert.AreEqual(field_Value1.check_list, match.check_list);
             // Assert.AreEqual(field_Value1.check_list_duplicate_id, match.check_list_duplicate_id);
             // Assert.AreEqual(field_Value1.check_list_id, match.check_list_id);
             // Assert.AreEqual(field_Value1.created_at, match.created_at);
-            Assert.AreEqual(field_Value1.Date, match.Date);
+            Assert.That(match.Date, Is.EqualTo(field_Value1.Date));
             // Assert.AreEqual(field_Value1.done_at, match.done_at);
-            Assert.AreEqual(field_Value1.Field, f1);
-            Assert.AreEqual(field_Value1.FieldId, match.FieldId);
-            Assert.AreEqual(field_Value1.Heading, match.Heading);
-            Assert.AreEqual(field_Value1.Id, match.Id);
-            Assert.AreEqual(field_Value1.Latitude, match.Latitude);
-            Assert.AreEqual(field_Value1.Longitude, match.Longitude);
+            Assert.That(f1, Is.EqualTo(field_Value1.Field));
+            Assert.That(match.FieldId, Is.EqualTo(field_Value1.FieldId));
+            Assert.That(match.Heading, Is.EqualTo(field_Value1.Heading));
+            Assert.That(match.Id, Is.EqualTo(field_Value1.Id));
+            Assert.That(match.Latitude, Is.EqualTo(field_Value1.Latitude));
+            Assert.That(match.Longitude, Is.EqualTo(field_Value1.Longitude));
             // Assert.AreEqual(field_Value1.updated_at, match.updated_at);
             // Assert.AreEqual("mappeFile1", match.UploadedData);
-            Assert.AreEqual(field_Value1.UploadedData.Checksum, match.UploadedDataObj.Checksum);
-            Assert.AreEqual(field_Value1.UploadedData.CurrentFile, match.UploadedDataObj.CurrentFile);
-            Assert.AreEqual(field_Value1.UploadedData.Extension, match.UploadedDataObj.Extension);
-            Assert.AreEqual(field_Value1.UploadedData.FileLocation, match.UploadedDataObj.FileLocation);
-            Assert.AreEqual(field_Value1.UploadedData.FileName, match.UploadedDataObj.FileName);
-            Assert.AreEqual(field_Value1.UploadedData.Id, match.UploadedDataObj.Id);
-            Assert.AreEqual(field_Value1.UploadedData.UploaderId, match.UploadedDataObj.UploaderId);
-            Assert.AreEqual(field_Value1.UploadedData.UploaderType, match.UploadedDataObj.UploaderType);
+            Assert.That(match.UploadedDataObj.Checksum, Is.EqualTo(field_Value1.UploadedData.Checksum));
+            Assert.That(match.UploadedDataObj.CurrentFile, Is.EqualTo(field_Value1.UploadedData.CurrentFile));
+            Assert.That(match.UploadedDataObj.Extension, Is.EqualTo(field_Value1.UploadedData.Extension));
+            Assert.That(match.UploadedDataObj.FileLocation, Is.EqualTo(field_Value1.UploadedData.FileLocation));
+            Assert.That(match.UploadedDataObj.FileName, Is.EqualTo(field_Value1.UploadedData.FileName));
+            Assert.That(match.UploadedDataObj.Id, Is.EqualTo(field_Value1.UploadedData.Id));
+            Assert.That(match.UploadedDataObj.UploaderId, Is.EqualTo(field_Value1.UploadedData.UploaderId));
+            Assert.That(match.UploadedDataObj.UploaderType, Is.EqualTo(field_Value1.UploadedData.UploaderType));
             // Assert.AreEqual(field_Value1.user_id, match.user_id);
-            Assert.AreEqual(field_Value1.Value, match.Value);
+            Assert.That(match.Value, Is.EqualTo(field_Value1.Value));
             // Assert.AreEqual(field_Value1.version, match.version);
             // Assert.AreEqual(field_Value1.worker, match.worker);
             // Assert.AreEqual(field_Value1.workflow_state, match.workflow_state);
@@ -442,27 +442,27 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region Assert
 
-            Assert.True(match is Microting.eForm.Infrastructure.Models.FieldValue);
-            Assert.AreEqual(field_Value1.Accuracy, match.Accuracy);
-            Assert.AreEqual(field_Value1.Altitude, match.Altitude);
+            Assert.That(match is Microting.eForm.Infrastructure.Models.FieldValue, Is.True);
+            Assert.That(match.Accuracy, Is.EqualTo(field_Value1.Accuracy));
+            Assert.That(match.Altitude, Is.EqualTo(field_Value1.Altitude));
             // Assert.AreEqual(field_Value1.case_id, match.case_id);
             // Assert.AreEqual(field_Value1.check_list, match.check_list);
             // Assert.AreEqual(field_Value1.check_list_duplicate_id, match.check_list_duplicate_id);
             // Assert.AreEqual(field_Value1.check_list_id, match.check_list_id);
             // Assert.AreEqual(field_Value1.created_at, match.created_at);
-            Assert.AreEqual(field_Value1.Date, match.Date);
+            Assert.That(match.Date, Is.EqualTo(field_Value1.Date));
             // Assert.AreEqual(field_Value1.done_at, match.done_at);
-            Assert.AreEqual(field_Value1.Field, f1);
-            Assert.AreEqual(field_Value1.FieldId, match.FieldId);
-            Assert.AreEqual(field_Value1.Heading, match.Heading);
-            Assert.AreEqual(field_Value1.Id, match.Id);
-            Assert.AreEqual(field_Value1.Latitude, match.Latitude);
-            Assert.AreEqual(field_Value1.Longitude, match.Longitude);
+            Assert.That(f1, Is.EqualTo(field_Value1.Field));
+            Assert.That(match.FieldId, Is.EqualTo(field_Value1.FieldId));
+            Assert.That(match.Heading, Is.EqualTo(field_Value1.Heading));
+            Assert.That(match.Id, Is.EqualTo(field_Value1.Id));
+            Assert.That(match.Latitude, Is.EqualTo(field_Value1.Latitude));
+            Assert.That(match.Longitude, Is.EqualTo(field_Value1.Longitude));
             // Assert.AreEqual(field_Value1.updated_at, match.updated_at);
-            Assert.AreEqual("mappeFile1", match.UploadedData);
+            Assert.That(match.UploadedData, Is.EqualTo("mappeFile1"));
             // Assert.AreEqual(field_Value1.uploaded_data_id, match.UploadedDataObj);
             // Assert.AreEqual(field_Value1.user_id, match.user_id);
-            Assert.AreEqual(field_Value1.Value, match.Value);
+            Assert.That(match.Value, Is.EqualTo(field_Value1.Value));
             // Assert.AreEqual(field_Value1.version, match.version);
             // Assert.AreEqual(field_Value1.worker, match.worker);
             // Assert.AreEqual(field_Value1.workflow_state, match.workflow_state);
@@ -772,7 +772,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Assert
 
-            Assert.AreEqual(field_Value1.Value, match[0].Value);
+            Assert.That(match[0].Value, Is.EqualTo(field_Value1.Value));
         }
 
         [Test]
@@ -930,7 +930,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Assert
             var newValue = await DbContext.FieldValues.AsNoTracking().FirstOrDefaultAsync(x => x.Id == field_Value1.Id);
 
-            Assert.AreEqual(newValue.Value, "udfyldt");
+            Assert.That("udfyldt", Is.EqualTo(newValue.Value));
         }
 
         [Test]
@@ -1143,11 +1143,11 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             #region Assert
 
-            Assert.AreEqual("mappe/File1", matchF1[0].ElementAt(0).Value);
-            Assert.AreEqual("mappe/File2", matchF2[0].ElementAt(0).Value);
-            Assert.AreEqual("mappe/File3", matchF3[0].ElementAt(0).Value);
-            Assert.AreEqual("mappe/File4", matchF4[0].ElementAt(0).Value);
-            Assert.AreEqual("mappe/File5", matchF5[0].ElementAt(0).Value);
+            Assert.That(matchF1[0].ElementAt(0).Value, Is.EqualTo("mappe/File1"));
+            Assert.That(matchF2[0].ElementAt(0).Value, Is.EqualTo("mappe/File2"));
+            Assert.That(matchF3[0].ElementAt(0).Value, Is.EqualTo("mappe/File3"));
+            Assert.That(matchF4[0].ElementAt(0).Value, Is.EqualTo("mappe/File4"));
+            Assert.That(matchF5[0].ElementAt(0).Value, Is.EqualTo("mappe/File5"));
 
             #endregion
         }
@@ -1312,11 +1312,11 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Assert
 
 
-            Assert.AreEqual(field_Value1.Value, match[0].Value);
-            Assert.AreEqual(field_Value2.Value, match[1].Value);
-            Assert.AreEqual(field_Value3.Value, match[2].Value);
-            Assert.AreEqual(field_Value4.Value, match[3].Value);
-            Assert.AreEqual(field_Value5.Value, match[4].Value);
+            Assert.That(match[0].Value, Is.EqualTo(field_Value1.Value));
+            Assert.That(match[1].Value, Is.EqualTo(field_Value2.Value));
+            Assert.That(match[2].Value, Is.EqualTo(field_Value3.Value));
+            Assert.That(match[3].Value, Is.EqualTo(field_Value4.Value));
+            Assert.That(match[4].Value, Is.EqualTo(field_Value5.Value));
         }
 
 

@@ -84,9 +84,9 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
                 x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
 
             Assert.NotNull(notification);
-            Assert.AreEqual(1, DbContext.Notifications.Count());
-            Assert.AreEqual(Constants.Notifications.RetrievedForm, notification.Activity);
-            Assert.AreEqual(Constants.WorkflowStates.Created, notification.WorkflowState);
+            Assert.That(DbContext.Notifications.Count(), Is.EqualTo(1));
+            Assert.That(notification.Activity, Is.EqualTo(Constants.Notifications.RetrievedForm));
+            Assert.That(notification.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
         }
 
         [Test]
@@ -105,9 +105,9 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
                 x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
 
             Assert.NotNull(notification);
-            Assert.AreEqual(1, DbContext.Notifications.Count());
-            Assert.AreEqual(Constants.Notifications.Completed, notification.Activity);
-            Assert.AreEqual(Constants.WorkflowStates.Created, notification.WorkflowState);
+            Assert.That(DbContext.Notifications.Count(), Is.EqualTo(1));
+            Assert.That(notification.Activity, Is.EqualTo(Constants.Notifications.Completed));
+            Assert.That(notification.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
         }
 
         [Test]
@@ -128,9 +128,9 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             NoteDto notification = await sut.NotificationReadFirst();
 
             Assert.NotNull(notification);
-            Assert.AreEqual(2, DbContext.Notifications.Count());
-            Assert.AreEqual(Constants.Notifications.Completed, notification.Activity);
-            Assert.AreEqual(microtingUId1, notification.MicrotingUId);
+            Assert.That(DbContext.Notifications.Count(), Is.EqualTo(2));
+            Assert.That(notification.Activity, Is.EqualTo(Constants.Notifications.Completed));
+            Assert.That(notification.MicrotingUId, Is.EqualTo(microtingUId1));
         }
 
         [Test]
@@ -150,9 +150,9 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
                 x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId);
 
             Assert.NotNull(notification);
-            Assert.AreEqual(1, DbContext.Notifications.Count());
-            Assert.AreEqual(Constants.Notifications.Completed, notification.Activity);
-            Assert.AreEqual(Constants.WorkflowStates.Processed, notification.WorkflowState);
+            Assert.That(DbContext.Notifications.Count(), Is.EqualTo(1));
+            Assert.That(notification.Activity, Is.EqualTo(Constants.Notifications.Completed));
+            Assert.That(notification.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Processed));
         }
 
 
@@ -169,10 +169,10 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Assert
 
             Assert.NotNull(notificationResult);
-            Assert.AreEqual(1, notificationResult.Count);
-            Assert.AreEqual(Constants.Notifications.UnitActivate, notificationResult[0].Activity);
-            Assert.AreEqual(Constants.WorkflowStates.Created, notificationResult[0].WorkflowState);
-            Assert.AreEqual(Constants.WorkflowStates.Created, versionedMatches[0].WorkflowState);
+            Assert.That(notificationResult.Count, Is.EqualTo(1));
+            Assert.That(notificationResult[0].Activity, Is.EqualTo(Constants.Notifications.UnitActivate));
+            Assert.That(notificationResult[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+            Assert.That(versionedMatches[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
         }
 
         [Test]
@@ -200,7 +200,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
 
             // Assert
-            Assert.AreEqual(Constants.WorkflowStates.Created, notificationResult[0].WorkflowState);
+            Assert.That(notificationResult[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
         }
 
         [Test]
@@ -229,8 +229,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Assert
 
-            Assert.AreEqual(aNote1.NotificationUid, notificationResult[0].NotificationUid);
-            Assert.AreEqual(aNote1.MicrotingUid, notificationResult[0].MicrotingUid);
+            Assert.That(notificationResult[0].NotificationUid, Is.EqualTo(aNote1.NotificationUid));
+            Assert.That(notificationResult[0].MicrotingUid, Is.EqualTo(aNote1.MicrotingUid));
         }
 
         #endregion

@@ -78,35 +78,35 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(entityItems);
             Assert.NotNull(entityItemVersion);
 
-            Assert.AreEqual(1, entityItems.Count());
-            Assert.AreEqual(1, entityItemVersion.Count());
+            Assert.That(entityItems.Count(), Is.EqualTo(1));
+            Assert.That(entityItemVersion.Count(), Is.EqualTo(1));
 
-            Assert.AreEqual(entityItem.CreatedAt.ToString(), entityItems[0].CreatedAt.ToString());
-            Assert.AreEqual(entityItem.Version, entityItems[0].Version);
-//            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItems[0].UpdatedAt.ToString());
-            Assert.AreEqual(entityItems[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(entityItem.Id, entityItems[0].Id);
-            Assert.AreEqual(entityItem.Name, entityItems[0].Name);
-            Assert.AreEqual(entityItem.Description, entityItems[0].Description);
-            Assert.AreEqual(entityItem.Synced, entityItems[0].Synced);
-            Assert.AreEqual(entityItem.DisplayIndex, entityItems[0].DisplayIndex);
-            Assert.AreEqual(entityItem.EntityItemUid, entityItems[0].EntityItemUid);
-            Assert.AreEqual(entityItem.MicrotingUid, entityItems[0].MicrotingUid);
-            Assert.AreEqual(entityItem.EntityGroupId, entityGroup.Id);
+            Assert.That(entityItems[0].CreatedAt.ToString(), Is.EqualTo(entityItem.CreatedAt.ToString()));
+            Assert.That(entityItems[0].Version, Is.EqualTo(entityItem.Version));
+            //            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItems[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(entityItems[0].WorkflowState));
+            Assert.That(entityItems[0].Id, Is.EqualTo(entityItem.Id));
+            Assert.That(entityItems[0].Name, Is.EqualTo(entityItem.Name));
+            Assert.That(entityItems[0].Description, Is.EqualTo(entityItem.Description));
+            Assert.That(entityItems[0].Synced, Is.EqualTo(entityItem.Synced));
+            Assert.That(entityItems[0].DisplayIndex, Is.EqualTo(entityItem.DisplayIndex));
+            Assert.That(entityItems[0].EntityItemUid, Is.EqualTo(entityItem.EntityItemUid));
+            Assert.That(entityItems[0].MicrotingUid, Is.EqualTo(entityItem.MicrotingUid));
+            Assert.That(entityGroup.Id, Is.EqualTo(entityItem.EntityGroupId));
 
             //Versions
-            Assert.AreEqual(entityItem.CreatedAt.ToString(), entityItemVersion[0].CreatedAt.ToString());
-            Assert.AreEqual(entityItem.Version, entityItemVersion[0].Version);
-//            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItemVersion[0].UpdatedAt.ToString());
-            Assert.AreEqual(entityItemVersion[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(entityItem.Id, entityItemVersion[0].EntityItemId);
-            Assert.AreEqual(entityItem.Name, entityItemVersion[0].Name);
-            Assert.AreEqual(entityItem.Description, entityItemVersion[0].Description);
-            Assert.AreEqual(entityItem.Synced, entityItemVersion[0].Synced);
-            Assert.AreEqual(entityItem.DisplayIndex, entityItemVersion[0].DisplayIndex);
-            Assert.AreEqual(entityItem.EntityItemUid, entityItemVersion[0].EntityItemUid);
-            Assert.AreEqual(entityItem.MicrotingUid, entityItemVersion[0].MicrotingUid);
-            Assert.AreEqual(entityGroup.Id, entityItemVersion[0].EntityGroupId);
+            Assert.That(entityItemVersion[0].CreatedAt.ToString(), Is.EqualTo(entityItem.CreatedAt.ToString()));
+            Assert.That(entityItemVersion[0].Version, Is.EqualTo(entityItem.Version));
+            //            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItemVersion[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(entityItemVersion[0].WorkflowState));
+            Assert.That(entityItemVersion[0].EntityItemId, Is.EqualTo(entityItem.Id));
+            Assert.That(entityItemVersion[0].Name, Is.EqualTo(entityItem.Name));
+            Assert.That(entityItemVersion[0].Description, Is.EqualTo(entityItem.Description));
+            Assert.That(entityItemVersion[0].Synced, Is.EqualTo(entityItem.Synced));
+            Assert.That(entityItemVersion[0].DisplayIndex, Is.EqualTo(entityItem.DisplayIndex));
+            Assert.That(entityItemVersion[0].EntityItemUid, Is.EqualTo(entityItem.EntityItemUid));
+            Assert.That(entityItemVersion[0].MicrotingUid, Is.EqualTo(entityItem.MicrotingUid));
+            Assert.That(entityItemVersion[0].EntityGroupId, Is.EqualTo(entityGroup.Id));
         }
 
         [Test]
@@ -165,49 +165,49 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(entityItems);
             Assert.NotNull(entityItemVersion);
 
-            Assert.AreEqual(1, entityItems.Count());
-            Assert.AreEqual(2, entityItemVersion.Count());
+            Assert.That(entityItems.Count(), Is.EqualTo(1));
+            Assert.That(entityItemVersion.Count(), Is.EqualTo(2));
 
-            Assert.AreEqual(entityItem.CreatedAt.ToString(), entityItems[0].CreatedAt.ToString());
-            Assert.AreEqual(entityItem.Version, entityItems[0].Version);
-//            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItems[0].UpdatedAt.ToString());
-            Assert.AreEqual(entityItems[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(entityItem.Id, entityItems[0].Id);
-            Assert.AreEqual(entityItem.Name, entityItems[0].Name);
-            Assert.AreEqual(entityItem.Description, entityItems[0].Description);
-            Assert.AreEqual(entityItem.Synced, entityItems[0].Synced);
-            Assert.AreEqual(entityItem.DisplayIndex, entityItems[0].DisplayIndex);
-            Assert.AreEqual(entityItem.EntityItemUid, entityItems[0].EntityItemUid);
-            Assert.AreEqual(entityItem.MicrotingUid, entityItems[0].MicrotingUid);
-            Assert.AreEqual(entityItem.EntityGroupId, entityGroup.Id);
+            Assert.That(entityItems[0].CreatedAt.ToString(), Is.EqualTo(entityItem.CreatedAt.ToString()));
+            Assert.That(entityItems[0].Version, Is.EqualTo(entityItem.Version));
+            //            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItems[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(entityItems[0].WorkflowState));
+            Assert.That(entityItems[0].Id, Is.EqualTo(entityItem.Id));
+            Assert.That(entityItems[0].Name, Is.EqualTo(entityItem.Name));
+            Assert.That(entityItems[0].Description, Is.EqualTo(entityItem.Description));
+            Assert.That(entityItems[0].Synced, Is.EqualTo(entityItem.Synced));
+            Assert.That(entityItems[0].DisplayIndex, Is.EqualTo(entityItem.DisplayIndex));
+            Assert.That(entityItems[0].EntityItemUid, Is.EqualTo(entityItem.EntityItemUid));
+            Assert.That(entityItems[0].MicrotingUid, Is.EqualTo(entityItem.MicrotingUid));
+            Assert.That(entityGroup.Id, Is.EqualTo(entityItem.EntityGroupId));
 
             //Old Version
-            Assert.AreEqual(entityItem.CreatedAt.ToString(), entityItemVersion[0].CreatedAt.ToString());
-            Assert.AreEqual(1, entityItemVersion[0].Version);
-//            Assert.AreEqual(oldUpdatedAt.ToString(), entityItemVersion[0].UpdatedAt.ToString());
-            Assert.AreEqual(entityItemVersion[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(entityItem.Id, entityItemVersion[0].EntityItemId);
-            Assert.AreEqual(oldName, entityItemVersion[0].Name);
-            Assert.AreEqual(oldDescription, entityItemVersion[0].Description);
-            Assert.AreEqual(oldSynced, entityItemVersion[0].Synced);
-            Assert.AreEqual(oldDisplayIndex, entityItemVersion[0].DisplayIndex);
-            Assert.AreEqual(oldEntityItemUid, entityItemVersion[0].EntityItemUid);
-            Assert.AreEqual(oldMicrotingUid, entityItemVersion[0].MicrotingUid);
-            Assert.AreEqual(entityGroup.Id, entityItemVersion[0].EntityGroupId);
+            Assert.That(entityItemVersion[0].CreatedAt.ToString(), Is.EqualTo(entityItem.CreatedAt.ToString()));
+            Assert.That(entityItemVersion[0].Version, Is.EqualTo(1));
+            //            Assert.AreEqual(oldUpdatedAt.ToString(), entityItemVersion[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(entityItemVersion[0].WorkflowState));
+            Assert.That(entityItemVersion[0].EntityItemId, Is.EqualTo(entityItem.Id));
+            Assert.That(entityItemVersion[0].Name, Is.EqualTo(oldName));
+            Assert.That(entityItemVersion[0].Description, Is.EqualTo(oldDescription));
+            Assert.That(entityItemVersion[0].Synced, Is.EqualTo(oldSynced));
+            Assert.That(entityItemVersion[0].DisplayIndex, Is.EqualTo(oldDisplayIndex));
+            Assert.That(entityItemVersion[0].EntityItemUid, Is.EqualTo(oldEntityItemUid));
+            Assert.That(entityItemVersion[0].MicrotingUid, Is.EqualTo(oldMicrotingUid));
+            Assert.That(entityItemVersion[0].EntityGroupId, Is.EqualTo(entityGroup.Id));
 
             //New Version
-            Assert.AreEqual(entityItem.CreatedAt.ToString(), entityItemVersion[1].CreatedAt.ToString());
-            Assert.AreEqual(2, entityItemVersion[1].Version);
-//            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItemVersion[1].UpdatedAt.ToString());
-            Assert.AreEqual(entityItemVersion[1].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(entityItem.Id, entityItemVersion[1].EntityItemId);
-            Assert.AreEqual(entityItem.Name, entityItemVersion[1].Name);
-            Assert.AreEqual(entityItem.Description, entityItemVersion[1].Description);
-            Assert.AreEqual(entityItem.Synced, entityItemVersion[1].Synced);
-            Assert.AreEqual(entityItem.DisplayIndex, entityItemVersion[1].DisplayIndex);
-            Assert.AreEqual(entityItem.EntityItemUid, entityItemVersion[1].EntityItemUid);
-            Assert.AreEqual(entityItem.MicrotingUid, entityItemVersion[1].MicrotingUid);
-            Assert.AreEqual(entityGroup.Id, entityItemVersion[1].EntityGroupId);
+            Assert.That(entityItemVersion[1].CreatedAt.ToString(), Is.EqualTo(entityItem.CreatedAt.ToString()));
+            Assert.That(entityItemVersion[1].Version, Is.EqualTo(2));
+            //            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItemVersion[1].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(entityItemVersion[1].WorkflowState));
+            Assert.That(entityItemVersion[1].EntityItemId, Is.EqualTo(entityItem.Id));
+            Assert.That(entityItemVersion[1].Name, Is.EqualTo(entityItem.Name));
+            Assert.That(entityItemVersion[1].Description, Is.EqualTo(entityItem.Description));
+            Assert.That(entityItemVersion[1].Synced, Is.EqualTo(entityItem.Synced));
+            Assert.That(entityItemVersion[1].DisplayIndex, Is.EqualTo(entityItem.DisplayIndex));
+            Assert.That(entityItemVersion[1].EntityItemUid, Is.EqualTo(entityItem.EntityItemUid));
+            Assert.That(entityItemVersion[1].MicrotingUid, Is.EqualTo(entityItem.MicrotingUid));
+            Assert.That(entityItemVersion[1].EntityGroupId, Is.EqualTo(entityGroup.Id));
         }
 
         [Test]
@@ -253,49 +253,49 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(entityItems);
             Assert.NotNull(entityItemVersion);
 
-            Assert.AreEqual(1, entityItems.Count());
-            Assert.AreEqual(2, entityItemVersion.Count());
+            Assert.That(entityItems.Count(), Is.EqualTo(1));
+            Assert.That(entityItemVersion.Count(), Is.EqualTo(2));
 
-            Assert.AreEqual(entityItem.CreatedAt.ToString(), entityItems[0].CreatedAt.ToString());
-            Assert.AreEqual(entityItem.Version, entityItems[0].Version);
-//            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItems[0].UpdatedAt.ToString());
-            Assert.AreEqual(entityItems[0].WorkflowState, Constants.WorkflowStates.Removed);
-            Assert.AreEqual(entityItem.Id, entityItems[0].Id);
-            Assert.AreEqual(entityItem.Name, entityItems[0].Name);
-            Assert.AreEqual(entityItem.Description, entityItems[0].Description);
-            Assert.AreEqual(entityItem.Synced, entityItems[0].Synced);
-            Assert.AreEqual(entityItem.DisplayIndex, entityItems[0].DisplayIndex);
-            Assert.AreEqual(entityItem.EntityItemUid, entityItems[0].EntityItemUid);
-            Assert.AreEqual(entityItem.MicrotingUid, entityItems[0].MicrotingUid);
-            Assert.AreEqual(entityItem.EntityGroupId, entityGroup.Id);
+            Assert.That(entityItems[0].CreatedAt.ToString(), Is.EqualTo(entityItem.CreatedAt.ToString()));
+            Assert.That(entityItems[0].Version, Is.EqualTo(entityItem.Version));
+            //            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItems[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(entityItems[0].WorkflowState));
+            Assert.That(entityItems[0].Id, Is.EqualTo(entityItem.Id));
+            Assert.That(entityItems[0].Name, Is.EqualTo(entityItem.Name));
+            Assert.That(entityItems[0].Description, Is.EqualTo(entityItem.Description));
+            Assert.That(entityItems[0].Synced, Is.EqualTo(entityItem.Synced));
+            Assert.That(entityItems[0].DisplayIndex, Is.EqualTo(entityItem.DisplayIndex));
+            Assert.That(entityItems[0].EntityItemUid, Is.EqualTo(entityItem.EntityItemUid));
+            Assert.That(entityItems[0].MicrotingUid, Is.EqualTo(entityItem.MicrotingUid));
+            Assert.That(entityGroup.Id, Is.EqualTo(entityItem.EntityGroupId));
 
             //Old Version
-            Assert.AreEqual(entityItem.CreatedAt.ToString(), entityItemVersion[0].CreatedAt.ToString());
-            Assert.AreEqual(1, entityItemVersion[0].Version);
-//            Assert.AreEqual(oldUpdatedAt.ToString(), entityItemVersion[0].UpdatedAt.ToString());
-            Assert.AreEqual(entityItemVersion[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(entityItem.Id, entityItemVersion[0].EntityItemId);
-            Assert.AreEqual(entityItem.Name, entityItemVersion[0].Name);
-            Assert.AreEqual(entityItem.Description, entityItemVersion[0].Description);
-            Assert.AreEqual(entityItem.Synced, entityItemVersion[0].Synced);
-            Assert.AreEqual(entityItem.DisplayIndex, entityItemVersion[0].DisplayIndex);
-            Assert.AreEqual(entityItem.EntityItemUid, entityItemVersion[0].EntityItemUid);
-            Assert.AreEqual(entityItem.MicrotingUid, entityItemVersion[0].MicrotingUid);
-            Assert.AreEqual(entityGroup.Id, entityItemVersion[0].EntityGroupId);
+            Assert.That(entityItemVersion[0].CreatedAt.ToString(), Is.EqualTo(entityItem.CreatedAt.ToString()));
+            Assert.That(entityItemVersion[0].Version, Is.EqualTo(1));
+            //            Assert.AreEqual(oldUpdatedAt.ToString(), entityItemVersion[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(entityItemVersion[0].WorkflowState));
+            Assert.That(entityItemVersion[0].EntityItemId, Is.EqualTo(entityItem.Id));
+            Assert.That(entityItemVersion[0].Name, Is.EqualTo(entityItem.Name));
+            Assert.That(entityItemVersion[0].Description, Is.EqualTo(entityItem.Description));
+            Assert.That(entityItemVersion[0].Synced, Is.EqualTo(entityItem.Synced));
+            Assert.That(entityItemVersion[0].DisplayIndex, Is.EqualTo(entityItem.DisplayIndex));
+            Assert.That(entityItemVersion[0].EntityItemUid, Is.EqualTo(entityItem.EntityItemUid));
+            Assert.That(entityItemVersion[0].MicrotingUid, Is.EqualTo(entityItem.MicrotingUid));
+            Assert.That(entityItemVersion[0].EntityGroupId, Is.EqualTo(entityGroup.Id));
 
             //New Version
-            Assert.AreEqual(entityItem.CreatedAt.ToString(), entityItemVersion[1].CreatedAt.ToString());
-            Assert.AreEqual(2, entityItemVersion[1].Version);
-//            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItemVersion[1].UpdatedAt.ToString());
-            Assert.AreEqual(entityItemVersion[1].WorkflowState, Constants.WorkflowStates.Removed);
-            Assert.AreEqual(entityItem.Id, entityItemVersion[1].EntityItemId);
-            Assert.AreEqual(entityItem.Name, entityItemVersion[1].Name);
-            Assert.AreEqual(entityItem.Description, entityItemVersion[1].Description);
-            Assert.AreEqual(entityItem.Synced, entityItemVersion[1].Synced);
-            Assert.AreEqual(entityItem.DisplayIndex, entityItemVersion[1].DisplayIndex);
-            Assert.AreEqual(entityItem.EntityItemUid, entityItemVersion[1].EntityItemUid);
-            Assert.AreEqual(entityItem.MicrotingUid, entityItemVersion[1].MicrotingUid);
-            Assert.AreEqual(entityGroup.Id, entityItemVersion[1].EntityGroupId);
+            Assert.That(entityItemVersion[1].CreatedAt.ToString(), Is.EqualTo(entityItem.CreatedAt.ToString()));
+            Assert.That(entityItemVersion[1].Version, Is.EqualTo(2));
+            //            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItemVersion[1].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(entityItemVersion[1].WorkflowState));
+            Assert.That(entityItemVersion[1].EntityItemId, Is.EqualTo(entityItem.Id));
+            Assert.That(entityItemVersion[1].Name, Is.EqualTo(entityItem.Name));
+            Assert.That(entityItemVersion[1].Description, Is.EqualTo(entityItem.Description));
+            Assert.That(entityItemVersion[1].Synced, Is.EqualTo(entityItem.Synced));
+            Assert.That(entityItemVersion[1].DisplayIndex, Is.EqualTo(entityItem.DisplayIndex));
+            Assert.That(entityItemVersion[1].EntityItemUid, Is.EqualTo(entityItem.EntityItemUid));
+            Assert.That(entityItemVersion[1].MicrotingUid, Is.EqualTo(entityItem.MicrotingUid));
+            Assert.That(entityItemVersion[1].EntityGroupId, Is.EqualTo(entityGroup.Id));
         }
     }
 }

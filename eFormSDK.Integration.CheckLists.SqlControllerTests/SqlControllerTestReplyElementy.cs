@@ -226,10 +226,10 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             #region Assert
 
-            Assert.AreEqual(1, match.ElementList.Count());
+            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
             Microting.eForm.Infrastructure.Models.CheckListValue clv =
                 (Microting.eForm.Infrastructure.Models.CheckListValue)match.ElementList[0];
-            Assert.AreEqual(5, clv.DataItemList.Count);
+            Assert.That(clv.DataItemList.Count, Is.EqualTo(5));
 
             #region casts
 
@@ -248,37 +248,37 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             #region Barcode
 
-            Assert.AreEqual(f1.BarcodeEnabled, 1);
-            Assert.AreEqual(f2.BarcodeEnabled, 1);
-            Assert.AreEqual(f3.BarcodeEnabled, 0);
-            Assert.AreEqual(f4.BarcodeEnabled, 1);
-            Assert.AreEqual(f5.BarcodeEnabled, 0);
+            Assert.That(1, Is.EqualTo(f1.BarcodeEnabled));
+            Assert.That(1, Is.EqualTo(f2.BarcodeEnabled));
+            Assert.That(0, Is.EqualTo(f3.BarcodeEnabled));
+            Assert.That(1, Is.EqualTo(f4.BarcodeEnabled));
+            Assert.That(0, Is.EqualTo(f5.BarcodeEnabled));
 
-            Assert.AreEqual(f1.BarcodeType, "barcode");
-            Assert.AreEqual(f2.BarcodeType, "barcode");
-            Assert.AreEqual(f3.BarcodeType, "barcode");
-            Assert.AreEqual(f4.BarcodeType, "barcode");
-            Assert.AreEqual(f5.BarcodeType, "barcode");
+            Assert.That("barcode", Is.EqualTo(f1.BarcodeType));
+            Assert.That("barcode", Is.EqualTo(f2.BarcodeType));
+            Assert.That("barcode", Is.EqualTo(f3.BarcodeType));
+            Assert.That("barcode", Is.EqualTo(f4.BarcodeType));
+            Assert.That("barcode", Is.EqualTo(f5.BarcodeType));
 
             #endregion
 
             #region chckl_id
 
-            Assert.AreEqual(f1.CheckListId, cl2.Id);
-            Assert.AreEqual(f2.CheckListId, cl2.Id);
-            Assert.AreEqual(f3.CheckListId, cl2.Id);
-            Assert.AreEqual(f4.CheckListId, cl2.Id);
-            Assert.AreEqual(f5.CheckListId, cl2.Id);
+            Assert.That(cl2.Id, Is.EqualTo(f1.CheckListId));
+            Assert.That(cl2.Id, Is.EqualTo(f2.CheckListId));
+            Assert.That(cl2.Id, Is.EqualTo(f3.CheckListId));
+            Assert.That(cl2.Id, Is.EqualTo(f4.CheckListId));
+            Assert.That(cl2.Id, Is.EqualTo(f5.CheckListId));
 
             #endregion
 
             #region Color
 
-            Assert.AreEqual(f1.Color, _f1.FieldValues[0].Color);
-            Assert.AreEqual(f2.Color, _f2.FieldValues[0].Color);
-            Assert.AreEqual(f3.Color, _f3.FieldValues[0].Color);
-            Assert.AreEqual(f4.Color, _f4.FieldValues[0].Color);
-            Assert.AreEqual(f5.Color, _f5.FieldValues[0].Color);
+            Assert.That(_f1.FieldValues[0].Color, Is.EqualTo(f1.Color));
+            Assert.That(_f2.FieldValues[0].Color, Is.EqualTo(f2.Color));
+            Assert.That(_f3.FieldValues[0].Color, Is.EqualTo(f3.Color));
+            Assert.That(_f4.FieldValues[0].Color, Is.EqualTo(f4.Color));
+            Assert.That(_f5.FieldValues[0].Color, Is.EqualTo(f5.Color));
 
             #endregion
 
@@ -290,21 +290,21 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             #region Decimal_Count
 
-            Assert.AreEqual(f1.DecimalCount, null);
-            Assert.AreEqual(f2.DecimalCount, null);
-            Assert.AreEqual(f3.DecimalCount, 3);
-            Assert.AreEqual(f4.DecimalCount, null);
-            Assert.AreEqual(f5.DecimalCount, null);
+            Assert.That(f1.DecimalCount, Is.EqualTo(null));
+            Assert.That(f2.DecimalCount, Is.EqualTo(null));
+            Assert.That(f3.DecimalCount, Is.EqualTo(3));
+            Assert.That(f4.DecimalCount, Is.EqualTo(null));
+            Assert.That(f5.DecimalCount, Is.EqualTo(null));
 
             #endregion
 
             #region Default_value
 
-            Assert.AreEqual(f1.DefaultValue, "");
-            Assert.AreEqual(f2.DefaultValue, "");
-            Assert.AreEqual(f3.DefaultValue, "");
-            Assert.AreEqual(f4.DefaultValue, "");
-            Assert.AreEqual(f5.DefaultValue, "");
+            Assert.That(f1.DefaultValue, Is.EqualTo(""));
+            Assert.That(f2.DefaultValue, Is.EqualTo(""));
+            Assert.That(f3.DefaultValue, Is.EqualTo(""));
+            Assert.That(f4.DefaultValue, Is.EqualTo(""));
+            Assert.That(f5.DefaultValue, Is.EqualTo(""));
 
             #endregion
 
@@ -316,31 +316,31 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
             CDataValue f4desc = _f4.Description;
             CDataValue f5desc = _f5.Description;
 
-            Assert.AreEqual("Comment field description", f1desc.InderValue);
-            Assert.AreEqual("showPDf Description", f2desc.InderValue);
-            Assert.AreEqual("Number Field Description", f3desc.InderValue);
-            Assert.AreEqual("date Description", f4desc.InderValue);
-            Assert.AreEqual("picture Description", f5desc.InderValue);
+            Assert.That(f1desc.InderValue, Is.EqualTo("Comment field description"));
+            Assert.That(f2desc.InderValue, Is.EqualTo("showPDf Description"));
+            Assert.That(f3desc.InderValue, Is.EqualTo("Number Field Description"));
+            Assert.That(f4desc.InderValue, Is.EqualTo("date Description"));
+            Assert.That(f5desc.InderValue, Is.EqualTo("picture Description"));
 
             #endregion
 
             #region Displayindex
 
-            Assert.AreEqual(f1.DisplayIndex, _f1.FieldValues[0].DisplayOrder);
-            Assert.AreEqual(f2.DisplayIndex, _f2.FieldValues[0].DisplayOrder);
-            Assert.AreEqual(f3.DisplayIndex, _f3.FieldValues[0].DisplayOrder);
-            Assert.AreEqual(f4.DisplayIndex, _f4.FieldValues[0].DisplayOrder);
-            Assert.AreEqual(f5.DisplayIndex, _f5.FieldValues[0].DisplayOrder);
+            Assert.That(_f1.FieldValues[0].DisplayOrder, Is.EqualTo(f1.DisplayIndex));
+            Assert.That(_f2.FieldValues[0].DisplayOrder, Is.EqualTo(f2.DisplayIndex));
+            Assert.That(_f3.FieldValues[0].DisplayOrder, Is.EqualTo(f3.DisplayIndex));
+            Assert.That(_f4.FieldValues[0].DisplayOrder, Is.EqualTo(f4.DisplayIndex));
+            Assert.That(_f5.FieldValues[0].DisplayOrder, Is.EqualTo(f5.DisplayIndex));
 
             #endregion
 
             #region Dummy
 
-            Assert.AreEqual(f1.Dummy, 1);
-            Assert.AreEqual(f2.Dummy, 1);
-            Assert.AreEqual(f3.Dummy, 0);
-            Assert.AreEqual(f4.Dummy, 0);
-            Assert.AreEqual(f5.Dummy, 0);
+            Assert.That(1, Is.EqualTo(f1.Dummy));
+            Assert.That(1, Is.EqualTo(f2.Dummy));
+            Assert.That(0, Is.EqualTo(f3.Dummy));
+            Assert.That(0, Is.EqualTo(f4.Dummy));
+            Assert.That(0, Is.EqualTo(f5.Dummy));
 
             #endregion
 
@@ -348,31 +348,31 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             #region enabled
 
-            Assert.AreEqual(f1.GeolocationEnabled, 0);
-            Assert.AreEqual(f2.GeolocationEnabled, 0);
-            Assert.AreEqual(f3.GeolocationEnabled, 0);
-            Assert.AreEqual(f4.GeolocationEnabled, 0);
-            Assert.AreEqual(f5.GeolocationEnabled, 1);
+            Assert.That(0, Is.EqualTo(f1.GeolocationEnabled));
+            Assert.That(0, Is.EqualTo(f2.GeolocationEnabled));
+            Assert.That(0, Is.EqualTo(f3.GeolocationEnabled));
+            Assert.That(0, Is.EqualTo(f4.GeolocationEnabled));
+            Assert.That(1, Is.EqualTo(f5.GeolocationEnabled));
 
             #endregion
 
             #region forced
 
-            Assert.AreEqual(f1.GeolocationForced, 0);
-            Assert.AreEqual(f2.GeolocationForced, 1);
-            Assert.AreEqual(f3.GeolocationForced, 0);
-            Assert.AreEqual(f4.GeolocationForced, 0);
-            Assert.AreEqual(f5.GeolocationForced, 0);
+            Assert.That(0, Is.EqualTo(f1.GeolocationForced));
+            Assert.That(1, Is.EqualTo(f2.GeolocationForced));
+            Assert.That(0, Is.EqualTo(f3.GeolocationForced));
+            Assert.That(0, Is.EqualTo(f4.GeolocationForced));
+            Assert.That(0, Is.EqualTo(f5.GeolocationForced));
 
             #endregion
 
             #region hidden
 
-            Assert.AreEqual(f1.GeolocationHidden, 1);
-            Assert.AreEqual(f2.GeolocationHidden, 0);
-            Assert.AreEqual(f3.GeolocationHidden, 1);
-            Assert.AreEqual(f4.GeolocationHidden, 1);
-            Assert.AreEqual(f5.GeolocationHidden, 1);
+            Assert.That(1, Is.EqualTo(f1.GeolocationHidden));
+            Assert.That(0, Is.EqualTo(f2.GeolocationHidden));
+            Assert.That(1, Is.EqualTo(f3.GeolocationHidden));
+            Assert.That(1, Is.EqualTo(f4.GeolocationHidden));
+            Assert.That(1, Is.EqualTo(f5.GeolocationHidden));
 
             #endregion
 
@@ -380,41 +380,41 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             #region isNum
 
-            Assert.AreEqual(f1.IsNum, 0);
-            Assert.AreEqual(f2.IsNum, 0);
-            Assert.AreEqual(f3.IsNum, 0);
-            Assert.AreEqual(f4.IsNum, 0);
-            Assert.AreEqual(f5.IsNum, 0);
+            Assert.That(0, Is.EqualTo(f1.IsNum));
+            Assert.That(0, Is.EqualTo(f2.IsNum));
+            Assert.That(0, Is.EqualTo(f3.IsNum));
+            Assert.That(0, Is.EqualTo(f4.IsNum));
+            Assert.That(0, Is.EqualTo(f5.IsNum));
 
             #endregion
 
             #region Label
 
-            Assert.AreEqual("Comment field", _f1.Label);
-            Assert.AreEqual("ShowPdf", _f2.Label);
-            Assert.AreEqual("Numberfield", _f3.Label);
-            Assert.AreEqual("Date", _f4.Label);
-            Assert.AreEqual("Picture", _f5.Label);
+            Assert.That(_f1.Label, Is.EqualTo("Comment field"));
+            Assert.That(_f2.Label, Is.EqualTo("ShowPdf"));
+            Assert.That(_f3.Label, Is.EqualTo("Numberfield"));
+            Assert.That(_f4.Label, Is.EqualTo("Date"));
+            Assert.That(_f5.Label, Is.EqualTo("Picture"));
 
             #endregion
 
             #region Mandatory
 
-            Assert.AreEqual(f1.Mandatory, 1);
-            Assert.AreEqual(f2.Mandatory, 0);
-            Assert.AreEqual(f3.Mandatory, 1);
-            Assert.AreEqual(f4.Mandatory, 1);
-            Assert.AreEqual(f5.Mandatory, 1);
+            Assert.That(1, Is.EqualTo(f1.Mandatory));
+            Assert.That(0, Is.EqualTo(f2.Mandatory));
+            Assert.That(1, Is.EqualTo(f3.Mandatory));
+            Assert.That(1, Is.EqualTo(f4.Mandatory));
+            Assert.That(1, Is.EqualTo(f5.Mandatory));
 
             #endregion
 
             #region maxLength
 
-            Assert.AreEqual(f1.MaxLength, 55);
-            Assert.AreEqual(f2.MaxLength, 5);
-            Assert.AreEqual(f3.MaxLength, 8);
-            Assert.AreEqual(f4.MaxLength, 666);
-            Assert.AreEqual(f5.MaxLength, 69);
+            Assert.That(55, Is.EqualTo(f1.MaxLength));
+            Assert.That(5, Is.EqualTo(f2.MaxLength));
+            Assert.That(8, Is.EqualTo(f3.MaxLength));
+            Assert.That(666, Is.EqualTo(f4.MaxLength));
+            Assert.That(69, Is.EqualTo(f5.MaxLength));
 
             #endregion
 
@@ -422,21 +422,21 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             #region max
 
-            Assert.AreEqual(f1.MaxValue, "55");
-            Assert.AreEqual(f2.MaxValue, "5");
-            Assert.AreEqual(f3.MaxValue, "4865");
-            Assert.AreEqual(f4.MaxValue, "41153");
-            Assert.AreEqual(f5.MaxValue, "69");
+            Assert.That("55", Is.EqualTo(f1.MaxValue));
+            Assert.That("5", Is.EqualTo(f2.MaxValue));
+            Assert.That("4865", Is.EqualTo(f3.MaxValue));
+            Assert.That("41153", Is.EqualTo(f4.MaxValue));
+            Assert.That("69", Is.EqualTo(f5.MaxValue));
 
             #endregion
 
             #region min
 
-            Assert.AreEqual(f1.MinValue, "0");
-            Assert.AreEqual(f2.MinValue, "0");
-            Assert.AreEqual(f3.MinValue, "0");
-            Assert.AreEqual(f4.MinValue, "0");
-            Assert.AreEqual(f5.MinValue, "1");
+            Assert.That("0", Is.EqualTo(f1.MinValue));
+            Assert.That("0", Is.EqualTo(f2.MinValue));
+            Assert.That("0", Is.EqualTo(f3.MinValue));
+            Assert.That("0", Is.EqualTo(f4.MinValue));
+            Assert.That("1", Is.EqualTo(f5.MinValue));
 
             #endregion
 
@@ -444,107 +444,107 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             #region Multi
 
-            Assert.AreEqual(f1.Multi, 0);
-            Assert.AreEqual(f2.Multi, 0);
-            Assert.AreEqual(f3.Multi, 0);
-            Assert.AreEqual(f4.Multi, 0);
-            Assert.AreEqual(f5.Multi, 0);
+            Assert.That(0, Is.EqualTo(f1.Multi));
+            Assert.That(0, Is.EqualTo(f2.Multi));
+            Assert.That(0, Is.EqualTo(f3.Multi));
+            Assert.That(0, Is.EqualTo(f4.Multi));
+            Assert.That(0, Is.EqualTo(f5.Multi));
 
             #endregion
 
             #region Optional
 
-            Assert.AreEqual(f1.Optional, 0);
-            Assert.AreEqual(f2.Optional, 0);
-            Assert.AreEqual(f3.Optional, 1);
-            Assert.AreEqual(f4.Optional, 1);
-            Assert.AreEqual(f5.Optional, 1);
+            Assert.That(0, Is.EqualTo(f1.Optional));
+            Assert.That(0, Is.EqualTo(f2.Optional));
+            Assert.That(1, Is.EqualTo(f3.Optional));
+            Assert.That(1, Is.EqualTo(f4.Optional));
+            Assert.That(1, Is.EqualTo(f5.Optional));
 
             #endregion
 
             #region Query_Type
 
-            Assert.AreEqual(f1.QueryType, null);
-            Assert.AreEqual(f2.QueryType, null);
-            Assert.AreEqual(f3.QueryType, null);
-            Assert.AreEqual(f4.QueryType, null);
-            Assert.AreEqual(f5.QueryType, null);
+            Assert.That(f1.QueryType, Is.EqualTo(""));
+            Assert.That(f2.QueryType, Is.EqualTo(""));
+            Assert.That(f3.QueryType, Is.EqualTo(""));
+            Assert.That(f4.QueryType, Is.EqualTo(""));
+            Assert.That(f5.QueryType, Is.EqualTo(""));
 
             #endregion
 
             #region Read_Only
 
-            Assert.AreEqual(f1.ReadOnly, 1);
-            Assert.AreEqual(f2.ReadOnly, 0);
-            Assert.AreEqual(f3.ReadOnly, 1);
-            Assert.AreEqual(f4.ReadOnly, 0);
-            Assert.AreEqual(f5.ReadOnly, 0);
+            Assert.That(1, Is.EqualTo(f1.ReadOnly));
+            Assert.That(0, Is.EqualTo(f2.ReadOnly));
+            Assert.That(1, Is.EqualTo(f3.ReadOnly));
+            Assert.That(0, Is.EqualTo(f4.ReadOnly));
+            Assert.That(0, Is.EqualTo(f5.ReadOnly));
 
             #endregion
 
             #region Selected
 
-            Assert.AreEqual(f1.Selected, 0);
-            Assert.AreEqual(f2.Selected, 0);
-            Assert.AreEqual(f3.Selected, 0);
-            Assert.AreEqual(f4.Selected, 1);
-            Assert.AreEqual(f5.Selected, 1);
+            Assert.That(0, Is.EqualTo(f1.Selected));
+            Assert.That(0, Is.EqualTo(f2.Selected));
+            Assert.That(0, Is.EqualTo(f3.Selected));
+            Assert.That(1, Is.EqualTo(f4.Selected));
+            Assert.That(1, Is.EqualTo(f5.Selected));
 
             #endregion
 
             #region Split_Screen
 
-            Assert.AreEqual(f1.Split, 0);
-            Assert.AreEqual(f2.Split, 0);
-            Assert.AreEqual(f3.Split, 0);
-            Assert.AreEqual(f4.Split, 0);
-            Assert.AreEqual(f5.Split, 0);
+            Assert.That(0, Is.EqualTo(f1.Split));
+            Assert.That(0, Is.EqualTo(f2.Split));
+            Assert.That(0, Is.EqualTo(f3.Split));
+            Assert.That(0, Is.EqualTo(f4.Split));
+            Assert.That(0, Is.EqualTo(f5.Split));
 
             #endregion
 
             #region Stop_On_Save
 
-            Assert.AreEqual(f1.StopOnSave, 0);
-            Assert.AreEqual(f2.StopOnSave, 0);
-            Assert.AreEqual(f3.StopOnSave, 0);
-            Assert.AreEqual(f4.StopOnSave, 0);
-            Assert.AreEqual(f5.StopOnSave, 0);
+            Assert.That(0, Is.EqualTo(f1.StopOnSave));
+            Assert.That(0, Is.EqualTo(f2.StopOnSave));
+            Assert.That(0, Is.EqualTo(f3.StopOnSave));
+            Assert.That(0, Is.EqualTo(f4.StopOnSave));
+            Assert.That(0, Is.EqualTo(f5.StopOnSave));
 
             #endregion
 
             #region Unit_Name
 
-            Assert.AreEqual(f1.UnitName, "");
-            Assert.AreEqual(f2.UnitName, "");
-            Assert.AreEqual(f3.UnitName, "");
-            Assert.AreEqual(f4.UnitName, "");
-            Assert.AreEqual(f5.UnitName, "");
+            Assert.That(f1.UnitName, Is.EqualTo(""));
+            Assert.That(f2.UnitName, Is.EqualTo(""));
+            Assert.That(f3.UnitName, Is.EqualTo(""));
+            Assert.That(f4.UnitName, Is.EqualTo(""));
+            Assert.That(f5.UnitName, Is.EqualTo(""));
 
             #endregion
 
             #region Values
 
-            Assert.AreEqual(1, _f1.FieldValues.Count());
-            Assert.AreEqual(1, _f2.FieldValues.Count());
-            Assert.AreEqual(1, _f3.FieldValues.Count());
-            Assert.AreEqual(1, _f4.FieldValues.Count());
-            Assert.AreEqual(1, _f5.FieldValues.Count());
+            Assert.That(_f1.FieldValues.Count(), Is.EqualTo(1));
+            Assert.That(_f2.FieldValues.Count(), Is.EqualTo(1));
+            Assert.That(_f3.FieldValues.Count(), Is.EqualTo(1));
+            Assert.That(_f4.FieldValues.Count(), Is.EqualTo(1));
+            Assert.That(_f5.FieldValues.Count(), Is.EqualTo(1));
 
-            Assert.AreEqual(field_Values1.Value, _f1.FieldValues[0].Value);
-            Assert.AreEqual(field_Values2.Value, _f2.FieldValues[0].Value);
-            Assert.AreEqual(field_Values3.Value, _f3.FieldValues[0].Value);
-            Assert.AreEqual(field_Values4.Value, _f4.FieldValues[0].Value);
-            Assert.AreEqual(field_Values5.Value, _f5.FieldValues[0].Value);
+            Assert.That(_f1.FieldValues[0].Value, Is.EqualTo(field_Values1.Value));
+            Assert.That(_f2.FieldValues[0].Value, Is.EqualTo(field_Values2.Value));
+            Assert.That(_f3.FieldValues[0].Value, Is.EqualTo(field_Values3.Value));
+            Assert.That(_f4.FieldValues[0].Value, Is.EqualTo(field_Values4.Value));
+            Assert.That(_f5.FieldValues[0].Value, Is.EqualTo(field_Values5.Value));
 
             #endregion
 
             #region Version
 
-            Assert.AreEqual(f1.Version, 49);
-            Assert.AreEqual(f2.Version, 9);
-            Assert.AreEqual(f3.Version, 1);
-            Assert.AreEqual(f4.Version, 1);
-            Assert.AreEqual(f5.Version, 1);
+            Assert.That(49, Is.EqualTo(f1.Version));
+            Assert.That(9, Is.EqualTo(f2.Version));
+            Assert.That(1, Is.EqualTo(f3.Version));
+            Assert.That(1, Is.EqualTo(f4.Version));
+            Assert.That(1, Is.EqualTo(f5.Version));
 
             #endregion
 

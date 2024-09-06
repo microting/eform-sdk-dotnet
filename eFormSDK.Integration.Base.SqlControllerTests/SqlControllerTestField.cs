@@ -141,7 +141,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Assert
 
-            Assert.AreEqual(f1.Id, match.Id);
+            Assert.That(match.Id, Is.EqualTo(f1.Id));
         }
 
 

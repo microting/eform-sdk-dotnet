@@ -114,14 +114,14 @@ namespace eFormSDK.Integration.Base.CoreTests
 
             // Assert
             Assert.NotNull(ud);
-            Assert.AreEqual(ud.Id, dU.Id);
-            Assert.AreEqual(ud.Extension, dU.Extension);
-            Assert.AreEqual(ud.UploaderId, dU.UploaderId);
-            Assert.AreEqual(ud.UploaderType, dU.UploaderType);
-            Assert.AreEqual(ud.FileLocation, dU.FileLocation);
-            Assert.AreEqual(ud.FileName, dU.FileName);
-            Assert.AreEqual(ud.CurrentFile, dU.CurrentFile);
-            Assert.AreEqual(ud.Checksum, dU.Checksum);
+            Assert.That(dU.Id, Is.EqualTo(ud.Id));
+            Assert.That(dU.Extension, Is.EqualTo(ud.Extension));
+            Assert.That(dU.UploaderId, Is.EqualTo(ud.UploaderId));
+            Assert.That(dU.UploaderType, Is.EqualTo(ud.UploaderType));
+            Assert.That(dU.FileLocation, Is.EqualTo(ud.FileLocation));
+            Assert.That(dU.FileName, Is.EqualTo(ud.FileName));
+            Assert.That(dU.CurrentFile, Is.EqualTo(ud.CurrentFile));
+            Assert.That(dU.Checksum, Is.EqualTo(ud.Checksum));
         }
 
         #endregion

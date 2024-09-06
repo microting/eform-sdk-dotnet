@@ -111,18 +111,18 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(optionTranslations);
             Assert.NotNull(optionTranslationVersions);
 
-            Assert.AreEqual(1, optionTranslations.Count);
-            Assert.AreEqual(1, optionTranslationVersions.Count);
+            Assert.That(optionTranslations.Count, Is.EqualTo(1));
+            Assert.That(optionTranslationVersions.Count, Is.EqualTo(1));
 
-            Assert.AreEqual(optionTranslation.Name, optionTranslations[0].Name);
-            Assert.AreEqual(optionTranslation.OptionId, optionTranslations[0].OptionId);
-            Assert.AreEqual(optionTranslation.LanguageId, optionTranslations[0].LanguageId);
-            Assert.AreEqual(optionTranslation.MicrotingUid, optionTranslations[0].MicrotingUid);
+            Assert.That(optionTranslations[0].Name, Is.EqualTo(optionTranslation.Name));
+            Assert.That(optionTranslations[0].OptionId, Is.EqualTo(optionTranslation.OptionId));
+            Assert.That(optionTranslations[0].LanguageId, Is.EqualTo(optionTranslation.LanguageId));
+            Assert.That(optionTranslations[0].MicrotingUid, Is.EqualTo(optionTranslation.MicrotingUid));
 
-            Assert.AreEqual(optionTranslation.Name, optionTranslationVersions[0].Name);
-            Assert.AreEqual(optionTranslation.OptionId, optionTranslationVersions[0].OptionId);
-            Assert.AreEqual(optionTranslation.LanguageId, optionTranslationVersions[0].LanguageId);
-            Assert.AreEqual(optionTranslation.MicrotingUid, optionTranslationVersions[0].MicrotingUid);
+            Assert.That(optionTranslationVersions[0].Name, Is.EqualTo(optionTranslation.Name));
+            Assert.That(optionTranslationVersions[0].OptionId, Is.EqualTo(optionTranslation.OptionId));
+            Assert.That(optionTranslationVersions[0].LanguageId, Is.EqualTo(optionTranslation.LanguageId));
+            Assert.That(optionTranslationVersions[0].MicrotingUid, Is.EqualTo(optionTranslation.MicrotingUid));
         }
 
         [Test]
@@ -197,18 +197,18 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(optionTranslations);
             Assert.NotNull(optionTranslationVersions);
 
-            Assert.AreEqual(1, optionTranslations.Count);
-            Assert.AreEqual(1, optionTranslationVersions.Count);
+            Assert.That(optionTranslations.Count, Is.EqualTo(1));
+            Assert.That(optionTranslationVersions.Count, Is.EqualTo(1));
 
-            Assert.AreEqual(optionTranslation.Name, optionTranslations[0].Name);
-            Assert.AreEqual(optionTranslation.OptionId, optionTranslations[0].OptionId);
-            Assert.AreEqual(optionTranslation.LanguageId, optionTranslations[0].LanguageId);
-            Assert.AreEqual(null, optionTranslations[0].MicrotingUid);
+            Assert.That(optionTranslations[0].Name, Is.EqualTo(optionTranslation.Name));
+            Assert.That(optionTranslations[0].OptionId, Is.EqualTo(optionTranslation.OptionId));
+            Assert.That(optionTranslations[0].LanguageId, Is.EqualTo(optionTranslation.LanguageId));
+            Assert.That(optionTranslations[0].MicrotingUid, Is.EqualTo(null));
 
-            Assert.AreEqual(optionTranslation.Name, optionTranslationVersions[0].Name);
-            Assert.AreEqual(optionTranslation.OptionId, optionTranslationVersions[0].OptionId);
-            Assert.AreEqual(optionTranslation.LanguageId, optionTranslationVersions[0].LanguageId);
-            Assert.AreEqual(null, optionTranslationVersions[0].MicrotingUid);
+            Assert.That(optionTranslationVersions[0].Name, Is.EqualTo(optionTranslation.Name));
+            Assert.That(optionTranslationVersions[0].OptionId, Is.EqualTo(optionTranslation.OptionId));
+            Assert.That(optionTranslationVersions[0].LanguageId, Is.EqualTo(optionTranslation.LanguageId));
+            Assert.That(optionTranslationVersions[0].MicrotingUid, Is.EqualTo(null));
         }
 
         [Test]
@@ -341,23 +341,23 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(optionTranslations);
             Assert.NotNull(optionTranslationVersions);
 
-            Assert.AreEqual(1, optionTranslations.Count);
-            Assert.AreEqual(2, optionTranslationVersions.Count);
+            Assert.That(optionTranslations.Count, Is.EqualTo(1));
+            Assert.That(optionTranslationVersions.Count, Is.EqualTo(2));
 
-            Assert.AreEqual(optionTranslation.Name, optionTranslations[0].Name);
-            Assert.AreEqual(optionTranslation.OptionId, optionTranslations[0].OptionId);
-            Assert.AreEqual(optionTranslation.LanguageId, optionTranslations[0].LanguageId);
-            Assert.AreEqual(optionTranslation.MicrotingUid, optionTranslations[0].MicrotingUid);
+            Assert.That(optionTranslations[0].Name, Is.EqualTo(optionTranslation.Name));
+            Assert.That(optionTranslations[0].OptionId, Is.EqualTo(optionTranslation.OptionId));
+            Assert.That(optionTranslations[0].LanguageId, Is.EqualTo(optionTranslation.LanguageId));
+            Assert.That(optionTranslations[0].MicrotingUid, Is.EqualTo(optionTranslation.MicrotingUid));
 
-            Assert.AreEqual(oldName, optionTranslationVersions[0].Name);
-            Assert.AreEqual(oldOptionId, optionTranslationVersions[0].OptionId);
-            Assert.AreEqual(oldLanguageId, optionTranslationVersions[0].LanguageId);
-            Assert.AreEqual(oldMicrotingUid, optionTranslationVersions[0].MicrotingUid);
+            Assert.That(optionTranslationVersions[0].Name, Is.EqualTo(oldName));
+            Assert.That(optionTranslationVersions[0].OptionId, Is.EqualTo(oldOptionId));
+            Assert.That(optionTranslationVersions[0].LanguageId, Is.EqualTo(oldLanguageId));
+            Assert.That(optionTranslationVersions[0].MicrotingUid, Is.EqualTo(oldMicrotingUid));
 
-            Assert.AreEqual(optionTranslation.Name, optionTranslationVersions[1].Name);
-            Assert.AreEqual(optionTranslation.OptionId, optionTranslationVersions[1].OptionId);
-            Assert.AreEqual(optionTranslation.LanguageId, optionTranslationVersions[1].LanguageId);
-            Assert.AreEqual(optionTranslation.MicrotingUid, optionTranslationVersions[1].MicrotingUid);
+            Assert.That(optionTranslationVersions[1].Name, Is.EqualTo(optionTranslation.Name));
+            Assert.That(optionTranslationVersions[1].OptionId, Is.EqualTo(optionTranslation.OptionId));
+            Assert.That(optionTranslationVersions[1].LanguageId, Is.EqualTo(optionTranslation.LanguageId));
+            Assert.That(optionTranslationVersions[1].MicrotingUid, Is.EqualTo(optionTranslation.MicrotingUid));
         }
 
         [Test]
@@ -486,23 +486,23 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(optionTranslations);
             Assert.NotNull(optionTranslationVersions);
 
-            Assert.AreEqual(1, optionTranslations.Count);
-            Assert.AreEqual(2, optionTranslationVersions.Count);
+            Assert.That(optionTranslations.Count, Is.EqualTo(1));
+            Assert.That(optionTranslationVersions.Count, Is.EqualTo(2));
 
-            Assert.AreEqual(optionTranslation.Name, optionTranslations[0].Name);
-            Assert.AreEqual(optionTranslation.OptionId, optionTranslations[0].OptionId);
-            Assert.AreEqual(optionTranslation.LanguageId, optionTranslations[0].LanguageId);
-            Assert.AreEqual(optionTranslation.MicrotingUid, optionTranslations[0].MicrotingUid);
+            Assert.That(optionTranslations[0].Name, Is.EqualTo(optionTranslation.Name));
+            Assert.That(optionTranslations[0].OptionId, Is.EqualTo(optionTranslation.OptionId));
+            Assert.That(optionTranslations[0].LanguageId, Is.EqualTo(optionTranslation.LanguageId));
+            Assert.That(optionTranslations[0].MicrotingUid, Is.EqualTo(optionTranslation.MicrotingUid));
 
-            Assert.AreEqual(oldName, optionTranslationVersions[0].Name);
-            Assert.AreEqual(oldOptionId, optionTranslationVersions[0].OptionId);
-            Assert.AreEqual(oldLanguageId, optionTranslationVersions[0].LanguageId);
-            Assert.AreEqual(null, optionTranslationVersions[0].MicrotingUid);
+            Assert.That(optionTranslationVersions[0].Name, Is.EqualTo(oldName));
+            Assert.That(optionTranslationVersions[0].OptionId, Is.EqualTo(oldOptionId));
+            Assert.That(optionTranslationVersions[0].LanguageId, Is.EqualTo(oldLanguageId));
+            Assert.That(optionTranslationVersions[0].MicrotingUid, Is.EqualTo(null));
 
-            Assert.AreEqual(optionTranslation.Name, optionTranslationVersions[1].Name);
-            Assert.AreEqual(optionTranslation.OptionId, optionTranslationVersions[1].OptionId);
-            Assert.AreEqual(optionTranslation.LanguageId, optionTranslationVersions[1].LanguageId);
-            Assert.AreEqual(null, optionTranslationVersions[1].MicrotingUid);
+            Assert.That(optionTranslationVersions[1].Name, Is.EqualTo(optionTranslation.Name));
+            Assert.That(optionTranslationVersions[1].OptionId, Is.EqualTo(optionTranslation.OptionId));
+            Assert.That(optionTranslationVersions[1].LanguageId, Is.EqualTo(optionTranslation.LanguageId));
+            Assert.That(optionTranslationVersions[1].MicrotingUid, Is.EqualTo(null));
         }
 
         [Test]
@@ -635,23 +635,23 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(optionTranslations);
             Assert.NotNull(optionTranslationVersions);
 
-            Assert.AreEqual(1, optionTranslations.Count);
-            Assert.AreEqual(2, optionTranslationVersions.Count);
+            Assert.That(optionTranslations.Count, Is.EqualTo(1));
+            Assert.That(optionTranslationVersions.Count, Is.EqualTo(2));
 
-            Assert.AreEqual(optionTranslation.Name, optionTranslations[0].Name);
-            Assert.AreEqual(optionTranslation.OptionId, optionTranslations[0].OptionId);
-            Assert.AreEqual(optionTranslation.LanguageId, optionTranslations[0].LanguageId);
-            Assert.AreEqual(null, optionTranslations[0].MicrotingUid);
+            Assert.That(optionTranslations[0].Name, Is.EqualTo(optionTranslation.Name));
+            Assert.That(optionTranslations[0].OptionId, Is.EqualTo(optionTranslation.OptionId));
+            Assert.That(optionTranslations[0].LanguageId, Is.EqualTo(optionTranslation.LanguageId));
+            Assert.That(optionTranslations[0].MicrotingUid, Is.EqualTo(null));
 
-            Assert.AreEqual(oldName, optionTranslationVersions[0].Name);
-            Assert.AreEqual(oldOptionId, optionTranslationVersions[0].OptionId);
-            Assert.AreEqual(oldLanguageId, optionTranslationVersions[0].LanguageId);
-            Assert.AreEqual(oldMicrotingUid, optionTranslationVersions[0].MicrotingUid);
+            Assert.That(optionTranslationVersions[0].Name, Is.EqualTo(oldName));
+            Assert.That(optionTranslationVersions[0].OptionId, Is.EqualTo(oldOptionId));
+            Assert.That(optionTranslationVersions[0].LanguageId, Is.EqualTo(oldLanguageId));
+            Assert.That(optionTranslationVersions[0].MicrotingUid, Is.EqualTo(oldMicrotingUid));
 
-            Assert.AreEqual(optionTranslation.Name, optionTranslationVersions[1].Name);
-            Assert.AreEqual(optionTranslation.OptionId, optionTranslationVersions[1].OptionId);
-            Assert.AreEqual(optionTranslation.LanguageId, optionTranslationVersions[1].LanguageId);
-            Assert.AreEqual(null, optionTranslationVersions[1].MicrotingUid);
+            Assert.That(optionTranslationVersions[1].Name, Is.EqualTo(optionTranslation.Name));
+            Assert.That(optionTranslationVersions[1].OptionId, Is.EqualTo(optionTranslation.OptionId));
+            Assert.That(optionTranslationVersions[1].LanguageId, Is.EqualTo(optionTranslation.LanguageId));
+            Assert.That(optionTranslationVersions[1].MicrotingUid, Is.EqualTo(null));
         }
 
         [Test]
@@ -782,23 +782,23 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(optionTranslations);
             Assert.NotNull(optionTranslationVersions);
 
-            Assert.AreEqual(1, optionTranslations.Count);
-            Assert.AreEqual(2, optionTranslationVersions.Count);
+            Assert.That(optionTranslations.Count, Is.EqualTo(1));
+            Assert.That(optionTranslationVersions.Count, Is.EqualTo(2));
 
-            Assert.AreEqual(optionTranslation.Name, optionTranslations[0].Name);
-            Assert.AreEqual(optionTranslation.OptionId, optionTranslations[0].OptionId);
-            Assert.AreEqual(optionTranslation.LanguageId, optionTranslations[0].LanguageId);
-            Assert.AreEqual(optionTranslation.MicrotingUid, optionTranslations[0].MicrotingUid);
+            Assert.That(optionTranslations[0].Name, Is.EqualTo(optionTranslation.Name));
+            Assert.That(optionTranslations[0].OptionId, Is.EqualTo(optionTranslation.OptionId));
+            Assert.That(optionTranslations[0].LanguageId, Is.EqualTo(optionTranslation.LanguageId));
+            Assert.That(optionTranslations[0].MicrotingUid, Is.EqualTo(optionTranslation.MicrotingUid));
 
-            Assert.AreEqual(oldName, optionTranslationVersions[0].Name);
-            Assert.AreEqual(oldOptionId, optionTranslationVersions[0].OptionId);
-            Assert.AreEqual(oldLanguageId, optionTranslationVersions[0].LanguageId);
-            Assert.AreEqual(null, optionTranslationVersions[0].MicrotingUid);
+            Assert.That(optionTranslationVersions[0].Name, Is.EqualTo(oldName));
+            Assert.That(optionTranslationVersions[0].OptionId, Is.EqualTo(oldOptionId));
+            Assert.That(optionTranslationVersions[0].LanguageId, Is.EqualTo(oldLanguageId));
+            Assert.That(optionTranslationVersions[0].MicrotingUid, Is.EqualTo(null));
 
-            Assert.AreEqual(optionTranslation.Name, optionTranslationVersions[1].Name);
-            Assert.AreEqual(optionTranslation.OptionId, optionTranslationVersions[1].OptionId);
-            Assert.AreEqual(optionTranslation.LanguageId, optionTranslationVersions[1].LanguageId);
-            Assert.AreEqual(optionTranslation.MicrotingUid, optionTranslationVersions[1].MicrotingUid);
+            Assert.That(optionTranslationVersions[1].Name, Is.EqualTo(optionTranslation.Name));
+            Assert.That(optionTranslationVersions[1].OptionId, Is.EqualTo(optionTranslation.OptionId));
+            Assert.That(optionTranslationVersions[1].LanguageId, Is.EqualTo(optionTranslation.LanguageId));
+            Assert.That(optionTranslationVersions[1].MicrotingUid, Is.EqualTo(optionTranslation.MicrotingUid));
         }
 
         [Test]
@@ -883,27 +883,27 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(optionTranslations);
             Assert.NotNull(optionTranslationVersions);
 
-            Assert.AreEqual(1, optionTranslations.Count);
-            Assert.AreEqual(2, optionTranslationVersions.Count);
+            Assert.That(optionTranslations.Count, Is.EqualTo(1));
+            Assert.That(optionTranslationVersions.Count, Is.EqualTo(2));
 
-            Assert.AreEqual(optionTranslation.Name, optionTranslations[0].Name);
-            Assert.AreEqual(optionTranslation.OptionId, optionTranslations[0].OptionId);
-            Assert.AreEqual(optionTranslation.LanguageId, optionTranslations[0].LanguageId);
-            Assert.AreEqual(optionTranslation.MicrotingUid, optionTranslations[0].MicrotingUid);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, optionTranslations[0].WorkflowState);
+            Assert.That(optionTranslations[0].Name, Is.EqualTo(optionTranslation.Name));
+            Assert.That(optionTranslations[0].OptionId, Is.EqualTo(optionTranslation.OptionId));
+            Assert.That(optionTranslations[0].LanguageId, Is.EqualTo(optionTranslation.LanguageId));
+            Assert.That(optionTranslations[0].MicrotingUid, Is.EqualTo(optionTranslation.MicrotingUid));
+            Assert.That(optionTranslations[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
 
 
-            Assert.AreEqual(oldName, optionTranslationVersions[0].Name);
-            Assert.AreEqual(oldOptionId, optionTranslationVersions[0].OptionId);
-            Assert.AreEqual(oldLanguageId, optionTranslationVersions[0].LanguageId);
-            Assert.AreEqual(oldMicrotingUid, optionTranslationVersions[0].MicrotingUid);
-            Assert.AreEqual(Constants.WorkflowStates.Created, optionTranslationVersions[0].WorkflowState);
+            Assert.That(optionTranslationVersions[0].Name, Is.EqualTo(oldName));
+            Assert.That(optionTranslationVersions[0].OptionId, Is.EqualTo(oldOptionId));
+            Assert.That(optionTranslationVersions[0].LanguageId, Is.EqualTo(oldLanguageId));
+            Assert.That(optionTranslationVersions[0].MicrotingUid, Is.EqualTo(oldMicrotingUid));
+            Assert.That(optionTranslationVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(optionTranslation.Name, optionTranslationVersions[1].Name);
-            Assert.AreEqual(optionTranslation.OptionId, optionTranslationVersions[1].OptionId);
-            Assert.AreEqual(optionTranslation.LanguageId, optionTranslationVersions[1].LanguageId);
-            Assert.AreEqual(optionTranslation.MicrotingUid, optionTranslationVersions[1].MicrotingUid);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, optionTranslationVersions[1].WorkflowState);
+            Assert.That(optionTranslationVersions[1].Name, Is.EqualTo(optionTranslation.Name));
+            Assert.That(optionTranslationVersions[1].OptionId, Is.EqualTo(optionTranslation.OptionId));
+            Assert.That(optionTranslationVersions[1].LanguageId, Is.EqualTo(optionTranslation.LanguageId));
+            Assert.That(optionTranslationVersions[1].MicrotingUid, Is.EqualTo(optionTranslation.MicrotingUid));
+            Assert.That(optionTranslationVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
         }
     }
 }

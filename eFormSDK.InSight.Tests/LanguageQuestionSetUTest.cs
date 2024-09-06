@@ -81,16 +81,16 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(languageQuestionSets);
             Assert.NotNull(languageQuestionSetVersions);
 
-            Assert.AreEqual(1, languageQuestionSets.Count);
-            Assert.AreEqual(1, languageQuestionSetVersions.Count);
+            Assert.That(languageQuestionSets.Count, Is.EqualTo(1));
+            Assert.That(languageQuestionSetVersions.Count, Is.EqualTo(1));
 
-            Assert.AreEqual(languageQuestionSet.LanguageId, languageQuestionSets[0].LanguageId);
-            Assert.AreEqual(languageQuestionSet.QuestionSetId, languageQuestionSets[0].QuestionSetId);
-            Assert.AreEqual(languageQuestionSet.MicrotingUid, languageQuestionSets[0].MicrotingUid);
+            Assert.That(languageQuestionSets[0].LanguageId, Is.EqualTo(languageQuestionSet.LanguageId));
+            Assert.That(languageQuestionSets[0].QuestionSetId, Is.EqualTo(languageQuestionSet.QuestionSetId));
+            Assert.That(languageQuestionSets[0].MicrotingUid, Is.EqualTo(languageQuestionSet.MicrotingUid));
 
-            Assert.AreEqual(languageQuestionSet.LanguageId, languageQuestionSetVersions[0].LanguageId);
-            Assert.AreEqual(languageQuestionSet.QuestionSetId, languageQuestionSetVersions[0].QuestionSetId);
-            Assert.AreEqual(languageQuestionSet.MicrotingUid, languageQuestionSetVersions[0].MicrotingUid);
+            Assert.That(languageQuestionSetVersions[0].LanguageId, Is.EqualTo(languageQuestionSet.LanguageId));
+            Assert.That(languageQuestionSetVersions[0].QuestionSetId, Is.EqualTo(languageQuestionSet.QuestionSetId));
+            Assert.That(languageQuestionSetVersions[0].MicrotingUid, Is.EqualTo(languageQuestionSet.MicrotingUid));
         }
 
         [Test]
@@ -136,16 +136,16 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(languageQuestionSets);
             Assert.NotNull(languageQuestionSetVersions);
 
-            Assert.AreEqual(1, languageQuestionSets.Count);
-            Assert.AreEqual(1, languageQuestionSetVersions.Count);
+            Assert.That(languageQuestionSets.Count, Is.EqualTo(1));
+            Assert.That(languageQuestionSetVersions.Count, Is.EqualTo(1));
 
-            Assert.AreEqual(languageQuestionSet.LanguageId, languageQuestionSets[0].LanguageId);
-            Assert.AreEqual(languageQuestionSet.QuestionSetId, languageQuestionSets[0].QuestionSetId);
-            Assert.AreEqual(null, languageQuestionSets[0].MicrotingUid);
+            Assert.That(languageQuestionSets[0].LanguageId, Is.EqualTo(languageQuestionSet.LanguageId));
+            Assert.That(languageQuestionSets[0].QuestionSetId, Is.EqualTo(languageQuestionSet.QuestionSetId));
+            Assert.That(languageQuestionSets[0].MicrotingUid, Is.EqualTo(null));
 
-            Assert.AreEqual(languageQuestionSet.LanguageId, languageQuestionSetVersions[0].LanguageId);
-            Assert.AreEqual(languageQuestionSet.QuestionSetId, languageQuestionSetVersions[0].QuestionSetId);
-            Assert.AreEqual(null, languageQuestionSetVersions[0].MicrotingUid);
+            Assert.That(languageQuestionSetVersions[0].LanguageId, Is.EqualTo(languageQuestionSet.LanguageId));
+            Assert.That(languageQuestionSetVersions[0].QuestionSetId, Is.EqualTo(languageQuestionSet.QuestionSetId));
+            Assert.That(languageQuestionSetVersions[0].MicrotingUid, Is.EqualTo(null));
         }
 
         [Test]
@@ -219,20 +219,20 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(languageQuestionSets);
             Assert.NotNull(languageQuestionSetVersions);
 
-            Assert.AreEqual(1, languageQuestionSets.Count);
-            Assert.AreEqual(2, languageQuestionSetVersions.Count);
+            Assert.That(languageQuestionSets.Count, Is.EqualTo(1));
+            Assert.That(languageQuestionSetVersions.Count, Is.EqualTo(2));
 
-            Assert.AreEqual(languageQuestionSet.LanguageId, languageQuestionSets[0].LanguageId);
-            Assert.AreEqual(languageQuestionSet.QuestionSetId, languageQuestionSets[0].QuestionSetId);
-            Assert.AreEqual(languageQuestionSet.MicrotingUid, languageQuestionSets[0].MicrotingUid);
+            Assert.That(languageQuestionSets[0].LanguageId, Is.EqualTo(languageQuestionSet.LanguageId));
+            Assert.That(languageQuestionSets[0].QuestionSetId, Is.EqualTo(languageQuestionSet.QuestionSetId));
+            Assert.That(languageQuestionSets[0].MicrotingUid, Is.EqualTo(languageQuestionSet.MicrotingUid));
 
-            Assert.AreEqual(oldLanguageId, languageQuestionSetVersions[0].LanguageId);
-            Assert.AreEqual(oldQuestionSetId, languageQuestionSetVersions[0].QuestionSetId);
-            Assert.AreEqual(oldMicrotingUid, languageQuestionSetVersions[0].MicrotingUid);
+            Assert.That(languageQuestionSetVersions[0].LanguageId, Is.EqualTo(oldLanguageId));
+            Assert.That(languageQuestionSetVersions[0].QuestionSetId, Is.EqualTo(oldQuestionSetId));
+            Assert.That(languageQuestionSetVersions[0].MicrotingUid, Is.EqualTo(oldMicrotingUid));
 
-            Assert.AreEqual(languageQuestionSet.LanguageId, languageQuestionSetVersions[1].LanguageId);
-            Assert.AreEqual(languageQuestionSet.QuestionSetId, languageQuestionSetVersions[1].QuestionSetId);
-            Assert.AreEqual(languageQuestionSet.MicrotingUid, languageQuestionSetVersions[1].MicrotingUid);
+            Assert.That(languageQuestionSetVersions[1].LanguageId, Is.EqualTo(languageQuestionSet.LanguageId));
+            Assert.That(languageQuestionSetVersions[1].QuestionSetId, Is.EqualTo(languageQuestionSet.QuestionSetId));
+            Assert.That(languageQuestionSetVersions[1].MicrotingUid, Is.EqualTo(languageQuestionSet.MicrotingUid));
         }
 
         [Test]
@@ -302,20 +302,20 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(languageQuestionSets);
             Assert.NotNull(languageQuestionSetVersions);
 
-            Assert.AreEqual(1, languageQuestionSets.Count);
-            Assert.AreEqual(2, languageQuestionSetVersions.Count);
+            Assert.That(languageQuestionSets.Count, Is.EqualTo(1));
+            Assert.That(languageQuestionSetVersions.Count, Is.EqualTo(2));
 
-            Assert.AreEqual(languageQuestionSet.LanguageId, languageQuestionSets[0].LanguageId);
-            Assert.AreEqual(languageQuestionSet.QuestionSetId, languageQuestionSets[0].QuestionSetId);
-            Assert.AreEqual(null, languageQuestionSets[0].MicrotingUid);
+            Assert.That(languageQuestionSets[0].LanguageId, Is.EqualTo(languageQuestionSet.LanguageId));
+            Assert.That(languageQuestionSets[0].QuestionSetId, Is.EqualTo(languageQuestionSet.QuestionSetId));
+            Assert.That(languageQuestionSets[0].MicrotingUid, Is.EqualTo(null));
 
-            Assert.AreEqual(oldLanguageId, languageQuestionSetVersions[0].LanguageId);
-            Assert.AreEqual(oldQuestionSetId, languageQuestionSetVersions[0].QuestionSetId);
-            Assert.AreEqual(null, languageQuestionSetVersions[0].MicrotingUid);
+            Assert.That(languageQuestionSetVersions[0].LanguageId, Is.EqualTo(oldLanguageId));
+            Assert.That(languageQuestionSetVersions[0].QuestionSetId, Is.EqualTo(oldQuestionSetId));
+            Assert.That(languageQuestionSetVersions[0].MicrotingUid, Is.EqualTo(null));
 
-            Assert.AreEqual(languageQuestionSet.LanguageId, languageQuestionSetVersions[1].LanguageId);
-            Assert.AreEqual(languageQuestionSet.QuestionSetId, languageQuestionSetVersions[1].QuestionSetId);
-            Assert.AreEqual(null, languageQuestionSetVersions[1].MicrotingUid);
+            Assert.That(languageQuestionSetVersions[1].LanguageId, Is.EqualTo(languageQuestionSet.LanguageId));
+            Assert.That(languageQuestionSetVersions[1].QuestionSetId, Is.EqualTo(languageQuestionSet.QuestionSetId));
+            Assert.That(languageQuestionSetVersions[1].MicrotingUid, Is.EqualTo(null));
         }
 
         [Test]
@@ -389,20 +389,20 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(languageQuestionSets);
             Assert.NotNull(languageQuestionSetVersions);
 
-            Assert.AreEqual(1, languageQuestionSets.Count);
-            Assert.AreEqual(2, languageQuestionSetVersions.Count);
+            Assert.That(languageQuestionSets.Count, Is.EqualTo(1));
+            Assert.That(languageQuestionSetVersions.Count, Is.EqualTo(2));
 
-            Assert.AreEqual(languageQuestionSet.LanguageId, languageQuestionSets[0].LanguageId);
-            Assert.AreEqual(languageQuestionSet.QuestionSetId, languageQuestionSets[0].QuestionSetId);
-            Assert.AreEqual(null, languageQuestionSets[0].MicrotingUid);
+            Assert.That(languageQuestionSets[0].LanguageId, Is.EqualTo(languageQuestionSet.LanguageId));
+            Assert.That(languageQuestionSets[0].QuestionSetId, Is.EqualTo(languageQuestionSet.QuestionSetId));
+            Assert.That(languageQuestionSets[0].MicrotingUid, Is.EqualTo(null));
 
-            Assert.AreEqual(oldLanguageId, languageQuestionSetVersions[0].LanguageId);
-            Assert.AreEqual(oldQuestionSetId, languageQuestionSetVersions[0].QuestionSetId);
-            Assert.AreEqual(oldMicrotingUid, languageQuestionSetVersions[0].MicrotingUid);
+            Assert.That(languageQuestionSetVersions[0].LanguageId, Is.EqualTo(oldLanguageId));
+            Assert.That(languageQuestionSetVersions[0].QuestionSetId, Is.EqualTo(oldQuestionSetId));
+            Assert.That(languageQuestionSetVersions[0].MicrotingUid, Is.EqualTo(oldMicrotingUid));
 
-            Assert.AreEqual(languageQuestionSet.LanguageId, languageQuestionSetVersions[1].LanguageId);
-            Assert.AreEqual(languageQuestionSet.QuestionSetId, languageQuestionSetVersions[1].QuestionSetId);
-            Assert.AreEqual(null, languageQuestionSetVersions[1].MicrotingUid);
+            Assert.That(languageQuestionSetVersions[1].LanguageId, Is.EqualTo(languageQuestionSet.LanguageId));
+            Assert.That(languageQuestionSetVersions[1].QuestionSetId, Is.EqualTo(languageQuestionSet.QuestionSetId));
+            Assert.That(languageQuestionSetVersions[1].MicrotingUid, Is.EqualTo(null));
         }
 
         [Test]
@@ -471,20 +471,20 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(languageQuestionSets);
             Assert.NotNull(languageQuestionSetVersions);
 
-            Assert.AreEqual(1, languageQuestionSets.Count);
-            Assert.AreEqual(2, languageQuestionSetVersions.Count);
+            Assert.That(languageQuestionSets.Count, Is.EqualTo(1));
+            Assert.That(languageQuestionSetVersions.Count, Is.EqualTo(2));
 
-            Assert.AreEqual(languageQuestionSet.LanguageId, languageQuestionSets[0].LanguageId);
-            Assert.AreEqual(languageQuestionSet.QuestionSetId, languageQuestionSets[0].QuestionSetId);
-            Assert.AreEqual(languageQuestionSet.MicrotingUid, languageQuestionSets[0].MicrotingUid);
+            Assert.That(languageQuestionSets[0].LanguageId, Is.EqualTo(languageQuestionSet.LanguageId));
+            Assert.That(languageQuestionSets[0].QuestionSetId, Is.EqualTo(languageQuestionSet.QuestionSetId));
+            Assert.That(languageQuestionSets[0].MicrotingUid, Is.EqualTo(languageQuestionSet.MicrotingUid));
 
-            Assert.AreEqual(oldLanguageId, languageQuestionSetVersions[0].LanguageId);
-            Assert.AreEqual(oldQuestionSetId, languageQuestionSetVersions[0].QuestionSetId);
-            Assert.AreEqual(null, languageQuestionSetVersions[0].MicrotingUid);
+            Assert.That(languageQuestionSetVersions[0].LanguageId, Is.EqualTo(oldLanguageId));
+            Assert.That(languageQuestionSetVersions[0].QuestionSetId, Is.EqualTo(oldQuestionSetId));
+            Assert.That(languageQuestionSetVersions[0].MicrotingUid, Is.EqualTo(null));
 
-            Assert.AreEqual(languageQuestionSet.LanguageId, languageQuestionSetVersions[1].LanguageId);
-            Assert.AreEqual(languageQuestionSet.QuestionSetId, languageQuestionSetVersions[1].QuestionSetId);
-            Assert.AreEqual(languageQuestionSet.MicrotingUid, languageQuestionSetVersions[1].MicrotingUid);
+            Assert.That(languageQuestionSetVersions[1].LanguageId, Is.EqualTo(languageQuestionSet.LanguageId));
+            Assert.That(languageQuestionSetVersions[1].QuestionSetId, Is.EqualTo(languageQuestionSet.QuestionSetId));
+            Assert.That(languageQuestionSetVersions[1].MicrotingUid, Is.EqualTo(languageQuestionSet.MicrotingUid));
         }
 
         [Test]
@@ -536,23 +536,23 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(languageQuestionSets);
             Assert.NotNull(languageQuestionSetVersions);
 
-            Assert.AreEqual(1, languageQuestionSets.Count);
-            Assert.AreEqual(2, languageQuestionSetVersions.Count);
+            Assert.That(languageQuestionSets.Count, Is.EqualTo(1));
+            Assert.That(languageQuestionSetVersions.Count, Is.EqualTo(2));
 
-            Assert.AreEqual(languageQuestionSet.LanguageId, languageQuestionSets[0].LanguageId);
-            Assert.AreEqual(languageQuestionSet.QuestionSetId, languageQuestionSets[0].QuestionSetId);
-            Assert.AreEqual(languageQuestionSet.MicrotingUid, languageQuestionSets[0].MicrotingUid);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, languageQuestionSets[0].WorkflowState);
+            Assert.That(languageQuestionSets[0].LanguageId, Is.EqualTo(languageQuestionSet.LanguageId));
+            Assert.That(languageQuestionSets[0].QuestionSetId, Is.EqualTo(languageQuestionSet.QuestionSetId));
+            Assert.That(languageQuestionSets[0].MicrotingUid, Is.EqualTo(languageQuestionSet.MicrotingUid));
+            Assert.That(languageQuestionSets[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
 
-            Assert.AreEqual(oldLanguageId, languageQuestionSetVersions[0].LanguageId);
-            Assert.AreEqual(oldQuestionSetId, languageQuestionSetVersions[0].QuestionSetId);
-            Assert.AreEqual(oldMicrotingUid, languageQuestionSetVersions[0].MicrotingUid);
-            Assert.AreEqual(Constants.WorkflowStates.Created, languageQuestionSetVersions[0].WorkflowState);
+            Assert.That(languageQuestionSetVersions[0].LanguageId, Is.EqualTo(oldLanguageId));
+            Assert.That(languageQuestionSetVersions[0].QuestionSetId, Is.EqualTo(oldQuestionSetId));
+            Assert.That(languageQuestionSetVersions[0].MicrotingUid, Is.EqualTo(oldMicrotingUid));
+            Assert.That(languageQuestionSetVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(languageQuestionSet.LanguageId, languageQuestionSetVersions[1].LanguageId);
-            Assert.AreEqual(languageQuestionSet.QuestionSetId, languageQuestionSetVersions[1].QuestionSetId);
-            Assert.AreEqual(languageQuestionSet.MicrotingUid, languageQuestionSetVersions[1].MicrotingUid);
-            Assert.AreEqual(Constants.WorkflowStates.Removed, languageQuestionSetVersions[1].WorkflowState);
+            Assert.That(languageQuestionSetVersions[1].LanguageId, Is.EqualTo(languageQuestionSet.LanguageId));
+            Assert.That(languageQuestionSetVersions[1].QuestionSetId, Is.EqualTo(languageQuestionSet.QuestionSetId));
+            Assert.That(languageQuestionSetVersions[1].MicrotingUid, Is.EqualTo(languageQuestionSet.MicrotingUid));
+            Assert.That(languageQuestionSetVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
         }
     }
 }

@@ -358,18 +358,18 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Assert
 
-            Assert.AreEqual(10, getAllUnits.Count());
+            Assert.That(getAllUnits.Count(), Is.EqualTo(10));
 
-            Assert.AreEqual(unit1.MicrotingUid, getAllUnits[0].UnitUId);
-            Assert.AreEqual(unit2.MicrotingUid, getAllUnits[1].UnitUId);
-            Assert.AreEqual(unit3.MicrotingUid, getAllUnits[2].UnitUId);
-            Assert.AreEqual(unit4.MicrotingUid, getAllUnits[3].UnitUId);
-            Assert.AreEqual(unit5.MicrotingUid, getAllUnits[4].UnitUId);
-            Assert.AreEqual(unit6.MicrotingUid, getAllUnits[5].UnitUId);
-            Assert.AreEqual(unit7.MicrotingUid, getAllUnits[6].UnitUId);
-            Assert.AreEqual(unit8.MicrotingUid, getAllUnits[7].UnitUId);
-            Assert.AreEqual(unit9.MicrotingUid, getAllUnits[8].UnitUId);
-            Assert.AreEqual(unit10.MicrotingUid, getAllUnits[9].UnitUId);
+            Assert.That(getAllUnits[0].UnitUId, Is.EqualTo(unit1.MicrotingUid));
+            Assert.That(getAllUnits[1].UnitUId, Is.EqualTo(unit2.MicrotingUid));
+            Assert.That(getAllUnits[2].UnitUId, Is.EqualTo(unit3.MicrotingUid));
+            Assert.That(getAllUnits[3].UnitUId, Is.EqualTo(unit4.MicrotingUid));
+            Assert.That(getAllUnits[4].UnitUId, Is.EqualTo(unit5.MicrotingUid));
+            Assert.That(getAllUnits[5].UnitUId, Is.EqualTo(unit6.MicrotingUid));
+            Assert.That(getAllUnits[6].UnitUId, Is.EqualTo(unit7.MicrotingUid));
+            Assert.That(getAllUnits[7].UnitUId, Is.EqualTo(unit8.MicrotingUid));
+            Assert.That(getAllUnits[8].UnitUId, Is.EqualTo(unit9.MicrotingUid));
+            Assert.That(getAllUnits[9].UnitUId, Is.EqualTo(unit10.MicrotingUid));
         }
 
         [Test]
@@ -603,8 +603,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var units = DbContext.Units.AsNoTracking().ToList();
 
             Assert.NotNull(match);
-            Assert.AreEqual(1, units.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Created, units[0].WorkflowState);
+            Assert.That(units.Count(), Is.EqualTo(1));
+            Assert.That(units[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
         }
 
         [Test]
@@ -903,8 +903,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Assert
 
-            Assert.AreEqual(unit1.MicrotingUid, match.UnitUId);
-            Assert.AreEqual(unit1.CustomerNo, match.CustomerNo);
+            Assert.That(match.UnitUId, Is.EqualTo(unit1.MicrotingUid));
+            Assert.That(match.CustomerNo, Is.EqualTo(unit1.CustomerNo));
         }
 
         [Test]
@@ -1202,7 +1202,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var match = await sut.UnitUpdate((int)unit1.MicrotingUid, (int)unit1.CustomerNo, (int)unit1.OtpCode,
                 (int)unit1.SiteId);
             // Assert
-            Assert.True(match);
+            Assert.That(match, Is.True);
         }
 
         [Test]
@@ -1499,7 +1499,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Act
             var match = await sut.UnitDelete((int)unit1.MicrotingUid);
             // Assert
-            Assert.True(match);
+            Assert.That(match, Is.True);
         }
 
         #endregion

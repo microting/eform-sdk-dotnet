@@ -110,26 +110,26 @@ namespace eFormSDK.Integration.Base.CoreTests
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
 
-            Assert.AreEqual(1, folders.Count);
-            Assert.AreEqual(2, folderVersions.Count);
-            Assert.AreEqual(1, folderTranslations.Count);
-            Assert.AreEqual(1, folderTranslationVersions.Count);
+            Assert.That(folders.Count, Is.EqualTo(1));
+            Assert.That(folderVersions.Count, Is.EqualTo(2));
+            Assert.That(folderTranslations.Count, Is.EqualTo(1));
+            Assert.That(folderTranslationVersions.Count, Is.EqualTo(1));
 
-            Assert.AreEqual(null, folders[0].Name);
-            Assert.AreEqual(null, folders[0].Description);
-            Assert.AreEqual(folders[0].WorkflowState, Constants.WorkflowStates.Created);
+            Assert.That(folders[0].Name, Is.EqualTo(null));
+            Assert.That(folders[0].Description, Is.EqualTo(null));
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(folders[0].WorkflowState));
 
-            Assert.AreEqual(null, folderVersions[0].Name);
-            Assert.AreEqual(null, folderVersions[0].Description);
-            Assert.AreEqual(folderVersions[0].WorkflowState, Constants.WorkflowStates.Created);
+            Assert.That(folderVersions[0].Name, Is.EqualTo(null));
+            Assert.That(folderVersions[0].Description, Is.EqualTo(null));
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(folderVersions[0].WorkflowState));
 
-            Assert.AreEqual(folderName, folderTranslations[0].Name);
-            Assert.AreEqual(folderDescription, folderTranslations[0].Description);
-            Assert.AreEqual(folderTranslations[0].WorkflowState, Constants.WorkflowStates.Created);
+            Assert.That(folderTranslations[0].Name, Is.EqualTo(folderName));
+            Assert.That(folderTranslations[0].Description, Is.EqualTo(folderDescription));
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(folderTranslations[0].WorkflowState));
 
-            Assert.AreEqual(folderName, folderTranslationVersions[0].Name);
-            Assert.AreEqual(folderDescription, folderTranslationVersions[0].Description);
-            Assert.AreEqual(folderTranslationVersions[0].WorkflowState, Constants.WorkflowStates.Created);
+            Assert.That(folderTranslationVersions[0].Name, Is.EqualTo(folderName));
+            Assert.That(folderTranslationVersions[0].Description, Is.EqualTo(folderDescription));
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(folderTranslationVersions[0].WorkflowState));
         }
 
 
@@ -168,42 +168,42 @@ namespace eFormSDK.Integration.Base.CoreTests
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
 
-            Assert.AreEqual(1, folders.Count);
-            Assert.AreEqual(2, folderVersions.Count);
-            Assert.AreEqual(3, folderTranslations.Count);
-            Assert.AreEqual(3, folderTranslationVersions.Count);
+            Assert.That(folders.Count, Is.EqualTo(1));
+            Assert.That(folderVersions.Count, Is.EqualTo(2));
+            Assert.That(folderTranslations.Count, Is.EqualTo(3));
+            Assert.That(folderTranslationVersions.Count, Is.EqualTo(3));
 
-            Assert.AreEqual(null, folders[0].Name);
-            Assert.AreEqual(null, folders[0].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folders[0].WorkflowState);
+            Assert.That(folders[0].Name, Is.EqualTo(null));
+            Assert.That(folders[0].Description, Is.EqualTo(null));
+            Assert.That(folders[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(null, folderVersions[0].Name);
-            Assert.AreEqual(null, folderVersions[0].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderVersions[0].WorkflowState);
+            Assert.That(folderVersions[0].Name, Is.EqualTo(null));
+            Assert.That(folderVersions[0].Description, Is.EqualTo(null));
+            Assert.That(folderVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(folderName, folderTranslations[0].Name);
-            Assert.AreEqual(folderDescription, folderTranslations[0].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslations[0].WorkflowState);
+            Assert.That(folderTranslations[0].Name, Is.EqualTo(folderName));
+            Assert.That(folderTranslations[0].Description, Is.EqualTo(folderDescription));
+            Assert.That(folderTranslations[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(enfolderName, folderTranslations[1].Name);
-            Assert.AreEqual(enfolderDescription, folderTranslations[1].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslations[1].WorkflowState);
+            Assert.That(folderTranslations[1].Name, Is.EqualTo(enfolderName));
+            Assert.That(folderTranslations[1].Description, Is.EqualTo(enfolderDescription));
+            Assert.That(folderTranslations[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(defolderName, folderTranslations[2].Name);
-            Assert.AreEqual(defolderDescription, folderTranslations[2].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslations[2].WorkflowState);
+            Assert.That(folderTranslations[2].Name, Is.EqualTo(defolderName));
+            Assert.That(folderTranslations[2].Description, Is.EqualTo(defolderDescription));
+            Assert.That(folderTranslations[2].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(folderName, folderTranslationVersions[0].Name);
-            Assert.AreEqual(folderDescription, folderTranslationVersions[0].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslationVersions[0].WorkflowState);
+            Assert.That(folderTranslationVersions[0].Name, Is.EqualTo(folderName));
+            Assert.That(folderTranslationVersions[0].Description, Is.EqualTo(folderDescription));
+            Assert.That(folderTranslationVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(enfolderName, folderTranslationVersions[1].Name);
-            Assert.AreEqual(enfolderDescription, folderTranslationVersions[1].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslationVersions[1].WorkflowState);
+            Assert.That(folderTranslationVersions[1].Name, Is.EqualTo(enfolderName));
+            Assert.That(folderTranslationVersions[1].Description, Is.EqualTo(enfolderDescription));
+            Assert.That(folderTranslationVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(defolderName, folderTranslationVersions[2].Name);
-            Assert.AreEqual(defolderDescription, folderTranslationVersions[2].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslationVersions[2].WorkflowState);
+            Assert.That(folderTranslationVersions[2].Name, Is.EqualTo(defolderName));
+            Assert.That(folderTranslationVersions[2].Description, Is.EqualTo(defolderDescription));
+            Assert.That(folderTranslationVersions[2].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
         }
 
         [Test]
@@ -244,45 +244,45 @@ namespace eFormSDK.Integration.Base.CoreTests
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
 
-            Assert.AreEqual(2, folders.Count);
-            Assert.AreEqual(4, folderVersions.Count);
-            Assert.AreEqual(2, folderTranslations.Count);
-            Assert.AreEqual(2, folderTranslationVersions.Count);
+            Assert.That(folders.Count, Is.EqualTo(2));
+            Assert.That(folderVersions.Count, Is.EqualTo(4));
+            Assert.That(folderTranslations.Count, Is.EqualTo(2));
+            Assert.That(folderTranslationVersions.Count, Is.EqualTo(2));
 
-            Assert.AreEqual(null, folders[0].Name);
-            Assert.AreEqual(null, folders[0].Description);
+            Assert.That(folders[0].Name, Is.EqualTo(null));
+            Assert.That(folders[0].Description, Is.EqualTo(null));
 
-            Assert.AreEqual(null, folders[1].Name);
-            Assert.AreEqual(null, folders[1].Description);
-            Assert.AreEqual(folders[1].ParentId, firstFolderId);
+            Assert.That(folders[1].Name, Is.EqualTo(null));
+            Assert.That(folders[1].Description, Is.EqualTo(null));
+            Assert.That(firstFolderId, Is.EqualTo(folders[1].ParentId));
 
-            Assert.AreEqual(null, folderVersions[0].Name);
-            Assert.AreEqual(null, folderVersions[0].Description);
-            Assert.AreEqual(null, folderVersions[0].ParentId);
+            Assert.That(folderVersions[0].Name, Is.EqualTo(null));
+            Assert.That(folderVersions[0].Description, Is.EqualTo(null));
+            Assert.That(folderVersions[0].ParentId, Is.EqualTo(null));
 
-            Assert.AreEqual(null, folderVersions[1].Name);
-            Assert.AreEqual(null, folderVersions[1].Description);
-            Assert.AreEqual(null, folderVersions[1].ParentId);
+            Assert.That(folderVersions[1].Name, Is.EqualTo(null));
+            Assert.That(folderVersions[1].Description, Is.EqualTo(null));
+            Assert.That(folderVersions[1].ParentId, Is.EqualTo(null));
 
-            Assert.AreEqual(null, folderVersions[2].Name);
-            Assert.AreEqual(null, folderVersions[2].Description);
-            Assert.AreEqual(firstFolderId, folderVersions[2].ParentId);
+            Assert.That(folderVersions[2].Name, Is.EqualTo(null));
+            Assert.That(folderVersions[2].Description, Is.EqualTo(null));
+            Assert.That(folderVersions[2].ParentId, Is.EqualTo(firstFolderId));
 
-            Assert.AreEqual(null, folderVersions[3].Name);
-            Assert.AreEqual(null, folderVersions[3].Description);
-            Assert.AreEqual(firstFolderId, folderVersions[3].ParentId);
+            Assert.That(folderVersions[3].Name, Is.EqualTo(null));
+            Assert.That(folderVersions[3].Description, Is.EqualTo(null));
+            Assert.That(folderVersions[3].ParentId, Is.EqualTo(firstFolderId));
 
-            Assert.AreEqual(folderName, folderTranslations[0].Name);
-            Assert.AreEqual(folderDescription, folderTranslations[0].Description);
+            Assert.That(folderTranslations[0].Name, Is.EqualTo(folderName));
+            Assert.That(folderTranslations[0].Description, Is.EqualTo(folderDescription));
 
-            Assert.AreEqual(subFolderName, folderTranslations[1].Name);
-            Assert.AreEqual(subFolderDescription, folderTranslations[1].Description);
+            Assert.That(folderTranslations[1].Name, Is.EqualTo(subFolderName));
+            Assert.That(folderTranslations[1].Description, Is.EqualTo(subFolderDescription));
 
-            Assert.AreEqual(folderName, folderTranslationVersions[0].Name);
-            Assert.AreEqual(folderDescription, folderTranslationVersions[0].Description);
+            Assert.That(folderTranslationVersions[0].Name, Is.EqualTo(folderName));
+            Assert.That(folderTranslationVersions[0].Description, Is.EqualTo(folderDescription));
 
-            Assert.AreEqual(subFolderName, folderTranslationVersions[1].Name);
-            Assert.AreEqual(subFolderDescription, folderTranslationVersions[1].Description);
+            Assert.That(folderTranslationVersions[1].Name, Is.EqualTo(subFolderName));
+            Assert.That(folderTranslationVersions[1].Description, Is.EqualTo(subFolderDescription));
         }
 
         [Test]
@@ -339,69 +339,69 @@ namespace eFormSDK.Integration.Base.CoreTests
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
 
-            Assert.AreEqual(2, folders.Count);
-            Assert.AreEqual(4, folderVersions.Count);
-            Assert.AreEqual(6, folderTranslations.Count);
-            Assert.AreEqual(6, folderTranslationVersions.Count);
+            Assert.That(folders.Count, Is.EqualTo(2));
+            Assert.That(folderVersions.Count, Is.EqualTo(4));
+            Assert.That(folderTranslations.Count, Is.EqualTo(6));
+            Assert.That(folderTranslationVersions.Count, Is.EqualTo(6));
 
-            Assert.AreEqual(null, folders[0].Name);
-            Assert.AreEqual(null, folders[0].Description);
+            Assert.That(folders[0].Name, Is.EqualTo(null));
+            Assert.That(folders[0].Description, Is.EqualTo(null));
 
-            Assert.AreEqual(null, folders[1].Name);
-            Assert.AreEqual(null, folders[1].Description);
-            Assert.AreEqual(firstFolderId, folders[1].ParentId);
+            Assert.That(folders[1].Name, Is.EqualTo(null));
+            Assert.That(folders[1].Description, Is.EqualTo(null));
+            Assert.That(folders[1].ParentId, Is.EqualTo(firstFolderId));
 
-            Assert.AreEqual(null, folderVersions[0].Name);
-            Assert.AreEqual(null, folderVersions[0].Description);
-            Assert.AreEqual(null, folderVersions[0].ParentId);
+            Assert.That(folderVersions[0].Name, Is.EqualTo(null));
+            Assert.That(folderVersions[0].Description, Is.EqualTo(null));
+            Assert.That(folderVersions[0].ParentId, Is.EqualTo(null));
 
-            Assert.AreEqual(null, folderVersions[1].Name);
-            Assert.AreEqual(null, folderVersions[1].Description);
-            Assert.AreEqual(null, folderVersions[1].ParentId);
+            Assert.That(folderVersions[1].Name, Is.EqualTo(null));
+            Assert.That(folderVersions[1].Description, Is.EqualTo(null));
+            Assert.That(folderVersions[1].ParentId, Is.EqualTo(null));
 
-            Assert.AreEqual(null, folderVersions[2].Name);
-            Assert.AreEqual(null, folderVersions[2].Description);
-            Assert.AreEqual(firstFolderId, folderVersions[2].ParentId);
+            Assert.That(folderVersions[2].Name, Is.EqualTo(null));
+            Assert.That(folderVersions[2].Description, Is.EqualTo(null));
+            Assert.That(folderVersions[2].ParentId, Is.EqualTo(firstFolderId));
 
-            Assert.AreEqual(null, folderVersions[3].Name);
-            Assert.AreEqual(null, folderVersions[3].Description);
-            Assert.AreEqual(firstFolderId, folderVersions[3].ParentId);
+            Assert.That(folderVersions[3].Name, Is.EqualTo(null));
+            Assert.That(folderVersions[3].Description, Is.EqualTo(null));
+            Assert.That(folderVersions[3].ParentId, Is.EqualTo(firstFolderId));
 
-            Assert.AreEqual(folderName, folderTranslations[0].Name);
-            Assert.AreEqual(folderDescription, folderTranslations[0].Description);
+            Assert.That(folderTranslations[0].Name, Is.EqualTo(folderName));
+            Assert.That(folderTranslations[0].Description, Is.EqualTo(folderDescription));
 
-            Assert.AreEqual(enfolderName, folderTranslations[1].Name);
-            Assert.AreEqual(enfolderDescription, folderTranslations[1].Description);
+            Assert.That(folderTranslations[1].Name, Is.EqualTo(enfolderName));
+            Assert.That(folderTranslations[1].Description, Is.EqualTo(enfolderDescription));
 
-            Assert.AreEqual(defolderName, folderTranslations[2].Name);
-            Assert.AreEqual(defolderDescription, folderTranslations[2].Description);
+            Assert.That(folderTranslations[2].Name, Is.EqualTo(defolderName));
+            Assert.That(folderTranslations[2].Description, Is.EqualTo(defolderDescription));
 
-            Assert.AreEqual(subFolderName, folderTranslations[3].Name);
-            Assert.AreEqual(subFolderDescription, folderTranslations[3].Description);
+            Assert.That(folderTranslations[3].Name, Is.EqualTo(subFolderName));
+            Assert.That(folderTranslations[3].Description, Is.EqualTo(subFolderDescription));
 
-            Assert.AreEqual(ensubFolderName, folderTranslations[4].Name);
-            Assert.AreEqual(ensubFolderDescription, folderTranslations[4].Description);
+            Assert.That(folderTranslations[4].Name, Is.EqualTo(ensubFolderName));
+            Assert.That(folderTranslations[4].Description, Is.EqualTo(ensubFolderDescription));
 
-            Assert.AreEqual(desubFolderName, folderTranslations[5].Name);
-            Assert.AreEqual(desubFolderDescription, folderTranslations[5].Description);
+            Assert.That(folderTranslations[5].Name, Is.EqualTo(desubFolderName));
+            Assert.That(folderTranslations[5].Description, Is.EqualTo(desubFolderDescription));
 
-            Assert.AreEqual(folderName, folderTranslationVersions[0].Name);
-            Assert.AreEqual(folderDescription, folderTranslationVersions[0].Description);
+            Assert.That(folderTranslationVersions[0].Name, Is.EqualTo(folderName));
+            Assert.That(folderTranslationVersions[0].Description, Is.EqualTo(folderDescription));
 
-            Assert.AreEqual(enfolderName, folderTranslationVersions[1].Name);
-            Assert.AreEqual(enfolderDescription, folderTranslationVersions[1].Description);
+            Assert.That(folderTranslationVersions[1].Name, Is.EqualTo(enfolderName));
+            Assert.That(folderTranslationVersions[1].Description, Is.EqualTo(enfolderDescription));
 
-            Assert.AreEqual(defolderName, folderTranslationVersions[2].Name);
-            Assert.AreEqual(defolderDescription, folderTranslationVersions[2].Description);
+            Assert.That(folderTranslationVersions[2].Name, Is.EqualTo(defolderName));
+            Assert.That(folderTranslationVersions[2].Description, Is.EqualTo(defolderDescription));
 
-            Assert.AreEqual(subFolderName, folderTranslationVersions[3].Name);
-            Assert.AreEqual(subFolderDescription, folderTranslationVersions[3].Description);
+            Assert.That(folderTranslationVersions[3].Name, Is.EqualTo(subFolderName));
+            Assert.That(folderTranslationVersions[3].Description, Is.EqualTo(subFolderDescription));
 
-            Assert.AreEqual(ensubFolderName, folderTranslationVersions[4].Name);
-            Assert.AreEqual(ensubFolderDescription, folderTranslationVersions[4].Description);
+            Assert.That(folderTranslationVersions[4].Name, Is.EqualTo(ensubFolderName));
+            Assert.That(folderTranslationVersions[4].Description, Is.EqualTo(ensubFolderDescription));
 
-            Assert.AreEqual(desubFolderName, folderTranslationVersions[5].Name);
-            Assert.AreEqual(desubFolderDescription, folderTranslationVersions[5].Description);
+            Assert.That(folderTranslationVersions[5].Name, Is.EqualTo(desubFolderName));
+            Assert.That(folderTranslationVersions[5].Description, Is.EqualTo(desubFolderDescription));
         }
 
         [Test]
@@ -431,22 +431,22 @@ namespace eFormSDK.Integration.Base.CoreTests
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
 
-            Assert.AreEqual(1, folders.Count);
-            Assert.AreEqual(2, folderVersions.Count);
+            Assert.That(folders.Count, Is.EqualTo(1));
+            Assert.That(folderVersions.Count, Is.EqualTo(2));
 
-            Assert.AreEqual(folders[0].Name, folderName);
-            Assert.AreEqual(folders[0].Description, folderDescription);
-            Assert.AreEqual(folders[0].WorkflowState, Constants.WorkflowStates.Removed);
-
-
-            Assert.AreEqual(folderVersions[0].Name, folders[0].Name);
-            Assert.AreEqual(folderVersions[0].Description, folders[0].Description);
-            Assert.AreEqual(folderVersions[0].WorkflowState, Constants.WorkflowStates.Created);
+            Assert.That(folderName, Is.EqualTo(folders[0].Name));
+            Assert.That(folderDescription, Is.EqualTo(folders[0].Description));
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(folders[0].WorkflowState));
 
 
-            Assert.AreEqual(folderVersions[1].Name, folders[0].Name);
-            Assert.AreEqual(folderVersions[1].Description, folders[0].Description);
-            Assert.AreEqual(folderVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
+            Assert.That(folders[0].Name, Is.EqualTo(folderVersions[0].Name));
+            Assert.That(folders[0].Description, Is.EqualTo(folderVersions[0].Description));
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(folderVersions[0].WorkflowState));
+
+
+            Assert.That(folders[0].Name, Is.EqualTo(folderVersions[1].Name));
+            Assert.That(folders[0].Description, Is.EqualTo(folderVersions[1].Description));
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(folderVersions[1].WorkflowState));
         }
 
         [Test]
@@ -492,30 +492,30 @@ namespace eFormSDK.Integration.Base.CoreTests
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
 
-            Assert.AreEqual(1, folders.Count);
-            Assert.AreEqual(1, folderVersions.Count);
-            Assert.AreEqual(1, folderTranslations.Count);
-            Assert.AreEqual(2, folderTranslationVersions.Count);
+            Assert.That(folders.Count, Is.EqualTo(1));
+            Assert.That(folderVersions.Count, Is.EqualTo(1));
+            Assert.That(folderTranslations.Count, Is.EqualTo(1));
+            Assert.That(folderTranslationVersions.Count, Is.EqualTo(2));
 
-            Assert.AreEqual(null, folders[0].Name);
-            Assert.AreEqual(null, folders[0].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folders[0].WorkflowState);
+            Assert.That(folders[0].Name, Is.EqualTo(null));
+            Assert.That(folders[0].Description, Is.EqualTo(null));
+            Assert.That(folders[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(null, folderVersions[0].Name);
-            Assert.AreEqual(null, folderVersions[0].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderVersions[0].WorkflowState);
+            Assert.That(folderVersions[0].Name, Is.EqualTo(null));
+            Assert.That(folderVersions[0].Description, Is.EqualTo(null));
+            Assert.That(folderVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(newFolderName, folderTranslations[0].Name);
-            Assert.AreEqual(newDescription, folderTranslations[0].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslations[0].WorkflowState);
+            Assert.That(folderTranslations[0].Name, Is.EqualTo(newFolderName));
+            Assert.That(folderTranslations[0].Description, Is.EqualTo(newDescription));
+            Assert.That(folderTranslations[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(folderName, folderTranslationVersions[0].Name);
-            Assert.AreEqual(folderDescription, folderTranslationVersions[0].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslationVersions[0].WorkflowState);
+            Assert.That(folderTranslationVersions[0].Name, Is.EqualTo(folderName));
+            Assert.That(folderTranslationVersions[0].Description, Is.EqualTo(folderDescription));
+            Assert.That(folderTranslationVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(newFolderName, folderTranslationVersions[1].Name);
-            Assert.AreEqual(newDescription, folderTranslationVersions[1].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslationVersions[1].WorkflowState);
+            Assert.That(folderTranslationVersions[1].Name, Is.EqualTo(newFolderName));
+            Assert.That(folderTranslationVersions[1].Description, Is.EqualTo(newDescription));
+            Assert.That(folderTranslationVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
         }
 
         [Test]
@@ -593,52 +593,52 @@ namespace eFormSDK.Integration.Base.CoreTests
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
 
-            Assert.AreEqual(1, folders.Count);
-            Assert.AreEqual(1, folderVersions.Count);
-            Assert.AreEqual(3, folderTranslations.Count);
-            Assert.AreEqual(6, folderTranslationVersions.Count);
+            Assert.That(folders.Count, Is.EqualTo(1));
+            Assert.That(folderVersions.Count, Is.EqualTo(1));
+            Assert.That(folderTranslations.Count, Is.EqualTo(3));
+            Assert.That(folderTranslationVersions.Count, Is.EqualTo(6));
 
-            Assert.AreEqual(null, folders[0].Name);
-            Assert.AreEqual(null, folders[0].Description);
+            Assert.That(folders[0].Name, Is.EqualTo(null));
+            Assert.That(folders[0].Description, Is.EqualTo(null));
 
-            Assert.AreEqual(null, folderVersions[0].Name);
-            Assert.AreEqual(null, folderVersions[0].Description);
+            Assert.That(folderVersions[0].Name, Is.EqualTo(null));
+            Assert.That(folderVersions[0].Description, Is.EqualTo(null));
 
-            Assert.AreEqual(newFolderName, folderTranslations[0].Name);
-            Assert.AreEqual(newDescription, folderTranslations[0].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslations[0].WorkflowState);
+            Assert.That(folderTranslations[0].Name, Is.EqualTo(newFolderName));
+            Assert.That(folderTranslations[0].Description, Is.EqualTo(newDescription));
+            Assert.That(folderTranslations[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(ennewFolderName, folderTranslations[1].Name);
-            Assert.AreEqual(ennewDescription, folderTranslations[1].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslations[1].WorkflowState);
+            Assert.That(folderTranslations[1].Name, Is.EqualTo(ennewFolderName));
+            Assert.That(folderTranslations[1].Description, Is.EqualTo(ennewDescription));
+            Assert.That(folderTranslations[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(denewFolderName, folderTranslations[2].Name);
-            Assert.AreEqual(denewDescription, folderTranslations[2].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslations[2].WorkflowState);
+            Assert.That(folderTranslations[2].Name, Is.EqualTo(denewFolderName));
+            Assert.That(folderTranslations[2].Description, Is.EqualTo(denewDescription));
+            Assert.That(folderTranslations[2].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(folderName, folderTranslationVersions[0].Name);
-            Assert.AreEqual(folderDescription, folderTranslationVersions[0].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslationVersions[0].WorkflowState);
+            Assert.That(folderTranslationVersions[0].Name, Is.EqualTo(folderName));
+            Assert.That(folderTranslationVersions[0].Description, Is.EqualTo(folderDescription));
+            Assert.That(folderTranslationVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(enfolderName, folderTranslationVersions[1].Name);
-            Assert.AreEqual(enfolderDescription, folderTranslationVersions[1].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslationVersions[1].WorkflowState);
+            Assert.That(folderTranslationVersions[1].Name, Is.EqualTo(enfolderName));
+            Assert.That(folderTranslationVersions[1].Description, Is.EqualTo(enfolderDescription));
+            Assert.That(folderTranslationVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(defolderName, folderTranslationVersions[2].Name);
-            Assert.AreEqual(defolderDescription, folderTranslationVersions[2].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslationVersions[2].WorkflowState);
+            Assert.That(folderTranslationVersions[2].Name, Is.EqualTo(defolderName));
+            Assert.That(folderTranslationVersions[2].Description, Is.EqualTo(defolderDescription));
+            Assert.That(folderTranslationVersions[2].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(newFolderName, folderTranslationVersions[3].Name);
-            Assert.AreEqual(newDescription, folderTranslationVersions[3].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslationVersions[3].WorkflowState);
+            Assert.That(folderTranslationVersions[3].Name, Is.EqualTo(newFolderName));
+            Assert.That(folderTranslationVersions[3].Description, Is.EqualTo(newDescription));
+            Assert.That(folderTranslationVersions[3].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(ennewFolderName, folderTranslationVersions[4].Name);
-            Assert.AreEqual(ennewDescription, folderTranslationVersions[4].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslationVersions[4].WorkflowState);
+            Assert.That(folderTranslationVersions[4].Name, Is.EqualTo(ennewFolderName));
+            Assert.That(folderTranslationVersions[4].Description, Is.EqualTo(ennewDescription));
+            Assert.That(folderTranslationVersions[4].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(denewFolderName, folderTranslationVersions[5].Name);
-            Assert.AreEqual(denewDescription, folderTranslationVersions[5].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslationVersions[5].WorkflowState);
+            Assert.That(folderTranslationVersions[5].Name, Is.EqualTo(denewFolderName));
+            Assert.That(folderTranslationVersions[5].Description, Is.EqualTo(denewDescription));
+            Assert.That(folderTranslationVersions[5].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
         }
 
         [Test]
@@ -712,44 +712,44 @@ namespace eFormSDK.Integration.Base.CoreTests
             Assert.NotNull(folders);
             Assert.NotNull(folderVersions);
 
-            Assert.AreEqual(1, folders.Count);
-            Assert.AreEqual(1, folderVersions.Count);
-            Assert.AreEqual(3, folderTranslations.Count);
-            Assert.AreEqual(4, folderTranslationVersions.Count);
+            Assert.That(folders.Count, Is.EqualTo(1));
+            Assert.That(folderVersions.Count, Is.EqualTo(1));
+            Assert.That(folderTranslations.Count, Is.EqualTo(3));
+            Assert.That(folderTranslationVersions.Count, Is.EqualTo(4));
 
-            Assert.AreEqual(null, folders[0].Name);
-            Assert.AreEqual(null, folders[0].Description);
+            Assert.That(folders[0].Name, Is.EqualTo(null));
+            Assert.That(folders[0].Description, Is.EqualTo(null));
 
-            Assert.AreEqual(null, folderVersions[0].Name);
-            Assert.AreEqual(null, folderVersions[0].Description);
+            Assert.That(folderVersions[0].Name, Is.EqualTo(null));
+            Assert.That(folderVersions[0].Description, Is.EqualTo(null));
 
-            Assert.AreEqual(folderName, folderTranslations[0].Name);
-            Assert.AreEqual(folderDescription, folderTranslations[0].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslations[0].WorkflowState);
+            Assert.That(folderTranslations[0].Name, Is.EqualTo(folderName));
+            Assert.That(folderTranslations[0].Description, Is.EqualTo(folderDescription));
+            Assert.That(folderTranslations[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(enfolderName, folderTranslations[1].Name);
-            Assert.AreEqual(enfolderDescription, folderTranslations[1].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslations[1].WorkflowState);
+            Assert.That(folderTranslations[1].Name, Is.EqualTo(enfolderName));
+            Assert.That(folderTranslations[1].Description, Is.EqualTo(enfolderDescription));
+            Assert.That(folderTranslations[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(denewFolderName, folderTranslations[2].Name);
-            Assert.AreEqual(denewDescription, folderTranslations[2].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslations[2].WorkflowState);
+            Assert.That(folderTranslations[2].Name, Is.EqualTo(denewFolderName));
+            Assert.That(folderTranslations[2].Description, Is.EqualTo(denewDescription));
+            Assert.That(folderTranslations[2].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(folderName, folderTranslationVersions[0].Name);
-            Assert.AreEqual(folderDescription, folderTranslationVersions[0].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslationVersions[0].WorkflowState);
+            Assert.That(folderTranslationVersions[0].Name, Is.EqualTo(folderName));
+            Assert.That(folderTranslationVersions[0].Description, Is.EqualTo(folderDescription));
+            Assert.That(folderTranslationVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(enfolderName, folderTranslationVersions[1].Name);
-            Assert.AreEqual(enfolderDescription, folderTranslationVersions[1].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslationVersions[1].WorkflowState);
+            Assert.That(folderTranslationVersions[1].Name, Is.EqualTo(enfolderName));
+            Assert.That(folderTranslationVersions[1].Description, Is.EqualTo(enfolderDescription));
+            Assert.That(folderTranslationVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(defolderName, folderTranslationVersions[2].Name);
-            Assert.AreEqual(defolderDescription, folderTranslationVersions[2].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslationVersions[2].WorkflowState);
+            Assert.That(folderTranslationVersions[2].Name, Is.EqualTo(defolderName));
+            Assert.That(folderTranslationVersions[2].Description, Is.EqualTo(defolderDescription));
+            Assert.That(folderTranslationVersions[2].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.AreEqual(denewFolderName, folderTranslationVersions[3].Name);
-            Assert.AreEqual(denewDescription, folderTranslationVersions[3].Description);
-            Assert.AreEqual(Constants.WorkflowStates.Created, folderTranslationVersions[3].WorkflowState);
+            Assert.That(folderTranslationVersions[3].Name, Is.EqualTo(denewFolderName));
+            Assert.That(folderTranslationVersions[3].Description, Is.EqualTo(denewDescription));
+            Assert.That(folderTranslationVersions[3].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
         }
 
         #endregion

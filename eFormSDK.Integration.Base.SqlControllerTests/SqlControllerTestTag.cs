@@ -82,8 +82,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Assert
             var tag = DbContext.Tags.ToList();
 
-            Assert.AreEqual(tag[0].Name, tagName);
-            Assert.AreEqual(1, tag.Count());
+            Assert.That(tagName, Is.EqualTo(tag[0].Name));
+            Assert.That(tag.Count(), Is.EqualTo(1));
         }
 
         [Test]
@@ -106,9 +106,9 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Assert
             var result = DbContext.Tags.AsNoTracking().ToList();
 
-            Assert.AreEqual(result[0].Name, tagName);
-            Assert.AreEqual(1, result.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Removed, result[0].WorkflowState);
+            Assert.That(tagName, Is.EqualTo(result[0].Name));
+            Assert.That(result.Count(), Is.EqualTo(1));
+            Assert.That(result[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
         }
 
         [Test]
@@ -131,9 +131,9 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Assert
             var result = DbContext.Tags.AsNoTracking().ToList();
 
-            Assert.AreEqual(result[0].Name, tagName);
-            Assert.AreEqual(1, result.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Created, result[0].WorkflowState);
+            Assert.That(tagName, Is.EqualTo(result[0].Name));
+            Assert.That(result.Count(), Is.EqualTo(1));
+            Assert.That(result[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
         }
 
         [Test]
@@ -176,14 +176,14 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var tags = await sut.GetAllTags(true);
 
             // Assert
-            Assert.True(true);
-            Assert.AreEqual(3, tags.Count());
-            Assert.AreEqual(tagName1, tags[0].Name);
-            Assert.AreEqual(0, tags[0].TaggingCount);
-            Assert.AreEqual(tagName2, tags[1].Name);
-            Assert.AreEqual(0, tags[1].TaggingCount);
-            Assert.AreEqual(tagName3, tags[2].Name);
-            Assert.AreEqual(0, tags[2].TaggingCount);
+            Assert.That(true, Is.True);
+            Assert.That(tags.Count(), Is.EqualTo(3));
+            Assert.That(tags[0].Name, Is.EqualTo(tagName1));
+            Assert.That(tags[0].TaggingCount, Is.EqualTo(0));
+            Assert.That(tags[1].Name, Is.EqualTo(tagName2));
+            Assert.That(tags[1].TaggingCount, Is.EqualTo(0));
+            Assert.That(tags[2].Name, Is.EqualTo(tagName3));
+            Assert.That(tags[2].TaggingCount, Is.EqualTo(0));
         }
 
         [Test]
@@ -224,10 +224,10 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Assert
             List<Tagging> result = DbContext.Taggings.AsNoTracking().ToList();
 
-            Assert.AreEqual(1, result.Count());
-            Assert.AreEqual(tag.Id, result[0].TagId);
-            Assert.AreEqual(cl1.Id, result[0].CheckListId);
-            Assert.True(true);
+            Assert.That(result.Count(), Is.EqualTo(1));
+            Assert.That(result[0].TagId, Is.EqualTo(tag.Id));
+            Assert.That(result[0].CheckListId, Is.EqualTo(cl1.Id));
+            Assert.That(true, Is.True);
         }
 
         #endregion

@@ -176,106 +176,106 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             // Default sorting including removed
             // Id
             Assert.NotNull(templateListId);
-            Assert.AreEqual(4, templateListId.Count());
-            Assert.AreEqual("A", templateListId[0].Label);
-            Assert.AreEqual("B", templateListId[1].Label);
-            Assert.AreEqual("D", templateListId[2].Label);
-            Assert.AreEqual("C", templateListId[3].Label);
-            Assert.AreEqual(0, templateListId[0].Tags.Count());
-            Assert.AreEqual(0, templateListId[1].Tags.Count());
-            Assert.AreEqual(0, templateListId[2].Tags.Count());
-            Assert.AreEqual(0, templateListId[3].Tags.Count());
+            Assert.That(templateListId.Count(), Is.EqualTo(4));
+            Assert.That(templateListId[0].Label, Is.EqualTo("A"));
+            Assert.That(templateListId[1].Label, Is.EqualTo("B"));
+            Assert.That(templateListId[2].Label, Is.EqualTo("D"));
+            Assert.That(templateListId[3].Label, Is.EqualTo("C"));
+            Assert.That(templateListId[0].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListId[1].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListId[2].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListId[3].Tags.Count(), Is.EqualTo(0));
 
             // Default sorting including removed
             // Label
             Assert.NotNull(templateListLabel);
-            Assert.AreEqual(4, templateListLabel.Count());
-            Assert.AreEqual("A", templateListLabel[0].Label);
-            Assert.AreEqual("B", templateListLabel[1].Label);
-            Assert.AreEqual("C", templateListLabel[2].Label);
-            Assert.AreEqual("D", templateListLabel[3].Label);
-            Assert.AreEqual(0, templateListLabel[0].Tags.Count());
-            Assert.AreEqual(0, templateListLabel[1].Tags.Count());
-            Assert.AreEqual(0, templateListLabel[2].Tags.Count());
-            Assert.AreEqual(0, templateListLabel[3].Tags.Count());
+            Assert.That(templateListLabel.Count(), Is.EqualTo(4));
+            Assert.That(templateListLabel[0].Label, Is.EqualTo("A"));
+            Assert.That(templateListLabel[1].Label, Is.EqualTo("B"));
+            Assert.That(templateListLabel[2].Label, Is.EqualTo("C"));
+            Assert.That(templateListLabel[3].Label, Is.EqualTo("D"));
+            Assert.That(templateListLabel[0].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListLabel[1].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListLabel[2].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListLabel[3].Tags.Count(), Is.EqualTo(0));
 
             // Default sorting including removed
             // Description
             Assert.NotNull(templateListDescription);
-            Assert.AreEqual(4, templateListDescription.Count());
-            Assert.AreEqual("C", templateListDescription[0].Label);
-            Assert.AreEqual("D", templateListDescription[1].Label);
-            Assert.AreEqual("B", templateListDescription[2].Label);
-            Assert.AreEqual("A", templateListDescription[3].Label);
-            Assert.AreEqual(0, templateListDescription[0].Tags.Count());
-            Assert.AreEqual(0, templateListDescription[1].Tags.Count());
-            Assert.AreEqual(0, templateListDescription[2].Tags.Count());
-            Assert.AreEqual(0, templateListDescription[3].Tags.Count());
+            Assert.That(templateListDescription.Count(), Is.EqualTo(4));
+            Assert.That(templateListDescription[0].Label, Is.EqualTo("C"));
+            Assert.That(templateListDescription[1].Label, Is.EqualTo("D"));
+            Assert.That(templateListDescription[2].Label, Is.EqualTo("B"));
+            Assert.That(templateListDescription[3].Label, Is.EqualTo("A"));
+            Assert.That(templateListDescription[0].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescription[1].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescription[2].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescription[3].Tags.Count(), Is.EqualTo(0));
 
             // Default sorting including removed
             // Created At
             Assert.NotNull(templateListCreatedAt);
-            Assert.AreEqual(4, templateListCreatedAt.Count());
-            Assert.AreEqual("A", templateListCreatedAt[0].Label);
-            Assert.AreEqual("B", templateListCreatedAt[1].Label);
-            Assert.AreEqual("D", templateListCreatedAt[2].Label);
-            Assert.AreEqual("C", templateListCreatedAt[3].Label);
-            Assert.AreEqual(0, templateListCreatedAt[0].Tags.Count());
-            Assert.AreEqual(0, templateListCreatedAt[1].Tags.Count());
-            Assert.AreEqual(0, templateListCreatedAt[2].Tags.Count());
-            Assert.AreEqual(0, templateListCreatedAt[3].Tags.Count());
+            Assert.That(templateListCreatedAt.Count(), Is.EqualTo(4));
+            Assert.That(templateListCreatedAt[0].Label, Is.EqualTo("A"));
+            Assert.That(templateListCreatedAt[1].Label, Is.EqualTo("B"));
+            Assert.That(templateListCreatedAt[2].Label, Is.EqualTo("D"));
+            Assert.That(templateListCreatedAt[3].Label, Is.EqualTo("C"));
+            Assert.That(templateListCreatedAt[0].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListCreatedAt[1].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListCreatedAt[2].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListCreatedAt[3].Tags.Count(), Is.EqualTo(0));
 
             // Descending sorting including removed
             // Id
             Assert.NotNull(templateListDescengingId);
-            Assert.AreEqual(4, templateListDescengingId.Count());
-            Assert.AreEqual("C", templateListDescengingId[0].Label);
-            Assert.AreEqual("D", templateListDescengingId[1].Label);
-            Assert.AreEqual("B", templateListDescengingId[2].Label);
-            Assert.AreEqual("A", templateListDescengingId[3].Label);
-            Assert.AreEqual(0, templateListDescengingId[0].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingId[1].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingId[2].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingId[3].Tags.Count());
+            Assert.That(templateListDescengingId.Count(), Is.EqualTo(4));
+            Assert.That(templateListDescengingId[0].Label, Is.EqualTo("C"));
+            Assert.That(templateListDescengingId[1].Label, Is.EqualTo("D"));
+            Assert.That(templateListDescengingId[2].Label, Is.EqualTo("B"));
+            Assert.That(templateListDescengingId[3].Label, Is.EqualTo("A"));
+            Assert.That(templateListDescengingId[0].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingId[1].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingId[2].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingId[3].Tags.Count(), Is.EqualTo(0));
 
             // Descending sorting including removed
             // Label
             Assert.NotNull(templateListDescengingLabel);
-            Assert.AreEqual(4, templateListDescengingLabel.Count());
-            Assert.AreEqual("D", templateListDescengingLabel[0].Label);
-            Assert.AreEqual("C", templateListDescengingLabel[1].Label);
-            Assert.AreEqual("B", templateListDescengingLabel[2].Label);
-            Assert.AreEqual("A", templateListDescengingLabel[3].Label);
-            Assert.AreEqual(0, templateListDescengingLabel[0].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingLabel[1].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingLabel[2].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingLabel[3].Tags.Count());
+            Assert.That(templateListDescengingLabel.Count(), Is.EqualTo(4));
+            Assert.That(templateListDescengingLabel[0].Label, Is.EqualTo("D"));
+            Assert.That(templateListDescengingLabel[1].Label, Is.EqualTo("C"));
+            Assert.That(templateListDescengingLabel[2].Label, Is.EqualTo("B"));
+            Assert.That(templateListDescengingLabel[3].Label, Is.EqualTo("A"));
+            Assert.That(templateListDescengingLabel[0].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingLabel[1].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingLabel[2].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingLabel[3].Tags.Count(), Is.EqualTo(0));
 
             // Descending sorting including removed
             // Description
             Assert.NotNull(templateListDescengingDescription);
-            Assert.AreEqual(4, templateListDescengingDescription.Count());
-            Assert.AreEqual("A", templateListDescengingDescription[0].Label);
-            Assert.AreEqual("B", templateListDescengingDescription[1].Label);
-            Assert.AreEqual("D", templateListDescengingDescription[2].Label);
-            Assert.AreEqual("C", templateListDescengingDescription[3].Label);
-            Assert.AreEqual(0, templateListDescengingDescription[0].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingDescription[1].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingDescription[2].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingDescription[3].Tags.Count());
+            Assert.That(templateListDescengingDescription.Count(), Is.EqualTo(4));
+            Assert.That(templateListDescengingDescription[0].Label, Is.EqualTo("A"));
+            Assert.That(templateListDescengingDescription[1].Label, Is.EqualTo("B"));
+            Assert.That(templateListDescengingDescription[2].Label, Is.EqualTo("D"));
+            Assert.That(templateListDescengingDescription[3].Label, Is.EqualTo("C"));
+            Assert.That(templateListDescengingDescription[0].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingDescription[1].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingDescription[2].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingDescription[3].Tags.Count(), Is.EqualTo(0));
 
             // Descending sorting including removed
             // Created At
             Assert.NotNull(templateListDescengingCreatedAt);
-            Assert.AreEqual(4, templateListDescengingCreatedAt.Count());
-            Assert.AreEqual("C", templateListDescengingCreatedAt[0].Label);
-            Assert.AreEqual("D", templateListDescengingCreatedAt[1].Label);
-            Assert.AreEqual("B", templateListDescengingCreatedAt[2].Label);
-            Assert.AreEqual("A", templateListDescengingCreatedAt[3].Label);
-            Assert.AreEqual(0, templateListDescengingCreatedAt[0].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingCreatedAt[1].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingCreatedAt[2].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingCreatedAt[3].Tags.Count());
+            Assert.That(templateListDescengingCreatedAt.Count(), Is.EqualTo(4));
+            Assert.That(templateListDescengingCreatedAt[0].Label, Is.EqualTo("C"));
+            Assert.That(templateListDescengingCreatedAt[1].Label, Is.EqualTo("D"));
+            Assert.That(templateListDescengingCreatedAt[2].Label, Is.EqualTo("B"));
+            Assert.That(templateListDescengingCreatedAt[3].Label, Is.EqualTo("A"));
+            Assert.That(templateListDescengingCreatedAt[0].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingCreatedAt[1].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingCreatedAt[2].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingCreatedAt[3].Tags.Count(), Is.EqualTo(0));
 
             #endregion
 
@@ -284,90 +284,90 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             // Default sorting including removed
             // Id
             Assert.NotNull(templateListIdNr);
-            Assert.AreEqual(3, templateListIdNr.Count());
-            Assert.AreEqual("A", templateListIdNr[0].Label);
-            Assert.AreEqual("D", templateListIdNr[1].Label);
-            Assert.AreEqual("C", templateListIdNr[2].Label);
-            Assert.AreEqual(0, templateListIdNr[0].Tags.Count());
-            Assert.AreEqual(0, templateListIdNr[1].Tags.Count());
-            Assert.AreEqual(0, templateListIdNr[2].Tags.Count());
+            Assert.That(templateListIdNr.Count(), Is.EqualTo(3));
+            Assert.That(templateListIdNr[0].Label, Is.EqualTo("A"));
+            Assert.That(templateListIdNr[1].Label, Is.EqualTo("D"));
+            Assert.That(templateListIdNr[2].Label, Is.EqualTo("C"));
+            Assert.That(templateListIdNr[0].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListIdNr[1].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListIdNr[2].Tags.Count(), Is.EqualTo(0));
 
             // Default sorting including removed
             // Label
             Assert.NotNull(templateListLabelNr);
-            Assert.AreEqual(3, templateListLabelNr.Count());
-            Assert.AreEqual("A", templateListLabelNr[0].Label);
-            Assert.AreEqual("C", templateListLabelNr[1].Label);
-            Assert.AreEqual("D", templateListLabelNr[2].Label);
-            Assert.AreEqual(0, templateListLabelNr[0].Tags.Count());
-            Assert.AreEqual(0, templateListLabelNr[1].Tags.Count());
-            Assert.AreEqual(0, templateListLabelNr[2].Tags.Count());
+            Assert.That(templateListLabelNr.Count(), Is.EqualTo(3));
+            Assert.That(templateListLabelNr[0].Label, Is.EqualTo("A"));
+            Assert.That(templateListLabelNr[1].Label, Is.EqualTo("C"));
+            Assert.That(templateListLabelNr[2].Label, Is.EqualTo("D"));
+            Assert.That(templateListLabelNr[0].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListLabelNr[1].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListLabelNr[2].Tags.Count(), Is.EqualTo(0));
 
             // Default sorting including removed
             // Description
             Assert.NotNull(templateListDescriptionNr);
-            Assert.AreEqual(3, templateListDescriptionNr.Count());
-            Assert.AreEqual("C", templateListDescriptionNr[0].Label);
-            Assert.AreEqual("D", templateListDescriptionNr[1].Label);
-            Assert.AreEqual("A", templateListDescriptionNr[2].Label);
-            Assert.AreEqual(0, templateListDescriptionNr[0].Tags.Count());
-            Assert.AreEqual(0, templateListDescriptionNr[1].Tags.Count());
-            Assert.AreEqual(0, templateListDescriptionNr[2].Tags.Count());
+            Assert.That(templateListDescriptionNr.Count(), Is.EqualTo(3));
+            Assert.That(templateListDescriptionNr[0].Label, Is.EqualTo("C"));
+            Assert.That(templateListDescriptionNr[1].Label, Is.EqualTo("D"));
+            Assert.That(templateListDescriptionNr[2].Label, Is.EqualTo("A"));
+            Assert.That(templateListDescriptionNr[0].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescriptionNr[1].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescriptionNr[2].Tags.Count(), Is.EqualTo(0));
 
             // Default sorting including removed
             // Created At
             Assert.NotNull(templateListCreatedAtNr);
-            Assert.AreEqual(3, templateListCreatedAtNr.Count());
-            Assert.AreEqual("A", templateListCreatedAtNr[0].Label);
-            Assert.AreEqual("D", templateListCreatedAtNr[1].Label);
-            Assert.AreEqual("C", templateListCreatedAtNr[2].Label);
-            Assert.AreEqual(0, templateListCreatedAtNr[0].Tags.Count());
-            Assert.AreEqual(0, templateListCreatedAtNr[1].Tags.Count());
-            Assert.AreEqual(0, templateListCreatedAtNr[2].Tags.Count());
+            Assert.That(templateListCreatedAtNr.Count(), Is.EqualTo(3));
+            Assert.That(templateListCreatedAtNr[0].Label, Is.EqualTo("A"));
+            Assert.That(templateListCreatedAtNr[1].Label, Is.EqualTo("D"));
+            Assert.That(templateListCreatedAtNr[2].Label, Is.EqualTo("C"));
+            Assert.That(templateListCreatedAtNr[0].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListCreatedAtNr[1].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListCreatedAtNr[2].Tags.Count(), Is.EqualTo(0));
 
             // Descending sorting including removed
             // Id
             Assert.NotNull(templateListDescengingIdNr);
-            Assert.AreEqual(3, templateListDescengingIdNr.Count());
-            Assert.AreEqual("C", templateListDescengingIdNr[0].Label);
-            Assert.AreEqual("D", templateListDescengingIdNr[1].Label);
-            Assert.AreEqual("A", templateListDescengingIdNr[2].Label);
-            Assert.AreEqual(0, templateListDescengingIdNr[0].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingIdNr[1].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingIdNr[2].Tags.Count());
+            Assert.That(templateListDescengingIdNr.Count(), Is.EqualTo(3));
+            Assert.That(templateListDescengingIdNr[0].Label, Is.EqualTo("C"));
+            Assert.That(templateListDescengingIdNr[1].Label, Is.EqualTo("D"));
+            Assert.That(templateListDescengingIdNr[2].Label, Is.EqualTo("A"));
+            Assert.That(templateListDescengingIdNr[0].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingIdNr[1].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingIdNr[2].Tags.Count(), Is.EqualTo(0));
 
             // Descending sorting including removed
             // Label
             Assert.NotNull(templateListDescengingLabelNr);
-            Assert.AreEqual(3, templateListDescengingLabelNr.Count());
-            Assert.AreEqual("D", templateListDescengingLabelNr[0].Label);
-            Assert.AreEqual("C", templateListDescengingLabelNr[1].Label);
-            Assert.AreEqual("A", templateListDescengingLabelNr[2].Label);
-            Assert.AreEqual(0, templateListDescengingLabelNr[0].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingLabelNr[1].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingLabelNr[2].Tags.Count());
+            Assert.That(templateListDescengingLabelNr.Count(), Is.EqualTo(3));
+            Assert.That(templateListDescengingLabelNr[0].Label, Is.EqualTo("D"));
+            Assert.That(templateListDescengingLabelNr[1].Label, Is.EqualTo("C"));
+            Assert.That(templateListDescengingLabelNr[2].Label, Is.EqualTo("A"));
+            Assert.That(templateListDescengingLabelNr[0].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingLabelNr[1].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingLabelNr[2].Tags.Count(), Is.EqualTo(0));
 
             // Descending sorting including removed
             // Description
             Assert.NotNull(templateListDescengingDescriptionNr);
-            Assert.AreEqual(3, templateListDescengingDescriptionNr.Count());
-            Assert.AreEqual("A", templateListDescengingDescriptionNr[0].Label);
-            Assert.AreEqual("D", templateListDescengingDescriptionNr[1].Label);
-            Assert.AreEqual("C", templateListDescengingDescriptionNr[2].Label);
-            Assert.AreEqual(0, templateListDescengingDescriptionNr[0].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingDescriptionNr[1].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingDescriptionNr[2].Tags.Count());
+            Assert.That(templateListDescengingDescriptionNr.Count(), Is.EqualTo(3));
+            Assert.That(templateListDescengingDescriptionNr[0].Label, Is.EqualTo("A"));
+            Assert.That(templateListDescengingDescriptionNr[1].Label, Is.EqualTo("D"));
+            Assert.That(templateListDescengingDescriptionNr[2].Label, Is.EqualTo("C"));
+            Assert.That(templateListDescengingDescriptionNr[0].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingDescriptionNr[1].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingDescriptionNr[2].Tags.Count(), Is.EqualTo(0));
 
             // Descending sorting including removed
             // Created At
             Assert.NotNull(templateListDescengingCreatedAtNr);
-            Assert.AreEqual(3, templateListDescengingCreatedAtNr.Count());
-            Assert.AreEqual("C", templateListDescengingCreatedAtNr[0].Label);
-            Assert.AreEqual("D", templateListDescengingCreatedAtNr[1].Label);
-            Assert.AreEqual("A", templateListDescengingCreatedAtNr[2].Label);
-            Assert.AreEqual(0, templateListDescengingCreatedAtNr[0].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingCreatedAtNr[1].Tags.Count());
-            Assert.AreEqual(0, templateListDescengingCreatedAtNr[2].Tags.Count());
+            Assert.That(templateListDescengingCreatedAtNr.Count(), Is.EqualTo(3));
+            Assert.That(templateListDescengingCreatedAtNr[0].Label, Is.EqualTo("C"));
+            Assert.That(templateListDescengingCreatedAtNr[1].Label, Is.EqualTo("D"));
+            Assert.That(templateListDescengingCreatedAtNr[2].Label, Is.EqualTo("A"));
+            Assert.That(templateListDescengingCreatedAtNr[0].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingCreatedAtNr[1].Tags.Count(), Is.EqualTo(0));
+            Assert.That(templateListDescengingCreatedAtNr[2].Tags.Count(), Is.EqualTo(0));
 
             #endregion
         }
@@ -395,8 +395,8 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             var checkLists = DbContext.CheckLists.AsNoTracking().ToList();
 
             Assert.NotNull(clResult);
-            Assert.AreEqual(1, checkLists.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Removed, checkLists[0].WorkflowState);
+            Assert.That(checkLists.Count(), Is.EqualTo(1));
+            Assert.That(checkLists[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
         }
 
 //        [Test]
@@ -431,23 +431,23 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             // Assert
             Assert.NotNull(templateId);
             Assert.IsNull(cl1.ParentId);
-            Assert.AreEqual(cl1.Id, templateId);
-            Assert.AreEqual(cl1.Label, null);
-            Assert.AreEqual("label1", checkLisTranslations[0].Text);
-            Assert.AreEqual(cl1.FolderName, "folderWithList");
-            Assert.AreEqual(cl1.CaseType, "type1");
-            Assert.AreEqual(cl1.DisplayIndex, 4);
-            Assert.AreEqual(cl1.WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(cl1.Version, 1);
-            Assert.AreEqual(cl1.ManualSync, 1);
-            Assert.AreEqual(cl1.MultiApproval, 0);
-            Assert.AreEqual(cl1.FastNavigation, 1);
-            Assert.AreEqual(cl1.DownloadEntities, 0);
-            Assert.AreEqual(cl1.ExtraFieldsEnabled, 0);
-            Assert.AreEqual(cl1.DoneButtonEnabled, 0);
-            Assert.AreEqual(cl1.ApprovalEnabled, 0);
-            Assert.AreEqual(cl1.ReviewEnabled, 0);
-            Assert.AreEqual(cl1.Repeated, 1);
+            Assert.That(templateId, Is.EqualTo(cl1.Id));
+            Assert.That(cl1.Label, Is.EqualTo(""));
+            Assert.That(checkLisTranslations[0].Text, Is.EqualTo("label1"));
+            Assert.That("folderWithList", Is.EqualTo(cl1.FolderName));
+            Assert.That("type1", Is.EqualTo(cl1.CaseType));
+            Assert.That(4, Is.EqualTo(cl1.DisplayIndex));
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(cl1.WorkflowState));
+            Assert.That(1, Is.EqualTo(cl1.Version));
+            Assert.That(1, Is.EqualTo(cl1.ManualSync));
+            Assert.That(0, Is.EqualTo(cl1.MultiApproval));
+            Assert.That(1, Is.EqualTo(cl1.FastNavigation));
+            Assert.That(0, Is.EqualTo(cl1.DownloadEntities));
+            Assert.That(0, Is.EqualTo(cl1.ExtraFieldsEnabled));
+            Assert.That(0, Is.EqualTo(cl1.DoneButtonEnabled));
+            Assert.That(0, Is.EqualTo(cl1.ApprovalEnabled));
+            Assert.That(0, Is.EqualTo(cl1.ReviewEnabled));
+            Assert.That(1, Is.EqualTo(cl1.Repeated));
         }
 
         [Test]
@@ -641,11 +641,11 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #region template1
 
             Assert.NotNull(match1);
-            Assert.AreEqual(match1.Description, "Description1");
-            Assert.AreEqual(match1.Label, "Label1");
-            Assert.AreEqual(match1.CreatedAt.ToString(), Template1.CreatedAt.ToString());
-            Assert.AreEqual(match1.FolderName, "FolderWithTemplate");
-            Assert.AreEqual(match1.Id, Template1.Id);
+            Assert.That("Description1", Is.EqualTo(match1.Description));
+            Assert.That("Label1", Is.EqualTo(match1.Label));
+            Assert.That(Template1.CreatedAt.ToString(), Is.EqualTo(match1.CreatedAt.ToString()));
+            Assert.That("FolderWithTemplate", Is.EqualTo(match1.FolderName));
+            Assert.That(Template1.Id, Is.EqualTo(match1.Id));
 //            Assert.AreEqual(match1.UpdatedAt.ToString(), Template1.UpdatedAt.ToString());
 
             #endregion
@@ -653,11 +653,11 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #region template2
 
             Assert.NotNull(match1);
-            Assert.AreEqual(match2.Description, "Description2");
-            Assert.AreEqual(match2.Label, "Label2");
-            Assert.AreEqual(match2.CreatedAt.ToString(), Template2.CreatedAt.ToString());
-            Assert.AreEqual(match2.FolderName, "FolderWithTemplate");
-            Assert.AreEqual(match2.Id, Template2.Id);
+            Assert.That("Description2", Is.EqualTo(match2.Description));
+            Assert.That("Label2", Is.EqualTo(match2.Label));
+            Assert.That(Template2.CreatedAt.ToString(), Is.EqualTo(match2.CreatedAt.ToString()));
+            Assert.That("FolderWithTemplate", Is.EqualTo(match2.FolderName));
+            Assert.That(Template2.Id, Is.EqualTo(match2.Id));
 //            Assert.AreEqual(match2.UpdatedAt.ToString(), Template2.UpdatedAt.ToString());
 
             #endregion
@@ -665,11 +665,11 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #region template3
 
             Assert.NotNull(match1);
-            Assert.AreEqual(match3.Description, "Description3");
-            Assert.AreEqual(match3.Label, "Label3");
-            Assert.AreEqual(match3.CreatedAt.ToString(), Template3.CreatedAt.ToString());
-            Assert.AreEqual(match3.FolderName, "FolderWithTemplate");
-            Assert.AreEqual(match3.Id, Template3.Id);
+            Assert.That("Description3", Is.EqualTo(match3.Description));
+            Assert.That("Label3", Is.EqualTo(match3.Label));
+            Assert.That(Template3.CreatedAt.ToString(), Is.EqualTo(match3.CreatedAt.ToString()));
+            Assert.That("FolderWithTemplate", Is.EqualTo(match3.FolderName));
+            Assert.That(Template3.Id, Is.EqualTo(match3.Id));
 //            Assert.AreEqual(match3.UpdatedAt.ToString(), Template3.UpdatedAt.ToString());
 
             #endregion
@@ -677,11 +677,11 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #region template4
 
             Assert.NotNull(match1);
-            Assert.AreEqual(match4.Description, "Description4");
-            Assert.AreEqual(match4.Label, "Label4");
-            Assert.AreEqual(match4.CreatedAt.ToString(), Template4.CreatedAt.ToString());
-            Assert.AreEqual(match4.FolderName, "FolderWithTemplate");
-            Assert.AreEqual(match4.Id, Template4.Id);
+            Assert.That("Description4", Is.EqualTo(match4.Description));
+            Assert.That("Label4", Is.EqualTo(match4.Label));
+            Assert.That(Template4.CreatedAt.ToString(), Is.EqualTo(match4.CreatedAt.ToString()));
+            Assert.That("FolderWithTemplate", Is.EqualTo(match4.FolderName));
+            Assert.That(Template4.Id, Is.EqualTo(match4.Id));
 //            Assert.AreEqual(match4.UpdatedAt.ToString(), Template4.UpdatedAt.ToString());
 
             #endregion
@@ -871,70 +871,70 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #region template1
 
             Assert.NotNull(match1);
-            Assert.AreEqual(match1[0].Description, Field1.Description);
-            Assert.AreEqual(match1[0].FieldType, "Picture");
-            Assert.AreEqual(match1[0].Label, Field1.Label);
-            Assert.AreEqual(match1[0].Id, Field1.Id);
+            Assert.That(Field1.Description, Is.EqualTo(match1[0].Description));
+            Assert.That("Picture", Is.EqualTo(match1[0].FieldType));
+            Assert.That(Field1.Label, Is.EqualTo(match1[0].Label));
+            Assert.That(Field1.Id, Is.EqualTo(match1[0].Id));
 
-            Assert.AreEqual(match1[1].Description, Field2.Description);
-            Assert.AreEqual(match1[1].FieldType, "Comment");
-            Assert.AreEqual(match1[1].Label, Field2.Label);
-            Assert.AreEqual(match1[1].Id, Field2.Id);
+            Assert.That(Field2.Description, Is.EqualTo(match1[1].Description));
+            Assert.That("Comment", Is.EqualTo(match1[1].FieldType));
+            Assert.That(Field2.Label, Is.EqualTo(match1[1].Label));
+            Assert.That(Field2.Id, Is.EqualTo(match1[1].Id));
 
             #endregion
 
             #region template2
 
             Assert.NotNull(match2);
-            Assert.AreEqual(match2[0].Description, Field3.Description);
-            Assert.AreEqual(match2[0].FieldType, "Picture");
-            Assert.AreEqual(match2[0].Label, Field3.Label);
-            Assert.AreEqual(match2[0].Id, Field3.Id);
+            Assert.That(Field3.Description, Is.EqualTo(match2[0].Description));
+            Assert.That("Picture", Is.EqualTo(match2[0].FieldType));
+            Assert.That(Field3.Label, Is.EqualTo(match2[0].Label));
+            Assert.That(Field3.Id, Is.EqualTo(match2[0].Id));
 
-            Assert.AreEqual(match2[1].Description, Field4.Description);
-            Assert.AreEqual(match2[1].FieldType, "Picture");
-            Assert.AreEqual(match2[1].Label, Field4.Label);
-            Assert.AreEqual(match2[1].Id, Field4.Id);
+            Assert.That(Field4.Description, Is.EqualTo(match2[1].Description));
+            Assert.That("Picture", Is.EqualTo(match2[1].FieldType));
+            Assert.That(Field4.Label, Is.EqualTo(match2[1].Label));
+            Assert.That(Field4.Id, Is.EqualTo(match2[1].Id));
 
-            Assert.AreEqual(match2[2].Description, Field5.Description);
-            Assert.AreEqual(match2[2].FieldType, "Comment");
-            Assert.AreEqual(match2[2].Label, Field5.Label);
-            Assert.AreEqual(match2[2].Id, Field5.Id);
+            Assert.That(Field5.Description, Is.EqualTo(match2[2].Description));
+            Assert.That("Comment", Is.EqualTo(match2[2].FieldType));
+            Assert.That(Field5.Label, Is.EqualTo(match2[2].Label));
+            Assert.That(Field5.Id, Is.EqualTo(match2[2].Id));
 
             #endregion
 
             #region template3
 
             Assert.NotNull(match3);
-            Assert.AreEqual(match3[0].Description, Field6.Description);
-            Assert.AreEqual(match3[0].FieldType, "Comment");
-            Assert.AreEqual(match3[0].Label, Field6.Label);
-            Assert.AreEqual(match3[0].Id, Field6.Id);
+            Assert.That(Field6.Description, Is.EqualTo(match3[0].Description));
+            Assert.That("Comment", Is.EqualTo(match3[0].FieldType));
+            Assert.That(Field6.Label, Is.EqualTo(match3[0].Label));
+            Assert.That(Field6.Id, Is.EqualTo(match3[0].Id));
 
-            Assert.AreEqual(match3[1].Description, Field7.Description);
-            Assert.AreEqual(match3[1].FieldType, "Comment");
-            Assert.AreEqual(match3[1].Label, Field7.Label);
-            Assert.AreEqual(match3[1].Id, Field7.Id);
+            Assert.That(Field7.Description, Is.EqualTo(match3[1].Description));
+            Assert.That("Comment", Is.EqualTo(match3[1].FieldType));
+            Assert.That(Field7.Label, Is.EqualTo(match3[1].Label));
+            Assert.That(Field7.Id, Is.EqualTo(match3[1].Id));
 
             #endregion
 
             #region template4
 
             Assert.NotNull(match4);
-            Assert.AreEqual(match4[0].Description, Field8.Description);
-            Assert.AreEqual(match4[0].FieldType, "Comment");
-            Assert.AreEqual(match4[0].Label, Field8.Label);
-            Assert.AreEqual(match4[0].Id, Field8.Id);
+            Assert.That(Field8.Description, Is.EqualTo(match4[0].Description));
+            Assert.That("Comment", Is.EqualTo(match4[0].FieldType));
+            Assert.That(Field8.Label, Is.EqualTo(match4[0].Label));
+            Assert.That(Field8.Id, Is.EqualTo(match4[0].Id));
 
-            Assert.AreEqual(match4[1].Description, Field9.Description);
-            Assert.AreEqual(match4[1].FieldType, "Comment");
-            Assert.AreEqual(match4[1].Label, Field9.Label);
-            Assert.AreEqual(match4[1].Id, Field9.Id);
+            Assert.That(Field9.Description, Is.EqualTo(match4[1].Description));
+            Assert.That("Comment", Is.EqualTo(match4[1].FieldType));
+            Assert.That(Field9.Label, Is.EqualTo(match4[1].Label));
+            Assert.That(Field9.Id, Is.EqualTo(match4[1].Id));
 
-            Assert.AreEqual(match4[2].Description, Field10.Description);
-            Assert.AreEqual(match4[2].FieldType, "Comment");
-            Assert.AreEqual(match4[2].Label, Field10.Label);
-            Assert.AreEqual(match4[2].Id, Field10.Id);
+            Assert.That(Field10.Description, Is.EqualTo(match4[2].Description));
+            Assert.That("Comment", Is.EqualTo(match4[2].FieldType));
+            Assert.That(Field10.Label, Is.EqualTo(match4[2].Label));
+            Assert.That(Field10.Id, Is.EqualTo(match4[2].Id));
 
             #endregion
         }
@@ -994,10 +994,10 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.NotNull(match2);
             Assert.NotNull(match3);
             Assert.NotNull(match4);
-            Assert.True(match1);
-            Assert.True(match2);
-            Assert.True(match3);
-            Assert.True(match4);
+            Assert.That(match1, Is.True);
+            Assert.That(match2, Is.True);
+            Assert.That(match3, Is.True);
+            Assert.That(match4, Is.True);
         }
 
         [Test]
@@ -1234,10 +1234,10 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.NotNull(match2);
             Assert.NotNull(match3);
             Assert.NotNull(match4);
-            Assert.True(match1);
-            Assert.True(match2);
-            Assert.True(match3);
-            Assert.True(match4);
+            Assert.That(match1, Is.True);
+            Assert.That(match2, Is.True);
+            Assert.That(match3, Is.True);
+            Assert.That(match4, Is.True);
         }
 
         [Test]
@@ -1428,10 +1428,10 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.NotNull(match2);
             Assert.NotNull(match3);
             Assert.NotNull(match4);
-            Assert.True(match1);
-            Assert.True(match2);
-            Assert.True(match3);
-            Assert.True(match4);
+            Assert.That(match1, Is.True);
+            Assert.That(match2, Is.True);
+            Assert.That(match3, Is.True);
+            Assert.That(match4, Is.True);
         }
 
         #endregion

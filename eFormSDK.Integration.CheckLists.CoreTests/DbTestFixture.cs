@@ -42,11 +42,13 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
     [TestFixture]
     public abstract class DbTestFixture
     {
+#pragma warning disable NUnit1032 // An IDisposable field/property should be Disposed in a TearDown method
         private readonly MariaDbContainer _mariadbTestcontainer = new MariaDbBuilder()
             .WithDatabase(
                 "eformsdk-tests").WithUsername("bla").WithPassword("secretpassword")
             .WithImage("mariadb:11.0.2")
             .Build();
+#pragma warning restore NUnit1032 // An IDisposable field/property should be Disposed in a TearDown method
 
         protected MicrotingDbContext DbContext;
         protected string ConnectionString;

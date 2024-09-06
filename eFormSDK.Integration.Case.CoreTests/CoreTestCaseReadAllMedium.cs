@@ -1198,90 +1198,90 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListDoneAt aCase1
 
             Assert.NotNull(caseListDoneAt);
-            Assert.AreEqual(4, caseListDoneAt.Count);
-            Assert.AreEqual(aCase1.Type, caseListDoneAt[0].CaseType);
-            Assert.AreEqual(aCase1.CaseUid, caseListDoneAt[0].CaseUId);
-            Assert.AreEqual(aCase1.MicrotingCheckUid, caseListDoneAt[0].CheckUIid);
-            Assert.AreEqual(c1_ca.ToString(), caseListDoneAt[0].CreatedAt.ToString());
-            Assert.AreEqual(aCase1.Custom, caseListDoneAt[0].Custom);
-            Assert.AreEqual(c1_da.ToString(), caseListDoneAt[0].DoneAt.ToString());
-            Assert.AreEqual(aCase1.Id, caseListDoneAt[0].Id);
-            Assert.AreEqual(aCase1.MicrotingUid, caseListDoneAt[0].MicrotingUId);
-            Assert.AreEqual(aCase1.Site.MicrotingUid, caseListDoneAt[0].SiteId);
-            Assert.AreEqual(aCase1.Site.Name, caseListDoneAt[0].SiteName);
-            Assert.AreEqual(aCase1.Status, caseListDoneAt[0].Status);
-            Assert.AreEqual(cl1.Id, caseListDoneAt[0].TemplatId);
-            Assert.AreEqual(aCase1.Unit.MicrotingUid, caseListDoneAt[0].UnitId);
-//            Assert.AreEqual(c1_ua.ToString(), caseListDoneAt[0].UpdatedAt.ToString());
-            Assert.AreEqual(aCase1.Version, caseListDoneAt[0].Version);
-            Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName, caseListDoneAt[0].WorkerName);
-            Assert.AreEqual(aCase1.WorkflowState, caseListDoneAt[0].WorkflowState);
+            Assert.That(caseListDoneAt.Count, Is.EqualTo(4));
+            Assert.That(caseListDoneAt[0].CaseType, Is.EqualTo(aCase1.Type));
+            Assert.That(caseListDoneAt[0].CaseUId, Is.EqualTo(aCase1.CaseUid));
+            Assert.That(caseListDoneAt[0].CheckUIid, Is.EqualTo(aCase1.MicrotingCheckUid));
+            Assert.That(caseListDoneAt[0].CreatedAt.ToString(), Is.EqualTo(c1_ca.ToString()));
+            Assert.That(caseListDoneAt[0].Custom, Is.EqualTo(aCase1.Custom));
+            Assert.That(caseListDoneAt[0].DoneAt.ToString(), Is.EqualTo(c1_da.ToString()));
+            Assert.That(caseListDoneAt[0].Id, Is.EqualTo(aCase1.Id));
+            Assert.That(caseListDoneAt[0].MicrotingUId, Is.EqualTo(aCase1.MicrotingUid));
+            Assert.That(caseListDoneAt[0].SiteId, Is.EqualTo(aCase1.Site.MicrotingUid));
+            Assert.That(caseListDoneAt[0].SiteName, Is.EqualTo(aCase1.Site.Name));
+            Assert.That(caseListDoneAt[0].Status, Is.EqualTo(aCase1.Status));
+            Assert.That(caseListDoneAt[0].TemplatId, Is.EqualTo(cl1.Id));
+            Assert.That(caseListDoneAt[0].UnitId, Is.EqualTo(aCase1.Unit.MicrotingUid));
+            //            Assert.AreEqual(c1_ua.ToString(), caseListDoneAt[0].UpdatedAt.ToString());
+            Assert.That(caseListDoneAt[0].Version, Is.EqualTo(aCase1.Version));
+            Assert.That(caseListDoneAt[0].WorkerName, Is.EqualTo(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName));
+            Assert.That(caseListDoneAt[0].WorkflowState, Is.EqualTo(aCase1.WorkflowState));
 
             #endregion
 
             #region caseListDoneAt aCase2
 
-            Assert.AreEqual(aCase2.Type, caseListDoneAt[1].CaseType);
-            Assert.AreEqual(aCase2.CaseUid, caseListDoneAt[1].CaseUId);
-            Assert.AreEqual(aCase2.MicrotingCheckUid, caseListDoneAt[1].CheckUIid);
-            Assert.AreEqual(c2_ca.ToString(), caseListDoneAt[1].CreatedAt.ToString());
-            Assert.AreEqual(aCase2.Custom, caseListDoneAt[1].Custom);
-            Assert.AreEqual(c2_da.ToString(), caseListDoneAt[1].DoneAt.ToString());
-            Assert.AreEqual(aCase2.Id, caseListDoneAt[1].Id);
-            Assert.AreEqual(aCase2.MicrotingUid, caseListDoneAt[1].MicrotingUId);
-            Assert.AreEqual(aCase2.Site.MicrotingUid, caseListDoneAt[1].SiteId);
-            Assert.AreEqual(aCase2.Site.Name, caseListDoneAt[1].SiteName);
-            Assert.AreEqual(aCase2.Status, caseListDoneAt[1].Status);
-            Assert.AreEqual(cl1.Id, caseListDoneAt[1].TemplatId);
-            Assert.AreEqual(aCase2.Unit.MicrotingUid, caseListDoneAt[1].UnitId);
-//            Assert.AreEqual(c2_ua.ToString(), caseListDoneAt[1].UpdatedAt.ToString());
-            Assert.AreEqual(aCase2.Version, caseListDoneAt[1].Version);
-            Assert.AreEqual(aCase2.Worker.FirstName + " " + aCase2.Worker.LastName, caseListDoneAt[1].WorkerName);
-            Assert.AreEqual(aCase2.WorkflowState, caseListDoneAt[1].WorkflowState);
+            Assert.That(caseListDoneAt[1].CaseType, Is.EqualTo(aCase2.Type));
+            Assert.That(caseListDoneAt[1].CaseUId, Is.EqualTo(aCase2.CaseUid));
+            Assert.That(caseListDoneAt[1].CheckUIid, Is.EqualTo(aCase2.MicrotingCheckUid));
+            Assert.That(caseListDoneAt[1].CreatedAt.ToString(), Is.EqualTo(c2_ca.ToString()));
+            Assert.That(caseListDoneAt[1].Custom, Is.EqualTo(aCase2.Custom));
+            Assert.That(caseListDoneAt[1].DoneAt.ToString(), Is.EqualTo(c2_da.ToString()));
+            Assert.That(caseListDoneAt[1].Id, Is.EqualTo(aCase2.Id));
+            Assert.That(caseListDoneAt[1].MicrotingUId, Is.EqualTo(aCase2.MicrotingUid));
+            Assert.That(caseListDoneAt[1].SiteId, Is.EqualTo(aCase2.Site.MicrotingUid));
+            Assert.That(caseListDoneAt[1].SiteName, Is.EqualTo(aCase2.Site.Name));
+            Assert.That(caseListDoneAt[1].Status, Is.EqualTo(aCase2.Status));
+            Assert.That(caseListDoneAt[1].TemplatId, Is.EqualTo(cl1.Id));
+            Assert.That(caseListDoneAt[1].UnitId, Is.EqualTo(aCase2.Unit.MicrotingUid));
+            //            Assert.AreEqual(c2_ua.ToString(), caseListDoneAt[1].UpdatedAt.ToString());
+            Assert.That(caseListDoneAt[1].Version, Is.EqualTo(aCase2.Version));
+            Assert.That(caseListDoneAt[1].WorkerName, Is.EqualTo(aCase2.Worker.FirstName + " " + aCase2.Worker.LastName));
+            Assert.That(caseListDoneAt[1].WorkflowState, Is.EqualTo(aCase2.WorkflowState));
 
             #endregion
 
             #region caseListDoneAt aCase3
 
-            Assert.AreEqual(aCase3.Type, caseListDoneAt[2].CaseType);
-            Assert.AreEqual(aCase3.CaseUid, caseListDoneAt[2].CaseUId);
-            Assert.AreEqual(aCase3.MicrotingCheckUid, caseListDoneAt[2].CheckUIid);
-            Assert.AreEqual(c3_ca.ToString(), caseListDoneAt[2].CreatedAt.ToString());
-            Assert.AreEqual(aCase3.Custom, caseListDoneAt[2].Custom);
-            Assert.AreEqual(c3_da.ToString(), caseListDoneAt[2].DoneAt.ToString());
-            Assert.AreEqual(aCase3.Id, caseListDoneAt[2].Id);
-            Assert.AreEqual(aCase3.MicrotingUid, caseListDoneAt[2].MicrotingUId);
-            Assert.AreEqual(aCase3.Site.MicrotingUid, caseListDoneAt[2].SiteId);
-            Assert.AreEqual(aCase3.Site.Name, caseListDoneAt[2].SiteName);
-            Assert.AreEqual(aCase3.Status, caseListDoneAt[2].Status);
-            Assert.AreEqual(cl1.Id, caseListDoneAt[2].TemplatId);
-            Assert.AreEqual(aCase3.Unit.MicrotingUid, caseListDoneAt[2].UnitId);
-//            Assert.AreEqual(c3_ua.ToString(), caseListDoneAt[2].UpdatedAt.ToString());
-            Assert.AreEqual(aCase3.Version, caseListDoneAt[2].Version);
-            Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName, caseListDoneAt[2].WorkerName);
-            Assert.AreEqual(aCase3.WorkflowState, caseListDoneAt[2].WorkflowState);
+            Assert.That(caseListDoneAt[2].CaseType, Is.EqualTo(aCase3.Type));
+            Assert.That(caseListDoneAt[2].CaseUId, Is.EqualTo(aCase3.CaseUid));
+            Assert.That(caseListDoneAt[2].CheckUIid, Is.EqualTo(aCase3.MicrotingCheckUid));
+            Assert.That(caseListDoneAt[2].CreatedAt.ToString(), Is.EqualTo(c3_ca.ToString()));
+            Assert.That(caseListDoneAt[2].Custom, Is.EqualTo(aCase3.Custom));
+            Assert.That(caseListDoneAt[2].DoneAt.ToString(), Is.EqualTo(c3_da.ToString()));
+            Assert.That(caseListDoneAt[2].Id, Is.EqualTo(aCase3.Id));
+            Assert.That(caseListDoneAt[2].MicrotingUId, Is.EqualTo(aCase3.MicrotingUid));
+            Assert.That(caseListDoneAt[2].SiteId, Is.EqualTo(aCase3.Site.MicrotingUid));
+            Assert.That(caseListDoneAt[2].SiteName, Is.EqualTo(aCase3.Site.Name));
+            Assert.That(caseListDoneAt[2].Status, Is.EqualTo(aCase3.Status));
+            Assert.That(caseListDoneAt[2].TemplatId, Is.EqualTo(cl1.Id));
+            Assert.That(caseListDoneAt[2].UnitId, Is.EqualTo(aCase3.Unit.MicrotingUid));
+            //            Assert.AreEqual(c3_ua.ToString(), caseListDoneAt[2].UpdatedAt.ToString());
+            Assert.That(caseListDoneAt[2].Version, Is.EqualTo(aCase3.Version));
+            Assert.That(caseListDoneAt[2].WorkerName, Is.EqualTo(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName));
+            Assert.That(caseListDoneAt[2].WorkflowState, Is.EqualTo(aCase3.WorkflowState));
 
             #endregion
 
             #region caseListDoneAt aCase4
 
-            Assert.AreEqual(aCase4.Type, caseListDoneAt[3].CaseType);
-            Assert.AreEqual(aCase4.CaseUid, caseListDoneAt[3].CaseUId);
-            Assert.AreEqual(aCase4.MicrotingCheckUid, caseListDoneAt[3].CheckUIid);
-            Assert.AreEqual(c4_ca.ToString(), caseListDoneAt[3].CreatedAt.ToString());
-            Assert.AreEqual(aCase4.Custom, caseListDoneAt[3].Custom);
-            Assert.AreEqual(c4_da.ToString(), caseListDoneAt[3].DoneAt.ToString());
-            Assert.AreEqual(aCase4.Id, caseListDoneAt[3].Id);
-            Assert.AreEqual(aCase4.MicrotingUid, caseListDoneAt[3].MicrotingUId);
-            Assert.AreEqual(aCase4.Site.MicrotingUid, caseListDoneAt[3].SiteId);
-            Assert.AreEqual(aCase4.Site.Name, caseListDoneAt[3].SiteName);
-            Assert.AreEqual(aCase4.Status, caseListDoneAt[3].Status);
-            Assert.AreEqual(cl1.Id, caseListDoneAt[3].TemplatId);
-            Assert.AreEqual(aCase4.Unit.MicrotingUid, caseListDoneAt[3].UnitId);
-//            Assert.AreEqual(c4_ua.ToString(), caseListDoneAt[3].UpdatedAt.ToString());
-            Assert.AreEqual(aCase4.Version, caseListDoneAt[3].Version);
-            Assert.AreEqual(aCase4.Worker.FirstName + " " + aCase4.Worker.LastName, caseListDoneAt[3].WorkerName);
-            Assert.AreEqual(aCase4.WorkflowState, caseListDoneAt[3].WorkflowState);
+            Assert.That(caseListDoneAt[3].CaseType, Is.EqualTo(aCase4.Type));
+            Assert.That(caseListDoneAt[3].CaseUId, Is.EqualTo(aCase4.CaseUid));
+            Assert.That(caseListDoneAt[3].CheckUIid, Is.EqualTo(aCase4.MicrotingCheckUid));
+            Assert.That(caseListDoneAt[3].CreatedAt.ToString(), Is.EqualTo(c4_ca.ToString()));
+            Assert.That(caseListDoneAt[3].Custom, Is.EqualTo(aCase4.Custom));
+            Assert.That(caseListDoneAt[3].DoneAt.ToString(), Is.EqualTo(c4_da.ToString()));
+            Assert.That(caseListDoneAt[3].Id, Is.EqualTo(aCase4.Id));
+            Assert.That(caseListDoneAt[3].MicrotingUId, Is.EqualTo(aCase4.MicrotingUid));
+            Assert.That(caseListDoneAt[3].SiteId, Is.EqualTo(aCase4.Site.MicrotingUid));
+            Assert.That(caseListDoneAt[3].SiteName, Is.EqualTo(aCase4.Site.Name));
+            Assert.That(caseListDoneAt[3].Status, Is.EqualTo(aCase4.Status));
+            Assert.That(caseListDoneAt[3].TemplatId, Is.EqualTo(cl1.Id));
+            Assert.That(caseListDoneAt[3].UnitId, Is.EqualTo(aCase4.Unit.MicrotingUid));
+            //            Assert.AreEqual(c4_ua.ToString(), caseListDoneAt[3].UpdatedAt.ToString());
+            Assert.That(caseListDoneAt[3].Version, Is.EqualTo(aCase4.Version));
+            Assert.That(caseListDoneAt[3].WorkerName, Is.EqualTo(aCase4.Worker.FirstName + " " + aCase4.Worker.LastName));
+            Assert.That(caseListDoneAt[3].WorkflowState, Is.EqualTo(aCase4.WorkflowState));
 
             #endregion
 
@@ -1292,90 +1292,90 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListStatus aCase1
 
             Assert.NotNull(caseListStatus);
-            Assert.AreEqual(4, caseListStatus.Count);
-            Assert.AreEqual(aCase1.Type, caseListStatus[0].CaseType);
-            Assert.AreEqual(aCase1.CaseUid, caseListStatus[0].CaseUId);
-            Assert.AreEqual(aCase1.MicrotingCheckUid, caseListStatus[0].CheckUIid);
-            Assert.AreEqual(c1_ca.ToString(), caseListStatus[0].CreatedAt.ToString());
-            Assert.AreEqual(aCase1.Custom, caseListStatus[0].Custom);
-            Assert.AreEqual(c1_da.ToString(), caseListStatus[0].DoneAt.ToString());
-            Assert.AreEqual(aCase1.Id, caseListStatus[0].Id);
-            Assert.AreEqual(aCase1.MicrotingUid, caseListStatus[0].MicrotingUId);
-            Assert.AreEqual(aCase1.Site.MicrotingUid, caseListStatus[0].SiteId);
-            Assert.AreEqual(aCase1.Site.Name, caseListStatus[0].SiteName);
-            Assert.AreEqual(aCase1.Status, caseListStatus[0].Status);
-            Assert.AreEqual(aCase1.CheckListId, caseListStatus[0].TemplatId);
-            Assert.AreEqual(aCase1.Unit.MicrotingUid, caseListStatus[0].UnitId);
-//            Assert.AreEqual(c1_ua.ToString(), caseListStatus[0].UpdatedAt.ToString());
-            Assert.AreEqual(aCase1.Version, caseListStatus[0].Version);
-            Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName, caseListStatus[0].WorkerName);
-            Assert.AreEqual(aCase1.WorkflowState, caseListStatus[0].WorkflowState);
+            Assert.That(caseListStatus.Count, Is.EqualTo(4));
+            Assert.That(caseListStatus[0].CaseType, Is.EqualTo(aCase1.Type));
+            Assert.That(caseListStatus[0].CaseUId, Is.EqualTo(aCase1.CaseUid));
+            Assert.That(caseListStatus[0].CheckUIid, Is.EqualTo(aCase1.MicrotingCheckUid));
+            Assert.That(caseListStatus[0].CreatedAt.ToString(), Is.EqualTo(c1_ca.ToString()));
+            Assert.That(caseListStatus[0].Custom, Is.EqualTo(aCase1.Custom));
+            Assert.That(caseListStatus[0].DoneAt.ToString(), Is.EqualTo(c1_da.ToString()));
+            Assert.That(caseListStatus[0].Id, Is.EqualTo(aCase1.Id));
+            Assert.That(caseListStatus[0].MicrotingUId, Is.EqualTo(aCase1.MicrotingUid));
+            Assert.That(caseListStatus[0].SiteId, Is.EqualTo(aCase1.Site.MicrotingUid));
+            Assert.That(caseListStatus[0].SiteName, Is.EqualTo(aCase1.Site.Name));
+            Assert.That(caseListStatus[0].Status, Is.EqualTo(aCase1.Status));
+            Assert.That(caseListStatus[0].TemplatId, Is.EqualTo(aCase1.CheckListId));
+            Assert.That(caseListStatus[0].UnitId, Is.EqualTo(aCase1.Unit.MicrotingUid));
+            //            Assert.AreEqual(c1_ua.ToString(), caseListStatus[0].UpdatedAt.ToString());
+            Assert.That(caseListStatus[0].Version, Is.EqualTo(aCase1.Version));
+            Assert.That(caseListStatus[0].WorkerName, Is.EqualTo(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName));
+            Assert.That(caseListStatus[0].WorkflowState, Is.EqualTo(aCase1.WorkflowState));
 
             #endregion
 
             #region caseListStatus aCase2
 
-            Assert.AreEqual(aCase2.Type, caseListStatus[1].CaseType);
-            Assert.AreEqual(aCase2.CaseUid, caseListStatus[1].CaseUId);
-            Assert.AreEqual(aCase2.MicrotingCheckUid, caseListStatus[1].CheckUIid);
-            Assert.AreEqual(c2_ca.ToString(), caseListStatus[1].CreatedAt.ToString());
-            Assert.AreEqual(aCase2.Custom, caseListStatus[1].Custom);
-            Assert.AreEqual(c2_da.ToString(), caseListStatus[1].DoneAt.ToString());
-            Assert.AreEqual(aCase2.Id, caseListStatus[1].Id);
-            Assert.AreEqual(aCase2.MicrotingUid, caseListStatus[1].MicrotingUId);
-            Assert.AreEqual(aCase2.Site.MicrotingUid, caseListStatus[1].SiteId);
-            Assert.AreEqual(aCase2.Site.Name, caseListStatus[1].SiteName);
-            Assert.AreEqual(aCase2.Status, caseListStatus[1].Status);
-            Assert.AreEqual(aCase2.CheckListId, caseListStatus[1].TemplatId);
-            Assert.AreEqual(aCase2.Unit.MicrotingUid, caseListStatus[1].UnitId);
-//            Assert.AreEqual(c2_ua.ToString(), caseListStatus[1].UpdatedAt.ToString());
-            Assert.AreEqual(aCase2.Version, caseListStatus[1].Version);
-            Assert.AreEqual(aCase2.Worker.FirstName + " " + aCase2.Worker.LastName, caseListStatus[1].WorkerName);
-            Assert.AreEqual(aCase2.WorkflowState, caseListStatus[1].WorkflowState);
+            Assert.That(caseListStatus[1].CaseType, Is.EqualTo(aCase2.Type));
+            Assert.That(caseListStatus[1].CaseUId, Is.EqualTo(aCase2.CaseUid));
+            Assert.That(caseListStatus[1].CheckUIid, Is.EqualTo(aCase2.MicrotingCheckUid));
+            Assert.That(caseListStatus[1].CreatedAt.ToString(), Is.EqualTo(c2_ca.ToString()));
+            Assert.That(caseListStatus[1].Custom, Is.EqualTo(aCase2.Custom));
+            Assert.That(caseListStatus[1].DoneAt.ToString(), Is.EqualTo(c2_da.ToString()));
+            Assert.That(caseListStatus[1].Id, Is.EqualTo(aCase2.Id));
+            Assert.That(caseListStatus[1].MicrotingUId, Is.EqualTo(aCase2.MicrotingUid));
+            Assert.That(caseListStatus[1].SiteId, Is.EqualTo(aCase2.Site.MicrotingUid));
+            Assert.That(caseListStatus[1].SiteName, Is.EqualTo(aCase2.Site.Name));
+            Assert.That(caseListStatus[1].Status, Is.EqualTo(aCase2.Status));
+            Assert.That(caseListStatus[1].TemplatId, Is.EqualTo(aCase2.CheckListId));
+            Assert.That(caseListStatus[1].UnitId, Is.EqualTo(aCase2.Unit.MicrotingUid));
+            //            Assert.AreEqual(c2_ua.ToString(), caseListStatus[1].UpdatedAt.ToString());
+            Assert.That(caseListStatus[1].Version, Is.EqualTo(aCase2.Version));
+            Assert.That(caseListStatus[1].WorkerName, Is.EqualTo(aCase2.Worker.FirstName + " " + aCase2.Worker.LastName));
+            Assert.That(caseListStatus[1].WorkflowState, Is.EqualTo(aCase2.WorkflowState));
 
             #endregion
 
             #region caseListStatus aCase3
 
-            Assert.AreEqual(aCase3.Type, caseListStatus[2].CaseType);
-            Assert.AreEqual(aCase3.CaseUid, caseListStatus[2].CaseUId);
-            Assert.AreEqual(aCase3.MicrotingCheckUid, caseListStatus[2].CheckUIid);
-            Assert.AreEqual(c3_ca.ToString(), caseListStatus[2].CreatedAt.ToString());
-            Assert.AreEqual(aCase3.Custom, caseListStatus[2].Custom);
-            Assert.AreEqual(c3_da.ToString(), caseListStatus[2].DoneAt.ToString());
-            Assert.AreEqual(aCase3.Id, caseListStatus[2].Id);
-            Assert.AreEqual(aCase3.MicrotingUid, caseListStatus[2].MicrotingUId);
-            Assert.AreEqual(aCase3.Site.MicrotingUid, caseListStatus[2].SiteId);
-            Assert.AreEqual(aCase3.Site.Name, caseListStatus[2].SiteName);
-            Assert.AreEqual(aCase3.Status, caseListStatus[2].Status);
-            Assert.AreEqual(aCase3.CheckListId, caseListStatus[2].TemplatId);
-            Assert.AreEqual(aCase3.Unit.MicrotingUid, caseListStatus[2].UnitId);
-//            Assert.AreEqual(c3_ua.ToString(), caseListStatus[2].UpdatedAt.ToString());
-            Assert.AreEqual(aCase3.Version, caseListStatus[2].Version);
-            Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName, caseListStatus[2].WorkerName);
-            Assert.AreEqual(aCase3.WorkflowState, caseListStatus[2].WorkflowState);
+            Assert.That(caseListStatus[2].CaseType, Is.EqualTo(aCase3.Type));
+            Assert.That(caseListStatus[2].CaseUId, Is.EqualTo(aCase3.CaseUid));
+            Assert.That(caseListStatus[2].CheckUIid, Is.EqualTo(aCase3.MicrotingCheckUid));
+            Assert.That(caseListStatus[2].CreatedAt.ToString(), Is.EqualTo(c3_ca.ToString()));
+            Assert.That(caseListStatus[2].Custom, Is.EqualTo(aCase3.Custom));
+            Assert.That(caseListStatus[2].DoneAt.ToString(), Is.EqualTo(c3_da.ToString()));
+            Assert.That(caseListStatus[2].Id, Is.EqualTo(aCase3.Id));
+            Assert.That(caseListStatus[2].MicrotingUId, Is.EqualTo(aCase3.MicrotingUid));
+            Assert.That(caseListStatus[2].SiteId, Is.EqualTo(aCase3.Site.MicrotingUid));
+            Assert.That(caseListStatus[2].SiteName, Is.EqualTo(aCase3.Site.Name));
+            Assert.That(caseListStatus[2].Status, Is.EqualTo(aCase3.Status));
+            Assert.That(caseListStatus[2].TemplatId, Is.EqualTo(aCase3.CheckListId));
+            Assert.That(caseListStatus[2].UnitId, Is.EqualTo(aCase3.Unit.MicrotingUid));
+            //            Assert.AreEqual(c3_ua.ToString(), caseListStatus[2].UpdatedAt.ToString());
+            Assert.That(caseListStatus[2].Version, Is.EqualTo(aCase3.Version));
+            Assert.That(caseListStatus[2].WorkerName, Is.EqualTo(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName));
+            Assert.That(caseListStatus[2].WorkflowState, Is.EqualTo(aCase3.WorkflowState));
 
             #endregion
 
             #region caseListStatus aCase4
 
-            Assert.AreEqual(aCase4.Type, caseListStatus[3].CaseType);
-            Assert.AreEqual(aCase4.CaseUid, caseListStatus[3].CaseUId);
-            Assert.AreEqual(aCase4.MicrotingCheckUid, caseListStatus[3].CheckUIid);
-            Assert.AreEqual(c4_ca.ToString(), caseListStatus[3].CreatedAt.ToString());
-            Assert.AreEqual(aCase4.Custom, caseListStatus[3].Custom);
-            Assert.AreEqual(c4_da.ToString(), caseListStatus[3].DoneAt.ToString());
-            Assert.AreEqual(aCase4.Id, caseListStatus[3].Id);
-            Assert.AreEqual(aCase4.MicrotingUid, caseListStatus[3].MicrotingUId);
-            Assert.AreEqual(aCase4.Site.MicrotingUid, caseListStatus[3].SiteId);
-            Assert.AreEqual(aCase4.Site.Name, caseListStatus[3].SiteName);
-            Assert.AreEqual(aCase4.Status, caseListStatus[3].Status);
-            Assert.AreEqual(aCase4.CheckListId, caseListStatus[3].TemplatId);
-            Assert.AreEqual(aCase4.Unit.MicrotingUid, caseListStatus[3].UnitId);
-//            Assert.AreEqual(c4_ua.ToString(), caseListStatus[3].UpdatedAt.ToString());
-            Assert.AreEqual(aCase4.Version, caseListStatus[3].Version);
-            Assert.AreEqual(aCase4.Worker.FirstName + " " + aCase4.Worker.LastName, caseListStatus[3].WorkerName);
-            Assert.AreEqual(aCase4.WorkflowState, caseListStatus[3].WorkflowState);
+            Assert.That(caseListStatus[3].CaseType, Is.EqualTo(aCase4.Type));
+            Assert.That(caseListStatus[3].CaseUId, Is.EqualTo(aCase4.CaseUid));
+            Assert.That(caseListStatus[3].CheckUIid, Is.EqualTo(aCase4.MicrotingCheckUid));
+            Assert.That(caseListStatus[3].CreatedAt.ToString(), Is.EqualTo(c4_ca.ToString()));
+            Assert.That(caseListStatus[3].Custom, Is.EqualTo(aCase4.Custom));
+            Assert.That(caseListStatus[3].DoneAt.ToString(), Is.EqualTo(c4_da.ToString()));
+            Assert.That(caseListStatus[3].Id, Is.EqualTo(aCase4.Id));
+            Assert.That(caseListStatus[3].MicrotingUId, Is.EqualTo(aCase4.MicrotingUid));
+            Assert.That(caseListStatus[3].SiteId, Is.EqualTo(aCase4.Site.MicrotingUid));
+            Assert.That(caseListStatus[3].SiteName, Is.EqualTo(aCase4.Site.Name));
+            Assert.That(caseListStatus[3].Status, Is.EqualTo(aCase4.Status));
+            Assert.That(caseListStatus[3].TemplatId, Is.EqualTo(aCase4.CheckListId));
+            Assert.That(caseListStatus[3].UnitId, Is.EqualTo(aCase4.Unit.MicrotingUid));
+            //            Assert.AreEqual(c4_ua.ToString(), caseListStatus[3].UpdatedAt.ToString());
+            Assert.That(caseListStatus[3].Version, Is.EqualTo(aCase4.Version));
+            Assert.That(caseListStatus[3].WorkerName, Is.EqualTo(aCase4.Worker.FirstName + " " + aCase4.Worker.LastName));
+            Assert.That(caseListStatus[3].WorkflowState, Is.EqualTo(aCase4.WorkflowState));
 
             #endregion
 
@@ -1386,90 +1386,90 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListUnitId aCase1
 
             Assert.NotNull(caseListUnitId);
-            Assert.AreEqual(4, caseListUnitId.Count);
-            Assert.AreEqual(aCase1.Type, caseListUnitId[0].CaseType);
-            Assert.AreEqual(aCase1.CaseUid, caseListUnitId[0].CaseUId);
-            Assert.AreEqual(aCase1.MicrotingCheckUid, caseListUnitId[0].CheckUIid);
-            Assert.AreEqual(c1_ca.ToString(), caseListUnitId[0].CreatedAt.ToString());
-            Assert.AreEqual(aCase1.Custom, caseListUnitId[0].Custom);
-            Assert.AreEqual(c1_da.ToString(), caseListUnitId[0].DoneAt.ToString());
-            Assert.AreEqual(aCase1.Id, caseListUnitId[0].Id);
-            Assert.AreEqual(aCase1.MicrotingUid, caseListUnitId[0].MicrotingUId);
-            Assert.AreEqual(aCase1.Site.MicrotingUid, caseListUnitId[0].SiteId);
-            Assert.AreEqual(aCase1.Site.Name, caseListUnitId[0].SiteName);
-            Assert.AreEqual(aCase1.Status, caseListUnitId[0].Status);
-            Assert.AreEqual(aCase1.CheckListId, caseListUnitId[0].TemplatId);
-            Assert.AreEqual(aCase1.Unit.MicrotingUid, caseListUnitId[0].UnitId);
-//            Assert.AreEqual(c1_ua.ToString(), caseListUnitId[0].UpdatedAt.ToString());
-            Assert.AreEqual(aCase1.Version, caseListUnitId[0].Version);
-            Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName, caseListUnitId[0].WorkerName);
-            Assert.AreEqual(aCase1.WorkflowState, caseListUnitId[0].WorkflowState);
+            Assert.That(caseListUnitId.Count, Is.EqualTo(4));
+            Assert.That(caseListUnitId[0].CaseType, Is.EqualTo(aCase1.Type));
+            Assert.That(caseListUnitId[0].CaseUId, Is.EqualTo(aCase1.CaseUid));
+            Assert.That(caseListUnitId[0].CheckUIid, Is.EqualTo(aCase1.MicrotingCheckUid));
+            Assert.That(caseListUnitId[0].CreatedAt.ToString(), Is.EqualTo(c1_ca.ToString()));
+            Assert.That(caseListUnitId[0].Custom, Is.EqualTo(aCase1.Custom));
+            Assert.That(caseListUnitId[0].DoneAt.ToString(), Is.EqualTo(c1_da.ToString()));
+            Assert.That(caseListUnitId[0].Id, Is.EqualTo(aCase1.Id));
+            Assert.That(caseListUnitId[0].MicrotingUId, Is.EqualTo(aCase1.MicrotingUid));
+            Assert.That(caseListUnitId[0].SiteId, Is.EqualTo(aCase1.Site.MicrotingUid));
+            Assert.That(caseListUnitId[0].SiteName, Is.EqualTo(aCase1.Site.Name));
+            Assert.That(caseListUnitId[0].Status, Is.EqualTo(aCase1.Status));
+            Assert.That(caseListUnitId[0].TemplatId, Is.EqualTo(aCase1.CheckListId));
+            Assert.That(caseListUnitId[0].UnitId, Is.EqualTo(aCase1.Unit.MicrotingUid));
+            //            Assert.AreEqual(c1_ua.ToString(), caseListUnitId[0].UpdatedAt.ToString());
+            Assert.That(caseListUnitId[0].Version, Is.EqualTo(aCase1.Version));
+            Assert.That(caseListUnitId[0].WorkerName, Is.EqualTo(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName));
+            Assert.That(caseListUnitId[0].WorkflowState, Is.EqualTo(aCase1.WorkflowState));
 
             #endregion
 
             #region caseListUnitId aCase2
 
-            Assert.AreEqual(aCase2.Type, caseListUnitId[1].CaseType);
-            Assert.AreEqual(aCase2.CaseUid, caseListUnitId[1].CaseUId);
-            Assert.AreEqual(aCase2.MicrotingCheckUid, caseListUnitId[1].CheckUIid);
-            Assert.AreEqual(c2_ca.ToString(), caseListUnitId[1].CreatedAt.ToString());
-            Assert.AreEqual(aCase2.Custom, caseListUnitId[1].Custom);
-            Assert.AreEqual(c2_da.ToString(), caseListUnitId[1].DoneAt.ToString());
-            Assert.AreEqual(aCase2.Id, caseListUnitId[1].Id);
-            Assert.AreEqual(aCase2.MicrotingUid, caseListUnitId[1].MicrotingUId);
-            Assert.AreEqual(aCase2.Site.MicrotingUid, caseListUnitId[1].SiteId);
-            Assert.AreEqual(aCase2.Site.Name, caseListUnitId[1].SiteName);
-            Assert.AreEqual(aCase2.Status, caseListUnitId[1].Status);
-            Assert.AreEqual(aCase2.CheckListId, caseListUnitId[1].TemplatId);
-            Assert.AreEqual(aCase2.Unit.MicrotingUid, caseListUnitId[1].UnitId);
-//            Assert.AreEqual(c2_ua.ToString(), caseListUnitId[1].UpdatedAt.ToString());
-            Assert.AreEqual(aCase2.Version, caseListUnitId[1].Version);
-            Assert.AreEqual(aCase2.Worker.FirstName + " " + aCase2.Worker.LastName, caseListUnitId[1].WorkerName);
-            Assert.AreEqual(aCase2.WorkflowState, caseListUnitId[1].WorkflowState);
+            Assert.That(caseListUnitId[1].CaseType, Is.EqualTo(aCase2.Type));
+            Assert.That(caseListUnitId[1].CaseUId, Is.EqualTo(aCase2.CaseUid));
+            Assert.That(caseListUnitId[1].CheckUIid, Is.EqualTo(aCase2.MicrotingCheckUid));
+            Assert.That(caseListUnitId[1].CreatedAt.ToString(), Is.EqualTo(c2_ca.ToString()));
+            Assert.That(caseListUnitId[1].Custom, Is.EqualTo(aCase2.Custom));
+            Assert.That(caseListUnitId[1].DoneAt.ToString(), Is.EqualTo(c2_da.ToString()));
+            Assert.That(caseListUnitId[1].Id, Is.EqualTo(aCase2.Id));
+            Assert.That(caseListUnitId[1].MicrotingUId, Is.EqualTo(aCase2.MicrotingUid));
+            Assert.That(caseListUnitId[1].SiteId, Is.EqualTo(aCase2.Site.MicrotingUid));
+            Assert.That(caseListUnitId[1].SiteName, Is.EqualTo(aCase2.Site.Name));
+            Assert.That(caseListUnitId[1].Status, Is.EqualTo(aCase2.Status));
+            Assert.That(caseListUnitId[1].TemplatId, Is.EqualTo(aCase2.CheckListId));
+            Assert.That(caseListUnitId[1].UnitId, Is.EqualTo(aCase2.Unit.MicrotingUid));
+            //            Assert.AreEqual(c2_ua.ToString(), caseListUnitId[1].UpdatedAt.ToString());
+            Assert.That(caseListUnitId[1].Version, Is.EqualTo(aCase2.Version));
+            Assert.That(caseListUnitId[1].WorkerName, Is.EqualTo(aCase2.Worker.FirstName + " " + aCase2.Worker.LastName));
+            Assert.That(caseListUnitId[1].WorkflowState, Is.EqualTo(aCase2.WorkflowState));
 
             #endregion
 
             #region caseListUnitId aCase3
 
-            Assert.AreEqual(aCase3.Type, caseListUnitId[2].CaseType);
-            Assert.AreEqual(aCase3.CaseUid, caseListUnitId[2].CaseUId);
-            Assert.AreEqual(aCase3.MicrotingCheckUid, caseListUnitId[2].CheckUIid);
-            Assert.AreEqual(c3_ca.ToString(), caseListUnitId[2].CreatedAt.ToString());
-            Assert.AreEqual(aCase3.Custom, caseListUnitId[2].Custom);
-            Assert.AreEqual(c3_da.ToString(), caseListUnitId[2].DoneAt.ToString());
-            Assert.AreEqual(aCase3.Id, caseListUnitId[2].Id);
-            Assert.AreEqual(aCase3.MicrotingUid, caseListUnitId[2].MicrotingUId);
-            Assert.AreEqual(aCase3.Site.MicrotingUid, caseListUnitId[2].SiteId);
-            Assert.AreEqual(aCase3.Site.Name, caseListUnitId[2].SiteName);
-            Assert.AreEqual(aCase3.Status, caseListUnitId[2].Status);
-            Assert.AreEqual(aCase3.CheckListId, caseListUnitId[2].TemplatId);
-            Assert.AreEqual(aCase3.Unit.MicrotingUid, caseListUnitId[2].UnitId);
-//            Assert.AreEqual(c3_ua.ToString(), caseListUnitId[2].UpdatedAt.ToString());
-            Assert.AreEqual(aCase3.Version, caseListUnitId[2].Version);
-            Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName, caseListUnitId[2].WorkerName);
-            Assert.AreEqual(aCase3.WorkflowState, caseListUnitId[2].WorkflowState);
+            Assert.That(caseListUnitId[2].CaseType, Is.EqualTo(aCase3.Type));
+            Assert.That(caseListUnitId[2].CaseUId, Is.EqualTo(aCase3.CaseUid));
+            Assert.That(caseListUnitId[2].CheckUIid, Is.EqualTo(aCase3.MicrotingCheckUid));
+            Assert.That(caseListUnitId[2].CreatedAt.ToString(), Is.EqualTo(c3_ca.ToString()));
+            Assert.That(caseListUnitId[2].Custom, Is.EqualTo(aCase3.Custom));
+            Assert.That(caseListUnitId[2].DoneAt.ToString(), Is.EqualTo(c3_da.ToString()));
+            Assert.That(caseListUnitId[2].Id, Is.EqualTo(aCase3.Id));
+            Assert.That(caseListUnitId[2].MicrotingUId, Is.EqualTo(aCase3.MicrotingUid));
+            Assert.That(caseListUnitId[2].SiteId, Is.EqualTo(aCase3.Site.MicrotingUid));
+            Assert.That(caseListUnitId[2].SiteName, Is.EqualTo(aCase3.Site.Name));
+            Assert.That(caseListUnitId[2].Status, Is.EqualTo(aCase3.Status));
+            Assert.That(caseListUnitId[2].TemplatId, Is.EqualTo(aCase3.CheckListId));
+            Assert.That(caseListUnitId[2].UnitId, Is.EqualTo(aCase3.Unit.MicrotingUid));
+            //            Assert.AreEqual(c3_ua.ToString(), caseListUnitId[2].UpdatedAt.ToString());
+            Assert.That(caseListUnitId[2].Version, Is.EqualTo(aCase3.Version));
+            Assert.That(caseListUnitId[2].WorkerName, Is.EqualTo(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName));
+            Assert.That(caseListUnitId[2].WorkflowState, Is.EqualTo(aCase3.WorkflowState));
 
             #endregion
 
             #region caseListUnitId aCase4
 
-            Assert.AreEqual(aCase4.Type, caseListUnitId[3].CaseType);
-            Assert.AreEqual(aCase4.CaseUid, caseListUnitId[3].CaseUId);
-            Assert.AreEqual(aCase4.MicrotingCheckUid, caseListUnitId[3].CheckUIid);
-            Assert.AreEqual(c4_ca.ToString(), caseListUnitId[3].CreatedAt.ToString());
-            Assert.AreEqual(aCase4.Custom, caseListUnitId[3].Custom);
-            Assert.AreEqual(c4_da.ToString(), caseListUnitId[3].DoneAt.ToString());
-            Assert.AreEqual(aCase4.Id, caseListUnitId[3].Id);
-            Assert.AreEqual(aCase4.MicrotingUid, caseListUnitId[3].MicrotingUId);
-            Assert.AreEqual(aCase4.Site.MicrotingUid, caseListUnitId[3].SiteId);
-            Assert.AreEqual(aCase4.Site.Name, caseListUnitId[3].SiteName);
-            Assert.AreEqual(aCase4.Status, caseListUnitId[3].Status);
-            Assert.AreEqual(aCase4.CheckListId, caseListUnitId[3].TemplatId);
-            Assert.AreEqual(aCase4.Unit.MicrotingUid, caseListUnitId[3].UnitId);
-//            Assert.AreEqual(c4_ua.ToString(), caseListUnitId[3].UpdatedAt.ToString());
-            Assert.AreEqual(aCase4.Version, caseListUnitId[3].Version);
-            Assert.AreEqual(aCase4.Worker.FirstName + " " + aCase4.Worker.LastName, caseListUnitId[3].WorkerName);
-            Assert.AreEqual(aCase4.WorkflowState, caseListUnitId[3].WorkflowState);
+            Assert.That(caseListUnitId[3].CaseType, Is.EqualTo(aCase4.Type));
+            Assert.That(caseListUnitId[3].CaseUId, Is.EqualTo(aCase4.CaseUid));
+            Assert.That(caseListUnitId[3].CheckUIid, Is.EqualTo(aCase4.MicrotingCheckUid));
+            Assert.That(caseListUnitId[3].CreatedAt.ToString(), Is.EqualTo(c4_ca.ToString()));
+            Assert.That(caseListUnitId[3].Custom, Is.EqualTo(aCase4.Custom));
+            Assert.That(caseListUnitId[3].DoneAt.ToString(), Is.EqualTo(c4_da.ToString()));
+            Assert.That(caseListUnitId[3].Id, Is.EqualTo(aCase4.Id));
+            Assert.That(caseListUnitId[3].MicrotingUId, Is.EqualTo(aCase4.MicrotingUid));
+            Assert.That(caseListUnitId[3].SiteId, Is.EqualTo(aCase4.Site.MicrotingUid));
+            Assert.That(caseListUnitId[3].SiteName, Is.EqualTo(aCase4.Site.Name));
+            Assert.That(caseListUnitId[3].Status, Is.EqualTo(aCase4.Status));
+            Assert.That(caseListUnitId[3].TemplatId, Is.EqualTo(aCase4.CheckListId));
+            Assert.That(caseListUnitId[3].UnitId, Is.EqualTo(aCase4.Unit.MicrotingUid));
+            //            Assert.AreEqual(c4_ua.ToString(), caseListUnitId[3].UpdatedAt.ToString());
+            Assert.That(caseListUnitId[3].Version, Is.EqualTo(aCase4.Version));
+            Assert.That(caseListUnitId[3].WorkerName, Is.EqualTo(aCase4.Worker.FirstName + " " + aCase4.Worker.LastName));
+            Assert.That(caseListUnitId[3].WorkflowState, Is.EqualTo(aCase4.WorkflowState));
 
             #endregion
 
@@ -1485,46 +1485,46 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListDtDoneAt aCase1
 
             Assert.NotNull(caseListDtDoneAt);
-            Assert.AreEqual(2, caseListDtDoneAt.Count);
-            Assert.AreEqual(aCase1.Type, caseListDtDoneAt[0].CaseType);
-            Assert.AreEqual(aCase1.CaseUid, caseListDtDoneAt[0].CaseUId);
-            Assert.AreEqual(aCase1.MicrotingCheckUid, caseListDtDoneAt[0].CheckUIid);
-            Assert.AreEqual(c1_ca.ToString(), caseListDtDoneAt[0].CreatedAt.ToString());
-            Assert.AreEqual(aCase1.Custom, caseListDtDoneAt[0].Custom);
-            Assert.AreEqual(c1_da.ToString(), caseListDtDoneAt[0].DoneAt.ToString());
-            Assert.AreEqual(aCase1.Id, caseListDtDoneAt[0].Id);
-            Assert.AreEqual(aCase1.MicrotingUid, caseListDtDoneAt[0].MicrotingUId);
-            Assert.AreEqual(aCase1.Site.MicrotingUid, caseListDtDoneAt[0].SiteId);
-            Assert.AreEqual(aCase1.Site.Name, caseListDtDoneAt[0].SiteName);
-            Assert.AreEqual(aCase1.Status, caseListDtDoneAt[0].Status);
-            Assert.AreEqual(cl1.Id, caseListDtDoneAt[0].TemplatId);
-            Assert.AreEqual(aCase1.Unit.MicrotingUid, caseListDtDoneAt[0].UnitId);
-//            Assert.AreEqual(c1_ua.ToString(), caseListDtDoneAt[0].UpdatedAt.ToString());
-            Assert.AreEqual(aCase1.Version, caseListDtDoneAt[0].Version);
-            Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName, caseListDtDoneAt[0].WorkerName);
-            Assert.AreEqual(aCase1.WorkflowState, caseListDtDoneAt[0].WorkflowState);
+            Assert.That(caseListDtDoneAt.Count, Is.EqualTo(2));
+            Assert.That(caseListDtDoneAt[0].CaseType, Is.EqualTo(aCase1.Type));
+            Assert.That(caseListDtDoneAt[0].CaseUId, Is.EqualTo(aCase1.CaseUid));
+            Assert.That(caseListDtDoneAt[0].CheckUIid, Is.EqualTo(aCase1.MicrotingCheckUid));
+            Assert.That(caseListDtDoneAt[0].CreatedAt.ToString(), Is.EqualTo(c1_ca.ToString()));
+            Assert.That(caseListDtDoneAt[0].Custom, Is.EqualTo(aCase1.Custom));
+            Assert.That(caseListDtDoneAt[0].DoneAt.ToString(), Is.EqualTo(c1_da.ToString()));
+            Assert.That(caseListDtDoneAt[0].Id, Is.EqualTo(aCase1.Id));
+            Assert.That(caseListDtDoneAt[0].MicrotingUId, Is.EqualTo(aCase1.MicrotingUid));
+            Assert.That(caseListDtDoneAt[0].SiteId, Is.EqualTo(aCase1.Site.MicrotingUid));
+            Assert.That(caseListDtDoneAt[0].SiteName, Is.EqualTo(aCase1.Site.Name));
+            Assert.That(caseListDtDoneAt[0].Status, Is.EqualTo(aCase1.Status));
+            Assert.That(caseListDtDoneAt[0].TemplatId, Is.EqualTo(cl1.Id));
+            Assert.That(caseListDtDoneAt[0].UnitId, Is.EqualTo(aCase1.Unit.MicrotingUid));
+            //            Assert.AreEqual(c1_ua.ToString(), caseListDtDoneAt[0].UpdatedAt.ToString());
+            Assert.That(caseListDtDoneAt[0].Version, Is.EqualTo(aCase1.Version));
+            Assert.That(caseListDtDoneAt[0].WorkerName, Is.EqualTo(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName));
+            Assert.That(caseListDtDoneAt[0].WorkflowState, Is.EqualTo(aCase1.WorkflowState));
 
             #endregion
 
             #region caseListDtDoneAt aCase3
 
-            Assert.AreEqual(aCase3.Type, caseListDtDoneAt[1].CaseType);
-            Assert.AreEqual(aCase3.CaseUid, caseListDtDoneAt[1].CaseUId);
-            Assert.AreEqual(aCase3.MicrotingCheckUid, caseListDtDoneAt[1].CheckUIid);
-            Assert.AreEqual(c3_ca.ToString(), caseListDtDoneAt[1].CreatedAt.ToString());
-            Assert.AreEqual(aCase3.Custom, caseListDtDoneAt[1].Custom);
-            Assert.AreEqual(c3_da.ToString(), caseListDtDoneAt[1].DoneAt.ToString());
-            Assert.AreEqual(aCase3.Id, caseListDtDoneAt[1].Id);
-            Assert.AreEqual(aCase3.MicrotingUid, caseListDtDoneAt[1].MicrotingUId);
-            Assert.AreEqual(aCase3.Site.MicrotingUid, caseListDtDoneAt[1].SiteId);
-            Assert.AreEqual(aCase3.Site.Name, caseListDtDoneAt[1].SiteName);
-            Assert.AreEqual(aCase3.Status, caseListDtDoneAt[1].Status);
-            Assert.AreEqual(cl1.Id, caseListDtDoneAt[1].TemplatId);
-            Assert.AreEqual(aCase3.Unit.MicrotingUid, caseListDtDoneAt[1].UnitId);
-//            Assert.AreEqual(c3_ua.ToString(), caseListDtDoneAt[1].UpdatedAt.ToString());
-            Assert.AreEqual(aCase3.Version, caseListDtDoneAt[1].Version);
-            Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName, caseListDtDoneAt[1].WorkerName);
-            Assert.AreEqual(aCase3.WorkflowState, caseListDtDoneAt[1].WorkflowState);
+            Assert.That(caseListDtDoneAt[1].CaseType, Is.EqualTo(aCase3.Type));
+            Assert.That(caseListDtDoneAt[1].CaseUId, Is.EqualTo(aCase3.CaseUid));
+            Assert.That(caseListDtDoneAt[1].CheckUIid, Is.EqualTo(aCase3.MicrotingCheckUid));
+            Assert.That(caseListDtDoneAt[1].CreatedAt.ToString(), Is.EqualTo(c3_ca.ToString()));
+            Assert.That(caseListDtDoneAt[1].Custom, Is.EqualTo(aCase3.Custom));
+            Assert.That(caseListDtDoneAt[1].DoneAt.ToString(), Is.EqualTo(c3_da.ToString()));
+            Assert.That(caseListDtDoneAt[1].Id, Is.EqualTo(aCase3.Id));
+            Assert.That(caseListDtDoneAt[1].MicrotingUId, Is.EqualTo(aCase3.MicrotingUid));
+            Assert.That(caseListDtDoneAt[1].SiteId, Is.EqualTo(aCase3.Site.MicrotingUid));
+            Assert.That(caseListDtDoneAt[1].SiteName, Is.EqualTo(aCase3.Site.Name));
+            Assert.That(caseListDtDoneAt[1].Status, Is.EqualTo(aCase3.Status));
+            Assert.That(caseListDtDoneAt[1].TemplatId, Is.EqualTo(cl1.Id));
+            Assert.That(caseListDtDoneAt[1].UnitId, Is.EqualTo(aCase3.Unit.MicrotingUid));
+            //            Assert.AreEqual(c3_ua.ToString(), caseListDtDoneAt[1].UpdatedAt.ToString());
+            Assert.That(caseListDtDoneAt[1].Version, Is.EqualTo(aCase3.Version));
+            Assert.That(caseListDtDoneAt[1].WorkerName, Is.EqualTo(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName));
+            Assert.That(caseListDtDoneAt[1].WorkflowState, Is.EqualTo(aCase3.WorkflowState));
 
             #endregion
 
@@ -1535,46 +1535,46 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListDtStatus aCase1
 
             Assert.NotNull(caseListDtStatus);
-            Assert.AreEqual(2, caseListDtStatus.Count);
-            Assert.AreEqual(aCase1.Type, caseListDtStatus[0].CaseType);
-            Assert.AreEqual(aCase1.CaseUid, caseListDtStatus[0].CaseUId);
-            Assert.AreEqual(aCase1.MicrotingCheckUid, caseListDtStatus[0].CheckUIid);
-            Assert.AreEqual(c1_ca.ToString(), caseListDtStatus[0].CreatedAt.ToString());
-            Assert.AreEqual(aCase1.Custom, caseListDtStatus[0].Custom);
-            Assert.AreEqual(c1_da.ToString(), caseListDtStatus[0].DoneAt.ToString());
-            Assert.AreEqual(aCase1.Id, caseListDtStatus[0].Id);
-            Assert.AreEqual(aCase1.MicrotingUid, caseListDtStatus[0].MicrotingUId);
-            Assert.AreEqual(aCase1.Site.MicrotingUid, caseListDtStatus[0].SiteId);
-            Assert.AreEqual(aCase1.Site.Name, caseListDtStatus[0].SiteName);
-            Assert.AreEqual(aCase1.Status, caseListDtStatus[0].Status);
-            Assert.AreEqual(aCase1.CheckListId, caseListDtStatus[0].TemplatId);
-            Assert.AreEqual(aCase1.Unit.MicrotingUid, caseListDtStatus[0].UnitId);
-//            Assert.AreEqual(c1_ua.ToString(), caseListDtStatus[0].UpdatedAt.ToString());
-            Assert.AreEqual(aCase1.Version, caseListDtStatus[0].Version);
-            Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName, caseListDtStatus[0].WorkerName);
-            Assert.AreEqual(aCase1.WorkflowState, caseListDtStatus[0].WorkflowState);
+            Assert.That(caseListDtStatus.Count, Is.EqualTo(2));
+            Assert.That(caseListDtStatus[0].CaseType, Is.EqualTo(aCase1.Type));
+            Assert.That(caseListDtStatus[0].CaseUId, Is.EqualTo(aCase1.CaseUid));
+            Assert.That(caseListDtStatus[0].CheckUIid, Is.EqualTo(aCase1.MicrotingCheckUid));
+            Assert.That(caseListDtStatus[0].CreatedAt.ToString(), Is.EqualTo(c1_ca.ToString()));
+            Assert.That(caseListDtStatus[0].Custom, Is.EqualTo(aCase1.Custom));
+            Assert.That(caseListDtStatus[0].DoneAt.ToString(), Is.EqualTo(c1_da.ToString()));
+            Assert.That(caseListDtStatus[0].Id, Is.EqualTo(aCase1.Id));
+            Assert.That(caseListDtStatus[0].MicrotingUId, Is.EqualTo(aCase1.MicrotingUid));
+            Assert.That(caseListDtStatus[0].SiteId, Is.EqualTo(aCase1.Site.MicrotingUid));
+            Assert.That(caseListDtStatus[0].SiteName, Is.EqualTo(aCase1.Site.Name));
+            Assert.That(caseListDtStatus[0].Status, Is.EqualTo(aCase1.Status));
+            Assert.That(caseListDtStatus[0].TemplatId, Is.EqualTo(aCase1.CheckListId));
+            Assert.That(caseListDtStatus[0].UnitId, Is.EqualTo(aCase1.Unit.MicrotingUid));
+            //            Assert.AreEqual(c1_ua.ToString(), caseListDtStatus[0].UpdatedAt.ToString());
+            Assert.That(caseListDtStatus[0].Version, Is.EqualTo(aCase1.Version));
+            Assert.That(caseListDtStatus[0].WorkerName, Is.EqualTo(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName));
+            Assert.That(caseListDtStatus[0].WorkflowState, Is.EqualTo(aCase1.WorkflowState));
 
             #endregion
 
             #region caseListDtStatus aCase3
 
-            Assert.AreEqual(aCase3.Type, caseListDtStatus[1].CaseType);
-            Assert.AreEqual(aCase3.CaseUid, caseListDtStatus[1].CaseUId);
-            Assert.AreEqual(aCase3.MicrotingCheckUid, caseListDtStatus[1].CheckUIid);
-            Assert.AreEqual(c3_ca.ToString(), caseListDtStatus[1].CreatedAt.ToString());
-            Assert.AreEqual(aCase3.Custom, caseListDtStatus[1].Custom);
-            Assert.AreEqual(c3_da.ToString(), caseListDtStatus[1].DoneAt.ToString());
-            Assert.AreEqual(aCase3.Id, caseListDtStatus[1].Id);
-            Assert.AreEqual(aCase3.MicrotingUid, caseListDtStatus[1].MicrotingUId);
-            Assert.AreEqual(aCase3.Site.MicrotingUid, caseListDtStatus[1].SiteId);
-            Assert.AreEqual(aCase3.Site.Name, caseListDtStatus[1].SiteName);
-            Assert.AreEqual(aCase3.Status, caseListDtStatus[1].Status);
-            Assert.AreEqual(aCase3.CheckListId, caseListDtStatus[1].TemplatId);
-            Assert.AreEqual(aCase3.Unit.MicrotingUid, caseListDtStatus[1].UnitId);
-//            Assert.AreEqual(c3_ua.ToString(), caseListDtStatus[1].UpdatedAt.ToString());
-            Assert.AreEqual(aCase3.Version, caseListDtStatus[1].Version);
-            Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName, caseListDtStatus[1].WorkerName);
-            Assert.AreEqual(aCase3.WorkflowState, caseListDtStatus[1].WorkflowState);
+            Assert.That(caseListDtStatus[1].CaseType, Is.EqualTo(aCase3.Type));
+            Assert.That(caseListDtStatus[1].CaseUId, Is.EqualTo(aCase3.CaseUid));
+            Assert.That(caseListDtStatus[1].CheckUIid, Is.EqualTo(aCase3.MicrotingCheckUid));
+            Assert.That(caseListDtStatus[1].CreatedAt.ToString(), Is.EqualTo(c3_ca.ToString()));
+            Assert.That(caseListDtStatus[1].Custom, Is.EqualTo(aCase3.Custom));
+            Assert.That(caseListDtStatus[1].DoneAt.ToString(), Is.EqualTo(c3_da.ToString()));
+            Assert.That(caseListDtStatus[1].Id, Is.EqualTo(aCase3.Id));
+            Assert.That(caseListDtStatus[1].MicrotingUId, Is.EqualTo(aCase3.MicrotingUid));
+            Assert.That(caseListDtStatus[1].SiteId, Is.EqualTo(aCase3.Site.MicrotingUid));
+            Assert.That(caseListDtStatus[1].SiteName, Is.EqualTo(aCase3.Site.Name));
+            Assert.That(caseListDtStatus[1].Status, Is.EqualTo(aCase3.Status));
+            Assert.That(caseListDtStatus[1].TemplatId, Is.EqualTo(aCase3.CheckListId));
+            Assert.That(caseListDtStatus[1].UnitId, Is.EqualTo(aCase3.Unit.MicrotingUid));
+            //            Assert.AreEqual(c3_ua.ToString(), caseListDtStatus[1].UpdatedAt.ToString());
+            Assert.That(caseListDtStatus[1].Version, Is.EqualTo(aCase3.Version));
+            Assert.That(caseListDtStatus[1].WorkerName, Is.EqualTo(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName));
+            Assert.That(caseListDtStatus[1].WorkflowState, Is.EqualTo(aCase3.WorkflowState));
 
             #endregion
 
@@ -1585,46 +1585,46 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListDtUnitId aCase1
 
             Assert.NotNull(caseListDtUnitId);
-            Assert.AreEqual(2, caseListDtUnitId.Count);
-            Assert.AreEqual(aCase1.Type, caseListDtUnitId[0].CaseType);
-            Assert.AreEqual(aCase1.CaseUid, caseListDtUnitId[0].CaseUId);
-            Assert.AreEqual(aCase1.MicrotingCheckUid, caseListDtUnitId[0].CheckUIid);
-            Assert.AreEqual(c1_ca.ToString(), caseListDtUnitId[0].CreatedAt.ToString());
-            Assert.AreEqual(aCase1.Custom, caseListDtUnitId[0].Custom);
-            Assert.AreEqual(c1_da.ToString(), caseListDtUnitId[0].DoneAt.ToString());
-            Assert.AreEqual(aCase1.Id, caseListDtUnitId[0].Id);
-            Assert.AreEqual(aCase1.MicrotingUid, caseListDtUnitId[0].MicrotingUId);
-            Assert.AreEqual(aCase1.Site.MicrotingUid, caseListDtUnitId[0].SiteId);
-            Assert.AreEqual(aCase1.Site.Name, caseListDtUnitId[0].SiteName);
-            Assert.AreEqual(aCase1.Status, caseListDtUnitId[0].Status);
-            Assert.AreEqual(aCase1.CheckListId, caseListDtUnitId[0].TemplatId);
-            Assert.AreEqual(aCase1.Unit.MicrotingUid, caseListDtUnitId[0].UnitId);
-//            Assert.AreEqual(c1_ua.ToString(), caseListDtUnitId[0].UpdatedAt.ToString());
-            Assert.AreEqual(aCase1.Version, caseListDtUnitId[0].Version);
-            Assert.AreEqual(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName, caseListDtUnitId[0].WorkerName);
-            Assert.AreEqual(aCase1.WorkflowState, caseListDtUnitId[0].WorkflowState);
+            Assert.That(caseListDtUnitId.Count, Is.EqualTo(2));
+            Assert.That(caseListDtUnitId[0].CaseType, Is.EqualTo(aCase1.Type));
+            Assert.That(caseListDtUnitId[0].CaseUId, Is.EqualTo(aCase1.CaseUid));
+            Assert.That(caseListDtUnitId[0].CheckUIid, Is.EqualTo(aCase1.MicrotingCheckUid));
+            Assert.That(caseListDtUnitId[0].CreatedAt.ToString(), Is.EqualTo(c1_ca.ToString()));
+            Assert.That(caseListDtUnitId[0].Custom, Is.EqualTo(aCase1.Custom));
+            Assert.That(caseListDtUnitId[0].DoneAt.ToString(), Is.EqualTo(c1_da.ToString()));
+            Assert.That(caseListDtUnitId[0].Id, Is.EqualTo(aCase1.Id));
+            Assert.That(caseListDtUnitId[0].MicrotingUId, Is.EqualTo(aCase1.MicrotingUid));
+            Assert.That(caseListDtUnitId[0].SiteId, Is.EqualTo(aCase1.Site.MicrotingUid));
+            Assert.That(caseListDtUnitId[0].SiteName, Is.EqualTo(aCase1.Site.Name));
+            Assert.That(caseListDtUnitId[0].Status, Is.EqualTo(aCase1.Status));
+            Assert.That(caseListDtUnitId[0].TemplatId, Is.EqualTo(aCase1.CheckListId));
+            Assert.That(caseListDtUnitId[0].UnitId, Is.EqualTo(aCase1.Unit.MicrotingUid));
+            //            Assert.AreEqual(c1_ua.ToString(), caseListDtUnitId[0].UpdatedAt.ToString());
+            Assert.That(caseListDtUnitId[0].Version, Is.EqualTo(aCase1.Version));
+            Assert.That(caseListDtUnitId[0].WorkerName, Is.EqualTo(aCase1.Worker.FirstName + " " + aCase1.Worker.LastName));
+            Assert.That(caseListDtUnitId[0].WorkflowState, Is.EqualTo(aCase1.WorkflowState));
 
             #endregion
 
             #region caseListDtUnitId aCase3
 
-            Assert.AreEqual(aCase3.Type, caseListDtUnitId[1].CaseType);
-            Assert.AreEqual(aCase3.CaseUid, caseListDtUnitId[1].CaseUId);
-            Assert.AreEqual(aCase3.MicrotingCheckUid, caseListDtUnitId[1].CheckUIid);
-            Assert.AreEqual(c3_ca.ToString(), caseListDtUnitId[1].CreatedAt.ToString());
-            Assert.AreEqual(aCase3.Custom, caseListDtUnitId[1].Custom);
-            Assert.AreEqual(c3_da.ToString(), caseListDtUnitId[1].DoneAt.ToString());
-            Assert.AreEqual(aCase3.Id, caseListDtUnitId[1].Id);
-            Assert.AreEqual(aCase3.MicrotingUid, caseListDtUnitId[1].MicrotingUId);
-            Assert.AreEqual(aCase3.Site.MicrotingUid, caseListDtUnitId[1].SiteId);
-            Assert.AreEqual(aCase3.Site.Name, caseListDtUnitId[1].SiteName);
-            Assert.AreEqual(aCase3.Status, caseListDtUnitId[1].Status);
-            Assert.AreEqual(aCase3.CheckListId, caseListDtUnitId[1].TemplatId);
-            Assert.AreEqual(aCase3.Unit.MicrotingUid, caseListDtUnitId[1].UnitId);
-//            Assert.AreEqual(c3_ua.ToString(), caseListDtUnitId[1].UpdatedAt.ToString());
-            Assert.AreEqual(aCase3.Version, caseListDtUnitId[1].Version);
-            Assert.AreEqual(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName, caseListDtUnitId[1].WorkerName);
-            Assert.AreEqual(aCase3.WorkflowState, caseListDtUnitId[1].WorkflowState);
+            Assert.That(caseListDtUnitId[1].CaseType, Is.EqualTo(aCase3.Type));
+            Assert.That(caseListDtUnitId[1].CaseUId, Is.EqualTo(aCase3.CaseUid));
+            Assert.That(caseListDtUnitId[1].CheckUIid, Is.EqualTo(aCase3.MicrotingCheckUid));
+            Assert.That(caseListDtUnitId[1].CreatedAt.ToString(), Is.EqualTo(c3_ca.ToString()));
+            Assert.That(caseListDtUnitId[1].Custom, Is.EqualTo(aCase3.Custom));
+            Assert.That(caseListDtUnitId[1].DoneAt.ToString(), Is.EqualTo(c3_da.ToString()));
+            Assert.That(caseListDtUnitId[1].Id, Is.EqualTo(aCase3.Id));
+            Assert.That(caseListDtUnitId[1].MicrotingUId, Is.EqualTo(aCase3.MicrotingUid));
+            Assert.That(caseListDtUnitId[1].SiteId, Is.EqualTo(aCase3.Site.MicrotingUid));
+            Assert.That(caseListDtUnitId[1].SiteName, Is.EqualTo(aCase3.Site.Name));
+            Assert.That(caseListDtUnitId[1].Status, Is.EqualTo(aCase3.Status));
+            Assert.That(caseListDtUnitId[1].TemplatId, Is.EqualTo(aCase3.CheckListId));
+            Assert.That(caseListDtUnitId[1].UnitId, Is.EqualTo(aCase3.Unit.MicrotingUid));
+            //            Assert.AreEqual(c3_ua.ToString(), caseListDtUnitId[1].UpdatedAt.ToString());
+            Assert.That(caseListDtUnitId[1].Version, Is.EqualTo(aCase3.Version));
+            Assert.That(caseListDtUnitId[1].WorkerName, Is.EqualTo(aCase3.Worker.FirstName + " " + aCase3.Worker.LastName));
+            Assert.That(caseListDtUnitId[1].WorkflowState, Is.EqualTo(aCase3.WorkflowState));
 
             #endregion
 
@@ -1643,7 +1643,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC1DoneAt aCase1
 
             Assert.NotNull(caseListC1SortDoneAt);
-            Assert.AreEqual(0, caseListC1SortDoneAt.Count);
+            Assert.That(caseListC1SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1.type, caseListC1SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase1.case_uid, caseListC1SortDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase1.microting_check_uid, caseListC1SortDoneAt[0].CheckUIid);
@@ -1667,7 +1667,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC1SortStatus aCase1
 
             Assert.NotNull(caseListC1SortStatus);
-            Assert.AreEqual(0, caseListC1SortStatus.Count);
+            Assert.That(caseListC1SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1.type, caseListC1SortStatus[0].CaseType);
             // Assert.AreEqual(aCase1.case_uid, caseListC1SortStatus[0].CaseUId);
             // Assert.AreEqual(aCase1.microting_check_uid, caseListC1SortStatus[0].CheckUIid);
@@ -1691,7 +1691,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC1SortUnitId
 
             Assert.NotNull(caseListC1SortUnitId);
-            Assert.AreEqual(0, caseListC1SortUnitId.Count);
+            Assert.That(caseListC1SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1.type, caseListC1SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase1.case_uid, caseListC1SortUnitId[0].CaseUId);
             // Assert.AreEqual(aCase1.microting_check_uid, caseListC1SortUnitId[0].CheckUIid);
@@ -1719,7 +1719,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC2DoneAt aCase2
 
             Assert.NotNull(caseListC2SortDoneAt);
-            Assert.AreEqual(0, caseListC2SortDoneAt.Count);
+            Assert.That(caseListC2SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2.type, caseListC2SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase2.case_uid, caseListC2SortDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase2.microting_check_uid, caseListC2SortDoneAt[0].CheckUIid);
@@ -1743,7 +1743,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC2SortStatus aCase2
 
             Assert.NotNull(caseListC2SortStatus);
-            Assert.AreEqual(0, caseListC2SortStatus.Count);
+            Assert.That(caseListC2SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2.type, caseListC2SortStatus[0].CaseType);
             // Assert.AreEqual(aCase2.case_uid, caseListC2SortStatus[0].CaseUId);
             // Assert.AreEqual(aCase2.microting_check_uid, caseListC2SortStatus[0].CheckUIid);
@@ -1767,7 +1767,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC2SortUnitId aCase2
 
             Assert.NotNull(caseListC2SortUnitId);
-            Assert.AreEqual(0, caseListC2SortUnitId.Count);
+            Assert.That(caseListC2SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2.type, caseListC2SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase2.case_uid, caseListC2SortUnitId[0].CaseUId);
             // Assert.AreEqual(aCase2.microting_check_uid, caseListC2SortUnitId[0].CheckUIid);
@@ -1795,7 +1795,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC3DoneAt aCase3
 
             Assert.NotNull(caseListC3SortDoneAt);
-            Assert.AreEqual(0, caseListC3SortDoneAt.Count);
+            Assert.That(caseListC3SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3.type, caseListC3SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase3.case_uid, caseListC3SortDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase3.microting_check_uid, caseListC3SortDoneAt[0].CheckUIid);
@@ -1819,7 +1819,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC3status aCase3
 
             Assert.NotNull(caseListC3SortStatus);
-            Assert.AreEqual(0, caseListC3SortStatus.Count);
+            Assert.That(caseListC3SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3.type, caseListC3SortStatus[0].CaseType);
             // Assert.AreEqual(aCase3.case_uid, caseListC3SortStatus[0].CaseUId);
             // Assert.AreEqual(aCase3.microting_check_uid, caseListC3SortStatus[0].CheckUIid);
@@ -1843,7 +1843,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC3UnitId aCase3
 
             Assert.NotNull(caseListC3SortUnitId);
-            Assert.AreEqual(0, caseListC3SortUnitId.Count);
+            Assert.That(caseListC3SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3.type, caseListC3SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase3.case_uid, caseListC3SortUnitId[0].CaseUId);
             // Assert.AreEqual(aCase3.microting_check_uid, caseListC3SortUnitId[0].CheckUIid);
@@ -1871,7 +1871,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC4SortDoneAt aCase4
 
             Assert.NotNull(caseListC4SortDoneAt);
-            Assert.AreEqual(0, caseListC4SortDoneAt.Count);
+            Assert.That(caseListC4SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4.type, caseListC4SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase4.case_uid, caseListC4SortDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase4.microting_check_uid, caseListC4SortDoneAt[0].CheckUIid);
@@ -1895,7 +1895,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC4SortStatus aCase4
 
             Assert.NotNull(caseListC1SortDoneAt);
-            Assert.AreEqual(0, caseListC1SortDoneAt.Count);
+            Assert.That(caseListC1SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4.type, caseListC1SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase4.case_uid, caseListC1SortDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase4.microting_check_uid, caseListC1SortDoneAt[0].CheckUIid);
@@ -1919,7 +1919,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC4SortUnitId aCase4
 
             Assert.NotNull(caseListC4SortDoneAt);
-            Assert.AreEqual(0, caseListC4SortDoneAt.Count);
+            Assert.That(caseListC4SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4.type, caseListC4SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase4.case_uid, caseListC4SortDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase4.microting_check_uid, caseListC4SortDoneAt[0].CheckUIid);
@@ -1952,7 +1952,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC1SortDtDoneAt aCase1
 
             Assert.NotNull(caseListC1SortDtDoneAt);
-            Assert.AreEqual(0, caseListC1SortDtDoneAt.Count);
+            Assert.That(caseListC1SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1.type, caseListC1SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase1.case_uid, caseListC1SortDtDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase1.microting_check_uid, caseListC1SortDtDoneAt[0].CheckUIid);
@@ -1976,7 +1976,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC1SortDtStatus aCase1
 
             Assert.NotNull(caseListC1SortDtStatus);
-            Assert.AreEqual(0, caseListC1SortDtStatus.Count);
+            Assert.That(caseListC1SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1.type, caseListC1SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase1.case_uid, caseListC1SortDtStatus[0].CaseUId);
             // Assert.AreEqual(aCase1.microting_check_uid, caseListC1SortDtStatus[0].CheckUIid);
@@ -2000,7 +2000,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC1SortDtUnitId aCase1
 
             Assert.NotNull(caseListC1SortDtUnitId);
-            Assert.AreEqual(0, caseListC1SortDtUnitId.Count);
+            Assert.That(caseListC1SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1.type, caseListC1SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase1.case_uid, caseListC1SortDtUnitId[0].CaseUId);
             // Assert.AreEqual(aCase1.microting_check_uid, caseListC1SortDtUnitId[0].CheckUIid);
@@ -2028,7 +2028,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC2SortDtDoneAt aCase2
 
             Assert.NotNull(caseListC2SortDtDoneAt);
-            Assert.AreEqual(0, caseListC2SortDtDoneAt.Count);
+            Assert.That(caseListC2SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2.type, caseListC2SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase2.case_uid, caseListC2SortDtDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase2.microting_check_uid, caseListC2SortDtDoneAt[0].CheckUIid);
@@ -2052,7 +2052,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC2SortDtStatus aCase2
 
             Assert.NotNull(caseListC2SortDtStatus);
-            Assert.AreEqual(0, caseListC2SortDtStatus.Count);
+            Assert.That(caseListC2SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2.type, caseListC2SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase2.case_uid, caseListC2SortDtStatus[0].CaseUId);
             // Assert.AreEqual(aCase2.microting_check_uid, caseListC2SortDtStatus[0].CheckUIid);
@@ -2076,7 +2076,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC2SortDtUnitId aCase2
 
             Assert.NotNull(caseListC2SortDtUnitId);
-            Assert.AreEqual(0, caseListC2SortDtUnitId.Count);
+            Assert.That(caseListC2SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2.type, caseListC2SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase2.case_uid, caseListC2SortDtUnitId[0].CaseUId);
             // Assert.AreEqual(aCase2.microting_check_uid, caseListC2SortDtUnitId[0].CheckUIid);
@@ -2104,7 +2104,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC3SortDtDoneAt aCase3
 
             Assert.NotNull(caseListC3SortDtDoneAt);
-            Assert.AreEqual(0, caseListC3SortDtDoneAt.Count);
+            Assert.That(caseListC3SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3.type, caseListC3SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase3.case_uid, caseListC3SortDtDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase3.microting_check_uid, caseListC3SortDtDoneAt[0].CheckUIid);
@@ -2128,7 +2128,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC3SortDtStatus aCase3
 
             Assert.NotNull(caseListC3SortDtStatus);
-            Assert.AreEqual(0, caseListC3SortDtStatus.Count);
+            Assert.That(caseListC3SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3.type, caseListC3SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase3.case_uid, caseListC3SortDtStatus[0].CaseUId);
             // Assert.AreEqual(aCase3.microting_check_uid, caseListC3SortDtStatus[0].CheckUIid);
@@ -2152,7 +2152,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC3SortDtUnitId aCase3
 
             Assert.NotNull(caseListC3SortDtUnitId);
-            Assert.AreEqual(0, caseListC3SortDtUnitId.Count);
+            Assert.That(caseListC3SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3.type, caseListC3SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase3.case_uid, caseListC3SortDtUnitId[0].CaseUId);
             // Assert.AreEqual(aCase3.microting_check_uid, caseListC3SortDtUnitId[0].CheckUIid);
@@ -2180,7 +2180,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC4SortDtDoneAt aCase4
 
             Assert.NotNull(caseListC4SortDtDoneAt);
-            Assert.AreEqual(0, caseListC4SortDtDoneAt.Count);
+            Assert.That(caseListC4SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4.type, caseListC4SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase4.case_uid, caseListC4SortDtDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase4.microting_check_uid, caseListC4SortDtDoneAt[0].CheckUIid);
@@ -2204,7 +2204,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC4SortDtStatus aCase4
 
             Assert.NotNull(caseListC4SortDtStatus);
-            Assert.AreEqual(0, caseListC4SortDtStatus.Count);
+            Assert.That(caseListC4SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4.type, caseListC4SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase4.case_uid, caseListC4SortDtStatus[0].CaseUId);
             // Assert.AreEqual(aCase4.microting_check_uid, caseListC4SortDtStatus[0].CheckUIid);
@@ -2228,7 +2228,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC4SortDtUnitId aCase4
 
             Assert.NotNull(caseListC4SortDtUnitId);
-            Assert.AreEqual(0, caseListC4SortDtUnitId.Count);
+            Assert.That(caseListC4SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4.type, caseListC4SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase4.case_uid, caseListC4SortDtUnitId[0].CaseUId);
             // Assert.AreEqual(aCase4.microting_check_uid, caseListC4SortDtUnitId[0].CheckUIid);
@@ -2268,94 +2268,94 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedDoneAt aCase1Removed
 
             Assert.NotNull(caseListRemovedDoneAt);
-            Assert.AreEqual(4, caseListRemovedDoneAt.Count);
-            Assert.AreEqual(aCase1Removed.Type, caseListRemovedDoneAt[0].CaseType);
-            Assert.AreEqual(aCase1Removed.CaseUid, caseListRemovedDoneAt[0].CaseUId);
-            Assert.AreEqual(aCase1Removed.MicrotingCheckUid, caseListRemovedDoneAt[0].CheckUIid);
-            Assert.AreEqual(c1Removed_ca.ToString(), caseListRemovedDoneAt[0].CreatedAt.ToString());
-            Assert.AreEqual(aCase1Removed.Custom, caseListRemovedDoneAt[0].Custom);
-            Assert.AreEqual(c1Removed_da.ToString(), caseListRemovedDoneAt[0].DoneAt.ToString());
-            Assert.AreEqual(aCase1Removed.Id, caseListRemovedDoneAt[0].Id);
-            Assert.AreEqual(aCase1Removed.MicrotingUid, caseListRemovedDoneAt[0].MicrotingUId);
-            Assert.AreEqual(aCase1Removed.Site.MicrotingUid, caseListRemovedDoneAt[0].SiteId);
-            Assert.AreEqual(aCase1Removed.Site.Name, caseListRemovedDoneAt[0].SiteName);
-            Assert.AreEqual(aCase1Removed.Status, caseListRemovedDoneAt[0].Status);
-            Assert.AreEqual(cl1.Id, caseListRemovedDoneAt[0].TemplatId);
-            Assert.AreEqual(aCase1Removed.Unit.MicrotingUid, caseListRemovedDoneAt[0].UnitId);
-//            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedDoneAt[0].UpdatedAt.ToString());
-            Assert.AreEqual(aCase1Removed.Version, caseListRemovedDoneAt[0].Version);
-            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName,
-                caseListRemovedDoneAt[0].WorkerName);
-            Assert.AreEqual(aCase1Removed.WorkflowState, caseListRemovedDoneAt[0].WorkflowState);
+            Assert.That(caseListRemovedDoneAt.Count, Is.EqualTo(4));
+            Assert.That(caseListRemovedDoneAt[0].CaseType, Is.EqualTo(aCase1Removed.Type));
+            Assert.That(caseListRemovedDoneAt[0].CaseUId, Is.EqualTo(aCase1Removed.CaseUid));
+            Assert.That(caseListRemovedDoneAt[0].CheckUIid, Is.EqualTo(aCase1Removed.MicrotingCheckUid));
+            Assert.That(caseListRemovedDoneAt[0].CreatedAt.ToString(), Is.EqualTo(c1Removed_ca.ToString()));
+            Assert.That(caseListRemovedDoneAt[0].Custom, Is.EqualTo(aCase1Removed.Custom));
+            Assert.That(caseListRemovedDoneAt[0].DoneAt.ToString(), Is.EqualTo(c1Removed_da.ToString()));
+            Assert.That(caseListRemovedDoneAt[0].Id, Is.EqualTo(aCase1Removed.Id));
+            Assert.That(caseListRemovedDoneAt[0].MicrotingUId, Is.EqualTo(aCase1Removed.MicrotingUid));
+            Assert.That(caseListRemovedDoneAt[0].SiteId, Is.EqualTo(aCase1Removed.Site.MicrotingUid));
+            Assert.That(caseListRemovedDoneAt[0].SiteName, Is.EqualTo(aCase1Removed.Site.Name));
+            Assert.That(caseListRemovedDoneAt[0].Status, Is.EqualTo(aCase1Removed.Status));
+            Assert.That(caseListRemovedDoneAt[0].TemplatId, Is.EqualTo(cl1.Id));
+            Assert.That(caseListRemovedDoneAt[0].UnitId, Is.EqualTo(aCase1Removed.Unit.MicrotingUid));
+            //            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedDoneAt[0].UpdatedAt.ToString());
+            Assert.That(caseListRemovedDoneAt[0].Version, Is.EqualTo(aCase1Removed.Version));
+            Assert.That(caseListRemovedDoneAt[0].WorkerName,
+                Is.EqualTo(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName));
+            Assert.That(caseListRemovedDoneAt[0].WorkflowState, Is.EqualTo(aCase1Removed.WorkflowState));
 
             #endregion
 
             #region caseListRemovedDoneAt aCase2Removed
 
-            Assert.AreEqual(aCase2Removed.Type, caseListRemovedDoneAt[1].CaseType);
-            Assert.AreEqual(aCase2Removed.CaseUid, caseListRemovedDoneAt[1].CaseUId);
-            Assert.AreEqual(aCase2Removed.MicrotingCheckUid, caseListRemovedDoneAt[1].CheckUIid);
-            Assert.AreEqual(c2Removed_ca.ToString(), caseListRemovedDoneAt[1].CreatedAt.ToString());
-            Assert.AreEqual(aCase2Removed.Custom, caseListRemovedDoneAt[1].Custom);
-            Assert.AreEqual(c2Removed_da.ToString(), caseListRemovedDoneAt[1].DoneAt.ToString());
-            Assert.AreEqual(aCase2Removed.Id, caseListRemovedDoneAt[1].Id);
-            Assert.AreEqual(aCase2Removed.MicrotingUid, caseListRemovedDoneAt[1].MicrotingUId);
-            Assert.AreEqual(aCase2Removed.Site.MicrotingUid, caseListRemovedDoneAt[1].SiteId);
-            Assert.AreEqual(aCase2Removed.Site.Name, caseListRemovedDoneAt[1].SiteName);
-            Assert.AreEqual(aCase2Removed.Status, caseListRemovedDoneAt[1].Status);
-            Assert.AreEqual(cl1.Id, caseListRemovedDoneAt[1].TemplatId);
-            Assert.AreEqual(aCase2Removed.Unit.MicrotingUid, caseListRemovedDoneAt[1].UnitId);
-//            Assert.AreEqual(c2Removed_ua.ToString(), caseListRemovedDoneAt[1].UpdatedAt.ToString());
-            Assert.AreEqual(aCase2Removed.Version, caseListRemovedDoneAt[1].Version);
-            Assert.AreEqual(aCase2Removed.Worker.FirstName + " " + aCase2Removed.Worker.LastName,
-                caseListRemovedDoneAt[1].WorkerName);
-            Assert.AreEqual(aCase2Removed.WorkflowState, caseListRemovedDoneAt[1].WorkflowState);
+            Assert.That(caseListRemovedDoneAt[1].CaseType, Is.EqualTo(aCase2Removed.Type));
+            Assert.That(caseListRemovedDoneAt[1].CaseUId, Is.EqualTo(aCase2Removed.CaseUid));
+            Assert.That(caseListRemovedDoneAt[1].CheckUIid, Is.EqualTo(aCase2Removed.MicrotingCheckUid));
+            Assert.That(caseListRemovedDoneAt[1].CreatedAt.ToString(), Is.EqualTo(c2Removed_ca.ToString()));
+            Assert.That(caseListRemovedDoneAt[1].Custom, Is.EqualTo(aCase2Removed.Custom));
+            Assert.That(caseListRemovedDoneAt[1].DoneAt.ToString(), Is.EqualTo(c2Removed_da.ToString()));
+            Assert.That(caseListRemovedDoneAt[1].Id, Is.EqualTo(aCase2Removed.Id));
+            Assert.That(caseListRemovedDoneAt[1].MicrotingUId, Is.EqualTo(aCase2Removed.MicrotingUid));
+            Assert.That(caseListRemovedDoneAt[1].SiteId, Is.EqualTo(aCase2Removed.Site.MicrotingUid));
+            Assert.That(caseListRemovedDoneAt[1].SiteName, Is.EqualTo(aCase2Removed.Site.Name));
+            Assert.That(caseListRemovedDoneAt[1].Status, Is.EqualTo(aCase2Removed.Status));
+            Assert.That(caseListRemovedDoneAt[1].TemplatId, Is.EqualTo(cl1.Id));
+            Assert.That(caseListRemovedDoneAt[1].UnitId, Is.EqualTo(aCase2Removed.Unit.MicrotingUid));
+            //            Assert.AreEqual(c2Removed_ua.ToString(), caseListRemovedDoneAt[1].UpdatedAt.ToString());
+            Assert.That(caseListRemovedDoneAt[1].Version, Is.EqualTo(aCase2Removed.Version));
+            Assert.That(caseListRemovedDoneAt[1].WorkerName,
+                Is.EqualTo(aCase2Removed.Worker.FirstName + " " + aCase2Removed.Worker.LastName));
+            Assert.That(caseListRemovedDoneAt[1].WorkflowState, Is.EqualTo(aCase2Removed.WorkflowState));
 
             #endregion
 
             #region caseListRemovedDoneAt aCase3Removed
 
-            Assert.AreEqual(aCase3Removed.Type, caseListRemovedDoneAt[2].CaseType);
-            Assert.AreEqual(aCase3Removed.CaseUid, caseListRemovedDoneAt[2].CaseUId);
-            Assert.AreEqual(aCase3Removed.MicrotingCheckUid, caseListRemovedDoneAt[2].CheckUIid);
-            Assert.AreEqual(c3Removed_ca.ToString(), caseListRemovedDoneAt[2].CreatedAt.ToString());
-            Assert.AreEqual(aCase3Removed.Custom, caseListRemovedDoneAt[2].Custom);
-            Assert.AreEqual(c3Removed_da.ToString(), caseListRemovedDoneAt[2].DoneAt.ToString());
-            Assert.AreEqual(aCase3Removed.Id, caseListRemovedDoneAt[2].Id);
-            Assert.AreEqual(aCase3Removed.MicrotingUid, caseListRemovedDoneAt[2].MicrotingUId);
-            Assert.AreEqual(aCase3Removed.Site.MicrotingUid, caseListRemovedDoneAt[2].SiteId);
-            Assert.AreEqual(aCase3Removed.Site.Name, caseListRemovedDoneAt[2].SiteName);
-            Assert.AreEqual(aCase3Removed.Status, caseListRemovedDoneAt[2].Status);
-            Assert.AreEqual(cl1.Id, caseListRemovedDoneAt[2].TemplatId);
-            Assert.AreEqual(aCase3Removed.Unit.MicrotingUid, caseListRemovedDoneAt[2].UnitId);
-//            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedDoneAt[2].UpdatedAt.ToString());
-            Assert.AreEqual(aCase3Removed.Version, caseListRemovedDoneAt[2].Version);
-            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName,
-                caseListRemovedDoneAt[2].WorkerName);
-            Assert.AreEqual(aCase3Removed.WorkflowState, caseListRemovedDoneAt[2].WorkflowState);
+            Assert.That(caseListRemovedDoneAt[2].CaseType, Is.EqualTo(aCase3Removed.Type));
+            Assert.That(caseListRemovedDoneAt[2].CaseUId, Is.EqualTo(aCase3Removed.CaseUid));
+            Assert.That(caseListRemovedDoneAt[2].CheckUIid, Is.EqualTo(aCase3Removed.MicrotingCheckUid));
+            Assert.That(caseListRemovedDoneAt[2].CreatedAt.ToString(), Is.EqualTo(c3Removed_ca.ToString()));
+            Assert.That(caseListRemovedDoneAt[2].Custom, Is.EqualTo(aCase3Removed.Custom));
+            Assert.That(caseListRemovedDoneAt[2].DoneAt.ToString(), Is.EqualTo(c3Removed_da.ToString()));
+            Assert.That(caseListRemovedDoneAt[2].Id, Is.EqualTo(aCase3Removed.Id));
+            Assert.That(caseListRemovedDoneAt[2].MicrotingUId, Is.EqualTo(aCase3Removed.MicrotingUid));
+            Assert.That(caseListRemovedDoneAt[2].SiteId, Is.EqualTo(aCase3Removed.Site.MicrotingUid));
+            Assert.That(caseListRemovedDoneAt[2].SiteName, Is.EqualTo(aCase3Removed.Site.Name));
+            Assert.That(caseListRemovedDoneAt[2].Status, Is.EqualTo(aCase3Removed.Status));
+            Assert.That(caseListRemovedDoneAt[2].TemplatId, Is.EqualTo(cl1.Id));
+            Assert.That(caseListRemovedDoneAt[2].UnitId, Is.EqualTo(aCase3Removed.Unit.MicrotingUid));
+            //            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedDoneAt[2].UpdatedAt.ToString());
+            Assert.That(caseListRemovedDoneAt[2].Version, Is.EqualTo(aCase3Removed.Version));
+            Assert.That(caseListRemovedDoneAt[2].WorkerName,
+                Is.EqualTo(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName));
+            Assert.That(caseListRemovedDoneAt[2].WorkflowState, Is.EqualTo(aCase3Removed.WorkflowState));
 
             #endregion
 
             #region caseListRemovedDoneAt aCase4Removed
 
-            Assert.AreEqual(aCase4Removed.Type, caseListRemovedDoneAt[3].CaseType);
-            Assert.AreEqual(aCase4Removed.CaseUid, caseListRemovedDoneAt[3].CaseUId);
-            Assert.AreEqual(aCase4Removed.MicrotingCheckUid, caseListRemovedDoneAt[3].CheckUIid);
-            Assert.AreEqual(c4Removed_ca.ToString(), caseListRemovedDoneAt[3].CreatedAt.ToString());
-            Assert.AreEqual(aCase4Removed.Custom, caseListRemovedDoneAt[3].Custom);
-            Assert.AreEqual(c4Removed_da.ToString(), caseListRemovedDoneAt[3].DoneAt.ToString());
-            Assert.AreEqual(aCase4Removed.Id, caseListRemovedDoneAt[3].Id);
-            Assert.AreEqual(aCase4Removed.MicrotingUid, caseListRemovedDoneAt[3].MicrotingUId);
-            Assert.AreEqual(aCase4Removed.Site.MicrotingUid, caseListRemovedDoneAt[3].SiteId);
-            Assert.AreEqual(aCase4Removed.Site.Name, caseListRemovedDoneAt[3].SiteName);
-            Assert.AreEqual(aCase4Removed.Status, caseListRemovedDoneAt[3].Status);
-            Assert.AreEqual(cl1.Id, caseListRemovedDoneAt[3].TemplatId);
-            Assert.AreEqual(aCase4Removed.Unit.MicrotingUid, caseListRemovedDoneAt[3].UnitId);
-//            Assert.AreEqual(c4Removed_ua.ToString(), caseListRemovedDoneAt[3].UpdatedAt.ToString());
-            Assert.AreEqual(aCase4Removed.Version, caseListRemovedDoneAt[3].Version);
-            Assert.AreEqual(aCase4Removed.Worker.FirstName + " " + aCase4Removed.Worker.LastName,
-                caseListRemovedDoneAt[3].WorkerName);
-            Assert.AreEqual(aCase4Removed.WorkflowState, caseListRemovedDoneAt[3].WorkflowState);
+            Assert.That(caseListRemovedDoneAt[3].CaseType, Is.EqualTo(aCase4Removed.Type));
+            Assert.That(caseListRemovedDoneAt[3].CaseUId, Is.EqualTo(aCase4Removed.CaseUid));
+            Assert.That(caseListRemovedDoneAt[3].CheckUIid, Is.EqualTo(aCase4Removed.MicrotingCheckUid));
+            Assert.That(caseListRemovedDoneAt[3].CreatedAt.ToString(), Is.EqualTo(c4Removed_ca.ToString()));
+            Assert.That(caseListRemovedDoneAt[3].Custom, Is.EqualTo(aCase4Removed.Custom));
+            Assert.That(caseListRemovedDoneAt[3].DoneAt.ToString(), Is.EqualTo(c4Removed_da.ToString()));
+            Assert.That(caseListRemovedDoneAt[3].Id, Is.EqualTo(aCase4Removed.Id));
+            Assert.That(caseListRemovedDoneAt[3].MicrotingUId, Is.EqualTo(aCase4Removed.MicrotingUid));
+            Assert.That(caseListRemovedDoneAt[3].SiteId, Is.EqualTo(aCase4Removed.Site.MicrotingUid));
+            Assert.That(caseListRemovedDoneAt[3].SiteName, Is.EqualTo(aCase4Removed.Site.Name));
+            Assert.That(caseListRemovedDoneAt[3].Status, Is.EqualTo(aCase4Removed.Status));
+            Assert.That(caseListRemovedDoneAt[3].TemplatId, Is.EqualTo(cl1.Id));
+            Assert.That(caseListRemovedDoneAt[3].UnitId, Is.EqualTo(aCase4Removed.Unit.MicrotingUid));
+            //            Assert.AreEqual(c4Removed_ua.ToString(), caseListRemovedDoneAt[3].UpdatedAt.ToString());
+            Assert.That(caseListRemovedDoneAt[3].Version, Is.EqualTo(aCase4Removed.Version));
+            Assert.That(caseListRemovedDoneAt[3].WorkerName,
+                Is.EqualTo(aCase4Removed.Worker.FirstName + " " + aCase4Removed.Worker.LastName));
+            Assert.That(caseListRemovedDoneAt[3].WorkflowState, Is.EqualTo(aCase4Removed.WorkflowState));
 
             #endregion
 
@@ -2366,94 +2366,94 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedStatus aCase1Removed
 
             Assert.NotNull(caseListRemovedStatus);
-            Assert.AreEqual(4, caseListRemovedStatus.Count);
-            Assert.AreEqual(aCase1Removed.Type, caseListRemovedStatus[0].CaseType);
-            Assert.AreEqual(aCase1Removed.CaseUid, caseListRemovedStatus[0].CaseUId);
-            Assert.AreEqual(aCase1Removed.MicrotingCheckUid, caseListRemovedStatus[0].CheckUIid);
-            Assert.AreEqual(c1Removed_ca.ToString(), caseListRemovedStatus[0].CreatedAt.ToString());
-            Assert.AreEqual(aCase1Removed.Custom, caseListRemovedStatus[0].Custom);
-            Assert.AreEqual(c1Removed_da.ToString(), caseListRemovedStatus[0].DoneAt.ToString());
-            Assert.AreEqual(aCase1Removed.Id, caseListRemovedStatus[0].Id);
-            Assert.AreEqual(aCase1Removed.MicrotingUid, caseListRemovedStatus[0].MicrotingUId);
-            Assert.AreEqual(aCase1Removed.Site.MicrotingUid, caseListRemovedStatus[0].SiteId);
-            Assert.AreEqual(aCase1Removed.Site.Name, caseListRemovedStatus[0].SiteName);
-            Assert.AreEqual(aCase1Removed.Status, caseListRemovedStatus[0].Status);
-            Assert.AreEqual(aCase1Removed.CheckListId, caseListRemovedStatus[0].TemplatId);
-            Assert.AreEqual(aCase1Removed.Unit.MicrotingUid, caseListRemovedStatus[0].UnitId);
-//            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedStatus[0].UpdatedAt.ToString());
-            Assert.AreEqual(aCase1Removed.Version, caseListRemovedStatus[0].Version);
-            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName,
-                caseListRemovedStatus[0].WorkerName);
-            Assert.AreEqual(aCase1Removed.WorkflowState, caseListRemovedStatus[0].WorkflowState);
+            Assert.That(caseListRemovedStatus.Count, Is.EqualTo(4));
+            Assert.That(caseListRemovedStatus[0].CaseType, Is.EqualTo(aCase1Removed.Type));
+            Assert.That(caseListRemovedStatus[0].CaseUId, Is.EqualTo(aCase1Removed.CaseUid));
+            Assert.That(caseListRemovedStatus[0].CheckUIid, Is.EqualTo(aCase1Removed.MicrotingCheckUid));
+            Assert.That(caseListRemovedStatus[0].CreatedAt.ToString(), Is.EqualTo(c1Removed_ca.ToString()));
+            Assert.That(caseListRemovedStatus[0].Custom, Is.EqualTo(aCase1Removed.Custom));
+            Assert.That(caseListRemovedStatus[0].DoneAt.ToString(), Is.EqualTo(c1Removed_da.ToString()));
+            Assert.That(caseListRemovedStatus[0].Id, Is.EqualTo(aCase1Removed.Id));
+            Assert.That(caseListRemovedStatus[0].MicrotingUId, Is.EqualTo(aCase1Removed.MicrotingUid));
+            Assert.That(caseListRemovedStatus[0].SiteId, Is.EqualTo(aCase1Removed.Site.MicrotingUid));
+            Assert.That(caseListRemovedStatus[0].SiteName, Is.EqualTo(aCase1Removed.Site.Name));
+            Assert.That(caseListRemovedStatus[0].Status, Is.EqualTo(aCase1Removed.Status));
+            Assert.That(caseListRemovedStatus[0].TemplatId, Is.EqualTo(aCase1Removed.CheckListId));
+            Assert.That(caseListRemovedStatus[0].UnitId, Is.EqualTo(aCase1Removed.Unit.MicrotingUid));
+            //            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedStatus[0].UpdatedAt.ToString());
+            Assert.That(caseListRemovedStatus[0].Version, Is.EqualTo(aCase1Removed.Version));
+            Assert.That(caseListRemovedStatus[0].WorkerName,
+                Is.EqualTo(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName));
+            Assert.That(caseListRemovedStatus[0].WorkflowState, Is.EqualTo(aCase1Removed.WorkflowState));
 
             #endregion
 
             #region caseListRemovedStatus aCase2Removed
 
-            Assert.AreEqual(aCase2Removed.Type, caseListRemovedStatus[1].CaseType);
-            Assert.AreEqual(aCase2Removed.CaseUid, caseListRemovedStatus[1].CaseUId);
-            Assert.AreEqual(aCase2Removed.MicrotingCheckUid, caseListRemovedStatus[1].CheckUIid);
-            Assert.AreEqual(c2Removed_ca.ToString(), caseListRemovedStatus[1].CreatedAt.ToString());
-            Assert.AreEqual(aCase2Removed.Custom, caseListRemovedStatus[1].Custom);
-            Assert.AreEqual(c2Removed_da.ToString(), caseListRemovedStatus[1].DoneAt.ToString());
-            Assert.AreEqual(aCase2Removed.Id, caseListRemovedStatus[1].Id);
-            Assert.AreEqual(aCase2Removed.MicrotingUid, caseListRemovedStatus[1].MicrotingUId);
-            Assert.AreEqual(aCase2Removed.Site.MicrotingUid, caseListRemovedStatus[1].SiteId);
-            Assert.AreEqual(aCase2Removed.Site.Name, caseListRemovedStatus[1].SiteName);
-            Assert.AreEqual(aCase2Removed.Status, caseListRemovedStatus[1].Status);
-            Assert.AreEqual(aCase2Removed.CheckListId, caseListRemovedStatus[1].TemplatId);
-            Assert.AreEqual(aCase2Removed.Unit.MicrotingUid, caseListRemovedStatus[1].UnitId);
-//            Assert.AreEqual(c2Removed_ua.ToString(), caseListRemovedStatus[1].UpdatedAt.ToString());
-            Assert.AreEqual(aCase2Removed.Version, caseListRemovedStatus[1].Version);
-            Assert.AreEqual(aCase2Removed.Worker.FirstName + " " + aCase2Removed.Worker.LastName,
-                caseListRemovedStatus[1].WorkerName);
-            Assert.AreEqual(aCase2Removed.WorkflowState, caseListRemovedStatus[1].WorkflowState);
+            Assert.That(caseListRemovedStatus[1].CaseType, Is.EqualTo(aCase2Removed.Type));
+            Assert.That(caseListRemovedStatus[1].CaseUId, Is.EqualTo(aCase2Removed.CaseUid));
+            Assert.That(caseListRemovedStatus[1].CheckUIid, Is.EqualTo(aCase2Removed.MicrotingCheckUid));
+            Assert.That(caseListRemovedStatus[1].CreatedAt.ToString(), Is.EqualTo(c2Removed_ca.ToString()));
+            Assert.That(caseListRemovedStatus[1].Custom, Is.EqualTo(aCase2Removed.Custom));
+            Assert.That(caseListRemovedStatus[1].DoneAt.ToString(), Is.EqualTo(c2Removed_da.ToString()));
+            Assert.That(caseListRemovedStatus[1].Id, Is.EqualTo(aCase2Removed.Id));
+            Assert.That(caseListRemovedStatus[1].MicrotingUId, Is.EqualTo(aCase2Removed.MicrotingUid));
+            Assert.That(caseListRemovedStatus[1].SiteId, Is.EqualTo(aCase2Removed.Site.MicrotingUid));
+            Assert.That(caseListRemovedStatus[1].SiteName, Is.EqualTo(aCase2Removed.Site.Name));
+            Assert.That(caseListRemovedStatus[1].Status, Is.EqualTo(aCase2Removed.Status));
+            Assert.That(caseListRemovedStatus[1].TemplatId, Is.EqualTo(aCase2Removed.CheckListId));
+            Assert.That(caseListRemovedStatus[1].UnitId, Is.EqualTo(aCase2Removed.Unit.MicrotingUid));
+            //            Assert.AreEqual(c2Removed_ua.ToString(), caseListRemovedStatus[1].UpdatedAt.ToString());
+            Assert.That(caseListRemovedStatus[1].Version, Is.EqualTo(aCase2Removed.Version));
+            Assert.That(caseListRemovedStatus[1].WorkerName,
+                Is.EqualTo(aCase2Removed.Worker.FirstName + " " + aCase2Removed.Worker.LastName));
+            Assert.That(caseListRemovedStatus[1].WorkflowState, Is.EqualTo(aCase2Removed.WorkflowState));
 
             #endregion
 
             #region caseListRemovedStatus aCase3Removed
 
-            Assert.AreEqual(aCase3Removed.Type, caseListRemovedStatus[2].CaseType);
-            Assert.AreEqual(aCase3Removed.CaseUid, caseListRemovedStatus[2].CaseUId);
-            Assert.AreEqual(aCase3Removed.MicrotingCheckUid, caseListRemovedStatus[2].CheckUIid);
-            Assert.AreEqual(c3Removed_ca.ToString(), caseListRemovedStatus[2].CreatedAt.ToString());
-            Assert.AreEqual(aCase3Removed.Custom, caseListRemovedStatus[2].Custom);
-            Assert.AreEqual(c3Removed_da.ToString(), caseListRemovedStatus[2].DoneAt.ToString());
-            Assert.AreEqual(aCase3Removed.Id, caseListRemovedStatus[2].Id);
-            Assert.AreEqual(aCase3Removed.MicrotingUid, caseListRemovedStatus[2].MicrotingUId);
-            Assert.AreEqual(aCase3Removed.Site.MicrotingUid, caseListRemovedStatus[2].SiteId);
-            Assert.AreEqual(aCase3Removed.Site.Name, caseListRemovedStatus[2].SiteName);
-            Assert.AreEqual(aCase3Removed.Status, caseListRemovedStatus[2].Status);
-            Assert.AreEqual(aCase3Removed.CheckListId, caseListRemovedStatus[2].TemplatId);
-            Assert.AreEqual(aCase3Removed.Unit.MicrotingUid, caseListRemovedStatus[2].UnitId);
-//            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedStatus[2].UpdatedAt.ToString());
-            Assert.AreEqual(aCase3Removed.Version, caseListRemovedStatus[2].Version);
-            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName,
-                caseListRemovedStatus[2].WorkerName);
-            Assert.AreEqual(aCase3Removed.WorkflowState, caseListRemovedStatus[2].WorkflowState);
+            Assert.That(caseListRemovedStatus[2].CaseType, Is.EqualTo(aCase3Removed.Type));
+            Assert.That(caseListRemovedStatus[2].CaseUId, Is.EqualTo(aCase3Removed.CaseUid));
+            Assert.That(caseListRemovedStatus[2].CheckUIid, Is.EqualTo(aCase3Removed.MicrotingCheckUid));
+            Assert.That(caseListRemovedStatus[2].CreatedAt.ToString(), Is.EqualTo(c3Removed_ca.ToString()));
+            Assert.That(caseListRemovedStatus[2].Custom, Is.EqualTo(aCase3Removed.Custom));
+            Assert.That(caseListRemovedStatus[2].DoneAt.ToString(), Is.EqualTo(c3Removed_da.ToString()));
+            Assert.That(caseListRemovedStatus[2].Id, Is.EqualTo(aCase3Removed.Id));
+            Assert.That(caseListRemovedStatus[2].MicrotingUId, Is.EqualTo(aCase3Removed.MicrotingUid));
+            Assert.That(caseListRemovedStatus[2].SiteId, Is.EqualTo(aCase3Removed.Site.MicrotingUid));
+            Assert.That(caseListRemovedStatus[2].SiteName, Is.EqualTo(aCase3Removed.Site.Name));
+            Assert.That(caseListRemovedStatus[2].Status, Is.EqualTo(aCase3Removed.Status));
+            Assert.That(caseListRemovedStatus[2].TemplatId, Is.EqualTo(aCase3Removed.CheckListId));
+            Assert.That(caseListRemovedStatus[2].UnitId, Is.EqualTo(aCase3Removed.Unit.MicrotingUid));
+            //            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedStatus[2].UpdatedAt.ToString());
+            Assert.That(caseListRemovedStatus[2].Version, Is.EqualTo(aCase3Removed.Version));
+            Assert.That(caseListRemovedStatus[2].WorkerName,
+                Is.EqualTo(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName));
+            Assert.That(caseListRemovedStatus[2].WorkflowState, Is.EqualTo(aCase3Removed.WorkflowState));
 
             #endregion
 
             #region caseListRemovedStatus aCase4Removed
 
-            Assert.AreEqual(aCase4Removed.Type, caseListRemovedStatus[3].CaseType);
-            Assert.AreEqual(aCase4Removed.CaseUid, caseListRemovedStatus[3].CaseUId);
-            Assert.AreEqual(aCase4Removed.MicrotingCheckUid, caseListRemovedStatus[3].CheckUIid);
-            Assert.AreEqual(c4Removed_ca.ToString(), caseListRemovedStatus[3].CreatedAt.ToString());
-            Assert.AreEqual(aCase4Removed.Custom, caseListRemovedStatus[3].Custom);
-            Assert.AreEqual(c4Removed_da.ToString(), caseListRemovedStatus[3].DoneAt.ToString());
-            Assert.AreEqual(aCase4Removed.Id, caseListRemovedStatus[3].Id);
-            Assert.AreEqual(aCase4Removed.MicrotingUid, caseListRemovedStatus[3].MicrotingUId);
-            Assert.AreEqual(aCase4Removed.Site.MicrotingUid, caseListRemovedStatus[3].SiteId);
-            Assert.AreEqual(aCase4Removed.Site.Name, caseListRemovedStatus[3].SiteName);
-            Assert.AreEqual(aCase4Removed.Status, caseListRemovedStatus[3].Status);
-            Assert.AreEqual(aCase4Removed.CheckListId, caseListRemovedStatus[3].TemplatId);
-            Assert.AreEqual(aCase4Removed.Unit.MicrotingUid, caseListRemovedStatus[3].UnitId);
-//            Assert.AreEqual(c4Removed_ua.ToString(), caseListRemovedStatus[3].UpdatedAt.ToString());
-            Assert.AreEqual(aCase4Removed.Version, caseListRemovedStatus[3].Version);
-            Assert.AreEqual(aCase4Removed.Worker.FirstName + " " + aCase4Removed.Worker.LastName,
-                caseListRemovedStatus[3].WorkerName);
-            Assert.AreEqual(aCase4Removed.WorkflowState, caseListRemovedStatus[3].WorkflowState);
+            Assert.That(caseListRemovedStatus[3].CaseType, Is.EqualTo(aCase4Removed.Type));
+            Assert.That(caseListRemovedStatus[3].CaseUId, Is.EqualTo(aCase4Removed.CaseUid));
+            Assert.That(caseListRemovedStatus[3].CheckUIid, Is.EqualTo(aCase4Removed.MicrotingCheckUid));
+            Assert.That(caseListRemovedStatus[3].CreatedAt.ToString(), Is.EqualTo(c4Removed_ca.ToString()));
+            Assert.That(caseListRemovedStatus[3].Custom, Is.EqualTo(aCase4Removed.Custom));
+            Assert.That(caseListRemovedStatus[3].DoneAt.ToString(), Is.EqualTo(c4Removed_da.ToString()));
+            Assert.That(caseListRemovedStatus[3].Id, Is.EqualTo(aCase4Removed.Id));
+            Assert.That(caseListRemovedStatus[3].MicrotingUId, Is.EqualTo(aCase4Removed.MicrotingUid));
+            Assert.That(caseListRemovedStatus[3].SiteId, Is.EqualTo(aCase4Removed.Site.MicrotingUid));
+            Assert.That(caseListRemovedStatus[3].SiteName, Is.EqualTo(aCase4Removed.Site.Name));
+            Assert.That(caseListRemovedStatus[3].Status, Is.EqualTo(aCase4Removed.Status));
+            Assert.That(caseListRemovedStatus[3].TemplatId, Is.EqualTo(aCase4Removed.CheckListId));
+            Assert.That(caseListRemovedStatus[3].UnitId, Is.EqualTo(aCase4Removed.Unit.MicrotingUid));
+            //            Assert.AreEqual(c4Removed_ua.ToString(), caseListRemovedStatus[3].UpdatedAt.ToString());
+            Assert.That(caseListRemovedStatus[3].Version, Is.EqualTo(aCase4Removed.Version));
+            Assert.That(caseListRemovedStatus[3].WorkerName,
+                Is.EqualTo(aCase4Removed.Worker.FirstName + " " + aCase4Removed.Worker.LastName));
+            Assert.That(caseListRemovedStatus[3].WorkflowState, Is.EqualTo(aCase4Removed.WorkflowState));
 
             #endregion
 
@@ -2464,94 +2464,94 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedUnitId aCase1Removed
 
             Assert.NotNull(caseListRemovedUnitId);
-            Assert.AreEqual(4, caseListRemovedUnitId.Count);
-            Assert.AreEqual(aCase1Removed.Type, caseListRemovedUnitId[0].CaseType);
-            Assert.AreEqual(aCase1Removed.CaseUid, caseListRemovedUnitId[0].CaseUId);
-            Assert.AreEqual(aCase1Removed.MicrotingCheckUid, caseListRemovedUnitId[0].CheckUIid);
-            Assert.AreEqual(c1Removed_ca.ToString(), caseListRemovedUnitId[0].CreatedAt.ToString());
-            Assert.AreEqual(aCase1Removed.Custom, caseListRemovedUnitId[0].Custom);
-            Assert.AreEqual(c1Removed_da.ToString(), caseListRemovedUnitId[0].DoneAt.ToString());
-            Assert.AreEqual(aCase1Removed.Id, caseListRemovedUnitId[0].Id);
-            Assert.AreEqual(aCase1Removed.MicrotingUid, caseListRemovedUnitId[0].MicrotingUId);
-            Assert.AreEqual(aCase1Removed.Site.MicrotingUid, caseListRemovedUnitId[0].SiteId);
-            Assert.AreEqual(aCase1Removed.Site.Name, caseListRemovedUnitId[0].SiteName);
-            Assert.AreEqual(aCase1Removed.Status, caseListRemovedUnitId[0].Status);
-            Assert.AreEqual(aCase1Removed.CheckListId, caseListRemovedUnitId[0].TemplatId);
-            Assert.AreEqual(aCase1Removed.Unit.MicrotingUid, caseListRemovedUnitId[0].UnitId);
-//            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedUnitId[0].UpdatedAt.ToString());
-            Assert.AreEqual(aCase1Removed.Version, caseListRemovedUnitId[0].Version);
-            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName,
-                caseListRemovedUnitId[0].WorkerName);
-            Assert.AreEqual(aCase1Removed.WorkflowState, caseListRemovedUnitId[0].WorkflowState);
+            Assert.That(caseListRemovedUnitId.Count, Is.EqualTo(4));
+            Assert.That(caseListRemovedUnitId[0].CaseType, Is.EqualTo(aCase1Removed.Type));
+            Assert.That(caseListRemovedUnitId[0].CaseUId, Is.EqualTo(aCase1Removed.CaseUid));
+            Assert.That(caseListRemovedUnitId[0].CheckUIid, Is.EqualTo(aCase1Removed.MicrotingCheckUid));
+            Assert.That(caseListRemovedUnitId[0].CreatedAt.ToString(), Is.EqualTo(c1Removed_ca.ToString()));
+            Assert.That(caseListRemovedUnitId[0].Custom, Is.EqualTo(aCase1Removed.Custom));
+            Assert.That(caseListRemovedUnitId[0].DoneAt.ToString(), Is.EqualTo(c1Removed_da.ToString()));
+            Assert.That(caseListRemovedUnitId[0].Id, Is.EqualTo(aCase1Removed.Id));
+            Assert.That(caseListRemovedUnitId[0].MicrotingUId, Is.EqualTo(aCase1Removed.MicrotingUid));
+            Assert.That(caseListRemovedUnitId[0].SiteId, Is.EqualTo(aCase1Removed.Site.MicrotingUid));
+            Assert.That(caseListRemovedUnitId[0].SiteName, Is.EqualTo(aCase1Removed.Site.Name));
+            Assert.That(caseListRemovedUnitId[0].Status, Is.EqualTo(aCase1Removed.Status));
+            Assert.That(caseListRemovedUnitId[0].TemplatId, Is.EqualTo(aCase1Removed.CheckListId));
+            Assert.That(caseListRemovedUnitId[0].UnitId, Is.EqualTo(aCase1Removed.Unit.MicrotingUid));
+            //            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedUnitId[0].UpdatedAt.ToString());
+            Assert.That(caseListRemovedUnitId[0].Version, Is.EqualTo(aCase1Removed.Version));
+            Assert.That(caseListRemovedUnitId[0].WorkerName,
+                Is.EqualTo(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName));
+            Assert.That(caseListRemovedUnitId[0].WorkflowState, Is.EqualTo(aCase1Removed.WorkflowState));
 
             #endregion
 
             #region caseListRemovedUnitId aCase2Removed
 
-            Assert.AreEqual(aCase2Removed.Type, caseListRemovedUnitId[1].CaseType);
-            Assert.AreEqual(aCase2Removed.CaseUid, caseListRemovedUnitId[1].CaseUId);
-            Assert.AreEqual(aCase2Removed.MicrotingCheckUid, caseListRemovedUnitId[1].CheckUIid);
-            Assert.AreEqual(c2Removed_ca.ToString(), caseListRemovedUnitId[1].CreatedAt.ToString());
-            Assert.AreEqual(aCase2Removed.Custom, caseListRemovedUnitId[1].Custom);
-            Assert.AreEqual(c2Removed_da.ToString(), caseListRemovedUnitId[1].DoneAt.ToString());
-            Assert.AreEqual(aCase2Removed.Id, caseListRemovedUnitId[1].Id);
-            Assert.AreEqual(aCase2Removed.MicrotingUid, caseListRemovedUnitId[1].MicrotingUId);
-            Assert.AreEqual(aCase2Removed.Site.MicrotingUid, caseListRemovedUnitId[1].SiteId);
-            Assert.AreEqual(aCase2Removed.Site.Name, caseListRemovedUnitId[1].SiteName);
-            Assert.AreEqual(aCase2Removed.Status, caseListRemovedUnitId[1].Status);
-            Assert.AreEqual(aCase2Removed.CheckListId, caseListRemovedUnitId[1].TemplatId);
-            Assert.AreEqual(aCase2Removed.Unit.MicrotingUid, caseListRemovedUnitId[1].UnitId);
-//            Assert.AreEqual(c2Removed_ua.ToString(), caseListRemovedUnitId[1].UpdatedAt.ToString());
-            Assert.AreEqual(aCase2Removed.Version, caseListRemovedUnitId[1].Version);
-            Assert.AreEqual(aCase2Removed.Worker.FirstName + " " + aCase2Removed.Worker.LastName,
-                caseListRemovedUnitId[1].WorkerName);
-            Assert.AreEqual(aCase2Removed.WorkflowState, caseListRemovedUnitId[1].WorkflowState);
+            Assert.That(caseListRemovedUnitId[1].CaseType, Is.EqualTo(aCase2Removed.Type));
+            Assert.That(caseListRemovedUnitId[1].CaseUId, Is.EqualTo(aCase2Removed.CaseUid));
+            Assert.That(caseListRemovedUnitId[1].CheckUIid, Is.EqualTo(aCase2Removed.MicrotingCheckUid));
+            Assert.That(caseListRemovedUnitId[1].CreatedAt.ToString(), Is.EqualTo(c2Removed_ca.ToString()));
+            Assert.That(caseListRemovedUnitId[1].Custom, Is.EqualTo(aCase2Removed.Custom));
+            Assert.That(caseListRemovedUnitId[1].DoneAt.ToString(), Is.EqualTo(c2Removed_da.ToString()));
+            Assert.That(caseListRemovedUnitId[1].Id, Is.EqualTo(aCase2Removed.Id));
+            Assert.That(caseListRemovedUnitId[1].MicrotingUId, Is.EqualTo(aCase2Removed.MicrotingUid));
+            Assert.That(caseListRemovedUnitId[1].SiteId, Is.EqualTo(aCase2Removed.Site.MicrotingUid));
+            Assert.That(caseListRemovedUnitId[1].SiteName, Is.EqualTo(aCase2Removed.Site.Name));
+            Assert.That(caseListRemovedUnitId[1].Status, Is.EqualTo(aCase2Removed.Status));
+            Assert.That(caseListRemovedUnitId[1].TemplatId, Is.EqualTo(aCase2Removed.CheckListId));
+            Assert.That(caseListRemovedUnitId[1].UnitId, Is.EqualTo(aCase2Removed.Unit.MicrotingUid));
+            //            Assert.AreEqual(c2Removed_ua.ToString(), caseListRemovedUnitId[1].UpdatedAt.ToString());
+            Assert.That(caseListRemovedUnitId[1].Version, Is.EqualTo(aCase2Removed.Version));
+            Assert.That(caseListRemovedUnitId[1].WorkerName,
+                Is.EqualTo(aCase2Removed.Worker.FirstName + " " + aCase2Removed.Worker.LastName));
+            Assert.That(caseListRemovedUnitId[1].WorkflowState, Is.EqualTo(aCase2Removed.WorkflowState));
 
             #endregion
 
             #region caseListRemovedUnitId aCase3Removed
 
-            Assert.AreEqual(aCase3Removed.Type, caseListRemovedUnitId[2].CaseType);
-            Assert.AreEqual(aCase3Removed.CaseUid, caseListRemovedUnitId[2].CaseUId);
-            Assert.AreEqual(aCase3Removed.MicrotingCheckUid, caseListRemovedUnitId[2].CheckUIid);
-            Assert.AreEqual(c3Removed_ca.ToString(), caseListRemovedUnitId[2].CreatedAt.ToString());
-            Assert.AreEqual(aCase3Removed.Custom, caseListRemovedUnitId[2].Custom);
-            Assert.AreEqual(c3Removed_da.ToString(), caseListRemovedUnitId[2].DoneAt.ToString());
-            Assert.AreEqual(aCase3Removed.Id, caseListRemovedUnitId[2].Id);
-            Assert.AreEqual(aCase3Removed.MicrotingUid, caseListRemovedUnitId[2].MicrotingUId);
-            Assert.AreEqual(aCase3Removed.Site.MicrotingUid, caseListRemovedUnitId[2].SiteId);
-            Assert.AreEqual(aCase3Removed.Site.Name, caseListRemovedUnitId[2].SiteName);
-            Assert.AreEqual(aCase3Removed.Status, caseListRemovedUnitId[2].Status);
-            Assert.AreEqual(aCase3Removed.CheckListId, caseListRemovedUnitId[2].TemplatId);
-            Assert.AreEqual(aCase3Removed.Unit.MicrotingUid, caseListRemovedUnitId[2].UnitId);
-//            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedUnitId[2].UpdatedAt.ToString());
-            Assert.AreEqual(aCase3Removed.Version, caseListRemovedUnitId[2].Version);
-            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName,
-                caseListRemovedUnitId[2].WorkerName);
-            Assert.AreEqual(aCase3Removed.WorkflowState, caseListRemovedUnitId[2].WorkflowState);
+            Assert.That(caseListRemovedUnitId[2].CaseType, Is.EqualTo(aCase3Removed.Type));
+            Assert.That(caseListRemovedUnitId[2].CaseUId, Is.EqualTo(aCase3Removed.CaseUid));
+            Assert.That(caseListRemovedUnitId[2].CheckUIid, Is.EqualTo(aCase3Removed.MicrotingCheckUid));
+            Assert.That(caseListRemovedUnitId[2].CreatedAt.ToString(), Is.EqualTo(c3Removed_ca.ToString()));
+            Assert.That(caseListRemovedUnitId[2].Custom, Is.EqualTo(aCase3Removed.Custom));
+            Assert.That(caseListRemovedUnitId[2].DoneAt.ToString(), Is.EqualTo(c3Removed_da.ToString()));
+            Assert.That(caseListRemovedUnitId[2].Id, Is.EqualTo(aCase3Removed.Id));
+            Assert.That(caseListRemovedUnitId[2].MicrotingUId, Is.EqualTo(aCase3Removed.MicrotingUid));
+            Assert.That(caseListRemovedUnitId[2].SiteId, Is.EqualTo(aCase3Removed.Site.MicrotingUid));
+            Assert.That(caseListRemovedUnitId[2].SiteName, Is.EqualTo(aCase3Removed.Site.Name));
+            Assert.That(caseListRemovedUnitId[2].Status, Is.EqualTo(aCase3Removed.Status));
+            Assert.That(caseListRemovedUnitId[2].TemplatId, Is.EqualTo(aCase3Removed.CheckListId));
+            Assert.That(caseListRemovedUnitId[2].UnitId, Is.EqualTo(aCase3Removed.Unit.MicrotingUid));
+            //            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedUnitId[2].UpdatedAt.ToString());
+            Assert.That(caseListRemovedUnitId[2].Version, Is.EqualTo(aCase3Removed.Version));
+            Assert.That(caseListRemovedUnitId[2].WorkerName,
+                Is.EqualTo(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName));
+            Assert.That(caseListRemovedUnitId[2].WorkflowState, Is.EqualTo(aCase3Removed.WorkflowState));
 
             #endregion
 
             #region caseListRemovedUnitId aCase4Removed
 
-            Assert.AreEqual(aCase4Removed.Type, caseListRemovedUnitId[3].CaseType);
-            Assert.AreEqual(aCase4Removed.CaseUid, caseListRemovedUnitId[3].CaseUId);
-            Assert.AreEqual(aCase4Removed.MicrotingCheckUid, caseListRemovedUnitId[3].CheckUIid);
-            Assert.AreEqual(c4Removed_ca.ToString(), caseListRemovedUnitId[3].CreatedAt.ToString());
-            Assert.AreEqual(aCase4Removed.Custom, caseListRemovedUnitId[3].Custom);
-            Assert.AreEqual(c4Removed_da.ToString(), caseListRemovedUnitId[3].DoneAt.ToString());
-            Assert.AreEqual(aCase4Removed.Id, caseListRemovedUnitId[3].Id);
-            Assert.AreEqual(aCase4Removed.MicrotingUid, caseListRemovedUnitId[3].MicrotingUId);
-            Assert.AreEqual(aCase4Removed.Site.MicrotingUid, caseListRemovedUnitId[3].SiteId);
-            Assert.AreEqual(aCase4Removed.Site.Name, caseListRemovedUnitId[3].SiteName);
-            Assert.AreEqual(aCase4Removed.Status, caseListRemovedUnitId[3].Status);
-            Assert.AreEqual(aCase4Removed.CheckListId, caseListRemovedUnitId[3].TemplatId);
-            Assert.AreEqual(aCase4Removed.Unit.MicrotingUid, caseListRemovedUnitId[3].UnitId);
-//            Assert.AreEqual(c4Removed_ua.ToString(), caseListRemovedUnitId[3].UpdatedAt.ToString());
-            Assert.AreEqual(aCase4Removed.Version, caseListRemovedUnitId[3].Version);
-            Assert.AreEqual(aCase4Removed.Worker.FirstName + " " + aCase4Removed.Worker.LastName,
-                caseListRemovedUnitId[3].WorkerName);
-            Assert.AreEqual(aCase4Removed.WorkflowState, caseListRemovedUnitId[3].WorkflowState);
+            Assert.That(caseListRemovedUnitId[3].CaseType, Is.EqualTo(aCase4Removed.Type));
+            Assert.That(caseListRemovedUnitId[3].CaseUId, Is.EqualTo(aCase4Removed.CaseUid));
+            Assert.That(caseListRemovedUnitId[3].CheckUIid, Is.EqualTo(aCase4Removed.MicrotingCheckUid));
+            Assert.That(caseListRemovedUnitId[3].CreatedAt.ToString(), Is.EqualTo(c4Removed_ca.ToString()));
+            Assert.That(caseListRemovedUnitId[3].Custom, Is.EqualTo(aCase4Removed.Custom));
+            Assert.That(caseListRemovedUnitId[3].DoneAt.ToString(), Is.EqualTo(c4Removed_da.ToString()));
+            Assert.That(caseListRemovedUnitId[3].Id, Is.EqualTo(aCase4Removed.Id));
+            Assert.That(caseListRemovedUnitId[3].MicrotingUId, Is.EqualTo(aCase4Removed.MicrotingUid));
+            Assert.That(caseListRemovedUnitId[3].SiteId, Is.EqualTo(aCase4Removed.Site.MicrotingUid));
+            Assert.That(caseListRemovedUnitId[3].SiteName, Is.EqualTo(aCase4Removed.Site.Name));
+            Assert.That(caseListRemovedUnitId[3].Status, Is.EqualTo(aCase4Removed.Status));
+            Assert.That(caseListRemovedUnitId[3].TemplatId, Is.EqualTo(aCase4Removed.CheckListId));
+            Assert.That(caseListRemovedUnitId[3].UnitId, Is.EqualTo(aCase4Removed.Unit.MicrotingUid));
+            //            Assert.AreEqual(c4Removed_ua.ToString(), caseListRemovedUnitId[3].UpdatedAt.ToString());
+            Assert.That(caseListRemovedUnitId[3].Version, Is.EqualTo(aCase4Removed.Version));
+            Assert.That(caseListRemovedUnitId[3].WorkerName,
+                Is.EqualTo(aCase4Removed.Worker.FirstName + " " + aCase4Removed.Worker.LastName));
+            Assert.That(caseListRemovedUnitId[3].WorkflowState, Is.EqualTo(aCase4Removed.WorkflowState));
 
             #endregion
 
@@ -2567,48 +2567,48 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedDtDoneAt aCase1Removed
 
             Assert.NotNull(caseListRemovedDtDoneAt);
-            Assert.AreEqual(2, caseListRemovedDtDoneAt.Count);
-            Assert.AreEqual(aCase1Removed.Type, caseListRemovedDtDoneAt[0].CaseType);
-            Assert.AreEqual(aCase1Removed.CaseUid, caseListRemovedDtDoneAt[0].CaseUId);
-            Assert.AreEqual(aCase1Removed.MicrotingCheckUid, caseListRemovedDtDoneAt[0].CheckUIid);
-            Assert.AreEqual(c1Removed_ca.ToString(), caseListRemovedDtDoneAt[0].CreatedAt.ToString());
-            Assert.AreEqual(aCase1Removed.Custom, caseListRemovedDtDoneAt[0].Custom);
-            Assert.AreEqual(c1Removed_da.ToString(), caseListRemovedDtDoneAt[0].DoneAt.ToString());
-            Assert.AreEqual(aCase1Removed.Id, caseListRemovedDtDoneAt[0].Id);
-            Assert.AreEqual(aCase1Removed.MicrotingUid, caseListRemovedDtDoneAt[0].MicrotingUId);
-            Assert.AreEqual(aCase1Removed.Site.MicrotingUid, caseListRemovedDtDoneAt[0].SiteId);
-            Assert.AreEqual(aCase1Removed.Site.Name, caseListRemovedDtDoneAt[0].SiteName);
-            Assert.AreEqual(aCase1Removed.Status, caseListRemovedDtDoneAt[0].Status);
-            Assert.AreEqual(cl1.Id, caseListRemovedDtDoneAt[0].TemplatId);
-            Assert.AreEqual(aCase1Removed.Unit.MicrotingUid, caseListRemovedDtDoneAt[0].UnitId);
-//            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedDtDoneAt[0].UpdatedAt.ToString());
-            Assert.AreEqual(aCase1Removed.Version, caseListRemovedDtDoneAt[0].Version);
-            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName,
-                caseListRemovedDtDoneAt[0].WorkerName);
-            Assert.AreEqual(aCase1Removed.WorkflowState, caseListRemovedDtDoneAt[0].WorkflowState);
+            Assert.That(caseListRemovedDtDoneAt.Count, Is.EqualTo(2));
+            Assert.That(caseListRemovedDtDoneAt[0].CaseType, Is.EqualTo(aCase1Removed.Type));
+            Assert.That(caseListRemovedDtDoneAt[0].CaseUId, Is.EqualTo(aCase1Removed.CaseUid));
+            Assert.That(caseListRemovedDtDoneAt[0].CheckUIid, Is.EqualTo(aCase1Removed.MicrotingCheckUid));
+            Assert.That(caseListRemovedDtDoneAt[0].CreatedAt.ToString(), Is.EqualTo(c1Removed_ca.ToString()));
+            Assert.That(caseListRemovedDtDoneAt[0].Custom, Is.EqualTo(aCase1Removed.Custom));
+            Assert.That(caseListRemovedDtDoneAt[0].DoneAt.ToString(), Is.EqualTo(c1Removed_da.ToString()));
+            Assert.That(caseListRemovedDtDoneAt[0].Id, Is.EqualTo(aCase1Removed.Id));
+            Assert.That(caseListRemovedDtDoneAt[0].MicrotingUId, Is.EqualTo(aCase1Removed.MicrotingUid));
+            Assert.That(caseListRemovedDtDoneAt[0].SiteId, Is.EqualTo(aCase1Removed.Site.MicrotingUid));
+            Assert.That(caseListRemovedDtDoneAt[0].SiteName, Is.EqualTo(aCase1Removed.Site.Name));
+            Assert.That(caseListRemovedDtDoneAt[0].Status, Is.EqualTo(aCase1Removed.Status));
+            Assert.That(caseListRemovedDtDoneAt[0].TemplatId, Is.EqualTo(cl1.Id));
+            Assert.That(caseListRemovedDtDoneAt[0].UnitId, Is.EqualTo(aCase1Removed.Unit.MicrotingUid));
+            //            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedDtDoneAt[0].UpdatedAt.ToString());
+            Assert.That(caseListRemovedDtDoneAt[0].Version, Is.EqualTo(aCase1Removed.Version));
+            Assert.That(caseListRemovedDtDoneAt[0].WorkerName,
+                Is.EqualTo(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName));
+            Assert.That(caseListRemovedDtDoneAt[0].WorkflowState, Is.EqualTo(aCase1Removed.WorkflowState));
 
             #endregion
 
             #region caseListRemovedDtDoneAt aCase3Removed
 
-            Assert.AreEqual(aCase3Removed.Type, caseListRemovedDtDoneAt[1].CaseType);
-            Assert.AreEqual(aCase3Removed.CaseUid, caseListRemovedDtDoneAt[1].CaseUId);
-            Assert.AreEqual(aCase3Removed.MicrotingCheckUid, caseListRemovedDtDoneAt[1].CheckUIid);
-            Assert.AreEqual(c3Removed_ca.ToString(), caseListRemovedDtDoneAt[1].CreatedAt.ToString());
-            Assert.AreEqual(aCase3Removed.Custom, caseListRemovedDtDoneAt[1].Custom);
-            Assert.AreEqual(c3Removed_da.ToString(), caseListRemovedDtDoneAt[1].DoneAt.ToString());
-            Assert.AreEqual(aCase3Removed.Id, caseListRemovedDtDoneAt[1].Id);
-            Assert.AreEqual(aCase3Removed.MicrotingUid, caseListRemovedDtDoneAt[1].MicrotingUId);
-            Assert.AreEqual(aCase3Removed.Site.MicrotingUid, caseListRemovedDtDoneAt[1].SiteId);
-            Assert.AreEqual(aCase3Removed.Site.Name, caseListRemovedDtDoneAt[1].SiteName);
-            Assert.AreEqual(aCase3Removed.Status, caseListRemovedDtDoneAt[1].Status);
-            Assert.AreEqual(cl1.Id, caseListRemovedDtDoneAt[1].TemplatId);
-            Assert.AreEqual(aCase3Removed.Unit.MicrotingUid, caseListRemovedDtDoneAt[1].UnitId);
-//            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedDtDoneAt[1].UpdatedAt.ToString());
-            Assert.AreEqual(aCase3Removed.Version, caseListRemovedDtDoneAt[1].Version);
-            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName,
-                caseListRemovedDtDoneAt[1].WorkerName);
-            Assert.AreEqual(aCase3Removed.WorkflowState, caseListRemovedDtDoneAt[1].WorkflowState);
+            Assert.That(caseListRemovedDtDoneAt[1].CaseType, Is.EqualTo(aCase3Removed.Type));
+            Assert.That(caseListRemovedDtDoneAt[1].CaseUId, Is.EqualTo(aCase3Removed.CaseUid));
+            Assert.That(caseListRemovedDtDoneAt[1].CheckUIid, Is.EqualTo(aCase3Removed.MicrotingCheckUid));
+            Assert.That(caseListRemovedDtDoneAt[1].CreatedAt.ToString(), Is.EqualTo(c3Removed_ca.ToString()));
+            Assert.That(caseListRemovedDtDoneAt[1].Custom, Is.EqualTo(aCase3Removed.Custom));
+            Assert.That(caseListRemovedDtDoneAt[1].DoneAt.ToString(), Is.EqualTo(c3Removed_da.ToString()));
+            Assert.That(caseListRemovedDtDoneAt[1].Id, Is.EqualTo(aCase3Removed.Id));
+            Assert.That(caseListRemovedDtDoneAt[1].MicrotingUId, Is.EqualTo(aCase3Removed.MicrotingUid));
+            Assert.That(caseListRemovedDtDoneAt[1].SiteId, Is.EqualTo(aCase3Removed.Site.MicrotingUid));
+            Assert.That(caseListRemovedDtDoneAt[1].SiteName, Is.EqualTo(aCase3Removed.Site.Name));
+            Assert.That(caseListRemovedDtDoneAt[1].Status, Is.EqualTo(aCase3Removed.Status));
+            Assert.That(caseListRemovedDtDoneAt[1].TemplatId, Is.EqualTo(cl1.Id));
+            Assert.That(caseListRemovedDtDoneAt[1].UnitId, Is.EqualTo(aCase3Removed.Unit.MicrotingUid));
+            //            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedDtDoneAt[1].UpdatedAt.ToString());
+            Assert.That(caseListRemovedDtDoneAt[1].Version, Is.EqualTo(aCase3Removed.Version));
+            Assert.That(caseListRemovedDtDoneAt[1].WorkerName,
+                Is.EqualTo(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName));
+            Assert.That(caseListRemovedDtDoneAt[1].WorkflowState, Is.EqualTo(aCase3Removed.WorkflowState));
 
             #endregion
 
@@ -2619,48 +2619,48 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedDtStatus aCase1Removed
 
             Assert.NotNull(caseListRemovedDtStatus);
-            Assert.AreEqual(2, caseListRemovedDtStatus.Count);
-            Assert.AreEqual(aCase1Removed.Type, caseListRemovedDtStatus[0].CaseType);
-            Assert.AreEqual(aCase1Removed.CaseUid, caseListRemovedDtStatus[0].CaseUId);
-            Assert.AreEqual(aCase1Removed.MicrotingCheckUid, caseListRemovedDtStatus[0].CheckUIid);
-            Assert.AreEqual(c1Removed_ca.ToString(), caseListRemovedDtStatus[0].CreatedAt.ToString());
-            Assert.AreEqual(aCase1Removed.Custom, caseListRemovedDtStatus[0].Custom);
-            Assert.AreEqual(c1Removed_da.ToString(), caseListRemovedDtStatus[0].DoneAt.ToString());
-            Assert.AreEqual(aCase1Removed.Id, caseListRemovedDtStatus[0].Id);
-            Assert.AreEqual(aCase1Removed.MicrotingUid, caseListRemovedDtStatus[0].MicrotingUId);
-            Assert.AreEqual(aCase1Removed.Site.MicrotingUid, caseListRemovedDtStatus[0].SiteId);
-            Assert.AreEqual(aCase1Removed.Site.Name, caseListRemovedDtStatus[0].SiteName);
-            Assert.AreEqual(aCase1Removed.Status, caseListRemovedDtStatus[0].Status);
-            Assert.AreEqual(aCase1Removed.CheckListId, caseListRemovedDtStatus[0].TemplatId);
-            Assert.AreEqual(aCase1Removed.Unit.MicrotingUid, caseListRemovedDtStatus[0].UnitId);
-//            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedDtStatus[0].UpdatedAt.ToString());
-            Assert.AreEqual(aCase1Removed.Version, caseListRemovedDtStatus[0].Version);
-            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName,
-                caseListRemovedDtStatus[0].WorkerName);
-            Assert.AreEqual(aCase1Removed.WorkflowState, caseListRemovedDtStatus[0].WorkflowState);
+            Assert.That(caseListRemovedDtStatus.Count, Is.EqualTo(2));
+            Assert.That(caseListRemovedDtStatus[0].CaseType, Is.EqualTo(aCase1Removed.Type));
+            Assert.That(caseListRemovedDtStatus[0].CaseUId, Is.EqualTo(aCase1Removed.CaseUid));
+            Assert.That(caseListRemovedDtStatus[0].CheckUIid, Is.EqualTo(aCase1Removed.MicrotingCheckUid));
+            Assert.That(caseListRemovedDtStatus[0].CreatedAt.ToString(), Is.EqualTo(c1Removed_ca.ToString()));
+            Assert.That(caseListRemovedDtStatus[0].Custom, Is.EqualTo(aCase1Removed.Custom));
+            Assert.That(caseListRemovedDtStatus[0].DoneAt.ToString(), Is.EqualTo(c1Removed_da.ToString()));
+            Assert.That(caseListRemovedDtStatus[0].Id, Is.EqualTo(aCase1Removed.Id));
+            Assert.That(caseListRemovedDtStatus[0].MicrotingUId, Is.EqualTo(aCase1Removed.MicrotingUid));
+            Assert.That(caseListRemovedDtStatus[0].SiteId, Is.EqualTo(aCase1Removed.Site.MicrotingUid));
+            Assert.That(caseListRemovedDtStatus[0].SiteName, Is.EqualTo(aCase1Removed.Site.Name));
+            Assert.That(caseListRemovedDtStatus[0].Status, Is.EqualTo(aCase1Removed.Status));
+            Assert.That(caseListRemovedDtStatus[0].TemplatId, Is.EqualTo(aCase1Removed.CheckListId));
+            Assert.That(caseListRemovedDtStatus[0].UnitId, Is.EqualTo(aCase1Removed.Unit.MicrotingUid));
+            //            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedDtStatus[0].UpdatedAt.ToString());
+            Assert.That(caseListRemovedDtStatus[0].Version, Is.EqualTo(aCase1Removed.Version));
+            Assert.That(caseListRemovedDtStatus[0].WorkerName,
+                Is.EqualTo(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName));
+            Assert.That(caseListRemovedDtStatus[0].WorkflowState, Is.EqualTo(aCase1Removed.WorkflowState));
 
             #endregion
 
             #region caseListRemovedDtStatus aCase3Removed
 
-            Assert.AreEqual(aCase3Removed.Type, caseListRemovedDtStatus[1].CaseType);
-            Assert.AreEqual(aCase3Removed.CaseUid, caseListRemovedDtStatus[1].CaseUId);
-            Assert.AreEqual(aCase3Removed.MicrotingCheckUid, caseListRemovedDtStatus[1].CheckUIid);
-            Assert.AreEqual(c3Removed_ca.ToString(), caseListRemovedDtStatus[1].CreatedAt.ToString());
-            Assert.AreEqual(aCase3Removed.Custom, caseListRemovedDtStatus[1].Custom);
-            Assert.AreEqual(c3Removed_da.ToString(), caseListRemovedDtStatus[1].DoneAt.ToString());
-            Assert.AreEqual(aCase3Removed.Id, caseListRemovedDtStatus[1].Id);
-            Assert.AreEqual(aCase3Removed.MicrotingUid, caseListRemovedDtStatus[1].MicrotingUId);
-            Assert.AreEqual(aCase3Removed.Site.MicrotingUid, caseListRemovedDtStatus[1].SiteId);
-            Assert.AreEqual(aCase3Removed.Site.Name, caseListRemovedDtStatus[1].SiteName);
-            Assert.AreEqual(aCase3Removed.Status, caseListRemovedDtStatus[1].Status);
-            Assert.AreEqual(aCase3Removed.CheckListId, caseListRemovedDtStatus[1].TemplatId);
-            Assert.AreEqual(aCase3Removed.Unit.MicrotingUid, caseListRemovedDtStatus[1].UnitId);
-//            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedDtStatus[1].UpdatedAt.ToString());
-            Assert.AreEqual(aCase3Removed.Version, caseListRemovedDtStatus[1].Version);
-            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName,
-                caseListRemovedDtStatus[1].WorkerName);
-            Assert.AreEqual(aCase3Removed.WorkflowState, caseListRemovedDtStatus[1].WorkflowState);
+            Assert.That(caseListRemovedDtStatus[1].CaseType, Is.EqualTo(aCase3Removed.Type));
+            Assert.That(caseListRemovedDtStatus[1].CaseUId, Is.EqualTo(aCase3Removed.CaseUid));
+            Assert.That(caseListRemovedDtStatus[1].CheckUIid, Is.EqualTo(aCase3Removed.MicrotingCheckUid));
+            Assert.That(caseListRemovedDtStatus[1].CreatedAt.ToString(), Is.EqualTo(c3Removed_ca.ToString()));
+            Assert.That(caseListRemovedDtStatus[1].Custom, Is.EqualTo(aCase3Removed.Custom));
+            Assert.That(caseListRemovedDtStatus[1].DoneAt.ToString(), Is.EqualTo(c3Removed_da.ToString()));
+            Assert.That(caseListRemovedDtStatus[1].Id, Is.EqualTo(aCase3Removed.Id));
+            Assert.That(caseListRemovedDtStatus[1].MicrotingUId, Is.EqualTo(aCase3Removed.MicrotingUid));
+            Assert.That(caseListRemovedDtStatus[1].SiteId, Is.EqualTo(aCase3Removed.Site.MicrotingUid));
+            Assert.That(caseListRemovedDtStatus[1].SiteName, Is.EqualTo(aCase3Removed.Site.Name));
+            Assert.That(caseListRemovedDtStatus[1].Status, Is.EqualTo(aCase3Removed.Status));
+            Assert.That(caseListRemovedDtStatus[1].TemplatId, Is.EqualTo(aCase3Removed.CheckListId));
+            Assert.That(caseListRemovedDtStatus[1].UnitId, Is.EqualTo(aCase3Removed.Unit.MicrotingUid));
+            //            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedDtStatus[1].UpdatedAt.ToString());
+            Assert.That(caseListRemovedDtStatus[1].Version, Is.EqualTo(aCase3Removed.Version));
+            Assert.That(caseListRemovedDtStatus[1].WorkerName,
+                Is.EqualTo(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName));
+            Assert.That(caseListRemovedDtStatus[1].WorkflowState, Is.EqualTo(aCase3Removed.WorkflowState));
 
             #endregion
 
@@ -2671,49 +2671,49 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedDtUnitId aCase1Removed
 
             Assert.NotNull(caseListRemovedDtUnitId);
-            Assert.AreEqual(2, caseListRemovedDtUnitId.Count);
-            Assert.AreEqual(aCase1Removed.Type, caseListRemovedDtUnitId[0].CaseType);
-            Assert.AreEqual(aCase1Removed.CaseUid, caseListRemovedDtUnitId[0].CaseUId);
-            Assert.AreEqual(aCase1Removed.MicrotingCheckUid, caseListRemovedDtUnitId[0].CheckUIid);
-            Assert.AreEqual(c1Removed_ca.ToString(), caseListRemovedDtUnitId[0].CreatedAt.ToString());
-            Assert.AreEqual(aCase1Removed.Custom, caseListRemovedDtUnitId[0].Custom);
-            Assert.AreEqual(c1Removed_da.ToString(), caseListRemovedDtUnitId[0].DoneAt.ToString());
-            Assert.AreEqual(aCase1Removed.Id, caseListRemovedDtUnitId[0].Id);
-            Assert.AreEqual(aCase1Removed.MicrotingUid, caseListRemovedDtUnitId[0].MicrotingUId);
-            Assert.AreEqual(aCase1Removed.Site.MicrotingUid, caseListRemovedDtUnitId[0].SiteId);
-            Assert.AreEqual(aCase1Removed.Site.Name, caseListRemovedDtUnitId[0].SiteName);
-            Assert.AreEqual(aCase1Removed.Status, caseListRemovedDtUnitId[0].Status);
-            Assert.AreEqual(aCase1Removed.CheckListId, caseListRemovedDtUnitId[0].TemplatId);
-            Assert.AreEqual(aCase1Removed.Unit.MicrotingUid, caseListRemovedDtUnitId[0].UnitId);
-//            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedDtUnitId[0].UpdatedAt.ToString());
-            Assert.AreEqual(aCase1Removed.Version, caseListRemovedDtUnitId[0].Version);
-            Assert.AreEqual(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName,
-                caseListRemovedDtUnitId[0].WorkerName);
-            Assert.AreEqual(aCase1Removed.WorkflowState, caseListRemovedDtUnitId[0].WorkflowState);
+            Assert.That(caseListRemovedDtUnitId.Count, Is.EqualTo(2));
+            Assert.That(caseListRemovedDtUnitId[0].CaseType, Is.EqualTo(aCase1Removed.Type));
+            Assert.That(caseListRemovedDtUnitId[0].CaseUId, Is.EqualTo(aCase1Removed.CaseUid));
+            Assert.That(caseListRemovedDtUnitId[0].CheckUIid, Is.EqualTo(aCase1Removed.MicrotingCheckUid));
+            Assert.That(caseListRemovedDtUnitId[0].CreatedAt.ToString(), Is.EqualTo(c1Removed_ca.ToString()));
+            Assert.That(caseListRemovedDtUnitId[0].Custom, Is.EqualTo(aCase1Removed.Custom));
+            Assert.That(caseListRemovedDtUnitId[0].DoneAt.ToString(), Is.EqualTo(c1Removed_da.ToString()));
+            Assert.That(caseListRemovedDtUnitId[0].Id, Is.EqualTo(aCase1Removed.Id));
+            Assert.That(caseListRemovedDtUnitId[0].MicrotingUId, Is.EqualTo(aCase1Removed.MicrotingUid));
+            Assert.That(caseListRemovedDtUnitId[0].SiteId, Is.EqualTo(aCase1Removed.Site.MicrotingUid));
+            Assert.That(caseListRemovedDtUnitId[0].SiteName, Is.EqualTo(aCase1Removed.Site.Name));
+            Assert.That(caseListRemovedDtUnitId[0].Status, Is.EqualTo(aCase1Removed.Status));
+            Assert.That(caseListRemovedDtUnitId[0].TemplatId, Is.EqualTo(aCase1Removed.CheckListId));
+            Assert.That(caseListRemovedDtUnitId[0].UnitId, Is.EqualTo(aCase1Removed.Unit.MicrotingUid));
+            //            Assert.AreEqual(c1Removed_ua.ToString(), caseListRemovedDtUnitId[0].UpdatedAt.ToString());
+            Assert.That(caseListRemovedDtUnitId[0].Version, Is.EqualTo(aCase1Removed.Version));
+            Assert.That(caseListRemovedDtUnitId[0].WorkerName,
+                Is.EqualTo(aCase1Removed.Worker.FirstName + " " + aCase1Removed.Worker.LastName));
+            Assert.That(caseListRemovedDtUnitId[0].WorkflowState, Is.EqualTo(aCase1Removed.WorkflowState));
 
             #endregion
 
 
             #region caseListRemovedDtUnitId aCase3Removed
 
-            Assert.AreEqual(aCase3Removed.Type, caseListRemovedDtUnitId[1].CaseType);
-            Assert.AreEqual(aCase3Removed.CaseUid, caseListRemovedDtUnitId[1].CaseUId);
-            Assert.AreEqual(aCase3Removed.MicrotingCheckUid, caseListRemovedDtUnitId[1].CheckUIid);
-            Assert.AreEqual(c3Removed_ca.ToString(), caseListRemovedDtUnitId[1].CreatedAt.ToString());
-            Assert.AreEqual(aCase3Removed.Custom, caseListRemovedDtUnitId[1].Custom);
-            Assert.AreEqual(c3Removed_da.ToString(), caseListRemovedDtUnitId[1].DoneAt.ToString());
-            Assert.AreEqual(aCase3Removed.Id, caseListRemovedDtUnitId[1].Id);
-            Assert.AreEqual(aCase3Removed.MicrotingUid, caseListRemovedDtUnitId[1].MicrotingUId);
-            Assert.AreEqual(aCase3Removed.Site.MicrotingUid, caseListRemovedDtUnitId[1].SiteId);
-            Assert.AreEqual(aCase3Removed.Site.Name, caseListRemovedDtUnitId[1].SiteName);
-            Assert.AreEqual(aCase3Removed.Status, caseListRemovedDtUnitId[1].Status);
-            Assert.AreEqual(aCase3Removed.CheckListId, caseListRemovedDtUnitId[1].TemplatId);
-            Assert.AreEqual(aCase3Removed.Unit.MicrotingUid, caseListRemovedDtUnitId[1].UnitId);
-//            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedDtUnitId[1].UpdatedAt.ToString());
-            Assert.AreEqual(aCase3Removed.Version, caseListRemovedDtUnitId[1].Version);
-            Assert.AreEqual(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName,
-                caseListRemovedDtUnitId[1].WorkerName);
-            Assert.AreEqual(aCase3Removed.WorkflowState, caseListRemovedDtUnitId[1].WorkflowState);
+            Assert.That(caseListRemovedDtUnitId[1].CaseType, Is.EqualTo(aCase3Removed.Type));
+            Assert.That(caseListRemovedDtUnitId[1].CaseUId, Is.EqualTo(aCase3Removed.CaseUid));
+            Assert.That(caseListRemovedDtUnitId[1].CheckUIid, Is.EqualTo(aCase3Removed.MicrotingCheckUid));
+            Assert.That(caseListRemovedDtUnitId[1].CreatedAt.ToString(), Is.EqualTo(c3Removed_ca.ToString()));
+            Assert.That(caseListRemovedDtUnitId[1].Custom, Is.EqualTo(aCase3Removed.Custom));
+            Assert.That(caseListRemovedDtUnitId[1].DoneAt.ToString(), Is.EqualTo(c3Removed_da.ToString()));
+            Assert.That(caseListRemovedDtUnitId[1].Id, Is.EqualTo(aCase3Removed.Id));
+            Assert.That(caseListRemovedDtUnitId[1].MicrotingUId, Is.EqualTo(aCase3Removed.MicrotingUid));
+            Assert.That(caseListRemovedDtUnitId[1].SiteId, Is.EqualTo(aCase3Removed.Site.MicrotingUid));
+            Assert.That(caseListRemovedDtUnitId[1].SiteName, Is.EqualTo(aCase3Removed.Site.Name));
+            Assert.That(caseListRemovedDtUnitId[1].Status, Is.EqualTo(aCase3Removed.Status));
+            Assert.That(caseListRemovedDtUnitId[1].TemplatId, Is.EqualTo(aCase3Removed.CheckListId));
+            Assert.That(caseListRemovedDtUnitId[1].UnitId, Is.EqualTo(aCase3Removed.Unit.MicrotingUid));
+            //            Assert.AreEqual(c3Removed_ua.ToString(), caseListRemovedDtUnitId[1].UpdatedAt.ToString());
+            Assert.That(caseListRemovedDtUnitId[1].Version, Is.EqualTo(aCase3Removed.Version));
+            Assert.That(caseListRemovedDtUnitId[1].WorkerName,
+                Is.EqualTo(aCase3Removed.Worker.FirstName + " " + aCase3Removed.Worker.LastName));
+            Assert.That(caseListRemovedDtUnitId[1].WorkflowState, Is.EqualTo(aCase3Removed.WorkflowState));
 
             #endregion
 
@@ -2732,7 +2732,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC1DoneAt aCase1Removed
 
             Assert.NotNull(caseListRemovedC1SortDoneAt);
-            Assert.AreEqual(0, caseListRemovedC1SortDoneAt.Count);
+            Assert.That(caseListRemovedC1SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Removed.type, caseListRemovedC1SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase1Removed.case_uid, caseListRemovedC1SortDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase1Removed.microting_check_uid, caseListRemovedC1SortDoneAt[0].CheckUIid);
@@ -2756,7 +2756,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedC1SortStatus aCase1Removed
 
             Assert.NotNull(caseListRemovedC1SortStatus);
-            Assert.AreEqual(0, caseListRemovedC1SortStatus.Count);
+            Assert.That(caseListRemovedC1SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Removed.type, caseListRemovedC1SortStatus[0].CaseType);
             // Assert.AreEqual(aCase1Removed.case_uid, caseListRemovedC1SortStatus[0].CaseUId);
             // Assert.AreEqual(aCase1Removed.microting_check_uid, caseListRemovedC1SortStatus[0].CheckUIid);
@@ -2780,7 +2780,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedC1SortUnitId
 
             Assert.NotNull(caseListRemovedC1SortUnitId);
-            Assert.AreEqual(0, caseListRemovedC1SortUnitId.Count);
+            Assert.That(caseListRemovedC1SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Removed.type, caseListRemovedC1SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase1Removed.case_uid, caseListRemovedC1SortUnitId[0].CaseUId);
             // Assert.AreEqual(aCase1Removed.microting_check_uid, caseListRemovedC1SortUnitId[0].CheckUIid);
@@ -2808,7 +2808,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC2DoneAt aCase2Removed
 
             Assert.NotNull(caseListRemovedC2SortDoneAt);
-            Assert.AreEqual(0, caseListRemovedC2SortDoneAt.Count);
+            Assert.That(caseListRemovedC2SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Removed.type, caseListRemovedC2SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase2Removed.case_uid, caseListRemovedC2SortDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase2Removed.microting_check_uid, caseListRemovedC2SortDoneAt[0].CheckUIid);
@@ -2832,7 +2832,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedC2SortStatus aCase2Removed
 
             Assert.NotNull(caseListRemovedC2SortStatus);
-            Assert.AreEqual(0, caseListRemovedC2SortStatus.Count);
+            Assert.That(caseListRemovedC2SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Removed.type, caseListRemovedC2SortStatus[0].CaseType);
             // Assert.AreEqual(aCase2Removed.case_uid, caseListRemovedC2SortStatus[0].CaseUId);
             // Assert.AreEqual(aCase2Removed.microting_check_uid, caseListRemovedC2SortStatus[0].CheckUIid);
@@ -2856,7 +2856,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedC2SortUnitId aCase2Removed
 
             Assert.NotNull(caseListRemovedC2SortUnitId);
-            Assert.AreEqual(0, caseListRemovedC2SortUnitId.Count);
+            Assert.That(caseListRemovedC2SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Removed.type, caseListRemovedC2SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase2Removed.case_uid, caseListRemovedC2SortUnitId[0].CaseUId);
             // Assert.AreEqual(aCase2Removed.microting_check_uid, caseListRemovedC2SortUnitId[0].CheckUIid);
@@ -2884,7 +2884,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC3DoneAt aCase3Removed
 
             Assert.NotNull(caseListRemovedC3SortDoneAt);
-            Assert.AreEqual(0, caseListRemovedC3SortDoneAt.Count);
+            Assert.That(caseListRemovedC3SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Removed.type, caseListRemovedC3SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase3Removed.case_uid, caseListRemovedC3SortDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase3Removed.microting_check_uid, caseListRemovedC3SortDoneAt[0].CheckUIid);
@@ -2908,7 +2908,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC3status aCase3Removed
 
             Assert.NotNull(caseListRemovedC3SortStatus);
-            Assert.AreEqual(0, caseListRemovedC3SortStatus.Count);
+            Assert.That(caseListRemovedC3SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Removed.type, caseListRemovedC3SortStatus[0].CaseType);
             // Assert.AreEqual(aCase3Removed.case_uid, caseListRemovedC3SortStatus[0].CaseUId);
             // Assert.AreEqual(aCase3Removed.microting_check_uid, caseListRemovedC3SortStatus[0].CheckUIid);
@@ -2932,7 +2932,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC3UnitId aCase3Removed
 
             Assert.NotNull(caseListRemovedC3SortUnitId);
-            Assert.AreEqual(0, caseListRemovedC3SortUnitId.Count);
+            Assert.That(caseListRemovedC3SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Removed.type, caseListRemovedC3SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase3Removed.case_uid, caseListRemovedC3SortUnitId[0].CaseUId);
             // Assert.AreEqual(aCase3Removed.microting_check_uid, caseListRemovedC3SortUnitId[0].CheckUIid);
@@ -2960,7 +2960,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedC4SortDoneAt aCase4Removed
 
             Assert.NotNull(caseListRemovedC4SortDoneAt);
-            Assert.AreEqual(0, caseListRemovedC4SortDoneAt.Count);
+            Assert.That(caseListRemovedC4SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Removed.type, caseListRemovedC4SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase4Removed.case_uid, caseListRemovedC4SortDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase4Removed.microting_check_uid, caseListRemovedC4SortDoneAt[0].CheckUIid);
@@ -2984,7 +2984,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedC4SortStatus aCase4Removed
 
             Assert.NotNull(caseListRemovedC4SortStatus);
-            Assert.AreEqual(0, caseListRemovedC4SortStatus.Count);
+            Assert.That(caseListRemovedC4SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Removed.type, caseListRemovedC4SortStatus[0].CaseType);
             // Assert.AreEqual(aCase4Removed.case_uid, caseListRemovedC4SortStatus[0].CaseUId);
             // Assert.AreEqual(aCase4Removed.microting_check_uid, caseListRemovedC4SortStatus[0].CheckUIid);
@@ -3008,7 +3008,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedC4SortUnitId aCase4Removed
 
             Assert.NotNull(caseListRemovedC4SortUnitId);
-            Assert.AreEqual(0, caseListRemovedC4SortUnitId.Count);
+            Assert.That(caseListRemovedC4SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Removed.type, caseListRemovedC4SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase4Removed.case_uid, caseListRemovedC4SortUnitId[0].CaseUId);
             // Assert.AreEqual(aCase4Removed.microting_check_uid, caseListRemovedC4SortUnitId[0].CheckUIid);
@@ -3041,7 +3041,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedC1SortDtDoneAt aCase1Removed
 
             Assert.NotNull(caseListRemovedC1SortDtDoneAt);
-            Assert.AreEqual(0, caseListRemovedC1SortDtDoneAt.Count);
+            Assert.That(caseListRemovedC1SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Removed.type, caseListRemovedC1SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase1Removed.case_uid, caseListRemovedC1SortDtDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase1Removed.microting_check_uid, caseListRemovedC1SortDtDoneAt[0].CheckUIid);
@@ -3065,7 +3065,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedC1SortDtStatus aCase1Removed
 
             Assert.NotNull(caseListRemovedC1SortDtStatus);
-            Assert.AreEqual(0, caseListRemovedC1SortDtStatus.Count);
+            Assert.That(caseListRemovedC1SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Removed.type, caseListRemovedC1SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase1Removed.case_uid, caseListRemovedC1SortDtStatus[0].CaseUId);
             // Assert.AreEqual(aCase1Removed.microting_check_uid, caseListRemovedC1SortDtStatus[0].CheckUIid);
@@ -3089,7 +3089,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedC1SortDtUnitId aCase1Removed
 
             Assert.NotNull(caseListRemovedC1SortDtUnitId);
-            Assert.AreEqual(0, caseListRemovedC1SortDtUnitId.Count);
+            Assert.That(caseListRemovedC1SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Removed.type, caseListRemovedC1SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase1Removed.case_uid, caseListRemovedC1SortDtUnitId[0].CaseUId);
             // Assert.AreEqual(aCase1Removed.microting_check_uid, caseListRemovedC1SortDtUnitId[0].CheckUIid);
@@ -3117,7 +3117,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedC2SortDtDoneAt aCase2Removed
 
             Assert.NotNull(caseListRemovedC2SortDtDoneAt);
-            Assert.AreEqual(0, caseListRemovedC2SortDtDoneAt.Count);
+            Assert.That(caseListRemovedC2SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Removed.type, caseListRemovedC2SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase2Removed.case_uid, caseListRemovedC2SortDtDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase2Removed.microting_check_uid, caseListRemovedC2SortDtDoneAt[0].CheckUIid);
@@ -3141,7 +3141,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedC2SortDtStatus aCase2Removed
 
             Assert.NotNull(caseListRemovedC2SortDtStatus);
-            Assert.AreEqual(0, caseListRemovedC2SortDtStatus.Count);
+            Assert.That(caseListRemovedC2SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Removed.type, caseListRemovedC2SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase2Removed.case_uid, caseListRemovedC2SortDtStatus[0].CaseUId);
             // Assert.AreEqual(aCase2Removed.microting_check_uid, caseListRemovedC2SortDtStatus[0].CheckUIid);
@@ -3165,7 +3165,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedC2SortDtUnitId aCase2Removed
 
             Assert.NotNull(caseListRemovedC2SortDtUnitId);
-            Assert.AreEqual(0, caseListRemovedC2SortDtUnitId.Count);
+            Assert.That(caseListRemovedC2SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Removed.type, caseListRemovedC2SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase2Removed.case_uid, caseListRemovedC2SortDtUnitId[0].CaseUId);
             // Assert.AreEqual(aCase2Removed.microting_check_uid, caseListRemovedC2SortDtUnitId[0].CheckUIid);
@@ -3193,7 +3193,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedC3SortDtDoneAt aCase3Removed
 
             Assert.NotNull(caseListRemovedC3SortDtDoneAt);
-            Assert.AreEqual(0, caseListRemovedC3SortDtDoneAt.Count);
+            Assert.That(caseListRemovedC3SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Removed.type, caseListRemovedC3SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase3Removed.case_uid, caseListRemovedC3SortDtDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase3Removed.microting_check_uid, caseListRemovedC3SortDtDoneAt[0].CheckUIid);
@@ -3217,7 +3217,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedC3SortDtStatus aCase3Removed
 
             Assert.NotNull(caseListRemovedC3SortDtStatus);
-            Assert.AreEqual(0, caseListRemovedC3SortDtStatus.Count);
+            Assert.That(caseListRemovedC3SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Removed.type, caseListRemovedC3SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase3Removed.case_uid, caseListRemovedC3SortDtStatus[0].CaseUId);
             // Assert.AreEqual(aCase3Removed.microting_check_uid, caseListRemovedC3SortDtStatus[0].CheckUIid);
@@ -3241,7 +3241,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedC3SortDtUnitId aCase3Removed
 
             Assert.NotNull(caseListRemovedC3SortDtUnitId);
-            Assert.AreEqual(0, caseListRemovedC3SortDtUnitId.Count);
+            Assert.That(caseListRemovedC3SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Removed.type, caseListRemovedC3SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase3Removed.case_uid, caseListRemovedC3SortDtUnitId[0].CaseUId);
             // Assert.AreEqual(aCase3Removed.microting_check_uid, caseListRemovedC3SortDtUnitId[0].CheckUIid);
@@ -3269,7 +3269,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedC4SortDtDoneAt aCase4Removed
 
             Assert.NotNull(caseListRemovedC4SortDtDoneAt);
-            Assert.AreEqual(0, caseListRemovedC4SortDtDoneAt.Count);
+            Assert.That(caseListRemovedC4SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Removed.type, caseListRemovedC4SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase4Removed.case_uid, caseListRemovedC4SortDtDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase4Removed.microting_check_uid, caseListRemovedC4SortDtDoneAt[0].CheckUIid);
@@ -3293,7 +3293,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedC4SortDtStatus aCase4Removed
 
             Assert.NotNull(caseListRemovedC4SortDtStatus);
-            Assert.AreEqual(0, caseListRemovedC4SortDtStatus.Count);
+            Assert.That(caseListRemovedC4SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Removed.type, caseListRemovedC4SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase4Removed.case_uid, caseListRemovedC4SortDtStatus[0].CaseUId);
             // Assert.AreEqual(aCase4Removed.microting_check_uid, caseListRemovedC4SortDtStatus[0].CheckUIid);
@@ -3317,7 +3317,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRemovedC4SortDtUnitId aCase4Removed
 
             Assert.NotNull(caseListRemovedC4SortDtUnitId);
-            Assert.AreEqual(0, caseListRemovedC4SortDtUnitId.Count);
+            Assert.That(caseListRemovedC4SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Removed.type, caseListRemovedC4SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase4Removed.case_uid, caseListRemovedC4SortDtUnitId[0].CaseUId);
             // Assert.AreEqual(aCase4Removed.microting_check_uid, caseListRemovedC4SortDtUnitId[0].CheckUIid);
@@ -3357,94 +3357,94 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedDoneAt aCase1Retracted
 
             Assert.NotNull(caseListRetractedDoneAt);
-            Assert.AreEqual(4, caseListRetractedDoneAt.Count);
-            Assert.AreEqual(aCase1Retracted.Type, caseListRetractedDoneAt[0].CaseType);
-            Assert.AreEqual(aCase1Retracted.CaseUid, caseListRetractedDoneAt[0].CaseUId);
-            Assert.AreEqual(aCase1Retracted.MicrotingCheckUid, caseListRetractedDoneAt[0].CheckUIid);
-            Assert.AreEqual(c1Retracted_ca.ToString(), caseListRetractedDoneAt[0].CreatedAt.ToString());
-            Assert.AreEqual(aCase1Retracted.Custom, caseListRetractedDoneAt[0].Custom);
-            Assert.AreEqual(c1Retracted_da.ToString(), caseListRetractedDoneAt[0].DoneAt.ToString());
-            Assert.AreEqual(aCase1Retracted.Id, caseListRetractedDoneAt[0].Id);
-            Assert.AreEqual(aCase1Retracted.MicrotingUid, caseListRetractedDoneAt[0].MicrotingUId);
-            Assert.AreEqual(aCase1Retracted.Site.MicrotingUid, caseListRetractedDoneAt[0].SiteId);
-            Assert.AreEqual(aCase1Retracted.Site.Name, caseListRetractedDoneAt[0].SiteName);
-            Assert.AreEqual(aCase1Retracted.Status, caseListRetractedDoneAt[0].Status);
-            Assert.AreEqual(cl1.Id, caseListRetractedDoneAt[0].TemplatId);
-            Assert.AreEqual(aCase1Retracted.Unit.MicrotingUid, caseListRetractedDoneAt[0].UnitId);
-//            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedDoneAt[0].UpdatedAt.ToString());
-            Assert.AreEqual(aCase1Retracted.Version, caseListRetractedDoneAt[0].Version);
-            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName,
-                caseListRetractedDoneAt[0].WorkerName);
-            Assert.AreEqual(aCase1Retracted.WorkflowState, caseListRetractedDoneAt[0].WorkflowState);
+            Assert.That(caseListRetractedDoneAt.Count, Is.EqualTo(4));
+            Assert.That(caseListRetractedDoneAt[0].CaseType, Is.EqualTo(aCase1Retracted.Type));
+            Assert.That(caseListRetractedDoneAt[0].CaseUId, Is.EqualTo(aCase1Retracted.CaseUid));
+            Assert.That(caseListRetractedDoneAt[0].CheckUIid, Is.EqualTo(aCase1Retracted.MicrotingCheckUid));
+            Assert.That(caseListRetractedDoneAt[0].CreatedAt.ToString(), Is.EqualTo(c1Retracted_ca.ToString()));
+            Assert.That(caseListRetractedDoneAt[0].Custom, Is.EqualTo(aCase1Retracted.Custom));
+            Assert.That(caseListRetractedDoneAt[0].DoneAt.ToString(), Is.EqualTo(c1Retracted_da.ToString()));
+            Assert.That(caseListRetractedDoneAt[0].Id, Is.EqualTo(aCase1Retracted.Id));
+            Assert.That(caseListRetractedDoneAt[0].MicrotingUId, Is.EqualTo(aCase1Retracted.MicrotingUid));
+            Assert.That(caseListRetractedDoneAt[0].SiteId, Is.EqualTo(aCase1Retracted.Site.MicrotingUid));
+            Assert.That(caseListRetractedDoneAt[0].SiteName, Is.EqualTo(aCase1Retracted.Site.Name));
+            Assert.That(caseListRetractedDoneAt[0].Status, Is.EqualTo(aCase1Retracted.Status));
+            Assert.That(caseListRetractedDoneAt[0].TemplatId, Is.EqualTo(cl1.Id));
+            Assert.That(caseListRetractedDoneAt[0].UnitId, Is.EqualTo(aCase1Retracted.Unit.MicrotingUid));
+            //            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedDoneAt[0].UpdatedAt.ToString());
+            Assert.That(caseListRetractedDoneAt[0].Version, Is.EqualTo(aCase1Retracted.Version));
+            Assert.That(caseListRetractedDoneAt[0].WorkerName,
+                Is.EqualTo(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName));
+            Assert.That(caseListRetractedDoneAt[0].WorkflowState, Is.EqualTo(aCase1Retracted.WorkflowState));
 
             #endregion
 
             #region caseListRetractedDoneAt aCase2Retracted
 
-            Assert.AreEqual(aCase2Retracted.Type, caseListRetractedDoneAt[1].CaseType);
-            Assert.AreEqual(aCase2Retracted.CaseUid, caseListRetractedDoneAt[1].CaseUId);
-            Assert.AreEqual(aCase2Retracted.MicrotingCheckUid, caseListRetractedDoneAt[1].CheckUIid);
-            Assert.AreEqual(c2Retracted_ca.ToString(), caseListRetractedDoneAt[1].CreatedAt.ToString());
-            Assert.AreEqual(aCase2Retracted.Custom, caseListRetractedDoneAt[1].Custom);
-            Assert.AreEqual(c2Retracted_da.ToString(), caseListRetractedDoneAt[1].DoneAt.ToString());
-            Assert.AreEqual(aCase2Retracted.Id, caseListRetractedDoneAt[1].Id);
-            Assert.AreEqual(aCase2Retracted.MicrotingUid, caseListRetractedDoneAt[1].MicrotingUId);
-            Assert.AreEqual(aCase2Retracted.Site.MicrotingUid, caseListRetractedDoneAt[1].SiteId);
-            Assert.AreEqual(aCase2Retracted.Site.Name, caseListRetractedDoneAt[1].SiteName);
-            Assert.AreEqual(aCase2Retracted.Status, caseListRetractedDoneAt[1].Status);
-            Assert.AreEqual(cl1.Id, caseListRetractedDoneAt[1].TemplatId);
-            Assert.AreEqual(aCase2Retracted.Unit.MicrotingUid, caseListRetractedDoneAt[1].UnitId);
-//            Assert.AreEqual(c2Retracted_ua.ToString(), caseListRetractedDoneAt[1].UpdatedAt.ToString());
-            Assert.AreEqual(aCase2Retracted.Version, caseListRetractedDoneAt[1].Version);
-            Assert.AreEqual(aCase2Retracted.Worker.FirstName + " " + aCase2Retracted.Worker.LastName,
-                caseListRetractedDoneAt[1].WorkerName);
-            Assert.AreEqual(aCase2Retracted.WorkflowState, caseListRetractedDoneAt[1].WorkflowState);
+            Assert.That(caseListRetractedDoneAt[1].CaseType, Is.EqualTo(aCase2Retracted.Type));
+            Assert.That(caseListRetractedDoneAt[1].CaseUId, Is.EqualTo(aCase2Retracted.CaseUid));
+            Assert.That(caseListRetractedDoneAt[1].CheckUIid, Is.EqualTo(aCase2Retracted.MicrotingCheckUid));
+            Assert.That(caseListRetractedDoneAt[1].CreatedAt.ToString(), Is.EqualTo(c2Retracted_ca.ToString()));
+            Assert.That(caseListRetractedDoneAt[1].Custom, Is.EqualTo(aCase2Retracted.Custom));
+            Assert.That(caseListRetractedDoneAt[1].DoneAt.ToString(), Is.EqualTo(c2Retracted_da.ToString()));
+            Assert.That(caseListRetractedDoneAt[1].Id, Is.EqualTo(aCase2Retracted.Id));
+            Assert.That(caseListRetractedDoneAt[1].MicrotingUId, Is.EqualTo(aCase2Retracted.MicrotingUid));
+            Assert.That(caseListRetractedDoneAt[1].SiteId, Is.EqualTo(aCase2Retracted.Site.MicrotingUid));
+            Assert.That(caseListRetractedDoneAt[1].SiteName, Is.EqualTo(aCase2Retracted.Site.Name));
+            Assert.That(caseListRetractedDoneAt[1].Status, Is.EqualTo(aCase2Retracted.Status));
+            Assert.That(caseListRetractedDoneAt[1].TemplatId, Is.EqualTo(cl1.Id));
+            Assert.That(caseListRetractedDoneAt[1].UnitId, Is.EqualTo(aCase2Retracted.Unit.MicrotingUid));
+            //            Assert.AreEqual(c2Retracted_ua.ToString(), caseListRetractedDoneAt[1].UpdatedAt.ToString());
+            Assert.That(caseListRetractedDoneAt[1].Version, Is.EqualTo(aCase2Retracted.Version));
+            Assert.That(caseListRetractedDoneAt[1].WorkerName,
+                Is.EqualTo(aCase2Retracted.Worker.FirstName + " " + aCase2Retracted.Worker.LastName));
+            Assert.That(caseListRetractedDoneAt[1].WorkflowState, Is.EqualTo(aCase2Retracted.WorkflowState));
 
             #endregion
 
             #region caseListRetractedDoneAt aCase3Retracted
 
-            Assert.AreEqual(aCase3Retracted.Type, caseListRetractedDoneAt[2].CaseType);
-            Assert.AreEqual(aCase3Retracted.CaseUid, caseListRetractedDoneAt[2].CaseUId);
-            Assert.AreEqual(aCase3Retracted.MicrotingCheckUid, caseListRetractedDoneAt[2].CheckUIid);
-            Assert.AreEqual(c3Retracted_ca.ToString(), caseListRetractedDoneAt[2].CreatedAt.ToString());
-            Assert.AreEqual(aCase3Retracted.Custom, caseListRetractedDoneAt[2].Custom);
-            Assert.AreEqual(c3Retracted_da.ToString(), caseListRetractedDoneAt[2].DoneAt.ToString());
-            Assert.AreEqual(aCase3Retracted.Id, caseListRetractedDoneAt[2].Id);
-            Assert.AreEqual(aCase3Retracted.MicrotingUid, caseListRetractedDoneAt[2].MicrotingUId);
-            Assert.AreEqual(aCase3Retracted.Site.MicrotingUid, caseListRetractedDoneAt[2].SiteId);
-            Assert.AreEqual(aCase3Retracted.Site.Name, caseListRetractedDoneAt[2].SiteName);
-            Assert.AreEqual(aCase3Retracted.Status, caseListRetractedDoneAt[2].Status);
-            Assert.AreEqual(cl1.Id, caseListRetractedDoneAt[2].TemplatId);
-            Assert.AreEqual(aCase3Retracted.Unit.MicrotingUid, caseListRetractedDoneAt[2].UnitId);
-//            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedDoneAt[2].UpdatedAt.ToString());
-            Assert.AreEqual(aCase3Retracted.Version, caseListRetractedDoneAt[2].Version);
-            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName,
-                caseListRetractedDoneAt[2].WorkerName);
-            Assert.AreEqual(aCase3Retracted.WorkflowState, caseListRetractedDoneAt[2].WorkflowState);
+            Assert.That(caseListRetractedDoneAt[2].CaseType, Is.EqualTo(aCase3Retracted.Type));
+            Assert.That(caseListRetractedDoneAt[2].CaseUId, Is.EqualTo(aCase3Retracted.CaseUid));
+            Assert.That(caseListRetractedDoneAt[2].CheckUIid, Is.EqualTo(aCase3Retracted.MicrotingCheckUid));
+            Assert.That(caseListRetractedDoneAt[2].CreatedAt.ToString(), Is.EqualTo(c3Retracted_ca.ToString()));
+            Assert.That(caseListRetractedDoneAt[2].Custom, Is.EqualTo(aCase3Retracted.Custom));
+            Assert.That(caseListRetractedDoneAt[2].DoneAt.ToString(), Is.EqualTo(c3Retracted_da.ToString()));
+            Assert.That(caseListRetractedDoneAt[2].Id, Is.EqualTo(aCase3Retracted.Id));
+            Assert.That(caseListRetractedDoneAt[2].MicrotingUId, Is.EqualTo(aCase3Retracted.MicrotingUid));
+            Assert.That(caseListRetractedDoneAt[2].SiteId, Is.EqualTo(aCase3Retracted.Site.MicrotingUid));
+            Assert.That(caseListRetractedDoneAt[2].SiteName, Is.EqualTo(aCase3Retracted.Site.Name));
+            Assert.That(caseListRetractedDoneAt[2].Status, Is.EqualTo(aCase3Retracted.Status));
+            Assert.That(caseListRetractedDoneAt[2].TemplatId, Is.EqualTo(cl1.Id));
+            Assert.That(caseListRetractedDoneAt[2].UnitId, Is.EqualTo(aCase3Retracted.Unit.MicrotingUid));
+            //            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedDoneAt[2].UpdatedAt.ToString());
+            Assert.That(caseListRetractedDoneAt[2].Version, Is.EqualTo(aCase3Retracted.Version));
+            Assert.That(caseListRetractedDoneAt[2].WorkerName,
+                Is.EqualTo(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName));
+            Assert.That(caseListRetractedDoneAt[2].WorkflowState, Is.EqualTo(aCase3Retracted.WorkflowState));
 
             #endregion
 
             #region caseListRetractedDoneAt aCase4Retracted
 
-            Assert.AreEqual(aCase4Retracted.Type, caseListRetractedDoneAt[3].CaseType);
-            Assert.AreEqual(aCase4Retracted.CaseUid, caseListRetractedDoneAt[3].CaseUId);
-            Assert.AreEqual(aCase4Retracted.MicrotingCheckUid, caseListRetractedDoneAt[3].CheckUIid);
-            Assert.AreEqual(c4Retracted_ca.ToString(), caseListRetractedDoneAt[3].CreatedAt.ToString());
-            Assert.AreEqual(aCase4Retracted.Custom, caseListRetractedDoneAt[3].Custom);
-            Assert.AreEqual(c4Retracted_da.ToString(), caseListRetractedDoneAt[3].DoneAt.ToString());
-            Assert.AreEqual(aCase4Retracted.Id, caseListRetractedDoneAt[3].Id);
-            Assert.AreEqual(aCase4Retracted.MicrotingUid, caseListRetractedDoneAt[3].MicrotingUId);
-            Assert.AreEqual(aCase4Retracted.Site.MicrotingUid, caseListRetractedDoneAt[3].SiteId);
-            Assert.AreEqual(aCase4Retracted.Site.Name, caseListRetractedDoneAt[3].SiteName);
-            Assert.AreEqual(aCase4Retracted.Status, caseListRetractedDoneAt[3].Status);
-            Assert.AreEqual(cl1.Id, caseListRetractedDoneAt[3].TemplatId);
-            Assert.AreEqual(aCase4Retracted.Unit.MicrotingUid, caseListRetractedDoneAt[3].UnitId);
-//            Assert.AreEqual(c4Retracted_ua.ToString(), caseListRetractedDoneAt[3].UpdatedAt.ToString());
-            Assert.AreEqual(aCase4Retracted.Version, caseListRetractedDoneAt[3].Version);
-            Assert.AreEqual(aCase4Retracted.Worker.FirstName + " " + aCase4Retracted.Worker.LastName,
-                caseListRetractedDoneAt[3].WorkerName);
-            Assert.AreEqual(aCase4Retracted.WorkflowState, caseListRetractedDoneAt[3].WorkflowState);
+            Assert.That(caseListRetractedDoneAt[3].CaseType, Is.EqualTo(aCase4Retracted.Type));
+            Assert.That(caseListRetractedDoneAt[3].CaseUId, Is.EqualTo(aCase4Retracted.CaseUid));
+            Assert.That(caseListRetractedDoneAt[3].CheckUIid, Is.EqualTo(aCase4Retracted.MicrotingCheckUid));
+            Assert.That(caseListRetractedDoneAt[3].CreatedAt.ToString(), Is.EqualTo(c4Retracted_ca.ToString()));
+            Assert.That(caseListRetractedDoneAt[3].Custom, Is.EqualTo(aCase4Retracted.Custom));
+            Assert.That(caseListRetractedDoneAt[3].DoneAt.ToString(), Is.EqualTo(c4Retracted_da.ToString()));
+            Assert.That(caseListRetractedDoneAt[3].Id, Is.EqualTo(aCase4Retracted.Id));
+            Assert.That(caseListRetractedDoneAt[3].MicrotingUId, Is.EqualTo(aCase4Retracted.MicrotingUid));
+            Assert.That(caseListRetractedDoneAt[3].SiteId, Is.EqualTo(aCase4Retracted.Site.MicrotingUid));
+            Assert.That(caseListRetractedDoneAt[3].SiteName, Is.EqualTo(aCase4Retracted.Site.Name));
+            Assert.That(caseListRetractedDoneAt[3].Status, Is.EqualTo(aCase4Retracted.Status));
+            Assert.That(caseListRetractedDoneAt[3].TemplatId, Is.EqualTo(cl1.Id));
+            Assert.That(caseListRetractedDoneAt[3].UnitId, Is.EqualTo(aCase4Retracted.Unit.MicrotingUid));
+            //            Assert.AreEqual(c4Retracted_ua.ToString(), caseListRetractedDoneAt[3].UpdatedAt.ToString());
+            Assert.That(caseListRetractedDoneAt[3].Version, Is.EqualTo(aCase4Retracted.Version));
+            Assert.That(caseListRetractedDoneAt[3].WorkerName,
+                Is.EqualTo(aCase4Retracted.Worker.FirstName + " " + aCase4Retracted.Worker.LastName));
+            Assert.That(caseListRetractedDoneAt[3].WorkflowState, Is.EqualTo(aCase4Retracted.WorkflowState));
 
             #endregion
 
@@ -3455,94 +3455,94 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedStatus aCase1Retracted
 
             Assert.NotNull(caseListRetractedStatus);
-            Assert.AreEqual(4, caseListRetractedStatus.Count);
-            Assert.AreEqual(aCase1Retracted.Type, caseListRetractedStatus[0].CaseType);
-            Assert.AreEqual(aCase1Retracted.CaseUid, caseListRetractedStatus[0].CaseUId);
-            Assert.AreEqual(aCase1Retracted.MicrotingCheckUid, caseListRetractedStatus[0].CheckUIid);
-            Assert.AreEqual(c1Retracted_ca.ToString(), caseListRetractedStatus[0].CreatedAt.ToString());
-            Assert.AreEqual(aCase1Retracted.Custom, caseListRetractedStatus[0].Custom);
-            Assert.AreEqual(c1Retracted_da.ToString(), caseListRetractedStatus[0].DoneAt.ToString());
-            Assert.AreEqual(aCase1Retracted.Id, caseListRetractedStatus[0].Id);
-            Assert.AreEqual(aCase1Retracted.MicrotingUid, caseListRetractedStatus[0].MicrotingUId);
-            Assert.AreEqual(aCase1Retracted.Site.MicrotingUid, caseListRetractedStatus[0].SiteId);
-            Assert.AreEqual(aCase1Retracted.Site.Name, caseListRetractedStatus[0].SiteName);
-            Assert.AreEqual(aCase1Retracted.Status, caseListRetractedStatus[0].Status);
-            Assert.AreEqual(aCase1Retracted.CheckListId, caseListRetractedStatus[0].TemplatId);
-            Assert.AreEqual(aCase1Retracted.Unit.MicrotingUid, caseListRetractedStatus[0].UnitId);
-//            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedStatus[0].UpdatedAt.ToString());
-            Assert.AreEqual(aCase1Retracted.Version, caseListRetractedStatus[0].Version);
-            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName,
-                caseListRetractedStatus[0].WorkerName);
-            Assert.AreEqual(aCase1Retracted.WorkflowState, caseListRetractedStatus[0].WorkflowState);
+            Assert.That(caseListRetractedStatus.Count, Is.EqualTo(4));
+            Assert.That(caseListRetractedStatus[0].CaseType, Is.EqualTo(aCase1Retracted.Type));
+            Assert.That(caseListRetractedStatus[0].CaseUId, Is.EqualTo(aCase1Retracted.CaseUid));
+            Assert.That(caseListRetractedStatus[0].CheckUIid, Is.EqualTo(aCase1Retracted.MicrotingCheckUid));
+            Assert.That(caseListRetractedStatus[0].CreatedAt.ToString(), Is.EqualTo(c1Retracted_ca.ToString()));
+            Assert.That(caseListRetractedStatus[0].Custom, Is.EqualTo(aCase1Retracted.Custom));
+            Assert.That(caseListRetractedStatus[0].DoneAt.ToString(), Is.EqualTo(c1Retracted_da.ToString()));
+            Assert.That(caseListRetractedStatus[0].Id, Is.EqualTo(aCase1Retracted.Id));
+            Assert.That(caseListRetractedStatus[0].MicrotingUId, Is.EqualTo(aCase1Retracted.MicrotingUid));
+            Assert.That(caseListRetractedStatus[0].SiteId, Is.EqualTo(aCase1Retracted.Site.MicrotingUid));
+            Assert.That(caseListRetractedStatus[0].SiteName, Is.EqualTo(aCase1Retracted.Site.Name));
+            Assert.That(caseListRetractedStatus[0].Status, Is.EqualTo(aCase1Retracted.Status));
+            Assert.That(caseListRetractedStatus[0].TemplatId, Is.EqualTo(aCase1Retracted.CheckListId));
+            Assert.That(caseListRetractedStatus[0].UnitId, Is.EqualTo(aCase1Retracted.Unit.MicrotingUid));
+            //            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedStatus[0].UpdatedAt.ToString());
+            Assert.That(caseListRetractedStatus[0].Version, Is.EqualTo(aCase1Retracted.Version));
+            Assert.That(caseListRetractedStatus[0].WorkerName,
+                Is.EqualTo(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName));
+            Assert.That(caseListRetractedStatus[0].WorkflowState, Is.EqualTo(aCase1Retracted.WorkflowState));
 
             #endregion
 
             #region caseListRetractedStatus aCase2Retracted
 
-            Assert.AreEqual(aCase2Retracted.Type, caseListRetractedStatus[1].CaseType);
-            Assert.AreEqual(aCase2Retracted.CaseUid, caseListRetractedStatus[1].CaseUId);
-            Assert.AreEqual(aCase2Retracted.MicrotingCheckUid, caseListRetractedStatus[1].CheckUIid);
-            Assert.AreEqual(c2Retracted_ca.ToString(), caseListRetractedStatus[1].CreatedAt.ToString());
-            Assert.AreEqual(aCase2Retracted.Custom, caseListRetractedStatus[1].Custom);
-            Assert.AreEqual(c2Retracted_da.ToString(), caseListRetractedStatus[1].DoneAt.ToString());
-            Assert.AreEqual(aCase2Retracted.Id, caseListRetractedStatus[1].Id);
-            Assert.AreEqual(aCase2Retracted.MicrotingUid, caseListRetractedStatus[1].MicrotingUId);
-            Assert.AreEqual(aCase2Retracted.Site.MicrotingUid, caseListRetractedStatus[1].SiteId);
-            Assert.AreEqual(aCase2Retracted.Site.Name, caseListRetractedStatus[1].SiteName);
-            Assert.AreEqual(aCase2Retracted.Status, caseListRetractedStatus[1].Status);
-            Assert.AreEqual(aCase2Retracted.CheckListId, caseListRetractedStatus[1].TemplatId);
-            Assert.AreEqual(aCase2Retracted.Unit.MicrotingUid, caseListRetractedStatus[1].UnitId);
-//            Assert.AreEqual(c2Retracted_ua.ToString(), caseListRetractedStatus[1].UpdatedAt.ToString());
-            Assert.AreEqual(aCase2Retracted.Version, caseListRetractedStatus[1].Version);
-            Assert.AreEqual(aCase2Retracted.Worker.FirstName + " " + aCase2Retracted.Worker.LastName,
-                caseListRetractedStatus[1].WorkerName);
-            Assert.AreEqual(aCase2Retracted.WorkflowState, caseListRetractedStatus[1].WorkflowState);
+            Assert.That(caseListRetractedStatus[1].CaseType, Is.EqualTo(aCase2Retracted.Type));
+            Assert.That(caseListRetractedStatus[1].CaseUId, Is.EqualTo(aCase2Retracted.CaseUid));
+            Assert.That(caseListRetractedStatus[1].CheckUIid, Is.EqualTo(aCase2Retracted.MicrotingCheckUid));
+            Assert.That(caseListRetractedStatus[1].CreatedAt.ToString(), Is.EqualTo(c2Retracted_ca.ToString()));
+            Assert.That(caseListRetractedStatus[1].Custom, Is.EqualTo(aCase2Retracted.Custom));
+            Assert.That(caseListRetractedStatus[1].DoneAt.ToString(), Is.EqualTo(c2Retracted_da.ToString()));
+            Assert.That(caseListRetractedStatus[1].Id, Is.EqualTo(aCase2Retracted.Id));
+            Assert.That(caseListRetractedStatus[1].MicrotingUId, Is.EqualTo(aCase2Retracted.MicrotingUid));
+            Assert.That(caseListRetractedStatus[1].SiteId, Is.EqualTo(aCase2Retracted.Site.MicrotingUid));
+            Assert.That(caseListRetractedStatus[1].SiteName, Is.EqualTo(aCase2Retracted.Site.Name));
+            Assert.That(caseListRetractedStatus[1].Status, Is.EqualTo(aCase2Retracted.Status));
+            Assert.That(caseListRetractedStatus[1].TemplatId, Is.EqualTo(aCase2Retracted.CheckListId));
+            Assert.That(caseListRetractedStatus[1].UnitId, Is.EqualTo(aCase2Retracted.Unit.MicrotingUid));
+            //            Assert.AreEqual(c2Retracted_ua.ToString(), caseListRetractedStatus[1].UpdatedAt.ToString());
+            Assert.That(caseListRetractedStatus[1].Version, Is.EqualTo(aCase2Retracted.Version));
+            Assert.That(caseListRetractedStatus[1].WorkerName,
+                Is.EqualTo(aCase2Retracted.Worker.FirstName + " " + aCase2Retracted.Worker.LastName));
+            Assert.That(caseListRetractedStatus[1].WorkflowState, Is.EqualTo(aCase2Retracted.WorkflowState));
 
             #endregion
 
             #region caseListRetractedStatus aCase3Retracted
 
-            Assert.AreEqual(aCase3Retracted.Type, caseListRetractedStatus[2].CaseType);
-            Assert.AreEqual(aCase3Retracted.CaseUid, caseListRetractedStatus[2].CaseUId);
-            Assert.AreEqual(aCase3Retracted.MicrotingCheckUid, caseListRetractedStatus[2].CheckUIid);
-            Assert.AreEqual(c3Retracted_ca.ToString(), caseListRetractedStatus[2].CreatedAt.ToString());
-            Assert.AreEqual(aCase3Retracted.Custom, caseListRetractedStatus[2].Custom);
-            Assert.AreEqual(c3Retracted_da.ToString(), caseListRetractedStatus[2].DoneAt.ToString());
-            Assert.AreEqual(aCase3Retracted.Id, caseListRetractedStatus[2].Id);
-            Assert.AreEqual(aCase3Retracted.MicrotingUid, caseListRetractedStatus[2].MicrotingUId);
-            Assert.AreEqual(aCase3Retracted.Site.MicrotingUid, caseListRetractedStatus[2].SiteId);
-            Assert.AreEqual(aCase3Retracted.Site.Name, caseListRetractedStatus[2].SiteName);
-            Assert.AreEqual(aCase3Retracted.Status, caseListRetractedStatus[2].Status);
-            Assert.AreEqual(aCase3Retracted.CheckListId, caseListRetractedStatus[2].TemplatId);
-            Assert.AreEqual(aCase3Retracted.Unit.MicrotingUid, caseListRetractedStatus[2].UnitId);
-//            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedStatus[2].UpdatedAt.ToString());
-            Assert.AreEqual(aCase3Retracted.Version, caseListRetractedStatus[2].Version);
-            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName,
-                caseListRetractedStatus[2].WorkerName);
-            Assert.AreEqual(aCase3Retracted.WorkflowState, caseListRetractedStatus[2].WorkflowState);
+            Assert.That(caseListRetractedStatus[2].CaseType, Is.EqualTo(aCase3Retracted.Type));
+            Assert.That(caseListRetractedStatus[2].CaseUId, Is.EqualTo(aCase3Retracted.CaseUid));
+            Assert.That(caseListRetractedStatus[2].CheckUIid, Is.EqualTo(aCase3Retracted.MicrotingCheckUid));
+            Assert.That(caseListRetractedStatus[2].CreatedAt.ToString(), Is.EqualTo(c3Retracted_ca.ToString()));
+            Assert.That(caseListRetractedStatus[2].Custom, Is.EqualTo(aCase3Retracted.Custom));
+            Assert.That(caseListRetractedStatus[2].DoneAt.ToString(), Is.EqualTo(c3Retracted_da.ToString()));
+            Assert.That(caseListRetractedStatus[2].Id, Is.EqualTo(aCase3Retracted.Id));
+            Assert.That(caseListRetractedStatus[2].MicrotingUId, Is.EqualTo(aCase3Retracted.MicrotingUid));
+            Assert.That(caseListRetractedStatus[2].SiteId, Is.EqualTo(aCase3Retracted.Site.MicrotingUid));
+            Assert.That(caseListRetractedStatus[2].SiteName, Is.EqualTo(aCase3Retracted.Site.Name));
+            Assert.That(caseListRetractedStatus[2].Status, Is.EqualTo(aCase3Retracted.Status));
+            Assert.That(caseListRetractedStatus[2].TemplatId, Is.EqualTo(aCase3Retracted.CheckListId));
+            Assert.That(caseListRetractedStatus[2].UnitId, Is.EqualTo(aCase3Retracted.Unit.MicrotingUid));
+            //            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedStatus[2].UpdatedAt.ToString());
+            Assert.That(caseListRetractedStatus[2].Version, Is.EqualTo(aCase3Retracted.Version));
+            Assert.That(caseListRetractedStatus[2].WorkerName,
+                Is.EqualTo(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName));
+            Assert.That(caseListRetractedStatus[2].WorkflowState, Is.EqualTo(aCase3Retracted.WorkflowState));
 
             #endregion
 
             #region caseListRetractedStatus aCase4Retracted
 
-            Assert.AreEqual(aCase4Retracted.Type, caseListRetractedStatus[3].CaseType);
-            Assert.AreEqual(aCase4Retracted.CaseUid, caseListRetractedStatus[3].CaseUId);
-            Assert.AreEqual(aCase4Retracted.MicrotingCheckUid, caseListRetractedStatus[3].CheckUIid);
-            Assert.AreEqual(c4Retracted_ca.ToString(), caseListRetractedStatus[3].CreatedAt.ToString());
-            Assert.AreEqual(aCase4Retracted.Custom, caseListRetractedStatus[3].Custom);
-            Assert.AreEqual(c4Retracted_da.ToString(), caseListRetractedStatus[3].DoneAt.ToString());
-            Assert.AreEqual(aCase4Retracted.Id, caseListRetractedStatus[3].Id);
-            Assert.AreEqual(aCase4Retracted.MicrotingUid, caseListRetractedStatus[3].MicrotingUId);
-            Assert.AreEqual(aCase4Retracted.Site.MicrotingUid, caseListRetractedStatus[3].SiteId);
-            Assert.AreEqual(aCase4Retracted.Site.Name, caseListRetractedStatus[3].SiteName);
-            Assert.AreEqual(aCase4Retracted.Status, caseListRetractedStatus[3].Status);
-            Assert.AreEqual(aCase4Retracted.CheckListId, caseListRetractedStatus[3].TemplatId);
-            Assert.AreEqual(aCase4Retracted.Unit.MicrotingUid, caseListRetractedStatus[3].UnitId);
-//            Assert.AreEqual(c4Retracted_ua.ToString(), caseListRetractedStatus[3].UpdatedAt.ToString());
-            Assert.AreEqual(aCase4Retracted.Version, caseListRetractedStatus[3].Version);
-            Assert.AreEqual(aCase4Retracted.Worker.FirstName + " " + aCase4Retracted.Worker.LastName,
-                caseListRetractedStatus[3].WorkerName);
-            Assert.AreEqual(aCase4Retracted.WorkflowState, caseListRetractedStatus[3].WorkflowState);
+            Assert.That(caseListRetractedStatus[3].CaseType, Is.EqualTo(aCase4Retracted.Type));
+            Assert.That(caseListRetractedStatus[3].CaseUId, Is.EqualTo(aCase4Retracted.CaseUid));
+            Assert.That(caseListRetractedStatus[3].CheckUIid, Is.EqualTo(aCase4Retracted.MicrotingCheckUid));
+            Assert.That(caseListRetractedStatus[3].CreatedAt.ToString(), Is.EqualTo(c4Retracted_ca.ToString()));
+            Assert.That(caseListRetractedStatus[3].Custom, Is.EqualTo(aCase4Retracted.Custom));
+            Assert.That(caseListRetractedStatus[3].DoneAt.ToString(), Is.EqualTo(c4Retracted_da.ToString()));
+            Assert.That(caseListRetractedStatus[3].Id, Is.EqualTo(aCase4Retracted.Id));
+            Assert.That(caseListRetractedStatus[3].MicrotingUId, Is.EqualTo(aCase4Retracted.MicrotingUid));
+            Assert.That(caseListRetractedStatus[3].SiteId, Is.EqualTo(aCase4Retracted.Site.MicrotingUid));
+            Assert.That(caseListRetractedStatus[3].SiteName, Is.EqualTo(aCase4Retracted.Site.Name));
+            Assert.That(caseListRetractedStatus[3].Status, Is.EqualTo(aCase4Retracted.Status));
+            Assert.That(caseListRetractedStatus[3].TemplatId, Is.EqualTo(aCase4Retracted.CheckListId));
+            Assert.That(caseListRetractedStatus[3].UnitId, Is.EqualTo(aCase4Retracted.Unit.MicrotingUid));
+            //            Assert.AreEqual(c4Retracted_ua.ToString(), caseListRetractedStatus[3].UpdatedAt.ToString());
+            Assert.That(caseListRetractedStatus[3].Version, Is.EqualTo(aCase4Retracted.Version));
+            Assert.That(caseListRetractedStatus[3].WorkerName,
+                Is.EqualTo(aCase4Retracted.Worker.FirstName + " " + aCase4Retracted.Worker.LastName));
+            Assert.That(caseListRetractedStatus[3].WorkflowState, Is.EqualTo(aCase4Retracted.WorkflowState));
 
             #endregion
 
@@ -3553,94 +3553,94 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedUnitId aCase1Retracted
 
             Assert.NotNull(caseListRetractedUnitId);
-            Assert.AreEqual(4, caseListRetractedUnitId.Count);
-            Assert.AreEqual(aCase1Retracted.Type, caseListRetractedUnitId[0].CaseType);
-            Assert.AreEqual(aCase1Retracted.CaseUid, caseListRetractedUnitId[0].CaseUId);
-            Assert.AreEqual(aCase1Retracted.MicrotingCheckUid, caseListRetractedUnitId[0].CheckUIid);
-            Assert.AreEqual(c1Retracted_ca.ToString(), caseListRetractedUnitId[0].CreatedAt.ToString());
-            Assert.AreEqual(aCase1Retracted.Custom, caseListRetractedUnitId[0].Custom);
-            Assert.AreEqual(c1Retracted_da.ToString(), caseListRetractedUnitId[0].DoneAt.ToString());
-            Assert.AreEqual(aCase1Retracted.Id, caseListRetractedUnitId[0].Id);
-            Assert.AreEqual(aCase1Retracted.MicrotingUid, caseListRetractedUnitId[0].MicrotingUId);
-            Assert.AreEqual(aCase1Retracted.Site.MicrotingUid, caseListRetractedUnitId[0].SiteId);
-            Assert.AreEqual(aCase1Retracted.Site.Name, caseListRetractedUnitId[0].SiteName);
-            Assert.AreEqual(aCase1Retracted.Status, caseListRetractedUnitId[0].Status);
-            Assert.AreEqual(aCase1Retracted.CheckListId, caseListRetractedUnitId[0].TemplatId);
-            Assert.AreEqual(aCase1Retracted.Unit.MicrotingUid, caseListRetractedUnitId[0].UnitId);
-//            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedUnitId[0].UpdatedAt.ToString());
-            Assert.AreEqual(aCase1Retracted.Version, caseListRetractedUnitId[0].Version);
-            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName,
-                caseListRetractedUnitId[0].WorkerName);
-            Assert.AreEqual(aCase1Retracted.WorkflowState, caseListRetractedUnitId[0].WorkflowState);
+            Assert.That(caseListRetractedUnitId.Count, Is.EqualTo(4));
+            Assert.That(caseListRetractedUnitId[0].CaseType, Is.EqualTo(aCase1Retracted.Type));
+            Assert.That(caseListRetractedUnitId[0].CaseUId, Is.EqualTo(aCase1Retracted.CaseUid));
+            Assert.That(caseListRetractedUnitId[0].CheckUIid, Is.EqualTo(aCase1Retracted.MicrotingCheckUid));
+            Assert.That(caseListRetractedUnitId[0].CreatedAt.ToString(), Is.EqualTo(c1Retracted_ca.ToString()));
+            Assert.That(caseListRetractedUnitId[0].Custom, Is.EqualTo(aCase1Retracted.Custom));
+            Assert.That(caseListRetractedUnitId[0].DoneAt.ToString(), Is.EqualTo(c1Retracted_da.ToString()));
+            Assert.That(caseListRetractedUnitId[0].Id, Is.EqualTo(aCase1Retracted.Id));
+            Assert.That(caseListRetractedUnitId[0].MicrotingUId, Is.EqualTo(aCase1Retracted.MicrotingUid));
+            Assert.That(caseListRetractedUnitId[0].SiteId, Is.EqualTo(aCase1Retracted.Site.MicrotingUid));
+            Assert.That(caseListRetractedUnitId[0].SiteName, Is.EqualTo(aCase1Retracted.Site.Name));
+            Assert.That(caseListRetractedUnitId[0].Status, Is.EqualTo(aCase1Retracted.Status));
+            Assert.That(caseListRetractedUnitId[0].TemplatId, Is.EqualTo(aCase1Retracted.CheckListId));
+            Assert.That(caseListRetractedUnitId[0].UnitId, Is.EqualTo(aCase1Retracted.Unit.MicrotingUid));
+            //            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedUnitId[0].UpdatedAt.ToString());
+            Assert.That(caseListRetractedUnitId[0].Version, Is.EqualTo(aCase1Retracted.Version));
+            Assert.That(caseListRetractedUnitId[0].WorkerName,
+                Is.EqualTo(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName));
+            Assert.That(caseListRetractedUnitId[0].WorkflowState, Is.EqualTo(aCase1Retracted.WorkflowState));
 
             #endregion
 
             #region caseListRetractedUnitId aCase2Retracted
 
-            Assert.AreEqual(aCase2Retracted.Type, caseListRetractedUnitId[1].CaseType);
-            Assert.AreEqual(aCase2Retracted.CaseUid, caseListRetractedUnitId[1].CaseUId);
-            Assert.AreEqual(aCase2Retracted.MicrotingCheckUid, caseListRetractedUnitId[1].CheckUIid);
-            Assert.AreEqual(c2Retracted_ca.ToString(), caseListRetractedUnitId[1].CreatedAt.ToString());
-            Assert.AreEqual(aCase2Retracted.Custom, caseListRetractedUnitId[1].Custom);
-            Assert.AreEqual(c2Retracted_da.ToString(), caseListRetractedUnitId[1].DoneAt.ToString());
-            Assert.AreEqual(aCase2Retracted.Id, caseListRetractedUnitId[1].Id);
-            Assert.AreEqual(aCase2Retracted.MicrotingUid, caseListRetractedUnitId[1].MicrotingUId);
-            Assert.AreEqual(aCase2Retracted.Site.MicrotingUid, caseListRetractedUnitId[1].SiteId);
-            Assert.AreEqual(aCase2Retracted.Site.Name, caseListRetractedUnitId[1].SiteName);
-            Assert.AreEqual(aCase2Retracted.Status, caseListRetractedUnitId[1].Status);
-            Assert.AreEqual(aCase2Retracted.CheckListId, caseListRetractedUnitId[1].TemplatId);
-            Assert.AreEqual(aCase2Retracted.Unit.MicrotingUid, caseListRetractedUnitId[1].UnitId);
-//            Assert.AreEqual(c2Retracted_ua.ToString(), caseListRetractedUnitId[1].UpdatedAt.ToString());
-            Assert.AreEqual(aCase2Retracted.Version, caseListRetractedUnitId[1].Version);
-            Assert.AreEqual(aCase2Retracted.Worker.FirstName + " " + aCase2Retracted.Worker.LastName,
-                caseListRetractedUnitId[1].WorkerName);
-            Assert.AreEqual(aCase2Retracted.WorkflowState, caseListRetractedUnitId[1].WorkflowState);
+            Assert.That(caseListRetractedUnitId[1].CaseType, Is.EqualTo(aCase2Retracted.Type));
+            Assert.That(caseListRetractedUnitId[1].CaseUId, Is.EqualTo(aCase2Retracted.CaseUid));
+            Assert.That(caseListRetractedUnitId[1].CheckUIid, Is.EqualTo(aCase2Retracted.MicrotingCheckUid));
+            Assert.That(caseListRetractedUnitId[1].CreatedAt.ToString(), Is.EqualTo(c2Retracted_ca.ToString()));
+            Assert.That(caseListRetractedUnitId[1].Custom, Is.EqualTo(aCase2Retracted.Custom));
+            Assert.That(caseListRetractedUnitId[1].DoneAt.ToString(), Is.EqualTo(c2Retracted_da.ToString()));
+            Assert.That(caseListRetractedUnitId[1].Id, Is.EqualTo(aCase2Retracted.Id));
+            Assert.That(caseListRetractedUnitId[1].MicrotingUId, Is.EqualTo(aCase2Retracted.MicrotingUid));
+            Assert.That(caseListRetractedUnitId[1].SiteId, Is.EqualTo(aCase2Retracted.Site.MicrotingUid));
+            Assert.That(caseListRetractedUnitId[1].SiteName, Is.EqualTo(aCase2Retracted.Site.Name));
+            Assert.That(caseListRetractedUnitId[1].Status, Is.EqualTo(aCase2Retracted.Status));
+            Assert.That(caseListRetractedUnitId[1].TemplatId, Is.EqualTo(aCase2Retracted.CheckListId));
+            Assert.That(caseListRetractedUnitId[1].UnitId, Is.EqualTo(aCase2Retracted.Unit.MicrotingUid));
+            //            Assert.AreEqual(c2Retracted_ua.ToString(), caseListRetractedUnitId[1].UpdatedAt.ToString());
+            Assert.That(caseListRetractedUnitId[1].Version, Is.EqualTo(aCase2Retracted.Version));
+            Assert.That(caseListRetractedUnitId[1].WorkerName,
+                Is.EqualTo(aCase2Retracted.Worker.FirstName + " " + aCase2Retracted.Worker.LastName));
+            Assert.That(caseListRetractedUnitId[1].WorkflowState, Is.EqualTo(aCase2Retracted.WorkflowState));
 
             #endregion
 
             #region caseListRetractedUnitId aCase3Retracted
 
-            Assert.AreEqual(aCase3Retracted.Type, caseListRetractedUnitId[2].CaseType);
-            Assert.AreEqual(aCase3Retracted.CaseUid, caseListRetractedUnitId[2].CaseUId);
-            Assert.AreEqual(aCase3Retracted.MicrotingCheckUid, caseListRetractedUnitId[2].CheckUIid);
-            Assert.AreEqual(c3Retracted_ca.ToString(), caseListRetractedUnitId[2].CreatedAt.ToString());
-            Assert.AreEqual(aCase3Retracted.Custom, caseListRetractedUnitId[2].Custom);
-            Assert.AreEqual(c3Retracted_da.ToString(), caseListRetractedUnitId[2].DoneAt.ToString());
-            Assert.AreEqual(aCase3Retracted.Id, caseListRetractedUnitId[2].Id);
-            Assert.AreEqual(aCase3Retracted.MicrotingUid, caseListRetractedUnitId[2].MicrotingUId);
-            Assert.AreEqual(aCase3Retracted.Site.MicrotingUid, caseListRetractedUnitId[2].SiteId);
-            Assert.AreEqual(aCase3Retracted.Site.Name, caseListRetractedUnitId[2].SiteName);
-            Assert.AreEqual(aCase3Retracted.Status, caseListRetractedUnitId[2].Status);
-            Assert.AreEqual(aCase3Retracted.CheckListId, caseListRetractedUnitId[2].TemplatId);
-            Assert.AreEqual(aCase3Retracted.Unit.MicrotingUid, caseListRetractedUnitId[2].UnitId);
-//            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedUnitId[2].UpdatedAt.ToString());
-            Assert.AreEqual(aCase3Retracted.Version, caseListRetractedUnitId[2].Version);
-            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName,
-                caseListRetractedUnitId[2].WorkerName);
-            Assert.AreEqual(aCase3Retracted.WorkflowState, caseListRetractedUnitId[2].WorkflowState);
+            Assert.That(caseListRetractedUnitId[2].CaseType, Is.EqualTo(aCase3Retracted.Type));
+            Assert.That(caseListRetractedUnitId[2].CaseUId, Is.EqualTo(aCase3Retracted.CaseUid));
+            Assert.That(caseListRetractedUnitId[2].CheckUIid, Is.EqualTo(aCase3Retracted.MicrotingCheckUid));
+            Assert.That(caseListRetractedUnitId[2].CreatedAt.ToString(), Is.EqualTo(c3Retracted_ca.ToString()));
+            Assert.That(caseListRetractedUnitId[2].Custom, Is.EqualTo(aCase3Retracted.Custom));
+            Assert.That(caseListRetractedUnitId[2].DoneAt.ToString(), Is.EqualTo(c3Retracted_da.ToString()));
+            Assert.That(caseListRetractedUnitId[2].Id, Is.EqualTo(aCase3Retracted.Id));
+            Assert.That(caseListRetractedUnitId[2].MicrotingUId, Is.EqualTo(aCase3Retracted.MicrotingUid));
+            Assert.That(caseListRetractedUnitId[2].SiteId, Is.EqualTo(aCase3Retracted.Site.MicrotingUid));
+            Assert.That(caseListRetractedUnitId[2].SiteName, Is.EqualTo(aCase3Retracted.Site.Name));
+            Assert.That(caseListRetractedUnitId[2].Status, Is.EqualTo(aCase3Retracted.Status));
+            Assert.That(caseListRetractedUnitId[2].TemplatId, Is.EqualTo(aCase3Retracted.CheckListId));
+            Assert.That(caseListRetractedUnitId[2].UnitId, Is.EqualTo(aCase3Retracted.Unit.MicrotingUid));
+            //            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedUnitId[2].UpdatedAt.ToString());
+            Assert.That(caseListRetractedUnitId[2].Version, Is.EqualTo(aCase3Retracted.Version));
+            Assert.That(caseListRetractedUnitId[2].WorkerName,
+                Is.EqualTo(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName));
+            Assert.That(caseListRetractedUnitId[2].WorkflowState, Is.EqualTo(aCase3Retracted.WorkflowState));
 
             #endregion
 
             #region caseListRetractedUnitId aCase4Retracted
 
-            Assert.AreEqual(aCase4Retracted.Type, caseListRetractedUnitId[3].CaseType);
-            Assert.AreEqual(aCase4Retracted.CaseUid, caseListRetractedUnitId[3].CaseUId);
-            Assert.AreEqual(aCase4Retracted.MicrotingCheckUid, caseListRetractedUnitId[3].CheckUIid);
-            Assert.AreEqual(c4Retracted_ca.ToString(), caseListRetractedUnitId[3].CreatedAt.ToString());
-            Assert.AreEqual(aCase4Retracted.Custom, caseListRetractedUnitId[3].Custom);
-            Assert.AreEqual(c4Retracted_da.ToString(), caseListRetractedUnitId[3].DoneAt.ToString());
-            Assert.AreEqual(aCase4Retracted.Id, caseListRetractedUnitId[3].Id);
-            Assert.AreEqual(aCase4Retracted.MicrotingUid, caseListRetractedUnitId[3].MicrotingUId);
-            Assert.AreEqual(aCase4Retracted.Site.MicrotingUid, caseListRetractedUnitId[3].SiteId);
-            Assert.AreEqual(aCase4Retracted.Site.Name, caseListRetractedUnitId[3].SiteName);
-            Assert.AreEqual(aCase4Retracted.Status, caseListRetractedUnitId[3].Status);
-            Assert.AreEqual(aCase4Retracted.CheckListId, caseListRetractedUnitId[3].TemplatId);
-            Assert.AreEqual(aCase4Retracted.Unit.MicrotingUid, caseListRetractedUnitId[3].UnitId);
-//            Assert.AreEqual(c4Retracted_ua.ToString(), caseListRetractedUnitId[3].UpdatedAt.ToString());
-            Assert.AreEqual(aCase4Retracted.Version, caseListRetractedUnitId[3].Version);
-            Assert.AreEqual(aCase4Retracted.Worker.FirstName + " " + aCase4Retracted.Worker.LastName,
-                caseListRetractedUnitId[3].WorkerName);
-            Assert.AreEqual(aCase4Retracted.WorkflowState, caseListRetractedUnitId[3].WorkflowState);
+            Assert.That(caseListRetractedUnitId[3].CaseType, Is.EqualTo(aCase4Retracted.Type));
+            Assert.That(caseListRetractedUnitId[3].CaseUId, Is.EqualTo(aCase4Retracted.CaseUid));
+            Assert.That(caseListRetractedUnitId[3].CheckUIid, Is.EqualTo(aCase4Retracted.MicrotingCheckUid));
+            Assert.That(caseListRetractedUnitId[3].CreatedAt.ToString(), Is.EqualTo(c4Retracted_ca.ToString()));
+            Assert.That(caseListRetractedUnitId[3].Custom, Is.EqualTo(aCase4Retracted.Custom));
+            Assert.That(caseListRetractedUnitId[3].DoneAt.ToString(), Is.EqualTo(c4Retracted_da.ToString()));
+            Assert.That(caseListRetractedUnitId[3].Id, Is.EqualTo(aCase4Retracted.Id));
+            Assert.That(caseListRetractedUnitId[3].MicrotingUId, Is.EqualTo(aCase4Retracted.MicrotingUid));
+            Assert.That(caseListRetractedUnitId[3].SiteId, Is.EqualTo(aCase4Retracted.Site.MicrotingUid));
+            Assert.That(caseListRetractedUnitId[3].SiteName, Is.EqualTo(aCase4Retracted.Site.Name));
+            Assert.That(caseListRetractedUnitId[3].Status, Is.EqualTo(aCase4Retracted.Status));
+            Assert.That(caseListRetractedUnitId[3].TemplatId, Is.EqualTo(aCase4Retracted.CheckListId));
+            Assert.That(caseListRetractedUnitId[3].UnitId, Is.EqualTo(aCase4Retracted.Unit.MicrotingUid));
+            //            Assert.AreEqual(c4Retracted_ua.ToString(), caseListRetractedUnitId[3].UpdatedAt.ToString());
+            Assert.That(caseListRetractedUnitId[3].Version, Is.EqualTo(aCase4Retracted.Version));
+            Assert.That(caseListRetractedUnitId[3].WorkerName,
+                Is.EqualTo(aCase4Retracted.Worker.FirstName + " " + aCase4Retracted.Worker.LastName));
+            Assert.That(caseListRetractedUnitId[3].WorkflowState, Is.EqualTo(aCase4Retracted.WorkflowState));
 
             #endregion
 
@@ -3656,48 +3656,48 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedDtDoneAt aCase1Retracted
 
             Assert.NotNull(caseListRetractedDtDoneAt);
-            Assert.AreEqual(2, caseListRetractedDtDoneAt.Count);
-            Assert.AreEqual(aCase1Retracted.Type, caseListRetractedDtDoneAt[0].CaseType);
-            Assert.AreEqual(aCase1Retracted.CaseUid, caseListRetractedDtDoneAt[0].CaseUId);
-            Assert.AreEqual(aCase1Retracted.MicrotingCheckUid, caseListRetractedDtDoneAt[0].CheckUIid);
-            Assert.AreEqual(c1Retracted_ca.ToString(), caseListRetractedDtDoneAt[0].CreatedAt.ToString());
-            Assert.AreEqual(aCase1Retracted.Custom, caseListRetractedDtDoneAt[0].Custom);
-            Assert.AreEqual(c1Retracted_da.ToString(), caseListRetractedDtDoneAt[0].DoneAt.ToString());
-            Assert.AreEqual(aCase1Retracted.Id, caseListRetractedDtDoneAt[0].Id);
-            Assert.AreEqual(aCase1Retracted.MicrotingUid, caseListRetractedDtDoneAt[0].MicrotingUId);
-            Assert.AreEqual(aCase1Retracted.Site.MicrotingUid, caseListRetractedDtDoneAt[0].SiteId);
-            Assert.AreEqual(aCase1Retracted.Site.Name, caseListRetractedDtDoneAt[0].SiteName);
-            Assert.AreEqual(aCase1Retracted.Status, caseListRetractedDtDoneAt[0].Status);
-            Assert.AreEqual(cl1.Id, caseListRetractedDtDoneAt[0].TemplatId);
-            Assert.AreEqual(aCase1Retracted.Unit.MicrotingUid, caseListRetractedDtDoneAt[0].UnitId);
-//            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedDtDoneAt[0].UpdatedAt.ToString());
-            Assert.AreEqual(aCase1Retracted.Version, caseListRetractedDtDoneAt[0].Version);
-            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName,
-                caseListRetractedDtDoneAt[0].WorkerName);
-            Assert.AreEqual(aCase1Retracted.WorkflowState, caseListRetractedDtDoneAt[0].WorkflowState);
+            Assert.That(caseListRetractedDtDoneAt.Count, Is.EqualTo(2));
+            Assert.That(caseListRetractedDtDoneAt[0].CaseType, Is.EqualTo(aCase1Retracted.Type));
+            Assert.That(caseListRetractedDtDoneAt[0].CaseUId, Is.EqualTo(aCase1Retracted.CaseUid));
+            Assert.That(caseListRetractedDtDoneAt[0].CheckUIid, Is.EqualTo(aCase1Retracted.MicrotingCheckUid));
+            Assert.That(caseListRetractedDtDoneAt[0].CreatedAt.ToString(), Is.EqualTo(c1Retracted_ca.ToString()));
+            Assert.That(caseListRetractedDtDoneAt[0].Custom, Is.EqualTo(aCase1Retracted.Custom));
+            Assert.That(caseListRetractedDtDoneAt[0].DoneAt.ToString(), Is.EqualTo(c1Retracted_da.ToString()));
+            Assert.That(caseListRetractedDtDoneAt[0].Id, Is.EqualTo(aCase1Retracted.Id));
+            Assert.That(caseListRetractedDtDoneAt[0].MicrotingUId, Is.EqualTo(aCase1Retracted.MicrotingUid));
+            Assert.That(caseListRetractedDtDoneAt[0].SiteId, Is.EqualTo(aCase1Retracted.Site.MicrotingUid));
+            Assert.That(caseListRetractedDtDoneAt[0].SiteName, Is.EqualTo(aCase1Retracted.Site.Name));
+            Assert.That(caseListRetractedDtDoneAt[0].Status, Is.EqualTo(aCase1Retracted.Status));
+            Assert.That(caseListRetractedDtDoneAt[0].TemplatId, Is.EqualTo(cl1.Id));
+            Assert.That(caseListRetractedDtDoneAt[0].UnitId, Is.EqualTo(aCase1Retracted.Unit.MicrotingUid));
+            //            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedDtDoneAt[0].UpdatedAt.ToString());
+            Assert.That(caseListRetractedDtDoneAt[0].Version, Is.EqualTo(aCase1Retracted.Version));
+            Assert.That(caseListRetractedDtDoneAt[0].WorkerName,
+                Is.EqualTo(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName));
+            Assert.That(caseListRetractedDtDoneAt[0].WorkflowState, Is.EqualTo(aCase1Retracted.WorkflowState));
 
             #endregion
 
             #region caseListRetractedDtDoneAt aCase3Retracted
 
-            Assert.AreEqual(aCase3Retracted.Type, caseListRetractedDtDoneAt[1].CaseType);
-            Assert.AreEqual(aCase3Retracted.CaseUid, caseListRetractedDtDoneAt[1].CaseUId);
-            Assert.AreEqual(aCase3Retracted.MicrotingCheckUid, caseListRetractedDtDoneAt[1].CheckUIid);
-            Assert.AreEqual(c3Retracted_ca.ToString(), caseListRetractedDtDoneAt[1].CreatedAt.ToString());
-            Assert.AreEqual(aCase3Retracted.Custom, caseListRetractedDtDoneAt[1].Custom);
-            Assert.AreEqual(c3Retracted_da.ToString(), caseListRetractedDtDoneAt[1].DoneAt.ToString());
-            Assert.AreEqual(aCase3Retracted.Id, caseListRetractedDtDoneAt[1].Id);
-            Assert.AreEqual(aCase3Retracted.MicrotingUid, caseListRetractedDtDoneAt[1].MicrotingUId);
-            Assert.AreEqual(aCase3Retracted.Site.MicrotingUid, caseListRetractedDtDoneAt[1].SiteId);
-            Assert.AreEqual(aCase3Retracted.Site.Name, caseListRetractedDtDoneAt[1].SiteName);
-            Assert.AreEqual(aCase3Retracted.Status, caseListRetractedDtDoneAt[1].Status);
-            Assert.AreEqual(cl1.Id, caseListRetractedDtDoneAt[1].TemplatId);
-            Assert.AreEqual(aCase3Retracted.Unit.MicrotingUid, caseListRetractedDtDoneAt[1].UnitId);
-//            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedDtDoneAt[1].UpdatedAt.ToString());
-            Assert.AreEqual(aCase3Retracted.Version, caseListRetractedDtDoneAt[1].Version);
-            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName,
-                caseListRetractedDtDoneAt[1].WorkerName);
-            Assert.AreEqual(aCase3Retracted.WorkflowState, caseListRetractedDtDoneAt[1].WorkflowState);
+            Assert.That(caseListRetractedDtDoneAt[1].CaseType, Is.EqualTo(aCase3Retracted.Type));
+            Assert.That(caseListRetractedDtDoneAt[1].CaseUId, Is.EqualTo(aCase3Retracted.CaseUid));
+            Assert.That(caseListRetractedDtDoneAt[1].CheckUIid, Is.EqualTo(aCase3Retracted.MicrotingCheckUid));
+            Assert.That(caseListRetractedDtDoneAt[1].CreatedAt.ToString(), Is.EqualTo(c3Retracted_ca.ToString()));
+            Assert.That(caseListRetractedDtDoneAt[1].Custom, Is.EqualTo(aCase3Retracted.Custom));
+            Assert.That(caseListRetractedDtDoneAt[1].DoneAt.ToString(), Is.EqualTo(c3Retracted_da.ToString()));
+            Assert.That(caseListRetractedDtDoneAt[1].Id, Is.EqualTo(aCase3Retracted.Id));
+            Assert.That(caseListRetractedDtDoneAt[1].MicrotingUId, Is.EqualTo(aCase3Retracted.MicrotingUid));
+            Assert.That(caseListRetractedDtDoneAt[1].SiteId, Is.EqualTo(aCase3Retracted.Site.MicrotingUid));
+            Assert.That(caseListRetractedDtDoneAt[1].SiteName, Is.EqualTo(aCase3Retracted.Site.Name));
+            Assert.That(caseListRetractedDtDoneAt[1].Status, Is.EqualTo(aCase3Retracted.Status));
+            Assert.That(caseListRetractedDtDoneAt[1].TemplatId, Is.EqualTo(cl1.Id));
+            Assert.That(caseListRetractedDtDoneAt[1].UnitId, Is.EqualTo(aCase3Retracted.Unit.MicrotingUid));
+            //            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedDtDoneAt[1].UpdatedAt.ToString());
+            Assert.That(caseListRetractedDtDoneAt[1].Version, Is.EqualTo(aCase3Retracted.Version));
+            Assert.That(caseListRetractedDtDoneAt[1].WorkerName,
+                Is.EqualTo(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName));
+            Assert.That(caseListRetractedDtDoneAt[1].WorkflowState, Is.EqualTo(aCase3Retracted.WorkflowState));
 
             #endregion
 
@@ -3708,49 +3708,49 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedDtStatus aCase1Retracted
 
             Assert.NotNull(caseListRetractedDtStatus);
-            Assert.AreEqual(2, caseListRetractedDtStatus.Count);
-            Assert.AreEqual(aCase1Retracted.Type, caseListRetractedDtStatus[0].CaseType);
-            Assert.AreEqual(aCase1Retracted.CaseUid, caseListRetractedDtStatus[0].CaseUId);
-            Assert.AreEqual(aCase1Retracted.MicrotingCheckUid, caseListRetractedDtStatus[0].CheckUIid);
-            Assert.AreEqual(c1Retracted_ca.ToString(), caseListRetractedDtStatus[0].CreatedAt.ToString());
-            Assert.AreEqual(aCase1Retracted.Custom, caseListRetractedDtStatus[0].Custom);
-            Assert.AreEqual(c1Retracted_da.ToString(), caseListRetractedDtStatus[0].DoneAt.ToString());
-            Assert.AreEqual(aCase1Retracted.Id, caseListRetractedDtStatus[0].Id);
-            Assert.AreEqual(aCase1Retracted.MicrotingUid, caseListRetractedDtStatus[0].MicrotingUId);
-            Assert.AreEqual(aCase1Retracted.Site.MicrotingUid, caseListRetractedDtStatus[0].SiteId);
-            Assert.AreEqual(aCase1Retracted.Site.Name, caseListRetractedDtStatus[0].SiteName);
-            Assert.AreEqual(aCase1Retracted.Status, caseListRetractedDtStatus[0].Status);
-            Assert.AreEqual(aCase1Retracted.CheckListId, caseListRetractedDtStatus[0].TemplatId);
-            Assert.AreEqual(aCase1Retracted.Unit.MicrotingUid, caseListRetractedDtStatus[0].UnitId);
-//            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedDtStatus[0].UpdatedAt.ToString());
-            Assert.AreEqual(aCase1Retracted.Version, caseListRetractedDtStatus[0].Version);
-            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName,
-                caseListRetractedDtStatus[0].WorkerName);
-            Assert.AreEqual(aCase1Retracted.WorkflowState, caseListRetractedDtStatus[0].WorkflowState);
+            Assert.That(caseListRetractedDtStatus.Count, Is.EqualTo(2));
+            Assert.That(caseListRetractedDtStatus[0].CaseType, Is.EqualTo(aCase1Retracted.Type));
+            Assert.That(caseListRetractedDtStatus[0].CaseUId, Is.EqualTo(aCase1Retracted.CaseUid));
+            Assert.That(caseListRetractedDtStatus[0].CheckUIid, Is.EqualTo(aCase1Retracted.MicrotingCheckUid));
+            Assert.That(caseListRetractedDtStatus[0].CreatedAt.ToString(), Is.EqualTo(c1Retracted_ca.ToString()));
+            Assert.That(caseListRetractedDtStatus[0].Custom, Is.EqualTo(aCase1Retracted.Custom));
+            Assert.That(caseListRetractedDtStatus[0].DoneAt.ToString(), Is.EqualTo(c1Retracted_da.ToString()));
+            Assert.That(caseListRetractedDtStatus[0].Id, Is.EqualTo(aCase1Retracted.Id));
+            Assert.That(caseListRetractedDtStatus[0].MicrotingUId, Is.EqualTo(aCase1Retracted.MicrotingUid));
+            Assert.That(caseListRetractedDtStatus[0].SiteId, Is.EqualTo(aCase1Retracted.Site.MicrotingUid));
+            Assert.That(caseListRetractedDtStatus[0].SiteName, Is.EqualTo(aCase1Retracted.Site.Name));
+            Assert.That(caseListRetractedDtStatus[0].Status, Is.EqualTo(aCase1Retracted.Status));
+            Assert.That(caseListRetractedDtStatus[0].TemplatId, Is.EqualTo(aCase1Retracted.CheckListId));
+            Assert.That(caseListRetractedDtStatus[0].UnitId, Is.EqualTo(aCase1Retracted.Unit.MicrotingUid));
+            //            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedDtStatus[0].UpdatedAt.ToString());
+            Assert.That(caseListRetractedDtStatus[0].Version, Is.EqualTo(aCase1Retracted.Version));
+            Assert.That(caseListRetractedDtStatus[0].WorkerName,
+                Is.EqualTo(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName));
+            Assert.That(caseListRetractedDtStatus[0].WorkflowState, Is.EqualTo(aCase1Retracted.WorkflowState));
 
             #endregion
 
 
             #region caseListRetractedDtStatus aCase3Retracted
 
-            Assert.AreEqual(aCase3Retracted.Type, caseListRetractedDtStatus[1].CaseType);
-            Assert.AreEqual(aCase3Retracted.CaseUid, caseListRetractedDtStatus[1].CaseUId);
-            Assert.AreEqual(aCase3Retracted.MicrotingCheckUid, caseListRetractedDtStatus[1].CheckUIid);
-            Assert.AreEqual(c3Retracted_ca.ToString(), caseListRetractedDtStatus[1].CreatedAt.ToString());
-            Assert.AreEqual(aCase3Retracted.Custom, caseListRetractedDtStatus[1].Custom);
-            Assert.AreEqual(c3Retracted_da.ToString(), caseListRetractedDtStatus[1].DoneAt.ToString());
-            Assert.AreEqual(aCase3Retracted.Id, caseListRetractedDtStatus[1].Id);
-            Assert.AreEqual(aCase3Retracted.MicrotingUid, caseListRetractedDtStatus[1].MicrotingUId);
-            Assert.AreEqual(aCase3Retracted.Site.MicrotingUid, caseListRetractedDtStatus[1].SiteId);
-            Assert.AreEqual(aCase3Retracted.Site.Name, caseListRetractedDtStatus[1].SiteName);
-            Assert.AreEqual(aCase3Retracted.Status, caseListRetractedDtStatus[1].Status);
-            Assert.AreEqual(aCase3Retracted.CheckListId, caseListRetractedDtStatus[1].TemplatId);
-            Assert.AreEqual(aCase3Retracted.Unit.MicrotingUid, caseListRetractedDtStatus[1].UnitId);
-//            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedDtStatus[1].UpdatedAt.ToString());
-            Assert.AreEqual(aCase3Retracted.Version, caseListRetractedDtStatus[1].Version);
-            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName,
-                caseListRetractedDtStatus[1].WorkerName);
-            Assert.AreEqual(aCase3Retracted.WorkflowState, caseListRetractedDtStatus[1].WorkflowState);
+            Assert.That(caseListRetractedDtStatus[1].CaseType, Is.EqualTo(aCase3Retracted.Type));
+            Assert.That(caseListRetractedDtStatus[1].CaseUId, Is.EqualTo(aCase3Retracted.CaseUid));
+            Assert.That(caseListRetractedDtStatus[1].CheckUIid, Is.EqualTo(aCase3Retracted.MicrotingCheckUid));
+            Assert.That(caseListRetractedDtStatus[1].CreatedAt.ToString(), Is.EqualTo(c3Retracted_ca.ToString()));
+            Assert.That(caseListRetractedDtStatus[1].Custom, Is.EqualTo(aCase3Retracted.Custom));
+            Assert.That(caseListRetractedDtStatus[1].DoneAt.ToString(), Is.EqualTo(c3Retracted_da.ToString()));
+            Assert.That(caseListRetractedDtStatus[1].Id, Is.EqualTo(aCase3Retracted.Id));
+            Assert.That(caseListRetractedDtStatus[1].MicrotingUId, Is.EqualTo(aCase3Retracted.MicrotingUid));
+            Assert.That(caseListRetractedDtStatus[1].SiteId, Is.EqualTo(aCase3Retracted.Site.MicrotingUid));
+            Assert.That(caseListRetractedDtStatus[1].SiteName, Is.EqualTo(aCase3Retracted.Site.Name));
+            Assert.That(caseListRetractedDtStatus[1].Status, Is.EqualTo(aCase3Retracted.Status));
+            Assert.That(caseListRetractedDtStatus[1].TemplatId, Is.EqualTo(aCase3Retracted.CheckListId));
+            Assert.That(caseListRetractedDtStatus[1].UnitId, Is.EqualTo(aCase3Retracted.Unit.MicrotingUid));
+            //            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedDtStatus[1].UpdatedAt.ToString());
+            Assert.That(caseListRetractedDtStatus[1].Version, Is.EqualTo(aCase3Retracted.Version));
+            Assert.That(caseListRetractedDtStatus[1].WorkerName,
+                Is.EqualTo(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName));
+            Assert.That(caseListRetractedDtStatus[1].WorkflowState, Is.EqualTo(aCase3Retracted.WorkflowState));
 
             #endregion
 
@@ -3761,49 +3761,49 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedDtUnitId aCase1Retracted
 
             Assert.NotNull(caseListRetractedDtUnitId);
-            Assert.AreEqual(2, caseListRetractedDtUnitId.Count);
-            Assert.AreEqual(aCase1Retracted.Type, caseListRetractedDtUnitId[0].CaseType);
-            Assert.AreEqual(aCase1Retracted.CaseUid, caseListRetractedDtUnitId[0].CaseUId);
-            Assert.AreEqual(aCase1Retracted.MicrotingCheckUid, caseListRetractedDtUnitId[0].CheckUIid);
-            Assert.AreEqual(c1Retracted_ca.ToString(), caseListRetractedDtUnitId[0].CreatedAt.ToString());
-            Assert.AreEqual(aCase1Retracted.Custom, caseListRetractedDtUnitId[0].Custom);
-            Assert.AreEqual(c1Retracted_da.ToString(), caseListRetractedDtUnitId[0].DoneAt.ToString());
-            Assert.AreEqual(aCase1Retracted.Id, caseListRetractedDtUnitId[0].Id);
-            Assert.AreEqual(aCase1Retracted.MicrotingUid, caseListRetractedDtUnitId[0].MicrotingUId);
-            Assert.AreEqual(aCase1Retracted.Site.MicrotingUid, caseListRetractedDtUnitId[0].SiteId);
-            Assert.AreEqual(aCase1Retracted.Site.Name, caseListRetractedDtUnitId[0].SiteName);
-            Assert.AreEqual(aCase1Retracted.Status, caseListRetractedDtUnitId[0].Status);
-            Assert.AreEqual(aCase1Retracted.CheckListId, caseListRetractedDtUnitId[0].TemplatId);
-            Assert.AreEqual(aCase1Retracted.Unit.MicrotingUid, caseListRetractedDtUnitId[0].UnitId);
-//            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedDtUnitId[0].UpdatedAt.ToString());
-            Assert.AreEqual(aCase1Retracted.Version, caseListRetractedDtUnitId[0].Version);
-            Assert.AreEqual(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName,
-                caseListRetractedDtUnitId[0].WorkerName);
-            Assert.AreEqual(aCase1Retracted.WorkflowState, caseListRetractedDtUnitId[0].WorkflowState);
+            Assert.That(caseListRetractedDtUnitId.Count, Is.EqualTo(2));
+            Assert.That(caseListRetractedDtUnitId[0].CaseType, Is.EqualTo(aCase1Retracted.Type));
+            Assert.That(caseListRetractedDtUnitId[0].CaseUId, Is.EqualTo(aCase1Retracted.CaseUid));
+            Assert.That(caseListRetractedDtUnitId[0].CheckUIid, Is.EqualTo(aCase1Retracted.MicrotingCheckUid));
+            Assert.That(caseListRetractedDtUnitId[0].CreatedAt.ToString(), Is.EqualTo(c1Retracted_ca.ToString()));
+            Assert.That(caseListRetractedDtUnitId[0].Custom, Is.EqualTo(aCase1Retracted.Custom));
+            Assert.That(caseListRetractedDtUnitId[0].DoneAt.ToString(), Is.EqualTo(c1Retracted_da.ToString()));
+            Assert.That(caseListRetractedDtUnitId[0].Id, Is.EqualTo(aCase1Retracted.Id));
+            Assert.That(caseListRetractedDtUnitId[0].MicrotingUId, Is.EqualTo(aCase1Retracted.MicrotingUid));
+            Assert.That(caseListRetractedDtUnitId[0].SiteId, Is.EqualTo(aCase1Retracted.Site.MicrotingUid));
+            Assert.That(caseListRetractedDtUnitId[0].SiteName, Is.EqualTo(aCase1Retracted.Site.Name));
+            Assert.That(caseListRetractedDtUnitId[0].Status, Is.EqualTo(aCase1Retracted.Status));
+            Assert.That(caseListRetractedDtUnitId[0].TemplatId, Is.EqualTo(aCase1Retracted.CheckListId));
+            Assert.That(caseListRetractedDtUnitId[0].UnitId, Is.EqualTo(aCase1Retracted.Unit.MicrotingUid));
+            //            Assert.AreEqual(c1Retracted_ua.ToString(), caseListRetractedDtUnitId[0].UpdatedAt.ToString());
+            Assert.That(caseListRetractedDtUnitId[0].Version, Is.EqualTo(aCase1Retracted.Version));
+            Assert.That(caseListRetractedDtUnitId[0].WorkerName,
+                Is.EqualTo(aCase1Retracted.Worker.FirstName + " " + aCase1Retracted.Worker.LastName));
+            Assert.That(caseListRetractedDtUnitId[0].WorkflowState, Is.EqualTo(aCase1Retracted.WorkflowState));
 
             #endregion
 
 
             #region caseListRetractedDtUnitId aCase3Retracted
 
-            Assert.AreEqual(aCase3Retracted.Type, caseListRetractedDtUnitId[1].CaseType);
-            Assert.AreEqual(aCase3Retracted.CaseUid, caseListRetractedDtUnitId[1].CaseUId);
-            Assert.AreEqual(aCase3Retracted.MicrotingCheckUid, caseListRetractedDtUnitId[1].CheckUIid);
-            Assert.AreEqual(c3Retracted_ca.ToString(), caseListRetractedDtUnitId[1].CreatedAt.ToString());
-            Assert.AreEqual(aCase3Retracted.Custom, caseListRetractedDtUnitId[1].Custom);
-            Assert.AreEqual(c3Retracted_da.ToString(), caseListRetractedDtUnitId[1].DoneAt.ToString());
-            Assert.AreEqual(aCase3Retracted.Id, caseListRetractedDtUnitId[1].Id);
-            Assert.AreEqual(aCase3Retracted.MicrotingUid, caseListRetractedDtUnitId[1].MicrotingUId);
-            Assert.AreEqual(aCase3Retracted.Site.MicrotingUid, caseListRetractedDtUnitId[1].SiteId);
-            Assert.AreEqual(aCase3Retracted.Site.Name, caseListRetractedDtUnitId[1].SiteName);
-            Assert.AreEqual(aCase3Retracted.Status, caseListRetractedDtUnitId[1].Status);
-            Assert.AreEqual(aCase3Retracted.CheckListId, caseListRetractedDtUnitId[1].TemplatId);
-            Assert.AreEqual(aCase3Retracted.Unit.MicrotingUid, caseListRetractedDtUnitId[1].UnitId);
-//            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedDtUnitId[1].UpdatedAt.ToString());
-            Assert.AreEqual(aCase3Retracted.Version, caseListRetractedDtUnitId[1].Version);
-            Assert.AreEqual(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName,
-                caseListRetractedDtUnitId[1].WorkerName);
-            Assert.AreEqual(aCase3Retracted.WorkflowState, caseListRetractedDtUnitId[1].WorkflowState);
+            Assert.That(caseListRetractedDtUnitId[1].CaseType, Is.EqualTo(aCase3Retracted.Type));
+            Assert.That(caseListRetractedDtUnitId[1].CaseUId, Is.EqualTo(aCase3Retracted.CaseUid));
+            Assert.That(caseListRetractedDtUnitId[1].CheckUIid, Is.EqualTo(aCase3Retracted.MicrotingCheckUid));
+            Assert.That(caseListRetractedDtUnitId[1].CreatedAt.ToString(), Is.EqualTo(c3Retracted_ca.ToString()));
+            Assert.That(caseListRetractedDtUnitId[1].Custom, Is.EqualTo(aCase3Retracted.Custom));
+            Assert.That(caseListRetractedDtUnitId[1].DoneAt.ToString(), Is.EqualTo(c3Retracted_da.ToString()));
+            Assert.That(caseListRetractedDtUnitId[1].Id, Is.EqualTo(aCase3Retracted.Id));
+            Assert.That(caseListRetractedDtUnitId[1].MicrotingUId, Is.EqualTo(aCase3Retracted.MicrotingUid));
+            Assert.That(caseListRetractedDtUnitId[1].SiteId, Is.EqualTo(aCase3Retracted.Site.MicrotingUid));
+            Assert.That(caseListRetractedDtUnitId[1].SiteName, Is.EqualTo(aCase3Retracted.Site.Name));
+            Assert.That(caseListRetractedDtUnitId[1].Status, Is.EqualTo(aCase3Retracted.Status));
+            Assert.That(caseListRetractedDtUnitId[1].TemplatId, Is.EqualTo(aCase3Retracted.CheckListId));
+            Assert.That(caseListRetractedDtUnitId[1].UnitId, Is.EqualTo(aCase3Retracted.Unit.MicrotingUid));
+            //            Assert.AreEqual(c3Retracted_ua.ToString(), caseListRetractedDtUnitId[1].UpdatedAt.ToString());
+            Assert.That(caseListRetractedDtUnitId[1].Version, Is.EqualTo(aCase3Retracted.Version));
+            Assert.That(caseListRetractedDtUnitId[1].WorkerName,
+                Is.EqualTo(aCase3Retracted.Worker.FirstName + " " + aCase3Retracted.Worker.LastName));
+            Assert.That(caseListRetractedDtUnitId[1].WorkflowState, Is.EqualTo(aCase3Retracted.WorkflowState));
 
             #endregion
 
@@ -3822,7 +3822,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC1DoneAt aCase1Retracted
 
             Assert.NotNull(caseListRetractedC1SortDoneAt);
-            Assert.AreEqual(0, caseListRetractedC1SortDoneAt.Count);
+            Assert.That(caseListRetractedC1SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Retracted.type, caseListRetractedC1SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase1Retracted.case_uid, caseListRetractedC1SortDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase1Retracted.microting_check_uid, caseListRetractedC1SortDoneAt[0].CheckUIid);
@@ -3846,7 +3846,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedC1SortStatus aCase1Retracted
 
             Assert.NotNull(caseListRetractedC1SortStatus);
-            Assert.AreEqual(0, caseListRetractedC1SortStatus.Count);
+            Assert.That(caseListRetractedC1SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Retracted.type, caseListRetractedC1SortStatus[0].CaseType);
             // Assert.AreEqual(aCase1Retracted.case_uid, caseListRetractedC1SortStatus[0].CaseUId);
             // Assert.AreEqual(aCase1Retracted.microting_check_uid, caseListRetractedC1SortStatus[0].CheckUIid);
@@ -3870,7 +3870,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedC1SortUnitId
 
             Assert.NotNull(caseListRetractedC1SortUnitId);
-            Assert.AreEqual(0, caseListRetractedC1SortUnitId.Count);
+            Assert.That(caseListRetractedC1SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Retracted.type, caseListRetractedC1SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase1Retracted.case_uid, caseListRetractedC1SortUnitId[0].CaseUId);
             // Assert.AreEqual(aCase1Retracted.microting_check_uid, caseListRetractedC1SortUnitId[0].CheckUIid);
@@ -3898,7 +3898,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC2DoneAt aCase2Retracted
 
             Assert.NotNull(caseListRetractedC2SortDoneAt);
-            Assert.AreEqual(0, caseListRetractedC2SortDoneAt.Count);
+            Assert.That(caseListRetractedC2SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Retracted.type, caseListRetractedC2SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase2Retracted.case_uid, caseListRetractedC2SortDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase2Retracted.microting_check_uid, caseListRetractedC2SortDoneAt[0].CheckUIid);
@@ -3922,7 +3922,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedC2SortStatus aCase2Retracted
 
             Assert.NotNull(caseListRetractedC2SortStatus);
-            Assert.AreEqual(0, caseListRetractedC2SortStatus.Count);
+            Assert.That(caseListRetractedC2SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Retracted.type, caseListRetractedC2SortStatus[0].CaseType);
             // Assert.AreEqual(aCase2Retracted.case_uid, caseListRetractedC2SortStatus[0].CaseUId);
             // Assert.AreEqual(aCase2Retracted.microting_check_uid, caseListRetractedC2SortStatus[0].CheckUIid);
@@ -3946,7 +3946,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedC2SortUnitId aCase2Retracted
 
             Assert.NotNull(caseListRetractedC2SortUnitId);
-            Assert.AreEqual(0, caseListRetractedC2SortUnitId.Count);
+            Assert.That(caseListRetractedC2SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Retracted.type, caseListRetractedC2SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase2Retracted.case_uid, caseListRetractedC2SortUnitId[0].CaseUId);
             // Assert.AreEqual(aCase2Retracted.microting_check_uid, caseListRetractedC2SortUnitId[0].CheckUIid);
@@ -3974,7 +3974,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC3DoneAt aCase3Retracted
 
             Assert.NotNull(caseListRetractedC3SortDoneAt);
-            Assert.AreEqual(0, caseListRetractedC3SortDoneAt.Count);
+            Assert.That(caseListRetractedC3SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Retracted.type, caseListRetractedC3SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase3Retracted.case_uid, caseListRetractedC3SortDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase3Retracted.microting_check_uid, caseListRetractedC3SortDoneAt[0].CheckUIid);
@@ -3998,7 +3998,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC3status aCase3Retracted
 
             Assert.NotNull(caseListRetractedC3SortStatus);
-            Assert.AreEqual(0, caseListRetractedC3SortStatus.Count);
+            Assert.That(caseListRetractedC3SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Retracted.type, caseListRetractedC3SortStatus[0].CaseType);
             // Assert.AreEqual(aCase3Retracted.case_uid, caseListRetractedC3SortStatus[0].CaseUId);
             // Assert.AreEqual(aCase3Retracted.microting_check_uid, caseListRetractedC3SortStatus[0].CheckUIid);
@@ -4022,7 +4022,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListC3UnitId aCase3Retracted
 
             Assert.NotNull(caseListRetractedC3SortUnitId);
-            Assert.AreEqual(0, caseListRetractedC3SortUnitId.Count);
+            Assert.That(caseListRetractedC3SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Retracted.type, caseListRetractedC3SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase3Retracted.case_uid, caseListRetractedC3SortUnitId[0].CaseUId);
             // Assert.AreEqual(aCase3Retracted.microting_check_uid, caseListRetractedC3SortUnitId[0].CheckUIid);
@@ -4050,7 +4050,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedC4SortDoneAt aCase4Retracted
 
             Assert.NotNull(caseListRetractedC4SortDoneAt);
-            Assert.AreEqual(0, caseListRetractedC4SortDoneAt.Count);
+            Assert.That(caseListRetractedC4SortDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Retracted.type, caseListRetractedC4SortDoneAt[0].CaseType);
             // Assert.AreEqual(aCase4Retracted.case_uid, caseListRetractedC4SortDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase4Retracted.microting_check_uid, caseListRetractedC4SortDoneAt[0].CheckUIid);
@@ -4074,7 +4074,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedC4SortStatus aCase4Retracted
 
             Assert.NotNull(caseListRetractedC4SortStatus);
-            Assert.AreEqual(0, caseListRetractedC4SortStatus.Count);
+            Assert.That(caseListRetractedC4SortStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Retracted.type, caseListRetractedC4SortStatus[0].CaseType);
             // Assert.AreEqual(aCase4Retracted.case_uid, caseListRetractedC4SortStatus[0].CaseUId);
             // Assert.AreEqual(aCase4Retracted.microting_check_uid, caseListRetractedC4SortStatus[0].CheckUIid);
@@ -4098,7 +4098,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedC4SortUnitId aCase4Retracted
 
             Assert.NotNull(caseListRetractedC4SortUnitId);
-            Assert.AreEqual(0, caseListRetractedC4SortUnitId.Count);
+            Assert.That(caseListRetractedC4SortUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Retracted.type, caseListRetractedC4SortUnitId[0].CaseType);
             // Assert.AreEqual(aCase4Retracted.case_uid, caseListRetractedC4SortUnitId[0].CaseUId);
             // Assert.AreEqual(aCase4Retracted.microting_check_uid, caseListRetractedC4SortUnitId[0].CheckUIid);
@@ -4131,7 +4131,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedC1SortDtDoneAt aCase1Retracted
 
             Assert.NotNull(caseListRetractedC1SortDtDoneAt);
-            Assert.AreEqual(0, caseListRetractedC1SortDtDoneAt.Count);
+            Assert.That(caseListRetractedC1SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Retracted.type, caseListRetractedC1SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase1Retracted.case_uid, caseListRetractedC1SortDtDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase1Retracted.microting_check_uid, caseListRetractedC1SortDtDoneAt[0].CheckUIid);
@@ -4155,7 +4155,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedC1SortDtStatus aCase1Retracted
 
             Assert.NotNull(caseListRetractedC1SortDtStatus);
-            Assert.AreEqual(0, caseListRetractedC1SortDtStatus.Count);
+            Assert.That(caseListRetractedC1SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Retracted.type, caseListRetractedC1SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase1Retracted.case_uid, caseListRetractedC1SortDtStatus[0].CaseUId);
             // Assert.AreEqual(aCase1Retracted.microting_check_uid, caseListRetractedC1SortDtStatus[0].CheckUIid);
@@ -4179,7 +4179,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedC1SortDtUnitId aCase1Retracted
 
             Assert.NotNull(caseListRetractedC1SortDtUnitId);
-            Assert.AreEqual(0, caseListRetractedC1SortDtUnitId.Count);
+            Assert.That(caseListRetractedC1SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase1Retracted.type, caseListRetractedC1SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase1Retracted.case_uid, caseListRetractedC1SortDtUnitId[0].CaseUId);
             // Assert.AreEqual(aCase1Retracted.microting_check_uid, caseListRetractedC1SortDtUnitId[0].CheckUIid);
@@ -4207,7 +4207,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedC2SortDtDoneAt aCase2Retracted
 
             Assert.NotNull(caseListRetractedC2SortDtDoneAt);
-            Assert.AreEqual(0, caseListRetractedC2SortDtDoneAt.Count);
+            Assert.That(caseListRetractedC2SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Retracted.type, caseListRetractedC2SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase2Retracted.case_uid, caseListRetractedC2SortDtDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase2Retracted.microting_check_uid, caseListRetractedC2SortDtDoneAt[0].CheckUIid);
@@ -4231,7 +4231,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedC2SortDtStatus aCase2Retracted
 
             Assert.NotNull(caseListRetractedC2SortDtStatus);
-            Assert.AreEqual(0, caseListRetractedC2SortDtStatus.Count);
+            Assert.That(caseListRetractedC2SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Retracted.type, caseListRetractedC2SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase2Retracted.case_uid, caseListRetractedC2SortDtStatus[0].CaseUId);
             // Assert.AreEqual(aCase2Retracted.microting_check_uid, caseListRetractedC2SortDtStatus[0].CheckUIid);
@@ -4255,7 +4255,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedC2SortDtUnitId aCase2Retracted
 
             Assert.NotNull(caseListRetractedC2SortDtUnitId);
-            Assert.AreEqual(0, caseListRetractedC2SortDtUnitId.Count);
+            Assert.That(caseListRetractedC2SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase2Retracted.type, caseListRetractedC2SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase2Retracted.case_uid, caseListRetractedC2SortDtUnitId[0].CaseUId);
             // Assert.AreEqual(aCase2Retracted.microting_check_uid, caseListRetractedC2SortDtUnitId[0].CheckUIid);
@@ -4283,7 +4283,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedC3SortDtDoneAt aCase3Retracted
 
             Assert.NotNull(caseListRetractedC3SortDtDoneAt);
-            Assert.AreEqual(0, caseListRetractedC3SortDtDoneAt.Count);
+            Assert.That(caseListRetractedC3SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Retracted.type, caseListRetractedC3SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase3Retracted.case_uid, caseListRetractedC3SortDtDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase3Retracted.microting_check_uid, caseListRetractedC3SortDtDoneAt[0].CheckUIid);
@@ -4307,7 +4307,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedC3SortDtStatus aCase3Retracted
 
             Assert.NotNull(caseListRetractedC3SortDtStatus);
-            Assert.AreEqual(0, caseListRetractedC3SortDtStatus.Count);
+            Assert.That(caseListRetractedC3SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Retracted.type, caseListRetractedC3SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase3Retracted.case_uid, caseListRetractedC3SortDtStatus[0].CaseUId);
             // Assert.AreEqual(aCase3Retracted.microting_check_uid, caseListRetractedC3SortDtStatus[0].CheckUIid);
@@ -4331,7 +4331,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedC3SortDtUnitId aCase3Retracted
 
             Assert.NotNull(caseListRetractedC3SortDtUnitId);
-            Assert.AreEqual(0, caseListRetractedC3SortDtUnitId.Count);
+            Assert.That(caseListRetractedC3SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase3Retracted.type, caseListRetractedC3SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase3Retracted.case_uid, caseListRetractedC3SortDtUnitId[0].CaseUId);
             // Assert.AreEqual(aCase3Retracted.microting_check_uid, caseListRetractedC3SortDtUnitId[0].CheckUIid);
@@ -4359,7 +4359,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedC4SortDtDoneAt aCase4Retracted
 
             Assert.NotNull(caseListRetractedC4SortDtDoneAt);
-            Assert.AreEqual(0, caseListRetractedC4SortDtDoneAt.Count);
+            Assert.That(caseListRetractedC4SortDtDoneAt.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Retracted.type, caseListRetractedC4SortDtDoneAt[0].CaseType);
             // Assert.AreEqual(aCase4Retracted.case_uid, caseListRetractedC4SortDtDoneAt[0].CaseUId);
             // Assert.AreEqual(aCase4Retracted.microting_check_uid, caseListRetractedC4SortDtDoneAt[0].CheckUIid);
@@ -4383,7 +4383,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedC4SortDtStatus aCase4Retracted
 
             Assert.NotNull(caseListRetractedC4SortDtStatus);
-            Assert.AreEqual(0, caseListRetractedC4SortDtStatus.Count);
+            Assert.That(caseListRetractedC4SortDtStatus.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Retracted.type, caseListRetractedC4SortDtStatus[0].CaseType);
             // Assert.AreEqual(aCase4Retracted.case_uid, caseListRetractedC4SortDtStatus[0].CaseUId);
             // Assert.AreEqual(aCase4Retracted.microting_check_uid, caseListRetractedC4SortDtStatus[0].CheckUIid);
@@ -4407,7 +4407,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             #region caseListRetractedC4SortDtUnitId aCase4Retracted
 
             Assert.NotNull(caseListRetractedC4SortDtUnitId);
-            Assert.AreEqual(0, caseListRetractedC4SortDtUnitId.Count);
+            Assert.That(caseListRetractedC4SortDtUnitId.Count, Is.EqualTo(0));
             // Assert.AreEqual(aCase4Retracted.type, caseListRetractedC4SortDtUnitId[0].CaseType);
             // Assert.AreEqual(aCase4Retracted.case_uid, caseListRetractedC4SortDtUnitId[0].CaseUId);
             // Assert.AreEqual(aCase4Retracted.microting_check_uid, caseListRetractedC4SortDtUnitId[0].CheckUIid);

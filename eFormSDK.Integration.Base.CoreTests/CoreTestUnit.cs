@@ -95,8 +95,8 @@ namespace eFormSDK.Integration.Base.CoreTests
             List<Unit> matches = DbContext.Units.AsNoTracking().ToList();
 
             Assert.NotNull(matches);
-            Assert.AreEqual(1, matches.Count);
-            Assert.AreEqual(558877, matches[0].OtpCode);
+            Assert.That(matches.Count, Is.EqualTo(1));
+            Assert.That(matches[0].OtpCode, Is.EqualTo(558877));
         }
 
         #endregion

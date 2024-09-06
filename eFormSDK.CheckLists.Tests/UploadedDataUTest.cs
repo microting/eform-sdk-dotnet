@@ -72,40 +72,40 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(uploadedDatas);
             Assert.NotNull(uploadedDataVersions);
 
-            Assert.AreEqual(1, uploadedDatas.Count());
-            Assert.AreEqual(1, uploadedDataVersions.Count());
+            Assert.That(uploadedDatas.Count(), Is.EqualTo(1));
+            Assert.That(uploadedDataVersions.Count(), Is.EqualTo(1));
 
 
-            Assert.AreEqual(uploadedData.CreatedAt.ToString(), uploadedDatas[0].CreatedAt.ToString());
-            Assert.AreEqual(uploadedData.Version, uploadedDatas[0].Version);
-//            Assert.AreEqual(uploadedData.UpdatedAt.ToString(), uploadedDatas[0].UpdatedAt.ToString());
-            Assert.AreEqual(uploadedDatas[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(uploadedData.Checksum, uploadedDatas[0].Checksum);
-            Assert.AreEqual(uploadedData.Extension, uploadedDatas[0].Extension);
-            Assert.AreEqual(uploadedData.Local, uploadedDatas[0].Local);
-            Assert.AreEqual(uploadedData.CurrentFile, uploadedDatas[0].CurrentFile);
-            Assert.AreEqual(uploadedData.ExpirationDate.ToString(), uploadedDatas[0].ExpirationDate.ToString());
-            Assert.AreEqual(uploadedData.FileLocation, uploadedDatas[0].FileLocation);
-            Assert.AreEqual(uploadedData.FileName, uploadedDatas[0].FileName);
-            Assert.AreEqual(uploadedData.TranscriptionId, uploadedDatas[0].TranscriptionId);
-            Assert.AreEqual(uploadedData.UploaderId, uploadedDatas[0].UploaderId);
-            Assert.AreEqual(uploadedData.UploaderType, uploadedDatas[0].UploaderType);
+            Assert.That(uploadedDatas[0].CreatedAt.ToString(), Is.EqualTo(uploadedData.CreatedAt.ToString()));
+            Assert.That(uploadedDatas[0].Version, Is.EqualTo(uploadedData.Version));
+            //            Assert.AreEqual(uploadedData.UpdatedAt.ToString(), uploadedDatas[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(uploadedDatas[0].WorkflowState));
+            Assert.That(uploadedDatas[0].Checksum, Is.EqualTo(uploadedData.Checksum));
+            Assert.That(uploadedDatas[0].Extension, Is.EqualTo(uploadedData.Extension));
+            Assert.That(uploadedDatas[0].Local, Is.EqualTo(uploadedData.Local));
+            Assert.That(uploadedDatas[0].CurrentFile, Is.EqualTo(uploadedData.CurrentFile));
+            Assert.That(uploadedDatas[0].ExpirationDate.ToString(), Is.EqualTo(uploadedData.ExpirationDate.ToString()));
+            Assert.That(uploadedDatas[0].FileLocation, Is.EqualTo(uploadedData.FileLocation));
+            Assert.That(uploadedDatas[0].FileName, Is.EqualTo(uploadedData.FileName));
+            Assert.That(uploadedDatas[0].TranscriptionId, Is.EqualTo(uploadedData.TranscriptionId));
+            Assert.That(uploadedDatas[0].UploaderId, Is.EqualTo(uploadedData.UploaderId));
+            Assert.That(uploadedDatas[0].UploaderType, Is.EqualTo(uploadedData.UploaderType));
 
             //Versions
-            Assert.AreEqual(uploadedData.CreatedAt.ToString(), uploadedDataVersions[0].CreatedAt.ToString());
-            Assert.AreEqual(uploadedData.Version, uploadedDataVersions[0].Version);
-//            Assert.AreEqual(uploadedData.UpdatedAt.ToString(), uploadedDataVersions[0].UpdatedAt.ToString());
-            Assert.AreEqual(uploadedDataVersions[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(uploadedData.Checksum, uploadedDataVersions[0].Checksum);
-            Assert.AreEqual(uploadedData.Extension, uploadedDataVersions[0].Extension);
-            Assert.AreEqual(uploadedData.Local, uploadedDataVersions[0].Local);
-            Assert.AreEqual(uploadedData.CurrentFile, uploadedDataVersions[0].CurrentFile);
-            Assert.AreEqual(uploadedData.ExpirationDate.ToString(), uploadedDataVersions[0].ExpirationDate.ToString());
-            Assert.AreEqual(uploadedData.FileLocation, uploadedDataVersions[0].FileLocation);
-            Assert.AreEqual(uploadedData.FileName, uploadedDataVersions[0].FileName);
-            Assert.AreEqual(uploadedData.UploaderId, uploadedDataVersions[0].UploaderId);
-            Assert.AreEqual(uploadedData.UploaderType, uploadedDataVersions[0].UploaderType);
-            Assert.AreEqual(uploadedData.TranscriptionId, uploadedDataVersions[0].TranscriptionId);
+            Assert.That(uploadedDataVersions[0].CreatedAt.ToString(), Is.EqualTo(uploadedData.CreatedAt.ToString()));
+            Assert.That(uploadedDataVersions[0].Version, Is.EqualTo(uploadedData.Version));
+            //            Assert.AreEqual(uploadedData.UpdatedAt.ToString(), uploadedDataVersions[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(uploadedDataVersions[0].WorkflowState));
+            Assert.That(uploadedDataVersions[0].Checksum, Is.EqualTo(uploadedData.Checksum));
+            Assert.That(uploadedDataVersions[0].Extension, Is.EqualTo(uploadedData.Extension));
+            Assert.That(uploadedDataVersions[0].Local, Is.EqualTo(uploadedData.Local));
+            Assert.That(uploadedDataVersions[0].CurrentFile, Is.EqualTo(uploadedData.CurrentFile));
+            Assert.That(uploadedDataVersions[0].ExpirationDate.ToString(), Is.EqualTo(uploadedData.ExpirationDate.ToString()));
+            Assert.That(uploadedDataVersions[0].FileLocation, Is.EqualTo(uploadedData.FileLocation));
+            Assert.That(uploadedDataVersions[0].FileName, Is.EqualTo(uploadedData.FileName));
+            Assert.That(uploadedDataVersions[0].UploaderId, Is.EqualTo(uploadedData.UploaderId));
+            Assert.That(uploadedDataVersions[0].UploaderType, Is.EqualTo(uploadedData.UploaderType));
+            Assert.That(uploadedDataVersions[0].TranscriptionId, Is.EqualTo(uploadedData.TranscriptionId));
         }
 
         [Test]
@@ -172,52 +172,52 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(uploadedDatas);
             Assert.NotNull(uploadedDataVersions);
 
-            Assert.AreEqual(1, uploadedDatas.Count());
-            Assert.AreEqual(2, uploadedDataVersions.Count());
+            Assert.That(uploadedDatas.Count(), Is.EqualTo(1));
+            Assert.That(uploadedDataVersions.Count(), Is.EqualTo(2));
 
-            Assert.AreEqual(uploadedData.CreatedAt.ToString(), uploadedDatas[0].CreatedAt.ToString());
-            Assert.AreEqual(uploadedData.Version, uploadedDatas[0].Version);
-//            Assert.AreEqual(uploadedData.UpdatedAt.ToString(), uploadedDatas[0].UpdatedAt.ToString());
-            Assert.AreEqual(uploadedData.Checksum, uploadedDatas[0].Checksum);
-            Assert.AreEqual(uploadedData.Extension, uploadedDatas[0].Extension);
-            Assert.AreEqual(uploadedData.Local, uploadedDatas[0].Local);
-            Assert.AreEqual(uploadedData.CurrentFile, uploadedDatas[0].CurrentFile);
-            Assert.AreEqual(uploadedData.ExpirationDate.ToString(), uploadedDatas[0].ExpirationDate.ToString());
-            Assert.AreEqual(uploadedData.FileLocation, uploadedDatas[0].FileLocation);
-            Assert.AreEqual(uploadedData.FileName, uploadedDatas[0].FileName);
-            Assert.AreEqual(uploadedData.TranscriptionId, uploadedDatas[0].TranscriptionId);
-            Assert.AreEqual(uploadedData.UploaderId, uploadedDatas[0].UploaderId);
-            Assert.AreEqual(uploadedData.UploaderType, uploadedDatas[0].UploaderType);
+            Assert.That(uploadedDatas[0].CreatedAt.ToString(), Is.EqualTo(uploadedData.CreatedAt.ToString()));
+            Assert.That(uploadedDatas[0].Version, Is.EqualTo(uploadedData.Version));
+            //            Assert.AreEqual(uploadedData.UpdatedAt.ToString(), uploadedDatas[0].UpdatedAt.ToString());
+            Assert.That(uploadedDatas[0].Checksum, Is.EqualTo(uploadedData.Checksum));
+            Assert.That(uploadedDatas[0].Extension, Is.EqualTo(uploadedData.Extension));
+            Assert.That(uploadedDatas[0].Local, Is.EqualTo(uploadedData.Local));
+            Assert.That(uploadedDatas[0].CurrentFile, Is.EqualTo(uploadedData.CurrentFile));
+            Assert.That(uploadedDatas[0].ExpirationDate.ToString(), Is.EqualTo(uploadedData.ExpirationDate.ToString()));
+            Assert.That(uploadedDatas[0].FileLocation, Is.EqualTo(uploadedData.FileLocation));
+            Assert.That(uploadedDatas[0].FileName, Is.EqualTo(uploadedData.FileName));
+            Assert.That(uploadedDatas[0].TranscriptionId, Is.EqualTo(uploadedData.TranscriptionId));
+            Assert.That(uploadedDatas[0].UploaderId, Is.EqualTo(uploadedData.UploaderId));
+            Assert.That(uploadedDatas[0].UploaderType, Is.EqualTo(uploadedData.UploaderType));
 
             //Version 1 Old Version
-            Assert.AreEqual(uploadedData.CreatedAt.ToString(), uploadedDataVersions[0].CreatedAt.ToString());
-            Assert.AreEqual(1, uploadedDataVersions[0].Version);
-//            Assert.AreEqual(oldUpdatedAt.ToString(), uploadedDataVersions[0].UpdatedAt.ToString());
-            Assert.AreEqual(oldCheckSum, uploadedDataVersions[0].Checksum);
-            Assert.AreEqual(oldExtension, uploadedDataVersions[0].Extension);
-            Assert.AreEqual(oldLocal, uploadedDataVersions[0].Local);
-            Assert.AreEqual(oldCurrentFile, uploadedDataVersions[0].CurrentFile);
-            Assert.AreEqual(oldExpirationDate.ToString(), uploadedDataVersions[0].ExpirationDate.ToString());
-            Assert.AreEqual(oldFileLocation, uploadedDataVersions[0].FileLocation);
-            Assert.AreEqual(oldFileName, uploadedDataVersions[0].FileName);
-            Assert.AreEqual(oldTranscriptionId, uploadedDataVersions[0].TranscriptionId);
-            Assert.AreEqual(oldUploaderId, uploadedDataVersions[0].UploaderId);
-            Assert.AreEqual(oldUploaderType, uploadedDataVersions[0].UploaderType);
+            Assert.That(uploadedDataVersions[0].CreatedAt.ToString(), Is.EqualTo(uploadedData.CreatedAt.ToString()));
+            Assert.That(uploadedDataVersions[0].Version, Is.EqualTo(1));
+            //            Assert.AreEqual(oldUpdatedAt.ToString(), uploadedDataVersions[0].UpdatedAt.ToString());
+            Assert.That(uploadedDataVersions[0].Checksum, Is.EqualTo(oldCheckSum));
+            Assert.That(uploadedDataVersions[0].Extension, Is.EqualTo(oldExtension));
+            Assert.That(uploadedDataVersions[0].Local, Is.EqualTo(oldLocal));
+            Assert.That(uploadedDataVersions[0].CurrentFile, Is.EqualTo(oldCurrentFile));
+            Assert.That(uploadedDataVersions[0].ExpirationDate.ToString(), Is.EqualTo(oldExpirationDate.ToString()));
+            Assert.That(uploadedDataVersions[0].FileLocation, Is.EqualTo(oldFileLocation));
+            Assert.That(uploadedDataVersions[0].FileName, Is.EqualTo(oldFileName));
+            Assert.That(uploadedDataVersions[0].TranscriptionId, Is.EqualTo(oldTranscriptionId));
+            Assert.That(uploadedDataVersions[0].UploaderId, Is.EqualTo(oldUploaderId));
+            Assert.That(uploadedDataVersions[0].UploaderType, Is.EqualTo(oldUploaderType));
 
             //Version 2 Updated Version
-            Assert.AreEqual(uploadedData.CreatedAt.ToString(), uploadedDataVersions[1].CreatedAt.ToString());
-            Assert.AreEqual(2, uploadedDataVersions[1].Version);
-//            Assert.AreEqual(uploadedData.UpdatedAt.ToString(), uploadedDataVersions[1].UpdatedAt.ToString());
-            Assert.AreEqual(uploadedData.Checksum, uploadedDataVersions[1].Checksum);
-            Assert.AreEqual(uploadedData.Extension, uploadedDataVersions[1].Extension);
-            Assert.AreEqual(uploadedData.Local, uploadedDataVersions[1].Local);
-            Assert.AreEqual(uploadedData.CurrentFile, uploadedDataVersions[1].CurrentFile);
-            Assert.AreEqual(uploadedData.ExpirationDate.ToString(), uploadedDataVersions[1].ExpirationDate.ToString());
-            Assert.AreEqual(uploadedData.FileLocation, uploadedDataVersions[1].FileLocation);
-            Assert.AreEqual(uploadedData.FileName, uploadedDataVersions[1].FileName);
-            Assert.AreEqual(uploadedData.TranscriptionId, uploadedDataVersions[1].TranscriptionId);
-            Assert.AreEqual(uploadedData.UploaderId, uploadedDataVersions[1].UploaderId);
-            Assert.AreEqual(uploadedData.UploaderType, uploadedDataVersions[1].UploaderType);
+            Assert.That(uploadedDataVersions[1].CreatedAt.ToString(), Is.EqualTo(uploadedData.CreatedAt.ToString()));
+            Assert.That(uploadedDataVersions[1].Version, Is.EqualTo(2));
+            //            Assert.AreEqual(uploadedData.UpdatedAt.ToString(), uploadedDataVersions[1].UpdatedAt.ToString());
+            Assert.That(uploadedDataVersions[1].Checksum, Is.EqualTo(uploadedData.Checksum));
+            Assert.That(uploadedDataVersions[1].Extension, Is.EqualTo(uploadedData.Extension));
+            Assert.That(uploadedDataVersions[1].Local, Is.EqualTo(uploadedData.Local));
+            Assert.That(uploadedDataVersions[1].CurrentFile, Is.EqualTo(uploadedData.CurrentFile));
+            Assert.That(uploadedDataVersions[1].ExpirationDate.ToString(), Is.EqualTo(uploadedData.ExpirationDate.ToString()));
+            Assert.That(uploadedDataVersions[1].FileLocation, Is.EqualTo(uploadedData.FileLocation));
+            Assert.That(uploadedDataVersions[1].FileName, Is.EqualTo(uploadedData.FileName));
+            Assert.That(uploadedDataVersions[1].TranscriptionId, Is.EqualTo(uploadedData.TranscriptionId));
+            Assert.That(uploadedDataVersions[1].UploaderId, Is.EqualTo(uploadedData.UploaderId));
+            Assert.That(uploadedDataVersions[1].UploaderType, Is.EqualTo(uploadedData.UploaderType));
         }
 
         [Test]
@@ -260,54 +260,54 @@ namespace eFormSDK.CheckLists.Tests
             Assert.NotNull(uploadedDatas);
             Assert.NotNull(uploadedDataVersions);
 
-            Assert.AreEqual(1, uploadedDatas.Count());
-            Assert.AreEqual(2, uploadedDataVersions.Count());
+            Assert.That(uploadedDatas.Count(), Is.EqualTo(1));
+            Assert.That(uploadedDataVersions.Count(), Is.EqualTo(2));
 
-            Assert.AreEqual(uploadedData.CreatedAt.ToString(), uploadedDatas[0].CreatedAt.ToString());
-            Assert.AreEqual(uploadedData.Version, uploadedDatas[0].Version);
-            Assert.AreEqual(uploadedData.Checksum, uploadedDatas[0].Checksum);
-            Assert.AreEqual(uploadedData.Extension, uploadedDatas[0].Extension);
-            Assert.AreEqual(uploadedData.Local, uploadedDatas[0].Local);
-            Assert.AreEqual(uploadedData.CurrentFile, uploadedDatas[0].CurrentFile);
-            Assert.AreEqual(uploadedData.ExpirationDate.ToString(), uploadedDatas[0].ExpirationDate.ToString());
-            Assert.AreEqual(uploadedData.FileLocation, uploadedDatas[0].FileLocation);
-            Assert.AreEqual(uploadedData.FileName, uploadedDatas[0].FileName);
-            Assert.AreEqual(uploadedData.TranscriptionId, uploadedDatas[0].TranscriptionId);
-            Assert.AreEqual(uploadedData.UploaderId, uploadedDatas[0].UploaderId);
-            Assert.AreEqual(uploadedData.UploaderType, uploadedDatas[0].UploaderType);
+            Assert.That(uploadedDatas[0].CreatedAt.ToString(), Is.EqualTo(uploadedData.CreatedAt.ToString()));
+            Assert.That(uploadedDatas[0].Version, Is.EqualTo(uploadedData.Version));
+            Assert.That(uploadedDatas[0].Checksum, Is.EqualTo(uploadedData.Checksum));
+            Assert.That(uploadedDatas[0].Extension, Is.EqualTo(uploadedData.Extension));
+            Assert.That(uploadedDatas[0].Local, Is.EqualTo(uploadedData.Local));
+            Assert.That(uploadedDatas[0].CurrentFile, Is.EqualTo(uploadedData.CurrentFile));
+            Assert.That(uploadedDatas[0].ExpirationDate.ToString(), Is.EqualTo(uploadedData.ExpirationDate.ToString()));
+            Assert.That(uploadedDatas[0].FileLocation, Is.EqualTo(uploadedData.FileLocation));
+            Assert.That(uploadedDatas[0].FileName, Is.EqualTo(uploadedData.FileName));
+            Assert.That(uploadedDatas[0].TranscriptionId, Is.EqualTo(uploadedData.TranscriptionId));
+            Assert.That(uploadedDatas[0].UploaderId, Is.EqualTo(uploadedData.UploaderId));
+            Assert.That(uploadedDatas[0].UploaderType, Is.EqualTo(uploadedData.UploaderType));
 
             //Version 1
-            Assert.AreEqual(uploadedData.CreatedAt.ToString(), uploadedDataVersions[0].CreatedAt.ToString());
-            Assert.AreEqual(1, uploadedDataVersions[0].Version);
-            Assert.AreEqual(uploadedData.Checksum, uploadedDataVersions[0].Checksum);
-            Assert.AreEqual(uploadedData.Extension, uploadedDataVersions[0].Extension);
-            Assert.AreEqual(uploadedData.Local, uploadedDataVersions[0].Local);
-            Assert.AreEqual(uploadedData.CurrentFile, uploadedDataVersions[0].CurrentFile);
-            Assert.AreEqual(uploadedData.ExpirationDate.ToString(), uploadedDataVersions[0].ExpirationDate.ToString());
-            Assert.AreEqual(uploadedData.FileLocation, uploadedDataVersions[0].FileLocation);
-            Assert.AreEqual(uploadedData.FileName, uploadedDataVersions[0].FileName);
-            Assert.AreEqual(uploadedData.TranscriptionId, uploadedDataVersions[0].TranscriptionId);
-            Assert.AreEqual(uploadedData.UploaderId, uploadedDataVersions[0].UploaderId);
-            Assert.AreEqual(uploadedData.UploaderType, uploadedDataVersions[0].UploaderType);
+            Assert.That(uploadedDataVersions[0].CreatedAt.ToString(), Is.EqualTo(uploadedData.CreatedAt.ToString()));
+            Assert.That(uploadedDataVersions[0].Version, Is.EqualTo(1));
+            Assert.That(uploadedDataVersions[0].Checksum, Is.EqualTo(uploadedData.Checksum));
+            Assert.That(uploadedDataVersions[0].Extension, Is.EqualTo(uploadedData.Extension));
+            Assert.That(uploadedDataVersions[0].Local, Is.EqualTo(uploadedData.Local));
+            Assert.That(uploadedDataVersions[0].CurrentFile, Is.EqualTo(uploadedData.CurrentFile));
+            Assert.That(uploadedDataVersions[0].ExpirationDate.ToString(), Is.EqualTo(uploadedData.ExpirationDate.ToString()));
+            Assert.That(uploadedDataVersions[0].FileLocation, Is.EqualTo(uploadedData.FileLocation));
+            Assert.That(uploadedDataVersions[0].FileName, Is.EqualTo(uploadedData.FileName));
+            Assert.That(uploadedDataVersions[0].TranscriptionId, Is.EqualTo(uploadedData.TranscriptionId));
+            Assert.That(uploadedDataVersions[0].UploaderId, Is.EqualTo(uploadedData.UploaderId));
+            Assert.That(uploadedDataVersions[0].UploaderType, Is.EqualTo(uploadedData.UploaderType));
 
-            Assert.AreEqual(uploadedDataVersions[0].WorkflowState, Constants.WorkflowStates.Created);
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(uploadedDataVersions[0].WorkflowState));
 
             //Version 2 Deleted Version
-            Assert.AreEqual(uploadedData.CreatedAt.ToString(), uploadedDataVersions[1].CreatedAt.ToString());
-            Assert.AreEqual(2, uploadedDataVersions[1].Version);
-            Assert.AreEqual(uploadedData.Checksum, uploadedDataVersions[1].Checksum);
-            Assert.AreEqual(uploadedData.Extension, uploadedDataVersions[1].Extension);
-            Assert.AreEqual(uploadedData.Local, uploadedDataVersions[1].Local);
-            Assert.AreEqual(uploadedData.CurrentFile, uploadedDataVersions[1].CurrentFile);
-            Assert.AreEqual(uploadedData.ExpirationDate.ToString(), uploadedDataVersions[1].ExpirationDate.ToString());
-            Assert.AreEqual(uploadedData.FileLocation, uploadedDataVersions[1].FileLocation);
-            Assert.AreEqual(uploadedData.FileName, uploadedDataVersions[1].FileName);
-            Assert.AreEqual(uploadedData.TranscriptionId, uploadedDataVersions[1].TranscriptionId);
-            Assert.AreEqual(uploadedData.UploaderId, uploadedDataVersions[1].UploaderId);
-            Assert.AreEqual(uploadedData.UploaderType, uploadedDataVersions[1].UploaderType);
+            Assert.That(uploadedDataVersions[1].CreatedAt.ToString(), Is.EqualTo(uploadedData.CreatedAt.ToString()));
+            Assert.That(uploadedDataVersions[1].Version, Is.EqualTo(2));
+            Assert.That(uploadedDataVersions[1].Checksum, Is.EqualTo(uploadedData.Checksum));
+            Assert.That(uploadedDataVersions[1].Extension, Is.EqualTo(uploadedData.Extension));
+            Assert.That(uploadedDataVersions[1].Local, Is.EqualTo(uploadedData.Local));
+            Assert.That(uploadedDataVersions[1].CurrentFile, Is.EqualTo(uploadedData.CurrentFile));
+            Assert.That(uploadedDataVersions[1].ExpirationDate.ToString(), Is.EqualTo(uploadedData.ExpirationDate.ToString()));
+            Assert.That(uploadedDataVersions[1].FileLocation, Is.EqualTo(uploadedData.FileLocation));
+            Assert.That(uploadedDataVersions[1].FileName, Is.EqualTo(uploadedData.FileName));
+            Assert.That(uploadedDataVersions[1].TranscriptionId, Is.EqualTo(uploadedData.TranscriptionId));
+            Assert.That(uploadedDataVersions[1].UploaderId, Is.EqualTo(uploadedData.UploaderId));
+            Assert.That(uploadedDataVersions[1].UploaderType, Is.EqualTo(uploadedData.UploaderType));
 
-            Assert.AreEqual(uploadedDatas[0].WorkflowState, Constants.WorkflowStates.Removed);
-            Assert.AreEqual(uploadedDataVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(uploadedDatas[0].WorkflowState));
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(uploadedDataVersions[1].WorkflowState));
         }
     }
 }

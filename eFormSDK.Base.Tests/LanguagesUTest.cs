@@ -59,26 +59,26 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(languages);
             Assert.NotNull(languageVersions);
 
-            Assert.AreEqual(29, languages.Count);
-            Assert.AreEqual(31, languageVersions.Count);
+            Assert.That(languages.Count, Is.EqualTo(29));
+            Assert.That(languageVersions.Count, Is.EqualTo(31));
 
-            Assert.AreEqual(language.CreatedAt.ToString(), languages[28].CreatedAt.ToString());
-            Assert.AreEqual(language.Version, languages[28].Version);
-//            Assert.AreEqual(language.UpdatedAt.ToString(), languages[0].UpdatedAt.ToString());
-            Assert.AreEqual(languages[28].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(language.Id, languages[28].Id);
-            Assert.AreEqual(language.LanguageCode, languages[28].LanguageCode);
-            Assert.AreEqual(language.Name, languages[28].Name);
+            Assert.That(languages[28].CreatedAt.ToString(), Is.EqualTo(language.CreatedAt.ToString()));
+            Assert.That(languages[28].Version, Is.EqualTo(language.Version));
+            //            Assert.AreEqual(language.UpdatedAt.ToString(), languages[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(languages[28].WorkflowState));
+            Assert.That(languages[28].Id, Is.EqualTo(language.Id));
+            Assert.That(languages[28].LanguageCode, Is.EqualTo(language.LanguageCode));
+            Assert.That(languages[28].Name, Is.EqualTo(language.Name));
 
-            Assert.AreEqual(language.CreatedAt.ToString(), languageVersions[30].CreatedAt.ToString());
-            Assert.AreEqual(language.Version, languageVersions[30].Version);
-//            Assert.AreEqual(language.UpdatedAt.ToString(), languageVersions[0].UpdatedAt.ToString());
-            Assert.AreEqual(languageVersions[30].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(language.Id, languageVersions[30].LanguageId);
-            Assert.AreEqual(language.LanguageCode, languageVersions[30].LanguageCode);
-            Assert.AreEqual(language.Name, languageVersions[30].Name);
-            Assert.AreEqual(true, languages[28].IsActive);
-            Assert.AreEqual(true, languageVersions[30].IsActive);
+            Assert.That(languageVersions[30].CreatedAt.ToString(), Is.EqualTo(language.CreatedAt.ToString()));
+            Assert.That(languageVersions[30].Version, Is.EqualTo(language.Version));
+            //            Assert.AreEqual(language.UpdatedAt.ToString(), languageVersions[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(languageVersions[30].WorkflowState));
+            Assert.That(languageVersions[30].LanguageId, Is.EqualTo(language.Id));
+            Assert.That(languageVersions[30].LanguageCode, Is.EqualTo(language.LanguageCode));
+            Assert.That(languageVersions[30].Name, Is.EqualTo(language.Name));
+            Assert.That(languages[28].IsActive, Is.EqualTo(true));
+            Assert.That(languageVersions[30].IsActive, Is.EqualTo(true));
         }
 
         [Test]
@@ -111,36 +111,36 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(languages);
             Assert.NotNull(languageVersions);
 
-            Assert.AreEqual(29, languages.Count);
-            Assert.AreEqual(32, languageVersions.Count);
+            Assert.That(languages.Count, Is.EqualTo(29));
+            Assert.That(languageVersions.Count, Is.EqualTo(32));
 
-            Assert.AreEqual(language.CreatedAt.ToString(), languages[28].CreatedAt.ToString());
-            Assert.AreEqual(language.Version, languages[28].Version);
-//            Assert.AreEqual(language.UpdatedAt.ToString(), languages[0].UpdatedAt.ToString());
-            Assert.AreEqual(languages[28].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(language.Id, languages[28].Id);
-            Assert.AreEqual(language.LanguageCode, languages[28].LanguageCode);
-            Assert.AreEqual(language.Name, languages[28].Name);
+            Assert.That(languages[28].CreatedAt.ToString(), Is.EqualTo(language.CreatedAt.ToString()));
+            Assert.That(languages[28].Version, Is.EqualTo(language.Version));
+            //            Assert.AreEqual(language.UpdatedAt.ToString(), languages[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(languages[28].WorkflowState));
+            Assert.That(languages[28].Id, Is.EqualTo(language.Id));
+            Assert.That(languages[28].LanguageCode, Is.EqualTo(language.LanguageCode));
+            Assert.That(languages[28].Name, Is.EqualTo(language.Name));
 
             //Old Version
-            Assert.AreEqual(language.CreatedAt.ToString(), languageVersions[30].CreatedAt.ToString());
-            Assert.AreEqual(1, languageVersions[29].Version);
-//            Assert.AreEqual(oldUpdatedAt.ToString(), languageVersions[0].UpdatedAt.ToString());
-            Assert.AreEqual(languageVersions[29].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(language.Id, languageVersions[31].LanguageId);
-            Assert.AreEqual(oldDescription, languageVersions[30].LanguageCode);
-            Assert.AreEqual(oldName, languageVersions[30].Name);
-            Assert.AreEqual(false, languageVersions[30].IsActive);
+            Assert.That(languageVersions[30].CreatedAt.ToString(), Is.EqualTo(language.CreatedAt.ToString()));
+            Assert.That(languageVersions[29].Version, Is.EqualTo(1));
+            //            Assert.AreEqual(oldUpdatedAt.ToString(), languageVersions[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(languageVersions[29].WorkflowState));
+            Assert.That(languageVersions[31].LanguageId, Is.EqualTo(language.Id));
+            Assert.That(languageVersions[30].LanguageCode, Is.EqualTo(oldDescription));
+            Assert.That(languageVersions[30].Name, Is.EqualTo(oldName));
+            Assert.That(languageVersions[30].IsActive, Is.EqualTo(false));
 
             //New Version
-            Assert.AreEqual(language.CreatedAt.ToString(), languageVersions[30].CreatedAt.ToString());
-            Assert.AreEqual(language.Version, languageVersions[31].Version);
-//            Assert.AreEqual(language.UpdatedAt.ToString(), languageVersions[1].UpdatedAt.ToString());
-            Assert.AreEqual(languageVersions[31].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(language.Id, languageVersions[31].LanguageId);
-            Assert.AreEqual(language.LanguageCode, languageVersions[31].LanguageCode);
-            Assert.AreEqual(language.Name, languageVersions[31].Name);
-            Assert.AreEqual(true, languageVersions[31].IsActive);
+            Assert.That(languageVersions[30].CreatedAt.ToString(), Is.EqualTo(language.CreatedAt.ToString()));
+            Assert.That(languageVersions[31].Version, Is.EqualTo(language.Version));
+            //            Assert.AreEqual(language.UpdatedAt.ToString(), languageVersions[1].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(languageVersions[31].WorkflowState));
+            Assert.That(languageVersions[31].LanguageId, Is.EqualTo(language.Id));
+            Assert.That(languageVersions[31].LanguageCode, Is.EqualTo(language.LanguageCode));
+            Assert.That(languageVersions[31].Name, Is.EqualTo(language.Name));
+            Assert.That(languageVersions[31].IsActive, Is.EqualTo(true));
         }
 
         [Test]
@@ -167,34 +167,34 @@ namespace eFormSDK.Base.Tests
             Assert.NotNull(languages);
             Assert.NotNull(languageVersions);
 
-            Assert.AreEqual(29, languages.Count);
-            Assert.AreEqual(32, languageVersions.Count);
+            Assert.That(languages.Count, Is.EqualTo(29));
+            Assert.That(languageVersions.Count, Is.EqualTo(32));
 
-            Assert.AreEqual(language.CreatedAt.ToString(), languages[28].CreatedAt.ToString());
-            Assert.AreEqual(language.Version, languages[28].Version);
-//            Assert.AreEqual(language.UpdatedAt.ToString(), languages[0].UpdatedAt.ToString());
-            Assert.AreEqual(languages[28].WorkflowState, Constants.WorkflowStates.Removed);
-            Assert.AreEqual(language.Id, languages[28].Id);
-            Assert.AreEqual(language.LanguageCode, languages[28].LanguageCode);
-            Assert.AreEqual(language.Name, languages[28].Name);
+            Assert.That(languages[28].CreatedAt.ToString(), Is.EqualTo(language.CreatedAt.ToString()));
+            Assert.That(languages[28].Version, Is.EqualTo(language.Version));
+            //            Assert.AreEqual(language.UpdatedAt.ToString(), languages[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(languages[28].WorkflowState));
+            Assert.That(languages[28].Id, Is.EqualTo(language.Id));
+            Assert.That(languages[28].LanguageCode, Is.EqualTo(language.LanguageCode));
+            Assert.That(languages[28].Name, Is.EqualTo(language.Name));
 
             //Old Version
-            Assert.AreEqual(language.CreatedAt.ToString(), languageVersions[30].CreatedAt.ToString());
-            Assert.AreEqual(1, languageVersions[30].Version);
-//            Assert.AreEqual(oldUpdatedAt.ToString(), languageVersions[0].UpdatedAt.ToString());
-            Assert.AreEqual(languageVersions[29].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(language.Id, languageVersions[30].LanguageId);
-            Assert.AreEqual(language.LanguageCode, languageVersions[30].LanguageCode);
-            Assert.AreEqual(language.Name, languageVersions[30].Name);
+            Assert.That(languageVersions[30].CreatedAt.ToString(), Is.EqualTo(language.CreatedAt.ToString()));
+            Assert.That(languageVersions[30].Version, Is.EqualTo(1));
+            //            Assert.AreEqual(oldUpdatedAt.ToString(), languageVersions[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(languageVersions[29].WorkflowState));
+            Assert.That(languageVersions[30].LanguageId, Is.EqualTo(language.Id));
+            Assert.That(languageVersions[30].LanguageCode, Is.EqualTo(language.LanguageCode));
+            Assert.That(languageVersions[30].Name, Is.EqualTo(language.Name));
 
             //New Version
-            Assert.AreEqual(language.CreatedAt.ToString(), languageVersions[30].CreatedAt.ToString());
-            Assert.AreEqual(language.Version, languageVersions[31].Version);
-//            Assert.AreEqual(language.UpdatedAt.ToString(), languageVersions[1].UpdatedAt.ToString());
-            Assert.AreEqual(languageVersions[31].WorkflowState, Constants.WorkflowStates.Removed);
-            Assert.AreEqual(language.Id, languageVersions[31].LanguageId);
-            Assert.AreEqual(language.LanguageCode, languageVersions[31].LanguageCode);
-            Assert.AreEqual(language.Name, languageVersions[31].Name);
+            Assert.That(languageVersions[30].CreatedAt.ToString(), Is.EqualTo(language.CreatedAt.ToString()));
+            Assert.That(languageVersions[31].Version, Is.EqualTo(language.Version));
+            //            Assert.AreEqual(language.UpdatedAt.ToString(), languageVersions[1].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(languageVersions[31].WorkflowState));
+            Assert.That(languageVersions[31].LanguageId, Is.EqualTo(language.Id));
+            Assert.That(languageVersions[31].LanguageCode, Is.EqualTo(language.LanguageCode));
+            Assert.That(languageVersions[31].Name, Is.EqualTo(language.Name));
         }
     }
 }

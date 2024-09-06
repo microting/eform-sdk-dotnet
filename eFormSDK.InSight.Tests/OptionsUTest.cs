@@ -91,28 +91,28 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(options);
             Assert.NotNull(optionVersions);
 
-            Assert.AreEqual(1, options.Count());
-            Assert.AreEqual(1, optionVersions.Count());
+            Assert.That(options.Count(), Is.EqualTo(1));
+            Assert.That(optionVersions.Count(), Is.EqualTo(1));
 
-            Assert.AreEqual(option.CreatedAt.ToString(), options[0].CreatedAt.ToString());
-            Assert.AreEqual(option.Version, options[0].Version);
-//            Assert.AreEqual(option.UpdatedAt.ToString(), options[0].UpdatedAt.ToString());
-            Assert.AreEqual(options[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(option.Id, options[0].Id);
-            Assert.AreEqual(option.Weight, options[0].Weight);
-            Assert.AreEqual(option.OptionIndex, options[0].OptionIndex);
-            Assert.AreEqual(option.WeightValue, options[0].WeightValue);
-            Assert.AreEqual(option.QuestionId, question.Id);
+            Assert.That(options[0].CreatedAt.ToString(), Is.EqualTo(option.CreatedAt.ToString()));
+            Assert.That(options[0].Version, Is.EqualTo(option.Version));
+            //            Assert.AreEqual(option.UpdatedAt.ToString(), options[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(options[0].WorkflowState));
+            Assert.That(options[0].Id, Is.EqualTo(option.Id));
+            Assert.That(options[0].Weight, Is.EqualTo(option.Weight));
+            Assert.That(options[0].OptionIndex, Is.EqualTo(option.OptionIndex));
+            Assert.That(options[0].WeightValue, Is.EqualTo(option.WeightValue));
+            Assert.That(question.Id, Is.EqualTo(option.QuestionId));
 
-            Assert.AreEqual(option.CreatedAt.ToString(), optionVersions[0].CreatedAt.ToString());
-            Assert.AreEqual(1, optionVersions[0].Version);
-//            Assert.AreEqual(option.UpdatedAt.ToString(), optionVersions[0].UpdatedAt.ToString());
-            Assert.AreEqual(optionVersions[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(option.Id, optionVersions[0].OptionId);
-            Assert.AreEqual(option.Weight, optionVersions[0].Weight);
-            Assert.AreEqual(option.OptionIndex, optionVersions[0].OptionIndex);
-            Assert.AreEqual(option.WeightValue, optionVersions[0].WeightValue);
-            Assert.AreEqual(question.Id, optionVersions[0].QuestionId);
+            Assert.That(optionVersions[0].CreatedAt.ToString(), Is.EqualTo(option.CreatedAt.ToString()));
+            Assert.That(optionVersions[0].Version, Is.EqualTo(1));
+            //            Assert.AreEqual(option.UpdatedAt.ToString(), optionVersions[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(optionVersions[0].WorkflowState));
+            Assert.That(optionVersions[0].OptionId, Is.EqualTo(option.Id));
+            Assert.That(optionVersions[0].Weight, Is.EqualTo(option.Weight));
+            Assert.That(optionVersions[0].OptionIndex, Is.EqualTo(option.OptionIndex));
+            Assert.That(optionVersions[0].WeightValue, Is.EqualTo(option.WeightValue));
+            Assert.That(optionVersions[0].QuestionId, Is.EqualTo(question.Id));
         }
 
         [Test]
@@ -178,40 +178,40 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(options);
             Assert.NotNull(optionVersions);
 
-            Assert.AreEqual(1, options.Count());
-            Assert.AreEqual(2, optionVersions.Count());
+            Assert.That(options.Count(), Is.EqualTo(1));
+            Assert.That(optionVersions.Count(), Is.EqualTo(2));
 
-            Assert.AreEqual(option.CreatedAt.ToString(), options[0].CreatedAt.ToString());
-            Assert.AreEqual(option.Version, options[0].Version);
-//            Assert.AreEqual(option.UpdatedAt.ToString(), options[0].UpdatedAt.ToString());
-            Assert.AreEqual(options[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(option.Id, options[0].Id);
-            Assert.AreEqual(option.Weight, options[0].Weight);
-            Assert.AreEqual(option.OptionIndex, options[0].OptionIndex);
-            Assert.AreEqual(option.WeightValue, options[0].WeightValue);
-            Assert.AreEqual(option.QuestionId, question.Id);
+            Assert.That(options[0].CreatedAt.ToString(), Is.EqualTo(option.CreatedAt.ToString()));
+            Assert.That(options[0].Version, Is.EqualTo(option.Version));
+            //            Assert.AreEqual(option.UpdatedAt.ToString(), options[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(options[0].WorkflowState));
+            Assert.That(options[0].Id, Is.EqualTo(option.Id));
+            Assert.That(options[0].Weight, Is.EqualTo(option.Weight));
+            Assert.That(options[0].OptionIndex, Is.EqualTo(option.OptionIndex));
+            Assert.That(options[0].WeightValue, Is.EqualTo(option.WeightValue));
+            Assert.That(question.Id, Is.EqualTo(option.QuestionId));
 
             //Old Version
-            Assert.AreEqual(option.CreatedAt.ToString(), optionVersions[0].CreatedAt.ToString());
-            Assert.AreEqual(1, optionVersions[0].Version);
-//            Assert.AreEqual(oldUpdatedAt.ToString(), optionVersions[0].UpdatedAt.ToString());
-            Assert.AreEqual(optionVersions[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(option.Id, optionVersions[0].OptionId);
-            Assert.AreEqual(oldWeight, optionVersions[0].Weight);
-            Assert.AreEqual(oldOptionsIndex, optionVersions[0].OptionIndex);
-            Assert.AreEqual(oldWeightValue, optionVersions[0].WeightValue);
-            Assert.AreEqual(question.Id, optionVersions[0].QuestionId);
+            Assert.That(optionVersions[0].CreatedAt.ToString(), Is.EqualTo(option.CreatedAt.ToString()));
+            Assert.That(optionVersions[0].Version, Is.EqualTo(1));
+            //            Assert.AreEqual(oldUpdatedAt.ToString(), optionVersions[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(optionVersions[0].WorkflowState));
+            Assert.That(optionVersions[0].OptionId, Is.EqualTo(option.Id));
+            Assert.That(optionVersions[0].Weight, Is.EqualTo(oldWeight));
+            Assert.That(optionVersions[0].OptionIndex, Is.EqualTo(oldOptionsIndex));
+            Assert.That(optionVersions[0].WeightValue, Is.EqualTo(oldWeightValue));
+            Assert.That(optionVersions[0].QuestionId, Is.EqualTo(question.Id));
 
             //New Version
-            Assert.AreEqual(option.CreatedAt.ToString(), optionVersions[1].CreatedAt.ToString());
-            Assert.AreEqual(2, optionVersions[1].Version);
-//            Assert.AreEqual(option.UpdatedAt.ToString(), optionVersions[1].UpdatedAt.ToString());
-            Assert.AreEqual(optionVersions[1].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(option.Id, optionVersions[1].OptionId);
-            Assert.AreEqual(option.Weight, optionVersions[1].Weight);
-            Assert.AreEqual(option.OptionIndex, optionVersions[1].OptionIndex);
-            Assert.AreEqual(option.WeightValue, optionVersions[1].WeightValue);
-            Assert.AreEqual(question.Id, optionVersions[1].QuestionId);
+            Assert.That(optionVersions[1].CreatedAt.ToString(), Is.EqualTo(option.CreatedAt.ToString()));
+            Assert.That(optionVersions[1].Version, Is.EqualTo(2));
+            //            Assert.AreEqual(option.UpdatedAt.ToString(), optionVersions[1].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(optionVersions[1].WorkflowState));
+            Assert.That(optionVersions[1].OptionId, Is.EqualTo(option.Id));
+            Assert.That(optionVersions[1].Weight, Is.EqualTo(option.Weight));
+            Assert.That(optionVersions[1].OptionIndex, Is.EqualTo(option.OptionIndex));
+            Assert.That(optionVersions[1].WeightValue, Is.EqualTo(option.WeightValue));
+            Assert.That(optionVersions[1].QuestionId, Is.EqualTo(question.Id));
         }
 
         [Test]
@@ -271,40 +271,40 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(options);
             Assert.NotNull(optionVersions);
 
-            Assert.AreEqual(1, options.Count());
-            Assert.AreEqual(2, optionVersions.Count());
+            Assert.That(options.Count(), Is.EqualTo(1));
+            Assert.That(optionVersions.Count(), Is.EqualTo(2));
 
-            Assert.AreEqual(option.CreatedAt.ToString(), options[0].CreatedAt.ToString());
-            Assert.AreEqual(option.Version, options[0].Version);
-//            Assert.AreEqual(option.UpdatedAt.ToString(), options[0].UpdatedAt.ToString());
-            Assert.AreEqual(options[0].WorkflowState, Constants.WorkflowStates.Removed);
-            Assert.AreEqual(option.Id, options[0].Id);
-            Assert.AreEqual(option.Weight, options[0].Weight);
-            Assert.AreEqual(option.OptionIndex, options[0].OptionIndex);
-            Assert.AreEqual(option.WeightValue, options[0].WeightValue);
-            Assert.AreEqual(option.QuestionId, question.Id);
+            Assert.That(options[0].CreatedAt.ToString(), Is.EqualTo(option.CreatedAt.ToString()));
+            Assert.That(options[0].Version, Is.EqualTo(option.Version));
+            //            Assert.AreEqual(option.UpdatedAt.ToString(), options[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(options[0].WorkflowState));
+            Assert.That(options[0].Id, Is.EqualTo(option.Id));
+            Assert.That(options[0].Weight, Is.EqualTo(option.Weight));
+            Assert.That(options[0].OptionIndex, Is.EqualTo(option.OptionIndex));
+            Assert.That(options[0].WeightValue, Is.EqualTo(option.WeightValue));
+            Assert.That(question.Id, Is.EqualTo(option.QuestionId));
 
             //Old Version
-            Assert.AreEqual(option.CreatedAt.ToString(), optionVersions[0].CreatedAt.ToString());
-            Assert.AreEqual(1, optionVersions[0].Version);
-//            Assert.AreEqual(oldUpdatedAt.ToString(), optionVersions[0].UpdatedAt.ToString());
-            Assert.AreEqual(optionVersions[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(option.Id, optionVersions[0].OptionId);
-            Assert.AreEqual(option.Weight, optionVersions[0].Weight);
-            Assert.AreEqual(option.OptionIndex, optionVersions[0].OptionIndex);
-            Assert.AreEqual(option.WeightValue, optionVersions[0].WeightValue);
-            Assert.AreEqual(question.Id, optionVersions[0].QuestionId);
+            Assert.That(optionVersions[0].CreatedAt.ToString(), Is.EqualTo(option.CreatedAt.ToString()));
+            Assert.That(optionVersions[0].Version, Is.EqualTo(1));
+            //            Assert.AreEqual(oldUpdatedAt.ToString(), optionVersions[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(optionVersions[0].WorkflowState));
+            Assert.That(optionVersions[0].OptionId, Is.EqualTo(option.Id));
+            Assert.That(optionVersions[0].Weight, Is.EqualTo(option.Weight));
+            Assert.That(optionVersions[0].OptionIndex, Is.EqualTo(option.OptionIndex));
+            Assert.That(optionVersions[0].WeightValue, Is.EqualTo(option.WeightValue));
+            Assert.That(optionVersions[0].QuestionId, Is.EqualTo(question.Id));
 
             //New Version
-            Assert.AreEqual(option.CreatedAt.ToString(), optionVersions[1].CreatedAt.ToString());
-            Assert.AreEqual(2, optionVersions[1].Version);
-//            Assert.AreEqual(option.UpdatedAt.ToString(), optionVersions[1].UpdatedAt.ToString());
-            Assert.AreEqual(optionVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
-            Assert.AreEqual(option.Id, optionVersions[1].OptionId);
-            Assert.AreEqual(option.Weight, optionVersions[1].Weight);
-            Assert.AreEqual(option.OptionIndex, optionVersions[1].OptionIndex);
-            Assert.AreEqual(option.WeightValue, optionVersions[1].WeightValue);
-            Assert.AreEqual(question.Id, optionVersions[1].QuestionId);
+            Assert.That(optionVersions[1].CreatedAt.ToString(), Is.EqualTo(option.CreatedAt.ToString()));
+            Assert.That(optionVersions[1].Version, Is.EqualTo(2));
+            //            Assert.AreEqual(option.UpdatedAt.ToString(), optionVersions[1].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(optionVersions[1].WorkflowState));
+            Assert.That(optionVersions[1].OptionId, Is.EqualTo(option.Id));
+            Assert.That(optionVersions[1].Weight, Is.EqualTo(option.Weight));
+            Assert.That(optionVersions[1].OptionIndex, Is.EqualTo(option.OptionIndex));
+            Assert.That(optionVersions[1].WeightValue, Is.EqualTo(option.WeightValue));
+            Assert.That(optionVersions[1].QuestionId, Is.EqualTo(question.Id));
         }
     }
 }

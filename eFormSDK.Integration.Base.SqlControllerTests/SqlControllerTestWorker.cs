@@ -303,31 +303,31 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Assert
 
-            Assert.AreEqual(10, getAllCreatedWorkers.Count());
-            Assert.AreEqual(0, getAllRemovedWorkers.Count());
+            Assert.That(getAllCreatedWorkers.Count(), Is.EqualTo(10));
+            Assert.That(getAllRemovedWorkers.Count(), Is.EqualTo(0));
 
-            Assert.AreEqual(worker1.FirstName, getAllCreatedWorkers[0].FirstName);
-            Assert.AreEqual(worker2.FirstName, getAllCreatedWorkers[1].FirstName);
-            Assert.AreEqual(worker3.FirstName, getAllCreatedWorkers[2].FirstName);
-            Assert.AreEqual(worker4.FirstName, getAllCreatedWorkers[3].FirstName);
-            Assert.AreEqual(worker5.FirstName, getAllCreatedWorkers[4].FirstName);
-            Assert.AreEqual(worker6.FirstName, getAllCreatedWorkers[5].FirstName);
-            Assert.AreEqual(worker7.FirstName, getAllCreatedWorkers[6].FirstName);
-            Assert.AreEqual(worker8.FirstName, getAllCreatedWorkers[7].FirstName);
-            Assert.AreEqual(worker9.FirstName, getAllCreatedWorkers[8].FirstName);
-            Assert.AreEqual(worker10.FirstName, getAllCreatedWorkers[9].FirstName);
+            Assert.That(getAllCreatedWorkers[0].FirstName, Is.EqualTo(worker1.FirstName));
+            Assert.That(getAllCreatedWorkers[1].FirstName, Is.EqualTo(worker2.FirstName));
+            Assert.That(getAllCreatedWorkers[2].FirstName, Is.EqualTo(worker3.FirstName));
+            Assert.That(getAllCreatedWorkers[3].FirstName, Is.EqualTo(worker4.FirstName));
+            Assert.That(getAllCreatedWorkers[4].FirstName, Is.EqualTo(worker5.FirstName));
+            Assert.That(getAllCreatedWorkers[5].FirstName, Is.EqualTo(worker6.FirstName));
+            Assert.That(getAllCreatedWorkers[6].FirstName, Is.EqualTo(worker7.FirstName));
+            Assert.That(getAllCreatedWorkers[7].FirstName, Is.EqualTo(worker8.FirstName));
+            Assert.That(getAllCreatedWorkers[8].FirstName, Is.EqualTo(worker9.FirstName));
+            Assert.That(getAllCreatedWorkers[9].FirstName, Is.EqualTo(worker10.FirstName));
 
 
-            Assert.AreEqual(worker1.LastName, getAllCreatedWorkers[0].LastName);
-            Assert.AreEqual(worker2.LastName, getAllCreatedWorkers[1].LastName);
-            Assert.AreEqual(worker3.LastName, getAllCreatedWorkers[2].LastName);
-            Assert.AreEqual(worker4.LastName, getAllCreatedWorkers[3].LastName);
-            Assert.AreEqual(worker5.LastName, getAllCreatedWorkers[4].LastName);
-            Assert.AreEqual(worker6.LastName, getAllCreatedWorkers[5].LastName);
-            Assert.AreEqual(worker7.LastName, getAllCreatedWorkers[6].LastName);
-            Assert.AreEqual(worker8.LastName, getAllCreatedWorkers[7].LastName);
-            Assert.AreEqual(worker9.LastName, getAllCreatedWorkers[8].LastName);
-            Assert.AreEqual(worker10.LastName, getAllCreatedWorkers[9].LastName);
+            Assert.That(getAllCreatedWorkers[0].LastName, Is.EqualTo(worker1.LastName));
+            Assert.That(getAllCreatedWorkers[1].LastName, Is.EqualTo(worker2.LastName));
+            Assert.That(getAllCreatedWorkers[2].LastName, Is.EqualTo(worker3.LastName));
+            Assert.That(getAllCreatedWorkers[3].LastName, Is.EqualTo(worker4.LastName));
+            Assert.That(getAllCreatedWorkers[4].LastName, Is.EqualTo(worker5.LastName));
+            Assert.That(getAllCreatedWorkers[5].LastName, Is.EqualTo(worker6.LastName));
+            Assert.That(getAllCreatedWorkers[6].LastName, Is.EqualTo(worker7.LastName));
+            Assert.That(getAllCreatedWorkers[7].LastName, Is.EqualTo(worker8.LastName));
+            Assert.That(getAllCreatedWorkers[8].LastName, Is.EqualTo(worker9.LastName));
+            Assert.That(getAllCreatedWorkers[9].LastName, Is.EqualTo(worker10.LastName));
         }
 
         [Test]
@@ -342,8 +342,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var workers = DbContext.Workers.AsNoTracking().ToList();
 
             Assert.NotNull(match);
-            Assert.AreEqual(1, workers.Count());
-            Assert.AreEqual(Constants.WorkflowStates.Created, workers[0].WorkflowState);
+            Assert.That(workers.Count(), Is.EqualTo(1));
+            Assert.That(workers[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
         }
 
         [Test]
@@ -592,7 +592,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Assert
 
-            Assert.AreEqual(worker1.FirstName + " " + worker1.LastName, match);
+            Assert.That(match, Is.EqualTo(worker1.FirstName + " " + worker1.LastName));
         }
 
         [Test]
@@ -841,8 +841,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Assert
 
-            Assert.AreEqual(worker1.MicrotingUid, match.WorkerUId);
-            Assert.AreEqual(worker1.FirstName, match.FirstName);
+            Assert.That(match.WorkerUId, Is.EqualTo(worker1.MicrotingUid));
+            Assert.That(match.FirstName, Is.EqualTo(worker1.FirstName));
         }
 
         [Test]
@@ -1093,7 +1093,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Assert
 
-            Assert.True(match);
+            Assert.That(match, Is.True);
         }
 
         [Test]
@@ -1342,7 +1342,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
             // Assert
 
-            Assert.True(match);
+            Assert.That(match, Is.True);
         }
 
         #endregion

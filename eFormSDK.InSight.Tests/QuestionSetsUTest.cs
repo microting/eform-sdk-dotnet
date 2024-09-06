@@ -63,30 +63,30 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(questionSets);
             Assert.NotNull(questionSetVersions);
 
-            Assert.AreEqual(1, questionSets.Count());
-            Assert.AreEqual(1, questionSetVersions.Count());
+            Assert.That(questionSets.Count(), Is.EqualTo(1));
+            Assert.That(questionSetVersions.Count(), Is.EqualTo(1));
 
-            Assert.AreEqual(questionSet.CreatedAt.ToString(), questionSets[0].CreatedAt.ToString());
-            Assert.AreEqual(questionSet.Version, questionSets[0].Version);
-//            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSets[0].UpdatedAt.ToString());
-            Assert.AreEqual(questionSets[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(questionSet.Id, questionSets[0].Id);
-            Assert.AreEqual(questionSet.Name, questionSets[0].Name);
-            Assert.AreEqual(questionSet.Share, questionSets[0].Share);
-            Assert.AreEqual(questionSet.HasChild, questionSets[0].HasChild);
-            Assert.AreEqual(questionSet.PossiblyDeployed, questionSets[0].PossiblyDeployed);
+            Assert.That(questionSets[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
+            Assert.That(questionSets[0].Version, Is.EqualTo(questionSet.Version));
+            //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSets[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(questionSets[0].WorkflowState));
+            Assert.That(questionSets[0].Id, Is.EqualTo(questionSet.Id));
+            Assert.That(questionSets[0].Name, Is.EqualTo(questionSet.Name));
+            Assert.That(questionSets[0].Share, Is.EqualTo(questionSet.Share));
+            Assert.That(questionSets[0].HasChild, Is.EqualTo(questionSet.HasChild));
+            Assert.That(questionSets[0].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
 
             //Versions
 
-            Assert.AreEqual(questionSet.CreatedAt.ToString(), questionSetVersions[0].CreatedAt.ToString());
-            Assert.AreEqual(questionSet.Version, questionSetVersions[0].Version);
-//            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSetVersions[0].UpdatedAt.ToString());
-            Assert.AreEqual(questionSetVersions[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(questionSet.Id, questionSetVersions[0].Id);
-            Assert.AreEqual(questionSet.Name, questionSetVersions[0].Name);
-            Assert.AreEqual(questionSet.Share, questionSetVersions[0].Share);
-            Assert.AreEqual(questionSet.HasChild, questionSetVersions[0].HasChild);
-            Assert.AreEqual(questionSet.PossiblyDeployed, questionSetVersions[0].PossiblyDeployed);
+            Assert.That(questionSetVersions[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
+            Assert.That(questionSetVersions[0].Version, Is.EqualTo(questionSet.Version));
+            //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSetVersions[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(questionSetVersions[0].WorkflowState));
+            Assert.That(questionSetVersions[0].Id, Is.EqualTo(questionSet.Id));
+            Assert.That(questionSetVersions[0].Name, Is.EqualTo(questionSet.Name));
+            Assert.That(questionSetVersions[0].Share, Is.EqualTo(questionSet.Share));
+            Assert.That(questionSetVersions[0].HasChild, Is.EqualTo(questionSet.HasChild));
+            Assert.That(questionSetVersions[0].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
         }
 
         [Test]
@@ -127,41 +127,41 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(questionSets);
             Assert.NotNull(questionSetVersions);
 
-            Assert.AreEqual(1, questionSets.Count());
-            Assert.AreEqual(2, questionSetVersions.Count());
+            Assert.That(questionSets.Count(), Is.EqualTo(1));
+            Assert.That(questionSetVersions.Count(), Is.EqualTo(2));
 
-            Assert.AreEqual(questionSet.CreatedAt.ToString(), questionSets[0].CreatedAt.ToString());
-            Assert.AreEqual(questionSet.Version, questionSets[0].Version);
-//            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSets[0].UpdatedAt.ToString());
-            Assert.AreEqual(questionSets[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(questionSet.Id, questionSets[0].Id);
-            Assert.AreEqual(questionSet.Name, questionSets[0].Name);
-            Assert.AreEqual(questionSet.Share, questionSets[0].Share);
-            Assert.AreEqual(questionSet.HasChild, questionSets[0].HasChild);
-            Assert.AreEqual(questionSet.PossiblyDeployed, questionSets[0].PossiblyDeployed);
+            Assert.That(questionSets[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
+            Assert.That(questionSets[0].Version, Is.EqualTo(questionSet.Version));
+            //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSets[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(questionSets[0].WorkflowState));
+            Assert.That(questionSets[0].Id, Is.EqualTo(questionSet.Id));
+            Assert.That(questionSets[0].Name, Is.EqualTo(questionSet.Name));
+            Assert.That(questionSets[0].Share, Is.EqualTo(questionSet.Share));
+            Assert.That(questionSets[0].HasChild, Is.EqualTo(questionSet.HasChild));
+            Assert.That(questionSets[0].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
 
             //Old Version
 
-            Assert.AreEqual(questionSet.CreatedAt.ToString(), questionSetVersions[0].CreatedAt.ToString());
-            Assert.AreEqual(1, questionSetVersions[0].Version);
-//            Assert.AreEqual(oldUpdatedAt.ToString(), questionSetVersions[0].UpdatedAt.ToString());
-            Assert.AreEqual(questionSetVersions[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(questionSet.Id, questionSetVersions[0].QuestionSetId);
-            Assert.AreEqual(oldName, questionSetVersions[0].Name);
-            Assert.AreEqual(oldShare, questionSetVersions[0].Share);
-            Assert.AreEqual(oldHasChild, questionSetVersions[0].HasChild);
-            Assert.AreEqual(oldPossiblyDeployed, questionSetVersions[0].PossiblyDeployed);
+            Assert.That(questionSetVersions[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
+            Assert.That(questionSetVersions[0].Version, Is.EqualTo(1));
+            //            Assert.AreEqual(oldUpdatedAt.ToString(), questionSetVersions[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(questionSetVersions[0].WorkflowState));
+            Assert.That(questionSetVersions[0].QuestionSetId, Is.EqualTo(questionSet.Id));
+            Assert.That(questionSetVersions[0].Name, Is.EqualTo(oldName));
+            Assert.That(questionSetVersions[0].Share, Is.EqualTo(oldShare));
+            Assert.That(questionSetVersions[0].HasChild, Is.EqualTo(oldHasChild));
+            Assert.That(questionSetVersions[0].PossiblyDeployed, Is.EqualTo(oldPossiblyDeployed));
 
             //New Version
-            Assert.AreEqual(questionSet.CreatedAt.ToString(), questionSetVersions[1].CreatedAt.ToString());
-            Assert.AreEqual(2, questionSetVersions[1].Version);
-//            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSetVersions[1].UpdatedAt.ToString());
-            Assert.AreEqual(questionSetVersions[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(questionSet.Id, questionSetVersions[1].QuestionSetId);
-            Assert.AreEqual(questionSet.Name, questionSetVersions[1].Name);
-            Assert.AreEqual(questionSet.Share, questionSetVersions[1].Share);
-            Assert.AreEqual(questionSet.HasChild, questionSetVersions[1].HasChild);
-            Assert.AreEqual(questionSet.PossiblyDeployed, questionSetVersions[1].PossiblyDeployed);
+            Assert.That(questionSetVersions[1].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
+            Assert.That(questionSetVersions[1].Version, Is.EqualTo(2));
+            //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSetVersions[1].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(questionSetVersions[0].WorkflowState));
+            Assert.That(questionSetVersions[1].QuestionSetId, Is.EqualTo(questionSet.Id));
+            Assert.That(questionSetVersions[1].Name, Is.EqualTo(questionSet.Name));
+            Assert.That(questionSetVersions[1].Share, Is.EqualTo(questionSet.Share));
+            Assert.That(questionSetVersions[1].HasChild, Is.EqualTo(questionSet.HasChild));
+            Assert.That(questionSetVersions[1].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
         }
 
         [Test]
@@ -193,41 +193,41 @@ namespace eFormSDK.InSight.Tests
             Assert.NotNull(questionSets);
             Assert.NotNull(questionSetVersions);
 
-            Assert.AreEqual(1, questionSets.Count());
-            Assert.AreEqual(2, questionSetVersions.Count());
+            Assert.That(questionSets.Count(), Is.EqualTo(1));
+            Assert.That(questionSetVersions.Count(), Is.EqualTo(2));
 
-            Assert.AreEqual(questionSet.CreatedAt.ToString(), questionSets[0].CreatedAt.ToString());
-            Assert.AreEqual(questionSet.Version, questionSets[0].Version);
-//            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSets[0].UpdatedAt.ToString());
-            Assert.AreEqual(questionSets[0].WorkflowState, Constants.WorkflowStates.Removed);
-            Assert.AreEqual(questionSet.Id, questionSets[0].Id);
-            Assert.AreEqual(questionSet.Name, questionSets[0].Name);
-            Assert.AreEqual(questionSet.Share, questionSets[0].Share);
-            Assert.AreEqual(questionSet.HasChild, questionSets[0].HasChild);
-            Assert.AreEqual(questionSet.PossiblyDeployed, questionSets[0].PossiblyDeployed);
+            Assert.That(questionSets[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
+            Assert.That(questionSets[0].Version, Is.EqualTo(questionSet.Version));
+            //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSets[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(questionSets[0].WorkflowState));
+            Assert.That(questionSets[0].Id, Is.EqualTo(questionSet.Id));
+            Assert.That(questionSets[0].Name, Is.EqualTo(questionSet.Name));
+            Assert.That(questionSets[0].Share, Is.EqualTo(questionSet.Share));
+            Assert.That(questionSets[0].HasChild, Is.EqualTo(questionSet.HasChild));
+            Assert.That(questionSets[0].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
 
             //Old Version
 
-            Assert.AreEqual(questionSet.CreatedAt.ToString(), questionSetVersions[0].CreatedAt.ToString());
-            Assert.AreEqual(1, questionSetVersions[0].Version);
-//            Assert.AreEqual(oldUpdatedAt.ToString(), questionSetVersions[0].UpdatedAt.ToString());
-            Assert.AreEqual(questionSetVersions[0].WorkflowState, Constants.WorkflowStates.Created);
-            Assert.AreEqual(questionSet.Id, questionSetVersions[0].QuestionSetId);
-            Assert.AreEqual(questionSet.Name, questionSetVersions[0].Name);
-            Assert.AreEqual(questionSet.Share, questionSetVersions[0].Share);
-            Assert.AreEqual(questionSet.HasChild, questionSetVersions[0].HasChild);
-            Assert.AreEqual(questionSet.PossiblyDeployed, questionSetVersions[0].PossiblyDeployed);
+            Assert.That(questionSetVersions[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
+            Assert.That(questionSetVersions[0].Version, Is.EqualTo(1));
+            //            Assert.AreEqual(oldUpdatedAt.ToString(), questionSetVersions[0].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(questionSetVersions[0].WorkflowState));
+            Assert.That(questionSetVersions[0].QuestionSetId, Is.EqualTo(questionSet.Id));
+            Assert.That(questionSetVersions[0].Name, Is.EqualTo(questionSet.Name));
+            Assert.That(questionSetVersions[0].Share, Is.EqualTo(questionSet.Share));
+            Assert.That(questionSetVersions[0].HasChild, Is.EqualTo(questionSet.HasChild));
+            Assert.That(questionSetVersions[0].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
 
             //New Version
-            Assert.AreEqual(questionSet.CreatedAt.ToString(), questionSetVersions[1].CreatedAt.ToString());
-            Assert.AreEqual(2, questionSetVersions[1].Version);
-//            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSetVersions[1].UpdatedAt.ToString());
-            Assert.AreEqual(questionSetVersions[1].WorkflowState, Constants.WorkflowStates.Removed);
-            Assert.AreEqual(questionSet.Id, questionSetVersions[1].QuestionSetId);
-            Assert.AreEqual(questionSet.Name, questionSetVersions[1].Name);
-            Assert.AreEqual(questionSet.Share, questionSetVersions[1].Share);
-            Assert.AreEqual(questionSet.HasChild, questionSetVersions[1].HasChild);
-            Assert.AreEqual(questionSet.PossiblyDeployed, questionSetVersions[1].PossiblyDeployed);
+            Assert.That(questionSetVersions[1].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
+            Assert.That(questionSetVersions[1].Version, Is.EqualTo(2));
+            //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSetVersions[1].UpdatedAt.ToString());
+            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(questionSetVersions[1].WorkflowState));
+            Assert.That(questionSetVersions[1].QuestionSetId, Is.EqualTo(questionSet.Id));
+            Assert.That(questionSetVersions[1].Name, Is.EqualTo(questionSet.Name));
+            Assert.That(questionSetVersions[1].Share, Is.EqualTo(questionSet.Share));
+            Assert.That(questionSetVersions[1].HasChild, Is.EqualTo(questionSet.HasChild));
+            Assert.That(questionSetVersions[1].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
         }
     }
 }
