@@ -464,11 +464,11 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             #region Query_Type
 
-            Assert.That(f1.QueryType, Is.EqualTo(""));
-            Assert.That(f2.QueryType, Is.EqualTo(""));
-            Assert.That(f3.QueryType, Is.EqualTo(""));
-            Assert.That(f4.QueryType, Is.EqualTo(""));
-            Assert.That(f5.QueryType, Is.EqualTo(""));
+            Assert.That(f1.QueryType, Is.Null);
+            Assert.That(f2.QueryType, Is.Null);
+            Assert.That(f3.QueryType, Is.Null);
+            Assert.That(f4.QueryType, Is.Null);
+            Assert.That(f5.QueryType, Is.Null);
 
             #endregion
 

@@ -432,7 +432,7 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.NotNull(templateId);
             Assert.IsNull(cl1.ParentId);
             Assert.That(templateId, Is.EqualTo(cl1.Id));
-            Assert.That(cl1.Label, Is.EqualTo(""));
+            Assert.That(cl1.Label, Is.Null);
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("label1"));
             Assert.That("folderWithList", Is.EqualTo(cl1.FolderName));
             Assert.That("type1", Is.EqualTo(cl1.CaseType));

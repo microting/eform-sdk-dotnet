@@ -134,21 +134,21 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             #region Description
 
-            Assert.That(listOfCL[0].Description, Is.EqualTo(""));
-            Assert.That(listOfCL[1].Description, Is.EqualTo(""));
-            Assert.That(listOfCL[2].Description, Is.EqualTo(""));
-            Assert.That(listOfCL[3].Description, Is.EqualTo(""));
-            Assert.That(listOfCL[4].Description, Is.EqualTo(""));
-            Assert.That(listOfCL[5].Description, Is.EqualTo(""));
-            Assert.That(listOfCL[6].Description, Is.EqualTo(""));
-            Assert.That(listOfCL[7].Description, Is.EqualTo(""));
-            Assert.That(listOfCL[8].Description, Is.EqualTo(""));
-            Assert.That(listOfCL[9].Description, Is.EqualTo(""));
-            Assert.That(listOfCL[10].Description, Is.EqualTo(""));
-            Assert.That(listOfCL[11].Description, Is.EqualTo(""));
-            Assert.That(listOfCL[12].Description, Is.EqualTo(""));
-            Assert.That(listOfCL[13].Description, Is.EqualTo(""));
-            Assert.That(listOfCL[14].Description, Is.EqualTo(""));
+            Assert.That(listOfCL[0].Description, Is.Null);
+            Assert.That(listOfCL[1].Description, Is.Null);
+            Assert.That(listOfCL[2].Description, Is.Null);
+            Assert.That(listOfCL[3].Description, Is.Null);
+            Assert.That(listOfCL[4].Description, Is.Null);
+            Assert.That(listOfCL[5].Description, Is.Null);
+            Assert.That(listOfCL[6].Description, Is.Null);
+            Assert.That(listOfCL[7].Description, Is.Null);
+            Assert.That(listOfCL[8].Description, Is.Null);
+            Assert.That(listOfCL[9].Description, Is.Null);
+            Assert.That(listOfCL[10].Description, Is.Null);
+            Assert.That(listOfCL[11].Description, Is.Null);
+            Assert.That(listOfCL[12].Description, Is.Null);
+            Assert.That(listOfCL[13].Description, Is.Null);
+            Assert.That(listOfCL[14].Description, Is.Null);
 
             #endregion
 
