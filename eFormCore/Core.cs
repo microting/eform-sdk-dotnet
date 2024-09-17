@@ -2489,13 +2489,12 @@ namespace eFormCore
                                         int newWidth = 700;
                                         int newHeight = (int)Math.Round((currentRation * newWidth));
 
-                                        image.Resize(newWidth, newHeight);
-                                        image.Crop(newWidth, newHeight);
+                                        image.Resize((uint)newWidth, (uint)newHeight);
+                                        image.Crop((uint)newWidth, (uint)newHeight);
                                         await image.WriteAsync(filePathResized);
                                         await PutFileToStorageSystem(Path.Combine(_fileLocationPicture, bigFilename),
                                             bigFilename).ConfigureAwait(false);
                                         fileContent = image.ToBase64();
-                                        image.Dispose();
                                     }
 
                                     File.Delete(filePathResized);
@@ -6138,7 +6137,6 @@ namespace eFormCore
                             await PutFileToS3Storage(memoryStream, fileName);
                             await memoryStream.DisposeAsync();
                             memoryStream.Close();
-                            image.Dispose();
                             baseMemoryStream.Seek(0, SeekOrigin.Begin);
                         }
 
@@ -6210,14 +6208,13 @@ namespace eFormCore
                                 int newWidth = 300;
                                 int newHeight = (int)Math.Round((currentRation * newWidth));
 
-                                image.Resize(newWidth, newHeight);
-                                image.Crop(newWidth, newHeight);
+                                image.Resize((uint)newWidth, (uint)newHeight);
+                                image.Crop((uint)newWidth, (uint)newHeight);
                                 MemoryStream memoryStream = new MemoryStream();
                                 await image.WriteAsync(memoryStream);
                                 await PutFileToS3Storage(memoryStream, smallFilename);
                                 await memoryStream.DisposeAsync();
                                 memoryStream.Close();
-                                image.Dispose();
                                 baseMemoryStream.Seek(0, SeekOrigin.Begin);
                             }
 
@@ -6283,14 +6280,13 @@ namespace eFormCore
                                 int newWidth = 700;
                                 int newHeight = (int)Math.Round((currentRation * newWidth));
 
-                                image.Resize(newWidth, newHeight);
-                                image.Crop(newWidth, newHeight);
+                                image.Resize((uint)newWidth, (uint)newHeight);
+                                image.Crop((uint)newWidth, (uint)newHeight);
                                 MemoryStream memoryStream = new MemoryStream();
                                 await image.WriteAsync(memoryStream);
                                 await PutFileToS3Storage(memoryStream, bigFilename);
                                 await memoryStream.DisposeAsync();
                                 memoryStream.Close();
-                                image.Dispose();
                             }
                         }
 
