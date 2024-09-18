@@ -352,7 +352,11 @@ namespace Microting.eForm.Communication
                     var url =
                         $"{_addressNewApi}/integration/delete?id={elementId}&token={_token}&siteId={siteId}";
 
-                    return await HttpDelete(url, null, true).ConfigureAwait(false);
+                    var result = await HttpDelete(url, null, true).ConfigureAwait(false);
+                    return result == ""
+                        ? "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "success" +
+                          "</Value><Unit fetched_at=\"\" id=\"\"/></Response>"
+                        : result;
                 }
                 else
                 {
