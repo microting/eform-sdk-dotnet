@@ -255,29 +255,16 @@ namespace eFormCore
                 // This might be helpful, or might interfere with the normal operation of your application.
                 // We enable it here for demonstration purposes when first trying Sentry.
                 // You shouldn't do this in your applications unless you're troubleshooting issues with Sentry.
-                options.Debug = true;
+                options.Debug = false;
 
                 // This option is recommended. It enables Sentry's "Release Health" feature.
                 options.AutoSessionTracking = true;
 
-                // Set TracesSampleRate to 1.0 to capture 100%
-                // of transactions for tracing.
-                // We recommend adjusting this value in production.
-                options.TracesSampleRate = 1.0;
+                // Enabling this option is recommended for client applications only. It ensures all threads use the same global scope.
+                options.IsGlobalModeEnabled = false;
 
-                // Sample rate for profiling, applied on top of othe TracesSampleRate,
-                // e.g. 0.2 means we want to profile 20 % of the captured transactions.
-                // We recommend adjusting this value in production.
-                options.ProfilesSampleRate = 1.0;
-                // Requires NuGet package: Sentry.Profiling
-                // Note: By default, the profiler is initialized asynchronously. This can
-                // be tuned by passing a desired initialization timeout to the constructor.
-                // options.AddIntegration(new ProfilingIntegration(
-                //     // During startup, wait up to 500ms to profile the app startup code.
-                //     // This could make launching the app a bit slower so comment it out if you
-                //     // prefer profiling to start asynchronously
-                //     TimeSpan.FromMilliseconds(500)
-                // ));
+                // Example sample rate for your transactions: captures 10% of transactions
+                options.TracesSampleRate = 0.1;
             });
             string methodName = "Core.StartSqlOnly";
             try
