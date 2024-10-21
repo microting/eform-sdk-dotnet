@@ -6089,8 +6089,10 @@ namespace eFormCore
                             }
                             else
                             {
-                                Log.LogWarning(methodName, $"No unit found for case {theCase.Id}");
-                                return false;
+                                // We do this, otherwise we will get an error, when trying to upload the file to S3
+                                unit = await dbContext.Units.FirstAsync(x => x.SiteId == theCase.SiteId);
+                                theCase.UnitId = unit.Id;
+                                await theCase.Update(dbContext);
                             }
                         }
 
