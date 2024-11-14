@@ -637,7 +637,7 @@ namespace Microting.eForm.Infrastructure
         public async Task<List<FieldDto>> TemplateFieldReadAll(int templateId, Language language)
         {
             string methodName = "SqlController.TemplateFieldReadAll";
-            _log.LogEverything(methodName, "Start");
+            _log.LogEverything(methodName, "Start for templateId : " + templateId + " and language : " + language.Name);
             try
             {
                 await using var db = GetContext();
@@ -676,6 +676,7 @@ namespace Microting.eForm.Infrastructure
             catch (Exception ex)
             {
                 //logger.LogException(methodName + " failed", ex, true);
+                _log.LogException(methodName, "failed", ex);
                 throw new Exception(methodName + " failed", ex);
             }
         }
