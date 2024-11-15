@@ -648,15 +648,17 @@ namespace Microting.eForm.Infrastructure
                 {
                     Field field = await db.Fields.FirstAsync(x => x.Id == dataItem.Id);
                     FieldTranslation fieldTranslation = await db.FieldTranslations.Where(x =>
-                        x.FieldId == field.Id && x.LanguageId == language.Id).FirstAsync();
+                        // if translation is not found, then take the first one
+                        x.FieldId == field.Id && x.LanguageId == language.Id).FirstOrDefaultAsync() ?? await db.FieldTranslations.FirstAsync(x => x.FieldId == field.Id);
                     FieldDto fieldDto = new FieldDto(field.Id, fieldTranslation.Text, fieldTranslation.Description,
-                        (int)field.FieldTypeId, db.FieldTypes.Single(x => x.Id == field.FieldTypeId).Type,
-                        (int)field.CheckListId);
+                        (int)field.FieldTypeId!, db.FieldTypes.Single(x => x.Id == field.FieldTypeId).Type,
+                        (int)field.CheckListId!);
                     if (field.ParentFieldId != null)
                     {
                         fieldTranslation =
                             await db.FieldTranslations.Where(x =>
-                                x.FieldId == field.ParentFieldId && x.LanguageId == language.Id).FirstAsync();
+                                x.FieldId == field.ParentFieldId && x.LanguageId == language.Id).FirstOrDefaultAsync() ??
+                            await db.FieldTranslations.FirstAsync(x => x.FieldId == field.Id);
                         fieldDto.ParentName = fieldTranslation.Text;
                     }
                     else
