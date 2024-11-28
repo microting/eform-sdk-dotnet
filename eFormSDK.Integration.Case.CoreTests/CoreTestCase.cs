@@ -55,7 +55,7 @@ namespace eFormSDK.Integration.Case.CoreTests
             await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
             testHelpers = new TestHelpers(ConnectionString);
             await testHelpers.GenerateDefaultLanguages();
-            language = DbContext.Languages.AsNoTracking().Single(x => x.Name == "Dansk" || x.Name == "Danish");
+            language = DbContext.Languages.AsNoTracking().Single(x => x.Name == "Dansk");
             //await sut.StartLog(new CoreBase());
         }
 

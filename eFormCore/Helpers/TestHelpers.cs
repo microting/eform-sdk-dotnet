@@ -53,7 +53,7 @@ namespace Microting.eForm.Helpers
             {
                 Console.WriteLine(language1.Name);
             }
-            language = await dbContext.Languages.FirstOrDefaultAsync(x => x.Name == "Dansk" || x.Name == "Danish");
+            language = await dbContext.Languages.FirstOrDefaultAsync(x => x.Name == "Dansk");
         }
 
         private MicrotingDbContext GetContext(string connectionStr)

@@ -461,8 +461,6 @@ namespace Microting.eForm.Infrastructure
                                 translation.LanguageId
                             }).Where(x => x.LanguageId == language.Id);
 
-                //Language language = await db.Languages.FirstAsync(x => x.Name == "Danish");
-
                 var all = subQuery.ToList();
 
                 if (!includeRemoved)
