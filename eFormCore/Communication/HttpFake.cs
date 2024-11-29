@@ -382,6 +382,9 @@ namespace Microting.eForm.Communication
         public async Task<bool> FolderUpdate(int id, string name, string description, string languageCode,
             int? parentId)
         {
+            var url =
+                $"/Folder/{id}?token={_token}&languageCode={languageCode}&name={Uri.EscapeDataString(name)}&description={Uri.EscapeDataString(description)}&parentId={parentId}&sdkVersion=";
+            Console.WriteLine(url);
             await Task.Run(() => { });
             return true;
         }
