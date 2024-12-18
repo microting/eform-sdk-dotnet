@@ -4148,6 +4148,7 @@ namespace eFormCore
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine(ex.StackTrace);
                     Console.WriteLine(ex.Message);
                 }
                 // if (result != null)
@@ -4170,7 +4171,7 @@ namespace eFormCore
 
                     try
                     {
-                        answer.SiteId = db.Sites.Single(x => x.MicrotingUid == answer.SiteId).Id;
+                        answer.SiteId = db.Sites.First(x => x.MicrotingUid == answer.SiteId).Id;
                         answer.QuestionSetId = questionSetId;
                         SurveyConfiguration surveyConfiguration = await db.SurveyConfigurations
                             .FirstOrDefaultAsync(x => x.MicrotingUid == answer.SurveyConfigurationId)
@@ -4186,7 +4187,7 @@ namespace eFormCore
                         }
 
                         answer.QuestionSet = null;
-                        answer.LanguageId = db.Languages.Single(x => x.Name == "Dansk").Id;
+                        answer.LanguageId = db.Languages.First(x => x.Name == "Dansk").Id;
                         await answer.Create(db).ConfigureAwait(false);
 
                         foreach (JToken avItem in subItem["AnswerValues"])
@@ -4224,6 +4225,7 @@ namespace eFormCore
                     }
                     catch (Exception ex)
                     {
+                        Console.WriteLine(ex.StackTrace);
                         Console.WriteLine(ex.Message);
                     }
                 }
