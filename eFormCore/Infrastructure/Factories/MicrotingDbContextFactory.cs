@@ -39,7 +39,9 @@ namespace Microting.eForm.Infrastructure.Factories
             var optionsBuilder = new DbContextOptionsBuilder<MicrotingDbContext>();
             optionsBuilder.UseMySql(args.Any() ? args[0] : defaultCs, new MariaDbServerVersion(
                     ServerVersion.AutoDetect(args.Any() ? args[0] : defaultCs)),
-                mySqlOptionsAction: builder => { builder.EnableRetryOnFailure(); });
+                mySqlOptionsAction: builder => { builder.EnableRetryOnFailure();
+                    builder.TranslateParameterizedCollectionsToConstants();
+                });
 
             return new MicrotingDbContext(optionsBuilder.Options);
             // dotnet ef migrations add InitialCreate --project eFormCore --startup-project DBMigrator

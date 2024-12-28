@@ -59,7 +59,10 @@ namespace eFormSDK.CheckLists.Tests
             DbContextOptionsBuilder dbContextOptionsBuilder = new DbContextOptionsBuilder();
 
             dbContextOptionsBuilder.UseMySql(connectionStr, new MariaDbServerVersion(
-                ServerVersion.AutoDetect(connectionStr)));
+                    ServerVersion.AutoDetect(connectionStr)),
+                mySqlOptionsAction: builder => { builder.EnableRetryOnFailure();
+                    builder.TranslateParameterizedCollectionsToConstants();
+                });
             var microtingDbContext = new MicrotingDbContext(dbContextOptionsBuilder.Options);
             string file = Path.Combine("SQL", "eformsdk-tests.sql");
             string rawSql = File.ReadAllText(file);
