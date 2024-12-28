@@ -256,6 +256,8 @@ namespace Microting.eForm.Infrastructure.Models
 
         //
         public string PushMessageBody { get; set; }
+
+        public bool BadgeCountEnabled { get; set; }
         //
 
         // public
