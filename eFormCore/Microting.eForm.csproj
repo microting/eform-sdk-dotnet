@@ -279,7 +279,7 @@
         <PackageReference Include="AWSSDK.S3" Version="3.7.410.6" />
         <PackageReference Include="AWSSDK.SQS" Version="3.7.400.50" />
         <PackageReference Include="Castle.Core" Version="5.1.1" />
-        <PackageReference Include="DocumentFormat.OpenXml" Version="3.1.1" />
+        <PackageReference Include="DocumentFormat.OpenXml" Version="3.2.0" />
         <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.2.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
