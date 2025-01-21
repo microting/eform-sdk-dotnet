@@ -67,6 +67,9 @@ namespace Microting.eForm.Communication
         Task<bool> PdfUpload(string name, string hash);
         Task<bool> PdfUpload(Stream stream, string hash, string fileName);
 
+        Task<bool> PngUpload(string name, string hash);
+        Task<bool> PngUpload(Stream stream, string hash, string fileName);
+
         Task<string> TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex);
 
         Task<string> SiteCreate(string name, string languageCode);

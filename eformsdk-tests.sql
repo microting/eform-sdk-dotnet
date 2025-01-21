@@ -811,7 +811,7 @@ CREATE TABLE `FieldTypes` (
 
 LOCK TABLES `FieldTypes` WRITE;
 /*!40000 ALTER TABLE `FieldTypes` DISABLE KEYS */;
-INSERT INTO `FieldTypes` VALUES (1,'Text','Simple text field'),(2,'Number','Simple number field'),(3,'None','Simple text to be displayed'),(4,'CheckBox','Simple check box field'),(5,'Picture','Simple picture field'),(6,'Audio','Simple audio field'),(7,'Movie','Simple movie field'),(8,'SingleSelect','Single selection list'),(9,'Comment','Simple comment field'),(10,'MultiSelect','Simple multi select list'),(11,'Date','Date selection'),(12,'Signature','Simple signature field'),(13,'Timer','Simple timer field'),(14,'EntitySearch','Autofilled searchable items field'),(15,'EntitySelect','Autofilled single selection list'),(16,'ShowPdf','Show PDF'),(17,'FieldGroup','Field group'),(18,'SaveButton','Save eForm'),(19,'NumberStepper','Number stepper field');
+INSERT INTO `FieldTypes` VALUES (1,'Text','Simple text field'),(2,'Number','Simple number field'),(3,'None','Simple text to be displayed'),(4,'CheckBox','Simple check box field'),(5,'Picture','Simple picture field'),(6,'Audio','Simple audio field'),(7,'Movie','Simple movie field'),(8,'SingleSelect','Single selection list'),(9,'Comment','Simple comment field'),(10,'MultiSelect','Simple multi select list'),(11,'Date','Date selection'),(12,'Signature','Simple signature field'),(13,'Timer','Simple timer field'),(14,'EntitySearch','Autofilled searchable items field'),(15,'EntitySelect','Autofilled single selection list'),(16,'ShowPdf','Show PDF'),(17,'FieldGroup','Field group'),(18,'SaveButton','Save eForm'),(19,'NumberStepper','Number stepper field'),(20,'ShowPicture','Show picture');
 /*!40000 ALTER TABLE `FieldTypes` ENABLE KEYS */;
 UNLOCK TABLES;
 

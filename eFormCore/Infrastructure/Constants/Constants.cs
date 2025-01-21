@@ -124,6 +124,7 @@ namespace Microting.eForm.Infrastructure.Constants
             public const string EntitySelect = "EntitySelect";
             public const string FieldGroup = "FieldGroup";
             public const string NumberStepper = "NumberStepper";
+            public const string ShowPicture = "ShowPicture";
         }
 
         public static class FieldColors

@@ -51,6 +51,7 @@ namespace Microting.eForm.Infrastructure.Models
     [XmlInclude(typeof(Text))]
     [XmlInclude(typeof(Timer))]
     [XmlInclude(typeof(FieldContainer))]
+    [XmlInclude(typeof(ShowPicture))]
     //
     public class DataItem
     {
@@ -409,6 +410,34 @@ namespace Microting.eForm.Infrastructure.Models
         }
 
         public ShowPdf(int id, bool mandatory, bool readOnly, string label, string description, string color,
+            int displayOrder, bool dummy,
+            string value, string originalId = "")
+        {
+            Id = id;
+            Mandatory = mandatory;
+            ReadOnly = readOnly;
+            Label = label;
+            Description = new CDataValue();
+            Description.InderValue = description;
+            Color = color;
+            DisplayOrder = displayOrder;
+            Dummy = dummy;
+
+            Value = value;
+            OriginalId = originalId;
+        }
+
+        public string Value { get; set; }
+    }
+
+    // ShowPdf
+    public class ShowPicture : DataItem
+    {
+        internal ShowPicture()
+        {
+        }
+
+        public ShowPicture(int id, bool mandatory, bool readOnly, string label, string description, string color,
             int displayOrder, bool dummy,
             string value, string originalId = "")
         {

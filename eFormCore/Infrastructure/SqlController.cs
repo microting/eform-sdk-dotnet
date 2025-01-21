@@ -6554,6 +6554,63 @@ namespace Microting.eForm.Infrastructure
                         isSaved = true;
                         break;
 
+                    case Constants.Constants.FieldTypes.ShowPicture:
+                        ShowPicture showPicture = (ShowPicture)dataItem;
+                        await field.Create(db).ConfigureAwait(false);
+                        // field.DefaultValue = showPdf.Value;
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = language.Id,
+                            Text = dataItem.Label.Split("|")[0],
+                            Description = dataItem.Description != null
+                                ? dataItem.Description.InderValue.Split("|")[0]
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = showPicture.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+
+                        if (dataItem.Label.Split("|").Length > 1)
+                        {
+                            fieldTranslation = new FieldTranslation
+                            {
+                                LanguageId = ukLanguage.Id,
+                                Text = dataItem.Label.Split("|")[1],
+                                Description = dataItem.Description != null
+                                    ? (dataItem.Description.InderValue.Split("|").Length > 1
+                                        ? dataItem.Description.InderValue.Split("|")[1]
+                                        : "")
+                                    : "",
+                                FieldId = field.Id,
+                                DefaultValue = showPicture.Value.Split("|").Length > 1
+                                    ? showPicture.Value.Split("|")[1]
+                                    : showPicture.Value.Split("|")[0]
+                            };
+                            await fieldTranslation.Create(db).ConfigureAwait(false);
+                        }
+
+                        if (dataItem.Label.Split("|").Length > 2)
+                        {
+                            fieldTranslation = new FieldTranslation
+                            {
+                                LanguageId = deLanguage.Id,
+                                Text = dataItem.Label.Split("|")[2],
+                                Description = dataItem.Description != null
+                                    ? (dataItem.Description.InderValue.Split("|").Length > 2
+                                        ? dataItem.Description.InderValue.Split("|")[2]
+                                        : "")
+                                    : "",
+                                FieldId = field.Id,
+                                DefaultValue = showPicture.Value.Split("|").Length > 2
+                                    ? showPicture.Value.Split("|")[2]
+                                    : showPicture.Value.Split("|")[0]
+                            };
+                            await fieldTranslation.Create(db).ConfigureAwait(false);
+                        }
+
+                        isSaved = true;
+                        break;
+
                     case Constants.Constants.FieldTypes.Signature:
                         break;
 

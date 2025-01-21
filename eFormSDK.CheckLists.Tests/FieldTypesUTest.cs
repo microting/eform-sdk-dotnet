@@ -54,17 +54,17 @@ namespace eFormSDK.CheckLists.Tests
             //Assert Before creating new field type
 
             Assert.That(fieldTypes, Is.Not.EqualTo(null));
-            Assert.That(fieldTypes.Count(), Is.EqualTo(19));
+            Assert.That(fieldTypes.Count(), Is.EqualTo(20));
 
             //Assert after creating new field type
 
             await fieldType.Create(DbContext).ConfigureAwait(false);
             fieldTypes = DbContext.FieldTypes.AsNoTracking().ToList();
-            Assert.That(fieldTypes.Count(), Is.EqualTo(20));
+            Assert.That(fieldTypes.Count(), Is.EqualTo(21));
 
-            Assert.That(fieldTypes[19].Description, Is.EqualTo(fieldType.Description));
-            Assert.That(fieldTypes[19].Id, Is.EqualTo(fieldType.Id));
-            Assert.That(fieldTypes[19].Type, Is.EqualTo(fieldType.Type));
+            Assert.That(fieldTypes[20].Description, Is.EqualTo(fieldType.Description));
+            Assert.That(fieldTypes[20].Id, Is.EqualTo(fieldType.Id));
+            Assert.That(fieldTypes[20].Type, Is.EqualTo(fieldType.Type));
         }
 
         [Test]
@@ -92,11 +92,11 @@ namespace eFormSDK.CheckLists.Tests
             //Assert
 
             Assert.That(fieldTypes, Is.Not.EqualTo(null));
-            Assert.That(fieldTypes.Count(), Is.EqualTo(20));
+            Assert.That(fieldTypes.Count(), Is.EqualTo(21));
 
-            Assert.That(fieldTypes[19].Description, Is.EqualTo(fieldType.Description));
-            Assert.That(fieldTypes[19].Id, Is.EqualTo(fieldType.Id));
-            Assert.That(fieldTypes[19].Type, Is.EqualTo(fieldType.Type));
+            Assert.That(fieldTypes[20].Description, Is.EqualTo(fieldType.Description));
+            Assert.That(fieldTypes[20].Id, Is.EqualTo(fieldType.Id));
+            Assert.That(fieldTypes[20].Type, Is.EqualTo(fieldType.Type));
         }
 
         [Test]
@@ -118,7 +118,7 @@ namespace eFormSDK.CheckLists.Tests
             //Assert before delete
 
             Assert.That(fieldTypes, Is.Not.EqualTo(null));
-            Assert.That(fieldTypes.Count(), Is.EqualTo(20));
+            Assert.That(fieldTypes.Count(), Is.EqualTo(21));
 
             //Assert after delete
 
@@ -126,7 +126,7 @@ namespace eFormSDK.CheckLists.Tests
 
             fieldTypes = DbContext.FieldTypes.AsNoTracking().ToList();
 
-            Assert.That(fieldTypes.Count(), Is.EqualTo(19));
+            Assert.That(fieldTypes.Count(), Is.EqualTo(20));
         }
     }
 }

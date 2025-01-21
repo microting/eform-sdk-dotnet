@@ -653,6 +653,60 @@ namespace Microting.eForm.Communication
             }
         }
 
+        public async Task<bool> PngUpload(string name, string hash)
+        {
+            try
+            {
+                var url =
+                    $"{_addressPdfUpload}/data_uploads/upload?token={_token}&hash={hash}&extension=pdf&sdk_ver={_dllVersion}";
+                var form = new MultipartFormDataContent();
+                var fileStream = new FileStream(name, FileMode.Open);
+                form.Add(new StreamContent(fileStream), "file", name.Split('/').Last());
+                form.Add(new StringContent(hash), "hash");
+                form.Add(new StringContent(name.Split('/').Last()), "orig_file");
+                form.Add(new StringContent(_token), "token");
+                form.Add(new StringContent("png"), "extension");
+                form.Add(new StringContent("sdk"), "application_name");
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders
+                    .Add("Authorization", _token);
+                await client.PostAsync(url, form).ConfigureAwait(false);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                WriteErrorConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", ex.Message);
+                return false;
+            }
+        }
+
+        public async Task<bool> PngUpload(Stream stream, string hash, string fileName)
+        {
+            try
+            {
+                var url =
+                    $"{_addressPdfUpload}/data_uploads/upload?token={_token}&hash={hash}&extension=pdf&sdk_ver={_dllVersion}";
+                var form = new MultipartFormDataContent();
+                // var fileStream = new FileStream(name, FileMode.Open);
+                form.Add(new StreamContent(stream), "file", fileName);
+                form.Add(new StringContent(hash), "hash");
+                form.Add(new StringContent(fileName), "orig_file");
+                form.Add(new StringContent(_token), "token");
+                form.Add(new StringContent("png"), "extension");
+                form.Add(new StringContent("sdk"), "application_name");
+                using var client = new HttpClient();
+                client.DefaultRequestHeaders
+                    .Add("Authorization", _token);
+                await client.PostAsync(url, form).ConfigureAwait(false);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                WriteErrorConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}", ex.Message);
+                return false;
+            }
+        }
+
         public async Task<string> TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex)
         {
             try

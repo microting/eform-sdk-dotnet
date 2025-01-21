@@ -204,6 +204,20 @@ namespace Microting.eForm.Communication
         }
         //
 
+        // public PdfUpload
+        public async Task<bool> PngUpload(string name, string hash)
+        {
+            await Task.Run(() => { });
+            return true;
+        }
+
+        public async Task<bool> PngUpload(Stream stream, string hash, string fileName)
+        {
+            await Task.Run(() => { });
+            return true;
+        }
+        //
+
         // public TemplateDisplayIndexChange
         public async Task<string> TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex)
         {
