@@ -5603,7 +5603,7 @@ namespace Microting.eForm.Infrastructure
             try
             {
                 await using var db = GetContext();
-                if (await db.FieldTypes.CountAsync() == 0)
+                if (await db.FieldTypes.CountAsync() < 20)
                 {
                     // prime FieldTypes
                     //UnitTest_TruncateTable(typeof(field_types).Name);
@@ -5629,6 +5629,7 @@ namespace Microting.eForm.Infrastructure
                     await FieldTypeAdd(17, Constants.Constants.FieldTypes.FieldGroup, "Field group");
                     await FieldTypeAdd(18, Constants.Constants.FieldTypes.SaveButton, "Save eForm");
                     await FieldTypeAdd(19, Constants.Constants.FieldTypes.NumberStepper, "Number stepper field");
+                    await FieldTypeAdd(20, Constants.Constants.FieldTypes.ShowPicture, "Show picture");
                     //
                 }
 

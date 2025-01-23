@@ -689,6 +689,7 @@ namespace eFormCore
                 keyWords.Add("MultiSelect");
                 keyWords.Add("Picture");
                 keyWords.Add("ShowPdf");
+                keyWords.Add("ShowPicture");
                 keyWords.Add("SaveButton");
                 keyWords.Add("Signature");
                 keyWords.Add("SingleSelect");
@@ -3360,6 +3361,41 @@ namespace eFormCore
         public async Task PdfUpload(Stream stream, string hash, string fileName)
         {
             await _communicator.PdfUpload(stream, hash, fileName).ConfigureAwait(false);
+        }
+
+        //
+
+        public async Task<string> PngUpload(string localPath)
+        {
+            string methodName = "Core.PdfUpload";
+            try
+            {
+                if (!Running()) throw new Exception("Core is not running");
+                string checkSum = "";
+                using (var md5 = MD5.Create())
+                {
+                    await using (var stream = File.OpenRead(localPath))
+                    {
+                        byte[] grr = await md5.ComputeHashAsync(stream);
+                        checkSum = BitConverter.ToString(grr).Replace("-", "").ToLower();
+                    }
+                }
+
+                if (await _communicator.PngUpload(localPath, checkSum).ConfigureAwait(false))
+                    return checkSum;
+                Log.LogWarning(methodName, "Uploading of PDF failed");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Log.LogException(methodName, "failed", ex);
+                throw new Exception(methodName + " failed", ex);
+            }
+        }
+
+        public async Task PngUpload(Stream stream, string hash, string fileName)
+        {
+            await _communicator.PngUpload(stream, hash, fileName).ConfigureAwait(false);
         }
         //
 
