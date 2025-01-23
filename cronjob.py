@@ -90,15 +90,21 @@ def check_new_nuget_version(package_name):
     
     # Get the package metadata
     response = requests.get(package_url)
+    print(f"Checking {package_name}")
     if response.status_code == 200:
         package_data = response.json()
         
         # Get the latest version and publication time
         versions = package_data["versions"]
+        #print(f"Versions for {package_name} is {versions}")
         latest_version = versions[-1]
+        for line in versions:
+            if "-preview" not in line:
+                latest_version = line
         
         # Check if the latest version is alread installed
         installed_version = get_installed_version(package_name)
+        print(f"Current version {package_name} is: {installed_version} and latest version is: {latest_version}")
         if installed_version:
             if installed_version != latest_version:
                 if "-preview" not in latest_version:
