@@ -7288,6 +7288,13 @@ namespace Microting.eForm.Infrastructure
                             fieldTranslation.DefaultValue));
                         break;
 
+                    case Constants.Constants.FieldTypes.ShowPicture:
+                        lstDataItem.Add(new ShowPicture(_t.Int(field.Id), _t.Bool(field.Mandatory), _t.Bool(field.ReadOnly),
+                            fieldTranslation.Text, fieldTranslation.Description, field.Color,
+                            _t.Int(field.DisplayIndex), _t.Bool(field.Dummy),
+                            fieldTranslation.DefaultValue));
+                        break;
+
                     case Constants.Constants.FieldTypes.Signature:
                         lstDataItem.Add(new Signature(_t.Int(field.Id), _t.Bool(field.Mandatory),
                             _t.Bool(field.ReadOnly), fieldTranslation.Text, fieldTranslation.Description, field.Color,
