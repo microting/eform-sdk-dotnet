@@ -88,12 +88,14 @@ public class EformRetrievedHandler(Core core) : IHandleMessages<EformRetrieved>
                     CheckListId = cL.Id,
                     WorkflowState = aCase.WorkflowState
                 };
-                var unit = await dbContext.Units.AsNoTracking().FirstAsync(x => x.MicrotingUid == aCase.UnitId);
-                await core.Advanced_UnitGet(unit.Id);
+                var unit = await dbContext.Units.AsNoTracking().FirstOrDefaultAsync(x => x.MicrotingUid == aCase.UnitId);
+                if (unit != null)
+                {
+                    await core.Advanced_UnitGet(unit.Id);
+                }
                 await core.FireHandleCaseRetrived(caseDto);
             }
-
-            try
+            else
             {
                 var cls = await dbContext.CheckListSites.AsNoTracking()
                     .FirstAsync(x => x.MicrotingUid == message.MicrotringUUID);
@@ -108,7 +110,7 @@ public class EformRetrievedHandler(Core core) : IHandleMessages<EformRetrieved>
 
                 //
 
-                var remoteSiteId = (int)dbContext.Sites.AsNoTracking().First(x => x.Id == (int)cls.SiteId)
+                var remoteSiteId = (int) dbContext.Sites.AsNoTracking().First(x => x.Id == (int) cls.SiteId)
                     .MicrotingUid!;
                 var cDto = new CaseDto
                 {
@@ -123,14 +125,14 @@ public class EformRetrievedHandler(Core core) : IHandleMessages<EformRetrieved>
                     CheckListId = cL.Id,
                     WorkflowState = null
                 };
-                var unit = await dbContext.Units.AsNoTracking().FirstAsync(x => x.SiteId == (int)cls.SiteId);
-                await core.Advanced_UnitGet(unit.Id);
+                var unit = await dbContext.Units.AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.SiteId == (int) cls.SiteId);
+                if (unit != null)
+                {
+                    await core.Advanced_UnitGet(unit.Id);
+                }
+
                 await core.FireHandleCaseRetrived(cDto);
-            }
-            catch (Exception ex1)
-            {
-                Console.WriteLine(ex1.Message);
-                throw;
             }
         }
         catch (Exception ex)
