@@ -23,52 +23,131 @@ SOFTWARE.
 */
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using eFormCore;
+using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Dto;
-using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Messages;
 using Rebus.Handlers;
 
-namespace Microting.eForm.Handlers
+namespace Microting.eForm.Handlers;
+
+public class EformRetrievedHandler(Core core) : IHandleMessages<EformRetrieved>
 {
-    public class EformRetrievedHandler : IHandleMessages<EformRetrieved>
+    public async Task Handle(EformRetrieved message)
     {
-        private readonly SqlController _sqlController;
-        private readonly Log _log;
-        private readonly Core _core;
-        private readonly Tools _t = new Tools();
-
-        public EformRetrievedHandler(SqlController sqlController, Log log, Core core)
+        try
         {
-            _sqlController = sqlController;
-            _log = log;
-            _core = core;
+            await using var dbContext = core.DbContextHelper.GetDbContext();
+
+            var match = await dbContext.Cases.FirstOrDefaultAsync(x => x.MicrotingUid == message.MicrotringUUID);
+
+            if (match != null)
+            {
+                match.Status = 77;
+                await match.Update(dbContext).ConfigureAwait(false);
+            }
+
+            var notification = await dbContext.Notifications.FirstAsync(x =>
+                x.NotificationUid == message.notificationUId && x.MicrotingUid == message.MicrotringUUID);
+            notification.WorkflowState = Constants.WorkflowStates.Processed;
+            await notification.Update(dbContext).ConfigureAwait(false);
+
+            if (dbContext.Cases.Count(x => x.MicrotingUid == message.MicrotringUUID) == 1)
+            {
+                var aCase = await dbContext.Cases.AsNoTracking()
+                    .FirstAsync(x => x.MicrotingUid == message.MicrotringUUID);
+                var cL = await dbContext.CheckLists.AsNoTracking().FirstAsync(x => x.Id == aCase.CheckListId);
+
+                var stat = "";
+                if (aCase.WorkflowState == Constants.WorkflowStates.Created && aCase.Status != 77)
+                    stat = "Created";
+
+                stat = aCase.WorkflowState switch
+                {
+                    Constants.WorkflowStates.Created when aCase.Status == 77 => "Retrived",
+                    Constants.WorkflowStates.Retracted => "Completed",
+                    Constants.WorkflowStates.Removed => "Deleted",
+                    _ => stat
+                };
+
+                var remoteSiteId =
+                    (int)dbContext.Sites.Where(x => x.Id == (int)aCase.SiteId).Select(x => x.MicrotingUid).First()!;
+                var caseDto = new CaseDto
+                {
+                    CaseId = aCase.Id,
+                    Stat = stat,
+                    SiteUId = remoteSiteId,
+                    CaseType = cL.CaseType,
+                    CaseUId = aCase.CaseUid,
+                    MicrotingUId = aCase.MicrotingUid,
+                    CheckUId = aCase.MicrotingCheckUid,
+                    Custom = aCase.Custom,
+                    CheckListId = cL.Id,
+                    WorkflowState = aCase.WorkflowState
+                };
+                var unit = await dbContext.Units.AsNoTracking().FirstOrDefaultAsync(x => x.MicrotingUid == aCase.UnitId);
+                if (unit != null)
+                {
+                    await core.Advanced_UnitGet(unit.Id);
+                }
+                await core.FireHandleCaseRetrived(caseDto);
+            }
+            else
+            {
+                var cls = await dbContext.CheckListSites.AsNoTracking()
+                    .FirstAsync(x => x.MicrotingUid == message.MicrotringUUID);
+                var cL = await dbContext.CheckLists.AsNoTracking().FirstAsync(x => x.Id == cls.CheckListId);
+
+                var stat = cls.WorkflowState switch
+                {
+                    Constants.WorkflowStates.Created => Constants.WorkflowStates.Created,
+                    Constants.WorkflowStates.Removed => "Deleted",
+                    _ => ""
+                };
+
+                //
+
+                var remoteSiteId = (int) dbContext.Sites.AsNoTracking().First(x => x.Id == (int) cls.SiteId)
+                    .MicrotingUid!;
+                var cDto = new CaseDto
+                {
+                    CaseId = null,
+                    Stat = stat,
+                    SiteUId = remoteSiteId,
+                    CaseType = cL.CaseType,
+                    CaseUId = "ReversedCase",
+                    MicrotingUId = cls.MicrotingUid,
+                    CheckUId = cls.LastCheckId,
+                    Custom = null,
+                    CheckListId = cL.Id,
+                    WorkflowState = null
+                };
+                var unit = await dbContext.Units.AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.SiteId == (int) cls.SiteId);
+                if (unit != null)
+                {
+                    await core.Advanced_UnitGet(unit.Id);
+                }
+
+                await core.FireHandleCaseRetrived(cDto);
+            }
         }
-
-#pragma warning disable 1998
-        public async Task Handle(EformRetrieved message)
+        catch (Exception ex)
         {
-            try
-            {
-                await _sqlController.CaseUpdateRetrieved(message.MicrotringUUID);
+            await using var dbContext = core.DbContextHelper.GetDbContext();
 
-                await _sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID,
-                    Constants.WorkflowStates.Processed, "", "");
-
-                CaseDto cDto = await _sqlController.CaseReadByMUId(message.MicrotringUUID);
-                _log.LogStandard(_t.GetMethodName("EformRetrievedHandler"), cDto + " has been retrieved");
-                await _core.FireHandleCaseRetrived(cDto);
-            }
-            catch (Exception ex)
-            {
-                await _sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID,
-                    Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace);
-                NoteDto noteDto = new NoteDto(message.notificationUId, message.MicrotringUUID,
-                    Constants.WorkflowStates.NotFound);
-                await _core.FireHandleNotificationNotFound(noteDto);
-            }
+            var notification = await dbContext.Notifications.FirstAsync(x =>
+                x.NotificationUid == message.notificationUId && x.MicrotingUid == message.MicrotringUUID);
+            notification.WorkflowState = Constants.WorkflowStates.NotFound;
+            notification.Exception = ex.Message;
+            notification.Stacktrace = ex.StackTrace;
+            await notification.Update(dbContext).ConfigureAwait(false);
+            var noteDto = new NoteDto(message.notificationUId, message.MicrotringUUID,
+                Constants.WorkflowStates.NotFound);
+            await core.FireHandleNotificationNotFound(noteDto);
         }
     }
 }

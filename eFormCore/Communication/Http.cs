@@ -967,6 +967,20 @@ namespace Microting.eForm.Communication
             }
         }
 
+        public async Task<string> UnitGet(int unitId)
+        {
+            try
+            {
+                var url =
+                    $"{_newAddressBasic}/Unit/{unitId}?token={_token}&sdkVersion={_dllVersion}";
+                return await HttpGet(url, null, true).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("UnitGet failed", ex);
+            }
+        }
+
         public async Task<string> OrganizationLoadAllFromRemote()
         {
             var url = $"{_newAddressBasic}/Organization?token={_token}&sdkVersion={_dllVersion}";

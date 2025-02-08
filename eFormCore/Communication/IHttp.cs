@@ -113,6 +113,8 @@ namespace Microting.eForm.Communication
 
         Task<string> UnitCreate(int siteMicrotingUid);
 
+        Task<string> UnitGet(int id);
+
         Task<string> OrganizationLoadAllFromRemote();
 
         Task<int> SpeechToText(Stream pathToAudioFile, string language, string extension);
