@@ -491,6 +491,14 @@ namespace Microting.eForm.Communication
             return _http.UnitMove(unitMicrotingUid, siteMicrotingUid);
         }
 
+        public async Task<string> UnitGet(int id)
+        {
+            _log.LogEverything("Communicator.UnitGet", "called");
+            _log.LogVariable("Communicator.UnitGet", nameof(id), id);
+
+            return await _http.UnitGet(id);
+        }
+
         #endregion
 
         #region public organization

@@ -5046,6 +5046,27 @@ namespace eFormCore
             }
         }
 
+        public async Task Advanced_UnitGet(int unitId)
+        {
+            string methodName = "Core.Advanced_UnitGet";
+            await using var dbContext = DbContextHelper.GetDbContext();
+            Log.LogStandard(methodName, "called");
+            Log.LogVariable(methodName, nameof(unitId), unitId);
+
+            Unit dbUnit = await dbContext.Units.FirstOrDefaultAsync(x => x.Id == unitId);
+
+            string result = await _communicator.UnitGet((int)dbUnit.MicrotingUid).ConfigureAwait(false);
+            if (result == null) return;
+            {
+                Unit unit = JsonConvert.DeserializeObject<Unit>(result);
+                dbUnit.eFormVersion = unit.eFormVersion;
+                dbUnit.OsVersion = unit.OsVersion;
+                dbUnit.Manufacturer = unit.Manufacturer;
+                dbUnit.Model = unit.Model;
+                await dbUnit.Update(dbContext).ConfigureAwait(false);
+            }
+        }
+
         public async Task<bool> Advanced_UnitMove(int unitId, int siteId)
         {
             string methodName = "Core.Advanced_UnitMove";

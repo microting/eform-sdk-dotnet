@@ -466,7 +466,22 @@ namespace Microting.eForm.Communication
                 { MicrotingUid, WorkflowState = Constants.WorkflowStates.Created, OtpCode = otpCode });
             return contentToServer.ToString();
         }
-        //
+
+        public async Task<string> UnitGet(int id)
+        {
+            await Task.Run(() => { });
+            JObject contentToServer = JObject.FromObject(new
+            {
+                MicrotingUid = id,
+                WorkflowState = Constants.WorkflowStates.Created,
+                OtpCode = 558877,
+                eFormVersion = "3.1.15",
+                OsVersion = "13",
+                Manufacturer = "Apple",
+                Model = "iPhone 6"
+            });
+            return contentToServer.ToString();
+        }
 
         // public Organization
         public async Task<string> OrganizationLoadAllFromRemote()
