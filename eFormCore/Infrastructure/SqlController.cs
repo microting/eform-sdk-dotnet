@@ -1935,7 +1935,9 @@ namespace Microting.eForm.Infrastructure
             if (field.FieldType == "SingleSelect")
             {
                 var singleSelectFieldOptions =
-                    await db.FieldOptions.AsNoTracking().Where(x => x.FieldId == field.Id)
+                    await db.FieldOptions
+                        .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
+                        .AsNoTracking().Where(x => x.FieldId == field.Id)
                         .Join(db.FieldOptionTranslations,
                             option => option.Id,
                             translation => translation.FieldOptionId,
@@ -1959,7 +1961,9 @@ namespace Microting.eForm.Infrastructure
             if (field.FieldType == "MultiSelect")
             {
                 var multiSelectFieldOptions =
-                    await db.FieldOptions.AsNoTracking().Where(x => x.FieldId == field.Id)
+                    await db.FieldOptions
+                        .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
+                        .AsNoTracking().Where(x => x.FieldId == field.Id)
                         .Join(db.FieldOptionTranslations,
                             option => option.Id,
                             translation => translation.FieldOptionId,
