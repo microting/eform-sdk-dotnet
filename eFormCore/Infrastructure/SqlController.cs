@@ -2124,12 +2124,16 @@ namespace Microting.eForm.Infrastructure
                     {
                         string key = fieldValue.Value;
                         int fieldId = fieldValue.FieldId;
-                        FieldOption fieldOption = await db.FieldOptions.AsNoTracking().FirstOrDefaultAsync(x =>
+                        FieldOption fieldOption = await db.FieldOptions
+                            .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
+                            .AsNoTracking().FirstOrDefaultAsync(x =>
                             x.FieldId == fieldId && x.Key == key);
                         if (fieldOption != null)
                         {
                             FieldOptionTranslation fieldOptionTranslation =
-                                await db.FieldOptionTranslations.AsNoTracking().FirstAsync(x =>
+                                await db.FieldOptionTranslations
+                                    .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
+                                    .AsNoTracking().FirstAsync(x =>
                                     x.FieldOptionId == fieldOption.Id && x.LanguageId == language.Id);
                             fieldValue.ValueReadable = fieldOptionTranslation.Text;
                         }
@@ -2139,7 +2143,8 @@ namespace Microting.eForm.Infrastructure
                         }
 
                         List<FieldOption> fieldOptions =
-                            await db.FieldOptions.AsNoTracking().Where(x => x.FieldId == fieldValue.FieldId)
+                            await db.FieldOptions.AsNoTracking()
+                                .Where(x => x.FieldId == fieldValue.FieldId)
                                 .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
                                 .ToListAsync();
 
@@ -2172,7 +2177,9 @@ namespace Microting.eForm.Infrastructure
                         {
                             if (!string.IsNullOrEmpty(key))
                             {
-                                FieldOption fieldOption = await db.FieldOptions.AsNoTracking().FirstOrDefaultAsync(x =>
+                                FieldOption fieldOption = await db.FieldOptions
+                                    .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
+                                    .AsNoTracking().FirstOrDefaultAsync(x =>
                                     x.FieldId == fieldId && x.Key == key);
                                 if (fieldOption != null)
                                 {
@@ -2189,8 +2196,10 @@ namespace Microting.eForm.Infrastructure
                             }
                         }
 
-                        List<FieldOption> fieldOptions = await db.FieldOptions.AsNoTracking().Where(x =>
-                            x.FieldId == fieldValue.FieldId).ToListAsync();
+                        List<FieldOption> fieldOptions = await db.FieldOptions
+                            .AsNoTracking()
+                            .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
+                            .Where(x => x.FieldId == fieldValue.FieldId).ToListAsync();
                         fieldValue.KeyValuePairList = new List<KeyValuePair>();
                         foreach (FieldOption option in fieldOptions)
                         {
