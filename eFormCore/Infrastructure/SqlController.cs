@@ -2550,6 +2550,7 @@ namespace Microting.eForm.Infrastructure
                     {
                         var singleSelectFieldOptions =
                             await db.FieldOptions.Where(x => x.FieldId == matchField.Id)
+                                .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
                                 .Join(db.FieldOptionTranslations,
                                     option => option.Id,
                                     translation => translation.FieldOptionId,
@@ -2579,6 +2580,7 @@ namespace Microting.eForm.Infrastructure
                     {
                         var multiSelectFieldOptions =
                             await db.FieldOptions.Where(x => x.FieldId == matchField.Id)
+                                .Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
                                 .Join(db.FieldOptionTranslations,
                                     option => option.Id,
                                     translation => translation.FieldOptionId,
