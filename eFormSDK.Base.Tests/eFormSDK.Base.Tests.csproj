@@ -20,7 +20,7 @@
         </PackageReference>
         <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
         <PackageReference Include="Testcontainers" Version="4.4.0" />
-        <PackageReference Include="Testcontainers.MariaDb" Version="4.3.0" />
+        <PackageReference Include="Testcontainers.MariaDb" Version="4.4.0" />
     </ItemGroup>
 
     <ItemGroup>
