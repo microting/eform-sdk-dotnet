@@ -29,6 +29,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Amazon;
 using Amazon.SQS;
+using Amazon.SQS.Model;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
@@ -136,10 +137,16 @@ namespace Microting.eForm.Services
                 {
                     try
                     {
-                        var res = sqsClient.ReceiveMessageAsync(awsQueueUrl, _cancellationToken).GetAwaiter()
+                        var sqsRequest = new ReceiveMessageRequest
+                        {
+                            QueueUrl = awsQueueUrl,
+                            MaxNumberOfMessages = 10,
+                            WaitTimeSeconds = 20
+                        };
+                        var res = sqsClient.ReceiveMessageAsync(sqsRequest, _cancellationToken).GetAwaiter()
                             .GetResult();
 
-                        if (res.Messages.Count > 0)
+                        if (res.Messages is {Count: > 0})
                             foreach (var message in res.Messages)
                             {
                                 var parsedData = JToken.Parse(message.Body);
