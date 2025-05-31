@@ -1,8 +1,50 @@
 version: 2
 updates:
 - package-ecosystem: nuget
-  directory: "/"
+  directory: "/DBMigrator"
   schedule:
     interval: daily
-    time: "04:00"
-  open-pull-requests-limit: 10
+- package-ecosystem: nuget
+  directory: "/eFormCore"
+  schedule:
+    interval: daily
+- package-ecosystem: nuget
+  directory: "/eFormSDK.Base.Tests"
+  schedule:
+    interval: daily
+- package-ecosystem: nuget
+  directory: "/eFormSDK.CheckLists.Tests"
+  schedule:
+    interval: daily
+- package-ecosystem: nuget
+  directory: "/eFormSDK.InSight.Tests"
+  schedule:
+    interval: daily
+- package-ecosystem: nuget
+  directory: "/eFormSDK.Integration.Base.CoreTests"
+  schedule:
+    interval: daily
+- package-ecosystem: nuget
+  directory: "/eFormSDK.Integration.Base.SqlControllerTests"
+  schedule:
+    interval: daily
+- package-ecosystem: nuget
+  directory: "/eFormSDK.Integration.Case.CoreTests"
+  schedule:
+    interval: daily
+- package-ecosystem: nuget
+  directory: "/eFormSDK.Integration.Case.SqlControllerTests"
+  schedule:
+    interval: daily
+- package-ecosystem: nuget
+  directory: "/eFormSDK.Integration.CheckLists.CoreTests"
+  schedule:
+    interval: daily
+- package-ecosystem: nuget
+  directory: "/eFormSDK.Integration.CheckLists.SqlControllerTests"
+  schedule:
+    interval: daily
+- package-ecosystem: nuget
+  directory: "/eFormSDK.Integration.Tests"
+  schedule:
+    interval: daily
