@@ -287,8 +287,8 @@
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.6" />
-        <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.5" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.5" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.6" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.6" />
         <PackageReference Include="Microting.Castle.Windsor" Version="6.0.1" />
         <PackageReference Include="Microting.Rebus" Version="9.0.1" />
         <PackageReference Include="Microting.Rebus.Castle.Windsor" Version="9.0.1" />
@@ -297,9 +297,9 @@
         <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0-preview.3.efcore.9.0.0" />
         <PackageReference Include="Remotion.Linq" Version="2.2.0" />
         <PackageReference Include="SharpZipLib" Version="1.4.2" />
-        <PackageReference Include="System.CodeDom" Version="9.0.5" />
+        <PackageReference Include="System.CodeDom" Version="9.0.6" />
         <PackageReference Include="System.ComponentModel.EventBasedAsync" Version="4.3.0" />
-        <PackageReference Include="System.Drawing.Common" Version="9.0.5" />
+        <PackageReference Include="System.Drawing.Common" Version="9.0.6" />
         <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
         <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
         <PackageReference Include="System.Net.Requests" Version="4.3.0" />
