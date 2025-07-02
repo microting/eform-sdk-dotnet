@@ -275,9 +275,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="AWSSDK.Core" Version="4.0.0.12" />
-        <PackageReference Include="AWSSDK.S3" Version="4.0.2" />
-        <PackageReference Include="AWSSDK.SQS" Version="4.0.0.11" />
+        <PackageReference Include="AWSSDK.Core" Version="4.0.0.14" />
+        <PackageReference Include="AWSSDK.S3" Version="4.0.3.2" />
+        <PackageReference Include="AWSSDK.SQS" Version="4.0.0.13" />
         <PackageReference Include="Castle.Core" Version="5.2.1" />
         <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
         <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.6.0" />
