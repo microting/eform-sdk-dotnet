@@ -275,7 +275,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="AWSSDK.Core" Version="4.0.0.18" />
+        <PackageReference Include="AWSSDK.Core" Version="4.0.0.19" />
         <PackageReference Include="AWSSDK.S3" Version="4.0.6.2" />
         <PackageReference Include="AWSSDK.SQS" Version="4.0.0.17" />
         <PackageReference Include="Castle.Core" Version="5.2.1" />
@@ -290,7 +290,7 @@
         <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.7" />
         <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.7" />
         <PackageReference Include="Microting.Castle.Windsor" Version="6.0.1" />
-        <PackageReference Include="Microting.Rebus" Version="9.0.1" />
+        <PackageReference Include="Microting.Rebus" Version="9.0.2" />
         <PackageReference Include="Microting.Rebus.Castle.Windsor" Version="9.0.1" />
         <PackageReference Include="Microting.Rebus.RabbitMq" Version="9.0.2" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
