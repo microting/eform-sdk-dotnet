@@ -47,6 +47,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         [StringLength(50)]
         public string EmployeeNo { get; set; }
 
+        [StringLength(50)]
+        public string PhoneNumber { get; set; }
+
         public virtual ICollection<SiteWorker> SiteWorkers { get; set; }
 
         public string full_name()
