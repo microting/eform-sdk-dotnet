@@ -268,6 +268,7 @@
         <Compile Include="Migrations\20230607084834_AddingOriginalFileLocationToUploadedData.Designer.cs" />
         <Compile Include="Migrations\20240619132520_AddPinCodeEmployeeNoToWorker.cs" />
         <Compile Include="Migrations\20240619132520_AddPinCodeEmployeeNoToWorker.Designer.cs" />
+        <Compile Include="Migrations\20250904083023_AddPhoneNumberToWorker.cs" />
         <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
         <Compile Include="Infrastructure\SqlController.cs" />
         <Compile Include="Services\Subscriber.cs" />
