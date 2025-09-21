@@ -9,7 +9,7 @@ GITHUB_REPO_OWNER = "microting"
 GITHUB_REPO_NAME = "eform-sdk-dotnet"
 PROJECT_NAME = "eFormCore/Microting.eForm.csproj"
 # List of packages to check
-PACKAGES = ['AWSSDK.Core', 'AWSSDK.S3', 'AWSSDK.SQS', 'Microsoft.EntityFrameworkCore', 'Microsoft.EntityFrameworkCore.Relational', 'Microsoft.EntityFrameworkCore.Design']
+PACKAGES = ['AWSSDK.Core', 'AWSSDK.S3', 'AWSSDK.SQS', 'Microsoft.EntityFrameworkCore', 'Microsoft.EntityFrameworkCore.Relational', 'Microsoft.EntityFrameworkCore.Design', 'Microting.Rebus', 'Microting.Rebus.Castle.Windsor', 'Microting.Rebus.RabbitMq']
 
 GITHUB_ACCESS_TOKEN = os.getenv("CHANGELOG_GITHUB_TOKEN")
 
