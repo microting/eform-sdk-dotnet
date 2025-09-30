@@ -652,103 +652,96 @@ namespace eFormCore
                 //XML HACK TODO
                 // xmlString = corrected xml if needed
                 xmlString = xmlString.Trim();
+                
+                // Use StringBuilder for efficient string manipulations
+                StringBuilder sb = new StringBuilder(xmlString);
+                
                 //xmlString = xmlString.Replace("=\"choose_entity\">", "=\"EntitySearch\">");
-                xmlString = xmlString.Replace("=\"single_select\">", "=\"SingleSelect\">");
-                xmlString = xmlString.Replace("=\"multi_select\">", "=\"MultiSelect\">");
-                xmlString = xmlString.Replace("xsi:type", "type");
-
+                sb.Replace("=\"single_select\">", "=\"SingleSelect\">");
+                sb.Replace("=\"multi_select\">", "=\"MultiSelect\">");
+                sb.Replace("xsi:type", "type");
 
                 // xmlString = _t.ReplaceInsensitive(xmlString, "<main", "<Main");
-                xmlString = xmlString.Replace("<main", "<Main");
+                sb.Replace("<main", "<Main");
                 // xmlString = _t.ReplaceInsensitive(xmlString, "</main", "</Main");
-                xmlString = xmlString.Replace("</main", "</Main");
+                sb.Replace("</main", "</Main");
 
                 // xmlString = _t.ReplaceInsensitive(xmlString, "<element", "<Element");
-                xmlString = xmlString.Replace("<element", "<Element");
+                sb.Replace("<element", "<Element");
                 // xmlString = _t.ReplaceInsensitive(xmlString, "</element", "</Element");
-                xmlString = xmlString.Replace("</element", "</Element");
+                sb.Replace("</element", "</Element");
 
                 // xmlString = _t.ReplaceInsensitive(xmlString, "<dataItem", "<DataItem");
-                xmlString = xmlString.Replace("<dataItem", "<DataItem");
+                sb.Replace("<dataItem", "<DataItem");
                 // xmlString = _t.ReplaceInsensitive(xmlString, "</dataItem", "</DataItem");
-                xmlString = xmlString.Replace("</dataItem", "</DataItem");
+                sb.Replace("</dataItem", "</DataItem");
 
-                List<string> keyWords = new List<string>();
-                keyWords.Add("GroupElement");
-                keyWords.Add("DataElement");
-
-                keyWords.Add("Audio");
-                keyWords.Add("CheckBox");
-                keyWords.Add("Comment");
-                keyWords.Add("Date");
-                keyWords.Add("EntitySearch");
-                keyWords.Add("EntitySelect");
-                keyWords.Add("None");
-                keyWords.Add("Number");
-                keyWords.Add("NumberStepper");
-                keyWords.Add("MultiSelect");
-                keyWords.Add("Picture");
-                keyWords.Add("ShowPdf");
-                keyWords.Add("ShowPicture");
-                keyWords.Add("SaveButton");
-                keyWords.Add("Signature");
-                keyWords.Add("SingleSelect");
-                keyWords.Add("Text");
-                keyWords.Add("Timer");
+                // Replace keyword casing
+                string[] keyWords = new[]
+                {
+                    "GroupElement", "DataElement", "Audio", "CheckBox", "Comment", "Date",
+                    "EntitySearch", "EntitySelect", "None", "Number", "NumberStepper",
+                    "MultiSelect", "Picture", "ShowPdf", "ShowPicture", "SaveButton",
+                    "Signature", "SingleSelect", "Text", "Timer"
+                };
 
                 foreach (var item in keyWords)
                 {
-                    xmlString = xmlString.Replace("=\"" + item.ToLower() + "\">", "=\"" + item + "\">");
+                    sb.Replace("=\"" + item.ToLower() + "\">", "=\"" + item + "\">");
                 }
                 // xmlString = _t.ReplaceInsensitive(xmlString, "=\"" + item + "\">", "=\"" + item + "\">");
 
-                xmlString = xmlString.Replace("<Main>",
+                sb.Replace("<Main>",
                     "<Main xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">");
-                xmlString = xmlString.Replace("<Element type=", "<Element xsi:type=");
-                xmlString = xmlString.Replace("<DataItem type=", "<DataItem xsi:type=");
+                sb.Replace("<Element type=", "<Element xsi:type=");
+                sb.Replace("<DataItem type=", "<DataItem xsi:type=");
                 //xmlString = xmlString.Replace("<DataItemGroup type=", "<DataItemGroup xsi:type=");
-                xmlString = xmlString.Replace("FieldGroup", "FieldContainer");
-                xmlString = xmlString.Replace("<DataItemGroup type=", "<DataItem xsi:type=");
-                xmlString = xmlString.Replace("</DataItemGroup>", "</DataItem>");
-                xmlString = xmlString.Replace("<DataItemGroupList>", "<DataItemList>");
-                xmlString = xmlString.Replace("</DataItemGroupList>", "</DataItemList>");
-                xmlString = xmlString.Replace("<Id>", "<OriginalId>");
-                xmlString = xmlString.Replace("</Id>", "</OriginalId>");
+                sb.Replace("FieldGroup", "FieldContainer");
+                sb.Replace("<DataItemGroup type=", "<DataItem xsi:type=");
+                sb.Replace("</DataItemGroup>", "</DataItem>");
+                sb.Replace("<DataItemGroupList>", "<DataItemList>");
+                sb.Replace("</DataItemGroupList>", "</DataItemList>");
+                sb.Replace("<Id>", "<OriginalId>");
+                sb.Replace("</Id>", "</OriginalId>");
 
-                xmlString = xmlString.Replace("<FolderName>", "<CheckListFolderName>");
-                xmlString = xmlString.Replace("</FolderName>", "</CheckListFolderName>");
+                sb.Replace("<FolderName>", "<CheckListFolderName>");
+                sb.Replace("</FolderName>", "</CheckListFolderName>");
 
-                xmlString = xmlString.Replace("=\"ShowPDF\">", "=\"ShowPdf\">");
-                xmlString = xmlString.Replace("='ShowPDF'>", "='ShowPdf'>");
-                xmlString = xmlString.Replace("=\"choose_entity\">", "=\"EntitySearch\">");
-                xmlString = xmlString.Replace("=\"Single_Select\">", "=\"SingleSelect\">");
-                xmlString = xmlString.Replace("=\"Check_Box\">", "=\"CheckBox\">");
-                xmlString = xmlString.Replace("=\"SingleSelectSearch\">", "=\"EntitySelect\">");
+                sb.Replace("=\"ShowPDF\">", "=\"ShowPdf\">");
+                sb.Replace("='ShowPDF'>", "='ShowPdf'>");
+                sb.Replace("=\"choose_entity\">", "=\"EntitySearch\">");
+                sb.Replace("=\"Single_Select\">", "=\"SingleSelect\">");
+                sb.Replace("=\"Check_Box\">", "=\"CheckBox\">");
+                sb.Replace("=\"SingleSelectSearch\">", "=\"EntitySelect\">");
 
+                // Convert StringBuilder back to string for Locate operation
+                xmlString = sb.ToString();
                 string temp = _t.Locate(xmlString, "<DoneButtonDisabled>", "</DoneButtonDisabled>");
                 if (temp == "false")
                 {
-                    xmlString = xmlString.Replace("DoneButtonDisabled", "DoneButtonEnabled");
-                    xmlString = xmlString.Replace("<DoneButtonEnabled>false", "<DoneButtonEnabled>true");
+                    sb.Replace("DoneButtonDisabled", "DoneButtonEnabled");
+                    sb.Replace("<DoneButtonEnabled>false", "<DoneButtonEnabled>true");
                 }
 
                 if (temp == "true")
                 {
-                    xmlString = xmlString.Replace("DoneButtonDisabled", "DoneButtonEnabled");
-                    xmlString = xmlString.Replace("<DoneButtonEnabled>true", "<DoneButtonEnabled>false");
+                    sb.Replace("DoneButtonDisabled", "DoneButtonEnabled");
+                    sb.Replace("<DoneButtonEnabled>true", "<DoneButtonEnabled>false");
                 }
 
-                xmlString = xmlString.Replace("<MinValue />", "<MinValue>" + long.MinValue + "</MinValue>");
-                xmlString = xmlString.Replace("<MinValue/>", "<MinValue>" + long.MinValue + "</MinValue>");
-                xmlString = xmlString.Replace("<MaxValue />", "<MaxValue>" + long.MaxValue + "</MaxValue>");
-                xmlString = xmlString.Replace("<MaxValue/>", "<MaxValue>" + long.MaxValue + "</MaxValue>");
-                xmlString = xmlString.Replace("<MaxValue></MaxValue>", "<MaxValue>" + long.MaxValue + "</MaxValue>");
-                xmlString = xmlString.Replace("<MinValue></MinValue>", "<MinValue>" + long.MinValue + "</MinValue>");
-                xmlString = xmlString.Replace("<DecimalCount></DecimalCount>", "<DecimalCount>0</DecimalCount>");
-                xmlString = xmlString.Replace("<DecimalCount />", "<DecimalCount>" + "0" + "</DecimalCount>");
-                xmlString = xmlString.Replace("<DecimalCount/>", "<DecimalCount>" + "0" + "</DecimalCount>");
-                xmlString = xmlString.Replace("<DisplayOrder></DisplayOrder>",
-                    "<DisplayOrder>" + "0" + "</DisplayOrder>");
+                sb.Replace("<MinValue />", "<MinValue>" + long.MinValue + "</MinValue>");
+                sb.Replace("<MinValue/>", "<MinValue>" + long.MinValue + "</MinValue>");
+                sb.Replace("<MaxValue />", "<MaxValue>" + long.MaxValue + "</MaxValue>");
+                sb.Replace("<MaxValue/>", "<MaxValue>" + long.MaxValue + "</MaxValue>");
+                sb.Replace("<MaxValue></MaxValue>", "<MaxValue>" + long.MaxValue + "</MaxValue>");
+                sb.Replace("<MinValue></MinValue>", "<MinValue>" + long.MinValue + "</MinValue>");
+                sb.Replace("<DecimalCount></DecimalCount>", "<DecimalCount>0</DecimalCount>");
+                sb.Replace("<DecimalCount />", "<DecimalCount>0</DecimalCount>");
+                sb.Replace("<DecimalCount/>", "<DecimalCount>0</DecimalCount>");
+                sb.Replace("<DisplayOrder></DisplayOrder>", "<DisplayOrder>0</DisplayOrder>");
+                
+                // Convert back to string for regex operations
+                xmlString = sb.ToString();
                 var matches = Regex.Matches(xmlString, "<Description>(.*)</Description>");
                 foreach (Match match in matches)
                 {
