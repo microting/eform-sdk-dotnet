@@ -134,13 +134,17 @@ namespace Microting.eForm.Infrastructure.Models.reply
 
                         while (rawXml.Contains("<ElementList>"))
                         {
+                            int startIndex = rawXml.IndexOf("<ElementList>");
+                            int endIndex = rawXml.IndexOf("</ElementList>", startIndex);
+                            if (startIndex == -1 || endIndex == -1) break;
+                            
+                            string elementContent = rawXml.Substring(startIndex + 13, endIndex - startIndex - 13);
                             string inderXmlStr = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?><ElementList>" +
-                                                 t.Locate(rawXml, "<ElementList>", "</ElementList>") + "</ElementList>";
+                                                 elementContent + "</ElementList>";
                             ElementList eResp = XmlToClassCheck(inderXmlStr);
                             check.ElementList.Add(eResp);
 
-                            int index = rawXml.IndexOf("</ElementList>");
-                            rawXml = rawXml.Substring(index + 14); //removes extracted xml
+                            rawXml = rawXml.Substring(endIndex + 14); //removes extracted xml
                         }
 
                         resp.Checks.Add(check);
