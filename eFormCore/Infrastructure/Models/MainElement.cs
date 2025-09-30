@@ -25,9 +25,12 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using Google.Protobuf;
+using Microting.eForm.Dto;
+using Microting.eForm.Infrastructure.Models.Proto;
 using Newtonsoft.Json;
 
 namespace Microting.eForm.Infrastructure.Models
@@ -326,9 +329,8 @@ namespace Microting.eForm.Infrastructure.Models
         {
             try
             {
-                string json = ClassToJson();
-                byte[] jsonBytes = Encoding.UTF8.GetBytes(json);
-                return jsonBytes;
+                var protoMessage = ConvertToProtoMessage();
+                return protoMessage.ToByteArray();
             }
             catch (Exception ex)
             {
@@ -340,13 +342,179 @@ namespace Microting.eForm.Infrastructure.Models
         {
             try
             {
-                string json = Encoding.UTF8.GetString(protoData);
-                return JsonToClass(json);
+                var protoMessage = MainElementProto.Parser.ParseFrom(protoData);
+                return ConvertFromProtoMessage(protoMessage);
             }
             catch (Exception ex)
             {
                 throw new Exception("MainElement failed to convert Proto", ex);
             }
+        }
+
+        private MainElementProto ConvertToProtoMessage()
+        {
+            var proto = new MainElementProto
+            {
+                Id = this.Id,
+                OriginalId = this.OriginalId ?? "",
+                Label = this.Label ?? "",
+                DisplayOrder = this.DisplayOrder,
+                CheckListFolderName = this.CheckListFolderName ?? "",
+                Repeated = this.Repeated,
+                Color = this.Color ?? "",
+                CaseType = this.CaseType ?? "",
+                StartDate = this.StartDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                EndDate = this.EndDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                Language = this.Language ?? "",
+                MultiApproval = this.MultiApproval,
+                FastNavigation = this.FastNavigation,
+                DownloadEntities = this.DownloadEntities,
+                ManualSync = this.ManualSync,
+                EnableQuickSync = this.EnableQuickSync,
+                PushMessageTitle = this.PushMessageTitle ?? "",
+                PushMessageBody = this.PushMessageBody ?? "",
+                BadgeCountEnabled = this.BadgeCountEnabled
+            };
+
+            if (this.MicrotingUId.HasValue)
+            {
+                proto.MicrotingUid = this.MicrotingUId.Value;
+            }
+
+            // Convert ElementList (simplified - only handles basic structure)
+            if (this.ElementList != null)
+            {
+                foreach (var element in this.ElementList)
+                {
+                    proto.ElementList.Add(ConvertElementToProto(element));
+                }
+            }
+
+            return proto;
+        }
+
+        private ElementProto ConvertElementToProto(Element element)
+        {
+            var proto = new ElementProto
+            {
+                Id = element.Id,
+                Label = element.Label ?? "",
+                DisplayOrder = element.DisplayOrder,
+                Description = element.Description?.InderValue ?? "",
+                ApprovalEnabled = element.ApprovalEnabled,
+                ReviewEnabled = element.ReviewEnabled,
+                DoneButtonEnabled = element.DoneButtonEnabled,
+                ExtraFieldsEnabled = element.ExtraFieldsEnabled,
+                PinkBarText = element.PinkBarText ?? "",
+                QuickSyncEnabled = element.QuickSyncEnabled,
+                OriginalId = element.OriginalId ?? ""
+            };
+
+            if (element is DataElement dataElement)
+            {
+                proto.DataElement = new DataElementProto();
+                // Add data items if needed
+            }
+            else if (element is GroupElement groupElement)
+            {
+                var groupProto = new GroupElementProto();
+                foreach (var childElement in groupElement.ElementList)
+                {
+                    groupProto.ElementList.Add(ConvertElementToProto(childElement));
+                }
+                proto.GroupElement = groupProto;
+            }
+
+            return proto;
+        }
+
+        private MainElement ConvertFromProtoMessage(MainElementProto proto)
+        {
+            var mainElement = new MainElement
+            {
+                Id = proto.Id,
+                OriginalId = proto.OriginalId,
+                Label = proto.Label,
+                DisplayOrder = proto.DisplayOrder,
+                CheckListFolderName = proto.CheckListFolderName,
+                Repeated = proto.Repeated,
+                Color = proto.Color,
+                CaseType = proto.CaseType,
+                StartDate = DateTime.Parse(proto.StartDate),
+                EndDate = DateTime.Parse(proto.EndDate),
+                Language = proto.Language,
+                MultiApproval = proto.MultiApproval,
+                FastNavigation = proto.FastNavigation,
+                DownloadEntities = proto.DownloadEntities,
+                ManualSync = proto.ManualSync,
+                EnableQuickSync = proto.EnableQuickSync,
+                PushMessageTitle = proto.PushMessageTitle,
+                PushMessageBody = proto.PushMessageBody,
+                BadgeCountEnabled = proto.BadgeCountEnabled
+            };
+
+            if (proto.MicrotingUid != 0)
+            {
+                mainElement.MicrotingUId = proto.MicrotingUid;
+            }
+
+            mainElement.ElementList = new List<Element>();
+            foreach (var elementProto in proto.ElementList)
+            {
+                mainElement.ElementList.Add(ConvertElementFromProto(elementProto));
+            }
+
+            return mainElement;
+        }
+
+        private Element ConvertElementFromProto(ElementProto proto)
+        {
+            Element element;
+
+            if (proto.ElementTypeCase == ElementProto.ElementTypeOneofCase.DataElement)
+            {
+                element = new DataElement
+                {
+                    DataItemList = new List<DataItem>(),
+                    DataItemGroupList = new List<DataItemGroup>()
+                };
+            }
+            else if (proto.ElementTypeCase == ElementProto.ElementTypeOneofCase.GroupElement)
+            {
+                var groupElement = new GroupElement
+                {
+                    ElementList = new List<Element>()
+                };
+
+                foreach (var childProto in proto.GroupElement.ElementList)
+                {
+                    groupElement.ElementList.Add(ConvertElementFromProto(childProto));
+                }
+
+                element = groupElement;
+            }
+            else
+            {
+                element = new DataElement
+                {
+                    DataItemList = new List<DataItem>(),
+                    DataItemGroupList = new List<DataItemGroup>()
+                };
+            }
+
+            element.Id = proto.Id;
+            element.Label = proto.Label;
+            element.DisplayOrder = proto.DisplayOrder;
+            element.Description = new CDataValue { InderValue = proto.Description };
+            element.ApprovalEnabled = proto.ApprovalEnabled;
+            element.ReviewEnabled = proto.ReviewEnabled;
+            element.DoneButtonEnabled = proto.DoneButtonEnabled;
+            element.ExtraFieldsEnabled = proto.ExtraFieldsEnabled;
+            element.PinkBarText = proto.PinkBarText;
+            element.QuickSyncEnabled = proto.QuickSyncEnabled;
+            element.OriginalId = proto.OriginalId;
+
+            return element;
         }
         //
 

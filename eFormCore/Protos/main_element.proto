@@ -1,0 +1,204 @@
+syntax = "proto3";
+
+package microting.eform;
+
+option csharp_namespace = "Microting.eForm.Infrastructure.Models.Proto";
+
+// MainElement message representing an eForm
+message MainElementProto {
+  int32 id = 1;
+  string original_id = 2;
+  string label = 3;
+  int32 display_order = 4;
+  string check_list_folder_name = 5;
+  int32 repeated = 6;
+  optional int32 microting_uid = 7;
+  string color = 8;
+  string case_type = 9;
+  string start_date = 10;  // ISO 8601 format: yyyy-MM-dd HH:mm:ss
+  string end_date = 11;    // ISO 8601 format: yyyy-MM-dd HH:mm:ss
+  string language = 12;
+  bool multi_approval = 13;
+  bool fast_navigation = 14;
+  bool download_entities = 15;
+  bool manual_sync = 16;
+  bool enable_quick_sync = 17;
+  string push_message_title = 18;
+  string push_message_body = 19;
+  bool badge_count_enabled = 20;
+  repeated ElementProto element_list = 21;
+}
+
+// Base Element message
+message ElementProto {
+  int32 id = 1;
+  string label = 2;
+  int32 display_order = 3;
+  string description = 4;
+  bool approval_enabled = 5;
+  bool review_enabled = 6;
+  bool done_button_enabled = 7;
+  bool extra_fields_enabled = 8;
+  string pink_bar_text = 9;
+  bool quick_sync_enabled = 10;
+  string original_id = 11;
+  
+  // Element type discriminator
+  oneof element_type {
+    DataElementProto data_element = 12;
+    GroupElementProto group_element = 13;
+  }
+}
+
+// GroupElement message
+message GroupElementProto {
+  repeated ElementProto element_list = 1;
+}
+
+// DataElement message
+message DataElementProto {
+  repeated DataItemProto data_item_list = 1;
+  repeated DataItemGroupProto data_item_group_list = 2;
+}
+
+// DataItemGroup message
+message DataItemGroupProto {
+  int32 id = 1;
+  string label = 2;
+  string description = 3;
+  int32 display_order = 4;
+  string color = 5;
+  repeated DataItemProto data_item_list = 6;
+}
+
+// DataItem base message
+message DataItemProto {
+  int32 id = 1;
+  string label = 2;
+  string description = 3;
+  int32 display_order = 4;
+  bool mandatory = 5;
+  bool read_only = 6;
+  int32 max_length = 7;
+  string color = 8;
+  string original_id = 9;
+  
+  // DataItem type discriminator
+  oneof data_item_type {
+    TextProto text = 10;
+    CommentProto comment = 11;
+    NumberProto number = 12;
+    SaveButtonProto save_button = 13;
+    TimerProto timer = 14;
+    NoneProto none = 15;
+    PictureProto picture = 16;
+    AudioProto audio = 17;
+    DateProto date = 18;
+    CheckBoxProto check_box = 19;
+    MultiSelectProto multi_select = 20;
+    SingleSelectProto single_select = 21;
+    ShowPDFProto show_pdf = 22;
+    FieldValueProto field_value = 23;
+    SignatureProto signature = 24;
+  }
+}
+
+// Text DataItem
+message TextProto {
+  string value = 1;
+  bool geolocation_enabled = 2;
+  bool geolocation_forced = 3;
+  bool geolocation_hidden = 4;
+  bool barcode_enabled = 5;
+  string barcode_type = 6;
+}
+
+// Comment DataItem
+message CommentProto {
+  string value = 1;
+}
+
+// Number DataItem
+message NumberProto {
+  string default_value = 1;
+  string min_value = 2;
+  string max_value = 3;
+  int32 decimal_count = 4;
+  string unit_name = 5;
+}
+
+// SaveButton DataItem
+message SaveButtonProto {
+  string value = 1;
+}
+
+// Timer DataItem
+message TimerProto {
+  bool stop_on_save = 1;
+}
+
+// None DataItem
+message NoneProto {
+  // Empty message for None type
+}
+
+// Picture DataItem
+message PictureProto {
+  bool multi = 1;
+  bool geolocation_enabled = 2;
+  bool geolocation_forced = 3;
+  bool geolocation_hidden = 4;
+}
+
+// Audio DataItem
+message AudioProto {
+  bool multi = 1;
+}
+
+// Date DataItem
+message DateProto {
+  string default_value = 1;
+  string min_value = 2;
+  string max_value = 3;
+}
+
+// CheckBox DataItem
+message CheckBoxProto {
+  bool selected = 1;
+  bool default_value = 2;
+}
+
+// MultiSelect DataItem
+message MultiSelectProto {
+  repeated KeyValuePairProto key_value_pair_list = 1;
+}
+
+// SingleSelect DataItem
+message SingleSelectProto {
+  repeated KeyValuePairProto key_value_pair_list = 1;
+}
+
+// ShowPDF DataItem
+message ShowPDFProto {
+  string value = 1;
+}
+
+// FieldValue DataItem
+message FieldValueProto {
+  string value = 1;
+  string field_type = 2;
+  repeated DataItemProto data_item_list = 3;
+}
+
+// Signature DataItem
+message SignatureProto {
+  // Empty for now
+}
+
+// KeyValuePair message
+message KeyValuePairProto {
+  string key = 1;
+  string value = 2;
+  bool selected = 3;
+  int32 display_order = 4;
+}
