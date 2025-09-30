@@ -148,6 +148,15 @@ namespace Microting.eForm.Communication
             return _http.Post(json, siteId.ToString(), "application/json");
         }
 
+        public Task<byte[]> PostProto(byte[] protoData, int siteId)
+        {
+            _log.LogEverything("Communicator.PostProto", "called");
+            _log.LogVariable("Communicator.PostProto", "protoData.Length", protoData.Length);
+            _log.LogVariable("Communicator.PostProto", nameof(siteId), siteId);
+
+            return _http.PostProto(protoData, siteId.ToString());
+        }
+
         /// <summary>
         /// Retrieve the XML encoded status from Microting.
         /// </summary>

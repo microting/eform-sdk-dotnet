@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
+using Google.Protobuf;
 using Newtonsoft.Json;
 
 namespace Microting.eForm.Infrastructure.Models
@@ -318,6 +319,33 @@ namespace Microting.eForm.Infrastructure.Models
             catch (Exception ex)
             {
                 throw new Exception("MainElement failed to convert Class", ex);
+            }
+        }
+
+        public byte[] ClassToProto()
+        {
+            try
+            {
+                string json = ClassToJson();
+                byte[] jsonBytes = Encoding.UTF8.GetBytes(json);
+                return jsonBytes;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("MainElement failed to convert Class to Proto", ex);
+            }
+        }
+
+        public MainElement ProtoToClass(byte[] protoData)
+        {
+            try
+            {
+                string json = Encoding.UTF8.GetString(protoData);
+                return JsonToClass(json);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("MainElement failed to convert Proto", ex);
             }
         }
         //

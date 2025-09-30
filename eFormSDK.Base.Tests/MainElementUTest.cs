@@ -687,5 +687,144 @@ namespace eFormSDK.Base.Tests
         }
 
         #endregion
+
+        #region Protobuf Tests
+
+        [Test]
+        public async Task MainElement_ClassToProto_ReturnsValidProtoData()
+        {
+            await Task.Run(() =>
+            {
+                // Arrange
+                var mainElement = new MainElement
+                {
+                    Id = 1,
+                    Label = "Test Label",
+                    DisplayOrder = 5,
+                    CheckListFolderName = "TestFolder",
+                    Repeated = 2,
+                    Color = "Blue",
+                    Language = "en",
+                    MultiApproval = true,
+                    FastNavigation = false,
+                    DownloadEntities = true,
+                    ManualSync = false,
+                    EnableQuickSync = true,
+                    PushMessageBody = "Test Body",
+                    BadgeCountEnabled = false
+                };
+                mainElement.PushMessageTitle = "Test Title";
+
+                // Act
+                var result = mainElement.ClassToProto();
+
+                // Assert
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result, Is.InstanceOf<byte[]>());
+                Assert.That(result.Length, Is.GreaterThan(0));
+            });
+        }
+
+        [Test]
+        public async Task MainElement_ProtoToClass_ReturnsValidMainElement()
+        {
+            await Task.Run(() =>
+            {
+                // Arrange
+                var originalMainElement = new MainElement
+                {
+                    Id = 1,
+                    Label = "Test Label",
+                    DisplayOrder = 5,
+                    CheckListFolderName = "TestFolder",
+                    Repeated = 2,
+                    Color = "Red",
+                    Language = "da",
+                    MultiApproval = false,
+                    FastNavigation = true,
+                    DownloadEntities = false,
+                    ManualSync = true,
+                    EnableQuickSync = false,
+                    PushMessageBody = "Body Text",
+                    BadgeCountEnabled = true
+                };
+                originalMainElement.PushMessageTitle = "Title Text";
+
+                var protoData = originalMainElement.ClassToProto();
+
+                // Act
+                var newMainElement = new MainElement();
+                var result = newMainElement.ProtoToClass(protoData);
+
+                // Assert
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result.Id, Is.EqualTo(originalMainElement.Id));
+                Assert.That(result.Label, Is.EqualTo(originalMainElement.Label));
+                Assert.That(result.DisplayOrder, Is.EqualTo(originalMainElement.DisplayOrder));
+                Assert.That(result.CheckListFolderName, Is.EqualTo(originalMainElement.CheckListFolderName));
+                Assert.That(result.Repeated, Is.EqualTo(originalMainElement.Repeated));
+                Assert.That(result.Color, Is.EqualTo(originalMainElement.Color));
+                Assert.That(result.Language, Is.EqualTo(originalMainElement.Language));
+                Assert.That(result.MultiApproval, Is.EqualTo(originalMainElement.MultiApproval));
+                Assert.That(result.FastNavigation, Is.EqualTo(originalMainElement.FastNavigation));
+                Assert.That(result.DownloadEntities, Is.EqualTo(originalMainElement.DownloadEntities));
+                Assert.That(result.ManualSync, Is.EqualTo(originalMainElement.ManualSync));
+                Assert.That(result.EnableQuickSync, Is.EqualTo(originalMainElement.EnableQuickSync));
+                Assert.That(result.PushMessageTitle, Is.EqualTo(originalMainElement.PushMessageTitle));
+                Assert.That(result.PushMessageBody, Is.EqualTo(originalMainElement.PushMessageBody));
+                Assert.That(result.BadgeCountEnabled, Is.EqualTo(originalMainElement.BadgeCountEnabled));
+            });
+        }
+
+        [Test]
+        public async Task MainElement_ClassToProto_ThenProtoToClass_RoundTrip()
+        {
+            await Task.Run(() =>
+            {
+                // Arrange
+                var originalMainElement = new MainElement
+                {
+                    Id = 999,
+                    Label = "RoundTrip Test",
+                    DisplayOrder = 10,
+                    CheckListFolderName = "RoundTripFolder",
+                    Repeated = 5,
+                    Color = "Green",
+                    Language = "sv",
+                    MultiApproval = true,
+                    FastNavigation = true,
+                    DownloadEntities = true,
+                    ManualSync = false,
+                    EnableQuickSync = true,
+                    PushMessageBody = "RoundTrip Body",
+                    BadgeCountEnabled = true
+                };
+                originalMainElement.PushMessageTitle = "RoundTrip Title";
+
+                // Act
+                var protoData = originalMainElement.ClassToProto();
+                var roundTripMainElement = new MainElement();
+                var result = roundTripMainElement.ProtoToClass(protoData);
+
+                // Assert - All properties should match
+                Assert.That(result.Id, Is.EqualTo(originalMainElement.Id));
+                Assert.That(result.Label, Is.EqualTo(originalMainElement.Label));
+                Assert.That(result.DisplayOrder, Is.EqualTo(originalMainElement.DisplayOrder));
+                Assert.That(result.CheckListFolderName, Is.EqualTo(originalMainElement.CheckListFolderName));
+                Assert.That(result.Repeated, Is.EqualTo(originalMainElement.Repeated));
+                Assert.That(result.Color, Is.EqualTo(originalMainElement.Color));
+                Assert.That(result.Language, Is.EqualTo(originalMainElement.Language));
+                Assert.That(result.MultiApproval, Is.EqualTo(originalMainElement.MultiApproval));
+                Assert.That(result.FastNavigation, Is.EqualTo(originalMainElement.FastNavigation));
+                Assert.That(result.DownloadEntities, Is.EqualTo(originalMainElement.DownloadEntities));
+                Assert.That(result.ManualSync, Is.EqualTo(originalMainElement.ManualSync));
+                Assert.That(result.EnableQuickSync, Is.EqualTo(originalMainElement.EnableQuickSync));
+                Assert.That(result.PushMessageTitle, Is.EqualTo(originalMainElement.PushMessageTitle));
+                Assert.That(result.PushMessageBody, Is.EqualTo(originalMainElement.PushMessageBody));
+                Assert.That(result.BadgeCountEnabled, Is.EqualTo(originalMainElement.BadgeCountEnabled));
+            });
+        }
+
+        #endregion
     }
 }
