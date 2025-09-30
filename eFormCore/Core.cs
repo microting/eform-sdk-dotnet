@@ -771,10 +771,11 @@ namespace eFormCore
                 }
 
 //                xmlString = t.ReplaceAtLocationAll(xmlString, "<Id>", "</Id>", "1", false);
-                // xmlString = _t.ReplaceInsensitive(xmlString, ">True<", ">true<");
-                xmlString = xmlString.Replace(">True<", ">true<");
-                xmlString = xmlString.Replace(">False<", ">false<");
-                // xmlString = _t.ReplaceInsensitive(xmlString, ">False<", ">false<");
+                // Use the already modified xmlString, create a new StringBuilder for final replacements
+                sb = new StringBuilder(xmlString);
+                sb.Replace(">True<", ">true<");
+                sb.Replace(">False<", ">false<");
+                xmlString = sb.ToString();
                 //
 
                 Log.LogEverything(methodName, "XML after possible corrections:");
