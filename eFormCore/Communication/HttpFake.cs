@@ -27,6 +27,7 @@ using System.IO;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading.Tasks;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure.Constants;
@@ -83,6 +84,18 @@ namespace Microting.eForm.Communication
                         }
 
                     }";
+        }
+
+        public async Task<byte[]> PostProto(byte[] protoData, string siteId)
+        {
+            await Task.Run(() => { });
+            string jsonResponse = @"{
+                        Value: {
+                            Type: ""success"",
+                            Value: """ + t.GetRandomInt(5) + @"""
+                        }
+                    }";
+            return Encoding.UTF8.GetBytes(jsonResponse);
         }
 
         public async Task<string> Status(string elementId, string siteId)

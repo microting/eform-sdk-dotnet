@@ -32,6 +32,8 @@ namespace Microting.eForm.Communication
     {
         Task<string> Post(string xmlData, string siteId, string contentType = "application/xml");
 
+        Task<byte[]> PostProto(byte[] protoData, string siteId);
+
         Task<string> Status(string elementId, string siteId);
 
         Task<string> Retrieve(string microtingUuid, string microtingCheckUuid, int siteId);

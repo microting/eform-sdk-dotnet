@@ -5421,6 +5421,32 @@ namespace eFormCore
                                 jsonStringResponse);
         }
 
+        private async Task<int> SendProto(MainElement mainElement, int siteId)
+        {
+            string methodName = "Core.SendProto";
+            Log.LogEverything(methodName, "siteId:" + siteId + ", requested sent eForm");
+
+            byte[] protoRequest = mainElement.ClassToProto();
+
+            Log.LogEverything(methodName, "siteId:" + siteId + ", ClassToProto done");
+            byte[] protoResponse = await _communicator.PostProto(protoRequest, siteId);
+            Log.LogEverything(methodName, "siteId:" + siteId + ", PostProto done");
+
+            string jsonStringResponse = Encoding.UTF8.GetString(protoResponse);
+            Response response = new Response();
+            response = response.JsonToClass(jsonStringResponse);
+            Log.LogEverything(methodName, "siteId:" + siteId + ", ProtoToClass done");
+
+            //if reply is "success", it's created
+            if (response.Type.ToString().ToLower() == "success")
+            {
+                return int.Parse(response.Value);
+            }
+
+            throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" +
+                                jsonStringResponse);
+        }
+
         public async Task<List<List<string>>> GenerateDataSetFromCases(int? checkListId, DateTime? start, DateTime? end,
             string customPathForUploadedData, string decimalSeparator, string thousandSeparator, bool utcTime,
             CultureInfo cultureInfo, TimeZoneInfo timeZoneInfo, Language language)
