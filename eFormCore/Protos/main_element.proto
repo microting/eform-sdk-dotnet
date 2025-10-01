@@ -63,12 +63,13 @@ message DataElementProto {
 
 // DataItemGroup message
 message DataItemGroupProto {
-  int32 id = 1;
+  string id = 1;
   string label = 2;
   string description = 3;
   int32 display_order = 4;
   string color = 5;
-  repeated DataItemProto data_item_list = 6;
+  string value = 6;
+  repeated DataItemProto data_item_list = 7;
 }
 
 // DataItem base message
