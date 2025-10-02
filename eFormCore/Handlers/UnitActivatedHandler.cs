@@ -46,7 +46,6 @@ namespace Microting.eForm.Handlers
             _core = core;
         }
 
-#pragma warning disable 1998
         public async Task Handle(UnitActivated message)
         {
             try

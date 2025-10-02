@@ -114,8 +114,9 @@ namespace Microting.eForm
                     if (sameExceptionCountMax < item.Occurrence)
                         sameExceptionCountMax = item.Occurrence;
             }
-            catch
+            catch (Exception)
             {
+                // Suppress exceptions in exception logging to prevent infinite recursion
             }
         }
 
@@ -125,8 +126,9 @@ namespace Microting.eForm
             {
                 LogLogic(new LogEntry(-3, "FatalException", t.PrintException(exceptionDescription, exception)));
             }
-            catch
+            catch (Exception)
             {
+                // Suppress exceptions in exception logging to prevent infinite recursion
             }
         }
 
@@ -143,7 +145,7 @@ namespace Microting.eForm
             try
             {
                 //remove Exceptions older than an hour
-                for (int i = exceptionLst.Count; i < 0; i--)
+                for (int i = exceptionLst.Count - 1; i >= 0; i--)
                     if (exceptionLst[i].Time < DateTime.UtcNow.AddHours(-1))
                         exceptionLst.RemoveAt(i);
 
@@ -167,8 +169,9 @@ namespace Microting.eForm
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                LogLogic(new LogEntry(0, "Log.CheckExceptionLst", "Failed to check exception list: " + ex.Message));
             }
 
             #endregion

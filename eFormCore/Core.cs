@@ -5708,9 +5708,8 @@ namespace eFormCore
             return lstReturn;
         }
 
-        private async Task<List<string>> PdfValidate(string pdfString, int pdfId)
+        private Task<List<string>> PdfValidate(string pdfString, int pdfId)
         {
-            await Task.Run(() => { }); // TODO FIX ME
             List<string> errorLst = new List<string>();
 
             if (pdfString.ToLower().Contains("microting.com"))
@@ -5727,7 +5726,7 @@ namespace eFormCore
                 errorLst.Add("Element showPdf.Id:'" + pdfId +
                              "' please check 'value' input, and consider running PdfUpload");
 
-            return errorLst;
+            return Task.FromResult(errorLst);
         }
 
         private async Task<string> GetJasperFieldValue(Field field, FieldValue answer, string customPathForUploadedData)

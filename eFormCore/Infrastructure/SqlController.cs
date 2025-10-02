@@ -859,7 +859,6 @@ namespace Microting.eForm.Infrastructure
         }
 
         //TODO
-#pragma warning disable 1998
         public async Task<List<int>> CheckListSitesRead(int templateId, int microtingUid, string workflowState)
         {
             string methodName = "SqlController.CheckListSitesRead";
@@ -879,7 +878,6 @@ namespace Microting.eForm.Infrastructure
                 throw new Exception(methodName + " failed", ex);
             }
         }
-#pragma warning restore 1998
 
 
         /// <summary>
@@ -1176,6 +1174,7 @@ namespace Microting.eForm.Infrastructure
                 }
                 catch //already created case Id retrived
                 {
+                    // Case already exists - retrieve it instead of creating a new one
                     int i = int.Parse(Regex.Match(response.Value, "\\d+").Value);
                     responseCase = await db.Cases.FirstAsync(x => x.MicrotingUid == i);
                     Site site = await db.Sites.FirstAsync(x => x.Id == responseCase.SiteId);
@@ -2114,9 +2113,9 @@ namespace Microting.eForm.Infrastructure
                                 }
                             }
                         }
-                        catch
+                        catch (Exception)
                         {
-                            // ignored
+                            // EntityItem not found or parsing failed - leave fieldValue as is
                         }
 
                         break;
@@ -2372,7 +2371,6 @@ namespace Microting.eForm.Infrastructure
             }
         }
 
-#pragma warning disable 1998
         public async Task<List<CheckListValue>> CheckListValueReadList(List<int> caseIds)
         {
             string methodName = "SqlController.CheckListValueReadList";
@@ -2400,7 +2398,6 @@ namespace Microting.eForm.Infrastructure
                 throw new Exception(methodName + " failed", ex);
             }
         }
-#pragma warning restore 1998
 
 
         public async Task FieldValueUpdate(int caseId, int fieldValueId, string value)
@@ -2644,8 +2641,9 @@ namespace Microting.eForm.Infrastructure
                                     }
                                 }
                             }
-                            catch
+                            catch (Exception)
                             {
+                                // Failed to get field value - add empty entry
                                 replyLst1.Add(new KeyValuePair(item.CaseId.ToString(), "", false, ""));
                             }
                         }
@@ -3771,8 +3769,9 @@ namespace Microting.eForm.Infrastructure
                                 }
                             }
                         }
-                        catch
+                        catch (Exception)
                         {
+                            // Failed to parse value or entity item not found - leave newValue as is
                         }
                     }
 
@@ -3953,8 +3952,9 @@ namespace Microting.eForm.Infrastructure
                     unitOptCode = unit.OtpCode ?? 0;
                     unitMicrotingUid = (int)unit.MicrotingUid;
                 }
-                catch
+                catch (Exception)
                 {
+                    // Unit not found for this site - skip unit details
                 }
 
                 try
@@ -3966,8 +3966,9 @@ namespace Microting.eForm.Infrastructure
                     workerLastName = worker.LastName;
                     workerEmail = worker.Email;
                 }
-                catch
+                catch (Exception)
                 {
+                    // Worker not found for this site - skip worker details
                 }
 
                 SiteDto siteDto = new SiteDto
@@ -5677,8 +5678,9 @@ namespace Microting.eForm.Infrastructure
                         if (string.IsNullOrEmpty(readSetting))
                             result.Add(setting + " has an empty value!");
                     }
-                    catch
+                    catch (Exception)
                     {
+                        // Setting not found - add message to result
                         result.Add("There is no setting for " + setting + "! You need to add one");
                     }
                 }
@@ -5770,9 +5772,9 @@ namespace Microting.eForm.Infrastructure
                     Environment.NewLine
                     + logEntries + Environment.NewLine);
             }
-            catch
+            catch (Exception)
             {
-                //magic
+                // File write failed - suppress to prevent logging errors during logging
             }
 //            }
         }

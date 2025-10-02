@@ -50,7 +50,6 @@ namespace Microting.eForm.Handlers
             _core = core;
         }
 
-#pragma warning disable 1998
         public async Task Handle(EformDeleteFromServer message)
         {
             string methodName = "EformDeleteFromServer";
@@ -67,7 +66,7 @@ namespace Microting.eForm.Handlers
                         methodName + " (EformDeleteFromServer message) failed, with message.MicrotringUUID " +
                         message.MicrotringUUID, ex);
                 }
-                catch
+                catch (Exception)
                 {
                     _log.LogException(_t.GetMethodName("EformDeleteFromServerHandler"),
                         methodName + " (EformDeleteFromServer message) failed", ex);
@@ -147,9 +146,11 @@ namespace Microting.eForm.Handlers
 
                     return;
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // ignored
+                    // Error parsing case - ignore and continue with fallback
+                    _log.LogWarning(_t.GetMethodName("EformDeleteFromServerHandler"),
+                        "Failed to parse case, trying with original microtingUId: " + ex.Message);
                 }
 
                 try
@@ -160,9 +161,11 @@ namespace Microting.eForm.Handlers
                     await _core.FireHandleCaseDeleted(cDto);
                     _log.LogStandard(_t.GetMethodName("EformDeleteFromServerHandler"), cDto + " has been removed");
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // ignored
+                    // Error with reversed case - log and ignore
+                    _log.LogWarning(_t.GetMethodName("EformDeleteFromServerHandler"),
+                        "Failed to delete reversed case: " + ex.Message);
                 }
             }
         }
