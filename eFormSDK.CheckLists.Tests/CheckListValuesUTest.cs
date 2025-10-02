@@ -161,7 +161,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(checkListValues[0].CreatedAt.ToString(), Is.EqualTo(checkListValue.CreatedAt.ToString()));
             Assert.That(checkListValues[0].Version, Is.EqualTo(checkListValue.Version));
             //            Assert.AreEqual(checkListValue.UpdatedAt.ToString(), checkListValues[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(checkListValues[0].WorkflowState));
+            Assert.That(checkListValues[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(checkListValues[0].Id, Is.EqualTo(checkListValue.Id));
             Assert.That(checkListValues[0].Status, Is.EqualTo(checkListValue.Status));
             Assert.That(theCase.Id, Is.EqualTo(checkListValue.CaseId));
@@ -171,7 +171,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(checkListValueVersions[0].CreatedAt.ToString(), Is.EqualTo(checkListValue.CreatedAt.ToString()));
             Assert.That(checkListValueVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(checkListValue.UpdatedAt.ToString(), checkListValueVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(checkListValueVersions[0].WorkflowState));
+            Assert.That(checkListValueVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(checkListValueVersions[0].Id, Is.EqualTo(checkListValue.Id));
             Assert.That(checkListValueVersions[0].Status, Is.EqualTo(checkListValue.Status));
             Assert.That(checkListValueVersions[0].CaseId, Is.EqualTo(theCase.Id));
@@ -308,7 +308,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(checkListValues[0].CreatedAt.ToString(), Is.EqualTo(checkListValue.CreatedAt.ToString()));
             Assert.That(checkListValues[0].Version, Is.EqualTo(checkListValue.Version));
             //            Assert.AreEqual(checkListValue.UpdatedAt.ToString(), checkListValues[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(checkListValues[0].WorkflowState));
+            Assert.That(checkListValues[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(checkListValues[0].Id, Is.EqualTo(checkListValue.Id));
             Assert.That(checkListValues[0].Status, Is.EqualTo(checkListValue.Status));
             Assert.That(theCase.Id, Is.EqualTo(checkListValue.CaseId));
@@ -318,7 +318,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(checkListValueVersions[0].CreatedAt.ToString(), Is.EqualTo(checkListValue.CreatedAt.ToString()));
             Assert.That(checkListValueVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), checkListValueVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(checkListValueVersions[0].WorkflowState));
+            Assert.That(checkListValueVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(checkListValueVersions[0].CheckListValueId, Is.EqualTo(checkListValue.Id));
             Assert.That(checkListValueVersions[0].Status, Is.EqualTo(oldStatus));
             Assert.That(checkListValueVersions[0].CaseId, Is.EqualTo(theCase.Id));
@@ -328,7 +328,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(checkListValueVersions[1].CreatedAt.ToString(), Is.EqualTo(checkListValue.CreatedAt.ToString()));
             Assert.That(checkListValueVersions[1].Version, Is.EqualTo(2));
             //            Assert.AreEqual(checkListValue.UpdatedAt.ToString(), checkListValueVersions[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(checkListValueVersions[1].WorkflowState));
+            Assert.That(checkListValueVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(checkListValueVersions[1].CheckListValueId, Is.EqualTo(checkListValue.Id));
             Assert.That(checkListValueVersions[1].Status, Is.EqualTo(checkListValue.Status));
             Assert.That(checkListValueVersions[1].CaseId, Is.EqualTo(theCase.Id));
@@ -462,7 +462,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(checkListValues[0].CreatedAt.ToString(), Is.EqualTo(checkListValue.CreatedAt.ToString()));
             Assert.That(checkListValues[0].Version, Is.EqualTo(checkListValue.Version));
             //            Assert.AreEqual(checkListValue.UpdatedAt.ToString(), checkListValues[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(checkListValues[0].WorkflowState));
+            Assert.That(checkListValues[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(checkListValues[0].Id, Is.EqualTo(checkListValue.Id));
             Assert.That(checkListValues[0].Status, Is.EqualTo(checkListValue.Status));
             Assert.That(theCase.Id, Is.EqualTo(checkListValue.CaseId));
@@ -472,7 +472,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(checkListValueVersions[0].CreatedAt.ToString(), Is.EqualTo(checkListValue.CreatedAt.ToString()));
             Assert.That(checkListValueVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), checkListValueVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(checkListValueVersions[0].WorkflowState));
+            Assert.That(checkListValueVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(checkListValueVersions[0].CheckListValueId, Is.EqualTo(checkListValue.Id));
             Assert.That(checkListValueVersions[0].Status, Is.EqualTo(checkListValue.Status));
             Assert.That(checkListValueVersions[0].CaseId, Is.EqualTo(theCase.Id));
@@ -482,7 +482,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(checkListValueVersions[1].CreatedAt.ToString(), Is.EqualTo(checkListValue.CreatedAt.ToString()));
             Assert.That(checkListValueVersions[1].Version, Is.EqualTo(2));
             //            Assert.AreEqual(checkListValue.UpdatedAt.ToString(), checkListValueVersions[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(checkListValueVersions[1].WorkflowState));
+            Assert.That(checkListValueVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(checkListValueVersions[1].CheckListValueId, Is.EqualTo(checkListValue.Id));
             Assert.That(checkListValueVersions[1].Status, Is.EqualTo(checkListValue.Status));
             Assert.That(checkListValueVersions[1].CaseId, Is.EqualTo(theCase.Id));

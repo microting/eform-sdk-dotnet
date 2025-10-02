@@ -159,7 +159,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.That(match.EnableQuickSync, Is.EqualTo(true));
 
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.That(1, Is.EqualTo(dE.DataItemList.Count()));
+            Assert.That(dE.DataItemList.Count(), Is.EqualTo(1));
             Assert.That(dE.Label, Is.EqualTo("Lorem ipsum"));
 
             CDataValue cd = new CDataValue();
@@ -214,7 +214,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.That(cl1.Id, Is.EqualTo(match.Id));
             Assert.That(cl1.CaseType, Is.EqualTo(match.CaseType));
             Assert.That(false, Is.EqualTo(match.FastNavigation));
-            Assert.That("A", Is.EqualTo(match.Label));
+            Assert.That(match.Label, Is.EqualTo("A"));
             Assert.That(false, Is.EqualTo(match.ManualSync));
             Assert.That(false, Is.EqualTo(match.MultiApproval));
             Assert.That(cl1.Repeated, Is.EqualTo(match.Repeated));

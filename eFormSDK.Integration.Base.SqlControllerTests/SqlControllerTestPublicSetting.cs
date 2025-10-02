@@ -147,24 +147,24 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
 
             // Assert
-            Assert.That("3T98EGIO4Y9H8W2", Is.EqualTo(matchb1));
-            Assert.That("https://sqs.eu-central-1.amazonaws.com/564456879978/", Is.EqualTo(matchb2));
-            Assert.That("098u34098uergijt3098w", Is.EqualTo(matchb3));
-            Assert.That("http://srv05.microting.com", Is.EqualTo(matchb4));
-            Assert.That("https://basic.microting.com", Is.EqualTo(matchb5));
-            Assert.That("https://srv16.microting.com", Is.EqualTo(matchb6));
-            Assert.That("64856189", Is.EqualTo(matchb7));
+            Assert.That(matchb1, Is.EqualTo("3T98EGIO4Y9H8W2"));
+            Assert.That(matchb2, Is.EqualTo("https://sqs.eu-central-1.amazonaws.com/564456879978/"));
+            Assert.That(matchb3, Is.EqualTo("098u34098uergijt3098w"));
+            Assert.That(matchb4, Is.EqualTo("http://srv05.microting.com"));
+            Assert.That(matchb5, Is.EqualTo("https://basic.microting.com"));
+            Assert.That(matchb6, Is.EqualTo("https://srv16.microting.com"));
+            Assert.That(matchb7, Is.EqualTo("64856189"));
             Assert.That(@"\output\dataFolder\reports\", Is.EqualTo(matchb8));
             Assert.That(@"\output\dataFolder\pdf\", Is.EqualTo(matchb9));
             Assert.That(@"\output\dataFolder\picture\", Is.EqualTo(matchb10));
-            Assert.That("true", Is.EqualTo(matchb11));
-            Assert.That("http://localhost:3000", Is.EqualTo(matchb12));
-            Assert.That("true", Is.EqualTo(matchb13));
-            Assert.That("4", Is.EqualTo(matchb14));
-            Assert.That("25000", Is.EqualTo(matchb15));
-            Assert.That("abc1234567890abc1234567890abcdef", Is.EqualTo(matchb16));
-            Assert.That("55", Is.EqualTo(matchb17));
-            Assert.That("none", Is.EqualTo(matchb18));
+            Assert.That(matchb11, Is.EqualTo("true"));
+            Assert.That(matchb12, Is.EqualTo("http://localhost:3000"));
+            Assert.That(matchb13, Is.EqualTo("true"));
+            Assert.That(matchb14, Is.EqualTo("4"));
+            Assert.That(matchb15, Is.EqualTo("25000"));
+            Assert.That(matchb16, Is.EqualTo("abc1234567890abc1234567890abcdef"));
+            Assert.That(matchb17, Is.EqualTo("55"));
+            Assert.That(matchb18, Is.EqualTo("none"));
         }
 
 
@@ -226,7 +226,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var match = DbContext.Settings.AsNoTracking().ToList();
 
             // Assert
-            Assert.That("player", Is.EqualTo(match[7].Value));
+            Assert.That(match[7].Value, Is.EqualTo("player"));
         }
 
 

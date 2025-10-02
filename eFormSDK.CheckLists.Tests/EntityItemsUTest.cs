@@ -84,7 +84,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(entityItems[0].CreatedAt.ToString(), Is.EqualTo(entityItem.CreatedAt.ToString()));
             Assert.That(entityItems[0].Version, Is.EqualTo(entityItem.Version));
             //            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItems[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(entityItems[0].WorkflowState));
+            Assert.That(entityItems[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(entityItems[0].Id, Is.EqualTo(entityItem.Id));
             Assert.That(entityItems[0].Name, Is.EqualTo(entityItem.Name));
             Assert.That(entityItems[0].Description, Is.EqualTo(entityItem.Description));
@@ -98,7 +98,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(entityItemVersion[0].CreatedAt.ToString(), Is.EqualTo(entityItem.CreatedAt.ToString()));
             Assert.That(entityItemVersion[0].Version, Is.EqualTo(entityItem.Version));
             //            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItemVersion[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(entityItemVersion[0].WorkflowState));
+            Assert.That(entityItemVersion[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(entityItemVersion[0].EntityItemId, Is.EqualTo(entityItem.Id));
             Assert.That(entityItemVersion[0].Name, Is.EqualTo(entityItem.Name));
             Assert.That(entityItemVersion[0].Description, Is.EqualTo(entityItem.Description));
@@ -171,7 +171,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(entityItems[0].CreatedAt.ToString(), Is.EqualTo(entityItem.CreatedAt.ToString()));
             Assert.That(entityItems[0].Version, Is.EqualTo(entityItem.Version));
             //            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItems[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(entityItems[0].WorkflowState));
+            Assert.That(entityItems[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(entityItems[0].Id, Is.EqualTo(entityItem.Id));
             Assert.That(entityItems[0].Name, Is.EqualTo(entityItem.Name));
             Assert.That(entityItems[0].Description, Is.EqualTo(entityItem.Description));
@@ -185,7 +185,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(entityItemVersion[0].CreatedAt.ToString(), Is.EqualTo(entityItem.CreatedAt.ToString()));
             Assert.That(entityItemVersion[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), entityItemVersion[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(entityItemVersion[0].WorkflowState));
+            Assert.That(entityItemVersion[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(entityItemVersion[0].EntityItemId, Is.EqualTo(entityItem.Id));
             Assert.That(entityItemVersion[0].Name, Is.EqualTo(oldName));
             Assert.That(entityItemVersion[0].Description, Is.EqualTo(oldDescription));
@@ -199,7 +199,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(entityItemVersion[1].CreatedAt.ToString(), Is.EqualTo(entityItem.CreatedAt.ToString()));
             Assert.That(entityItemVersion[1].Version, Is.EqualTo(2));
             //            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItemVersion[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(entityItemVersion[1].WorkflowState));
+            Assert.That(entityItemVersion[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(entityItemVersion[1].EntityItemId, Is.EqualTo(entityItem.Id));
             Assert.That(entityItemVersion[1].Name, Is.EqualTo(entityItem.Name));
             Assert.That(entityItemVersion[1].Description, Is.EqualTo(entityItem.Description));
@@ -259,7 +259,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(entityItems[0].CreatedAt.ToString(), Is.EqualTo(entityItem.CreatedAt.ToString()));
             Assert.That(entityItems[0].Version, Is.EqualTo(entityItem.Version));
             //            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItems[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(entityItems[0].WorkflowState));
+            Assert.That(entityItems[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(entityItems[0].Id, Is.EqualTo(entityItem.Id));
             Assert.That(entityItems[0].Name, Is.EqualTo(entityItem.Name));
             Assert.That(entityItems[0].Description, Is.EqualTo(entityItem.Description));
@@ -273,7 +273,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(entityItemVersion[0].CreatedAt.ToString(), Is.EqualTo(entityItem.CreatedAt.ToString()));
             Assert.That(entityItemVersion[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), entityItemVersion[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(entityItemVersion[0].WorkflowState));
+            Assert.That(entityItemVersion[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(entityItemVersion[0].EntityItemId, Is.EqualTo(entityItem.Id));
             Assert.That(entityItemVersion[0].Name, Is.EqualTo(entityItem.Name));
             Assert.That(entityItemVersion[0].Description, Is.EqualTo(entityItem.Description));
@@ -287,7 +287,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(entityItemVersion[1].CreatedAt.ToString(), Is.EqualTo(entityItem.CreatedAt.ToString()));
             Assert.That(entityItemVersion[1].Version, Is.EqualTo(2));
             //            Assert.AreEqual(entityItem.UpdatedAt.ToString(), entityItemVersion[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(entityItemVersion[1].WorkflowState));
+            Assert.That(entityItemVersion[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(entityItemVersion[1].EntityItemId, Is.EqualTo(entityItem.Id));
             Assert.That(entityItemVersion[1].Name, Is.EqualTo(entityItem.Name));
             Assert.That(entityItemVersion[1].Description, Is.EqualTo(entityItem.Description));

@@ -135,7 +135,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(checkLists[1].CreatedAt.ToString(), Is.EqualTo(checklist.CreatedAt.ToString()));
             Assert.That(checkLists[1].Version, Is.EqualTo(checklist.Version));
             //            Assert.AreEqual(checklist.UpdatedAt.ToString(), checkLists[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(checkLists[1].WorkflowState));
+            Assert.That(checkLists[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(checkLists[1].Id, Is.EqualTo(checklist.Id));
             Assert.That(checkLists[1].Color, Is.EqualTo(checklist.Color));
             Assert.That(checkLists[1].Custom, Is.EqualTo(checklist.Custom));
@@ -173,7 +173,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(checkListVersion[1].CreatedAt.ToString(), Is.EqualTo(checklist.CreatedAt.ToString()));
             Assert.That(checkListVersion[1].Version, Is.EqualTo(1));
             //            Assert.AreEqual(checklist.UpdatedAt.ToString(), checkListVersion[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(checkListVersion[1].WorkflowState));
+            Assert.That(checkListVersion[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(checkListVersion[1].Id, Is.EqualTo(checklist.Id));
             Assert.That(checkListVersion[1].Color, Is.EqualTo(checklist.Color));
             Assert.That(checkListVersion[1].Custom, Is.EqualTo(checklist.Custom));
@@ -370,7 +370,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(checkLists[1].CreatedAt.ToString(), Is.EqualTo(checklist.CreatedAt.ToString()));
             Assert.That(checkLists[1].Version, Is.EqualTo(checklist.Version));
             //            Assert.AreEqual(checklist.UpdatedAt.ToString(), checkLists[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(checkLists[1].WorkflowState));
+            Assert.That(checkLists[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(checkLists[1].Id, Is.EqualTo(checklist.Id));
             Assert.That(checkLists[1].Color, Is.EqualTo(checklist.Color));
             Assert.That(checkLists[1].Custom, Is.EqualTo(checklist.Custom));
@@ -408,7 +408,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(checkListVersion[1].CreatedAt.ToString(), Is.EqualTo(checklist.CreatedAt.ToString()));
             Assert.That(checkListVersion[1].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), checkListVersion[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(checkListVersion[1].WorkflowState));
+            Assert.That(checkListVersion[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(checkListVersion[1].CheckListId, Is.EqualTo(checklist.Id));
             Assert.That(checkListVersion[1].Color, Is.EqualTo(oldColour));
             Assert.That(checkListVersion[1].Custom, Is.EqualTo(oldCustom));
@@ -446,7 +446,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(checkListVersion[2].CreatedAt.ToString(), Is.EqualTo(checklist.CreatedAt.ToString()));
             Assert.That(checkListVersion[2].Version, Is.EqualTo(2));
             //            Assert.AreEqual(checklist.UpdatedAt.ToString(), checkListVersion[2].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(checkListVersion[2].WorkflowState));
+            Assert.That(checkListVersion[2].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(checkListVersion[2].CheckListId, Is.EqualTo(checklist.Id));
             Assert.That(checkListVersion[2].Color, Is.EqualTo(checklist.Color));
             Assert.That(checkListVersion[2].Custom, Is.EqualTo(checklist.Custom));
@@ -584,7 +584,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(checkLists[1].CreatedAt.ToString(), Is.EqualTo(checklist.CreatedAt.ToString()));
             Assert.That(checkLists[1].Version, Is.EqualTo(checklist.Version));
             //            Assert.AreEqual(checklist.UpdatedAt.ToString(), checkLists[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(checkLists[1].WorkflowState));
+            Assert.That(checkLists[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(checkLists[1].Id, Is.EqualTo(checklist.Id));
             Assert.That(checkLists[1].Color, Is.EqualTo(checklist.Color));
             Assert.That(checkLists[1].Custom, Is.EqualTo(checklist.Custom));
@@ -622,7 +622,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(checkListVersion[1].CreatedAt.ToString(), Is.EqualTo(checklist.CreatedAt.ToString()));
             Assert.That(checkListVersion[1].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), checkListVersion[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(checkListVersion[1].WorkflowState));
+            Assert.That(checkListVersion[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(checkListVersion[1].CheckListId, Is.EqualTo(checklist.Id));
             Assert.That(checkListVersion[1].Color, Is.EqualTo(checklist.Color));
             Assert.That(checkListVersion[1].Custom, Is.EqualTo(checklist.Custom));
@@ -660,7 +660,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(checkListVersion[2].CreatedAt.ToString(), Is.EqualTo(checklist.CreatedAt.ToString()));
             Assert.That(checkListVersion[2].Version, Is.EqualTo(2));
             //            Assert.AreEqual(checklist.UpdatedAt.ToString(), checkListVersion[2].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(checkListVersion[2].WorkflowState));
+            Assert.That(checkListVersion[2].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(checkListVersion[2].CheckListId, Is.EqualTo(checklist.Id));
             Assert.That(checkListVersion[2].Color, Is.EqualTo(checklist.Color));
             Assert.That(checkListVersion[2].Custom, Is.EqualTo(checklist.Custom));

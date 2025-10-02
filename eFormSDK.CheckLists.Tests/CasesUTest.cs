@@ -154,7 +154,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(cases[0].CreatedAt.ToString(), Is.EqualTo(theCase.CreatedAt.ToString()));
             Assert.That(cases[0].Version, Is.EqualTo(theCase.Version));
             //             Assert.AreEqual(theCase.UpdatedAt.ToString(), cases[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(cases[0].WorkflowState));
+            Assert.That(cases[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(cases[0].Id, Is.EqualTo(theCase.Id));
             Assert.That(cases[0].Custom, Is.EqualTo(theCase.Custom));
             Assert.That(site.Id, Is.EqualTo(theCase.SiteId));
@@ -182,7 +182,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(caseVersions[0].CreatedAt.ToString(), Is.EqualTo(theCase.CreatedAt.ToString()));
             Assert.That(caseVersions[0].Version, Is.EqualTo(1));
             //             Assert.AreEqual(theCase.UpdatedAt.ToString(), caseVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(caseVersions[0].WorkflowState));
+            Assert.That(caseVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(caseVersions[0].CaseId, Is.EqualTo(theCase.Id));
             Assert.That(caseVersions[0].Custom, Is.EqualTo(theCase.Custom));
             Assert.That(caseVersions[0].SiteId, Is.EqualTo(site.Id));
@@ -362,7 +362,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(cases[0].CreatedAt.ToString(), Is.EqualTo(theCase.CreatedAt.ToString()));
             Assert.That(cases[0].Version, Is.EqualTo(theCase.Version));
             //            Assert.AreEqual(theCase.UpdatedAt.ToString(), cases[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(cases[0].WorkflowState));
+            Assert.That(cases[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(cases[0].Id, Is.EqualTo(theCase.Id));
             Assert.That(cases[0].Custom, Is.EqualTo(theCase.Custom));
             Assert.That(site.Id, Is.EqualTo(theCase.SiteId));
@@ -390,7 +390,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(caseVersions[0].CreatedAt.ToString(), Is.EqualTo(theCase.CreatedAt.ToString()));
             Assert.That(caseVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), caseVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(caseVersions[0].WorkflowState));
+            Assert.That(caseVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(caseVersions[0].Id, Is.EqualTo(theCase.Id));
             Assert.That(caseVersions[0].Custom, Is.EqualTo(oldCustom));
             Assert.That(caseVersions[0].SiteId, Is.EqualTo(site.Id));
@@ -418,7 +418,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(caseVersions[1].CreatedAt.ToString(), Is.EqualTo(theCase.CreatedAt.ToString()));
             Assert.That(caseVersions[1].Version, Is.EqualTo(2));
             //            Assert.AreEqual(theCase.UpdatedAt.ToString(), caseVersions[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(caseVersions[1].WorkflowState));
+            Assert.That(caseVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(caseVersions[1].CaseId, Is.EqualTo(theCase.Id));
             Assert.That(caseVersions[1].Custom, Is.EqualTo(theCase.Custom));
             Assert.That(caseVersions[1].SiteId, Is.EqualTo(site.Id));
@@ -564,7 +564,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(cases[0].CreatedAt.ToString(), Is.EqualTo(theCase.CreatedAt.ToString()));
             Assert.That(cases[0].Version, Is.EqualTo(theCase.Version));
             //            Assert.AreEqual(theCase.UpdatedAt.ToString(), cases[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(cases[0].WorkflowState));
+            Assert.That(cases[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(cases[0].Id, Is.EqualTo(theCase.Id));
             Assert.That(cases[0].Custom, Is.EqualTo(theCase.Custom));
             Assert.That(site.Id, Is.EqualTo(theCase.SiteId));
@@ -592,7 +592,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(caseVersions[0].CreatedAt.ToString(), Is.EqualTo(theCase.CreatedAt.ToString()));
             Assert.That(caseVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), caseVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(caseVersions[0].WorkflowState));
+            Assert.That(caseVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(caseVersions[0].CaseId, Is.EqualTo(theCase.Id));
             Assert.That(caseVersions[0].Custom, Is.EqualTo(theCase.Custom));
             Assert.That(caseVersions[0].SiteId, Is.EqualTo(site.Id));
@@ -620,7 +620,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(caseVersions[1].CreatedAt.ToString(), Is.EqualTo(theCase.CreatedAt.ToString()));
             Assert.That(cases[0].Version, Is.EqualTo(2));
             //            Assert.AreEqual(theCase.UpdatedAt.ToString(), caseVersions[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(caseVersions[1].WorkflowState));
+            Assert.That(caseVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(caseVersions[1].CaseId, Is.EqualTo(theCase.Id));
             Assert.That(caseVersions[1].Custom, Is.EqualTo(theCase.Custom));
             Assert.That(caseVersions[1].SiteId, Is.EqualTo(site.Id));

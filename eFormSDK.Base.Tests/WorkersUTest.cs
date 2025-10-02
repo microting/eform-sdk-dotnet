@@ -70,7 +70,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(workers[0].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
             Assert.That(workers[0].Version, Is.EqualTo(worker.Version));
             //            Assert.AreEqual(worker.UpdatedAt.ToString(), workers[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(workers[0].WorkflowState));
+            Assert.That(workers[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(workers[0].Email, Is.EqualTo(worker.Email));
             Assert.That(workers[0].FirstName, Is.EqualTo(worker.FirstName));
             Assert.That(workers[0].LastName, Is.EqualTo(worker.LastName));
@@ -81,7 +81,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(workersVersion[0].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
             Assert.That(workersVersion[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(worker.UpdatedAt.ToString(), workersVersion[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(workersVersion[0].WorkflowState));
+            Assert.That(workersVersion[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(workersVersion[0].Email, Is.EqualTo(worker.Email));
             Assert.That(workersVersion[0].FirstName, Is.EqualTo(worker.FirstName));
             Assert.That(workersVersion[0].LastName, Is.EqualTo(worker.LastName));
@@ -205,7 +205,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(workers[0].MicrotingUid, Is.EqualTo(worker.MicrotingUid));
             Assert.That(workers[0].full_name(), Is.EqualTo(worker.full_name()));
 
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(workers[0].WorkflowState));
+            Assert.That(workers[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
 
             //Version 1
             Assert.That(workersVersion[0].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
@@ -216,7 +216,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(workersVersion[0].LastName, Is.EqualTo(worker.LastName));
             Assert.That(workersVersion[0].MicrotingUid, Is.EqualTo(worker.MicrotingUid));
 
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(workersVersion[0].WorkflowState));
+            Assert.That(workersVersion[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
             //Version 2 Deleted Version
             Assert.That(workersVersion[1].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
@@ -227,7 +227,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(workersVersion[1].LastName, Is.EqualTo(worker.LastName));
             Assert.That(workersVersion[1].MicrotingUid, Is.EqualTo(worker.MicrotingUid));
 
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(workersVersion[1].WorkflowState));
+            Assert.That(workersVersion[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
         }
     }
 }

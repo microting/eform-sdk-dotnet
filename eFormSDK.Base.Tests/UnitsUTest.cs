@@ -86,7 +86,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(units[0].MicrotingUid, Is.EqualTo(unit.MicrotingUid));
             Assert.That(units[0].OtpCode, Is.EqualTo(unit.OtpCode));
             Assert.That(site.Id, Is.EqualTo(unit.SiteId));
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(units[0].WorkflowState));
+            Assert.That(units[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(units[0].CreatedAt.ToString(), Is.EqualTo(unit.CreatedAt.ToString()));
             Assert.That(units[0].Version, Is.EqualTo(unit.Version));
             Assert.That(units[0].Id, Is.EqualTo(unit.Id));
@@ -103,7 +103,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(unitsVersions[0].MicrotingUid, Is.EqualTo(unit.MicrotingUid));
             Assert.That(unitsVersions[0].OtpCode, Is.EqualTo(unit.OtpCode));
             Assert.That(unitsVersions[0].SiteId, Is.EqualTo(site.Id));
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(unitsVersions[0].WorkflowState));
+            Assert.That(unitsVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(unitsVersions[0].CreatedAt.ToString(), Is.EqualTo(unit.CreatedAt.ToString()));
             Assert.That(unitsVersions[0].Version, Is.EqualTo(1));
             Assert.That(unitsVersions[0].Id, Is.EqualTo(unit.Id));
@@ -277,7 +277,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(units[0].Version, Is.EqualTo(unit.Version));
             //            Assert.AreEqual(unit.UpdatedAt.ToString(), units[0].UpdatedAt.ToString());
             Assert.That(units[0].Id, Is.EqualTo(unit.Id));
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(units[0].WorkflowState));
+            Assert.That(units[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(units[0].Model, Is.EqualTo(unit.Model));
             Assert.That(units[0].Manufacturer, Is.EqualTo(unit.Manufacturer));
             Assert.That(units[0].eFormVersion, Is.EqualTo(unit.eFormVersion));
@@ -298,7 +298,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(unitsVersions[0].eFormVersion, Is.EqualTo(unit.eFormVersion));
             Assert.That(unitsVersions[0].InSightVersion, Is.EqualTo(unit.InSightVersion));
             Assert.That(unitsVersions[0].Note, Is.EqualTo(unit.Note));
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(unitsVersions[0].WorkflowState));
+            Assert.That(unitsVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
             //Version 2 Deleted Version
             Assert.That(unitsVersions[1].CustomerNo, Is.EqualTo(unit.CustomerNo));
@@ -314,7 +314,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(unitsVersions[1].eFormVersion, Is.EqualTo(unit.eFormVersion));
             Assert.That(unitsVersions[1].InSightVersion, Is.EqualTo(unit.InSightVersion));
             Assert.That(unitsVersions[1].Note, Is.EqualTo(unit.Note));
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(unitsVersions[1].WorkflowState));
+            Assert.That(unitsVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
         }
     }
 }

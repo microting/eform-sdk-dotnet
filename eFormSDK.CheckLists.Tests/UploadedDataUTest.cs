@@ -79,7 +79,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(uploadedDatas[0].CreatedAt.ToString(), Is.EqualTo(uploadedData.CreatedAt.ToString()));
             Assert.That(uploadedDatas[0].Version, Is.EqualTo(uploadedData.Version));
             //            Assert.AreEqual(uploadedData.UpdatedAt.ToString(), uploadedDatas[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(uploadedDatas[0].WorkflowState));
+            Assert.That(uploadedDatas[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(uploadedDatas[0].Checksum, Is.EqualTo(uploadedData.Checksum));
             Assert.That(uploadedDatas[0].Extension, Is.EqualTo(uploadedData.Extension));
             Assert.That(uploadedDatas[0].Local, Is.EqualTo(uploadedData.Local));
@@ -95,7 +95,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(uploadedDataVersions[0].CreatedAt.ToString(), Is.EqualTo(uploadedData.CreatedAt.ToString()));
             Assert.That(uploadedDataVersions[0].Version, Is.EqualTo(uploadedData.Version));
             //            Assert.AreEqual(uploadedData.UpdatedAt.ToString(), uploadedDataVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(uploadedDataVersions[0].WorkflowState));
+            Assert.That(uploadedDataVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(uploadedDataVersions[0].Checksum, Is.EqualTo(uploadedData.Checksum));
             Assert.That(uploadedDataVersions[0].Extension, Is.EqualTo(uploadedData.Extension));
             Assert.That(uploadedDataVersions[0].Local, Is.EqualTo(uploadedData.Local));
@@ -290,7 +290,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(uploadedDataVersions[0].UploaderId, Is.EqualTo(uploadedData.UploaderId));
             Assert.That(uploadedDataVersions[0].UploaderType, Is.EqualTo(uploadedData.UploaderType));
 
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(uploadedDataVersions[0].WorkflowState));
+            Assert.That(uploadedDataVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
             //Version 2 Deleted Version
             Assert.That(uploadedDataVersions[1].CreatedAt.ToString(), Is.EqualTo(uploadedData.CreatedAt.ToString()));
@@ -306,8 +306,8 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(uploadedDataVersions[1].UploaderId, Is.EqualTo(uploadedData.UploaderId));
             Assert.That(uploadedDataVersions[1].UploaderType, Is.EqualTo(uploadedData.UploaderType));
 
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(uploadedDatas[0].WorkflowState));
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(uploadedDataVersions[1].WorkflowState));
+            Assert.That(uploadedDatas[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+            Assert.That(uploadedDataVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
         }
     }
 }

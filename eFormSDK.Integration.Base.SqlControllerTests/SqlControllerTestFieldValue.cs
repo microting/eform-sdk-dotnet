@@ -930,7 +930,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             // Assert
             var newValue = await DbContext.FieldValues.AsNoTracking().FirstOrDefaultAsync(x => x.Id == field_Value1.Id);
 
-            Assert.That("udfyldt", Is.EqualTo(newValue.Value));
+            Assert.That(newValue.Value, Is.EqualTo("udfyldt"));
         }
 
         [Test]

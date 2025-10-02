@@ -233,7 +233,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(fieldValues[0].CreatedAt.ToString(), Is.EqualTo(fieldValue.CreatedAt.ToString()));
             Assert.That(fieldValues[0].Version, Is.EqualTo(fieldValue.Version));
             //            Assert.AreEqual(fieldValue.UpdatedAt.ToString(), fieldValues[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(fieldValues[0].WorkflowState));
+            Assert.That(fieldValues[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(fieldValues[0].Id, Is.EqualTo(fieldValue.Id));
             Assert.That(fieldValues[0].Accuracy, Is.EqualTo(fieldValue.Accuracy));
             Assert.That(fieldValues[0].Date.ToString(), Is.EqualTo(fieldValue.Date.ToString()));
@@ -252,7 +252,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(fieldValueVersions[0].CreatedAt.ToString(), Is.EqualTo(fieldValue.CreatedAt.ToString()));
             Assert.That(fieldValueVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(fieldValue.UpdatedAt.ToString(), fieldValueVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(fieldValueVersions[0].WorkflowState));
+            Assert.That(fieldValueVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(fieldValueVersions[0].FieldId, Is.EqualTo(fieldValue.Id));
             Assert.That(fieldValueVersions[0].Accuracy, Is.EqualTo(fieldValue.Accuracy));
             Assert.That(fieldValueVersions[0].Date.ToString(), Is.EqualTo(fieldValue.Date.ToString()));
@@ -484,7 +484,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(fieldValues[0].CreatedAt.ToString(), Is.EqualTo(fieldValue.CreatedAt.ToString()));
             Assert.That(fieldValues[0].Version, Is.EqualTo(fieldValue.Version));
             //            Assert.AreEqual(fieldValue.UpdatedAt.ToString(), fieldValues[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(fieldValues[0].WorkflowState));
+            Assert.That(fieldValues[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(fieldValues[0].Id, Is.EqualTo(fieldValue.Id));
             Assert.That(fieldValues[0].Accuracy, Is.EqualTo(fieldValue.Accuracy));
             Assert.That(fieldValues[0].Date.ToString(), Is.EqualTo(fieldValue.Date.ToString()));
@@ -503,7 +503,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(fieldValueVersions[0].CreatedAt.ToString(), Is.EqualTo(fieldValue.CreatedAt.ToString()));
             Assert.That(fieldValueVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), fieldValueVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(fieldValueVersions[0].WorkflowState));
+            Assert.That(fieldValueVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(fieldValueVersions[0].FieldId, Is.EqualTo(fieldValue.Id));
             Assert.That(fieldValueVersions[0].Accuracy, Is.EqualTo(oldAccuracy));
             Assert.That(fieldValueVersions[0].Date.ToString(), Is.EqualTo(oldDate.ToString()));
@@ -522,7 +522,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(fieldValueVersions[1].CreatedAt.ToString(), Is.EqualTo(fieldValue.CreatedAt.ToString()));
             Assert.That(fieldValueVersions[1].Version, Is.EqualTo(2));
             //            Assert.AreEqual(fieldValue.UpdatedAt.ToString(), fieldValueVersions[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(fieldValueVersions[1].WorkflowState));
+            Assert.That(fieldValueVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(fieldValueVersions[1].FieldId, Is.EqualTo(fieldValue.Id));
             Assert.That(fieldValueVersions[1].Accuracy, Is.EqualTo(fieldValue.Accuracy));
             Assert.That(fieldValueVersions[1].Date.ToString(), Is.EqualTo(fieldValue.Date.ToString()));
@@ -738,7 +738,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(fieldValues[0].CreatedAt.ToString(), Is.EqualTo(fieldValue.CreatedAt.ToString()));
             Assert.That(fieldValues[0].Version, Is.EqualTo(fieldValue.Version));
             //            Assert.AreEqual(fieldValue.UpdatedAt.ToString(), fieldValues[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(fieldValues[0].WorkflowState));
+            Assert.That(fieldValues[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(fieldValues[0].Id, Is.EqualTo(fieldValue.Id));
             Assert.That(fieldValues[0].Accuracy, Is.EqualTo(fieldValue.Accuracy));
             Assert.That(fieldValues[0].Date.ToString(), Is.EqualTo(fieldValue.Date.ToString()));
@@ -757,7 +757,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(fieldValueVersions[0].CreatedAt.ToString(), Is.EqualTo(fieldValue.CreatedAt.ToString()));
             Assert.That(fieldValueVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), fieldValueVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(fieldValueVersions[0].WorkflowState));
+            Assert.That(fieldValueVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(fieldValueVersions[0].FieldId, Is.EqualTo(fieldValue.Id));
             Assert.That(fieldValueVersions[0].Accuracy, Is.EqualTo(fieldValue.Accuracy));
             Assert.That(fieldValueVersions[0].Date.ToString(), Is.EqualTo(fieldValue.Date.ToString()));
@@ -776,7 +776,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(fieldValueVersions[1].CreatedAt.ToString(), Is.EqualTo(fieldValue.CreatedAt.ToString()));
             Assert.That(fieldValueVersions[1].Version, Is.EqualTo(2));
             //            Assert.AreEqual(fieldValue.UpdatedAt.ToString(), fieldValueVersions[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(fieldValueVersions[1].WorkflowState));
+            Assert.That(fieldValueVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(fieldValueVersions[1].FieldId, Is.EqualTo(fieldValue.Id));
             Assert.That(fieldValueVersions[1].Accuracy, Is.EqualTo(fieldValue.Accuracy));
             Assert.That(fieldValueVersions[1].Date.ToString(), Is.EqualTo(fieldValue.Date.ToString()));
