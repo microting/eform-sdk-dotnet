@@ -176,7 +176,6 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var tags = await sut.GetAllTags(true);
 
             // Assert
-            Assert.That(true, Is.True);
             Assert.That(tags.Count(), Is.EqualTo(3));
             Assert.That(tags[0].Name, Is.EqualTo(tagName1));
             Assert.That(tags[0].TaggingCount, Is.EqualTo(0));
@@ -227,7 +226,6 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Assert.That(result.Count(), Is.EqualTo(1));
             Assert.That(result[0].TagId, Is.EqualTo(tag.Id));
             Assert.That(result[0].CheckListId, Is.EqualTo(cl1.Id));
-            Assert.That(true, Is.True);
         }
 
         #endregion
