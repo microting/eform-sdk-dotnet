@@ -35,6 +35,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Microting.eForm.Communication
 {
+#pragma warning disable CS1998 // Async method lacks 'await' operators - this is intentional for fake/test implementation
     public class HttpFake : IHttp
     {
         // var
@@ -66,7 +67,7 @@ namespace Microting.eForm.Communication
         public async Task<string> Post(string xmlData, string siteId,
             string contentType = "application/x-www-form-urlencoded")
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             if (xmlData.Contains("throw new Exception"))
                 throw new Exception("Post created 'new' Exception as per request");
 
@@ -88,7 +89,7 @@ namespace Microting.eForm.Communication
 
         public async Task<byte[]> PostProto(byte[] protoData, string siteId)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             string jsonResponse = @"{
                         Value: {
                             Type: ""success"",
@@ -100,7 +101,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> Status(string elementId, string siteId)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "success" +
                    "</Value><Unit fetched_at=\"\" id=\"\"/></Response>";
         }
@@ -117,7 +118,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> Delete(string elementId, string siteId)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "success" +
                    "</Value><Unit fetched_at=\"\" id=\"\"/></Response>";
         }
@@ -126,39 +127,39 @@ namespace Microting.eForm.Communication
         // public EntitySearch
         public async Task<string> EntitySearchGroupCreate(string name, string id)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return t.GetRandomInt(6).ToString();
         }
 
         public async Task<bool> EntitySearchGroupUpdate(int id, string name, string entityGroupMUId)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return true;
         }
 
         public async Task<bool> EntitySearchGroupDelete(string entityGroupId)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return true;
         }
 
         public async Task<string> EntitySearchItemCreate(string entitySearchGroupId, string name, string description,
             string id)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return t.GetRandomInt(6).ToString();
         }
 
         public async Task<bool> EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId,
             string name, string description, string id)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return true;
         }
 
         public async Task<bool> EntitySearchItemDelete(string entitySearchItemId)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return true;
         }
         //
@@ -166,39 +167,39 @@ namespace Microting.eForm.Communication
         // public EntitySelect
         public async Task<string> EntitySelectGroupCreate(string name, string id)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return t.GetRandomInt(6).ToString();
         }
 
         public async Task<bool> EntitySelectGroupUpdate(int id, string name, string entityGroupMUId)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return true;
         }
 
         public async Task<bool> EntitySelectGroupDelete(string entityGroupId)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return true;
         }
 
         public async Task<string> EntitySelectItemCreate(string entitySelectGroupId, string name, int displayOrder,
             string id)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return t.GetRandomInt(6).ToString();
         }
 
         public async Task<bool> EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId,
             string name, int displayOrder, string id)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return true;
         }
 
         public async Task<bool> EntitySelectItemDelete(string entitySelectItemId)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return true;
         }
         //
@@ -206,13 +207,13 @@ namespace Microting.eForm.Communication
         // public PdfUpload
         public async Task<bool> PdfUpload(string name, string hash)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return true;
         }
 
         public async Task<bool> PdfUpload(Stream stream, string hash, string fileName)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return true;
         }
         //
@@ -220,13 +221,13 @@ namespace Microting.eForm.Communication
         // public PdfUpload
         public async Task<bool> PngUpload(string name, string hash)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return true;
         }
 
         public async Task<bool> PngUpload(Stream stream, string hash, string fileName)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return true;
         }
         //
@@ -234,7 +235,7 @@ namespace Microting.eForm.Communication
         // public TemplateDisplayIndexChange
         public async Task<string> TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return "Not implemented!";
         }
         //
@@ -242,7 +243,7 @@ namespace Microting.eForm.Communication
         // public site
         public async Task<string> SiteCreate(string name, string languageCode)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             if (name == "John Noname Doe")
             {
                 int MicrotingUid = t.GetRandomInt(6);
@@ -267,13 +268,13 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> SiteUpdate(int id, string name, string languageCode)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return true;
         }
 
         public async Task<string> SiteDelete(int id)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             JObject contentToServer = JObject.FromObject(new
             {
                 Name = "Some name", MicrotingUid = id, CreatedAt = "2018-01-12T01:01:00Z",
@@ -294,7 +295,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> SiteLoadAllFromRemote()
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return "{}";
         }
         //
@@ -302,7 +303,7 @@ namespace Microting.eForm.Communication
         // public Worker
         public async Task<string> WorkerCreate(string firstName, string lastName, string email)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             int MicrotingUid = t.GetRandomInt(6);
             JObject contentToServer = JObject.FromObject(new
             {
@@ -321,13 +322,13 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> WorkerUpdate(int id, string firstName, string lastName, string email)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return true;
         }
 
         public async Task<string> WorkerDelete(int id)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             string firstName = "John Noname";
             string lastName = "Doe";
             string email = "jhd@invalid.invalid";
@@ -348,7 +349,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> WorkerLoadAllFromRemote()
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return "{}";
         }
         //
@@ -356,7 +357,7 @@ namespace Microting.eForm.Communication
         // public SiteWorker
         public async Task<string> SiteWorkerCreate(int siteId, int workerId)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             int MicrotingUid = t.GetRandomInt(6);
             JObject contentToServer = JObject.FromObject(new
                 { MicrotingUid, CreatedAt = "2018-01-12T01:01:00Z", UpdatedAt = "2018-01-12T01:01:10Z" });
@@ -365,7 +366,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> SiteWorkerDelete(int id)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             JObject contentToServer = JObject.FromObject(new
             {
                 MicrotingUid = id, CreatedAt = "2018-01-12T01:01:00Z", UpdatedAt = "2018-01-12T01:01:10Z",
@@ -393,13 +394,13 @@ namespace Microting.eForm.Communication
 
         public async Task<string> FolderLoadAllFromRemote()
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return "{}";
         }
 
         public async Task<string> FolderCreate(int uuid, int? parentId)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             int id = t.GetRandomInt(6);
             JObject contentToServer = JObject.FromObject(new
                 { MicrotingUid = id, ParentId = parentId });
@@ -412,13 +413,13 @@ namespace Microting.eForm.Communication
             var url =
                 $"/Folder/{id}?token={_token}&languageCode={languageCode}&name={Uri.EscapeDataString(name)}&description={Uri.EscapeDataString(description)}&parentId={parentId}&sdkVersion=";
             Console.WriteLine(url);
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return true;
         }
 
         public async Task<string> FolderDelete(int id)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
 
             JObject contentToServer = JObject.FromObject(new
             {
@@ -440,7 +441,7 @@ namespace Microting.eForm.Communication
         public async Task<string> UnitUpdate(int id, bool newOtp, int siteId, bool pushEnabled, bool syncDelayEnabled,
             bool syncDialogEnabled)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             JObject contentToServer = JObject.FromObject(new
             {
                 MicrotingUid = id, PushEnabled = pushEnabled, SyncDelayEnabled = syncDelayEnabled,
@@ -451,27 +452,27 @@ namespace Microting.eForm.Communication
 
         public async Task<string> UnitLoadAllFromRemote()
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return "{}";
         }
 
         public async Task<string> UnitDelete(int id)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             JObject contentToServer = JObject.FromObject(new { workflow_state = Constants.WorkflowStates.Removed });
             return contentToServer.ToString();
         }
 
         public async Task<string> UnitMove(int unitId, int siteId)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             JObject contentToServer = JObject.FromObject(new { workflow_state = Constants.WorkflowStates.Created });
             return contentToServer.ToString();
         }
 
         public async Task<string> UnitCreate(int siteId)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
 
             int MicrotingUid = t.GetRandomInt(6);
             int otpCode = t.GetRandomInt(6);
@@ -482,7 +483,7 @@ namespace Microting.eForm.Communication
 
         public async Task<string> UnitGet(int id)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             JObject contentToServer = JObject.FromObject(new
             {
                 MicrotingUid = id,
@@ -499,7 +500,7 @@ namespace Microting.eForm.Communication
         // public Organization
         public async Task<string> OrganizationLoadAllFromRemote()
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
 //            int id = t.GetRandomInt(6);
             JObject contentToServer = JObject.FromObject(new
             {
@@ -535,13 +536,13 @@ namespace Microting.eForm.Communication
         // SpeechToText
         public async Task<int> SpeechToText(Stream pathToAudioFile, string language, string extension)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             throw new NotImplementedException();
         }
 
         public async Task<JToken> SpeechToText(int requestId)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             throw new NotImplementedException();
         }
         //
@@ -550,37 +551,37 @@ namespace Microting.eForm.Communication
 
         public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return true;
         }
 
         public async Task<string> GetAllSurveyConfigurations()
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return "{}";
         }
 
         public async Task<string> GetSurveyConfiguration(int id)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return "{}";
         }
 
         public async Task<string> GetAllQuestionSets()
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return "{}";
         }
 
         public async Task<string> GetQuestionSet(int id)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return "{}";
         }
 
         public async Task<string> GetLastAnswer(int questionSetId, int lastAnswerId)
         {
-            await Task.Run(() => { });
+            // Synchronous fake implementation
             return "{}";
         }
 
@@ -646,4 +647,5 @@ namespace Microting.eForm.Communication
         }
         //
     }
+#pragma warning restore CS1998
 }

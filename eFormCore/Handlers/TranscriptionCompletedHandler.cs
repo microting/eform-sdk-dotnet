@@ -54,7 +54,6 @@ namespace Microting.eForm.Handlers
             this.core = core;
         }
 
-#pragma warning disable 1998
         public async Task Handle(TranscriptionCompleted message)
         {
             try

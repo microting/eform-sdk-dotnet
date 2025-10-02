@@ -45,7 +45,6 @@ namespace Microting.eForm.Handlers
             _log = log;
         }
 
-#pragma warning disable 1998
         public async Task Handle(EformParsedByServer message)
         {
             _log.LogStandard("EformParsedByServer.Handle called", $"NotificationId: {message.NotificationId}, MicrotringUUID: {message.MicrotringUUID}");
