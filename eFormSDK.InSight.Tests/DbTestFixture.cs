@@ -187,8 +187,10 @@ namespace eFormSDK.InSight.Tests
                 {
                     if (firstRunNotDone)
                     {
+#pragma warning disable CA2100 // Review SQL queries for security vulnerabilities
                         await DbContext.Database.ExecuteSqlRawAsync(
                             $"SET FOREIGN_KEY_CHECKS = 0;TRUNCATE `eformsdk-tests`.`{modelName}`");
+#pragma warning restore CA2100 // Review SQL queries for security vulnerabilities
                     }
                 }
                 catch (Exception ex)

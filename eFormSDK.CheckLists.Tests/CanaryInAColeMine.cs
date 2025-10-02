@@ -34,7 +34,7 @@ namespace eFormSDK.CheckLists.Tests
         [Test]
         public async Task CanPeep()
         {
-            await Task.Run(() => { Assert.That(true, Is.True); });
+            await Task.Run(() => { Assert.Pass(); });
         }
     }
 }

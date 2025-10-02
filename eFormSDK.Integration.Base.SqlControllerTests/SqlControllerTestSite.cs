@@ -243,7 +243,6 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
 
             // Assert
-            Assert.That(true, Is.True);
 
             Assert.That(getAllSitesOnlyCreated.Count(), Is.EqualTo(10));
             Assert.That(getAllSitesInclRemoved.Count(), Is.EqualTo(10));
