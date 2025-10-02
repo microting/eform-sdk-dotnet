@@ -77,7 +77,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(surveyConfigurations[0].CreatedAt.ToString(), Is.EqualTo(surveyConfiguration.CreatedAt.ToString()));
             Assert.That(surveyConfigurations[0].Version, Is.EqualTo(surveyConfiguration.Version));
             //            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurations[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(surveyConfigurations[0].WorkflowState));
+            Assert.That(surveyConfigurations[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(surveyConfigurations[0].Id, Is.EqualTo(surveyConfiguration.Id));
             Assert.That(surveyConfigurations[0].Name, Is.EqualTo(surveyConfiguration.Name));
             Assert.That(surveyConfigurations[0].Start.ToString(), Is.EqualTo(surveyConfiguration.Start.ToString()));
@@ -91,7 +91,7 @@ namespace eFormSDK.InSight.Tests
                 Is.EqualTo(surveyConfiguration.CreatedAt.ToString()));
             Assert.That(surveyConfigurationVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurationVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(surveyConfigurationVersions[0].WorkflowState));
+            Assert.That(surveyConfigurationVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(surveyConfigurationVersions[0].SurveyConfigurationId, Is.EqualTo(surveyConfiguration.Id));
             Assert.That(surveyConfigurationVersions[0].Name, Is.EqualTo(surveyConfiguration.Name));
             Assert.That(surveyConfigurationVersions[0].Start.ToString(), Is.EqualTo(surveyConfiguration.Start.ToString()));
@@ -154,7 +154,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(surveyConfigurations[0].CreatedAt.ToString(), Is.EqualTo(surveyConfiguration.CreatedAt.ToString()));
             Assert.That(surveyConfigurations[0].Version, Is.EqualTo(surveyConfiguration.Version));
             //            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurations[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(surveyConfigurations[0].WorkflowState));
+            Assert.That(surveyConfigurations[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(surveyConfigurations[0].Id, Is.EqualTo(surveyConfiguration.Id));
             Assert.That(surveyConfigurations[0].Name, Is.EqualTo(surveyConfiguration.Name));
             Assert.That(surveyConfigurations[0].Start.ToString(), Is.EqualTo(surveyConfiguration.Start.ToString()));
@@ -168,7 +168,7 @@ namespace eFormSDK.InSight.Tests
                 Is.EqualTo(surveyConfiguration.CreatedAt.ToString()));
             Assert.That(surveyConfigurationVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), surveyConfigurationVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(surveyConfigurationVersions[0].WorkflowState));
+            Assert.That(surveyConfigurationVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(surveyConfigurationVersions[0].SurveyConfigurationId, Is.EqualTo(surveyConfiguration.Id));
             Assert.That(surveyConfigurationVersions[0].Name, Is.EqualTo(oldName));
             Assert.That(surveyConfigurationVersions[0].Start.ToString(), Is.EqualTo(oldStart.ToString()));
@@ -182,7 +182,7 @@ namespace eFormSDK.InSight.Tests
                 Is.EqualTo(surveyConfiguration.CreatedAt.ToString()));
             Assert.That(surveyConfigurationVersions[1].Version, Is.EqualTo(2));
             //            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurationVersions[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(surveyConfigurationVersions[1].WorkflowState));
+            Assert.That(surveyConfigurationVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(surveyConfigurationVersions[1].SurveyConfigurationId, Is.EqualTo(surveyConfiguration.Id));
             Assert.That(surveyConfigurationVersions[1].Name, Is.EqualTo(surveyConfiguration.Name));
             Assert.That(surveyConfigurationVersions[1].Start.ToString(), Is.EqualTo(surveyConfiguration.Start.ToString()));
@@ -235,7 +235,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(surveyConfigurations[0].CreatedAt.ToString(), Is.EqualTo(surveyConfiguration.CreatedAt.ToString()));
             Assert.That(surveyConfigurations[0].Version, Is.EqualTo(surveyConfiguration.Version));
             //            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurations[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(surveyConfigurations[0].WorkflowState));
+            Assert.That(surveyConfigurations[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(surveyConfigurations[0].Id, Is.EqualTo(surveyConfiguration.Id));
             Assert.That(surveyConfigurations[0].Name, Is.EqualTo(surveyConfiguration.Name));
             Assert.That(surveyConfigurations[0].Start.ToString(), Is.EqualTo(surveyConfiguration.Start.ToString()));
@@ -249,7 +249,7 @@ namespace eFormSDK.InSight.Tests
                 Is.EqualTo(surveyConfiguration.CreatedAt.ToString()));
             Assert.That(surveyConfigurationVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), surveyConfigurationVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(surveyConfigurationVersions[0].WorkflowState));
+            Assert.That(surveyConfigurationVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(surveyConfigurationVersions[0].SurveyConfigurationId, Is.EqualTo(surveyConfiguration.Id));
             Assert.That(surveyConfigurationVersions[0].Name, Is.EqualTo(surveyConfiguration.Name));
             Assert.That(surveyConfigurationVersions[0].Start.ToString(), Is.EqualTo(surveyConfiguration.Start.ToString()));
@@ -263,7 +263,7 @@ namespace eFormSDK.InSight.Tests
                 Is.EqualTo(surveyConfiguration.CreatedAt.ToString()));
             Assert.That(surveyConfigurationVersions[1].Version, Is.EqualTo(2));
             //            Assert.AreEqual(surveyConfiguration.UpdatedAt.ToString(), surveyConfigurationVersions[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(surveyConfigurationVersions[1].WorkflowState));
+            Assert.That(surveyConfigurationVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(surveyConfigurationVersions[1].SurveyConfigurationId, Is.EqualTo(surveyConfiguration.Id));
             Assert.That(surveyConfigurationVersions[1].Name, Is.EqualTo(surveyConfiguration.Name));
             Assert.That(surveyConfigurationVersions[1].Start.ToString(), Is.EqualTo(surveyConfiguration.Start.ToString()));

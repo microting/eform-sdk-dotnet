@@ -521,8 +521,8 @@ namespace eFormSDK.Integration.Base.CoreTests
             Assert.That(matchInclRemoved, Is.Not.EqualTo(null));
             Assert.That(matchNotRemoved, Is.Not.EqualTo(null));
 
-            Assert.That(1, Is.EqualTo(matchInclRemoved.Count));
-            Assert.That(1, Is.EqualTo(matchNotRemoved.Count));
+            Assert.That(matchInclRemoved.Count, Is.EqualTo(1));
+            Assert.That(matchNotRemoved.Count, Is.EqualTo(1));
         }
 
         [Test] //Using Communicatorn needs httpMock

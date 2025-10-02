@@ -218,7 +218,7 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
             var match = await sut.CheckListValueStatusRead(aCase.Id, cl2.Id);
             // Assert
 
-            Assert.That("checked", Is.EqualTo(match));
+            Assert.That(match, Is.EqualTo("checked"));
         }
 
         [Test]
@@ -398,7 +398,7 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
             var newValue = await DbContext.CheckListValues.AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == checkListValue.Id);
 
-            Assert.That("not_approved", Is.EqualTo(newValue.Status));
+            Assert.That(newValue.Status, Is.EqualTo("not_approved"));
         }
 
 

@@ -157,8 +157,8 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Assert.That(dU.UploaderId, Is.EqualTo(ud.UploaderId));
             Assert.That(dU.UploaderType, Is.EqualTo(ud.UploaderType));
             Assert.That(dU.WorkflowState, Is.EqualTo(ud.WorkflowState));
-            Assert.That(1, Is.EqualTo(ud.Version));
-            Assert.That(0, Is.EqualTo(ud.Local));
+            Assert.That(ud.Version, Is.EqualTo(1));
+            Assert.That(ud.Local, Is.EqualTo(0));
             Assert.That(dU.FileLocation, Is.EqualTo(ud.FileLocation));
             Assert.That(dU.FileName, Is.EqualTo(ud.FileName));
             Assert.That(dU.CurrentFile, Is.EqualTo(ud.CurrentFile));

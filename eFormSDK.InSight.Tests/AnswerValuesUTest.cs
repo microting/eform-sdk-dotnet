@@ -190,7 +190,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(answerValues[0].CreatedAt.ToString(), Is.EqualTo(answerValue.CreatedAt.ToString()));
             Assert.That(answerValues[0].Version, Is.EqualTo(answerValue.Version));
             //             Assert.AreEqual(answerValue.UpdatedAt.ToString(), answerValues[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(answerValues[0].WorkflowState));
+            Assert.That(answerValues[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(answerValues[0].Value, Is.EqualTo(answerValue.Value));
             Assert.That(answerValues[0].Id, Is.EqualTo(answerValue.Id));
             Assert.That(answerValue.AnswerId, Is.EqualTo(answer.Id));
@@ -201,7 +201,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(answerValueVersions[0].CreatedAt.ToString(), Is.EqualTo(answerValue.CreatedAt.ToString()));
             Assert.That(answerValueVersions[0].Version, Is.EqualTo(1));
             //             Assert.AreEqual(answerValue.UpdatedAt.ToString(), answerValueVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(answerValueVersions[0].WorkflowState));
+            Assert.That(answerValueVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(answerValueVersions[0].AnswerValueId, Is.EqualTo(answerValue.Id));
             Assert.That(answerValueVersions[0].Value, Is.EqualTo(answerValue.Value));
             Assert.That(answerValueVersions[0].AnswerId, Is.EqualTo(answer.Id));
@@ -369,7 +369,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(answerValues[0].CreatedAt.ToString(), Is.EqualTo(answerValue.CreatedAt.ToString()));
             Assert.That(answerValues[0].Version, Is.EqualTo(answerValue.Version));
             //             Assert.AreEqual(answerValue.UpdatedAt.ToString(), answerValues[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(answerValues[0].WorkflowState));
+            Assert.That(answerValues[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(answerValues[0].Value, Is.EqualTo(answerValue.Value));
             Assert.That(answerValues[0].Id, Is.EqualTo(answerValue.Id));
             Assert.That(answer.Id, Is.EqualTo(answerValue.AnswerId));
@@ -380,7 +380,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(answerValueVersions[0].CreatedAt.ToString(), Is.EqualTo(answerValue.CreatedAt.ToString()));
             Assert.That(answerValueVersions[0].Version, Is.EqualTo(1));
             //             Assert.AreEqual(oldUpdatedAt.ToString(), answerValueVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(answerValueVersions[0].WorkflowState));
+            Assert.That(answerValueVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(answerValueVersions[0].AnswerValueId, Is.EqualTo(answerValue.Id));
             Assert.That(answerValueVersions[0].Value, Is.EqualTo(oldValue));
             Assert.That(answerValueVersions[0].AnswerId, Is.EqualTo(answer.Id));
@@ -391,7 +391,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(answerValueVersions[1].CreatedAt.ToString(), Is.EqualTo(answerValue.CreatedAt.ToString()));
             Assert.That(answerValueVersions[1].Version, Is.EqualTo(2));
             //             Assert.AreEqual(answerValue.UpdatedAt.ToString(), answerValueVersions[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(answerValueVersions[1].WorkflowState));
+            Assert.That(answerValueVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(answerValueVersions[1].AnswerValueId, Is.EqualTo(answerValue.Id));
             Assert.That(answerValueVersions[1].Value, Is.EqualTo(answerValue.Value));
             Assert.That(answerValueVersions[1].AnswerId, Is.EqualTo(answer.Id));
@@ -555,7 +555,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(answerValues[0].CreatedAt.ToString(), Is.EqualTo(answerValue.CreatedAt.ToString()));
             Assert.That(answerValues[0].Version, Is.EqualTo(answerValue.Version));
             //             Assert.AreEqual(answerValue.UpdatedAt.ToString(), answerValues[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(answerValues[0].WorkflowState));
+            Assert.That(answerValues[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(answerValues[0].Value, Is.EqualTo(answerValue.Value));
             Assert.That(answerValues[0].Id, Is.EqualTo(answerValue.Id));
             Assert.That(answer.Id, Is.EqualTo(answerValue.AnswerId));
@@ -566,7 +566,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(answerValueVersions[0].CreatedAt.ToString(), Is.EqualTo(answerValue.CreatedAt.ToString()));
             Assert.That(answerValueVersions[0].Version, Is.EqualTo(1));
             //             Assert.AreEqual(oldUpdatedAt.ToString(), answerValueVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(answerValueVersions[0].WorkflowState));
+            Assert.That(answerValueVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(answerValueVersions[0].AnswerValueId, Is.EqualTo(answerValue.Id));
             Assert.That(answerValueVersions[0].Value, Is.EqualTo(answerValue.Value));
             Assert.That(answerValueVersions[0].AnswerId, Is.EqualTo(answer.Id));
@@ -577,7 +577,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(answerValueVersions[1].CreatedAt.ToString(), Is.EqualTo(answerValue.CreatedAt.ToString()));
             Assert.That(answerValueVersions[1].Version, Is.EqualTo(2));
             //             Assert.AreEqual(answerValue.UpdatedAt.ToString(), answerValueVersions[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(answerValueVersions[1].WorkflowState));
+            Assert.That(answerValueVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(answerValueVersions[1].AnswerValueId, Is.EqualTo(answerValue.Id));
             Assert.That(answerValueVersions[1].Value, Is.EqualTo(answerValue.Value));
             Assert.That(answerValueVersions[1].AnswerId, Is.EqualTo(answer.Id));

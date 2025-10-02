@@ -83,7 +83,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(siteWorkers[0].CreatedAt.ToString(), Is.EqualTo(siteWorker.CreatedAt.ToString()));
             Assert.That(siteWorkers[0].Version, Is.EqualTo(siteWorker.Version));
             //            Assert.AreEqual(siteWorker.UpdatedAt.ToString(), siteWorkers[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(siteWorkers[0].WorkflowState));
+            Assert.That(siteWorkers[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(siteWorkers[0].Id, Is.EqualTo(siteWorker.Id));
             Assert.That(siteWorkers[0].MicrotingUid, Is.EqualTo(siteWorker.MicrotingUid));
             Assert.That(site.Id, Is.EqualTo(siteWorker.SiteId));
@@ -94,7 +94,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(siteWorkerVersions[0].CreatedAt.ToString(), Is.EqualTo(siteWorker.CreatedAt.ToString()));
             Assert.That(siteWorkerVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(siteWorker.UpdatedAt.ToString(), siteWorkerVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(siteWorkerVersions[0].WorkflowState));
+            Assert.That(siteWorkerVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(siteWorkerVersions[0].SiteWorkerId, Is.EqualTo(siteWorker.Id));
             Assert.That(siteWorkerVersions[0].MicrotingUid, Is.EqualTo(siteWorker.MicrotingUid));
             Assert.That(siteWorkerVersions[0].SiteId, Is.EqualTo(site.Id));
@@ -155,7 +155,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(siteWorkers[0].CreatedAt.ToString(), Is.EqualTo(siteWorker.CreatedAt.ToString()));
             Assert.That(siteWorkers[0].Version, Is.EqualTo(siteWorker.Version));
             //            Assert.AreEqual(siteWorker.UpdatedAt.ToString(), siteWorkers[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(siteWorkers[0].WorkflowState));
+            Assert.That(siteWorkers[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(siteWorkers[0].Id, Is.EqualTo(siteWorker.Id));
             Assert.That(siteWorkers[0].MicrotingUid, Is.EqualTo(siteWorker.MicrotingUid));
             Assert.That(site.Id, Is.EqualTo(siteWorker.SiteId));
@@ -166,7 +166,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(siteWorkerVersions[0].CreatedAt.ToString(), Is.EqualTo(siteWorker.CreatedAt.ToString()));
             Assert.That(siteWorkerVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), siteWorkerVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(siteWorkerVersions[0].WorkflowState));
+            Assert.That(siteWorkerVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(siteWorkerVersions[0].SiteWorkerId, Is.EqualTo(siteWorker.Id));
             Assert.That(siteWorkerVersions[0].MicrotingUid, Is.EqualTo(oldMicroTingUid));
             Assert.That(siteWorkerVersions[0].SiteId, Is.EqualTo(site.Id));
@@ -177,7 +177,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(siteWorkerVersions[1].CreatedAt.ToString(), Is.EqualTo(siteWorker.CreatedAt.ToString()));
             Assert.That(siteWorkerVersions[1].Version, Is.EqualTo(2));
             //            Assert.AreEqual(siteWorker.UpdatedAt.ToString(), siteWorkerVersions[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(siteWorkerVersions[1].WorkflowState));
+            Assert.That(siteWorkerVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(siteWorkerVersions[1].SiteWorkerId, Is.EqualTo(siteWorker.Id));
             Assert.That(siteWorkerVersions[1].MicrotingUid, Is.EqualTo(siteWorker.MicrotingUid));
             Assert.That(siteWorkerVersions[1].SiteId, Is.EqualTo(site.Id));
@@ -235,7 +235,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(siteWorkers[0].CreatedAt.ToString(), Is.EqualTo(siteWorker.CreatedAt.ToString()));
             Assert.That(siteWorkers[0].Version, Is.EqualTo(siteWorker.Version));
             //            Assert.AreEqual(siteWorker.UpdatedAt.ToString(), siteWorkers[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(siteWorkers[0].WorkflowState));
+            Assert.That(siteWorkers[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(siteWorkers[0].Id, Is.EqualTo(siteWorker.Id));
             Assert.That(siteWorkers[0].MicrotingUid, Is.EqualTo(siteWorker.MicrotingUid));
             Assert.That(site.Id, Is.EqualTo(siteWorker.SiteId));
@@ -246,7 +246,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(siteWorkerVersions[0].CreatedAt.ToString(), Is.EqualTo(siteWorker.CreatedAt.ToString()));
             Assert.That(siteWorkerVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), siteWorkerVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(siteWorkerVersions[0].WorkflowState));
+            Assert.That(siteWorkerVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(siteWorkerVersions[0].SiteWorkerId, Is.EqualTo(siteWorker.Id));
             Assert.That(siteWorkerVersions[0].MicrotingUid, Is.EqualTo(siteWorker.MicrotingUid));
             Assert.That(siteWorkerVersions[0].SiteId, Is.EqualTo(site.Id));
@@ -257,7 +257,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(siteWorkerVersions[1].CreatedAt.ToString(), Is.EqualTo(siteWorker.CreatedAt.ToString()));
             Assert.That(siteWorkerVersions[1].Version, Is.EqualTo(2));
             //            Assert.AreEqual(siteWorker.UpdatedAt.ToString(), siteWorkerVersions[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(siteWorkerVersions[1].WorkflowState));
+            Assert.That(siteWorkerVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(siteWorkerVersions[1].SiteWorkerId, Is.EqualTo(siteWorker.Id));
             Assert.That(siteWorkerVersions[1].MicrotingUid, Is.EqualTo(siteWorker.MicrotingUid));
             Assert.That(siteWorkerVersions[1].SiteId, Is.EqualTo(site.Id));

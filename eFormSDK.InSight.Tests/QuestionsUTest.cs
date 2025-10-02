@@ -92,7 +92,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(questions[0].CreatedAt.ToString(), Is.EqualTo(question.CreatedAt.ToString()));
             Assert.That(questions[0].Version, Is.EqualTo(question.Version));
             //            Assert.AreEqual(question.UpdatedAt.ToString(), questions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(questions[0].WorkflowState));
+            Assert.That(questions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(questionVersions[0].Id, Is.EqualTo(question.Id));
             Assert.That(questions[0].Image, Is.EqualTo(question.Image));
             Assert.That(questions[0].Maximum, Is.EqualTo(question.Maximum));
@@ -114,7 +114,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(questionVersions[0].CreatedAt.ToString(), Is.EqualTo(question.CreatedAt.ToString()));
             Assert.That(questionVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(question.UpdatedAt.ToString(), questionVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(questionVersions[0].WorkflowState));
+            Assert.That(questionVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(questionVersions[0].QuestionId, Is.EqualTo(question.Id));
             Assert.That(questionVersions[0].Image, Is.EqualTo(question.Image));
             Assert.That(questionVersions[0].Maximum, Is.EqualTo(question.Maximum));
@@ -221,7 +221,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(questions[0].CreatedAt.ToString(), Is.EqualTo(question.CreatedAt.ToString()));
             Assert.That(questions[0].Version, Is.EqualTo(question.Version));
             //            Assert.AreEqual(question.UpdatedAt.ToString(), questions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(questions[0].WorkflowState));
+            Assert.That(questions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(questionVersions[0].Id, Is.EqualTo(question.Id));
             Assert.That(questions[0].Image, Is.EqualTo(question.Image));
             Assert.That(questions[0].Maximum, Is.EqualTo(question.Maximum));
@@ -243,7 +243,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(questionVersions[0].CreatedAt.ToString(), Is.EqualTo(question.CreatedAt.ToString()));
             Assert.That(questionVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), questionVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(questionVersions[0].WorkflowState));
+            Assert.That(questionVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(questionVersions[0].QuestionId, Is.EqualTo(question.Id));
             Assert.That(questionVersions[0].Image, Is.EqualTo(oldImage));
             Assert.That(questionVersions[0].Maximum, Is.EqualTo(oldMaximum));
@@ -265,7 +265,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(questionVersions[1].CreatedAt.ToString(), Is.EqualTo(question.CreatedAt.ToString()));
             Assert.That(questionVersions[1].Version, Is.EqualTo(2));
             //            Assert.AreEqual(question.UpdatedAt.ToString(), questionVersions[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(questionVersions[1].WorkflowState));
+            Assert.That(questionVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(questionVersions[0].QuestionId, Is.EqualTo(question.Id));
             Assert.That(questionVersions[1].Image, Is.EqualTo(question.Image));
             Assert.That(questionVersions[1].Maximum, Is.EqualTo(question.Maximum));
@@ -342,7 +342,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(questions[0].CreatedAt.ToString(), Is.EqualTo(question.CreatedAt.ToString()));
             Assert.That(questions[0].Version, Is.EqualTo(question.Version));
             //            Assert.AreEqual(question.UpdatedAt.ToString(), questions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(questions[0].WorkflowState));
+            Assert.That(questions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(questionVersions[0].Id, Is.EqualTo(question.Id));
             Assert.That(questions[0].Image, Is.EqualTo(question.Image));
             Assert.That(questions[0].Maximum, Is.EqualTo(question.Maximum));
@@ -364,7 +364,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(questionVersions[0].CreatedAt.ToString(), Is.EqualTo(question.CreatedAt.ToString()));
             Assert.That(questionVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), questionVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(questionVersions[0].WorkflowState));
+            Assert.That(questionVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(questionVersions[0].QuestionId, Is.EqualTo(question.Id));
             Assert.That(questionVersions[0].Image, Is.EqualTo(question.Image));
             Assert.That(questionVersions[0].Maximum, Is.EqualTo(question.Maximum));
@@ -386,7 +386,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(questionVersions[1].CreatedAt.ToString(), Is.EqualTo(question.CreatedAt.ToString()));
             Assert.That(questionVersions[1].Version, Is.EqualTo(2));
             //            Assert.AreEqual(question.UpdatedAt.ToString(), questionVersions[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(questionVersions[1].WorkflowState));
+            Assert.That(questionVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(questionVersions[0].QuestionId, Is.EqualTo(question.Id));
             Assert.That(questionVersions[1].Image, Is.EqualTo(question.Image));
             Assert.That(questionVersions[1].Maximum, Is.EqualTo(question.Maximum));

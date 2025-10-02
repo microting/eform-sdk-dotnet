@@ -93,7 +93,7 @@ namespace eFormSDK.InSight.Tests
                 Is.EqualTo(siteSurveyConfiguration.CreatedAt.ToString()));
             Assert.That(siteSurveyConfigurations[0].Version, Is.EqualTo(siteSurveyConfiguration.Version));
             //            Assert.AreEqual(siteSurveyConfiguration.UpdatedAt.ToString(), siteSurveyConfigurations[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(siteSurveyConfigurations[0].WorkflowState));
+            Assert.That(siteSurveyConfigurations[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(siteSurveyConfigurations[0].Id, Is.EqualTo(siteSurveyConfiguration.Id));
             Assert.That(site.Id, Is.EqualTo(siteSurveyConfiguration.SiteId));
             Assert.That(surveyConfiguration.Id, Is.EqualTo(siteSurveyConfiguration.SurveyConfigurationId));
@@ -104,7 +104,7 @@ namespace eFormSDK.InSight.Tests
                 Is.EqualTo(siteSurveyConfiguration.CreatedAt.ToString()));
             Assert.That(siteSurveyConfigurationVersions[0].Version, Is.EqualTo(siteSurveyConfiguration.Version));
             //            Assert.AreEqual(siteSurveyConfiguration.UpdatedAt.ToString(), siteSurveyConfigurationVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(siteSurveyConfigurationVersions[0].WorkflowState));
+            Assert.That(siteSurveyConfigurationVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(siteSurveyConfigurationVersions[0].Id, Is.EqualTo(siteSurveyConfiguration.Id));
             Assert.That(siteSurveyConfigurationVersions[0].SiteId, Is.EqualTo(site.Id));
             Assert.That(siteSurveyConfigurationVersions[0].SurveyConfigurationId, Is.EqualTo(surveyConfiguration.Id));
@@ -171,7 +171,7 @@ namespace eFormSDK.InSight.Tests
                 Is.EqualTo(siteSurveyConfiguration.CreatedAt.ToString()));
             Assert.That(siteSurveyConfigurations[0].Version, Is.EqualTo(siteSurveyConfiguration.Version));
             //            Assert.AreEqual(siteSurveyConfiguration.UpdatedAt.ToString(), siteSurveyConfigurations[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(siteSurveyConfigurations[0].WorkflowState));
+            Assert.That(siteSurveyConfigurations[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(siteSurveyConfigurations[0].Id, Is.EqualTo(siteSurveyConfiguration.Id));
             Assert.That(site.Id, Is.EqualTo(siteSurveyConfiguration.SiteId));
             Assert.That(surveyConfiguration.Id, Is.EqualTo(siteSurveyConfiguration.SurveyConfigurationId));
@@ -182,7 +182,7 @@ namespace eFormSDK.InSight.Tests
                 Is.EqualTo(siteSurveyConfiguration.CreatedAt.ToString()));
             Assert.That(siteSurveyConfigurationVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), siteSurveyConfigurationVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(siteSurveyConfigurationVersions[0].WorkflowState));
+            Assert.That(siteSurveyConfigurationVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(siteSurveyConfigurationVersions[0].SiteSurveyConfigurationId, Is.EqualTo(siteSurveyConfiguration.Id));
             Assert.That(siteSurveyConfigurationVersions[0].SiteId, Is.EqualTo(site.Id));
             Assert.That(siteSurveyConfigurationVersions[0].SurveyConfigurationId, Is.EqualTo(surveyConfiguration.Id));
@@ -193,7 +193,7 @@ namespace eFormSDK.InSight.Tests
                 Is.EqualTo(siteSurveyConfiguration.CreatedAt.ToString()));
             Assert.That(siteSurveyConfigurationVersions[1].Version, Is.EqualTo(2));
             //            Assert.AreEqual(siteSurveyConfiguration.UpdatedAt.ToString(), siteSurveyConfigurationVersions[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(siteSurveyConfigurationVersions[1].WorkflowState));
+            Assert.That(siteSurveyConfigurationVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(siteSurveyConfigurationVersions[1].SiteSurveyConfigurationId, Is.EqualTo(siteSurveyConfiguration.Id));
             Assert.That(siteSurveyConfigurationVersions[1].SiteId, Is.EqualTo(site.Id));
             Assert.That(siteSurveyConfigurationVersions[1].SurveyConfigurationId, Is.EqualTo(surveyConfiguration.Id));
