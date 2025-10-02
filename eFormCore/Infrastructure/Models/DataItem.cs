@@ -65,15 +65,15 @@ namespace Microting.eForm.Infrastructure.Models
         public int Id { get; set; }
         public bool Mandatory { get; set; }
         public bool ReadOnly { get; set; }
-        public string Label { get; set; }
+        public string Label { get; set; } = null!;
 
-        [XmlElement("Description")] public CDataValue Description { get; set; }
-        public string Color { get; set; }
+        [XmlElement("Description")] public CDataValue Description { get; set; } = null!;
+        public string Color { get; set; } = null!;
         public int DisplayOrder { get; set; }
 
         [XmlIgnore] public bool Dummy { get; set; }
 
-        public string OriginalId { get; set; }
+        public string OriginalId { get; set; } = null!;
         //
     }
 
@@ -169,7 +169,7 @@ namespace Microting.eForm.Infrastructure.Models
         }
 
         // var
-        public string Value { get; set; }
+        public string Value { get; set; } = null!;
         public int Maxlength { get; set; }
 
         public bool Split { get; set; }
@@ -205,7 +205,7 @@ namespace Microting.eForm.Infrastructure.Models
         }
 
         // var
-        public string DefaultValue { get; set; }
+        public string DefaultValue { get; set; } = null!;
 
         // public string/DateTime MaxValue { get; set; }
         [XmlIgnore] public DateTime MaxValue { get; set; }
@@ -286,12 +286,12 @@ namespace Microting.eForm.Infrastructure.Models
         }
 
         // var
-        public string MinValue { get; set; }
-        public string MaxValue { get; set; }
+        public string MinValue { get; set; } = null!;
+        public string MaxValue { get; set; } = null!;
         public int DefaultValue { get; set; }
         public int DecimalCount { get; set; }
 
-        public string UnitName { get; set; }
+        public string UnitName { get; set; } = null!;
         //
     }
     //
@@ -326,12 +326,12 @@ namespace Microting.eForm.Infrastructure.Models
         }
 
         // var
-        public string MinValue { get; set; }
-        public string MaxValue { get; set; }
+        public string MinValue { get; set; } = null!;
+        public string MaxValue { get; set; } = null!;
         public int DefaultValue { get; set; }
         public int DecimalCount { get; set; }
 
-        public string UnitName { get; set; }
+        public string UnitName { get; set; } = null!;
         //
     }
     //
@@ -427,7 +427,7 @@ namespace Microting.eForm.Infrastructure.Models
             OriginalId = originalId;
         }
 
-        public string Value { get; set; }
+        public string Value { get; set; } = null!;
     }
 
     // ShowPdf
@@ -455,7 +455,7 @@ namespace Microting.eForm.Infrastructure.Models
             OriginalId = originalId;
         }
 
-        public string Value { get; set; }
+        public string Value { get; set; } = null!;
     }
     //
 
@@ -484,7 +484,7 @@ namespace Microting.eForm.Infrastructure.Models
             OriginalId = originalId;
         }
 
-        public string Value { get; set; }
+        public string Value { get; set; } = null!;
     }
     //
 
@@ -577,14 +577,14 @@ namespace Microting.eForm.Infrastructure.Models
         }
 
         // var
-        public string Value { get; set; }
+        public string Value { get; set; } = null!;
         public int MaxLength { get; set; }
         public bool GeolocationEnabled { get; set; }
         public bool GeolocationForced { get; set; }
         public bool GeolocationHidden { get; set; }
         public bool BarcodeEnabled { get; set; }
 
-        public string BarcodeType { get; set; }
+        public string BarcodeType { get; set; } = null!;
         //
     }
     //
@@ -657,11 +657,11 @@ namespace Microting.eForm.Infrastructure.Models
         public int EntityTypeId { get; set; }
 
         public bool IsNum { get; set; }
-        public string QueryType { get; set; }
+        public string QueryType { get; set; } = null!;
         public int MinSearchLenght { get; set; }
         public bool BarcodeEnabled { get; set; }
 
-        public string BarcodeType { get; set; }
+        public string BarcodeType { get; set; } = null!;
         //
     }
     //
@@ -706,30 +706,30 @@ namespace Microting.eForm.Infrastructure.Models
 
     public class Field : DataItem
     {
-        public List<FieldValue> FieldValues { get; set; }
-        public string FieldType { get; set; }
-        public string FieldValue { get; set; }
+        public List<FieldValue> FieldValues { get; set; } = null!;
+        public string FieldType { get; set; } = null!;
+        public string FieldValue { get; set; } = null!;
         public int? EntityGroupId { get; set; }
-        public List<KeyValuePair> KeyValuePairList { get; set; }
+        public List<KeyValuePair> KeyValuePairList { get; set; } = null!;
     }
 
     public class FieldValue : DataItem
     {
         public int FieldId { get; set; }
-        public string FieldType { get; set; }
+        public string FieldType { get; set; } = null!;
         public DateTime DateOfDoing { get; set; }
-        public string Value { get; set; }
-        public string MicrotingUuid { get; set; }
-        public string ValueReadable { get; set; }
-        public string Latitude { get; set; }
-        public string Longitude { get; set; }
-        public string Altitude { get; set; }
-        public string Heading { get; set; }
-        public string Accuracy { get; set; }
+        public string Value { get; set; } = null!;
+        public string MicrotingUuid { get; set; } = null!;
+        public string ValueReadable { get; set; } = null!;
+        public string Latitude { get; set; } = null!;
+        public string Longitude { get; set; } = null!;
+        public string Altitude { get; set; } = null!;
+        public string Heading { get; set; } = null!;
+        public string Accuracy { get; set; } = null!;
         public DateTime? Date { get; set; }
-        public string UploadedData { get; set; }
-        public UploadedData UploadedDataObj { get; set; }
-        public List<KeyValuePair> KeyValuePairList { get; set; }
+        public string UploadedData { get; set; } = null!;
+        public UploadedData UploadedDataObj { get; set; } = null!;
+        public List<KeyValuePair> KeyValuePairList { get; set; } = null!;
     }
 
     public class FieldContainer : DataItem
@@ -753,11 +753,11 @@ namespace Microting.eForm.Infrastructure.Models
             OriginalId = originalId;
         }
 
-        public string FieldType { get; set; }
-        public string Value { get; set; }
+        public string FieldType { get; set; } = null!;
+        public string Value { get; set; } = null!;
 
         [XmlArray("DataItemList"), XmlArrayItem(typeof(DataItem), ElementName = "DataItem")]
-        public List<DataItem> DataItemList { get; set; }
+        public List<DataItem> DataItemList { get; set; } = null!;
 
         public static explicit operator FieldContainer(DataItemGroup dataItemGroup)
         {
@@ -772,13 +772,13 @@ namespace Microting.eForm.Infrastructure.Models
     public class UploadedData
     {
         public int Id { get; set; }
-        public string Checksum { get; set; }
-        public string Extension { get; set; }
-        public string CurrentFile { get; set; }
+        public string Checksum { get; set; } = null!;
+        public string Extension { get; set; } = null!;
+        public string CurrentFile { get; set; } = null!;
         public int? UploaderId { get; set; }
-        public string UploaderType { get; set; }
-        public string FileLocation { get; set; }
-        public string FileName { get; set; }
+        public string UploaderType { get; set; } = null!;
+        public string FileLocation { get; set; } = null!;
+        public string FileName { get; set; } = null!;
     }
 
     public enum DataItemColors
