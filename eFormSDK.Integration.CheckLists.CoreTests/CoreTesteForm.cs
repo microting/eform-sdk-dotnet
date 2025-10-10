@@ -585,7 +585,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             var match = await sut.TemplateValidation(main);
             // Assert
             Assert.That(match, Is.Not.EqualTo(null));
-            Assert.That(0, Is.EqualTo(match.Count()));
+            Assert.That(match.Count(), Is.EqualTo(0));
         }
 
         [Test]
@@ -928,10 +928,10 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             #region template1
 
             Assert.That(match1, Is.Not.EqualTo(null));
-            Assert.That("Description1", Is.EqualTo(match1.Description));
-            Assert.That("Label1", Is.EqualTo(match1.Label));
+            Assert.That(match1.Description, Is.EqualTo("Description1"));
+            Assert.That(match1.Label, Is.EqualTo("Label1"));
             Assert.That(Template1.CreatedAt.ToString(), Is.EqualTo(match1.CreatedAt.ToString()));
-            Assert.That("FolderWithTemplate", Is.EqualTo(match1.FolderName));
+            Assert.That(match1.FolderName, Is.EqualTo("FolderWithTemplate"));
             Assert.That(Template1.Id, Is.EqualTo(match1.Id));
 //            Assert.AreEqual(match1.UpdatedAt.ToString(), Template1.UpdatedAt.ToString());
 
@@ -940,10 +940,10 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             #region template2
 
             Assert.That(match1, Is.Not.EqualTo(null));
-            Assert.That("Description2", Is.EqualTo(match2.Description));
-            Assert.That("Label2", Is.EqualTo(match2.Label));
+            Assert.That(match2.Description, Is.EqualTo("Description2"));
+            Assert.That(match2.Label, Is.EqualTo("Label2"));
             Assert.That(Template2.CreatedAt.ToString(), Is.EqualTo(match2.CreatedAt.ToString()));
-            Assert.That("FolderWithTemplate", Is.EqualTo(match2.FolderName));
+            Assert.That(match2.FolderName, Is.EqualTo("FolderWithTemplate"));
             Assert.That(Template2.Id, Is.EqualTo(match2.Id));
 //            Assert.AreEqual(match2.UpdatedAt.ToString(), Template2.UpdatedAt.ToString());
 
@@ -952,10 +952,10 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             #region template3
 
             Assert.That(match1, Is.Not.EqualTo(null));
-            Assert.That("Description3", Is.EqualTo(match3.Description));
-            Assert.That("Label3", Is.EqualTo(match3.Label));
+            Assert.That(match3.Description, Is.EqualTo("Description3"));
+            Assert.That(match3.Label, Is.EqualTo("Label3"));
             Assert.That(Template3.CreatedAt.ToString(), Is.EqualTo(match3.CreatedAt.ToString()));
-            Assert.That("FolderWithTemplate", Is.EqualTo(match3.FolderName));
+            Assert.That(match3.FolderName, Is.EqualTo("FolderWithTemplate"));
             Assert.That(Template3.Id, Is.EqualTo(match3.Id));
 //            Assert.AreEqual(match3.UpdatedAt.ToString(), Template3.UpdatedAt.ToString());
 
@@ -964,10 +964,10 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             #region template4
 
             Assert.That(match1, Is.Not.EqualTo(null));
-            Assert.That("Description4", Is.EqualTo(match4.Description));
-            Assert.That("Label4", Is.EqualTo(match4.Label));
+            Assert.That(match4.Description, Is.EqualTo("Description4"));
+            Assert.That(match4.Label, Is.EqualTo("Label4"));
             Assert.That(Template4.CreatedAt.ToString(), Is.EqualTo(match4.CreatedAt.ToString()));
-            Assert.That("FolderWithTemplate", Is.EqualTo(match4.FolderName));
+            Assert.That(match4.FolderName, Is.EqualTo("FolderWithTemplate"));
             Assert.That(Template4.Id, Is.EqualTo(match4.Id));
 //            Assert.AreEqual(match4.UpdatedAt.ToString(), Template4.UpdatedAt.ToString());
 

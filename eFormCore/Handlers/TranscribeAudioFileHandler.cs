@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
 using System.Threading.Tasks;
 using eFormCore;
 using Microting.eForm.Communication;
@@ -47,15 +48,16 @@ namespace Microting.eForm.Handlers
             this.core = core;
         }
 
-#pragma warning disable 1998
         public async Task Handle(TranscribeAudioFile message)
         {
             try
             {
                 await core.TranscribeUploadedData(message.uploadedDataId);
             }
-            catch
+            catch (Exception ex)
             {
+                log.LogException(t.GetMethodName("TranscribeAudioFileHandler"), 
+                    "Failed to transcribe audio file with uploadedDataId: " + message.uploadedDataId, ex);
             }
         }
     }

@@ -226,7 +226,7 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             var match = DbContext.Settings.AsNoTracking().ToList();
 
             // Assert
-            Assert.That("player", Is.EqualTo(match[7].Value));
+            Assert.That(match[7].Value, Is.EqualTo("player"));
         }
 
 

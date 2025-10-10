@@ -142,7 +142,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.That(match.DisplayOrder, Is.EqualTo(0));
             Assert.That(match.ElementList.Count(), Is.EqualTo(1));
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.That(1, Is.EqualTo(dE.DataItemList.Count()));
+            Assert.That(dE.DataItemList.Count(), Is.EqualTo(1));
             Assert.That(dE.Label, Is.EqualTo("CommentDataElement"));
 
             CDataValue cd = new CDataValue();

@@ -65,7 +65,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(dbSite.CreatedAt.ToString(), Is.EqualTo(site.CreatedAt.ToString()));
             Assert.That(dbSite.Version, Is.EqualTo(site.Version));
             //            Assert.AreEqual(site.UpdatedAt.ToString(), dbSites.UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(dbSite.WorkflowState));
+            Assert.That(dbSite.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(dbSite.Name, Is.EqualTo(site.Name));
             Assert.That(dbSite.MicrotingUid, Is.EqualTo(site.MicrotingUid));
         }
@@ -140,7 +140,7 @@ namespace eFormSDK.Base.Tests
             //            Assert.AreEqual(site.UpdatedAt.ToString(), dbSites.UpdatedAt.ToString());
             Assert.That(dbSite.Name, Is.EqualTo(site.Name));
 
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(dbSite.WorkflowState));
+            Assert.That(dbSite.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
         }
     }
 }

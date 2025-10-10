@@ -159,7 +159,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.That(match.EnableQuickSync, Is.EqualTo(true));
 
             DataElement dE = (DataElement)match.ElementList[0];
-            Assert.That(1, Is.EqualTo(dE.DataItemList.Count()));
+            Assert.That(dE.DataItemList.Count(), Is.EqualTo(1));
             Assert.That(dE.Label, Is.EqualTo("Lorem ipsum"));
 
             CDataValue cd = new CDataValue();

@@ -69,7 +69,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(questionSets[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
             Assert.That(questionSets[0].Version, Is.EqualTo(questionSet.Version));
             //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSets[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(questionSets[0].WorkflowState));
+            Assert.That(questionSets[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(questionSets[0].Id, Is.EqualTo(questionSet.Id));
             Assert.That(questionSets[0].Name, Is.EqualTo(questionSet.Name));
             Assert.That(questionSets[0].Share, Is.EqualTo(questionSet.Share));
@@ -81,7 +81,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(questionSetVersions[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
             Assert.That(questionSetVersions[0].Version, Is.EqualTo(questionSet.Version));
             //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSetVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(questionSetVersions[0].WorkflowState));
+            Assert.That(questionSetVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(questionSetVersions[0].Id, Is.EqualTo(questionSet.Id));
             Assert.That(questionSetVersions[0].Name, Is.EqualTo(questionSet.Name));
             Assert.That(questionSetVersions[0].Share, Is.EqualTo(questionSet.Share));
@@ -133,7 +133,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(questionSets[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
             Assert.That(questionSets[0].Version, Is.EqualTo(questionSet.Version));
             //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSets[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(questionSets[0].WorkflowState));
+            Assert.That(questionSets[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(questionSets[0].Id, Is.EqualTo(questionSet.Id));
             Assert.That(questionSets[0].Name, Is.EqualTo(questionSet.Name));
             Assert.That(questionSets[0].Share, Is.EqualTo(questionSet.Share));
@@ -145,7 +145,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(questionSetVersions[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
             Assert.That(questionSetVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), questionSetVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(questionSetVersions[0].WorkflowState));
+            Assert.That(questionSetVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(questionSetVersions[0].QuestionSetId, Is.EqualTo(questionSet.Id));
             Assert.That(questionSetVersions[0].Name, Is.EqualTo(oldName));
             Assert.That(questionSetVersions[0].Share, Is.EqualTo(oldShare));
@@ -156,7 +156,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(questionSetVersions[1].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
             Assert.That(questionSetVersions[1].Version, Is.EqualTo(2));
             //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSetVersions[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(questionSetVersions[0].WorkflowState));
+            Assert.That(questionSetVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(questionSetVersions[1].QuestionSetId, Is.EqualTo(questionSet.Id));
             Assert.That(questionSetVersions[1].Name, Is.EqualTo(questionSet.Name));
             Assert.That(questionSetVersions[1].Share, Is.EqualTo(questionSet.Share));
@@ -199,7 +199,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(questionSets[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
             Assert.That(questionSets[0].Version, Is.EqualTo(questionSet.Version));
             //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSets[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(questionSets[0].WorkflowState));
+            Assert.That(questionSets[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(questionSets[0].Id, Is.EqualTo(questionSet.Id));
             Assert.That(questionSets[0].Name, Is.EqualTo(questionSet.Name));
             Assert.That(questionSets[0].Share, Is.EqualTo(questionSet.Share));
@@ -211,7 +211,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(questionSetVersions[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
             Assert.That(questionSetVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), questionSetVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(questionSetVersions[0].WorkflowState));
+            Assert.That(questionSetVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(questionSetVersions[0].QuestionSetId, Is.EqualTo(questionSet.Id));
             Assert.That(questionSetVersions[0].Name, Is.EqualTo(questionSet.Name));
             Assert.That(questionSetVersions[0].Share, Is.EqualTo(questionSet.Share));
@@ -222,7 +222,7 @@ namespace eFormSDK.InSight.Tests
             Assert.That(questionSetVersions[1].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
             Assert.That(questionSetVersions[1].Version, Is.EqualTo(2));
             //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSetVersions[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(questionSetVersions[1].WorkflowState));
+            Assert.That(questionSetVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(questionSetVersions[1].QuestionSetId, Is.EqualTo(questionSet.Id));
             Assert.That(questionSetVersions[1].Name, Is.EqualTo(questionSet.Name));
             Assert.That(questionSetVersions[1].Share, Is.EqualTo(questionSet.Share));

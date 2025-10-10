@@ -478,12 +478,11 @@ namespace Microting.eForm.Helpers
             return cls;
         }
 
-        public async Task<int> GetRandomInt()
+        public Task<int> GetRandomInt()
         {
-            await Task.Run(() => { }); // TODO FIX ME
             Random random = new Random();
             int i = random.Next(0, int.MaxValue);
-            return i;
+            return Task.FromResult(i);
         }
 
         #endregion

@@ -248,17 +248,17 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             #region Barcode
 
-            Assert.That(1, Is.EqualTo(f1.BarcodeEnabled));
-            Assert.That(1, Is.EqualTo(f2.BarcodeEnabled));
-            Assert.That(0, Is.EqualTo(f3.BarcodeEnabled));
-            Assert.That(1, Is.EqualTo(f4.BarcodeEnabled));
-            Assert.That(0, Is.EqualTo(f5.BarcodeEnabled));
+            Assert.That(f1.BarcodeEnabled, Is.EqualTo(1));
+            Assert.That(f2.BarcodeEnabled, Is.EqualTo(1));
+            Assert.That(f3.BarcodeEnabled, Is.EqualTo(0));
+            Assert.That(f4.BarcodeEnabled, Is.EqualTo(1));
+            Assert.That(f5.BarcodeEnabled, Is.EqualTo(0));
 
-            Assert.That("barcode", Is.EqualTo(f1.BarcodeType));
-            Assert.That("barcode", Is.EqualTo(f2.BarcodeType));
-            Assert.That("barcode", Is.EqualTo(f3.BarcodeType));
-            Assert.That("barcode", Is.EqualTo(f4.BarcodeType));
-            Assert.That("barcode", Is.EqualTo(f5.BarcodeType));
+            Assert.That(f1.BarcodeType, Is.EqualTo("barcode"));
+            Assert.That(f2.BarcodeType, Is.EqualTo("barcode"));
+            Assert.That(f3.BarcodeType, Is.EqualTo("barcode"));
+            Assert.That(f4.BarcodeType, Is.EqualTo("barcode"));
+            Assert.That(f5.BarcodeType, Is.EqualTo("barcode"));
 
             #endregion
 
@@ -336,11 +336,11 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             #region Dummy
 
-            Assert.That(1, Is.EqualTo(f1.Dummy));
-            Assert.That(1, Is.EqualTo(f2.Dummy));
-            Assert.That(0, Is.EqualTo(f3.Dummy));
-            Assert.That(0, Is.EqualTo(f4.Dummy));
-            Assert.That(0, Is.EqualTo(f5.Dummy));
+            Assert.That(f1.Dummy, Is.EqualTo(1));
+            Assert.That(f2.Dummy, Is.EqualTo(1));
+            Assert.That(f3.Dummy, Is.EqualTo(0));
+            Assert.That(f4.Dummy, Is.EqualTo(0));
+            Assert.That(f5.Dummy, Is.EqualTo(0));
 
             #endregion
 
@@ -348,31 +348,31 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             #region enabled
 
-            Assert.That(0, Is.EqualTo(f1.GeolocationEnabled));
-            Assert.That(0, Is.EqualTo(f2.GeolocationEnabled));
-            Assert.That(0, Is.EqualTo(f3.GeolocationEnabled));
-            Assert.That(0, Is.EqualTo(f4.GeolocationEnabled));
-            Assert.That(1, Is.EqualTo(f5.GeolocationEnabled));
+            Assert.That(f1.GeolocationEnabled, Is.EqualTo(0));
+            Assert.That(f2.GeolocationEnabled, Is.EqualTo(0));
+            Assert.That(f3.GeolocationEnabled, Is.EqualTo(0));
+            Assert.That(f4.GeolocationEnabled, Is.EqualTo(0));
+            Assert.That(f5.GeolocationEnabled, Is.EqualTo(1));
 
             #endregion
 
             #region forced
 
-            Assert.That(0, Is.EqualTo(f1.GeolocationForced));
-            Assert.That(1, Is.EqualTo(f2.GeolocationForced));
-            Assert.That(0, Is.EqualTo(f3.GeolocationForced));
-            Assert.That(0, Is.EqualTo(f4.GeolocationForced));
-            Assert.That(0, Is.EqualTo(f5.GeolocationForced));
+            Assert.That(f1.GeolocationForced, Is.EqualTo(0));
+            Assert.That(f2.GeolocationForced, Is.EqualTo(1));
+            Assert.That(f3.GeolocationForced, Is.EqualTo(0));
+            Assert.That(f4.GeolocationForced, Is.EqualTo(0));
+            Assert.That(f5.GeolocationForced, Is.EqualTo(0));
 
             #endregion
 
             #region hidden
 
-            Assert.That(1, Is.EqualTo(f1.GeolocationHidden));
-            Assert.That(0, Is.EqualTo(f2.GeolocationHidden));
-            Assert.That(1, Is.EqualTo(f3.GeolocationHidden));
-            Assert.That(1, Is.EqualTo(f4.GeolocationHidden));
-            Assert.That(1, Is.EqualTo(f5.GeolocationHidden));
+            Assert.That(f1.GeolocationHidden, Is.EqualTo(1));
+            Assert.That(f2.GeolocationHidden, Is.EqualTo(0));
+            Assert.That(f3.GeolocationHidden, Is.EqualTo(1));
+            Assert.That(f4.GeolocationHidden, Is.EqualTo(1));
+            Assert.That(f5.GeolocationHidden, Is.EqualTo(1));
 
             #endregion
 
@@ -380,11 +380,11 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             #region isNum
 
-            Assert.That(0, Is.EqualTo(f1.IsNum));
-            Assert.That(0, Is.EqualTo(f2.IsNum));
-            Assert.That(0, Is.EqualTo(f3.IsNum));
-            Assert.That(0, Is.EqualTo(f4.IsNum));
-            Assert.That(0, Is.EqualTo(f5.IsNum));
+            Assert.That(f1.IsNum, Is.EqualTo(0));
+            Assert.That(f2.IsNum, Is.EqualTo(0));
+            Assert.That(f3.IsNum, Is.EqualTo(0));
+            Assert.That(f4.IsNum, Is.EqualTo(0));
+            Assert.That(f5.IsNum, Is.EqualTo(0));
 
             #endregion
 
@@ -400,21 +400,21 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             #region Mandatory
 
-            Assert.That(1, Is.EqualTo(f1.Mandatory));
-            Assert.That(0, Is.EqualTo(f2.Mandatory));
-            Assert.That(1, Is.EqualTo(f3.Mandatory));
-            Assert.That(1, Is.EqualTo(f4.Mandatory));
-            Assert.That(1, Is.EqualTo(f5.Mandatory));
+            Assert.That(f1.Mandatory, Is.EqualTo(1));
+            Assert.That(f2.Mandatory, Is.EqualTo(0));
+            Assert.That(f3.Mandatory, Is.EqualTo(1));
+            Assert.That(f4.Mandatory, Is.EqualTo(1));
+            Assert.That(f5.Mandatory, Is.EqualTo(1));
 
             #endregion
 
             #region maxLength
 
-            Assert.That(55, Is.EqualTo(f1.MaxLength));
-            Assert.That(5, Is.EqualTo(f2.MaxLength));
-            Assert.That(8, Is.EqualTo(f3.MaxLength));
-            Assert.That(666, Is.EqualTo(f4.MaxLength));
-            Assert.That(69, Is.EqualTo(f5.MaxLength));
+            Assert.That(f1.MaxLength, Is.EqualTo(55));
+            Assert.That(f2.MaxLength, Is.EqualTo(5));
+            Assert.That(f3.MaxLength, Is.EqualTo(8));
+            Assert.That(f4.MaxLength, Is.EqualTo(666));
+            Assert.That(f5.MaxLength, Is.EqualTo(69));
 
             #endregion
 
@@ -422,21 +422,21 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             #region max
 
-            Assert.That("55", Is.EqualTo(f1.MaxValue));
-            Assert.That("5", Is.EqualTo(f2.MaxValue));
-            Assert.That("4865", Is.EqualTo(f3.MaxValue));
-            Assert.That("41153", Is.EqualTo(f4.MaxValue));
-            Assert.That("69", Is.EqualTo(f5.MaxValue));
+            Assert.That(f1.MaxValue, Is.EqualTo("55"));
+            Assert.That(f2.MaxValue, Is.EqualTo("5"));
+            Assert.That(f3.MaxValue, Is.EqualTo("4865"));
+            Assert.That(f4.MaxValue, Is.EqualTo("41153"));
+            Assert.That(f5.MaxValue, Is.EqualTo("69"));
 
             #endregion
 
             #region min
 
-            Assert.That("0", Is.EqualTo(f1.MinValue));
-            Assert.That("0", Is.EqualTo(f2.MinValue));
-            Assert.That("0", Is.EqualTo(f3.MinValue));
-            Assert.That("0", Is.EqualTo(f4.MinValue));
-            Assert.That("1", Is.EqualTo(f5.MinValue));
+            Assert.That(f1.MinValue, Is.EqualTo("0"));
+            Assert.That(f2.MinValue, Is.EqualTo("0"));
+            Assert.That(f3.MinValue, Is.EqualTo("0"));
+            Assert.That(f4.MinValue, Is.EqualTo("0"));
+            Assert.That(f5.MinValue, Is.EqualTo("1"));
 
             #endregion
 
@@ -444,21 +444,21 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             #region Multi
 
-            Assert.That(0, Is.EqualTo(f1.Multi));
-            Assert.That(0, Is.EqualTo(f2.Multi));
-            Assert.That(0, Is.EqualTo(f3.Multi));
-            Assert.That(0, Is.EqualTo(f4.Multi));
-            Assert.That(0, Is.EqualTo(f5.Multi));
+            Assert.That(f1.Multi, Is.EqualTo(0));
+            Assert.That(f2.Multi, Is.EqualTo(0));
+            Assert.That(f3.Multi, Is.EqualTo(0));
+            Assert.That(f4.Multi, Is.EqualTo(0));
+            Assert.That(f5.Multi, Is.EqualTo(0));
 
             #endregion
 
             #region Optional
 
-            Assert.That(0, Is.EqualTo(f1.Optional));
-            Assert.That(0, Is.EqualTo(f2.Optional));
-            Assert.That(1, Is.EqualTo(f3.Optional));
-            Assert.That(1, Is.EqualTo(f4.Optional));
-            Assert.That(1, Is.EqualTo(f5.Optional));
+            Assert.That(f1.Optional, Is.EqualTo(0));
+            Assert.That(f2.Optional, Is.EqualTo(0));
+            Assert.That(f3.Optional, Is.EqualTo(1));
+            Assert.That(f4.Optional, Is.EqualTo(1));
+            Assert.That(f5.Optional, Is.EqualTo(1));
 
             #endregion
 
@@ -474,41 +474,41 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             #region Read_Only
 
-            Assert.That(1, Is.EqualTo(f1.ReadOnly));
-            Assert.That(0, Is.EqualTo(f2.ReadOnly));
-            Assert.That(1, Is.EqualTo(f3.ReadOnly));
-            Assert.That(0, Is.EqualTo(f4.ReadOnly));
-            Assert.That(0, Is.EqualTo(f5.ReadOnly));
+            Assert.That(f1.ReadOnly, Is.EqualTo(1));
+            Assert.That(f2.ReadOnly, Is.EqualTo(0));
+            Assert.That(f3.ReadOnly, Is.EqualTo(1));
+            Assert.That(f4.ReadOnly, Is.EqualTo(0));
+            Assert.That(f5.ReadOnly, Is.EqualTo(0));
 
             #endregion
 
             #region Selected
 
-            Assert.That(0, Is.EqualTo(f1.Selected));
-            Assert.That(0, Is.EqualTo(f2.Selected));
-            Assert.That(0, Is.EqualTo(f3.Selected));
-            Assert.That(1, Is.EqualTo(f4.Selected));
-            Assert.That(1, Is.EqualTo(f5.Selected));
+            Assert.That(f1.Selected, Is.EqualTo(0));
+            Assert.That(f2.Selected, Is.EqualTo(0));
+            Assert.That(f3.Selected, Is.EqualTo(0));
+            Assert.That(f4.Selected, Is.EqualTo(1));
+            Assert.That(f5.Selected, Is.EqualTo(1));
 
             #endregion
 
             #region Split_Screen
 
-            Assert.That(0, Is.EqualTo(f1.Split));
-            Assert.That(0, Is.EqualTo(f2.Split));
-            Assert.That(0, Is.EqualTo(f3.Split));
-            Assert.That(0, Is.EqualTo(f4.Split));
-            Assert.That(0, Is.EqualTo(f5.Split));
+            Assert.That(f1.Split, Is.EqualTo(0));
+            Assert.That(f2.Split, Is.EqualTo(0));
+            Assert.That(f3.Split, Is.EqualTo(0));
+            Assert.That(f4.Split, Is.EqualTo(0));
+            Assert.That(f5.Split, Is.EqualTo(0));
 
             #endregion
 
             #region Stop_On_Save
 
-            Assert.That(0, Is.EqualTo(f1.StopOnSave));
-            Assert.That(0, Is.EqualTo(f2.StopOnSave));
-            Assert.That(0, Is.EqualTo(f3.StopOnSave));
-            Assert.That(0, Is.EqualTo(f4.StopOnSave));
-            Assert.That(0, Is.EqualTo(f5.StopOnSave));
+            Assert.That(f1.StopOnSave, Is.EqualTo(0));
+            Assert.That(f2.StopOnSave, Is.EqualTo(0));
+            Assert.That(f3.StopOnSave, Is.EqualTo(0));
+            Assert.That(f4.StopOnSave, Is.EqualTo(0));
+            Assert.That(f5.StopOnSave, Is.EqualTo(0));
 
             #endregion
 
@@ -540,11 +540,11 @@ namespace eFormSDK.Integration.CheckLists.SqlControllerTests
 
             #region Version
 
-            Assert.That(49, Is.EqualTo(f1.Version));
-            Assert.That(9, Is.EqualTo(f2.Version));
-            Assert.That(1, Is.EqualTo(f3.Version));
-            Assert.That(1, Is.EqualTo(f4.Version));
-            Assert.That(1, Is.EqualTo(f5.Version));
+            Assert.That(f1.Version, Is.EqualTo(49));
+            Assert.That(f2.Version, Is.EqualTo(9));
+            Assert.That(f3.Version, Is.EqualTo(1));
+            Assert.That(f4.Version, Is.EqualTo(1));
+            Assert.That(f5.Version, Is.EqualTo(1));
 
             #endregion
 

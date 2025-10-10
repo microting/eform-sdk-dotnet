@@ -68,7 +68,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(tags[0].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
             Assert.That(tags[0].Version, Is.EqualTo(tag.Version));
             //            Assert.AreEqual(tag.UpdatedAt.ToString(), tags[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(tags[0].WorkflowState));
+            Assert.That(tags[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(tags[0].Name, Is.EqualTo(tag.Name));
             Assert.That(tags[0].Id, Is.EqualTo(tag.Id));
 
@@ -76,7 +76,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(tagVersions[0].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
             Assert.That(tagVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(tag.UpdatedAt.ToString(), tagVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(tagVersions[0].WorkflowState));
+            Assert.That(tagVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(tagVersions[0].Name, Is.EqualTo(tag.Name));
             Assert.That(tagVersions[0].TagId, Is.EqualTo(tag.Id));
         }
@@ -120,7 +120,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(tags[0].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
             Assert.That(tags[0].Version, Is.EqualTo(tag.Version));
             //            Assert.AreEqual(tag.UpdatedAt.ToString(), tags[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(tags[0].WorkflowState));
+            Assert.That(tags[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(tags[0].Name, Is.EqualTo(tag.Name));
             Assert.That(tags[0].Id, Is.EqualTo(tag.Id));
 
@@ -128,7 +128,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(tagVersions[0].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
             Assert.That(tagVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), tagVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(tagVersions[0].WorkflowState));
+            Assert.That(tagVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(tagVersions[0].Name, Is.EqualTo(oldName));
             Assert.That(tagVersions[0].TagId, Is.EqualTo(oldId));
 
@@ -136,7 +136,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(tagVersions[1].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
             Assert.That(tagVersions[1].Version, Is.EqualTo(2));
             //            Assert.AreEqual(tag.UpdatedAt.ToString(), tagVersions[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(tagVersions[1].WorkflowState));
+            Assert.That(tagVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(tagVersions[1].Name, Is.EqualTo(tag.Name));
             Assert.That(tagVersions[1].TagId, Is.EqualTo(tag.Id));
         }
@@ -174,7 +174,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(tags[0].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
             Assert.That(tags[0].Version, Is.EqualTo(tag.Version));
             //            Assert.AreEqual(tag.UpdatedAt.ToString(), tags[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(tags[0].WorkflowState));
+            Assert.That(tags[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(tags[0].Name, Is.EqualTo(tag.Name));
             Assert.That(tags[0].Id, Is.EqualTo(tag.Id));
 
@@ -182,7 +182,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(tagVersions[0].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
             Assert.That(tagVersions[0].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), tagVersions[0].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(tagVersions[0].WorkflowState));
+            Assert.That(tagVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(tagVersions[0].Name, Is.EqualTo(tag.Name));
             Assert.That(tagVersions[0].TagId, Is.EqualTo(tag.Id));
 
@@ -190,7 +190,7 @@ namespace eFormSDK.Base.Tests
             Assert.That(tagVersions[1].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
             Assert.That(tagVersions[1].Version, Is.EqualTo(2));
             //            Assert.AreEqual(tag.UpdatedAt.ToString(), tagVersions[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(tagVersions[1].WorkflowState));
+            Assert.That(tagVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(tagVersions[1].Name, Is.EqualTo(tag.Name));
             Assert.That(tagVersions[1].TagId, Is.EqualTo(tag.Id));
         }

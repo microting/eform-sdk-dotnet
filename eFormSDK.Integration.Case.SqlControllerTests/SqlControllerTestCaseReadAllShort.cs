@@ -434,20 +434,20 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             Assert.That(templateId, Is.EqualTo(cl1.Id));
             Assert.That(cl1.Label, Is.Null);
             Assert.That(checkLisTranslations[0].Text, Is.EqualTo("label1"));
-            Assert.That("folderWithList", Is.EqualTo(cl1.FolderName));
-            Assert.That("type1", Is.EqualTo(cl1.CaseType));
-            Assert.That(4, Is.EqualTo(cl1.DisplayIndex));
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(cl1.WorkflowState));
-            Assert.That(1, Is.EqualTo(cl1.Version));
-            Assert.That(1, Is.EqualTo(cl1.ManualSync));
-            Assert.That(0, Is.EqualTo(cl1.MultiApproval));
-            Assert.That(1, Is.EqualTo(cl1.FastNavigation));
-            Assert.That(0, Is.EqualTo(cl1.DownloadEntities));
-            Assert.That(0, Is.EqualTo(cl1.ExtraFieldsEnabled));
-            Assert.That(0, Is.EqualTo(cl1.DoneButtonEnabled));
-            Assert.That(0, Is.EqualTo(cl1.ApprovalEnabled));
-            Assert.That(0, Is.EqualTo(cl1.ReviewEnabled));
-            Assert.That(1, Is.EqualTo(cl1.Repeated));
+            Assert.That(cl1.FolderName, Is.EqualTo("folderWithList"));
+            Assert.That(cl1.CaseType, Is.EqualTo("type1"));
+            Assert.That(cl1.DisplayIndex, Is.EqualTo(4));
+            Assert.That(cl1.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+            Assert.That(cl1.Version, Is.EqualTo(1));
+            Assert.That(cl1.ManualSync, Is.EqualTo(1));
+            Assert.That(cl1.MultiApproval, Is.EqualTo(0));
+            Assert.That(cl1.FastNavigation, Is.EqualTo(1));
+            Assert.That(cl1.DownloadEntities, Is.EqualTo(0));
+            Assert.That(cl1.ExtraFieldsEnabled, Is.EqualTo(0));
+            Assert.That(cl1.DoneButtonEnabled, Is.EqualTo(0));
+            Assert.That(cl1.ApprovalEnabled, Is.EqualTo(0));
+            Assert.That(cl1.ReviewEnabled, Is.EqualTo(0));
+            Assert.That(cl1.Repeated, Is.EqualTo(1));
         }
 
         [Test]
@@ -641,10 +641,10 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #region template1
 
             Assert.That(match1, Is.Not.EqualTo(null));
-            Assert.That("Description1", Is.EqualTo(match1.Description));
-            Assert.That("Label1", Is.EqualTo(match1.Label));
+            Assert.That(match1.Description, Is.EqualTo("Description1"));
+            Assert.That(match1.Label, Is.EqualTo("Label1"));
             Assert.That(Template1.CreatedAt.ToString(), Is.EqualTo(match1.CreatedAt.ToString()));
-            Assert.That("FolderWithTemplate", Is.EqualTo(match1.FolderName));
+            Assert.That(match1.FolderName, Is.EqualTo("FolderWithTemplate"));
             Assert.That(Template1.Id, Is.EqualTo(match1.Id));
 //            Assert.AreEqual(match1.UpdatedAt.ToString(), Template1.UpdatedAt.ToString());
 
@@ -653,10 +653,10 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #region template2
 
             Assert.That(match1, Is.Not.EqualTo(null));
-            Assert.That("Description2", Is.EqualTo(match2.Description));
-            Assert.That("Label2", Is.EqualTo(match2.Label));
+            Assert.That(match2.Description, Is.EqualTo("Description2"));
+            Assert.That(match2.Label, Is.EqualTo("Label2"));
             Assert.That(Template2.CreatedAt.ToString(), Is.EqualTo(match2.CreatedAt.ToString()));
-            Assert.That("FolderWithTemplate", Is.EqualTo(match2.FolderName));
+            Assert.That(match2.FolderName, Is.EqualTo("FolderWithTemplate"));
             Assert.That(Template2.Id, Is.EqualTo(match2.Id));
 //            Assert.AreEqual(match2.UpdatedAt.ToString(), Template2.UpdatedAt.ToString());
 
@@ -665,10 +665,10 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #region template3
 
             Assert.That(match1, Is.Not.EqualTo(null));
-            Assert.That("Description3", Is.EqualTo(match3.Description));
-            Assert.That("Label3", Is.EqualTo(match3.Label));
+            Assert.That(match3.Description, Is.EqualTo("Description3"));
+            Assert.That(match3.Label, Is.EqualTo("Label3"));
             Assert.That(Template3.CreatedAt.ToString(), Is.EqualTo(match3.CreatedAt.ToString()));
-            Assert.That("FolderWithTemplate", Is.EqualTo(match3.FolderName));
+            Assert.That(match3.FolderName, Is.EqualTo("FolderWithTemplate"));
             Assert.That(Template3.Id, Is.EqualTo(match3.Id));
 //            Assert.AreEqual(match3.UpdatedAt.ToString(), Template3.UpdatedAt.ToString());
 
@@ -677,10 +677,10 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
             #region template4
 
             Assert.That(match1, Is.Not.EqualTo(null));
-            Assert.That("Description4", Is.EqualTo(match4.Description));
-            Assert.That("Label4", Is.EqualTo(match4.Label));
+            Assert.That(match4.Description, Is.EqualTo("Description4"));
+            Assert.That(match4.Label, Is.EqualTo("Label4"));
             Assert.That(Template4.CreatedAt.ToString(), Is.EqualTo(match4.CreatedAt.ToString()));
-            Assert.That("FolderWithTemplate", Is.EqualTo(match4.FolderName));
+            Assert.That(match4.FolderName, Is.EqualTo("FolderWithTemplate"));
             Assert.That(Template4.Id, Is.EqualTo(match4.Id));
 //            Assert.AreEqual(match4.UpdatedAt.ToString(), Template4.UpdatedAt.ToString());
 
@@ -872,12 +872,12 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             Assert.That(match1, Is.Not.EqualTo(null));
             Assert.That(Field1.Description, Is.EqualTo(match1[0].Description));
-            Assert.That("Picture", Is.EqualTo(match1[0].FieldType));
+            Assert.That(match1[0].FieldType, Is.EqualTo("Picture"));
             Assert.That(Field1.Label, Is.EqualTo(match1[0].Label));
             Assert.That(Field1.Id, Is.EqualTo(match1[0].Id));
 
             Assert.That(Field2.Description, Is.EqualTo(match1[1].Description));
-            Assert.That("Comment", Is.EqualTo(match1[1].FieldType));
+            Assert.That(match1[1].FieldType, Is.EqualTo("Comment"));
             Assert.That(Field2.Label, Is.EqualTo(match1[1].Label));
             Assert.That(Field2.Id, Is.EqualTo(match1[1].Id));
 
@@ -887,17 +887,17 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             Assert.That(match2, Is.Not.EqualTo(null));
             Assert.That(Field3.Description, Is.EqualTo(match2[0].Description));
-            Assert.That("Picture", Is.EqualTo(match2[0].FieldType));
+            Assert.That(match2[0].FieldType, Is.EqualTo("Picture"));
             Assert.That(Field3.Label, Is.EqualTo(match2[0].Label));
             Assert.That(Field3.Id, Is.EqualTo(match2[0].Id));
 
             Assert.That(Field4.Description, Is.EqualTo(match2[1].Description));
-            Assert.That("Picture", Is.EqualTo(match2[1].FieldType));
+            Assert.That(match2[1].FieldType, Is.EqualTo("Picture"));
             Assert.That(Field4.Label, Is.EqualTo(match2[1].Label));
             Assert.That(Field4.Id, Is.EqualTo(match2[1].Id));
 
             Assert.That(Field5.Description, Is.EqualTo(match2[2].Description));
-            Assert.That("Comment", Is.EqualTo(match2[2].FieldType));
+            Assert.That(match2[2].FieldType, Is.EqualTo("Comment"));
             Assert.That(Field5.Label, Is.EqualTo(match2[2].Label));
             Assert.That(Field5.Id, Is.EqualTo(match2[2].Id));
 
@@ -907,12 +907,12 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             Assert.That(match3, Is.Not.EqualTo(null));
             Assert.That(Field6.Description, Is.EqualTo(match3[0].Description));
-            Assert.That("Comment", Is.EqualTo(match3[0].FieldType));
+            Assert.That(match3[0].FieldType, Is.EqualTo("Comment"));
             Assert.That(Field6.Label, Is.EqualTo(match3[0].Label));
             Assert.That(Field6.Id, Is.EqualTo(match3[0].Id));
 
             Assert.That(Field7.Description, Is.EqualTo(match3[1].Description));
-            Assert.That("Comment", Is.EqualTo(match3[1].FieldType));
+            Assert.That(match3[1].FieldType, Is.EqualTo("Comment"));
             Assert.That(Field7.Label, Is.EqualTo(match3[1].Label));
             Assert.That(Field7.Id, Is.EqualTo(match3[1].Id));
 
@@ -922,17 +922,17 @@ namespace eFormSDK.Integration.Case.SqlControllerTests
 
             Assert.That(match4, Is.Not.EqualTo(null));
             Assert.That(Field8.Description, Is.EqualTo(match4[0].Description));
-            Assert.That("Comment", Is.EqualTo(match4[0].FieldType));
+            Assert.That(match4[0].FieldType, Is.EqualTo("Comment"));
             Assert.That(Field8.Label, Is.EqualTo(match4[0].Label));
             Assert.That(Field8.Id, Is.EqualTo(match4[0].Id));
 
             Assert.That(Field9.Description, Is.EqualTo(match4[1].Description));
-            Assert.That("Comment", Is.EqualTo(match4[1].FieldType));
+            Assert.That(match4[1].FieldType, Is.EqualTo("Comment"));
             Assert.That(Field9.Label, Is.EqualTo(match4[1].Label));
             Assert.That(Field9.Id, Is.EqualTo(match4[1].Id));
 
             Assert.That(Field10.Description, Is.EqualTo(match4[2].Description));
-            Assert.That("Comment", Is.EqualTo(match4[2].FieldType));
+            Assert.That(match4[2].FieldType, Is.EqualTo("Comment"));
             Assert.That(Field10.Label, Is.EqualTo(match4[2].Label));
             Assert.That(Field10.Id, Is.EqualTo(match4[2].Id));
 

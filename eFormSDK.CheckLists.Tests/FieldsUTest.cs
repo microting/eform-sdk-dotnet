@@ -200,7 +200,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(fields[1].CreatedAt.ToString(), Is.EqualTo(field.CreatedAt.ToString()));
             Assert.That(fields[1].Version, Is.EqualTo(field.Version));
             //            Assert.AreEqual(field.UpdatedAt.ToString(), fields[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(fields[0].WorkflowState));
+            Assert.That(fields[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(fields[1].Id, Is.EqualTo(field.Id));
             Assert.That(fields[1].Color, Is.EqualTo(field.Color));
             Assert.That(fields[1].Custom, Is.EqualTo(field.Custom));
@@ -240,7 +240,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(fieldVersion[1].CreatedAt.ToString(), Is.EqualTo(field.CreatedAt.ToString()));
             Assert.That(fieldVersion[1].Version, Is.EqualTo(1));
             //            Assert.AreEqual(field.UpdatedAt.ToString(), fieldVersion[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(fieldVersion[1].WorkflowState));
+            Assert.That(fieldVersion[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(fieldVersion[1].FieldId, Is.EqualTo(field.Id));
             Assert.That(fieldVersion[1].Color, Is.EqualTo(field.Color));
             Assert.That(fieldVersion[1].Custom, Is.EqualTo(field.Custom));
@@ -498,7 +498,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(fields[1].CreatedAt.ToString(), Is.EqualTo(field.CreatedAt.ToString()));
             Assert.That(fields[1].Version, Is.EqualTo(field.Version));
             //            Assert.AreEqual(field.UpdatedAt.ToString(), fields[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(fields[0].WorkflowState));
+            Assert.That(fields[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(fields[1].Id, Is.EqualTo(field.Id));
             Assert.That(fields[1].Color, Is.EqualTo(field.Color));
             Assert.That(fields[1].Custom, Is.EqualTo(field.Custom));
@@ -538,7 +538,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(fieldVersion[1].CreatedAt.ToString(), Is.EqualTo(field.CreatedAt.ToString()));
             Assert.That(fieldVersion[1].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), fieldVersion[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(fieldVersion[1].WorkflowState));
+            Assert.That(fieldVersion[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(fieldVersion[1].FieldId, Is.EqualTo(field.Id));
             Assert.That(fieldVersion[1].Color, Is.EqualTo(oldColor));
             Assert.That(fieldVersion[1].Custom, Is.EqualTo(oldCustom));
@@ -577,7 +577,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(fieldVersion[2].CreatedAt.ToString(), Is.EqualTo(field.CreatedAt.ToString()));
             Assert.That(fieldVersion[2].Version, Is.EqualTo(2));
             //            Assert.AreEqual(field.UpdatedAt.ToString(), fieldVersion[2].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(fieldVersion[2].WorkflowState));
+            Assert.That(fieldVersion[2].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(fieldVersion[2].FieldId, Is.EqualTo(field.Id));
             Assert.That(fieldVersion[2].Color, Is.EqualTo(field.Color));
             Assert.That(fieldVersion[2].Custom, Is.EqualTo(field.Custom));
@@ -778,7 +778,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(fields[1].CreatedAt.ToString(), Is.EqualTo(field.CreatedAt.ToString()));
             Assert.That(fields[1].Version, Is.EqualTo(field.Version));
             //            Assert.AreEqual(field.UpdatedAt.ToString(), fields[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(fields[1].WorkflowState));
+            Assert.That(fields[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(fields[1].Id, Is.EqualTo(field.Id));
             Assert.That(fields[1].Color, Is.EqualTo(field.Color));
             Assert.That(fields[1].Custom, Is.EqualTo(field.Custom));
@@ -818,7 +818,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(fieldVersion[1].CreatedAt.ToString(), Is.EqualTo(field.CreatedAt.ToString()));
             Assert.That(fieldVersion[1].Version, Is.EqualTo(1));
             //            Assert.AreEqual(oldUpdatedAt.ToString(), fieldVersion[1].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Created, Is.EqualTo(fieldVersion[1].WorkflowState));
+            Assert.That(fieldVersion[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
             Assert.That(fieldVersion[1].FieldId, Is.EqualTo(field.Id));
             Assert.That(fieldVersion[1].Color, Is.EqualTo(field.Color));
             Assert.That(fieldVersion[1].Custom, Is.EqualTo(field.Custom));
@@ -857,7 +857,7 @@ namespace eFormSDK.CheckLists.Tests
             Assert.That(fieldVersion[2].CreatedAt.ToString(), Is.EqualTo(field.CreatedAt.ToString()));
             Assert.That(fieldVersion[2].Version, Is.EqualTo(2));
             //            Assert.AreEqual(field.UpdatedAt.ToString(), fieldVersion[2].UpdatedAt.ToString());
-            Assert.That(Constants.WorkflowStates.Removed, Is.EqualTo(fieldVersion[2].WorkflowState));
+            Assert.That(fieldVersion[2].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
             Assert.That(fieldVersion[2].FieldId, Is.EqualTo(field.Id));
             Assert.That(fieldVersion[2].Color, Is.EqualTo(field.Color));
             Assert.That(fieldVersion[2].Custom, Is.EqualTo(field.Custom));

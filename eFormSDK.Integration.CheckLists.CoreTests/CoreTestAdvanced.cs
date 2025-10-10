@@ -515,12 +515,12 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             Assert.That(match1, Is.Not.EqualTo(null));
             Assert.That(Field1.Description, Is.EqualTo(match1[0].Description));
-            Assert.That("Picture", Is.EqualTo(match1[0].FieldType));
+            Assert.That(match1[0].FieldType, Is.EqualTo("Picture"));
             Assert.That(Field1.Label, Is.EqualTo(match1[0].Label));
             Assert.That(Field1.Id, Is.EqualTo(match1[0].Id));
 
             Assert.That(Field2.Description, Is.EqualTo(match1[1].Description));
-            Assert.That("Comment", Is.EqualTo(match1[1].FieldType));
+            Assert.That(match1[1].FieldType, Is.EqualTo("Comment"));
             Assert.That(Field2.Label, Is.EqualTo(match1[1].Label));
             Assert.That(Field2.Id, Is.EqualTo(match1[1].Id));
 
@@ -530,17 +530,17 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             Assert.That(match2, Is.Not.EqualTo(null));
             Assert.That(Field3.Description, Is.EqualTo(match2[0].Description));
-            Assert.That("Picture", Is.EqualTo(match2[0].FieldType));
+            Assert.That(match2[0].FieldType, Is.EqualTo("Picture"));
             Assert.That(Field3.Label, Is.EqualTo(match2[0].Label));
             Assert.That(Field3.Id, Is.EqualTo(match2[0].Id));
 
             Assert.That(Field4.Description, Is.EqualTo(match2[1].Description));
-            Assert.That("Picture", Is.EqualTo(match2[1].FieldType));
+            Assert.That(match2[1].FieldType, Is.EqualTo("Picture"));
             Assert.That(Field4.Label, Is.EqualTo(match2[1].Label));
             Assert.That(Field4.Id, Is.EqualTo(match2[1].Id));
 
             Assert.That(Field5.Description, Is.EqualTo(match2[2].Description));
-            Assert.That("Comment", Is.EqualTo(match2[2].FieldType));
+            Assert.That(match2[2].FieldType, Is.EqualTo("Comment"));
             Assert.That(Field5.Label, Is.EqualTo(match2[2].Label));
             Assert.That(Field5.Id, Is.EqualTo(match2[2].Id));
 
@@ -550,12 +550,12 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             Assert.That(match3, Is.Not.EqualTo(null));
             Assert.That(Field6.Description, Is.EqualTo(match3[0].Description));
-            Assert.That("Comment", Is.EqualTo(match3[0].FieldType));
+            Assert.That(match3[0].FieldType, Is.EqualTo("Comment"));
             Assert.That(Field6.Label, Is.EqualTo(match3[0].Label));
             Assert.That(Field6.Id, Is.EqualTo(match3[0].Id));
 
             Assert.That(Field7.Description, Is.EqualTo(match3[1].Description));
-            Assert.That("Comment", Is.EqualTo(match3[1].FieldType));
+            Assert.That(match3[1].FieldType, Is.EqualTo("Comment"));
             Assert.That(Field7.Label, Is.EqualTo(match3[1].Label));
             Assert.That(Field7.Id, Is.EqualTo(match3[1].Id));
 
@@ -565,17 +565,17 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             Assert.That(match4, Is.Not.EqualTo(null));
             Assert.That(Field8.Description, Is.EqualTo(match4[0].Description));
-            Assert.That("Comment", Is.EqualTo(match4[0].FieldType));
+            Assert.That(match4[0].FieldType, Is.EqualTo("Comment"));
             Assert.That(Field8.Label, Is.EqualTo(match4[0].Label));
             Assert.That(Field8.Id, Is.EqualTo(match4[0].Id));
 
             Assert.That(Field9.Description, Is.EqualTo(match4[1].Description));
-            Assert.That("Comment", Is.EqualTo(match4[1].FieldType));
+            Assert.That(match4[1].FieldType, Is.EqualTo("Comment"));
             Assert.That(Field9.Label, Is.EqualTo(match4[1].Label));
             Assert.That(Field9.Id, Is.EqualTo(match4[1].Id));
 
             Assert.That(Field10.Description, Is.EqualTo(match4[2].Description));
-            Assert.That("Comment", Is.EqualTo(match4[2].FieldType));
+            Assert.That(match4[2].FieldType, Is.EqualTo("Comment"));
             Assert.That(Field10.Label, Is.EqualTo(match4[2].Label));
             Assert.That(Field10.Id, Is.EqualTo(match4[2].Id));
 

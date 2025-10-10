@@ -279,6 +279,55 @@ namespace Microting.eForm.Communication
         }
 
         /// <summary>
+        /// Posts protobuf data to Microting and returns the protobuf encoded response.
+        /// </summary>
+        /// <param name="protoData">Protobuf encoded data</param>
+        /// <param name="siteId">Site ID</param>
+        public async Task<byte[]> PostProto(byte[] protoData, string siteId)
+        {
+            try
+            {
+                WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}",
+                    $"called at {DateTime.UtcNow}");
+
+                if (_addressNewApi != "none")
+                {
+                    var url =
+                        $"{_addressNewApi}/integration/create?token={_token}&siteId={siteId}&sdkVer={_dllVersion}";
+
+                    using var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/protobuf"));
+                    httpClient.DefaultRequestHeaders.Add("Authorization", _token);
+
+                    var content = new ByteArrayContent(protoData);
+                    content.Headers.ContentType = new MediaTypeHeaderValue("application/protobuf");
+
+                    var response = await httpClient.PostAsync(url, content).ConfigureAwait(false);
+                    response.EnsureSuccessStatusCode();
+                    return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                }
+                else
+                {
+                    var url =
+                        $"{_addressApi}/gwt/inspection_app/integration/?token={_token}&protocol={ProtocolXml}&site_id={siteId}&sdk_ver={_dllVersion}";
+
+                    using var httpClient = new HttpClient();
+                    var content = new ByteArrayContent(protoData);
+                    content.Headers.ContentType = new MediaTypeHeaderValue("application/protobuf");
+
+                    var response = await httpClient.PostAsync(url, content).ConfigureAwait(false);
+                    response.EnsureSuccessStatusCode();
+                    return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorJson = $"{{\r\nValue: {{\r\nType: \"converterError\",\r\nValue: \"{ex.Message}\"}}}}";
+                return Encoding.UTF8.GetBytes(errorJson);
+            }
+        }
+
+        /// <summary>
         /// Retrieve the XML encoded status from Microting.
         /// </summary>
         /// <param name="elementId">Identifier of the element to retrieve status of.</param>
