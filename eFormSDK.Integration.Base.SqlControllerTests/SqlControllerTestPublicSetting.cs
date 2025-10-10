@@ -154,9 +154,9 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
             Assert.That("https://basic.microting.com", Is.EqualTo(matchb5));
             Assert.That("https://srv16.microting.com", Is.EqualTo(matchb6));
             Assert.That("64856189", Is.EqualTo(matchb7));
-            Assert.That(@"\output\dataFolder\reports\", Is.EqualTo(matchb8));
-            Assert.That(@"\output\dataFolder\pdf\", Is.EqualTo(matchb9));
-            Assert.That(@"\output\dataFolder\picture\", Is.EqualTo(matchb10));
+            Assert.That(matchb8, Is.EqualTo(@"\output\dataFolder\reports\"));
+            Assert.That(matchb9, Is.EqualTo(@"\output\dataFolder\pdf\"));
+            Assert.That(matchb10, Is.EqualTo(@"\output\dataFolder\picture\"));
             Assert.That("true", Is.EqualTo(matchb11));
             Assert.That("http://localhost:3000", Is.EqualTo(matchb12));
             Assert.That("true", Is.EqualTo(matchb13));
