@@ -308,6 +308,23 @@ namespace Microting.eForm.Communication
             }
         }
 
+        public async Task<string> Update(int id, string siteId, int folderId, bool ignoreEndDate)
+        {
+            try
+            {
+                var url =
+                    $"{_addressNewApi}/integration/update?id={id}&token={_token}&siteId={siteId}&folderId={folderId}&ignoreEndDate={ignoreEndDate}&sdkVer={_dllVersion}";
+
+                return await HttpPut(url, null, null, true).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                return
+                    "<?xml version='1.0' encoding='UTF-8'?>\n\t<Response>\n\t\t<Value type='error'>ConverterError: " +
+                    ex.Message + "</Value>\n\t</Response>";
+            }
+        }
+
         /// <summary>
         /// Retrieve the XML encoded results from Microting.
         /// </summary>

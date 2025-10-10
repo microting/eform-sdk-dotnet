@@ -85,6 +85,13 @@ namespace Microting.eForm.Communication
                     }";
         }
 
+        public async Task<string> Update(int elementId, string siteId, int folderId, bool ignoreEndDate)
+        {
+            await Task.Run(() => { });
+            return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">" + "success" +
+                   "</Value><Unit fetched_at=\"\" id=\"\"/></Response>";
+        }
+
         public async Task<string> Status(string elementId, string siteId)
         {
             await Task.Run(() => { });
