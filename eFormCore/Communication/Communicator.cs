@@ -171,6 +171,17 @@ namespace Microting.eForm.Communication
             return _http.Status(eFormId, siteId.ToString());
         }
 
+        public Task<string> Update(int elementId, string siteId, int folderId, bool ignoreEndDate)
+        {
+            _log.LogEverything("Communicator.Update", "called");
+            _log.LogVariable("Communicator.Update", nameof(elementId), elementId);
+            _log.LogVariable("Communicator.Update", nameof(siteId), siteId);
+            _log.LogVariable("Communicator.Update", nameof(folderId), folderId);
+            _log.LogVariable("Communicator.Update", nameof(ignoreEndDate), ignoreEndDate);
+
+            return _http.Update(elementId, siteId, folderId, ignoreEndDate);
+        }
+
         //public bool CheckStatusUpdateIfNeeded(string microtingUId)
         //{
         //    lock (_lockSending)

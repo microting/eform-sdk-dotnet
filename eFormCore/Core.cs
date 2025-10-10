@@ -5396,6 +5396,19 @@ namespace eFormCore
                                 xmlStrResponse);
         }
 
+        public async Task<string> Update(int id, string siteId, int folderId, bool ignoreEndDate)
+        {
+            var dbContext = DbContextHelper.GetDbContext();
+            var checkList = await dbContext.CheckLists.FirstOrDefaultAsync(x => x.Id == id);
+            if (checkList == null)
+            {
+                throw new NullReferenceException($"Could not find CheckList with id {id}");
+            }
+
+            var response = await _communicator.Update(id, siteId, folderId, ignoreEndDate);
+            return response;
+        }
+
         private async Task<int> SendJson(MainElement mainElement, int siteId)
         {
             string methodName = "Core.SendJson";

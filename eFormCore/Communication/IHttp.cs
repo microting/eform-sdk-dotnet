@@ -35,6 +35,7 @@ namespace Microting.eForm.Communication
         Task<byte[]> PostProto(byte[] protoData, string siteId);
 
         Task<string> Status(string elementId, string siteId);
+        Task<string> Update(int id, string siteId, int folderId, bool ignoreEndDate);
 
         Task<string> Retrieve(string microtingUuid, string microtingCheckUuid, int siteId);
 

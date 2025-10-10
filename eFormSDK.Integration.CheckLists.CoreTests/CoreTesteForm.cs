@@ -673,10 +673,10 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
             Assert.That(match, Is.Not.EqualTo(null));
             Assert.That(cl1.Id, Is.EqualTo(match.Id));
             Assert.That(cl1.CaseType, Is.EqualTo(match.CaseType));
-            Assert.That(false, Is.EqualTo(match.FastNavigation));
+            Assert.That(match.FastNavigation, Is.False);
             Assert.That(match.Label, Is.EqualTo("A"));
-            Assert.That(false, Is.EqualTo(match.ManualSync));
-            Assert.That(false, Is.EqualTo(match.MultiApproval));
+            Assert.That(match.ManualSync, Is.False);
+            Assert.That(match.MultiApproval, Is.False);
             Assert.That(cl1.Repeated, Is.EqualTo(match.Repeated));
         }
 
