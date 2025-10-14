@@ -652,10 +652,10 @@ namespace eFormCore
                 //XML HACK TODO
                 // xmlString = corrected xml if needed
                 xmlString = xmlString.Trim();
-                
+
                 // Use StringBuilder for efficient string manipulations
                 StringBuilder sb = new StringBuilder(xmlString);
-                
+
                 //xmlString = xmlString.Replace("=\"choose_entity\">", "=\"EntitySearch\">");
                 sb.Replace("=\"single_select\">", "=\"SingleSelect\">");
                 sb.Replace("=\"multi_select\">", "=\"MultiSelect\">");
@@ -739,7 +739,7 @@ namespace eFormCore
                 sb.Replace("<DecimalCount />", "<DecimalCount>0</DecimalCount>");
                 sb.Replace("<DecimalCount/>", "<DecimalCount>0</DecimalCount>");
                 sb.Replace("<DisplayOrder></DisplayOrder>", "<DisplayOrder>0</DisplayOrder>");
-                
+
                 // Convert back to string for regex operations
                 xmlString = sb.ToString();
                 var matches = Regex.Matches(xmlString, "<Description>(.*)</Description>");
@@ -2450,8 +2450,6 @@ namespace eFormCore
                                     {
                                         foreach (var value in profile.Values)
                                         {
-                                            Console.WriteLine("{0}({1}): {2}", value.Tag, value.DataType, value);
-
                                             if (value.Tag == ExifTag.Orientation)
                                             {
                                                 if (value.GetValue().ToString() == "6")
@@ -6196,10 +6194,8 @@ namespace eFormCore
                                 {
                                     foreach (var value in profile.Values)
                                     {
-                                        Console.WriteLine($"value: {value}");
                                         if (value.Tag == ExifTag.Orientation)
                                         {
-                                            Console.WriteLine($"rotate value is {value.GetValue()}");
                                             if (unit.Manufacturer == "iOS")
                                             {
                                                 // CW90, Normal, 270 CW, Rotate 180
@@ -6221,7 +6217,6 @@ namespace eFormCore
                                             }
                                             else
                                             {
-                                                // Console.WriteLine($"rotate value is {value.GetValue()}");
                                                 if (value.GetValue().ToString() == "6")
                                                 {
                                                     image.Rotate(90);
@@ -6274,7 +6269,6 @@ namespace eFormCore
                                             {
                                                 if (unit.Manufacturer == "iOS")
                                                 {
-                                                    Console.WriteLine($"rotate value is {value.GetValue()}");
                                                     // CW90, Normal, 270 CW, Rotate 180
                                                     if (value.GetValue().ToString() == "6")
                                                     {
@@ -6346,7 +6340,6 @@ namespace eFormCore
                                             {
                                                 if (unit.Manufacturer == "iOS")
                                                 {
-                                                    Console.WriteLine($"rotate value is {value.GetValue()}");
                                                     // CW90, Normal, 270 CW, Rotate 180
                                                     if (value.GetValue().ToString() == "6")
                                                     {

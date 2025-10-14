@@ -142,7 +142,7 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             #region Template2
 
-            CheckList cl2 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "B", "C", "CheckList",
+            CheckList cl2 = await testHelpers.CreateTemplate(DateTime.UtcNow.AddSeconds(2), DateTime.UtcNow, "B", "C", "CheckList",
                 "TemplateFolderName", 1, 1);
 
             await cl2.Delete(DbContext);
@@ -151,14 +151,14 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
 
             #region Template3
 
-            CheckList cl3 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "D", "B", "CheckList",
+            CheckList cl3 = await testHelpers.CreateTemplate(DateTime.UtcNow.AddSeconds(3), DateTime.UtcNow, "D", "B", "CheckList",
                 "TemplateFolderName", 1, 1);
 
             #endregion
 
             #region Template4
 
-            CheckList cl4 = await testHelpers.CreateTemplate(DateTime.UtcNow, DateTime.UtcNow, "C", "A", "CheckList",
+            CheckList cl4 = await testHelpers.CreateTemplate(DateTime.UtcNow.AddSeconds(4), DateTime.UtcNow, "C", "A", "CheckList",
                 "TemplateFolderName", 1, 1);
 
             #endregion

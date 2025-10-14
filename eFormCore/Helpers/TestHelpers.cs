@@ -48,11 +48,11 @@ namespace Microting.eForm.Helpers
 
         public async Task GenerateDefaultLanguages()
         {
-            var languages = await dbContext.Languages.ToListAsync();
-            foreach (var language1 in languages)
-            {
-                Console.WriteLine(language1.Name);
-            }
+            // var languages = await dbContext.Languages.ToListAsync();
+            // // foreach (var language1 in languages)
+            // // {
+            // //     Console.WriteLine(language1.Name);
+            // // }
             language = await dbContext.Languages.FirstOrDefaultAsync(x => x.Name == "Dansk");
         }
 

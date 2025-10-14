@@ -70,9 +70,7 @@ namespace eFormSDK.Base.Tests
         [SetUp]
         public async Task Setup()
         {
-            Console.WriteLine($"{DateTime.Now} : Starting MariaDb Container...");
             await _mariadbTestcontainer.StartAsync();
-            Console.WriteLine($"{DateTime.Now} : Started MariaDb Container");
             ConnectionString = _mariadbTestcontainer.GetConnectionString();
 
             DbContext = GetContext(_mariadbTestcontainer.GetConnectionString());
@@ -91,17 +89,13 @@ namespace eFormSDK.Base.Tests
             try
             {
                 Core core = new Core();
-                Console.WriteLine($"{DateTime.Now} : StartSqlOnly...");
                 await core.StartSqlOnly(_mariadbTestcontainer.GetConnectionString());
-                Console.WriteLine($"{DateTime.Now} : StartSqlOnly close...");
                 await core.Close();
             }
             catch
             {
                 AdminTools adminTools = new AdminTools(_mariadbTestcontainer.GetConnectionString());
-                Console.WriteLine($"{DateTime.Now} : DbSetup...");
                 await adminTools.DbSetup("abc1234567890abc1234567890abcdef");
-                Console.WriteLine($"{DateTime.Now} : DbSetup done");
             }
 
             await DoSetup();
@@ -110,7 +104,6 @@ namespace eFormSDK.Base.Tests
         [TearDown]
         public async Task TearDown()
         {
-            Console.WriteLine($"{DateTime.Now} : TearDown...");
             await ClearDb();
 
             ClearFile();
@@ -122,7 +115,6 @@ namespace eFormSDK.Base.Tests
 
         private async Task ClearDb()
         {
-            Console.WriteLine($"{DateTime.Now} : ClearDb...");
             List<string> modelNames = new List<string>
             {
                 "CaseVersions",
@@ -205,7 +197,6 @@ namespace eFormSDK.Base.Tests
                 {
                     if (firstRunNotDone)
                     {
-                        Console.WriteLine($"{DateTime.Now} : Truncating {modelName}...");
                         #pragma warning disable CA2100 // Review SQL queries for security vulnerabilities
 #pragma warning disable EF1002 // Review SQL queries for security vulnerabilities
                         await DbContext.Database.ExecuteSqlRawAsync(
