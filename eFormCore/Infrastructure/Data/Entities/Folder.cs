@@ -41,6 +41,9 @@ namespace Microting.eForm.Infrastructure.Data.Entities
         public int? MicrotingUid { get; set; }
 
         public int? ParentId { get; set; }
+        public bool IsLocked { get; set; } // If true, the folder cannot be deleted or edited
+        public bool IsEditable { get; set; }
+        public bool ManagedByPlugin { get; set; } // If true, the folder is managed by a plugin and cannot be deleted or edited manually
 
         public virtual Folder Parent { get; set; }
 

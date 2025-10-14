@@ -1058,6 +1058,9 @@ CREATE TABLE `FolderVersions` (
   `Description` longtext DEFAULT NULL,
   `MicrotingUid` int(11) DEFAULT NULL,
   `ParentId` int(11) DEFAULT NULL,
+  `IsLocked` tinyint(1) NOT NULL DEFAULT 0,
+  `IsEditable` tinyint(1) NOT NULL DEFAULT 1,
+  `ManagedByPlugin` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1079,6 +1082,9 @@ CREATE TABLE `Folders` (
   `Description` longtext DEFAULT NULL,
   `MicrotingUid` int(11) DEFAULT NULL,
   `ParentId` int(11) DEFAULT NULL,
+  `IsLocked` tinyint(1) NOT NULL DEFAULT 0,
+  `IsEditable` tinyint(1) NOT NULL DEFAULT 1,
+  `ManagedByPlugin` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`Id`),
   KEY `IX_folders_parentid` (`ParentId`),
   CONSTRAINT `FK_folders_folders_ParentId` FOREIGN KEY (`ParentId`) REFERENCES `Folders` (`Id`)
