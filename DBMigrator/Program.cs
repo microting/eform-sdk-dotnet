@@ -24,13 +24,12 @@ SOFTWARE.
 
 using System;
 
-namespace DBMigrator
+namespace DBMigrator;
+
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
+        Console.WriteLine("Hello World!");
     }
 }

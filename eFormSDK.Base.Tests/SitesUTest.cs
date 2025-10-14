@@ -31,116 +31,115 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using NUnit.Framework;
 
-namespace eFormSDK.Base.Tests
+namespace eFormSDK.Base.Tests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class SitesUTest : DbTestFixture
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class SitesUTest : DbTestFixture
+    [Test]
+    public async Task Site_Create_DoesCreate()
     {
-        [Test]
-        public async Task Site_Create_DoesCreate()
+        //Arrange
+        Random rnd = new Random();
+
+        Site site = new Site
         {
-            //Arrange
-            Random rnd = new Random();
+            Name = Guid.NewGuid().ToString(),
+            MicrotingUid = rnd.Next(1, 255)
+        };
 
-            Site site = new Site
-            {
-                Name = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255)
-            };
+        //Act
 
-            //Act
+        await site.Create(DbContext).ConfigureAwait(false);
 
-            await site.Create(DbContext).ConfigureAwait(false);
+        Site dbSite = DbContext.Sites.AsNoTracking().First();
+        List<Site> sitesList = DbContext.Sites.AsNoTracking().ToList();
 
-            Site dbSite = DbContext.Sites.AsNoTracking().First();
-            List<Site> sitesList = DbContext.Sites.AsNoTracking().ToList();
+        //Assert
 
-            //Assert
+        Assert.That(dbSite, Is.Not.EqualTo(null));
+        Assert.That(dbSite.Id, Is.Not.EqualTo(null));
 
-            Assert.That(dbSite, Is.Not.EqualTo(null));
-            Assert.That(dbSite.Id, Is.Not.EqualTo(null));
+        Assert.That(sitesList.Count(), Is.EqualTo(1));
+        Assert.That(dbSite.CreatedAt.ToString(), Is.EqualTo(site.CreatedAt.ToString()));
+        Assert.That(dbSite.Version, Is.EqualTo(site.Version));
+        //            Assert.AreEqual(site.UpdatedAt.ToString(), dbSites.UpdatedAt.ToString());
+        Assert.That(dbSite.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(dbSite.Name, Is.EqualTo(site.Name));
+        Assert.That(dbSite.MicrotingUid, Is.EqualTo(site.MicrotingUid));
+    }
 
-            Assert.That(sitesList.Count(), Is.EqualTo(1));
-            Assert.That(dbSite.CreatedAt.ToString(), Is.EqualTo(site.CreatedAt.ToString()));
-            Assert.That(dbSite.Version, Is.EqualTo(site.Version));
-            //            Assert.AreEqual(site.UpdatedAt.ToString(), dbSites.UpdatedAt.ToString());
-            Assert.That(dbSite.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(dbSite.Name, Is.EqualTo(site.Name));
-            Assert.That(dbSite.MicrotingUid, Is.EqualTo(site.MicrotingUid));
-        }
+    [Test]
+    public async Task Sites_Update_DoesUpdate()
+    {
+        //Arrange
 
-        [Test]
-        public async Task Sites_Update_DoesUpdate()
+        Site site = new Site
         {
-            //Arrange
+            Name = Guid.NewGuid().ToString()
+        };
 
-            Site site = new Site
-            {
-                Name = Guid.NewGuid().ToString()
-            };
+        DbContext.Sites.Add(site);
+        await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
-            DbContext.Sites.Add(site);
-            await DbContext.SaveChangesAsync().ConfigureAwait(false);
+        //Act
 
-            //Act
+        site.Name = Guid.NewGuid().ToString();
+        await site.Update(DbContext).ConfigureAwait(false);
 
-            site.Name = Guid.NewGuid().ToString();
-            await site.Update(DbContext).ConfigureAwait(false);
+        Site dbSite = DbContext.Sites.AsNoTracking().First();
+        List<Site> sitesList = DbContext.Sites.AsNoTracking().ToList();
+        List<SiteVersion> sitesVersions = DbContext.SiteVersions.AsNoTracking().ToList();
 
-            Site dbSite = DbContext.Sites.AsNoTracking().First();
-            List<Site> sitesList = DbContext.Sites.AsNoTracking().ToList();
-            List<SiteVersion> sitesVersions = DbContext.SiteVersions.AsNoTracking().ToList();
+        //Assert
 
-            //Assert
+        Assert.That(dbSite, Is.Not.EqualTo(null));
+        Assert.That(dbSite.Id, Is.Not.EqualTo(null));
 
-            Assert.That(dbSite, Is.Not.EqualTo(null));
-            Assert.That(dbSite.Id, Is.Not.EqualTo(null));
+        Assert.That(sitesList.Count(), Is.EqualTo(1));
+        Assert.That(sitesVersions.Count(), Is.EqualTo(1));
 
-            Assert.That(sitesList.Count(), Is.EqualTo(1));
-            Assert.That(sitesVersions.Count(), Is.EqualTo(1));
+        Assert.That(dbSite.CreatedAt.ToString(), Is.EqualTo(site.CreatedAt.ToString()));
+        Assert.That(dbSite.Version, Is.EqualTo(site.Version));
+        //            Assert.AreEqual(site.UpdatedAt.ToString(), dbSites.UpdatedAt.ToString());
+        Assert.That(dbSite.Name, Is.EqualTo(site.Name));
+    }
 
-            Assert.That(dbSite.CreatedAt.ToString(), Is.EqualTo(site.CreatedAt.ToString()));
-            Assert.That(dbSite.Version, Is.EqualTo(site.Version));
-            //            Assert.AreEqual(site.UpdatedAt.ToString(), dbSites.UpdatedAt.ToString());
-            Assert.That(dbSite.Name, Is.EqualTo(site.Name));
-        }
+    [Test]
+    public async Task Sites_Delete_DoesSetWorkflowStateToRemoved()
+    {
+        //Arrange
 
-        [Test]
-        public async Task Sites_Delete_DoesSetWorkflowStateToRemoved()
+        Site site = new Site
         {
-            //Arrange
+            Name = Guid.NewGuid().ToString()
+        };
 
-            Site site = new Site
-            {
-                Name = Guid.NewGuid().ToString()
-            };
+        DbContext.Sites.Add(site);
+        await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
-            DbContext.Sites.Add(site);
-            await DbContext.SaveChangesAsync().ConfigureAwait(false);
+        //Act
 
-            //Act
+        await site.Delete(DbContext);
 
-            await site.Delete(DbContext);
+        Site dbSite = DbContext.Sites.AsNoTracking().First();
+        List<Site> sitesList = DbContext.Sites.AsNoTracking().ToList();
+        List<SiteVersion> sitesVersions = DbContext.SiteVersions.AsNoTracking().ToList();
 
-            Site dbSite = DbContext.Sites.AsNoTracking().First();
-            List<Site> sitesList = DbContext.Sites.AsNoTracking().ToList();
-            List<SiteVersion> sitesVersions = DbContext.SiteVersions.AsNoTracking().ToList();
+        //Assert
 
-            //Assert
+        Assert.That(dbSite, Is.Not.EqualTo(null));
+        Assert.That(dbSite.Id, Is.Not.EqualTo(null));
 
-            Assert.That(dbSite, Is.Not.EqualTo(null));
-            Assert.That(dbSite.Id, Is.Not.EqualTo(null));
+        Assert.That(sitesList.Count(), Is.EqualTo(1));
+        Assert.That(sitesVersions.Count(), Is.EqualTo(1));
 
-            Assert.That(sitesList.Count(), Is.EqualTo(1));
-            Assert.That(sitesVersions.Count(), Is.EqualTo(1));
+        Assert.That(dbSite.CreatedAt.ToString(), Is.EqualTo(site.CreatedAt.ToString()));
+        Assert.That(dbSite.Version, Is.EqualTo(site.Version));
+        //            Assert.AreEqual(site.UpdatedAt.ToString(), dbSites.UpdatedAt.ToString());
+        Assert.That(dbSite.Name, Is.EqualTo(site.Name));
 
-            Assert.That(dbSite.CreatedAt.ToString(), Is.EqualTo(site.CreatedAt.ToString()));
-            Assert.That(dbSite.Version, Is.EqualTo(site.Version));
-            //            Assert.AreEqual(site.UpdatedAt.ToString(), dbSites.UpdatedAt.ToString());
-            Assert.That(dbSite.Name, Is.EqualTo(site.Name));
-
-            Assert.That(dbSite.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
-        }
+        Assert.That(dbSite.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
     }
 }

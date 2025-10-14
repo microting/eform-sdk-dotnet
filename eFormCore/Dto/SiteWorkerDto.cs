@@ -22,47 +22,46 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace Microting.eForm.Dto
+namespace Microting.eForm.Dto;
+
+public class SiteWorkerDto
 {
-    public class SiteWorkerDto
+    #region con
+
+    public SiteWorkerDto()
     {
-        #region con
+    }
 
-        public SiteWorkerDto()
-        {
-        }
+    public SiteWorkerDto(int microtingUId, int siteUId, int workerUId)
+    {
+        MicrotingUId = microtingUId;
+        SiteUId = siteUId;
+        WorkerUId = workerUId;
+    }
 
-        public SiteWorkerDto(int microtingUId, int siteUId, int workerUId)
-        {
-            MicrotingUId = microtingUId;
-            SiteUId = siteUId;
-            WorkerUId = workerUId;
-        }
+    #endregion
 
-        #endregion
+    #region var
 
-        #region var
+    /// <summary>
+    ///...
+    /// </summary>
+    public int MicrotingUId { get; }
 
-        /// <summary>
-        ///...
-        /// </summary>
-        public int MicrotingUId { get; }
+    /// <summary>
+    ///...
+    /// </summary>
+    public int SiteUId { get; }
 
-        /// <summary>
-        ///...
-        /// </summary>
-        public int SiteUId { get; }
+    /// <summary>
+    ///...
+    /// </summary>
+    public int WorkerUId { get; }
 
-        /// <summary>
-        ///...
-        /// </summary>
-        public int WorkerUId { get; }
+    #endregion
 
-        #endregion
-
-        public override string ToString()
-        {
-            return "MicrotingUId:" + MicrotingUId + " / SiteUId:" + SiteUId + " / WorkerUId:" + WorkerUId + ".";
-        }
+    public override string ToString()
+    {
+        return "MicrotingUId:" + MicrotingUId + " / SiteUId:" + SiteUId + " / WorkerUId:" + WorkerUId + ".";
     }
 }

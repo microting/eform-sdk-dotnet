@@ -24,24 +24,23 @@ SOFTWARE.
 
 using System;
 
-namespace Microting.eForm.Infrastructure.Models.reply
+namespace Microting.eForm.Infrastructure.Models.reply;
+
+[Serializable]
+public class GeolocationData
 {
-    [Serializable]
-    public class GeolocationData
+    internal GeolocationData()
     {
-        internal GeolocationData()
-        {
-        }
-
-        #region var
-
-        public string Latitude { get; set; }
-        public string Longitude { get; set; }
-        public string Altitude { get; set; }
-        public string Heading { get; set; }
-        public string Accuracy { get; set; }
-        public string Date { get; set; }
-
-        #endregion
     }
+
+    #region var
+
+    public string Latitude { get; set; }
+    public string Longitude { get; set; }
+    public string Altitude { get; set; }
+    public string Heading { get; set; }
+    public string Accuracy { get; set; }
+    public string Date { get; set; }
+
+    #endregion
 }

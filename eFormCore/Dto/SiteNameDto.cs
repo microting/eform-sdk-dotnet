@@ -24,38 +24,37 @@ SOFTWARE.
 
 using System;
 
-namespace Microting.eForm.Dto
+namespace Microting.eForm.Dto;
+
+public class SiteNameDto
 {
-    public class SiteNameDto
+    #region var
+
+    /// <summary>
+    ///...
+    /// </summary>
+    public int SiteUId { get; set; }
+
+    /// <summary>
+    ///...
+    /// </summary>
+    public string SiteName { get; set; }
+
+    /// <summary>
+    ///...
+    /// </summary>
+    public DateTime? CreatedAt { get; set; }
+
+    /// <summary>
+    ///...
+    /// </summary>
+    public DateTime? UpdatedAt { get; set; }
+
+    #endregion
+
+    public override string ToString()
     {
-        #region var
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public int SiteUId { get; set; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public string SiteName { get; set; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public DateTime? CreatedAt { get; set; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public DateTime? UpdatedAt { get; set; }
-
-        #endregion
-
-        public override string ToString()
-        {
-            return "SiteUId:" + SiteUId + " / SiteName:" + SiteName + " / CreatedAt:" + CreatedAt + " / UpdatedAt:" +
-                   UpdatedAt + ".";
-        }
+        return "SiteUId:" + SiteUId + " / SiteName:" + SiteName + " / CreatedAt:" + CreatedAt + " / UpdatedAt:" +
+               UpdatedAt + ".";
     }
 }

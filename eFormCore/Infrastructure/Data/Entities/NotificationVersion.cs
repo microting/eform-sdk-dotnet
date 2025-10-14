@@ -26,34 +26,33 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class NotificationVersion
 {
-    public class NotificationVersion
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
 
-        [StringLength(255)] public string WorkflowState { get; set; }
+    [StringLength(255)] public string WorkflowState { get; set; }
 
-        public DateTime? CreatedAt { get; set; }
+    public DateTime? CreatedAt { get; set; }
 
-        public DateTime? UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
 
-        public int? MicrotingUid { get; set; }
+    public int? MicrotingUid { get; set; }
 
-        public string Transmission { get; set; }
+    public string Transmission { get; set; }
 
-        [StringLength(255)] public string NotificationUid { get; set; }
+    [StringLength(255)] public string NotificationUid { get; set; }
 
-        public string Activity { get; set; }
+    public string Activity { get; set; }
 
-        public string Exception { get; set; }
+    public string Exception { get; set; }
 
-        public string Stacktrace { get; set; }
+    public string Stacktrace { get; set; }
 
-        public int Version { get; set; }
+    public int Version { get; set; }
 
-        [ForeignKey("Notification")] public int NotificationId { get; set; }
-    }
+    [ForeignKey("Notification")] public int NotificationId { get; set; }
 }

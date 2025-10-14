@@ -22,20 +22,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class CheckListSiteVersion : BaseEntity
 {
-    public class CheckListSiteVersion : BaseEntity
-    {
-        public int? CheckListSiteId { get; set; }
+    public int? CheckListSiteId { get; set; }
 
-        public int? SiteId { get; set; }
+    public int? SiteId { get; set; }
 
-        public int? CheckListId { get; set; }
+    public int? CheckListId { get; set; }
 
-        public int MicrotingUid { get; set; }
+    public int MicrotingUid { get; set; }
 
-        public int LastCheckId { get; set; }
+    public int LastCheckId { get; set; }
 
-        public int? FolderId { get; set; }
-    }
+    public int? FolderId { get; set; }
 }

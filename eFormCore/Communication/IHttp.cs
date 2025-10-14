@@ -26,116 +26,115 @@ using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace Microting.eForm.Communication
+namespace Microting.eForm.Communication;
+
+internal interface IHttp
 {
-    internal interface IHttp
-    {
-        Task<string> Post(string xmlData, string siteId, string contentType = "application/xml");
+    Task<string> Post(string xmlData, string siteId, string contentType = "application/xml");
 
-        Task<byte[]> PostProto(byte[] protoData, string siteId);
+    Task<byte[]> PostProto(byte[] protoData, string siteId);
 
-        Task<string> Status(string elementId, string siteId);
-        Task<string> Update(int id, string siteId, int folderId, bool ignoreEndDate);
+    Task<string> Status(string elementId, string siteId);
+    Task<string> Update(int id, string siteId, int folderId, bool ignoreEndDate);
 
-        Task<string> Retrieve(string microtingUuid, string microtingCheckUuid, int siteId);
+    Task<string> Retrieve(string microtingUuid, string microtingCheckUuid, int siteId);
 
-        Task<string> Delete(string elementId, string siteId);
+    Task<string> Delete(string elementId, string siteId);
 
-        Task<string> EntitySearchGroupCreate(string name, string id);
+    Task<string> EntitySearchGroupCreate(string name, string id);
 
-        Task<bool> EntitySearchGroupUpdate(int id, string name, string entityGroupMUId);
+    Task<bool> EntitySearchGroupUpdate(int id, string name, string entityGroupMUId);
 
-        Task<bool> EntitySearchGroupDelete(string entityGroupId);
+    Task<bool> EntitySearchGroupDelete(string entityGroupId);
 
-        Task<string> EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id);
+    Task<string> EntitySearchItemCreate(string entitySearchGroupId, string name, string description, string id);
 
-        Task<bool> EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name,
-            string description, string id);
+    Task<bool> EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name,
+        string description, string id);
 
-        Task<bool> EntitySearchItemDelete(string entitySearchItemId);
+    Task<bool> EntitySearchItemDelete(string entitySearchItemId);
 
-        Task<string> EntitySelectGroupCreate(string name, string id);
+    Task<string> EntitySelectGroupCreate(string name, string id);
 
-        Task<bool> EntitySelectGroupUpdate(int id, string name, string entityGroupMUId);
+    Task<bool> EntitySelectGroupUpdate(int id, string name, string entityGroupMUId);
 
-        Task<bool> EntitySelectGroupDelete(string entityGroupId);
+    Task<bool> EntitySelectGroupDelete(string entityGroupId);
 
-        Task<string> EntitySelectItemCreate(string entitySelectGroupId, string name, int displayOrder, string id);
+    Task<string> EntitySelectItemCreate(string entitySelectGroupId, string name, int displayOrder, string id);
 
-        Task<bool> EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name,
-            int displayOrder, string id);
+    Task<bool> EntitySelectItemUpdate(string entitySelectGroupId, string entitySelectItemId, string name,
+        int displayOrder, string id);
 
-        Task<bool> EntitySelectItemDelete(string entitySelectItemId);
+    Task<bool> EntitySelectItemDelete(string entitySelectItemId);
 
-        Task<bool> PdfUpload(string name, string hash);
-        Task<bool> PdfUpload(Stream stream, string hash, string fileName);
+    Task<bool> PdfUpload(string name, string hash);
+    Task<bool> PdfUpload(Stream stream, string hash, string fileName);
 
-        Task<bool> PngUpload(string name, string hash);
-        Task<bool> PngUpload(Stream stream, string hash, string fileName);
+    Task<bool> PngUpload(string name, string hash);
+    Task<bool> PngUpload(Stream stream, string hash, string fileName);
 
-        Task<string> TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex);
+    Task<string> TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex);
 
-        Task<string> SiteCreate(string name, string languageCode);
+    Task<string> SiteCreate(string name, string languageCode);
 
-        Task<bool> SiteUpdate(int id, string name, string languageCode);
+    Task<bool> SiteUpdate(int id, string name, string languageCode);
 
-        Task<string> SiteDelete(int id);
+    Task<string> SiteDelete(int id);
 
-        Task<string> SiteLoadAllFromRemote();
+    Task<string> SiteLoadAllFromRemote();
 
-        Task<string> WorkerCreate(string firstName, string lastName, string email);
+    Task<string> WorkerCreate(string firstName, string lastName, string email);
 
-        Task<bool> WorkerUpdate(int id, string firstName, string lastName, string email);
+    Task<bool> WorkerUpdate(int id, string firstName, string lastName, string email);
 
-        Task<string> WorkerDelete(int id);
+    Task<string> WorkerDelete(int id);
 
-        Task<string> WorkerLoadAllFromRemote();
+    Task<string> WorkerLoadAllFromRemote();
 
-        Task<string> SiteWorkerCreate(int siteId, int workerId);
+    Task<string> SiteWorkerCreate(int siteId, int workerId);
 
-        Task<string> SiteWorkerDelete(int id);
+    Task<string> SiteWorkerDelete(int id);
 
-        Task<string> SiteWorkerLoadAllFromRemote();
+    Task<string> SiteWorkerLoadAllFromRemote();
 
-        Task<string> FolderLoadAllFromRemote();
+    Task<string> FolderLoadAllFromRemote();
 
-        Task<string> FolderCreate(int uuid, int? parentId);
+    Task<string> FolderCreate(int uuid, int? parentId);
 
-        Task<bool> FolderUpdate(int id, string name, string description, string languageCode, int? parentId);
+    Task<bool> FolderUpdate(int id, string name, string description, string languageCode, int? parentId);
 
-        Task<string> FolderDelete(int id);
+    Task<string> FolderDelete(int id);
 
-        Task<string> UnitUpdate(int id, bool newOtp, int siteId, bool pushEnabled, bool syncDelayEnabled,
-            bool syncDialogEnabled);
+    Task<string> UnitUpdate(int id, bool newOtp, int siteId, bool pushEnabled, bool syncDelayEnabled,
+        bool syncDialogEnabled);
 
-        Task<string> UnitLoadAllFromRemote();
+    Task<string> UnitLoadAllFromRemote();
 
-        Task<string> UnitDelete(int id);
+    Task<string> UnitDelete(int id);
 
-        Task<string> UnitMove(int unitId, int siteId);
+    Task<string> UnitMove(int unitId, int siteId);
 
-        Task<string> UnitCreate(int siteMicrotingUid);
+    Task<string> UnitCreate(int siteMicrotingUid);
 
-        Task<string> UnitGet(int id);
+    Task<string> UnitGet(int id);
 
-        Task<string> OrganizationLoadAllFromRemote();
+    Task<string> OrganizationLoadAllFromRemote();
 
-        Task<int> SpeechToText(Stream pathToAudioFile, string language, string extension);
+    Task<int> SpeechToText(Stream pathToAudioFile, string language, string extension);
 
-        Task<JToken> SpeechToText(int requestId);
+    Task<JToken> SpeechToText(int requestId);
 
-        Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite);
+    Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite);
 
-        Task<string> GetAllSurveyConfigurations();
+    Task<string> GetAllSurveyConfigurations();
 
-        Task<string> GetSurveyConfiguration(int id);
+    Task<string> GetSurveyConfiguration(int id);
 
-        Task<string> GetAllQuestionSets();
+    Task<string> GetAllQuestionSets();
 
-        Task<string> GetQuestionSet(int id);
+    Task<string> GetQuestionSet(int id);
 
-        Task<string> GetLastAnswer(int questionSetId, int lastAnswerId);
+    Task<string> GetLastAnswer(int questionSetId, int lastAnswerId);
 
-        Task SendPushMessage(int microtingSiteId, string header, string body, int microtingUuid);
-    }
+    Task SendPushMessage(int microtingSiteId, string header, string body, int microtingUuid);
 }

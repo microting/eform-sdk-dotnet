@@ -36,160 +36,159 @@ using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using NUnit.Framework;
 
-namespace eFormSDK.Integration.CheckLists.SqlControllerTests
+namespace eFormSDK.Integration.CheckLists.SqlControllerTests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class SqlControllerTestCheckListSite : DbTestFixture
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class SqlControllerTestCheckListSite : DbTestFixture
+    private SqlController sut;
+    private TestHelpers testHelpers;
+
+    public override async Task DoSetup()
     {
-        private SqlController sut;
-        private TestHelpers testHelpers;
+        #region Setup SettingsTableContent
 
-        public override async Task DoSetup()
-        {
-            #region Setup SettingsTableContent
-
-            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
-            SqlController sql = new SqlController(dbContextHelper);
-            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            await sql.SettingUpdate(Settings.firstRunDone, "true");
-            await sql.SettingUpdate(Settings.knownSitesDone, "true");
-
-            #endregion
-
-            sut = new SqlController(dbContextHelper);
-            sut.StartLog(new CoreBase());
-            testHelpers = new TestHelpers(ConnectionString);
-            await testHelpers.GenerateDefaultLanguages();
-            await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
-            await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
-            await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
-        }
-
-        [Test]
-        public async Task SQL_Case_CheckListSitesCreate_DoesSiteCreate()
-        {
-            Random rnd = new Random();
-            Site site = await testHelpers.CreateSite("mySite", 987);
-            DateTime cl1_Ca = DateTime.UtcNow;
-            DateTime cl1_Ua = DateTime.UtcNow;
-            CheckList cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template", "template_desc", "", "", 0, 0);
-
-
-            // Act
-            await sut.CheckListSitesCreate(cl1.Id, (int)site.MicrotingUid, rnd.Next(1, 255), null);
-            List<CheckListSite> checkListSiteResult = DbContext.CheckListSites.AsNoTracking().ToList();
-            var versionedMatches = DbContext.CheckListSiteVersions.AsNoTracking().ToList();
-
-            // Assert
-
-            Assert.That(checkListSiteResult, Is.Not.EqualTo(null));
-            Assert.That(checkListSiteResult.Count, Is.EqualTo(1));
-            Assert.That(checkListSiteResult[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(versionedMatches[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-        }
-
-        [Test]
-        public async Task SQL_Case_CheckListSitesRead_DoesSiteRead()
-        {
-            Random rnd = new Random();
-            Site site1 = await testHelpers.CreateSite("mySite2", 331);
-            DateTime cl1_Ca = DateTime.UtcNow;
-            DateTime cl1_Ua = DateTime.UtcNow;
-            CheckList cl1 =
-                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template2", "template_desc", "", "", 1, 1);
-
-            string guid = Guid.NewGuid().ToString();
-            string guid2 = Guid.NewGuid().ToString();
-            int lastCheckUid1 = rnd.Next(1, 255);
-            int lastCheckUid2 = rnd.Next(1, 255);
-
-            CheckListSite cls1 = await testHelpers.CreateCheckListSite(cl1, cl1_Ca, site1, cl1_Ua, 1,
-                Constants.WorkflowStates.Created, lastCheckUid1);
-            CheckListSite cls2 = await testHelpers.CreateCheckListSite(cl1, cl1_Ca, site1, cl1_Ua, 2,
-                Constants.WorkflowStates.Created, lastCheckUid2);
-
-            // Act
-            List<int> matches =
-                await sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, Constants.WorkflowStates.NotRemoved);
-            List<int> matches2 = await sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, null);
-            List<CheckListSite> checkListSiteResult1 = DbContext.CheckListSites.AsNoTracking().ToList();
-            var versionedMatches1 = DbContext.CheckListSiteVersions.AsNoTracking().ToList();
-
-
-            // Assert
-            Assert.That(matches, Is.Not.EqualTo(null));
-            Assert.That(matches.Count, Is.EqualTo(2));
-            Assert.That(matches2.Count, Is.EqualTo(2));
-            Assert.That(matches[0], Is.EqualTo(cls1.MicrotingUid));
-            Assert.That(matches2[0], Is.EqualTo(cls1.MicrotingUid));
-            Assert.That(matches2[1], Is.EqualTo(cls2.MicrotingUid));
-        }
-
-
-        [Test]
-        public async Task SQL_Case_CaseDeleteReversed_DoesDeletionReversed()
-        {
-            // Arrance
-            Random rnd = new Random();
-            Site site = await testHelpers.CreateSite("mySite", 987);
-            DateTime cl1_Ca = DateTime.UtcNow;
-            DateTime cl1_Ua = DateTime.UtcNow;
-            CheckList cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "bla", "bla_desc", "", "", 0, 0);
-
-            string guid = Guid.NewGuid().ToString();
-            int lastCheckUid1 = rnd.Next(1, 255);
-
-
-            CheckListSite cls1 = await testHelpers.CreateCheckListSite(cl1, cl1_Ca, site, cl1_Ua, 1,
-                Constants.WorkflowStates.Created, lastCheckUid1);
-
-            // Act
-            await sut.CaseDeleteReversed(cls1.MicrotingUid);
-            List<CheckListSite> checkListSiteResult = DbContext.CheckListSites.AsNoTracking().ToList();
-
-            // Assert
-
-            Assert.That(checkListSiteResult, Is.Not.EqualTo(null));
-            Assert.That(checkListSiteResult.Count, Is.EqualTo(1));
-            Assert.That(checkListSiteResult[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
-        }
-
-
-        #region eventhandlers
-
-#pragma warning disable 1998
-        public async Task EventCaseCreated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public async Task EventCaseRetrived(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public async Task EventCaseCompleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public async Task EventCaseDeleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public async Task EventFileDownloaded(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public async Task EventSiteActivated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-#pragma warning restore 1998
+        DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
+        SqlController sql = new SqlController(dbContextHelper);
+        await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+        await sql.SettingUpdate(Settings.firstRunDone, "true");
+        await sql.SettingUpdate(Settings.knownSitesDone, "true");
 
         #endregion
+
+        sut = new SqlController(dbContextHelper);
+        sut.StartLog(new CoreBase());
+        testHelpers = new TestHelpers(ConnectionString);
+        await testHelpers.GenerateDefaultLanguages();
+        await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
+        await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
+        await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
     }
+
+    [Test]
+    public async Task SQL_Case_CheckListSitesCreate_DoesSiteCreate()
+    {
+        Random rnd = new Random();
+        Site site = await testHelpers.CreateSite("mySite", 987);
+        DateTime cl1_Ca = DateTime.UtcNow;
+        DateTime cl1_Ua = DateTime.UtcNow;
+        CheckList cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template", "template_desc", "", "", 0, 0);
+
+
+        // Act
+        await sut.CheckListSitesCreate(cl1.Id, (int)site.MicrotingUid, rnd.Next(1, 255), null);
+        List<CheckListSite> checkListSiteResult = DbContext.CheckListSites.AsNoTracking().ToList();
+        var versionedMatches = DbContext.CheckListSiteVersions.AsNoTracking().ToList();
+
+        // Assert
+
+        Assert.That(checkListSiteResult, Is.Not.EqualTo(null));
+        Assert.That(checkListSiteResult.Count, Is.EqualTo(1));
+        Assert.That(checkListSiteResult[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(versionedMatches[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+    }
+
+    [Test]
+    public async Task SQL_Case_CheckListSitesRead_DoesSiteRead()
+    {
+        Random rnd = new Random();
+        Site site1 = await testHelpers.CreateSite("mySite2", 331);
+        DateTime cl1_Ca = DateTime.UtcNow;
+        DateTime cl1_Ua = DateTime.UtcNow;
+        CheckList cl1 =
+            await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "template2", "template_desc", "", "", 1, 1);
+
+        string guid = Guid.NewGuid().ToString();
+        string guid2 = Guid.NewGuid().ToString();
+        int lastCheckUid1 = rnd.Next(1, 255);
+        int lastCheckUid2 = rnd.Next(1, 255);
+
+        CheckListSite cls1 = await testHelpers.CreateCheckListSite(cl1, cl1_Ca, site1, cl1_Ua, 1,
+            Constants.WorkflowStates.Created, lastCheckUid1);
+        CheckListSite cls2 = await testHelpers.CreateCheckListSite(cl1, cl1_Ca, site1, cl1_Ua, 2,
+            Constants.WorkflowStates.Created, lastCheckUid2);
+
+        // Act
+        List<int> matches =
+            await sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, Constants.WorkflowStates.NotRemoved);
+        List<int> matches2 = await sut.CheckListSitesRead(cl1.Id, (int)site1.MicrotingUid, null);
+        List<CheckListSite> checkListSiteResult1 = DbContext.CheckListSites.AsNoTracking().ToList();
+        var versionedMatches1 = DbContext.CheckListSiteVersions.AsNoTracking().ToList();
+
+
+        // Assert
+        Assert.That(matches, Is.Not.EqualTo(null));
+        Assert.That(matches.Count, Is.EqualTo(2));
+        Assert.That(matches2.Count, Is.EqualTo(2));
+        Assert.That(matches[0], Is.EqualTo(cls1.MicrotingUid));
+        Assert.That(matches2[0], Is.EqualTo(cls1.MicrotingUid));
+        Assert.That(matches2[1], Is.EqualTo(cls2.MicrotingUid));
+    }
+
+
+    [Test]
+    public async Task SQL_Case_CaseDeleteReversed_DoesDeletionReversed()
+    {
+        // Arrance
+        Random rnd = new Random();
+        Site site = await testHelpers.CreateSite("mySite", 987);
+        DateTime cl1_Ca = DateTime.UtcNow;
+        DateTime cl1_Ua = DateTime.UtcNow;
+        CheckList cl1 = await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "bla", "bla_desc", "", "", 0, 0);
+
+        string guid = Guid.NewGuid().ToString();
+        int lastCheckUid1 = rnd.Next(1, 255);
+
+
+        CheckListSite cls1 = await testHelpers.CreateCheckListSite(cl1, cl1_Ca, site, cl1_Ua, 1,
+            Constants.WorkflowStates.Created, lastCheckUid1);
+
+        // Act
+        await sut.CaseDeleteReversed(cls1.MicrotingUid);
+        List<CheckListSite> checkListSiteResult = DbContext.CheckListSites.AsNoTracking().ToList();
+
+        // Assert
+
+        Assert.That(checkListSiteResult, Is.Not.EqualTo(null));
+        Assert.That(checkListSiteResult.Count, Is.EqualTo(1));
+        Assert.That(checkListSiteResult[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+    }
+
+
+    #region eventhandlers
+
+#pragma warning disable 1998
+    public async Task EventCaseCreated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventCaseRetrived(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventCaseCompleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventCaseDeleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventFileDownloaded(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventSiteActivated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+#pragma warning restore 1998
+
+    #endregion
 }

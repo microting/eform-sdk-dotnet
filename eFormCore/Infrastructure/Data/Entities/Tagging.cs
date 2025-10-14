@@ -24,18 +24,17 @@ SOFTWARE.
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class Tagging : PnBase
 {
-    public class Tagging : PnBase
-    {
-        [ForeignKey("Tag")] public int? TagId { get; set; }
+    [ForeignKey("Tag")] public int? TagId { get; set; }
 
-        [ForeignKey("CheckList")] public int? CheckListId { get; set; }
+    [ForeignKey("CheckList")] public int? CheckListId { get; set; }
 
-        public int? TaggerId { get; set; } // this will refer to some user Id.
+    public int? TaggerId { get; set; } // this will refer to some user Id.
 
-        public virtual Tag Tag { get; set; }
+    public virtual Tag Tag { get; set; }
 
-        public virtual CheckList CheckList { get; set; }
-    }
+    public virtual CheckList CheckList { get; set; }
 }

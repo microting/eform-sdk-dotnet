@@ -24,22 +24,21 @@ SOFTWARE.
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class AnswerValueVersion : BaseEntity
 {
-    public class AnswerValueVersion : BaseEntity
-    {
-        public int AnswerId { get; set; }
+    public int AnswerId { get; set; }
 
-        public int QuestionId { get; set; }
+    public int QuestionId { get; set; }
 
-        public int OptionId { get; set; }
+    public int OptionId { get; set; }
 
-        public string Value { get; set; }
+    public string Value { get; set; }
 
-        [ForeignKey("answer_value")] public int AnswerValueId { get; set; }
+    [ForeignKey("answer_value")] public int AnswerValueId { get; set; }
 
-        public int? MicrotingUid { get; set; }
+    public int? MicrotingUid { get; set; }
 
-        public virtual AnswerValue AnswerValue { get; set; }
-    }
+    public virtual AnswerValue AnswerValue { get; set; }
 }

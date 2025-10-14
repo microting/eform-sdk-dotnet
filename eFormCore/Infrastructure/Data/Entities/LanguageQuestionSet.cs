@@ -24,18 +24,17 @@ SOFTWARE.
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class LanguageQuestionSet : PnBase
 {
-    public class LanguageQuestionSet : PnBase
-    {
-        [ForeignKey("Language")] public int LanguageId { get; set; }
+    [ForeignKey("Language")] public int LanguageId { get; set; }
 
-        [ForeignKey("QuestionSet")] public int QuestionSetId { get; set; }
+    [ForeignKey("QuestionSet")] public int QuestionSetId { get; set; }
 
-        public virtual QuestionSet QuestionSet { get; set; }
+    public virtual QuestionSet QuestionSet { get; set; }
 
-        public virtual Language Language { get; set; }
+    public virtual Language Language { get; set; }
 
-        public int? MicrotingUid { get; set; }
-    }
+    public int? MicrotingUid { get; set; }
 }

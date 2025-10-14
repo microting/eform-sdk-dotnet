@@ -30,44 +30,43 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Messages;
 using Rebus.Handlers;
 
-namespace Microting.eForm.Handlers
+namespace Microting.eForm.Handlers;
+
+public class AnswerCompletedHandler : IHandleMessages<AnswerCompleted>
 {
-    public class AnswerCompletedHandler : IHandleMessages<AnswerCompleted>
+    private readonly SqlController sqlController;
+    private readonly Log log;
+    private readonly Core core;
+
+    public AnswerCompletedHandler(SqlController sqlController, Log log, Core core)
     {
-        private readonly SqlController sqlController;
-        private readonly Log log;
-        private readonly Core core;
+        this.sqlController = sqlController;
+        this.log = log;
+        this.core = core;
+    }
 
-        public AnswerCompletedHandler(SqlController sqlController, Log log, Core core)
+    public async Task Handle(AnswerCompleted message)
+    {
+        try
         {
-            this.sqlController = sqlController;
-            this.log = log;
-            this.core = core;
+            log.LogEverything("AnswerCompletedHandler.Handle", $"Parsing answer for id {message.MicrotringUUID}");
+            await core.GetAllSurveyConfigurations().ConfigureAwait(false);
+            await core.GetAnswersForQuestionSet(message.MicrotringUUID).ConfigureAwait(false);
+            await sqlController.NotificationUpdate(message.NotificationUId,
+                message.MicrotringUUID,
+                Constants.WorkflowStates.Processed,
+                "",
+                "").ConfigureAwait(false);
         }
-
-        public async Task Handle(AnswerCompleted message)
+        catch (Exception ex)
         {
-            try
-            {
-                log.LogEverything("AnswerCompletedHandler.Handle", $"Parsing answer for id {message.MicrotringUUID}");
-                await core.GetAllSurveyConfigurations().ConfigureAwait(false);
-                await core.GetAnswersForQuestionSet(message.MicrotringUUID).ConfigureAwait(false);
-                await sqlController.NotificationUpdate(message.NotificationUId,
-                    message.MicrotringUUID,
-                    Constants.WorkflowStates.Processed,
-                    "",
-                    "").ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                log.LogException("AnswerCompletedHandler.Handle",
-                    $"Could not parse answer for id {message.MicrotringUUID}, got exception {ex.Message}", ex);
-                await sqlController.NotificationUpdate(message.NotificationUId,
-                    message.MicrotringUUID,
-                    Constants.WorkflowStates.NotFound,
-                    ex.Message,
-                    ex.StackTrace).ConfigureAwait(false);
-            }
+            log.LogException("AnswerCompletedHandler.Handle",
+                $"Could not parse answer for id {message.MicrotringUUID}, got exception {ex.Message}", ex);
+            await sqlController.NotificationUpdate(message.NotificationUId,
+                message.MicrotringUUID,
+                Constants.WorkflowStates.NotFound,
+                ex.Message,
+                ex.StackTrace).ConfigureAwait(false);
         }
     }
 }

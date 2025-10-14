@@ -35,129 +35,128 @@ using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using NUnit.Framework;
 
-namespace eFormSDK.Integration.Base.CoreTests
+namespace eFormSDK.Integration.Base.CoreTests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class CoreTestUploadedData : DbTestFixture
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class CoreTestUploadedData : DbTestFixture
+    private Core sut;
+    private TestHelpers testHelpers;
+    private string path;
+
+    public override async Task DoSetup()
     {
-        private Core sut;
-        private TestHelpers testHelpers;
-        private string path;
+        #region Setup SettingsTableContent
 
-        public override async Task DoSetup()
-        {
-            #region Setup SettingsTableContent
-
-            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
-            SqlController sql = new SqlController(dbContextHelper);
-            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            await sql.SettingUpdate(Settings.firstRunDone, "true");
-            await sql.SettingUpdate(Settings.knownSitesDone, "true");
-
-            #endregion
-
-            sut = new Core();
-            sut.HandleCaseCreated += EventCaseCreated;
-            sut.HandleCaseRetrived += EventCaseRetrived;
-            sut.HandleCaseCompleted += EventCaseCompleted;
-            sut.HandleCaseDeleted += EventCaseDeleted;
-            sut.HandleFileDownloaded += EventFileDownloaded;
-            sut.HandleSiteActivated += EventSiteActivated;
-            await sut.StartSqlOnly(ConnectionString);
-            path = Assembly.GetExecutingAssembly().Location;
-            path = Path.GetDirectoryName(path).Replace(@"file:", "");
-            await sut.SetSdkSetting(Settings.fileLocationPicture,
-                Path.Combine(path, "output", "dataFolder", "picture"));
-            await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
-            await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
-            testHelpers = new TestHelpers(ConnectionString);
-            await testHelpers.GenerateDefaultLanguages();
-            //sut.StartLog(new CoreBase());
-        }
-
-        #region uploaded_datas
-
-        [Test]
-        public async Task Core_UploadedData_UploadedDataRead_DoesReturnOneUploadedDataClass()
-        {
-            // Arrance
-            string checksum = "";
-            string extension = "jpg";
-            string currentFile = "Hello.jpg";
-            int uploaderId = 1;
-            string fileLocation = @"c:\here";
-            string fileName = "Hello.jpg";
-
-            // Act
-            UploadedData dU = new UploadedData
-            {
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-                Extension = extension,
-                UploaderId = uploaderId,
-                UploaderType = Constants.UploaderTypes.System,
-                WorkflowState = Constants.WorkflowStates.PreCreated,
-                Version = 1,
-                Local = 0,
-                FileLocation = fileLocation,
-                FileName = fileName,
-                CurrentFile = currentFile,
-                Checksum = checksum
-            };
-
-
-            DbContext.UploadedDatas.Add(dU);
-            await DbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            Microting.eForm.Infrastructure.Models.UploadedData ud = await sut.Advanced_UploadedDataRead(dU.Id);
-
-            // Assert
-            Assert.That(ud, Is.Not.EqualTo(null));
-            Assert.That(dU.Id, Is.EqualTo(ud.Id));
-            Assert.That(dU.Extension, Is.EqualTo(ud.Extension));
-            Assert.That(dU.UploaderId, Is.EqualTo(ud.UploaderId));
-            Assert.That(dU.UploaderType, Is.EqualTo(ud.UploaderType));
-            Assert.That(dU.FileLocation, Is.EqualTo(ud.FileLocation));
-            Assert.That(dU.FileName, Is.EqualTo(ud.FileName));
-            Assert.That(dU.CurrentFile, Is.EqualTo(ud.CurrentFile));
-            Assert.That(dU.Checksum, Is.EqualTo(ud.Checksum));
-        }
+        DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
+        SqlController sql = new SqlController(dbContextHelper);
+        await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+        await sql.SettingUpdate(Settings.firstRunDone, "true");
+        await sql.SettingUpdate(Settings.knownSitesDone, "true");
 
         #endregion
 
-        #region eventhandlers
-
-        public void EventCaseCreated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseRetrived(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseCompleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseDeleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventFileDownloaded(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventSiteActivated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        #endregion
+        sut = new Core();
+        sut.HandleCaseCreated += EventCaseCreated;
+        sut.HandleCaseRetrived += EventCaseRetrived;
+        sut.HandleCaseCompleted += EventCaseCompleted;
+        sut.HandleCaseDeleted += EventCaseDeleted;
+        sut.HandleFileDownloaded += EventFileDownloaded;
+        sut.HandleSiteActivated += EventSiteActivated;
+        await sut.StartSqlOnly(ConnectionString);
+        path = Assembly.GetExecutingAssembly().Location;
+        path = Path.GetDirectoryName(path).Replace(@"file:", "");
+        await sut.SetSdkSetting(Settings.fileLocationPicture,
+            Path.Combine(path, "output", "dataFolder", "picture"));
+        await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
+        await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
+        testHelpers = new TestHelpers(ConnectionString);
+        await testHelpers.GenerateDefaultLanguages();
+        //sut.StartLog(new CoreBase());
     }
+
+    #region uploaded_datas
+
+    [Test]
+    public async Task Core_UploadedData_UploadedDataRead_DoesReturnOneUploadedDataClass()
+    {
+        // Arrance
+        string checksum = "";
+        string extension = "jpg";
+        string currentFile = "Hello.jpg";
+        int uploaderId = 1;
+        string fileLocation = @"c:\here";
+        string fileName = "Hello.jpg";
+
+        // Act
+        UploadedData dU = new UploadedData
+        {
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
+            Extension = extension,
+            UploaderId = uploaderId,
+            UploaderType = Constants.UploaderTypes.System,
+            WorkflowState = Constants.WorkflowStates.PreCreated,
+            Version = 1,
+            Local = 0,
+            FileLocation = fileLocation,
+            FileName = fileName,
+            CurrentFile = currentFile,
+            Checksum = checksum
+        };
+
+
+        DbContext.UploadedDatas.Add(dU);
+        await DbContext.SaveChangesAsync().ConfigureAwait(false);
+
+        Microting.eForm.Infrastructure.Models.UploadedData ud = await sut.Advanced_UploadedDataRead(dU.Id);
+
+        // Assert
+        Assert.That(ud, Is.Not.EqualTo(null));
+        Assert.That(dU.Id, Is.EqualTo(ud.Id));
+        Assert.That(dU.Extension, Is.EqualTo(ud.Extension));
+        Assert.That(dU.UploaderId, Is.EqualTo(ud.UploaderId));
+        Assert.That(dU.UploaderType, Is.EqualTo(ud.UploaderType));
+        Assert.That(dU.FileLocation, Is.EqualTo(ud.FileLocation));
+        Assert.That(dU.FileName, Is.EqualTo(ud.FileName));
+        Assert.That(dU.CurrentFile, Is.EqualTo(ud.CurrentFile));
+        Assert.That(dU.Checksum, Is.EqualTo(ud.Checksum));
+    }
+
+    #endregion
+
+    #region eventhandlers
+
+    public void EventCaseCreated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventCaseRetrived(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventCaseCompleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventCaseDeleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventFileDownloaded(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventSiteActivated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    #endregion
 }

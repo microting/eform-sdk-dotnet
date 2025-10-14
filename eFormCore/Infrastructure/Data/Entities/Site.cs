@@ -28,53 +28,52 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class Site : PnBase
 {
-    public class Site : PnBase
+    public Site()
     {
-        public Site()
+        Cases = new HashSet<Case>();
+        Units = new HashSet<Unit>();
+        SiteWorkers = new HashSet<SiteWorker>();
+        CheckListSites = new HashSet<CheckListSite>();
+        SiteTags = new List<SiteTag>();
+    }
+
+    [StringLength(255)] public string Name { get; set; }
+
+    public int? MicrotingUid { get; set; }
+
+    [ForeignKey("Language")] public int LanguageId { get; set; }
+
+    public int SearchableEntityItemId { get; set; }
+
+    public int SelectableEntityItemId { get; set; }
+
+    public bool IsLocked { get; set; }
+
+    public virtual ICollection<Case> Cases { get; set; }
+
+    public virtual ICollection<Unit> Units { get; set; }
+
+    public virtual ICollection<SiteWorker> SiteWorkers { get; set; }
+
+    public virtual ICollection<CheckListSite> CheckListSites { get; set; }
+
+    public virtual ICollection<SiteTag> SiteTags { get; set; }
+
+    public static async Task AddLanguage(MicrotingDbContext dbContext)
+    {
+        List<Site> sites = await dbContext.Sites.ToListAsync();
+        Language language = await dbContext.Languages
+            .FirstAsync(x => x.Name == "Dansk");
+        foreach (Site site in sites)
         {
-            Cases = new HashSet<Case>();
-            Units = new HashSet<Unit>();
-            SiteWorkers = new HashSet<SiteWorker>();
-            CheckListSites = new HashSet<CheckListSite>();
-            SiteTags = new List<SiteTag>();
-        }
-
-        [StringLength(255)] public string Name { get; set; }
-
-        public int? MicrotingUid { get; set; }
-
-        [ForeignKey("Language")] public int LanguageId { get; set; }
-
-        public int SearchableEntityItemId { get; set; }
-
-        public int SelectableEntityItemId { get; set; }
-
-        public bool IsLocked { get; set; }
-
-        public virtual ICollection<Case> Cases { get; set; }
-
-        public virtual ICollection<Unit> Units { get; set; }
-
-        public virtual ICollection<SiteWorker> SiteWorkers { get; set; }
-
-        public virtual ICollection<CheckListSite> CheckListSites { get; set; }
-
-        public virtual ICollection<SiteTag> SiteTags { get; set; }
-
-        public static async Task AddLanguage(MicrotingDbContext dbContext)
-        {
-            List<Site> sites = await dbContext.Sites.ToListAsync();
-            Language language = await dbContext.Languages
-                .FirstAsync(x => x.Name == "Dansk");
-            foreach (Site site in sites)
+            if (site.LanguageId == 0)
             {
-                if (site.LanguageId == 0)
-                {
-                    site.LanguageId = language.Id;
-                    await site.Update(dbContext);
-                }
+                site.LanguageId = language.Id;
+                await site.Update(dbContext);
             }
         }
     }

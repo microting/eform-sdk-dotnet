@@ -13,59 +13,59 @@ using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using NUnit.Framework;
 
-namespace eFormSDK.Integration.Base.SqlControllerTests
+namespace eFormSDK.Integration.Base.SqlControllerTests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class SqlControllerTestUnit : DbTestFixture
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class SqlControllerTestUnit : DbTestFixture
+    private SqlController sut;
+    private TestHelpers testHelpers;
+    string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).Replace(@"file:", "");
+
+
+    public override async Task DoSetup()
     {
-        private SqlController sut;
-        private TestHelpers testHelpers;
-        string path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location).Replace(@"file:", "");
+        DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
+        SqlController sql = new SqlController(dbContextHelper);
+        await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+        await sql.SettingUpdate(Settings.firstRunDone, "true");
+        await sql.SettingUpdate(Settings.knownSitesDone, "true");
+        testHelpers = new TestHelpers(ConnectionString);
+        await testHelpers.GenerateDefaultLanguages();
 
+        sut = new SqlController(dbContextHelper);
+        sut.StartLog(new CoreBase());
 
-        public override async Task DoSetup()
-        {
-            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
-            SqlController sql = new SqlController(dbContextHelper);
-            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            await sql.SettingUpdate(Settings.firstRunDone, "true");
-            await sql.SettingUpdate(Settings.knownSitesDone, "true");
-            testHelpers = new TestHelpers(ConnectionString);
-            await testHelpers.GenerateDefaultLanguages();
+        await sut.SettingUpdate(Settings.fileLocationPicture,
+            Path.Combine(path, "output", "dataFolder", "picture"));
+        await sut.SettingUpdate(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
+        await sut.SettingUpdate(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
+    }
 
-            sut = new SqlController(dbContextHelper);
-            sut.StartLog(new CoreBase());
+    #region unit
 
-            await sut.SettingUpdate(Settings.fileLocationPicture,
-                Path.Combine(path, "output", "dataFolder", "picture"));
-            await sut.SettingUpdate(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
-            await sut.SettingUpdate(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
-        }
+    [Test]
+    public async Task SQL_Unit_UnitGetAll_ReturnsAllUnits()
+    {
+        // Arrance
 
-        #region unit
+        #region Arrance
 
-        [Test]
-        public async Task SQL_Unit_UnitGetAll_ReturnsAllUnits()
-        {
-            // Arrance
+        #region Checklist
 
-            #region Arrance
+        DateTime cl1_Ca = DateTime.Now;
+        DateTime cl1_Ua = DateTime.Now;
+        CheckList Cl1 =
+            await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
-            #region Checklist
+        #endregion
 
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
-            CheckList Cl1 =
-                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+        #region SubCheckList
 
-            #endregion
+        CheckList Cl2 = await testHelpers.CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
 
-            #region SubCheckList
-
-            CheckList Cl2 = await testHelpers.CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
-
-            #endregion
+        #endregion
 
 //            #region Fields
 //
@@ -217,180 +217,180 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 
 //            #endregion
 
-            #region sites
+        #region sites
 
-            #region Site1
+        #region Site1
 
-            Site site1 = await testHelpers.CreateSite("SiteName1", 88);
+        Site site1 = await testHelpers.CreateSite("SiteName1", 88);
 
-            #endregion
+        #endregion
 
-            #region Site2
+        #region Site2
 
-            Site site2 = await testHelpers.CreateSite("SiteName2", 89);
+        Site site2 = await testHelpers.CreateSite("SiteName2", 89);
 
-            #endregion
+        #endregion
 
-            #region Site3
+        #region Site3
 
-            Site site3 = await testHelpers.CreateSite("SiteName3", 90);
+        Site site3 = await testHelpers.CreateSite("SiteName3", 90);
 
-            #endregion
+        #endregion
 
-            #region Site4
+        #region Site4
 
-            Site site4 = await testHelpers.CreateSite("SiteName4", 91);
+        Site site4 = await testHelpers.CreateSite("SiteName4", 91);
 
-            #endregion
+        #endregion
 
-            #region Site5
+        #region Site5
 
-            Site site5 = await testHelpers.CreateSite("SiteName5", 92);
+        Site site5 = await testHelpers.CreateSite("SiteName5", 92);
 
-            #endregion
+        #endregion
 
-            #region Site6
+        #region Site6
 
-            Site site6 = await testHelpers.CreateSite("SiteName6", 93);
+        Site site6 = await testHelpers.CreateSite("SiteName6", 93);
 
-            #endregion
+        #endregion
 
-            #region Site7
+        #region Site7
 
-            Site site7 = await testHelpers.CreateSite("SiteName7", 94);
+        Site site7 = await testHelpers.CreateSite("SiteName7", 94);
 
-            #endregion
+        #endregion
 
-            #region Site8
+        #region Site8
 
-            Site site8 = await testHelpers.CreateSite("SiteName8", 95);
+        Site site8 = await testHelpers.CreateSite("SiteName8", 95);
 
-            #endregion
+        #endregion
 
-            #region Site9
+        #region Site9
 
-            Site site9 = await testHelpers.CreateSite("SiteName9", 96);
+        Site site9 = await testHelpers.CreateSite("SiteName9", 96);
 
-            #endregion
+        #endregion
 
-            #region Site10
+        #region Site10
 
-            Site site10 = await testHelpers.CreateSite("SiteName10", 97);
+        Site site10 = await testHelpers.CreateSite("SiteName10", 97);
 
-            #endregion
+        #endregion
 
-            #endregion
+        #endregion
 
-            #region units
+        #region units
 
-            #region Unit1
+        #region Unit1
 
-            Unit unit1 = await testHelpers.CreateUnit(48, 49, site1, 348);
+        Unit unit1 = await testHelpers.CreateUnit(48, 49, site1, 348);
 
-            #endregion
+        #endregion
 
-            #region Unit2
+        #region Unit2
 
-            Unit unit2 = await testHelpers.CreateUnit(2, 55, site2, 349);
+        Unit unit2 = await testHelpers.CreateUnit(2, 55, site2, 349);
 
-            #endregion
+        #endregion
 
-            #region Unit3
+        #region Unit3
 
-            Unit unit3 = await testHelpers.CreateUnit(3, 51, site3, 350);
+        Unit unit3 = await testHelpers.CreateUnit(3, 51, site3, 350);
 
-            #endregion
+        #endregion
 
-            #region Unit4
+        #region Unit4
 
-            Unit unit4 = await testHelpers.CreateUnit(4, 52, site4, 351);
+        Unit unit4 = await testHelpers.CreateUnit(4, 52, site4, 351);
 
-            #endregion
+        #endregion
 
-            #region Unit5
+        #region Unit5
 
-            Unit unit5 = await testHelpers.CreateUnit(5, 6, site5, 352);
+        Unit unit5 = await testHelpers.CreateUnit(5, 6, site5, 352);
 
-            #endregion
+        #endregion
 
-            #region Unit6
+        #region Unit6
 
-            Unit unit6 = await testHelpers.CreateUnit(6, 85, site6, 353);
+        Unit unit6 = await testHelpers.CreateUnit(6, 85, site6, 353);
 
-            #endregion
+        #endregion
 
-            #region Unit7
+        #region Unit7
 
-            Unit unit7 = await testHelpers.CreateUnit(7, 62, site7, 354);
+        Unit unit7 = await testHelpers.CreateUnit(7, 62, site7, 354);
 
-            #endregion
+        #endregion
 
-            #region Unit8
+        #region Unit8
 
-            Unit unit8 = await testHelpers.CreateUnit(8, 96, site8, 355);
+        Unit unit8 = await testHelpers.CreateUnit(8, 96, site8, 355);
 
-            #endregion
+        #endregion
 
-            #region Unit9
+        #region Unit9
 
-            Unit unit9 = await testHelpers.CreateUnit(9, 69, site9, 356);
+        Unit unit9 = await testHelpers.CreateUnit(9, 69, site9, 356);
 
-            #endregion
+        #endregion
 
-            #region Unit10
+        #region Unit10
 
-            Unit unit10 = await testHelpers.CreateUnit(10, 100, site10, 357);
+        Unit unit10 = await testHelpers.CreateUnit(10, 100, site10, 357);
 
-            #endregion
+        #endregion
 
-            #endregion
+        #endregion
 
 //            #region site_workers
 //            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker1);
 //
 //            #endregion
 
-            #endregion
+        #endregion
 
-            // Act
+        // Act
 
-            var getAllUnits = await sut.UnitGetAll();
+        var getAllUnits = await sut.UnitGetAll();
 
-            // Assert
+        // Assert
 
-            Assert.That(getAllUnits.Count(), Is.EqualTo(10));
+        Assert.That(getAllUnits.Count(), Is.EqualTo(10));
 
-            Assert.That(getAllUnits[0].UnitUId, Is.EqualTo(unit1.MicrotingUid));
-            Assert.That(getAllUnits[1].UnitUId, Is.EqualTo(unit2.MicrotingUid));
-            Assert.That(getAllUnits[2].UnitUId, Is.EqualTo(unit3.MicrotingUid));
-            Assert.That(getAllUnits[3].UnitUId, Is.EqualTo(unit4.MicrotingUid));
-            Assert.That(getAllUnits[4].UnitUId, Is.EqualTo(unit5.MicrotingUid));
-            Assert.That(getAllUnits[5].UnitUId, Is.EqualTo(unit6.MicrotingUid));
-            Assert.That(getAllUnits[6].UnitUId, Is.EqualTo(unit7.MicrotingUid));
-            Assert.That(getAllUnits[7].UnitUId, Is.EqualTo(unit8.MicrotingUid));
-            Assert.That(getAllUnits[8].UnitUId, Is.EqualTo(unit9.MicrotingUid));
-            Assert.That(getAllUnits[9].UnitUId, Is.EqualTo(unit10.MicrotingUid));
-        }
+        Assert.That(getAllUnits[0].UnitUId, Is.EqualTo(unit1.MicrotingUid));
+        Assert.That(getAllUnits[1].UnitUId, Is.EqualTo(unit2.MicrotingUid));
+        Assert.That(getAllUnits[2].UnitUId, Is.EqualTo(unit3.MicrotingUid));
+        Assert.That(getAllUnits[3].UnitUId, Is.EqualTo(unit4.MicrotingUid));
+        Assert.That(getAllUnits[4].UnitUId, Is.EqualTo(unit5.MicrotingUid));
+        Assert.That(getAllUnits[5].UnitUId, Is.EqualTo(unit6.MicrotingUid));
+        Assert.That(getAllUnits[6].UnitUId, Is.EqualTo(unit7.MicrotingUid));
+        Assert.That(getAllUnits[7].UnitUId, Is.EqualTo(unit8.MicrotingUid));
+        Assert.That(getAllUnits[8].UnitUId, Is.EqualTo(unit9.MicrotingUid));
+        Assert.That(getAllUnits[9].UnitUId, Is.EqualTo(unit10.MicrotingUid));
+    }
 
-        [Test]
-        public async Task SQL_Unit_UnitCreate_CreatesUnit()
-        {
-            // Arrance
+    [Test]
+    public async Task SQL_Unit_UnitCreate_CreatesUnit()
+    {
+        // Arrance
 
-            #region Checklist
+        #region Checklist
 
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
-            CheckList Cl1 =
-                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+        DateTime cl1_Ca = DateTime.Now;
+        DateTime cl1_Ua = DateTime.Now;
+        CheckList Cl1 =
+            await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
-            #endregion
+        #endregion
 
-            #region SubCheckList
+        #region SubCheckList
 
-            CheckList Cl2 = await testHelpers.CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+        CheckList Cl2 = await testHelpers.CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
 
-            #endregion
+        #endregion
 
 //            #region Fields
 //
@@ -542,13 +542,13 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //
 //            #endregion
 
-            #region sites
+        #region sites
 
-            #region Site1
+        #region Site1
 
-            Site site1 = await testHelpers.CreateSite("SiteName1", 88);
+        Site site1 = await testHelpers.CreateSite("SiteName1", 88);
 
-            #endregion
+        #endregion
 
 //            #region Site2
 //            sites site2 = await testHelpers.CreateSite("SiteName2", 89);
@@ -595,39 +595,39 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //
 //            #endregion
 
-            #endregion
+        #endregion
 
-            // Act
-            var match = await sut.UnitCreate(5, 654, 88, (int)site1.MicrotingUid);
-            // Assert
-            var units = DbContext.Units.AsNoTracking().ToList();
+        // Act
+        var match = await sut.UnitCreate(5, 654, 88, (int)site1.MicrotingUid);
+        // Assert
+        var units = DbContext.Units.AsNoTracking().ToList();
 
-            Assert.That(match, Is.Not.EqualTo(null));
-            Assert.That(units.Count(), Is.EqualTo(1));
-            Assert.That(units[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-        }
+        Assert.That(match, Is.Not.EqualTo(null));
+        Assert.That(units.Count(), Is.EqualTo(1));
+        Assert.That(units[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+    }
 
-        [Test]
-        public async Task SQL_Unit_UnitRead_ReadsUnit()
-        {
-            // Arrance
+    [Test]
+    public async Task SQL_Unit_UnitRead_ReadsUnit()
+    {
+        // Arrance
 
-            #region Arrance
+        #region Arrance
 
-            #region Checklist
+        #region Checklist
 
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
-            CheckList Cl1 =
-                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+        DateTime cl1_Ca = DateTime.Now;
+        DateTime cl1_Ua = DateTime.Now;
+        CheckList Cl1 =
+            await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
-            #endregion
+        #endregion
 
-            #region SubCheckList
+        #region SubCheckList
 
-            CheckList Cl2 = await testHelpers.CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+        CheckList Cl2 = await testHelpers.CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
 
-            #endregion
+        #endregion
 
 //            #region Fields
 //
@@ -725,13 +725,13 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //
 //            #endregion
 
-            #region Workers
+        #region Workers
 
-            #region worker1
+        #region worker1
 
-            Worker worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+        Worker worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
-            #endregion
+        #endregion
 
 //            #region worker2
 //            workers worker2 = await testHelpers.CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
@@ -778,79 +778,79 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //
 //            #endregion
 
-            #endregion
+        #endregion
 
-            #region sites
+        #region sites
 
-            #region Site1
+        #region Site1
 
-            Site site1 = await testHelpers.CreateSite("SiteName1", 88);
+        Site site1 = await testHelpers.CreateSite("SiteName1", 88);
 
-            #endregion
+        #endregion
 
-            #region Site2
+        #region Site2
 
-            Site site2 = await testHelpers.CreateSite("SiteName2", 89);
+        Site site2 = await testHelpers.CreateSite("SiteName2", 89);
 
-            #endregion
+        #endregion
 
-            #region Site3
+        #region Site3
 
-            Site site3 = await testHelpers.CreateSite("SiteName3", 90);
+        Site site3 = await testHelpers.CreateSite("SiteName3", 90);
 
-            #endregion
+        #endregion
 
-            #region Site4
+        #region Site4
 
-            Site site4 = await testHelpers.CreateSite("SiteName4", 91);
+        Site site4 = await testHelpers.CreateSite("SiteName4", 91);
 
-            #endregion
+        #endregion
 
-            #region Site5
+        #region Site5
 
-            Site site5 = await testHelpers.CreateSite("SiteName5", 92);
+        Site site5 = await testHelpers.CreateSite("SiteName5", 92);
 
-            #endregion
+        #endregion
 
-            #region Site6
+        #region Site6
 
-            Site site6 = await testHelpers.CreateSite("SiteName6", 93);
+        Site site6 = await testHelpers.CreateSite("SiteName6", 93);
 
-            #endregion
+        #endregion
 
-            #region Site7
+        #region Site7
 
-            Site site7 = await testHelpers.CreateSite("SiteName7", 94);
+        Site site7 = await testHelpers.CreateSite("SiteName7", 94);
 
-            #endregion
+        #endregion
 
-            #region Site8
+        #region Site8
 
-            Site site8 = await testHelpers.CreateSite("SiteName8", 95);
+        Site site8 = await testHelpers.CreateSite("SiteName8", 95);
 
-            #endregion
+        #endregion
 
-            #region Site9
+        #region Site9
 
-            Site site9 = await testHelpers.CreateSite("SiteName9", 96);
+        Site site9 = await testHelpers.CreateSite("SiteName9", 96);
 
-            #endregion
+        #endregion
 
-            #region Site10
+        #region Site10
 
-            Site site10 = await testHelpers.CreateSite("SiteName10", 97);
+        Site site10 = await testHelpers.CreateSite("SiteName10", 97);
 
-            #endregion
+        #endregion
 
-            #endregion
+        #endregion
 
-            #region units
+        #region units
 
-            #region Unit1
+        #region Unit1
 
-            Unit unit1 = await testHelpers.CreateUnit(48, 49, site1, 348);
+        Unit unit1 = await testHelpers.CreateUnit(48, 49, site1, 348);
 
-            #endregion
+        #endregion
 
 //            #region Unit2
 //            units unit2 = await testHelpers.CreateUnit(2, 55, site2, 349);
@@ -888,46 +888,46 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //            units unit10 = await testHelpers.CreateUnit(10, 100, site10, 357);
 //            #endregion
 
-            #endregion
+        #endregion
 
 //            #region site_workers
 //            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker1);
 
 //            #endregion
 
-            #endregion
+        #endregion
 
-            // Act
+        // Act
 
-            var match = await sut.UnitRead((int)unit1.MicrotingUid);
+        var match = await sut.UnitRead((int)unit1.MicrotingUid);
 
-            // Assert
+        // Assert
 
-            Assert.That(match.UnitUId, Is.EqualTo(unit1.MicrotingUid));
-            Assert.That(match.CustomerNo, Is.EqualTo(unit1.CustomerNo));
-        }
+        Assert.That(match.UnitUId, Is.EqualTo(unit1.MicrotingUid));
+        Assert.That(match.CustomerNo, Is.EqualTo(unit1.CustomerNo));
+    }
 
-        [Test]
-        public async Task SQL_Unit_UnitUpdate_UpdatesUnit()
-        {
-            // Arrance
+    [Test]
+    public async Task SQL_Unit_UnitUpdate_UpdatesUnit()
+    {
+        // Arrance
 
-            #region Arrance
+        #region Arrance
 
-            #region Checklist
+        #region Checklist
 
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
-            CheckList Cl1 =
-                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+        DateTime cl1_Ca = DateTime.Now;
+        DateTime cl1_Ua = DateTime.Now;
+        CheckList Cl1 =
+            await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
-            #endregion
+        #endregion
 
-            #region SubCheckList
+        #region SubCheckList
 
-            CheckList Cl2 = await testHelpers.CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+        CheckList Cl2 = await testHelpers.CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
 
-            #endregion
+        #endregion
 
 //            #region Fields
 //
@@ -1025,13 +1025,13 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //
 //            #endregion
 
-            #region Workers
+        #region Workers
 
-            #region worker1
+        #region worker1
 
-            Worker worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+        Worker worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
-            #endregion
+        #endregion
 
 //            #region worker2
 //            workers worker2 = await testHelpers.CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
@@ -1078,79 +1078,79 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //
 //            #endregion
 
-            #endregion
+        #endregion
 
-            #region sites
+        #region sites
 
-            #region Site1
+        #region Site1
 
-            Site site1 = await testHelpers.CreateSite("SiteName1", 88);
+        Site site1 = await testHelpers.CreateSite("SiteName1", 88);
 
-            #endregion
+        #endregion
 
-            #region Site2
+        #region Site2
 
-            Site site2 = await testHelpers.CreateSite("SiteName2", 89);
+        Site site2 = await testHelpers.CreateSite("SiteName2", 89);
 
-            #endregion
+        #endregion
 
-            #region Site3
+        #region Site3
 
-            Site site3 = await testHelpers.CreateSite("SiteName3", 90);
+        Site site3 = await testHelpers.CreateSite("SiteName3", 90);
 
-            #endregion
+        #endregion
 
-            #region Site4
+        #region Site4
 
-            Site site4 = await testHelpers.CreateSite("SiteName4", 91);
+        Site site4 = await testHelpers.CreateSite("SiteName4", 91);
 
-            #endregion
+        #endregion
 
-            #region Site5
+        #region Site5
 
-            Site site5 = await testHelpers.CreateSite("SiteName5", 92);
+        Site site5 = await testHelpers.CreateSite("SiteName5", 92);
 
-            #endregion
+        #endregion
 
-            #region Site6
+        #region Site6
 
-            Site site6 = await testHelpers.CreateSite("SiteName6", 93);
+        Site site6 = await testHelpers.CreateSite("SiteName6", 93);
 
-            #endregion
+        #endregion
 
-            #region Site7
+        #region Site7
 
-            Site site7 = await testHelpers.CreateSite("SiteName7", 94);
+        Site site7 = await testHelpers.CreateSite("SiteName7", 94);
 
-            #endregion
+        #endregion
 
-            #region Site8
+        #region Site8
 
-            Site site8 = await testHelpers.CreateSite("SiteName8", 95);
+        Site site8 = await testHelpers.CreateSite("SiteName8", 95);
 
-            #endregion
+        #endregion
 
-            #region Site9
+        #region Site9
 
-            Site site9 = await testHelpers.CreateSite("SiteName9", 96);
+        Site site9 = await testHelpers.CreateSite("SiteName9", 96);
 
-            #endregion
+        #endregion
 
-            #region Site10
+        #region Site10
 
-            Site site10 = await testHelpers.CreateSite("SiteName10", 97);
+        Site site10 = await testHelpers.CreateSite("SiteName10", 97);
 
-            #endregion
+        #endregion
 
-            #endregion
+        #endregion
 
-            #region units
+        #region units
 
-            #region Unit1
+        #region Unit1
 
-            Unit unit1 = await testHelpers.CreateUnit(48, 49, site1, 348);
+        Unit unit1 = await testHelpers.CreateUnit(48, 49, site1, 348);
 
-            #endregion
+        #endregion
 
 //            #region Unit2
 //            units unit2 = await testHelpers.CreateUnit(2, 55, site2, 349);
@@ -1189,43 +1189,43 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //            #endregion
 //
 
-            #endregion
+        #endregion
 
 //            #region site_workers
 //            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker1);
 //
 //            #endregion
 
-            #endregion
+        #endregion
 
-            // Act
-            var match = await sut.UnitUpdate((int)unit1.MicrotingUid, (int)unit1.CustomerNo, (int)unit1.OtpCode,
-                (int)unit1.SiteId);
-            // Assert
-            Assert.That(match, Is.True);
-        }
+        // Act
+        var match = await sut.UnitUpdate((int)unit1.MicrotingUid, (int)unit1.CustomerNo, (int)unit1.OtpCode,
+            (int)unit1.SiteId);
+        // Assert
+        Assert.That(match, Is.True);
+    }
 
-        [Test]
-        public async Task SQL_Unit_UnitDelete_DeletesUnit()
-        {
-            // Arrance
+    [Test]
+    public async Task SQL_Unit_UnitDelete_DeletesUnit()
+    {
+        // Arrance
 
-            #region Arrance
+        #region Arrance
 
-            #region Checklist
+        #region Checklist
 
-            DateTime cl1_Ca = DateTime.Now;
-            DateTime cl1_Ua = DateTime.Now;
-            CheckList Cl1 =
-                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
+        DateTime cl1_Ca = DateTime.Now;
+        DateTime cl1_Ua = DateTime.Now;
+        CheckList Cl1 =
+            await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A1", "D1", "caseType1", "WhereItIs", 1, 0);
 
-            #endregion
+        #endregion
 
-            #region SubCheckList
+        #region SubCheckList
 
-            CheckList Cl2 = await testHelpers.CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
+        CheckList Cl2 = await testHelpers.CreateSubTemplate("A2", "D2", "caseType2", 2, 0, Cl1);
 
-            #endregion
+        #endregion
 
 //            #region Fields
 //
@@ -1323,13 +1323,13 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //
 //            #endregion
 
-            #region Workers
+        #region Workers
 
-            #region worker1
+        #region worker1
 
-            Worker worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+        Worker worker1 = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
-            #endregion
+        #endregion
 
 //            #region worker2
 //            workers worker2 = await testHelpers.CreateWorker("ab@tak.dk", "Lasse", "Johansen", 44);
@@ -1376,169 +1376,168 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //
 //            #endregion
 
-            #endregion
+        #endregion
 
-            #region sites
+        #region sites
 
-            #region Site1
+        #region Site1
 
-            Site site1 = await testHelpers.CreateSite("SiteName1", 88);
+        Site site1 = await testHelpers.CreateSite("SiteName1", 88);
 
-            #endregion
+        #endregion
 
-            #region Site2
+        #region Site2
 
-            Site site2 = await testHelpers.CreateSite("SiteName2", 89);
+        Site site2 = await testHelpers.CreateSite("SiteName2", 89);
 
-            #endregion
+        #endregion
 
-            #region Site3
+        #region Site3
 
-            Site site3 = await testHelpers.CreateSite("SiteName3", 90);
+        Site site3 = await testHelpers.CreateSite("SiteName3", 90);
 
-            #endregion
+        #endregion
 
-            #region Site4
+        #region Site4
 
-            Site site4 = await testHelpers.CreateSite("SiteName4", 91);
+        Site site4 = await testHelpers.CreateSite("SiteName4", 91);
 
-            #endregion
+        #endregion
 
-            #region Site5
+        #region Site5
 
-            Site site5 = await testHelpers.CreateSite("SiteName5", 92);
+        Site site5 = await testHelpers.CreateSite("SiteName5", 92);
 
-            #endregion
+        #endregion
 
-            #region Site6
+        #region Site6
 
-            Site site6 = await testHelpers.CreateSite("SiteName6", 93);
+        Site site6 = await testHelpers.CreateSite("SiteName6", 93);
 
-            #endregion
+        #endregion
 
-            #region Site7
+        #region Site7
 
-            Site site7 = await testHelpers.CreateSite("SiteName7", 94);
+        Site site7 = await testHelpers.CreateSite("SiteName7", 94);
 
-            #endregion
+        #endregion
 
-            #region Site8
+        #region Site8
 
-            Site site8 = await testHelpers.CreateSite("SiteName8", 95);
+        Site site8 = await testHelpers.CreateSite("SiteName8", 95);
 
-            #endregion
+        #endregion
 
-            #region Site9
+        #region Site9
 
-            Site site9 = await testHelpers.CreateSite("SiteName9", 96);
+        Site site9 = await testHelpers.CreateSite("SiteName9", 96);
 
-            #endregion
+        #endregion
 
-            #region Site10
+        #region Site10
 
-            Site site10 = await testHelpers.CreateSite("SiteName10", 97);
+        Site site10 = await testHelpers.CreateSite("SiteName10", 97);
 
-            #endregion
-
-            #endregion
-
-
-            #region units
-
-            #region Unit1
-
-            Unit unit1 = await testHelpers.CreateUnit(48, 49, site1, 348);
-
-            #endregion
-
-//            #region Unit2
-//            units unit2 = await testHelpers.CreateUnit(2, 55, site2, 349);
-//            #endregion
-//
-//            #region Unit3
-//            units unit3 = await testHelpers.CreateUnit(3, 51, site3, 350);
-//            #endregion
-//
-//            #region Unit4
-//            units unit4 = await testHelpers.CreateUnit(4, 52, site4, 351);
-//            #endregion
-//
-//            #region Unit5
-//            units unit5 = await testHelpers.CreateUnit(5, 6, site5, 352);
-//            #endregion
-//
-//            #region Unit6
-//            units unit6 = await testHelpers.CreateUnit(6, 85, site6, 353);
-//            #endregion
-//
-//            #region Unit7
-//            units unit7 = await testHelpers.CreateUnit(7, 62, site7, 354);
-//            #endregion
-//
-//            #region Unit8
-//            units unit8 = await testHelpers.CreateUnit(8, 96, site8, 355);
-//            #endregion
-//
-//            #region Unit9
-//            units unit9 = await testHelpers.CreateUnit(9, 69, site9, 356);
-//            #endregion
-//
-//            #region Unit10
-//            units unit10 = await testHelpers.CreateUnit(10, 100, site10, 357);
-//            #endregion
-
-            #endregion
-
-//            #region site_workers
-//            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker1);
-//
-//            #endregion
-
-            #endregion
-
-            // Act
-            var match = await sut.UnitDelete((int)unit1.MicrotingUid);
-            // Assert
-            Assert.That(match, Is.True);
-        }
+        #endregion
 
         #endregion
 
 
-        #region eventhandlers
+        #region units
+
+        #region Unit1
+
+        Unit unit1 = await testHelpers.CreateUnit(48, 49, site1, 348);
+
+        #endregion
+
+//            #region Unit2
+//            units unit2 = await testHelpers.CreateUnit(2, 55, site2, 349);
+//            #endregion
+//
+//            #region Unit3
+//            units unit3 = await testHelpers.CreateUnit(3, 51, site3, 350);
+//            #endregion
+//
+//            #region Unit4
+//            units unit4 = await testHelpers.CreateUnit(4, 52, site4, 351);
+//            #endregion
+//
+//            #region Unit5
+//            units unit5 = await testHelpers.CreateUnit(5, 6, site5, 352);
+//            #endregion
+//
+//            #region Unit6
+//            units unit6 = await testHelpers.CreateUnit(6, 85, site6, 353);
+//            #endregion
+//
+//            #region Unit7
+//            units unit7 = await testHelpers.CreateUnit(7, 62, site7, 354);
+//            #endregion
+//
+//            #region Unit8
+//            units unit8 = await testHelpers.CreateUnit(8, 96, site8, 355);
+//            #endregion
+//
+//            #region Unit9
+//            units unit9 = await testHelpers.CreateUnit(9, 69, site9, 356);
+//            #endregion
+//
+//            #region Unit10
+//            units unit10 = await testHelpers.CreateUnit(10, 100, site10, 357);
+//            #endregion
+
+        #endregion
+
+//            #region site_workers
+//            site_workers site_workers = await testHelpers.CreateSiteWorker(55, site1, worker1);
+//
+//            #endregion
+
+        #endregion
+
+        // Act
+        var match = await sut.UnitDelete((int)unit1.MicrotingUid);
+        // Assert
+        Assert.That(match, Is.True);
+    }
+
+    #endregion
+
+
+    #region eventhandlers
 
 #pragma warning disable 1998
-        public async Task EventCaseCreated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+    public async Task EventCaseCreated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
 
-        public async Task EventCaseRetrived(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+    public async Task EventCaseRetrived(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
 
-        public async Task EventCaseCompleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+    public async Task EventCaseCompleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
 
-        public async Task EventCaseDeleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+    public async Task EventCaseDeleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
 
-        public async Task EventFileDownloaded(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+    public async Task EventFileDownloaded(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
 
-        public async Task EventSiteActivated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+    public async Task EventSiteActivated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
 #pragma warning restore 1998
 
-        #endregion
-    }
+    #endregion
 }

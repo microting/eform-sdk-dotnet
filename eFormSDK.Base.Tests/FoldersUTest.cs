@@ -31,212 +31,211 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using NUnit.Framework;
 
-namespace eFormSDK.Base.Tests
+namespace eFormSDK.Base.Tests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class FoldersUTest : DbTestFixture
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class FoldersUTest : DbTestFixture
+    [Test]
+    public async Task Folders_Create_DoesCreate()
     {
-        [Test]
-        public async Task Folders_Create_DoesCreate()
+        //Arrange
+
+        Random rnd = new Random();
+
+        Folder parentFolder = new Folder
         {
-            //Arrange
+            Description = Guid.NewGuid().ToString(),
+            Name = Guid.NewGuid().ToString(),
+            MicrotingUid = rnd.Next(1, 255)
+        };
+        await parentFolder.Create(DbContext).ConfigureAwait(false);
 
-            Random rnd = new Random();
-
-            Folder parentFolder = new Folder
-            {
-                Description = Guid.NewGuid().ToString(),
-                Name = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255)
-            };
-            await parentFolder.Create(DbContext).ConfigureAwait(false);
-
-            Folder folder = new Folder
-            {
-                Description = Guid.NewGuid().ToString(),
-                Name = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255),
-                ParentId = parentFolder.Id
-            };
-
-            //Act
-
-            await folder.Create(DbContext).ConfigureAwait(false);
-
-            List<Folder> folders = DbContext.Folders.AsNoTracking().ToList();
-            List<FolderVersion> folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
-
-            Assert.That(folders, Is.Not.EqualTo(null));
-            Assert.That(folderVersions, Is.Not.EqualTo(null));
-
-            Assert.That(folders.Count(), Is.EqualTo(2));
-            Assert.That(folderVersions.Count(), Is.EqualTo(2));
-
-            Assert.That(folders[1].CreatedAt.ToString(), Is.EqualTo(folder.CreatedAt.ToString()));
-            Assert.That(folders[1].Version, Is.EqualTo(folder.Version));
-            Assert.That(folders[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(folders[1].Id, Is.EqualTo(folder.Id));
-            Assert.That(folders[1].Description, Is.EqualTo(folder.Description));
-            Assert.That(folders[1].Name, Is.EqualTo(folder.Name));
-            Assert.That(folders[1].MicrotingUid, Is.EqualTo(folder.MicrotingUid));
-            Assert.That(parentFolder.Id, Is.EqualTo(folder.ParentId));
-
-            //Versions
-
-            Assert.That(folderVersions[1].CreatedAt.ToString(), Is.EqualTo(folder.CreatedAt.ToString()));
-            Assert.That(folderVersions[1].Version, Is.EqualTo(1));
-            Assert.That(folderVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(folderVersions[1].FolderId, Is.EqualTo(folder.Id));
-            Assert.That(folderVersions[1].Description, Is.EqualTo(folder.Description));
-            Assert.That(folderVersions[1].Name, Is.EqualTo(folder.Name));
-            Assert.That(folderVersions[1].MicrotingUid, Is.EqualTo(folder.MicrotingUid));
-            Assert.That(folderVersions[1].ParentId, Is.EqualTo(parentFolder.Id));
-        }
-
-        [Test]
-        public async Task Folders_Update_DoesUpdate()
+        Folder folder = new Folder
         {
-            //Arrange
+            Description = Guid.NewGuid().ToString(),
+            Name = Guid.NewGuid().ToString(),
+            MicrotingUid = rnd.Next(1, 255),
+            ParentId = parentFolder.Id
+        };
 
-            Random rnd = new Random();
+        //Act
 
-            Folder parentFolder = new Folder
-            {
-                Description = Guid.NewGuid().ToString(),
-                Name = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255)
-            };
-            await parentFolder.Create(DbContext).ConfigureAwait(false);
+        await folder.Create(DbContext).ConfigureAwait(false);
 
-            Folder folder = new Folder
-            {
-                Description = Guid.NewGuid().ToString(),
-                Name = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255),
-                ParentId = parentFolder.Id
-            };
-            await folder.Create(DbContext).ConfigureAwait(false);
+        List<Folder> folders = DbContext.Folders.AsNoTracking().ToList();
+        List<FolderVersion> folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
 
-            //Act
-            DateTime? oldUpdatedAt = folder.UpdatedAt;
-            string oldDescription = folder.Description;
-            string oldName = folder.Name;
-            int? oldMicrotingUid = folder.MicrotingUid;
+        Assert.That(folders, Is.Not.EqualTo(null));
+        Assert.That(folderVersions, Is.Not.EqualTo(null));
 
-            folder.Description = Guid.NewGuid().ToString();
-            folder.Name = Guid.NewGuid().ToString();
-            folder.MicrotingUid = rnd.Next(1, 255);
-            await folder.Update(DbContext).ConfigureAwait(false);
+        Assert.That(folders.Count(), Is.EqualTo(2));
+        Assert.That(folderVersions.Count(), Is.EqualTo(2));
 
-            List<Folder> folders = DbContext.Folders.AsNoTracking().ToList();
-            List<FolderVersion> folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
+        Assert.That(folders[1].CreatedAt.ToString(), Is.EqualTo(folder.CreatedAt.ToString()));
+        Assert.That(folders[1].Version, Is.EqualTo(folder.Version));
+        Assert.That(folders[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(folders[1].Id, Is.EqualTo(folder.Id));
+        Assert.That(folders[1].Description, Is.EqualTo(folder.Description));
+        Assert.That(folders[1].Name, Is.EqualTo(folder.Name));
+        Assert.That(folders[1].MicrotingUid, Is.EqualTo(folder.MicrotingUid));
+        Assert.That(parentFolder.Id, Is.EqualTo(folder.ParentId));
 
-            Assert.That(folders, Is.Not.EqualTo(null));
-            Assert.That(folderVersions, Is.Not.EqualTo(null));
+        //Versions
 
-            Assert.That(folders.Count(), Is.EqualTo(2));
-            Assert.That(folderVersions.Count(), Is.EqualTo(3));
+        Assert.That(folderVersions[1].CreatedAt.ToString(), Is.EqualTo(folder.CreatedAt.ToString()));
+        Assert.That(folderVersions[1].Version, Is.EqualTo(1));
+        Assert.That(folderVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(folderVersions[1].FolderId, Is.EqualTo(folder.Id));
+        Assert.That(folderVersions[1].Description, Is.EqualTo(folder.Description));
+        Assert.That(folderVersions[1].Name, Is.EqualTo(folder.Name));
+        Assert.That(folderVersions[1].MicrotingUid, Is.EqualTo(folder.MicrotingUid));
+        Assert.That(folderVersions[1].ParentId, Is.EqualTo(parentFolder.Id));
+    }
 
-            Assert.That(folders[1].CreatedAt.ToString(), Is.EqualTo(folder.CreatedAt.ToString()));
-            Assert.That(folders[1].Version, Is.EqualTo(folder.Version));
-            Assert.That(folders[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(folders[1].Id, Is.EqualTo(folder.Id));
-            Assert.That(folders[1].Description, Is.EqualTo(folder.Description));
-            Assert.That(folders[1].Name, Is.EqualTo(folder.Name));
-            Assert.That(folders[1].MicrotingUid, Is.EqualTo(folder.MicrotingUid));
-            Assert.That(parentFolder.Id, Is.EqualTo(folder.ParentId));
+    [Test]
+    public async Task Folders_Update_DoesUpdate()
+    {
+        //Arrange
 
-            //Old Version
+        Random rnd = new Random();
 
-            Assert.That(folderVersions[1].CreatedAt.ToString(), Is.EqualTo(folder.CreatedAt.ToString()));
-            Assert.That(folderVersions[1].Version, Is.EqualTo(1));
-            Assert.That(folderVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(folderVersions[1].FolderId, Is.EqualTo(folder.Id));
-            Assert.That(folderVersions[1].Description, Is.EqualTo(oldDescription));
-            Assert.That(folderVersions[1].Name, Is.EqualTo(oldName));
-            Assert.That(folderVersions[1].MicrotingUid, Is.EqualTo(oldMicrotingUid));
-            Assert.That(folderVersions[1].ParentId, Is.EqualTo(parentFolder.Id));
-
-            //New Version
-
-            Assert.That(folderVersions[2].CreatedAt.ToString(), Is.EqualTo(folder.CreatedAt.ToString()));
-            Assert.That(folderVersions[2].Version, Is.EqualTo(2));
-            Assert.That(folderVersions[2].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(folderVersions[2].FolderId, Is.EqualTo(folder.Id));
-            Assert.That(folderVersions[2].Description, Is.EqualTo(folder.Description));
-            Assert.That(folderVersions[2].Name, Is.EqualTo(folder.Name));
-            Assert.That(folderVersions[2].MicrotingUid, Is.EqualTo(folder.MicrotingUid));
-            Assert.That(folderVersions[2].ParentId, Is.EqualTo(parentFolder.Id));
-        }
-
-        [Test]
-        public async Task Folders_Delete_DoesSetWorkflowStateToRemoved()
+        Folder parentFolder = new Folder
         {
-            //Arrange
+            Description = Guid.NewGuid().ToString(),
+            Name = Guid.NewGuid().ToString(),
+            MicrotingUid = rnd.Next(1, 255)
+        };
+        await parentFolder.Create(DbContext).ConfigureAwait(false);
 
-            Random rnd = new Random();
+        Folder folder = new Folder
+        {
+            Description = Guid.NewGuid().ToString(),
+            Name = Guid.NewGuid().ToString(),
+            MicrotingUid = rnd.Next(1, 255),
+            ParentId = parentFolder.Id
+        };
+        await folder.Create(DbContext).ConfigureAwait(false);
 
-            Folder parentFolder = new Folder
-            {
-                Description = Guid.NewGuid().ToString(),
-                Name = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255)
-            };
-            await parentFolder.Create(DbContext).ConfigureAwait(false);
+        //Act
+        DateTime? oldUpdatedAt = folder.UpdatedAt;
+        string oldDescription = folder.Description;
+        string oldName = folder.Name;
+        int? oldMicrotingUid = folder.MicrotingUid;
 
-            Folder folder = new Folder
-            {
-                Description = Guid.NewGuid().ToString(),
-                Name = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255),
-                ParentId = parentFolder.Id
-            };
-            await folder.Create(DbContext).ConfigureAwait(false);
+        folder.Description = Guid.NewGuid().ToString();
+        folder.Name = Guid.NewGuid().ToString();
+        folder.MicrotingUid = rnd.Next(1, 255);
+        await folder.Update(DbContext).ConfigureAwait(false);
 
-            //Act
+        List<Folder> folders = DbContext.Folders.AsNoTracking().ToList();
+        List<FolderVersion> folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
 
-            await folder.Delete(DbContext);
+        Assert.That(folders, Is.Not.EqualTo(null));
+        Assert.That(folderVersions, Is.Not.EqualTo(null));
 
-            List<Folder> folders = DbContext.Folders.AsNoTracking().ToList();
-            List<FolderVersion> folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
+        Assert.That(folders.Count(), Is.EqualTo(2));
+        Assert.That(folderVersions.Count(), Is.EqualTo(3));
 
-            Assert.That(folders, Is.Not.EqualTo(null));
-            Assert.That(folderVersions, Is.Not.EqualTo(null));
+        Assert.That(folders[1].CreatedAt.ToString(), Is.EqualTo(folder.CreatedAt.ToString()));
+        Assert.That(folders[1].Version, Is.EqualTo(folder.Version));
+        Assert.That(folders[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(folders[1].Id, Is.EqualTo(folder.Id));
+        Assert.That(folders[1].Description, Is.EqualTo(folder.Description));
+        Assert.That(folders[1].Name, Is.EqualTo(folder.Name));
+        Assert.That(folders[1].MicrotingUid, Is.EqualTo(folder.MicrotingUid));
+        Assert.That(parentFolder.Id, Is.EqualTo(folder.ParentId));
 
-            Assert.That(folders.Count(), Is.EqualTo(2));
-            Assert.That(folderVersions.Count(), Is.EqualTo(3));
+        //Old Version
 
-            Assert.That(folders[1].CreatedAt.ToString(), Is.EqualTo(folder.CreatedAt.ToString()));
-            Assert.That(folders[1].Version, Is.EqualTo(folder.Version));
-            Assert.That(folders[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
-            Assert.That(folders[1].Id, Is.EqualTo(folder.Id));
-            Assert.That(folders[1].Description, Is.EqualTo(folder.Description));
-            Assert.That(folders[1].Name, Is.EqualTo(folder.Name));
-            Assert.That(folders[1].MicrotingUid, Is.EqualTo(folder.MicrotingUid));
-            Assert.That(parentFolder.Id, Is.EqualTo(folder.ParentId));
+        Assert.That(folderVersions[1].CreatedAt.ToString(), Is.EqualTo(folder.CreatedAt.ToString()));
+        Assert.That(folderVersions[1].Version, Is.EqualTo(1));
+        Assert.That(folderVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(folderVersions[1].FolderId, Is.EqualTo(folder.Id));
+        Assert.That(folderVersions[1].Description, Is.EqualTo(oldDescription));
+        Assert.That(folderVersions[1].Name, Is.EqualTo(oldName));
+        Assert.That(folderVersions[1].MicrotingUid, Is.EqualTo(oldMicrotingUid));
+        Assert.That(folderVersions[1].ParentId, Is.EqualTo(parentFolder.Id));
 
-            //Old Version
+        //New Version
 
-            Assert.That(folderVersions[1].CreatedAt.ToString(), Is.EqualTo(folder.CreatedAt.ToString()));
-            Assert.That(folderVersions[1].Version, Is.EqualTo(1));
-            Assert.That(folderVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(folderVersions[1].FolderId, Is.EqualTo(folder.Id));
-            Assert.That(folderVersions[1].Description, Is.EqualTo(folder.Description));
-            Assert.That(folderVersions[1].Name, Is.EqualTo(folder.Name));
-            Assert.That(folderVersions[1].MicrotingUid, Is.EqualTo(folder.MicrotingUid));
-            Assert.That(folderVersions[1].ParentId, Is.EqualTo(parentFolder.Id));
+        Assert.That(folderVersions[2].CreatedAt.ToString(), Is.EqualTo(folder.CreatedAt.ToString()));
+        Assert.That(folderVersions[2].Version, Is.EqualTo(2));
+        Assert.That(folderVersions[2].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(folderVersions[2].FolderId, Is.EqualTo(folder.Id));
+        Assert.That(folderVersions[2].Description, Is.EqualTo(folder.Description));
+        Assert.That(folderVersions[2].Name, Is.EqualTo(folder.Name));
+        Assert.That(folderVersions[2].MicrotingUid, Is.EqualTo(folder.MicrotingUid));
+        Assert.That(folderVersions[2].ParentId, Is.EqualTo(parentFolder.Id));
+    }
 
-            //New Version
+    [Test]
+    public async Task Folders_Delete_DoesSetWorkflowStateToRemoved()
+    {
+        //Arrange
 
-            Assert.That(folderVersions[2].CreatedAt.ToString(), Is.EqualTo(folder.CreatedAt.ToString()));
-            Assert.That(folderVersions[2].Version, Is.EqualTo(2));
-            Assert.That(folderVersions[2].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
-            Assert.That(folderVersions[2].FolderId, Is.EqualTo(folder.Id));
-            Assert.That(folderVersions[2].Description, Is.EqualTo(folder.Description));
-            Assert.That(folderVersions[2].Name, Is.EqualTo(folder.Name));
-            Assert.That(folderVersions[2].MicrotingUid, Is.EqualTo(folder.MicrotingUid));
-            Assert.That(folderVersions[2].ParentId, Is.EqualTo(parentFolder.Id));
-        }
+        Random rnd = new Random();
+
+        Folder parentFolder = new Folder
+        {
+            Description = Guid.NewGuid().ToString(),
+            Name = Guid.NewGuid().ToString(),
+            MicrotingUid = rnd.Next(1, 255)
+        };
+        await parentFolder.Create(DbContext).ConfigureAwait(false);
+
+        Folder folder = new Folder
+        {
+            Description = Guid.NewGuid().ToString(),
+            Name = Guid.NewGuid().ToString(),
+            MicrotingUid = rnd.Next(1, 255),
+            ParentId = parentFolder.Id
+        };
+        await folder.Create(DbContext).ConfigureAwait(false);
+
+        //Act
+
+        await folder.Delete(DbContext);
+
+        List<Folder> folders = DbContext.Folders.AsNoTracking().ToList();
+        List<FolderVersion> folderVersions = DbContext.FolderVersions.AsNoTracking().ToList();
+
+        Assert.That(folders, Is.Not.EqualTo(null));
+        Assert.That(folderVersions, Is.Not.EqualTo(null));
+
+        Assert.That(folders.Count(), Is.EqualTo(2));
+        Assert.That(folderVersions.Count(), Is.EqualTo(3));
+
+        Assert.That(folders[1].CreatedAt.ToString(), Is.EqualTo(folder.CreatedAt.ToString()));
+        Assert.That(folders[1].Version, Is.EqualTo(folder.Version));
+        Assert.That(folders[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+        Assert.That(folders[1].Id, Is.EqualTo(folder.Id));
+        Assert.That(folders[1].Description, Is.EqualTo(folder.Description));
+        Assert.That(folders[1].Name, Is.EqualTo(folder.Name));
+        Assert.That(folders[1].MicrotingUid, Is.EqualTo(folder.MicrotingUid));
+        Assert.That(parentFolder.Id, Is.EqualTo(folder.ParentId));
+
+        //Old Version
+
+        Assert.That(folderVersions[1].CreatedAt.ToString(), Is.EqualTo(folder.CreatedAt.ToString()));
+        Assert.That(folderVersions[1].Version, Is.EqualTo(1));
+        Assert.That(folderVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(folderVersions[1].FolderId, Is.EqualTo(folder.Id));
+        Assert.That(folderVersions[1].Description, Is.EqualTo(folder.Description));
+        Assert.That(folderVersions[1].Name, Is.EqualTo(folder.Name));
+        Assert.That(folderVersions[1].MicrotingUid, Is.EqualTo(folder.MicrotingUid));
+        Assert.That(folderVersions[1].ParentId, Is.EqualTo(parentFolder.Id));
+
+        //New Version
+
+        Assert.That(folderVersions[2].CreatedAt.ToString(), Is.EqualTo(folder.CreatedAt.ToString()));
+        Assert.That(folderVersions[2].Version, Is.EqualTo(2));
+        Assert.That(folderVersions[2].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+        Assert.That(folderVersions[2].FolderId, Is.EqualTo(folder.Id));
+        Assert.That(folderVersions[2].Description, Is.EqualTo(folder.Description));
+        Assert.That(folderVersions[2].Name, Is.EqualTo(folder.Name));
+        Assert.That(folderVersions[2].MicrotingUid, Is.EqualTo(folder.MicrotingUid));
+        Assert.That(folderVersions[2].ParentId, Is.EqualTo(parentFolder.Id));
     }
 }

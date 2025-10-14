@@ -29,68 +29,67 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class Case : PnBase
 {
-    public class Case : PnBase
-    {
-        public int? Status { get; set; }
+    public int? Status { get; set; }
 
-        public DateTime? DoneAt { get; set; }
+    public DateTime? DoneAt { get; set; }
 
-        [ForeignKey("Site")] public int? SiteId { get; set; }
+    [ForeignKey("Site")] public int? SiteId { get; set; }
 
-        [ForeignKey("Unit")] public int? UnitId { get; set; }
+    [ForeignKey("Unit")] public int? UnitId { get; set; }
 
-        [ForeignKey("Worker")] public int? WorkerId { get; set; }
+    [ForeignKey("Worker")] public int? WorkerId { get; set; }
 
-        [ForeignKey("CheckList")] public int? CheckListId { get; set; }
+    [ForeignKey("CheckList")] public int? CheckListId { get; set; }
 
-        [StringLength(255)] public string Type { get; set; }
+    [StringLength(255)] public string Type { get; set; }
 
-        public int? MicrotingUid { get; set; }
+    public int? MicrotingUid { get; set; }
 
-        public int? MicrotingCheckUid { get; set; }
+    public int? MicrotingCheckUid { get; set; }
 
-        [StringLength(255)] public string CaseUid { get; set; }
+    [StringLength(255)] public string CaseUid { get; set; }
 
-        public string Custom { get; set; }
+    public string Custom { get; set; }
 
-        public string FieldValue1 { get; set; }
+    public string FieldValue1 { get; set; }
 
-        public string FieldValue2 { get; set; }
+    public string FieldValue2 { get; set; }
 
-        public string FieldValue3 { get; set; }
+    public string FieldValue3 { get; set; }
 
-        public string FieldValue4 { get; set; }
+    public string FieldValue4 { get; set; }
 
-        public string FieldValue5 { get; set; }
+    public string FieldValue5 { get; set; }
 
-        public string FieldValue6 { get; set; }
+    public string FieldValue6 { get; set; }
 
-        public string FieldValue7 { get; set; }
+    public string FieldValue7 { get; set; }
 
-        public string FieldValue8 { get; set; }
+    public string FieldValue8 { get; set; }
 
-        public string FieldValue9 { get; set; }
+    public string FieldValue9 { get; set; }
 
-        public string FieldValue10 { get; set; }
+    public string FieldValue10 { get; set; }
 
-        [ForeignKey("Folder")] public int? FolderId { get; set; }
+    [ForeignKey("Folder")] public int? FolderId { get; set; }
 
-        public bool IsArchived { get; set; }
+    public bool IsArchived { get; set; }
 
-        public DateTime? DoneAtUserModifiable { get; set; }
+    public DateTime? DoneAtUserModifiable { get; set; }
 
-        public virtual CheckList CheckList { get; set; }
+    public virtual CheckList CheckList { get; set; }
 
-        public virtual Site Site { get; set; }
+    public virtual Site Site { get; set; }
 
-        public virtual Unit Unit { get; set; }
+    public virtual Unit Unit { get; set; }
 
-        public virtual Worker Worker { get; set; }
+    public virtual Worker Worker { get; set; }
 
-        public virtual Folder Folder { get; set; }
+    public virtual Folder Folder { get; set; }
 
-        public DateTime? ReceivedByServerAt { get; set; }
-    }
+    public DateTime? ReceivedByServerAt { get; set; }
 }

@@ -24,24 +24,23 @@ SOFTWARE.
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class CheckListSite : PnBase
 {
-    public class CheckListSite : PnBase
-    {
-        [ForeignKey("Site")] public int? SiteId { get; set; }
+    [ForeignKey("Site")] public int? SiteId { get; set; }
 
-        [ForeignKey("CheckList")] public int? CheckListId { get; set; }
+    [ForeignKey("CheckList")] public int? CheckListId { get; set; }
 
-        public int MicrotingUid { get; set; }
+    public int MicrotingUid { get; set; }
 
-        public int LastCheckId { get; set; }
+    public int LastCheckId { get; set; }
 
-        [ForeignKey("Folder")] public int? FolderId { get; set; }
+    [ForeignKey("Folder")] public int? FolderId { get; set; }
 
-        public virtual Site Site { get; set; }
+    public virtual Site Site { get; set; }
 
-        public virtual CheckList CheckList { get; set; }
+    public virtual CheckList CheckList { get; set; }
 
-        public virtual Folder Folder { get; set; }
-    }
+    public virtual Folder Folder { get; set; }
 }

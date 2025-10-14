@@ -22,15 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace Microting.eForm.Messages
-{
-    public class TranscribeAudioFile
-    {
-        public int uploadedDataId { get; protected set; }
+namespace Microting.eForm.Messages;
 
-        public TranscribeAudioFile(int uploadedDataId)
-        {
-            this.uploadedDataId = uploadedDataId;
-        }
+public class TranscribeAudioFile
+{
+    public int uploadedDataId { get; protected set; }
+
+    public TranscribeAudioFile(int uploadedDataId)
+    {
+        this.uploadedDataId = uploadedDataId;
     }
 }

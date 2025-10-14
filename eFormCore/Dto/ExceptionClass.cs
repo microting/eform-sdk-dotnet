@@ -24,26 +24,25 @@ SOFTWARE.
 
 using System;
 
-namespace Microting.eForm.Dto
+namespace Microting.eForm.Dto;
+
+public class ExceptionClass
 {
-    public class ExceptionClass
+    private ExceptionClass()
     {
-        private ExceptionClass()
-        {
-            Description = "";
-            Time = DateTime.UtcNow;
-            Occurrence = 1;
-        }
-
-        public ExceptionClass(string description, DateTime time)
-        {
-            Description = description;
-            Time = time;
-            Occurrence = 1;
-        }
-
-        public string Description { get; set; }
-        public DateTime Time { get; set; }
-        public int Occurrence { get; set; }
+        Description = "";
+        Time = DateTime.UtcNow;
+        Occurrence = 1;
     }
+
+    public ExceptionClass(string description, DateTime time)
+    {
+        Description = description;
+        Time = time;
+        Occurrence = 1;
+    }
+
+    public string Description { get; set; }
+    public DateTime Time { get; set; }
+    public int Occurrence { get; set; }
 }

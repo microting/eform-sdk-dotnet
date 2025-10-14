@@ -24,24 +24,23 @@ SOFTWARE.
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class QuestionSetVersion : BaseEntity
 {
-    public class QuestionSetVersion : BaseEntity
-    {
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        public bool HasChild { get; set; }
+    public bool HasChild { get; set; }
 
-        public bool PossiblyDeployed { get; set; }
+    public bool PossiblyDeployed { get; set; }
 
-        public int ParentId { get; set; }
+    public int ParentId { get; set; }
 
-        public bool Share { get; set; }
+    public bool Share { get; set; }
 
-        [ForeignKey("QuestionSet")] public int QuestionSetId { get; set; }
+    [ForeignKey("QuestionSet")] public int QuestionSetId { get; set; }
 
-        public virtual QuestionSet QuestionSet { get; set; }
+    public virtual QuestionSet QuestionSet { get; set; }
 
-        public int? MicrotingUid { get; set; }
-    }
+    public int? MicrotingUid { get; set; }
 }

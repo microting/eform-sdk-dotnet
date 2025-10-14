@@ -37,438 +37,438 @@ using Microting.eForm.Infrastructure.Helpers;
 using NUnit.Framework;
 using Case = Microting.eForm.Infrastructure.Data.Entities.Case;
 
-namespace eFormSDK.Integration.Base.SqlControllerTests
+namespace eFormSDK.Integration.Base.SqlControllerTests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class SqlControllerTestFieldValue : DbTestFixture
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class SqlControllerTestFieldValue : DbTestFixture
+    private SqlController sut;
+    private TestHelpers testHelpers;
+    private Language language;
+
+    public override async Task DoSetup()
     {
-        private SqlController sut;
-        private TestHelpers testHelpers;
-        private Language language;
+        #region Setup SettingsTableContent
 
-        public override async Task DoSetup()
-        {
-            #region Setup SettingsTableContent
+        DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
+        SqlController sql = new SqlController(dbContextHelper);
+        await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+        await sql.SettingUpdate(Settings.firstRunDone, "true");
+        await sql.SettingUpdate(Settings.knownSitesDone, "true");
 
-            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
-            SqlController sql = new SqlController(dbContextHelper);
-            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            await sql.SettingUpdate(Settings.firstRunDone, "true");
-            await sql.SettingUpdate(Settings.knownSitesDone, "true");
+        #endregion
 
-            #endregion
+        sut = new SqlController(dbContextHelper);
+        sut.StartLog(new CoreBase());
+        testHelpers = new TestHelpers(ConnectionString);
+        await testHelpers.GenerateDefaultLanguages();
+        await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
+        await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
+        await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
+        language = DbContext.Languages.Single(x => x.Name == "Dansk");
+    }
 
-            sut = new SqlController(dbContextHelper);
-            sut.StartLog(new CoreBase());
-            testHelpers = new TestHelpers(ConnectionString);
-            await testHelpers.GenerateDefaultLanguages();
-            await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
-            await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
-            await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
-            language = DbContext.Languages.Single(x => x.Name == "Dansk");
-        }
+    [Test]
+    public async Task SQL_Check_FieldValueRead_ReturnsAnswer()
+    {
+        // Arrance
 
-        [Test]
-        public async Task SQL_Check_FieldValueRead_ReturnsAnswer()
-        {
-            // Arrance
+        #region Arrance
 
-            #region Arrance
+        Random rnd = new Random();
 
-            Random rnd = new Random();
+        #region Template1
 
-            #region Template1
+        DateTime cl1_Ca = DateTime.UtcNow;
+        DateTime cl1_Ua = DateTime.UtcNow;
+        CheckList cl1 =
+            await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
-            DateTime cl1_Ca = DateTime.UtcNow;
-            DateTime cl1_Ua = DateTime.UtcNow;
-            CheckList cl1 =
-                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+        #endregion
 
-            #endregion
+        #region SubTemplate1
 
-            #region SubTemplate1
+        CheckList cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
 
-            CheckList cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+        #endregion
 
-            #endregion
+        #region Fields
 
-            #region Fields
+        #region field1
 
-            #region field1
+        Field f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "",
+            "Comment field description",
+            5, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55,
+            "55", "0", 0, 0, null, 1, 0,
+            0, 0, "", 49);
 
-            Field f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "",
-                "Comment field description",
-                5, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55,
-                "55", "0", 0, 0, null, 1, 0,
-                0, 0, "", 49);
+        #endregion
 
-            #endregion
+        #region field2
 
-            #region field2
+        Field f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "",
+            "showPDf Description",
+            45, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 1, 0, 0,
+            "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
-            Field f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "",
-                "showPDf Description",
-                45, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 1, 0, 0,
-                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+        #endregion
 
-            #endregion
+        #region field3
 
-            #region field3
+        Field f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "",
+            "Number Field Description",
+            83, 0, DbContext.FieldTypes.Where(x => x.Type == "number").First(), 0, 0, 1, 0,
+            "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
 
-            Field f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "",
-                "Number Field Description",
-                83, 0, DbContext.FieldTypes.Where(x => x.Type == "number").First(), 0, 0, 1, 0,
-                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+        #endregion
 
-            #endregion
+        #region field4
 
-            #region field4
+        Field f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "",
+            "date Description",
+            84, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0,
+            "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
 
-            Field f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "",
-                "date Description",
-                84, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0,
-                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+        #endregion
 
-            #endregion
+        #region field5
 
-            #region field5
+        Field f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "",
+            "picture Description",
+            85, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
+            "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
-            Field f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "",
-                "picture Description",
-                85, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+        #endregion
 
-            #endregion
+        #endregion
 
-            #endregion
+        #region Worker
 
-            #region Worker
+        Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
-            Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+        #endregion
 
-            #endregion
+        #region site
 
-            #region site
+        Site site = await testHelpers.CreateSite("SiteName", 88);
 
-            Site site = await testHelpers.CreateSite("SiteName", 88);
+        #endregion
 
-            #endregion
+        #region units
 
-            #region units
+        Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
 
-            Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
+        #endregion
 
-            #endregion
+        #region site_workers
 
-            #region site_workers
+        SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
 
-            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
+        #endregion
 
-            #endregion
+        #region Case1
 
-            #region Case1
+        Case aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
+            worker, rnd.Next(1, 255), rnd.Next(1, 255),
+            site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
 
-            Case aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
-                worker, rnd.Next(1, 255), rnd.Next(1, 255),
-                site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
+        #endregion
 
-            #endregion
+        #region Check List Values
 
-            #region Check List Values
+        CheckListValue checkListValue = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
 
-            CheckListValue checkListValue = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
+        #endregion
 
-            #endregion
+        #region UploadedData
 
-            #region UploadedData
+        UploadedData ud = await testHelpers.CreateUploadedData("checksum", "File1", "no", "mappe", "File1", 1,
+            worker,
+            "local", 55, false);
 
-            UploadedData ud = await testHelpers.CreateUploadedData("checksum", "File1", "no", "mappe", "File1", 1,
-                worker,
-                "local", 55, false);
+        #endregion
 
-            #endregion
+        #region Field Values
 
-            #region Field Values
+        #region fv1
 
-            #region fv1
+        FieldValue field_Value1 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f1, ud.Id, null, "tomt1", 61234, worker);
 
-            FieldValue field_Value1 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f1, ud.Id, null, "tomt1", 61234, worker);
+        #endregion
 
-            #endregion
+        #region fv2
 
-            #region fv2
+        FieldValue field_Value2 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f2, null, null, "tomt2", 61234, worker);
 
-            FieldValue field_Value2 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f2, null, null, "tomt2", 61234, worker);
+        #endregion
 
-            #endregion
+        #region fv3
 
-            #region fv3
+        FieldValue field_Value3 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f3, null, null, "tomt3", 61234, worker);
 
-            FieldValue field_Value3 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f3, null, null, "tomt3", 61234, worker);
+        #endregion
 
-            #endregion
+        #region fv4
 
-            #region fv4
+        FieldValue field_Value4 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f4, null, null, "tomt4", 61234, worker);
 
-            FieldValue field_Value4 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f4, null, null, "tomt4", 61234, worker);
+        #endregion
 
-            #endregion
+        #region fv5
 
-            #region fv5
+        FieldValue field_Value5 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f5, null, null, "tomt5", 61234, worker);
 
-            FieldValue field_Value5 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f5, null, null, "tomt5", 61234, worker);
+        #endregion
 
-            #endregion
+        #endregion
 
-            #endregion
+        #endregion
 
-            #endregion
+        // Act
 
-            // Act
+        var match = await sut.FieldValueRead(field_Value1, false, language);
 
-            var match = await sut.FieldValueRead(field_Value1, false, language);
+        // Assert
 
-            // Assert
+        #region Assert
 
-            #region Assert
+        Assert.That(match is Microting.eForm.Infrastructure.Models.FieldValue, Is.True);
+        Assert.That(match.Accuracy, Is.EqualTo(field_Value1.Accuracy));
+        Assert.That(match.Altitude, Is.EqualTo(field_Value1.Altitude));
+        // Assert.AreEqual(field_Value1.case_id, match.case_id);
+        // Assert.AreEqual(field_Value1.check_list, match.check_list);
+        // Assert.AreEqual(field_Value1.check_list_duplicate_id, match.check_list_duplicate_id);
+        // Assert.AreEqual(field_Value1.check_list_id, match.check_list_id);
+        // Assert.AreEqual(field_Value1.created_at, match.created_at);
+        Assert.That(match.Date, Is.EqualTo(field_Value1.Date));
+        // Assert.AreEqual(field_Value1.done_at, match.done_at);
+        Assert.That(f1, Is.EqualTo(field_Value1.Field));
+        Assert.That(match.FieldId, Is.EqualTo(field_Value1.FieldId));
+        Assert.That(match.Heading, Is.EqualTo(field_Value1.Heading));
+        Assert.That(match.Id, Is.EqualTo(field_Value1.Id));
+        Assert.That(match.Latitude, Is.EqualTo(field_Value1.Latitude));
+        Assert.That(match.Longitude, Is.EqualTo(field_Value1.Longitude));
+        // Assert.AreEqual(field_Value1.updated_at, match.updated_at);
+        // Assert.AreEqual("mappeFile1", match.UploadedData);
+        Assert.That(match.UploadedDataObj.Checksum, Is.EqualTo(field_Value1.UploadedData.Checksum));
+        Assert.That(match.UploadedDataObj.CurrentFile, Is.EqualTo(field_Value1.UploadedData.CurrentFile));
+        Assert.That(match.UploadedDataObj.Extension, Is.EqualTo(field_Value1.UploadedData.Extension));
+        Assert.That(match.UploadedDataObj.FileLocation, Is.EqualTo(field_Value1.UploadedData.FileLocation));
+        Assert.That(match.UploadedDataObj.FileName, Is.EqualTo(field_Value1.UploadedData.FileName));
+        Assert.That(match.UploadedDataObj.Id, Is.EqualTo(field_Value1.UploadedData.Id));
+        Assert.That(match.UploadedDataObj.UploaderId, Is.EqualTo(field_Value1.UploadedData.UploaderId));
+        Assert.That(match.UploadedDataObj.UploaderType, Is.EqualTo(field_Value1.UploadedData.UploaderType));
+        // Assert.AreEqual(field_Value1.user_id, match.user_id);
+        Assert.That(match.Value, Is.EqualTo(field_Value1.Value));
+        // Assert.AreEqual(field_Value1.version, match.version);
+        // Assert.AreEqual(field_Value1.worker, match.worker);
+        // Assert.AreEqual(field_Value1.workflow_state, match.workflow_state);
 
-            Assert.That(match is Microting.eForm.Infrastructure.Models.FieldValue, Is.True);
-            Assert.That(match.Accuracy, Is.EqualTo(field_Value1.Accuracy));
-            Assert.That(match.Altitude, Is.EqualTo(field_Value1.Altitude));
-            // Assert.AreEqual(field_Value1.case_id, match.case_id);
-            // Assert.AreEqual(field_Value1.check_list, match.check_list);
-            // Assert.AreEqual(field_Value1.check_list_duplicate_id, match.check_list_duplicate_id);
-            // Assert.AreEqual(field_Value1.check_list_id, match.check_list_id);
-            // Assert.AreEqual(field_Value1.created_at, match.created_at);
-            Assert.That(match.Date, Is.EqualTo(field_Value1.Date));
-            // Assert.AreEqual(field_Value1.done_at, match.done_at);
-            Assert.That(f1, Is.EqualTo(field_Value1.Field));
-            Assert.That(match.FieldId, Is.EqualTo(field_Value1.FieldId));
-            Assert.That(match.Heading, Is.EqualTo(field_Value1.Heading));
-            Assert.That(match.Id, Is.EqualTo(field_Value1.Id));
-            Assert.That(match.Latitude, Is.EqualTo(field_Value1.Latitude));
-            Assert.That(match.Longitude, Is.EqualTo(field_Value1.Longitude));
-            // Assert.AreEqual(field_Value1.updated_at, match.updated_at);
-            // Assert.AreEqual("mappeFile1", match.UploadedData);
-            Assert.That(match.UploadedDataObj.Checksum, Is.EqualTo(field_Value1.UploadedData.Checksum));
-            Assert.That(match.UploadedDataObj.CurrentFile, Is.EqualTo(field_Value1.UploadedData.CurrentFile));
-            Assert.That(match.UploadedDataObj.Extension, Is.EqualTo(field_Value1.UploadedData.Extension));
-            Assert.That(match.UploadedDataObj.FileLocation, Is.EqualTo(field_Value1.UploadedData.FileLocation));
-            Assert.That(match.UploadedDataObj.FileName, Is.EqualTo(field_Value1.UploadedData.FileName));
-            Assert.That(match.UploadedDataObj.Id, Is.EqualTo(field_Value1.UploadedData.Id));
-            Assert.That(match.UploadedDataObj.UploaderId, Is.EqualTo(field_Value1.UploadedData.UploaderId));
-            Assert.That(match.UploadedDataObj.UploaderType, Is.EqualTo(field_Value1.UploadedData.UploaderType));
-            // Assert.AreEqual(field_Value1.user_id, match.user_id);
-            Assert.That(match.Value, Is.EqualTo(field_Value1.Value));
-            // Assert.AreEqual(field_Value1.version, match.version);
-            // Assert.AreEqual(field_Value1.worker, match.worker);
-            // Assert.AreEqual(field_Value1.workflow_state, match.workflow_state);
+        #endregion
+    }
 
-            #endregion
-        }
+    [Test]
+    public async Task SQL_Check_FieldValueReadWithUploadedData_ReturnsAnswer()
+    {
+        // Arrance
 
-        [Test]
-        public async Task SQL_Check_FieldValueReadWithUploadedData_ReturnsAnswer()
-        {
-            // Arrance
+        #region Arrance
 
-            #region Arrance
+        Random rnd = new Random();
 
-            Random rnd = new Random();
+        #region Template1
 
-            #region Template1
+        DateTime cl1_Ca = DateTime.UtcNow;
+        DateTime cl1_Ua = DateTime.UtcNow;
+        CheckList cl1 =
+            await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
-            DateTime cl1_Ca = DateTime.UtcNow;
-            DateTime cl1_Ua = DateTime.UtcNow;
-            CheckList cl1 =
-                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+        #endregion
 
-            #endregion
+        #region SubTemplate1
 
-            #region SubTemplate1
+        CheckList cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
 
-            CheckList cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+        #endregion
 
-            #endregion
+        #region Fields
 
-            #region Fields
+        #region field1
 
-            #region field1
+        Field f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "",
+            "Comment field description",
+            5, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55,
+            "55", "0", 0, 0, null, 1, 0,
+            0, 0, "", 49);
 
-            Field f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "",
-                "Comment field description",
-                5, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55,
-                "55", "0", 0, 0, null, 1, 0,
-                0, 0, "", 49);
+        #endregion
 
-            #endregion
+        #region field2
 
-            #region field2
+        Field f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "",
+            "showPDf Description",
+            45, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 1, 0, 0,
+            "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
-            Field f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "",
-                "showPDf Description",
-                45, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 1, 0, 0,
-                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+        #endregion
 
-            #endregion
+        #region field3
 
-            #region field3
+        Field f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "",
+            "Number Field Description",
+            83, 0, DbContext.FieldTypes.Where(x => x.Type == "number").First(), 0, 0, 1, 0,
+            "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
 
-            Field f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "",
-                "Number Field Description",
-                83, 0, DbContext.FieldTypes.Where(x => x.Type == "number").First(), 0, 0, 1, 0,
-                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+        #endregion
 
-            #endregion
+        #region field4
 
-            #region field4
+        Field f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "",
+            "date Description",
+            84, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0,
+            "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
 
-            Field f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "",
-                "date Description",
-                84, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0,
-                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+        #endregion
 
-            #endregion
+        #region field5
 
-            #region field5
+        Field f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "",
+            "picture Description",
+            85, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
+            "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
-            Field f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "",
-                "picture Description",
-                85, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+        #endregion
 
-            #endregion
+        #endregion
 
-            #endregion
+        #region Worker
 
-            #region Worker
+        Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
-            Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+        #endregion
 
-            #endregion
+        #region site
 
-            #region site
+        Site site = await testHelpers.CreateSite("SiteName", 88);
 
-            Site site = await testHelpers.CreateSite("SiteName", 88);
+        #endregion
 
-            #endregion
+        #region units
 
-            #region units
+        Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
 
-            Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
+        #endregion
 
-            #endregion
+        #region site_workers
 
-            #region site_workers
+        SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
 
-            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
+        #endregion
 
-            #endregion
+        #region Case1
 
-            #region Case1
+        Case aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
+            worker, rnd.Next(1, 255), rnd.Next(1, 255),
+            site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
 
-            Case aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
-                worker, rnd.Next(1, 255), rnd.Next(1, 255),
-                site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
+        #endregion
 
-            #endregion
+        #region Check List Values
 
-            #region Check List Values
+        CheckListValue checkListValue = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
 
-            CheckListValue checkListValue = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
+        #endregion
 
-            #endregion
+        #region UploadedData
 
-            #region UploadedData
+        UploadedData ud = await testHelpers.CreateUploadedData("checksum", "File1", "no", "mappe", "File1", 1,
+            worker,
+            "local", 55, false);
 
-            UploadedData ud = await testHelpers.CreateUploadedData("checksum", "File1", "no", "mappe", "File1", 1,
-                worker,
-                "local", 55, false);
+        #endregion
 
-            #endregion
+        #region Field Values
 
-            #region Field Values
+        #region fv1
 
-            #region fv1
+        FieldValue field_Value1 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f1, ud.Id, null, "tomt1", 61234, worker);
 
-            FieldValue field_Value1 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f1, ud.Id, null, "tomt1", 61234, worker);
+        #endregion
 
-            #endregion
+        #region fv2
 
-            #region fv2
+        FieldValue field_Value2 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f2, ud.Id, null, "tomt2", 61234, worker);
 
-            FieldValue field_Value2 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f2, ud.Id, null, "tomt2", 61234, worker);
+        #endregion
 
-            #endregion
+        #region fv3
 
-            #region fv3
+        FieldValue field_Value3 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f3, ud.Id, null, "tomt3", 61234, worker);
 
-            FieldValue field_Value3 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f3, ud.Id, null, "tomt3", 61234, worker);
+        #endregion
 
-            #endregion
+        #region fv4
 
-            #region fv4
+        FieldValue field_Value4 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f4, ud.Id, null, "tomt4", 61234, worker);
 
-            FieldValue field_Value4 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f4, ud.Id, null, "tomt4", 61234, worker);
+        #endregion
 
-            #endregion
+        #region fv5
 
-            #region fv5
+        FieldValue field_Value5 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f5, ud.Id, null, "tomt5", 61234, worker);
 
-            FieldValue field_Value5 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f5, ud.Id, null, "tomt5", 61234, worker);
+        #endregion
 
-            #endregion
+        #endregion
 
-            #endregion
+        #endregion
 
-            #endregion
+        // Act
 
-            // Act
+        var match = await sut.FieldValueRead(field_Value1, true, language);
 
-            var match = await sut.FieldValueRead(field_Value1, true, language);
+        //// Assert
 
-            //// Assert
+        #region Assert
 
-            #region Assert
+        Assert.That(match is Microting.eForm.Infrastructure.Models.FieldValue, Is.True);
+        Assert.That(match.Accuracy, Is.EqualTo(field_Value1.Accuracy));
+        Assert.That(match.Altitude, Is.EqualTo(field_Value1.Altitude));
+        // Assert.AreEqual(field_Value1.case_id, match.case_id);
+        // Assert.AreEqual(field_Value1.check_list, match.check_list);
+        // Assert.AreEqual(field_Value1.check_list_duplicate_id, match.check_list_duplicate_id);
+        // Assert.AreEqual(field_Value1.check_list_id, match.check_list_id);
+        // Assert.AreEqual(field_Value1.created_at, match.created_at);
+        Assert.That(match.Date, Is.EqualTo(field_Value1.Date));
+        // Assert.AreEqual(field_Value1.done_at, match.done_at);
+        Assert.That(f1, Is.EqualTo(field_Value1.Field));
+        Assert.That(match.FieldId, Is.EqualTo(field_Value1.FieldId));
+        Assert.That(match.Heading, Is.EqualTo(field_Value1.Heading));
+        Assert.That(match.Id, Is.EqualTo(field_Value1.Id));
+        Assert.That(match.Latitude, Is.EqualTo(field_Value1.Latitude));
+        Assert.That(match.Longitude, Is.EqualTo(field_Value1.Longitude));
+        // Assert.AreEqual(field_Value1.updated_at, match.updated_at);
+        Assert.That(match.UploadedData, Is.EqualTo("mappeFile1"));
+        // Assert.AreEqual(field_Value1.uploaded_data_id, match.UploadedDataObj);
+        // Assert.AreEqual(field_Value1.user_id, match.user_id);
+        Assert.That(match.Value, Is.EqualTo(field_Value1.Value));
+        // Assert.AreEqual(field_Value1.version, match.version);
+        // Assert.AreEqual(field_Value1.worker, match.worker);
+        // Assert.AreEqual(field_Value1.workflow_state, match.workflow_state);
 
-            Assert.That(match is Microting.eForm.Infrastructure.Models.FieldValue, Is.True);
-            Assert.That(match.Accuracy, Is.EqualTo(field_Value1.Accuracy));
-            Assert.That(match.Altitude, Is.EqualTo(field_Value1.Altitude));
-            // Assert.AreEqual(field_Value1.case_id, match.case_id);
-            // Assert.AreEqual(field_Value1.check_list, match.check_list);
-            // Assert.AreEqual(field_Value1.check_list_duplicate_id, match.check_list_duplicate_id);
-            // Assert.AreEqual(field_Value1.check_list_id, match.check_list_id);
-            // Assert.AreEqual(field_Value1.created_at, match.created_at);
-            Assert.That(match.Date, Is.EqualTo(field_Value1.Date));
-            // Assert.AreEqual(field_Value1.done_at, match.done_at);
-            Assert.That(f1, Is.EqualTo(field_Value1.Field));
-            Assert.That(match.FieldId, Is.EqualTo(field_Value1.FieldId));
-            Assert.That(match.Heading, Is.EqualTo(field_Value1.Heading));
-            Assert.That(match.Id, Is.EqualTo(field_Value1.Id));
-            Assert.That(match.Latitude, Is.EqualTo(field_Value1.Latitude));
-            Assert.That(match.Longitude, Is.EqualTo(field_Value1.Longitude));
-            // Assert.AreEqual(field_Value1.updated_at, match.updated_at);
-            Assert.That(match.UploadedData, Is.EqualTo("mappeFile1"));
-            // Assert.AreEqual(field_Value1.uploaded_data_id, match.UploadedDataObj);
-            // Assert.AreEqual(field_Value1.user_id, match.user_id);
-            Assert.That(match.Value, Is.EqualTo(field_Value1.Value));
-            // Assert.AreEqual(field_Value1.version, match.version);
-            // Assert.AreEqual(field_Value1.worker, match.worker);
-            // Assert.AreEqual(field_Value1.workflow_state, match.workflow_state);
-
-            #endregion
-        }
+        #endregion
+    }
 
 //        [Test]
 //        public async Task SQL_Check_FieldValueRead_ReturnsTrue()
@@ -612,748 +612,747 @@ namespace eFormSDK.Integration.Base.SqlControllerTests
 //            Assert.AreEqual(field_Value1.Id, match.Id);
 //
 //        }
-        [Test]
-        public async Task SQL_Check_FieldValueReadList_ReturnsList()
-        {
-            // Arrance
+    [Test]
+    public async Task SQL_Check_FieldValueReadList_ReturnsList()
+    {
+        // Arrance
 
-            #region Arrance
+        #region Arrance
 
-            Random rnd = new Random();
+        Random rnd = new Random();
 
-            #region Template1
+        #region Template1
 
-            DateTime cl1_Ca = DateTime.UtcNow;
-            DateTime cl1_Ua = DateTime.UtcNow;
-            CheckList cl1 =
-                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+        DateTime cl1_Ca = DateTime.UtcNow;
+        DateTime cl1_Ua = DateTime.UtcNow;
+        CheckList cl1 =
+            await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
-            #endregion
+        #endregion
 
-            #region SubTemplate1
+        #region SubTemplate1
 
-            CheckList cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+        CheckList cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
 
-            #endregion
+        #endregion
 
-            #region Fields
+        #region Fields
 
-            #region field1
+        #region field1
 
-            Field f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "",
-                "Comment field description",
-                5, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55,
-                "55", "0", 0, 0, null, 1, 0,
-                0, 0, "", 49);
+        Field f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "",
+            "Comment field description",
+            5, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55,
+            "55", "0", 0, 0, null, 1, 0,
+            0, 0, "", 49);
 
-            #endregion
+        #endregion
 
-            #region field2
+        #region field2
 
-            Field f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "",
-                "showPDf Description",
-                45, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 1, 0, 0,
-                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+        Field f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "",
+            "showPDf Description",
+            45, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 1, 0, 0,
+            "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
-            #endregion
+        #endregion
 
-            #region field3
+        #region field3
 
-            Field f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "",
-                "Number Field Description",
-                83, 0, DbContext.FieldTypes.Where(x => x.Type == "number").First(), 0, 0, 1, 0,
-                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+        Field f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "",
+            "Number Field Description",
+            83, 0, DbContext.FieldTypes.Where(x => x.Type == "number").First(), 0, 0, 1, 0,
+            "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
 
-            #endregion
+        #endregion
 
-            #region field4
+        #region field4
 
-            Field f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "",
-                "date Description",
-                84, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0,
-                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+        Field f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "",
+            "date Description",
+            84, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0,
+            "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
 
-            #endregion
+        #endregion
 
-            #region field5
+        #region field5
 
-            Field f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "",
-                "picture Description",
-                85, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+        Field f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "",
+            "picture Description",
+            85, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
+            "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
-            #endregion
+        #endregion
 
-            #endregion
+        #endregion
 
-            #region Worker
+        #region Worker
 
-            Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+        Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
-            #endregion
+        #endregion
 
-            #region site
+        #region site
 
-            Site site = await testHelpers.CreateSite("SiteName", 88);
+        Site site = await testHelpers.CreateSite("SiteName", 88);
 
-            #endregion
+        #endregion
 
-            #region units
+        #region units
 
-            Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
+        Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
 
-            #endregion
+        #endregion
 
-            #region site_workers
+        #region site_workers
 
-            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
+        SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
 
-            #endregion
+        #endregion
 
-            #region Case1
+        #region Case1
 
-            Case aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
-                worker, rnd.Next(1, 255), rnd.Next(1, 255),
-                site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
+        Case aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
+            worker, rnd.Next(1, 255), rnd.Next(1, 255),
+            site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
 
-            #endregion
+        #endregion
 
-            #region Check List Values
+        #region Check List Values
 
-            CheckListValue checkListValue = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
+        CheckListValue checkListValue = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
 
-            #endregion
+        #endregion
 
-            #region Field Values
+        #region Field Values
 
-            #region fv1
+        #region fv1
 
-            FieldValue field_Value1 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f1, null, null, "tomt1", 61234, worker);
+        FieldValue field_Value1 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f1, null, null, "tomt1", 61234, worker);
 
-            #endregion
+        #endregion
 
-            #region fv2
+        #region fv2
 
-            FieldValue field_Value2 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f2, null, null, "tomt2", 61234, worker);
+        FieldValue field_Value2 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f2, null, null, "tomt2", 61234, worker);
 
-            #endregion
+        #endregion
 
-            #region fv3
+        #region fv3
 
-            FieldValue field_Value3 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f3, null, null, "tomt3", 61234, worker);
+        FieldValue field_Value3 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f3, null, null, "tomt3", 61234, worker);
 
-            #endregion
+        #endregion
 
-            #region fv4
+        #region fv4
 
-            FieldValue field_Value4 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f4, null, null, "tomt4", 61234, worker);
+        FieldValue field_Value4 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f4, null, null, "tomt4", 61234, worker);
 
-            #endregion
+        #endregion
 
-            #region fv5
+        #region fv5
 
-            FieldValue field_Value5 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f5, null, null, "tomt5", 61234, worker);
+        FieldValue field_Value5 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f5, null, null, "tomt5", 61234, worker);
 
-            #endregion
+        #endregion
 
-            #endregion
+        #endregion
 
-            #endregion
+        #endregion
 
-            // Act
+        // Act
 
-            List<Microting.eForm.Infrastructure.Models.FieldValue> match =
-                await sut.FieldValueReadList(f1.Id, 5, language);
+        List<Microting.eForm.Infrastructure.Models.FieldValue> match =
+            await sut.FieldValueReadList(f1.Id, 5, language);
 
-            // Assert
+        // Assert
 
-            Assert.That(match[0].Value, Is.EqualTo(field_Value1.Value));
-        }
+        Assert.That(match[0].Value, Is.EqualTo(field_Value1.Value));
+    }
 
-        [Test]
-        public async Task SQL_Check_FieldValueUpdate_UpdatesFieldValue()
-        {
-            // Arrance
+    [Test]
+    public async Task SQL_Check_FieldValueUpdate_UpdatesFieldValue()
+    {
+        // Arrance
 
-            #region Arrance
+        #region Arrance
 
-            Random rnd = new Random();
+        Random rnd = new Random();
 
-            #region Template1
+        #region Template1
 
-            DateTime cl1_Ca = DateTime.UtcNow;
-            DateTime cl1_Ua = DateTime.UtcNow;
-            CheckList cl1 =
-                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+        DateTime cl1_Ca = DateTime.UtcNow;
+        DateTime cl1_Ua = DateTime.UtcNow;
+        CheckList cl1 =
+            await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
-            #endregion
+        #endregion
 
-            #region SubTemplate1
+        #region SubTemplate1
 
-            CheckList cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+        CheckList cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
 
-            #endregion
+        #endregion
 
-            #region Fields
+        #region Fields
 
-            #region field1
+        #region field1
 
-            Field f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "",
-                "Comment field description",
-                5, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55,
-                "55", "0", 0, 0, null, 1, 0,
-                0, 0, "", 49);
+        Field f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "",
+            "Comment field description",
+            5, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55,
+            "55", "0", 0, 0, null, 1, 0,
+            0, 0, "", 49);
 
-            #endregion
+        #endregion
 
-            #region field2
+        #region field2
 
-            Field f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "",
-                "showPDf Description",
-                45, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 1, 0, 0,
-                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+        Field f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "",
+            "showPDf Description",
+            45, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 1, 0, 0,
+            "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
-            #endregion
+        #endregion
 
-            #region field3
+        #region field3
 
-            Field f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "",
-                "Number Field Description",
-                83, 0, DbContext.FieldTypes.Where(x => x.Type == "number").First(), 0, 0, 1, 0,
-                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+        Field f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "",
+            "Number Field Description",
+            83, 0, DbContext.FieldTypes.Where(x => x.Type == "number").First(), 0, 0, 1, 0,
+            "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
 
-            #endregion
+        #endregion
 
-            #region field4
+        #region field4
 
-            Field f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "",
-                "date Description",
-                84, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0,
-                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+        Field f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "",
+            "date Description",
+            84, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0,
+            "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
 
-            #endregion
+        #endregion
 
-            #region field5
+        #region field5
 
-            Field f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "",
-                "picture Description",
-                85, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+        Field f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "",
+            "picture Description",
+            85, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
+            "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
-            #endregion
+        #endregion
 
-            #endregion
+        #endregion
 
-            #region Worker
+        #region Worker
 
-            Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+        Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
-            #endregion
+        #endregion
 
-            #region site
+        #region site
 
-            Site site = await testHelpers.CreateSite("SiteName", 88);
+        Site site = await testHelpers.CreateSite("SiteName", 88);
 
-            #endregion
+        #endregion
 
-            #region units
+        #region units
 
-            Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
+        Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
 
-            #endregion
+        #endregion
 
-            #region Case1
+        #region Case1
 
-            Case aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
-                worker, rnd.Next(1, 255), rnd.Next(1, 255),
-                site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
+        Case aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
+            worker, rnd.Next(1, 255), rnd.Next(1, 255),
+            site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
 
-            #endregion
+        #endregion
 
-            #region Check List Values
+        #region Check List Values
 
-            CheckListValue checkListValue = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
+        CheckListValue checkListValue = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
 
-            #endregion
+        #endregion
 
-            #region Field Values
+        #region Field Values
 
-            #region fv1
+        #region fv1
 
-            FieldValue field_Value1 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f1, null, null, "tomt1", 61234, worker);
+        FieldValue field_Value1 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f1, null, null, "tomt1", 61234, worker);
 
-            #endregion
+        #endregion
 
-            #region fv2
+        #region fv2
 
-            FieldValue field_Value2 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f2, null, null, "tomt2", 61234, worker);
+        FieldValue field_Value2 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f2, null, null, "tomt2", 61234, worker);
 
-            #endregion
+        #endregion
 
-            #region fv3
+        #region fv3
 
-            FieldValue field_Value3 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f3, null, null, "tomt3", 61234, worker);
+        FieldValue field_Value3 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f3, null, null, "tomt3", 61234, worker);
 
-            #endregion
+        #endregion
 
-            #region fv4
+        #region fv4
 
-            FieldValue field_Value4 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f4, null, null, "tomt4", 61234, worker);
+        FieldValue field_Value4 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f4, null, null, "tomt4", 61234, worker);
 
-            #endregion
+        #endregion
 
-            #region fv5
+        #region fv5
 
-            FieldValue field_Value5 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f5, null, null, "tomt5", 61234, worker);
+        FieldValue field_Value5 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f5, null, null, "tomt5", 61234, worker);
 
-            #endregion
+        #endregion
 
-            #endregion
+        #endregion
 
-            #endregion
+        #endregion
 
-            // Act
+        // Act
 
-            await sut.FieldValueUpdate(aCase.Id, field_Value1.Id, "udfyldt");
+        await sut.FieldValueUpdate(aCase.Id, field_Value1.Id, "udfyldt");
 
 
-            // Assert
-            var newValue = await DbContext.FieldValues.AsNoTracking().FirstOrDefaultAsync(x => x.Id == field_Value1.Id);
+        // Assert
+        var newValue = await DbContext.FieldValues.AsNoTracking().FirstOrDefaultAsync(x => x.Id == field_Value1.Id);
 
-            Assert.That(newValue.Value, Is.EqualTo("udfyldt"));
-        }
+        Assert.That(newValue.Value, Is.EqualTo("udfyldt"));
+    }
 
-        [Test]
-        public async Task SQL_Check_FieldValueReadAllValues_ReturnsReturnList()
-        {
-            // Arrance
+    [Test]
+    public async Task SQL_Check_FieldValueReadAllValues_ReturnsReturnList()
+    {
+        // Arrance
 
-            #region Arrance
+        #region Arrance
 
-            Random rnd = new Random();
+        Random rnd = new Random();
 
-            #region Template1
+        #region Template1
 
-            DateTime cl1_Ca = DateTime.UtcNow;
-            DateTime cl1_Ua = DateTime.UtcNow;
-            CheckList cl1 =
-                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+        DateTime cl1_Ca = DateTime.UtcNow;
+        DateTime cl1_Ua = DateTime.UtcNow;
+        CheckList cl1 =
+            await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
 
-            #endregion
+        #endregion
 
-            #region SubTemplate1
+        #region SubTemplate1
 
-            CheckList cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+        CheckList cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
 
-            #endregion
+        #endregion
 
-            #region Fields
+        #region Fields
 
-            #region field1
+        #region field1
 
-            Field f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "",
-                "Comment field description",
-                5, 1, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55,
-                "55", "0", 0, 0, null, 1, 0,
-                0, 0, "", 49);
+        Field f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "",
+            "Comment field description",
+            5, 1, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0, "Comment field", 1, 55,
+            "55", "0", 0, 0, null, 1, 0,
+            0, 0, "", 49);
 
-            #endregion
+        #endregion
 
-            #region field2
+        #region field2
 
-            Field f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "",
-                "showPDf Description",
-                45, 1, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 1, 0, 0,
-                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+        Field f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "",
+            "showPDf Description",
+            45, 1, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 1, 0, 0,
+            "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
 
-            #endregion
+        #endregion
 
-            #region field3
+        #region field3
 
-            Field f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "",
-                "Number Field Description",
-                83, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0,
-                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+        Field f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "",
+            "Number Field Description",
+            83, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0,
+            "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
 
-            #endregion
+        #endregion
 
-            #region field4
+        #region field4
 
-            Field f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "",
-                "date Description",
-                84, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0,
-                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+        Field f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "",
+            "date Description",
+            84, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 1, 0,
+            "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
 
-            #endregion
+        #endregion
 
-            #region field5
+        #region field5
 
-            Field f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "",
-                "picture Description",
-                85, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+        Field f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "",
+            "picture Description",
+            85, 0, DbContext.FieldTypes.Where(x => x.Type == "picture").First(), 1, 0, 1, 0,
+            "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
 
-            #endregion
+        #endregion
 
-            #endregion
+        #endregion
 
-            #region Worker
+        #region Worker
 
-            Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+        Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
 
-            #endregion
+        #endregion
 
-            #region site
+        #region site
 
-            Site site = await testHelpers.CreateSite("SiteName", 88);
+        Site site = await testHelpers.CreateSite("SiteName", 88);
 
-            #endregion
+        #endregion
 
-            #region units
+        #region units
 
-            Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
+        Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
 
-            #endregion
+        #endregion
 
-            #region site_workers
+        #region site_workers
 
-            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
+        SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
 
-            #endregion
+        #endregion
 
-            #region Case1
+        #region Case1
 
-            Case aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
-                worker, rnd.Next(1, 255), rnd.Next(1, 255),
-                site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
+        Case aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
+            worker, rnd.Next(1, 255), rnd.Next(1, 255),
+            site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
 
-            #endregion
+        #endregion
 
-            #region UploadedData
+        #region UploadedData
 
-            #region ud1
+        #region ud1
 
-            UploadedData ud1 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File1", 1,
-                worker,
-                "local", 55, false);
+        UploadedData ud1 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File1", 1,
+            worker,
+            "local", 55, false);
 
-            #endregion
+        #endregion
 
-            #region ud2
+        #region ud2
 
-            UploadedData ud2 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File2", 1,
-                worker,
-                "local", 55, false);
+        UploadedData ud2 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File2", 1,
+            worker,
+            "local", 55, false);
 
-            #endregion
+        #endregion
 
-            #region ud3
+        #region ud3
 
-            UploadedData ud3 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File3", 1,
-                worker,
-                "local", 55, false);
+        UploadedData ud3 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File3", 1,
+            worker,
+            "local", 55, false);
 
-            #endregion
+        #endregion
 
-            #region ud4
+        #region ud4
 
-            UploadedData ud4 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File4", 1,
-                worker,
-                "local", 55, false);
+        UploadedData ud4 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File4", 1,
+            worker,
+            "local", 55, false);
 
-            #endregion
+        #endregion
 
-            #region ud5
+        #region ud5
 
-            UploadedData ud5 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File5", 1,
-                worker,
-                "local", 55, false);
+        UploadedData ud5 = await testHelpers.CreateUploadedData("checksum", "File1", "no", "hjgjghjhg", "File5", 1,
+            worker,
+            "local", 55, false);
 
-            #endregion
+        #endregion
 
-            #endregion
+        #endregion
 
-            #region Check List Values
+        #region Check List Values
 
-            CheckListValue checkListValue = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
+        CheckListValue checkListValue = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
 
-            #endregion
+        #endregion
 
-            #region Field Values
+        #region Field Values
 
-            #region fv1
+        #region fv1
 
-            FieldValue field_Value1 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f1, ud1.Id, null, "tomt1", 61234, worker);
+        FieldValue field_Value1 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f1, ud1.Id, null, "tomt1", 61234, worker);
 
-            #endregion
+        #endregion
 
-            #region fv2
+        #region fv2
 
-            FieldValue field_Value2 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f2, ud2.Id, null, "tomt2", 61234, worker);
+        FieldValue field_Value2 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f2, ud2.Id, null, "tomt2", 61234, worker);
 
-            #endregion
+        #endregion
 
-            #region fv3
+        #region fv3
 
-            FieldValue field_Value3 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f3, ud3.Id, null, "tomt3", 61234, worker);
+        FieldValue field_Value3 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f3, ud3.Id, null, "tomt3", 61234, worker);
 
-            #endregion
+        #endregion
 
-            #region fv4
+        #region fv4
 
-            FieldValue field_Value4 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f4, ud4.Id, null, "tomt4", 61234, worker);
+        FieldValue field_Value4 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f4, ud4.Id, null, "tomt4", 61234, worker);
 
-            #endregion
+        #endregion
 
-            #region fv5
+        #region fv5
 
-            FieldValue field_Value5 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
+        FieldValue field_Value5 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f5, ud5.Id, null, "tomt5", 61234, worker);
 
-            #endregion
+        #endregion
 
-            #endregion
+        #endregion
 
-            #endregion
+        #endregion
 
-            // Act
-            List<int> listOfCaseIds = new List<int>();
-            listOfCaseIds.Add(aCase.Id);
-            var matchF1 = await sut.FieldValueReadAllValues(f1.Id, listOfCaseIds, "mappe/", language, false);
-            var matchF2 = await sut.FieldValueReadAllValues(f2.Id, listOfCaseIds, "mappe/", language, false);
-            var matchF3 = await sut.FieldValueReadAllValues(f3.Id, listOfCaseIds, "mappe/", language, false);
-            var matchF4 = await sut.FieldValueReadAllValues(f4.Id, listOfCaseIds, "mappe/", language, false);
-            var matchF5 = await sut.FieldValueReadAllValues(f5.Id, listOfCaseIds, "mappe/", language, false);
+        // Act
+        List<int> listOfCaseIds = new List<int>();
+        listOfCaseIds.Add(aCase.Id);
+        var matchF1 = await sut.FieldValueReadAllValues(f1.Id, listOfCaseIds, "mappe/", language, false);
+        var matchF2 = await sut.FieldValueReadAllValues(f2.Id, listOfCaseIds, "mappe/", language, false);
+        var matchF3 = await sut.FieldValueReadAllValues(f3.Id, listOfCaseIds, "mappe/", language, false);
+        var matchF4 = await sut.FieldValueReadAllValues(f4.Id, listOfCaseIds, "mappe/", language, false);
+        var matchF5 = await sut.FieldValueReadAllValues(f5.Id, listOfCaseIds, "mappe/", language, false);
 
-            // Assert
+        // Assert
 
-            #region Assert
+        #region Assert
 
-            Assert.That(matchF1[0].ElementAt(0).Value, Is.EqualTo("mappe/File1"));
-            Assert.That(matchF2[0].ElementAt(0).Value, Is.EqualTo("mappe/File2"));
-            Assert.That(matchF3[0].ElementAt(0).Value, Is.EqualTo("mappe/File3"));
-            Assert.That(matchF4[0].ElementAt(0).Value, Is.EqualTo("mappe/File4"));
-            Assert.That(matchF5[0].ElementAt(0).Value, Is.EqualTo("mappe/File5"));
-
-            #endregion
-        }
-
-        [Test]
-        public async Task SQL_Check_ChecksRead_ReturnsListOfFieldValues()
-        {
-            // Arrance
-
-            #region Arrance
-
-            Random rnd = new Random();
-
-            #region Template1
-
-            DateTime cl1_Ca = DateTime.UtcNow;
-            DateTime cl1_Ua = DateTime.UtcNow;
-            CheckList cl1 =
-                await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
-
-            #endregion
-
-            #region SubTemplate1
-
-            CheckList cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
-
-            #endregion
-
-            #region Fields
-
-            #region field1
-
-            Field f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "",
-                "Comment field description",
-                5, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55,
-                "55", "0", 0, 0, null, 1, 0,
-                0, 0, "", 49);
-
-            #endregion
-
-            #region field2
-
-            Field f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "",
-                "showPDf Description",
-                45, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 1, 0, 0,
-                "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
-
-            #endregion
-
-            #region field3
-
-            Field f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "",
-                "Number Field Description",
-                83, 0, DbContext.FieldTypes.Where(x => x.Type == "number").First(), 0, 0, 1, 0,
-                "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
-
-            #endregion
-
-            #region field4
-
-            Field f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "",
-                "date Description",
-                84, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0,
-                "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-            #endregion
-
-            #region field5
-
-            Field f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "",
-                "picture Description",
-                85, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
-                "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
-
-            #endregion
-
-            #endregion
-
-            #region Worker
-
-            Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
-
-            #endregion
-
-            #region site
-
-            Site site = await testHelpers.CreateSite("SiteName", 88);
-
-            #endregion
-
-            #region units
-
-            Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
-
-            #endregion
-
-            #region site_workers
-
-            SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
-
-            #endregion
-
-            #region Case1
-
-            Case aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
-                worker, rnd.Next(1, 255), rnd.Next(1, 255),
-                site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region Check List Values
-
-            CheckListValue checkListValue = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
-
-            #endregion
-
-            #region Field Values
-
-            #region fv1
-
-            FieldValue field_Value1 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f1, null, null, "tomt1", 61234, worker);
-
-            #endregion
-
-            #region fv2
-
-            FieldValue field_Value2 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f2, null, null, "tomt2", 61234, worker);
-
-            #endregion
-
-            #region fv3
-
-            FieldValue field_Value3 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f3, null, null, "tomt3", 61234, worker);
-
-            #endregion
-
-            #region fv4
-
-            FieldValue field_Value4 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f4, null, null, "tomt4", 61234, worker);
-
-            #endregion
-
-            #region fv5
-
-            FieldValue field_Value5 =
-                await testHelpers.CreateFieldValue(aCase, cl2, f5, null, null, "tomt5", 61234, worker);
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            // Act
-
-            List<FieldValue> match = await sut.ChecksRead((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid);
-
-            // Assert
-
-
-            Assert.That(match[0].Value, Is.EqualTo(field_Value1.Value));
-            Assert.That(match[1].Value, Is.EqualTo(field_Value2.Value));
-            Assert.That(match[2].Value, Is.EqualTo(field_Value3.Value));
-            Assert.That(match[3].Value, Is.EqualTo(field_Value4.Value));
-            Assert.That(match[4].Value, Is.EqualTo(field_Value5.Value));
-        }
-
-
-        #region eventhandlers
-
-#pragma warning disable 1998
-        public async Task EventCaseCreated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public async Task EventCaseRetrived(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public async Task EventCaseCompleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public async Task EventCaseDeleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public async Task EventFileDownloaded(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public async Task EventSiteActivated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-#pragma warning restore 1998
+        Assert.That(matchF1[0].ElementAt(0).Value, Is.EqualTo("mappe/File1"));
+        Assert.That(matchF2[0].ElementAt(0).Value, Is.EqualTo("mappe/File2"));
+        Assert.That(matchF3[0].ElementAt(0).Value, Is.EqualTo("mappe/File3"));
+        Assert.That(matchF4[0].ElementAt(0).Value, Is.EqualTo("mappe/File4"));
+        Assert.That(matchF5[0].ElementAt(0).Value, Is.EqualTo("mappe/File5"));
 
         #endregion
     }
+
+    [Test]
+    public async Task SQL_Check_ChecksRead_ReturnsListOfFieldValues()
+    {
+        // Arrance
+
+        #region Arrance
+
+        Random rnd = new Random();
+
+        #region Template1
+
+        DateTime cl1_Ca = DateTime.UtcNow;
+        DateTime cl1_Ua = DateTime.UtcNow;
+        CheckList cl1 =
+            await testHelpers.CreateTemplate(cl1_Ca, cl1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+
+        #endregion
+
+        #region SubTemplate1
+
+        CheckList cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
+
+        #endregion
+
+        #region Fields
+
+        #region field1
+
+        Field f1 = await testHelpers.CreateField(1, "barcode", cl2, "e2f4fb", "custom", null, "",
+            "Comment field description",
+            5, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0, "Comment field", 1, 55,
+            "55", "0", 0, 0, null, 1, 0,
+            0, 0, "", 49);
+
+        #endregion
+
+        #region field2
+
+        Field f2 = await testHelpers.CreateField(1, "barcode", cl2, "f5eafa", "custom", null, "",
+            "showPDf Description",
+            45, 1, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 1, 0, 0,
+            "ShowPdf", 0, 5, "5", "0", 0, 0, null, 0, 0, 0, 0, "", 9);
+
+        #endregion
+
+        #region field3
+
+        Field f3 = await testHelpers.CreateField(0, "barcode", cl2, "f0f8db", "custom", 3, "",
+            "Number Field Description",
+            83, 0, DbContext.FieldTypes.Where(x => x.Type == "number").First(), 0, 0, 1, 0,
+            "Numberfield", 1, 8, "4865", "0", 0, 1, null, 1, 0, 0, 0, "", 1);
+
+        #endregion
+
+        #region field4
+
+        Field f4 = await testHelpers.CreateField(1, "barcode", cl2, "fff6df", "custom", null, "",
+            "date Description",
+            84, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 0, 0, 1, 0,
+            "Date", 1, 666, "41153", "0", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+        #endregion
+
+        #region field5
+
+        Field f5 = await testHelpers.CreateField(0, "barcode", cl2, "ffe4e4", "custom", null, "",
+            "picture Description",
+            85, 0, DbContext.FieldTypes.Where(x => x.Type == "comment").First(), 1, 0, 1, 0,
+            "Picture", 1, 69, "69", "1", 0, 1, null, 0, 1, 0, 0, "", 1);
+
+        #endregion
+
+        #endregion
+
+        #region Worker
+
+        Worker worker = await testHelpers.CreateWorker("aa@tak.dk", "Arne", "Jensen", 21);
+
+        #endregion
+
+        #region site
+
+        Site site = await testHelpers.CreateSite("SiteName", 88);
+
+        #endregion
+
+        #region units
+
+        Unit unit = await testHelpers.CreateUnit(48, 49, site, 348);
+
+        #endregion
+
+        #region site_workers
+
+        SiteWorker siteWorker = await testHelpers.CreateSiteWorker(55, site, worker);
+
+        #endregion
+
+        #region Case1
+
+        Case aCase = await testHelpers.CreateCase("caseUId", cl1, DateTime.UtcNow, "custom", DateTime.UtcNow,
+            worker, rnd.Next(1, 255), rnd.Next(1, 255),
+            site, 66, "caseType", unit, DateTime.UtcNow, 1, worker, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region Check List Values
+
+        CheckListValue checkListValue = await testHelpers.CreateCheckListValue(aCase, cl2, "completed", null, 865);
+
+        #endregion
+
+        #region Field Values
+
+        #region fv1
+
+        FieldValue field_Value1 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f1, null, null, "tomt1", 61234, worker);
+
+        #endregion
+
+        #region fv2
+
+        FieldValue field_Value2 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f2, null, null, "tomt2", 61234, worker);
+
+        #endregion
+
+        #region fv3
+
+        FieldValue field_Value3 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f3, null, null, "tomt3", 61234, worker);
+
+        #endregion
+
+        #region fv4
+
+        FieldValue field_Value4 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f4, null, null, "tomt4", 61234, worker);
+
+        #endregion
+
+        #region fv5
+
+        FieldValue field_Value5 =
+            await testHelpers.CreateFieldValue(aCase, cl2, f5, null, null, "tomt5", 61234, worker);
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        // Act
+
+        List<FieldValue> match = await sut.ChecksRead((int)aCase.MicrotingUid, (int)aCase.MicrotingCheckUid);
+
+        // Assert
+
+
+        Assert.That(match[0].Value, Is.EqualTo(field_Value1.Value));
+        Assert.That(match[1].Value, Is.EqualTo(field_Value2.Value));
+        Assert.That(match[2].Value, Is.EqualTo(field_Value3.Value));
+        Assert.That(match[3].Value, Is.EqualTo(field_Value4.Value));
+        Assert.That(match[4].Value, Is.EqualTo(field_Value5.Value));
+    }
+
+
+    #region eventhandlers
+
+#pragma warning disable 1998
+    public async Task EventCaseCreated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventCaseRetrived(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventCaseCompleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventCaseDeleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventFileDownloaded(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventSiteActivated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+#pragma warning restore 1998
+
+    #endregion
 }

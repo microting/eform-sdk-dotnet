@@ -36,4650 +36,4649 @@ using Microting.eForm.Infrastructure.Models;
 using NUnit.Framework;
 using EntityGroup = Microting.eForm.Infrastructure.Data.Entities.EntityGroup;
 
-namespace eFormSDK.Integration.Base.SqlControllerTests
+namespace eFormSDK.Integration.Base.SqlControllerTests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class SqlControllerTestEntity : DbTestFixture
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class SqlControllerTestEntity : DbTestFixture
+    private SqlController sut;
+    private TestHelpers testHelpers;
+
+    public override async Task DoSetup()
     {
-        private SqlController sut;
-        private TestHelpers testHelpers;
-
-        public override async Task DoSetup()
-        {
-            #region Setup SettingsTableContent
-
-            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
-            SqlController sql = new SqlController(dbContextHelper);
-            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            await sql.SettingUpdate(Settings.firstRunDone, "true");
-            await sql.SettingUpdate(Settings.knownSitesDone, "true");
-
-            #endregion
-
-            sut = new SqlController(dbContextHelper);
-            sut.StartLog(new CoreBase());
-            testHelpers = new TestHelpers(ConnectionString);
-            await testHelpers.GenerateDefaultLanguages();
-            await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
-            await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
-            await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
-        }
-
-        #region Entity
-
-        #region Entity Group
-
-        [Test]
-        public async Task SQL_EntityGroup_EntityGroupAll_ReturnsEntityGroups()
-        {
-            // Arrance
-
-            #region Arrance
-
-            #region Entity Groups
-
-            #region EntitySearch
-
-            #region Created
-
-            #region eG1
-
-            EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2 = await testHelpers.CreateEntityGroup("microtingUIdC2", "EntityGroup2",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3 = await testHelpers.CreateEntityGroup("microtingUIdC3", "EntityGroup3",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4 = await testHelpers.CreateEntityGroup("microtingUIdC4", "EntityGroup4",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5 = await testHelpers.CreateEntityGroup("microtingUIdC5", "EntityGroup5",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6 = await testHelpers.CreateEntityGroup("microtingUIdC6", "EntityGroup6",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7 = await testHelpers.CreateEntityGroup("microtingUIdC7", "EntityGroup7",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8 = await testHelpers.CreateEntityGroup("microtingUIdC8", "EntityGroup8",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9 = await testHelpers.CreateEntityGroup("microtingUIdC9", "EntityGroup9",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10 = await testHelpers.CreateEntityGroup("microtingUIdC10", "EntityGroup10",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #endregion
-
-            #region Removed
-
-            #region eG1
-
-            EntityGroup eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2Removed = await testHelpers.CreateEntityGroup("microtingUIdR2", "EntityGroup2",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3Removed = await testHelpers.CreateEntityGroup("microtingUIdR3", "EntityGroup3",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4Removed = await testHelpers.CreateEntityGroup("microtingUIdR4", "EntityGroup4",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5Removed = await testHelpers.CreateEntityGroup("microtingUIdR5", "EntityGroup5",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6Removed = await testHelpers.CreateEntityGroup("microtingUIdR6", "EntityGroup6",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7Removed = await testHelpers.CreateEntityGroup("microtingUIdR7", "EntityGroup7",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8Removed = await testHelpers.CreateEntityGroup("microtingUIdR8", "EntityGroup8",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9Removed = await testHelpers.CreateEntityGroup("microtingUIdR9", "EntityGroup9",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10Removed = await testHelpers.CreateEntityGroup("microtingUIdR10", "EntityGroup10",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #endregion
-
-            #region Retracted
-
-            #region eG1
-
-            EntityGroup eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2Retracted = await testHelpers.CreateEntityGroup("microtingUIdT2", "EntityGroup2",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3Retracted = await testHelpers.CreateEntityGroup("microtingUIdT3", "EntityGroup3",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4Retracted = await testHelpers.CreateEntityGroup("microtingUIdT4", "EntityGroup4",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5Retracted = await testHelpers.CreateEntityGroup("microtingUIdT5", "EntityGroup5",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6Retracted = await testHelpers.CreateEntityGroup("microtingUIdT6", "EntityGroup6",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7Retracted = await testHelpers.CreateEntityGroup("microtingUIdT7", "EntityGroup7",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8Retracted = await testHelpers.CreateEntityGroup("microtingUIdT8", "EntityGroup8",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9Retracted = await testHelpers.CreateEntityGroup("microtingUIdT9", "EntityGroup9",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10Retracted = await testHelpers.CreateEntityGroup("microtingUIdT10", "EntityGroup10",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #region EntitySelect
-
-            #region Created
-
-            #region eG1
-
-            EntityGroup eG1Select = await testHelpers.CreateEntityGroup("microtingUIdSC1", "EntityGroup1Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2Select = await testHelpers.CreateEntityGroup("microtingUIdSC2", "EntityGroup2Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3Select = await testHelpers.CreateEntityGroup("microtingUIdSC3", "EntityGroup3Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4Select = await testHelpers.CreateEntityGroup("microtingUIdSC4", "EntityGroup4Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5Select = await testHelpers.CreateEntityGroup("microtingUIdSC5", "EntityGroup5Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6Select = await testHelpers.CreateEntityGroup("microtingUIdSC6", "EntityGroup6Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7Select = await testHelpers.CreateEntityGroup("microtingUIdSC7", "EntityGroup7Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8Select = await testHelpers.CreateEntityGroup("microtingUIdSC8", "EntityGroup8Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9Select = await testHelpers.CreateEntityGroup("microtingUIdSC9", "EntityGroup9Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10Select = await testHelpers.CreateEntityGroup("microtingUIdSC10", "EntityGroup10Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #endregion
-
-            #region Removed
-
-            #region eG1
-
-            EntityGroup eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR2", "EntityGroup2Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR3", "EntityGroup3Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR4", "EntityGroup4Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR5", "EntityGroup5Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR6", "EntityGroup6Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR7", "EntityGroup7Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR8", "EntityGroup8Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR9", "EntityGroup9Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR10",
-                "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #endregion
-
-            #region Retracted
-
-            #region eG1
-
-            EntityGroup eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1",
-                "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST2",
-                "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST3",
-                "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST4",
-                "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST5",
-                "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST6",
-                "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST7",
-                "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST8",
-                "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST9",
-                "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST10",
-                "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            // Act
-
-            #region pageindex 0
-
-            #region pageSize 10
-
-            #region Default Sorting
-
-            #region entityGroup Asc
-
-            EntityGroupList matchEntityGroupAllSearchCreated = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreated = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
-
-            EntityGroupList matchEntityGroupAllSearchRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
-
-            EntityGroupList matchEntityGroupAllSearchNotRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 20,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 20,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
-
-            #endregion
-
-            #region entityGroup Desc
-
-            EntityGroupList matchEntityGroupAllSearchCreatedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
-                Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
-                Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
-
-            EntityGroupList matchEntityGroupAllSearchRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
-                Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
-                Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
-
-            EntityGroupList matchEntityGroupAllSearchNotRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0,
-                20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0,
-                20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
-
-            #endregion
-
-            #endregion
-
-            #region Sorting W.O nameFilter
-
-            #region entityGroup Asc
-
-            EntityGroupList matchEntityGroupAllSearchCreatedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
-
-            EntityGroupList matchEntityGroupAllSearchRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
-
-            EntityGroupList matchEntityGroupAllSearchNotRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 20,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 20,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
-
-            #endregion
-
-            #region entityGroup Desc
-
-            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0,
-                10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0,
-                10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
-
-            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0,
-                10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0,
-                10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
-
-            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0,
-                20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0,
-                20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
-
-            #endregion
-
-            #endregion
-
-            #region sorting W.O sort param
-
-            #region entityGroup Asc
-
-            EntityGroupList matchEntityGroupAllSearchCreatedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
-
-            EntityGroupList matchEntityGroupAllSearchRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
-
-            EntityGroupList matchEntityGroupAllSearchNotRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
-                20, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
-                20, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
-
-            #endregion
-
-            #region entityGroup Desc
-
-            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
-                10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
-                10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
-
-            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
-                10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
-                10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
-
-            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup",
-                0, 20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup",
-                0, 20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-
-            // Assert
-
-            #region pageIndex 0
-
-            #region pageSize 10
-
-            #region Def Sort
-
-            #region Asc
-
-            #region matchEntityGroupAllSearchCreated
-
-            Assert.That(matchEntityGroupAllSearchCreated, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchCreated.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchCreated.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchCreated.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectCreated
-
-            Assert.That(matchEntityGroupAllSelectCreated, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectCreated.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectCreated.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectCreated.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchRemoved
-
-            Assert.That(matchEntityGroupAllSearchRemoved, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchRemoved.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchRemoved.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchRemoved.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectRemoved
-
-            Assert.That(matchEntityGroupAllSelectRemoved, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectRemoved.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectRemoved.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectRemoved.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchNotRemoved
-
-            Assert.That(matchEntityGroupAllSearchNotRemoved, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchNotRemoved.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSearchNotRemoved.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchNotRemoved.EntityGroups.Count, Is.EqualTo(20));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectNotRemoved
-
-            Assert.That(matchEntityGroupAllSelectNotRemoved, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectNotRemoved.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSelectNotRemoved.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectNotRemoved.EntityGroups.Count, Is.EqualTo(20));
-
-            #endregion
-
-            #endregion
-
-            #region Desc
-
-            #region matchEntityGroupAllSearchCreatedWDesc
-
-            Assert.That(matchEntityGroupAllSearchCreatedWDesc, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchCreatedWDesc.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchCreatedWDesc.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchCreatedWDesc.EntityGroups.Count, Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectCreatedWDesc
-
-            Assert.That(matchEntityGroupAllSelectCreatedWDesc, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectCreatedWDesc.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectCreatedWDesc.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectCreatedWDesc.EntityGroups.Count, Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchRemovedWDesc
-
-            Assert.That(matchEntityGroupAllSearchRemovedWDesc, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchRemovedWDesc.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchRemovedWDesc.PageNum, Is.EqualTo(0));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectRemovedWDesc
-
-            Assert.That(matchEntityGroupAllSelectRemovedWDesc, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectRemovedWDesc.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectRemovedWDesc.PageNum, Is.EqualTo(0));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchNotRemovedWDesc
-
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDesc, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDesc.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDesc.PageNum, Is.EqualTo(0));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectNotRemovedWDesc
-
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDesc, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDesc.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDesc.PageNum, Is.EqualTo(0));
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #region No Name Filter
-
-            #region Asc
-
-            #region matchEntityGroupAllSearchCreatedNoNameFilter
-
-            Assert.That(matchEntityGroupAllSearchCreatedNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchCreatedNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchCreatedNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchCreatedNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectCreatedNoNameFilter
-
-            Assert.That(matchEntityGroupAllSelectCreatedNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectCreatedNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectCreatedNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectCreatedNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchRemovedNoNameFilter
-
-            Assert.That(matchEntityGroupAllSearchRemovedNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchRemovedNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchRemovedNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchRemovedNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectRemovedNoNameFilter
-
-            Assert.That(matchEntityGroupAllSelectRemovedNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectRemovedNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectRemovedNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectRemovedNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchNotRemovedNoNameFilter
-
-            Assert.That(matchEntityGroupAllSearchNotRemovedNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchNotRemovedNoNameFilter.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSearchNotRemovedNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchNotRemovedNoNameFilter.EntityGroups.Count(), Is.EqualTo(20));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectNotRemovedNoNameFilter
-
-            Assert.That(matchEntityGroupAllSelectNotRemovedNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectNotRemovedNoNameFilter.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSelectNotRemovedNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectNotRemovedNoNameFilter.EntityGroups.Count(), Is.EqualTo(20));
-
-            #endregion
-
-            #endregion
-
-            #region Desc
-
-            #region matchEntityGroupAllSearchCreatedWDescNoNameFilter
-
-            Assert.That(matchEntityGroupAllSearchCreatedWDescNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchCreatedWDescNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchCreatedWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchCreatedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectCreatedWDescNoNameFilter
-
-            Assert.That(matchEntityGroupAllSelectCreatedWDescNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectCreatedWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectCreatedWDescNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectCreatedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchRemovedWDescNoNameFilter
-
-            Assert.That(matchEntityGroupAllSearchRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchRemovedWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchRemovedWDescNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchRemovedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectRemovedWDescNoNameFilter
-
-            Assert.That(matchEntityGroupAllSelectRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectRemovedWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectRemovedWDescNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectRemovedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchNotRemovedWDescNoNameFilter
-
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(20));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectNotRemovedWDescNoNameFilter
-
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(20));
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #region No Sort Param
-
-            #region Asc
-
-            #region matchEntityGroupAllSearchCreatedNoSort
-
-            Assert.That(matchEntityGroupAllSearchCreatedNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchCreatedNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchCreatedNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchCreatedNoSort.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectCreatedNoSort
-
-            Assert.That(matchEntityGroupAllSelectCreatedNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectCreatedNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectCreatedNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectCreatedNoSort.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchRemovedNoSort
-
-            Assert.That(matchEntityGroupAllSearchRemovedNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchRemovedNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchRemovedNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchRemovedNoSort.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectRemovedNoSort
-
-            Assert.That(matchEntityGroupAllSelectRemovedNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectRemovedNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectRemovedNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectRemovedNoSort.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchNotRemovedNoSort
-
-            Assert.That(matchEntityGroupAllSearchNotRemovedNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchNotRemovedNoSort.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSearchNotRemovedNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchNotRemovedNoSort.EntityGroups.Count(), Is.EqualTo(20));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectNotRemovedNoSort
-
-            Assert.That(matchEntityGroupAllSelectNotRemovedNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectNotRemovedNoSort.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSelectNotRemovedNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectNotRemovedNoSort.EntityGroups.Count(), Is.EqualTo(20));
-
-            #endregion
-
-            #endregion
-
-            #region Desc
-
-            #region matchEntityGroupAllSearchCreatedWDescNoSort
-
-            Assert.That(matchEntityGroupAllSearchCreatedWDescNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchCreatedWDescNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchCreatedWDescNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchCreatedWDescNoSort.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectCreatedWDescNoSort
-
-            Assert.That(matchEntityGroupAllSelectCreatedWDescNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectCreatedWDescNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectCreatedWDescNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectCreatedWDescNoSort.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchRemovedWDescNoSort
-
-            Assert.That(matchEntityGroupAllSearchRemovedWDescNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchRemovedWDescNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchRemovedWDescNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchRemovedWDescNoSort.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectRemovedWDescNoSort
-
-            Assert.That(matchEntityGroupAllSelectRemovedWDescNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectRemovedWDescNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectRemovedWDescNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectRemovedWDescNoSort.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchNotRemovedWDescNoSort
-
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoSort.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoSort.EntityGroups.Count(), Is.EqualTo(20));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectNotRemovedWDescNoSort
-
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoSort.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoSort.EntityGroups.Count(), Is.EqualTo(20));
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #endregion
-        }
-
-        [Test]
-        public async Task SQL_EntityGroup_EntityGroupAll_ReturnsEntityGroupsPaged()
-        {
-            // Arrance
-
-            #region Arrance
-
-            #region Entity Groups
-
-            #region EntitySearch
-
-            #region Created
-
-            #region eG1
-
-            EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2 = await testHelpers.CreateEntityGroup("microtingUIdC2", "EntityGroup2",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3 = await testHelpers.CreateEntityGroup("microtingUIdC3", "EntityGroup3",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4 = await testHelpers.CreateEntityGroup("microtingUIdC4", "EntityGroup4",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5 = await testHelpers.CreateEntityGroup("microtingUIdC5", "EntityGroup5",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6 = await testHelpers.CreateEntityGroup("microtingUIdC6", "EntityGroup6",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7 = await testHelpers.CreateEntityGroup("microtingUIdC7", "EntityGroup7",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8 = await testHelpers.CreateEntityGroup("microtingUIdC8", "EntityGroup8",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9 = await testHelpers.CreateEntityGroup("microtingUIdC9", "EntityGroup9",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10 = await testHelpers.CreateEntityGroup("microtingUIdC10", "EntityGroup10",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #endregion
-
-            #region Removed
-
-            #region eG1
-
-            EntityGroup eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2Removed = await testHelpers.CreateEntityGroup("microtingUIdR2", "EntityGroup2",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3Removed = await testHelpers.CreateEntityGroup("microtingUIdR3", "EntityGroup3",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4Removed = await testHelpers.CreateEntityGroup("microtingUIdR4", "EntityGroup4",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5Removed = await testHelpers.CreateEntityGroup("microtingUIdR5", "EntityGroup5",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6Removed = await testHelpers.CreateEntityGroup("microtingUIdR6", "EntityGroup6",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7Removed = await testHelpers.CreateEntityGroup("microtingUIdR7", "EntityGroup7",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8Removed = await testHelpers.CreateEntityGroup("microtingUIdR8", "EntityGroup8",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9Removed = await testHelpers.CreateEntityGroup("microtingUIdR9", "EntityGroup9",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10Removed = await testHelpers.CreateEntityGroup("microtingUIdR10", "EntityGroup10",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #endregion
-
-            #region Retracted
-
-            #region eG1
-
-            EntityGroup eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2Retracted = await testHelpers.CreateEntityGroup("microtingUIdT2", "EntityGroup2",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3Retracted = await testHelpers.CreateEntityGroup("microtingUIdT3", "EntityGroup3",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4Retracted = await testHelpers.CreateEntityGroup("microtingUIdT4", "EntityGroup4",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5Retracted = await testHelpers.CreateEntityGroup("microtingUIdT5", "EntityGroup5",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6Retracted = await testHelpers.CreateEntityGroup("microtingUIdT6", "EntityGroup6",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7Retracted = await testHelpers.CreateEntityGroup("microtingUIdT7", "EntityGroup7",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8Retracted = await testHelpers.CreateEntityGroup("microtingUIdT8", "EntityGroup8",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9Retracted = await testHelpers.CreateEntityGroup("microtingUIdT9", "EntityGroup9",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10Retracted = await testHelpers.CreateEntityGroup("microtingUIdT10", "EntityGroup10",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #region EntitySelect
-
-            #region Created
-
-            #region eG1
-
-            EntityGroup eG1Select = await testHelpers.CreateEntityGroup("microtingUIdSC1", "EntityGroup1Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2Select = await testHelpers.CreateEntityGroup("microtingUIdSC2", "EntityGroup2Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3Select = await testHelpers.CreateEntityGroup("microtingUIdSC3", "EntityGroup3Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4Select = await testHelpers.CreateEntityGroup("microtingUIdSC4", "EntityGroup4Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5Select = await testHelpers.CreateEntityGroup("microtingUIdSC5", "EntityGroup5Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6Select = await testHelpers.CreateEntityGroup("microtingUIdSC6", "EntityGroup6Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7Select = await testHelpers.CreateEntityGroup("microtingUIdSC7", "EntityGroup7Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8Select = await testHelpers.CreateEntityGroup("microtingUIdSC8", "EntityGroup8Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9Select = await testHelpers.CreateEntityGroup("microtingUIdSC9", "EntityGroup9Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10Select = await testHelpers.CreateEntityGroup("microtingUIdSC10", "EntityGroup10Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #endregion
-
-            #region Removed
-
-            #region eG1
-
-            EntityGroup eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR2", "EntityGroup2Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR3", "EntityGroup3Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR4", "EntityGroup4Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR5", "EntityGroup5Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR6", "EntityGroup6Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR7", "EntityGroup7Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR8", "EntityGroup8Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR9", "EntityGroup9Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR10",
-                "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #endregion
-
-            #region Retracted
-
-            #region eG1
-
-            EntityGroup eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1",
-                "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST2",
-                "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST3",
-                "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST4",
-                "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST5",
-                "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST6",
-                "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST7",
-                "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST8",
-                "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST9",
-                "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST10",
-                "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            // Act
-
-            #region pageindex 0
-
-            #region pageSize 5
-
-            #region Default Sorting
-
-            #region entityGroup Asc
-
-            EntityGroupList matchEntityGroupAllSearchCreated = await sut.EntityGroupAll("id", "EntityGroup", 0, 5,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreated = await sut.EntityGroupAll("id", "EntityGroup", 0, 5,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
-
-            EntityGroupList matchEntityGroupAllSearchRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 5,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 5,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
-
-            EntityGroupList matchEntityGroupAllSearchNotRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
-
-            #endregion
-
-            #region entityGroup Desc
-
-            EntityGroupList matchEntityGroupAllSearchCreatedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 5,
-                Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 5,
-                Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
-
-            EntityGroupList matchEntityGroupAllSearchRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 5,
-                Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 5,
-                Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
-
-            EntityGroupList matchEntityGroupAllSearchNotRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0,
-                10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0,
-                10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
-
-            #endregion
-
-            #endregion
-
-            #region Sorting W.O nameFilter
-
-            #region entityGroup Asc
-
-            EntityGroupList matchEntityGroupAllSearchCreatedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
-
-            EntityGroupList matchEntityGroupAllSearchRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
-
-            EntityGroupList matchEntityGroupAllSearchNotRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
-
-            #endregion
-
-            #region entityGroup Desc
-
-            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5,
-                Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5,
-                Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
-
-            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5,
-                Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5,
-                Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
-
-            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0,
-                10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0,
-                10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
-
-            #endregion
-
-            #endregion
-
-            #region sorting W.O sort param
-
-            #region entityGroup Asc
-
-            EntityGroupList matchEntityGroupAllSearchCreatedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 5,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 5,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
-
-            EntityGroupList matchEntityGroupAllSearchRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 5,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 5,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
-
-            EntityGroupList matchEntityGroupAllSearchNotRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
-                10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
-                10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
-
-            #endregion
-
-            #region entityGroup Desc
-
-            EntityGroupList matchEntityGroupAllSearchCreatedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
-                5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
-                5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
-
-            EntityGroupList matchEntityGroupAllSearchRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
-                5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
-                5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
-
-            EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup",
-                0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup",
-                0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #region pageindex 1
-
-            #region pageSize 5
-
-            #region Default Sorting
-
-            #region entityGroup Asc
-
-            EntityGroupList matchEntityGroupAllSearchCreatedB = await sut.EntityGroupAll("id", "EntityGroup", 1, 5,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedB = await sut.EntityGroupAll("id", "EntityGroup", 1, 5,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
-
-            EntityGroupList matchEntityGroupAllSearchRemovedB = await sut.EntityGroupAll("id", "EntityGroup", 1, 5,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedB = await sut.EntityGroupAll("id", "EntityGroup", 1, 5,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
-
-            EntityGroupList matchEntityGroupAllSearchNotRemovedB = await sut.EntityGroupAll("id", "EntityGroup", 1, 10,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedB = await sut.EntityGroupAll("id", "EntityGroup", 1, 10,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
-
-            #endregion
-
-            #region entityGroup Desc
-
-            EntityGroupList matchEntityGroupAllSearchCreatedBWDesc = await sut.EntityGroupAll("id", "EntityGroup", 1, 5,
-                Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedBWDesc = await sut.EntityGroupAll("id", "EntityGroup", 1, 5,
-                Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
-
-            EntityGroupList matchEntityGroupAllSearchRemovedBWDesc = await sut.EntityGroupAll("id", "EntityGroup", 1, 5,
-                Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedBWDesc = await sut.EntityGroupAll("id", "EntityGroup", 1, 5,
-                Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
-
-            EntityGroupList matchEntityGroupAllSearchNotRemovedBWDesc = await sut.EntityGroupAll("id", "EntityGroup", 1,
-                10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedBWDesc = await sut.EntityGroupAll("id", "EntityGroup", 1,
-                10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
-
-            #endregion
-
-            #endregion
-
-            #region Sorting W.O nameFilter
-
-            #region entityGroup Asc
-
-            EntityGroupList matchEntityGroupAllSearchCreatedBNoNameFilter = await sut.EntityGroupAll("id", "", 1, 5,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedBNoNameFilter = await sut.EntityGroupAll("id", "", 1, 5,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
-
-            EntityGroupList matchEntityGroupAllSearchRemovedBNoNameFilter = await sut.EntityGroupAll("id", "", 1, 5,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedBNoNameFilter = await sut.EntityGroupAll("id", "", 1, 5,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
-
-            EntityGroupList matchEntityGroupAllSearchNotRemovedBNoNameFilter = await sut.EntityGroupAll("id", "", 1, 10,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedBNoNameFilter = await sut.EntityGroupAll("id", "", 1, 10,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
-
-            #endregion
-
-            #region entityGroup Desc
-
-            EntityGroupList matchEntityGroupAllSearchCreatedBWDescNoNameFilter = await sut.EntityGroupAll("id", "", 1,
-                5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedBWDescNoNameFilter = await sut.EntityGroupAll("id", "", 1,
-                5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
-
-            EntityGroupList matchEntityGroupAllSearchRemovedBWDescNoNameFilter = await sut.EntityGroupAll("id", "", 1,
-                5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedBWDescNoNameFilter = await sut.EntityGroupAll("id", "", 1,
-                5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
-
-            EntityGroupList matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter = await sut.EntityGroupAll("id", "",
-                1, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter = await sut.EntityGroupAll("id", "",
-                1, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
-
-            #endregion
-
-            #endregion
-
-            #region sorting W.O sort param
-
-            #region entityGroup Asc
-
-            EntityGroupList matchEntityGroupAllSearchCreatedBNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 5,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedBNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 5,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
-
-            EntityGroupList matchEntityGroupAllSearchRemovedBNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 5,
-                Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedBNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 5,
-                Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
-
-            EntityGroupList matchEntityGroupAllSearchNotRemovedBNoSort = await sut.EntityGroupAll("", "EntityGroup", 1,
-                10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedBNoSort = await sut.EntityGroupAll("", "EntityGroup", 1,
-                10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
-
-            #endregion
-
-            #region entityGroup Desc
-
-            EntityGroupList matchEntityGroupAllSearchCreatedBWDescNoSort = await sut.EntityGroupAll("", "EntityGroup",
-                1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
-            EntityGroupList matchEntityGroupAllSelectCreatedBWDescNoSort = await sut.EntityGroupAll("", "EntityGroup",
-                1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
-
-            EntityGroupList matchEntityGroupAllSearchRemovedBWDescNoSort = await sut.EntityGroupAll("", "EntityGroup",
-                1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
-            EntityGroupList matchEntityGroupAllSelectRemovedBWDescNoSort = await sut.EntityGroupAll("", "EntityGroup",
-                1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
-
-            EntityGroupList matchEntityGroupAllSearchNotRemovedBWDescNoSort = await sut.EntityGroupAll("",
-                "EntityGroup", 1, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
-            EntityGroupList matchEntityGroupAllSelectNotRemovedBWDescNoSort = await sut.EntityGroupAll("",
-                "EntityGroup", 1, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-
-            // Assert
-
-            #region pageIndex 0
-
-            #region pageSize 5
-
-            #region Def Sort
-
-            #region Asc
-
-            #region matchEntityGroupAllSearchCreated
-
-            Assert.That(matchEntityGroupAllSearchCreated, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchCreated.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchCreated.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchCreated.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectCreated
-
-            Assert.That(matchEntityGroupAllSelectCreated, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectCreated.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectCreated.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectCreated.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchRemoved
-
-            Assert.That(matchEntityGroupAllSearchRemoved, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchRemoved.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchRemoved.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchRemoved.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectRemoved
-
-            Assert.That(matchEntityGroupAllSelectRemoved, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectRemoved.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectRemoved.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectRemoved.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchNotRemoved
-
-            Assert.That(matchEntityGroupAllSearchNotRemoved, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchNotRemoved.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSearchNotRemoved.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchNotRemoved.EntityGroups.Count, Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectNotRemoved
-
-            Assert.That(matchEntityGroupAllSelectNotRemoved, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectNotRemoved.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSelectNotRemoved.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectNotRemoved.EntityGroups.Count, Is.EqualTo(10));
-
-            #endregion
-
-            #endregion
-
-            #region Desc
-
-            #region matchEntityGroupAllSearchCreatedWDesc
-
-            Assert.That(matchEntityGroupAllSearchCreatedWDesc, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchCreatedWDesc.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchCreatedWDesc.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchCreatedWDesc.EntityGroups.Count, Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectCreatedWDesc
-
-            Assert.That(matchEntityGroupAllSelectCreatedWDesc, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectCreatedWDesc.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectCreatedWDesc.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectCreatedWDesc.EntityGroups.Count, Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchRemovedWDesc
-
-            Assert.That(matchEntityGroupAllSearchRemovedWDesc, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchRemovedWDesc.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchRemovedWDesc.PageNum, Is.EqualTo(0));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectRemovedWDesc
-
-            Assert.That(matchEntityGroupAllSelectRemovedWDesc, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectRemovedWDesc.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectRemovedWDesc.PageNum, Is.EqualTo(0));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchNotRemovedWDesc
-
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDesc, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDesc.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDesc.PageNum, Is.EqualTo(0));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectNotRemovedWDesc
-
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDesc, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDesc.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDesc.PageNum, Is.EqualTo(0));
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #region No Name Filter
-
-            #region Asc
-
-            #region matchEntityGroupAllSearchCreatedNoNameFilter
-
-            Assert.That(matchEntityGroupAllSearchCreatedNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchCreatedNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchCreatedNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchCreatedNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectCreatedNoNameFilter
-
-            Assert.That(matchEntityGroupAllSelectCreatedNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectCreatedNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectCreatedNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectCreatedNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchRemovedNoNameFilter
-
-            Assert.That(matchEntityGroupAllSearchRemovedNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchRemovedNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchRemovedNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchRemovedNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectRemovedNoNameFilter
-
-            Assert.That(matchEntityGroupAllSelectRemovedNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectRemovedNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectRemovedNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectRemovedNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchNotRemovedNoNameFilter
-
-            Assert.That(matchEntityGroupAllSearchNotRemovedNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchNotRemovedNoNameFilter.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSearchNotRemovedNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchNotRemovedNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectNotRemovedNoNameFilter
-
-            Assert.That(matchEntityGroupAllSelectNotRemovedNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectNotRemovedNoNameFilter.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSelectNotRemovedNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectNotRemovedNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #endregion
-
-            #region Desc
-
-            #region matchEntityGroupAllSearchCreatedWDescNoNameFilter
-
-            Assert.That(matchEntityGroupAllSearchCreatedWDescNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchCreatedWDescNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchCreatedWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchCreatedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectCreatedWDescNoNameFilter
-
-            Assert.That(matchEntityGroupAllSelectCreatedWDescNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectCreatedWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectCreatedWDescNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectCreatedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchRemovedWDescNoNameFilter
-
-            Assert.That(matchEntityGroupAllSearchRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchRemovedWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchRemovedWDescNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchRemovedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectRemovedWDescNoNameFilter
-
-            Assert.That(matchEntityGroupAllSelectRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectRemovedWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectRemovedWDescNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectRemovedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchNotRemovedWDescNoNameFilter
-
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectNotRemovedWDescNoNameFilter
-
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #region No Sort Param
-
-            #region Asc
-
-            #region matchEntityGroupAllSearchCreatedNoSort
-
-            Assert.That(matchEntityGroupAllSearchCreatedNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchCreatedNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchCreatedNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchCreatedNoSort.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectCreatedNoSort
-
-            Assert.That(matchEntityGroupAllSelectCreatedNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectCreatedNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectCreatedNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectCreatedNoSort.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchRemovedNoSort
-
-            Assert.That(matchEntityGroupAllSearchRemovedNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchRemovedNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchRemovedNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchRemovedNoSort.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectRemovedNoSort
-
-            Assert.That(matchEntityGroupAllSelectRemovedNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectRemovedNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectRemovedNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectRemovedNoSort.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchNotRemovedNoSort
-
-            Assert.That(matchEntityGroupAllSearchNotRemovedNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchNotRemovedNoSort.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSearchNotRemovedNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchNotRemovedNoSort.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectNotRemovedNoSort
-
-            Assert.That(matchEntityGroupAllSelectNotRemovedNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectNotRemovedNoSort.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSelectNotRemovedNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectNotRemovedNoSort.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #endregion
-
-            #region Desc
-
-            #region matchEntityGroupAllSearchCreatedWDescNoSort
-
-            Assert.That(matchEntityGroupAllSearchCreatedWDescNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchCreatedWDescNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchCreatedWDescNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchCreatedWDescNoSort.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectCreatedWDescNoSort
-
-            Assert.That(matchEntityGroupAllSelectCreatedWDescNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectCreatedWDescNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectCreatedWDescNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectCreatedWDescNoSort.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchRemovedWDescNoSort
-
-            Assert.That(matchEntityGroupAllSearchRemovedWDescNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchRemovedWDescNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchRemovedWDescNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchRemovedWDescNoSort.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectRemovedWDescNoSort
-
-            Assert.That(matchEntityGroupAllSelectRemovedWDescNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectRemovedWDescNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectRemovedWDescNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectRemovedWDescNoSort.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchNotRemovedWDescNoSort
-
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoSort.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoSort.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectNotRemovedWDescNoSort
-
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoSort.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoSort.PageNum, Is.EqualTo(0));
-            Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoSort.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #region pageIndex 1
-
-            #region pageSize 5
-
-            #region Def Sort
-
-            #region Asc
-
-            #region matchEntityGroupAllSearchCreatedB
-
-            Assert.That(matchEntityGroupAllSearchCreatedB, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchCreatedB.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSearchCreatedB.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchCreatedB.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectCreatedB
-
-            Assert.That(matchEntityGroupAllSelectCreatedB, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectCreatedB.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectCreatedB.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSelectCreatedB.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchRemovedB
-
-            Assert.That(matchEntityGroupAllSearchRemovedB, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchRemovedB.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchRemovedB.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSearchRemovedB.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectRemovedB
-
-            Assert.That(matchEntityGroupAllSelectRemovedB, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectRemovedB.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectRemovedB.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSelectRemovedB.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchNotRemovedB
-
-            Assert.That(matchEntityGroupAllSearchNotRemovedB, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchNotRemovedB.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSearchNotRemovedB.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSearchNotRemovedB.EntityGroups.Count, Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectNotRemovedB
-
-            Assert.That(matchEntityGroupAllSelectNotRemovedB, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectNotRemovedB.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSelectNotRemovedB.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSelectNotRemovedB.EntityGroups.Count, Is.EqualTo(10));
-
-            #endregion
-
-            #endregion
-
-            #region Desc
-
-            #region matchEntityGroupAllSearchCreatedBWDesc
-
-            Assert.That(matchEntityGroupAllSearchCreatedBWDesc, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchCreatedBWDesc.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSearchCreatedBWDesc.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchCreatedBWDesc.EntityGroups.Count, Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectCreatedBWDesc
-
-            Assert.That(matchEntityGroupAllSelectCreatedBWDesc, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectCreatedBWDesc.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectCreatedBWDesc.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSelectCreatedBWDesc.EntityGroups.Count, Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchRemovedBWDesc
-
-            Assert.That(matchEntityGroupAllSearchRemovedBWDesc, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchRemovedBWDesc.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchRemovedBWDesc.PageNum, Is.EqualTo(1));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectRemovedBWDesc
-
-            Assert.That(matchEntityGroupAllSelectRemovedBWDesc, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectRemovedBWDesc.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectRemovedBWDesc.PageNum, Is.EqualTo(1));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchNotRemovedBWDesc
-
-            Assert.That(matchEntityGroupAllSearchNotRemovedBWDesc, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchNotRemovedBWDesc.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSearchNotRemovedBWDesc.PageNum, Is.EqualTo(1));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectNotRemovedBWDesc
-
-            Assert.That(matchEntityGroupAllSelectNotRemovedBWDesc, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectNotRemovedBWDesc.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSelectNotRemovedBWDesc.PageNum, Is.EqualTo(1));
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #region No Name Filter
-
-            #region Asc
-
-            #region matchEntityGroupAllSearchCreatedBNoNameFilter
-
-            Assert.That(matchEntityGroupAllSearchCreatedBNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchCreatedBNoNameFilter.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSearchCreatedBNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchCreatedBNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectCreatedBNoNameFilter
-
-            Assert.That(matchEntityGroupAllSelectCreatedBNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectCreatedBNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectCreatedBNoNameFilter.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSelectCreatedBNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchRemovedBNoNameFilter
-
-            Assert.That(matchEntityGroupAllSearchRemovedBNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchRemovedBNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchRemovedBNoNameFilter.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSearchRemovedBNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectRemovedBNoNameFilter
-
-            Assert.That(matchEntityGroupAllSelectRemovedBNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectRemovedBNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectRemovedBNoNameFilter.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSelectRemovedBNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchNotRemovedBNoNameFilter
-
-            Assert.That(matchEntityGroupAllSearchNotRemovedBNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchNotRemovedBNoNameFilter.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSearchNotRemovedBNoNameFilter.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSearchNotRemovedBNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectNotRemovedBNoNameFilter
-
-            Assert.That(matchEntityGroupAllSelectNotRemovedBNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectNotRemovedBNoNameFilter.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSelectNotRemovedBNoNameFilter.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSelectNotRemovedBNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #endregion
-
-            #region Desc
-
-            #region matchEntityGroupAllSearchCreatedBWDescNoNameFilter
-
-            Assert.That(matchEntityGroupAllSearchCreatedBWDescNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchCreatedBWDescNoNameFilter.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSearchCreatedBWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchCreatedBWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectCreatedBWDescNoNameFilter
-
-            Assert.That(matchEntityGroupAllSelectCreatedBWDescNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectCreatedBWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectCreatedBWDescNoNameFilter.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSelectCreatedBWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchRemovedBWDescNoNameFilter
-
-            Assert.That(matchEntityGroupAllSearchRemovedBWDescNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchRemovedBWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchRemovedBWDescNoNameFilter.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSearchRemovedBWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectRemovedBWDescNoNameFilter
-
-            Assert.That(matchEntityGroupAllSelectRemovedBWDescNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectRemovedBWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectRemovedBWDescNoNameFilter.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSelectRemovedBWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter
-
-            Assert.That(matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter
-
-            Assert.That(matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #region No Sort Param
-
-            #region Asc
-
-            #region matchEntityGroupAllSearchCreatedBNoSort
-
-            Assert.That(matchEntityGroupAllSearchCreatedBNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchCreatedBNoSort.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSearchCreatedBNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchCreatedBNoSort.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectCreatedBNoSort
-
-            Assert.That(matchEntityGroupAllSelectCreatedBNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectCreatedBNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectCreatedBNoSort.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSelectCreatedBNoSort.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchRemovedBNoSort
-
-            Assert.That(matchEntityGroupAllSearchRemovedBNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchRemovedBNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchRemovedBNoSort.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSearchRemovedBNoSort.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectRemovedBNoSort
-
-            Assert.That(matchEntityGroupAllSelectRemovedBNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectRemovedBNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectRemovedBNoSort.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSelectRemovedBNoSort.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchNotRemovedBNoSort
-
-            Assert.That(matchEntityGroupAllSearchNotRemovedBNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchNotRemovedBNoSort.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSearchNotRemovedBNoSort.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSearchNotRemovedBNoSort.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectNotRemovedBNoSort
-
-            Assert.That(matchEntityGroupAllSelectNotRemovedBNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectNotRemovedBNoSort.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSelectNotRemovedBNoSort.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSelectNotRemovedBNoSort.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #endregion
-
-            #region Desc
-
-            #region matchEntityGroupAllSearchCreatedBWDescNoSort
-
-            Assert.That(matchEntityGroupAllSearchCreatedBWDescNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchCreatedBWDescNoSort.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSearchCreatedBWDescNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchCreatedBWDescNoSort.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectCreatedBWDescNoSort
-
-            Assert.That(matchEntityGroupAllSelectCreatedBWDescNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectCreatedBWDescNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectCreatedBWDescNoSort.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSelectCreatedBWDescNoSort.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchRemovedBWDescNoSort
-
-            Assert.That(matchEntityGroupAllSearchRemovedBWDescNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchRemovedBWDescNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSearchRemovedBWDescNoSort.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSearchRemovedBWDescNoSort.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectRemovedBWDescNoSort
-
-            Assert.That(matchEntityGroupAllSelectRemovedBWDescNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectRemovedBWDescNoSort.NumOfElements, Is.EqualTo(10));
-            Assert.That(matchEntityGroupAllSelectRemovedBWDescNoSort.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSelectRemovedBWDescNoSort.EntityGroups.Count(), Is.EqualTo(5));
-
-            #endregion
-
-            #region matchEntityGroupAllSearchNotRemovedBWDescNoSort
-
-            Assert.That(matchEntityGroupAllSearchNotRemovedBWDescNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSearchNotRemovedBWDescNoSort.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSearchNotRemovedBWDescNoSort.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSearchNotRemovedBWDescNoSort.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #region matchEntityGroupAllSelectNotRemovedBWDescNoSort
-
-            Assert.That(matchEntityGroupAllSelectNotRemovedBWDescNoSort, Is.Not.EqualTo(null));
-            Assert.That(matchEntityGroupAllSelectNotRemovedBWDescNoSort.NumOfElements, Is.EqualTo(20));
-            Assert.That(matchEntityGroupAllSelectNotRemovedBWDescNoSort.PageNum, Is.EqualTo(1));
-            Assert.That(matchEntityGroupAllSelectNotRemovedBWDescNoSort.EntityGroups.Count(), Is.EqualTo(10));
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #endregion
-        }
-
-
-        [Test]
-        public async Task SQL_EntityGroup_EntityGroupCreate_CreatesNewEntityGroup()
-        {
-            // Arrance
-
-            // Act
-            var matchEntitySearch = await sut.EntityGroupCreate("eG1", Constants.FieldTypes.EntitySearch, "desc1");
-            var matchEntitySelect = await sut.EntityGroupCreate("eG2", Constants.FieldTypes.EntitySelect, "desc2");
-            // Assert
-            Assert.That(matchEntitySearch.Name, Is.EqualTo("eG1"));
-            Assert.That(matchEntitySelect.Name, Is.EqualTo("eG2"));
-        }
-
-        //TODO René needs to make migration
-        [Test]
-#pragma warning disable 1998
-        public async Task SQL_EntityGroup_EntityGroupReadSorted_ReadsByParameter()
-        {
-            //// Arrance
-            //#region Arrance
-
-            //#region Entity Groups
-
-            //#region EntitySearch
-            //#region Created
-            //#region eG1
-            //entity_groups eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG2
-            //entity_groups eG2 = await testHelpers.CreateEntityGroup("microtingUIdC2", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG3
-            //entity_groups eG3 = await testHelpers.CreateEntityGroup("microtingUIdC3", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG4
-            //entity_groups eG4 = await testHelpers.CreateEntityGroup("microtingUIdC4", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG5
-            //entity_groups eG5 = await testHelpers.CreateEntityGroup("microtingUIdC5", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG6
-            //entity_groups eG6 = await testHelpers.CreateEntityGroup("microtingUIdC6", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG7
-            //entity_groups eG7 = await testHelpers.CreateEntityGroup("microtingUIdC7", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG8
-            //entity_groups eG8 = await testHelpers.CreateEntityGroup("microtingUIdC8", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG9
-            //entity_groups eG9 = await testHelpers.CreateEntityGroup("microtingUIdC9", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG10
-            //entity_groups eG10 = await testHelpers.CreateEntityGroup("microtingUIdC10", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#endregion
-
-            //#region Removed
-
-            //#region eG1
-            //entity_groups eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG2
-            //entity_groups eG2Removed = await testHelpers.CreateEntityGroup("microtingUIdR2", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG3
-            //entity_groups eG3Removed = await testHelpers.CreateEntityGroup("microtingUIdR3", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG4
-            //entity_groups eG4Removed = await testHelpers.CreateEntityGroup("microtingUIdR4", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG5
-            //entity_groups eG5Removed = await testHelpers.CreateEntityGroup("microtingUIdR5", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG6
-            //entity_groups eG6Removed = await testHelpers.CreateEntityGroup("microtingUIdR6", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG7
-            //entity_groups eG7Removed = await testHelpers.CreateEntityGroup("microtingUIdR7", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG8
-            //entity_groups eG8Removed = await testHelpers.CreateEntityGroup("microtingUIdR8", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG9
-            //entity_groups eG9Removed = await testHelpers.CreateEntityGroup("microtingUIdR9", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG10
-            //entity_groups eG10Removed = await testHelpers.CreateEntityGroup("microtingUIdR10", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#endregion
-
-            //#region Retracted
-
-            //#region eG1
-            //entity_groups eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG2
-            //entity_groups eG2Retracted = await testHelpers.CreateEntityGroup("microtingUIdT2", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG3
-            //entity_groups eG3Retracted = await testHelpers.CreateEntityGroup("microtingUIdT3", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG4
-            //entity_groups eG4Retracted = await testHelpers.CreateEntityGroup("microtingUIdT4", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG5
-            //entity_groups eG5Retracted = await testHelpers.CreateEntityGroup("microtingUIdT5", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG6
-            //entity_groups eG6Retracted = await testHelpers.CreateEntityGroup("microtingUIdT6", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG7
-            //entity_groups eG7Retracted = await testHelpers.CreateEntityGroup("microtingUIdT7", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG8
-            //entity_groups eG8Retracted = await testHelpers.CreateEntityGroup("microtingUIdT8", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG9
-            //entity_groups eG9Retracted = await testHelpers.CreateEntityGroup("microtingUIdT9", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG10
-            //entity_groups eG10Retracted = await testHelpers.CreateEntityGroup("microtingUIdT10", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#endregion
-
-            //#endregion
-
-            //#region EntitySelect
-            //#region Created
-            //#region eG1
-            //entity_groups eG1Select = await testHelpers.CreateEntityGroup("microtingUIdSC1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG2
-            //entity_groups eG2Select = await testHelpers.CreateEntityGroup("microtingUIdSC2", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG3
-            //entity_groups eG3Select = await testHelpers.CreateEntityGroup("microtingUIdSC3", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG4
-            //entity_groups eG4Select = await testHelpers.CreateEntityGroup("microtingUIdSC4", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG5
-            //entity_groups eG5Select = await testHelpers.CreateEntityGroup("microtingUIdSC5", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG6
-            //entity_groups eG6Select = await testHelpers.CreateEntityGroup("microtingUIdSC6", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG7
-            //entity_groups eG7Select = await testHelpers.CreateEntityGroup("microtingUIdSC7", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG8
-            //entity_groups eG8Select = await testHelpers.CreateEntityGroup("microtingUIdSC8", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG9
-            //entity_groups eG9Select = await testHelpers.CreateEntityGroup("microtingUIdSC9", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG10
-            //entity_groups eG10Select = await testHelpers.CreateEntityGroup("microtingUIdSC10", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#endregion
-
-            //#region Removed
-
-            //#region eG1
-            //entity_groups eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG2
-            //entity_groups eG2SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR2", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG3
-            //entity_groups eG3SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR3", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG4
-            //entity_groups eG4SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR4", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG5
-            //entity_groups eG5SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR5", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG6
-            //entity_groups eG6SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR6", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG7
-            //entity_groups eG7SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR7", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG8
-            //entity_groups eG8SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR8", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG9
-            //entity_groups eG9SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR9", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG10
-            //entity_groups eG10SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR10", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#endregion
-
-            //#region Retracted
-
-            //#region eG1
-            //entity_groups eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG2
-            //entity_groups eG2SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST2", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG3
-            //entity_groups eG3SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST3", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG4
-            //entity_groups eG4SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST4", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG5
-            //entity_groups eG5SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST5", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG6
-            //entity_groups eG6SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST6", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG7
-            //entity_groups eG7SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST7", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG8
-            //entity_groups eG8SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST8", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG9
-            //entity_groups eG9SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST9", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG10
-            //entity_groups eG10SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST10", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#endregion
-
-            //#endregion
-            //#endregion
-
-            //#region EntityItems
-
-            //#region Created
-
-            //entity_items eI1 = await testHelpers.CreateEntityItem("D1", 1, "", "eIUIdC1", "mUIdC1", "EntityItem1Created", 1, 1, Constants.WorkflowStates.Created);
-
-            //#endregion
-
-            //#endregion
-
-            //#endregion
-            //// Act
-            //#region EntitySearch
-
-            //#region Created
-            //var entityGroupSortByIdCreated = await sut.EntityGroupReadSorted("microtingUIdC", Constants.EntityItemSortParameters.Id, "");
-            //var entityGroupSortByIdNameCreated = await sut.EntityGroupReadSorted("microtingUIdC", Constants.EntityItemSortParameters.Id, "eG");
-            //var entityGroupSortByNameCreated = await sut.EntityGroupReadSorted("microtingUIdC", Constants.EntityItemSortParameters.Name, "eG");
-            //#endregion
-
-            //#region Removed
-            //var entityGroupSortByIdRemoved = await sut.EntityGroupReadSorted("microtingUIdR", Constants.EntityItemSortParameters.Id, "");
-            //var entityGroupSortByIdNameRemoved = await sut.EntityGroupReadSorted("microtingUIdR", Constants.EntityItemSortParameters.Id, "eG");
-            //var entityGroupSortByNameRemoved = await sut.EntityGroupReadSorted("microtingUIdR", Constants.EntityItemSortParameters.Name, "eG");
-            //#endregion
-
-            //#region Retracted
-            //var entityGroupSortByIdRetracted = await sut.EntityGroupReadSorted("microtingUIdT", Constants.EntityItemSortParameters.Id, "");
-            //var entityGroupSortByIdNameRetracted = await sut.EntityGroupReadSorted("microtingUIdT", Constants.EntityItemSortParameters.Id, "eG");
-            //var entityGroupSortByNameRetracted = await sut.EntityGroupReadSorted("microtingUIdT", Constants.EntityItemSortParameters.Name, "eG");
-            //#endregion
-
-
-            //#endregion
-
-            //#region EntitySelect
-
-            //#region Created
-            //var entityGroupSortByIdSCreated = await sut.EntityGroupReadSorted("microtingUIdSC", Constants.EntityItemSortParameters.Id, "");
-            //var entityGroupSortByIdNameSCreated = await sut.EntityGroupReadSorted("microtingUIdSC", Constants.EntityItemSortParameters.Id, "eG");
-            //var entityGroupSortByNameSCreated = await sut.EntityGroupReadSorted("microtingUIdSC", Constants.EntityItemSortParameters.Name, "eG");
-            //#endregion
-
-            //#region Removed
-            //var entityGroupSortByIdSRemoved = await sut.EntityGroupReadSorted("microtingUIdSR", Constants.EntityItemSortParameters.Id, "");
-            //var entityGroupSortByIdNameSRemoved = await sut.EntityGroupReadSorted("microtingUIdSR", Constants.EntityItemSortParameters.Id, "eG");
-            //var entityGroupSortByNameSRemoved = await sut.EntityGroupReadSorted("microtingUIdSR", Constants.EntityItemSortParameters.Name, "eG");
-            //#endregion
-
-            //#region Retracted
-            //var entityGroupSortByIdSRetracted = await sut.EntityGroupReadSorted("microtingUIdST", Constants.EntityItemSortParameters.Id, "");
-            //var entityGroupSortByIdNameSRetracted = await sut.EntityGroupReadSorted("microtingUIdST", Constants.EntityItemSortParameters.Id, "eG");
-            //var entityGroupSortByNameSRetracted = await sut.EntityGroupReadSorted("microtingUIdST", Constants.EntityItemSortParameters.Name, "eG");
-            //#endregion
-
-
-            //#endregion
-
-            //// Assert
-            //#region Created
-            // Assert.That(entityGroupSortByIdCreated, Is.Not.EqualTo(null));
-            // Assert.That(entityGroupSortByIdNameCreated, Is.Not.EqualTo(null));
-            // Assert.That(entityGroupSortByNameCreated, Is.Not.EqualTo(null));
-            // Assert.AreEqual(10, entityGroupSortByIdCreated.EntityGroupMUId.Count());
-
-
-            //#endregion
-        }
-#pragma warning restore 1998
-
-        //TODO René needs to make migration
-        [Test]
-#pragma warning disable 1998
-        public async Task SQL_EntityGroup_EntityGroupRead_ReadsEntityGroup()
-        {
-            //// Arrance
-            //#region Entity Groups
-
-            //#region EntitySearch
-            //#region Created
-            //#region eG1
-            //entity_groups eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG2
-            //entity_groups eG2 = await testHelpers.CreateEntityGroup("microtingUIdC2", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG3
-            //entity_groups eG3 = await testHelpers.CreateEntityGroup("microtingUIdC3", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG4
-            //entity_groups eG4 = await testHelpers.CreateEntityGroup("microtingUIdC4", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG5
-            //entity_groups eG5 = await testHelpers.CreateEntityGroup("microtingUIdC5", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG6
-            //entity_groups eG6 = await testHelpers.CreateEntityGroup("microtingUIdC6", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG7
-            //entity_groups eG7 = await testHelpers.CreateEntityGroup("microtingUIdC7", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG8
-            //entity_groups eG8 = await testHelpers.CreateEntityGroup("microtingUIdC8", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG9
-            //entity_groups eG9 = await testHelpers.CreateEntityGroup("microtingUIdC9", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG10
-            //entity_groups eG10 = await testHelpers.CreateEntityGroup("microtingUIdC10", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#endregion
-
-            //#region Removed
-
-            //#region eG1
-            //entity_groups eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG2
-            //entity_groups eG2Removed = await testHelpers.CreateEntityGroup("microtingUIdR2", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG3
-            //entity_groups eG3Removed = await testHelpers.CreateEntityGroup("microtingUIdR3", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG4
-            //entity_groups eG4Removed = await testHelpers.CreateEntityGroup("microtingUIdR4", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG5
-            //entity_groups eG5Removed = await testHelpers.CreateEntityGroup("microtingUIdR5", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG6
-            //entity_groups eG6Removed = await testHelpers.CreateEntityGroup("microtingUIdR6", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG7
-            //entity_groups eG7Removed = await testHelpers.CreateEntityGroup("microtingUIdR7", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG8
-            //entity_groups eG8Removed = await testHelpers.CreateEntityGroup("microtingUIdR8", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG9
-            //entity_groups eG9Removed = await testHelpers.CreateEntityGroup("microtingUIdR9", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG10
-            //entity_groups eG10Removed = await testHelpers.CreateEntityGroup("microtingUIdR10", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#endregion
-
-            //#region Retracted
-
-            //#region eG1
-            //entity_groups eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG2
-            //entity_groups eG2Retracted = await testHelpers.CreateEntityGroup("microtingUIdT2", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG3
-            //entity_groups eG3Retracted = await testHelpers.CreateEntityGroup("microtingUIdT3", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG4
-            //entity_groups eG4Retracted = await testHelpers.CreateEntityGroup("microtingUIdT4", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG5
-            //entity_groups eG5Retracted = await testHelpers.CreateEntityGroup("microtingUIdT5", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG6
-            //entity_groups eG6Retracted = await testHelpers.CreateEntityGroup("microtingUIdT6", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG7
-            //entity_groups eG7Retracted = await testHelpers.CreateEntityGroup("microtingUIdT7", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG8
-            //entity_groups eG8Retracted = await testHelpers.CreateEntityGroup("microtingUIdT8", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG9
-            //entity_groups eG9Retracted = await testHelpers.CreateEntityGroup("microtingUIdT9", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG10
-            //entity_groups eG10Retracted = await testHelpers.CreateEntityGroup("microtingUIdT10", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#endregion
-
-            //#endregion
-
-            //#region EntitySelect
-            //#region Created
-            //#region eG1
-            //entity_groups eG1Select = await testHelpers.CreateEntityGroup("microtingUIdSC1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG2
-            //entity_groups eG2Select = await testHelpers.CreateEntityGroup("microtingUIdSC2", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG3
-            //entity_groups eG3Select = await testHelpers.CreateEntityGroup("microtingUIdSC3", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG4
-            //entity_groups eG4Select = await testHelpers.CreateEntityGroup("microtingUIdSC4", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG5
-            //entity_groups eG5Select = await testHelpers.CreateEntityGroup("microtingUIdSC5", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG6
-            //entity_groups eG6Select = await testHelpers.CreateEntityGroup("microtingUIdSC6", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG7
-            //entity_groups eG7Select = await testHelpers.CreateEntityGroup("microtingUIdSC7", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG8
-            //entity_groups eG8Select = await testHelpers.CreateEntityGroup("microtingUIdSC8", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG9
-            //entity_groups eG9Select = await testHelpers.CreateEntityGroup("microtingUIdSC9", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#region eG10
-            //entity_groups eG10Select = await testHelpers.CreateEntityGroup("microtingUIdSC10", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            //#endregion
-
-            //#endregion
-
-            //#region Removed
-
-            //#region eG1
-            //entity_groups eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG2
-            //entity_groups eG2SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR2", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG3
-            //entity_groups eG3SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR3", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG4
-            //entity_groups eG4SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR4", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG5
-            //entity_groups eG5SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR5", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG6
-            //entity_groups eG6SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR6", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG7
-            //entity_groups eG7SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR7", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG8
-            //entity_groups eG8SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR8", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG9
-            //entity_groups eG9SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR9", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#region eG10
-            //entity_groups eG10SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR10", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-            //#endregion
-
-            //#endregion
-
-            //#region Retracted
-
-            //#region eG1
-            //entity_groups eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG2
-            //entity_groups eG2SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST2", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG3
-            //entity_groups eG3SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST3", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG4
-            //entity_groups eG4SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST4", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG5
-            //entity_groups eG5SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST5", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG6
-            //entity_groups eG6SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST6", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG7
-            //entity_groups eG7SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST7", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG8
-            //entity_groups eG8SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST8", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG9
-            //entity_groups eG9SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST9", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#region eG10
-            //entity_groups eG10SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST10", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-            //#endregion
-
-            //#endregion
-
-            //#endregion
-            //#endregion
-            //// Act
-            //#region search
-            //var readSearchCreated = await sut.EntityGroupRead("microtingUIdC");
-            //var readSearchRemoved = await sut.EntityGroupRead("microtingUIdR");
-            //var readSearchRetracted = await sut.EntityGroupRead("microtingUIdT");
-            //#endregion
-
-            //#region select
-            //var readSelectCreated = await sut.EntityGroupRead("microtingUIdSC");
-            //var readSelectRemoved = await sut.EntityGroupRead("microtingUIdSR");
-            //var readSelectRetracted = await sut.EntityGroupRead("microtingUIdST");
-            //#endregion
-            //// Assert
-        }
-#pragma warning restore 1998
-
-        [Test]
-        public async Task SQL_EntityGroup_EntityGroupUpdate_UpdatesEntityGroup()
-        {
-            // Arrance
-
-            #region Entity Groups
-
-            #region EntitySearch
-
-            #region Created
-
-            #region eG1
-
-            EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2 = await testHelpers.CreateEntityGroup("microtingUIdC2", "EntityGroup2",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3 = await testHelpers.CreateEntityGroup("microtingUIdC3", "EntityGroup3",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4 = await testHelpers.CreateEntityGroup("microtingUIdC4", "EntityGroup4",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5 = await testHelpers.CreateEntityGroup("microtingUIdC5", "EntityGroup5",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6 = await testHelpers.CreateEntityGroup("microtingUIdC6", "EntityGroup6",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7 = await testHelpers.CreateEntityGroup("microtingUIdC7", "EntityGroup7",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8 = await testHelpers.CreateEntityGroup("microtingUIdC8", "EntityGroup8",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9 = await testHelpers.CreateEntityGroup("microtingUIdC9", "EntityGroup9",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10 = await testHelpers.CreateEntityGroup("microtingUIdC10", "EntityGroup10",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #endregion
-
-            #region Removed
-
-            #region eG1
-
-            EntityGroup eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2Removed = await testHelpers.CreateEntityGroup("microtingUIdR2", "EntityGroup2",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3Removed = await testHelpers.CreateEntityGroup("microtingUIdR3", "EntityGroup3",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4Removed = await testHelpers.CreateEntityGroup("microtingUIdR4", "EntityGroup4",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5Removed = await testHelpers.CreateEntityGroup("microtingUIdR5", "EntityGroup5",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6Removed = await testHelpers.CreateEntityGroup("microtingUIdR6", "EntityGroup6",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7Removed = await testHelpers.CreateEntityGroup("microtingUIdR7", "EntityGroup7",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8Removed = await testHelpers.CreateEntityGroup("microtingUIdR8", "EntityGroup8",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9Removed = await testHelpers.CreateEntityGroup("microtingUIdR9", "EntityGroup9",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10Removed = await testHelpers.CreateEntityGroup("microtingUIdR10", "EntityGroup10",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #endregion
-
-            #region Retracted
-
-            #region eG1
-
-            EntityGroup eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2Retracted = await testHelpers.CreateEntityGroup("microtingUIdT2", "EntityGroup2",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3Retracted = await testHelpers.CreateEntityGroup("microtingUIdT3", "EntityGroup3",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4Retracted = await testHelpers.CreateEntityGroup("microtingUIdT4", "EntityGroup4",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5Retracted = await testHelpers.CreateEntityGroup("microtingUIdT5", "EntityGroup5",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6Retracted = await testHelpers.CreateEntityGroup("microtingUIdT6", "EntityGroup6",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7Retracted = await testHelpers.CreateEntityGroup("microtingUIdT7", "EntityGroup7",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8Retracted = await testHelpers.CreateEntityGroup("microtingUIdT8", "EntityGroup8",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9Retracted = await testHelpers.CreateEntityGroup("microtingUIdT9", "EntityGroup9",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10Retracted = await testHelpers.CreateEntityGroup("microtingUIdT10", "EntityGroup10",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #region EntitySelect
-
-            #region Created
-
-            #region eG1
-
-            EntityGroup eG1Select = await testHelpers.CreateEntityGroup("microtingUIdSC1", "EntityGroup1Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2Select = await testHelpers.CreateEntityGroup("microtingUIdSC2", "EntityGroup2Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3Select = await testHelpers.CreateEntityGroup("microtingUIdSC3", "EntityGroup3Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4Select = await testHelpers.CreateEntityGroup("microtingUIdSC4", "EntityGroup4Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5Select = await testHelpers.CreateEntityGroup("microtingUIdSC5", "EntityGroup5Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6Select = await testHelpers.CreateEntityGroup("microtingUIdSC6", "EntityGroup6Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7Select = await testHelpers.CreateEntityGroup("microtingUIdSC7", "EntityGroup7Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8Select = await testHelpers.CreateEntityGroup("microtingUIdSC8", "EntityGroup8Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9Select = await testHelpers.CreateEntityGroup("microtingUIdSC9", "EntityGroup9Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10Select = await testHelpers.CreateEntityGroup("microtingUIdSC10", "EntityGroup10Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #endregion
-
-            #region Removed
-
-            #region eG1
-
-            EntityGroup eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR2", "EntityGroup2Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR3", "EntityGroup3Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR4", "EntityGroup4Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR5", "EntityGroup5Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR6", "EntityGroup6Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR7", "EntityGroup7Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR8", "EntityGroup8Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR9", "EntityGroup9Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR10",
-                "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #endregion
-
-            #region Retracted
-
-            #region eG1
-
-            EntityGroup eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1",
-                "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST2",
-                "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST3",
-                "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST4",
-                "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST5",
-                "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST6",
-                "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST7",
-                "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST8",
-                "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST9",
-                "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST10",
-                "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            // Act
-
-            var updateEG1 = await sut.EntityGroupUpdate(eG1.Id, eG1.MicrotingUid);
-            var updateEG1removed = await sut.EntityGroupUpdate(eG1Removed.Id, eG1Removed.MicrotingUid);
-            var updateEG1retracted = await sut.EntityGroupUpdate(eG1Retracted.Id, eG1Retracted.MicrotingUid);
-
-
-            // Assert
-            Assert.That(updateEG1, Is.True);
-            Assert.That(updateEG1removed, Is.True);
-            Assert.That(updateEG1retracted, Is.True);
-        }
-
-
-        [Test]
-        public async Task SQL_EntityGroup_EntityGroupUpdateName_UpdatesEnityGroupName()
-        {
-            // Arrance
-
-            #region Entity Groups
-
-            #region EntitySearch
-
-            #region Created
-
-            #region eG1
-
-            EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2 = await testHelpers.CreateEntityGroup("microtingUIdC2", "EntityGroup2",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3 = await testHelpers.CreateEntityGroup("microtingUIdC3", "EntityGroup3",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4 = await testHelpers.CreateEntityGroup("microtingUIdC4", "EntityGroup4",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5 = await testHelpers.CreateEntityGroup("microtingUIdC5", "EntityGroup5",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6 = await testHelpers.CreateEntityGroup("microtingUIdC6", "EntityGroup6",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7 = await testHelpers.CreateEntityGroup("microtingUIdC7", "EntityGroup7",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8 = await testHelpers.CreateEntityGroup("microtingUIdC8", "EntityGroup8",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9 = await testHelpers.CreateEntityGroup("microtingUIdC9", "EntityGroup9",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10 = await testHelpers.CreateEntityGroup("microtingUIdC10", "EntityGroup10",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #endregion
-
-            #region Removed
-
-            #region eG1
-
-            EntityGroup eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2Removed = await testHelpers.CreateEntityGroup("microtingUIdR2", "EntityGroup2",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3Removed = await testHelpers.CreateEntityGroup("microtingUIdR3", "EntityGroup3",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4Removed = await testHelpers.CreateEntityGroup("microtingUIdR4", "EntityGroup4",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5Removed = await testHelpers.CreateEntityGroup("microtingUIdR5", "EntityGroup5",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6Removed = await testHelpers.CreateEntityGroup("microtingUIdR6", "EntityGroup6",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7Removed = await testHelpers.CreateEntityGroup("microtingUIdR7", "EntityGroup7",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8Removed = await testHelpers.CreateEntityGroup("microtingUIdR8", "EntityGroup8",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9Removed = await testHelpers.CreateEntityGroup("microtingUIdR9", "EntityGroup9",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10Removed = await testHelpers.CreateEntityGroup("microtingUIdR10", "EntityGroup10",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #endregion
-
-            #region Retracted
-
-            #region eG1
-
-            EntityGroup eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2Retracted = await testHelpers.CreateEntityGroup("microtingUIdT2", "EntityGroup2",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3Retracted = await testHelpers.CreateEntityGroup("microtingUIdT3", "EntityGroup3",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4Retracted = await testHelpers.CreateEntityGroup("microtingUIdT4", "EntityGroup4",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5Retracted = await testHelpers.CreateEntityGroup("microtingUIdT5", "EntityGroup5",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6Retracted = await testHelpers.CreateEntityGroup("microtingUIdT6", "EntityGroup6",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7Retracted = await testHelpers.CreateEntityGroup("microtingUIdT7", "EntityGroup7",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8Retracted = await testHelpers.CreateEntityGroup("microtingUIdT8", "EntityGroup8",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9Retracted = await testHelpers.CreateEntityGroup("microtingUIdT9", "EntityGroup9",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10Retracted = await testHelpers.CreateEntityGroup("microtingUIdT10", "EntityGroup10",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #region EntitySelect
-
-            #region Created
-
-            #region eG1
-
-            EntityGroup eG1Select = await testHelpers.CreateEntityGroup("microtingUIdSC1", "EntityGroup1Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2Select = await testHelpers.CreateEntityGroup("microtingUIdSC2", "EntityGroup2Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3Select = await testHelpers.CreateEntityGroup("microtingUIdSC3", "EntityGroup3Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4Select = await testHelpers.CreateEntityGroup("microtingUIdSC4", "EntityGroup4Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5Select = await testHelpers.CreateEntityGroup("microtingUIdSC5", "EntityGroup5Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6Select = await testHelpers.CreateEntityGroup("microtingUIdSC6", "EntityGroup6Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7Select = await testHelpers.CreateEntityGroup("microtingUIdSC7", "EntityGroup7Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8Select = await testHelpers.CreateEntityGroup("microtingUIdSC8", "EntityGroup8Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9Select = await testHelpers.CreateEntityGroup("microtingUIdSC9", "EntityGroup9Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10Select = await testHelpers.CreateEntityGroup("microtingUIdSC10", "EntityGroup10Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #endregion
-
-            #region Removed
-
-            #region eG1
-
-            EntityGroup eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR2", "EntityGroup2Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR3", "EntityGroup3Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR4", "EntityGroup4Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR5", "EntityGroup5Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR6", "EntityGroup6Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR7", "EntityGroup7Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR8", "EntityGroup8Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR9", "EntityGroup9Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR10",
-                "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #endregion
-
-            #region Retracted
-
-            #region eG1
-
-            EntityGroup eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1",
-                "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST2",
-                "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST3",
-                "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST4",
-                "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST5",
-                "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST6",
-                "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST7",
-                "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST8",
-                "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST9",
-                "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST10",
-                "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            // Act
-            var EG1nameUpdate = await sut.EntityGroupUpdateName(eG1.Name, eG1.MicrotingUid);
-            var EG2nameUpdate = await sut.EntityGroupUpdateName(eG2.Name, eG2.MicrotingUid);
-            var EG3nameUpdate = await sut.EntityGroupUpdateName(eG3.Name, eG3.MicrotingUid);
-
-            // Assert
-            Assert.That(EG1nameUpdate, Is.True);
-            Assert.That(EG2nameUpdate, Is.True);
-            Assert.That(EG3nameUpdate, Is.True);
-        }
-
-        //TODO René needs to make migration
-        [Test]
-#pragma warning disable 1998
-        public async Task SQL_EntityGroup_EntityGroupUpdateItems_UpdatesEntityGroupItems()
-        {
-            // Arrance
-
-            // Act
-
-            // Assert
-        }
-#pragma warning restore 1998
-
-        [Test]
-        public async Task SQL_EntityGroup_EntityGroupDelete_DeletesEntityGroup()
-        {
-            // Arrance
-
-            #region Entity Groups
-
-            #region EntitySearch
-
-            #region Created
-
-            #region eG1
-
-            EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2 = await testHelpers.CreateEntityGroup("microtingUIdC2", "EntityGroup2",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3 = await testHelpers.CreateEntityGroup("microtingUIdC3", "EntityGroup3",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4 = await testHelpers.CreateEntityGroup("microtingUIdC4", "EntityGroup4",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5 = await testHelpers.CreateEntityGroup("microtingUIdC5", "EntityGroup5",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6 = await testHelpers.CreateEntityGroup("microtingUIdC6", "EntityGroup6",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7 = await testHelpers.CreateEntityGroup("microtingUIdC7", "EntityGroup7",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8 = await testHelpers.CreateEntityGroup("microtingUIdC8", "EntityGroup8",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9 = await testHelpers.CreateEntityGroup("microtingUIdC9", "EntityGroup9",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10 = await testHelpers.CreateEntityGroup("microtingUIdC10", "EntityGroup10",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #endregion
-
-            #region Removed
-
-            #region eG1
-
-            EntityGroup eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2Removed = await testHelpers.CreateEntityGroup("microtingUIdR2", "EntityGroup2",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3Removed = await testHelpers.CreateEntityGroup("microtingUIdR3", "EntityGroup3",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4Removed = await testHelpers.CreateEntityGroup("microtingUIdR4", "EntityGroup4",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5Removed = await testHelpers.CreateEntityGroup("microtingUIdR5", "EntityGroup5",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6Removed = await testHelpers.CreateEntityGroup("microtingUIdR6", "EntityGroup6",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7Removed = await testHelpers.CreateEntityGroup("microtingUIdR7", "EntityGroup7",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8Removed = await testHelpers.CreateEntityGroup("microtingUIdR8", "EntityGroup8",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9Removed = await testHelpers.CreateEntityGroup("microtingUIdR9", "EntityGroup9",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10Removed = await testHelpers.CreateEntityGroup("microtingUIdR10", "EntityGroup10",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #endregion
-
-            #region Retracted
-
-            #region eG1
-
-            EntityGroup eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2Retracted = await testHelpers.CreateEntityGroup("microtingUIdT2", "EntityGroup2",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3Retracted = await testHelpers.CreateEntityGroup("microtingUIdT3", "EntityGroup3",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4Retracted = await testHelpers.CreateEntityGroup("microtingUIdT4", "EntityGroup4",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5Retracted = await testHelpers.CreateEntityGroup("microtingUIdT5", "EntityGroup5",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6Retracted = await testHelpers.CreateEntityGroup("microtingUIdT6", "EntityGroup6",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7Retracted = await testHelpers.CreateEntityGroup("microtingUIdT7", "EntityGroup7",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8Retracted = await testHelpers.CreateEntityGroup("microtingUIdT8", "EntityGroup8",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9Retracted = await testHelpers.CreateEntityGroup("microtingUIdT9", "EntityGroup9",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10Retracted = await testHelpers.CreateEntityGroup("microtingUIdT10", "EntityGroup10",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #region EntitySelect
-
-            #region Created
-
-            #region eG1
-
-            EntityGroup eG1Select = await testHelpers.CreateEntityGroup("microtingUIdSC1", "EntityGroup1Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2Select = await testHelpers.CreateEntityGroup("microtingUIdSC2", "EntityGroup2Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3Select = await testHelpers.CreateEntityGroup("microtingUIdSC3", "EntityGroup3Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4Select = await testHelpers.CreateEntityGroup("microtingUIdSC4", "EntityGroup4Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5Select = await testHelpers.CreateEntityGroup("microtingUIdSC5", "EntityGroup5Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6Select = await testHelpers.CreateEntityGroup("microtingUIdSC6", "EntityGroup6Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7Select = await testHelpers.CreateEntityGroup("microtingUIdSC7", "EntityGroup7Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8Select = await testHelpers.CreateEntityGroup("microtingUIdSC8", "EntityGroup8Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9Select = await testHelpers.CreateEntityGroup("microtingUIdSC9", "EntityGroup9Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10Select = await testHelpers.CreateEntityGroup("microtingUIdSC10", "EntityGroup10Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-
-            #endregion
-
-            #endregion
-
-            #region Removed
-
-            #region eG1
-
-            EntityGroup eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR2", "EntityGroup2Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR3", "EntityGroup3Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR4", "EntityGroup4Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR5", "EntityGroup5Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR6", "EntityGroup6Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR7", "EntityGroup7Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR8", "EntityGroup8Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR9", "EntityGroup9Select",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR10",
-                "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
-
-            #endregion
-
-            #endregion
-
-            #region Retracted
-
-            #region eG1
-
-            EntityGroup eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1",
-                "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG2
-
-            EntityGroup eG2SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST2",
-                "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG3
-
-            EntityGroup eG3SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST3",
-                "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG4
-
-            EntityGroup eG4SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST4",
-                "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG5
-
-            EntityGroup eG5SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST5",
-                "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG6
-
-            EntityGroup eG6SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST6",
-                "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG7
-
-            EntityGroup eG7SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST7",
-                "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG8
-
-            EntityGroup eG8SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST8",
-                "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG9
-
-            EntityGroup eG9SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST9",
-                "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #region eG10
-
-            EntityGroup eG10SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST10",
-                "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            #endregion
-
-            // Act
-            var EG1Delete = await sut.EntityGroupDelete(eG1.MicrotingUid);
-            var EG2Delete = await sut.EntityGroupDelete(eG2.MicrotingUid);
-            var EG3Delete = await sut.EntityGroupDelete(eG3.MicrotingUid);
-            // Assert
-            Assert.That(EG1Delete, Is.EqualTo(Constants.FieldTypes.EntitySearch));
-            Assert.That(EG2Delete, Is.EqualTo(Constants.FieldTypes.EntitySearch));
-            Assert.That(EG3Delete, Is.EqualTo(Constants.FieldTypes.EntitySearch));
-        }
-
-        [Test]
-        public async Task SQL_EntitySearchItemCreate_CreatesEntitySearchItem()
-        {
-            // Arrance
-            EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1",
-                Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
-            EntityItem eT = new EntityItem
-            {
-                Name = "Jon Doe",
-                Description = "",
-                EntityItemUId = "",
-                WorkflowState = Constants.WorkflowStates.Created
-            };
-
-            // Act
-            await sut.EntityItemCreate(eG1.Id, eT);
-
-            List<Microting.eForm.Infrastructure.Data.Entities.EntityItem> items = DbContext.EntityItems.ToList();
-
-            // Assert
-            Assert.That(items.Count(), Is.EqualTo(1));
-        }
-
-        [Test]
-        public async Task SQL_EntitySelectItemCreate_CreatesEntitySelectItem()
-        {
-            // Arrance
-            EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1",
-                Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
-            EntityItem eT = new EntityItem
-            {
-                Name = "Jon Doe",
-                Description = "",
-                EntityItemUId = "",
-                WorkflowState = Constants.WorkflowStates.Created
-            };
-
-            // Act
-            await sut.EntityItemCreate(eG1.Id, eT);
-
-            List<Microting.eForm.Infrastructure.Data.Entities.EntityItem> items = DbContext.EntityItems.ToList();
-
-            // Assert
-            Assert.That(items.Count(), Is.EqualTo(1));
-        }
+        #region Setup SettingsTableContent
+
+        DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
+        SqlController sql = new SqlController(dbContextHelper);
+        await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+        await sql.SettingUpdate(Settings.firstRunDone, "true");
+        await sql.SettingUpdate(Settings.knownSitesDone, "true");
 
         #endregion
 
-        #region Entity Item
+        sut = new SqlController(dbContextHelper);
+        sut.StartLog(new CoreBase());
+        testHelpers = new TestHelpers(ConnectionString);
+        await testHelpers.GenerateDefaultLanguages();
+        await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
+        await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
+        await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
+    }
+
+    #region Entity
+
+    #region Entity Group
+
+    [Test]
+    public async Task SQL_EntityGroup_EntityGroupAll_ReturnsEntityGroups()
+    {
+        // Arrance
+
+        #region Arrance
+
+        #region Entity Groups
+
+        #region EntitySearch
+
+        #region Created
+
+        #region eG1
+
+        EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2 = await testHelpers.CreateEntityGroup("microtingUIdC2", "EntityGroup2",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3 = await testHelpers.CreateEntityGroup("microtingUIdC3", "EntityGroup3",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4 = await testHelpers.CreateEntityGroup("microtingUIdC4", "EntityGroup4",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5 = await testHelpers.CreateEntityGroup("microtingUIdC5", "EntityGroup5",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6 = await testHelpers.CreateEntityGroup("microtingUIdC6", "EntityGroup6",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7 = await testHelpers.CreateEntityGroup("microtingUIdC7", "EntityGroup7",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8 = await testHelpers.CreateEntityGroup("microtingUIdC8", "EntityGroup8",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9 = await testHelpers.CreateEntityGroup("microtingUIdC9", "EntityGroup9",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10 = await testHelpers.CreateEntityGroup("microtingUIdC10", "EntityGroup10",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
 
         #endregion
 
         #endregion
 
-        #region eventhandlers
+        #region Removed
 
-#pragma warning disable 1998
-        public async Task EventCaseCreated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+        #region eG1
 
-        public async Task EventCaseRetrived(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+        EntityGroup eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
 
-        public async Task EventCaseCompleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+        #endregion
 
-        public async Task EventCaseDeleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+        #region eG2
 
-        public async Task EventFileDownloaded(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+        EntityGroup eG2Removed = await testHelpers.CreateEntityGroup("microtingUIdR2", "EntityGroup2",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
 
-        public async Task EventSiteActivated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-#pragma warning restore 1998
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3Removed = await testHelpers.CreateEntityGroup("microtingUIdR3", "EntityGroup3",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4Removed = await testHelpers.CreateEntityGroup("microtingUIdR4", "EntityGroup4",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5Removed = await testHelpers.CreateEntityGroup("microtingUIdR5", "EntityGroup5",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6Removed = await testHelpers.CreateEntityGroup("microtingUIdR6", "EntityGroup6",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7Removed = await testHelpers.CreateEntityGroup("microtingUIdR7", "EntityGroup7",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8Removed = await testHelpers.CreateEntityGroup("microtingUIdR8", "EntityGroup8",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9Removed = await testHelpers.CreateEntityGroup("microtingUIdR9", "EntityGroup9",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10Removed = await testHelpers.CreateEntityGroup("microtingUIdR10", "EntityGroup10",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #endregion
+
+        #region Retracted
+
+        #region eG1
+
+        EntityGroup eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2Retracted = await testHelpers.CreateEntityGroup("microtingUIdT2", "EntityGroup2",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3Retracted = await testHelpers.CreateEntityGroup("microtingUIdT3", "EntityGroup3",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4Retracted = await testHelpers.CreateEntityGroup("microtingUIdT4", "EntityGroup4",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5Retracted = await testHelpers.CreateEntityGroup("microtingUIdT5", "EntityGroup5",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6Retracted = await testHelpers.CreateEntityGroup("microtingUIdT6", "EntityGroup6",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7Retracted = await testHelpers.CreateEntityGroup("microtingUIdT7", "EntityGroup7",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8Retracted = await testHelpers.CreateEntityGroup("microtingUIdT8", "EntityGroup8",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9Retracted = await testHelpers.CreateEntityGroup("microtingUIdT9", "EntityGroup9",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10Retracted = await testHelpers.CreateEntityGroup("microtingUIdT10", "EntityGroup10",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region EntitySelect
+
+        #region Created
+
+        #region eG1
+
+        EntityGroup eG1Select = await testHelpers.CreateEntityGroup("microtingUIdSC1", "EntityGroup1Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2Select = await testHelpers.CreateEntityGroup("microtingUIdSC2", "EntityGroup2Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3Select = await testHelpers.CreateEntityGroup("microtingUIdSC3", "EntityGroup3Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4Select = await testHelpers.CreateEntityGroup("microtingUIdSC4", "EntityGroup4Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5Select = await testHelpers.CreateEntityGroup("microtingUIdSC5", "EntityGroup5Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6Select = await testHelpers.CreateEntityGroup("microtingUIdSC6", "EntityGroup6Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7Select = await testHelpers.CreateEntityGroup("microtingUIdSC7", "EntityGroup7Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8Select = await testHelpers.CreateEntityGroup("microtingUIdSC8", "EntityGroup8Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9Select = await testHelpers.CreateEntityGroup("microtingUIdSC9", "EntityGroup9Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10Select = await testHelpers.CreateEntityGroup("microtingUIdSC10", "EntityGroup10Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #endregion
+
+        #region Removed
+
+        #region eG1
+
+        EntityGroup eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR2", "EntityGroup2Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR3", "EntityGroup3Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR4", "EntityGroup4Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR5", "EntityGroup5Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR6", "EntityGroup6Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR7", "EntityGroup7Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR8", "EntityGroup8Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR9", "EntityGroup9Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR10",
+            "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #endregion
+
+        #region Retracted
+
+        #region eG1
+
+        EntityGroup eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1",
+            "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST2",
+            "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST3",
+            "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST4",
+            "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST5",
+            "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST6",
+            "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST7",
+            "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST8",
+            "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST9",
+            "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST10",
+            "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        // Act
+
+        #region pageindex 0
+
+        #region pageSize 10
+
+        #region Default Sorting
+
+        #region entityGroup Asc
+
+        EntityGroupList matchEntityGroupAllSearchCreated = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+        EntityGroupList matchEntityGroupAllSelectCreated = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+        EntityGroupList matchEntityGroupAllSearchRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+        EntityGroupList matchEntityGroupAllSelectRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+        EntityGroupList matchEntityGroupAllSearchNotRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 20,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+        EntityGroupList matchEntityGroupAllSelectNotRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 20,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+
+        #endregion
+
+        #region entityGroup Desc
+
+        EntityGroupList matchEntityGroupAllSearchCreatedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
+            Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+        EntityGroupList matchEntityGroupAllSelectCreatedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
+            Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+        EntityGroupList matchEntityGroupAllSearchRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
+            Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+        EntityGroupList matchEntityGroupAllSelectRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
+            Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+        EntityGroupList matchEntityGroupAllSearchNotRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0,
+            20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+        EntityGroupList matchEntityGroupAllSelectNotRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0,
+            20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+
+        #endregion
+
+        #endregion
+
+        #region Sorting W.O nameFilter
+
+        #region entityGroup Asc
+
+        EntityGroupList matchEntityGroupAllSearchCreatedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+        EntityGroupList matchEntityGroupAllSelectCreatedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+        EntityGroupList matchEntityGroupAllSearchRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+        EntityGroupList matchEntityGroupAllSelectRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+        EntityGroupList matchEntityGroupAllSearchNotRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 20,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+        EntityGroupList matchEntityGroupAllSelectNotRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 20,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+
+        #endregion
+
+        #region entityGroup Desc
+
+        EntityGroupList matchEntityGroupAllSearchCreatedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0,
+            10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+        EntityGroupList matchEntityGroupAllSelectCreatedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0,
+            10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+        EntityGroupList matchEntityGroupAllSearchRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0,
+            10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+        EntityGroupList matchEntityGroupAllSelectRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0,
+            10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+        EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0,
+            20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+        EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0,
+            20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+
+        #endregion
+
+        #endregion
+
+        #region sorting W.O sort param
+
+        #region entityGroup Asc
+
+        EntityGroupList matchEntityGroupAllSearchCreatedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+        EntityGroupList matchEntityGroupAllSelectCreatedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+        EntityGroupList matchEntityGroupAllSearchRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+        EntityGroupList matchEntityGroupAllSelectRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 10,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+        EntityGroupList matchEntityGroupAllSearchNotRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
+            20, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+        EntityGroupList matchEntityGroupAllSelectNotRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
+            20, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+
+        #endregion
+
+        #region entityGroup Desc
+
+        EntityGroupList matchEntityGroupAllSearchCreatedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
+            10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+        EntityGroupList matchEntityGroupAllSelectCreatedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
+            10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+        EntityGroupList matchEntityGroupAllSearchRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
+            10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+        EntityGroupList matchEntityGroupAllSelectRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
+            10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+        EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup",
+            0, 20, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+        EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup",
+            0, 20, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+
+        // Assert
+
+        #region pageIndex 0
+
+        #region pageSize 10
+
+        #region Def Sort
+
+        #region Asc
+
+        #region matchEntityGroupAllSearchCreated
+
+        Assert.That(matchEntityGroupAllSearchCreated, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchCreated.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchCreated.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchCreated.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectCreated
+
+        Assert.That(matchEntityGroupAllSelectCreated, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectCreated.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectCreated.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectCreated.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchRemoved
+
+        Assert.That(matchEntityGroupAllSearchRemoved, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchRemoved.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchRemoved.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchRemoved.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectRemoved
+
+        Assert.That(matchEntityGroupAllSelectRemoved, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectRemoved.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectRemoved.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectRemoved.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchNotRemoved
+
+        Assert.That(matchEntityGroupAllSearchNotRemoved, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchNotRemoved.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSearchNotRemoved.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchNotRemoved.EntityGroups.Count, Is.EqualTo(20));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectNotRemoved
+
+        Assert.That(matchEntityGroupAllSelectNotRemoved, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectNotRemoved.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSelectNotRemoved.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectNotRemoved.EntityGroups.Count, Is.EqualTo(20));
+
+        #endregion
+
+        #endregion
+
+        #region Desc
+
+        #region matchEntityGroupAllSearchCreatedWDesc
+
+        Assert.That(matchEntityGroupAllSearchCreatedWDesc, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchCreatedWDesc.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchCreatedWDesc.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchCreatedWDesc.EntityGroups.Count, Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectCreatedWDesc
+
+        Assert.That(matchEntityGroupAllSelectCreatedWDesc, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectCreatedWDesc.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectCreatedWDesc.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectCreatedWDesc.EntityGroups.Count, Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchRemovedWDesc
+
+        Assert.That(matchEntityGroupAllSearchRemovedWDesc, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchRemovedWDesc.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchRemovedWDesc.PageNum, Is.EqualTo(0));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectRemovedWDesc
+
+        Assert.That(matchEntityGroupAllSelectRemovedWDesc, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectRemovedWDesc.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectRemovedWDesc.PageNum, Is.EqualTo(0));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchNotRemovedWDesc
+
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDesc, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDesc.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDesc.PageNum, Is.EqualTo(0));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectNotRemovedWDesc
+
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDesc, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDesc.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDesc.PageNum, Is.EqualTo(0));
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region No Name Filter
+
+        #region Asc
+
+        #region matchEntityGroupAllSearchCreatedNoNameFilter
+
+        Assert.That(matchEntityGroupAllSearchCreatedNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchCreatedNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchCreatedNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchCreatedNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectCreatedNoNameFilter
+
+        Assert.That(matchEntityGroupAllSelectCreatedNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectCreatedNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectCreatedNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectCreatedNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchRemovedNoNameFilter
+
+        Assert.That(matchEntityGroupAllSearchRemovedNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchRemovedNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchRemovedNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchRemovedNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectRemovedNoNameFilter
+
+        Assert.That(matchEntityGroupAllSelectRemovedNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectRemovedNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectRemovedNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectRemovedNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchNotRemovedNoNameFilter
+
+        Assert.That(matchEntityGroupAllSearchNotRemovedNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchNotRemovedNoNameFilter.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSearchNotRemovedNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchNotRemovedNoNameFilter.EntityGroups.Count(), Is.EqualTo(20));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectNotRemovedNoNameFilter
+
+        Assert.That(matchEntityGroupAllSelectNotRemovedNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectNotRemovedNoNameFilter.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSelectNotRemovedNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectNotRemovedNoNameFilter.EntityGroups.Count(), Is.EqualTo(20));
+
+        #endregion
+
+        #endregion
+
+        #region Desc
+
+        #region matchEntityGroupAllSearchCreatedWDescNoNameFilter
+
+        Assert.That(matchEntityGroupAllSearchCreatedWDescNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchCreatedWDescNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchCreatedWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchCreatedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectCreatedWDescNoNameFilter
+
+        Assert.That(matchEntityGroupAllSelectCreatedWDescNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectCreatedWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectCreatedWDescNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectCreatedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchRemovedWDescNoNameFilter
+
+        Assert.That(matchEntityGroupAllSearchRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchRemovedWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchRemovedWDescNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchRemovedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectRemovedWDescNoNameFilter
+
+        Assert.That(matchEntityGroupAllSelectRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectRemovedWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectRemovedWDescNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectRemovedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchNotRemovedWDescNoNameFilter
+
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(20));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectNotRemovedWDescNoNameFilter
+
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(20));
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region No Sort Param
+
+        #region Asc
+
+        #region matchEntityGroupAllSearchCreatedNoSort
+
+        Assert.That(matchEntityGroupAllSearchCreatedNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchCreatedNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchCreatedNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchCreatedNoSort.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectCreatedNoSort
+
+        Assert.That(matchEntityGroupAllSelectCreatedNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectCreatedNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectCreatedNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectCreatedNoSort.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchRemovedNoSort
+
+        Assert.That(matchEntityGroupAllSearchRemovedNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchRemovedNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchRemovedNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchRemovedNoSort.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectRemovedNoSort
+
+        Assert.That(matchEntityGroupAllSelectRemovedNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectRemovedNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectRemovedNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectRemovedNoSort.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchNotRemovedNoSort
+
+        Assert.That(matchEntityGroupAllSearchNotRemovedNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchNotRemovedNoSort.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSearchNotRemovedNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchNotRemovedNoSort.EntityGroups.Count(), Is.EqualTo(20));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectNotRemovedNoSort
+
+        Assert.That(matchEntityGroupAllSelectNotRemovedNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectNotRemovedNoSort.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSelectNotRemovedNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectNotRemovedNoSort.EntityGroups.Count(), Is.EqualTo(20));
+
+        #endregion
+
+        #endregion
+
+        #region Desc
+
+        #region matchEntityGroupAllSearchCreatedWDescNoSort
+
+        Assert.That(matchEntityGroupAllSearchCreatedWDescNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchCreatedWDescNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchCreatedWDescNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchCreatedWDescNoSort.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectCreatedWDescNoSort
+
+        Assert.That(matchEntityGroupAllSelectCreatedWDescNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectCreatedWDescNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectCreatedWDescNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectCreatedWDescNoSort.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchRemovedWDescNoSort
+
+        Assert.That(matchEntityGroupAllSearchRemovedWDescNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchRemovedWDescNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchRemovedWDescNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchRemovedWDescNoSort.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectRemovedWDescNoSort
+
+        Assert.That(matchEntityGroupAllSelectRemovedWDescNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectRemovedWDescNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectRemovedWDescNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectRemovedWDescNoSort.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchNotRemovedWDescNoSort
+
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoSort.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoSort.EntityGroups.Count(), Is.EqualTo(20));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectNotRemovedWDescNoSort
+
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoSort.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoSort.EntityGroups.Count(), Is.EqualTo(20));
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #endregion
 
         #endregion
     }
+
+    [Test]
+    public async Task SQL_EntityGroup_EntityGroupAll_ReturnsEntityGroupsPaged()
+    {
+        // Arrance
+
+        #region Arrance
+
+        #region Entity Groups
+
+        #region EntitySearch
+
+        #region Created
+
+        #region eG1
+
+        EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2 = await testHelpers.CreateEntityGroup("microtingUIdC2", "EntityGroup2",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3 = await testHelpers.CreateEntityGroup("microtingUIdC3", "EntityGroup3",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4 = await testHelpers.CreateEntityGroup("microtingUIdC4", "EntityGroup4",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5 = await testHelpers.CreateEntityGroup("microtingUIdC5", "EntityGroup5",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6 = await testHelpers.CreateEntityGroup("microtingUIdC6", "EntityGroup6",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7 = await testHelpers.CreateEntityGroup("microtingUIdC7", "EntityGroup7",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8 = await testHelpers.CreateEntityGroup("microtingUIdC8", "EntityGroup8",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9 = await testHelpers.CreateEntityGroup("microtingUIdC9", "EntityGroup9",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10 = await testHelpers.CreateEntityGroup("microtingUIdC10", "EntityGroup10",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #endregion
+
+        #region Removed
+
+        #region eG1
+
+        EntityGroup eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2Removed = await testHelpers.CreateEntityGroup("microtingUIdR2", "EntityGroup2",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3Removed = await testHelpers.CreateEntityGroup("microtingUIdR3", "EntityGroup3",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4Removed = await testHelpers.CreateEntityGroup("microtingUIdR4", "EntityGroup4",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5Removed = await testHelpers.CreateEntityGroup("microtingUIdR5", "EntityGroup5",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6Removed = await testHelpers.CreateEntityGroup("microtingUIdR6", "EntityGroup6",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7Removed = await testHelpers.CreateEntityGroup("microtingUIdR7", "EntityGroup7",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8Removed = await testHelpers.CreateEntityGroup("microtingUIdR8", "EntityGroup8",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9Removed = await testHelpers.CreateEntityGroup("microtingUIdR9", "EntityGroup9",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10Removed = await testHelpers.CreateEntityGroup("microtingUIdR10", "EntityGroup10",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #endregion
+
+        #region Retracted
+
+        #region eG1
+
+        EntityGroup eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2Retracted = await testHelpers.CreateEntityGroup("microtingUIdT2", "EntityGroup2",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3Retracted = await testHelpers.CreateEntityGroup("microtingUIdT3", "EntityGroup3",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4Retracted = await testHelpers.CreateEntityGroup("microtingUIdT4", "EntityGroup4",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5Retracted = await testHelpers.CreateEntityGroup("microtingUIdT5", "EntityGroup5",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6Retracted = await testHelpers.CreateEntityGroup("microtingUIdT6", "EntityGroup6",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7Retracted = await testHelpers.CreateEntityGroup("microtingUIdT7", "EntityGroup7",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8Retracted = await testHelpers.CreateEntityGroup("microtingUIdT8", "EntityGroup8",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9Retracted = await testHelpers.CreateEntityGroup("microtingUIdT9", "EntityGroup9",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10Retracted = await testHelpers.CreateEntityGroup("microtingUIdT10", "EntityGroup10",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region EntitySelect
+
+        #region Created
+
+        #region eG1
+
+        EntityGroup eG1Select = await testHelpers.CreateEntityGroup("microtingUIdSC1", "EntityGroup1Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2Select = await testHelpers.CreateEntityGroup("microtingUIdSC2", "EntityGroup2Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3Select = await testHelpers.CreateEntityGroup("microtingUIdSC3", "EntityGroup3Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4Select = await testHelpers.CreateEntityGroup("microtingUIdSC4", "EntityGroup4Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5Select = await testHelpers.CreateEntityGroup("microtingUIdSC5", "EntityGroup5Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6Select = await testHelpers.CreateEntityGroup("microtingUIdSC6", "EntityGroup6Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7Select = await testHelpers.CreateEntityGroup("microtingUIdSC7", "EntityGroup7Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8Select = await testHelpers.CreateEntityGroup("microtingUIdSC8", "EntityGroup8Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9Select = await testHelpers.CreateEntityGroup("microtingUIdSC9", "EntityGroup9Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10Select = await testHelpers.CreateEntityGroup("microtingUIdSC10", "EntityGroup10Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #endregion
+
+        #region Removed
+
+        #region eG1
+
+        EntityGroup eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR2", "EntityGroup2Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR3", "EntityGroup3Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR4", "EntityGroup4Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR5", "EntityGroup5Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR6", "EntityGroup6Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR7", "EntityGroup7Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR8", "EntityGroup8Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR9", "EntityGroup9Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR10",
+            "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #endregion
+
+        #region Retracted
+
+        #region eG1
+
+        EntityGroup eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1",
+            "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST2",
+            "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST3",
+            "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST4",
+            "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST5",
+            "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST6",
+            "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST7",
+            "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST8",
+            "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST9",
+            "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST10",
+            "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        // Act
+
+        #region pageindex 0
+
+        #region pageSize 5
+
+        #region Default Sorting
+
+        #region entityGroup Asc
+
+        EntityGroupList matchEntityGroupAllSearchCreated = await sut.EntityGroupAll("id", "EntityGroup", 0, 5,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+        EntityGroupList matchEntityGroupAllSelectCreated = await sut.EntityGroupAll("id", "EntityGroup", 0, 5,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+        EntityGroupList matchEntityGroupAllSearchRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 5,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+        EntityGroupList matchEntityGroupAllSelectRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 5,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+        EntityGroupList matchEntityGroupAllSearchNotRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+        EntityGroupList matchEntityGroupAllSelectNotRemoved = await sut.EntityGroupAll("id", "EntityGroup", 0, 10,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+
+        #endregion
+
+        #region entityGroup Desc
+
+        EntityGroupList matchEntityGroupAllSearchCreatedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 5,
+            Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+        EntityGroupList matchEntityGroupAllSelectCreatedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 5,
+            Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+        EntityGroupList matchEntityGroupAllSearchRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 5,
+            Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+        EntityGroupList matchEntityGroupAllSelectRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0, 5,
+            Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+        EntityGroupList matchEntityGroupAllSearchNotRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0,
+            10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+        EntityGroupList matchEntityGroupAllSelectNotRemovedWDesc = await sut.EntityGroupAll("id", "EntityGroup", 0,
+            10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+
+        #endregion
+
+        #endregion
+
+        #region Sorting W.O nameFilter
+
+        #region entityGroup Asc
+
+        EntityGroupList matchEntityGroupAllSearchCreatedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+        EntityGroupList matchEntityGroupAllSelectCreatedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+        EntityGroupList matchEntityGroupAllSearchRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+        EntityGroupList matchEntityGroupAllSelectRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+        EntityGroupList matchEntityGroupAllSearchNotRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+        EntityGroupList matchEntityGroupAllSelectNotRemovedNoNameFilter = await sut.EntityGroupAll("id", "", 0, 10,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+
+        #endregion
+
+        #region entityGroup Desc
+
+        EntityGroupList matchEntityGroupAllSearchCreatedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5,
+            Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+        EntityGroupList matchEntityGroupAllSelectCreatedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5,
+            Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+        EntityGroupList matchEntityGroupAllSearchRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5,
+            Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+        EntityGroupList matchEntityGroupAllSelectRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0, 5,
+            Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+        EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0,
+            10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+        EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoNameFilter = await sut.EntityGroupAll("id", "", 0,
+            10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+
+        #endregion
+
+        #endregion
+
+        #region sorting W.O sort param
+
+        #region entityGroup Asc
+
+        EntityGroupList matchEntityGroupAllSearchCreatedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 5,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+        EntityGroupList matchEntityGroupAllSelectCreatedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 5,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+        EntityGroupList matchEntityGroupAllSearchRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 5,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+        EntityGroupList matchEntityGroupAllSelectRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0, 5,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+        EntityGroupList matchEntityGroupAllSearchNotRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
+            10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+        EntityGroupList matchEntityGroupAllSelectNotRemovedNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
+            10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+
+        #endregion
+
+        #region entityGroup Desc
+
+        EntityGroupList matchEntityGroupAllSearchCreatedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
+            5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+        EntityGroupList matchEntityGroupAllSelectCreatedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
+            5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+        EntityGroupList matchEntityGroupAllSearchRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
+            5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+        EntityGroupList matchEntityGroupAllSelectRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup", 0,
+            5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+        EntityGroupList matchEntityGroupAllSearchNotRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup",
+            0, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+        EntityGroupList matchEntityGroupAllSelectNotRemovedWDescNoSort = await sut.EntityGroupAll("", "EntityGroup",
+            0, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region pageindex 1
+
+        #region pageSize 5
+
+        #region Default Sorting
+
+        #region entityGroup Asc
+
+        EntityGroupList matchEntityGroupAllSearchCreatedB = await sut.EntityGroupAll("id", "EntityGroup", 1, 5,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+        EntityGroupList matchEntityGroupAllSelectCreatedB = await sut.EntityGroupAll("id", "EntityGroup", 1, 5,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+        EntityGroupList matchEntityGroupAllSearchRemovedB = await sut.EntityGroupAll("id", "EntityGroup", 1, 5,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+        EntityGroupList matchEntityGroupAllSelectRemovedB = await sut.EntityGroupAll("id", "EntityGroup", 1, 5,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+        EntityGroupList matchEntityGroupAllSearchNotRemovedB = await sut.EntityGroupAll("id", "EntityGroup", 1, 10,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+        EntityGroupList matchEntityGroupAllSelectNotRemovedB = await sut.EntityGroupAll("id", "EntityGroup", 1, 10,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+
+        #endregion
+
+        #region entityGroup Desc
+
+        EntityGroupList matchEntityGroupAllSearchCreatedBWDesc = await sut.EntityGroupAll("id", "EntityGroup", 1, 5,
+            Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+        EntityGroupList matchEntityGroupAllSelectCreatedBWDesc = await sut.EntityGroupAll("id", "EntityGroup", 1, 5,
+            Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+        EntityGroupList matchEntityGroupAllSearchRemovedBWDesc = await sut.EntityGroupAll("id", "EntityGroup", 1, 5,
+            Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+        EntityGroupList matchEntityGroupAllSelectRemovedBWDesc = await sut.EntityGroupAll("id", "EntityGroup", 1, 5,
+            Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+        EntityGroupList matchEntityGroupAllSearchNotRemovedBWDesc = await sut.EntityGroupAll("id", "EntityGroup", 1,
+            10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+        EntityGroupList matchEntityGroupAllSelectNotRemovedBWDesc = await sut.EntityGroupAll("id", "EntityGroup", 1,
+            10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+
+        #endregion
+
+        #endregion
+
+        #region Sorting W.O nameFilter
+
+        #region entityGroup Asc
+
+        EntityGroupList matchEntityGroupAllSearchCreatedBNoNameFilter = await sut.EntityGroupAll("id", "", 1, 5,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+        EntityGroupList matchEntityGroupAllSelectCreatedBNoNameFilter = await sut.EntityGroupAll("id", "", 1, 5,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+        EntityGroupList matchEntityGroupAllSearchRemovedBNoNameFilter = await sut.EntityGroupAll("id", "", 1, 5,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+        EntityGroupList matchEntityGroupAllSelectRemovedBNoNameFilter = await sut.EntityGroupAll("id", "", 1, 5,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+        EntityGroupList matchEntityGroupAllSearchNotRemovedBNoNameFilter = await sut.EntityGroupAll("id", "", 1, 10,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+        EntityGroupList matchEntityGroupAllSelectNotRemovedBNoNameFilter = await sut.EntityGroupAll("id", "", 1, 10,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+
+        #endregion
+
+        #region entityGroup Desc
+
+        EntityGroupList matchEntityGroupAllSearchCreatedBWDescNoNameFilter = await sut.EntityGroupAll("id", "", 1,
+            5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+        EntityGroupList matchEntityGroupAllSelectCreatedBWDescNoNameFilter = await sut.EntityGroupAll("id", "", 1,
+            5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+        EntityGroupList matchEntityGroupAllSearchRemovedBWDescNoNameFilter = await sut.EntityGroupAll("id", "", 1,
+            5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+        EntityGroupList matchEntityGroupAllSelectRemovedBWDescNoNameFilter = await sut.EntityGroupAll("id", "", 1,
+            5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+        EntityGroupList matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter = await sut.EntityGroupAll("id", "",
+            1, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+        EntityGroupList matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter = await sut.EntityGroupAll("id", "",
+            1, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+
+        #endregion
+
+        #endregion
+
+        #region sorting W.O sort param
+
+        #region entityGroup Asc
+
+        EntityGroupList matchEntityGroupAllSearchCreatedBNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 5,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Created);
+        EntityGroupList matchEntityGroupAllSelectCreatedBNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 5,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Created);
+
+        EntityGroupList matchEntityGroupAllSearchRemovedBNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 5,
+            Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.Removed);
+        EntityGroupList matchEntityGroupAllSelectRemovedBNoSort = await sut.EntityGroupAll("", "EntityGroup", 1, 5,
+            Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.Removed);
+
+        EntityGroupList matchEntityGroupAllSearchNotRemovedBNoSort = await sut.EntityGroupAll("", "EntityGroup", 1,
+            10, Constants.FieldTypes.EntitySearch, false, Constants.WorkflowStates.NotRemoved);
+        EntityGroupList matchEntityGroupAllSelectNotRemovedBNoSort = await sut.EntityGroupAll("", "EntityGroup", 1,
+            10, Constants.FieldTypes.EntitySelect, false, Constants.WorkflowStates.NotRemoved);
+
+        #endregion
+
+        #region entityGroup Desc
+
+        EntityGroupList matchEntityGroupAllSearchCreatedBWDescNoSort = await sut.EntityGroupAll("", "EntityGroup",
+            1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Created);
+        EntityGroupList matchEntityGroupAllSelectCreatedBWDescNoSort = await sut.EntityGroupAll("", "EntityGroup",
+            1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Created);
+
+        EntityGroupList matchEntityGroupAllSearchRemovedBWDescNoSort = await sut.EntityGroupAll("", "EntityGroup",
+            1, 5, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.Removed);
+        EntityGroupList matchEntityGroupAllSelectRemovedBWDescNoSort = await sut.EntityGroupAll("", "EntityGroup",
+            1, 5, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.Removed);
+
+        EntityGroupList matchEntityGroupAllSearchNotRemovedBWDescNoSort = await sut.EntityGroupAll("",
+            "EntityGroup", 1, 10, Constants.FieldTypes.EntitySearch, true, Constants.WorkflowStates.NotRemoved);
+        EntityGroupList matchEntityGroupAllSelectNotRemovedBWDescNoSort = await sut.EntityGroupAll("",
+            "EntityGroup", 1, 10, Constants.FieldTypes.EntitySelect, true, Constants.WorkflowStates.NotRemoved);
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+
+        // Assert
+
+        #region pageIndex 0
+
+        #region pageSize 5
+
+        #region Def Sort
+
+        #region Asc
+
+        #region matchEntityGroupAllSearchCreated
+
+        Assert.That(matchEntityGroupAllSearchCreated, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchCreated.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchCreated.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchCreated.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectCreated
+
+        Assert.That(matchEntityGroupAllSelectCreated, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectCreated.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectCreated.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectCreated.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchRemoved
+
+        Assert.That(matchEntityGroupAllSearchRemoved, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchRemoved.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchRemoved.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchRemoved.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectRemoved
+
+        Assert.That(matchEntityGroupAllSelectRemoved, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectRemoved.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectRemoved.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectRemoved.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchNotRemoved
+
+        Assert.That(matchEntityGroupAllSearchNotRemoved, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchNotRemoved.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSearchNotRemoved.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchNotRemoved.EntityGroups.Count, Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectNotRemoved
+
+        Assert.That(matchEntityGroupAllSelectNotRemoved, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectNotRemoved.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSelectNotRemoved.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectNotRemoved.EntityGroups.Count, Is.EqualTo(10));
+
+        #endregion
+
+        #endregion
+
+        #region Desc
+
+        #region matchEntityGroupAllSearchCreatedWDesc
+
+        Assert.That(matchEntityGroupAllSearchCreatedWDesc, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchCreatedWDesc.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchCreatedWDesc.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchCreatedWDesc.EntityGroups.Count, Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectCreatedWDesc
+
+        Assert.That(matchEntityGroupAllSelectCreatedWDesc, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectCreatedWDesc.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectCreatedWDesc.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectCreatedWDesc.EntityGroups.Count, Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchRemovedWDesc
+
+        Assert.That(matchEntityGroupAllSearchRemovedWDesc, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchRemovedWDesc.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchRemovedWDesc.PageNum, Is.EqualTo(0));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectRemovedWDesc
+
+        Assert.That(matchEntityGroupAllSelectRemovedWDesc, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectRemovedWDesc.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectRemovedWDesc.PageNum, Is.EqualTo(0));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchNotRemovedWDesc
+
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDesc, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDesc.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDesc.PageNum, Is.EqualTo(0));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectNotRemovedWDesc
+
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDesc, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDesc.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDesc.PageNum, Is.EqualTo(0));
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region No Name Filter
+
+        #region Asc
+
+        #region matchEntityGroupAllSearchCreatedNoNameFilter
+
+        Assert.That(matchEntityGroupAllSearchCreatedNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchCreatedNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchCreatedNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchCreatedNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectCreatedNoNameFilter
+
+        Assert.That(matchEntityGroupAllSelectCreatedNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectCreatedNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectCreatedNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectCreatedNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchRemovedNoNameFilter
+
+        Assert.That(matchEntityGroupAllSearchRemovedNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchRemovedNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchRemovedNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchRemovedNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectRemovedNoNameFilter
+
+        Assert.That(matchEntityGroupAllSelectRemovedNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectRemovedNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectRemovedNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectRemovedNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchNotRemovedNoNameFilter
+
+        Assert.That(matchEntityGroupAllSearchNotRemovedNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchNotRemovedNoNameFilter.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSearchNotRemovedNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchNotRemovedNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectNotRemovedNoNameFilter
+
+        Assert.That(matchEntityGroupAllSelectNotRemovedNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectNotRemovedNoNameFilter.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSelectNotRemovedNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectNotRemovedNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #endregion
+
+        #region Desc
+
+        #region matchEntityGroupAllSearchCreatedWDescNoNameFilter
+
+        Assert.That(matchEntityGroupAllSearchCreatedWDescNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchCreatedWDescNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchCreatedWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchCreatedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectCreatedWDescNoNameFilter
+
+        Assert.That(matchEntityGroupAllSelectCreatedWDescNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectCreatedWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectCreatedWDescNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectCreatedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchRemovedWDescNoNameFilter
+
+        Assert.That(matchEntityGroupAllSearchRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchRemovedWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchRemovedWDescNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchRemovedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectRemovedWDescNoNameFilter
+
+        Assert.That(matchEntityGroupAllSelectRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectRemovedWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectRemovedWDescNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectRemovedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchNotRemovedWDescNoNameFilter
+
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectNotRemovedWDescNoNameFilter
+
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region No Sort Param
+
+        #region Asc
+
+        #region matchEntityGroupAllSearchCreatedNoSort
+
+        Assert.That(matchEntityGroupAllSearchCreatedNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchCreatedNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchCreatedNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchCreatedNoSort.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectCreatedNoSort
+
+        Assert.That(matchEntityGroupAllSelectCreatedNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectCreatedNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectCreatedNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectCreatedNoSort.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchRemovedNoSort
+
+        Assert.That(matchEntityGroupAllSearchRemovedNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchRemovedNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchRemovedNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchRemovedNoSort.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectRemovedNoSort
+
+        Assert.That(matchEntityGroupAllSelectRemovedNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectRemovedNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectRemovedNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectRemovedNoSort.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchNotRemovedNoSort
+
+        Assert.That(matchEntityGroupAllSearchNotRemovedNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchNotRemovedNoSort.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSearchNotRemovedNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchNotRemovedNoSort.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectNotRemovedNoSort
+
+        Assert.That(matchEntityGroupAllSelectNotRemovedNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectNotRemovedNoSort.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSelectNotRemovedNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectNotRemovedNoSort.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #endregion
+
+        #region Desc
+
+        #region matchEntityGroupAllSearchCreatedWDescNoSort
+
+        Assert.That(matchEntityGroupAllSearchCreatedWDescNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchCreatedWDescNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchCreatedWDescNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchCreatedWDescNoSort.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectCreatedWDescNoSort
+
+        Assert.That(matchEntityGroupAllSelectCreatedWDescNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectCreatedWDescNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectCreatedWDescNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectCreatedWDescNoSort.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchRemovedWDescNoSort
+
+        Assert.That(matchEntityGroupAllSearchRemovedWDescNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchRemovedWDescNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchRemovedWDescNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchRemovedWDescNoSort.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectRemovedWDescNoSort
+
+        Assert.That(matchEntityGroupAllSelectRemovedWDescNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectRemovedWDescNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectRemovedWDescNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectRemovedWDescNoSort.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchNotRemovedWDescNoSort
+
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoSort.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSearchNotRemovedWDescNoSort.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectNotRemovedWDescNoSort
+
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoSort.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoSort.PageNum, Is.EqualTo(0));
+        Assert.That(matchEntityGroupAllSelectNotRemovedWDescNoSort.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region pageIndex 1
+
+        #region pageSize 5
+
+        #region Def Sort
+
+        #region Asc
+
+        #region matchEntityGroupAllSearchCreatedB
+
+        Assert.That(matchEntityGroupAllSearchCreatedB, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchCreatedB.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSearchCreatedB.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchCreatedB.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectCreatedB
+
+        Assert.That(matchEntityGroupAllSelectCreatedB, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectCreatedB.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectCreatedB.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSelectCreatedB.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchRemovedB
+
+        Assert.That(matchEntityGroupAllSearchRemovedB, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchRemovedB.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchRemovedB.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSearchRemovedB.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectRemovedB
+
+        Assert.That(matchEntityGroupAllSelectRemovedB, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectRemovedB.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectRemovedB.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSelectRemovedB.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchNotRemovedB
+
+        Assert.That(matchEntityGroupAllSearchNotRemovedB, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchNotRemovedB.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSearchNotRemovedB.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSearchNotRemovedB.EntityGroups.Count, Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectNotRemovedB
+
+        Assert.That(matchEntityGroupAllSelectNotRemovedB, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectNotRemovedB.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSelectNotRemovedB.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSelectNotRemovedB.EntityGroups.Count, Is.EqualTo(10));
+
+        #endregion
+
+        #endregion
+
+        #region Desc
+
+        #region matchEntityGroupAllSearchCreatedBWDesc
+
+        Assert.That(matchEntityGroupAllSearchCreatedBWDesc, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchCreatedBWDesc.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSearchCreatedBWDesc.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchCreatedBWDesc.EntityGroups.Count, Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectCreatedBWDesc
+
+        Assert.That(matchEntityGroupAllSelectCreatedBWDesc, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectCreatedBWDesc.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectCreatedBWDesc.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSelectCreatedBWDesc.EntityGroups.Count, Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchRemovedBWDesc
+
+        Assert.That(matchEntityGroupAllSearchRemovedBWDesc, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchRemovedBWDesc.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchRemovedBWDesc.PageNum, Is.EqualTo(1));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectRemovedBWDesc
+
+        Assert.That(matchEntityGroupAllSelectRemovedBWDesc, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectRemovedBWDesc.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectRemovedBWDesc.PageNum, Is.EqualTo(1));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchNotRemovedBWDesc
+
+        Assert.That(matchEntityGroupAllSearchNotRemovedBWDesc, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchNotRemovedBWDesc.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSearchNotRemovedBWDesc.PageNum, Is.EqualTo(1));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectNotRemovedBWDesc
+
+        Assert.That(matchEntityGroupAllSelectNotRemovedBWDesc, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectNotRemovedBWDesc.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSelectNotRemovedBWDesc.PageNum, Is.EqualTo(1));
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region No Name Filter
+
+        #region Asc
+
+        #region matchEntityGroupAllSearchCreatedBNoNameFilter
+
+        Assert.That(matchEntityGroupAllSearchCreatedBNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchCreatedBNoNameFilter.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSearchCreatedBNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchCreatedBNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectCreatedBNoNameFilter
+
+        Assert.That(matchEntityGroupAllSelectCreatedBNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectCreatedBNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectCreatedBNoNameFilter.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSelectCreatedBNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchRemovedBNoNameFilter
+
+        Assert.That(matchEntityGroupAllSearchRemovedBNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchRemovedBNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchRemovedBNoNameFilter.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSearchRemovedBNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectRemovedBNoNameFilter
+
+        Assert.That(matchEntityGroupAllSelectRemovedBNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectRemovedBNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectRemovedBNoNameFilter.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSelectRemovedBNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchNotRemovedBNoNameFilter
+
+        Assert.That(matchEntityGroupAllSearchNotRemovedBNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchNotRemovedBNoNameFilter.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSearchNotRemovedBNoNameFilter.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSearchNotRemovedBNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectNotRemovedBNoNameFilter
+
+        Assert.That(matchEntityGroupAllSelectNotRemovedBNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectNotRemovedBNoNameFilter.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSelectNotRemovedBNoNameFilter.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSelectNotRemovedBNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #endregion
+
+        #region Desc
+
+        #region matchEntityGroupAllSearchCreatedBWDescNoNameFilter
+
+        Assert.That(matchEntityGroupAllSearchCreatedBWDescNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchCreatedBWDescNoNameFilter.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSearchCreatedBWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchCreatedBWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectCreatedBWDescNoNameFilter
+
+        Assert.That(matchEntityGroupAllSelectCreatedBWDescNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectCreatedBWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectCreatedBWDescNoNameFilter.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSelectCreatedBWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchRemovedBWDescNoNameFilter
+
+        Assert.That(matchEntityGroupAllSearchRemovedBWDescNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchRemovedBWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchRemovedBWDescNoNameFilter.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSearchRemovedBWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectRemovedBWDescNoNameFilter
+
+        Assert.That(matchEntityGroupAllSelectRemovedBWDescNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectRemovedBWDescNoNameFilter.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectRemovedBWDescNoNameFilter.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSelectRemovedBWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter
+
+        Assert.That(matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSearchNotRemovedBWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter
+
+        Assert.That(matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSelectNotRemovedBWDescNoNameFilter.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region No Sort Param
+
+        #region Asc
+
+        #region matchEntityGroupAllSearchCreatedBNoSort
+
+        Assert.That(matchEntityGroupAllSearchCreatedBNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchCreatedBNoSort.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSearchCreatedBNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchCreatedBNoSort.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectCreatedBNoSort
+
+        Assert.That(matchEntityGroupAllSelectCreatedBNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectCreatedBNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectCreatedBNoSort.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSelectCreatedBNoSort.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchRemovedBNoSort
+
+        Assert.That(matchEntityGroupAllSearchRemovedBNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchRemovedBNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchRemovedBNoSort.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSearchRemovedBNoSort.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectRemovedBNoSort
+
+        Assert.That(matchEntityGroupAllSelectRemovedBNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectRemovedBNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectRemovedBNoSort.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSelectRemovedBNoSort.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchNotRemovedBNoSort
+
+        Assert.That(matchEntityGroupAllSearchNotRemovedBNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchNotRemovedBNoSort.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSearchNotRemovedBNoSort.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSearchNotRemovedBNoSort.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectNotRemovedBNoSort
+
+        Assert.That(matchEntityGroupAllSelectNotRemovedBNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectNotRemovedBNoSort.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSelectNotRemovedBNoSort.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSelectNotRemovedBNoSort.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #endregion
+
+        #region Desc
+
+        #region matchEntityGroupAllSearchCreatedBWDescNoSort
+
+        Assert.That(matchEntityGroupAllSearchCreatedBWDescNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchCreatedBWDescNoSort.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSearchCreatedBWDescNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchCreatedBWDescNoSort.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectCreatedBWDescNoSort
+
+        Assert.That(matchEntityGroupAllSelectCreatedBWDescNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectCreatedBWDescNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectCreatedBWDescNoSort.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSelectCreatedBWDescNoSort.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchRemovedBWDescNoSort
+
+        Assert.That(matchEntityGroupAllSearchRemovedBWDescNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchRemovedBWDescNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSearchRemovedBWDescNoSort.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSearchRemovedBWDescNoSort.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectRemovedBWDescNoSort
+
+        Assert.That(matchEntityGroupAllSelectRemovedBWDescNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectRemovedBWDescNoSort.NumOfElements, Is.EqualTo(10));
+        Assert.That(matchEntityGroupAllSelectRemovedBWDescNoSort.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSelectRemovedBWDescNoSort.EntityGroups.Count(), Is.EqualTo(5));
+
+        #endregion
+
+        #region matchEntityGroupAllSearchNotRemovedBWDescNoSort
+
+        Assert.That(matchEntityGroupAllSearchNotRemovedBWDescNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSearchNotRemovedBWDescNoSort.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSearchNotRemovedBWDescNoSort.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSearchNotRemovedBWDescNoSort.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #region matchEntityGroupAllSelectNotRemovedBWDescNoSort
+
+        Assert.That(matchEntityGroupAllSelectNotRemovedBWDescNoSort, Is.Not.EqualTo(null));
+        Assert.That(matchEntityGroupAllSelectNotRemovedBWDescNoSort.NumOfElements, Is.EqualTo(20));
+        Assert.That(matchEntityGroupAllSelectNotRemovedBWDescNoSort.PageNum, Is.EqualTo(1));
+        Assert.That(matchEntityGroupAllSelectNotRemovedBWDescNoSort.EntityGroups.Count(), Is.EqualTo(10));
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #endregion
+    }
+
+
+    [Test]
+    public async Task SQL_EntityGroup_EntityGroupCreate_CreatesNewEntityGroup()
+    {
+        // Arrance
+
+        // Act
+        var matchEntitySearch = await sut.EntityGroupCreate("eG1", Constants.FieldTypes.EntitySearch, "desc1");
+        var matchEntitySelect = await sut.EntityGroupCreate("eG2", Constants.FieldTypes.EntitySelect, "desc2");
+        // Assert
+        Assert.That(matchEntitySearch.Name, Is.EqualTo("eG1"));
+        Assert.That(matchEntitySelect.Name, Is.EqualTo("eG2"));
+    }
+
+    //TODO René needs to make migration
+    [Test]
+#pragma warning disable 1998
+    public async Task SQL_EntityGroup_EntityGroupReadSorted_ReadsByParameter()
+    {
+        //// Arrance
+        //#region Arrance
+
+        //#region Entity Groups
+
+        //#region EntitySearch
+        //#region Created
+        //#region eG1
+        //entity_groups eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG2
+        //entity_groups eG2 = await testHelpers.CreateEntityGroup("microtingUIdC2", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG3
+        //entity_groups eG3 = await testHelpers.CreateEntityGroup("microtingUIdC3", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG4
+        //entity_groups eG4 = await testHelpers.CreateEntityGroup("microtingUIdC4", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG5
+        //entity_groups eG5 = await testHelpers.CreateEntityGroup("microtingUIdC5", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG6
+        //entity_groups eG6 = await testHelpers.CreateEntityGroup("microtingUIdC6", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG7
+        //entity_groups eG7 = await testHelpers.CreateEntityGroup("microtingUIdC7", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG8
+        //entity_groups eG8 = await testHelpers.CreateEntityGroup("microtingUIdC8", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG9
+        //entity_groups eG9 = await testHelpers.CreateEntityGroup("microtingUIdC9", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG10
+        //entity_groups eG10 = await testHelpers.CreateEntityGroup("microtingUIdC10", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#endregion
+
+        //#region Removed
+
+        //#region eG1
+        //entity_groups eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG2
+        //entity_groups eG2Removed = await testHelpers.CreateEntityGroup("microtingUIdR2", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG3
+        //entity_groups eG3Removed = await testHelpers.CreateEntityGroup("microtingUIdR3", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG4
+        //entity_groups eG4Removed = await testHelpers.CreateEntityGroup("microtingUIdR4", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG5
+        //entity_groups eG5Removed = await testHelpers.CreateEntityGroup("microtingUIdR5", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG6
+        //entity_groups eG6Removed = await testHelpers.CreateEntityGroup("microtingUIdR6", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG7
+        //entity_groups eG7Removed = await testHelpers.CreateEntityGroup("microtingUIdR7", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG8
+        //entity_groups eG8Removed = await testHelpers.CreateEntityGroup("microtingUIdR8", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG9
+        //entity_groups eG9Removed = await testHelpers.CreateEntityGroup("microtingUIdR9", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG10
+        //entity_groups eG10Removed = await testHelpers.CreateEntityGroup("microtingUIdR10", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#endregion
+
+        //#region Retracted
+
+        //#region eG1
+        //entity_groups eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG2
+        //entity_groups eG2Retracted = await testHelpers.CreateEntityGroup("microtingUIdT2", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG3
+        //entity_groups eG3Retracted = await testHelpers.CreateEntityGroup("microtingUIdT3", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG4
+        //entity_groups eG4Retracted = await testHelpers.CreateEntityGroup("microtingUIdT4", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG5
+        //entity_groups eG5Retracted = await testHelpers.CreateEntityGroup("microtingUIdT5", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG6
+        //entity_groups eG6Retracted = await testHelpers.CreateEntityGroup("microtingUIdT6", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG7
+        //entity_groups eG7Retracted = await testHelpers.CreateEntityGroup("microtingUIdT7", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG8
+        //entity_groups eG8Retracted = await testHelpers.CreateEntityGroup("microtingUIdT8", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG9
+        //entity_groups eG9Retracted = await testHelpers.CreateEntityGroup("microtingUIdT9", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG10
+        //entity_groups eG10Retracted = await testHelpers.CreateEntityGroup("microtingUIdT10", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#endregion
+
+        //#endregion
+
+        //#region EntitySelect
+        //#region Created
+        //#region eG1
+        //entity_groups eG1Select = await testHelpers.CreateEntityGroup("microtingUIdSC1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG2
+        //entity_groups eG2Select = await testHelpers.CreateEntityGroup("microtingUIdSC2", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG3
+        //entity_groups eG3Select = await testHelpers.CreateEntityGroup("microtingUIdSC3", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG4
+        //entity_groups eG4Select = await testHelpers.CreateEntityGroup("microtingUIdSC4", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG5
+        //entity_groups eG5Select = await testHelpers.CreateEntityGroup("microtingUIdSC5", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG6
+        //entity_groups eG6Select = await testHelpers.CreateEntityGroup("microtingUIdSC6", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG7
+        //entity_groups eG7Select = await testHelpers.CreateEntityGroup("microtingUIdSC7", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG8
+        //entity_groups eG8Select = await testHelpers.CreateEntityGroup("microtingUIdSC8", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG9
+        //entity_groups eG9Select = await testHelpers.CreateEntityGroup("microtingUIdSC9", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG10
+        //entity_groups eG10Select = await testHelpers.CreateEntityGroup("microtingUIdSC10", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#endregion
+
+        //#region Removed
+
+        //#region eG1
+        //entity_groups eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG2
+        //entity_groups eG2SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR2", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG3
+        //entity_groups eG3SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR3", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG4
+        //entity_groups eG4SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR4", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG5
+        //entity_groups eG5SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR5", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG6
+        //entity_groups eG6SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR6", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG7
+        //entity_groups eG7SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR7", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG8
+        //entity_groups eG8SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR8", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG9
+        //entity_groups eG9SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR9", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG10
+        //entity_groups eG10SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR10", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#endregion
+
+        //#region Retracted
+
+        //#region eG1
+        //entity_groups eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG2
+        //entity_groups eG2SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST2", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG3
+        //entity_groups eG3SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST3", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG4
+        //entity_groups eG4SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST4", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG5
+        //entity_groups eG5SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST5", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG6
+        //entity_groups eG6SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST6", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG7
+        //entity_groups eG7SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST7", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG8
+        //entity_groups eG8SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST8", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG9
+        //entity_groups eG9SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST9", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG10
+        //entity_groups eG10SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST10", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#endregion
+
+        //#endregion
+        //#endregion
+
+        //#region EntityItems
+
+        //#region Created
+
+        //entity_items eI1 = await testHelpers.CreateEntityItem("D1", 1, "", "eIUIdC1", "mUIdC1", "EntityItem1Created", 1, 1, Constants.WorkflowStates.Created);
+
+        //#endregion
+
+        //#endregion
+
+        //#endregion
+        //// Act
+        //#region EntitySearch
+
+        //#region Created
+        //var entityGroupSortByIdCreated = await sut.EntityGroupReadSorted("microtingUIdC", Constants.EntityItemSortParameters.Id, "");
+        //var entityGroupSortByIdNameCreated = await sut.EntityGroupReadSorted("microtingUIdC", Constants.EntityItemSortParameters.Id, "eG");
+        //var entityGroupSortByNameCreated = await sut.EntityGroupReadSorted("microtingUIdC", Constants.EntityItemSortParameters.Name, "eG");
+        //#endregion
+
+        //#region Removed
+        //var entityGroupSortByIdRemoved = await sut.EntityGroupReadSorted("microtingUIdR", Constants.EntityItemSortParameters.Id, "");
+        //var entityGroupSortByIdNameRemoved = await sut.EntityGroupReadSorted("microtingUIdR", Constants.EntityItemSortParameters.Id, "eG");
+        //var entityGroupSortByNameRemoved = await sut.EntityGroupReadSorted("microtingUIdR", Constants.EntityItemSortParameters.Name, "eG");
+        //#endregion
+
+        //#region Retracted
+        //var entityGroupSortByIdRetracted = await sut.EntityGroupReadSorted("microtingUIdT", Constants.EntityItemSortParameters.Id, "");
+        //var entityGroupSortByIdNameRetracted = await sut.EntityGroupReadSorted("microtingUIdT", Constants.EntityItemSortParameters.Id, "eG");
+        //var entityGroupSortByNameRetracted = await sut.EntityGroupReadSorted("microtingUIdT", Constants.EntityItemSortParameters.Name, "eG");
+        //#endregion
+
+
+        //#endregion
+
+        //#region EntitySelect
+
+        //#region Created
+        //var entityGroupSortByIdSCreated = await sut.EntityGroupReadSorted("microtingUIdSC", Constants.EntityItemSortParameters.Id, "");
+        //var entityGroupSortByIdNameSCreated = await sut.EntityGroupReadSorted("microtingUIdSC", Constants.EntityItemSortParameters.Id, "eG");
+        //var entityGroupSortByNameSCreated = await sut.EntityGroupReadSorted("microtingUIdSC", Constants.EntityItemSortParameters.Name, "eG");
+        //#endregion
+
+        //#region Removed
+        //var entityGroupSortByIdSRemoved = await sut.EntityGroupReadSorted("microtingUIdSR", Constants.EntityItemSortParameters.Id, "");
+        //var entityGroupSortByIdNameSRemoved = await sut.EntityGroupReadSorted("microtingUIdSR", Constants.EntityItemSortParameters.Id, "eG");
+        //var entityGroupSortByNameSRemoved = await sut.EntityGroupReadSorted("microtingUIdSR", Constants.EntityItemSortParameters.Name, "eG");
+        //#endregion
+
+        //#region Retracted
+        //var entityGroupSortByIdSRetracted = await sut.EntityGroupReadSorted("microtingUIdST", Constants.EntityItemSortParameters.Id, "");
+        //var entityGroupSortByIdNameSRetracted = await sut.EntityGroupReadSorted("microtingUIdST", Constants.EntityItemSortParameters.Id, "eG");
+        //var entityGroupSortByNameSRetracted = await sut.EntityGroupReadSorted("microtingUIdST", Constants.EntityItemSortParameters.Name, "eG");
+        //#endregion
+
+
+        //#endregion
+
+        //// Assert
+        //#region Created
+        // Assert.That(entityGroupSortByIdCreated, Is.Not.EqualTo(null));
+        // Assert.That(entityGroupSortByIdNameCreated, Is.Not.EqualTo(null));
+        // Assert.That(entityGroupSortByNameCreated, Is.Not.EqualTo(null));
+        // Assert.AreEqual(10, entityGroupSortByIdCreated.EntityGroupMUId.Count());
+
+
+        //#endregion
+    }
+#pragma warning restore 1998
+
+    //TODO René needs to make migration
+    [Test]
+#pragma warning disable 1998
+    public async Task SQL_EntityGroup_EntityGroupRead_ReadsEntityGroup()
+    {
+        //// Arrance
+        //#region Entity Groups
+
+        //#region EntitySearch
+        //#region Created
+        //#region eG1
+        //entity_groups eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG2
+        //entity_groups eG2 = await testHelpers.CreateEntityGroup("microtingUIdC2", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG3
+        //entity_groups eG3 = await testHelpers.CreateEntityGroup("microtingUIdC3", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG4
+        //entity_groups eG4 = await testHelpers.CreateEntityGroup("microtingUIdC4", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG5
+        //entity_groups eG5 = await testHelpers.CreateEntityGroup("microtingUIdC5", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG6
+        //entity_groups eG6 = await testHelpers.CreateEntityGroup("microtingUIdC6", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG7
+        //entity_groups eG7 = await testHelpers.CreateEntityGroup("microtingUIdC7", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG8
+        //entity_groups eG8 = await testHelpers.CreateEntityGroup("microtingUIdC8", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG9
+        //entity_groups eG9 = await testHelpers.CreateEntityGroup("microtingUIdC9", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG10
+        //entity_groups eG10 = await testHelpers.CreateEntityGroup("microtingUIdC10", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#endregion
+
+        //#region Removed
+
+        //#region eG1
+        //entity_groups eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG2
+        //entity_groups eG2Removed = await testHelpers.CreateEntityGroup("microtingUIdR2", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG3
+        //entity_groups eG3Removed = await testHelpers.CreateEntityGroup("microtingUIdR3", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG4
+        //entity_groups eG4Removed = await testHelpers.CreateEntityGroup("microtingUIdR4", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG5
+        //entity_groups eG5Removed = await testHelpers.CreateEntityGroup("microtingUIdR5", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG6
+        //entity_groups eG6Removed = await testHelpers.CreateEntityGroup("microtingUIdR6", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG7
+        //entity_groups eG7Removed = await testHelpers.CreateEntityGroup("microtingUIdR7", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG8
+        //entity_groups eG8Removed = await testHelpers.CreateEntityGroup("microtingUIdR8", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG9
+        //entity_groups eG9Removed = await testHelpers.CreateEntityGroup("microtingUIdR9", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG10
+        //entity_groups eG10Removed = await testHelpers.CreateEntityGroup("microtingUIdR10", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#endregion
+
+        //#region Retracted
+
+        //#region eG1
+        //entity_groups eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG2
+        //entity_groups eG2Retracted = await testHelpers.CreateEntityGroup("microtingUIdT2", "EntityGroup2", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG3
+        //entity_groups eG3Retracted = await testHelpers.CreateEntityGroup("microtingUIdT3", "EntityGroup3", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG4
+        //entity_groups eG4Retracted = await testHelpers.CreateEntityGroup("microtingUIdT4", "EntityGroup4", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG5
+        //entity_groups eG5Retracted = await testHelpers.CreateEntityGroup("microtingUIdT5", "EntityGroup5", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG6
+        //entity_groups eG6Retracted = await testHelpers.CreateEntityGroup("microtingUIdT6", "EntityGroup6", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG7
+        //entity_groups eG7Retracted = await testHelpers.CreateEntityGroup("microtingUIdT7", "EntityGroup7", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG8
+        //entity_groups eG8Retracted = await testHelpers.CreateEntityGroup("microtingUIdT8", "EntityGroup8", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG9
+        //entity_groups eG9Retracted = await testHelpers.CreateEntityGroup("microtingUIdT9", "EntityGroup9", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG10
+        //entity_groups eG10Retracted = await testHelpers.CreateEntityGroup("microtingUIdT10", "EntityGroup10", Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#endregion
+
+        //#endregion
+
+        //#region EntitySelect
+        //#region Created
+        //#region eG1
+        //entity_groups eG1Select = await testHelpers.CreateEntityGroup("microtingUIdSC1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG2
+        //entity_groups eG2Select = await testHelpers.CreateEntityGroup("microtingUIdSC2", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG3
+        //entity_groups eG3Select = await testHelpers.CreateEntityGroup("microtingUIdSC3", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG4
+        //entity_groups eG4Select = await testHelpers.CreateEntityGroup("microtingUIdSC4", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG5
+        //entity_groups eG5Select = await testHelpers.CreateEntityGroup("microtingUIdSC5", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG6
+        //entity_groups eG6Select = await testHelpers.CreateEntityGroup("microtingUIdSC6", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG7
+        //entity_groups eG7Select = await testHelpers.CreateEntityGroup("microtingUIdSC7", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG8
+        //entity_groups eG8Select = await testHelpers.CreateEntityGroup("microtingUIdSC8", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG9
+        //entity_groups eG9Select = await testHelpers.CreateEntityGroup("microtingUIdSC9", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#region eG10
+        //entity_groups eG10Select = await testHelpers.CreateEntityGroup("microtingUIdSC10", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        //#endregion
+
+        //#endregion
+
+        //#region Removed
+
+        //#region eG1
+        //entity_groups eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG2
+        //entity_groups eG2SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR2", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG3
+        //entity_groups eG3SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR3", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG4
+        //entity_groups eG4SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR4", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG5
+        //entity_groups eG5SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR5", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG6
+        //entity_groups eG6SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR6", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG7
+        //entity_groups eG7SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR7", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG8
+        //entity_groups eG8SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR8", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG9
+        //entity_groups eG9SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR9", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#region eG10
+        //entity_groups eG10SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR10", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+        //#endregion
+
+        //#endregion
+
+        //#region Retracted
+
+        //#region eG1
+        //entity_groups eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1", "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG2
+        //entity_groups eG2SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST2", "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG3
+        //entity_groups eG3SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST3", "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG4
+        //entity_groups eG4SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST4", "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG5
+        //entity_groups eG5SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST5", "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG6
+        //entity_groups eG6SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST6", "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG7
+        //entity_groups eG7SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST7", "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG8
+        //entity_groups eG8SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST8", "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG9
+        //entity_groups eG9SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST9", "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#region eG10
+        //entity_groups eG10SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST10", "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+        //#endregion
+
+        //#endregion
+
+        //#endregion
+        //#endregion
+        //// Act
+        //#region search
+        //var readSearchCreated = await sut.EntityGroupRead("microtingUIdC");
+        //var readSearchRemoved = await sut.EntityGroupRead("microtingUIdR");
+        //var readSearchRetracted = await sut.EntityGroupRead("microtingUIdT");
+        //#endregion
+
+        //#region select
+        //var readSelectCreated = await sut.EntityGroupRead("microtingUIdSC");
+        //var readSelectRemoved = await sut.EntityGroupRead("microtingUIdSR");
+        //var readSelectRetracted = await sut.EntityGroupRead("microtingUIdST");
+        //#endregion
+        //// Assert
+    }
+#pragma warning restore 1998
+
+    [Test]
+    public async Task SQL_EntityGroup_EntityGroupUpdate_UpdatesEntityGroup()
+    {
+        // Arrance
+
+        #region Entity Groups
+
+        #region EntitySearch
+
+        #region Created
+
+        #region eG1
+
+        EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2 = await testHelpers.CreateEntityGroup("microtingUIdC2", "EntityGroup2",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3 = await testHelpers.CreateEntityGroup("microtingUIdC3", "EntityGroup3",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4 = await testHelpers.CreateEntityGroup("microtingUIdC4", "EntityGroup4",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5 = await testHelpers.CreateEntityGroup("microtingUIdC5", "EntityGroup5",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6 = await testHelpers.CreateEntityGroup("microtingUIdC6", "EntityGroup6",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7 = await testHelpers.CreateEntityGroup("microtingUIdC7", "EntityGroup7",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8 = await testHelpers.CreateEntityGroup("microtingUIdC8", "EntityGroup8",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9 = await testHelpers.CreateEntityGroup("microtingUIdC9", "EntityGroup9",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10 = await testHelpers.CreateEntityGroup("microtingUIdC10", "EntityGroup10",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #endregion
+
+        #region Removed
+
+        #region eG1
+
+        EntityGroup eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2Removed = await testHelpers.CreateEntityGroup("microtingUIdR2", "EntityGroup2",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3Removed = await testHelpers.CreateEntityGroup("microtingUIdR3", "EntityGroup3",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4Removed = await testHelpers.CreateEntityGroup("microtingUIdR4", "EntityGroup4",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5Removed = await testHelpers.CreateEntityGroup("microtingUIdR5", "EntityGroup5",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6Removed = await testHelpers.CreateEntityGroup("microtingUIdR6", "EntityGroup6",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7Removed = await testHelpers.CreateEntityGroup("microtingUIdR7", "EntityGroup7",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8Removed = await testHelpers.CreateEntityGroup("microtingUIdR8", "EntityGroup8",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9Removed = await testHelpers.CreateEntityGroup("microtingUIdR9", "EntityGroup9",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10Removed = await testHelpers.CreateEntityGroup("microtingUIdR10", "EntityGroup10",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #endregion
+
+        #region Retracted
+
+        #region eG1
+
+        EntityGroup eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2Retracted = await testHelpers.CreateEntityGroup("microtingUIdT2", "EntityGroup2",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3Retracted = await testHelpers.CreateEntityGroup("microtingUIdT3", "EntityGroup3",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4Retracted = await testHelpers.CreateEntityGroup("microtingUIdT4", "EntityGroup4",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5Retracted = await testHelpers.CreateEntityGroup("microtingUIdT5", "EntityGroup5",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6Retracted = await testHelpers.CreateEntityGroup("microtingUIdT6", "EntityGroup6",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7Retracted = await testHelpers.CreateEntityGroup("microtingUIdT7", "EntityGroup7",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8Retracted = await testHelpers.CreateEntityGroup("microtingUIdT8", "EntityGroup8",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9Retracted = await testHelpers.CreateEntityGroup("microtingUIdT9", "EntityGroup9",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10Retracted = await testHelpers.CreateEntityGroup("microtingUIdT10", "EntityGroup10",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region EntitySelect
+
+        #region Created
+
+        #region eG1
+
+        EntityGroup eG1Select = await testHelpers.CreateEntityGroup("microtingUIdSC1", "EntityGroup1Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2Select = await testHelpers.CreateEntityGroup("microtingUIdSC2", "EntityGroup2Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3Select = await testHelpers.CreateEntityGroup("microtingUIdSC3", "EntityGroup3Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4Select = await testHelpers.CreateEntityGroup("microtingUIdSC4", "EntityGroup4Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5Select = await testHelpers.CreateEntityGroup("microtingUIdSC5", "EntityGroup5Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6Select = await testHelpers.CreateEntityGroup("microtingUIdSC6", "EntityGroup6Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7Select = await testHelpers.CreateEntityGroup("microtingUIdSC7", "EntityGroup7Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8Select = await testHelpers.CreateEntityGroup("microtingUIdSC8", "EntityGroup8Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9Select = await testHelpers.CreateEntityGroup("microtingUIdSC9", "EntityGroup9Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10Select = await testHelpers.CreateEntityGroup("microtingUIdSC10", "EntityGroup10Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #endregion
+
+        #region Removed
+
+        #region eG1
+
+        EntityGroup eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR2", "EntityGroup2Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR3", "EntityGroup3Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR4", "EntityGroup4Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR5", "EntityGroup5Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR6", "EntityGroup6Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR7", "EntityGroup7Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR8", "EntityGroup8Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR9", "EntityGroup9Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR10",
+            "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #endregion
+
+        #region Retracted
+
+        #region eG1
+
+        EntityGroup eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1",
+            "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST2",
+            "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST3",
+            "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST4",
+            "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST5",
+            "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST6",
+            "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST7",
+            "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST8",
+            "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST9",
+            "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST10",
+            "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        // Act
+
+        var updateEG1 = await sut.EntityGroupUpdate(eG1.Id, eG1.MicrotingUid);
+        var updateEG1removed = await sut.EntityGroupUpdate(eG1Removed.Id, eG1Removed.MicrotingUid);
+        var updateEG1retracted = await sut.EntityGroupUpdate(eG1Retracted.Id, eG1Retracted.MicrotingUid);
+
+
+        // Assert
+        Assert.That(updateEG1, Is.True);
+        Assert.That(updateEG1removed, Is.True);
+        Assert.That(updateEG1retracted, Is.True);
+    }
+
+
+    [Test]
+    public async Task SQL_EntityGroup_EntityGroupUpdateName_UpdatesEnityGroupName()
+    {
+        // Arrance
+
+        #region Entity Groups
+
+        #region EntitySearch
+
+        #region Created
+
+        #region eG1
+
+        EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2 = await testHelpers.CreateEntityGroup("microtingUIdC2", "EntityGroup2",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3 = await testHelpers.CreateEntityGroup("microtingUIdC3", "EntityGroup3",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4 = await testHelpers.CreateEntityGroup("microtingUIdC4", "EntityGroup4",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5 = await testHelpers.CreateEntityGroup("microtingUIdC5", "EntityGroup5",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6 = await testHelpers.CreateEntityGroup("microtingUIdC6", "EntityGroup6",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7 = await testHelpers.CreateEntityGroup("microtingUIdC7", "EntityGroup7",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8 = await testHelpers.CreateEntityGroup("microtingUIdC8", "EntityGroup8",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9 = await testHelpers.CreateEntityGroup("microtingUIdC9", "EntityGroup9",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10 = await testHelpers.CreateEntityGroup("microtingUIdC10", "EntityGroup10",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #endregion
+
+        #region Removed
+
+        #region eG1
+
+        EntityGroup eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2Removed = await testHelpers.CreateEntityGroup("microtingUIdR2", "EntityGroup2",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3Removed = await testHelpers.CreateEntityGroup("microtingUIdR3", "EntityGroup3",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4Removed = await testHelpers.CreateEntityGroup("microtingUIdR4", "EntityGroup4",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5Removed = await testHelpers.CreateEntityGroup("microtingUIdR5", "EntityGroup5",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6Removed = await testHelpers.CreateEntityGroup("microtingUIdR6", "EntityGroup6",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7Removed = await testHelpers.CreateEntityGroup("microtingUIdR7", "EntityGroup7",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8Removed = await testHelpers.CreateEntityGroup("microtingUIdR8", "EntityGroup8",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9Removed = await testHelpers.CreateEntityGroup("microtingUIdR9", "EntityGroup9",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10Removed = await testHelpers.CreateEntityGroup("microtingUIdR10", "EntityGroup10",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #endregion
+
+        #region Retracted
+
+        #region eG1
+
+        EntityGroup eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2Retracted = await testHelpers.CreateEntityGroup("microtingUIdT2", "EntityGroup2",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3Retracted = await testHelpers.CreateEntityGroup("microtingUIdT3", "EntityGroup3",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4Retracted = await testHelpers.CreateEntityGroup("microtingUIdT4", "EntityGroup4",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5Retracted = await testHelpers.CreateEntityGroup("microtingUIdT5", "EntityGroup5",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6Retracted = await testHelpers.CreateEntityGroup("microtingUIdT6", "EntityGroup6",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7Retracted = await testHelpers.CreateEntityGroup("microtingUIdT7", "EntityGroup7",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8Retracted = await testHelpers.CreateEntityGroup("microtingUIdT8", "EntityGroup8",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9Retracted = await testHelpers.CreateEntityGroup("microtingUIdT9", "EntityGroup9",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10Retracted = await testHelpers.CreateEntityGroup("microtingUIdT10", "EntityGroup10",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region EntitySelect
+
+        #region Created
+
+        #region eG1
+
+        EntityGroup eG1Select = await testHelpers.CreateEntityGroup("microtingUIdSC1", "EntityGroup1Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2Select = await testHelpers.CreateEntityGroup("microtingUIdSC2", "EntityGroup2Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3Select = await testHelpers.CreateEntityGroup("microtingUIdSC3", "EntityGroup3Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4Select = await testHelpers.CreateEntityGroup("microtingUIdSC4", "EntityGroup4Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5Select = await testHelpers.CreateEntityGroup("microtingUIdSC5", "EntityGroup5Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6Select = await testHelpers.CreateEntityGroup("microtingUIdSC6", "EntityGroup6Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7Select = await testHelpers.CreateEntityGroup("microtingUIdSC7", "EntityGroup7Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8Select = await testHelpers.CreateEntityGroup("microtingUIdSC8", "EntityGroup8Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9Select = await testHelpers.CreateEntityGroup("microtingUIdSC9", "EntityGroup9Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10Select = await testHelpers.CreateEntityGroup("microtingUIdSC10", "EntityGroup10Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #endregion
+
+        #region Removed
+
+        #region eG1
+
+        EntityGroup eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR2", "EntityGroup2Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR3", "EntityGroup3Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR4", "EntityGroup4Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR5", "EntityGroup5Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR6", "EntityGroup6Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR7", "EntityGroup7Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR8", "EntityGroup8Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR9", "EntityGroup9Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR10",
+            "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #endregion
+
+        #region Retracted
+
+        #region eG1
+
+        EntityGroup eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1",
+            "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST2",
+            "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST3",
+            "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST4",
+            "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST5",
+            "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST6",
+            "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST7",
+            "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST8",
+            "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST9",
+            "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST10",
+            "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        // Act
+        var EG1nameUpdate = await sut.EntityGroupUpdateName(eG1.Name, eG1.MicrotingUid);
+        var EG2nameUpdate = await sut.EntityGroupUpdateName(eG2.Name, eG2.MicrotingUid);
+        var EG3nameUpdate = await sut.EntityGroupUpdateName(eG3.Name, eG3.MicrotingUid);
+
+        // Assert
+        Assert.That(EG1nameUpdate, Is.True);
+        Assert.That(EG2nameUpdate, Is.True);
+        Assert.That(EG3nameUpdate, Is.True);
+    }
+
+    //TODO René needs to make migration
+    [Test]
+#pragma warning disable 1998
+    public async Task SQL_EntityGroup_EntityGroupUpdateItems_UpdatesEntityGroupItems()
+    {
+        // Arrance
+
+        // Act
+
+        // Assert
+    }
+#pragma warning restore 1998
+
+    [Test]
+    public async Task SQL_EntityGroup_EntityGroupDelete_DeletesEntityGroup()
+    {
+        // Arrance
+
+        #region Entity Groups
+
+        #region EntitySearch
+
+        #region Created
+
+        #region eG1
+
+        EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2 = await testHelpers.CreateEntityGroup("microtingUIdC2", "EntityGroup2",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3 = await testHelpers.CreateEntityGroup("microtingUIdC3", "EntityGroup3",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4 = await testHelpers.CreateEntityGroup("microtingUIdC4", "EntityGroup4",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5 = await testHelpers.CreateEntityGroup("microtingUIdC5", "EntityGroup5",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6 = await testHelpers.CreateEntityGroup("microtingUIdC6", "EntityGroup6",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7 = await testHelpers.CreateEntityGroup("microtingUIdC7", "EntityGroup7",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8 = await testHelpers.CreateEntityGroup("microtingUIdC8", "EntityGroup8",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9 = await testHelpers.CreateEntityGroup("microtingUIdC9", "EntityGroup9",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10 = await testHelpers.CreateEntityGroup("microtingUIdC10", "EntityGroup10",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #endregion
+
+        #region Removed
+
+        #region eG1
+
+        EntityGroup eG1Removed = await testHelpers.CreateEntityGroup("microtingUIdR1", "EntityGroup1",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2Removed = await testHelpers.CreateEntityGroup("microtingUIdR2", "EntityGroup2",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3Removed = await testHelpers.CreateEntityGroup("microtingUIdR3", "EntityGroup3",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4Removed = await testHelpers.CreateEntityGroup("microtingUIdR4", "EntityGroup4",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5Removed = await testHelpers.CreateEntityGroup("microtingUIdR5", "EntityGroup5",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6Removed = await testHelpers.CreateEntityGroup("microtingUIdR6", "EntityGroup6",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7Removed = await testHelpers.CreateEntityGroup("microtingUIdR7", "EntityGroup7",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8Removed = await testHelpers.CreateEntityGroup("microtingUIdR8", "EntityGroup8",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9Removed = await testHelpers.CreateEntityGroup("microtingUIdR9", "EntityGroup9",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10Removed = await testHelpers.CreateEntityGroup("microtingUIdR10", "EntityGroup10",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #endregion
+
+        #region Retracted
+
+        #region eG1
+
+        EntityGroup eG1Retracted = await testHelpers.CreateEntityGroup("microtingUIdT1", "EntityGroup1",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2Retracted = await testHelpers.CreateEntityGroup("microtingUIdT2", "EntityGroup2",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3Retracted = await testHelpers.CreateEntityGroup("microtingUIdT3", "EntityGroup3",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4Retracted = await testHelpers.CreateEntityGroup("microtingUIdT4", "EntityGroup4",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5Retracted = await testHelpers.CreateEntityGroup("microtingUIdT5", "EntityGroup5",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6Retracted = await testHelpers.CreateEntityGroup("microtingUIdT6", "EntityGroup6",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7Retracted = await testHelpers.CreateEntityGroup("microtingUIdT7", "EntityGroup7",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8Retracted = await testHelpers.CreateEntityGroup("microtingUIdT8", "EntityGroup8",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9Retracted = await testHelpers.CreateEntityGroup("microtingUIdT9", "EntityGroup9",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10Retracted = await testHelpers.CreateEntityGroup("microtingUIdT10", "EntityGroup10",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region EntitySelect
+
+        #region Created
+
+        #region eG1
+
+        EntityGroup eG1Select = await testHelpers.CreateEntityGroup("microtingUIdSC1", "EntityGroup1Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2Select = await testHelpers.CreateEntityGroup("microtingUIdSC2", "EntityGroup2Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3Select = await testHelpers.CreateEntityGroup("microtingUIdSC3", "EntityGroup3Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4Select = await testHelpers.CreateEntityGroup("microtingUIdSC4", "EntityGroup4Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5Select = await testHelpers.CreateEntityGroup("microtingUIdSC5", "EntityGroup5Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6Select = await testHelpers.CreateEntityGroup("microtingUIdSC6", "EntityGroup6Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7Select = await testHelpers.CreateEntityGroup("microtingUIdSC7", "EntityGroup7Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8Select = await testHelpers.CreateEntityGroup("microtingUIdSC8", "EntityGroup8Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9Select = await testHelpers.CreateEntityGroup("microtingUIdSC9", "EntityGroup9Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10Select = await testHelpers.CreateEntityGroup("microtingUIdSC10", "EntityGroup10Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+
+        #endregion
+
+        #endregion
+
+        #region Removed
+
+        #region eG1
+
+        EntityGroup eG1SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR1", "EntityGroup1Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR2", "EntityGroup2Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR3", "EntityGroup3Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR4", "EntityGroup4Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR5", "EntityGroup5Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR6", "EntityGroup6Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR7", "EntityGroup7Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR8", "EntityGroup8Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR9", "EntityGroup9Select",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10SelectRemoved = await testHelpers.CreateEntityGroup("microtingUIdSR10",
+            "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Removed);
+
+        #endregion
+
+        #endregion
+
+        #region Retracted
+
+        #region eG1
+
+        EntityGroup eG1SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST1",
+            "EntityGroup1Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG2
+
+        EntityGroup eG2SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST2",
+            "EntityGroup2Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG3
+
+        EntityGroup eG3SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST3",
+            "EntityGroup3Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG4
+
+        EntityGroup eG4SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST4",
+            "EntityGroup4Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG5
+
+        EntityGroup eG5SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST5",
+            "EntityGroup5Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG6
+
+        EntityGroup eG6SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST6",
+            "EntityGroup6Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG7
+
+        EntityGroup eG7SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST7",
+            "EntityGroup7Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG8
+
+        EntityGroup eG8SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST8",
+            "EntityGroup8Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG9
+
+        EntityGroup eG9SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST9",
+            "EntityGroup9Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #region eG10
+
+        EntityGroup eG10SelectRetracted = await testHelpers.CreateEntityGroup("microtingUIdST10",
+            "EntityGroup10Select", Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Retracted);
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        // Act
+        var EG1Delete = await sut.EntityGroupDelete(eG1.MicrotingUid);
+        var EG2Delete = await sut.EntityGroupDelete(eG2.MicrotingUid);
+        var EG3Delete = await sut.EntityGroupDelete(eG3.MicrotingUid);
+        // Assert
+        Assert.That(EG1Delete, Is.EqualTo(Constants.FieldTypes.EntitySearch));
+        Assert.That(EG2Delete, Is.EqualTo(Constants.FieldTypes.EntitySearch));
+        Assert.That(EG3Delete, Is.EqualTo(Constants.FieldTypes.EntitySearch));
+    }
+
+    [Test]
+    public async Task SQL_EntitySearchItemCreate_CreatesEntitySearchItem()
+    {
+        // Arrance
+        EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1",
+            Constants.FieldTypes.EntitySearch, Constants.WorkflowStates.Created);
+        EntityItem eT = new EntityItem
+        {
+            Name = "Jon Doe",
+            Description = "",
+            EntityItemUId = "",
+            WorkflowState = Constants.WorkflowStates.Created
+        };
+
+        // Act
+        await sut.EntityItemCreate(eG1.Id, eT);
+
+        List<Microting.eForm.Infrastructure.Data.Entities.EntityItem> items = DbContext.EntityItems.ToList();
+
+        // Assert
+        Assert.That(items.Count(), Is.EqualTo(1));
+    }
+
+    [Test]
+    public async Task SQL_EntitySelectItemCreate_CreatesEntitySelectItem()
+    {
+        // Arrance
+        EntityGroup eG1 = await testHelpers.CreateEntityGroup("microtingUIdC1", "EntityGroup1",
+            Constants.FieldTypes.EntitySelect, Constants.WorkflowStates.Created);
+        EntityItem eT = new EntityItem
+        {
+            Name = "Jon Doe",
+            Description = "",
+            EntityItemUId = "",
+            WorkflowState = Constants.WorkflowStates.Created
+        };
+
+        // Act
+        await sut.EntityItemCreate(eG1.Id, eT);
+
+        List<Microting.eForm.Infrastructure.Data.Entities.EntityItem> items = DbContext.EntityItems.ToList();
+
+        // Assert
+        Assert.That(items.Count(), Is.EqualTo(1));
+    }
+
+    #endregion
+
+    #region Entity Item
+
+    #endregion
+
+    #endregion
+
+    #region eventhandlers
+
+#pragma warning disable 1998
+    public async Task EventCaseCreated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventCaseRetrived(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventCaseCompleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventCaseDeleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventFileDownloaded(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventSiteActivated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+#pragma warning restore 1998
+
+    #endregion
 }

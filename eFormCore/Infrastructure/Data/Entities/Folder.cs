@@ -24,31 +24,30 @@ SOFTWARE.
 
 using System.Collections.Generic;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class Folder : PnBase
 {
-    public class Folder : PnBase
+    public Folder()
     {
-        public Folder()
-        {
-            Children = new HashSet<Folder>();
-            FolderTranslations = new HashSet<FolderTranslation>();
-        }
-
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        public int? MicrotingUid { get; set; }
-
-        public int? ParentId { get; set; }
-        public bool IsLocked { get; set; } // If true, the folder cannot be deleted or edited
-        public bool IsEditable { get; set; }
-        public bool ManagedByPlugin { get; set; } // If true, the folder is managed by a plugin and cannot be deleted or edited manually
-
-        public virtual Folder Parent { get; set; }
-
-        public virtual ICollection<Folder> Children { get; set; }
-
-        public virtual ICollection<FolderTranslation> FolderTranslations { get; set; }
+        Children = new HashSet<Folder>();
+        FolderTranslations = new HashSet<FolderTranslation>();
     }
+
+    public string Name { get; set; }
+
+    public string Description { get; set; }
+
+    public int? MicrotingUid { get; set; }
+
+    public int? ParentId { get; set; }
+    public bool IsLocked { get; set; } // If true, the folder cannot be deleted or edited
+    public bool IsEditable { get; set; }
+    public bool ManagedByPlugin { get; set; } // If true, the folder is managed by a plugin and cannot be deleted or edited manually
+
+    public virtual Folder Parent { get; set; }
+
+    public virtual ICollection<Folder> Children { get; set; }
+
+    public virtual ICollection<FolderTranslation> FolderTranslations { get; set; }
 }

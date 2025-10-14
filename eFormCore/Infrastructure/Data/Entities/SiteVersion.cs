@@ -24,22 +24,21 @@ SOFTWARE.
 
 using System.ComponentModel.DataAnnotations;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class SiteVersion : BaseEntity
 {
-    public class SiteVersion : BaseEntity
-    {
-        [StringLength(255)] public string Name { get; set; }
+    [StringLength(255)] public string Name { get; set; }
 
-        public int? MicrotingUid { get; set; }
+    public int? MicrotingUid { get; set; }
 
-        public int? SiteId { get; set; }
+    public int? SiteId { get; set; }
 
-        public int LanguageId { get; set; }
+    public int LanguageId { get; set; }
 
-        public int SearchableEntityItemId { get; set; }
+    public int SearchableEntityItemId { get; set; }
 
-        public int SelectableEntityItemId { get; set; }
+    public int SelectableEntityItemId { get; set; }
 
-        public bool IsLocked { get; set; }
-    }
+    public bool IsLocked { get; set; }
 }

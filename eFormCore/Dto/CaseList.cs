@@ -24,23 +24,22 @@ SOFTWARE.
 
 using System.Collections.Generic;
 
-namespace Microting.eForm.Dto
+namespace Microting.eForm.Dto;
+
+public class CaseList
 {
-    public class CaseList
+    public CaseList()
     {
-        public CaseList()
-        {
-        }
-
-        public CaseList(int numOfElements, int pageNum, List<Case> caseList)
-        {
-            NumOfElements = numOfElements;
-            PageNum = pageNum;
-            Cases = caseList;
-        }
-
-        public int NumOfElements { get; }
-        public int PageNum { get; }
-        public List<Case> Cases { get; }
     }
+
+    public CaseList(int numOfElements, int pageNum, List<Case> caseList)
+    {
+        NumOfElements = numOfElements;
+        PageNum = pageNum;
+        Cases = caseList;
+    }
+
+    public int NumOfElements { get; }
+    public int PageNum { get; }
+    public List<Case> Cases { get; }
 }

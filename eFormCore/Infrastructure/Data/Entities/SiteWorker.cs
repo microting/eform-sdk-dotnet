@@ -24,18 +24,17 @@ SOFTWARE.
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class SiteWorker : PnBase
 {
-    public class SiteWorker : PnBase
-    {
-        [ForeignKey("site")] public int? SiteId { get; set; }
+    [ForeignKey("site")] public int? SiteId { get; set; }
 
-        [ForeignKey("worker")] public int? WorkerId { get; set; }
+    [ForeignKey("worker")] public int? WorkerId { get; set; }
 
-        public int? MicrotingUid { get; set; }
+    public int? MicrotingUid { get; set; }
 
-        public virtual Site Site { get; set; }
+    public virtual Site Site { get; set; }
 
-        public virtual Worker Worker { get; set; }
-    }
+    public virtual Worker Worker { get; set; }
 }

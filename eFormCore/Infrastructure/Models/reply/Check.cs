@@ -26,44 +26,43 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Microting.eForm.Infrastructure.Models.reply
+namespace Microting.eForm.Infrastructure.Models.reply;
+
+[Serializable]
+public class Check
 {
-    [Serializable]
-    public class Check
+    #region con
+
+    internal Check()
     {
-        #region con
-
-        internal Check()
-        {
-            ElementList = new List<ElementList>();
-        }
-
-        #endregion
-
-        #region var
-
-        public string UnitId { get; set; }
-
-        #region public string Date { get; set; }
-
-        // private string date = "";
-        //public string Date { get { return date.Substring(0, 19); } set { date = value; } }
-        // public string Date { get { return date.AsSpan(0, 19).ToString(); } set { date = value; } }
-        public string Date { get; set; }
-
-        #endregion
-
-        public string Worker { get; set; }
-        public int? Id { get; set; }
-        public string WorkerId { get; set; }
-        public string Manufacturer { get; set; }
-        public string Model { get; set; }
-        public string OsVersion { get; set; }
-        public string SoftwareVersion { get; set; }
-
-        [XmlArray("ElementList"), XmlArrayItem(typeof(ElementList), ElementName = "Element")]
-        public List<ElementList> ElementList { get; set; }
-
-        #endregion
+        ElementList = new List<ElementList>();
     }
+
+    #endregion
+
+    #region var
+
+    public string UnitId { get; set; }
+
+    #region public string Date { get; set; }
+
+    // private string date = "";
+    //public string Date { get { return date.Substring(0, 19); } set { date = value; } }
+    // public string Date { get { return date.AsSpan(0, 19).ToString(); } set { date = value; } }
+    public string Date { get; set; }
+
+    #endregion
+
+    public string Worker { get; set; }
+    public int? Id { get; set; }
+    public string WorkerId { get; set; }
+    public string Manufacturer { get; set; }
+    public string Model { get; set; }
+    public string OsVersion { get; set; }
+    public string SoftwareVersion { get; set; }
+
+    [XmlArray("ElementList"), XmlArrayItem(typeof(ElementList), ElementName = "Element")]
+    public List<ElementList> ElementList { get; set; }
+
+    #endregion
 }

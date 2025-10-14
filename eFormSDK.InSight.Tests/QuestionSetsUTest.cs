@@ -31,203 +31,202 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using NUnit.Framework;
 
-namespace eFormSDK.InSight.Tests
+namespace eFormSDK.InSight.Tests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class QuestionSetsUTest : DbTestFixture
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class QuestionSetsUTest : DbTestFixture
+    [Test]
+    public async Task QuestionSets_Create_DoesCreate()
     {
-        [Test]
-        public async Task QuestionSets_Create_DoesCreate()
+        //Arrange
+
+        Random rnd = new Random();
+        bool randomBool = rnd.Next(0, 2) > 0;
+
+        QuestionSet questionSet = new QuestionSet
         {
-            //Arrange
+            Name = Guid.NewGuid().ToString(),
+            Share = randomBool,
+            HasChild = randomBool,
+            PossiblyDeployed = randomBool
+        };
 
-            Random rnd = new Random();
-            bool randomBool = rnd.Next(0, 2) > 0;
+        //Act
 
-            QuestionSet questionSet = new QuestionSet
-            {
-                Name = Guid.NewGuid().ToString(),
-                Share = randomBool,
-                HasChild = randomBool,
-                PossiblyDeployed = randomBool
-            };
+        await questionSet.Create(DbContext).ConfigureAwait(false);
 
-            //Act
+        List<QuestionSet> questionSets = DbContext.QuestionSets.AsNoTracking().ToList();
+        List<QuestionSetVersion> questionSetVersions = DbContext.QuestionSetVersions.AsNoTracking().ToList();
 
-            await questionSet.Create(DbContext).ConfigureAwait(false);
+        Assert.That(questionSets, Is.Not.EqualTo(null));
+        Assert.That(questionSetVersions, Is.Not.EqualTo(null));
 
-            List<QuestionSet> questionSets = DbContext.QuestionSets.AsNoTracking().ToList();
-            List<QuestionSetVersion> questionSetVersions = DbContext.QuestionSetVersions.AsNoTracking().ToList();
+        Assert.That(questionSets.Count(), Is.EqualTo(1));
+        Assert.That(questionSetVersions.Count(), Is.EqualTo(1));
 
-            Assert.That(questionSets, Is.Not.EqualTo(null));
-            Assert.That(questionSetVersions, Is.Not.EqualTo(null));
+        Assert.That(questionSets[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
+        Assert.That(questionSets[0].Version, Is.EqualTo(questionSet.Version));
+        //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSets[0].UpdatedAt.ToString());
+        Assert.That(questionSets[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(questionSets[0].Id, Is.EqualTo(questionSet.Id));
+        Assert.That(questionSets[0].Name, Is.EqualTo(questionSet.Name));
+        Assert.That(questionSets[0].Share, Is.EqualTo(questionSet.Share));
+        Assert.That(questionSets[0].HasChild, Is.EqualTo(questionSet.HasChild));
+        Assert.That(questionSets[0].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
 
-            Assert.That(questionSets.Count(), Is.EqualTo(1));
-            Assert.That(questionSetVersions.Count(), Is.EqualTo(1));
+        //Versions
 
-            Assert.That(questionSets[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
-            Assert.That(questionSets[0].Version, Is.EqualTo(questionSet.Version));
-            //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSets[0].UpdatedAt.ToString());
-            Assert.That(questionSets[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(questionSets[0].Id, Is.EqualTo(questionSet.Id));
-            Assert.That(questionSets[0].Name, Is.EqualTo(questionSet.Name));
-            Assert.That(questionSets[0].Share, Is.EqualTo(questionSet.Share));
-            Assert.That(questionSets[0].HasChild, Is.EqualTo(questionSet.HasChild));
-            Assert.That(questionSets[0].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
+        Assert.That(questionSetVersions[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
+        Assert.That(questionSetVersions[0].Version, Is.EqualTo(questionSet.Version));
+        //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSetVersions[0].UpdatedAt.ToString());
+        Assert.That(questionSetVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(questionSetVersions[0].Id, Is.EqualTo(questionSet.Id));
+        Assert.That(questionSetVersions[0].Name, Is.EqualTo(questionSet.Name));
+        Assert.That(questionSetVersions[0].Share, Is.EqualTo(questionSet.Share));
+        Assert.That(questionSetVersions[0].HasChild, Is.EqualTo(questionSet.HasChild));
+        Assert.That(questionSetVersions[0].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
+    }
 
-            //Versions
+    [Test]
+    public async Task QuestionSets_Update_DoesUpdate()
+    {
+        //Arrange
 
-            Assert.That(questionSetVersions[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
-            Assert.That(questionSetVersions[0].Version, Is.EqualTo(questionSet.Version));
-            //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSetVersions[0].UpdatedAt.ToString());
-            Assert.That(questionSetVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(questionSetVersions[0].Id, Is.EqualTo(questionSet.Id));
-            Assert.That(questionSetVersions[0].Name, Is.EqualTo(questionSet.Name));
-            Assert.That(questionSetVersions[0].Share, Is.EqualTo(questionSet.Share));
-            Assert.That(questionSetVersions[0].HasChild, Is.EqualTo(questionSet.HasChild));
-            Assert.That(questionSetVersions[0].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
-        }
+        Random rnd = new Random();
+        bool randomBool = rnd.Next(0, 2) > 0;
 
-        [Test]
-        public async Task QuestionSets_Update_DoesUpdate()
+        QuestionSet questionSet = new QuestionSet
         {
-            //Arrange
+            Name = Guid.NewGuid().ToString(),
+            Share = randomBool,
+            HasChild = randomBool,
+            PossiblyDeployed = randomBool
+        };
+        await questionSet.Create(DbContext).ConfigureAwait(false);
 
-            Random rnd = new Random();
-            bool randomBool = rnd.Next(0, 2) > 0;
+        //Act
 
-            QuestionSet questionSet = new QuestionSet
-            {
-                Name = Guid.NewGuid().ToString(),
-                Share = randomBool,
-                HasChild = randomBool,
-                PossiblyDeployed = randomBool
-            };
-            await questionSet.Create(DbContext).ConfigureAwait(false);
+        DateTime? oldUpdatedAt = questionSet.UpdatedAt;
+        string oldName = questionSet.Name;
+        bool oldShare = questionSet.Share;
+        bool oldHasChild = questionSet.HasChild;
+        bool oldPossiblyDeployed = questionSet.PossiblyDeployed;
 
-            //Act
+        questionSet.Name = Guid.NewGuid().ToString();
+        questionSet.Share = randomBool;
+        questionSet.HasChild = randomBool;
+        questionSet.PossiblyDeployed = randomBool;
 
-            DateTime? oldUpdatedAt = questionSet.UpdatedAt;
-            string oldName = questionSet.Name;
-            bool oldShare = questionSet.Share;
-            bool oldHasChild = questionSet.HasChild;
-            bool oldPossiblyDeployed = questionSet.PossiblyDeployed;
+        await questionSet.Update(DbContext).ConfigureAwait(false);
 
-            questionSet.Name = Guid.NewGuid().ToString();
-            questionSet.Share = randomBool;
-            questionSet.HasChild = randomBool;
-            questionSet.PossiblyDeployed = randomBool;
+        List<QuestionSet> questionSets = DbContext.QuestionSets.AsNoTracking().ToList();
+        List<QuestionSetVersion> questionSetVersions = DbContext.QuestionSetVersions.AsNoTracking().ToList();
 
-            await questionSet.Update(DbContext).ConfigureAwait(false);
+        Assert.That(questionSets, Is.Not.EqualTo(null));
+        Assert.That(questionSetVersions, Is.Not.EqualTo(null));
 
-            List<QuestionSet> questionSets = DbContext.QuestionSets.AsNoTracking().ToList();
-            List<QuestionSetVersion> questionSetVersions = DbContext.QuestionSetVersions.AsNoTracking().ToList();
+        Assert.That(questionSets.Count(), Is.EqualTo(1));
+        Assert.That(questionSetVersions.Count(), Is.EqualTo(2));
 
-            Assert.That(questionSets, Is.Not.EqualTo(null));
-            Assert.That(questionSetVersions, Is.Not.EqualTo(null));
+        Assert.That(questionSets[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
+        Assert.That(questionSets[0].Version, Is.EqualTo(questionSet.Version));
+        //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSets[0].UpdatedAt.ToString());
+        Assert.That(questionSets[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(questionSets[0].Id, Is.EqualTo(questionSet.Id));
+        Assert.That(questionSets[0].Name, Is.EqualTo(questionSet.Name));
+        Assert.That(questionSets[0].Share, Is.EqualTo(questionSet.Share));
+        Assert.That(questionSets[0].HasChild, Is.EqualTo(questionSet.HasChild));
+        Assert.That(questionSets[0].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
 
-            Assert.That(questionSets.Count(), Is.EqualTo(1));
-            Assert.That(questionSetVersions.Count(), Is.EqualTo(2));
+        //Old Version
 
-            Assert.That(questionSets[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
-            Assert.That(questionSets[0].Version, Is.EqualTo(questionSet.Version));
-            //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSets[0].UpdatedAt.ToString());
-            Assert.That(questionSets[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(questionSets[0].Id, Is.EqualTo(questionSet.Id));
-            Assert.That(questionSets[0].Name, Is.EqualTo(questionSet.Name));
-            Assert.That(questionSets[0].Share, Is.EqualTo(questionSet.Share));
-            Assert.That(questionSets[0].HasChild, Is.EqualTo(questionSet.HasChild));
-            Assert.That(questionSets[0].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
+        Assert.That(questionSetVersions[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
+        Assert.That(questionSetVersions[0].Version, Is.EqualTo(1));
+        //            Assert.AreEqual(oldUpdatedAt.ToString(), questionSetVersions[0].UpdatedAt.ToString());
+        Assert.That(questionSetVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(questionSetVersions[0].QuestionSetId, Is.EqualTo(questionSet.Id));
+        Assert.That(questionSetVersions[0].Name, Is.EqualTo(oldName));
+        Assert.That(questionSetVersions[0].Share, Is.EqualTo(oldShare));
+        Assert.That(questionSetVersions[0].HasChild, Is.EqualTo(oldHasChild));
+        Assert.That(questionSetVersions[0].PossiblyDeployed, Is.EqualTo(oldPossiblyDeployed));
 
-            //Old Version
+        //New Version
+        Assert.That(questionSetVersions[1].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
+        Assert.That(questionSetVersions[1].Version, Is.EqualTo(2));
+        //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSetVersions[1].UpdatedAt.ToString());
+        Assert.That(questionSetVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(questionSetVersions[1].QuestionSetId, Is.EqualTo(questionSet.Id));
+        Assert.That(questionSetVersions[1].Name, Is.EqualTo(questionSet.Name));
+        Assert.That(questionSetVersions[1].Share, Is.EqualTo(questionSet.Share));
+        Assert.That(questionSetVersions[1].HasChild, Is.EqualTo(questionSet.HasChild));
+        Assert.That(questionSetVersions[1].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
+    }
 
-            Assert.That(questionSetVersions[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
-            Assert.That(questionSetVersions[0].Version, Is.EqualTo(1));
-            //            Assert.AreEqual(oldUpdatedAt.ToString(), questionSetVersions[0].UpdatedAt.ToString());
-            Assert.That(questionSetVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(questionSetVersions[0].QuestionSetId, Is.EqualTo(questionSet.Id));
-            Assert.That(questionSetVersions[0].Name, Is.EqualTo(oldName));
-            Assert.That(questionSetVersions[0].Share, Is.EqualTo(oldShare));
-            Assert.That(questionSetVersions[0].HasChild, Is.EqualTo(oldHasChild));
-            Assert.That(questionSetVersions[0].PossiblyDeployed, Is.EqualTo(oldPossiblyDeployed));
+    [Test]
+    public async Task QuestionSets_Delete_DoesSetWorkflowStateToRemoved()
+    {
+        //Arrange
 
-            //New Version
-            Assert.That(questionSetVersions[1].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
-            Assert.That(questionSetVersions[1].Version, Is.EqualTo(2));
-            //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSetVersions[1].UpdatedAt.ToString());
-            Assert.That(questionSetVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(questionSetVersions[1].QuestionSetId, Is.EqualTo(questionSet.Id));
-            Assert.That(questionSetVersions[1].Name, Is.EqualTo(questionSet.Name));
-            Assert.That(questionSetVersions[1].Share, Is.EqualTo(questionSet.Share));
-            Assert.That(questionSetVersions[1].HasChild, Is.EqualTo(questionSet.HasChild));
-            Assert.That(questionSetVersions[1].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
-        }
+        Random rnd = new Random();
+        bool randomBool = rnd.Next(0, 2) > 0;
 
-        [Test]
-        public async Task QuestionSets_Delete_DoesSetWorkflowStateToRemoved()
+        QuestionSet questionSet = new QuestionSet
         {
-            //Arrange
+            Name = Guid.NewGuid().ToString(),
+            Share = randomBool,
+            HasChild = randomBool,
+            PossiblyDeployed = randomBool
+        };
+        await questionSet.Create(DbContext).ConfigureAwait(false);
 
-            Random rnd = new Random();
-            bool randomBool = rnd.Next(0, 2) > 0;
+        //Act
 
-            QuestionSet questionSet = new QuestionSet
-            {
-                Name = Guid.NewGuid().ToString(),
-                Share = randomBool,
-                HasChild = randomBool,
-                PossiblyDeployed = randomBool
-            };
-            await questionSet.Create(DbContext).ConfigureAwait(false);
+        DateTime? oldUpdatedAt = questionSet.UpdatedAt;
 
-            //Act
+        await questionSet.Delete(DbContext);
 
-            DateTime? oldUpdatedAt = questionSet.UpdatedAt;
+        List<QuestionSet> questionSets = DbContext.QuestionSets.AsNoTracking().ToList();
+        List<QuestionSetVersion> questionSetVersions = DbContext.QuestionSetVersions.AsNoTracking().ToList();
 
-            await questionSet.Delete(DbContext);
+        Assert.That(questionSets, Is.Not.EqualTo(null));
+        Assert.That(questionSetVersions, Is.Not.EqualTo(null));
 
-            List<QuestionSet> questionSets = DbContext.QuestionSets.AsNoTracking().ToList();
-            List<QuestionSetVersion> questionSetVersions = DbContext.QuestionSetVersions.AsNoTracking().ToList();
+        Assert.That(questionSets.Count(), Is.EqualTo(1));
+        Assert.That(questionSetVersions.Count(), Is.EqualTo(2));
 
-            Assert.That(questionSets, Is.Not.EqualTo(null));
-            Assert.That(questionSetVersions, Is.Not.EqualTo(null));
+        Assert.That(questionSets[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
+        Assert.That(questionSets[0].Version, Is.EqualTo(questionSet.Version));
+        //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSets[0].UpdatedAt.ToString());
+        Assert.That(questionSets[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+        Assert.That(questionSets[0].Id, Is.EqualTo(questionSet.Id));
+        Assert.That(questionSets[0].Name, Is.EqualTo(questionSet.Name));
+        Assert.That(questionSets[0].Share, Is.EqualTo(questionSet.Share));
+        Assert.That(questionSets[0].HasChild, Is.EqualTo(questionSet.HasChild));
+        Assert.That(questionSets[0].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
 
-            Assert.That(questionSets.Count(), Is.EqualTo(1));
-            Assert.That(questionSetVersions.Count(), Is.EqualTo(2));
+        //Old Version
 
-            Assert.That(questionSets[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
-            Assert.That(questionSets[0].Version, Is.EqualTo(questionSet.Version));
-            //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSets[0].UpdatedAt.ToString());
-            Assert.That(questionSets[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
-            Assert.That(questionSets[0].Id, Is.EqualTo(questionSet.Id));
-            Assert.That(questionSets[0].Name, Is.EqualTo(questionSet.Name));
-            Assert.That(questionSets[0].Share, Is.EqualTo(questionSet.Share));
-            Assert.That(questionSets[0].HasChild, Is.EqualTo(questionSet.HasChild));
-            Assert.That(questionSets[0].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
+        Assert.That(questionSetVersions[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
+        Assert.That(questionSetVersions[0].Version, Is.EqualTo(1));
+        //            Assert.AreEqual(oldUpdatedAt.ToString(), questionSetVersions[0].UpdatedAt.ToString());
+        Assert.That(questionSetVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(questionSetVersions[0].QuestionSetId, Is.EqualTo(questionSet.Id));
+        Assert.That(questionSetVersions[0].Name, Is.EqualTo(questionSet.Name));
+        Assert.That(questionSetVersions[0].Share, Is.EqualTo(questionSet.Share));
+        Assert.That(questionSetVersions[0].HasChild, Is.EqualTo(questionSet.HasChild));
+        Assert.That(questionSetVersions[0].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
 
-            //Old Version
-
-            Assert.That(questionSetVersions[0].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
-            Assert.That(questionSetVersions[0].Version, Is.EqualTo(1));
-            //            Assert.AreEqual(oldUpdatedAt.ToString(), questionSetVersions[0].UpdatedAt.ToString());
-            Assert.That(questionSetVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(questionSetVersions[0].QuestionSetId, Is.EqualTo(questionSet.Id));
-            Assert.That(questionSetVersions[0].Name, Is.EqualTo(questionSet.Name));
-            Assert.That(questionSetVersions[0].Share, Is.EqualTo(questionSet.Share));
-            Assert.That(questionSetVersions[0].HasChild, Is.EqualTo(questionSet.HasChild));
-            Assert.That(questionSetVersions[0].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
-
-            //New Version
-            Assert.That(questionSetVersions[1].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
-            Assert.That(questionSetVersions[1].Version, Is.EqualTo(2));
-            //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSetVersions[1].UpdatedAt.ToString());
-            Assert.That(questionSetVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
-            Assert.That(questionSetVersions[1].QuestionSetId, Is.EqualTo(questionSet.Id));
-            Assert.That(questionSetVersions[1].Name, Is.EqualTo(questionSet.Name));
-            Assert.That(questionSetVersions[1].Share, Is.EqualTo(questionSet.Share));
-            Assert.That(questionSetVersions[1].HasChild, Is.EqualTo(questionSet.HasChild));
-            Assert.That(questionSetVersions[1].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
-        }
+        //New Version
+        Assert.That(questionSetVersions[1].CreatedAt.ToString(), Is.EqualTo(questionSet.CreatedAt.ToString()));
+        Assert.That(questionSetVersions[1].Version, Is.EqualTo(2));
+        //            Assert.AreEqual(questionSet.UpdatedAt.ToString(), questionSetVersions[1].UpdatedAt.ToString());
+        Assert.That(questionSetVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+        Assert.That(questionSetVersions[1].QuestionSetId, Is.EqualTo(questionSet.Id));
+        Assert.That(questionSetVersions[1].Name, Is.EqualTo(questionSet.Name));
+        Assert.That(questionSetVersions[1].Share, Is.EqualTo(questionSet.Share));
+        Assert.That(questionSetVersions[1].HasChild, Is.EqualTo(questionSet.HasChild));
+        Assert.That(questionSetVersions[1].PossiblyDeployed, Is.EqualTo(questionSet.PossiblyDeployed));
     }
 }

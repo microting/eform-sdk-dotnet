@@ -25,16 +25,15 @@ SOFTWARE.
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-namespace eFormSDK.Base.Tests
+namespace eFormSDK.Base.Tests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class CanaryInAColeMine
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class CanaryInAColeMine
+    [Test]
+    public async Task CanPeep()
     {
-        [Test]
-        public async Task CanPeep()
-        {
-            await Task.Run(() => { Assert.Pass(); });
-        }
+        await Task.Run(() => { Assert.Pass(); });
     }
 }

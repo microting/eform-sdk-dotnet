@@ -32,141 +32,140 @@ using Microting.eForm.Infrastructure.Models.reply;
 using Microting.eForm.Messages;
 using Rebus.Handlers;
 
-namespace Microting.eForm.Handlers
+namespace Microting.eForm.Handlers;
+
+class EformDeleteFromServerHandler : IHandleMessages<EformDeleteFromServer>
 {
-    class EformDeleteFromServerHandler : IHandleMessages<EformDeleteFromServer>
+    private readonly SqlController _sqlController;
+    private readonly Communicator _communicator;
+    private readonly Log _log;
+    private readonly Core _core;
+    private readonly Tools _t = new Tools();
+
+    public EformDeleteFromServerHandler(SqlController sqlController, Communicator communicator, Log log, Core core)
     {
-        private readonly SqlController _sqlController;
-        private readonly Communicator _communicator;
-        private readonly Log _log;
-        private readonly Core _core;
-        private readonly Tools _t = new Tools();
+        _sqlController = sqlController;
+        _communicator = communicator;
+        _log = log;
+        _core = core;
+    }
 
-        public EformDeleteFromServerHandler(SqlController sqlController, Communicator communicator, Log log, Core core)
+    public async Task Handle(EformDeleteFromServer message)
+    {
+        string methodName = "EformDeleteFromServer";
+
+        try
         {
-            _sqlController = sqlController;
-            _communicator = communicator;
-            _log = log;
-            _core = core;
+            await DeleteCase(message);
         }
-
-        public async Task Handle(EformDeleteFromServer message)
+        catch (Exception ex)
         {
-            string methodName = "EformDeleteFromServer";
-
             try
             {
-                await DeleteCase(message);
+                _log.LogException(_t.GetMethodName("EformDeleteFromServerHandler"),
+                    methodName + " (EformDeleteFromServer message) failed, with message.MicrotringUUID " +
+                    message.MicrotringUUID, ex);
+            }
+            catch (Exception)
+            {
+                _log.LogException(_t.GetMethodName("EformDeleteFromServerHandler"),
+                    methodName + " (EformDeleteFromServer message) failed", ex);
+            }
+        }
+    }
+
+    private async Task DeleteCase(EformDeleteFromServer message)
+    {
+        int microtingUId = message.MicrotringUUID;
+        string methodName = "EformDeleteFromServerHandler";
+
+        _log.LogStandard(_t.GetMethodName("EformDeleteFromServerHandler"), methodName + " called");
+        _log.LogVariable(_t.GetMethodName("EformDeleteFromServerHandler"), nameof(microtingUId), microtingUId);
+
+        var cDto = await _sqlController.CaseReadByMUId(microtingUId);
+        string xmlResponse = await _communicator.Delete(microtingUId.ToString(), cDto.SiteUId);
+        Response resp = new Response();
+
+        if (xmlResponse.Contains("Error occured: Contact Microting"))
+        {
+            _log.LogEverything(_t.GetMethodName("EformDeleteFromServerHandler"), "XML response:");
+            _log.LogEverything(_t.GetMethodName("EformDeleteFromServerHandler"), xmlResponse);
+            _log.LogEverything("DELETE ERROR", methodName + " failed for microtingUId: " + microtingUId);
+            return;
+        }
+
+        if (xmlResponse.Contains("Error"))
+        {
+            try
+            {
+                resp = resp.XmlToClass(xmlResponse);
+                _log.LogException(_t.GetMethodName("EformDeleteFromServerHandler"), methodName + " failed",
+                    new Exception("Error from Microting server: " + resp.Value));
+                return;
             }
             catch (Exception ex)
             {
                 try
                 {
                     _log.LogException(_t.GetMethodName("EformDeleteFromServerHandler"),
-                        methodName + " (EformDeleteFromServer message) failed, with message.MicrotringUUID " +
-                        message.MicrotringUUID, ex);
+                        methodName + " (string " + microtingUId + ") failed", ex);
                 }
-                catch (Exception)
+                catch
                 {
                     _log.LogException(_t.GetMethodName("EformDeleteFromServerHandler"),
-                        methodName + " (EformDeleteFromServer message) failed", ex);
+                        methodName + " (string microtingUId) failed", ex);
                 }
+
+                return;
             }
         }
 
-        private async Task DeleteCase(EformDeleteFromServer message)
-        {
-            int microtingUId = message.MicrotringUUID;
-            string methodName = "EformDeleteFromServerHandler";
-
-            _log.LogStandard(_t.GetMethodName("EformDeleteFromServerHandler"), methodName + " called");
-            _log.LogVariable(_t.GetMethodName("EformDeleteFromServerHandler"), nameof(microtingUId), microtingUId);
-
-            var cDto = await _sqlController.CaseReadByMUId(microtingUId);
-            string xmlResponse = await _communicator.Delete(microtingUId.ToString(), cDto.SiteUId);
-            Response resp = new Response();
-
-            if (xmlResponse.Contains("Error occured: Contact Microting"))
+        if (xmlResponse.Contains("Parsing in progress: Can not delete check list!</Value>"))
+            for (int i = 1; i < 7; i++)
             {
-                _log.LogEverything(_t.GetMethodName("EformDeleteFromServerHandler"), "XML response:");
-                _log.LogEverything(_t.GetMethodName("EformDeleteFromServerHandler"), xmlResponse);
-                _log.LogEverything("DELETE ERROR", methodName + " failed for microtingUId: " + microtingUId);
+                Thread.Sleep(i * 200);
+                xmlResponse = await _communicator.Delete(microtingUId.ToString(), cDto.SiteUId);
+                if (!xmlResponse.Contains("Parsing in progress: Can not delete check list!</Value>"))
+                    break;
+            }
+
+        _log.LogEverything(_t.GetMethodName("EformDeleteFromServerHandler"), "XML response:");
+        _log.LogEverything(_t.GetMethodName("EformDeleteFromServerHandler"), xmlResponse);
+
+        resp = resp.XmlToClass(xmlResponse);
+        if (resp.Type.ToString() == "Success")
+        {
+            try
+            {
+                await _sqlController.CaseDelete(microtingUId);
+
+                cDto = await _sqlController.CaseReadByMUId(microtingUId);
+                await _core.FireHandleCaseDeleted(cDto);
+
+                _log.LogStandard(_t.GetMethodName("EformDeleteFromServerHandler"), cDto + " has been removed");
+
                 return;
             }
-
-            if (xmlResponse.Contains("Error"))
+            catch (Exception ex)
             {
-                try
-                {
-                    resp = resp.XmlToClass(xmlResponse);
-                    _log.LogException(_t.GetMethodName("EformDeleteFromServerHandler"), methodName + " failed",
-                        new Exception("Error from Microting server: " + resp.Value));
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    try
-                    {
-                        _log.LogException(_t.GetMethodName("EformDeleteFromServerHandler"),
-                            methodName + " (string " + microtingUId + ") failed", ex);
-                    }
-                    catch
-                    {
-                        _log.LogException(_t.GetMethodName("EformDeleteFromServerHandler"),
-                            methodName + " (string microtingUId) failed", ex);
-                    }
-
-                    return;
-                }
+                // Error parsing case - ignore and continue with fallback
+                _log.LogWarning(_t.GetMethodName("EformDeleteFromServerHandler"),
+                    "Failed to parse case, trying with original microtingUId: " + ex.Message);
             }
 
-            if (xmlResponse.Contains("Parsing in progress: Can not delete check list!</Value>"))
-                for (int i = 1; i < 7; i++)
-                {
-                    Thread.Sleep(i * 200);
-                    xmlResponse = await _communicator.Delete(microtingUId.ToString(), cDto.SiteUId);
-                    if (!xmlResponse.Contains("Parsing in progress: Can not delete check list!</Value>"))
-                        break;
-                }
-
-            _log.LogEverything(_t.GetMethodName("EformDeleteFromServerHandler"), "XML response:");
-            _log.LogEverything(_t.GetMethodName("EformDeleteFromServerHandler"), xmlResponse);
-
-            resp = resp.XmlToClass(xmlResponse);
-            if (resp.Type.ToString() == "Success")
+            try
             {
-                try
-                {
-                    await _sqlController.CaseDelete(microtingUId);
+                await _sqlController.CaseDeleteReversed(microtingUId);
 
-                    cDto = await _sqlController.CaseReadByMUId(microtingUId);
-                    await _core.FireHandleCaseDeleted(cDto);
-
-                    _log.LogStandard(_t.GetMethodName("EformDeleteFromServerHandler"), cDto + " has been removed");
-
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    // Error parsing case - ignore and continue with fallback
-                    _log.LogWarning(_t.GetMethodName("EformDeleteFromServerHandler"),
-                        "Failed to parse case, trying with original microtingUId: " + ex.Message);
-                }
-
-                try
-                {
-                    await _sqlController.CaseDeleteReversed(microtingUId);
-
-                    cDto = await _sqlController.CaseReadByMUId(microtingUId);
-                    await _core.FireHandleCaseDeleted(cDto);
-                    _log.LogStandard(_t.GetMethodName("EformDeleteFromServerHandler"), cDto + " has been removed");
-                }
-                catch (Exception ex)
-                {
-                    // Error with reversed case - log and ignore
-                    _log.LogWarning(_t.GetMethodName("EformDeleteFromServerHandler"),
-                        "Failed to delete reversed case: " + ex.Message);
-                }
+                cDto = await _sqlController.CaseReadByMUId(microtingUId);
+                await _core.FireHandleCaseDeleted(cDto);
+                _log.LogStandard(_t.GetMethodName("EformDeleteFromServerHandler"), cDto + " has been removed");
+            }
+            catch (Exception ex)
+            {
+                // Error with reversed case - log and ignore
+                _log.LogWarning(_t.GetMethodName("EformDeleteFromServerHandler"),
+                    "Failed to delete reversed case: " + ex.Message);
             }
         }
     }

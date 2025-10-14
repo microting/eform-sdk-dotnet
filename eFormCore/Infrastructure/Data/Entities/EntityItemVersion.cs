@@ -24,24 +24,23 @@ SOFTWARE.
 
 using System.ComponentModel.DataAnnotations;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class EntityItemVersion : BaseEntity
 {
-    public class EntityItemVersion : BaseEntity
-    {
-        public int EntityItemId { get; set; }
+    public int EntityItemId { get; set; }
 
-        public int? EntityGroupId { get; set; }
+    public int? EntityGroupId { get; set; }
 
-        [StringLength(50)] public string EntityItemUid { get; set; }
+    [StringLength(50)] public string EntityItemUid { get; set; }
 
-        public string MicrotingUid { get; set; }
+    public string MicrotingUid { get; set; }
 
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        public string Description { get; set; }
+    public string Description { get; set; }
 
-        public short? Synced { get; set; }
+    public short? Synced { get; set; }
 
-        public int DisplayIndex { get; set; }
-    }
+    public int DisplayIndex { get; set; }
 }

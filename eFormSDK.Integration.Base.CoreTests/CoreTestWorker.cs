@@ -34,84 +34,83 @@ using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Helpers;
 using NUnit.Framework;
 
-namespace eFormSDK.Integration.Base.CoreTests
+namespace eFormSDK.Integration.Base.CoreTests;
+
+[TestFixture]
+public class CoreTestWorker : DbTestFixture
 {
-    [TestFixture]
-    public class CoreTestWorker : DbTestFixture
+    private Core sut;
+    private TestHelpers testHelpers;
+    private string path;
+
+    public override async Task DoSetup()
     {
-        private Core sut;
-        private TestHelpers testHelpers;
-        private string path;
+        #region Setup SettingsTableContent
 
-        public override async Task DoSetup()
-        {
-            #region Setup SettingsTableContent
-
-            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
-            SqlController sql = new SqlController(dbContextHelper);
-            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            await sql.SettingUpdate(Settings.firstRunDone, "true");
-            await sql.SettingUpdate(Settings.knownSitesDone, "true");
-
-            #endregion
-
-            sut = new Core();
-            sut.HandleCaseCreated += EventCaseCreated;
-            sut.HandleCaseRetrived += EventCaseRetrived;
-            sut.HandleCaseCompleted += EventCaseCompleted;
-            sut.HandleCaseDeleted += EventCaseDeleted;
-            sut.HandleFileDownloaded += EventFileDownloaded;
-            sut.HandleSiteActivated += EventSiteActivated;
-            await sut.StartSqlOnly(ConnectionString);
-            path = Assembly.GetExecutingAssembly().Location;
-            path = Path.GetDirectoryName(path).Replace(@"file:", "");
-            await sut.SetSdkSetting(Settings.fileLocationPicture,
-                Path.Combine(path, "output", "dataFolder", "picture"));
-            await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
-            await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
-            testHelpers = new TestHelpers(ConnectionString);
-            await testHelpers.GenerateDefaultLanguages();
-            //sut.StartLog(new CoreBase());
-        }
-
-
-        // Test for Advanced_WorkerCreate
-
-        // Test for Advanced_SiteWorkerCreate
-
-
-        #region eventhandlers
-
-        public void EventCaseCreated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseRetrived(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseCompleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseDeleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventFileDownloaded(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventSiteActivated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+        DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
+        SqlController sql = new SqlController(dbContextHelper);
+        await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+        await sql.SettingUpdate(Settings.firstRunDone, "true");
+        await sql.SettingUpdate(Settings.knownSitesDone, "true");
 
         #endregion
+
+        sut = new Core();
+        sut.HandleCaseCreated += EventCaseCreated;
+        sut.HandleCaseRetrived += EventCaseRetrived;
+        sut.HandleCaseCompleted += EventCaseCompleted;
+        sut.HandleCaseDeleted += EventCaseDeleted;
+        sut.HandleFileDownloaded += EventFileDownloaded;
+        sut.HandleSiteActivated += EventSiteActivated;
+        await sut.StartSqlOnly(ConnectionString);
+        path = Assembly.GetExecutingAssembly().Location;
+        path = Path.GetDirectoryName(path).Replace(@"file:", "");
+        await sut.SetSdkSetting(Settings.fileLocationPicture,
+            Path.Combine(path, "output", "dataFolder", "picture"));
+        await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
+        await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
+        testHelpers = new TestHelpers(ConnectionString);
+        await testHelpers.GenerateDefaultLanguages();
+        //sut.StartLog(new CoreBase());
     }
+
+
+    // Test for Advanced_WorkerCreate
+
+    // Test for Advanced_SiteWorkerCreate
+
+
+    #region eventhandlers
+
+    public void EventCaseCreated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventCaseRetrived(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventCaseCompleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventCaseDeleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventFileDownloaded(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventSiteActivated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    #endregion
 }

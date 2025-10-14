@@ -24,74 +24,73 @@ SOFTWARE.
 
 using System.ComponentModel.DataAnnotations;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class FieldVersion : BaseEntity
 {
-    public class FieldVersion : BaseEntity
-    {
-        public int? FieldId { get; set; }
+    public int? FieldId { get; set; }
 
-        public int? ParentFieldId { get; set; }
+    public int? ParentFieldId { get; set; }
 
-        public int? CheckListId { get; set; }
+    public int? CheckListId { get; set; }
 
-        public int? FieldTypeId { get; set; }
+    public int? FieldTypeId { get; set; }
 
-        public short? Mandatory { get; set; }
+    public short? Mandatory { get; set; }
 
-        public short? ReadOnly { get; set; }
+    public short? ReadOnly { get; set; }
 
-        public string Label { get; set; }
+    public string Label { get; set; }
 
-        public string Description { get; set; }
+    public string Description { get; set; }
 
-        [StringLength(255)] public string Color { get; set; }
+    [StringLength(255)] public string Color { get; set; }
 
-        public int? DisplayIndex { get; set; }
+    public int? DisplayIndex { get; set; }
 
-        public short? Dummy { get; set; }
+    public short? Dummy { get; set; }
 
-        public string DefaultValue { get; set; }
+    public string DefaultValue { get; set; }
 
-        [StringLength(255)] public string UnitName { get; set; }
+    [StringLength(255)] public string UnitName { get; set; }
 
-        [StringLength(255)] public string MinValue { get; set; }
+    [StringLength(255)] public string MinValue { get; set; }
 
-        [StringLength(255)] public string MaxValue { get; set; }
+    [StringLength(255)] public string MaxValue { get; set; }
 
-        public int? MaxLength { get; set; }
+    public int? MaxLength { get; set; }
 
-        public int? DecimalCount { get; set; }
+    public int? DecimalCount { get; set; }
 
-        public int? Multi { get; set; }
+    public int? Multi { get; set; }
 
-        public short? Optional { get; set; }
+    public short? Optional { get; set; }
 
-        public short? Selected { get; set; }
+    public short? Selected { get; set; }
 
-        public short? Split { get; set; }
+    public short? Split { get; set; }
 
-        public short? GeolocationEnabled { get; set; }
+    public short? GeolocationEnabled { get; set; }
 
-        public short? GeolocationForced { get; set; }
+    public short? GeolocationForced { get; set; }
 
-        public short? GeolocationHidden { get; set; }
+    public short? GeolocationHidden { get; set; }
 
-        public short? StopOnSave { get; set; }
+    public short? StopOnSave { get; set; }
 
-        public short? IsNum { get; set; }
+    public short? IsNum { get; set; }
 
-        public short? BarcodeEnabled { get; set; }
+    public short? BarcodeEnabled { get; set; }
 
-        [StringLength(255)] public string BarcodeType { get; set; }
+    [StringLength(255)] public string BarcodeType { get; set; }
 
-        [StringLength(255)] public string QueryType { get; set; }
+    [StringLength(255)] public string QueryType { get; set; }
 
-        public string KeyValuePairList { get; set; }
+    public string KeyValuePairList { get; set; }
 
-        public string Custom { get; set; }
+    public string Custom { get; set; }
 
-        public int? EntityGroupId { get; set; }
+    public int? EntityGroupId { get; set; }
 
-        public string OriginalId { get; set; }
-    }
+    public string OriginalId { get; set; }
 }

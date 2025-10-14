@@ -24,19 +24,18 @@ SOFTWARE.
 
 using System;
 
-namespace Microting.eForm.Messages
+namespace Microting.eForm.Messages;
+
+public class EformParsedByServer
 {
-    public class EformParsedByServer
+    public string NotificationId { get; protected set; }
+    public int MicrotringUUID { get; protected set; }
+
+    public EformParsedByServer(string notificationId, int microtringUUID)
     {
-        public string NotificationId { get; protected set; }
-        public int MicrotringUUID { get; protected set; }
+        if (string.IsNullOrEmpty(notificationId)) throw new ArgumentNullException(nameof(notificationId));
 
-        public EformParsedByServer(string notificationId, int microtringUUID)
-        {
-            if (string.IsNullOrEmpty(notificationId)) throw new ArgumentNullException(nameof(notificationId));
-
-            NotificationId = notificationId;
-            MicrotringUUID = microtringUUID;
-        }
+        NotificationId = notificationId;
+        MicrotringUUID = microtringUUID;
     }
 }

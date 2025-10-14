@@ -24,20 +24,19 @@ SOFTWARE.
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class OptionTranslation : PnBase
 {
-    public class OptionTranslation : PnBase
-    {
-        [ForeignKey("Option")] public int OptionId { get; set; }
+    [ForeignKey("Option")] public int OptionId { get; set; }
 
-        [ForeignKey("Language")] public int LanguageId { get; set; }
+    [ForeignKey("Language")] public int LanguageId { get; set; }
 
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        public virtual Option Option { get; set; }
+    public virtual Option Option { get; set; }
 
-        public virtual Language Language { get; set; }
+    public virtual Language Language { get; set; }
 
-        public int? MicrotingUid { get; set; }
-    }
+    public int? MicrotingUid { get; set; }
 }

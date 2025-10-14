@@ -30,103 +30,102 @@ using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure.Data.Entities;
 using NUnit.Framework;
 
-namespace eFormSDK.CheckLists.Tests
+namespace eFormSDK.CheckLists.Tests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class FieldTypesUTest : DbTestFixture
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class FieldTypesUTest : DbTestFixture
+    [Test]
+    public async Task FieldType_Create_DoesCreate()
     {
-        [Test]
-        public async Task FieldType_Create_DoesCreate()
+        //Arrange
+
+        FieldType fieldType = new FieldType
         {
-            //Arrange
+            Description = Guid.NewGuid().ToString(),
+            Type = Guid.NewGuid().ToString()
+        };
 
-            FieldType fieldType = new FieldType
-            {
-                Description = Guid.NewGuid().ToString(),
-                Type = Guid.NewGuid().ToString()
-            };
+        //Act
 
-            //Act
+        List<FieldType> fieldTypes = DbContext.FieldTypes.AsNoTracking().ToList();
 
-            List<FieldType> fieldTypes = DbContext.FieldTypes.AsNoTracking().ToList();
+        //Assert Before creating new field type
 
-            //Assert Before creating new field type
+        Assert.That(fieldTypes, Is.Not.EqualTo(null));
+        Assert.That(fieldTypes.Count(), Is.EqualTo(20));
 
-            Assert.That(fieldTypes, Is.Not.EqualTo(null));
-            Assert.That(fieldTypes.Count(), Is.EqualTo(20));
+        //Assert after creating new field type
 
-            //Assert after creating new field type
+        await fieldType.Create(DbContext).ConfigureAwait(false);
+        fieldTypes = DbContext.FieldTypes.AsNoTracking().ToList();
+        Assert.That(fieldTypes.Count(), Is.EqualTo(21));
 
-            await fieldType.Create(DbContext).ConfigureAwait(false);
-            fieldTypes = DbContext.FieldTypes.AsNoTracking().ToList();
-            Assert.That(fieldTypes.Count(), Is.EqualTo(21));
+        Assert.That(fieldTypes[20].Description, Is.EqualTo(fieldType.Description));
+        Assert.That(fieldTypes[20].Id, Is.EqualTo(fieldType.Id));
+        Assert.That(fieldTypes[20].Type, Is.EqualTo(fieldType.Type));
+    }
 
-            Assert.That(fieldTypes[20].Description, Is.EqualTo(fieldType.Description));
-            Assert.That(fieldTypes[20].Id, Is.EqualTo(fieldType.Id));
-            Assert.That(fieldTypes[20].Type, Is.EqualTo(fieldType.Type));
-        }
+    [Test]
+    public async Task FieldType_Update_DoesUpdate()
+    {
+        //Arrange
 
-        [Test]
-        public async Task FieldType_Update_DoesUpdate()
+        FieldType fieldType = new FieldType
         {
-            //Arrange
+            Description = Guid.NewGuid().ToString(),
+            Type = Guid.NewGuid().ToString()
+        };
+        await fieldType.Create(DbContext).ConfigureAwait(false);
 
-            FieldType fieldType = new FieldType
-            {
-                Description = Guid.NewGuid().ToString(),
-                Type = Guid.NewGuid().ToString()
-            };
-            await fieldType.Create(DbContext).ConfigureAwait(false);
+        //Act
 
-            //Act
+        fieldType.Description = Guid.NewGuid().ToString();
+        fieldType.Type = Guid.NewGuid().ToString();
 
-            fieldType.Description = Guid.NewGuid().ToString();
-            fieldType.Type = Guid.NewGuid().ToString();
-
-            await fieldType.Update(DbContext).ConfigureAwait(false);
+        await fieldType.Update(DbContext).ConfigureAwait(false);
 
 
-            List<FieldType> fieldTypes = DbContext.FieldTypes.AsNoTracking().ToList();
+        List<FieldType> fieldTypes = DbContext.FieldTypes.AsNoTracking().ToList();
 
-            //Assert
+        //Assert
 
-            Assert.That(fieldTypes, Is.Not.EqualTo(null));
-            Assert.That(fieldTypes.Count(), Is.EqualTo(21));
+        Assert.That(fieldTypes, Is.Not.EqualTo(null));
+        Assert.That(fieldTypes.Count(), Is.EqualTo(21));
 
-            Assert.That(fieldTypes[20].Description, Is.EqualTo(fieldType.Description));
-            Assert.That(fieldTypes[20].Id, Is.EqualTo(fieldType.Id));
-            Assert.That(fieldTypes[20].Type, Is.EqualTo(fieldType.Type));
-        }
+        Assert.That(fieldTypes[20].Description, Is.EqualTo(fieldType.Description));
+        Assert.That(fieldTypes[20].Id, Is.EqualTo(fieldType.Id));
+        Assert.That(fieldTypes[20].Type, Is.EqualTo(fieldType.Type));
+    }
 
-        [Test]
-        public async Task FieldType_Delete_DoesDelete()
+    [Test]
+    public async Task FieldType_Delete_DoesDelete()
+    {
+        //Arrange
+
+        FieldType fieldType = new FieldType
         {
-            //Arrange
+            Description = Guid.NewGuid().ToString(),
+            Type = Guid.NewGuid().ToString()
+        };
+        await fieldType.Create(DbContext).ConfigureAwait(false);
 
-            FieldType fieldType = new FieldType
-            {
-                Description = Guid.NewGuid().ToString(),
-                Type = Guid.NewGuid().ToString()
-            };
-            await fieldType.Create(DbContext).ConfigureAwait(false);
+        //Act
 
-            //Act
+        List<FieldType> fieldTypes = DbContext.FieldTypes.AsNoTracking().ToList();
 
-            List<FieldType> fieldTypes = DbContext.FieldTypes.AsNoTracking().ToList();
+        //Assert before delete
 
-            //Assert before delete
+        Assert.That(fieldTypes, Is.Not.EqualTo(null));
+        Assert.That(fieldTypes.Count(), Is.EqualTo(21));
 
-            Assert.That(fieldTypes, Is.Not.EqualTo(null));
-            Assert.That(fieldTypes.Count(), Is.EqualTo(21));
+        //Assert after delete
 
-            //Assert after delete
+        await fieldType.Delete(DbContext);
 
-            await fieldType.Delete(DbContext);
+        fieldTypes = DbContext.FieldTypes.AsNoTracking().ToList();
 
-            fieldTypes = DbContext.FieldTypes.AsNoTracking().ToList();
-
-            Assert.That(fieldTypes.Count(), Is.EqualTo(20));
-        }
+        Assert.That(fieldTypes.Count(), Is.EqualTo(20));
     }
 }

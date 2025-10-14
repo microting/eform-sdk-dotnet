@@ -36,240 +36,239 @@ using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using NUnit.Framework;
 
-namespace eFormSDK.Integration.Base.SqlControllerTests
+namespace eFormSDK.Integration.Base.SqlControllerTests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class SqlControllerTestNotification : DbTestFixture
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class SqlControllerTestNotification : DbTestFixture
+    private SqlController sut;
+    private TestHelpers testHelpers;
+
+    public override async Task DoSetup()
     {
-        private SqlController sut;
-        private TestHelpers testHelpers;
+        #region Setup SettingsTableContent
 
-        public override async Task DoSetup()
-        {
-            #region Setup SettingsTableContent
-
-            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
-            SqlController sql = new SqlController(dbContextHelper);
-            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            await sql.SettingUpdate(Settings.firstRunDone, "true");
-            await sql.SettingUpdate(Settings.knownSitesDone, "true");
-
-            #endregion
-
-            sut = new SqlController(dbContextHelper);
-            sut.StartLog(new CoreBase());
-            testHelpers = new TestHelpers(ConnectionString);
-            await testHelpers.GenerateDefaultLanguages();
-            await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
-            await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
-            await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
-        }
-
-        #region notification
-
-        [Test]
-        public async Task SQL_Notification_NewNotificationCreateRetrievedForm_DoesStoreNotification()
-        {
-            // Arrance
-            Random rnd = new Random();
-            var notificationId = Guid.NewGuid().ToString();
-            var microtingUId = rnd.Next(1, 255);
-
-            // Act
-            await sut.NotificationCreate(notificationId, microtingUId, Constants.Notifications.RetrievedForm);
-
-            // Assert
-            var notification = await DbContext.Notifications.FirstOrDefaultAsync(x =>
-                x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
-
-            Assert.That(notification, Is.Not.EqualTo(null));
-            Assert.That(DbContext.Notifications.Count(), Is.EqualTo(1));
-            Assert.That(notification.Activity, Is.EqualTo(Constants.Notifications.RetrievedForm));
-            Assert.That(notification.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-        }
-
-        [Test]
-        public async Task SQL_Notification_NewNotificationCreateCompletedForm_DoesStoreNotification()
-        {
-            // Arrance
-            Random rnd = new Random();
-            var notificationId = Guid.NewGuid().ToString();
-            var microtingUId = rnd.Next(1, 255);
-
-            // Act
-            await sut.NotificationCreate(notificationId, microtingUId, Constants.Notifications.Completed);
-
-            // Assert
-            var notification = await DbContext.Notifications.FirstOrDefaultAsync(x =>
-                x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
-
-            Assert.That(notification, Is.Not.EqualTo(null));
-            Assert.That(DbContext.Notifications.Count(), Is.EqualTo(1));
-            Assert.That(notification.Activity, Is.EqualTo(Constants.Notifications.Completed));
-            Assert.That(notification.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-        }
-
-        [Test]
-        public async Task SQL_Notification_NotificationReadFirst_DoesReturnFirstNotification()
-        {
-            // Arrance
-            Random rnd = new Random();
-            var notificationId1 = Guid.NewGuid().ToString();
-            var microtingUId1 = rnd.Next(1, 255);
-            var notificationId2 = Guid.NewGuid().ToString();
-            var microtingUId2 = rnd.Next(1, 255);
-
-            // Act
-            await sut.NotificationCreate(notificationId1, microtingUId1, Constants.Notifications.Completed);
-            await sut.NotificationCreate(notificationId2, microtingUId2, Constants.Notifications.Completed);
-
-            // Assert
-            NoteDto notification = await sut.NotificationReadFirst();
-
-            Assert.That(notification, Is.Not.EqualTo(null));
-            Assert.That(DbContext.Notifications.Count(), Is.EqualTo(2));
-            Assert.That(notification.Activity, Is.EqualTo(Constants.Notifications.Completed));
-            Assert.That(notification.MicrotingUId, Is.EqualTo(microtingUId1));
-        }
-
-        [Test]
-        public async Task SQL_Notification_NotificationUpdate_DoesUpdateNotification()
-        {
-            // Arrance
-            Random rnd = new Random();
-            var notificationUId = Guid.NewGuid().ToString();
-            var microtingUId = rnd.Next(1, 255);
-
-            // Act
-            await sut.NotificationCreate(notificationUId, microtingUId, Constants.Notifications.Completed);
-            await sut.NotificationUpdate(notificationUId, microtingUId, Constants.WorkflowStates.Processed, "", "");
-
-            // Assert
-            var notification = await DbContext.Notifications.FirstOrDefaultAsync(x =>
-                x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId);
-
-            Assert.That(notification, Is.Not.EqualTo(null));
-            Assert.That(DbContext.Notifications.Count(), Is.EqualTo(1));
-            Assert.That(notification.Activity, Is.EqualTo(Constants.Notifications.Completed));
-            Assert.That(notification.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Processed));
-        }
-
-
-        [Test]
-        public async Task SQL_Notification_Notificationcreate_isCreated()
-        {
-            // Act
-            Random rnd = new Random();
-            await sut.NotificationCreate(Guid.NewGuid().ToString(), rnd.Next(1, 255),
-                Constants.Notifications.UnitActivate);
-            List<Notification> notificationResult = DbContext.Notifications.AsNoTracking().ToList();
-            var versionedMatches = DbContext.Notifications.AsNoTracking().ToList();
-
-            // Assert
-
-            Assert.That(notificationResult, Is.Not.EqualTo(null));
-            Assert.That(notificationResult.Count, Is.EqualTo(1));
-            Assert.That(notificationResult[0].Activity, Is.EqualTo(Constants.Notifications.UnitActivate));
-            Assert.That(notificationResult[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(versionedMatches[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-        }
-
-        [Test]
-        public async Task SQL_Notification_NotificationReadFirst_doesReadFirst()
-        {
-            Random rnd = new Random();
-            Notification aNote1 = new Notification
-            {
-                WorkflowState = Constants.WorkflowStates.Created,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-                NotificationUid = "0",
-                MicrotingUid = rnd.Next(1, 255),
-                Activity = Constants.Notifications.UnitActivate
-            };
-
-
-            DbContext.Notifications.Add(aNote1);
-            await DbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            // Act
-            await sut.NotificationReadFirst();
-            List<Notification> notificationResult = DbContext.Notifications.AsNoTracking().ToList();
-            var versionedMatches = DbContext.Notifications.AsNoTracking().ToList();
-
-
-            // Assert
-            Assert.That(notificationResult[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-        }
-
-        [Test]
-        public async Task SQL_Notification_NotificationUpdate_doesGetUpdated()
-        {
-            Random rnd = new Random();
-            Notification aNote1 = new Notification
-            {
-                WorkflowState = Constants.WorkflowStates.Created,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-                NotificationUid = "0",
-                MicrotingUid = rnd.Next(1, 255),
-                Activity = Constants.Notifications.UnitActivate
-            };
-
-
-            DbContext.Notifications.Add(aNote1);
-            await DbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            // Act
-            await sut.NotificationUpdate(aNote1.NotificationUid, (int)aNote1.MicrotingUid, aNote1.WorkflowState,
-                aNote1.Exception, "");
-            List<Notification> notificationResult = DbContext.Notifications.AsNoTracking().ToList();
-            var versionedMatches = DbContext.Notifications.AsNoTracking().ToList();
-
-            // Assert
-
-            Assert.That(notificationResult[0].NotificationUid, Is.EqualTo(aNote1.NotificationUid));
-            Assert.That(notificationResult[0].MicrotingUid, Is.EqualTo(aNote1.MicrotingUid));
-        }
+        DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
+        SqlController sql = new SqlController(dbContextHelper);
+        await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+        await sql.SettingUpdate(Settings.firstRunDone, "true");
+        await sql.SettingUpdate(Settings.knownSitesDone, "true");
 
         #endregion
 
+        sut = new SqlController(dbContextHelper);
+        sut.StartLog(new CoreBase());
+        testHelpers = new TestHelpers(ConnectionString);
+        await testHelpers.GenerateDefaultLanguages();
+        await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
+        await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
+        await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
+    }
 
-        #region eventhandlers
+    #region notification
+
+    [Test]
+    public async Task SQL_Notification_NewNotificationCreateRetrievedForm_DoesStoreNotification()
+    {
+        // Arrance
+        Random rnd = new Random();
+        var notificationId = Guid.NewGuid().ToString();
+        var microtingUId = rnd.Next(1, 255);
+
+        // Act
+        await sut.NotificationCreate(notificationId, microtingUId, Constants.Notifications.RetrievedForm);
+
+        // Assert
+        var notification = await DbContext.Notifications.FirstOrDefaultAsync(x =>
+            x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
+
+        Assert.That(notification, Is.Not.EqualTo(null));
+        Assert.That(DbContext.Notifications.Count(), Is.EqualTo(1));
+        Assert.That(notification.Activity, Is.EqualTo(Constants.Notifications.RetrievedForm));
+        Assert.That(notification.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+    }
+
+    [Test]
+    public async Task SQL_Notification_NewNotificationCreateCompletedForm_DoesStoreNotification()
+    {
+        // Arrance
+        Random rnd = new Random();
+        var notificationId = Guid.NewGuid().ToString();
+        var microtingUId = rnd.Next(1, 255);
+
+        // Act
+        await sut.NotificationCreate(notificationId, microtingUId, Constants.Notifications.Completed);
+
+        // Assert
+        var notification = await DbContext.Notifications.FirstOrDefaultAsync(x =>
+            x.NotificationUid == notificationId && x.MicrotingUid == microtingUId);
+
+        Assert.That(notification, Is.Not.EqualTo(null));
+        Assert.That(DbContext.Notifications.Count(), Is.EqualTo(1));
+        Assert.That(notification.Activity, Is.EqualTo(Constants.Notifications.Completed));
+        Assert.That(notification.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+    }
+
+    [Test]
+    public async Task SQL_Notification_NotificationReadFirst_DoesReturnFirstNotification()
+    {
+        // Arrance
+        Random rnd = new Random();
+        var notificationId1 = Guid.NewGuid().ToString();
+        var microtingUId1 = rnd.Next(1, 255);
+        var notificationId2 = Guid.NewGuid().ToString();
+        var microtingUId2 = rnd.Next(1, 255);
+
+        // Act
+        await sut.NotificationCreate(notificationId1, microtingUId1, Constants.Notifications.Completed);
+        await sut.NotificationCreate(notificationId2, microtingUId2, Constants.Notifications.Completed);
+
+        // Assert
+        NoteDto notification = await sut.NotificationReadFirst();
+
+        Assert.That(notification, Is.Not.EqualTo(null));
+        Assert.That(DbContext.Notifications.Count(), Is.EqualTo(2));
+        Assert.That(notification.Activity, Is.EqualTo(Constants.Notifications.Completed));
+        Assert.That(notification.MicrotingUId, Is.EqualTo(microtingUId1));
+    }
+
+    [Test]
+    public async Task SQL_Notification_NotificationUpdate_DoesUpdateNotification()
+    {
+        // Arrance
+        Random rnd = new Random();
+        var notificationUId = Guid.NewGuid().ToString();
+        var microtingUId = rnd.Next(1, 255);
+
+        // Act
+        await sut.NotificationCreate(notificationUId, microtingUId, Constants.Notifications.Completed);
+        await sut.NotificationUpdate(notificationUId, microtingUId, Constants.WorkflowStates.Processed, "", "");
+
+        // Assert
+        var notification = await DbContext.Notifications.FirstOrDefaultAsync(x =>
+            x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId);
+
+        Assert.That(notification, Is.Not.EqualTo(null));
+        Assert.That(DbContext.Notifications.Count(), Is.EqualTo(1));
+        Assert.That(notification.Activity, Is.EqualTo(Constants.Notifications.Completed));
+        Assert.That(notification.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Processed));
+    }
+
+
+    [Test]
+    public async Task SQL_Notification_Notificationcreate_isCreated()
+    {
+        // Act
+        Random rnd = new Random();
+        await sut.NotificationCreate(Guid.NewGuid().ToString(), rnd.Next(1, 255),
+            Constants.Notifications.UnitActivate);
+        List<Notification> notificationResult = DbContext.Notifications.AsNoTracking().ToList();
+        var versionedMatches = DbContext.Notifications.AsNoTracking().ToList();
+
+        // Assert
+
+        Assert.That(notificationResult, Is.Not.EqualTo(null));
+        Assert.That(notificationResult.Count, Is.EqualTo(1));
+        Assert.That(notificationResult[0].Activity, Is.EqualTo(Constants.Notifications.UnitActivate));
+        Assert.That(notificationResult[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(versionedMatches[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+    }
+
+    [Test]
+    public async Task SQL_Notification_NotificationReadFirst_doesReadFirst()
+    {
+        Random rnd = new Random();
+        Notification aNote1 = new Notification
+        {
+            WorkflowState = Constants.WorkflowStates.Created,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
+            NotificationUid = "0",
+            MicrotingUid = rnd.Next(1, 255),
+            Activity = Constants.Notifications.UnitActivate
+        };
+
+
+        DbContext.Notifications.Add(aNote1);
+        await DbContext.SaveChangesAsync().ConfigureAwait(false);
+
+        // Act
+        await sut.NotificationReadFirst();
+        List<Notification> notificationResult = DbContext.Notifications.AsNoTracking().ToList();
+        var versionedMatches = DbContext.Notifications.AsNoTracking().ToList();
+
+
+        // Assert
+        Assert.That(notificationResult[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+    }
+
+    [Test]
+    public async Task SQL_Notification_NotificationUpdate_doesGetUpdated()
+    {
+        Random rnd = new Random();
+        Notification aNote1 = new Notification
+        {
+            WorkflowState = Constants.WorkflowStates.Created,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
+            NotificationUid = "0",
+            MicrotingUid = rnd.Next(1, 255),
+            Activity = Constants.Notifications.UnitActivate
+        };
+
+
+        DbContext.Notifications.Add(aNote1);
+        await DbContext.SaveChangesAsync().ConfigureAwait(false);
+
+        // Act
+        await sut.NotificationUpdate(aNote1.NotificationUid, (int)aNote1.MicrotingUid, aNote1.WorkflowState,
+            aNote1.Exception, "");
+        List<Notification> notificationResult = DbContext.Notifications.AsNoTracking().ToList();
+        var versionedMatches = DbContext.Notifications.AsNoTracking().ToList();
+
+        // Assert
+
+        Assert.That(notificationResult[0].NotificationUid, Is.EqualTo(aNote1.NotificationUid));
+        Assert.That(notificationResult[0].MicrotingUid, Is.EqualTo(aNote1.MicrotingUid));
+    }
+
+    #endregion
+
+
+    #region eventhandlers
 
 #pragma warning disable 1998
-        public async Task EventCaseCreated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+    public async Task EventCaseCreated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
 
-        public async Task EventCaseRetrived(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+    public async Task EventCaseRetrived(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
 
-        public async Task EventCaseCompleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+    public async Task EventCaseCompleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
 
-        public async Task EventCaseDeleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+    public async Task EventCaseDeleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
 
-        public async Task EventFileDownloaded(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+    public async Task EventFileDownloaded(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
 
-        public async Task EventSiteActivated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+    public async Task EventSiteActivated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
 #pragma warning restore 1998
 
-        #endregion
-    }
+    #endregion
 }

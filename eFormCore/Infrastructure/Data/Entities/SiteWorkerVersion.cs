@@ -22,16 +22,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class SiteWorkerVersion : BaseEntity
 {
-    public class SiteWorkerVersion : BaseEntity
-    {
-        public int? SiteId { get; set; }
+    public int? SiteId { get; set; }
 
-        public int? WorkerId { get; set; }
+    public int? WorkerId { get; set; }
 
-        public int? MicrotingUid { get; set; }
+    public int? MicrotingUid { get; set; }
 
-        public int? SiteWorkerId { get; set; }
-    }
+    public int? SiteWorkerId { get; set; }
 }

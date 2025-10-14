@@ -22,15 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace Microting.eForm.Messages
-{
-    public class EformDeleteFromServer
-    {
-        public int MicrotringUUID { get; protected set; }
+namespace Microting.eForm.Messages;
 
-        public EformDeleteFromServer(int microtringUUID)
-        {
-            MicrotringUUID = microtringUUID;
-        }
+public class EformDeleteFromServer
+{
+    public int MicrotringUUID { get; protected set; }
+
+    public EformDeleteFromServer(int microtringUUID)
+    {
+        MicrotringUUID = microtringUUID;
     }
 }

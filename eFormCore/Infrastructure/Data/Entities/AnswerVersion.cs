@@ -26,30 +26,29 @@ SOFTWARE.
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class AnswerVersion : BaseEntity
 {
-    public class AnswerVersion : BaseEntity
-    {
-        public int? UnitId { get; set; }
+    public int? UnitId { get; set; }
 
-        public int SiteId { get; set; }
+    public int SiteId { get; set; }
 
-        public int AnswerDuration { get; set; }
+    public int AnswerDuration { get; set; }
 
-        public int LanguageId { get; set; }
+    public int LanguageId { get; set; }
 
-        public int? SurveyConfigurationId { get; set; }
+    public int? SurveyConfigurationId { get; set; }
 
-        public DateTime FinishedAt { get; set; }
+    public DateTime FinishedAt { get; set; }
 
-        public int QuestionSetId { get; set; }
+    public int QuestionSetId { get; set; }
 
-        public bool UtcAdjusted { get; set; }
+    public bool UtcAdjusted { get; set; }
 
-        public string TimeZone { get; set; }
+    public string TimeZone { get; set; }
 
-        [ForeignKey("answer")] public int AnswerId { get; set; }
+    [ForeignKey("answer")] public int AnswerId { get; set; }
 
-        public int? MicrotingUid { get; set; }
-    }
+    public int? MicrotingUid { get; set; }
 }

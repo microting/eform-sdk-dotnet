@@ -26,47 +26,46 @@ using System;
 using System.Xml.Serialization;
 using Microting.eForm.Dto;
 
-namespace Microting.eForm.Infrastructure.Models.reply
+namespace Microting.eForm.Infrastructure.Models.reply;
+
+[Serializable]
+//[XmlRoot("DataItem")]
+[XmlInclude(typeof(DataItem))]
+[XmlInclude(typeof(Picture))]
+[XmlInclude(typeof(Audio))]
+[XmlInclude(typeof(Comment))]
+public class DataItemReply
 {
-    [Serializable]
-    //[XmlRoot("DataItem")]
-    [XmlInclude(typeof(DataItem))]
-    [XmlInclude(typeof(Picture))]
-    [XmlInclude(typeof(Audio))]
-    [XmlInclude(typeof(Comment))]
-    public class DataItemReply
-    {
-        internal DataItemReply()
-        {
-        }
-
-        #region var
-
-        public string Id { get; set; }
-
-        public GeolocationData Geolocation { get; set; }
-
-        [XmlElement("Value")] public CDataValue Value { get; set; }
-
-        public string Extension { get; set; }
-        public string URL { get; set; }
-
-        #endregion
-    }
-
-    public class DataItem : DataItemReply
+    internal DataItemReply()
     {
     }
 
-    public class Picture : DataItemReply
-    {
-    }
+    #region var
 
-    public class Audio : DataItemReply
-    {
-    }
+    public string Id { get; set; }
 
-    public class Comment : DataItemReply
-    {
-    }
+    public GeolocationData Geolocation { get; set; }
+
+    [XmlElement("Value")] public CDataValue Value { get; set; }
+
+    public string Extension { get; set; }
+    public string URL { get; set; }
+
+    #endregion
+}
+
+public class DataItem : DataItemReply
+{
+}
+
+public class Picture : DataItemReply
+{
+}
+
+public class Audio : DataItemReply
+{
+}
+
+public class Comment : DataItemReply
+{
 }

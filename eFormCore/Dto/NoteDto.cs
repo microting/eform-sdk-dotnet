@@ -22,38 +22,37 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace Microting.eForm.Dto
+namespace Microting.eForm.Dto;
+
+public class NoteDto
 {
-    public class NoteDto
+    #region con
+
+    public NoteDto()
     {
-        #region con
+    }
 
-        public NoteDto()
-        {
-        }
+    public NoteDto(string id, int? microtingUId, string activity)
+    {
+        Id = id;
+        MicrotingUId = microtingUId;
+        Activity = activity;
+    }
 
-        public NoteDto(string id, int? microtingUId, string activity)
-        {
-            Id = id;
-            MicrotingUId = microtingUId;
-            Activity = activity;
-        }
+    #endregion
 
-        #endregion
+    #region var
 
-        #region var
+    public string Id { get; }
 
-        public string Id { get; }
+    public int? MicrotingUId { get; }
 
-        public int? MicrotingUId { get; }
+    public string Activity { get; }
 
-        public string Activity { get; }
+    #endregion
 
-        #endregion
-
-        public override string ToString()
-        {
-            return "Id:" + Id + " / MicrotingUId:" + MicrotingUId + " / Activity:" + Activity + ".";
-        }
+    public override string ToString()
+    {
+        return "Id:" + Id + " / MicrotingUId:" + MicrotingUId + " / Activity:" + Activity + ".";
     }
 }

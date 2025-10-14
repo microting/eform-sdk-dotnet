@@ -22,21 +22,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class FolderVersion : BaseEntity
 {
-    public class FolderVersion : BaseEntity
-    {
-        public int? FolderId { get; set; }
+    public int? FolderId { get; set; }
 
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        public string Description { get; set; }
+    public string Description { get; set; }
 
-        public int? MicrotingUid { get; set; }
+    public int? MicrotingUid { get; set; }
 
-        public int? ParentId { get; set; }
-        public bool IsLocked { get; set; } // If true, the folder cannot be deleted or edited
-        public bool IsEditable { get; set; }
-        public bool ManagedByPlugin { get; set; } // If true, the folder is managed by a plugin and cannot be deleted or edited manually
-    }
+    public int? ParentId { get; set; }
+    public bool IsLocked { get; set; } // If true, the folder cannot be deleted or edited
+    public bool IsEditable { get; set; }
+    public bool ManagedByPlugin { get; set; } // If true, the folder is managed by a plugin and cannot be deleted or edited manually
 }

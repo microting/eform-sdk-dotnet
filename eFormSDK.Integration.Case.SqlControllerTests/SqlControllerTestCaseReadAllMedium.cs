@@ -31,73 +31,72 @@ using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Helpers;
 using NUnit.Framework;
 
-namespace eFormSDK.Integration.Case.SqlControllerTests
-{
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class SqlControllerTestCaseReadAllMedium : DbTestFixture
-    {
-        private SqlController sut;
+namespace eFormSDK.Integration.Case.SqlControllerTests;
 
-        private TestHelpers testHelpers;
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class SqlControllerTestCaseReadAllMedium : DbTestFixture
+{
+    private SqlController sut;
+
+    private TestHelpers testHelpers;
 //        private string path;
 
-        public override async Task DoSetup()
-        {
-            #region Setup SettingsTableContent
+    public override async Task DoSetup()
+    {
+        #region Setup SettingsTableContent
 
-            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
-            SqlController sql = new SqlController(dbContextHelper);
-            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            await sql.SettingUpdate(Settings.firstRunDone, "true");
-            await sql.SettingUpdate(Settings.knownSitesDone, "true");
-
-            #endregion
-
-            sut = new SqlController(dbContextHelper);
-            sut.StartLog(new CoreBase());
-            testHelpers = new TestHelpers(ConnectionString);
-            await testHelpers.GenerateDefaultLanguages();
-            await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
-            await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
-            await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
-        }
-
-
-        #region eventhandlers
-
-#pragma warning disable 1998
-        public async Task EventCaseCreated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public async Task EventCaseRetrived(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public async Task EventCaseCompleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public async Task EventCaseDeleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public async Task EventFileDownloaded(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public async Task EventSiteActivated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-#pragma warning restore 1998
+        DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
+        SqlController sql = new SqlController(dbContextHelper);
+        await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+        await sql.SettingUpdate(Settings.firstRunDone, "true");
+        await sql.SettingUpdate(Settings.knownSitesDone, "true");
 
         #endregion
+
+        sut = new SqlController(dbContextHelper);
+        sut.StartLog(new CoreBase());
+        testHelpers = new TestHelpers(ConnectionString);
+        await testHelpers.GenerateDefaultLanguages();
+        await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
+        await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
+        await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
     }
+
+
+    #region eventhandlers
+
+#pragma warning disable 1998
+    public async Task EventCaseCreated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventCaseRetrived(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventCaseCompleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventCaseDeleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventFileDownloaded(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public async Task EventSiteActivated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+#pragma warning restore 1998
+
+    #endregion
 }

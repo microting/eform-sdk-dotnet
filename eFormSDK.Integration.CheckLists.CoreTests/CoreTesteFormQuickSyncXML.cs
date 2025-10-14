@@ -38,53 +38,53 @@ using Microting.eForm.Infrastructure.Helpers;
 using Microting.eForm.Infrastructure.Models;
 using NUnit.Framework;
 
-namespace eFormSDK.Integration.CheckLists.CoreTests
+namespace eFormSDK.Integration.CheckLists.CoreTests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class CoreTesteFormQuickSyncXML : DbTestFixture
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class CoreTesteFormQuickSyncXML : DbTestFixture
+    private Core sut;
+    private TestHelpers testHelpers;
+    private string path;
+
+    public override async Task DoSetup()
     {
-        private Core sut;
-        private TestHelpers testHelpers;
-        private string path;
+        #region Setup SettingsTableContent
 
-        public override async Task DoSetup()
-        {
-            #region Setup SettingsTableContent
+        DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
+        SqlController sql = new SqlController(dbContextHelper);
+        await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
+        await sql.SettingUpdate(Settings.firstRunDone, "true");
+        await sql.SettingUpdate(Settings.knownSitesDone, "true");
+        await sql.SettingUpdate(Settings.comAddressNewApi, "none");
 
-            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
-            SqlController sql = new SqlController(dbContextHelper);
-            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef");
-            await sql.SettingUpdate(Settings.firstRunDone, "true");
-            await sql.SettingUpdate(Settings.knownSitesDone, "true");
-            await sql.SettingUpdate(Settings.comAddressNewApi, "none");
+        #endregion
 
-            #endregion
+        sut = new Core();
+        sut.HandleCaseCreated += EventCaseCreated;
+        sut.HandleCaseRetrived += EventCaseRetrived;
+        sut.HandleCaseCompleted += EventCaseCompleted;
+        sut.HandleCaseDeleted += EventCaseDeleted;
+        sut.HandleFileDownloaded += EventFileDownloaded;
+        sut.HandleSiteActivated += EventSiteActivated;
+        await sut.StartSqlOnly(ConnectionString);
+        path = Assembly.GetExecutingAssembly().Location;
+        path = Path.GetDirectoryName(path).Replace(@"file:", "");
+        await sut.SetSdkSetting(Settings.fileLocationPicture,
+            Path.Combine(path, "output", "dataFolder", "picture"));
+        await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
+        await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
+        testHelpers = new TestHelpers(ConnectionString);
+        await testHelpers.GenerateDefaultLanguages();
+        //sut.StartLog(new CoreBase());
+    }
 
-            sut = new Core();
-            sut.HandleCaseCreated += EventCaseCreated;
-            sut.HandleCaseRetrived += EventCaseRetrived;
-            sut.HandleCaseCompleted += EventCaseCompleted;
-            sut.HandleCaseDeleted += EventCaseDeleted;
-            sut.HandleFileDownloaded += EventFileDownloaded;
-            sut.HandleSiteActivated += EventSiteActivated;
-            await sut.StartSqlOnly(ConnectionString);
-            path = Assembly.GetExecutingAssembly().Location;
-            path = Path.GetDirectoryName(path).Replace(@"file:", "");
-            await sut.SetSdkSetting(Settings.fileLocationPicture,
-                Path.Combine(path, "output", "dataFolder", "picture"));
-            await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
-            await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
-            testHelpers = new TestHelpers(ConnectionString);
-            await testHelpers.GenerateDefaultLanguages();
-            //sut.StartLog(new CoreBase());
-        }
-
-        [Test] // Core_Template_TemplateFromXml_ReturnsTemplate()
-        public async Task Core_eForm_QuickSyncEnabledeFormFromXML_ReturnseMainElement()
-        {
-            // Arrange
-            string xmlstring = @"
+    [Test] // Core_Template_TemplateFromXml_ReturnsTemplate()
+    public async Task Core_eForm_QuickSyncEnabledeFormFromXML_ReturnseMainElement()
+    {
+        // Arrange
+        string xmlstring = @"
                 <?xml version='1.0' encoding='utf-8'?>
                 <Main xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
                   <Id>35</Id>
@@ -141,118 +141,117 @@ namespace eFormSDK.Integration.CheckLists.CoreTests
                   <PushMessageTitle />
                   <PushMessageBody />
                 </Main>";
-            // Act
-            MainElement match = await sut.TemplateFromXml(xmlstring);
+        // Act
+        MainElement match = await sut.TemplateFromXml(xmlstring);
 
-            // Assert
-            Assert.That(match, Is.Not.EqualTo(null));
-            Assert.That(match.CaseType, Is.EqualTo(""));
-            Assert.That(match.Repeated, Is.EqualTo(1));
-            Assert.That(match.OriginalId, Is.EqualTo("35"));
-            Assert.That(match.Id, Is.EqualTo(0));
-            Assert.That(match.Label, Is.EqualTo("Lorem ipsum"));
-            Assert.That(match.Language, Is.EqualTo("da"));
-            Assert.That(match.MultiApproval, Is.EqualTo(false));
-            Assert.That(match.FastNavigation, Is.EqualTo(false));
-            Assert.That(match.DisplayOrder, Is.EqualTo(0));
-            Assert.That(match.ElementList.Count(), Is.EqualTo(1));
-            Assert.That(match.EnableQuickSync, Is.EqualTo(true));
+        // Assert
+        Assert.That(match, Is.Not.EqualTo(null));
+        Assert.That(match.CaseType, Is.EqualTo(""));
+        Assert.That(match.Repeated, Is.EqualTo(1));
+        Assert.That(match.OriginalId, Is.EqualTo("35"));
+        Assert.That(match.Id, Is.EqualTo(0));
+        Assert.That(match.Label, Is.EqualTo("Lorem ipsum"));
+        Assert.That(match.Language, Is.EqualTo("da"));
+        Assert.That(match.MultiApproval, Is.EqualTo(false));
+        Assert.That(match.FastNavigation, Is.EqualTo(false));
+        Assert.That(match.DisplayOrder, Is.EqualTo(0));
+        Assert.That(match.ElementList.Count(), Is.EqualTo(1));
+        Assert.That(match.EnableQuickSync, Is.EqualTo(true));
 
-            DataElement dE = (DataElement)match.ElementList[0];
-            Assert.That(dE.DataItemList.Count(), Is.EqualTo(1));
-            Assert.That(dE.Label, Is.EqualTo("Lorem ipsum"));
+        DataElement dE = (DataElement)match.ElementList[0];
+        Assert.That(dE.DataItemList.Count(), Is.EqualTo(1));
+        Assert.That(dE.Label, Is.EqualTo("Lorem ipsum"));
 
-            CDataValue cd = new CDataValue();
+        CDataValue cd = new CDataValue();
 
-            // Assert.AreEqual(dE.Description, cd); TODO
-            Assert.That(dE.DisplayOrder, Is.EqualTo(0));
-            Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
-            // Assert.AreEqual(dE.ManualSync) //TODO No Method for ManualSync
-            Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
-            // Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO DoneButtonDisabled no method found
-            Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
+        // Assert.AreEqual(dE.Description, cd); TODO
+        Assert.That(dE.DisplayOrder, Is.EqualTo(0));
+        Assert.That(dE.ReviewEnabled, Is.EqualTo(false));
+        // Assert.AreEqual(dE.ManualSync) //TODO No Method for ManualSync
+        Assert.That(dE.ExtraFieldsEnabled, Is.EqualTo(false));
+        // Assert.AreEqual(dE.DoneButtonDisabled, false); //TODO DoneButtonDisabled no method found
+        Assert.That(dE.ApprovalEnabled, Is.EqualTo(false));
 
-            SingleSelect commentField = (SingleSelect)dE.DataItemList[0];
-            Assert.That(commentField.Label, Is.EqualTo("Is everything OK:"));
-            // Assert.AreEqual(commentField.Description, cd);
-            Assert.That(commentField.DisplayOrder, Is.EqualTo(1));
-            // Assert.AreEqual(commentField.Multi, 0) //TODO No method MULTI
-            // Assert.AreEqual(commentField.geolocation, false) //TODO no method geolocation
-            // Assert.AreEqual(commentField.Split, false) //TODO no method Split
-            // Assert.AreEqual("", commentField.Value);
-            Assert.That(commentField.ReadOnly, Is.EqualTo(false));
-            Assert.That(commentField.Mandatory, Is.EqualTo(false));
-            // Assert.AreEqual(Constants.FieldColors.Grey, commentField.Color);
-        }
+        SingleSelect commentField = (SingleSelect)dE.DataItemList[0];
+        Assert.That(commentField.Label, Is.EqualTo("Is everything OK:"));
+        // Assert.AreEqual(commentField.Description, cd);
+        Assert.That(commentField.DisplayOrder, Is.EqualTo(1));
+        // Assert.AreEqual(commentField.Multi, 0) //TODO No method MULTI
+        // Assert.AreEqual(commentField.geolocation, false) //TODO no method geolocation
+        // Assert.AreEqual(commentField.Split, false) //TODO no method Split
+        // Assert.AreEqual("", commentField.Value);
+        Assert.That(commentField.ReadOnly, Is.EqualTo(false));
+        Assert.That(commentField.Mandatory, Is.EqualTo(false));
+        // Assert.AreEqual(Constants.FieldColors.Grey, commentField.Color);
+    }
 
 
-        [Test]
-        public async Task Core_Template_TemplateRead_ReturnsTemplateWithQuickSync()
-        {
-            // Arrange
+    [Test]
+    public async Task Core_Template_TemplateRead_ReturnsTemplateWithQuickSync()
+    {
+        // Arrange
 
-            #region Tempalte
+        #region Tempalte
 
-            DateTime cl1_ca = DateTime.UtcNow;
-            DateTime cl1_ua = DateTime.UtcNow;
-            CheckList cl1 =
-                await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
-            //cl1.quick_sync_enabled = 1;
-            CheckList cl_ud = await DbContext.CheckLists.FirstAsync(x => x.Id == cl1.Id);
-            //DbContext.check_lists.Add(cl1);
-            cl_ud.QuickSyncEnabled = 1;
-            await DbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            #endregion
-
-            // Act
-            Language language = DbContext.Languages.Single(x => x.Id == 1);
-            MainElement match = await sut.ReadeForm(cl1.Id, language);
-
-            // Assert
-            Assert.That(match, Is.Not.EqualTo(null));
-            Assert.That(cl1.Id, Is.EqualTo(match.Id));
-            Assert.That(cl1.CaseType, Is.EqualTo(match.CaseType));
-            Assert.That(match.FastNavigation, Is.False);
-            Assert.That(match.Label, Is.EqualTo("A"));
-            Assert.That(match.ManualSync, Is.False);
-            Assert.That(match.MultiApproval, Is.False);
-            Assert.That(cl1.Repeated, Is.EqualTo(match.Repeated));
-            Assert.That(match.EnableQuickSync, Is.True);
-        }
-
-        #region eventhandlers
-
-        public void EventCaseCreated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseRetrived(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseCompleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseDeleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventFileDownloaded(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventSiteActivated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+        DateTime cl1_ca = DateTime.UtcNow;
+        DateTime cl1_ua = DateTime.UtcNow;
+        CheckList cl1 =
+            await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+        //cl1.quick_sync_enabled = 1;
+        CheckList cl_ud = await DbContext.CheckLists.FirstAsync(x => x.Id == cl1.Id);
+        //DbContext.check_lists.Add(cl1);
+        cl_ud.QuickSyncEnabled = 1;
+        await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
         #endregion
+
+        // Act
+        Language language = DbContext.Languages.Single(x => x.Id == 1);
+        MainElement match = await sut.ReadeForm(cl1.Id, language);
+
+        // Assert
+        Assert.That(match, Is.Not.EqualTo(null));
+        Assert.That(cl1.Id, Is.EqualTo(match.Id));
+        Assert.That(cl1.CaseType, Is.EqualTo(match.CaseType));
+        Assert.That(match.FastNavigation, Is.False);
+        Assert.That(match.Label, Is.EqualTo("A"));
+        Assert.That(match.ManualSync, Is.False);
+        Assert.That(match.MultiApproval, Is.False);
+        Assert.That(cl1.Repeated, Is.EqualTo(match.Repeated));
+        Assert.That(match.EnableQuickSync, Is.True);
     }
+
+    #region eventhandlers
+
+    public void EventCaseCreated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventCaseRetrived(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventCaseCompleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventCaseDeleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventFileDownloaded(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventSiteActivated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    #endregion
 }

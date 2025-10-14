@@ -24,20 +24,19 @@ SOFTWARE.
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class QuestionTranslationVersion : BaseEntity
 {
-    public class QuestionTranslationVersion : BaseEntity
-    {
-        public int QuestionId { get; set; }
+    public int QuestionId { get; set; }
 
-        public int LanguageId { get; set; }
+    public int LanguageId { get; set; }
 
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        [ForeignKey("QuestionTranslation")] public int QuestionTranslationId { get; set; }
+    [ForeignKey("QuestionTranslation")] public int QuestionTranslationId { get; set; }
 
-        public virtual QuestionTranslation QuestionTranslation { get; set; }
+    public virtual QuestionTranslation QuestionTranslation { get; set; }
 
-        public int? MicrotingUid { get; set; }
-    }
+    public int? MicrotingUid { get; set; }
 }

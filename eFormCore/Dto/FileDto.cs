@@ -22,74 +22,73 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace Microting.eForm.Dto
+namespace Microting.eForm.Dto;
+
+public class FileDto
 {
-    public class FileDto
+    #region con
+
+    public FileDto(int siteUId, string caseType, string caseUId, string microtingUId, string checkUId,
+        string fileLocation)
     {
-        #region con
+        if (caseType == null)
+            caseType = "";
+        if (caseUId == null)
+            caseUId = "";
+        if (microtingUId == null)
+            microtingUId = "";
+        if (checkUId == null)
+            checkUId = "";
+        if (fileLocation == null)
+            fileLocation = "";
 
-        public FileDto(int siteUId, string caseType, string caseUId, string microtingUId, string checkUId,
-            string fileLocation)
-        {
-            if (caseType == null)
-                caseType = "";
-            if (caseUId == null)
-                caseUId = "";
-            if (microtingUId == null)
-                microtingUId = "";
-            if (checkUId == null)
-                checkUId = "";
-            if (fileLocation == null)
-                fileLocation = "";
+        SiteUId = siteUId;
+        CaseType = caseType;
+        CaseUId = caseUId;
+        MicrotingUId = microtingUId;
+        CheckUId = checkUId;
+        FileLocation = fileLocation;
+    }
 
-            SiteUId = siteUId;
-            CaseType = caseType;
-            CaseUId = caseUId;
-            MicrotingUId = microtingUId;
-            CheckUId = checkUId;
-            FileLocation = fileLocation;
-        }
+    #endregion
 
-        #endregion
+    #region var
 
-        #region var
+    /// <summary>
+    /// Unique identifier of device
+    /// </summary>
+    public int SiteUId { get; }
 
-        /// <summary>
-        /// Unique identifier of device
-        /// </summary>
-        public int SiteUId { get; }
+    /// <summary>
+    /// Identifier of a collection of cases in your system
+    /// </summary>
+    public string CaseType { get; }
 
-        /// <summary>
-        /// Identifier of a collection of cases in your system
-        /// </summary>
-        public string CaseType { get; }
+    /// <summary>
+    /// Unique identifier of a group of case(s) in your system
+    /// </summary>
+    public string CaseUId { get; }
 
-        /// <summary>
-        /// Unique identifier of a group of case(s) in your system
-        /// </summary>
-        public string CaseUId { get; }
+    /// <summary>
+    ///Unique identifier of that specific eForm in Microting system
+    /// </summary>
+    public string MicrotingUId { get; }
 
-        /// <summary>
-        ///Unique identifier of that specific eForm in Microting system
-        /// </summary>
-        public string MicrotingUId { get; }
+    /// <summary>
+    /// Unique identifier of that check of the eForm. Only used if repeat
+    /// </summary>
+    public string CheckUId { get; }
 
-        /// <summary>
-        /// Unique identifier of that check of the eForm. Only used if repeat
-        /// </summary>
-        public string CheckUId { get; }
+    /// <summary>
+    /// Location of the fil
+    /// </summary>
+    public string FileLocation { get; set; }
 
-        /// <summary>
-        /// Location of the fil
-        /// </summary>
-        public string FileLocation { get; set; }
+    #endregion
 
-        #endregion
-
-        public override string ToString()
-        {
-            return "SiteUId:" + SiteUId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" +
-                   MicrotingUId + " / CheckId:" + CheckUId + " / FileLocation:" + FileLocation;
-        }
+    public override string ToString()
+    {
+        return "SiteUId:" + SiteUId + " / CaseType:" + CaseType + " / CaseUId:" + CaseUId + " / MicrotingUId:" +
+               MicrotingUId + " / CheckId:" + CheckUId + " / FileLocation:" + FileLocation;
     }
 }

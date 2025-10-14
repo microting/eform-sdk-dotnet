@@ -30,35 +30,34 @@ using Microting.eForm.Infrastructure;
 using Microting.eForm.Messages;
 using Rebus.Handlers;
 
-namespace Microting.eForm.Handlers
+namespace Microting.eForm.Handlers;
+
+public class TranscribeAudioFileHandler : IHandleMessages<TranscribeAudioFile>
 {
-    public class TranscribeAudioFileHandler : IHandleMessages<TranscribeAudioFile>
+    private readonly SqlController sqlController;
+    private readonly Communicator communicator;
+    private readonly Log log;
+    private readonly Core core;
+    Tools t = new Tools();
+
+    public TranscribeAudioFileHandler(SqlController sqlController, Communicator communicator, Log log, Core core)
     {
-        private readonly SqlController sqlController;
-        private readonly Communicator communicator;
-        private readonly Log log;
-        private readonly Core core;
-        Tools t = new Tools();
+        this.sqlController = sqlController;
+        this.communicator = communicator;
+        this.log = log;
+        this.core = core;
+    }
 
-        public TranscribeAudioFileHandler(SqlController sqlController, Communicator communicator, Log log, Core core)
+    public async Task Handle(TranscribeAudioFile message)
+    {
+        try
         {
-            this.sqlController = sqlController;
-            this.communicator = communicator;
-            this.log = log;
-            this.core = core;
+            await core.TranscribeUploadedData(message.uploadedDataId);
         }
-
-        public async Task Handle(TranscribeAudioFile message)
+        catch (Exception ex)
         {
-            try
-            {
-                await core.TranscribeUploadedData(message.uploadedDataId);
-            }
-            catch (Exception ex)
-            {
-                log.LogException(t.GetMethodName("TranscribeAudioFileHandler"), 
-                    "Failed to transcribe audio file with uploadedDataId: " + message.uploadedDataId, ex);
-            }
+            log.LogException(t.GetMethodName("TranscribeAudioFileHandler"), 
+                "Failed to transcribe audio file with uploadedDataId: " + message.uploadedDataId, ex);
         }
     }
 }

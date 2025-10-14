@@ -24,20 +24,19 @@ SOFTWARE.
 
 using System.ComponentModel.DataAnnotations;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class CheckListValueVersion : BaseEntity
 {
-    public class CheckListValueVersion : BaseEntity
-    {
-        public int? CheckListValueId { get; set; }
+    public int? CheckListValueId { get; set; }
 
-        [StringLength(255)] public string Status { get; set; }
+    [StringLength(255)] public string Status { get; set; }
 
-        public int? UserId { get; set; }
+    public int? UserId { get; set; }
 
-        public int? CaseId { get; set; }
+    public int? CaseId { get; set; }
 
-        public int? CheckListId { get; set; }
+    public int? CheckListId { get; set; }
 
-        public int? CheckListDuplicateId { get; set; }
-    }
+    public int? CheckListDuplicateId { get; set; }
 }

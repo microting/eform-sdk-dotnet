@@ -31,290 +31,289 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using NUnit.Framework;
 
-namespace eFormSDK.Base.Tests
+namespace eFormSDK.Base.Tests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class UnitsUTest : DbTestFixture
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class UnitsUTest : DbTestFixture
+    [Test]
+    public async Task Units_Create_DoesCreate()
     {
-        [Test]
-        public async Task Units_Create_DoesCreate()
+        //Arrange
+
+        Random rnd = new Random();
+
+
+        Site site = new Site
         {
-            //Arrange
+            Name = Guid.NewGuid().ToString(),
+            MicrotingUid = rnd.Next(1, 255)
+        };
+        await site.Create(DbContext).ConfigureAwait(false);
 
-            Random rnd = new Random();
-
-
-            Site site = new Site
-            {
-                Name = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255)
-            };
-            await site.Create(DbContext).ConfigureAwait(false);
-
-            Unit unit = new Unit
-            {
-                CustomerNo = rnd.Next(1, 255),
-                MicrotingUid = rnd.Next(1, 255),
-                OtpCode = rnd.Next(1, 255),
-                Site = site,
-                SiteId = site.Id,
-                Manufacturer = Guid.NewGuid().ToString(),
-                Model = Guid.NewGuid().ToString(),
-                Note = Guid.NewGuid().ToString(),
-                eFormVersion = Guid.NewGuid().ToString(),
-                InSightVersion = Guid.NewGuid().ToString()
-            };
-
-            //Act
-
-            await unit.Create(DbContext).ConfigureAwait(false);
-
-            List<Unit> units = DbContext.Units.AsNoTracking().ToList();
-            List<UnitVersion> unitsVersions = DbContext.UnitVersions.AsNoTracking().ToList();
-
-            //Assert
-
-            Assert.That(units, Is.Not.EqualTo(null));
-            Assert.That(unitsVersions, Is.Not.EqualTo(null));
-
-            Assert.That(units.Count(), Is.EqualTo(1));
-            Assert.That(unitsVersions.Count(), Is.EqualTo(1));
-
-
-            Assert.That(units[0].CustomerNo, Is.EqualTo(unit.CustomerNo));
-            Assert.That(units[0].MicrotingUid, Is.EqualTo(unit.MicrotingUid));
-            Assert.That(units[0].OtpCode, Is.EqualTo(unit.OtpCode));
-            Assert.That(site.Id, Is.EqualTo(unit.SiteId));
-            Assert.That(units[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(units[0].CreatedAt.ToString(), Is.EqualTo(unit.CreatedAt.ToString()));
-            Assert.That(units[0].Version, Is.EqualTo(unit.Version));
-            Assert.That(units[0].Id, Is.EqualTo(unit.Id));
-            //            Assert.AreEqual(unit.UpdatedAt.ToString(), units[0].UpdatedAt.ToString());
-            Assert.That(units[0].Model, Is.EqualTo(unit.Model));
-            Assert.That(units[0].Manufacturer, Is.EqualTo(unit.Manufacturer));
-            Assert.That(units[0].eFormVersion, Is.EqualTo(unit.eFormVersion));
-            Assert.That(units[0].InSightVersion, Is.EqualTo(unit.InSightVersion));
-            Assert.That(units[0].Note, Is.EqualTo(unit.Note));
-
-
-            //Versions
-            Assert.That(unitsVersions[0].CustomerNo, Is.EqualTo(unit.CustomerNo));
-            Assert.That(unitsVersions[0].MicrotingUid, Is.EqualTo(unit.MicrotingUid));
-            Assert.That(unitsVersions[0].OtpCode, Is.EqualTo(unit.OtpCode));
-            Assert.That(unitsVersions[0].SiteId, Is.EqualTo(site.Id));
-            Assert.That(unitsVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(unitsVersions[0].CreatedAt.ToString(), Is.EqualTo(unit.CreatedAt.ToString()));
-            Assert.That(unitsVersions[0].Version, Is.EqualTo(1));
-            Assert.That(unitsVersions[0].Id, Is.EqualTo(unit.Id));
-            //            Assert.AreEqual(unit.UpdatedAt.ToString(), unitsVersions[0].UpdatedAt.ToString());
-            Assert.That(unitsVersions[0].Model, Is.EqualTo(unit.Model));
-            Assert.That(unitsVersions[0].Manufacturer, Is.EqualTo(unit.Manufacturer));
-            Assert.That(unitsVersions[0].eFormVersion, Is.EqualTo(unit.eFormVersion));
-            Assert.That(unitsVersions[0].InSightVersion, Is.EqualTo(unit.InSightVersion));
-            Assert.That(unitsVersions[0].Note, Is.EqualTo(unit.Note));
-        }
-
-        [Test]
-        public async Task Units_Update_DoesUpdate()
+        Unit unit = new Unit
         {
-            //Arrange
+            CustomerNo = rnd.Next(1, 255),
+            MicrotingUid = rnd.Next(1, 255),
+            OtpCode = rnd.Next(1, 255),
+            Site = site,
+            SiteId = site.Id,
+            Manufacturer = Guid.NewGuid().ToString(),
+            Model = Guid.NewGuid().ToString(),
+            Note = Guid.NewGuid().ToString(),
+            eFormVersion = Guid.NewGuid().ToString(),
+            InSightVersion = Guid.NewGuid().ToString()
+        };
 
-            Random rnd = new Random();
+        //Act
 
+        await unit.Create(DbContext).ConfigureAwait(false);
 
-            Site site = new Site
-            {
-                Name = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255)
-            };
-            await site.Create(DbContext).ConfigureAwait(false);
+        List<Unit> units = DbContext.Units.AsNoTracking().ToList();
+        List<UnitVersion> unitsVersions = DbContext.UnitVersions.AsNoTracking().ToList();
 
-            Unit unit = new Unit
-            {
-                CustomerNo = rnd.Next(1, 255),
-                MicrotingUid = rnd.Next(1, 255),
-                OtpCode = rnd.Next(1, 255),
-                Site = site,
-                SiteId = site.Id,
-                Manufacturer = Guid.NewGuid().ToString(),
-                Model = Guid.NewGuid().ToString(),
-                Note = Guid.NewGuid().ToString(),
-                eFormVersion = Guid.NewGuid().ToString(),
-                InSightVersion = Guid.NewGuid().ToString()
-            };
+        //Assert
 
-            await unit.Create(DbContext).ConfigureAwait(false);
+        Assert.That(units, Is.Not.EqualTo(null));
+        Assert.That(unitsVersions, Is.Not.EqualTo(null));
 
-            //Act
-
-            int? oldCustomerNo = unit.CustomerNo;
-            int? oldMicrotingUid = unit.MicrotingUid;
-            int? oldOtpCode = unit.OtpCode;
-            int? oldSiteId = unit.SiteId;
-            DateTime? oldUpdatedAt = unit.UpdatedAt;
-            int? oldId = unit.Id;
-            string oldManufacturer = unit.Manufacturer;
-            string oldModel = unit.Model;
-            string oldNote = unit.Note;
-            string unitEFormVersion = unit.eFormVersion;
-            string unitInSightVersion = unit.InSightVersion;
+        Assert.That(units.Count(), Is.EqualTo(1));
+        Assert.That(unitsVersions.Count(), Is.EqualTo(1));
 
 
-            unit.CustomerNo = rnd.Next(1, 255);
-            unit.MicrotingUid = rnd.Next(1, 255);
-            unit.OtpCode = rnd.Next(1, 255);
+        Assert.That(units[0].CustomerNo, Is.EqualTo(unit.CustomerNo));
+        Assert.That(units[0].MicrotingUid, Is.EqualTo(unit.MicrotingUid));
+        Assert.That(units[0].OtpCode, Is.EqualTo(unit.OtpCode));
+        Assert.That(site.Id, Is.EqualTo(unit.SiteId));
+        Assert.That(units[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(units[0].CreatedAt.ToString(), Is.EqualTo(unit.CreatedAt.ToString()));
+        Assert.That(units[0].Version, Is.EqualTo(unit.Version));
+        Assert.That(units[0].Id, Is.EqualTo(unit.Id));
+        //            Assert.AreEqual(unit.UpdatedAt.ToString(), units[0].UpdatedAt.ToString());
+        Assert.That(units[0].Model, Is.EqualTo(unit.Model));
+        Assert.That(units[0].Manufacturer, Is.EqualTo(unit.Manufacturer));
+        Assert.That(units[0].eFormVersion, Is.EqualTo(unit.eFormVersion));
+        Assert.That(units[0].InSightVersion, Is.EqualTo(unit.InSightVersion));
+        Assert.That(units[0].Note, Is.EqualTo(unit.Note));
 
-            await unit.Update(DbContext).ConfigureAwait(false);
 
-            List<Unit> units = DbContext.Units.AsNoTracking().ToList();
-            List<UnitVersion> unitsVersions = DbContext.UnitVersions.AsNoTracking().ToList();
+        //Versions
+        Assert.That(unitsVersions[0].CustomerNo, Is.EqualTo(unit.CustomerNo));
+        Assert.That(unitsVersions[0].MicrotingUid, Is.EqualTo(unit.MicrotingUid));
+        Assert.That(unitsVersions[0].OtpCode, Is.EqualTo(unit.OtpCode));
+        Assert.That(unitsVersions[0].SiteId, Is.EqualTo(site.Id));
+        Assert.That(unitsVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(unitsVersions[0].CreatedAt.ToString(), Is.EqualTo(unit.CreatedAt.ToString()));
+        Assert.That(unitsVersions[0].Version, Is.EqualTo(1));
+        Assert.That(unitsVersions[0].Id, Is.EqualTo(unit.Id));
+        //            Assert.AreEqual(unit.UpdatedAt.ToString(), unitsVersions[0].UpdatedAt.ToString());
+        Assert.That(unitsVersions[0].Model, Is.EqualTo(unit.Model));
+        Assert.That(unitsVersions[0].Manufacturer, Is.EqualTo(unit.Manufacturer));
+        Assert.That(unitsVersions[0].eFormVersion, Is.EqualTo(unit.eFormVersion));
+        Assert.That(unitsVersions[0].InSightVersion, Is.EqualTo(unit.InSightVersion));
+        Assert.That(unitsVersions[0].Note, Is.EqualTo(unit.Note));
+    }
 
-            //Assert
+    [Test]
+    public async Task Units_Update_DoesUpdate()
+    {
+        //Arrange
 
-            Assert.That(units, Is.Not.EqualTo(null));
-            Assert.That(unitsVersions, Is.Not.EqualTo(null));
+        Random rnd = new Random();
 
-            Assert.That(units.Count(), Is.EqualTo(1));
-            Assert.That(unitsVersions.Count(), Is.EqualTo(2));
 
-            Assert.That(units[0].CustomerNo, Is.EqualTo(unit.CustomerNo));
-            Assert.That(units[0].MicrotingUid, Is.EqualTo(unit.MicrotingUid));
-            Assert.That(units[0].OtpCode, Is.EqualTo(unit.OtpCode));
-            Assert.That(site.Id, Is.EqualTo(unit.SiteId));
-            Assert.That(units[0].CreatedAt.ToString(), Is.EqualTo(unit.CreatedAt.ToString()));
-            Assert.That(units[0].Version, Is.EqualTo(unit.Version));
-            //            Assert.AreEqual(unit.UpdatedAt.ToString(), units[0].UpdatedAt.ToString());
-            Assert.That(units[0].Id, Is.EqualTo(unit.Id));
-            Assert.That(units[0].Model, Is.EqualTo(unit.Model));
-            Assert.That(units[0].Manufacturer, Is.EqualTo(unit.Manufacturer));
-            Assert.That(units[0].eFormVersion, Is.EqualTo(unit.eFormVersion));
-            Assert.That(units[0].InSightVersion, Is.EqualTo(unit.InSightVersion));
-            Assert.That(units[0].Note, Is.EqualTo(unit.Note));
-            //Version 1 Old Version
-            Assert.That(unitsVersions[0].CustomerNo, Is.EqualTo(oldCustomerNo));
-            Assert.That(unitsVersions[0].MicrotingUid, Is.EqualTo(oldMicrotingUid));
-            Assert.That(unitsVersions[0].OtpCode, Is.EqualTo(oldOtpCode));
-            Assert.That(unitsVersions[0].SiteId, Is.EqualTo(site.Id));
-            Assert.That(unitsVersions[0].CreatedAt.ToString(), Is.EqualTo(unit.CreatedAt.ToString()));
-            Assert.That(unitsVersions[0].Version, Is.EqualTo(1));
-            //            Assert.AreEqual(oldUpdatedAt.ToString(), unitsVersions[0].UpdatedAt.ToString());
-            Assert.That(unitsVersions[0].UnitId, Is.EqualTo(oldId));
-            Assert.That(unitsVersions[0].Model, Is.EqualTo(oldModel));
-            Assert.That(unitsVersions[0].Manufacturer, Is.EqualTo(oldManufacturer));
-            Assert.That(unitsVersions[0].eFormVersion, Is.EqualTo(unitEFormVersion));
-            Assert.That(unitsVersions[0].InSightVersion, Is.EqualTo(unitInSightVersion));
-            Assert.That(unitsVersions[0].Note, Is.EqualTo(oldNote));
-
-            //Version 2 Updated Version
-            Assert.That(unitsVersions[1].CustomerNo, Is.EqualTo(unit.CustomerNo));
-            Assert.That(unitsVersions[1].MicrotingUid, Is.EqualTo(unit.MicrotingUid));
-            Assert.That(unitsVersions[1].OtpCode, Is.EqualTo(unit.OtpCode));
-            Assert.That(unitsVersions[1].SiteId, Is.EqualTo(site.Id));
-            Assert.That(unitsVersions[1].CreatedAt.ToString(), Is.EqualTo(unit.CreatedAt.ToString()));
-            Assert.That(unitsVersions[1].Version, Is.EqualTo(2));
-            //            Assert.AreEqual(unit.UpdatedAt.ToString(), unitsVersions[1].UpdatedAt.ToString());
-            Assert.That(unitsVersions[1].UnitId, Is.EqualTo(unit.Id));
-            Assert.That(unitsVersions[1].Model, Is.EqualTo(unit.Model));
-            Assert.That(unitsVersions[1].Manufacturer, Is.EqualTo(unit.Manufacturer));
-            Assert.That(unitsVersions[1].eFormVersion, Is.EqualTo(unit.eFormVersion));
-            Assert.That(unitsVersions[1].InSightVersion, Is.EqualTo(unit.InSightVersion));
-            Assert.That(unitsVersions[1].Note, Is.EqualTo(unit.Note));
-        }
-
-        [Test]
-        public async Task Units_Delete_DoesSetWorkflowStateToRemoved()
+        Site site = new Site
         {
-            //Arrange
+            Name = Guid.NewGuid().ToString(),
+            MicrotingUid = rnd.Next(1, 255)
+        };
+        await site.Create(DbContext).ConfigureAwait(false);
 
-            Random rnd = new Random();
+        Unit unit = new Unit
+        {
+            CustomerNo = rnd.Next(1, 255),
+            MicrotingUid = rnd.Next(1, 255),
+            OtpCode = rnd.Next(1, 255),
+            Site = site,
+            SiteId = site.Id,
+            Manufacturer = Guid.NewGuid().ToString(),
+            Model = Guid.NewGuid().ToString(),
+            Note = Guid.NewGuid().ToString(),
+            eFormVersion = Guid.NewGuid().ToString(),
+            InSightVersion = Guid.NewGuid().ToString()
+        };
+
+        await unit.Create(DbContext).ConfigureAwait(false);
+
+        //Act
+
+        int? oldCustomerNo = unit.CustomerNo;
+        int? oldMicrotingUid = unit.MicrotingUid;
+        int? oldOtpCode = unit.OtpCode;
+        int? oldSiteId = unit.SiteId;
+        DateTime? oldUpdatedAt = unit.UpdatedAt;
+        int? oldId = unit.Id;
+        string oldManufacturer = unit.Manufacturer;
+        string oldModel = unit.Model;
+        string oldNote = unit.Note;
+        string unitEFormVersion = unit.eFormVersion;
+        string unitInSightVersion = unit.InSightVersion;
 
 
-            Site site = new Site
-            {
-                Name = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255)
-            };
-            await site.Create(DbContext).ConfigureAwait(false);
+        unit.CustomerNo = rnd.Next(1, 255);
+        unit.MicrotingUid = rnd.Next(1, 255);
+        unit.OtpCode = rnd.Next(1, 255);
 
-            Unit unit = new Unit
-            {
-                CustomerNo = rnd.Next(1, 255),
-                MicrotingUid = rnd.Next(1, 255),
-                OtpCode = rnd.Next(1, 255),
-                Site = site,
-                SiteId = site.Id,
-                Manufacturer = Guid.NewGuid().ToString(),
-                Model = Guid.NewGuid().ToString(),
-                Note = Guid.NewGuid().ToString(),
-                eFormVersion = Guid.NewGuid().ToString(),
-                InSightVersion = Guid.NewGuid().ToString()
-            };
+        await unit.Update(DbContext).ConfigureAwait(false);
 
-            await unit.Create(DbContext).ConfigureAwait(false);
+        List<Unit> units = DbContext.Units.AsNoTracking().ToList();
+        List<UnitVersion> unitsVersions = DbContext.UnitVersions.AsNoTracking().ToList();
 
-            //Act
-            DateTime? oldUpdatedAt = unit.UpdatedAt;
+        //Assert
 
-            await unit.Delete(DbContext);
+        Assert.That(units, Is.Not.EqualTo(null));
+        Assert.That(unitsVersions, Is.Not.EqualTo(null));
 
-            List<Unit> units = DbContext.Units.AsNoTracking().ToList();
-            List<UnitVersion> unitsVersions = DbContext.UnitVersions.AsNoTracking().ToList();
+        Assert.That(units.Count(), Is.EqualTo(1));
+        Assert.That(unitsVersions.Count(), Is.EqualTo(2));
 
-            //Assert
+        Assert.That(units[0].CustomerNo, Is.EqualTo(unit.CustomerNo));
+        Assert.That(units[0].MicrotingUid, Is.EqualTo(unit.MicrotingUid));
+        Assert.That(units[0].OtpCode, Is.EqualTo(unit.OtpCode));
+        Assert.That(site.Id, Is.EqualTo(unit.SiteId));
+        Assert.That(units[0].CreatedAt.ToString(), Is.EqualTo(unit.CreatedAt.ToString()));
+        Assert.That(units[0].Version, Is.EqualTo(unit.Version));
+        //            Assert.AreEqual(unit.UpdatedAt.ToString(), units[0].UpdatedAt.ToString());
+        Assert.That(units[0].Id, Is.EqualTo(unit.Id));
+        Assert.That(units[0].Model, Is.EqualTo(unit.Model));
+        Assert.That(units[0].Manufacturer, Is.EqualTo(unit.Manufacturer));
+        Assert.That(units[0].eFormVersion, Is.EqualTo(unit.eFormVersion));
+        Assert.That(units[0].InSightVersion, Is.EqualTo(unit.InSightVersion));
+        Assert.That(units[0].Note, Is.EqualTo(unit.Note));
+        //Version 1 Old Version
+        Assert.That(unitsVersions[0].CustomerNo, Is.EqualTo(oldCustomerNo));
+        Assert.That(unitsVersions[0].MicrotingUid, Is.EqualTo(oldMicrotingUid));
+        Assert.That(unitsVersions[0].OtpCode, Is.EqualTo(oldOtpCode));
+        Assert.That(unitsVersions[0].SiteId, Is.EqualTo(site.Id));
+        Assert.That(unitsVersions[0].CreatedAt.ToString(), Is.EqualTo(unit.CreatedAt.ToString()));
+        Assert.That(unitsVersions[0].Version, Is.EqualTo(1));
+        //            Assert.AreEqual(oldUpdatedAt.ToString(), unitsVersions[0].UpdatedAt.ToString());
+        Assert.That(unitsVersions[0].UnitId, Is.EqualTo(oldId));
+        Assert.That(unitsVersions[0].Model, Is.EqualTo(oldModel));
+        Assert.That(unitsVersions[0].Manufacturer, Is.EqualTo(oldManufacturer));
+        Assert.That(unitsVersions[0].eFormVersion, Is.EqualTo(unitEFormVersion));
+        Assert.That(unitsVersions[0].InSightVersion, Is.EqualTo(unitInSightVersion));
+        Assert.That(unitsVersions[0].Note, Is.EqualTo(oldNote));
 
-            Assert.That(units, Is.Not.EqualTo(null));
-            Assert.That(unitsVersions, Is.Not.EqualTo(null));
+        //Version 2 Updated Version
+        Assert.That(unitsVersions[1].CustomerNo, Is.EqualTo(unit.CustomerNo));
+        Assert.That(unitsVersions[1].MicrotingUid, Is.EqualTo(unit.MicrotingUid));
+        Assert.That(unitsVersions[1].OtpCode, Is.EqualTo(unit.OtpCode));
+        Assert.That(unitsVersions[1].SiteId, Is.EqualTo(site.Id));
+        Assert.That(unitsVersions[1].CreatedAt.ToString(), Is.EqualTo(unit.CreatedAt.ToString()));
+        Assert.That(unitsVersions[1].Version, Is.EqualTo(2));
+        //            Assert.AreEqual(unit.UpdatedAt.ToString(), unitsVersions[1].UpdatedAt.ToString());
+        Assert.That(unitsVersions[1].UnitId, Is.EqualTo(unit.Id));
+        Assert.That(unitsVersions[1].Model, Is.EqualTo(unit.Model));
+        Assert.That(unitsVersions[1].Manufacturer, Is.EqualTo(unit.Manufacturer));
+        Assert.That(unitsVersions[1].eFormVersion, Is.EqualTo(unit.eFormVersion));
+        Assert.That(unitsVersions[1].InSightVersion, Is.EqualTo(unit.InSightVersion));
+        Assert.That(unitsVersions[1].Note, Is.EqualTo(unit.Note));
+    }
 
-            Assert.That(units.Count(), Is.EqualTo(1));
-            Assert.That(unitsVersions.Count(), Is.EqualTo(2));
+    [Test]
+    public async Task Units_Delete_DoesSetWorkflowStateToRemoved()
+    {
+        //Arrange
 
-            Assert.That(units[0].CustomerNo, Is.EqualTo(unit.CustomerNo));
-            Assert.That(units[0].MicrotingUid, Is.EqualTo(unit.MicrotingUid));
-            Assert.That(units[0].OtpCode, Is.EqualTo(unit.OtpCode));
-            Assert.That(site.Id, Is.EqualTo(unit.SiteId));
-            Assert.That(units[0].CreatedAt.ToString(), Is.EqualTo(unit.CreatedAt.ToString()));
-            Assert.That(units[0].Version, Is.EqualTo(unit.Version));
-            //            Assert.AreEqual(unit.UpdatedAt.ToString(), units[0].UpdatedAt.ToString());
-            Assert.That(units[0].Id, Is.EqualTo(unit.Id));
-            Assert.That(units[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
-            Assert.That(units[0].Model, Is.EqualTo(unit.Model));
-            Assert.That(units[0].Manufacturer, Is.EqualTo(unit.Manufacturer));
-            Assert.That(units[0].eFormVersion, Is.EqualTo(unit.eFormVersion));
-            Assert.That(units[0].InSightVersion, Is.EqualTo(unit.InSightVersion));
-            Assert.That(units[0].Note, Is.EqualTo(unit.Note));
+        Random rnd = new Random();
 
-            //Version 1
-            Assert.That(unitsVersions[0].CustomerNo, Is.EqualTo(unit.CustomerNo));
-            Assert.That(unitsVersions[0].MicrotingUid, Is.EqualTo(unit.MicrotingUid));
-            Assert.That(unitsVersions[0].OtpCode, Is.EqualTo(unit.OtpCode));
-            Assert.That(unitsVersions[0].SiteId, Is.EqualTo(site.Id));
-            Assert.That(unitsVersions[0].CreatedAt.ToString(), Is.EqualTo(unit.CreatedAt.ToString()));
-            Assert.That(unitsVersions[0].Version, Is.EqualTo(1));
-            //            Assert.AreEqual(oldUpdatedAt.ToString(), unitsVersions[0].UpdatedAt.ToString());
-            Assert.That(unitsVersions[0].UnitId, Is.EqualTo(unit.Id));
-            Assert.That(unitsVersions[0].Model, Is.EqualTo(unit.Model));
-            Assert.That(unitsVersions[0].Manufacturer, Is.EqualTo(unit.Manufacturer));
-            Assert.That(unitsVersions[0].eFormVersion, Is.EqualTo(unit.eFormVersion));
-            Assert.That(unitsVersions[0].InSightVersion, Is.EqualTo(unit.InSightVersion));
-            Assert.That(unitsVersions[0].Note, Is.EqualTo(unit.Note));
-            Assert.That(unitsVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            //Version 2 Deleted Version
-            Assert.That(unitsVersions[1].CustomerNo, Is.EqualTo(unit.CustomerNo));
-            Assert.That(unitsVersions[1].MicrotingUid, Is.EqualTo(unit.MicrotingUid));
-            Assert.That(unitsVersions[1].OtpCode, Is.EqualTo(unit.OtpCode));
-            Assert.That(unitsVersions[1].SiteId, Is.EqualTo(site.Id));
-            Assert.That(unitsVersions[1].CreatedAt.ToString(), Is.EqualTo(unit.CreatedAt.ToString()));
-            Assert.That(unitsVersions[1].Version, Is.EqualTo(2));
-            //            Assert.AreEqual(unit.UpdatedAt.ToString(), unitsVersions[1].UpdatedAt.ToString());
-            Assert.That(unitsVersions[1].UnitId, Is.EqualTo(unit.Id));
-            Assert.That(unitsVersions[1].Model, Is.EqualTo(unit.Model));
-            Assert.That(unitsVersions[1].Manufacturer, Is.EqualTo(unit.Manufacturer));
-            Assert.That(unitsVersions[1].eFormVersion, Is.EqualTo(unit.eFormVersion));
-            Assert.That(unitsVersions[1].InSightVersion, Is.EqualTo(unit.InSightVersion));
-            Assert.That(unitsVersions[1].Note, Is.EqualTo(unit.Note));
-            Assert.That(unitsVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
-        }
+        Site site = new Site
+        {
+            Name = Guid.NewGuid().ToString(),
+            MicrotingUid = rnd.Next(1, 255)
+        };
+        await site.Create(DbContext).ConfigureAwait(false);
+
+        Unit unit = new Unit
+        {
+            CustomerNo = rnd.Next(1, 255),
+            MicrotingUid = rnd.Next(1, 255),
+            OtpCode = rnd.Next(1, 255),
+            Site = site,
+            SiteId = site.Id,
+            Manufacturer = Guid.NewGuid().ToString(),
+            Model = Guid.NewGuid().ToString(),
+            Note = Guid.NewGuid().ToString(),
+            eFormVersion = Guid.NewGuid().ToString(),
+            InSightVersion = Guid.NewGuid().ToString()
+        };
+
+        await unit.Create(DbContext).ConfigureAwait(false);
+
+        //Act
+        DateTime? oldUpdatedAt = unit.UpdatedAt;
+
+        await unit.Delete(DbContext);
+
+        List<Unit> units = DbContext.Units.AsNoTracking().ToList();
+        List<UnitVersion> unitsVersions = DbContext.UnitVersions.AsNoTracking().ToList();
+
+        //Assert
+
+        Assert.That(units, Is.Not.EqualTo(null));
+        Assert.That(unitsVersions, Is.Not.EqualTo(null));
+
+        Assert.That(units.Count(), Is.EqualTo(1));
+        Assert.That(unitsVersions.Count(), Is.EqualTo(2));
+
+        Assert.That(units[0].CustomerNo, Is.EqualTo(unit.CustomerNo));
+        Assert.That(units[0].MicrotingUid, Is.EqualTo(unit.MicrotingUid));
+        Assert.That(units[0].OtpCode, Is.EqualTo(unit.OtpCode));
+        Assert.That(site.Id, Is.EqualTo(unit.SiteId));
+        Assert.That(units[0].CreatedAt.ToString(), Is.EqualTo(unit.CreatedAt.ToString()));
+        Assert.That(units[0].Version, Is.EqualTo(unit.Version));
+        //            Assert.AreEqual(unit.UpdatedAt.ToString(), units[0].UpdatedAt.ToString());
+        Assert.That(units[0].Id, Is.EqualTo(unit.Id));
+        Assert.That(units[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+        Assert.That(units[0].Model, Is.EqualTo(unit.Model));
+        Assert.That(units[0].Manufacturer, Is.EqualTo(unit.Manufacturer));
+        Assert.That(units[0].eFormVersion, Is.EqualTo(unit.eFormVersion));
+        Assert.That(units[0].InSightVersion, Is.EqualTo(unit.InSightVersion));
+        Assert.That(units[0].Note, Is.EqualTo(unit.Note));
+
+        //Version 1
+        Assert.That(unitsVersions[0].CustomerNo, Is.EqualTo(unit.CustomerNo));
+        Assert.That(unitsVersions[0].MicrotingUid, Is.EqualTo(unit.MicrotingUid));
+        Assert.That(unitsVersions[0].OtpCode, Is.EqualTo(unit.OtpCode));
+        Assert.That(unitsVersions[0].SiteId, Is.EqualTo(site.Id));
+        Assert.That(unitsVersions[0].CreatedAt.ToString(), Is.EqualTo(unit.CreatedAt.ToString()));
+        Assert.That(unitsVersions[0].Version, Is.EqualTo(1));
+        //            Assert.AreEqual(oldUpdatedAt.ToString(), unitsVersions[0].UpdatedAt.ToString());
+        Assert.That(unitsVersions[0].UnitId, Is.EqualTo(unit.Id));
+        Assert.That(unitsVersions[0].Model, Is.EqualTo(unit.Model));
+        Assert.That(unitsVersions[0].Manufacturer, Is.EqualTo(unit.Manufacturer));
+        Assert.That(unitsVersions[0].eFormVersion, Is.EqualTo(unit.eFormVersion));
+        Assert.That(unitsVersions[0].InSightVersion, Is.EqualTo(unit.InSightVersion));
+        Assert.That(unitsVersions[0].Note, Is.EqualTo(unit.Note));
+        Assert.That(unitsVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+
+        //Version 2 Deleted Version
+        Assert.That(unitsVersions[1].CustomerNo, Is.EqualTo(unit.CustomerNo));
+        Assert.That(unitsVersions[1].MicrotingUid, Is.EqualTo(unit.MicrotingUid));
+        Assert.That(unitsVersions[1].OtpCode, Is.EqualTo(unit.OtpCode));
+        Assert.That(unitsVersions[1].SiteId, Is.EqualTo(site.Id));
+        Assert.That(unitsVersions[1].CreatedAt.ToString(), Is.EqualTo(unit.CreatedAt.ToString()));
+        Assert.That(unitsVersions[1].Version, Is.EqualTo(2));
+        //            Assert.AreEqual(unit.UpdatedAt.ToString(), unitsVersions[1].UpdatedAt.ToString());
+        Assert.That(unitsVersions[1].UnitId, Is.EqualTo(unit.Id));
+        Assert.That(unitsVersions[1].Model, Is.EqualTo(unit.Model));
+        Assert.That(unitsVersions[1].Manufacturer, Is.EqualTo(unit.Manufacturer));
+        Assert.That(unitsVersions[1].eFormVersion, Is.EqualTo(unit.eFormVersion));
+        Assert.That(unitsVersions[1].InSightVersion, Is.EqualTo(unit.InSightVersion));
+        Assert.That(unitsVersions[1].Note, Is.EqualTo(unit.Note));
+        Assert.That(unitsVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
     }
 }

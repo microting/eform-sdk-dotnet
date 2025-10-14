@@ -9,55 +9,55 @@ using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Models;
 using NUnit.Framework;
 
-namespace eFormSDK.Integration.Case.CoreTests
+namespace eFormSDK.Integration.Case.CoreTests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class CoreTestCaseCreate : DbTestFixture
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class CoreTestCaseCreate : DbTestFixture
+    private Core sut;
+    private TestHelpers testHelpers;
+    private string path;
+
+    public override async Task DoSetup()
     {
-        private Core sut;
-        private TestHelpers testHelpers;
-        private string path;
-
-        public override async Task DoSetup()
+        if (sut == null)
         {
-            if (sut == null)
-            {
-                sut = new Core();
-                sut.HandleCaseCreated += EventCaseCreated;
-                sut.HandleCaseRetrived += EventCaseRetrived;
-                sut.HandleCaseCompleted += EventCaseCompleted;
-                sut.HandleCaseDeleted += EventCaseDeleted;
-                sut.HandleFileDownloaded += EventFileDownloaded;
-                sut.HandleSiteActivated += EventSiteActivated;
-                await sut.StartSqlOnly(ConnectionString);
-            }
-
-            path = Assembly.GetExecutingAssembly().Location;
-            path = Path.GetDirectoryName(path).Replace(@"file:", "");
-            await sut.SetSdkSetting(Settings.fileLocationPicture,
-                Path.Combine(path, "output", "dataFolder", "picture"));
-            await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
-            await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
-            testHelpers = new TestHelpers(ConnectionString);
-            await testHelpers.GenerateDefaultLanguages();
-            //await sut.StartLog(new CoreBase());
+            sut = new Core();
+            sut.HandleCaseCreated += EventCaseCreated;
+            sut.HandleCaseRetrived += EventCaseRetrived;
+            sut.HandleCaseCompleted += EventCaseCompleted;
+            sut.HandleCaseDeleted += EventCaseDeleted;
+            sut.HandleFileDownloaded += EventFileDownloaded;
+            sut.HandleSiteActivated += EventSiteActivated;
+            await sut.StartSqlOnly(ConnectionString);
         }
 
-        [Test] //needs http mock done
-        public async Task Core_Case_CaseCreate_CreatesCase()
-        {
-            // Arrange
+        path = Assembly.GetExecutingAssembly().Location;
+        path = Path.GetDirectoryName(path).Replace(@"file:", "");
+        await sut.SetSdkSetting(Settings.fileLocationPicture,
+            Path.Combine(path, "output", "dataFolder", "picture"));
+        await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
+        await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
+        testHelpers = new TestHelpers(ConnectionString);
+        await testHelpers.GenerateDefaultLanguages();
+        //await sut.StartLog(new CoreBase());
+    }
 
-            #region Template1
+    [Test] //needs http mock done
+    public async Task Core_Case_CaseCreate_CreatesCase()
+    {
+        // Arrange
 
-            DateTime c1_Ca = DateTime.Now;
-            DateTime c1_Ua = DateTime.Now;
+        #region Template1
 
-            CheckList cl1 =
-                await testHelpers.CreateTemplate(c1_Ca, c1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+        DateTime c1_Ca = DateTime.Now;
+        DateTime c1_Ua = DateTime.Now;
 
-            #endregion
+        CheckList cl1 =
+            await testHelpers.CreateTemplate(c1_Ca, c1_Ua, "A", "D", "CheckList", "Template1FolderName", 1, 1);
+
+        #endregion
 
 //            #region SubTemplate1
 //            check_lists cl2 = await testHelpers.CreateSubTemplate("A.1", "D.1", "CheckList", 1, 1, cl1);
@@ -120,60 +120,59 @@ namespace eFormSDK.Integration.Case.CoreTests
 //
 //            #endregion
 
-            #region site
+        #region site
 
-            Site site = await testHelpers.CreateSite("SiteName", 88);
-
-            #endregion
-
-
-            CoreElement CElement = new CoreElement();
-            //CElement.ElementList = new List<Element>();
-
-            MainElement main = new MainElement(1, "label1", 1, "FolderWithList",
-                1, DateTime.Now, DateTime.Now.AddDays(2),
-                "Swahili", false, false, false, false,
-                "Type1", "Push", "TextForBody", false,
-                CElement.ElementList, "Blue");
-            // Act
-            var match = await sut.CaseCreate(main, "", (int)site.MicrotingUid, null);
-            // Assert
-            Assert.That(match, Is.Not.EqualTo(null));
-        }
-
-
-        #region eventhandlers
-
-        public void EventCaseCreated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseRetrived(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseCompleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseDeleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventFileDownloaded(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventSiteActivated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+        Site site = await testHelpers.CreateSite("SiteName", 88);
 
         #endregion
+
+
+        CoreElement CElement = new CoreElement();
+        //CElement.ElementList = new List<Element>();
+
+        MainElement main = new MainElement(1, "label1", 1, "FolderWithList",
+            1, DateTime.Now, DateTime.Now.AddDays(2),
+            "Swahili", false, false, false, false,
+            "Type1", "Push", "TextForBody", false,
+            CElement.ElementList, "Blue");
+        // Act
+        var match = await sut.CaseCreate(main, "", (int)site.MicrotingUid, null);
+        // Assert
+        Assert.That(match, Is.Not.EqualTo(null));
     }
+
+
+    #region eventhandlers
+
+    public void EventCaseCreated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventCaseRetrived(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventCaseCompleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventCaseDeleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventFileDownloaded(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventSiteActivated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    #endregion
 }

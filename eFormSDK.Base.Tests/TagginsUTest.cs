@@ -31,221 +31,220 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using NUnit.Framework;
 
-namespace eFormSDK.Base.Tests
+namespace eFormSDK.Base.Tests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class TagginsUTest : DbTestFixture
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class TagginsUTest : DbTestFixture
+    [Test]
+    public async Task Taggins_Create_DoesCreate()
     {
-        [Test]
-        public async Task Taggins_Create_DoesCreate()
+        Random rnd = new Random();
+
+        short shortMinValue = Int16.MinValue;
+        short shortmaxValue = Int16.MaxValue;
+
+        bool randomBool = rnd.Next(0, 2) > 0;
+
+        Tag tag = new Tag
         {
-            Random rnd = new Random();
+            Name = Guid.NewGuid().ToString(),
+            TaggingsCount = rnd.Next(1, 255)
+        };
+        await tag.Create(DbContext).ConfigureAwait(false);
 
-            short shortMinValue = Int16.MinValue;
-            short shortmaxValue = Int16.MaxValue;
-
-            bool randomBool = rnd.Next(0, 2) > 0;
-
-            Tag tag = new Tag
-            {
-                Name = Guid.NewGuid().ToString(),
-                TaggingsCount = rnd.Next(1, 255)
-            };
-            await tag.Create(DbContext).ConfigureAwait(false);
-
-            CheckList checklist = new CheckList
-            {
-                Color = Guid.NewGuid().ToString(),
-                Custom = Guid.NewGuid().ToString(),
-                Description = Guid.NewGuid().ToString(),
-                Field1 = rnd.Next(1, 255),
-                Field2 = rnd.Next(1, 255),
-                Field3 = rnd.Next(1, 255),
-                Field4 = rnd.Next(1, 255),
-                Field5 = rnd.Next(1, 255),
-                Field6 = rnd.Next(1, 255),
-                Field7 = rnd.Next(1, 255),
-                Field8 = rnd.Next(1, 255),
-                Field9 = rnd.Next(1, 255),
-                Field10 = rnd.Next(1, 255),
-                Label = Guid.NewGuid().ToString(),
-                Repeated = rnd.Next(1, 255),
-                ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
-                CaseType = Guid.NewGuid().ToString(),
-                DisplayIndex = rnd.Next(1, 255),
-                DownloadEntities = (short)rnd.Next(shortMinValue, shortmaxValue),
-                FastNavigation = (short)rnd.Next(shortMinValue, shortmaxValue),
-                FolderName = Guid.NewGuid().ToString(),
-                ManualSync = (short)rnd.Next(shortMinValue, shortmaxValue),
-                MultiApproval = (short)rnd.Next(shortMinValue, shortmaxValue),
-                OriginalId = Guid.NewGuid().ToString(),
-                ParentId = rnd.Next(1, 255),
-                ReviewEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
-                DocxExportEnabled = randomBool,
-                DoneButtonEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
-                ExtraFieldsEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
-                JasperExportEnabled = randomBool,
-                QuickSyncEnabled = (short)rnd.Next(shortMinValue, shortmaxValue)
-            };
-            await checklist.Create(DbContext).ConfigureAwait(false);
-
-            Tagging tagging = new Tagging
-            {
-                Tag = tag,
-                CheckList = checklist,
-                TaggerId = rnd.Next(1, 255),
-                TagId = rnd.Next(1, 255),
-                CheckListId = checklist.Id
-            };
-
-
-            //Act
-
-            await tagging.Create(DbContext).ConfigureAwait(false);
-
-            List<Tagging> taggings = DbContext.Taggings.AsNoTracking().ToList();
-            List<TaggingVersion> taggingVersions = DbContext.TaggingVersions.AsNoTracking().ToList();
-
-            //Assert
-
-            Assert.That(taggings, Is.Not.EqualTo(null));
-            Assert.That(taggingVersions, Is.Not.EqualTo(null));
-
-            Assert.That(taggings.Count(), Is.EqualTo(1));
-            Assert.That(taggingVersions.Count(), Is.EqualTo(1));
-
-            Assert.That(taggings[0].CreatedAt.ToString(), Is.EqualTo(tagging.CreatedAt.ToString()));
-            Assert.That(taggings[0].Version, Is.EqualTo(tagging.Version));
-            //            Assert.AreEqual(tagging.UpdatedAt.ToString(), taggings[0].UpdatedAt.ToString());
-            Assert.That(taggings[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(taggings[0].Id, Is.EqualTo(tagging.Id));
-            Assert.That(taggings[0].TaggerId, Is.EqualTo(tagging.TaggerId));
-            Assert.That(tag.Id, Is.EqualTo(tagging.TagId));
-            Assert.That(checklist.Id, Is.EqualTo(tagging.CheckListId));
-
-            //Version 1
-            Assert.That(taggingVersions[0].CreatedAt.ToString(), Is.EqualTo(tagging.CreatedAt.ToString()));
-            Assert.That(taggingVersions[0].Version, Is.EqualTo(tagging.Version));
-            //            Assert.AreEqual(tagging.UpdatedAt.ToString(), taggingVersions[0].UpdatedAt.ToString());
-            Assert.That(taggingVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(taggingVersions[0].Id, Is.EqualTo(tagging.Id));
-            Assert.That(taggingVersions[0].TaggerId, Is.EqualTo(tagging.TaggerId));
-            Assert.That(taggingVersions[0].TagId, Is.EqualTo(tag.Id));
-            Assert.That(taggingVersions[0].CheckListId, Is.EqualTo(checklist.Id));
-        }
-
-        [Test]
-        public async Task Taggings_Delete_DoesSetWorkflowStateToRemoved()
+        CheckList checklist = new CheckList
         {
-            //Arrange
+            Color = Guid.NewGuid().ToString(),
+            Custom = Guid.NewGuid().ToString(),
+            Description = Guid.NewGuid().ToString(),
+            Field1 = rnd.Next(1, 255),
+            Field2 = rnd.Next(1, 255),
+            Field3 = rnd.Next(1, 255),
+            Field4 = rnd.Next(1, 255),
+            Field5 = rnd.Next(1, 255),
+            Field6 = rnd.Next(1, 255),
+            Field7 = rnd.Next(1, 255),
+            Field8 = rnd.Next(1, 255),
+            Field9 = rnd.Next(1, 255),
+            Field10 = rnd.Next(1, 255),
+            Label = Guid.NewGuid().ToString(),
+            Repeated = rnd.Next(1, 255),
+            ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+            CaseType = Guid.NewGuid().ToString(),
+            DisplayIndex = rnd.Next(1, 255),
+            DownloadEntities = (short)rnd.Next(shortMinValue, shortmaxValue),
+            FastNavigation = (short)rnd.Next(shortMinValue, shortmaxValue),
+            FolderName = Guid.NewGuid().ToString(),
+            ManualSync = (short)rnd.Next(shortMinValue, shortmaxValue),
+            MultiApproval = (short)rnd.Next(shortMinValue, shortmaxValue),
+            OriginalId = Guid.NewGuid().ToString(),
+            ParentId = rnd.Next(1, 255),
+            ReviewEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+            DocxExportEnabled = randomBool,
+            DoneButtonEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+            ExtraFieldsEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+            JasperExportEnabled = randomBool,
+            QuickSyncEnabled = (short)rnd.Next(shortMinValue, shortmaxValue)
+        };
+        await checklist.Create(DbContext).ConfigureAwait(false);
 
-            Random rnd = new Random();
+        Tagging tagging = new Tagging
+        {
+            Tag = tag,
+            CheckList = checklist,
+            TaggerId = rnd.Next(1, 255),
+            TagId = rnd.Next(1, 255),
+            CheckListId = checklist.Id
+        };
 
-            short shortMinValue = Int16.MinValue;
-            short shortmaxValue = Int16.MaxValue;
 
-            bool randomBool = rnd.Next(0, 2) > 0;
+        //Act
 
-            Tag tag = new Tag
-            {
-                Name = Guid.NewGuid().ToString(),
-                TaggingsCount = rnd.Next(1, 255)
-            };
-            DbContext.Tags.Add(tag);
-            await DbContext.SaveChangesAsync().ConfigureAwait(false);
+        await tagging.Create(DbContext).ConfigureAwait(false);
 
-            CheckList checklist = new CheckList
-            {
-                Color = Guid.NewGuid().ToString(),
-                Custom = Guid.NewGuid().ToString(),
-                Description = Guid.NewGuid().ToString(),
-                Field1 = rnd.Next(1, 255),
-                Field2 = rnd.Next(1, 255),
-                Field3 = rnd.Next(1, 255),
-                Field4 = rnd.Next(1, 255),
-                Field5 = rnd.Next(1, 255),
-                Field6 = rnd.Next(1, 255),
-                Field7 = rnd.Next(1, 255),
-                Field8 = rnd.Next(1, 255),
-                Field9 = rnd.Next(1, 255),
-                Field10 = rnd.Next(1, 255),
-                Label = Guid.NewGuid().ToString(),
-                Repeated = rnd.Next(1, 255),
-                ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
-                CaseType = Guid.NewGuid().ToString(),
-                DisplayIndex = rnd.Next(1, 255),
-                DownloadEntities = (short)rnd.Next(shortMinValue, shortmaxValue),
-                FastNavigation = (short)rnd.Next(shortMinValue, shortmaxValue),
-                FolderName = Guid.NewGuid().ToString(),
-                ManualSync = (short)rnd.Next(shortMinValue, shortmaxValue),
-                MultiApproval = (short)rnd.Next(shortMinValue, shortmaxValue),
-                OriginalId = Guid.NewGuid().ToString(),
-                ParentId = rnd.Next(1, 255),
-                ReviewEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
-                DocxExportEnabled = randomBool,
-                DoneButtonEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
-                ExtraFieldsEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
-                JasperExportEnabled = randomBool,
-                QuickSyncEnabled = (short)rnd.Next(shortMinValue, shortmaxValue)
-            };
-            await checklist.Create(DbContext).ConfigureAwait(false);
+        List<Tagging> taggings = DbContext.Taggings.AsNoTracking().ToList();
+        List<TaggingVersion> taggingVersions = DbContext.TaggingVersions.AsNoTracking().ToList();
 
-            Tagging tagging = new Tagging
-            {
-                Tag = tag,
-                CheckList = checklist,
-                TaggerId = rnd.Next(1, 255),
-                TagId = rnd.Next(1, 255),
-                CheckListId = checklist.Id
-            };
-            await tagging.Create(DbContext).ConfigureAwait(false);
+        //Assert
 
-            //Act
+        Assert.That(taggings, Is.Not.EqualTo(null));
+        Assert.That(taggingVersions, Is.Not.EqualTo(null));
 
-            DateTime? oldUpdatedAt = tagging.UpdatedAt;
+        Assert.That(taggings.Count(), Is.EqualTo(1));
+        Assert.That(taggingVersions.Count(), Is.EqualTo(1));
 
-            await tagging.Delete(DbContext);
+        Assert.That(taggings[0].CreatedAt.ToString(), Is.EqualTo(tagging.CreatedAt.ToString()));
+        Assert.That(taggings[0].Version, Is.EqualTo(tagging.Version));
+        //            Assert.AreEqual(tagging.UpdatedAt.ToString(), taggings[0].UpdatedAt.ToString());
+        Assert.That(taggings[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(taggings[0].Id, Is.EqualTo(tagging.Id));
+        Assert.That(taggings[0].TaggerId, Is.EqualTo(tagging.TaggerId));
+        Assert.That(tag.Id, Is.EqualTo(tagging.TagId));
+        Assert.That(checklist.Id, Is.EqualTo(tagging.CheckListId));
 
-            List<Tagging> taggings = DbContext.Taggings.AsNoTracking().ToList();
-            List<TaggingVersion> taggingVersions = DbContext.TaggingVersions.AsNoTracking().ToList();
+        //Version 1
+        Assert.That(taggingVersions[0].CreatedAt.ToString(), Is.EqualTo(tagging.CreatedAt.ToString()));
+        Assert.That(taggingVersions[0].Version, Is.EqualTo(tagging.Version));
+        //            Assert.AreEqual(tagging.UpdatedAt.ToString(), taggingVersions[0].UpdatedAt.ToString());
+        Assert.That(taggingVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(taggingVersions[0].Id, Is.EqualTo(tagging.Id));
+        Assert.That(taggingVersions[0].TaggerId, Is.EqualTo(tagging.TaggerId));
+        Assert.That(taggingVersions[0].TagId, Is.EqualTo(tag.Id));
+        Assert.That(taggingVersions[0].CheckListId, Is.EqualTo(checklist.Id));
+    }
 
-            //Assert
+    [Test]
+    public async Task Taggings_Delete_DoesSetWorkflowStateToRemoved()
+    {
+        //Arrange
 
-            Assert.That(taggings, Is.Not.EqualTo(null));
-            Assert.That(taggingVersions, Is.Not.EqualTo(null));
+        Random rnd = new Random();
 
-            Assert.That(taggings.Count(), Is.EqualTo(1));
-            Assert.That(taggingVersions.Count(), Is.EqualTo(2));
+        short shortMinValue = Int16.MinValue;
+        short shortmaxValue = Int16.MaxValue;
 
-            Assert.That(taggings[0].CreatedAt.ToString(), Is.EqualTo(tagging.CreatedAt.ToString()));
-            Assert.That(taggings[0].Version, Is.EqualTo(tagging.Version));
-            //            Assert.AreEqual(tagging.UpdatedAt.ToString(), taggings[0].UpdatedAt.ToString());
-            Assert.That(taggings[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
-            Assert.That(taggings[0].Id, Is.EqualTo(tagging.Id));
-            Assert.That(taggings[0].TaggerId, Is.EqualTo(tagging.TaggerId));
-            Assert.That(checklist.Id, Is.EqualTo(tagging.CheckListId));
-            Assert.That(tag.Id, Is.EqualTo(tagging.TagId));
+        bool randomBool = rnd.Next(0, 2) > 0;
 
-            //Version 1
-            Assert.That(taggingVersions[0].CreatedAt.ToString(), Is.EqualTo(tagging.CreatedAt.ToString()));
-            Assert.That(taggingVersions[0].Version, Is.EqualTo(1));
-            //            Assert.AreEqual(oldUpdatedAt.ToString(), taggingVersions[0].UpdatedAt.ToString());
-            Assert.That(taggingVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(taggingVersions[0].TaggingId, Is.EqualTo(tagging.Id));
-            Assert.That(taggingVersions[0].TaggerId, Is.EqualTo(tagging.TaggerId));
-            Assert.That(taggingVersions[0].TagId, Is.EqualTo(tag.Id));
-            Assert.That(taggingVersions[0].CheckListId, Is.EqualTo(checklist.Id));
+        Tag tag = new Tag
+        {
+            Name = Guid.NewGuid().ToString(),
+            TaggingsCount = rnd.Next(1, 255)
+        };
+        DbContext.Tags.Add(tag);
+        await DbContext.SaveChangesAsync().ConfigureAwait(false);
 
-            //Version 2 Deleted Version
-            Assert.That(taggingVersions[1].CreatedAt.ToString(), Is.EqualTo(tagging.CreatedAt.ToString()));
-            Assert.That(taggingVersions[1].Version, Is.EqualTo(2));
-            //            Assert.AreEqual(tagging.UpdatedAt.ToString(), taggingVersions[1].UpdatedAt.ToString());
-            Assert.That(taggingVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
-            Assert.That(taggingVersions[1].TaggingId, Is.EqualTo(tagging.Id));
-            Assert.That(taggingVersions[1].TaggerId, Is.EqualTo(tagging.TaggerId));
-            Assert.That(taggingVersions[1].TagId, Is.EqualTo(tag.Id));
-            Assert.That(taggingVersions[1].CheckListId, Is.EqualTo(checklist.Id));
-        }
+        CheckList checklist = new CheckList
+        {
+            Color = Guid.NewGuid().ToString(),
+            Custom = Guid.NewGuid().ToString(),
+            Description = Guid.NewGuid().ToString(),
+            Field1 = rnd.Next(1, 255),
+            Field2 = rnd.Next(1, 255),
+            Field3 = rnd.Next(1, 255),
+            Field4 = rnd.Next(1, 255),
+            Field5 = rnd.Next(1, 255),
+            Field6 = rnd.Next(1, 255),
+            Field7 = rnd.Next(1, 255),
+            Field8 = rnd.Next(1, 255),
+            Field9 = rnd.Next(1, 255),
+            Field10 = rnd.Next(1, 255),
+            Label = Guid.NewGuid().ToString(),
+            Repeated = rnd.Next(1, 255),
+            ApprovalEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+            CaseType = Guid.NewGuid().ToString(),
+            DisplayIndex = rnd.Next(1, 255),
+            DownloadEntities = (short)rnd.Next(shortMinValue, shortmaxValue),
+            FastNavigation = (short)rnd.Next(shortMinValue, shortmaxValue),
+            FolderName = Guid.NewGuid().ToString(),
+            ManualSync = (short)rnd.Next(shortMinValue, shortmaxValue),
+            MultiApproval = (short)rnd.Next(shortMinValue, shortmaxValue),
+            OriginalId = Guid.NewGuid().ToString(),
+            ParentId = rnd.Next(1, 255),
+            ReviewEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+            DocxExportEnabled = randomBool,
+            DoneButtonEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+            ExtraFieldsEnabled = (short)rnd.Next(shortMinValue, shortmaxValue),
+            JasperExportEnabled = randomBool,
+            QuickSyncEnabled = (short)rnd.Next(shortMinValue, shortmaxValue)
+        };
+        await checklist.Create(DbContext).ConfigureAwait(false);
+
+        Tagging tagging = new Tagging
+        {
+            Tag = tag,
+            CheckList = checklist,
+            TaggerId = rnd.Next(1, 255),
+            TagId = rnd.Next(1, 255),
+            CheckListId = checklist.Id
+        };
+        await tagging.Create(DbContext).ConfigureAwait(false);
+
+        //Act
+
+        DateTime? oldUpdatedAt = tagging.UpdatedAt;
+
+        await tagging.Delete(DbContext);
+
+        List<Tagging> taggings = DbContext.Taggings.AsNoTracking().ToList();
+        List<TaggingVersion> taggingVersions = DbContext.TaggingVersions.AsNoTracking().ToList();
+
+        //Assert
+
+        Assert.That(taggings, Is.Not.EqualTo(null));
+        Assert.That(taggingVersions, Is.Not.EqualTo(null));
+
+        Assert.That(taggings.Count(), Is.EqualTo(1));
+        Assert.That(taggingVersions.Count(), Is.EqualTo(2));
+
+        Assert.That(taggings[0].CreatedAt.ToString(), Is.EqualTo(tagging.CreatedAt.ToString()));
+        Assert.That(taggings[0].Version, Is.EqualTo(tagging.Version));
+        //            Assert.AreEqual(tagging.UpdatedAt.ToString(), taggings[0].UpdatedAt.ToString());
+        Assert.That(taggings[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+        Assert.That(taggings[0].Id, Is.EqualTo(tagging.Id));
+        Assert.That(taggings[0].TaggerId, Is.EqualTo(tagging.TaggerId));
+        Assert.That(checklist.Id, Is.EqualTo(tagging.CheckListId));
+        Assert.That(tag.Id, Is.EqualTo(tagging.TagId));
+
+        //Version 1
+        Assert.That(taggingVersions[0].CreatedAt.ToString(), Is.EqualTo(tagging.CreatedAt.ToString()));
+        Assert.That(taggingVersions[0].Version, Is.EqualTo(1));
+        //            Assert.AreEqual(oldUpdatedAt.ToString(), taggingVersions[0].UpdatedAt.ToString());
+        Assert.That(taggingVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(taggingVersions[0].TaggingId, Is.EqualTo(tagging.Id));
+        Assert.That(taggingVersions[0].TaggerId, Is.EqualTo(tagging.TaggerId));
+        Assert.That(taggingVersions[0].TagId, Is.EqualTo(tag.Id));
+        Assert.That(taggingVersions[0].CheckListId, Is.EqualTo(checklist.Id));
+
+        //Version 2 Deleted Version
+        Assert.That(taggingVersions[1].CreatedAt.ToString(), Is.EqualTo(tagging.CreatedAt.ToString()));
+        Assert.That(taggingVersions[1].Version, Is.EqualTo(2));
+        //            Assert.AreEqual(tagging.UpdatedAt.ToString(), taggingVersions[1].UpdatedAt.ToString());
+        Assert.That(taggingVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+        Assert.That(taggingVersions[1].TaggingId, Is.EqualTo(tagging.Id));
+        Assert.That(taggingVersions[1].TaggerId, Is.EqualTo(tagging.TaggerId));
+        Assert.That(taggingVersions[1].TagId, Is.EqualTo(tag.Id));
+        Assert.That(taggingVersions[1].CheckListId, Is.EqualTo(checklist.Id));
     }
 }

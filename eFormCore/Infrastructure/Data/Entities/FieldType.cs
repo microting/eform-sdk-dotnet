@@ -28,52 +28,51 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class FieldType
 {
-    public class FieldType
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
+
+    [StringLength(255)] public string Type { get; set; }
+
+    [StringLength(255)] public string Description { get; set; }
+
+    public async Task Create(MicrotingDbContext dbContext)
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        dbContext.FieldTypes.Add(this);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+    }
 
-        [StringLength(255)] public string Type { get; set; }
+    public async Task Update(MicrotingDbContext dbContext)
+    {
+        FieldType fieldType = await dbContext.FieldTypes.FirstOrDefaultAsync(x => x.Id == Id);
 
-        [StringLength(255)] public string Description { get; set; }
-
-        public async Task Create(MicrotingDbContext dbContext)
+        if (fieldType == null)
         {
-            dbContext.FieldTypes.Add(this);
+            throw new NullReferenceException($"Could not find Field Type with Id: {Id}");
+        }
+
+        fieldType.Description = Description;
+        fieldType.Type = Type;
+        if (dbContext.ChangeTracker.HasChanges())
+        {
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
+    }
 
-        public async Task Update(MicrotingDbContext dbContext)
+    public async Task Delete(MicrotingDbContext dbContext)
+    {
+        FieldType fieldType = await dbContext.FieldTypes.FirstOrDefaultAsync(x => x.Id == Id);
+
+        if (fieldType == null)
         {
-            FieldType fieldType = await dbContext.FieldTypes.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (fieldType == null)
-            {
-                throw new NullReferenceException($"Could not find Field Type with Id: {Id}");
-            }
-
-            fieldType.Description = Description;
-            fieldType.Type = Type;
-            if (dbContext.ChangeTracker.HasChanges())
-            {
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
+            throw new NullReferenceException($"Could not find Field Type with Id: {Id}");
         }
 
-        public async Task Delete(MicrotingDbContext dbContext)
-        {
-            FieldType fieldType = await dbContext.FieldTypes.FirstOrDefaultAsync(x => x.Id == Id);
-
-            if (fieldType == null)
-            {
-                throw new NullReferenceException($"Could not find Field Type with Id: {Id}");
-            }
-
-            dbContext.Remove(fieldType);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
+        dbContext.Remove(fieldType);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 }

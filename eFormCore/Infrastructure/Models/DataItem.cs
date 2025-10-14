@@ -29,765 +29,764 @@ using System.Xml.Serialization;
 using Microting.eForm.Dto;
 using KeyValuePair = Microting.eForm.Dto.KeyValuePair;
 
-namespace Microting.eForm.Infrastructure.Models
+namespace Microting.eForm.Infrastructure.Models;
+
+// xml tags
+[Serializable]
+[XmlInclude(typeof(Audio))]
+[XmlInclude(typeof(CheckBox))]
+[XmlInclude(typeof(Comment))]
+[XmlInclude(typeof(Date))]
+[XmlInclude(typeof(EntitySearch))]
+[XmlInclude(typeof(EntitySelect))]
+[XmlInclude(typeof(None))]
+[XmlInclude(typeof(Number))]
+[XmlInclude(typeof(NumberStepper))]
+[XmlInclude(typeof(MultiSelect))]
+[XmlInclude(typeof(Picture))]
+[XmlInclude(typeof(ShowPdf))]
+[XmlInclude(typeof(SaveButton))]
+[XmlInclude(typeof(Signature))]
+[XmlInclude(typeof(SingleSelect))]
+[XmlInclude(typeof(Text))]
+[XmlInclude(typeof(Timer))]
+[XmlInclude(typeof(FieldContainer))]
+[XmlInclude(typeof(ShowPicture))]
+//
+public class DataItem
 {
-    // xml tags
-    [Serializable]
-    [XmlInclude(typeof(Audio))]
-    [XmlInclude(typeof(CheckBox))]
-    [XmlInclude(typeof(Comment))]
-    [XmlInclude(typeof(Date))]
-    [XmlInclude(typeof(EntitySearch))]
-    [XmlInclude(typeof(EntitySelect))]
-    [XmlInclude(typeof(None))]
-    [XmlInclude(typeof(Number))]
-    [XmlInclude(typeof(NumberStepper))]
-    [XmlInclude(typeof(MultiSelect))]
-    [XmlInclude(typeof(Picture))]
-    [XmlInclude(typeof(ShowPdf))]
-    [XmlInclude(typeof(SaveButton))]
-    [XmlInclude(typeof(Signature))]
-    [XmlInclude(typeof(SingleSelect))]
-    [XmlInclude(typeof(Text))]
-    [XmlInclude(typeof(Timer))]
-    [XmlInclude(typeof(FieldContainer))]
-    [XmlInclude(typeof(ShowPicture))]
-    //
-    public class DataItem
+    // con
+    internal DataItem()
     {
-        // con
-        internal DataItem()
-        {
-        }
-        //
-
-        // var
-        public int Id { get; set; }
-        public bool Mandatory { get; set; }
-        public bool ReadOnly { get; set; }
-        public string Label { get; set; } = null!;
-
-        [XmlElement("Description")] public CDataValue Description { get; set; } = null!;
-        public string Color { get; set; } = null!;
-        public int DisplayOrder { get; set; }
-
-        [XmlIgnore] public bool Dummy { get; set; }
-
-        public string OriginalId { get; set; } = null!;
-        //
-    }
-
-    // children
-    // Audio
-    public class Audio : DataItem
-    {
-        internal Audio()
-        {
-        }
-
-        public Audio(int id, bool mandatory, bool readOnly, string label, string description, string color,
-            int displayOrder, bool dummy,
-            int multi, string originalId = "")
-        {
-            Id = id;
-            Mandatory = mandatory;
-            ReadOnly = readOnly;
-            Label = label;
-            Description = new CDataValue();
-            Description.InderValue = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-            Dummy = dummy;
-
-            Multi = multi;
-            OriginalId = originalId;
-        }
-
-        public int Multi { get; set; }
     }
     //
 
-    // CheckBox
-    public class CheckBox : DataItem
+    // var
+    public int Id { get; set; }
+    public bool Mandatory { get; set; }
+    public bool ReadOnly { get; set; }
+    public string Label { get; set; } = null!;
+
+    [XmlElement("Description")] public CDataValue Description { get; set; } = null!;
+    public string Color { get; set; } = null!;
+    public int DisplayOrder { get; set; }
+
+    [XmlIgnore] public bool Dummy { get; set; }
+
+    public string OriginalId { get; set; } = null!;
+    //
+}
+
+// children
+// Audio
+public class Audio : DataItem
+{
+    internal Audio()
     {
-        internal CheckBox()
-        {
-        }
+    }
 
-        public CheckBox(int id, bool mandatory, bool readOnly, string label, string description, string color,
-            int displayOrder, bool dummy,
-            bool defaultValue, bool selected, string originalId = "")
-        {
-            Id = id;
-            Mandatory = mandatory;
-            ReadOnly = readOnly;
-            Label = label;
-            Description = new CDataValue();
-            Description.InderValue = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-            Dummy = dummy;
+    public Audio(int id, bool mandatory, bool readOnly, string label, string description, string color,
+        int displayOrder, bool dummy,
+        int multi, string originalId = "")
+    {
+        Id = id;
+        Mandatory = mandatory;
+        ReadOnly = readOnly;
+        Label = label;
+        Description = new CDataValue();
+        Description.InderValue = description;
+        Color = color;
+        DisplayOrder = displayOrder;
+        Dummy = dummy;
 
-            DefaultValue = defaultValue;
-            Selected = selected;
-            OriginalId = originalId;
-        }
+        Multi = multi;
+        OriginalId = originalId;
+    }
 
-        // var
-        public bool DefaultValue { get; set; }
+    public int Multi { get; set; }
+}
+//
 
-        public bool Selected { get; set; }
-        //
+// CheckBox
+public class CheckBox : DataItem
+{
+    internal CheckBox()
+    {
+    }
+
+    public CheckBox(int id, bool mandatory, bool readOnly, string label, string description, string color,
+        int displayOrder, bool dummy,
+        bool defaultValue, bool selected, string originalId = "")
+    {
+        Id = id;
+        Mandatory = mandatory;
+        ReadOnly = readOnly;
+        Label = label;
+        Description = new CDataValue();
+        Description.InderValue = description;
+        Color = color;
+        DisplayOrder = displayOrder;
+        Dummy = dummy;
+
+        DefaultValue = defaultValue;
+        Selected = selected;
+        OriginalId = originalId;
+    }
+
+    // var
+    public bool DefaultValue { get; set; }
+
+    public bool Selected { get; set; }
+    //
+}
+//
+
+// Comment
+public class Comment : DataItem
+{
+    internal Comment()
+    {
+    }
+
+    public Comment(int id, bool mandatory, bool readOnly, string label, string description, string color,
+        int displayOrder, bool dummy,
+        string value, int maxLength, bool split, string originalId = "")
+    {
+        Id = id;
+        Mandatory = mandatory;
+        ReadOnly = readOnly;
+        Label = label;
+        Description = new CDataValue();
+        Description.InderValue = description;
+        Color = color;
+        DisplayOrder = displayOrder;
+        Dummy = dummy;
+
+        Value = value;
+        Maxlength = maxLength;
+        Split = split;
+        OriginalId = originalId;
+    }
+
+    // var
+    public string Value { get; set; } = null!;
+    public int Maxlength { get; set; }
+
+    public bool Split { get; set; }
+    //
+}
+//
+
+// Date
+public class Date : DataItem
+{
+    internal Date()
+    {
+    }
+
+    public Date(int id, bool mandatory, bool readOnly, string label, string description, string color,
+        int displayOrder, bool dummy,
+        DateTime minValue, DateTime maxValue, string defaultValue, string originalId = "")
+    {
+        Id = id;
+        Mandatory = mandatory;
+        ReadOnly = readOnly;
+        Label = label;
+        Description = new CDataValue();
+        Description.InderValue = description;
+        Color = color;
+        DisplayOrder = displayOrder;
+        Dummy = dummy;
+
+        DefaultValue = defaultValue;
+        MaxValue = maxValue;
+        MinValue = minValue;
+        OriginalId = originalId;
+    }
+
+    // var
+    public string DefaultValue { get; set; } = null!;
+
+    // public string/DateTime MaxValue { get; set; }
+    [XmlIgnore] public DateTime MaxValue { get; set; }
+
+    [XmlElement("MaxValue")]
+    public string MaxValueString
+    {
+        get { return MaxValue.ToString("yyyy-MM-dd"); }
+        set { MaxValue = DateTime.Parse(value); }
     }
     //
 
-    // Comment
-    public class Comment : DataItem
+    // public string/DateTime MinValue { get; set; }
+    [XmlIgnore] public DateTime MinValue { get; set; }
+
+    [XmlElement("MinValue")]
+    public string MinValueString
     {
-        internal Comment()
-        {
-        }
-
-        public Comment(int id, bool mandatory, bool readOnly, string label, string description, string color,
-            int displayOrder, bool dummy,
-            string value, int maxLength, bool split, string originalId = "")
-        {
-            Id = id;
-            Mandatory = mandatory;
-            ReadOnly = readOnly;
-            Label = label;
-            Description = new CDataValue();
-            Description.InderValue = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-            Dummy = dummy;
-
-            Value = value;
-            Maxlength = maxLength;
-            Split = split;
-            OriginalId = originalId;
-        }
-
-        // var
-        public string Value { get; set; } = null!;
-        public int Maxlength { get; set; }
-
-        public bool Split { get; set; }
-        //
-    }
-    //
-
-    // Date
-    public class Date : DataItem
-    {
-        internal Date()
-        {
-        }
-
-        public Date(int id, bool mandatory, bool readOnly, string label, string description, string color,
-            int displayOrder, bool dummy,
-            DateTime minValue, DateTime maxValue, string defaultValue, string originalId = "")
-        {
-            Id = id;
-            Mandatory = mandatory;
-            ReadOnly = readOnly;
-            Label = label;
-            Description = new CDataValue();
-            Description.InderValue = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-            Dummy = dummy;
-
-            DefaultValue = defaultValue;
-            MaxValue = maxValue;
-            MinValue = minValue;
-            OriginalId = originalId;
-        }
-
-        // var
-        public string DefaultValue { get; set; } = null!;
-
-        // public string/DateTime MaxValue { get; set; }
-        [XmlIgnore] public DateTime MaxValue { get; set; }
-
-        [XmlElement("MaxValue")]
-        public string MaxValueString
-        {
-            get { return MaxValue.ToString("yyyy-MM-dd"); }
-            set { MaxValue = DateTime.Parse(value); }
-        }
-        //
-
-        // public string/DateTime MinValue { get; set; }
-        [XmlIgnore] public DateTime MinValue { get; set; }
-
-        [XmlElement("MinValue")]
-        public string MinValueString
-        {
-            get { return MinValue.ToString("yyyy-MM-dd"); }
-            set { MinValue = DateTime.Parse(value); }
-        }
-        //
-        //
-    }
-    //
-
-    // None
-    public class None : DataItem
-    {
-        internal None()
-        {
-        }
-
-        public None(int id, bool mandatory, bool readOnly, string label, string description, string color,
-            int displayOrder, bool dummy, string originalId = "")
-        {
-            Id = id;
-            Mandatory = mandatory;
-            ReadOnly = readOnly;
-            Label = label;
-            Description = new CDataValue();
-            Description.InderValue = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-            Dummy = dummy;
-            OriginalId = originalId;
-        }
-    }
-    //
-
-    // Number
-    public class Number : DataItem
-    {
-        internal Number()
-        {
-        }
-
-        public Number(int id, bool mandatory, bool readOnly, string label, string description, string color,
-            int displayOrder, bool dummy,
-            string minValue, string maxValue, int defaultValue, int decimalCount, string unitName, string originalId = "")
-        {
-            Id = id;
-            Mandatory = mandatory;
-            ReadOnly = readOnly;
-            Label = label;
-            Description = new CDataValue();
-            Description.InderValue = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-            Dummy = dummy;
-
-            MinValue = minValue;
-            MaxValue = maxValue;
-            DefaultValue = defaultValue;
-            DecimalCount = decimalCount;
-            UnitName = unitName;
-            OriginalId = originalId;
-        }
-
-        // var
-        public string MinValue { get; set; } = null!;
-        public string MaxValue { get; set; } = null!;
-        public int DefaultValue { get; set; }
-        public int DecimalCount { get; set; }
-
-        public string UnitName { get; set; } = null!;
-        //
-    }
-    //
-
-    // Number Stepper
-    public class NumberStepper : DataItem
-    {
-        internal NumberStepper()
-        {
-        }
-
-        public NumberStepper(int id, bool mandatory, bool readOnly, string label, string description, string color,
-            int displayOrder, bool dummy,
-            string minValue, string maxValue, int defaultValue, int decimalCount, string unitName, string originalId = "")
-        {
-            Id = id;
-            Mandatory = mandatory;
-            ReadOnly = readOnly;
-            Label = label;
-            Description = new CDataValue();
-            Description.InderValue = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-            Dummy = dummy;
-
-            MinValue = minValue;
-            MaxValue = maxValue;
-            DefaultValue = defaultValue;
-            DecimalCount = decimalCount;
-            UnitName = unitName;
-            OriginalId = originalId;
-        }
-
-        // var
-        public string MinValue { get; set; } = null!;
-        public string MaxValue { get; set; } = null!;
-        public int DefaultValue { get; set; }
-        public int DecimalCount { get; set; }
-
-        public string UnitName { get; set; } = null!;
-        //
-    }
-    //
-
-    // MultiSelect
-    public class MultiSelect : DataItem
-    {
-        internal MultiSelect()
-        {
-            KeyValuePairList = new List<KeyValuePair>();
-        }
-
-        public MultiSelect(int id, bool mandatory, bool readOnly, string label, string description, string color,
-            int displayOrder, bool dummy, List<KeyValuePair> keyValuePairList, string originalId = "")
-        {
-            KeyValuePairList = new List<KeyValuePair>();
-
-            Id = id;
-            Mandatory = mandatory;
-            ReadOnly = readOnly;
-            Label = label;
-            Description = new CDataValue();
-            Description.InderValue = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-            Dummy = dummy;
-
-            KeyValuePairList = keyValuePairList;
-            OriginalId = originalId;
-        }
-
-        [XmlArray("KeyValuePairList"), XmlArrayItem(typeof(KeyValuePair), ElementName = "KeyValuePair")]
-        public System.Collections.Generic.List<KeyValuePair> KeyValuePairList { get; set; }
-    }
-    //
-
-    // Picture
-    public class Picture : DataItem
-    {
-        internal Picture()
-        {
-        }
-
-        public Picture(int id, bool mandatory, bool readOnly, string label, string description, string color,
-            int displayOrder, bool dummy,
-            int multi, bool geolocationEnabled, string originalId = "")
-        {
-            Id = id;
-            Mandatory = mandatory;
-            ReadOnly = readOnly;
-            Label = label;
-            Description = new CDataValue();
-            Description.InderValue = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-            Dummy = dummy;
-
-            Multi = multi;
-            GeolocationEnabled = geolocationEnabled;
-            OriginalId = originalId;
-        }
-
-        // var
-        public int Multi { get; set; }
-
-        public bool GeolocationEnabled { get; set; }
-        //
-    }
-    //
-
-    // ShowPdf
-    public class ShowPdf : DataItem
-    {
-        internal ShowPdf()
-        {
-        }
-
-        public ShowPdf(int id, bool mandatory, bool readOnly, string label, string description, string color,
-            int displayOrder, bool dummy,
-            string value, string originalId = "")
-        {
-            Id = id;
-            Mandatory = mandatory;
-            ReadOnly = readOnly;
-            Label = label;
-            Description = new CDataValue();
-            Description.InderValue = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-            Dummy = dummy;
-
-            Value = value;
-            OriginalId = originalId;
-        }
-
-        public string Value { get; set; } = null!;
-    }
-
-    // ShowPdf
-    public class ShowPicture : DataItem
-    {
-        internal ShowPicture()
-        {
-        }
-
-        public ShowPicture(int id, bool mandatory, bool readOnly, string label, string description, string color,
-            int displayOrder, bool dummy,
-            string value, string originalId = "")
-        {
-            Id = id;
-            Mandatory = mandatory;
-            ReadOnly = readOnly;
-            Label = label;
-            Description = new CDataValue();
-            Description.InderValue = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-            Dummy = dummy;
-
-            Value = value;
-            OriginalId = originalId;
-        }
-
-        public string Value { get; set; } = null!;
-    }
-    //
-
-    // SaveButton
-    public class SaveButton : DataItem
-    {
-        internal SaveButton()
-        {
-        }
-
-        public SaveButton(int id, bool mandatory, bool readOnly, string label, string description, string color,
-            int displayOrder, bool dummy,
-            string value, string originalId = "")
-        {
-            Id = id;
-            Mandatory = mandatory;
-            ReadOnly = readOnly;
-            Label = label;
-            Description = new CDataValue();
-            Description.InderValue = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-            Dummy = dummy;
-
-            Value = value;
-            OriginalId = originalId;
-        }
-
-        public string Value { get; set; } = null!;
-    }
-    //
-
-    // Signature
-    public class Signature : DataItem
-    {
-        internal Signature()
-        {
-        }
-
-        public Signature(int id, bool mandatory, bool readOnly, string label, string description, string color,
-            int displayOrder, bool dummy, string originalId = "")
-        {
-            Id = id;
-            Mandatory = mandatory;
-            ReadOnly = readOnly;
-            Label = label;
-            Description = new CDataValue();
-            Description.InderValue = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-            Dummy = dummy;
-            OriginalId = originalId;
-        }
-    }
-    //
-
-    // SingleSelect
-    public class SingleSelect : DataItem
-    {
-        internal SingleSelect()
-        {
-            KeyValuePairList = new List<KeyValuePair>();
-        }
-
-        public SingleSelect(int id, bool mandatory, bool readOnly, string label, string description, string color,
-            int displayOrder, bool dummy, System.Collections.Generic.List<KeyValuePair> keyValuePairList, string originalId = "")
-        {
-            KeyValuePairList = new List<KeyValuePair>();
-
-            Id = id;
-            Mandatory = mandatory;
-            ReadOnly = readOnly;
-            Label = label;
-            Description = new CDataValue();
-            Description.InderValue = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-            Dummy = dummy;
-
-            KeyValuePairList = keyValuePairList;
-            OriginalId = originalId;
-        }
-
-        [XmlArray("KeyValuePairList"), XmlArrayItem(typeof(KeyValuePair), ElementName = "KeyValuePair")]
-        public System.Collections.Generic.List<KeyValuePair> KeyValuePairList { get; set; }
-    }
-    //
-
-    // Text
-    public class Text : DataItem
-    {
-        internal Text()
-        {
-        }
-
-        public Text(int id, bool mandatory, bool readOnly, string label, string description, string color,
-            int displayOrder, bool dummy,
-            string value, int maxLength, bool geolocationEnabled, bool geolocationForced, bool geolocationhidden,
-            bool barcodeEnabled, string barcodeType, string originalId = "")
-        {
-            Id = id;
-            Mandatory = mandatory;
-            ReadOnly = readOnly;
-            Label = label;
-            Description = new CDataValue();
-            Description.InderValue = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-            Dummy = dummy;
-
-            Value = value;
-            MaxLength = maxLength;
-            GeolocationEnabled = geolocationEnabled;
-            GeolocationForced = geolocationForced;
-            GeolocationHidden = geolocationhidden;
-            BarcodeEnabled = barcodeEnabled;
-            BarcodeType = barcodeType;
-            OriginalId = originalId;
-        }
-
-        // var
-        public string Value { get; set; } = null!;
-        public int MaxLength { get; set; }
-        public bool GeolocationEnabled { get; set; }
-        public bool GeolocationForced { get; set; }
-        public bool GeolocationHidden { get; set; }
-        public bool BarcodeEnabled { get; set; }
-
-        public string BarcodeType { get; set; } = null!;
-        //
-    }
-    //
-
-    // Timer
-    public class Timer : DataItem
-    {
-        internal Timer()
-        {
-        }
-
-        public Timer(int id, bool mandatory, bool readOnly, string label, string description, string color,
-            int displayOrder, bool dummy,
-            bool stopOnSave, string originalId = "")
-        {
-            Id = id;
-            Mandatory = mandatory;
-            ReadOnly = readOnly;
-            Label = label;
-            Description = new CDataValue();
-            Description.InderValue = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-            Dummy = dummy;
-
-            StopOnSave = stopOnSave;
-            OriginalId = originalId;
-        }
-
-        public bool StopOnSave { get; set; }
-    }
-    //
-
-    // EntitySearch
-    public class EntitySearch : DataItem
-    {
-        // con
-        internal EntitySearch()
-        {
-        }
-
-        public EntitySearch(int id, bool mandatory, bool readOnly, string label, string description, string color,
-            int displayOrder, bool dummy,
-            int defaultValue, int entityTypeId, bool isNum, string queryType, int minSearchLenght, bool barcodeEnabled,
-            string barcodeType, string originalId = "")
-        {
-            Id = id;
-            Mandatory = mandatory;
-            ReadOnly = readOnly;
-            Label = label;
-            Description = new CDataValue();
-            Description.InderValue = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-            Dummy = dummy;
-
-            DefaultValue = defaultValue;
-            EntityTypeId = entityTypeId;
-            IsNum = isNum;
-            QueryType = queryType;
-            MinSearchLenght = minSearchLenght;
-            BarcodeEnabled = barcodeEnabled;
-            BarcodeType = barcodeType;
-            OriginalId = originalId;
-        }
-        //
-
-        // var
-        public int DefaultValue { get; set; }
-        public int EntityTypeId { get; set; }
-
-        public bool IsNum { get; set; }
-        public string QueryType { get; set; } = null!;
-        public int MinSearchLenght { get; set; }
-        public bool BarcodeEnabled { get; set; }
-
-        public string BarcodeType { get; set; } = null!;
-        //
-    }
-    //
-
-    // EntitySelect
-    public class EntitySelect : DataItem
-    {
-        // con
-        internal EntitySelect()
-        {
-        }
-
-        public EntitySelect(int id, bool mandatory, bool readOnly, string label, string description, string color,
-            int displayOrder, bool dummy,
-            int defaultValue, int source, string originalId = "")
-
-        {
-            Id = id;
-            Mandatory = mandatory;
-            ReadOnly = readOnly;
-            Label = label;
-            Description = new CDataValue();
-            Description.InderValue = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-            Dummy = dummy;
-
-            DefaultValue = defaultValue;
-            Source = source;
-            OriginalId = originalId;
-        }
-        //
-
-        // var
-        public int DefaultValue { get; set; }
-
-        public int Source { get; set; }
-        //
+        get { return MinValue.ToString("yyyy-MM-dd"); }
+        set { MinValue = DateTime.Parse(value); }
     }
     //
     //
+}
+//
 
-    public class Field : DataItem
+// None
+public class None : DataItem
+{
+    internal None()
     {
-        public List<FieldValue> FieldValues { get; set; } = null!;
-        public string FieldType { get; set; } = null!;
-        public string FieldValue { get; set; } = null!;
-        public int? EntityGroupId { get; set; }
-        public List<KeyValuePair> KeyValuePairList { get; set; } = null!;
     }
 
-    public class FieldValue : DataItem
+    public None(int id, bool mandatory, bool readOnly, string label, string description, string color,
+        int displayOrder, bool dummy, string originalId = "")
     {
-        public int FieldId { get; set; }
-        public string FieldType { get; set; } = null!;
-        public DateTime DateOfDoing { get; set; }
-        public string Value { get; set; } = null!;
-        public string MicrotingUuid { get; set; } = null!;
-        public string ValueReadable { get; set; } = null!;
-        public string Latitude { get; set; } = null!;
-        public string Longitude { get; set; } = null!;
-        public string Altitude { get; set; } = null!;
-        public string Heading { get; set; } = null!;
-        public string Accuracy { get; set; } = null!;
-        public DateTime? Date { get; set; }
-        public string UploadedData { get; set; } = null!;
-        public UploadedData UploadedDataObj { get; set; } = null!;
-        public List<KeyValuePair> KeyValuePairList { get; set; } = null!;
+        Id = id;
+        Mandatory = mandatory;
+        ReadOnly = readOnly;
+        Label = label;
+        Description = new CDataValue();
+        Description.InderValue = description;
+        Color = color;
+        DisplayOrder = displayOrder;
+        Dummy = dummy;
+        OriginalId = originalId;
+    }
+}
+//
+
+// Number
+public class Number : DataItem
+{
+    internal Number()
+    {
     }
 
-    public class FieldContainer : DataItem
+    public Number(int id, bool mandatory, bool readOnly, string label, string description, string color,
+        int displayOrder, bool dummy,
+        string minValue, string maxValue, int defaultValue, int decimalCount, string unitName, string originalId = "")
     {
-        internal FieldContainer()
-        {
-        }
+        Id = id;
+        Mandatory = mandatory;
+        ReadOnly = readOnly;
+        Label = label;
+        Description = new CDataValue();
+        Description.InderValue = description;
+        Color = color;
+        DisplayOrder = displayOrder;
+        Dummy = dummy;
 
-        public FieldContainer(int id, string label, CDataValue description, string color, int displayOrder,
-            string value, List<DataItem> dataItemList, string originalId = "")
-        {
-            Id = id;
-            Label = label;
-            Description = description;
-            Color = color;
-            DisplayOrder = displayOrder;
-
-            Value = value;
-            DataItemList = dataItemList;
-            FieldType = "FieldContainer";
-            OriginalId = originalId;
-        }
-
-        public string FieldType { get; set; } = null!;
-        public string Value { get; set; } = null!;
-
-        [XmlArray("DataItemList"), XmlArrayItem(typeof(DataItem), ElementName = "DataItem")]
-        public List<DataItem> DataItemList { get; set; } = null!;
-
-        public static explicit operator FieldContainer(DataItemGroup dataItemGroup)
-        {
-            CDataValue description = new CDataValue();
-            description.InderValue = dataItemGroup.Description;
-            FieldContainer fg = new FieldContainer(int.Parse(dataItemGroup.Id), dataItemGroup.Label, description,
-                dataItemGroup.Color, dataItemGroup.DisplayOrder, "", dataItemGroup.DataItemList);
-            return fg;
-        }
+        MinValue = minValue;
+        MaxValue = maxValue;
+        DefaultValue = defaultValue;
+        DecimalCount = decimalCount;
+        UnitName = unitName;
+        OriginalId = originalId;
     }
 
-    public class UploadedData
+    // var
+    public string MinValue { get; set; } = null!;
+    public string MaxValue { get; set; } = null!;
+    public int DefaultValue { get; set; }
+    public int DecimalCount { get; set; }
+
+    public string UnitName { get; set; } = null!;
+    //
+}
+//
+
+// Number Stepper
+public class NumberStepper : DataItem
+{
+    internal NumberStepper()
     {
-        public int Id { get; set; }
-        public string Checksum { get; set; } = null!;
-        public string Extension { get; set; } = null!;
-        public string CurrentFile { get; set; } = null!;
-        public int? UploaderId { get; set; }
-        public string UploaderType { get; set; } = null!;
-        public string FileLocation { get; set; } = null!;
-        public string FileName { get; set; } = null!;
     }
 
-    public enum DataItemColors
+    public NumberStepper(int id, bool mandatory, bool readOnly, string label, string description, string color,
+        int displayOrder, bool dummy,
+        string minValue, string maxValue, int defaultValue, int decimalCount, string unitName, string originalId = "")
     {
-        e2f4fb_Blue,
-        f5eafa_Purple,
-        f0f8db_Green,
-        fff6df_Yellow,
-        ffe4e4_Red,
-        None_Default
+        Id = id;
+        Mandatory = mandatory;
+        ReadOnly = readOnly;
+        Label = label;
+        Description = new CDataValue();
+        Description.InderValue = description;
+        Color = color;
+        DisplayOrder = displayOrder;
+        Dummy = dummy;
+
+        MinValue = minValue;
+        MaxValue = maxValue;
+        DefaultValue = defaultValue;
+        DecimalCount = decimalCount;
+        UnitName = unitName;
+        OriginalId = originalId;
     }
+
+    // var
+    public string MinValue { get; set; } = null!;
+    public string MaxValue { get; set; } = null!;
+    public int DefaultValue { get; set; }
+    public int DecimalCount { get; set; }
+
+    public string UnitName { get; set; } = null!;
+    //
+}
+//
+
+// MultiSelect
+public class MultiSelect : DataItem
+{
+    internal MultiSelect()
+    {
+        KeyValuePairList = new List<KeyValuePair>();
+    }
+
+    public MultiSelect(int id, bool mandatory, bool readOnly, string label, string description, string color,
+        int displayOrder, bool dummy, List<KeyValuePair> keyValuePairList, string originalId = "")
+    {
+        KeyValuePairList = new List<KeyValuePair>();
+
+        Id = id;
+        Mandatory = mandatory;
+        ReadOnly = readOnly;
+        Label = label;
+        Description = new CDataValue();
+        Description.InderValue = description;
+        Color = color;
+        DisplayOrder = displayOrder;
+        Dummy = dummy;
+
+        KeyValuePairList = keyValuePairList;
+        OriginalId = originalId;
+    }
+
+    [XmlArray("KeyValuePairList"), XmlArrayItem(typeof(KeyValuePair), ElementName = "KeyValuePair")]
+    public System.Collections.Generic.List<KeyValuePair> KeyValuePairList { get; set; }
+}
+//
+
+// Picture
+public class Picture : DataItem
+{
+    internal Picture()
+    {
+    }
+
+    public Picture(int id, bool mandatory, bool readOnly, string label, string description, string color,
+        int displayOrder, bool dummy,
+        int multi, bool geolocationEnabled, string originalId = "")
+    {
+        Id = id;
+        Mandatory = mandatory;
+        ReadOnly = readOnly;
+        Label = label;
+        Description = new CDataValue();
+        Description.InderValue = description;
+        Color = color;
+        DisplayOrder = displayOrder;
+        Dummy = dummy;
+
+        Multi = multi;
+        GeolocationEnabled = geolocationEnabled;
+        OriginalId = originalId;
+    }
+
+    // var
+    public int Multi { get; set; }
+
+    public bool GeolocationEnabled { get; set; }
+    //
+}
+//
+
+// ShowPdf
+public class ShowPdf : DataItem
+{
+    internal ShowPdf()
+    {
+    }
+
+    public ShowPdf(int id, bool mandatory, bool readOnly, string label, string description, string color,
+        int displayOrder, bool dummy,
+        string value, string originalId = "")
+    {
+        Id = id;
+        Mandatory = mandatory;
+        ReadOnly = readOnly;
+        Label = label;
+        Description = new CDataValue();
+        Description.InderValue = description;
+        Color = color;
+        DisplayOrder = displayOrder;
+        Dummy = dummy;
+
+        Value = value;
+        OriginalId = originalId;
+    }
+
+    public string Value { get; set; } = null!;
+}
+
+// ShowPdf
+public class ShowPicture : DataItem
+{
+    internal ShowPicture()
+    {
+    }
+
+    public ShowPicture(int id, bool mandatory, bool readOnly, string label, string description, string color,
+        int displayOrder, bool dummy,
+        string value, string originalId = "")
+    {
+        Id = id;
+        Mandatory = mandatory;
+        ReadOnly = readOnly;
+        Label = label;
+        Description = new CDataValue();
+        Description.InderValue = description;
+        Color = color;
+        DisplayOrder = displayOrder;
+        Dummy = dummy;
+
+        Value = value;
+        OriginalId = originalId;
+    }
+
+    public string Value { get; set; } = null!;
+}
+//
+
+// SaveButton
+public class SaveButton : DataItem
+{
+    internal SaveButton()
+    {
+    }
+
+    public SaveButton(int id, bool mandatory, bool readOnly, string label, string description, string color,
+        int displayOrder, bool dummy,
+        string value, string originalId = "")
+    {
+        Id = id;
+        Mandatory = mandatory;
+        ReadOnly = readOnly;
+        Label = label;
+        Description = new CDataValue();
+        Description.InderValue = description;
+        Color = color;
+        DisplayOrder = displayOrder;
+        Dummy = dummy;
+
+        Value = value;
+        OriginalId = originalId;
+    }
+
+    public string Value { get; set; } = null!;
+}
+//
+
+// Signature
+public class Signature : DataItem
+{
+    internal Signature()
+    {
+    }
+
+    public Signature(int id, bool mandatory, bool readOnly, string label, string description, string color,
+        int displayOrder, bool dummy, string originalId = "")
+    {
+        Id = id;
+        Mandatory = mandatory;
+        ReadOnly = readOnly;
+        Label = label;
+        Description = new CDataValue();
+        Description.InderValue = description;
+        Color = color;
+        DisplayOrder = displayOrder;
+        Dummy = dummy;
+        OriginalId = originalId;
+    }
+}
+//
+
+// SingleSelect
+public class SingleSelect : DataItem
+{
+    internal SingleSelect()
+    {
+        KeyValuePairList = new List<KeyValuePair>();
+    }
+
+    public SingleSelect(int id, bool mandatory, bool readOnly, string label, string description, string color,
+        int displayOrder, bool dummy, System.Collections.Generic.List<KeyValuePair> keyValuePairList, string originalId = "")
+    {
+        KeyValuePairList = new List<KeyValuePair>();
+
+        Id = id;
+        Mandatory = mandatory;
+        ReadOnly = readOnly;
+        Label = label;
+        Description = new CDataValue();
+        Description.InderValue = description;
+        Color = color;
+        DisplayOrder = displayOrder;
+        Dummy = dummy;
+
+        KeyValuePairList = keyValuePairList;
+        OriginalId = originalId;
+    }
+
+    [XmlArray("KeyValuePairList"), XmlArrayItem(typeof(KeyValuePair), ElementName = "KeyValuePair")]
+    public System.Collections.Generic.List<KeyValuePair> KeyValuePairList { get; set; }
+}
+//
+
+// Text
+public class Text : DataItem
+{
+    internal Text()
+    {
+    }
+
+    public Text(int id, bool mandatory, bool readOnly, string label, string description, string color,
+        int displayOrder, bool dummy,
+        string value, int maxLength, bool geolocationEnabled, bool geolocationForced, bool geolocationhidden,
+        bool barcodeEnabled, string barcodeType, string originalId = "")
+    {
+        Id = id;
+        Mandatory = mandatory;
+        ReadOnly = readOnly;
+        Label = label;
+        Description = new CDataValue();
+        Description.InderValue = description;
+        Color = color;
+        DisplayOrder = displayOrder;
+        Dummy = dummy;
+
+        Value = value;
+        MaxLength = maxLength;
+        GeolocationEnabled = geolocationEnabled;
+        GeolocationForced = geolocationForced;
+        GeolocationHidden = geolocationhidden;
+        BarcodeEnabled = barcodeEnabled;
+        BarcodeType = barcodeType;
+        OriginalId = originalId;
+    }
+
+    // var
+    public string Value { get; set; } = null!;
+    public int MaxLength { get; set; }
+    public bool GeolocationEnabled { get; set; }
+    public bool GeolocationForced { get; set; }
+    public bool GeolocationHidden { get; set; }
+    public bool BarcodeEnabled { get; set; }
+
+    public string BarcodeType { get; set; } = null!;
+    //
+}
+//
+
+// Timer
+public class Timer : DataItem
+{
+    internal Timer()
+    {
+    }
+
+    public Timer(int id, bool mandatory, bool readOnly, string label, string description, string color,
+        int displayOrder, bool dummy,
+        bool stopOnSave, string originalId = "")
+    {
+        Id = id;
+        Mandatory = mandatory;
+        ReadOnly = readOnly;
+        Label = label;
+        Description = new CDataValue();
+        Description.InderValue = description;
+        Color = color;
+        DisplayOrder = displayOrder;
+        Dummy = dummy;
+
+        StopOnSave = stopOnSave;
+        OriginalId = originalId;
+    }
+
+    public bool StopOnSave { get; set; }
+}
+//
+
+// EntitySearch
+public class EntitySearch : DataItem
+{
+    // con
+    internal EntitySearch()
+    {
+    }
+
+    public EntitySearch(int id, bool mandatory, bool readOnly, string label, string description, string color,
+        int displayOrder, bool dummy,
+        int defaultValue, int entityTypeId, bool isNum, string queryType, int minSearchLenght, bool barcodeEnabled,
+        string barcodeType, string originalId = "")
+    {
+        Id = id;
+        Mandatory = mandatory;
+        ReadOnly = readOnly;
+        Label = label;
+        Description = new CDataValue();
+        Description.InderValue = description;
+        Color = color;
+        DisplayOrder = displayOrder;
+        Dummy = dummy;
+
+        DefaultValue = defaultValue;
+        EntityTypeId = entityTypeId;
+        IsNum = isNum;
+        QueryType = queryType;
+        MinSearchLenght = minSearchLenght;
+        BarcodeEnabled = barcodeEnabled;
+        BarcodeType = barcodeType;
+        OriginalId = originalId;
+    }
+    //
+
+    // var
+    public int DefaultValue { get; set; }
+    public int EntityTypeId { get; set; }
+
+    public bool IsNum { get; set; }
+    public string QueryType { get; set; } = null!;
+    public int MinSearchLenght { get; set; }
+    public bool BarcodeEnabled { get; set; }
+
+    public string BarcodeType { get; set; } = null!;
+    //
+}
+//
+
+// EntitySelect
+public class EntitySelect : DataItem
+{
+    // con
+    internal EntitySelect()
+    {
+    }
+
+    public EntitySelect(int id, bool mandatory, bool readOnly, string label, string description, string color,
+        int displayOrder, bool dummy,
+        int defaultValue, int source, string originalId = "")
+
+    {
+        Id = id;
+        Mandatory = mandatory;
+        ReadOnly = readOnly;
+        Label = label;
+        Description = new CDataValue();
+        Description.InderValue = description;
+        Color = color;
+        DisplayOrder = displayOrder;
+        Dummy = dummy;
+
+        DefaultValue = defaultValue;
+        Source = source;
+        OriginalId = originalId;
+    }
+    //
+
+    // var
+    public int DefaultValue { get; set; }
+
+    public int Source { get; set; }
+    //
+}
+//
+//
+
+public class Field : DataItem
+{
+    public List<FieldValue> FieldValues { get; set; } = null!;
+    public string FieldType { get; set; } = null!;
+    public string FieldValue { get; set; } = null!;
+    public int? EntityGroupId { get; set; }
+    public List<KeyValuePair> KeyValuePairList { get; set; } = null!;
+}
+
+public class FieldValue : DataItem
+{
+    public int FieldId { get; set; }
+    public string FieldType { get; set; } = null!;
+    public DateTime DateOfDoing { get; set; }
+    public string Value { get; set; } = null!;
+    public string MicrotingUuid { get; set; } = null!;
+    public string ValueReadable { get; set; } = null!;
+    public string Latitude { get; set; } = null!;
+    public string Longitude { get; set; } = null!;
+    public string Altitude { get; set; } = null!;
+    public string Heading { get; set; } = null!;
+    public string Accuracy { get; set; } = null!;
+    public DateTime? Date { get; set; }
+    public string UploadedData { get; set; } = null!;
+    public UploadedData UploadedDataObj { get; set; } = null!;
+    public List<KeyValuePair> KeyValuePairList { get; set; } = null!;
+}
+
+public class FieldContainer : DataItem
+{
+    internal FieldContainer()
+    {
+    }
+
+    public FieldContainer(int id, string label, CDataValue description, string color, int displayOrder,
+        string value, List<DataItem> dataItemList, string originalId = "")
+    {
+        Id = id;
+        Label = label;
+        Description = description;
+        Color = color;
+        DisplayOrder = displayOrder;
+
+        Value = value;
+        DataItemList = dataItemList;
+        FieldType = "FieldContainer";
+        OriginalId = originalId;
+    }
+
+    public string FieldType { get; set; } = null!;
+    public string Value { get; set; } = null!;
+
+    [XmlArray("DataItemList"), XmlArrayItem(typeof(DataItem), ElementName = "DataItem")]
+    public List<DataItem> DataItemList { get; set; } = null!;
+
+    public static explicit operator FieldContainer(DataItemGroup dataItemGroup)
+    {
+        CDataValue description = new CDataValue();
+        description.InderValue = dataItemGroup.Description;
+        FieldContainer fg = new FieldContainer(int.Parse(dataItemGroup.Id), dataItemGroup.Label, description,
+            dataItemGroup.Color, dataItemGroup.DisplayOrder, "", dataItemGroup.DataItemList);
+        return fg;
+    }
+}
+
+public class UploadedData
+{
+    public int Id { get; set; }
+    public string Checksum { get; set; } = null!;
+    public string Extension { get; set; } = null!;
+    public string CurrentFile { get; set; } = null!;
+    public int? UploaderId { get; set; }
+    public string UploaderType { get; set; } = null!;
+    public string FileLocation { get; set; } = null!;
+    public string FileName { get; set; } = null!;
+}
+
+public enum DataItemColors
+{
+    e2f4fb_Blue,
+    f5eafa_Purple,
+    f0f8db_Green,
+    fff6df_Yellow,
+    ffe4e4_Red,
+    None_Default
 }

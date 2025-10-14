@@ -31,172 +31,171 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using NUnit.Framework;
 
-namespace eFormSDK.InSight.Tests
+namespace eFormSDK.InSight.Tests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class SiteSurveyConfigurationsUTest : DbTestFixture
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class SiteSurveyConfigurationsUTest : DbTestFixture
+    [Test]
+    public async Task SiteSurveyConfigurations_Create_DoesCreate()
     {
-        [Test]
-        public async Task SiteSurveyConfigurations_Create_DoesCreate()
+        //Arrange
+
+        Random rnd = new Random();
+
+        Site site = new Site();
+        site.Name = Guid.NewGuid().ToString();
+        site.MicrotingUid = rnd.Next(1, 255);
+        await site.Create(DbContext).ConfigureAwait(false);
+
+        QuestionSet questionSet = new QuestionSet
         {
-            //Arrange
+            ParentId = 0
+        };
 
-            Random rnd = new Random();
+        await questionSet.Create(DbContext).ConfigureAwait(false);
 
-            Site site = new Site();
-            site.Name = Guid.NewGuid().ToString();
-            site.MicrotingUid = rnd.Next(1, 255);
-            await site.Create(DbContext).ConfigureAwait(false);
-
-            QuestionSet questionSet = new QuestionSet
-            {
-                ParentId = 0
-            };
-
-            await questionSet.Create(DbContext).ConfigureAwait(false);
-
-            SurveyConfiguration surveyConfiguration = new SurveyConfiguration
-            {
-                Name = Guid.NewGuid().ToString(),
-                Start = DateTime.UtcNow,
-                Stop = DateTime.UtcNow,
-                TimeOut = rnd.Next(1, 255),
-                TimeToLive = rnd.Next(1, 255),
-                QuestionSetId = questionSet.Id
-            };
-            await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
-
-            SiteSurveyConfiguration siteSurveyConfiguration = new SiteSurveyConfiguration
-            {
-                SiteId = site.Id,
-                SurveyConfigurationId = surveyConfiguration.Id
-            };
-
-
-            //Act
-
-            await siteSurveyConfiguration.Create(DbContext).ConfigureAwait(false);
-
-            List<SiteSurveyConfiguration> siteSurveyConfigurations =
-                DbContext.SiteSurveyConfigurations.AsNoTracking().ToList();
-            List<SiteSurveyConfigurationVersion> siteSurveyConfigurationVersions =
-                DbContext.SiteSurveyConfigurationVersions.AsNoTracking().ToList();
-
-            Assert.That(siteSurveyConfigurations, Is.Not.EqualTo(null));
-            Assert.That(siteSurveyConfigurationVersions, Is.Not.EqualTo(null));
-
-            Assert.That(siteSurveyConfigurations.Count(), Is.EqualTo(1));
-            Assert.That(siteSurveyConfigurationVersions.Count(), Is.EqualTo(1));
-
-            Assert.That(siteSurveyConfigurations[0].CreatedAt.ToString(),
-                Is.EqualTo(siteSurveyConfiguration.CreatedAt.ToString()));
-            Assert.That(siteSurveyConfigurations[0].Version, Is.EqualTo(siteSurveyConfiguration.Version));
-            //            Assert.AreEqual(siteSurveyConfiguration.UpdatedAt.ToString(), siteSurveyConfigurations[0].UpdatedAt.ToString());
-            Assert.That(siteSurveyConfigurations[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(siteSurveyConfigurations[0].Id, Is.EqualTo(siteSurveyConfiguration.Id));
-            Assert.That(site.Id, Is.EqualTo(siteSurveyConfiguration.SiteId));
-            Assert.That(surveyConfiguration.Id, Is.EqualTo(siteSurveyConfiguration.SurveyConfigurationId));
-
-            //Versions
-
-            Assert.That(siteSurveyConfigurationVersions[0].CreatedAt.ToString(),
-                Is.EqualTo(siteSurveyConfiguration.CreatedAt.ToString()));
-            Assert.That(siteSurveyConfigurationVersions[0].Version, Is.EqualTo(siteSurveyConfiguration.Version));
-            //            Assert.AreEqual(siteSurveyConfiguration.UpdatedAt.ToString(), siteSurveyConfigurationVersions[0].UpdatedAt.ToString());
-            Assert.That(siteSurveyConfigurationVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(siteSurveyConfigurationVersions[0].Id, Is.EqualTo(siteSurveyConfiguration.Id));
-            Assert.That(siteSurveyConfigurationVersions[0].SiteId, Is.EqualTo(site.Id));
-            Assert.That(siteSurveyConfigurationVersions[0].SurveyConfigurationId, Is.EqualTo(surveyConfiguration.Id));
-        }
-
-        [Test]
-        public async Task SiteSurveyConfiguration_Delete_DoesDelete()
+        SurveyConfiguration surveyConfiguration = new SurveyConfiguration
         {
-            //Arrange
+            Name = Guid.NewGuid().ToString(),
+            Start = DateTime.UtcNow,
+            Stop = DateTime.UtcNow,
+            TimeOut = rnd.Next(1, 255),
+            TimeToLive = rnd.Next(1, 255),
+            QuestionSetId = questionSet.Id
+        };
+        await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
 
-            Random rnd = new Random();
+        SiteSurveyConfiguration siteSurveyConfiguration = new SiteSurveyConfiguration
+        {
+            SiteId = site.Id,
+            SurveyConfigurationId = surveyConfiguration.Id
+        };
 
-            Site site = new Site
-            {
-                Name = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255)
-            };
-            await site.Create(DbContext).ConfigureAwait(false);
 
-            QuestionSet questionSet = new QuestionSet
-            {
-                ParentId = 0
-            };
+        //Act
 
-            await questionSet.Create(DbContext).ConfigureAwait(false);
+        await siteSurveyConfiguration.Create(DbContext).ConfigureAwait(false);
 
-            SurveyConfiguration surveyConfiguration = new SurveyConfiguration
-            {
-                Name = Guid.NewGuid().ToString(),
-                Start = DateTime.UtcNow,
-                Stop = DateTime.UtcNow,
-                TimeOut = rnd.Next(1, 255),
-                TimeToLive = rnd.Next(1, 255),
-                QuestionSetId = questionSet.Id
-            };
-            await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
+        List<SiteSurveyConfiguration> siteSurveyConfigurations =
+            DbContext.SiteSurveyConfigurations.AsNoTracking().ToList();
+        List<SiteSurveyConfigurationVersion> siteSurveyConfigurationVersions =
+            DbContext.SiteSurveyConfigurationVersions.AsNoTracking().ToList();
 
-            SiteSurveyConfiguration siteSurveyConfiguration = new SiteSurveyConfiguration
-            {
-                SiteId = site.Id,
-                SurveyConfigurationId = surveyConfiguration.Id
-            };
-            await siteSurveyConfiguration.Create(DbContext).ConfigureAwait(false);
+        Assert.That(siteSurveyConfigurations, Is.Not.EqualTo(null));
+        Assert.That(siteSurveyConfigurationVersions, Is.Not.EqualTo(null));
 
-            //Act
+        Assert.That(siteSurveyConfigurations.Count(), Is.EqualTo(1));
+        Assert.That(siteSurveyConfigurationVersions.Count(), Is.EqualTo(1));
+
+        Assert.That(siteSurveyConfigurations[0].CreatedAt.ToString(),
+            Is.EqualTo(siteSurveyConfiguration.CreatedAt.ToString()));
+        Assert.That(siteSurveyConfigurations[0].Version, Is.EqualTo(siteSurveyConfiguration.Version));
+        //            Assert.AreEqual(siteSurveyConfiguration.UpdatedAt.ToString(), siteSurveyConfigurations[0].UpdatedAt.ToString());
+        Assert.That(siteSurveyConfigurations[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(siteSurveyConfigurations[0].Id, Is.EqualTo(siteSurveyConfiguration.Id));
+        Assert.That(site.Id, Is.EqualTo(siteSurveyConfiguration.SiteId));
+        Assert.That(surveyConfiguration.Id, Is.EqualTo(siteSurveyConfiguration.SurveyConfigurationId));
+
+        //Versions
+
+        Assert.That(siteSurveyConfigurationVersions[0].CreatedAt.ToString(),
+            Is.EqualTo(siteSurveyConfiguration.CreatedAt.ToString()));
+        Assert.That(siteSurveyConfigurationVersions[0].Version, Is.EqualTo(siteSurveyConfiguration.Version));
+        //            Assert.AreEqual(siteSurveyConfiguration.UpdatedAt.ToString(), siteSurveyConfigurationVersions[0].UpdatedAt.ToString());
+        Assert.That(siteSurveyConfigurationVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(siteSurveyConfigurationVersions[0].Id, Is.EqualTo(siteSurveyConfiguration.Id));
+        Assert.That(siteSurveyConfigurationVersions[0].SiteId, Is.EqualTo(site.Id));
+        Assert.That(siteSurveyConfigurationVersions[0].SurveyConfigurationId, Is.EqualTo(surveyConfiguration.Id));
+    }
+
+    [Test]
+    public async Task SiteSurveyConfiguration_Delete_DoesDelete()
+    {
+        //Arrange
+
+        Random rnd = new Random();
+
+        Site site = new Site
+        {
+            Name = Guid.NewGuid().ToString(),
+            MicrotingUid = rnd.Next(1, 255)
+        };
+        await site.Create(DbContext).ConfigureAwait(false);
+
+        QuestionSet questionSet = new QuestionSet
+        {
+            ParentId = 0
+        };
+
+        await questionSet.Create(DbContext).ConfigureAwait(false);
+
+        SurveyConfiguration surveyConfiguration = new SurveyConfiguration
+        {
+            Name = Guid.NewGuid().ToString(),
+            Start = DateTime.UtcNow,
+            Stop = DateTime.UtcNow,
+            TimeOut = rnd.Next(1, 255),
+            TimeToLive = rnd.Next(1, 255),
+            QuestionSetId = questionSet.Id
+        };
+        await surveyConfiguration.Create(DbContext).ConfigureAwait(false);
+
+        SiteSurveyConfiguration siteSurveyConfiguration = new SiteSurveyConfiguration
+        {
+            SiteId = site.Id,
+            SurveyConfigurationId = surveyConfiguration.Id
+        };
+        await siteSurveyConfiguration.Create(DbContext).ConfigureAwait(false);
+
+        //Act
 
 //            DateTime? oldUpdatedAt = siteSurveyConfiguration.UpdatedAt;
 
-            await siteSurveyConfiguration.Delete(DbContext);
+        await siteSurveyConfiguration.Delete(DbContext);
 
 
-            List<SiteSurveyConfiguration> siteSurveyConfigurations =
-                DbContext.SiteSurveyConfigurations.AsNoTracking().ToList();
-            List<SiteSurveyConfigurationVersion> siteSurveyConfigurationVersions =
-                DbContext.SiteSurveyConfigurationVersions.AsNoTracking().ToList();
+        List<SiteSurveyConfiguration> siteSurveyConfigurations =
+            DbContext.SiteSurveyConfigurations.AsNoTracking().ToList();
+        List<SiteSurveyConfigurationVersion> siteSurveyConfigurationVersions =
+            DbContext.SiteSurveyConfigurationVersions.AsNoTracking().ToList();
 
-            Assert.That(siteSurveyConfigurations, Is.Not.EqualTo(null));
-            Assert.That(siteSurveyConfigurationVersions, Is.Not.EqualTo(null));
+        Assert.That(siteSurveyConfigurations, Is.Not.EqualTo(null));
+        Assert.That(siteSurveyConfigurationVersions, Is.Not.EqualTo(null));
 
-            Assert.That(siteSurveyConfigurations.Count(), Is.EqualTo(1));
-            Assert.That(siteSurveyConfigurationVersions.Count(), Is.EqualTo(2));
+        Assert.That(siteSurveyConfigurations.Count(), Is.EqualTo(1));
+        Assert.That(siteSurveyConfigurationVersions.Count(), Is.EqualTo(2));
 
-            Assert.That(siteSurveyConfigurations[0].CreatedAt.ToString(),
-                Is.EqualTo(siteSurveyConfiguration.CreatedAt.ToString()));
-            Assert.That(siteSurveyConfigurations[0].Version, Is.EqualTo(siteSurveyConfiguration.Version));
-            //            Assert.AreEqual(siteSurveyConfiguration.UpdatedAt.ToString(), siteSurveyConfigurations[0].UpdatedAt.ToString());
-            Assert.That(siteSurveyConfigurations[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
-            Assert.That(siteSurveyConfigurations[0].Id, Is.EqualTo(siteSurveyConfiguration.Id));
-            Assert.That(site.Id, Is.EqualTo(siteSurveyConfiguration.SiteId));
-            Assert.That(surveyConfiguration.Id, Is.EqualTo(siteSurveyConfiguration.SurveyConfigurationId));
+        Assert.That(siteSurveyConfigurations[0].CreatedAt.ToString(),
+            Is.EqualTo(siteSurveyConfiguration.CreatedAt.ToString()));
+        Assert.That(siteSurveyConfigurations[0].Version, Is.EqualTo(siteSurveyConfiguration.Version));
+        //            Assert.AreEqual(siteSurveyConfiguration.UpdatedAt.ToString(), siteSurveyConfigurations[0].UpdatedAt.ToString());
+        Assert.That(siteSurveyConfigurations[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+        Assert.That(siteSurveyConfigurations[0].Id, Is.EqualTo(siteSurveyConfiguration.Id));
+        Assert.That(site.Id, Is.EqualTo(siteSurveyConfiguration.SiteId));
+        Assert.That(surveyConfiguration.Id, Is.EqualTo(siteSurveyConfiguration.SurveyConfigurationId));
 
-            //Old Version
+        //Old Version
 
-            Assert.That(siteSurveyConfigurationVersions[0].CreatedAt.ToString(),
-                Is.EqualTo(siteSurveyConfiguration.CreatedAt.ToString()));
-            Assert.That(siteSurveyConfigurationVersions[0].Version, Is.EqualTo(1));
-            //            Assert.AreEqual(oldUpdatedAt.ToString(), siteSurveyConfigurationVersions[0].UpdatedAt.ToString());
-            Assert.That(siteSurveyConfigurationVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(siteSurveyConfigurationVersions[0].SiteSurveyConfigurationId, Is.EqualTo(siteSurveyConfiguration.Id));
-            Assert.That(siteSurveyConfigurationVersions[0].SiteId, Is.EqualTo(site.Id));
-            Assert.That(siteSurveyConfigurationVersions[0].SurveyConfigurationId, Is.EqualTo(surveyConfiguration.Id));
+        Assert.That(siteSurveyConfigurationVersions[0].CreatedAt.ToString(),
+            Is.EqualTo(siteSurveyConfiguration.CreatedAt.ToString()));
+        Assert.That(siteSurveyConfigurationVersions[0].Version, Is.EqualTo(1));
+        //            Assert.AreEqual(oldUpdatedAt.ToString(), siteSurveyConfigurationVersions[0].UpdatedAt.ToString());
+        Assert.That(siteSurveyConfigurationVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(siteSurveyConfigurationVersions[0].SiteSurveyConfigurationId, Is.EqualTo(siteSurveyConfiguration.Id));
+        Assert.That(siteSurveyConfigurationVersions[0].SiteId, Is.EqualTo(site.Id));
+        Assert.That(siteSurveyConfigurationVersions[0].SurveyConfigurationId, Is.EqualTo(surveyConfiguration.Id));
 
-            //New Version
+        //New Version
 
-            Assert.That(siteSurveyConfigurationVersions[1].CreatedAt.ToString(),
-                Is.EqualTo(siteSurveyConfiguration.CreatedAt.ToString()));
-            Assert.That(siteSurveyConfigurationVersions[1].Version, Is.EqualTo(2));
-            //            Assert.AreEqual(siteSurveyConfiguration.UpdatedAt.ToString(), siteSurveyConfigurationVersions[1].UpdatedAt.ToString());
-            Assert.That(siteSurveyConfigurationVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
-            Assert.That(siteSurveyConfigurationVersions[1].SiteSurveyConfigurationId, Is.EqualTo(siteSurveyConfiguration.Id));
-            Assert.That(siteSurveyConfigurationVersions[1].SiteId, Is.EqualTo(site.Id));
-            Assert.That(siteSurveyConfigurationVersions[1].SurveyConfigurationId, Is.EqualTo(surveyConfiguration.Id));
-        }
+        Assert.That(siteSurveyConfigurationVersions[1].CreatedAt.ToString(),
+            Is.EqualTo(siteSurveyConfiguration.CreatedAt.ToString()));
+        Assert.That(siteSurveyConfigurationVersions[1].Version, Is.EqualTo(2));
+        //            Assert.AreEqual(siteSurveyConfiguration.UpdatedAt.ToString(), siteSurveyConfigurationVersions[1].UpdatedAt.ToString());
+        Assert.That(siteSurveyConfigurationVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+        Assert.That(siteSurveyConfigurationVersions[1].SiteSurveyConfigurationId, Is.EqualTo(siteSurveyConfiguration.Id));
+        Assert.That(siteSurveyConfigurationVersions[1].SiteId, Is.EqualTo(site.Id));
+        Assert.That(siteSurveyConfigurationVersions[1].SurveyConfigurationId, Is.EqualTo(surveyConfiguration.Id));
     }
 }

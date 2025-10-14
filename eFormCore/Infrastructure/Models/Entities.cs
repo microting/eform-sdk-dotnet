@@ -25,93 +25,92 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 
-namespace Microting.eForm.Infrastructure.Models
+namespace Microting.eForm.Infrastructure.Models;
+
+#region EntityGroup
+
+public class EntityGroup
 {
-    #region EntityGroup
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Type { get; set; }
+    public string MicrotingUUID { get; set; }
+    public List<EntityItem> EntityGroupItemLst { get; set; }
+    public string WorkflowState { get; set; }
+    public string Description { get; set; }
+    public bool Locked { get; set; }
+    public bool Editable { get; set; }
 
-    public class EntityGroup
+    /// <summary>
+    ///...
+    /// </summary>
+    public DateTime? CreatedAt { get; set; }
+
+    /// <summary>
+    ///...
+    /// </summary>
+    public DateTime? UpdatedAt { get; set; }
+
+    public static implicit operator Microting.eForm.Infrastructure.Data.Entities.EntityGroup(
+        EntityGroup entityGroup)
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Type { get; set; }
-        public string MicrotingUUID { get; set; }
-        public List<EntityItem> EntityGroupItemLst { get; set; }
-        public string WorkflowState { get; set; }
-        public string Description { get; set; }
-        public bool Locked { get; set; }
-        public bool Editable { get; set; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public DateTime? CreatedAt { get; set; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public DateTime? UpdatedAt { get; set; }
-
-        public static implicit operator Microting.eForm.Infrastructure.Data.Entities.EntityGroup(
-            EntityGroup entityGroup)
+        return new Data.Entities.EntityGroup
         {
-            return new Data.Entities.EntityGroup
-            {
-                Id = entityGroup.Id,
-                Name = entityGroup.Name,
-                Description = entityGroup.Description,
-                MicrotingUid = entityGroup.MicrotingUUID,
-                WorkflowState = entityGroup.WorkflowState,
-                Locked = entityGroup.Locked,
-                Editable = entityGroup.Editable
-            };
-        }
+            Id = entityGroup.Id,
+            Name = entityGroup.Name,
+            Description = entityGroup.Description,
+            MicrotingUid = entityGroup.MicrotingUUID,
+            WorkflowState = entityGroup.WorkflowState,
+            Locked = entityGroup.Locked,
+            Editable = entityGroup.Editable
+        };
     }
-
-    #endregion
-
-    #region EntityGroupList
-
-    public class EntityGroupList
-    {
-        public EntityGroupList()
-        {
-        }
-
-        public EntityGroupList(int numOfElements, int pageNum, List<EntityGroup> entityGroupList)
-        {
-            NumOfElements = numOfElements;
-            PageNum = pageNum;
-            EntityGroups = entityGroupList;
-        }
-
-        public int NumOfElements { get; }
-        public int PageNum { get; }
-        public List<EntityGroup> EntityGroups { get; }
-    }
-
-    #endregion
-
-    #region EntityItem
-
-    public class EntityItem
-    {
-        public EntityItem()
-        {
-            Name = "";
-            Description = "";
-            EntityItemUId = "";
-            MicrotingUUID = "";
-        }
-
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string EntityItemUId { get; set; }
-        public string WorkflowState { get; set; }
-        public string MicrotingUUID { get; set; }
-        public int DisplayIndex { get; set; }
-        public int EntityItemGroupId { get; set; }
-    }
-
-    #endregion
 }
+
+#endregion
+
+#region EntityGroupList
+
+public class EntityGroupList
+{
+    public EntityGroupList()
+    {
+    }
+
+    public EntityGroupList(int numOfElements, int pageNum, List<EntityGroup> entityGroupList)
+    {
+        NumOfElements = numOfElements;
+        PageNum = pageNum;
+        EntityGroups = entityGroupList;
+    }
+
+    public int NumOfElements { get; }
+    public int PageNum { get; }
+    public List<EntityGroup> EntityGroups { get; }
+}
+
+#endregion
+
+#region EntityItem
+
+public class EntityItem
+{
+    public EntityItem()
+    {
+        Name = "";
+        Description = "";
+        EntityItemUId = "";
+        MicrotingUUID = "";
+    }
+
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public string EntityItemUId { get; set; }
+    public string WorkflowState { get; set; }
+    public string MicrotingUUID { get; set; }
+    public int DisplayIndex { get; set; }
+    public int EntityItemGroupId { get; set; }
+}
+
+#endregion

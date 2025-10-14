@@ -30,27 +30,26 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Messages;
 using Rebus.Handlers;
 
-namespace Microting.eForm.Handlers
+namespace Microting.eForm.Handlers;
+
+public class EformParsingErrorHandler : IHandleMessages<EformParsingError>
 {
-    public class EformParsingErrorHandler : IHandleMessages<EformParsingError>
+    private readonly SqlController _sqlController;
+    private readonly Core _core;
+
+    public EformParsingErrorHandler(SqlController sqlController, Core core)
     {
-        private readonly SqlController _sqlController;
-        private readonly Core _core;
+        _sqlController = sqlController;
+        _core = core;
+    }
 
-        public EformParsingErrorHandler(SqlController sqlController, Core core)
-        {
-            _sqlController = sqlController;
-            _core = core;
-        }
+    public async Task Handle(EformParsingError message)
+    {
+        await _sqlController.NotificationCreate(message.NotificationId, message.MicrotringUUID,
+            Constants.Notifications.EformParsingError);
 
-        public async Task Handle(EformParsingError message)
-        {
-            await _sqlController.NotificationCreate(message.NotificationId, message.MicrotringUUID,
-                Constants.Notifications.EformParsingError);
-
-            CaseDto cDto = await _sqlController.CaseReadByMUId(message.MicrotringUUID);
-            await _core.FireHandleCaseProcessingError(cDto);
-            // Potentially send new message onto local queue
-        }
+        CaseDto cDto = await _sqlController.CaseReadByMUId(message.MicrotringUUID);
+        await _core.FireHandleCaseProcessingError(cDto);
+        // Potentially send new message onto local queue
     }
 }

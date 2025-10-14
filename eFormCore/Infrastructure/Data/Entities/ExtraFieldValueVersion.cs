@@ -2,42 +2,41 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class ExtraFieldValueVersion : BaseEntity
 {
-    public class ExtraFieldValueVersion : BaseEntity
-    {
-        public int ExtraFieldValueId { get; set; }
+    public int ExtraFieldValueId { get; set; }
 
-        public DateTime? DoneAt { get; set; }
+    public DateTime? DoneAt { get; set; }
 
-        public DateTime? Date { get; set; }
+    public DateTime? Date { get; set; }
 
-        [ForeignKey("Worker")] public int? WorkerId { get; set; }
+    [ForeignKey("Worker")] public int? WorkerId { get; set; }
 
-        public int? CaseId { get; set; }
+    public int? CaseId { get; set; }
 
-        [ForeignKey("CheckList")] public int? CheckListId { get; set; }
+    [ForeignKey("CheckList")] public int? CheckListId { get; set; }
 
-        public int? CheckListDuplicateId { get; set; }
+    public int? CheckListDuplicateId { get; set; }
 
-        public int? CheckListValueId { get; set; }
+    public int? CheckListValueId { get; set; }
 
-        [ForeignKey("UploadedData")] public int? UploadedDataId { get; set; }
+    [ForeignKey("UploadedData")] public int? UploadedDataId { get; set; }
 
-        public string Value { get; set; }
+    public string Value { get; set; }
 
-        [StringLength(255)] public string Latitude { get; set; }
+    [StringLength(255)] public string Latitude { get; set; }
 
-        [StringLength(255)] public string Longitude { get; set; }
+    [StringLength(255)] public string Longitude { get; set; }
 
-        [StringLength(255)] public string Altitude { get; set; }
+    [StringLength(255)] public string Altitude { get; set; }
 
-        [StringLength(255)] public string Heading { get; set; }
+    [StringLength(255)] public string Heading { get; set; }
 
-        [StringLength(255)] public string Accuracy { get; set; }
+    [StringLength(255)] public string Accuracy { get; set; }
 
-        public string FieldType { get; set; }
+    public string FieldType { get; set; }
 
-        public int FieldTypeId { get; set; }
-    }
+    public int FieldTypeId { get; set; }
 }

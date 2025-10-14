@@ -29,97 +29,97 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using Newtonsoft.Json.Linq;
 
-namespace Microting.eForm.Helpers
+namespace Microting.eForm.Helpers;
+
+public class TestHelperReturnXML
 {
-    public class TestHelperReturnXML
+    private TestHelpers testHelpers;
+    Tools t = new Tools();
+
+    public TestHelperReturnXML(string connectionString)
     {
-        private TestHelpers testHelpers;
         Tools t = new Tools();
+        testHelpers = new TestHelpers(connectionString);
+    }
 
-        public TestHelperReturnXML(string connectionString)
+    #region "prep sever information for full load"
+
+    public async Task<string> CreateSiteUnitWorkersForFullLoaed(bool create)
+    {
+        if (create)
         {
-            Tools t = new Tools();
-            testHelpers = new TestHelpers(connectionString);
+            int id = t.GetRandomInt(6);
+            string siteName = Guid.NewGuid().ToString();
+            Site site = await testHelpers.CreateSite(siteName, id);
+
+            id = t.GetRandomInt(6);
+            string userFirstName = Guid.NewGuid().ToString();
+            string userLastName = Guid.NewGuid().ToString();
+            Worker worker =
+                await testHelpers.CreateWorker("sfsdfsdf23ref@invalid.com", userFirstName, userLastName, id);
+            return "";
         }
 
-        #region "prep sever information for full load"
-
-        public async Task<string> CreateSiteUnitWorkersForFullLoaed(bool create)
+        try
         {
-            if (create)
-            {
-                int id = t.GetRandomInt(6);
-                string siteName = Guid.NewGuid().ToString();
-                Site site = await testHelpers.CreateSite(siteName, id);
+            Site site = testHelpers.dbContext.Sites.First();
+            Worker worker = testHelpers.dbContext.Workers.First();
 
-                id = t.GetRandomInt(6);
-                string userFirstName = Guid.NewGuid().ToString();
-                string userLastName = Guid.NewGuid().ToString();
-                Worker worker =
-                    await testHelpers.CreateWorker("sfsdfsdf23ref@invalid.com", userFirstName, userLastName, id);
-                return "";
-            }
-
-            try
+            int id = t.GetRandomInt(6);
+            JObject result = JObject.FromObject(new JArray(new
             {
-                Site site = testHelpers.dbContext.Sites.First();
-                Worker worker = testHelpers.dbContext.Workers.First();
-
-                int id = t.GetRandomInt(6);
-                JObject result = JObject.FromObject(new JArray(new
-                {
-                    id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z",
-                    workflow_state = Constants.WorkflowStates.Created, person_type = "",
-                    site_id = site.MicrotingUid, user_id = worker.MicrotingUid
-                }));
-                return result.ToString();
-            }
-            catch
-            {
-                return "{}";
-            }
+                id, created_at = "2018-01-12T01:01:00Z", updated_at = "2018-01-12T01:01:10Z",
+                workflow_state = Constants.WorkflowStates.Created, person_type = "",
+                site_id = site.MicrotingUid, user_id = worker.MicrotingUid
+            }));
+            return result.ToString();
         }
-
-        #endregion
-
-        #region
-
-        public async Task<string> CreateMultiPictureXMLResult(bool create)
+        catch
         {
-            if (create)
-            {
-                await testHelpers.GenerateDefaultLanguages();
-                Site site = await testHelpers.CreateSite("TestSite1", 12334);
-                Unit unit = await testHelpers.CreateUnit(20934, 234234, site, 24234);
-                Worker worker = await testHelpers.CreateWorker("sfsdfsdf23ref@invalid.com", "John", "Doe", 2342341);
-                SiteWorker sw = await testHelpers.CreateSiteWorker(242345, site, worker);
-                DateTime cl1_ca = DateTime.UtcNow;
-                DateTime cl1_ua = DateTime.UtcNow;
-                CheckList cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "MultiPictureXMLResult",
-                    "MultiPictureXMLResult_Description", "", "", 0, 0);
-                CheckList cl2 = await testHelpers.CreateSubTemplate("Sub1", "Sub1Description", "", 0, 0, cl1);
-                Field f1 = await testHelpers.CreateField(0, "", cl2, Constants.FieldColors.Blue, "", null, "",
-                    "PictureDescription", 0, 0,
-                    testHelpers.dbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 0, 0,
-                    "Take picture", 0, 0, "", "", 0, 0, "", 0, 0, 0, 0, "", 0);
-                CheckListSite cls = await testHelpers.CreateCheckListSite(cl1, cl1_ca, site, cl1_ua, 0,
-                    Constants.WorkflowStates.Created, 555);
-                //returnXML = ;
-                return "555";
+            return "{}";
+        }
+    }
+
+    #endregion
+
+    #region
+
+    public async Task<string> CreateMultiPictureXMLResult(bool create)
+    {
+        if (create)
+        {
+            await testHelpers.GenerateDefaultLanguages();
+            Site site = await testHelpers.CreateSite("TestSite1", 12334);
+            Unit unit = await testHelpers.CreateUnit(20934, 234234, site, 24234);
+            Worker worker = await testHelpers.CreateWorker("sfsdfsdf23ref@invalid.com", "John", "Doe", 2342341);
+            SiteWorker sw = await testHelpers.CreateSiteWorker(242345, site, worker);
+            DateTime cl1_ca = DateTime.UtcNow;
+            DateTime cl1_ua = DateTime.UtcNow;
+            CheckList cl1 = await testHelpers.CreateTemplate(cl1_ca, cl1_ua, "MultiPictureXMLResult",
+                "MultiPictureXMLResult_Description", "", "", 0, 0);
+            CheckList cl2 = await testHelpers.CreateSubTemplate("Sub1", "Sub1Description", "", 0, 0, cl1);
+            Field f1 = await testHelpers.CreateField(0, "", cl2, Constants.FieldColors.Blue, "", null, "",
+                "PictureDescription", 0, 0,
+                testHelpers.dbContext.FieldTypes.Where(x => x.Type == "picture").First(), 0, 0, 0, 0,
+                "Take picture", 0, 0, "", "", 0, 0, "", 0, 0, 0, 0, "", 0);
+            CheckListSite cls = await testHelpers.CreateCheckListSite(cl1, cl1_ca, site, cl1_ua, 0,
+                Constants.WorkflowStates.Created, 555);
+            //returnXML = ;
+            return "555";
 //                return 12;
-            }
-            else
-            {
-                Site site = testHelpers.dbContext.Sites.First();
-                Unit unit = testHelpers.dbContext.Units.First();
-                Worker worker = testHelpers.dbContext.Workers.First();
-                CheckList cl1 = testHelpers.dbContext.CheckLists.ToList()[0];
-                CheckList cl2 = testHelpers.dbContext.CheckLists.ToList()[1];
-                Field f1 = testHelpers.dbContext.Fields.First();
+        }
+        else
+        {
+            Site site = testHelpers.dbContext.Sites.First();
+            Unit unit = testHelpers.dbContext.Units.First();
+            Worker worker = testHelpers.dbContext.Workers.First();
+            CheckList cl1 = testHelpers.dbContext.CheckLists.ToList()[0];
+            CheckList cl2 = testHelpers.dbContext.CheckLists.ToList()[1];
+            Field f1 = testHelpers.dbContext.Fields.First();
 
-                #region return xml
+            #region return xml
 
-                return $@"<?xml version='1.0' encoding='UTF-8'?>
+            return $@"<?xml version='1.0' encoding='UTF-8'?>
                 <Response>
                     <Value type='success'>555</Value>
                     <Checks>
@@ -149,10 +149,9 @@ namespace Microting.eForm.Helpers
                     </Checks>
                 </Response>".Replace("'", "\"");
 
-                #endregion
-            }
+            #endregion
         }
-
-        #endregion
     }
+
+    #endregion
 }

@@ -31,203 +31,202 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using NUnit.Framework;
 
-namespace eFormSDK.Base.Tests
+namespace eFormSDK.Base.Tests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class WorkersUTest : DbTestFixture
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class WorkersUTest : DbTestFixture
+    [Test]
+    public async Task Workers_Create_DoesCreate()
     {
-        [Test]
-        public async Task Workers_Create_DoesCreate()
+        //Arrange
+        Random rnd = new Random();
+
+
+        Worker worker = new Worker
         {
-            //Arrange
-            Random rnd = new Random();
+            FirstName = Guid.NewGuid().ToString(),
+            LastName = Guid.NewGuid().ToString(),
+            Email = Guid.NewGuid().ToString(),
+            MicrotingUid = rnd.Next(1, 255)
+        };
+
+        //Act
+
+        await worker.Create(DbContext).ConfigureAwait(false);
+
+        List<Worker> workers = DbContext.Workers.AsNoTracking().ToList();
+        List<WorkerVersion> workersVersion = DbContext.WorkerVersions.AsNoTracking().ToList();
+
+        //Assert
+
+        Assert.That(workers, Is.Not.EqualTo(null));
+        Assert.That(workersVersion, Is.Not.EqualTo(null));
+
+        Assert.That(workersVersion.Count(), Is.EqualTo(1));
+        Assert.That(workers.Count(), Is.EqualTo(1));
+
+        Assert.That(workers[0].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
+        Assert.That(workers[0].Version, Is.EqualTo(worker.Version));
+        //            Assert.AreEqual(worker.UpdatedAt.ToString(), workers[0].UpdatedAt.ToString());
+        Assert.That(workers[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(workers[0].Email, Is.EqualTo(worker.Email));
+        Assert.That(workers[0].FirstName, Is.EqualTo(worker.FirstName));
+        Assert.That(workers[0].LastName, Is.EqualTo(worker.LastName));
+        Assert.That(workers[0].MicrotingUid, Is.EqualTo(worker.MicrotingUid));
+        Assert.That(workers[0].full_name(), Is.EqualTo(worker.full_name()));
+
+        //Versions
+        Assert.That(workersVersion[0].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
+        Assert.That(workersVersion[0].Version, Is.EqualTo(1));
+        //            Assert.AreEqual(worker.UpdatedAt.ToString(), workersVersion[0].UpdatedAt.ToString());
+        Assert.That(workersVersion[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(workersVersion[0].Email, Is.EqualTo(worker.Email));
+        Assert.That(workersVersion[0].FirstName, Is.EqualTo(worker.FirstName));
+        Assert.That(workersVersion[0].LastName, Is.EqualTo(worker.LastName));
+        Assert.That(workersVersion[0].MicrotingUid, Is.EqualTo(worker.MicrotingUid));
+    }
+
+    [Test]
+    public async Task Workers_Update_DoesUpdate()
+    {
+        //Arrange
+
+        Random rnd = new Random();
 
 
-            Worker worker = new Worker
-            {
-                FirstName = Guid.NewGuid().ToString(),
-                LastName = Guid.NewGuid().ToString(),
-                Email = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255)
-            };
-
-            //Act
-
-            await worker.Create(DbContext).ConfigureAwait(false);
-
-            List<Worker> workers = DbContext.Workers.AsNoTracking().ToList();
-            List<WorkerVersion> workersVersion = DbContext.WorkerVersions.AsNoTracking().ToList();
-
-            //Assert
-
-            Assert.That(workers, Is.Not.EqualTo(null));
-            Assert.That(workersVersion, Is.Not.EqualTo(null));
-
-            Assert.That(workersVersion.Count(), Is.EqualTo(1));
-            Assert.That(workers.Count(), Is.EqualTo(1));
-
-            Assert.That(workers[0].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
-            Assert.That(workers[0].Version, Is.EqualTo(worker.Version));
-            //            Assert.AreEqual(worker.UpdatedAt.ToString(), workers[0].UpdatedAt.ToString());
-            Assert.That(workers[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(workers[0].Email, Is.EqualTo(worker.Email));
-            Assert.That(workers[0].FirstName, Is.EqualTo(worker.FirstName));
-            Assert.That(workers[0].LastName, Is.EqualTo(worker.LastName));
-            Assert.That(workers[0].MicrotingUid, Is.EqualTo(worker.MicrotingUid));
-            Assert.That(workers[0].full_name(), Is.EqualTo(worker.full_name()));
-
-            //Versions
-            Assert.That(workersVersion[0].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
-            Assert.That(workersVersion[0].Version, Is.EqualTo(1));
-            //            Assert.AreEqual(worker.UpdatedAt.ToString(), workersVersion[0].UpdatedAt.ToString());
-            Assert.That(workersVersion[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(workersVersion[0].Email, Is.EqualTo(worker.Email));
-            Assert.That(workersVersion[0].FirstName, Is.EqualTo(worker.FirstName));
-            Assert.That(workersVersion[0].LastName, Is.EqualTo(worker.LastName));
-            Assert.That(workersVersion[0].MicrotingUid, Is.EqualTo(worker.MicrotingUid));
-        }
-
-        [Test]
-        public async Task Workers_Update_DoesUpdate()
+        Worker worker = new Worker
         {
-            //Arrange
+            FirstName = Guid.NewGuid().ToString(),
+            LastName = Guid.NewGuid().ToString(),
+            Email = Guid.NewGuid().ToString(),
+            MicrotingUid = rnd.Next(1, 255)
+        };
 
-            Random rnd = new Random();
+        await worker.Create(DbContext).ConfigureAwait(false);
 
+        //Act
 
-            Worker worker = new Worker
-            {
-                FirstName = Guid.NewGuid().ToString(),
-                LastName = Guid.NewGuid().ToString(),
-                Email = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255)
-            };
+        DateTime? oldUpdatedAt = worker.UpdatedAt;
+        string oldFirstName = worker.FirstName;
+        string oldLastName = worker.LastName;
+        string oldEmail = worker.Email;
+        int? oldMicrotingUid = worker.MicrotingUid;
 
-            await worker.Create(DbContext).ConfigureAwait(false);
+        worker.FirstName = Guid.NewGuid().ToString();
+        worker.LastName = Guid.NewGuid().ToString();
+        worker.Email = Guid.NewGuid().ToString();
+        worker.MicrotingUid = rnd.Next(1, 255);
 
-            //Act
+        await worker.Update(DbContext).ConfigureAwait(false);
 
-            DateTime? oldUpdatedAt = worker.UpdatedAt;
-            string oldFirstName = worker.FirstName;
-            string oldLastName = worker.LastName;
-            string oldEmail = worker.Email;
-            int? oldMicrotingUid = worker.MicrotingUid;
+        List<Worker> workers = DbContext.Workers.AsNoTracking().ToList();
+        List<WorkerVersion> workersVersion = DbContext.WorkerVersions.AsNoTracking().ToList();
 
-            worker.FirstName = Guid.NewGuid().ToString();
-            worker.LastName = Guid.NewGuid().ToString();
-            worker.Email = Guid.NewGuid().ToString();
-            worker.MicrotingUid = rnd.Next(1, 255);
+        //Assert
 
-            await worker.Update(DbContext).ConfigureAwait(false);
+        Assert.That(workers, Is.Not.EqualTo(null));
+        Assert.That(workersVersion, Is.Not.EqualTo(null));
 
-            List<Worker> workers = DbContext.Workers.AsNoTracking().ToList();
-            List<WorkerVersion> workersVersion = DbContext.WorkerVersions.AsNoTracking().ToList();
+        Assert.That(workers.Count(), Is.EqualTo(1));
+        Assert.That(workersVersion.Count(), Is.EqualTo(2));
 
-            //Assert
+        Assert.That(workers[0].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
+        Assert.That(workers[0].Version, Is.EqualTo(worker.Version));
+        //            Assert.AreEqual(worker.UpdatedAt.ToString(), workers[0].UpdatedAt.ToString());
+        Assert.That(workers[0].Email, Is.EqualTo(worker.Email));
+        Assert.That(workers[0].FirstName, Is.EqualTo(worker.FirstName));
+        Assert.That(workers[0].LastName, Is.EqualTo(worker.LastName));
+        Assert.That(workers[0].MicrotingUid, Is.EqualTo(worker.MicrotingUid));
+        Assert.That(workers[0].full_name(), Is.EqualTo(worker.full_name()));
 
-            Assert.That(workers, Is.Not.EqualTo(null));
-            Assert.That(workersVersion, Is.Not.EqualTo(null));
-
-            Assert.That(workers.Count(), Is.EqualTo(1));
-            Assert.That(workersVersion.Count(), Is.EqualTo(2));
-
-            Assert.That(workers[0].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
-            Assert.That(workers[0].Version, Is.EqualTo(worker.Version));
-            //            Assert.AreEqual(worker.UpdatedAt.ToString(), workers[0].UpdatedAt.ToString());
-            Assert.That(workers[0].Email, Is.EqualTo(worker.Email));
-            Assert.That(workers[0].FirstName, Is.EqualTo(worker.FirstName));
-            Assert.That(workers[0].LastName, Is.EqualTo(worker.LastName));
-            Assert.That(workers[0].MicrotingUid, Is.EqualTo(worker.MicrotingUid));
-            Assert.That(workers[0].full_name(), Is.EqualTo(worker.full_name()));
-
-            //Version 1 Old Version
-            Assert.That(workersVersion[0].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
-            Assert.That(workersVersion[0].Version, Is.EqualTo(1));
-            //            Assert.AreEqual(oldUpdatedAt.ToString(), workersVersion[0].UpdatedAt.ToString());
-            Assert.That(workersVersion[0].Email, Is.EqualTo(oldEmail));
-            Assert.That(workersVersion[0].FirstName, Is.EqualTo(oldFirstName));
-            Assert.That(workersVersion[0].LastName, Is.EqualTo(oldLastName));
-            Assert.That(workersVersion[0].MicrotingUid, Is.EqualTo(oldMicrotingUid));
+        //Version 1 Old Version
+        Assert.That(workersVersion[0].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
+        Assert.That(workersVersion[0].Version, Is.EqualTo(1));
+        //            Assert.AreEqual(oldUpdatedAt.ToString(), workersVersion[0].UpdatedAt.ToString());
+        Assert.That(workersVersion[0].Email, Is.EqualTo(oldEmail));
+        Assert.That(workersVersion[0].FirstName, Is.EqualTo(oldFirstName));
+        Assert.That(workersVersion[0].LastName, Is.EqualTo(oldLastName));
+        Assert.That(workersVersion[0].MicrotingUid, Is.EqualTo(oldMicrotingUid));
 
 
-            //Version 2 Updated Version
-            Assert.That(workersVersion[1].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
-            Assert.That(workersVersion[1].Version, Is.EqualTo(2));
-            //            Assert.AreEqual(worker.UpdatedAt.ToString(), workersVersion[1].UpdatedAt.ToString());
-            Assert.That(workersVersion[1].Email, Is.EqualTo(worker.Email));
-            Assert.That(workersVersion[1].FirstName, Is.EqualTo(worker.FirstName));
-            Assert.That(workersVersion[1].LastName, Is.EqualTo(worker.LastName));
-            Assert.That(workersVersion[1].MicrotingUid, Is.EqualTo(worker.MicrotingUid));
-        }
+        //Version 2 Updated Version
+        Assert.That(workersVersion[1].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
+        Assert.That(workersVersion[1].Version, Is.EqualTo(2));
+        //            Assert.AreEqual(worker.UpdatedAt.ToString(), workersVersion[1].UpdatedAt.ToString());
+        Assert.That(workersVersion[1].Email, Is.EqualTo(worker.Email));
+        Assert.That(workersVersion[1].FirstName, Is.EqualTo(worker.FirstName));
+        Assert.That(workersVersion[1].LastName, Is.EqualTo(worker.LastName));
+        Assert.That(workersVersion[1].MicrotingUid, Is.EqualTo(worker.MicrotingUid));
+    }
 
-        [Test]
-        public async Task Workers_Delete_DoesSetWorkflowstateToRemoved()
+    [Test]
+    public async Task Workers_Delete_DoesSetWorkflowstateToRemoved()
+    {
+        //Arrange
+
+        Random rnd = new Random();
+
+
+        Worker worker = new Worker
         {
-            //Arrange
+            FirstName = Guid.NewGuid().ToString(),
+            LastName = Guid.NewGuid().ToString(),
+            Email = Guid.NewGuid().ToString(),
+            MicrotingUid = rnd.Next(1, 255)
+        };
 
-            Random rnd = new Random();
+        await worker.Create(DbContext).ConfigureAwait(false);
 
+        //Act
 
-            Worker worker = new Worker
-            {
-                FirstName = Guid.NewGuid().ToString(),
-                LastName = Guid.NewGuid().ToString(),
-                Email = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255)
-            };
+        DateTime? oldUpdatedAt = worker.UpdatedAt;
 
-            await worker.Create(DbContext).ConfigureAwait(false);
+        await worker.Delete(DbContext);
 
-            //Act
+        List<Worker> workers = DbContext.Workers.AsNoTracking().ToList();
+        List<WorkerVersion> workersVersion = DbContext.WorkerVersions.AsNoTracking().ToList();
 
-            DateTime? oldUpdatedAt = worker.UpdatedAt;
+        //Assert
 
-            await worker.Delete(DbContext);
+        Assert.That(workers, Is.Not.EqualTo(null));
+        Assert.That(workersVersion, Is.Not.EqualTo(null));
 
-            List<Worker> workers = DbContext.Workers.AsNoTracking().ToList();
-            List<WorkerVersion> workersVersion = DbContext.WorkerVersions.AsNoTracking().ToList();
+        Assert.That(workers.Count(), Is.EqualTo(1));
+        Assert.That(workersVersion.Count(), Is.EqualTo(2));
 
-            //Assert
+        Assert.That(workers[0].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
+        Assert.That(workers[0].Version, Is.EqualTo(worker.Version));
+        //            Assert.AreEqual(worker.UpdatedAt.ToString(), workers[0].UpdatedAt.ToString());
+        Assert.That(workers[0].Email, Is.EqualTo(worker.Email));
+        Assert.That(workers[0].FirstName, Is.EqualTo(worker.FirstName));
+        Assert.That(workers[0].LastName, Is.EqualTo(worker.LastName));
+        Assert.That(workers[0].MicrotingUid, Is.EqualTo(worker.MicrotingUid));
+        Assert.That(workers[0].full_name(), Is.EqualTo(worker.full_name()));
 
-            Assert.That(workers, Is.Not.EqualTo(null));
-            Assert.That(workersVersion, Is.Not.EqualTo(null));
+        Assert.That(workers[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
 
-            Assert.That(workers.Count(), Is.EqualTo(1));
-            Assert.That(workersVersion.Count(), Is.EqualTo(2));
+        //Version 1
+        Assert.That(workersVersion[0].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
+        Assert.That(workersVersion[0].Version, Is.EqualTo(1));
+        //            Assert.AreEqual(oldUpdatedAt.ToString(), workersVersion[0].UpdatedAt.ToString());
+        Assert.That(workersVersion[0].Email, Is.EqualTo(worker.Email));
+        Assert.That(workersVersion[0].FirstName, Is.EqualTo(worker.FirstName));
+        Assert.That(workersVersion[0].LastName, Is.EqualTo(worker.LastName));
+        Assert.That(workersVersion[0].MicrotingUid, Is.EqualTo(worker.MicrotingUid));
 
-            Assert.That(workers[0].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
-            Assert.That(workers[0].Version, Is.EqualTo(worker.Version));
-            //            Assert.AreEqual(worker.UpdatedAt.ToString(), workers[0].UpdatedAt.ToString());
-            Assert.That(workers[0].Email, Is.EqualTo(worker.Email));
-            Assert.That(workers[0].FirstName, Is.EqualTo(worker.FirstName));
-            Assert.That(workers[0].LastName, Is.EqualTo(worker.LastName));
-            Assert.That(workers[0].MicrotingUid, Is.EqualTo(worker.MicrotingUid));
-            Assert.That(workers[0].full_name(), Is.EqualTo(worker.full_name()));
+        Assert.That(workersVersion[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
 
-            Assert.That(workers[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+        //Version 2 Deleted Version
+        Assert.That(workersVersion[1].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
+        Assert.That(workersVersion[1].Version, Is.EqualTo(2));
+        //            Assert.AreEqual(worker.UpdatedAt.ToString(), workersVersion[1].UpdatedAt.ToString());
+        Assert.That(workersVersion[1].Email, Is.EqualTo(worker.Email));
+        Assert.That(workersVersion[1].FirstName, Is.EqualTo(worker.FirstName));
+        Assert.That(workersVersion[1].LastName, Is.EqualTo(worker.LastName));
+        Assert.That(workersVersion[1].MicrotingUid, Is.EqualTo(worker.MicrotingUid));
 
-            //Version 1
-            Assert.That(workersVersion[0].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
-            Assert.That(workersVersion[0].Version, Is.EqualTo(1));
-            //            Assert.AreEqual(oldUpdatedAt.ToString(), workersVersion[0].UpdatedAt.ToString());
-            Assert.That(workersVersion[0].Email, Is.EqualTo(worker.Email));
-            Assert.That(workersVersion[0].FirstName, Is.EqualTo(worker.FirstName));
-            Assert.That(workersVersion[0].LastName, Is.EqualTo(worker.LastName));
-            Assert.That(workersVersion[0].MicrotingUid, Is.EqualTo(worker.MicrotingUid));
-
-            Assert.That(workersVersion[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-
-            //Version 2 Deleted Version
-            Assert.That(workersVersion[1].CreatedAt.ToString(), Is.EqualTo(worker.CreatedAt.ToString()));
-            Assert.That(workersVersion[1].Version, Is.EqualTo(2));
-            //            Assert.AreEqual(worker.UpdatedAt.ToString(), workersVersion[1].UpdatedAt.ToString());
-            Assert.That(workersVersion[1].Email, Is.EqualTo(worker.Email));
-            Assert.That(workersVersion[1].FirstName, Is.EqualTo(worker.FirstName));
-            Assert.That(workersVersion[1].LastName, Is.EqualTo(worker.LastName));
-            Assert.That(workersVersion[1].MicrotingUid, Is.EqualTo(worker.MicrotingUid));
-
-            Assert.That(workersVersion[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
-        }
+        Assert.That(workersVersion[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
     }
 }

@@ -24,22 +24,21 @@ SOFTWARE.
 
 using Microting.eForm.Infrastructure.Factories;
 
-namespace Microting.eForm.Infrastructure.Helpers
+namespace Microting.eForm.Infrastructure.Helpers;
+
+public class DbContextHelper
 {
-    public class DbContextHelper
+    private string ConnectionString { get; }
+
+    public DbContextHelper(string connectionString)
     {
-        private string ConnectionString { get; }
+        ConnectionString = connectionString;
+    }
 
-        public DbContextHelper(string connectionString)
-        {
-            ConnectionString = connectionString;
-        }
+    public MicrotingDbContext GetDbContext()
+    {
+        MicrotingDbContextFactory contextFactory = new MicrotingDbContextFactory();
 
-        public MicrotingDbContext GetDbContext()
-        {
-            MicrotingDbContextFactory contextFactory = new MicrotingDbContextFactory();
-
-            return contextFactory.CreateDbContext(new[] { ConnectionString });
-        }
+        return contextFactory.CreateDbContext(new[] { ConnectionString });
     }
 }

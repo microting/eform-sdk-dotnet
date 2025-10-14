@@ -26,28 +26,27 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Microting.eForm.Infrastructure.Models.reply
+namespace Microting.eForm.Infrastructure.Models.reply;
+
+[Serializable]
+public class ElementList
 {
-    [Serializable]
-    public class ElementList
+    internal ElementList()
     {
-        internal ElementList()
-        {
-            DataItemList = new List<DataItemReply>();
-            ExtraDataItemList = new List<DataItemReply>();
-        }
-
-        #region var
-
-        public string Id { get; set; }
-        public string Status { get; set; }
-
-        [XmlArray("DataItemList"), XmlArrayItem(typeof(DataItemReply), ElementName = "DataItem")]
-        public List<DataItemReply> DataItemList { get; set; }
-
-        [XmlArray("ExtraDataItemList"), XmlArrayItem(typeof(DataItemReply), ElementName = "DataItem")]
-        public List<DataItemReply> ExtraDataItemList { get; set; }
-
-        #endregion
+        DataItemList = new List<DataItemReply>();
+        ExtraDataItemList = new List<DataItemReply>();
     }
+
+    #region var
+
+    public string Id { get; set; }
+    public string Status { get; set; }
+
+    [XmlArray("DataItemList"), XmlArrayItem(typeof(DataItemReply), ElementName = "DataItem")]
+    public List<DataItemReply> DataItemList { get; set; }
+
+    [XmlArray("ExtraDataItemList"), XmlArrayItem(typeof(DataItemReply), ElementName = "DataItem")]
+    public List<DataItemReply> ExtraDataItemList { get; set; }
+
+    #endregion
 }

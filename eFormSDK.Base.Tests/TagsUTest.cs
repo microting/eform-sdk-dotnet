@@ -31,168 +31,167 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using NUnit.Framework;
 
-namespace eFormSDK.Base.Tests
+namespace eFormSDK.Base.Tests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class TagsUTest : DbTestFixture
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class TagsUTest : DbTestFixture
+    [Test]
+    public async Task Tags_Create_DoesCreate()
     {
-        [Test]
-        public async Task Tags_Create_DoesCreate()
+        //Arrange
+
+        Random rnd = new Random();
+
+        Tag tag = new Tag
         {
-            //Arrange
+            Name = Guid.NewGuid().ToString(),
+            TaggingsCount = rnd.Next(1, 255)
+        };
 
-            Random rnd = new Random();
+        //Act
 
-            Tag tag = new Tag
-            {
-                Name = Guid.NewGuid().ToString(),
-                TaggingsCount = rnd.Next(1, 255)
-            };
+        await tag.Create(DbContext).ConfigureAwait(false);
 
-            //Act
+        List<Tag> tags = DbContext.Tags.AsNoTracking().ToList();
+        List<TagVersion> tagVersions = DbContext.TagVersions.AsNoTracking().ToList();
 
-            await tag.Create(DbContext).ConfigureAwait(false);
+        //Assert
 
-            List<Tag> tags = DbContext.Tags.AsNoTracking().ToList();
-            List<TagVersion> tagVersions = DbContext.TagVersions.AsNoTracking().ToList();
+        Assert.That(tags, Is.Not.EqualTo(null));
+        Assert.That(tagVersions, Is.Not.EqualTo(null));
 
-            //Assert
+        Assert.That(tags.Count(), Is.EqualTo(1));
+        Assert.That(tagVersions.Count(), Is.EqualTo(1));
 
-            Assert.That(tags, Is.Not.EqualTo(null));
-            Assert.That(tagVersions, Is.Not.EqualTo(null));
+        Assert.That(tags[0].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
+        Assert.That(tags[0].Version, Is.EqualTo(tag.Version));
+        //            Assert.AreEqual(tag.UpdatedAt.ToString(), tags[0].UpdatedAt.ToString());
+        Assert.That(tags[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(tags[0].Name, Is.EqualTo(tag.Name));
+        Assert.That(tags[0].Id, Is.EqualTo(tag.Id));
 
-            Assert.That(tags.Count(), Is.EqualTo(1));
-            Assert.That(tagVersions.Count(), Is.EqualTo(1));
+        //Versions
+        Assert.That(tagVersions[0].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
+        Assert.That(tagVersions[0].Version, Is.EqualTo(1));
+        //            Assert.AreEqual(tag.UpdatedAt.ToString(), tagVersions[0].UpdatedAt.ToString());
+        Assert.That(tagVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(tagVersions[0].Name, Is.EqualTo(tag.Name));
+        Assert.That(tagVersions[0].TagId, Is.EqualTo(tag.Id));
+    }
 
-            Assert.That(tags[0].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
-            Assert.That(tags[0].Version, Is.EqualTo(tag.Version));
-            //            Assert.AreEqual(tag.UpdatedAt.ToString(), tags[0].UpdatedAt.ToString());
-            Assert.That(tags[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(tags[0].Name, Is.EqualTo(tag.Name));
-            Assert.That(tags[0].Id, Is.EqualTo(tag.Id));
+    [Test]
+    public async Task Tags_Update_DoesUpdate()
+    {
+        Random rnd = new Random();
 
-            //Versions
-            Assert.That(tagVersions[0].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
-            Assert.That(tagVersions[0].Version, Is.EqualTo(1));
-            //            Assert.AreEqual(tag.UpdatedAt.ToString(), tagVersions[0].UpdatedAt.ToString());
-            Assert.That(tagVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(tagVersions[0].Name, Is.EqualTo(tag.Name));
-            Assert.That(tagVersions[0].TagId, Is.EqualTo(tag.Id));
-        }
-
-        [Test]
-        public async Task Tags_Update_DoesUpdate()
+        Tag tag = new Tag
         {
-            Random rnd = new Random();
+            Name = Guid.NewGuid().ToString(),
+            TaggingsCount = rnd.Next(1, 255)
+        };
 
-            Tag tag = new Tag
-            {
-                Name = Guid.NewGuid().ToString(),
-                TaggingsCount = rnd.Next(1, 255)
-            };
+        await tag.Create(DbContext).ConfigureAwait(false);
 
-            await tag.Create(DbContext).ConfigureAwait(false);
+        //Act
 
-            //Act
+        DateTime? oldUpdatedAt = tag.UpdatedAt;
+        string oldName = tag.Name;
+        int? oldTaggingsCount = tag.TaggingsCount;
+        int? oldId = tag.Id;
 
-            DateTime? oldUpdatedAt = tag.UpdatedAt;
-            string oldName = tag.Name;
-            int? oldTaggingsCount = tag.TaggingsCount;
-            int? oldId = tag.Id;
+        tag.Name = Guid.NewGuid().ToString();
+        tag.TaggingsCount = rnd.Next(1, 255);
 
-            tag.Name = Guid.NewGuid().ToString();
-            tag.TaggingsCount = rnd.Next(1, 255);
+        await tag.Update(DbContext).ConfigureAwait(false);
 
-            await tag.Update(DbContext).ConfigureAwait(false);
+        List<Tag> tags = DbContext.Tags.AsNoTracking().ToList();
+        List<TagVersion> tagVersions = DbContext.TagVersions.AsNoTracking().ToList();
 
-            List<Tag> tags = DbContext.Tags.AsNoTracking().ToList();
-            List<TagVersion> tagVersions = DbContext.TagVersions.AsNoTracking().ToList();
+        //Assert
 
-            //Assert
+        Assert.That(tags, Is.Not.EqualTo(null));
+        Assert.That(tagVersions, Is.Not.EqualTo(null));
 
-            Assert.That(tags, Is.Not.EqualTo(null));
-            Assert.That(tagVersions, Is.Not.EqualTo(null));
+        Assert.That(tags.Count(), Is.EqualTo(1));
+        Assert.That(tagVersions.Count(), Is.EqualTo(2));
 
-            Assert.That(tags.Count(), Is.EqualTo(1));
-            Assert.That(tagVersions.Count(), Is.EqualTo(2));
+        Assert.That(tags[0].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
+        Assert.That(tags[0].Version, Is.EqualTo(tag.Version));
+        //            Assert.AreEqual(tag.UpdatedAt.ToString(), tags[0].UpdatedAt.ToString());
+        Assert.That(tags[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(tags[0].Name, Is.EqualTo(tag.Name));
+        Assert.That(tags[0].Id, Is.EqualTo(tag.Id));
 
-            Assert.That(tags[0].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
-            Assert.That(tags[0].Version, Is.EqualTo(tag.Version));
-            //            Assert.AreEqual(tag.UpdatedAt.ToString(), tags[0].UpdatedAt.ToString());
-            Assert.That(tags[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(tags[0].Name, Is.EqualTo(tag.Name));
-            Assert.That(tags[0].Id, Is.EqualTo(tag.Id));
+        //Version 1 Old Version
+        Assert.That(tagVersions[0].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
+        Assert.That(tagVersions[0].Version, Is.EqualTo(1));
+        //            Assert.AreEqual(oldUpdatedAt.ToString(), tagVersions[0].UpdatedAt.ToString());
+        Assert.That(tagVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(tagVersions[0].Name, Is.EqualTo(oldName));
+        Assert.That(tagVersions[0].TagId, Is.EqualTo(oldId));
 
-            //Version 1 Old Version
-            Assert.That(tagVersions[0].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
-            Assert.That(tagVersions[0].Version, Is.EqualTo(1));
-            //            Assert.AreEqual(oldUpdatedAt.ToString(), tagVersions[0].UpdatedAt.ToString());
-            Assert.That(tagVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(tagVersions[0].Name, Is.EqualTo(oldName));
-            Assert.That(tagVersions[0].TagId, Is.EqualTo(oldId));
+        //Version 2 Updated Version
+        Assert.That(tagVersions[1].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
+        Assert.That(tagVersions[1].Version, Is.EqualTo(2));
+        //            Assert.AreEqual(tag.UpdatedAt.ToString(), tagVersions[1].UpdatedAt.ToString());
+        Assert.That(tagVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(tagVersions[1].Name, Is.EqualTo(tag.Name));
+        Assert.That(tagVersions[1].TagId, Is.EqualTo(tag.Id));
+    }
 
-            //Version 2 Updated Version
-            Assert.That(tagVersions[1].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
-            Assert.That(tagVersions[1].Version, Is.EqualTo(2));
-            //            Assert.AreEqual(tag.UpdatedAt.ToString(), tagVersions[1].UpdatedAt.ToString());
-            Assert.That(tagVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(tagVersions[1].Name, Is.EqualTo(tag.Name));
-            Assert.That(tagVersions[1].TagId, Is.EqualTo(tag.Id));
-        }
+    [Test]
+    public async Task Tags_Delete_DoesSetWorkflowStateToRemoved()
+    {
+        Random rnd = new Random();
 
-        [Test]
-        public async Task Tags_Delete_DoesSetWorkflowStateToRemoved()
+        Tag tag = new Tag
         {
-            Random rnd = new Random();
+            Name = Guid.NewGuid().ToString(),
+            TaggingsCount = rnd.Next(1, 255)
+        };
 
-            Tag tag = new Tag
-            {
-                Name = Guid.NewGuid().ToString(),
-                TaggingsCount = rnd.Next(1, 255)
-            };
+        await tag.Create(DbContext).ConfigureAwait(false);
 
-            await tag.Create(DbContext).ConfigureAwait(false);
+        //Act
 
-            //Act
+        DateTime? oldUpdatedAt = tag.UpdatedAt;
 
-            DateTime? oldUpdatedAt = tag.UpdatedAt;
+        await tag.Delete(DbContext);
 
-            await tag.Delete(DbContext);
+        List<Tag> tags = DbContext.Tags.AsNoTracking().ToList();
+        List<TagVersion> tagVersions = DbContext.TagVersions.AsNoTracking().ToList();
 
-            List<Tag> tags = DbContext.Tags.AsNoTracking().ToList();
-            List<TagVersion> tagVersions = DbContext.TagVersions.AsNoTracking().ToList();
+        //Assert
 
-            //Assert
+        Assert.That(tags, Is.Not.EqualTo(null));
+        Assert.That(tagVersions, Is.Not.EqualTo(null));
 
-            Assert.That(tags, Is.Not.EqualTo(null));
-            Assert.That(tagVersions, Is.Not.EqualTo(null));
+        Assert.That(tags.Count(), Is.EqualTo(1));
+        Assert.That(tagVersions.Count(), Is.EqualTo(2));
 
-            Assert.That(tags.Count(), Is.EqualTo(1));
-            Assert.That(tagVersions.Count(), Is.EqualTo(2));
+        Assert.That(tags[0].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
+        Assert.That(tags[0].Version, Is.EqualTo(tag.Version));
+        //            Assert.AreEqual(tag.UpdatedAt.ToString(), tags[0].UpdatedAt.ToString());
+        Assert.That(tags[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+        Assert.That(tags[0].Name, Is.EqualTo(tag.Name));
+        Assert.That(tags[0].Id, Is.EqualTo(tag.Id));
 
-            Assert.That(tags[0].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
-            Assert.That(tags[0].Version, Is.EqualTo(tag.Version));
-            //            Assert.AreEqual(tag.UpdatedAt.ToString(), tags[0].UpdatedAt.ToString());
-            Assert.That(tags[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
-            Assert.That(tags[0].Name, Is.EqualTo(tag.Name));
-            Assert.That(tags[0].Id, Is.EqualTo(tag.Id));
+        //Version 1 Old Version
+        Assert.That(tagVersions[0].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
+        Assert.That(tagVersions[0].Version, Is.EqualTo(1));
+        //            Assert.AreEqual(oldUpdatedAt.ToString(), tagVersions[0].UpdatedAt.ToString());
+        Assert.That(tagVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        Assert.That(tagVersions[0].Name, Is.EqualTo(tag.Name));
+        Assert.That(tagVersions[0].TagId, Is.EqualTo(tag.Id));
 
-            //Version 1 Old Version
-            Assert.That(tagVersions[0].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
-            Assert.That(tagVersions[0].Version, Is.EqualTo(1));
-            //            Assert.AreEqual(oldUpdatedAt.ToString(), tagVersions[0].UpdatedAt.ToString());
-            Assert.That(tagVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
-            Assert.That(tagVersions[0].Name, Is.EqualTo(tag.Name));
-            Assert.That(tagVersions[0].TagId, Is.EqualTo(tag.Id));
-
-            //Version 2 Updated Version
-            Assert.That(tagVersions[1].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
-            Assert.That(tagVersions[1].Version, Is.EqualTo(2));
-            //            Assert.AreEqual(tag.UpdatedAt.ToString(), tagVersions[1].UpdatedAt.ToString());
-            Assert.That(tagVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
-            Assert.That(tagVersions[1].Name, Is.EqualTo(tag.Name));
-            Assert.That(tagVersions[1].TagId, Is.EqualTo(tag.Id));
-        }
+        //Version 2 Updated Version
+        Assert.That(tagVersions[1].CreatedAt.ToString(), Is.EqualTo(tag.CreatedAt.ToString()));
+        Assert.That(tagVersions[1].Version, Is.EqualTo(2));
+        //            Assert.AreEqual(tag.UpdatedAt.ToString(), tagVersions[1].UpdatedAt.ToString());
+        Assert.That(tagVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+        Assert.That(tagVersions[1].Name, Is.EqualTo(tag.Name));
+        Assert.That(tagVersions[1].TagId, Is.EqualTo(tag.Id));
     }
 }

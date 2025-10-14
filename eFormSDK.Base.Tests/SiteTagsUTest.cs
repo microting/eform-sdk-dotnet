@@ -31,232 +31,231 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Infrastructure.Data.Entities;
 using NUnit.Framework;
 
-namespace eFormSDK.Base.Tests
+namespace eFormSDK.Base.Tests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class SiteTagsUTest : DbTestFixture
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class SiteTagsUTest : DbTestFixture
+    [Test]
+    public async Task SiteTags_Create_DoesCreate()
     {
-        [Test]
-        public async Task SiteTags_Create_DoesCreate()
+        // Arrange
+        Random rnd = new Random();
+
+        Site site = new Site
         {
-            // Arrange
-            Random rnd = new Random();
+            Name = Guid.NewGuid().ToString(),
+            MicrotingUid = rnd.Next(1, 255)
+        };
+        await site.Create(DbContext).ConfigureAwait(false);
 
-            Site site = new Site
-            {
-                Name = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255)
-            };
-            await site.Create(DbContext).ConfigureAwait(false);
-
-            Tag tag = new Tag
-            {
-                Name = Guid.NewGuid().ToString(),
-                TaggingsCount = rnd.Next(1, 255)
-            };
-            await tag.Create(DbContext).ConfigureAwait(false);
-
-            SiteTag siteTag = new SiteTag
-            {
-                SiteId = site.Id,
-                TagId = tag.Id
-            };
-
-            // Act
-            await siteTag.Create(DbContext).ConfigureAwait(false);
-
-
-            List<SiteTag> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
-            List<SiteTagVersion> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
-            // Assert
-            Assert.That(siteTags, Is.Not.EqualTo(null));
-            Assert.That(siteTagVersions, Is.Not.EqualTo(null));
-
-            Assert.That(siteTags[0].SiteId, Is.EqualTo(siteTag.SiteId));
-            Assert.That(siteTags[0].TagId, Is.EqualTo(siteTag.TagId));
-
-
-            Assert.That(siteTagVersions[0].SiteId, Is.EqualTo(siteTag.SiteId));
-            Assert.That(siteTagVersions[0].TagId, Is.EqualTo(siteTag.TagId));
-        }
-
-        [Test]
-        public async Task SiteTags_Update_DoesUpdate()
+        Tag tag = new Tag
         {
-            // Arrange
-            Random rnd = new Random();
+            Name = Guid.NewGuid().ToString(),
+            TaggingsCount = rnd.Next(1, 255)
+        };
+        await tag.Create(DbContext).ConfigureAwait(false);
 
-            Site site = new Site
-            {
-                Name = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255)
-            };
-            await site.Create(DbContext).ConfigureAwait(false);
-
-            Site site2 = new Site
-            {
-                Name = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255)
-            };
-            await site2.Create(DbContext).ConfigureAwait(false);
-
-
-            Tag tag = new Tag
-            {
-                Name = Guid.NewGuid().ToString(),
-                TaggingsCount = rnd.Next(1, 255)
-            };
-            await tag.Create(DbContext).ConfigureAwait(false);
-
-            Tag tag2 = new Tag
-            {
-                Name = Guid.NewGuid().ToString(),
-                TaggingsCount = rnd.Next(1, 255)
-            };
-            await tag2.Create(DbContext).ConfigureAwait(false);
-
-
-            SiteTag siteTag = new SiteTag
-            {
-                SiteId = site.Id,
-                TagId = tag.Id
-            };
-            await siteTag.Create(DbContext).ConfigureAwait(false);
-
-            int? oldSiteId = siteTag.SiteId;
-            int? oldTagId = siteTag.TagId;
-
-            siteTag.SiteId = site2.Id;
-            siteTag.TagId = tag2.Id;
-
-            // Act
-            await siteTag.Update(DbContext).ConfigureAwait(false);
-
-            List<SiteTag> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
-            List<SiteTagVersion> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
-            // Assert
-            Assert.That(siteTags, Is.Not.EqualTo(null));
-            Assert.That(siteTagVersions, Is.Not.EqualTo(null));
-
-            Assert.That(siteTags[0].SiteId, Is.EqualTo(siteTag.SiteId));
-            Assert.That(siteTags[0].TagId, Is.EqualTo(siteTag.TagId));
-
-
-            Assert.That(siteTagVersions[0].SiteId, Is.EqualTo(oldSiteId));
-            Assert.That(siteTagVersions[0].TagId, Is.EqualTo(oldTagId));
-
-            Assert.That(siteTagVersions[1].SiteId, Is.EqualTo(siteTag.SiteId));
-            Assert.That(siteTagVersions[1].TagId, Is.EqualTo(siteTag.TagId));
-        }
-
-        [Test]
-        public async Task SiteTags_Delete_DoesDelete()
+        SiteTag siteTag = new SiteTag
         {
-            // Arrange
-            Random rnd = new Random();
+            SiteId = site.Id,
+            TagId = tag.Id
+        };
 
-            Site site = new Site
-            {
-                Name = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255)
-            };
-            await site.Create(DbContext).ConfigureAwait(false);
-
-            Tag tag = new Tag
-            {
-                Name = Guid.NewGuid().ToString(),
-                TaggingsCount = rnd.Next(1, 255)
-            };
-            await tag.Create(DbContext).ConfigureAwait(false);
+        // Act
+        await siteTag.Create(DbContext).ConfigureAwait(false);
 
 
-            SiteTag siteTag = new SiteTag
-            {
-                SiteId = site.Id,
-                TagId = tag.Id
-            };
-            await siteTag.Create(DbContext).ConfigureAwait(false);
+        List<SiteTag> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
+        List<SiteTagVersion> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
+        // Assert
+        Assert.That(siteTags, Is.Not.EqualTo(null));
+        Assert.That(siteTagVersions, Is.Not.EqualTo(null));
 
-            // Act
-            await siteTag.Delete(DbContext).ConfigureAwait(false);
+        Assert.That(siteTags[0].SiteId, Is.EqualTo(siteTag.SiteId));
+        Assert.That(siteTags[0].TagId, Is.EqualTo(siteTag.TagId));
 
-            List<SiteTag> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
-            List<SiteTagVersion> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
-            // Assert
-            Assert.That(siteTags, Is.Not.EqualTo(null));
-            Assert.That(siteTagVersions, Is.Not.EqualTo(null));
 
-            Assert.That(siteTags[0].SiteId, Is.EqualTo(siteTag.SiteId));
-            Assert.That(siteTags[0].TagId, Is.EqualTo(siteTag.TagId));
-            Assert.That(siteTag.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+        Assert.That(siteTagVersions[0].SiteId, Is.EqualTo(siteTag.SiteId));
+        Assert.That(siteTagVersions[0].TagId, Is.EqualTo(siteTag.TagId));
+    }
 
-            Assert.That(siteTagVersions[0].SiteId, Is.EqualTo(siteTag.SiteId));
-            Assert.That(siteTagVersions[0].TagId, Is.EqualTo(siteTag.TagId));
-            Assert.That(siteTagVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+    [Test]
+    public async Task SiteTags_Update_DoesUpdate()
+    {
+        // Arrange
+        Random rnd = new Random();
 
-            Assert.That(siteTagVersions[1].SiteId, Is.EqualTo(siteTag.SiteId));
-            Assert.That(siteTagVersions[1].TagId, Is.EqualTo(siteTag.TagId));
-            Assert.That(siteTagVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
-        }
-
-        [Test]
-        public async Task SiteTags_MultipleCreateAndDelete()
+        Site site = new Site
         {
-            Random rnd = new Random();
+            Name = Guid.NewGuid().ToString(),
+            MicrotingUid = rnd.Next(1, 255)
+        };
+        await site.Create(DbContext).ConfigureAwait(false);
 
-            Site site = new Site
-            {
-                Name = Guid.NewGuid().ToString(),
-                MicrotingUid = rnd.Next(1, 255)
-            };
-            await site.Create(DbContext).ConfigureAwait(false);
-
-            Tag tag = new Tag
-            {
-                Name = Guid.NewGuid().ToString(),
-                TaggingsCount = rnd.Next(1, 255)
-            };
-            await tag.Create(DbContext).ConfigureAwait(false);
+        Site site2 = new Site
+        {
+            Name = Guid.NewGuid().ToString(),
+            MicrotingUid = rnd.Next(1, 255)
+        };
+        await site2.Create(DbContext).ConfigureAwait(false);
 
 
-            SiteTag siteTag = new SiteTag
-            {
-                SiteId = site.Id,
-                TagId = tag.Id
-            };
-            // Act
-            await siteTag.Create(DbContext).ConfigureAwait(false);
-            await siteTag.Delete(DbContext).ConfigureAwait(false);
-            siteTag.WorkflowState = Constants.WorkflowStates.Created;
-            await siteTag.Update(DbContext).ConfigureAwait(false);
-            await siteTag.Delete(DbContext).ConfigureAwait(false);
+        Tag tag = new Tag
+        {
+            Name = Guid.NewGuid().ToString(),
+            TaggingsCount = rnd.Next(1, 255)
+        };
+        await tag.Create(DbContext).ConfigureAwait(false);
 
-            List<SiteTag> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
-            List<SiteTagVersion> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
-            // Assert
-            Assert.That(siteTags, Is.Not.EqualTo(null));
-            Assert.That(siteTagVersions, Is.Not.EqualTo(null));
+        Tag tag2 = new Tag
+        {
+            Name = Guid.NewGuid().ToString(),
+            TaggingsCount = rnd.Next(1, 255)
+        };
+        await tag2.Create(DbContext).ConfigureAwait(false);
 
-            Assert.That(siteTags[0].SiteId, Is.EqualTo(siteTag.SiteId));
-            Assert.That(siteTags[0].TagId, Is.EqualTo(siteTag.TagId));
-            Assert.That(siteTag.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
 
-            Assert.That(siteTagVersions[0].SiteId, Is.EqualTo(siteTag.SiteId));
-            Assert.That(siteTagVersions[0].TagId, Is.EqualTo(siteTag.TagId));
-            Assert.That(siteTagVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        SiteTag siteTag = new SiteTag
+        {
+            SiteId = site.Id,
+            TagId = tag.Id
+        };
+        await siteTag.Create(DbContext).ConfigureAwait(false);
 
-            Assert.That(siteTagVersions[1].SiteId, Is.EqualTo(siteTag.SiteId));
-            Assert.That(siteTagVersions[1].TagId, Is.EqualTo(siteTag.TagId));
-            Assert.That(siteTagVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+        int? oldSiteId = siteTag.SiteId;
+        int? oldTagId = siteTag.TagId;
 
-            Assert.That(siteTagVersions[2].SiteId, Is.EqualTo(siteTag.SiteId));
-            Assert.That(siteTagVersions[2].TagId, Is.EqualTo(siteTag.TagId));
-            Assert.That(siteTagVersions[2].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+        siteTag.SiteId = site2.Id;
+        siteTag.TagId = tag2.Id;
 
-            Assert.That(siteTagVersions[3].SiteId, Is.EqualTo(siteTag.SiteId));
-            Assert.That(siteTagVersions[3].TagId, Is.EqualTo(siteTag.TagId));
-            Assert.That(siteTagVersions[3].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
-        }
+        // Act
+        await siteTag.Update(DbContext).ConfigureAwait(false);
+
+        List<SiteTag> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
+        List<SiteTagVersion> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
+        // Assert
+        Assert.That(siteTags, Is.Not.EqualTo(null));
+        Assert.That(siteTagVersions, Is.Not.EqualTo(null));
+
+        Assert.That(siteTags[0].SiteId, Is.EqualTo(siteTag.SiteId));
+        Assert.That(siteTags[0].TagId, Is.EqualTo(siteTag.TagId));
+
+
+        Assert.That(siteTagVersions[0].SiteId, Is.EqualTo(oldSiteId));
+        Assert.That(siteTagVersions[0].TagId, Is.EqualTo(oldTagId));
+
+        Assert.That(siteTagVersions[1].SiteId, Is.EqualTo(siteTag.SiteId));
+        Assert.That(siteTagVersions[1].TagId, Is.EqualTo(siteTag.TagId));
+    }
+
+    [Test]
+    public async Task SiteTags_Delete_DoesDelete()
+    {
+        // Arrange
+        Random rnd = new Random();
+
+        Site site = new Site
+        {
+            Name = Guid.NewGuid().ToString(),
+            MicrotingUid = rnd.Next(1, 255)
+        };
+        await site.Create(DbContext).ConfigureAwait(false);
+
+        Tag tag = new Tag
+        {
+            Name = Guid.NewGuid().ToString(),
+            TaggingsCount = rnd.Next(1, 255)
+        };
+        await tag.Create(DbContext).ConfigureAwait(false);
+
+
+        SiteTag siteTag = new SiteTag
+        {
+            SiteId = site.Id,
+            TagId = tag.Id
+        };
+        await siteTag.Create(DbContext).ConfigureAwait(false);
+
+        // Act
+        await siteTag.Delete(DbContext).ConfigureAwait(false);
+
+        List<SiteTag> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
+        List<SiteTagVersion> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
+        // Assert
+        Assert.That(siteTags, Is.Not.EqualTo(null));
+        Assert.That(siteTagVersions, Is.Not.EqualTo(null));
+
+        Assert.That(siteTags[0].SiteId, Is.EqualTo(siteTag.SiteId));
+        Assert.That(siteTags[0].TagId, Is.EqualTo(siteTag.TagId));
+        Assert.That(siteTag.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+
+        Assert.That(siteTagVersions[0].SiteId, Is.EqualTo(siteTag.SiteId));
+        Assert.That(siteTagVersions[0].TagId, Is.EqualTo(siteTag.TagId));
+        Assert.That(siteTagVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+
+        Assert.That(siteTagVersions[1].SiteId, Is.EqualTo(siteTag.SiteId));
+        Assert.That(siteTagVersions[1].TagId, Is.EqualTo(siteTag.TagId));
+        Assert.That(siteTagVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+    }
+
+    [Test]
+    public async Task SiteTags_MultipleCreateAndDelete()
+    {
+        Random rnd = new Random();
+
+        Site site = new Site
+        {
+            Name = Guid.NewGuid().ToString(),
+            MicrotingUid = rnd.Next(1, 255)
+        };
+        await site.Create(DbContext).ConfigureAwait(false);
+
+        Tag tag = new Tag
+        {
+            Name = Guid.NewGuid().ToString(),
+            TaggingsCount = rnd.Next(1, 255)
+        };
+        await tag.Create(DbContext).ConfigureAwait(false);
+
+
+        SiteTag siteTag = new SiteTag
+        {
+            SiteId = site.Id,
+            TagId = tag.Id
+        };
+        // Act
+        await siteTag.Create(DbContext).ConfigureAwait(false);
+        await siteTag.Delete(DbContext).ConfigureAwait(false);
+        siteTag.WorkflowState = Constants.WorkflowStates.Created;
+        await siteTag.Update(DbContext).ConfigureAwait(false);
+        await siteTag.Delete(DbContext).ConfigureAwait(false);
+
+        List<SiteTag> siteTags = DbContext.SiteTags.AsNoTracking().ToList();
+        List<SiteTagVersion> siteTagVersions = DbContext.SiteTagVersions.AsNoTracking().ToList();
+        // Assert
+        Assert.That(siteTags, Is.Not.EqualTo(null));
+        Assert.That(siteTagVersions, Is.Not.EqualTo(null));
+
+        Assert.That(siteTags[0].SiteId, Is.EqualTo(siteTag.SiteId));
+        Assert.That(siteTags[0].TagId, Is.EqualTo(siteTag.TagId));
+        Assert.That(siteTag.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+
+        Assert.That(siteTagVersions[0].SiteId, Is.EqualTo(siteTag.SiteId));
+        Assert.That(siteTagVersions[0].TagId, Is.EqualTo(siteTag.TagId));
+        Assert.That(siteTagVersions[0].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+
+        Assert.That(siteTagVersions[1].SiteId, Is.EqualTo(siteTag.SiteId));
+        Assert.That(siteTagVersions[1].TagId, Is.EqualTo(siteTag.TagId));
+        Assert.That(siteTagVersions[1].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+
+        Assert.That(siteTagVersions[2].SiteId, Is.EqualTo(siteTag.SiteId));
+        Assert.That(siteTagVersions[2].TagId, Is.EqualTo(siteTag.TagId));
+        Assert.That(siteTagVersions[2].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Created));
+
+        Assert.That(siteTagVersions[3].SiteId, Is.EqualTo(siteTag.SiteId));
+        Assert.That(siteTagVersions[3].TagId, Is.EqualTo(siteTag.TagId));
+        Assert.That(siteTagVersions[3].WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
     }
 }

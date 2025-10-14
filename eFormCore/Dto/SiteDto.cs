@@ -22,61 +22,60 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace Microting.eForm.Dto
+namespace Microting.eForm.Dto;
+
+public class SiteDto
 {
-    public class SiteDto
+    #region var
+
+    /// <summary>
+    ///...
+    /// </summary>
+    public int SiteId { get; set; }
+
+    /// <summary>
+    ///...
+    /// </summary>
+    public string SiteName { get; set; }
+
+    /// <summary>
+    ///...
+    /// </summary>
+    public string FirstName { get; set; }
+
+    /// <summary>
+    ///...
+    /// </summary>
+    public string LastName { get; set; }
+
+    /// <summary>
+    ///...
+    /// </summary>
+    public int? CustomerNo { get; set; }
+
+    /// <summary>
+    ///...
+    /// </summary>
+    public int? OtpCode { get; set; }
+
+    /// <summary>
+    ///...
+    /// </summary>
+    public int? UnitId { get; set; }
+
+    /// <summary>
+    ///...
+    /// </summary>
+    public int? WorkerUid { get; set; }
+
+    public string Email { get; set; }
+
+    #endregion
+
+    public override string ToString()
     {
-        #region var
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public int SiteId { get; set; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public string SiteName { get; set; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public string FirstName { get; set; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public string LastName { get; set; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public int? CustomerNo { get; set; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public int? OtpCode { get; set; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public int? UnitId { get; set; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public int? WorkerUid { get; set; }
-
-        public string Email { get; set; }
-
-        #endregion
-
-        public override string ToString()
-        {
-            return "SiteId:" + SiteId + " / SiteName:" + SiteName + " / FirstName:" + FirstName + " / LastName:" +
-                   LastName + " / CustomerNo:" + CustomerNo + " / OtpCode:" + OtpCode + "UnitId:" + UnitId +
-                   "WorkerUid:" + WorkerUid + ".";
-        }
+        return "SiteId:" + SiteId + " / SiteName:" + SiteName + " / FirstName:" + FirstName + " / LastName:" +
+               LastName + " / CustomerNo:" + CustomerNo + " / OtpCode:" + OtpCode + "UnitId:" + UnitId +
+               "WorkerUid:" + WorkerUid + ".";
     }
 }

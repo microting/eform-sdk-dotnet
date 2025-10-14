@@ -24,16 +24,15 @@ SOFTWARE.
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class SiteTag : PnBase
 {
-    public class SiteTag : PnBase
-    {
-        [ForeignKey("Tag")] public int? TagId { get; set; }
+    [ForeignKey("Tag")] public int? TagId { get; set; }
 
-        [ForeignKey("Site")] public int? SiteId { get; set; }
+    [ForeignKey("Site")] public int? SiteId { get; set; }
 
-        public virtual Site Site { get; set; }
+    public virtual Site Site { get; set; }
 
-        public virtual Tag Tag { get; set; }
-    }
+    public virtual Tag Tag { get; set; }
 }

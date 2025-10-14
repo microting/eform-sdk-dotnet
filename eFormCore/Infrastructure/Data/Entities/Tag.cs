@@ -25,19 +25,18 @@ SOFTWARE.
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class Tag : PnBase
 {
-    public class Tag : PnBase
+    public Tag()
     {
-        public Tag()
-        {
-            Taggings = new HashSet<Tagging>();
-        }
-
-        [StringLength(255)] public string Name { get; set; }
-
-        public int? TaggingsCount { get; set; }
-
-        public virtual ICollection<Tagging> Taggings { get; set; }
+        Taggings = new HashSet<Tagging>();
     }
+
+    [StringLength(255)] public string Name { get; set; }
+
+    public int? TaggingsCount { get; set; }
+
+    public virtual ICollection<Tagging> Taggings { get; set; }
 }

@@ -37,110 +37,109 @@ using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using NUnit.Framework;
 
-namespace eFormSDK.Integration.Case.CoreTests
+namespace eFormSDK.Integration.Case.CoreTests;
+
+[Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+public class CoreTest : DbTestFixture
 {
-    [Parallelizable(ParallelScope.Fixtures)]
-    [TestFixture]
-    public class CoreTest : DbTestFixture
+    private Core sut;
+    private TestHelpers testHelpers;
+    private TestHelperReturnXML testHelperReturnXml;
+    private string path;
+
+    public override async Task DoSetup()
     {
-        private Core sut;
-        private TestHelpers testHelpers;
-        private TestHelperReturnXML testHelperReturnXml;
-        private string path;
+        #region Setup SettingsTableContent
 
-        public override async Task DoSetup()
-        {
-            #region Setup SettingsTableContent
-
-            DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
-            SqlController sql = new SqlController(dbContextHelper);
-            await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef").ConfigureAwait(false);
-            await sql.SettingUpdate(Settings.firstRunDone, "true").ConfigureAwait(false);
-            await sql.SettingUpdate(Settings.knownSitesDone, "true").ConfigureAwait(false);
-
-            #endregion
-
-            sut = new Core();
-            sut.HandleCaseCreated += EventCaseCreated;
-            sut.HandleCaseRetrived += EventCaseRetrived;
-            sut.HandleCaseCompleted += EventCaseCompleted;
-            sut.HandleCaseDeleted += EventCaseDeleted;
-            sut.HandleFileDownloaded += EventFileDownloaded;
-            sut.HandleSiteActivated += EventSiteActivated;
-            await sut.StartSqlOnly(ConnectionString).ConfigureAwait(false);
-            path = Assembly.GetExecutingAssembly().Location;
-            path = Path.GetDirectoryName(path).Replace(@"file:", "");
-            await sut.SetSdkSetting(Settings.fileLocationPicture,
-                Path.Combine(path, "output", "dataFolder", "picture"));
-            await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
-            await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
-            testHelpers = new TestHelpers(ConnectionString);
-            await testHelpers.GenerateDefaultLanguages();
-            testHelperReturnXml = new TestHelperReturnXML(ConnectionString);
-            //sut.StartLog(new CoreBase());
-        }
-
-        [Test]
-        public async Task Core_CheckStatusByMicrotingUid_DoesCreateCaseAndFieldValues()
-        {
-            // Arrange
-            string microtingUuid = await testHelperReturnXml.CreateMultiPictureXMLResult(true);
-
-            // Act
-            await sut.CheckStatusByMicrotingUid(int.Parse(microtingUuid)).ConfigureAwait(false);
-
-            // Assert
-            List<Microting.eForm.Infrastructure.Data.Entities.Case> caseMatches =
-                DbContext.Cases.AsNoTracking().ToList();
-            List<UploadedData> udMatches = DbContext.UploadedDatas.AsNoTracking().ToList();
-            List<FieldValue> fvMatches = DbContext.FieldValues.AsNoTracking().ToList();
-
-            Assert.That(caseMatches, Is.Not.EqualTo(null));
-            Assert.That(udMatches, Is.Not.EqualTo(null));
-            Assert.That(fvMatches, Is.Not.EqualTo(null));
-            Assert.That(caseMatches.Count(), Is.EqualTo(1));
-            Assert.That(udMatches.Count(), Is.EqualTo(1));
-            Assert.That(fvMatches.Count(), Is.EqualTo(1));
-        }
-
-        #region eventhandlers
-
-        public void EventCaseCreated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseRetrived(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseCompleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventCaseDeleted(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventFileDownloaded(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
-
-        public void EventSiteActivated(object sender, EventArgs args)
-        {
-            // Does nothing for web implementation
-        }
+        DbContextHelper dbContextHelper = new DbContextHelper(ConnectionString);
+        SqlController sql = new SqlController(dbContextHelper);
+        await sql.SettingUpdate(Settings.token, "abc1234567890abc1234567890abcdef").ConfigureAwait(false);
+        await sql.SettingUpdate(Settings.firstRunDone, "true").ConfigureAwait(false);
+        await sql.SettingUpdate(Settings.knownSitesDone, "true").ConfigureAwait(false);
 
         #endregion
 
+        sut = new Core();
+        sut.HandleCaseCreated += EventCaseCreated;
+        sut.HandleCaseRetrived += EventCaseRetrived;
+        sut.HandleCaseCompleted += EventCaseCompleted;
+        sut.HandleCaseDeleted += EventCaseDeleted;
+        sut.HandleFileDownloaded += EventFileDownloaded;
+        sut.HandleSiteActivated += EventSiteActivated;
+        await sut.StartSqlOnly(ConnectionString).ConfigureAwait(false);
+        path = Assembly.GetExecutingAssembly().Location;
+        path = Path.GetDirectoryName(path).Replace(@"file:", "");
+        await sut.SetSdkSetting(Settings.fileLocationPicture,
+            Path.Combine(path, "output", "dataFolder", "picture"));
+        await sut.SetSdkSetting(Settings.fileLocationPdf, Path.Combine(path, "output", "dataFolder", "pdf"));
+        await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
+        testHelpers = new TestHelpers(ConnectionString);
+        await testHelpers.GenerateDefaultLanguages();
+        testHelperReturnXml = new TestHelperReturnXML(ConnectionString);
+        //sut.StartLog(new CoreBase());
+    }
+
+    [Test]
+    public async Task Core_CheckStatusByMicrotingUid_DoesCreateCaseAndFieldValues()
+    {
         // Arrange
+        string microtingUuid = await testHelperReturnXml.CreateMultiPictureXMLResult(true);
 
         // Act
+        await sut.CheckStatusByMicrotingUid(int.Parse(microtingUuid)).ConfigureAwait(false);
 
         // Assert
+        List<Microting.eForm.Infrastructure.Data.Entities.Case> caseMatches =
+            DbContext.Cases.AsNoTracking().ToList();
+        List<UploadedData> udMatches = DbContext.UploadedDatas.AsNoTracking().ToList();
+        List<FieldValue> fvMatches = DbContext.FieldValues.AsNoTracking().ToList();
+
+        Assert.That(caseMatches, Is.Not.EqualTo(null));
+        Assert.That(udMatches, Is.Not.EqualTo(null));
+        Assert.That(fvMatches, Is.Not.EqualTo(null));
+        Assert.That(caseMatches.Count(), Is.EqualTo(1));
+        Assert.That(udMatches.Count(), Is.EqualTo(1));
+        Assert.That(fvMatches.Count(), Is.EqualTo(1));
     }
+
+    #region eventhandlers
+
+    public void EventCaseCreated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventCaseRetrived(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventCaseCompleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventCaseDeleted(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventFileDownloaded(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    public void EventSiteActivated(object sender, EventArgs args)
+    {
+        // Does nothing for web implementation
+    }
+
+    #endregion
+
+    // Arrange
+
+    // Act
+
+    // Assert
 }

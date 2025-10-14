@@ -28,23 +28,22 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
-namespace Microting.eForm.Infrastructure.Factories
-{
-    public class MicrotingDbContextFactory : IDesignTimeDbContextFactory<MicrotingDbContext>
-    {
-        public MicrotingDbContext CreateDbContext(string[] args)
-        {
-            var defaultCs =
-                "Server = localhost; port = 3306; Database = eform-sdk; user = root; password = secretpassword; Convert Zero Datetime = true;";
-            var optionsBuilder = new DbContextOptionsBuilder<MicrotingDbContext>();
-            optionsBuilder.UseMySql(args.Any() ? args[0] : defaultCs, new MariaDbServerVersion(
-                    ServerVersion.AutoDetect(args.Any() ? args[0] : defaultCs)),
-                mySqlOptionsAction: builder => { builder.EnableRetryOnFailure();
-                    builder.TranslateParameterizedCollectionsToConstants();
-                });
+namespace Microting.eForm.Infrastructure.Factories;
 
-            return new MicrotingDbContext(optionsBuilder.Options);
-            // dotnet ef migrations add InitialCreate --project eFormCore --startup-project DBMigrator
-        }
+public class MicrotingDbContextFactory : IDesignTimeDbContextFactory<MicrotingDbContext>
+{
+    public MicrotingDbContext CreateDbContext(string[] args)
+    {
+        var defaultCs =
+            "Server = localhost; port = 3306; Database = eform-sdk; user = root; password = secretpassword; Convert Zero Datetime = true;";
+        var optionsBuilder = new DbContextOptionsBuilder<MicrotingDbContext>();
+        optionsBuilder.UseMySql(args.Any() ? args[0] : defaultCs, new MariaDbServerVersion(
+                ServerVersion.AutoDetect(args.Any() ? args[0] : defaultCs)),
+            mySqlOptionsAction: builder => { builder.EnableRetryOnFailure();
+                builder.TranslateParameterizedCollectionsToConstants();
+            });
+
+        return new MicrotingDbContext(optionsBuilder.Options);
+        // dotnet ef migrations add InitialCreate --project eFormCore --startup-project DBMigrator
     }
 }

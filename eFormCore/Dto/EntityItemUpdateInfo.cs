@@ -22,17 +22,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace Microting.eForm.Dto
-{
-    public class EntityItemUpdateInfo
-    {
-        public EntityItemUpdateInfo(string entityItemMUid, string status)
-        {
-            EntityItemMUid = entityItemMUid;
-            Status = status;
-        }
+namespace Microting.eForm.Dto;
 
-        public string EntityItemMUid { get; set; }
-        public string Status { get; set; }
+public class EntityItemUpdateInfo
+{
+    public EntityItemUpdateInfo(string entityItemMUid, string status)
+    {
+        EntityItemMUid = entityItemMUid;
+        Status = status;
     }
+
+    public string EntityItemMUid { get; set; }
+    public string Status { get; set; }
 }

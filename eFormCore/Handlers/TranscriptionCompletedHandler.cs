@@ -37,73 +37,72 @@ using Microting.eForm.Messages;
 using Newtonsoft.Json.Linq;
 using Rebus.Handlers;
 
-namespace Microting.eForm.Handlers
+namespace Microting.eForm.Handlers;
+
+public class TranscriptionCompletedHandler : IHandleMessages<TranscriptionCompleted>
 {
-    public class TranscriptionCompletedHandler : IHandleMessages<TranscriptionCompleted>
+    private readonly SqlController sqlController;
+    private readonly Communicator communicator;
+    private readonly Log log;
+    private readonly Core core;
+
+    public TranscriptionCompletedHandler(SqlController sqlController, Communicator communicator, Log log, Core core)
     {
-        private readonly SqlController sqlController;
-        private readonly Communicator communicator;
-        private readonly Log log;
-        private readonly Core core;
+        this.sqlController = sqlController;
+        this.communicator = communicator;
+        this.log = log;
+        this.core = core;
+    }
 
-        public TranscriptionCompletedHandler(SqlController sqlController, Communicator communicator, Log log, Core core)
+    public async Task Handle(TranscriptionCompleted message)
+    {
+        try
         {
-            this.sqlController = sqlController;
-            this.communicator = communicator;
-            this.log = log;
-            this.core = core;
-        }
+            FieldValue fv = await sqlController.GetFieldValueByTranscriptionId(message.MicrotringUUID);
+            JToken result = await communicator.SpeechToText(message.MicrotringUUID);
 
-        public async Task Handle(TranscriptionCompleted message)
-        {
-            try
+            await sqlController.FieldValueUpdate((int)fv.CaseId, fv.Id, result["text"].ToString());
+
+            #region download file
+
+            UploadedData ud = await sqlController.GetUploaded_DataByTranscriptionId(message.MicrotringUUID);
+
+            if (ud.FileName.Contains("3gp"))
             {
-                FieldValue fv = await sqlController.GetFieldValueByTranscriptionId(message.MicrotringUUID);
-                JToken result = await communicator.SpeechToText(message.MicrotringUUID);
-
-                await sqlController.FieldValueUpdate((int)fv.CaseId, fv.Id, result["text"].ToString());
-
-                #region download file
-
-                UploadedData ud = await sqlController.GetUploaded_DataByTranscriptionId(message.MicrotringUUID);
-
-                if (ud.FileName.Contains("3gp"))
+                log.LogStandard("TranscriptionCompletedHandler.Handle", "file_name contains 3gp");
+                string urlStr = sqlController.SettingRead(Settings.comSpeechToText).GetAwaiter().GetResult() +
+                                "/download_file/" + message.MicrotringUUID + ".wav?token=" +
+                                sqlController.SettingRead(Settings.token).GetAwaiter().GetResult();
+                using var client = new HttpClient();
+                try
                 {
-                    log.LogStandard("TranscriptionCompletedHandler.Handle", "file_name contains 3gp");
-                    string urlStr = sqlController.SettingRead(Settings.comSpeechToText).GetAwaiter().GetResult() +
-                                    "/download_file/" + message.MicrotringUUID + ".wav?token=" +
-                                    sqlController.SettingRead(Settings.token).GetAwaiter().GetResult();
-                    using var client = new HttpClient();
-                    try
-                    {
-                        log.LogStandard("TranscriptionCompletedHandler.Handle",
-                            "Trying to download file from : " + urlStr);
-                        var stream = await client.GetStreamAsync(urlStr);
-                        MemoryStream baseMemoryStream = new MemoryStream();
-                        await stream.CopyToAsync(baseMemoryStream);
-                        await stream.DisposeAsync();
-                        stream.Close();
-                        await core.PutFileToS3Storage(baseMemoryStream, ud.FileName.Replace(".3gp", ".wav"));
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("Downloading and creating fil locally failed.", ex);
-                    }
+                    log.LogStandard("TranscriptionCompletedHandler.Handle",
+                        "Trying to download file from : " + urlStr);
+                    var stream = await client.GetStreamAsync(urlStr);
+                    MemoryStream baseMemoryStream = new MemoryStream();
+                    await stream.CopyToAsync(baseMemoryStream);
+                    await stream.DisposeAsync();
+                    stream.Close();
+                    await core.PutFileToS3Storage(baseMemoryStream, ud.FileName.Replace(".3gp", ".wav"));
                 }
-
-                #endregion
-
-                await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID,
-                    Constants.WorkflowStates.Processed, "", "");
-
-                log.LogStandard("TranscriptionCompletedHandler.Handle",
-                    "Transcription with id " + message.MicrotringUUID + " has been transcribed");
+                catch (Exception ex)
+                {
+                    throw new Exception("Downloading and creating fil locally failed.", ex);
+                }
             }
-            catch (Exception ex)
-            {
-                await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID,
-                    Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace);
-            }
+
+            #endregion
+
+            await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID,
+                Constants.WorkflowStates.Processed, "", "");
+
+            log.LogStandard("TranscriptionCompletedHandler.Handle",
+                "Transcription with id " + message.MicrotringUUID + " has been transcribed");
+        }
+        catch (Exception ex)
+        {
+            await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID,
+                Constants.WorkflowStates.NotFound, ex.Message, ex.StackTrace);
         }
     }
 }

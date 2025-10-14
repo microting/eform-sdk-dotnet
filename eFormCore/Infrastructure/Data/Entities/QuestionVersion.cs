@@ -24,46 +24,45 @@ SOFTWARE.
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class QuestionVersion : BaseEntity
 {
-    public class QuestionVersion : BaseEntity
-    {
-        public int QuestionSetId { get; set; }
+    public int QuestionSetId { get; set; }
 
-        public string QuestionType { get; set; }
+    public string QuestionType { get; set; }
 
-        public int Minimum { get; set; }
+    public int Minimum { get; set; }
 
-        public int Maximum { get; set; }
+    public int Maximum { get; set; }
 
-        public string Type { get; set; }
+    public string Type { get; set; }
 
-        public int RefId { get; set; }
+    public int RefId { get; set; }
 
-        public int QuestionIndex { get; set; }
+    public int QuestionIndex { get; set; }
 
-        public bool Image { get; set; }
+    public bool Image { get; set; }
 
-        public int ContinuousQuestionId { get; set; }
+    public int ContinuousQuestionId { get; set; }
 
-        public string ImagePosition { get; set; }
+    public string ImagePosition { get; set; }
 
-        public bool Prioritised { get; set; }
+    public bool Prioritised { get; set; }
 
-        public bool BackButtonEnabled { get; set; }
+    public bool BackButtonEnabled { get; set; }
 
-        public string FontSize { get; set; }
+    public string FontSize { get; set; }
 
-        public int MinDuration { get; set; }
+    public int MinDuration { get; set; }
 
-        public int MaxDuration { get; set; }
+    public int MaxDuration { get; set; }
 
-        public bool ValidDisplay { get; set; }
+    public bool ValidDisplay { get; set; }
 
-        [ForeignKey("question")] public int QuestionId { get; set; }
+    [ForeignKey("question")] public int QuestionId { get; set; }
 
-        public virtual Question Question { get; set; }
+    public virtual Question Question { get; set; }
 
-        public int? MicrotingUid { get; set; }
-    }
+    public int? MicrotingUid { get; set; }
 }

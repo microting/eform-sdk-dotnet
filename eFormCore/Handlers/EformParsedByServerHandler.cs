@@ -30,30 +30,29 @@ using Microting.eForm.Infrastructure.Constants;
 using Microting.eForm.Messages;
 using Rebus.Handlers;
 
-namespace Microting.eForm.Handlers
+namespace Microting.eForm.Handlers;
+
+public class EformParsedByServerHandler : IHandleMessages<EformParsedByServer>
 {
-    public class EformParsedByServerHandler : IHandleMessages<EformParsedByServer>
+    private readonly SqlController _sqlController;
+    private readonly Core _core;
+    private readonly Log _log;
+
+    public EformParsedByServerHandler(SqlController sqlController, Core core, Log log)
     {
-        private readonly SqlController _sqlController;
-        private readonly Core _core;
-        private readonly Log _log;
+        _sqlController = sqlController;
+        _core = core;
+        _log = log;
+    }
 
-        public EformParsedByServerHandler(SqlController sqlController, Core core, Log log)
-        {
-            _sqlController = sqlController;
-            _core = core;
-            _log = log;
-        }
+    public async Task Handle(EformParsedByServer message)
+    {
+        _log.LogStandard("EformParsedByServer.Handle called", $"NotificationId: {message.NotificationId}, MicrotringUUID: {message.MicrotringUUID}");
+        await _sqlController.NotificationCreate(message.NotificationId, message.MicrotringUUID,
+            Constants.Notifications.EformParsedByServer);
 
-        public async Task Handle(EformParsedByServer message)
-        {
-            _log.LogStandard("EformParsedByServer.Handle called", $"NotificationId: {message.NotificationId}, MicrotringUUID: {message.MicrotringUUID}");
-            await _sqlController.NotificationCreate(message.NotificationId, message.MicrotringUUID,
-                Constants.Notifications.EformParsedByServer);
-
-            CaseDto cDto = await _sqlController.CaseReadByMUId(message.MicrotringUUID);
-            await _core.FireHandleCaseProcessedByServer(cDto);
-            // Potentially send new message onto local queue
-        }
+        CaseDto cDto = await _sqlController.CaseReadByMUId(message.MicrotringUUID);
+        await _core.FireHandleCaseProcessedByServer(cDto);
+        // Potentially send new message onto local queue
     }
 }

@@ -22,10 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-namespace Microting.eForm
+namespace Microting.eForm;
+
+public static class DbConfig
 {
-    public static class DbConfig
-    {
-        public static bool IsMySQL = false;
-    }
+    public static bool IsMySQL = false;
 }

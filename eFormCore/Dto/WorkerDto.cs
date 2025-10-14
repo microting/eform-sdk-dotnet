@@ -24,50 +24,49 @@ SOFTWARE.
 
 using System;
 
-namespace Microting.eForm.Dto
+namespace Microting.eForm.Dto;
+
+public class WorkerDto
 {
-    public class WorkerDto
+    #region var
+
+    /// <summary>
+    ///...
+    /// </summary>
+    public int WorkerUId { get; set; }
+
+    /// <summary>
+    ///...
+    /// </summary>
+    public string FirstName { get; set; }
+
+    /// <summary>
+    ///...
+    /// </summary>
+    public string LastName { get; set; }
+
+    /// <summary>
+    ///...
+    /// </summary>
+    public string Email { get; set; }
+
+    /// <summary>
+    ///...
+    /// </summary>
+    public DateTime? CreatedAt { get; set; }
+
+    /// <summary>
+    ///...
+    /// </summary>
+    public DateTime? UpdatedAt { get; set; }
+
+    public bool IsLocked { get; set; }
+
+    #endregion
+
+    public override string ToString()
     {
-        #region var
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public int WorkerUId { get; set; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public string FirstName { get; set; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public string LastName { get; set; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public string Email { get; set; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public DateTime? CreatedAt { get; set; }
-
-        /// <summary>
-        ///...
-        /// </summary>
-        public DateTime? UpdatedAt { get; set; }
-
-        public bool IsLocked { get; set; }
-
-        #endregion
-
-        public override string ToString()
-        {
-            return "WorkerUId:" + WorkerUId + " / FirstName:" + FirstName + " / LastName:" + LastName + " / Email:" +
-                   Email + " / CreatedAt:" + CreatedAt + " / UpdatedAt:" + UpdatedAt + ".";
-        }
+        return "WorkerUId:" + WorkerUId + " / FirstName:" + FirstName + " / LastName:" + LastName + " / Email:" +
+               Email + " / CreatedAt:" + CreatedAt + " / UpdatedAt:" + UpdatedAt + ".";
     }
 }

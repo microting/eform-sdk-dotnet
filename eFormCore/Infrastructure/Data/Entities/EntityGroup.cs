@@ -29,81 +29,80 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Infrastructure.Extensions;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class EntityGroup : PnBase
 {
-    public class EntityGroup : PnBase
+    public string MicrotingUid { get; set; }
+
+    public string Name { get; set; }
+
+    public string Description { get; set; }
+
+    public bool Locked { get; set; }
+
+    public bool Editable { get; set; }
+
+    [StringLength(50)] public string Type { get; set; }
+
+    public static async Task<Models.EntityGroup> ReadSorted(MicrotingDbContext dbContext, string entityGroupMUId,
+        string sort,
+        string nameFilter)
     {
-        public string MicrotingUid { get; set; }
+        EntityGroup eG =
+            await dbContext.EntityGroups.FirstOrDefaultAsync(x => x.MicrotingUid == entityGroupMUId);
 
-        public string Name { get; set; }
+        if (eG == null)
+            return null;
 
-        public string Description { get; set; }
-
-        public bool Locked { get; set; }
-
-        public bool Editable { get; set; }
-
-        [StringLength(50)] public string Type { get; set; }
-
-        public static async Task<Models.EntityGroup> ReadSorted(MicrotingDbContext dbContext, string entityGroupMUId,
-            string sort,
-            string nameFilter)
+        List<Models.EntityItem> lst = new List<Models.EntityItem>();
+        Models.EntityGroup rtnEG = new Models.EntityGroup
         {
-            EntityGroup eG =
-                await dbContext.EntityGroups.FirstOrDefaultAsync(x => x.MicrotingUid == entityGroupMUId);
+            Id = eG.Id,
+            Name = eG.Name,
+            Type = eG.Type,
+            MicrotingUUID = eG.MicrotingUid,
+            EntityGroupItemLst = lst,
+            WorkflowState = eG.WorkflowState,
+            Description = eG.Description,
+            CreatedAt = eG.CreatedAt,
+            UpdatedAt = eG.UpdatedAt,
+            Locked = eG.Locked,
+            Editable = eG.Editable
+        };
 
-            if (eG == null)
-                return null;
+        List<EntityItem> eILst = null;
 
-            List<Models.EntityItem> lst = new List<Models.EntityItem>();
-            Models.EntityGroup rtnEG = new Models.EntityGroup
-            {
-                Id = eG.Id,
-                Name = eG.Name,
-                Type = eG.Type,
-                MicrotingUUID = eG.MicrotingUid,
-                EntityGroupItemLst = lst,
-                WorkflowState = eG.WorkflowState,
-                Description = eG.Description,
-                CreatedAt = eG.CreatedAt,
-                UpdatedAt = eG.UpdatedAt,
-                Locked = eG.Locked,
-                Editable = eG.Editable
-            };
-
-            List<EntityItem> eILst = null;
-
-            if (string.IsNullOrEmpty(nameFilter))
-            {
-                eILst = dbContext.EntityItems.Where(x => x.EntityGroupId == eG.Id
-                                                         && x.WorkflowState !=
-                                                         Constants.Constants.WorkflowStates.Removed
-                                                         && x.WorkflowState != Constants.Constants.WorkflowStates
-                                                             .FailedToSync).CustomOrderBy(sort).ToList();
-            }
-            else
-            {
-                eILst = dbContext.EntityItems.Where(x => x.EntityGroupId == eG.Id
-                                                         && x.WorkflowState !=
-                                                         Constants.Constants.WorkflowStates.Removed
-                                                         && x.WorkflowState != Constants.Constants.WorkflowStates
-                                                             .FailedToSync
-                                                         && x.Name.Contains(nameFilter)).CustomOrderBy(sort).ToList();
-            }
-
-            if (eILst.Count > 0)
-                lst.AddRange(eILst.Select(item => new Models.EntityItem
-                {
-                    Id = item.Id,
-                    Name = item.Name,
-                    Description = item.Description,
-                    EntityItemUId = item.EntityItemUid,
-                    MicrotingUUID = item.MicrotingUid,
-                    WorkflowState = item.WorkflowState,
-                    DisplayIndex = item.DisplayIndex
-                }));
-
-            return rtnEG;
+        if (string.IsNullOrEmpty(nameFilter))
+        {
+            eILst = dbContext.EntityItems.Where(x => x.EntityGroupId == eG.Id
+                                                     && x.WorkflowState !=
+                                                     Constants.Constants.WorkflowStates.Removed
+                                                     && x.WorkflowState != Constants.Constants.WorkflowStates
+                                                         .FailedToSync).CustomOrderBy(sort).ToList();
         }
+        else
+        {
+            eILst = dbContext.EntityItems.Where(x => x.EntityGroupId == eG.Id
+                                                     && x.WorkflowState !=
+                                                     Constants.Constants.WorkflowStates.Removed
+                                                     && x.WorkflowState != Constants.Constants.WorkflowStates
+                                                         .FailedToSync
+                                                     && x.Name.Contains(nameFilter)).CustomOrderBy(sort).ToList();
+        }
+
+        if (eILst.Count > 0)
+            lst.AddRange(eILst.Select(item => new Models.EntityItem
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Description = item.Description,
+                EntityItemUId = item.EntityItemUid,
+                MicrotingUUID = item.MicrotingUid,
+                WorkflowState = item.WorkflowState,
+                DisplayIndex = item.DisplayIndex
+            }));
+
+        return rtnEG;
     }
 }

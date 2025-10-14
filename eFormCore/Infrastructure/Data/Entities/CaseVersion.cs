@@ -25,60 +25,59 @@ SOFTWARE.
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Microting.eForm.Infrastructure.Data.Entities
+namespace Microting.eForm.Infrastructure.Data.Entities;
+
+public class CaseVersion : BaseEntity
 {
-    public class CaseVersion : BaseEntity
-    {
-        public int? CaseId { get; set; }
+    public int? CaseId { get; set; }
 
-        public int? Status { get; set; }
+    public int? Status { get; set; }
 
-        public DateTime? DoneAt { get; set; }
+    public DateTime? DoneAt { get; set; }
 
-        public int? SiteId { get; set; }
+    public int? SiteId { get; set; }
 
-        public int? UnitId { get; set; }
+    public int? UnitId { get; set; }
 
-        public int? WorkerId { get; set; }
+    public int? WorkerId { get; set; }
 
-        public int? CheckListId { get; set; }
+    public int? CheckListId { get; set; }
 
-        [StringLength(255)] public string Type { get; set; }
+    [StringLength(255)] public string Type { get; set; }
 
-        public int? MicrotingUid { get; set; }
+    public int? MicrotingUid { get; set; }
 
-        public int? MicrotingCheckUid { get; set; }
+    public int? MicrotingCheckUid { get; set; }
 
-        [StringLength(255)] public string CaseUid { get; set; }
+    [StringLength(255)] public string CaseUid { get; set; }
 
-        public string Custom { get; set; }
+    public string Custom { get; set; }
 
-        public string FieldValue1 { get; set; }
+    public string FieldValue1 { get; set; }
 
-        public string FieldValue2 { get; set; }
+    public string FieldValue2 { get; set; }
 
-        public string FieldValue3 { get; set; }
+    public string FieldValue3 { get; set; }
 
-        public string FieldValue4 { get; set; }
+    public string FieldValue4 { get; set; }
 
-        public string FieldValue5 { get; set; }
+    public string FieldValue5 { get; set; }
 
-        public string FieldValue6 { get; set; }
+    public string FieldValue6 { get; set; }
 
-        public string FieldValue7 { get; set; }
+    public string FieldValue7 { get; set; }
 
-        public string FieldValue8 { get; set; }
+    public string FieldValue8 { get; set; }
 
-        public string FieldValue9 { get; set; }
+    public string FieldValue9 { get; set; }
 
-        public string FieldValue10 { get; set; }
+    public string FieldValue10 { get; set; }
 
-        public int? FolderId { get; set; }
+    public int? FolderId { get; set; }
 
-        public bool IsArchived { get; set; }
+    public bool IsArchived { get; set; }
 
-        public DateTime? DoneAtUserModifiable { get; set; }
+    public DateTime? DoneAtUserModifiable { get; set; }
 
-        public DateTime? ReceivedByServerAt { get; set; }
-    }
+    public DateTime? ReceivedByServerAt { get; set; }
 }
