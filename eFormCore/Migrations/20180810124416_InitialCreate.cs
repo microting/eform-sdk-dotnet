@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2020 Microting A/S
+Copyright (c) 2007 - 2025 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,7 @@ namespace Microting.eForm.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             //Setup for SQL Server Provider
-           
+
             string autoIDGenStrategy = "SqlServer:ValueGenerationStrategy";
             object autoIDGenStrategyValue= MySqlValueGenerationStrategy.IdentityColumn;
 
@@ -45,7 +45,7 @@ namespace Microting.eForm.Migrations
                 autoIDGenStrategy = "MySql:ValueGenerationStrategy";
                 autoIDGenStrategyValue = MySqlValueGenerationStrategy.IdentityColumn;
             }
-                     
+
             migrationBuilder.CreateTable(
                 name: "case_versions",
                 columns: table => new
@@ -1173,14 +1173,14 @@ namespace Microting.eForm.Migrations
             modelNames.Add("uploaded_data_versions");
             modelNames.Add("field_types");
 
-          
+
             migrationBuilder.Sql("SET foreign_key_checks = 0");
 
             foreach (var modelName in modelNames)
             {
-               
+
                 try
-                {                    
+                {
 
                     string sqlTableAlterCmd = "ALTER TABLE `{0}` MODIFY COLUMN `id` int auto_increment";
                     migrationBuilder.Sql(String.Format(sqlTableAlterCmd, modelName));

@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2020 Microting A/S
+Copyright (c) 2007 - 2025 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -137,7 +137,7 @@ public class Response
                         int startIndex = rawXml.IndexOf("<ElementList>");
                         int endIndex = rawXml.IndexOf("</ElementList>", startIndex);
                         if (startIndex == -1 || endIndex == -1) break;
-                            
+
                         string elementContent = rawXml.Substring(startIndex + 13, endIndex - startIndex - 13);
                         string inderXmlStr = "<?xml version=\"1.0\" encoding=\"UTF - 8\"?><ElementList>" +
                                              elementContent + "</ElementList>";

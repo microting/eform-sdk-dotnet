@@ -1,7 +1,7 @@
 ﻿/*
 The MIT License (MIT)
 
-Copyright (c) 2007 - 2020 Microting A/S
+Copyright (c) 2007 - 2025 Microting A/S
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@ namespace Microting.eForm.Migrations
         {
 
             //Setup for SQL Server Provider
-           
+
             string autoIDGenStrategy = "SqlServer:ValueGenerationStrategy";
             object autoIDGenStrategyValue= MySqlValueGenerationStrategy.IdentityColumn;
 
