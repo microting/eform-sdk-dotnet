@@ -280,7 +280,7 @@
 
     <ItemGroup>
         <PackageReference Include="AWSSDK.Core" Version="4.0.1" />
-        <PackageReference Include="AWSSDK.S3" Version="4.0.7.9" />
+        <PackageReference Include="AWSSDK.S3" Version="4.0.7.10" />
         <PackageReference Include="AWSSDK.SQS" Version="4.0.1.10" />
         <PackageReference Include="Castle.Core" Version="5.2.1" />
         <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
