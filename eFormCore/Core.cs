@@ -3433,7 +3433,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
+            await using var dbContext = DbContextHelper.GetDbContext();
             int apiParentId = 0;
             if (parentId != null)
             {
@@ -3441,22 +3441,25 @@ public class Core : CoreBase
                 //    apiParentId = (int)FolderRead((int) parentId).GetAwaiter().GetResult().MicrotingUId;
             }
 
-            Folder folder = new Folder
+            var folder = new Folder
             {
-                ParentId = parentId
+                ParentId = parentId,
+                IsEditable = true,
+                IsLocked = false,
+                ManagedByPlugin = false
             };
             await folder.Create(dbContext);
             int result = await _communicator.FolderCreate(folder.Id, apiParentId).ConfigureAwait(false);
             folder.MicrotingUid = result;
             await folder.Update(dbContext);
-            foreach (CommonTranslationsModel translation in translations)
+            foreach (var translation in translations)
             {
-                Language language =
+                var language =
                     await dbContext.Languages.FirstOrDefaultAsync(x => x.Id == translation.LanguageId);
                 await _communicator.FolderUpdate((int)folder.MicrotingUid, translation.Name,
                     translation.Description,
                     language.LanguageCode, apiParentId);
-                FolderTranslation folderTranslation = new FolderTranslation
+                var folderTranslation = new FolderTranslation
                 {
                     FolderId = folder.Id,
                     Name = translation.Name,
