@@ -272,6 +272,8 @@
         <Compile Include="Migrations\20250904083023_AddPhoneNumberToWorker.Designer.cs" />
         <Compile Include="Migrations\20251014043917_AddingHandlingAttributesToFolders.cs" />
         <Compile Include="Migrations\20251014043917_AddingHandlingAttributesToFolders.Designer.cs" />
+        <Compile Include="Migrations\20251016051745_AddChildrenProhibitedToFolders.cs" />
+        <Compile Include="Migrations\20251016051745_AddChildrenProhibitedToFolders.Designer.cs" />
         <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
         <Compile Include="Infrastructure\SqlController.cs" />
         <Compile Include="Services\Subscriber.cs" />

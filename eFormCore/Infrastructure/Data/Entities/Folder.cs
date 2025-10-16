@@ -44,6 +44,7 @@ public class Folder : PnBase
     public bool IsLocked { get; set; } // If true, the folder cannot be deleted or edited
     public bool IsEditable { get; set; }
     public bool ManagedByPlugin { get; set; } // If true, the folder is managed by a plugin and cannot be deleted or edited manually
+    public bool ChildrenProhibited { get; set; } // If true, the folder cannot have children
 
     public virtual Folder Parent { get; set; }
 
