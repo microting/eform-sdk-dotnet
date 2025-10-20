@@ -848,7 +848,8 @@ public class SqlController : LogWriter
                 LastCheckId = 0,
                 MicrotingUid = microtingUId,
                 SiteId = siteId,
-                FolderId = folderId
+                FolderId = folderId,
+                ServerStatus = 33
             };
             await cLs.Create(db).ConfigureAwait(false);
         }
@@ -866,12 +867,12 @@ public class SqlController : LogWriter
         {
             await using var db = GetContext();
             Site site = await db.Sites.FirstAsync(x => x.MicrotingUid == microtingUid);
-            IQueryable<CheckListSite> sub_query =
+            IQueryable<CheckListSite> subQuery =
                 db.CheckListSites.Where(x => x.SiteId == site.Id && x.CheckListId == templateId);
             if (workflowState == Constants.Constants.WorkflowStates.NotRemoved)
-                sub_query = sub_query.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
+                subQuery = subQuery.Where(x => x.WorkflowState != Constants.Constants.WorkflowStates.Removed);
 
-            return sub_query.Select(x => x.MicrotingUid).ToList();
+            return subQuery.Select(x => x.MicrotingUid).ToList();
         }
         catch (Exception ex)
         {
@@ -918,7 +919,7 @@ public class SqlController : LogWriter
             {
                 aCase = new Case
                 {
-                    Status = 66,
+                    Status = 33,
                     Type = caseType,
                     CheckListId = checkListId,
                     MicrotingUid = microtingUId,
@@ -933,7 +934,7 @@ public class SqlController : LogWriter
             }
             else
             {
-                aCase.Status = 66;
+                aCase.Status = 33;
                 aCase.Type = caseType;
                 aCase.CheckListId = checkListId;
                 aCase.MicrotingUid = microtingUId;

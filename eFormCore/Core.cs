@@ -1364,29 +1364,33 @@ public class Core : CoreBase
 
             foreach (int siteUid in siteUids)
             {
-                int mUId = await SendXml(mainElement, siteUid);
+                var response = await SendXml(mainElement, siteUid);
 
-                if (mainElement.Repeated == 1)
-                    await _sqlController.CaseCreate(mainElement.Id, siteUid, mUId, null, caseUId, custom,
-                        DateTime.UtcNow, folderId).ConfigureAwait(false);
-                else
-                    await _sqlController.CheckListSitesCreate(mainElement.Id, siteUid, mUId, folderId)
-                        .ConfigureAwait(false);
-
-                CaseDto cDto = await _sqlController.CaseReadByMUId(mUId);
-                //InteractionCaseUpdate(cDto);
-                try
+                if (response.Type.ToString().ToLower() == "success")
                 {
-                    HandleCaseCreated?.Invoke(cDto, EventArgs.Empty);
-                }
-                catch
-                {
-                    Log.LogWarning(methodName, "HandleCaseCreated event's external logic suffered an Expection");
-                }
+                    var mUId = int.Parse(response.Value);
+                    if (mainElement.Repeated == 1)
+                        await _sqlController.CaseCreate(mainElement.Id, siteUid, mUId, null, caseUId, custom,
+                            DateTime.UtcNow, folderId).ConfigureAwait(false);
+                    else
+                        await _sqlController.CheckListSitesCreate(mainElement.Id, siteUid, mUId, folderId)
+                            .ConfigureAwait(false);
 
-                Log.LogStandard(methodName, $"{cDto} has been created");
+                    CaseDto cDto = await _sqlController.CaseReadByMUId(mUId);
+                    //InteractionCaseUpdate(cDto);
+                    try
+                    {
+                        HandleCaseCreated?.Invoke(cDto, EventArgs.Empty);
+                    }
+                    catch
+                    {
+                        Log.LogWarning(methodName, "HandleCaseCreated event's external logic suffered an Expection");
+                    }
 
-                lstMUId.Add(mUId);
+                    Log.LogStandard(methodName, $"{cDto} has been created");
+
+                    lstMUId.Add(mUId);
+                }
             }
 
             return lstMUId;
@@ -5372,7 +5376,7 @@ public class Core : CoreBase
         return elementListReplaced;
     }
 
-    private async Task<int> SendXml(MainElement mainElement, int siteId)
+    private async Task<Response> SendXml(MainElement mainElement, int siteId)
     {
         string methodName = "Core.SendXml";
         Log.LogEverything(methodName, "siteId:" + siteId + ", requested sent eForm");
@@ -5388,10 +5392,11 @@ public class Core : CoreBase
         Log.LogEverything(methodName, "siteId:" + siteId + ", XmlToClass done");
 
         //if reply is "success", it's created
-        if (response.Type.ToString().ToLower() == "success")
-        {
-            return int.Parse(response.Value);
-        }
+        // if (response.Type.ToString().ToLower() == "success")
+        // {
+        //     return int.Parse(response.Value);
+        // }
+        return response;
 
         throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" +
                             xmlStrResponse);

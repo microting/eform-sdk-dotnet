@@ -37,4 +37,5 @@ public class CheckListSiteVersion : BaseEntity
     public int LastCheckId { get; set; }
 
     public int? FolderId { get; set; }
+    public int? ServerStatus { get; set; }
 }

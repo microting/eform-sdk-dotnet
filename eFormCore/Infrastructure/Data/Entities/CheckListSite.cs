@@ -43,4 +43,5 @@ public class CheckListSite : PnBase
     public virtual CheckList CheckList { get; set; }
 
     public virtual Folder Folder { get; set; }
+    public int? ServerStatus { get; set; }
 }
