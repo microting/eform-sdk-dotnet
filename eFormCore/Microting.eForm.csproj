@@ -306,6 +306,8 @@
         <PackageReference Include="Microting.Rebus.RabbitMq" Version="9.0.10" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
         <PackageReference Include="Microting.EntityFrameworkCore.MySql" Version="9.0.8" />
+        <PackageReference Include="Polly" Version="8.6.4" />
+        <PackageReference Include="Polly.Extensions.Http" Version="3.0.0" />
         <PackageReference Include="Remotion.Linq" Version="2.2.0" />
         <PackageReference Include="SharpZipLib" Version="1.4.2" />
         <PackageReference Include="System.CodeDom" Version="9.0.10" />

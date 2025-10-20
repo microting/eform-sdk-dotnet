@@ -32,6 +32,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using Polly;
+using Polly.Extensions.Http;
 
 namespace Microting.eForm.Communication;
 
@@ -55,6 +57,9 @@ public class Http : IHttp
     private readonly string _dllVersion;
 
     private readonly Tools t = new Tools();
+    
+    // Polly retry policy for handling transient HTTP errors
+    private readonly IAsyncPolicy<HttpResponseMessage> _retryPolicy;
 
     //private object _lock = new object(); // todo maybe need delete
     public Http(string token, string comAddressBasic, string comAddressApi, string comOrganizationId,
@@ -70,6 +75,24 @@ public class Http : IHttp
         _addressNewApi = comAddressNewApi;
 
         _dllVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
+        
+        // Configure Polly retry policy with exponential backoff
+        // Handles: Connection refused, HTTP 500 (Internal Server Error), HTTP 503 (Service Unavailable)
+        _retryPolicy = HttpPolicyExtensions
+            .HandleTransientHttpError() // Handles 5xx and 408
+            .Or<HttpRequestException>() // Handles connection refused and other network errors
+            .WaitAndRetryAsync(
+                retryCount: 3,
+                sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                onRetry: (outcome, timespan, retryCount, context) =>
+                {
+                    var message = outcome.Exception != null
+                        ? $"HTTP request failed with exception: {outcome.Exception.Message}"
+                        : $"HTTP request failed with status code: {outcome.Result?.StatusCode}";
+                    
+                    WriteDebugConsoleLogEntry("Polly Retry",
+                        $"Retry {retryCount} after {timespan.TotalSeconds}s. {message}");
+                });
     }
 
     // public API
@@ -83,21 +106,24 @@ public class Http : IHttp
             WriteDebugConsoleLogEntry("HttpPost",
                 $"called at {start} for url {url}");
 
-            using var httpClient = new HttpClient(new HttpClientHandler { AllowAutoRedirect = followRedirect });
-            if (contentType != null)
+            var response = await _retryPolicy.ExecuteAsync(async () =>
             {
-                httpClient.DefaultRequestHeaders
-                    .Accept
-                    .Add(new MediaTypeWithQualityHeaderValue(contentType));
-            }
+                using var httpClient = new HttpClient(new HttpClientHandler { AllowAutoRedirect = followRedirect });
+                if (contentType != null)
+                {
+                    httpClient.DefaultRequestHeaders
+                        .Accept
+                        .Add(new MediaTypeWithQualityHeaderValue(contentType));
+                }
 
-            if (addToken)
-            {
-                httpClient.DefaultRequestHeaders
-                    .Add("Authorization", _token);
-            }
+                if (addToken)
+                {
+                    httpClient.DefaultRequestHeaders
+                        .Add("Authorization", _token);
+                }
 
-            var response = await httpClient.PostAsync(url, content).ConfigureAwait(false);
+                return await httpClient.PostAsync(url, content).ConfigureAwait(false);
+            }).ConfigureAwait(false);
 
             if (response.StatusCode == HttpStatusCode.Found)
             {
@@ -126,21 +152,24 @@ public class Http : IHttp
             WriteDebugConsoleLogEntry("HttpPut",
                 $"called at {start} for url {url}");
 
-            using var httpClient = new HttpClient(new HttpClientHandler { AllowAutoRedirect = followRedirect });
-            if (contentType != null)
+            var response = await _retryPolicy.ExecuteAsync(async () =>
             {
-                httpClient.DefaultRequestHeaders
-                    .Accept
-                    .Add(new MediaTypeWithQualityHeaderValue(contentType));
-            }
+                using var httpClient = new HttpClient(new HttpClientHandler { AllowAutoRedirect = followRedirect });
+                if (contentType != null)
+                {
+                    httpClient.DefaultRequestHeaders
+                        .Accept
+                        .Add(new MediaTypeWithQualityHeaderValue(contentType));
+                }
 
-            if (addToken)
-            {
-                httpClient.DefaultRequestHeaders
-                    .Add("Authorization", _token);
-            }
+                if (addToken)
+                {
+                    httpClient.DefaultRequestHeaders
+                        .Add("Authorization", _token);
+                }
 
-            var response = await httpClient.PutAsync(url, content).ConfigureAwait(false);
+                return await httpClient.PutAsync(url, content).ConfigureAwait(false);
+            }).ConfigureAwait(false);
 
             if (response.StatusCode == HttpStatusCode.Found)
             {
@@ -167,21 +196,25 @@ public class Http : IHttp
             WriteDebugConsoleLogEntry("HttpGet",
                 $"called at {start} for url {url}");
 
-            using var httpClient = new HttpClient();
-            if (contentType != null)
+            var response = await _retryPolicy.ExecuteAsync(async () =>
             {
-                httpClient.DefaultRequestHeaders
-                    .Accept
-                    .Add(new MediaTypeWithQualityHeaderValue(contentType));
-            }
+                using var httpClient = new HttpClient();
+                if (contentType != null)
+                {
+                    httpClient.DefaultRequestHeaders
+                        .Accept
+                        .Add(new MediaTypeWithQualityHeaderValue(contentType));
+                }
 
-            if (addToken)
-            {
-                httpClient.DefaultRequestHeaders
-                    .Add("Authorization", _token);
-            }
+                if (addToken)
+                {
+                    httpClient.DefaultRequestHeaders
+                        .Add("Authorization", _token);
+                }
 
-            var response = await httpClient.GetAsync(url).ConfigureAwait(false);
+                return await httpClient.GetAsync(url).ConfigureAwait(false);
+            }).ConfigureAwait(false);
+            
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             WriteDebugConsoleLogEntry("HttpGet", $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
@@ -203,21 +236,25 @@ public class Http : IHttp
             WriteDebugConsoleLogEntry("HttpDelete",
                 $"called at {start} for url {url}");
 
-            using var httpClient = new HttpClient(new HttpClientHandler { AllowAutoRedirect = followRedirect });
-            if (contentType != null)
+            var response = await _retryPolicy.ExecuteAsync(async () =>
             {
-                httpClient.DefaultRequestHeaders
-                    .Accept
-                    .Add(new MediaTypeWithQualityHeaderValue(contentType));
-            }
+                using var httpClient = new HttpClient(new HttpClientHandler { AllowAutoRedirect = followRedirect });
+                if (contentType != null)
+                {
+                    httpClient.DefaultRequestHeaders
+                        .Accept
+                        .Add(new MediaTypeWithQualityHeaderValue(contentType));
+                }
 
-            if (addToken)
-            {
-                httpClient.DefaultRequestHeaders
-                    .Add("Authorization", _token);
-            }
+                if (addToken)
+                {
+                    httpClient.DefaultRequestHeaders
+                        .Add("Authorization", _token);
+                }
 
-            var response = await httpClient.DeleteAsync(url).ConfigureAwait(false);
+                return await httpClient.DeleteAsync(url).ConfigureAwait(false);
+            }).ConfigureAwait(false);
+            
             if (response.StatusCode == HttpStatusCode.Found)
             {
                 return response.Headers.Location.ToString();
@@ -295,14 +332,18 @@ public class Http : IHttp
                 var url =
                     $"{_addressNewApi}/integration/create?token={_token}&siteId={siteId}&sdkVer={_dllVersion}";
 
-                using var httpClient = new HttpClient();
-                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/protobuf"));
-                httpClient.DefaultRequestHeaders.Add("Authorization", _token);
+                var response = await _retryPolicy.ExecuteAsync(async () =>
+                {
+                    using var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/protobuf"));
+                    httpClient.DefaultRequestHeaders.Add("Authorization", _token);
 
-                var content = new ByteArrayContent(protoData);
-                content.Headers.ContentType = new MediaTypeHeaderValue("application/protobuf");
+                    var content = new ByteArrayContent(protoData);
+                    content.Headers.ContentType = new MediaTypeHeaderValue("application/protobuf");
 
-                var response = await httpClient.PostAsync(url, content).ConfigureAwait(false);
+                    return await httpClient.PostAsync(url, content).ConfigureAwait(false);
+                }).ConfigureAwait(false);
+                
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             }
@@ -311,11 +352,15 @@ public class Http : IHttp
                 var url =
                     $"{_addressApi}/gwt/inspection_app/integration/?token={_token}&protocol={ProtocolXml}&site_id={siteId}&sdk_ver={_dllVersion}";
 
-                using var httpClient = new HttpClient();
-                var content = new ByteArrayContent(protoData);
-                content.Headers.ContentType = new MediaTypeHeaderValue("application/protobuf");
+                var response = await _retryPolicy.ExecuteAsync(async () =>
+                {
+                    using var httpClient = new HttpClient();
+                    var content = new ByteArrayContent(protoData);
+                    content.Headers.ContentType = new MediaTypeHeaderValue("application/protobuf");
 
-                var response = await httpClient.PostAsync(url, content).ConfigureAwait(false);
+                    return await httpClient.PostAsync(url, content).ConfigureAwait(false);
+                }).ConfigureAwait(false);
+                
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             }
