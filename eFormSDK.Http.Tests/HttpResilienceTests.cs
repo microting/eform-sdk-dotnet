@@ -135,7 +135,7 @@ public class HttpResilienceTests
     }
 
     [Test]
-    public void Post_Should_Fail_After_Max_Retries_On_Persistent_Http500()
+    public async Task Post_Should_Fail_After_Max_Retries_On_Persistent_Http500()
     {
         // Arrange
         var siteId = "123";
@@ -148,9 +148,13 @@ public class HttpResilienceTests
 
         var http = new Microting.eForm.Communication.Http(TestToken, _serverUrl, _serverUrl, "org123", _serverUrl, _serverUrl, _serverUrl);
 
-        // Act & Assert
-        var ex = Assert.ThrowsAsync<HttpRequestException>(async () => await http.Post(testData, siteId));
-        Assert.That(ex.Message, Does.Contain("500"), "Should throw exception with status code 500 after all retries exhausted");
+        // Act
+        // Post method catches exceptions and returns error XML
+        var result = await http.Post(testData, siteId);
+
+        // Assert
+        Assert.That(result, Does.Contain("converterError"), "Should return error response after all retries exhausted");
+        Assert.That(result, Does.Contain("500"), "Should include status code 500 in error message");
         Assert.That(_mockServer.LogEntries.Count, Is.EqualTo(4), "Should make 4 attempts (1 initial + 3 retries)");
     }
 
@@ -226,7 +230,7 @@ public class HttpResilienceTests
     }
 
     [Test]
-    public void Post_Should_Handle_Connection_Refused_With_Retries()
+    public async Task Post_Should_Handle_Connection_Refused_With_Retries()
     {
         // Arrange
         var siteId = "123";
@@ -236,9 +240,12 @@ public class HttpResilienceTests
         var invalidUrl = "http://localhost:65432"; // Port unlikely to be open
         var http = new Microting.eForm.Communication.Http(TestToken, invalidUrl, invalidUrl, "org123", invalidUrl, invalidUrl, invalidUrl);
 
-        // Act & Assert
-        // Should retry 3 times before throwing final exception
-        var ex = Assert.ThrowsAsync<HttpRequestException>(async () => await http.Post(testData, siteId));
-        Assert.That(ex, Is.Not.Null, "Should throw HttpRequestException after all retries exhausted");
+        // Act
+        // Post method catches exceptions and returns error XML
+        var result = await http.Post(testData, siteId);
+
+        // Assert
+        Assert.That(result, Does.Contain("converterError"), "Should return error response after all retries exhausted");
+        Assert.That(result, Does.Contain("Connection refused"), "Should include connection refused error message");
     }
 }
