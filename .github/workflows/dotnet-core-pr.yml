@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test: [integration-tests-core-base,integration-tests-core-case,integration-tests-core-checklists,integration-tests-sqlcontroller-base,integration-tests-sqlcontroller-case,integration-tests-sqlcontroller-checklists,unit-tests-base,unit-tests-checklists,unit-tests-insight]
+        test: [integration-tests-core-base,integration-tests-core-case,integration-tests-core-checklists,integration-tests-sqlcontroller-base,integration-tests-sqlcontroller-case,integration-tests-sqlcontroller-checklists,unit-tests-base,unit-tests-checklists,unit-tests-insight,http-tests]
     steps:
     - uses: actions/checkout@v3
     - name: Start rabbitmq
