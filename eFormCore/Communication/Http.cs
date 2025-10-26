@@ -57,6 +57,9 @@ public class Http : IHttp
     private readonly string _dllVersion;
 
     private readonly Tools t = new Tools();
+    
+    // HTTP retry configuration
+    private const int MaxRetryAttempts = 3;
 
     // Polly retry policy for handling transient HTTP errors
     private readonly IAsyncPolicy<HttpResponseMessage> _retryPolicy;
@@ -82,7 +85,7 @@ public class Http : IHttp
             .HandleTransientHttpError() // Handles 5xx and 408
             .Or<HttpRequestException>() // Handles connection refused and other network errors
             .WaitAndRetryAsync(
-                retryCount: 3,
+                retryCount: MaxRetryAttempts,
                 sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(10, retryAttempt)),
                 onRetry: (outcome, timespan, retryCount, context) =>
                 {
@@ -97,7 +100,7 @@ public class Http : IHttp
                     var cumulativeWaitTime = (DateTime.UtcNow - operationStartTime).TotalSeconds;
 
                     WriteDebugConsoleLogEntry("Polly Retry",
-                        $"{httpMethod} {url} - Retry {retryCount}/{3} after {timespan.TotalSeconds}s delay. " +
+                        $"{httpMethod} {url} - Retry {retryCount}/{MaxRetryAttempts} after {timespan.TotalSeconds}s delay. " +
                         $"Total operation time: {cumulativeWaitTime:F1}s. Error: {message}");
 
                     // For long waits, provide progress updates
