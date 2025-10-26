@@ -57,7 +57,7 @@ public class Http : IHttp
     private readonly string _dllVersion;
 
     private readonly Tools t = new Tools();
-    
+
     // Polly retry policy for handling transient HTTP errors
     private readonly IAsyncPolicy<HttpResponseMessage> _retryPolicy;
 
@@ -75,7 +75,7 @@ public class Http : IHttp
         _addressNewApi = comAddressNewApi;
 
         _dllVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
-        
+
         // Configure Polly retry policy with exponential backoff
         // Handles: Connection refused, HTTP 500 (Internal Server Error), HTTP 503 (Service Unavailable)
         _retryPolicy = HttpPolicyExtensions
@@ -83,13 +83,13 @@ public class Http : IHttp
             .Or<HttpRequestException>() // Handles connection refused and other network errors
             .WaitAndRetryAsync(
                 retryCount: 3,
-                sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(10, retryAttempt)),
                 onRetry: (outcome, timespan, retryCount, context) =>
                 {
                     var message = outcome.Exception != null
                         ? $"HTTP request failed with exception: {outcome.Exception.Message}"
                         : $"HTTP request failed with status code: {outcome.Result?.StatusCode}";
-                    
+
                     WriteDebugConsoleLogEntry("Polly Retry",
                         $"Retry {retryCount} after {timespan.TotalSeconds}s. {message}");
                 });
@@ -214,7 +214,7 @@ public class Http : IHttp
 
                 return await httpClient.GetAsync(url).ConfigureAwait(false);
             }).ConfigureAwait(false);
-            
+
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             WriteDebugConsoleLogEntry("HttpGet", $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
@@ -254,7 +254,7 @@ public class Http : IHttp
 
                 return await httpClient.DeleteAsync(url).ConfigureAwait(false);
             }).ConfigureAwait(false);
-            
+
             if (response.StatusCode == HttpStatusCode.Found)
             {
                 return response.Headers.Location.ToString();
@@ -343,7 +343,7 @@ public class Http : IHttp
 
                     return await httpClient.PostAsync(url, content).ConfigureAwait(false);
                 }).ConfigureAwait(false);
-                
+
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             }
@@ -360,7 +360,7 @@ public class Http : IHttp
 
                     return await httpClient.PostAsync(url, content).ConfigureAwait(false);
                 }).ConfigureAwait(false);
-                
+
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             }

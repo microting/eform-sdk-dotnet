@@ -24,6 +24,7 @@ SOFTWARE.
 
 using System.Threading.Tasks;
 using eFormCore;
+using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure;
 using Microting.eForm.Infrastructure.Constants;
@@ -47,11 +48,28 @@ public class EformParsedByServerHandler : IHandleMessages<EformParsedByServer>
 
     public async Task Handle(EformParsedByServer message)
     {
+        await using MicrotingDbContext dbContext = _core.DbContextHelper.GetDbContext();
         _log.LogStandard("EformParsedByServer.Handle called", $"NotificationId: {message.NotificationId}, MicrotringUUID: {message.MicrotringUUID}");
         await _sqlController.NotificationCreate(message.NotificationId, message.MicrotringUUID,
             Constants.Notifications.EformParsedByServer);
 
         CaseDto cDto = await _sqlController.CaseReadByMUId(message.MicrotringUUID);
+        var cls = await dbContext.CheckListSites.FirstOrDefaultAsync(x =>
+            x.MicrotingUid == message.MicrotringUUID);
+        if (cls != null)
+        {
+            cls.ServerStatus = 66;
+            await cls.Update(dbContext);
+        }
+        else
+        {
+            var dbCase = await dbContext.Cases.FirstOrDefaultAsync(x => x.MicrotingUid == message.MicrotringUUID);
+            if (dbCase != null)
+            {
+                dbCase.Status = 66;
+                await dbCase.Update(dbContext);
+            }
+        }
         await _core.FireHandleCaseProcessedByServer(cDto);
         // Potentially send new message onto local queue
     }

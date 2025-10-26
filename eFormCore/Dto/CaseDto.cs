@@ -26,11 +26,6 @@ namespace Microting.eForm.Dto;
 
 public class CaseDto
 {
-    #region con
-
-    #endregion
-
-    #region var
 
     /// <summary>
     /// Local case identifier
@@ -81,8 +76,6 @@ public class CaseDto
     /// WorkflowState
     /// </summary>
     public string WorkflowState { get; set; }
-
-    #endregion
 
     public override string ToString()
     {
