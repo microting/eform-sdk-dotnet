@@ -57,6 +57,9 @@ public class Http : IHttp
     private readonly string _dllVersion;
 
     private readonly Tools t = new Tools();
+    
+    // HTTP retry configuration
+    private const int MaxRetryAttempts = 3;
 
     // Polly retry policy for handling transient HTTP errors
     private readonly IAsyncPolicy<HttpResponseMessage> _retryPolicy;
@@ -82,7 +85,7 @@ public class Http : IHttp
             .HandleTransientHttpError() // Handles 5xx and 408
             .Or<HttpRequestException>() // Handles connection refused and other network errors
             .WaitAndRetryAsync(
-                retryCount: 3,
+                retryCount: MaxRetryAttempts,
                 sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(10, retryAttempt)),
                 onRetry: (outcome, timespan, retryCount, context) =>
                 {
@@ -90,8 +93,23 @@ public class Http : IHttp
                         ? $"HTTP request failed with exception: {outcome.Exception.Message}"
                         : $"HTTP request failed with status code: {outcome.Result?.StatusCode}";
 
+                    // Extract context information for better debugging
+                    var httpMethod = context.TryGetValue("HttpMethod", out var methodValue) ? methodValue?.ToString() : "Unknown";
+                    var url = context.TryGetValue("Url", out var urlValue) ? urlValue?.ToString() : "Unknown";
+                    var operationStartTime = context.TryGetValue("OperationStartTime", out var startTimeValue) && startTimeValue is DateTime startTime ? startTime : DateTime.UtcNow;
+                    var cumulativeWaitTime = (DateTime.UtcNow - operationStartTime).TotalSeconds;
+
                     WriteDebugConsoleLogEntry("Polly Retry",
-                        $"Retry {retryCount} after {timespan.TotalSeconds}s. {message}");
+                        $"{httpMethod} {url} - Retry {retryCount}/{MaxRetryAttempts} after {timespan.TotalSeconds}s delay. " +
+                        $"Total operation time: {cumulativeWaitTime:F1}s. Error: {message}");
+
+                    // For long waits, provide progress updates
+                    if (timespan.TotalSeconds >= 60)
+                    {
+                        WriteDebugConsoleLogEntry("Polly Retry Progress", 
+                            $"Long retry delay ({timespan.TotalMinutes:F1} minutes) - this may take a while. " +
+                            $"Operation: {httpMethod} {url}");
+                    }
                 });
     }
 
@@ -104,9 +122,15 @@ public class Http : IHttp
         {
             var start = DateTime.UtcNow;
             WriteDebugConsoleLogEntry("HttpPost",
-                $"called at {start} for url {url}");
+                $"called at {start:yyyy-MM-dd HH:mm:ss} UTC for url {url}");
 
-            var response = await _retryPolicy.ExecuteAsync(async () =>
+            // Create context for retry policy debugging
+            var context = new Context();
+            context["HttpMethod"] = "POST";
+            context["Url"] = url;
+            context["OperationStartTime"] = start;
+
+            var response = await _retryPolicy.ExecuteAsync(async (ctx) =>
             {
                 using var httpClient = new HttpClient(new HttpClientHandler { AllowAutoRedirect = followRedirect });
                 if (contentType != null)
@@ -122,23 +146,31 @@ public class Http : IHttp
                         .Add("Authorization", _token);
                 }
 
+                WriteDebugConsoleLogEntry("HttpPost", 
+                    $"Executing HTTP POST request to {url} (attempt within retry policy)");
+                
                 return await httpClient.PostAsync(url, content).ConfigureAwait(false);
-            }).ConfigureAwait(false);
+            }, context).ConfigureAwait(false);
 
             if (response.StatusCode == HttpStatusCode.Found)
             {
-                return response.Headers.Location.ToString();
+                var location = response.Headers.Location?.ToString();
+                var elapsed = DateTime.UtcNow - start;
+                WriteDebugConsoleLogEntry("HttpPost",
+                    $"Redirect response at {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC - took {elapsed:hh\\:mm\\:ss\\.fff}, redirecting to {location}");
+                return location;
             }
 
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var totalElapsed = DateTime.UtcNow - start;
             WriteDebugConsoleLogEntry("HttpPost",
-                $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
+                $"Successfully completed at {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC - total time {totalElapsed:hh\\:mm\\:ss\\.fff} (Status: {response.StatusCode})");
             return responseBody;
         }
         catch (Exception ex)
         {
-            WriteErrorConsoleLogEntry("HttpPost", ex.Message);
+            WriteErrorConsoleLogEntry("HttpPost", $"Failed after retry attempts. URL: {url}, Error: {ex.Message}");
             throw;
         }
     }
@@ -150,9 +182,15 @@ public class Http : IHttp
         {
             var start = DateTime.UtcNow;
             WriteDebugConsoleLogEntry("HttpPut",
-                $"called at {start} for url {url}");
+                $"called at {start:yyyy-MM-dd HH:mm:ss} UTC for url {url}");
 
-            var response = await _retryPolicy.ExecuteAsync(async () =>
+            // Create context for retry policy debugging
+            var context = new Context();
+            context["HttpMethod"] = "PUT";
+            context["Url"] = url;
+            context["OperationStartTime"] = start;
+
+            var response = await _retryPolicy.ExecuteAsync(async (ctx) =>
             {
                 using var httpClient = new HttpClient(new HttpClientHandler { AllowAutoRedirect = followRedirect });
                 if (contentType != null)
@@ -168,22 +206,31 @@ public class Http : IHttp
                         .Add("Authorization", _token);
                 }
 
+                WriteDebugConsoleLogEntry("HttpPut", 
+                    $"Executing HTTP PUT request to {url} (attempt within retry policy)");
+                
                 return await httpClient.PutAsync(url, content).ConfigureAwait(false);
-            }).ConfigureAwait(false);
+            }, context).ConfigureAwait(false);
 
             if (response.StatusCode == HttpStatusCode.Found)
             {
-                return response.Headers.Location.ToString();
+                var location = response.Headers.Location?.ToString();
+                var elapsed = DateTime.UtcNow - start;
+                WriteDebugConsoleLogEntry("HttpPut",
+                    $"Redirect response at {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC - took {elapsed:hh\\:mm\\:ss\\.fff}, redirecting to {location}");
+                return location;
             }
 
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            WriteDebugConsoleLogEntry("HttpPut", $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
+            var totalElapsed = DateTime.UtcNow - start;
+            WriteDebugConsoleLogEntry("HttpPut", 
+                $"Successfully completed at {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC - total time {totalElapsed:hh\\:mm\\:ss\\.fff} (Status: {response.StatusCode})");
             return responseBody;
         }
         catch (Exception ex)
         {
-            WriteErrorConsoleLogEntry("HttpPut", ex.Message);
+            WriteErrorConsoleLogEntry("HttpPut", $"Failed after retry attempts. URL: {url}, Error: {ex.Message}");
             throw;
         }
     }
@@ -194,9 +241,15 @@ public class Http : IHttp
         {
             var start = DateTime.UtcNow;
             WriteDebugConsoleLogEntry("HttpGet",
-                $"called at {start} for url {url}");
+                $"called at {start:yyyy-MM-dd HH:mm:ss} UTC for url {url}");
 
-            var response = await _retryPolicy.ExecuteAsync(async () =>
+            // Create context for retry policy debugging
+            var context = new Context();
+            context["HttpMethod"] = "GET";
+            context["Url"] = url;
+            context["OperationStartTime"] = start;
+
+            var response = await _retryPolicy.ExecuteAsync(async (ctx) =>
             {
                 using var httpClient = new HttpClient();
                 if (contentType != null)
@@ -212,17 +265,22 @@ public class Http : IHttp
                         .Add("Authorization", _token);
                 }
 
+                WriteDebugConsoleLogEntry("HttpGet", 
+                    $"Executing HTTP GET request to {url} (attempt within retry policy)");
+                
                 return await httpClient.GetAsync(url).ConfigureAwait(false);
-            }).ConfigureAwait(false);
+            }, context).ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            WriteDebugConsoleLogEntry("HttpGet", $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
+            var totalElapsed = DateTime.UtcNow - start;
+            WriteDebugConsoleLogEntry("HttpGet", 
+                $"Successfully completed at {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC - total time {totalElapsed:hh\\:mm\\:ss\\.fff} (Status: {response.StatusCode})");
             return responseBody;
         }
         catch (Exception ex)
         {
-            WriteErrorConsoleLogEntry("HttpGet", ex.Message);
+            WriteErrorConsoleLogEntry("HttpGet", $"Failed after retry attempts. URL: {url}, Error: {ex.Message}");
             throw;
         }
     }
@@ -234,9 +292,15 @@ public class Http : IHttp
         {
             var start = DateTime.UtcNow;
             WriteDebugConsoleLogEntry("HttpDelete",
-                $"called at {start} for url {url}");
+                $"called at {start:yyyy-MM-dd HH:mm:ss} UTC for url {url}");
 
-            var response = await _retryPolicy.ExecuteAsync(async () =>
+            // Create context for retry policy debugging
+            var context = new Context();
+            context["HttpMethod"] = "DELETE";
+            context["Url"] = url;
+            context["OperationStartTime"] = start;
+
+            var response = await _retryPolicy.ExecuteAsync(async (ctx) =>
             {
                 using var httpClient = new HttpClient(new HttpClientHandler { AllowAutoRedirect = followRedirect });
                 if (contentType != null)
@@ -252,23 +316,31 @@ public class Http : IHttp
                         .Add("Authorization", _token);
                 }
 
+                WriteDebugConsoleLogEntry("HttpDelete", 
+                    $"Executing HTTP DELETE request to {url} (attempt within retry policy)");
+                
                 return await httpClient.DeleteAsync(url).ConfigureAwait(false);
-            }).ConfigureAwait(false);
+            }, context).ConfigureAwait(false);
 
             if (response.StatusCode == HttpStatusCode.Found)
             {
-                return response.Headers.Location.ToString();
+                var location = response.Headers.Location?.ToString();
+                var elapsed = DateTime.UtcNow - start;
+                WriteDebugConsoleLogEntry("HttpDelete",
+                    $"Redirect response at {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC - took {elapsed:hh\\:mm\\:ss\\.fff}, redirecting to {location}");
+                return location;
             }
 
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var totalElapsed = DateTime.UtcNow - start;
             WriteDebugConsoleLogEntry("HttpDelete",
-                $"Finished at {DateTime.UtcNow} - took {start - DateTime.UtcNow}");
+                $"Successfully completed at {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC - total time {totalElapsed:hh\\:mm\\:ss\\.fff} (Status: {response.StatusCode})");
             return responseBody;
         }
         catch (Exception ex)
         {
-            WriteErrorConsoleLogEntry("HttpDelete", ex.Message);
+            WriteErrorConsoleLogEntry("HttpDelete", $"Failed after retry attempts. URL: {url}, Error: {ex.Message}");
             throw;
         }
     }
@@ -324,15 +396,22 @@ public class Http : IHttp
     {
         try
         {
+            var start = DateTime.UtcNow;
             WriteDebugConsoleLogEntry($"{GetType()}.{MethodBase.GetCurrentMethod()?.Name}",
-                $"called at {DateTime.UtcNow}");
+                $"called at {start:yyyy-MM-dd HH:mm:ss} UTC");
 
             if (_addressNewApi != "none")
             {
                 var url =
                     $"{_addressNewApi}/integration/create?token={_token}&siteId={siteId}&sdkVer={_dllVersion}";
 
-                var response = await _retryPolicy.ExecuteAsync(async () =>
+                // Create context for retry policy debugging
+                var context = new Context();
+                context["HttpMethod"] = "POST (Proto)";
+                context["Url"] = url;
+                context["OperationStartTime"] = start;
+
+                var response = await _retryPolicy.ExecuteAsync(async (ctx) =>
                 {
                     using var httpClient = new HttpClient();
                     httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/protobuf"));
@@ -341,32 +420,57 @@ public class Http : IHttp
                     var content = new ByteArrayContent(protoData);
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/protobuf");
 
+                    WriteDebugConsoleLogEntry("PostProto",
+                        $"Executing HTTP POST (protobuf) request to {url} (attempt within retry policy)");
+
                     return await httpClient.PostAsync(url, content).ConfigureAwait(false);
-                }).ConfigureAwait(false);
+                }, context).ConfigureAwait(false);
 
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                var result = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                
+                var totalElapsed = DateTime.UtcNow - start;
+                WriteDebugConsoleLogEntry("PostProto",
+                    $"Successfully completed at {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC - total time {totalElapsed:hh\\:mm\\:ss\\.fff} (Status: {response.StatusCode})");
+                
+                return result;
             }
             else
             {
                 var url =
                     $"{_addressApi}/gwt/inspection_app/integration/?token={_token}&protocol={ProtocolXml}&site_id={siteId}&sdk_ver={_dllVersion}";
 
-                var response = await _retryPolicy.ExecuteAsync(async () =>
+                // Create context for retry policy debugging
+                var context = new Context();
+                context["HttpMethod"] = "POST (Proto Legacy)";
+                context["Url"] = url;
+                context["OperationStartTime"] = start;
+
+                var response = await _retryPolicy.ExecuteAsync(async (ctx) =>
                 {
                     using var httpClient = new HttpClient();
                     var content = new ByteArrayContent(protoData);
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/protobuf");
 
+                    WriteDebugConsoleLogEntry("PostProto",
+                        $"Executing HTTP POST (protobuf legacy) request to {url} (attempt within retry policy)");
+
                     return await httpClient.PostAsync(url, content).ConfigureAwait(false);
-                }).ConfigureAwait(false);
+                }, context).ConfigureAwait(false);
 
                 response.EnsureSuccessStatusCode();
-                return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                var result = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
+                
+                var totalElapsed = DateTime.UtcNow - start;
+                WriteDebugConsoleLogEntry("PostProto",
+                    $"Successfully completed at {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC - total time {totalElapsed:hh\\:mm\\:ss\\.fff} (Status: {response.StatusCode})");
+                
+                return result;
             }
         }
         catch (Exception ex)
         {
+            WriteErrorConsoleLogEntry("PostProto", $"Failed after retry attempts. Error: {ex.Message}");
             string errorJson = $"{{\r\nValue: {{\r\nType: \"converterError\",\r\nValue: \"{ex.Message}\"}}}}";
             return Encoding.UTF8.GetBytes(errorJson);
         }
