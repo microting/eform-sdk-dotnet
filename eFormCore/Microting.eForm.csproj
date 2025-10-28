@@ -305,7 +305,7 @@
         <PackageReference Include="Microting.Castle.Windsor" Version="6.0.1" />
         <PackageReference Include="Microting.Rebus" Version="9.0.5" />
         <PackageReference Include="Microting.Rebus.Castle.Windsor" Version="9.0.6" />
-        <PackageReference Include="Microting.Rebus.RabbitMq" Version="9.0.10" />
+        <PackageReference Include="Microting.Rebus.RabbitMq" Version="9.0.11" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
         <PackageReference Include="Microting.EntityFrameworkCore.MySql" Version="9.0.8" />
         <PackageReference Include="Polly" Version="8.6.4" />
