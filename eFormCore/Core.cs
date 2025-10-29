@@ -5391,26 +5391,19 @@ public class Core : CoreBase
         response = response.XmlToClass(xmlStrResponse);
         Log.LogEverything(methodName, "siteId:" + siteId + ", XmlToClass done");
 
-        //if reply is "success", it's created
-        // if (response.Type.ToString().ToLower() == "success")
-        // {
-        //     return int.Parse(response.Value);
-        // }
         return response;
-
-        throw new Exception("siteId:'" + siteId + "' // failed to create eForm at Microting // Response :" +
-                            xmlStrResponse);
     }
 
-    public async Task<string> Update(int id, string siteId, int folderId, bool ignoreEndDate)
+    /// <summary>
+    /// Updates the deployed eForm at the server
+    /// </summary>
+    /// <param name="id">API id of the deployed eForm</param>
+    /// <param name="siteId">API Site id</param>
+    /// <param name="folderId">API id for the folder</param>
+    /// <param name="ignoreEndDate">true/false</param>
+    /// <returns></returns>
+    public async Task<string> UpdateDeployedeForm(int id, string siteId, int folderId, bool ignoreEndDate)
     {
-        var dbContext = DbContextHelper.GetDbContext();
-        var checkList = await dbContext.CheckLists.FirstOrDefaultAsync(x => x.Id == id);
-        if (checkList == null)
-        {
-            throw new NullReferenceException($"Could not find CheckList with id {id}");
-        }
-
         var response = await _communicator.Update(id, siteId, folderId, ignoreEndDate);
         return response;
     }
