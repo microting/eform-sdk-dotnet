@@ -2888,9 +2888,7 @@ public class Core : CoreBase
                 await unit.Create(db).ConfigureAwait(false);
             }
 
-            string legacyEmail = siteId + "." + customerNo + "@invalid.invalid";
-
-            WorkerDto workerDto = await Advanced_WorkerCreate(userFirstName, userLastName, userEmail, legacyEmail)
+            WorkerDto workerDto = await Advanced_WorkerCreate(userFirstName, userLastName, userEmail)
                 .ConfigureAwait(false);
             await Advanced_SiteWorkerCreate(siteDto, workerDto).ConfigureAwait(false);
 
@@ -2981,8 +2979,7 @@ public class Core : CoreBase
                 //if (String.IsNullOrEmpty)
             }
 
-            await Advanced_WorkerUpdate((int)siteDto.WorkerUid, userFirstName, userLastName, userEmail,
-                siteDto.Email).ConfigureAwait(false);
+            await Advanced_WorkerUpdate((int)siteDto.WorkerUid, userFirstName, userLastName, userEmail).ConfigureAwait(false);
             return true;
         }
         catch (Exception ex)
@@ -4701,8 +4698,7 @@ public class Core : CoreBase
     //
 
     // workers
-    public async Task<WorkerDto> Advanced_WorkerCreate(string firstName, string lastName, string email,
-        string legacyEmail)
+    public async Task<WorkerDto> Advanced_WorkerCreate(string firstName, string lastName, string email)
     {
         string methodName = "Core.Advanced_WorkerCreate";
         try
@@ -4713,7 +4709,7 @@ public class Core : CoreBase
             Log.LogVariable(methodName, nameof(lastName), lastName);
             Log.LogVariable(methodName, nameof(email), email);
 
-            WorkerDto workerDto = await _communicator.WorkerCreate(firstName, lastName, legacyEmail)
+            WorkerDto workerDto = await _communicator.WorkerCreate(firstName, lastName, email)
                 .ConfigureAwait(false);
             int workerUId = workerDto.WorkerUId;
 
@@ -4788,8 +4784,7 @@ public class Core : CoreBase
         }
     }
 
-    public async Task<bool> Advanced_WorkerUpdate(int workerId, string firstName, string lastName, string email,
-        string legacyEmail)
+    public async Task<bool> Advanced_WorkerUpdate(int workerId, string firstName, string lastName, string email)
     {
         string methodName = "Core.Advanced_WorkerUpdate";
         try
@@ -4804,7 +4799,7 @@ public class Core : CoreBase
             if (await _sqlController.WorkerRead(workerId).ConfigureAwait(false) == null)
                 return false;
 
-            bool success = await _communicator.WorkerUpdate(workerId, firstName, lastName, legacyEmail)
+            bool success = await _communicator.WorkerUpdate(workerId, firstName, lastName, email)
                 .ConfigureAwait(false);
             if (!success)
                 return false;
