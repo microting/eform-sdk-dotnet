@@ -57,7 +57,7 @@ public class Http : IHttp
     private readonly string _dllVersion;
 
     private readonly Tools t = new Tools();
-    
+
     // HTTP retry configuration
     private const int MaxRetryAttempts = 3;
 
@@ -106,7 +106,7 @@ public class Http : IHttp
                     // For long waits, provide progress updates
                     if (timespan.TotalSeconds >= 60)
                     {
-                        WriteDebugConsoleLogEntry("Polly Retry Progress", 
+                        WriteDebugConsoleLogEntry("Polly Retry Progress",
                             $"Long retry delay ({timespan.TotalMinutes:F1} minutes) - this may take a while. " +
                             $"Operation: {httpMethod} {url}");
                     }
@@ -146,9 +146,9 @@ public class Http : IHttp
                         .Add("Authorization", _token);
                 }
 
-                WriteDebugConsoleLogEntry("HttpPost", 
+                WriteDebugConsoleLogEntry("HttpPost",
                     $"Executing HTTP POST request to {url} (attempt within retry policy)");
-                
+
                 return await httpClient.PostAsync(url, content).ConfigureAwait(false);
             }, context).ConfigureAwait(false);
 
@@ -206,9 +206,9 @@ public class Http : IHttp
                         .Add("Authorization", _token);
                 }
 
-                WriteDebugConsoleLogEntry("HttpPut", 
+                WriteDebugConsoleLogEntry("HttpPut",
                     $"Executing HTTP PUT request to {url} (attempt within retry policy)");
-                
+
                 return await httpClient.PutAsync(url, content).ConfigureAwait(false);
             }, context).ConfigureAwait(false);
 
@@ -224,7 +224,7 @@ public class Http : IHttp
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             var totalElapsed = DateTime.UtcNow - start;
-            WriteDebugConsoleLogEntry("HttpPut", 
+            WriteDebugConsoleLogEntry("HttpPut",
                 $"Successfully completed at {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC - total time {totalElapsed:hh\\:mm\\:ss\\.fff} (Status: {response.StatusCode})");
             return responseBody;
         }
@@ -265,16 +265,16 @@ public class Http : IHttp
                         .Add("Authorization", _token);
                 }
 
-                WriteDebugConsoleLogEntry("HttpGet", 
+                WriteDebugConsoleLogEntry("HttpGet",
                     $"Executing HTTP GET request to {url} (attempt within retry policy)");
-                
+
                 return await httpClient.GetAsync(url).ConfigureAwait(false);
             }, context).ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             var totalElapsed = DateTime.UtcNow - start;
-            WriteDebugConsoleLogEntry("HttpGet", 
+            WriteDebugConsoleLogEntry("HttpGet",
                 $"Successfully completed at {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC - total time {totalElapsed:hh\\:mm\\:ss\\.fff} (Status: {response.StatusCode})");
             return responseBody;
         }
@@ -316,9 +316,9 @@ public class Http : IHttp
                         .Add("Authorization", _token);
                 }
 
-                WriteDebugConsoleLogEntry("HttpDelete", 
+                WriteDebugConsoleLogEntry("HttpDelete",
                     $"Executing HTTP DELETE request to {url} (attempt within retry policy)");
-                
+
                 return await httpClient.DeleteAsync(url).ConfigureAwait(false);
             }, context).ConfigureAwait(false);
 
@@ -428,11 +428,11 @@ public class Http : IHttp
 
                 response.EnsureSuccessStatusCode();
                 var result = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                
+
                 var totalElapsed = DateTime.UtcNow - start;
                 WriteDebugConsoleLogEntry("PostProto",
                     $"Successfully completed at {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC - total time {totalElapsed:hh\\:mm\\:ss\\.fff} (Status: {response.StatusCode})");
-                
+
                 return result;
             }
             else
@@ -460,11 +460,11 @@ public class Http : IHttp
 
                 response.EnsureSuccessStatusCode();
                 var result = await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                
+
                 var totalElapsed = DateTime.UtcNow - start;
                 WriteDebugConsoleLogEntry("PostProto",
                     $"Successfully completed at {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC - total time {totalElapsed:hh\\:mm\\:ss\\.fff} (Status: {response.StatusCode})");
-                
+
                 return result;
             }
         }
@@ -996,7 +996,7 @@ public class Http : IHttp
         var newUrl =
             await HttpPost(url, content, "application/json", true)
                 .ConfigureAwait(false); // todo maybe not need content type
-        var url2 = $"{_newAddressBasic}{newUrl}?token={_token}";
+        var url2 = $"{_newAddressBasic}{newUrl}?token={_token}&sdkVersion={_dllVersion}";
         var response = await HttpGet(url2, null, true).ConfigureAwait(false);
 
         return response;
