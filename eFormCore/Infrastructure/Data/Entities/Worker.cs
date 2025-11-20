@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -30,26 +31,23 @@ namespace Microting.eForm.Infrastructure.Data.Entities;
 public class Worker : PnBase
 {
     public int MicrotingUid { get; set; }
-
-    [StringLength(255)] public string FirstName { get; set; }
-
-    [StringLength(255)] public string LastName { get; set; }
-
-    [StringLength(255)] public string Email { get; set; }
-
-    [StringLength(3)] public string Initials { get; set; }
-
+    [StringLength(255)]
+    public string FirstName { get; set; }
+    [StringLength(255)]
+    public string LastName { get; set; }
+    [StringLength(255)]
+    public string Email { get; set; }
+    [StringLength(3)]
+    public string Initials { get; set; }
     public bool IsLocked { get; set; }
-
     [StringLength(50)]
     public string PinCode { get; set; }
-
     [StringLength(50)]
     public string EmployeeNo { get; set; }
-
     [StringLength(50)]
     public string PhoneNumber { get; set; }
-
+    public bool Resigned { get; set; }
+    public DateTime ResignedAtDate { get; set; }
     public virtual ICollection<SiteWorker> SiteWorkers { get; set; }
 
     public string full_name()
