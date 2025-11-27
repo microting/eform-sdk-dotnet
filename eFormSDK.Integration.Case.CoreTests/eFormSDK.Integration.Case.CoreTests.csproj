@@ -19,7 +19,7 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="NUnit3TestAdapter" Version="5.2.0" />
-        <PackageReference Include="Testcontainers" Version="4.8.1" />
+        <PackageReference Include="Testcontainers" Version="4.9.0" />
         <PackageReference Include="Testcontainers.MariaDb" Version="4.8.1" />
     </ItemGroup>
 
