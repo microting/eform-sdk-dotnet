@@ -5729,17 +5729,21 @@ public class SqlController : LogWriter
 
     private void WriteDebugConsoleLogEntry(LogEntry logEntry)
     {
+#if DEBUG
         var oldColor = Console.ForegroundColor;
         Console.ForegroundColor = ConsoleColor.Gray;
-        Console.WriteLine($"[DBG] {logEntry.Type}: {logEntry.Message}");
+        Console.WriteLine($"dbug: {logEntry.Type}[0]");
+        Console.WriteLine($"      {logEntry.Message}");
         Console.ForegroundColor = oldColor;
+#endif
     }
 
     private void WriteErrorConsoleLogEntry(LogEntry logEntry)
     {
         var oldColor = Console.ForegroundColor;
         Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine($"[ERR] {logEntry.Type}: {logEntry.Message}");
+        Console.WriteLine($"fail: {logEntry.Type}[0]");
+        Console.WriteLine($"      {logEntry.Message}");
         Console.ForegroundColor = oldColor;
     }
 
