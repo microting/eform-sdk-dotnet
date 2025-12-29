@@ -2,7 +2,7 @@ name: Pull requests
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ master, net10 ]
     paths-ignore:
     - '**.md'
     - '.github/**'
@@ -15,15 +15,15 @@ jobs:
       matrix:
         test: [integration-tests-core-base,integration-tests-core-case,integration-tests-core-checklists,integration-tests-sqlcontroller-base,integration-tests-sqlcontroller-case,integration-tests-sqlcontroller-checklists,unit-tests-base,unit-tests-checklists,unit-tests-insight,http-tests]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v5
     - name: Start rabbitmq
       run: |
         docker pull rabbitmq:latest
         docker run -d --hostname my-rabbit --name some-rabbit -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=password -p5672:5672 rabbitmq:latest
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v5
       with:
-        dotnet-version: 9.0.x
+        dotnet-version: 10.0.x
     - name: Install dependencies
       run: dotnet restore
     - name: Build
