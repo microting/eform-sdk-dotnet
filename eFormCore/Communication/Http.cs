@@ -1303,17 +1303,21 @@ public class Http : IHttp
 
     private static void WriteDebugConsoleLogEntry(string classMethodName, string message)
     {
+#if DEBUG
         var oldColor = Console.ForegroundColor;
         Console.ForegroundColor = ConsoleColor.Gray;
-        Console.WriteLine($"[DBG] {classMethodName}: {message}");
+        Console.WriteLine($"dbug: {classMethodName}[0]");
+        Console.WriteLine($"      {message}");
         Console.ForegroundColor = oldColor;
+#endif
     }
 
     private static void WriteErrorConsoleLogEntry(string classMethodName, string message)
     {
         var oldColor = Console.ForegroundColor;
         Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine($"[ERR] {classMethodName}: {message}");
+        Console.WriteLine($"fail: {classMethodName}[0]");
+        Console.WriteLine($"      {message}");
         Console.ForegroundColor = oldColor;
     }
 }

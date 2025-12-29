@@ -285,17 +285,17 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="AWSSDK.Core" Version="4.0.3.3" />
+        <PackageReference Include="AWSSDK.Core" Version="4.0.3.6" />
         <PackageReference Include="AWSSDK.S3" Version="4.0.14" />
-        <PackageReference Include="AWSSDK.SQS" Version="4.0.2.5" />
+        <PackageReference Include="AWSSDK.SQS" Version="4.0.2.8" />
         <PackageReference Include="Castle.Core" Version="5.2.1" />
         <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
-        <PackageReference Include="Google.Protobuf" Version="3.33.1" />
+        <PackageReference Include="Google.Protobuf" Version="3.33.2" />
         <PackageReference Include="Grpc.Tools" Version="2.76.0">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.9.1" />
+        <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.10.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.1" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.1">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
