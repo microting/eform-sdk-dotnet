@@ -120,7 +120,7 @@ public class Communicator
     /// <param name="siteId">Your device's Microting ID.</param>
     public Task<string> PostXml(string xmlString, int siteId)
     {
-        _log.LogEverything("Communicator.PostXml", "called");
+        _log.LogDebug("Communicator.PostXml", "called");
 
         //TODO - ALL xml hacks
         //XML HACK
@@ -141,7 +141,7 @@ public class Communicator
 
     public Task<string> PostJson(string json, int siteId)
     {
-        _log.LogEverything("Communicator.PostJson", "called");
+        _log.LogDebug("Communicator.PostJson", "called");
         _log.LogVariable("Communicator.PostJson", nameof(json), json);
         _log.LogVariable("Communicator.PostJson", nameof(siteId), siteId);
 
@@ -150,7 +150,7 @@ public class Communicator
 
     public Task<byte[]> PostProto(byte[] protoData, int siteId)
     {
-        _log.LogEverything("Communicator.PostProto", "called");
+        _log.LogDebug("Communicator.PostProto", "called");
         _log.LogVariable("Communicator.PostProto", "protoData.Length", protoData.Length);
         _log.LogVariable("Communicator.PostProto", nameof(siteId), siteId);
 
@@ -164,7 +164,7 @@ public class Communicator
     /// <param name="siteId">Your device's Microting ID.</param>
     public Task<string> CheckStatus(string eFormId, int siteId)
     {
-        _log.LogEverything("Communicator.CheckStatus", "called");
+        _log.LogDebug("Communicator.CheckStatus", "called");
         _log.LogVariable("Communicator.CheckStatus", nameof(eFormId), eFormId);
         _log.LogVariable("Communicator.CheckStatus", nameof(siteId), siteId);
 
@@ -173,7 +173,7 @@ public class Communicator
 
     public Task<string> Update(int elementId, string siteId, int folderId, bool ignoreEndDate)
     {
-        _log.LogEverything("Communicator.Update", "called");
+        _log.LogDebug("Communicator.Update", "called");
         _log.LogVariable("Communicator.Update", nameof(elementId), elementId);
         _log.LogVariable("Communicator.Update", nameof(siteId), siteId);
         _log.LogVariable("Communicator.Update", nameof(folderId), folderId);
@@ -238,7 +238,7 @@ public class Communicator
     /// <param name="siteId">Your device's Microting ID.</param>
     public Task<string> Retrieve(string eFormId, int siteId)
     {
-        _log.LogEverything("Communicator.Retrieve", "called");
+        _log.LogDebug("Communicator.Retrieve", "called");
         _log.LogVariable("Communicator.Retrieve", nameof(eFormId), eFormId);
         _log.LogVariable("Communicator.Retrieve", nameof(siteId), siteId);
 
@@ -253,7 +253,7 @@ public class Communicator
     /// <param name="eFormCheckId">Identifier of the check to begin from.</param>
     public Task<string> RetrieveFromId(string eFormId, int siteId, string eFormCheckId)
     {
-        _log.LogEverything("Communicator.RetrieveFromId", "called");
+        _log.LogDebug("Communicator.RetrieveFromId", "called");
         _log.LogVariable("Communicator.RetrieveFromId", nameof(eFormId), eFormId);
         _log.LogVariable("Communicator.RetrieveFromId", nameof(siteId), siteId);
         _log.LogVariable("Communicator.RetrieveFromId", nameof(eFormCheckId), eFormCheckId);
@@ -268,7 +268,7 @@ public class Communicator
     /// <param name="siteId">Your device's Microting ID.</param>
     public Task<string> Delete(string eFormId, int siteId)
     {
-        _log.LogEverything("Communicator.Delete", "called");
+        _log.LogDebug("Communicator.Delete", "called");
         _log.LogVariable("Communicator.Delete", nameof(eFormId), eFormId);
         _log.LogVariable("Communicator.Delete", nameof(siteId), siteId);
 
@@ -283,7 +283,7 @@ public class Communicator
 
     public async Task<Tuple<SiteDto, UnitDto>> SiteCreate(string name, string languageCode)
     {
-        _log.LogEverything("Communicator.SiteCreate", "called");
+        _log.LogDebug("Communicator.SiteCreate", "called");
         _log.LogVariable("Communicator.SiteCreate", nameof(name), name);
 
         string response = await _http.SiteCreate(name, languageCode);
@@ -322,7 +322,7 @@ public class Communicator
 
     public Task<bool> SiteUpdate(int siteId, string name, string languageCode)
     {
-        _log.LogEverything("Communicator.SiteUpdate", "called");
+        _log.LogDebug("Communicator.SiteUpdate", "called");
         _log.LogVariable("Communicator.SiteUpdate", nameof(siteId), siteId);
         _log.LogVariable("Communicator.SiteUpdate", nameof(name), name);
 
@@ -331,7 +331,7 @@ public class Communicator
 
     public async Task<bool> SiteDelete(int siteId)
     {
-        _log.LogEverything("Communicator.SiteDelete", "called");
+        _log.LogDebug("Communicator.SiteDelete", "called");
         _log.LogVariable("Communicator.SiteDelete", nameof(siteId), siteId);
 
         string response = await _http.SiteDelete(siteId);
@@ -347,7 +347,7 @@ public class Communicator
 
     public Task<string> SiteLoadAllFromRemote()
     {
-        _log.LogEverything("Communicator.SiteLoadAllFromRemote", "called");
+        _log.LogDebug("Communicator.SiteLoadAllFromRemote", "called");
 
         return _http.SiteLoadAllFromRemote();
     }
@@ -358,7 +358,7 @@ public class Communicator
 
     public async Task<WorkerDto> WorkerCreate(string firstName, string lastName, string email)
     {
-        _log.LogEverything("Communicator.WorkerCreate", "called");
+        _log.LogDebug("Communicator.WorkerCreate", "called");
         _log.LogVariable("Communicator.WorkerCreate", nameof(firstName), firstName);
         _log.LogVariable("Communicator.WorkerCreate", nameof(lastName), lastName);
         _log.LogVariable("Communicator.WorkerCreate", nameof(email), email);
@@ -381,7 +381,7 @@ public class Communicator
 
     public Task<bool> WorkerUpdate(int workerId, string firstName, string lastName, string email)
     {
-        _log.LogEverything("Communicator.WorkerUpdate", "called");
+        _log.LogDebug("Communicator.WorkerUpdate", "called");
         _log.LogVariable("Communicator.WorkerUpdate", nameof(workerId), workerId);
         _log.LogVariable("Communicator.WorkerUpdate", nameof(firstName), firstName);
         _log.LogVariable("Communicator.WorkerUpdate", nameof(lastName), lastName);
@@ -392,7 +392,7 @@ public class Communicator
 
     public async Task<bool> WorkerDelete(int workerId)
     {
-        _log.LogEverything("Communicator.WorkerDelete", "called");
+        _log.LogDebug("Communicator.WorkerDelete", "called");
         _log.LogVariable("Communicator.WorkerDelete", nameof(workerId), workerId);
 
         string response = await _http.WorkerDelete(workerId);
@@ -405,7 +405,7 @@ public class Communicator
 
     public Task<string> WorkerLoadAllFromRemote()
     {
-        _log.LogEverything("Communicator.WorkerLoadAllFromRemote", "called");
+        _log.LogDebug("Communicator.WorkerLoadAllFromRemote", "called");
 
         return _http.WorkerLoadAllFromRemote();
     }
@@ -416,7 +416,7 @@ public class Communicator
 
     public async Task<SiteWorkerDto> SiteWorkerCreate(int siteId, int workerId)
     {
-        _log.LogEverything("Communicator.SiteWorkerCreate", "called");
+        _log.LogDebug("Communicator.SiteWorkerCreate", "called");
         _log.LogVariable("Communicator.SiteWorkerCreate", nameof(siteId), siteId);
         _log.LogVariable("Communicator.SiteWorkerCreate", nameof(workerId), workerId);
 
@@ -428,7 +428,7 @@ public class Communicator
 
     public async Task<bool> SiteWorkerDelete(int workerId)
     {
-        _log.LogEverything("Communicator.SiteWorkerDelete", "called");
+        _log.LogDebug("Communicator.SiteWorkerDelete", "called");
         _log.LogVariable("Communicator.SiteWorkerDelete", nameof(workerId), workerId);
 
         string response = await _http.SiteWorkerDelete(workerId);
@@ -441,7 +441,7 @@ public class Communicator
 
     public Task<string> SiteWorkerLoadAllFromRemote()
     {
-        _log.LogEverything("Communicator.SiteWorkerLoadAllFromRemote", "called");
+        _log.LogDebug("Communicator.SiteWorkerLoadAllFromRemote", "called");
 
         return _http.SiteWorkerLoadAllFromRemote();
     }
@@ -453,7 +453,7 @@ public class Communicator
     public Task<string> UnitRequestOtp(int microtingUid, int siteId, bool newOtp, bool pushEnabled,
         bool syncDelayEnabled, bool syncDialogEnabled)
     {
-        _log.LogEverything("Communicator.UnitRequestOtp", "called");
+        _log.LogDebug("Communicator.UnitRequestOtp", "called");
         _log.LogVariable("Communicator.UnitRequestOtp", nameof(microtingUid), microtingUid);
 
         return _http.UnitUpdate(microtingUid, newOtp, siteId, pushEnabled, syncDelayEnabled, syncDialogEnabled);
@@ -461,7 +461,7 @@ public class Communicator
 
     public Task<string> UnitLoadAllFromRemote(int customerNo)
     {
-        _log.LogEverything("Communicator.UnitLoadAllFromRemote", "called");
+        _log.LogDebug("Communicator.UnitLoadAllFromRemote", "called");
         _log.LogVariable("Communicator.UnitLoadAllFromRemote", nameof(customerNo), customerNo);
 
         return _http.UnitLoadAllFromRemote();
@@ -469,7 +469,7 @@ public class Communicator
 
     public async Task<bool> UnitDelete(int unitId)
     {
-        _log.LogEverything("Communicator.UnitDelete", "called");
+        _log.LogDebug("Communicator.UnitDelete", "called");
         _log.LogVariable("Communicator.UnitDelete", nameof(unitId), unitId);
 
         string response = await _http.UnitDelete(unitId);
@@ -487,7 +487,7 @@ public class Communicator
     {
         string methodName = "Communicator.UnitCreate";
 
-        _log.LogEverything(methodName, "called");
+        _log.LogDebug(methodName, "called");
         _log.LogVariable(methodName, nameof(siteMicrotingUid), siteMicrotingUid);
 
         string response = await _http.UnitCreate(siteMicrotingUid);
@@ -504,7 +504,7 @@ public class Communicator
     {
         string methodName = "Communicator.UnitMove";
 
-        _log.LogEverything(methodName, "called");
+        _log.LogDebug(methodName, "called");
         _log.LogVariable(methodName, nameof(unitMicrotingUid), unitMicrotingUid);
         _log.LogVariable(methodName, nameof(siteMicrotingUid), siteMicrotingUid);
 
@@ -513,7 +513,7 @@ public class Communicator
 
     public async Task<string> UnitGet(int id)
     {
-        _log.LogEverything("Communicator.UnitGet", "called");
+        _log.LogDebug("Communicator.UnitGet", "called");
         _log.LogVariable("Communicator.UnitGet", nameof(id), id);
 
         return await _http.UnitGet(id);
@@ -525,7 +525,7 @@ public class Communicator
 
     public async Task<OrganizationDto> OrganizationLoadAllFromRemote(string token)
     {
-        _log.LogEverything("Communicator.OrganizationLoadAllFromRemote", "called");
+        _log.LogDebug("Communicator.OrganizationLoadAllFromRemote", "called");
         _log.LogVariable("Communicator.OrganizationLoadAllFromRemote", nameof(token), token);
         IHttp specialHttp;
         if (token == "abc1234567890abc1234567890abcdef")
@@ -564,7 +564,7 @@ public class Communicator
 
     public async Task<string> FolderLoadAllFromRemote()
     {
-        _log.LogEverything("Communicator.FolderLoadAllFromRemote", "called");
+        _log.LogDebug("Communicator.FolderLoadAllFromRemote", "called");
 
         return await _http.FolderLoadAllFromRemote().ConfigureAwait(false);
     }
@@ -618,7 +618,7 @@ public class Communicator
 
     public async Task<string> EntityGroupCreate(string entityType, string name, string id)
     {
-        _log.LogEverything("Communicator.EntityGroupCreate", "called");
+        _log.LogDebug("Communicator.EntityGroupCreate", "called");
         _log.LogVariable("Communicator.EntityGroupCreate", nameof(entityType), entityType);
         _log.LogVariable("Communicator.EntityGroupCreate", nameof(name), name);
         _log.LogVariable("Communicator.EntityGroupCreate", nameof(id), id);
@@ -653,7 +653,7 @@ public class Communicator
 
     public async Task<bool> EntityGroupUpdate(string entityType, string name, int id, string entityGroupMuId)
     {
-        _log.LogEverything("Communicator.EntityGroupUpdate", "called");
+        _log.LogDebug("Communicator.EntityGroupUpdate", "called");
         _log.LogVariable("Communicator.EntityGroupUpdate", nameof(entityType), entityType);
         _log.LogVariable("Communicator.EntityGroupUpdate", nameof(name), name);
         _log.LogVariable("Communicator.EntityGroupUpdate", nameof(id), id);
@@ -685,7 +685,7 @@ public class Communicator
 
     public async Task EntityGroupDelete(string entityType, string entityGroupId)
     {
-        _log.LogEverything("Communicator.EntityGroupDelete", "called");
+        _log.LogDebug("Communicator.EntityGroupDelete", "called");
         _log.LogVariable("Communicator.EntityGroupDelete", nameof(entityType), entityType);
         _log.LogVariable("Communicator.EntityGroupDelete", nameof(entityGroupId), entityGroupId);
 
@@ -716,7 +716,7 @@ public class Communicator
     public async Task<string> EntitySearchItemCreate(string entitySearchGroupId, string name, string description,
         string id)
     {
-        _log.LogEverything("Communicator.EntitySearchItemCreate", "called");
+        _log.LogDebug("Communicator.EntitySearchItemCreate", "called");
         _log.LogVariable("Communicator.EntitySearchItemCreate", nameof(entitySearchGroupId), entitySearchGroupId);
         _log.LogVariable("Communicator.EntitySearchItemCreate", nameof(name), name);
         _log.LogVariable("Communicator.EntitySearchItemCreate", nameof(id), id);
@@ -735,7 +735,7 @@ public class Communicator
     public Task<bool> EntitySearchItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name,
         string description, string id)
     {
-        _log.LogEverything("Communicator.EntitySearchItemUpdate", "called");
+        _log.LogDebug("Communicator.EntitySearchItemUpdate", "called");
         _log.LogVariable("Communicator.EntitySearchItemUpdate", nameof(entitySearchGroupId), entitySearchGroupId);
         _log.LogVariable("Communicator.EntitySearchItemUpdate", nameof(entitySearchItemId), entitySearchItemId);
         _log.LogVariable("Communicator.EntitySearchItemUpdate", nameof(name), name);
@@ -747,7 +747,7 @@ public class Communicator
 
     public async Task<bool> EntitySearchItemDelete(string entitySearchItemId)
     {
-        _log.LogEverything("Communicator.EntitySearchItemDelete", "called");
+        _log.LogDebug("Communicator.EntitySearchItemDelete", "called");
         _log.LogVariable("Communicator.EntitySearchItemDelete", nameof(entitySearchItemId), entitySearchItemId);
 
         try
@@ -763,7 +763,7 @@ public class Communicator
     public async Task<string> EntitySelectItemCreate(string entitySearchGroupId, string name, int displayOrder,
         string ownUUID)
     {
-        _log.LogEverything("Communicator.EntitySelectItemCreate", "called");
+        _log.LogDebug("Communicator.EntitySelectItemCreate", "called");
         _log.LogVariable("Communicator.EntitySelectItemCreate", nameof(entitySearchGroupId), entitySearchGroupId);
         _log.LogVariable("Communicator.EntitySelectItemCreate", nameof(name), name);
         _log.LogVariable("Communicator.EntitySelectItemCreate", nameof(displayOrder), displayOrder);
@@ -782,7 +782,7 @@ public class Communicator
     public Task<bool> EntitySelectItemUpdate(string entitySearchGroupId, string entitySearchItemId, string name,
         int displayOrder, string ownUUID)
     {
-        _log.LogEverything("Communicator.EntitySelectItemUpdate", "called");
+        _log.LogDebug("Communicator.EntitySelectItemUpdate", "called");
         _log.LogVariable("Communicator.EntitySelectItemUpdate", nameof(entitySearchGroupId), entitySearchGroupId);
         _log.LogVariable("Communicator.EntitySelectItemUpdate", nameof(entitySearchItemId), entitySearchItemId);
         _log.LogVariable("Communicator.EntitySelectItemUpdate", nameof(name), name);
@@ -794,7 +794,7 @@ public class Communicator
 
     public async Task<bool> EntitySelectItemDelete(string entitySearchItemId)
     {
-        _log.LogEverything("Communicator.EntitySelectItemDelete", "called");
+        _log.LogDebug("Communicator.EntitySelectItemDelete", "called");
         _log.LogVariable("Communicator.EntitySelectItemDelete", nameof(entitySearchItemId), entitySearchItemId);
 
         try
@@ -809,7 +809,7 @@ public class Communicator
 
     public async Task<bool> PdfUpload(string localPath, string hash)
     {
-        _log.LogEverything("Communicator.PdfUpload", "called");
+        _log.LogDebug("Communicator.PdfUpload", "called");
         _log.LogVariable("Communicator.PdfUpload", nameof(localPath), localPath);
         _log.LogVariable("Communicator.PdfUpload", nameof(hash), hash);
 
@@ -825,7 +825,7 @@ public class Communicator
 
     public async Task<bool> PdfUpload(Stream stream, string hash, string fileName)
     {
-        _log.LogEverything("Communicator.PdfUpload", "called");
+        _log.LogDebug("Communicator.PdfUpload", "called");
         _log.LogVariable("Communicator.PdfUpload", nameof(fileName), fileName);
         _log.LogVariable("Communicator.PdfUpload", nameof(hash), hash);
 
@@ -841,7 +841,7 @@ public class Communicator
 
     public async Task<bool> PngUpload(string localPath, string hash)
     {
-        _log.LogEverything("Communicator.PdfUpload", "called");
+        _log.LogDebug("Communicator.PdfUpload", "called");
         _log.LogVariable("Communicator.PdfUpload", nameof(localPath), localPath);
         _log.LogVariable("Communicator.PdfUpload", nameof(hash), hash);
 
@@ -857,7 +857,7 @@ public class Communicator
 
     public async Task<bool> PngUpload(Stream stream, string hash, string fileName)
     {
-        _log.LogEverything("Communicator.PdfUpload", "called");
+        _log.LogDebug("Communicator.PdfUpload", "called");
         _log.LogVariable("Communicator.PdfUpload", nameof(fileName), fileName);
         _log.LogVariable("Communicator.PdfUpload", nameof(hash), hash);
 
@@ -873,7 +873,7 @@ public class Communicator
 
     public async Task<string> TemplateDisplayIndexChange(string microtingUId, int siteId, int newDisplayIndex)
     {
-        _log.LogEverything("Communicator.TemplateDisplayIndexChange", "called");
+        _log.LogDebug("Communicator.TemplateDisplayIndexChange", "called");
         _log.LogVariable("Communicator.TemplateDisplayIndexChange", nameof(microtingUId), microtingUId);
         _log.LogVariable("Communicator.TemplateDisplayIndexChange", nameof(siteId), siteId);
         _log.LogVariable("Communicator.TemplateDisplayIndexChange", nameof(newDisplayIndex), newDisplayIndex);
@@ -894,7 +894,7 @@ public class Communicator
 
     public async Task<int> SpeechToText(Stream pathToAudioFile, string extension)
     {
-        _log.LogEverything("Communicator.SpeechToText", "called");
+        _log.LogDebug("Communicator.SpeechToText", "called");
 
         try
         {
@@ -908,7 +908,7 @@ public class Communicator
 
     public async Task<JToken> SpeechToText(int requestId)
     {
-        _log.LogEverything("Communicator.SpeechToText", "called");
+        _log.LogDebug("Communicator.SpeechToText", "called");
         _log.LogVariable("Communicator.SpeechToText", nameof(requestId), requestId);
 
         try
@@ -929,7 +929,7 @@ public class Communicator
 
     public async Task<bool> SetSurveyConfiguration(int id, int siteId, bool addSite)
     {
-        _log.LogEverything("Communicator.SetSurveyConfiguration", "called");
+        _log.LogDebug("Communicator.SetSurveyConfiguration", "called");
 
         try
         {
@@ -943,7 +943,7 @@ public class Communicator
 
     public async Task<string> GetAllSurveyConfigurations()
     {
-        _log.LogEverything("Communicator.GetAllSurveyConfigurations", "called");
+        _log.LogDebug("Communicator.GetAllSurveyConfigurations", "called");
 
         try
         {
@@ -957,7 +957,7 @@ public class Communicator
 
     public async Task<string> GetSurveyConfiguration(int id)
     {
-        _log.LogEverything("Communicator.GetSurveyConfiguration", "called");
+        _log.LogDebug("Communicator.GetSurveyConfiguration", "called");
 
         try
         {
@@ -975,7 +975,7 @@ public class Communicator
 
     public async Task<string> GetAllQuestionSets()
     {
-        _log.LogEverything("Communicator.GetAllQuestionSets", "called");
+        _log.LogDebug("Communicator.GetAllQuestionSets", "called");
 
         try
         {
@@ -989,7 +989,7 @@ public class Communicator
 
     public async Task<string> GetQuestionSet(int id)
     {
-        _log.LogEverything("Communicator.GetQuestionSet", "called");
+        _log.LogDebug("Communicator.GetQuestionSet", "called");
 
         try
         {
@@ -1007,7 +1007,7 @@ public class Communicator
 
     public async Task<string> GetLastAnswer(int questionSetId, int lastAnswerId)
     {
-        _log.LogEverything("Communicator.GetLastAnswer", "called");
+        _log.LogDebug("Communicator.GetLastAnswer", "called");
 
         try
         {

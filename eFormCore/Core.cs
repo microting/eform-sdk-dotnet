@@ -205,7 +205,7 @@ public class Core : CoreBase
                     , new RebusInstaller(_customerNo, connectionString, _maxParallelism, _numberOfWorkers, _rabbitMqUser, _rabbitMqPassword, _rabbitMqHost)
                 );
                 _bus = _container.Resolve<IBus>();
-                Log.LogCritical(methodName, "called");
+                Log.LogInfo(methodName, "called");
 
                 //---
 
@@ -214,9 +214,7 @@ public class Core : CoreBase
                 //subscriber
                 _subscriber = new Subscriber(_sqlController, Log, _bus);
                 _subscriber.Start();
-                Log.LogStandard(methodName, "Subscriber started");
-
-                Log.LogCritical(methodName, "started");
+                Log.LogInfo(methodName, "Subscriber started");
                 _coreAvailable = true;
                 _coreStatChanging = false;
 
@@ -225,7 +223,7 @@ public class Core : CoreBase
                 //coreThread.Start();
                 _coreThreadRunning = true;
 
-                Log.LogStandard(methodName, "CoreThread started");
+                Log.LogInfo(methodName, "CoreThread started");
             }
         }
         // catch
@@ -307,10 +305,10 @@ public class Core : CoreBase
                 //log
                 Log ??= _sqlController.StartLog(this);
 
-                Log.LogCritical(methodName,
+                Log.LogInfo(methodName,
                     "###########################################################################");
-                Log.LogCritical(methodName, "called");
-                Log.LogStandard(methodName, "SqlController and Logger started");
+                Log.LogInfo(methodName, "called");
+                Log.LogInfo(methodName, "SqlController and Logger started");
 
                 //settings read
                 _connectionString = connectionString;
@@ -320,7 +318,7 @@ public class Core : CoreBase
                 _fileLocationPdf =
                     Path.Combine(Path.GetTempPath(),
                         "pdf"); // await _sqlController.SettingRead(Settings.fileLocationPdf);
-                Log.LogStandard(methodName, "Settings read");
+                Log.LogInfo(methodName, "Settings read");
 
                 //communicators
                 string token = await _sqlController.SettingRead(Settings.token).ConfigureAwait(false);
@@ -430,14 +428,12 @@ public class Core : CoreBase
                     }
                     catch (Exception ex)
                     {
-                        Log.LogWarning(methodName, ex.Message);
+                        Log.LogCritical(methodName, ex.Message);
                     }
                 }
 
 
-                Log.LogStandard(methodName, "Communicator started");
-
-                Log.LogCritical(methodName, "started");
+                Log.LogInfo(methodName, "Communicator started");
                 _coreAvailable = true;
                 _coreStatChanging = false;
             }
@@ -464,7 +460,7 @@ public class Core : CoreBase
             if (_coreRestarting == false)
             {
                 _coreRestarting = true;
-                Log.LogCritical(methodName, "called");
+                Log.LogInfo(methodName, "called");
                 Log.LogVariable(methodName, nameof(sameExceptionCount), sameExceptionCount);
                 Log.LogVariable(methodName, nameof(sameExceptionCountMax), sameExceptionCountMax);
 
@@ -499,12 +495,12 @@ public class Core : CoreBase
 
                 await Close().ConfigureAwait(false);
 
-                Log.LogStandard(methodName, "Trying to restart the Core in " + secondsDelay + " seconds");
+                Log.LogInfo(methodName, "Trying to restart the Core in " + secondsDelay + " seconds");
 
                 if (!skipRestartDelay)
                     Thread.Sleep(secondsDelay * 1000);
                 else
-                    Log.LogStandard(methodName, "Delay skipped");
+                    Log.LogInfo(methodName, "Delay skipped");
 
                 await Start(_connectionString).ConfigureAwait(false);
                 _coreRestarting = false;
@@ -525,7 +521,7 @@ public class Core : CoreBase
 #pragma warning restore 1998
     {
         string methodName = "Core.Close";
-        Log.LogStandard(methodName, "Close called");
+        Log.LogInfo(methodName, "Close called");
         try
         {
             if (_coreAvailable && !_coreStatChanging)
@@ -541,9 +537,9 @@ public class Core : CoreBase
                     {
                         if (_subscriber != null)
                         {
-                            Log.LogEverything(methodName, "Subscriber requested to close connection");
+                            Log.LogDebug(methodName, "Subscriber requested to close connection");
                             _subscriber.Close().GetAwaiter().GetResult();
-                            Log.LogEverything(methodName, "Subscriber closed");
+                            Log.LogDebug(methodName, "Subscriber closed");
                             _bus.Advanced.Workers.SetNumberOfWorkers(0);
                             _bus.Dispose();
                             _coreThreadRunning = false;
@@ -551,7 +547,7 @@ public class Core : CoreBase
                     }
                     catch (Exception ex)
                     {
-                        Log.LogException(methodName, "Subscriber failed to close", ex);
+                        Log.LogFail(methodName, "Subscriber failed to close", ex);
                     }
 
                     int tries = 0;
@@ -567,7 +563,7 @@ public class Core : CoreBase
 
                     _updateIsRunningEntities = false;
 
-                    Log.LogStandard(methodName, "Core closed");
+                    Log.LogInfo(methodName, "Core closed");
                     _subscriber = null;
                     _communicator = null;
                     _sqlController = null;
@@ -645,9 +641,9 @@ public class Core : CoreBase
         string methodName = "Core.TemplateFromXml";
         try
         {
-            Log.LogStandard(methodName, "called");
-            Log.LogEverything(methodName, "XML to transform:");
-            Log.LogEverything(methodName, xmlString);
+            Log.LogInfo(methodName, "called");
+            Log.LogDebug(methodName, "XML to transform:");
+            Log.LogDebug(methodName, xmlString);
 
             //XML HACK TODO
             // xmlString = corrected xml if needed
@@ -778,8 +774,8 @@ public class Core : CoreBase
             xmlString = sb.ToString();
             //
 
-            Log.LogEverything(methodName, "XML after possible corrections:");
-            Log.LogEverything(methodName, xmlString);
+            Log.LogDebug(methodName, "XML after possible corrections:");
+            Log.LogDebug(methodName, xmlString);
 
             MainElement mainElement = new MainElement();
             mainElement = mainElement.XmlToClass(xmlString);
@@ -798,7 +794,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             if (ex.InnerException != null)
             {
                 if (ex.InnerException.InnerException != null)
@@ -832,9 +828,9 @@ public class Core : CoreBase
         string methodName = "Core.TemplateFromXml";
         try
         {
-            Log.LogStandard(methodName, "called");
-            Log.LogEverything(methodName, "json to transform:");
-            Log.LogEverything(methodName, json);
+            Log.LogInfo(methodName, "called");
+            Log.LogDebug(methodName, "json to transform:");
+            Log.LogDebug(methodName, json);
 
             // xmlString = corrected xml if needed
             // check with json Payload
@@ -868,7 +864,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("Could not parse XML, got error: " + ex.Message, ex);
         }
     }
@@ -894,7 +890,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -903,7 +899,7 @@ public class Core : CoreBase
     {
         string methodName = "Core.FieldValidation";
 
-        Log.LogStandard(methodName, "called");
+        Log.LogInfo(methodName, "called");
 
         List<string> errorLst = new List<string>();
         var dataItems = mainElement.DataItemGetAll();
@@ -966,7 +962,7 @@ public class Core : CoreBase
 #pragma warning restore 1998
     {
         string methodName = "Core.CheckListValidation";
-        Log.LogStandard(methodName, "called");
+        Log.LogInfo(methodName, "called");
         List<string> errorLst = new List<string>();
 
         List<string> acceptedColors = new List<string>();
@@ -993,7 +989,7 @@ public class Core : CoreBase
         {
             if (Running())
             {
-                Log.LogStandard(methodName, "called");
+                Log.LogInfo(methodName, "called");
 
                 List<string> errorLst = new List<string>();
                 var dataItems = mainElement.DataItemGetAll();
@@ -1028,7 +1024,7 @@ public class Core : CoreBase
                                 }
                                 catch (Exception ex)
                                 {
-                                    Log.LogException("Download failed. Path:'" + showPdf.Value + "'", ex.Message,
+                                    Log.LogFail("Download failed. Path:'" + showPdf.Value + "'", ex.Message,
                                         ex);
                                     try
                                     {
@@ -1084,7 +1080,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -1103,7 +1099,7 @@ public class Core : CoreBase
         {
             if (Running())
             {
-                Log.LogStandard(methodName, "called");
+                Log.LogInfo(methodName, "called");
 
                 List<string> errors = await TemplateValidation(mainElement) ?? new List<string>();
 
@@ -1112,7 +1108,7 @@ public class Core : CoreBase
                         "mainElement failed TemplateValidation. Run TemplateValidation to see errors");
 
                 int templateId = await _sqlController.TemplateCreate(mainElement).ConfigureAwait(false);
-                Log.LogEverything(methodName, "Template id:" + templateId + " created in DB");
+                Log.LogDebug(methodName, "Template id:" + templateId + " created in DB");
                 return templateId;
             }
 
@@ -1120,7 +1116,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -1142,7 +1138,7 @@ public class Core : CoreBase
         {
             if (Running())
             {
-                Log.LogStandard(methodName, "called");
+                Log.LogInfo(methodName, "called");
                 Log.LogVariable(methodName, nameof(eFormId), eFormId);
 
                 return await _sqlController.ReadeForm(eFormId, language, includeDummyFields);
@@ -1152,7 +1148,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -1167,14 +1163,14 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(templateId), templateId);
 
             return await _sqlController.TemplateDelete(templateId).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -1191,7 +1187,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(templateId), templateId);
 
             return await _sqlController.TemplateItemRead(templateId, language).ConfigureAwait(false);
@@ -1200,11 +1196,11 @@ public class Core : CoreBase
         {
             try
             {
-                Log.LogException(methodName, "(int " + templateId + ") failed", ex);
+                Log.LogFail(methodName, "(int " + templateId + ") failed", ex);
             }
             catch
             {
-                Log.LogException(methodName, "(int templateId) failed", ex);
+                Log.LogFail(methodName, "(int templateId) failed", ex);
             }
 
             throw new Exception("failed", ex);
@@ -1224,7 +1220,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(includeRemoved), includeRemoved);
 
             return await TemplateItemReadAll(includeRemoved, Constants.WorkflowStates.Created, "", true, "",
@@ -1234,11 +1230,11 @@ public class Core : CoreBase
         {
             try
             {
-                Log.LogException(methodName, "(bool " + includeRemoved + ") failed", ex);
+                Log.LogFail(methodName, "(bool " + includeRemoved + ") failed", ex);
             }
             catch
             {
-                Log.LogException(methodName, "(bool includeRemoved) failed", ex);
+                Log.LogFail(methodName, "(bool includeRemoved) failed", ex);
             }
 
             throw new Exception("failed", ex);
@@ -1253,7 +1249,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(includeRemoved), includeRemoved);
             Log.LogVariable(methodName, nameof(searchKey), searchKey);
             Log.LogVariable(methodName, nameof(descendingSort), descendingSort);
@@ -1265,7 +1261,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -1276,7 +1272,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(templateId), templateId);
             Log.LogVariable(methodName, nameof(tagIds), tagIds.ToString());
 
@@ -1284,7 +1280,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -1332,7 +1328,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             string siteIdsStr = string.Join(",", siteUids);
             Log.LogVariable(methodName, nameof(caseUId), caseUId);
             Log.LogVariable(methodName, nameof(siteIdsStr), siteIdsStr);
@@ -1344,13 +1340,13 @@ public class Core : CoreBase
 
             if (end < DateTime.UtcNow)
             {
-                Log.LogStandard(methodName, $"mainElement.EndDate is set to {end}");
+                Log.LogInfo(methodName, $"mainElement.EndDate is set to {end}");
                 throw new ArgumentException("mainElement.EndDate needs to be a future date");
             }
 
             if (end <= start)
             {
-                Log.LogStandard(methodName, $"mainElement.StartDat is set to {start}");
+                Log.LogInfo(methodName, $"mainElement.StartDat is set to {start}");
                 throw new ArgumentException(
                     "mainElement.StartDate needs to be at least the day, before the remove date (mainElement.EndDate)");
             }
@@ -1387,7 +1383,7 @@ public class Core : CoreBase
                         Log.LogWarning(methodName, "HandleCaseCreated event's external logic suffered an Expection");
                     }
 
-                    Log.LogStandard(methodName, $"{cDto} has been created");
+                    Log.LogInfo(methodName, $"{cDto} has been created");
 
                     lstMUId.Add(mUId);
                 }
@@ -1398,7 +1394,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -1413,7 +1409,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(microtingUId), microtingUId);
 
             CaseDto cDto = await CaseLookupMUId(microtingUId).ConfigureAwait(false);
@@ -1422,7 +1418,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -1439,7 +1435,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(microtingUId), microtingUId);
             Log.LogVariable(methodName, nameof(checkUId), checkUId);
 
@@ -1454,14 +1450,14 @@ public class Core : CoreBase
             //
 
             int id = aCase.Id;
-            Log.LogEverything(methodName, $"aCase.Id:{aCase.Id}, found");
+            Log.LogDebug(methodName, $"aCase.Id:{aCase.Id}, found");
 
             ReplyElement replyElement = await _sqlController.CheckRead(microtingUId, checkUId, language);
             return replyElement;
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -1472,7 +1468,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             // Log.LogVariable(methodName, nameof(microtingUId), microtingUId);
             // Log.LogVariable(methodName, nameof(checkUId), checkUId);
 
@@ -1493,7 +1489,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -1504,14 +1500,14 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(id), id);
 
             return await _sqlController.CaseReadByCaseId(id).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -1522,7 +1518,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(templateId), templateId);
             Log.LogVariable(methodName, nameof(workflowState), workflowState);
 
@@ -1530,7 +1526,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -1547,7 +1543,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(templateId), templateId);
             Log.LogVariable(methodName, nameof(start), start);
             Log.LogVariable(methodName, nameof(end), end);
@@ -1558,7 +1554,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -1570,7 +1566,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(templateId), templateId);
             Log.LogVariable(methodName, nameof(start), start);
             Log.LogVariable(methodName, nameof(end), end);
@@ -1583,7 +1579,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -1604,7 +1600,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(templateId), templateId);
             Log.LogVariable(methodName, nameof(start), start);
             Log.LogVariable(methodName, nameof(end), end);
@@ -1620,7 +1616,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -1638,7 +1634,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(caseId), caseId);
 
             if (newFieldValuePairLst == null)
@@ -1668,7 +1664,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return false;
         }
     }
@@ -1679,7 +1675,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(templateId), templateId);
             Log.LogVariable(methodName, nameof(siteUId), siteUId);
 
@@ -1689,11 +1685,11 @@ public class Core : CoreBase
         {
             try
             {
-                Log.LogException(methodName, $"(int {templateId}, int {siteUId}) failed", ex);
+                Log.LogFail(methodName, $"(int {templateId}, int {siteUId}) failed", ex);
             }
             catch
             {
-                Log.LogException(methodName, "(int templateId, int siteUId) failed", ex);
+                Log.LogFail(methodName, "(int templateId, int siteUId) failed", ex);
             }
 
             return false;
@@ -1706,7 +1702,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(templateId), templateId);
             Log.LogVariable(methodName, nameof(siteUId), siteUId);
             Log.LogVariable(methodName, nameof(workflowState), workflowState);
@@ -1733,12 +1729,12 @@ public class Core : CoreBase
         {
             try
             {
-                Log.LogException(methodName,
+                Log.LogFail(methodName,
                     $"(int {templateId}, int {siteUId}, string {workflowState}) failed", ex);
             }
             catch
             {
-                Log.LogException(methodName, "(int templateId, int siteUId, string workflowState) failed", ex);
+                Log.LogFail(methodName, "(int templateId, int siteUId, string workflowState) failed", ex);
             }
 
             return false;
@@ -1758,13 +1754,13 @@ public class Core : CoreBase
         var cDto = await _sqlController.CaseReadByMUId(microtingUId).ConfigureAwait(false);
         string xmlResponse =
             await _communicator.Delete(microtingUId.ToString(), cDto.SiteUId).ConfigureAwait(false);
-        Log.LogEverything(methodName, "XML response is 1218 : " + xmlResponse);
+        Log.LogDebug(methodName, "XML response is 1218 : " + xmlResponse);
         Response resp = new Response();
 
         if (xmlResponse.Contains("Error occured: Contact Microting"))
         {
-            Log.LogEverything(methodName, $"XML response is : {xmlResponse}");
-            Log.LogEverything("DELETE ERROR", $"failed for microtingUId: {microtingUId}");
+            Log.LogDebug(methodName, $"XML response is : {xmlResponse}");
+            Log.LogDebug("DELETE ERROR", $"failed for microtingUId: {microtingUId}");
             return false;
         }
 
@@ -1773,7 +1769,7 @@ public class Core : CoreBase
             try
             {
                 resp = resp.XmlToClass(xmlResponse);
-                Log.LogException(methodName, "failed", new Exception(
+                Log.LogFail(methodName, "failed", new Exception(
                     $"Error from Microting server: {resp.Value}"));
                 return false;
             }
@@ -1781,12 +1777,12 @@ public class Core : CoreBase
             {
                 try
                 {
-                    Log.LogException(methodName, $"(string {microtingUId}) failed", ex);
+                    Log.LogFail(methodName, $"(string {microtingUId}) failed", ex);
                     throw;
                 }
                 catch
                 {
-                    Log.LogException(methodName, "(string microtingUId) failed", ex);
+                    Log.LogFail(methodName, "(string microtingUId) failed", ex);
                     throw;
                 }
             }
@@ -1803,30 +1799,30 @@ public class Core : CoreBase
                     resp = resp.XmlToClass(xmlResponse);
                     if (resp.Type.ToString() == "Success")
                     {
-                        Log.LogStandard(methodName,
+                        Log.LogInfo(methodName,
                             cDto +
                             $" has been removed from server in retry loop with i being : {i.ToString()}");
                         break;
                     }
 
-                    Log.LogEverything(methodName,
+                    Log.LogDebug(methodName,
                         $"retrying delete and i is {i.ToString()} and xmlResponse" + xmlResponse);
                 }
                 catch (Exception ex)
                 {
-                    Log.LogEverything(methodName,
+                    Log.LogDebug(methodName,
                         $" Exception is: {ex.Message}, retrying delete and i is {i.ToString()} and xmlResponse" +
                         xmlResponse);
                 }
             }
 
-        Log.LogEverything(methodName, "XML response:");
-        Log.LogEverything(methodName, xmlResponse);
+        Log.LogDebug(methodName, "XML response:");
+        Log.LogDebug(methodName, xmlResponse);
 
         resp = resp.XmlToClass(xmlResponse);
         if (resp.Type.ToString() == "Success")
         {
-            Log.LogStandard(methodName, $"{cDto} has been removed from server");
+            Log.LogInfo(methodName, $"{cDto} has been removed from server");
             try
             {
                 bool result = await _sqlController.CaseDelete(microtingUId).ConfigureAwait(false);
@@ -1841,17 +1837,17 @@ public class Core : CoreBase
                     {
                         cDto = await _sqlController.CaseReadByMUId(microtingUId);
                         await FireHandleCaseDeleted(cDto).ConfigureAwait(false);
-                        Log.LogStandard(methodName, $"{cDto} has been removed");
+                        Log.LogInfo(methodName, $"{cDto} has been removed");
                         return result;
                     }
 
-                    Log.LogException(methodName, "(string microtingUId) failed", ex);
+                    Log.LogFail(methodName, "(string microtingUId) failed", ex);
                     throw;
                 }
             }
             catch (Exception ex)
             {
-                Log.LogException(methodName, "(string microtingUId) failed", ex);
+                Log.LogFail(methodName, "(string microtingUId) failed", ex);
             }
         }
 
@@ -1861,7 +1857,7 @@ public class Core : CoreBase
     public async Task<bool> CaseDeleteResult(int caseId)
     {
         string methodName = "Core.CaseDeleteResult";
-        Log.LogStandard(methodName, "called");
+        Log.LogInfo(methodName, "called");
         Log.LogVariable(methodName, nameof(caseId), caseId);
         try
         {
@@ -1871,11 +1867,11 @@ public class Core : CoreBase
         {
             try
             {
-                Log.LogException(methodName, $"(int {caseId}) failed", ex);
+                Log.LogFail(methodName, $"(int {caseId}) failed", ex);
             }
             catch
             {
-                Log.LogException(methodName, "(int caseId) failed", ex);
+                Log.LogFail(methodName, "(int caseId) failed", ex);
             }
 
             return false;
@@ -1885,7 +1881,7 @@ public class Core : CoreBase
     public async Task<bool> CaseUpdateFieldValues(int id, Language language)
     {
         string methodName = "Core.CaseUpdateFieldValues";
-        Log.LogStandard(methodName, "called");
+        Log.LogInfo(methodName, "called");
         Log.LogVariable(methodName, nameof(id), id);
         try
         {
@@ -1893,7 +1889,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return false;
         }
     }
@@ -1904,7 +1900,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(microtingUId), microtingUId);
             Log.LogVariable(methodName, nameof(checkUId), checkUId);
 
@@ -1912,7 +1908,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -1927,14 +1923,14 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(microtingUId), microtingUId);
 
             return await _sqlController.CaseReadByMUId(microtingUId).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -1950,14 +1946,14 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(caseId), caseId);
 
             return await _sqlController.CaseReadByCaseId(caseId).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -1972,14 +1968,14 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(caseUId), caseUId);
 
             return await _sqlController.CaseReadByCaseUId(caseUId).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -1995,7 +1991,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(microtingUId), microtingUId);
             Log.LogVariable(methodName, nameof(checkUId), checkUId);
 
@@ -2010,13 +2006,13 @@ public class Core : CoreBase
 
             //
             int id = aCase.Id;
-            Log.LogEverything(methodName, $"aCase.Id:{aCase.Id}, found");
+            Log.LogDebug(methodName, $"aCase.Id:{aCase.Id}, found");
 
             return id;
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -2043,7 +2039,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(templateId), templateId.ToString());
             Log.LogVariable(methodName, nameof(start), start.ToString());
             Log.LogVariable(methodName, nameof(end), end.ToString());
@@ -2108,7 +2104,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -2136,7 +2132,7 @@ public class Core : CoreBase
         try
         {
             await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(caseId), caseId.ToString());
             Log.LogVariable(methodName, nameof(timeStamp), timeStamp);
 
@@ -2202,7 +2198,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -2212,14 +2208,14 @@ public class Core : CoreBase
     public async Task<string> GetSdkSetting(Settings settingName)
     {
         string methodName = "Core.GetSdkSetting";
-        Log.LogStandard(methodName, "called");
+        Log.LogInfo(methodName, "called");
         try
         {
             return await _sqlController.SettingRead(settingName).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return "N/A";
         }
     }
@@ -2230,7 +2226,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(settingValue), settingValue);
 
             await _sqlController.SettingUpdate(settingName, settingValue).ConfigureAwait(false);
@@ -2238,7 +2234,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -2683,16 +2679,16 @@ public class Core : CoreBase
             }
         }
 
-        Log.LogEverything("WordprocessingDocument", "Open");
+        Log.LogDebug("WordprocessingDocument", "Open");
         WordprocessingDocument wordDoc = WordprocessingDocument.Open(resultDocument, true);
 
-        Log.LogEverything("ReportHelper.SearchAndReplace", "Start");
+        Log.LogDebug("ReportHelper.SearchAndReplace", "Start");
         ReportHelper.SearchAndReplace(valuePairs, wordDoc);
 
-        Log.LogEverything("ReportHelper.InsertImages", "Start");
+        Log.LogDebug("ReportHelper.InsertImages", "Start");
         ReportHelper.InsertImages(wordDoc, pictures);
 
-        Log.LogEverything("ReportHelper.signatures", "Start");
+        Log.LogDebug("ReportHelper.signatures", "Start");
         ReportHelper.InsertSignature(wordDoc, signatures);
 
         foreach (var text in paragraphTextsForRemove)
@@ -2719,9 +2715,9 @@ public class Core : CoreBase
         }
         //ReportHelper.ValidateWordDocument(resultDocument);
 
-        Log.LogEverything("ReportHelper.signatures", "wordDoc.Save");
+        Log.LogDebug("ReportHelper.signatures", "wordDoc.Save");
         wordDoc.Save();
-        Log.LogEverything("ReportHelper.signatures", "wordDoc.Dispose");
+        Log.LogDebug("ReportHelper.signatures", "wordDoc.Dispose");
         wordDoc.Dispose();
 
         if (fileType == "pdf")
@@ -2766,7 +2762,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(caseId), caseId.ToString());
             Log.LogVariable(methodName, nameof(jasperTemplate), jasperTemplate);
 
@@ -2799,7 +2795,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -2815,7 +2811,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(name), name);
             Log.LogVariable(methodName, nameof(userFirstName), userFirstName);
             Log.LogVariable(methodName, nameof(userLastName), userLastName);
@@ -2898,7 +2894,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -2915,14 +2911,14 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(microtingUid), microtingUid);
 
             return await _sqlController.SiteReadSimple(microtingUid).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -2942,7 +2938,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(siteId), siteId);
 
             SiteDto site = await SiteRead(siteId).ConfigureAwait(false);
@@ -2952,7 +2948,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -2986,7 +2982,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -3016,7 +3012,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -3067,7 +3063,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "EntityListCreate failed", ex);
+            Log.LogFail(methodName, "EntityListCreate failed", ex);
             throw new Exception("EntityListCreate failed", ex);
         }
     }
@@ -3102,13 +3098,13 @@ public class Core : CoreBase
         {
             try
             {
-                Log.LogException(methodName,
+                Log.LogFail(methodName,
                     "(string entityGroupMUId " + entityGroupMuId + ", string sort " + sort +
                     ", string nameFilter " + nameFilter + ") failed", ex);
             }
             catch
             {
-                Log.LogException(methodName, "(string entityGroupMUId, string sort, string nameFilter) failed", ex);
+                Log.LogFail(methodName, "(string entityGroupMUId, string sort, string nameFilter) failed", ex);
             }
 
             throw new Exception("failed", ex);
@@ -3139,7 +3135,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "EntityGroupRead failed", ex);
+            Log.LogFail(methodName, "EntityGroupRead failed", ex);
             throw new Exception("EntityGroupRead failed", ex);
         }
     }
@@ -3164,7 +3160,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "EntityGroupDelete failed", ex);
+            Log.LogFail(methodName, "EntityGroupDelete failed", ex);
             throw new Exception("EntityGroupDelete failed", ex);
         }
     }
@@ -3348,7 +3344,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception(methodName + " failed", ex);
         }
     }
@@ -3383,7 +3379,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception(methodName + " failed", ex);
         }
     }
@@ -3408,7 +3404,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "FolderGetAll failed", ex);
+            Log.LogFail(methodName, "FolderGetAll failed", ex);
             throw new Exception("FolderGetAll failed", ex);
         }
     }
@@ -3425,7 +3421,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "FolderRead failed", ex);
+            Log.LogFail(methodName, "FolderRead failed", ex);
             throw new Exception("FolderRead failed", ex);
         }
     }
@@ -3476,7 +3472,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "FolderCreate failed", ex);
+            Log.LogFail(methodName, "FolderCreate failed", ex);
             throw new Exception("FolderCreate failed", ex);
         }
     }
@@ -3524,7 +3520,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "FolderCreate failed", ex);
+            Log.LogFail(methodName, "FolderCreate failed", ex);
             throw new Exception("FolderCreate failed", ex);
         }
     }
@@ -3581,7 +3577,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "FolderUpdate failed", ex);
+            Log.LogFail(methodName, "FolderUpdate failed", ex);
             throw new Exception("FolderUpdate failed", ex);
         }
     }
@@ -3638,7 +3634,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "FolderUpdate failed", ex);
+            Log.LogFail(methodName, "FolderUpdate failed", ex);
             throw new Exception("FolderUpdate failed", ex);
         }
     }
@@ -3670,7 +3666,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "FolderDelete failed", ex);
+            Log.LogFail(methodName, "FolderDelete failed", ex);
             // throw new Exception("FolderDelete failed", ex);
         }
     }
@@ -3689,7 +3685,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -3710,7 +3706,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -3725,7 +3721,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -3752,7 +3748,7 @@ public class Core : CoreBase
             };
             if (!audioFileExtenstions.Any(uploadedData.Extension.Contains)) return false;
             string filePath = Path.Combine(uploadedData.FileLocation, uploadedData.FileName);
-            Log.LogStandard(methodName, $"filePath is {filePath}");
+            Log.LogInfo(methodName, $"filePath is {filePath}");
             string fileName =
                 $"{uploadedData.Id}_{uploadedData.Checksum}{uploadedData.Extension}";
 
@@ -3766,7 +3762,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -3781,7 +3777,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -3921,7 +3917,7 @@ public class Core : CoreBase
             {
                 var question = JsonConvert.DeserializeObject<Question>(child.ToString(), jsonSerializerSettings);
                 removed = question.WorkflowState == Constants.WorkflowStates.Removed;
-                Log.LogStandard("Core.GetAllQuestionSets",
+                Log.LogInfo("Core.GetAllQuestionSets",
                     $"Parsing question on thread {threadNumber} {question.MicrotingUid}");
                 if (!await db.Questions.AnyAsync(x => x.MicrotingUid == question.MicrotingUid)
                         .ConfigureAwait(false))
@@ -3956,7 +3952,7 @@ public class Core : CoreBase
         {
             var questionTranslation =
                 JsonConvert.DeserializeObject<QuestionTranslation>(child.ToString(), jsonSerializerSettings);
-            Log.LogStandard("Core.GetAllQuestionSets",
+            Log.LogInfo("Core.GetAllQuestionSets",
                 $"Parsing question translation on thread {threadNumber} {questionTranslation.Name}");
             removed = questionTranslation.WorkflowState == Constants.WorkflowStates.Removed;
             if (!await db.QuestionTranslations.AnyAsync(x =>
@@ -3985,7 +3981,7 @@ public class Core : CoreBase
         foreach (JToken child in parsedOptions.Children())
         {
             var option = JsonConvert.DeserializeObject<Option>(child.ToString(), jsonSerializerSettings);
-            Log.LogStandard("Core.GetAllQuestionSets",
+            Log.LogInfo("Core.GetAllQuestionSets",
                 $"Parsing option on thread {threadNumber} {option.MicrotingUid}");
             removed = option.WorkflowState == Constants.WorkflowStates.Removed;
             if (!await db.Options.AnyAsync(x => x.MicrotingUid == option.MicrotingUid).ConfigureAwait(false))
@@ -4041,7 +4037,7 @@ public class Core : CoreBase
         {
             var optionTranslation =
                 JsonConvert.DeserializeObject<OptionTranslation>(child.ToString(), jsonSerializerSettings);
-            Log.LogStandard("Core.GetAllQuestionSets",
+            Log.LogInfo("Core.GetAllQuestionSets",
                 $"Parsing option translation on thread {threadNumber} {optionTranslation.Name}");
             removed = optionTranslation.WorkflowState == Constants.WorkflowStates.Removed;
             if (!await db.OptionTranslations.AnyAsync(x =>
@@ -4163,7 +4159,7 @@ public class Core : CoreBase
 
     private async Task SaveAnswer(JToken subItem, int questionSetId)
     {
-        Log.LogStandard("Core.SaveAnswer", $"called {DateTime.UtcNow}");
+        Log.LogInfo("Core.SaveAnswer", $"called {DateTime.UtcNow}");
         var settings = new JsonSerializerSettings { Error = (se, ev) => { ev.ErrorContext.Handled = true; } };
         await using (var db = DbContextHelper.GetDbContext())
         {
@@ -4307,7 +4303,7 @@ public class Core : CoreBase
             }
         }
 
-        Log.LogStandard("Core.SaveAnswer", $"ended {DateTime.UtcNow}");
+        Log.LogInfo("Core.SaveAnswer", $"ended {DateTime.UtcNow}");
     }
 
     public async Task GetAnswersForQuestionSet(int? apiQuestionSetId)
@@ -4412,7 +4408,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(templateId), templateId);
             Log.LogVariable(methodName, nameof(newDisplayIndex), newDisplayIndex);
 
@@ -4421,7 +4417,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -4433,7 +4429,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(templateId), templateId);
             Log.LogVariable(methodName, nameof(siteUId), siteUId);
             Log.LogVariable(methodName, nameof(newDisplayIndex), newDisplayIndex);
@@ -4463,7 +4459,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -4476,7 +4472,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(templateId), templateId);
             Log.LogVariable(methodName, nameof(fieldId1), fieldId1);
             Log.LogVariable(methodName, nameof(fieldId2), fieldId2);
@@ -4495,7 +4491,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -4506,14 +4502,14 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(templateId), templateId);
 
             return await _sqlController.TemplateFieldReadAll(templateId, language).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -4525,7 +4521,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(workflowState), workflowState);
             Log.LogVariable(methodName, nameof(offSet), offSet.ToString());
             Log.LogVariable(methodName, nameof(limit), limit.ToString());
@@ -4534,7 +4530,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -4545,14 +4541,14 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(microting_uuid), microting_uuid);
 
             return await _sqlController.SiteRead(microting_uuid).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -4572,7 +4568,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -4583,7 +4579,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(siteId), siteId);
             Log.LogVariable(methodName, nameof(name), name);
 
@@ -4654,7 +4650,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -4665,7 +4661,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(microtingUid), microtingUid);
             await using MicrotingDbContext db = DbContextHelper.GetDbContext();
 
@@ -4695,7 +4691,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -4709,7 +4705,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(firstName), firstName);
             Log.LogVariable(methodName, nameof(lastName), lastName);
             Log.LogVariable(methodName, nameof(email), email);
@@ -4728,7 +4724,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -4739,14 +4735,14 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(workerId), workerId);
 
             return await _sqlController.WorkerNameRead(workerId).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -4757,14 +4753,14 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(workerId), workerId);
 
             return await _sqlController.WorkerRead(workerId).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -4775,7 +4771,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(workflowState), workflowState);
             Log.LogVariable(methodName, nameof(offSet), offSet.ToString());
             Log.LogVariable(methodName, nameof(limit), limit.ToString());
@@ -4784,7 +4780,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -4795,7 +4791,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(workerId), workerId);
             Log.LogVariable(methodName, nameof(firstName), firstName);
             Log.LogVariable(methodName, nameof(lastName), lastName);
@@ -4813,7 +4809,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -4824,7 +4820,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(microtingUid), microtingUid);
 
             bool success = await _communicator.WorkerDelete(microtingUid).ConfigureAwait(false);
@@ -4839,7 +4835,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -4853,7 +4849,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, "siteId", siteDto.SiteUId);
             Log.LogVariable(methodName, "workerId", workerDto.WorkerUId);
 
@@ -4873,7 +4869,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -4885,7 +4881,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(siteWorkerMicrotingUid), siteWorkerMicrotingUid.ToString());
             Log.LogVariable(methodName, nameof(siteId), siteId.ToString());
             Log.LogVariable(methodName, nameof(workerId), workerId.ToString());
@@ -4895,7 +4891,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -4906,7 +4902,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(workerId), workerId);
 
             bool success = await _communicator.SiteWorkerDelete(workerId).ConfigureAwait(false);
@@ -4917,7 +4913,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -4930,14 +4926,14 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(microtingUid), microtingUid);
 
             return await _sqlController.UnitRead(microtingUid).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -4948,13 +4944,13 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
 
             return await _sqlController.UnitGetAll().ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             return null;
         }
     }
@@ -4965,7 +4961,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(microtingUid), microtingUid);
 
             await using MicrotingDbContext dbContext = DbContextHelper.GetDbContext();
@@ -4990,7 +4986,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw;
         }
     }
@@ -5001,7 +4997,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(unitId), unitId);
 
             bool success = await _communicator.UnitDelete(unitId).ConfigureAwait(false);
@@ -5012,7 +5008,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -5024,7 +5020,7 @@ public class Core : CoreBase
         {
             if (!Running()) throw new Exception("Core is not running");
             await using var dbContext = DbContextHelper.GetDbContext();
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(siteMicrotingUid), siteMicrotingUid);
 
             Site site = await dbContext.Sites.FirstOrDefaultAsync(x => x.MicrotingUid == siteMicrotingUid);
@@ -5040,7 +5036,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -5049,7 +5045,7 @@ public class Core : CoreBase
     {
         string methodName = "Core.Advanced_UnitGet";
         await using var dbContext = DbContextHelper.GetDbContext();
-        Log.LogStandard(methodName, "called");
+        Log.LogInfo(methodName, "called");
         Log.LogVariable(methodName, nameof(unitId), unitId);
 
         Unit dbUnit = await dbContext.Units.FirstOrDefaultAsync(x => x.Id == unitId);
@@ -5073,7 +5069,7 @@ public class Core : CoreBase
         {
             if (!Running()) throw new Exception("Core is not running");
             await using var dbContext = DbContextHelper.GetDbContext();
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(unitId), unitId);
             Log.LogVariable(methodName, nameof(siteId), siteId);
 
@@ -5089,7 +5085,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -5102,14 +5098,14 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(id), id);
 
             return await _sqlController.FieldRead(id, language).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -5119,7 +5115,7 @@ public class Core : CoreBase
         string methodName = "Core.Advanced_UploadedDataRead";
         try
         {
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(id), id);
 
             var ud = await _sqlController.GetUploadedData(id).ConfigureAwait(false);
@@ -5138,7 +5134,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -5149,7 +5145,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(id), id);
             Log.LogVariable(methodName, nameof(instances), instances);
 
@@ -5157,7 +5153,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -5169,14 +5165,14 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(fieldId), fieldId);
 
             return await _sqlController.FieldValueReadList(fieldId, caseIds, language).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -5187,13 +5183,13 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
 
             return await _sqlController.FieldValueReadList(caseIds, language).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -5204,13 +5200,13 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
 
             return await _sqlController.CheckListValueReadList(caseIds).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -5233,7 +5229,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(sort), sort);
             Log.LogVariable(methodName, nameof(nameFilter), nameFilter);
             Log.LogVariable(methodName, nameof(pageIndex), pageIndex);
@@ -5248,7 +5244,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -5259,7 +5255,7 @@ public class Core : CoreBase
         try
         {
             if (!Running()) throw new Exception("Core is not running");
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(uploadedDataId), uploadedDataId);
 
             await using var db = DbContextHelper.GetDbContext();
@@ -5271,7 +5267,7 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -5282,13 +5278,13 @@ public class Core : CoreBase
         try
         {
             if (!Running()) return false;
-            Log.LogStandard(methodName, "called");
+            Log.LogInfo(methodName, "called");
             Log.LogVariable(methodName, nameof(caseId), caseId);
             return await _sqlController.CaseUpdateFieldValues(caseId, language).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            Log.LogException(methodName, "failed", ex);
+            Log.LogFail(methodName, "failed", ex);
             throw new Exception("failed", ex);
         }
     }
@@ -5379,17 +5375,17 @@ public class Core : CoreBase
     private async Task<Response> SendXml(MainElement mainElement, int siteId)
     {
         string methodName = "Core.SendXml";
-        Log.LogEverything(methodName, "siteId:" + siteId + ", requested sent eForm");
+        Log.LogDebug(methodName, "siteId:" + siteId + ", requested sent eForm");
 
         string xmlStrRequest = mainElement.ClassToXml();
 
-        Log.LogEverything(methodName, "siteId:" + siteId + ", ClassToXml done");
+        Log.LogDebug(methodName, "siteId:" + siteId + ", ClassToXml done");
         string xmlStrResponse = await _communicator.PostXml(xmlStrRequest, siteId);
-        Log.LogEverything(methodName, "siteId:" + siteId + ", PostXml done");
+        Log.LogDebug(methodName, "siteId:" + siteId + ", PostXml done");
 
         Response response = new Response();
         response = response.XmlToClass(xmlStrResponse);
-        Log.LogEverything(methodName, "siteId:" + siteId + ", XmlToClass done");
+        Log.LogDebug(methodName, "siteId:" + siteId + ", XmlToClass done");
 
         return response;
     }
@@ -5411,17 +5407,17 @@ public class Core : CoreBase
     private async Task<int> SendJson(MainElement mainElement, int siteId)
     {
         string methodName = "Core.SendJson";
-        Log.LogEverything(methodName, "siteId:" + siteId + ", requested sent eForm");
+        Log.LogDebug(methodName, "siteId:" + siteId + ", requested sent eForm");
 
         string request = mainElement.ClassToJson();
 
-        Log.LogEverything(methodName, "siteId:" + siteId + ", ClassToJson done");
+        Log.LogDebug(methodName, "siteId:" + siteId + ", ClassToJson done");
         string jsonStringResponse = await _communicator.PostJson(request, siteId);
-        Log.LogEverything(methodName, "siteId:" + siteId + ", PostJson done");
+        Log.LogDebug(methodName, "siteId:" + siteId + ", PostJson done");
 
         Response response = new Response();
         response = response.JsonToClass(jsonStringResponse);
-        Log.LogEverything(methodName, "siteId:" + siteId + ", JsonToClass done");
+        Log.LogDebug(methodName, "siteId:" + siteId + ", JsonToClass done");
 
         //if reply is "success", it's created
         if (response.Type.ToString().ToLower() == "success")
@@ -5436,18 +5432,18 @@ public class Core : CoreBase
     private async Task<int> SendProto(MainElement mainElement, int siteId)
     {
         string methodName = "Core.SendProto";
-        Log.LogEverything(methodName, "siteId:" + siteId + ", requested sent eForm");
+        Log.LogDebug(methodName, "siteId:" + siteId + ", requested sent eForm");
 
         byte[] protoRequest = mainElement.ClassToProto();
 
-        Log.LogEverything(methodName, "siteId:" + siteId + ", ClassToProto done");
+        Log.LogDebug(methodName, "siteId:" + siteId + ", ClassToProto done");
         byte[] protoResponse = await _communicator.PostProto(protoRequest, siteId);
-        Log.LogEverything(methodName, "siteId:" + siteId + ", PostProto done");
+        Log.LogDebug(methodName, "siteId:" + siteId + ", PostProto done");
 
         string jsonStringResponse = Encoding.UTF8.GetString(protoResponse);
         Response response = new Response();
         response = response.JsonToClass(jsonStringResponse);
-        Log.LogEverything(methodName, "siteId:" + siteId + ", ProtoToClass done");
+        Log.LogDebug(methodName, "siteId:" + siteId + ", ProtoToClass done");
 
         //if reply is "success", it's created
         if (response.Type.ToString().ToLower() == "success")
@@ -6083,7 +6079,7 @@ public class Core : CoreBase
         _coreThreadRunning = true;
 
         string methodName = "Core.CoreThread";
-        Log.LogEverything(methodName, "initiated");
+        Log.LogDebug(methodName, "initiated");
         while (_coreAvailable)
         {
             try
@@ -6105,7 +6101,7 @@ public class Core : CoreBase
             }
         }
 
-        Log.LogEverything(methodName, "completed");
+        Log.LogDebug(methodName, "completed");
 
         _coreThreadRunning = false;
     }
@@ -6128,7 +6124,7 @@ public class Core : CoreBase
                     urlStr = $"{await _sqlController.SettingRead(Settings.comAddressApi).ConfigureAwait(false)}/app_files/inspection_app/uploads/{await _sqlController.SettingRead(Settings.comOrganizationId).ConfigureAwait(false)}/{uploadedData.Checksum}{uploadedData.Extension}";
                 }
 
-                Log.LogEverything(methodName, "Received file:" + uploadedData);
+                Log.LogDebug(methodName, "Received file:" + uploadedData);
 
                 int index = urlStr.LastIndexOf("/", StringComparison.Ordinal) + 1;
                 string fileName = uploadedData.Id + "_" + urlStr.Remove(0, index);
@@ -6137,7 +6133,7 @@ public class Core : CoreBase
                 using var client = new HttpClient();
                 try
                 {
-                    Log.LogStandard(methodName, $"Downloading file {fileName}");
+                    Log.LogInfo(methodName, $"Downloading file {fileName}");
                     var result = await client.GetAsync(urlStr);
                     if (result.StatusCode != HttpStatusCode.OK)
                     {
@@ -6253,7 +6249,7 @@ public class Core : CoreBase
                         baseMemoryStream.Seek(0, SeekOrigin.Begin);
                     }
 
-                    Log.LogStandard(methodName, $"Download of '{urlStr}' completed");
+                    Log.LogInfo(methodName, $"Download of '{urlStr}' completed");
 
                     if (fileName.Contains("png") || fileName.Contains("jpg") || fileName.Contains("jpeg"))
                     {
@@ -6417,7 +6413,7 @@ public class Core : CoreBase
                     throw new Exception("Downloading and creating fil locally failed.", ex);
                 }
 
-                Log.LogEverything(methodName, $"{urlStr} was processed correctly");
+                Log.LogDebug(methodName, $"{urlStr} was processed correctly");
                 return true;
             }
         }
@@ -6577,7 +6573,7 @@ public class Core : CoreBase
     {
         string methodName = "Core.PutFileToS3Storage";
         string bucketName = await _sqlController.SettingRead(Settings.s3BucketName);
-        Log.LogStandard(methodName, $"Trying to upload file {fileName} to {bucketName}");
+        Log.LogInfo(methodName, $"Trying to upload file {fileName} to {bucketName}");
 
         PutObjectRequest putObjectRequest = new PutObjectRequest
         {
@@ -6616,7 +6612,7 @@ public class Core : CoreBase
     {
         string methodName = "Core.PutFileToS3Storage";
         string bucketName = await _sqlController.SettingRead(Settings.s3BucketName);
-        Log.LogStandard(methodName, $"Trying to upload file {fileName} to {bucketName}");
+        Log.LogInfo(methodName, $"Trying to upload file {fileName} to {bucketName}");
 
         PutObjectRequest putObjectRequest = new PutObjectRequest
         {
@@ -6642,7 +6638,7 @@ public class Core : CoreBase
         MainElement mainElement = new MainElement();
 
         CaseDto concreteCase = await _sqlController.CaseReadByMUId(microtingUid).ConfigureAwait(false);
-        Log.LogEverything(methodName, concreteCase + " has been matched");
+        Log.LogDebug(methodName, concreteCase + " has been matched");
 
         if (concreteCase.CaseUId == "" || concreteCase.CaseUId == "ReversedCase")
             lstCase.Add(concreteCase);
@@ -6674,7 +6670,7 @@ public class Core : CoreBase
 
                 if (resp.Type == Response.ResponseTypes.Success)
                 {
-                    Log.LogEverything(methodName, "resp.Type == Response.ResponseTypes.Success (true)");
+                    Log.LogDebug(methodName, "resp.Type == Response.ResponseTypes.Success (true)");
                     if (resp.Checks.Count > 0)
                     {
                         XmlDocument xDoc = new XmlDocument();
@@ -6696,7 +6692,7 @@ public class Core : CoreBase
 
                             await _sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id,
                                 DateTime.Parse(check.Date), workerUId, unitUId).ConfigureAwait(false);
-                            Log.LogEverything(methodName, "sqlController.CaseUpdateCompleted(...)");
+                            Log.LogDebug(methodName, "sqlController.CaseUpdateCompleted(...)");
 
                             // IF needed retract case, thereby completing the process
                             if (checkIdLastKnown == null)
@@ -6708,7 +6704,7 @@ public class Core : CoreBase
 
                                 if (respRet.Type == Response.ResponseTypes.Success)
                                 {
-                                    Log.LogEverything(methodName, aCase + " has been retracted");
+                                    Log.LogDebug(methodName, aCase + " has been retracted");
                                 }
                                 else
                                     Log.LogWarning(methodName,
@@ -6719,21 +6715,21 @@ public class Core : CoreBase
                             //
 
                             await _sqlController.CaseRetract(microtingUid, (int)check.Id).ConfigureAwait(false);
-                            Log.LogEverything(methodName, "sqlController.CaseRetract(...)");
+                            Log.LogDebug(methodName, "sqlController.CaseRetract(...)");
                             // TODO add case.Id
                             CaseDto cDto = await _sqlController.CaseReadByMUId(microtingUid);
                             //InteractionCaseUpdate(cDto);
                             await FireHandleCaseCompleted(cDto).ConfigureAwait(false);
                             //try { HandleCaseCompleted?.Invoke(cDto, EventArgs.Empty); }
                             //catch { log.LogWarning(t.GetMethodName("Core"), "HandleCaseCompleted event's external logic suffered an Expection"); }
-                            Log.LogStandard(methodName, cDto + " has been completed");
+                            Log.LogInfo(methodName, cDto + " has been completed");
                             i++;
                         }
                     }
                 }
                 else
                 {
-                    Log.LogEverything(methodName, "resp.Type == Response.ResponseTypes.Success (false)");
+                    Log.LogDebug(methodName, "resp.Type == Response.ResponseTypes.Success (false)");
                     throw new Exception("Failed to retrive eForm " + microtingUid + " from site " + aCase.SiteUId);
                 }
                 //
@@ -6761,7 +6757,7 @@ public class Core : CoreBase
 #pragma warning restore 1998
     {
         string methodName = "Core.FireHandleCaseCompleted";
-        Log.LogStandard(methodName, $"FireHandleCaseCompleted for MicrotingUId {caseDto.MicrotingUId}");
+        Log.LogInfo(methodName, $"FireHandleCaseCompleted for MicrotingUId {caseDto.MicrotingUId}");
         try
         {
             HandleCaseCompleted?.Invoke(caseDto, EventArgs.Empty);
@@ -6824,7 +6820,7 @@ public class Core : CoreBase
 #pragma warning restore 1998
     {
         string methodName = "Core.FireHandleCaseProcessedByServer";
-        Log.LogStandard(methodName, $"HandleCaseProcessedByServer for MicrotingUId {caseDto.MicrotingUId}");
+        Log.LogInfo(methodName, $"HandleCaseProcessedByServer for MicrotingUId {caseDto.MicrotingUId}");
 
         try
         {
@@ -6843,7 +6839,7 @@ public class Core : CoreBase
 #pragma warning restore 1998
     {
         string methodName = "Core.FireHandleCaseProcessingError";
-        Log.LogStandard(methodName, $"HandleCaseProcessingError for MicrotingUId {caseDto.MicrotingUId}");
+        Log.LogInfo(methodName, $"HandleCaseProcessingError for MicrotingUId {caseDto.MicrotingUId}");
 
         try
         {
@@ -6862,7 +6858,7 @@ public class Core : CoreBase
 #pragma warning restore 1998
     {
         string methodName = "Core.FireHandleCaseRetrived";
-        Log.LogStandard(methodName, $"FireHandleCaseRetrived for MicrotingUId {caseDto.MicrotingUId}");
+        Log.LogInfo(methodName, $"FireHandleCaseRetrived for MicrotingUId {caseDto.MicrotingUId}");
 
         try
         {

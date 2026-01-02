@@ -55,7 +55,7 @@ public class UnitActivatedHandler : IHandleMessages<UnitActivated>
             await _sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID,
                 Constants.WorkflowStates.Processed, "", "");
 
-            _log.LogStandard("UnitActivatedHandler.Handle",
+            _log.LogInfo("UnitActivatedHandler.Handle",
                 "Unit with id " + message.MicrotringUUID + " has been activated");
 
             NoteDto noteDto = new NoteDto(message.notificationUId, message.MicrotringUUID,

@@ -420,7 +420,7 @@ public class SqlController : LogWriter
         Language language)
     {
         string methodName = "SqlController.TemplateItemReadAll";
-        _log.LogStandard(methodName, "called");
+        _log.LogInfo(methodName, "called");
         _log.LogVariable(methodName, nameof(includeRemoved), includeRemoved);
         _log.LogVariable(methodName, nameof(searchKey), searchKey);
         _log.LogVariable(methodName, nameof(descendingSort), descendingSort);
@@ -551,7 +551,7 @@ public class SqlController : LogWriter
                     catch (Exception innerEx)
                     {
                         Site dbSite = await db.Sites.FirstAsync(x => x.Id == checkListSite.SiteId);
-                        _log.LogException(methodName,
+                        _log.LogFail(methodName,
                             "could not add the site to the sites for site.Id : " + dbSite.Id +
                             " and got exception : " + innerEx.Message, innerEx);
                         throw new Exception("Error adding site to sites for site.Id : " + dbSite.Id, innerEx);
@@ -616,7 +616,7 @@ public class SqlController : LogWriter
                 }
                 catch (Exception innerEx)
                 {
-                    _log.LogException(methodName,
+                    _log.LogFail(methodName,
                         "could not add the templateDto to the templateList for templateId : " + checkList.Id +
                         " and got exception : " + innerEx.Message, innerEx);
                     throw new Exception("Error adding template to templateList for templateId : " + checkList.Id,
@@ -636,7 +636,7 @@ public class SqlController : LogWriter
     public async Task<List<FieldDto>> TemplateFieldReadAll(int templateId, Language language)
     {
         string methodName = "SqlController.TemplateFieldReadAll";
-        _log.LogEverything(methodName, "Start for templateId : " + templateId + " and language : " + language.Name);
+        _log.LogDebug(methodName, "Start for templateId : " + templateId + " and language : " + language.Name);
         try
         {
             await using var db = GetContext();
@@ -671,13 +671,13 @@ public class SqlController : LogWriter
                 fieldLst.Add(fieldDto);
             }
 
-            _log.LogEverything(methodName, "End");
+            _log.LogDebug(methodName, "End");
             return fieldLst;
         }
         catch (Exception ex)
         {
             //logger.LogException(methodName + " failed", ex, true);
-            _log.LogException(methodName, "failed", ex);
+            _log.LogFail(methodName, "failed", ex);
             throw new Exception(methodName + " failed", ex);
         }
     }
@@ -899,21 +899,21 @@ public class SqlController : LogWriter
         string caseUId, string custom, DateTime createdAt, int? folderId)
     {
         string methodName = "SqlController.CaseCreate";
-        _log.LogStandard(methodName, "called");
+        _log.LogInfo(methodName, "called");
         try
         {
             await using var db = GetContext();
             string caseType = db.CheckLists.FirstAsync(x => x.Id == checkListId).GetAwaiter().GetResult().CaseType;
-            _log.LogStandard(methodName, $"caseType is {caseType}");
+            _log.LogInfo(methodName, $"caseType is {caseType}");
             int siteId = db.Sites.FirstAsync(x => x.MicrotingUid == siteUId).GetAwaiter().GetResult().Id;
-            _log.LogStandard(methodName, $"siteId is {siteId}");
+            _log.LogInfo(methodName, $"siteId is {siteId}");
 
             Case aCase = null;
             // Lets see if we have an existing case with the same parameters in the db first.
             // This is to handle none gracefull shutdowns.
             aCase = await db.Cases.FirstOrDefaultAsync(x =>
                 x.MicrotingUid == microtingUId && x.MicrotingCheckUid == microtingCheckId);
-            _log.LogStandard(methodName,
+            _log.LogInfo(methodName,
                 $"aCase found based on MicrotingUid == {microtingUId} and MicrotingCheckUid == {microtingCheckId}");
 
             if (aCase == null)
@@ -947,7 +947,7 @@ public class SqlController : LogWriter
                 await aCase.Update(db).ConfigureAwait(false);
             }
 
-            _log.LogStandard(methodName, "aCase is created in db");
+            _log.LogInfo(methodName, "aCase is created in db");
 
             return aCase.Id;
         }
@@ -1423,7 +1423,7 @@ public class SqlController : LogWriter
                 }
             }
 
-            _log.LogEverything(methodName, "Done parsing and creating objects");
+            _log.LogDebug(methodName, "Done parsing and creating objects");
 
             // foreach (var field in TemplatFieldLst)
             // We do this because even thought the user did not fill in information for a given field
@@ -2779,7 +2779,7 @@ public class SqlController : LogWriter
         await using var db = GetContext();
         if (!db.Notifications.Any(x => x.NotificationUid == notificationUId && x.MicrotingUid == microtingUId))
         {
-            _log.LogStandard(methodName,
+            _log.LogInfo(methodName,
                 "SAVING notificationUId : " + notificationUId + " microtingUId : " + microtingUId + " action : " +
                 activity);
 
@@ -2923,7 +2923,7 @@ public class SqlController : LogWriter
             }
             catch (Exception ex)
             {
-                _log.LogException(methodName, ex.Message, ex);
+                _log.LogFail(methodName, ex.Message, ex);
                 return null;
             }
         }
@@ -3313,7 +3313,7 @@ public class SqlController : LogWriter
     public async Task<int?> CaseReadFirstId(int? templateId, string workflowState)
     {
         string methodName = "SqlController.CaseReadFirstId";
-        _log.LogStandard(methodName, "called");
+        _log.LogInfo(methodName, "called");
         _log.LogVariable(methodName, nameof(templateId), templateId);
         _log.LogVariable(methodName, nameof(workflowState), workflowState);
         try
@@ -3656,7 +3656,7 @@ public class SqlController : LogWriter
         TimeZoneInfo timeZoneInfo)
     {
         string methodName = "SqlController.CaseReadAll";
-        _log.LogStandard(methodName, "called");
+        _log.LogInfo(methodName, "called");
         _log.LogVariable(methodName, nameof(templatId), templatId);
         _log.LogVariable(methodName, nameof(start), start);
         _log.LogVariable(methodName, nameof(end), end);
@@ -5723,10 +5723,45 @@ public class SqlController : LogWriter
     //TODO
     public override void WriteLogEntry(LogEntry logEntry)
     {
-        WriteDebugConsoleLogEntry(logEntry);
+        switch (logEntry.Level)
+        {
+            case < 0:
+                WriteErrorConsoleLogEntry(logEntry);
+                break;
+            case 0:
+                WriteWarnConsoleLogEntry(logEntry);
+                break;
+            case 1:
+                WriteErrorConsoleLogEntry(logEntry);
+                break;
+            case 2:
+                WriteInfoConsoleLogEntry(logEntry);
+                break;
+            case 4:
+                WriteDebugConsoleLogEntry(logEntry);
+                break;
+            default:
+                WriteDebugConsoleLogEntry(logEntry);
+                break;
+        }
+    }
 
-        if (logEntry.Level < 0)
-            WriteLogExceptionEntry(logEntry);
+    private void WriteInfoConsoleLogEntry(LogEntry logEntry)
+    {
+        var oldColor = Console.ForegroundColor;
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine($"info: {logEntry.Type}[0]");
+        Console.WriteLine($"      {logEntry.Message}");
+        Console.ForegroundColor = oldColor;
+    }
+
+    private void WriteWarnConsoleLogEntry(LogEntry logEntry)
+    {
+        var oldColor = Console.ForegroundColor;
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine($"warn: {logEntry.Type}[0]");
+        Console.WriteLine($"      {logEntry.Message}");
+        Console.ForegroundColor = oldColor;
     }
 
     private void WriteDebugConsoleLogEntry(LogEntry logEntry)

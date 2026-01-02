@@ -49,7 +49,7 @@ public class AnswerCompletedHandler : IHandleMessages<AnswerCompleted>
     {
         try
         {
-            log.LogEverything("AnswerCompletedHandler.Handle", $"Parsing answer for id {message.MicrotringUUID}");
+            log.LogDebug("AnswerCompletedHandler.Handle", $"Parsing answer for id {message.MicrotringUUID}");
             await core.GetAllSurveyConfigurations().ConfigureAwait(false);
             await core.GetAnswersForQuestionSet(message.MicrotringUUID).ConfigureAwait(false);
             await sqlController.NotificationUpdate(message.NotificationUId,
@@ -60,7 +60,7 @@ public class AnswerCompletedHandler : IHandleMessages<AnswerCompleted>
         }
         catch (Exception ex)
         {
-            log.LogException("AnswerCompletedHandler.Handle",
+            log.LogFail("AnswerCompletedHandler.Handle",
                 $"Could not parse answer for id {message.MicrotringUUID}, got exception {ex.Message}", ex);
             await sqlController.NotificationUpdate(message.NotificationUId,
                 message.MicrotringUUID,

@@ -103,7 +103,7 @@ public class Subscriber
         }
         catch (Exception ex)
         {
-            _log.LogException(_t.GetMethodName("Subscriber"), "failed", ex);
+            _log.LogFail(_t.GetMethodName("Subscriber"), "failed", ex);
         }
 
         return Task.CompletedTask;
@@ -122,7 +122,7 @@ public class Subscriber
         var token = _sqlController.SettingRead(Settings.token).GetAwaiter().GetResult();
         if (token != "UNIT_TEST___________________L:32" && token != "abc1234567890abc1234567890abcdef")
         {
-            _log.LogStandard(_t.GetMethodName("Subscriber"), $"{DateTime.UtcNow.ToString()} - Starting up");
+            _log.LogInfo(_t.GetMethodName("Subscriber"), $"{DateTime.UtcNow.ToString()} - Starting up");
             _isActive = true;
 
             string awsAccessKeyId = _sqlController.SettingRead(Settings.awsAccessKeyId).Result;
@@ -154,7 +154,7 @@ public class Subscriber
                             int microtingUId = int.Parse(parsedData["microting_uuid"]!.ToString());
                             string action = parsedData["text"]!.ToString();
 
-                            _log.LogStandard(_t.GetMethodName("Subscriber"),
+                            _log.LogInfo(_t.GetMethodName("Subscriber"),
                                 "Notification notificationUId : " + notificationUId + " microtingUId : " +
                                 microtingUId + " action : " + action);
                             switch (action)
@@ -212,13 +212,13 @@ public class Subscriber
                         }
                     else
                     {
-                        _log.LogStandard(_t.GetMethodName("Subscriber"),
+                        _log.LogInfo(_t.GetMethodName("Subscriber"),
                             $"{DateTime.UtcNow.ToString(CultureInfo.InvariantCulture)} -  No messages for us right now!");
                     }
                 }
                 catch (WebException webException)
                 {
-                    _log.LogWarning(_t.GetMethodName("Subscriber"),
+                    _log.LogCritical(_t.GetMethodName("Subscriber"),
                         _t.PrintException(_t.GetMethodName("Subscriber") + " failed", webException));
                     // We try to sleep 20 seconds to see if the problem goes away by it self.
                     Thread.Sleep(20000);
@@ -226,12 +226,12 @@ public class Subscriber
 
                 catch (Exception ex)
                 {
-                    _log.LogWarning(_t.GetMethodName("Subscriber"),
+                    _log.LogCritical(_t.GetMethodName("Subscriber"),
                         _t.PrintException(_t.GetMethodName("Subscriber") + " failed", ex));
 
                     if (DateTime.Compare(lastException.AddMinutes(5), DateTime.UtcNow) > 0)
                     {
-                        _log.LogException(_t.GetMethodName("Subscriber"), "failed, twice in the last 5 minuts", ex);
+                        _log.LogFail(_t.GetMethodName("Subscriber"), "failed, twice in the last 5 minuts", ex);
                         // TODO handle crash so we could restart!!!
                         throw;
                     }
@@ -240,7 +240,7 @@ public class Subscriber
                 }
             }
 
-            _log.LogStandard(_t.GetMethodName("Subscriber"), "--- WE WHERE TOLD NOT TO CONTINUE TO SUBSCRIBE ---");
+            _log.LogInfo(_t.GetMethodName("Subscriber"), "--- WE WHERE TOLD NOT TO CONTINUE TO SUBSCRIBE ---");
             sqsClient.Dispose();
             _isActive = false;
         }
@@ -248,12 +248,12 @@ public class Subscriber
         else
             // start unit test
         {
-            _log.LogStandard(_t.GetMethodName("Subscriber"), "Subscriber faked");
+            _log.LogInfo(_t.GetMethodName("Subscriber"), "Subscriber faked");
             _isActive = true;
 
             while (!_cancellationToken.IsCancellationRequested)
             {
-                _log.LogStandard(_t.GetMethodName("Subscriber"),
+                _log.LogInfo(_t.GetMethodName("Subscriber"),
                     $"{DateTime.UtcNow.ToString(CultureInfo.InvariantCulture)} -  No messages for us right now!");
                 Thread.Sleep(1000);
             }

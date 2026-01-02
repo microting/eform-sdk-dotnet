@@ -49,7 +49,7 @@ public class EformParsedByServerHandler : IHandleMessages<EformParsedByServer>
     public async Task Handle(EformParsedByServer message)
     {
         await using MicrotingDbContext dbContext = _core.DbContextHelper.GetDbContext();
-        _log.LogStandard("EformParsedByServer.Handle called", $"NotificationId: {message.NotificationId}, MicrotringUUID: {message.MicrotringUUID}");
+        _log.LogInfo("EformParsedByServer.Handle called", $"NotificationId: {message.NotificationId}, MicrotringUUID: {message.MicrotringUUID}");
         await _sqlController.NotificationCreate(message.NotificationId, message.MicrotringUUID,
             Constants.Notifications.EformParsedByServer);
 

@@ -25,7 +25,7 @@ public class SurveyConfigurationChangedHandler : IHandleMessages<SurveyConfigura
     {
         try
         {
-            log.LogEverything("SurveyConfigurationChangedHandler.Handle",
+            log.LogDebug("SurveyConfigurationChangedHandler.Handle",
                 "Calling GetAllQuestionSets to load all question sets");
             await core.GetAllQuestionSets().ConfigureAwait(false);
             await sqlController.NotificationUpdate(message.NotificationUId,
@@ -36,7 +36,7 @@ public class SurveyConfigurationChangedHandler : IHandleMessages<SurveyConfigura
         }
         catch (Exception ex)
         {
-            log.LogException("SurveyConfigurationChangedHandler.Handle", $"Got exception {ex.Message}", ex);
+            log.LogFail("SurveyConfigurationChangedHandler.Handle", $"Got exception {ex.Message}", ex);
             await sqlController.NotificationUpdate(message.NotificationUId,
                 message.MicrotringUUID,
                 Constants.WorkflowStates.NotFound,

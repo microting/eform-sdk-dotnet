@@ -56,7 +56,7 @@ public class TranscribeAudioFileHandler : IHandleMessages<TranscribeAudioFile>
         }
         catch (Exception ex)
         {
-            log.LogException(t.GetMethodName("TranscribeAudioFileHandler"), 
+            log.LogFail(t.GetMethodName("TranscribeAudioFileHandler"), 
                 "Failed to transcribe audio file with uploadedDataId: " + message.uploadedDataId, ex);
         }
     }

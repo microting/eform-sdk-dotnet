@@ -47,7 +47,7 @@ public class Log
 
     #region public
 
-    public void LogEverything(string type, string message)
+    public void LogDebug(string type, string message)
     {
         LogLogic(new LogEntry(4, type, message));
     }
@@ -79,7 +79,7 @@ public class Log
 
     #endregion
 
-    public void LogStandard(string type, string message)
+    public void LogInfo(string type, string message)
     {
         LogLogic(new LogEntry(2, type, message));
     }
@@ -94,7 +94,7 @@ public class Log
         LogLogic(new LogEntry(0, type, message));
     }
 
-    public void LogException(string type, string exceptionDescription, Exception exception)
+    public void LogFail(string type, string exceptionDescription, Exception exception)
     {
         try
         {
@@ -177,7 +177,7 @@ public class Log
         #endregion
 
         exceptionClass.Occurrence = count;
-        LogStandard(t.GetMethodName("Log"), count + ". time the same Exception, within the last hour");
+        LogInfo(t.GetMethodName("Log"), count + ". time the same Exception, within the last hour");
         return count;
     }
 

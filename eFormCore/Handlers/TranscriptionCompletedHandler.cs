@@ -69,14 +69,14 @@ public class TranscriptionCompletedHandler : IHandleMessages<TranscriptionComple
 
             if (ud.FileName.Contains("3gp"))
             {
-                log.LogStandard("TranscriptionCompletedHandler.Handle", "file_name contains 3gp");
+                log.LogInfo("TranscriptionCompletedHandler.Handle", "file_name contains 3gp");
                 string urlStr = sqlController.SettingRead(Settings.comSpeechToText).GetAwaiter().GetResult() +
                                 "/download_file/" + message.MicrotringUUID + ".wav?token=" +
                                 sqlController.SettingRead(Settings.token).GetAwaiter().GetResult();
                 using var client = new HttpClient();
                 try
                 {
-                    log.LogStandard("TranscriptionCompletedHandler.Handle",
+                    log.LogInfo("TranscriptionCompletedHandler.Handle",
                         "Trying to download file from : " + urlStr);
                     var stream = await client.GetStreamAsync(urlStr);
                     MemoryStream baseMemoryStream = new MemoryStream();
@@ -96,7 +96,7 @@ public class TranscriptionCompletedHandler : IHandleMessages<TranscriptionComple
             await sqlController.NotificationUpdate(message.notificationUId, message.MicrotringUUID,
                 Constants.WorkflowStates.Processed, "", "");
 
-            log.LogStandard("TranscriptionCompletedHandler.Handle",
+            log.LogInfo("TranscriptionCompletedHandler.Handle",
                 "Transcription with id " + message.MicrotringUUID + " has been transcribed");
         }
         catch (Exception ex)

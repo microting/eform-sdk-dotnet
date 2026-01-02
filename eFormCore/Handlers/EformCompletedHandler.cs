@@ -81,7 +81,7 @@ public class EformCompletedHandler : IHandleMessages<EformCompleted>
         List<CaseDto> lstCase = new List<CaseDto>();
 
         CaseDto concreteCase = await _sqlController.CaseReadByMUId(microtingUid);
-        _log.LogEverything("EformCompletedHandler.CheckStatusByMicrotingUid", concreteCase + " has been matched");
+        _log.LogDebug("EformCompletedHandler.CheckStatusByMicrotingUid", concreteCase + " has been matched");
 
         if (concreteCase.CaseUId == "" || concreteCase.CaseUId == "ReversedCase")
             lstCase.Add(concreteCase);
@@ -109,7 +109,7 @@ public class EformCompletedHandler : IHandleMessages<EformCompleted>
 
                     if (resp.Type == Response.ResponseTypes.Success)
                     {
-                        _log.LogEverything(_t.GetMethodName("EformCompletedHandler"),
+                        _log.LogDebug(_t.GetMethodName("EformCompletedHandler"),
                             "resp.Type == Response.ResponseTypes.Success (true)");
                         if (resp.Checks.Count > 0)
                         {
@@ -120,7 +120,7 @@ public class EformCompletedHandler : IHandleMessages<EformCompleted>
                     }
                     else
                     {
-                        _log.LogEverything(_t.GetMethodName("EformCompletedHandler"),
+                        _log.LogDebug(_t.GetMethodName("EformCompletedHandler"),
                             "resp.Type == Response.ResponseTypes.Success (false)");
                         throw new Exception("Failed to retrive eForm " + microtingUid + " from site " +
                                             aCase.SiteUId);
@@ -167,7 +167,7 @@ public class EformCompletedHandler : IHandleMessages<EformCompleted>
         resp = resp.XmlToClassUsingXmlDocument(respXml);
         if (resp.Type == Response.ResponseTypes.Success)
         {
-            _log.LogEverything(_t.GetMethodName("EformCompletedHandler"),
+            _log.LogDebug(_t.GetMethodName("EformCompletedHandler"),
                 "resp.Type == Response.ResponseTypes.Success (true)");
             if (resp.Checks.Count > 0)
             {
@@ -219,20 +219,20 @@ public class EformCompletedHandler : IHandleMessages<EformCompleted>
                     }
                     else
                     {
-                        _log.LogEverything(_t.GetMethodName("Core"),
+                        _log.LogDebug(_t.GetMethodName("Core"),
                             "downloadUploadedData failed for uploadedDataid :" + uploadedDataid);
                     }
                 }
 
                 CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
                 DateTime dateTime = DateTime.ParseExact(check.Date, "yyyy-MM-dd HH:mm:ss", culture);
-                _log.LogEverything(_t.GetMethodName("EformCompletedHandler"), $"XML date is {check.Date}");
-                _log.LogEverything(_t.GetMethodName("EformCompletedHandler"),
+                _log.LogDebug(_t.GetMethodName("EformCompletedHandler"), $"XML date is {check.Date}");
+                _log.LogDebug(_t.GetMethodName("EformCompletedHandler"),
                     $"Parsed date is {dateTime.ToString(CultureInfo.InvariantCulture)}");
 
                 await _sqlController.CaseUpdateCompleted(microtingUid, (int)check.Id, dateTime, (int)workerUId,
                     (int)unitUId);
-                _log.LogEverything(_t.GetMethodName("EformCompletedHandler"),
+                _log.LogDebug(_t.GetMethodName("EformCompletedHandler"),
                     "sqlController.CaseUpdateCompleted(...)");
 
                 // IF needed retract case, thereby completing the process
@@ -244,7 +244,7 @@ public class EformCompletedHandler : IHandleMessages<EformCompleted>
 
                     if (respXml.Contains("<Value type=\"success\">"))
                     {
-                        _log.LogEverything(_t.GetMethodName("EformCompletedHandler"),
+                        _log.LogDebug(_t.GetMethodName("EformCompletedHandler"),
                             aCase + " has been retracted");
                     }
                     else
@@ -254,12 +254,12 @@ public class EformCompletedHandler : IHandleMessages<EformCompleted>
                 }
 
                 await _sqlController.CaseRetract(microtingUid, (int)check.Id);
-                _log.LogEverything(_t.GetMethodName("EformCompletedHandler"), "sqlController.CaseRetract(...)");
+                _log.LogDebug(_t.GetMethodName("EformCompletedHandler"), "sqlController.CaseRetract(...)");
                 // TODO add case.id
                 CaseDto cDto = await _sqlController.CaseReadByMUId(microtingUid);
                 Console.WriteLine($"info: {DateTime.Now} FireHandleCaseCompleted");
                 await _core.FireHandleCaseCompleted(cDto);
-                _log.LogStandard(_t.GetMethodName("EformCompletedHandler"), cDto + " has been completed");
+                _log.LogInfo(_t.GetMethodName("EformCompletedHandler"), cDto + " has been completed");
                 i++;
                 returnId = (int)check.Id;
             }
