@@ -275,9 +275,10 @@ public static class ReportHelper
             Trace.WriteLine(output);
             pdfProcess.WaitForExit();
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            Console.WriteLine(e);
+            Console.WriteLine($"fail: {ex.Message}");
+            Console.WriteLine($"      {ex.StackTrace}");
             throw;
         }
     }
@@ -308,7 +309,8 @@ public static class ReportHelper
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine($"fail: {ex.Message}");
+            Console.WriteLine($"      {ex.StackTrace}");
         }
     }
 
@@ -401,43 +403,6 @@ public static class ReportHelper
         }
 
         AddImageToBody(wordDoc, mainPart.GetIdOfPart(imagePart), iWidth, iHeight, paragraph);
-    }
-
-    public static void ValidateWordDocument(string filepath)
-    {
-        using (WordprocessingDocument wordprocessingDocument =
-               WordprocessingDocument.Open(filepath, true))
-        {
-            try
-            {
-                OpenXmlValidator validator = new OpenXmlValidator();
-                int count = 0;
-                foreach (ValidationErrorInfo error in
-                         validator.Validate(wordprocessingDocument))
-                {
-                    count++;
-                    Console.WriteLine("Error " + count);
-                    Console.WriteLine("Description: " + error.Description);
-                    Console.WriteLine("ErrorType: " + error.ErrorType);
-                    Console.WriteLine("Id: " + error.Id);
-                    Console.WriteLine("Node: " + error.Node);
-                    // Console.WriteLine("Node InnerXML: " + error.Node.InnerXml);
-                    // Console.WriteLine("Node InnerText: " + error.Node.InnerText);
-                    Console.WriteLine("Path: " + error.Path.XPath);
-                    Console.WriteLine("Part: " + error.Part.Uri);
-                    Console.WriteLine("-------------------------------------------");
-                }
-
-                Console.WriteLine("count={0}", count);
-            }
-
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            wordprocessingDocument.Dispose();
-        }
     }
 
     private static void AddImageToBody(WordprocessingDocument wordDoc, string relationshipId, Int64Value cx,

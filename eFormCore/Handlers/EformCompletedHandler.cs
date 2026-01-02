@@ -145,7 +145,7 @@ public class EformCompletedHandler : IHandleMessages<EformCompleted>
         if (noResults)
         {
             CaseDto cDto = await _sqlController.CaseReadByMUId(microtingUid);
-            Console.WriteLine($"{DateTime.Now} FireHandleCaseCompleted");
+            Console.WriteLine($"info: {DateTime.Now} FireHandleCaseCompleted");
             await _core.FireHandleCaseCompleted(cDto);
         }
 
@@ -204,13 +204,13 @@ public class EformCompletedHandler : IHandleMessages<EformCompleted>
                     .Single(x => x.MicrotingUid == int.Parse(check.WorkerId))
                     .MicrotingUid; //sqlController.WorkerRead(int.Parse(check.WorkerId)).Result.WorkerUId;
                 _log.LogVariable(_t.GetMethodName("EformCompletedHandler"), nameof(workerUId), workerUId);
-                Console.WriteLine($"{DateTime.Now} ChecksCreate start");
+                Console.WriteLine($"info: {DateTime.Now} ChecksCreate start");
 
                 List<int> uploadedDataIds =
                     await _sqlController.ChecksCreate(resp, checks.ChildNodes[i].OuterXml, i);
-                Console.WriteLine($"{DateTime.Now} ChecksCreate end");
+                Console.WriteLine($"info: {DateTime.Now} ChecksCreate end");
 
-                Console.WriteLine($"{DateTime.Now} uploadedDataIds");
+                Console.WriteLine($"info: {DateTime.Now} uploadedDataIds");
                 foreach (int uploadedDataid in uploadedDataIds)
                 {
                     if (await _core.DownloadUploadedData(uploadedDataid))
@@ -237,7 +237,7 @@ public class EformCompletedHandler : IHandleMessages<EformCompleted>
 
                 // IF needed retract case, thereby completing the process
 
-                Console.WriteLine($"{DateTime.Now} checkIdLastKnown");
+                Console.WriteLine($"info: {DateTime.Now} checkIdLastKnown");
                 if (checkIdLastKnown == null)
                 {
                     await _communicator.Delete(aCase.MicrotingUId.ToString(), aCase.SiteUId);
@@ -257,7 +257,7 @@ public class EformCompletedHandler : IHandleMessages<EformCompleted>
                 _log.LogEverything(_t.GetMethodName("EformCompletedHandler"), "sqlController.CaseRetract(...)");
                 // TODO add case.id
                 CaseDto cDto = await _sqlController.CaseReadByMUId(microtingUid);
-                Console.WriteLine($"{DateTime.Now} FireHandleCaseCompleted");
+                Console.WriteLine($"info: {DateTime.Now} FireHandleCaseCompleted");
                 await _core.FireHandleCaseCompleted(cDto);
                 _log.LogStandard(_t.GetMethodName("EformCompletedHandler"), cDto + " has been completed");
                 i++;

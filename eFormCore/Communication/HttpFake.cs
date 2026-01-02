@@ -418,7 +418,6 @@ public class HttpFake : IHttp
     {
         var url =
             $"/Folder/{id}?token={_token}&languageCode={languageCode}&name={Uri.EscapeDataString(name)}&description={Uri.EscapeDataString(description)}&parentId={parentId}&sdkVersion=";
-        Console.WriteLine(url);
         // Synchronous fake implementation
         return true;
     }

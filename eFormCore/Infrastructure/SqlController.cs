@@ -86,7 +86,8 @@ public class SqlController : LogWriter
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine($"fail: {ex.Message}");
+            Console.WriteLine($"      {ex.StackTrace}");
             throw;
         }
         //
@@ -1470,7 +1471,8 @@ public class SqlController : LogWriter
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"{DateTime.Now} {ex.Message}");
+            Console.WriteLine($"fail: {ex.Message}");
+            Console.WriteLine($"      {ex.StackTrace}");
 
             throw new Exception(methodName + " failed", ex);
         }

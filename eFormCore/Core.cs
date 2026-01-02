@@ -2481,7 +2481,8 @@ public class Core : CoreBase
                             }
                             catch (Exception e)
                             {
-                                Console.WriteLine(e);
+                                Console.WriteLine($"fail: {e.Message}");
+                                Console.WriteLine($"      {e.StackTrace}");
 
                                 string bigFilename = fileName;
                                 fileName =
@@ -2675,7 +2676,8 @@ public class Core : CoreBase
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    Console.WriteLine($"fail: {e.Message}");
+                    Console.WriteLine($"      {e.StackTrace}");
                     throw;
                 }
             }
@@ -4023,7 +4025,8 @@ public class Core : CoreBase
                 }
                 catch (Exception exception)
                 {
-                    Console.WriteLine(exception.Message);
+                    Console.WriteLine($"fail: {exception.Message}");
+                    Console.WriteLine($"      {exception.StackTrace}");
                 }
             }
 
@@ -4167,7 +4170,7 @@ public class Core : CoreBase
             Answer answer = JsonConvert.DeserializeObject<Answer>(subItem.ToString(), settings);
             if (answer == null)
             {
-                Console.WriteLine("fdssd");
+                Console.WriteLine($"fail: Could not deserialize answer");
             }
 
             Answer result = null;
@@ -4180,8 +4183,8 @@ public class Core : CoreBase
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.StackTrace);
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"fail: {ex.Message}");
+                Console.WriteLine($"      {ex.StackTrace}");
             }
             // if (result != null)
             // {
@@ -4257,8 +4260,8 @@ public class Core : CoreBase
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.StackTrace);
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine($"fail: {ex.Message}");
+                    Console.WriteLine($"      {ex.StackTrace}");
                 }
             }
             else
@@ -4353,7 +4356,8 @@ public class Core : CoreBase
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
+                        Console.WriteLine($"fail: {ex.Message}");
+                        Console.WriteLine($"      {ex.StackTrace}");
                         throw;
                     }
                 }
@@ -4388,7 +4392,8 @@ public class Core : CoreBase
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine(ex.Message);
+                        Console.WriteLine($"fail: {ex.Message}");
+                        Console.WriteLine($"      {ex.StackTrace}");
                     }
                 }
             }
@@ -5620,7 +5625,8 @@ public class Core : CoreBase
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"fail: {ex.Message}");
+                Console.WriteLine($"      {ex.StackTrace}");
             }
         }
         //  fieldValue generate end
@@ -6233,9 +6239,10 @@ public class Core : CoreBase
                                 }
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-                            // Console.WriteLine(e);
+                            Console.WriteLine($"fail: {ex.Message}");
+                            Console.WriteLine($"      {ex.StackTrace}");
                         }
 
                         MemoryStream memoryStream = new MemoryStream();
@@ -6304,9 +6311,10 @@ public class Core : CoreBase
                                     }
                                 }
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
-                                // Console.WriteLine(e);
+                                Console.WriteLine($"fail: {ex.Message}");
+                                Console.WriteLine($"      {ex.StackTrace}");
                             }
 
                             decimal currentRation = image.Height / (decimal)image.Width;
@@ -6375,9 +6383,10 @@ public class Core : CoreBase
                                     }
                                 }
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
-                                // Console.WriteLine(e);
+                                Console.WriteLine($"fail: {ex.Message}");
+                                Console.WriteLine($"      {ex.StackTrace}");
                             }
 
                             decimal currentRation = image.Height / (decimal)image.Width;
@@ -6414,7 +6423,8 @@ public class Core : CoreBase
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine($"fail: {ex.Message}");
+            Console.WriteLine($"      {ex.StackTrace}");
         }
 
         return false;
