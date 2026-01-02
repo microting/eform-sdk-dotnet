@@ -43,10 +43,9 @@ namespace eFormSDK.InSight.Tests;
 public abstract class DbTestFixture
 {
 #pragma warning disable NUnit1032 // An IDisposable field/property should be Disposed in a TearDown method
-    private readonly MariaDbContainer _mariadbTestcontainer = new MariaDbBuilder()
+    private readonly MariaDbContainer _mariadbTestcontainer = new MariaDbBuilder("mariadb:11.0.2")
         .WithDatabase(
             "eformsdk-tests").WithUsername("bla").WithPassword("secretpassword")
-        .WithImage("mariadb:11.0.2")
         .Build();
 #pragma warning restore NUnit1032 // An IDisposable field/property should be Disposed in a TearDown method
 
@@ -61,7 +60,7 @@ public abstract class DbTestFixture
         dbContextOptionsBuilder.UseMySql(connectionStr, new MariaDbServerVersion(
                 ServerVersion.AutoDetect(connectionStr)),
             mySqlOptionsAction: builder => { builder.EnableRetryOnFailure();
-                builder.TranslateParameterizedCollectionsToConstants();
+                builder.UseParameterizedCollectionMode(ParameterTranslationMode.Constant);
             });
         var microtingDbContext = new MicrotingDbContext(dbContextOptionsBuilder.Options);
         string file = Path.Combine("SQL", "eformsdk-tests.sql");
