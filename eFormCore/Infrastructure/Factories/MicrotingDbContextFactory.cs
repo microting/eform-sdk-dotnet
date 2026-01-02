@@ -40,7 +40,7 @@ public class MicrotingDbContextFactory : IDesignTimeDbContextFactory<MicrotingDb
         optionsBuilder.UseMySql(args.Any() ? args[0] : defaultCs, new MariaDbServerVersion(
                 ServerVersion.AutoDetect(args.Any() ? args[0] : defaultCs)),
             mySqlOptionsAction: builder => { builder.EnableRetryOnFailure();
-                builder.TranslateParameterizedCollectionsToConstants();
+                builder.UseParameterizedCollectionMode(ParameterTranslationMode.Constant);
             });
 
         return new MicrotingDbContext(optionsBuilder.Options);
