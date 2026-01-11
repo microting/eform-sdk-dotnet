@@ -305,7 +305,7 @@
         <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.1" />
         <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.1" />
         <PackageReference Include="Microting.Castle.Windsor" Version="6.0.1" />
-        <PackageReference Include="Microting.Rebus" Version="10.0.0" />
+        <PackageReference Include="Microting.Rebus" Version="10.0.1" />
         <PackageReference Include="Microting.Rebus.Castle.Windsor" Version="10.0.0" />
         <PackageReference Include="Microting.Rebus.RabbitMq" Version="10.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
