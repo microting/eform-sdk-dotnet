@@ -317,7 +317,7 @@
         <PackageReference Include="System.CodeDom" Version="10.0.2" />
         <PackageReference Include="System.ComponentModel.EventBasedAsync" Version="4.3.0" />
         <PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.2" />
-        <PackageReference Include="System.Drawing.Common" Version="10.0.2" />
+        <PackageReference Include="System.Drawing.Common" Version="10.0.3" />
         <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
         <PackageReference Include="System.Linq.Queryable" Version="4.3.0" />
         <PackageReference Include="System.Net.Requests" Version="4.3.0" />
