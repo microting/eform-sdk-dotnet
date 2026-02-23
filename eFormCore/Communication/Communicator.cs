@@ -25,6 +25,7 @@ SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Numerics;
 using System.Threading.Tasks;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure.Constants;
@@ -1026,5 +1027,10 @@ public class Communicator
     public async Task SendPushMessage(int microtingSiteId, string header, string body, int microtingUuid)
     {
         await _http.SendPushMessage(microtingSiteId, header, body, microtingUuid);
+    }
+
+    public async Task<string> GetSite(int siteId)
+    {
+        return await _http.GetSite(siteId);
     }
 }

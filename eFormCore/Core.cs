@@ -4202,7 +4202,14 @@ public class Core : CoreBase
 
                 try
                 {
-                    answer.SiteId = db.Sites.First(x => x.MicrotingUid == answer.SiteId).Id;
+                    var site = await db.Sites.FirstOrDefaultAsync(x => x.MicrotingUid == answer.SiteId);
+                    if (site == null)
+                    {
+                        var siteFromServer = await _communicator.GetSite(answer.SiteId).ConfigureAwait(false);
+                        site = JsonConvert.DeserializeObject<Site>(siteFromServer);
+                        await site.Create(db).ConfigureAwait(false);
+                    }
+                    answer.SiteId = site.Id;
                     answer.QuestionSetId = questionSetId;
                     SurveyConfiguration surveyConfiguration = await db.SurveyConfigurations
                         .FirstOrDefaultAsync(x => x.MicrotingUid == answer.SurveyConfigurationId)

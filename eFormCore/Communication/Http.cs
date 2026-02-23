@@ -987,6 +987,13 @@ public class Http : IHttp
         return await HttpGet(url, null, true).ConfigureAwait(false);
     }
 
+    public async Task<string> GetSite(int id)
+    {
+        var url =
+            $"{_newAddressBasic}/Site/{id}?token={_token}&sdkVersion={_dllVersion}";
+        return await HttpGet(url, null, true).ConfigureAwait(false);
+    }
+
     public async Task<string> WorkerCreate(string firstName, string lastName, string email)
     {
         var contentToServer = JObject.FromObject(new { first_name = firstName, last_name = lastName, email });

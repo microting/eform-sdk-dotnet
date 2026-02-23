@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 using System.IO;
+using System.Numerics;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
@@ -137,4 +138,5 @@ internal interface IHttp
     Task<string> GetLastAnswer(int questionSetId, int lastAnswerId);
 
     Task SendPushMessage(int microtingSiteId, string header, string body, int microtingUuid);
+    Task<string> GetSite(int siteId);
 }

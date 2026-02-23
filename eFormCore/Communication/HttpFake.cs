@@ -595,6 +595,11 @@ public class HttpFake : IHttp
         throw new NotImplementedException();
     }
 
+    public Task<string> GetSite(int siteId)
+    {
+            throw new NotImplementedException();
+    }
+
     //
 
     //
