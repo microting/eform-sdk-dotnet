@@ -4269,43 +4269,51 @@ public class Core : CoreBase
             }
             else
             {
-                answer = result;
-                answer.WorkflowState = Constants.WorkflowStates.Created;
-                await answer.Update(db).ConfigureAwait(false);
-                foreach (JToken avItem in subItem["AnswerValues"])
+                try
                 {
-                    // log.LogStandard("Core.SaveAnswer", $"AnswerValues parsing started {DateTime.UtcNow}");
-                    AnswerValue answerValue =
-                        JsonConvert.DeserializeObject<AnswerValue>(avItem.ToString(), settings);
-                    if (db.AnswerValues.FirstOrDefault(x => x.MicrotingUid == answerValue.MicrotingUid) ==
-                        null)
+                    answer = result;
+                    answer.WorkflowState = Constants.WorkflowStates.Created;
+                    await answer.Update(db).ConfigureAwait(false);
+                    foreach (JToken avItem in subItem["AnswerValues"])
                     {
-                        var question = await db.Questions.FirstAsync(x => x.MicrotingUid == answerValue.QuestionId)
-                            .ConfigureAwait(false);
-                        var option = await db.Options
-                            .FirstOrDefaultAsync(x => x.MicrotingUid == answerValue.OptionId).ConfigureAwait(false);
-                        if (option != null)
+                        // log.LogStandard("Core.SaveAnswer", $"AnswerValues parsing started {DateTime.UtcNow}");
+                        AnswerValue answerValue =
+                            JsonConvert.DeserializeObject<AnswerValue>(avItem.ToString(), settings);
+                        if (db.AnswerValues.FirstOrDefault(x => x.MicrotingUid == answerValue.MicrotingUid) ==
+                            null)
                         {
-                            if (question.QuestionType == Constants.QuestionTypes.Buttons ||
-                                question.QuestionType == Constants.QuestionTypes.List ||
-                                question.QuestionType == Constants.QuestionTypes.Multi)
+                            var question = await db.Questions.FirstAsync(x => x.MicrotingUid == answerValue.QuestionId)
+                                .ConfigureAwait(false);
+                            var option = await db.Options
+                                .FirstOrDefaultAsync(x => x.MicrotingUid == answerValue.OptionId).ConfigureAwait(false);
+                            if (option != null)
                             {
-                                OptionTranslation optionTranslation =
-                                    await db.OptionTranslations.FirstAsync(x => x.OptionId == option.Id)
-                                        .ConfigureAwait(false);
-                                answerValue.Value = optionTranslation.Name;
+                                if (question.QuestionType == Constants.QuestionTypes.Buttons ||
+                                    question.QuestionType == Constants.QuestionTypes.List ||
+                                    question.QuestionType == Constants.QuestionTypes.Multi)
+                                {
+                                    OptionTranslation optionTranslation =
+                                        await db.OptionTranslations.FirstAsync(x => x.OptionId == option.Id)
+                                            .ConfigureAwait(false);
+                                    answerValue.Value = optionTranslation.Name;
+                                }
+
+                                answerValue.AnswerId = answer.Id;
+                                answerValue.QuestionId =
+                                    question.Id;
+                                answerValue.OptionId =
+                                    option.Id;
+                                await answerValue.Create(db).ConfigureAwait(false);
                             }
 
-                            answerValue.AnswerId = answer.Id;
-                            answerValue.QuestionId =
-                                question.Id;
-                            answerValue.OptionId =
-                                option.Id;
-                            await answerValue.Create(db).ConfigureAwait(false);
+                            // log.LogStandard("Core.SaveAnswer", $"AnswerValues parsing done {DateTime.UtcNow}");
                         }
-
-                        // log.LogStandard("Core.SaveAnswer", $"AnswerValues parsing done {DateTime.UtcNow}");
                     }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"fail: {ex.Message}");
+                    Console.WriteLine($"      {ex.StackTrace}");
                 }
             }
         }
