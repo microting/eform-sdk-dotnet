@@ -4143,16 +4143,10 @@ public class Core : CoreBase
 
     private async Task<int> SaveAnswers(QuestionSet questionSet, JObject parsedData)
     {
-        Task[] tasks = new Task[int.Parse(parsedData["NumAnswers"].ToString())];
-
-        int i = 0;
         foreach (JToken item in parsedData["Answers"])
         {
-            tasks[i] = SaveAnswer(item, questionSet.Id);
-            i += 1;
+            await SaveAnswer(item, questionSet.Id);
         }
-
-        await Task.WhenAll(tasks);
 
         return int.Parse(parsedData["NumAnswers"].ToString());
     }
