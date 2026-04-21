@@ -325,3 +325,4 @@ paket-files/
 
 *.jpeg
 Compiled/*
+.claude
