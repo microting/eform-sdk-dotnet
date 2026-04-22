@@ -1,174 +1,174 @@
-import requests
-from datetime import datetime, timedelta, timezone
-import subprocess
-import os
-from dateutil import parser
+"""Automated NuGet dependency updater for eFormCore/Microting.eForm.csproj.
 
-# GitHub repository information
+Reads all PackageReference entries from the project, checks each against NuGet
+for the latest non-preview release, applies every needed bump as a single
+atomic edit to the csproj, then verifies the result with `dotnet restore`.
+
+On success: creates one GitHub issue summarizing all bumps, stages only the
+csproj, commits, tags, and pushes.
+
+On restore failure: rolls back the csproj via `git checkout` and exits
+non-zero without creating an issue, commit, or tag.
+"""
+
+import os
+import re
+import subprocess
+import sys
+from xml.etree import ElementTree as ET
+
+import requests
+
 GITHUB_REPO_OWNER = "microting"
 GITHUB_REPO_NAME = "eform-sdk-dotnet"
 PROJECT_NAME = "eFormCore/Microting.eForm.csproj"
-# List of packages to check
-PACKAGES = ['AWSSDK.Core', 'AWSSDK.S3', 'AWSSDK.SQS', 'Microsoft.EntityFrameworkCore', 'Microsoft.EntityFrameworkCore.Relational', 'Microsoft.EntityFrameworkCore.Design', 'Microting.Rebus', 'Microting.Rebus.Castle.Windsor', 'Microting.Rebus.RabbitMq']
 
 GITHUB_ACCESS_TOKEN = os.getenv("CHANGELOG_GITHUB_TOKEN")
 
 
-def get_installed_version(package_name):
-    # Execute 'dotnet list' command to get the installed packages
-    # Run 'dotnet list package' command
-    dotnet_list_output = subprocess.check_output(["dotnet", "list", "package"]).decode("utf-8")
-    
-    # Find lines containing the package name
-    package_lines = [line for line in dotnet_list_output.splitlines() if package_name in line]
-    
-    # Extract the version numbers
-    for line in package_lines:
-        #print(f"Looking af "+line)
-        parts = line.split()
-        version_index = parts.index(package_name) + 1
-        #print(version_index)
-        version = parts[version_index]
-        #print(version)
-        if "-preview" not in version:
-            return version
+def read_package_references(csproj_path):
+    tree = ET.parse(csproj_path)
+    refs = []
+    for pr in tree.getroot().iter("PackageReference"):
+        name = pr.attrib.get("Include")
+        version = pr.attrib.get("Version")
+        if name and version:
+            refs.append((name, version))
+    return refs
 
-def create_github_issue(package_name, old_version, new_version):
-    # GitHub API URLs for creating an issue and adding labels
-    create_issue_url = f"https://api.github.com/repos/{GITHUB_REPO_OWNER}/{GITHUB_REPO_NAME}/issues"
-    add_labels_url = f"https://api.github.com/repos/{GITHUB_REPO_OWNER}/{GITHUB_REPO_NAME}/issues/{{issue_number}}/labels"
-    
-    # Create the issue title and body
-    issue_title = f"Bump {package_name} from {old_version} to {new_version}"
-    issue_body = f"Please update the package {package_name} from version {old_version} to version {new_version}."
-    
-    # Create the request headers with the GitHub access token
+
+def get_latest_stable_version(package_name):
+    url = f"https://api.nuget.org/v3-flatcontainer/{package_name.lower()}/index.json"
+    response = requests.get(url, timeout=30)
+    if response.status_code != 200:
+        return None
+    stable = [v for v in response.json().get("versions", []) if "-preview" not in v]
+    return stable[-1] if stable else None
+
+
+def update_csproj_versions(csproj_path, bumps):
+    with open(csproj_path, "r", encoding="utf-8") as f:
+        content = f.read()
+    for name, _old, new in bumps:
+        pattern = re.compile(
+            r'(<PackageReference\s+Include="'
+            + re.escape(name)
+            + r'"\s+Version=")[^"]+(")'
+        )
+        content, n = pattern.subn(r"\g<1>" + new + r"\g<2>", content)
+        if n == 0:
+            raise RuntimeError(
+                f"No PackageReference with an inline Version attribute found for {name}"
+            )
+    with open(csproj_path, "w", encoding="utf-8") as f:
+        f.write(content)
+
+
+def create_github_issue(bumps):
+    plural = "s" if len(bumps) != 1 else ""
+    title = f"Bump {len(bumps)} NuGet package{plural}"
+    body_lines = ["The following packages were updated:", ""]
+    for name, old, new in bumps:
+        body_lines.append(f"- `{name}`: {old} -> {new}")
+    body = "\n".join(body_lines)
+
     headers = {
         "Authorization": f"Bearer {GITHUB_ACCESS_TOKEN}",
-        "Accept": "application/vnd.github.v3+json"
+        "Accept": "application/vnd.github.v3+json",
     }
-    
-    # Create the request payload with the issue title and body
-    data = {
-        "title": issue_title,
-        "body": issue_body
-    }
-    
-    # Send the POST request to create the GitHub issue
-    response = requests.post(create_issue_url, headers=headers, json=data)
-    
-    if response.status_code == 201:
-        issue_data = response.json()
-        issue_number = issue_data["number"]
-        print(f"GitHub issue '{issue_title}' created successfully. Issue Number: {issue_number}")
-        
-        # Add labels to the created issue
-        labels = ['.Net', 'backend', 'enhancement']
-        add_labels_url = add_labels_url.replace("{issue_number}", str(issue_number))
-        
-        for label in labels:
-            label_data = {"labels": [label]}
-            response = requests.post(add_labels_url, headers=headers, json=label_data)
-            
-            if response.status_code == 200:
-                print(f"Label '{label}' added to the issue.")
-            else:
-                print(f"Failed to add label '{label}' to the issue.")
-        
-        # Commit the changes with a message referencing the issue number
-        commit_message = f"closes #{issue_number}"
-        os.system("git add .")
-        os.system(f'git commit -a -m "{commit_message}"')
-    else:
-        print(f"Failed to create GitHub issue. Response: {response.text}")
+    response = requests.post(
+        f"https://api.github.com/repos/{GITHUB_REPO_OWNER}/{GITHUB_REPO_NAME}/issues",
+        headers=headers,
+        json={"title": title, "body": body},
+    )
+    if response.status_code != 201:
+        raise RuntimeError(f"Failed to create GitHub issue: {response.text}")
+    issue_number = response.json()["number"]
+    print(f"GitHub issue '{title}' created. Issue Number: {issue_number}")
 
-
-def check_new_nuget_version(package_name):
-    # Construct the NuGet package URL
-    package_url = f"https://api.nuget.org/v3-flatcontainer/{package_name.lower()}/index.json"
-    #print(package_url)
-    
-    # Get the package metadata
-    response = requests.get(package_url)
-    print(f"Checking {package_name}")
-    if response.status_code == 200:
-        package_data = response.json()
-        
-        # Get the latest version and publication time
-        versions = package_data["versions"]
-        #print(f"Versions for {package_name} is {versions}")
-        latest_version = versions[-1]
-        for line in versions:
-            if "-preview" not in line:
-                latest_version = line
-        
-        # Check if the latest version is alread installed
-        installed_version = get_installed_version(package_name)
-        print(f"Current version {package_name} is: {installed_version} and latest version is: {latest_version}")
-        if installed_version:
-            if installed_version != latest_version:
-                if "-preview" not in latest_version:
-                    print(f"The installed version of {package_name} has a change from: "+installed_version+" to: "+latest_version)
-                    subprocess.run(['dotnet','add',PROJECT_NAME,'package',package_name])
-                    create_github_issue(package_name, installed_version, latest_version)
-            else:
-                print(f"The installed version of {package_name} is already up to date.")
+    for label in (".Net", "backend", "enhancement"):
+        label_response = requests.post(
+            f"https://api.github.com/repos/{GITHUB_REPO_OWNER}/{GITHUB_REPO_NAME}/issues/{issue_number}/labels",
+            headers=headers,
+            json={"labels": [label]},
+        )
+        if label_response.status_code == 200:
+            print(f"Label '{label}' added to the issue.")
         else:
-            print(f"{package_name} is not installed in the project.")
-    else:
-        print(f"Failed to retrieve package information for {package_name}.")
+            print(f"Failed to add label '{label}' to the issue.")
+    return issue_number
 
 
-# Execute 'git log' command to get the commit log
-output = subprocess.check_output(["git", "log", "--oneline"])
-output = output.decode("utf-8")
+def commit_csproj(csproj_path, issue_number):
+    subprocess.run(["git", "add", csproj_path], check=True)
+    subprocess.run(["git", "commit", "-m", f"closes #{issue_number}"], check=True)
 
-# Count the number of lines in the commit log
-current_number_of_commits = len(output.splitlines())
 
-print("Current number of commits:", current_number_of_commits)
-
-# Iterate over the packages
-for package in PACKAGES:
-    check_new_nuget_version(package)
-
-# Execute 'git log' command to get the commit log
-output = subprocess.check_output(["git", "log", "--oneline"])
-output = output.decode("utf-8")
-
-# Count the number of lines in the commit log
-new_number_of_commits = len(output.splitlines())
-
-print("New number of commits:", new_number_of_commits)
-
-if new_number_of_commits > current_number_of_commits:
-# Obtain the current git version
-    output = subprocess.check_output(["git", "tag", "--sort=-creatordate"]).strip().decode("utf-8")
-    tags = output.split("\n")
-
-    if tags:
-        # Extract the first tag
-        latest_tag = tags[0]
-        
-        # Remove the leading 'v' from the tag
-        current_git_version = latest_tag.lstrip("v")
-        
-        print("Current Git Version:", current_git_version)
-    else:
+def push_new_version_tag():
+    tags_output = (
+        subprocess.check_output(["git", "tag", "--sort=-creatordate"])
+        .decode("utf-8")
+        .strip()
+    )
+    if not tags_output:
         print("No tags found in the repository.")
-    
-    # Extract major, minor, and build versions from the current git version
-    major_version, minor_version, build_version = map(int, current_git_version.split("."))
-    build_version += 1
-    
-    # Create the new git version
-    new_git_version = f"v{major_version}.{minor_version}.{build_version}"
-    
-    # Create the new git tag
-    subprocess.run(["git", "tag", new_git_version])
-    
-    # Push the new git tag and commit
-    subprocess.run(["git", "push", "--tags"])
-    subprocess.run(["git", "push"])
-else:
-    print("Nothing to do, everything is up to date.")
+        return
+    latest = tags_output.splitlines()[0].lstrip("v")
+    major, minor, build = map(int, latest.split("."))
+    new_tag = f"v{major}.{minor}.{build + 1}"
+    print(f"Current Git Version: {latest}. Creating new tag {new_tag}.")
+    subprocess.run(["git", "tag", new_tag], check=True)
+    subprocess.run(["git", "push", "--tags"], check=True)
+    subprocess.run(["git", "push"], check=True)
+
+
+def main():
+    commits_before = len(
+        subprocess.check_output(["git", "log", "--oneline"])
+        .decode("utf-8")
+        .splitlines()
+    )
+    print("Current number of commits:", commits_before)
+
+    bumps = []
+    for name, current in read_package_references(PROJECT_NAME):
+        if "-preview" in current:
+            print(f"Skipping {name}: pinned to preview ({current}).")
+            continue
+        print(f"Checking {name}")
+        latest = get_latest_stable_version(name)
+        if latest is None:
+            print(f"Failed to retrieve package information for {name}.")
+            continue
+        print(f"Current version {name} is: {current} and latest version is: {latest}")
+        if latest == current:
+            print(f"The installed version of {name} is already up to date.")
+            continue
+        bumps.append((name, current, latest))
+        print(f"Planned bump: {name} {current} -> {latest}")
+
+    if not bumps:
+        print("Nothing to do, everything is up to date.")
+        return
+
+    update_csproj_versions(PROJECT_NAME, bumps)
+
+    restore = subprocess.run(
+        ["dotnet", "restore", PROJECT_NAME],
+        capture_output=True,
+        text=True,
+    )
+    if restore.returncode != 0:
+        print("dotnet restore failed after applying bumps. Rolling back csproj.")
+        print(restore.stdout)
+        print(restore.stderr, file=sys.stderr)
+        subprocess.run(["git", "checkout", "--", PROJECT_NAME], check=True)
+        sys.exit(1)
+
+    issue_number = create_github_issue(bumps)
+    commit_csproj(PROJECT_NAME, issue_number)
+    push_new_version_tag()
+
+
+if __name__ == "__main__":
+    main()
