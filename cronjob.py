@@ -42,7 +42,7 @@ def get_latest_stable_version(package_name):
     response = requests.get(url, timeout=30)
     if response.status_code != 200:
         return None
-    stable = [v for v in response.json().get("versions", []) if "-preview" not in v]
+    stable = [v for v in response.json().get("versions", []) if "-" not in v]
     return stable[-1] if stable else None
 
 
@@ -132,8 +132,8 @@ def main():
 
     bumps = []
     for name, current in read_package_references(PROJECT_NAME):
-        if "-preview" in current:
-            print(f"Skipping {name}: pinned to preview ({current}).")
+        if "-" in current:
+            print(f"Skipping {name}: pinned to pre-release ({current}).")
             continue
         print(f"Checking {name}")
         latest = get_latest_stable_version(name)
