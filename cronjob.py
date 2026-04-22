@@ -1,29 +1,53 @@
-"""Automated NuGet dependency updater for eFormCore/Microting.eForm.csproj.
+"""Automated NuGet dependency updater.
 
-Reads all PackageReference entries from the project, checks each against NuGet
-for the latest non-preview release, applies every needed bump as a single
-atomic edit to the csproj, then verifies the result with `dotnet restore`.
+Discovers every `*.csproj` under the repo root (excluding `bin/`, `obj/`,
+`node_modules/` and any `EXCLUDED_PATH_PREFIXES`), reads each one's inline
+`<PackageReference ... Version="..."/>` entries, and atomically bumps every
+reference to the latest stable (non-pre-release) NuGet version.
 
-On success: creates one GitHub issue summarizing all bumps, stages only the
-csproj, commits, tags, and pushes.
+Pre-release versions (any version containing `-`, per SemVer) are never
+installed. References currently pinned to a pre-release are left alone with a
+printed warning — fixing those is a manual decision.
 
-On restore failure: rolls back the csproj via `git checkout` and exits
-non-zero without creating an issue, commit, or tag.
+On success: one GitHub issue summarizing every bump, one commit staging every
+modified csproj (never `git add .`), one patch-version tag, one push.
+
+On `dotnet restore` failure: every modified csproj is rolled back via
+`git checkout` and the script exits non-zero without creating an issue,
+commit, or tag.
 """
 
 import os
 import re
 import subprocess
 import sys
+from pathlib import Path
 from xml.etree import ElementTree as ET
 
 import requests
 
 GITHUB_REPO_OWNER = "microting"
 GITHUB_REPO_NAME = "eform-sdk-dotnet"
-PROJECT_NAME = "eFormCore/Microting.eForm.csproj"
 
+EXCLUDED_PATH_PREFIXES = []
+EXCLUDED_DIR_NAMES = {"bin", "obj", "node_modules"}
+
+REPO_ROOT = Path(__file__).resolve().parent
 GITHUB_ACCESS_TOKEN = os.getenv("CHANGELOG_GITHUB_TOKEN")
+
+
+def discover_csprojs():
+    excluded_prefixes = tuple(p.rstrip("/") + "/" for p in EXCLUDED_PATH_PREFIXES)
+    results = []
+    for path in REPO_ROOT.rglob("*.csproj"):
+        rel = path.relative_to(REPO_ROOT)
+        if any(part in EXCLUDED_DIR_NAMES for part in rel.parts):
+            continue
+        rel_str = rel.as_posix()
+        if rel_str.startswith(excluded_prefixes):
+            continue
+        results.append(path)
+    return sorted(results)
 
 
 def read_package_references(csproj_path):
@@ -47,8 +71,7 @@ def get_latest_stable_version(package_name):
 
 
 def update_csproj_versions(csproj_path, bumps):
-    with open(csproj_path, "r", encoding="utf-8") as f:
-        content = f.read()
+    content = csproj_path.read_text(encoding="utf-8")
     for name, _old, new in bumps:
         pattern = re.compile(
             r'(<PackageReference\s+Include="'
@@ -58,19 +81,52 @@ def update_csproj_versions(csproj_path, bumps):
         content, n = pattern.subn(r"\g<1>" + new + r"\g<2>", content)
         if n == 0:
             raise RuntimeError(
-                f"No PackageReference with an inline Version attribute found for {name}"
+                f"No PackageReference with inline Version attribute found for "
+                f"{name} in {csproj_path}"
             )
-    with open(csproj_path, "w", encoding="utf-8") as f:
-        f.write(content)
+    csproj_path.write_text(content, encoding="utf-8")
 
 
-def create_github_issue(bumps):
-    plural = "s" if len(bumps) != 1 else ""
-    title = f"Bump {len(bumps)} NuGet package{plural}"
-    body_lines = ["The following packages were updated:", ""]
-    for name, old, new in bumps:
-        body_lines.append(f"- `{name}`: {old} -> {new}")
-    body = "\n".join(body_lines)
+def rollback(csproj_paths):
+    if not csproj_paths:
+        return
+    rel_paths = [str(p.relative_to(REPO_ROOT)) for p in csproj_paths]
+    subprocess.run(["git", "checkout", "--", *rel_paths], check=True)
+
+
+def run_restore():
+    slns = sorted(REPO_ROOT.glob("*.sln"))
+    if slns:
+        return subprocess.run(
+            ["dotnet", "restore", str(slns[0])],
+            capture_output=True,
+            text=True,
+        )
+    last_failure = None
+    for csproj in discover_csprojs():
+        result = subprocess.run(
+            ["dotnet", "restore", str(csproj)],
+            capture_output=True,
+            text=True,
+        )
+        if result.returncode != 0:
+            last_failure = result
+    if last_failure is not None:
+        return last_failure
+    return subprocess.CompletedProcess(args=[], returncode=0, stdout="", stderr="")
+
+
+def create_github_issue(bumps_by_csproj):
+    total = sum(len(bs) for bs in bumps_by_csproj.values())
+    plural = "s" if total != 1 else ""
+    title = f"Bump {total} NuGet package{plural}"
+    lines = ["The following packages were updated:", ""]
+    for csproj_rel, bumps in bumps_by_csproj.items():
+        lines.append(f"### `{csproj_rel}`")
+        for name, old, new in bumps:
+            lines.append(f"- `{name}`: {old} -> {new}")
+        lines.append("")
+    body = "\n".join(lines)
 
     headers = {
         "Authorization": f"Bearer {GITHUB_ACCESS_TOKEN}",
@@ -99,8 +155,9 @@ def create_github_issue(bumps):
     return issue_number
 
 
-def commit_csproj(csproj_path, issue_number):
-    subprocess.run(["git", "add", csproj_path], check=True)
+def commit_modified_csprojs(csproj_paths, issue_number):
+    rel_paths = [str(p.relative_to(REPO_ROOT)) for p in csproj_paths]
+    subprocess.run(["git", "add", *rel_paths], check=True)
     subprocess.run(["git", "commit", "-m", f"closes #{issue_number}"], check=True)
 
 
@@ -130,43 +187,73 @@ def main():
     )
     print("Current number of commits:", commits_before)
 
-    bumps = []
-    for name, current in read_package_references(PROJECT_NAME):
-        if "-" in current:
-            print(f"Skipping {name}: pinned to pre-release ({current}).")
-            continue
-        print(f"Checking {name}")
-        latest = get_latest_stable_version(name)
-        if latest is None:
-            print(f"Failed to retrieve package information for {name}.")
-            continue
-        print(f"Current version {name} is: {current} and latest version is: {latest}")
-        if latest == current:
-            print(f"The installed version of {name} is already up to date.")
-            continue
-        bumps.append((name, current, latest))
-        print(f"Planned bump: {name} {current} -> {latest}")
+    csprojs = discover_csprojs()
+    if not csprojs:
+        print("No csproj files found in scope.")
+        return
+    print(f"Discovered {len(csprojs)} csproj(s) in scope:")
+    for p in csprojs:
+        print(f"  {p.relative_to(REPO_ROOT)}")
 
-    if not bumps:
+    latest_cache = {}
+    pre_release_pins = []
+    planned = {}
+
+    for csproj in csprojs:
+        for name, current in read_package_references(csproj):
+            if "-" in current:
+                pre_release_pins.append((csproj, name, current))
+                continue
+            if name not in latest_cache:
+                print(f"Checking {name}")
+                latest_cache[name] = get_latest_stable_version(name)
+            latest = latest_cache[name]
+            if latest is None:
+                print(f"Failed to retrieve package information for {name}.")
+                continue
+            if latest == current:
+                continue
+            planned.setdefault(csproj, []).append((name, current, latest))
+
+    for csproj, name, version in pre_release_pins:
+        rel = csproj.relative_to(REPO_ROOT)
+        print(f"Skipping {name} in {rel}: pinned to pre-release ({version}).")
+
+    if not planned:
         print("Nothing to do, everything is up to date.")
         return
 
-    update_csproj_versions(PROJECT_NAME, bumps)
+    print()
+    print("Planned bumps:")
+    for csproj, bumps in planned.items():
+        rel = csproj.relative_to(REPO_ROOT)
+        print(f"  {rel}")
+        for name, old, new in bumps:
+            print(f"    {name}: {old} -> {new}")
 
-    restore = subprocess.run(
-        ["dotnet", "restore", PROJECT_NAME],
-        capture_output=True,
-        text=True,
-    )
+    modified = []
+    try:
+        for csproj, bumps in planned.items():
+            update_csproj_versions(csproj, bumps)
+            modified.append(csproj)
+    except Exception:
+        rollback(modified)
+        raise
+
+    restore = run_restore()
     if restore.returncode != 0:
-        print("dotnet restore failed after applying bumps. Rolling back csproj.")
+        print("dotnet restore failed after applying bumps. Rolling back.")
         print(restore.stdout)
         print(restore.stderr, file=sys.stderr)
-        subprocess.run(["git", "checkout", "--", PROJECT_NAME], check=True)
+        rollback(modified)
         sys.exit(1)
 
-    issue_number = create_github_issue(bumps)
-    commit_csproj(PROJECT_NAME, issue_number)
+    bumps_by_csproj_rel = {
+        str(csproj.relative_to(REPO_ROOT)): bumps
+        for csproj, bumps in planned.items()
+    }
+    issue_number = create_github_issue(bumps_by_csproj_rel)
+    commit_modified_csprojs(modified, issue_number)
     push_new_version_tag()
 
 
