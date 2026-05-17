@@ -433,8 +433,7 @@ public class MainElementUTest
             var invalidXml = "invalid xml content";
 
             // Act & Assert
-            var ex = Assert.Throws<Exception>(() => mainElement.XmlToClass(invalidXml));
-            Assert.That(ex.Message, Does.Contain("MainElement failed, to convert XML"));
+            Assert.That((Action)(() => mainElement.XmlToClass(invalidXml)), Throws.Exception.With.Message.Contains("MainElement failed, to convert XML"));
         });
     }
 
@@ -495,8 +494,7 @@ public class MainElementUTest
             var invalidJson = "{ invalid json }";
 
             // Act & Assert
-            var ex = Assert.Throws<Exception>(() => mainElement.JsonToClass(invalidJson));
-            Assert.That(ex.Message, Does.Contain("MainElement failed, to convert Json"));
+            Assert.That((Action)(() => mainElement.JsonToClass(invalidJson)), Throws.Exception.With.Message.Contains("MainElement failed, to convert Json"));
         });
     }
 
