@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using eFormCore;
+using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure.Data.Entities;
@@ -141,6 +142,129 @@ public class CoreTestCaseCreate : DbTestFixture
         Assert.That(match, Is.Not.EqualTo(null));
     }
 
+
+    [Test]
+    public async Task Core_Case_CaseCreateLocalOnly_AcceptsEndOfTodayUtcEndDate()
+    {
+        // Regression for the .ToLongDateString() time-truncation bug: an EndDate at the very
+        // end of today UTC must NOT be rejected as "needs to be a future date".
+
+        // Arrange
+        CheckList cl1 = await testHelpers.CreateTemplate(
+            DateTime.Now, DateTime.Now, "A", "D", "CheckList", "Folder", 1, 1);
+        Site site = await testHelpers.CreateSite("SiteName", 88);
+
+        DateTime startUtc = DateTime.UtcNow;
+        DateTime endUtc = DateTime.UtcNow.AddDays(1).AddTicks(-1); // end-of-today + 24h - 1tick
+
+        MainElement main = new MainElement(cl1.Id, "label1", 1, "FolderWithList",
+            1, startUtc, endUtc,
+            "Swahili", false, false, false, false,
+            "Type1", "Push", "TextForBody", false,
+            new CoreElement().ElementList, "Blue");
+
+        // Act
+        var caseId = await sut.CaseCreateLocalOnly(main, "", (int)site.MicrotingUid, null);
+
+        // Assert
+        Assert.That(caseId, Is.Not.Null, "CaseCreateLocalOnly should accept end-of-today UTC as EndDate");
+        Assert.That(caseId.Value, Is.GreaterThan(0));
+    }
+
+    [Test]
+    public async Task Core_Case_CaseCreateLocalOnly_InsertsRowWithNullMicrotingUid()
+    {
+        CheckList cl1 = await testHelpers.CreateTemplate(
+            DateTime.Now, DateTime.Now, "A", "D", "CheckList", "Folder", 1, 1);
+        Site site = await testHelpers.CreateSite("SiteName", 88);
+
+        MainElement main = new MainElement(cl1.Id, "label1", 1, "FolderWithList",
+            1, DateTime.UtcNow, DateTime.UtcNow.AddDays(2),
+            "Swahili", false, false, false, false,
+            "Type1", "Push", "TextForBody", false,
+            new CoreElement().ElementList, "Blue");
+
+        var caseId = await sut.CaseCreateLocalOnly(main, "", (int)site.MicrotingUid, null);
+
+        Assert.That(caseId, Is.Not.Null);
+        var row = await DbContext.Cases.FirstOrDefaultAsync(x => x.Id == caseId.Value);
+        Assert.That(row, Is.Not.Null, "the Cases row should exist");
+        Assert.That(row!.MicrotingUid, Is.Null, "MicrotingUid must be null on local-only create");
+        Assert.That(row.Id, Is.GreaterThan(0));
+    }
+
+    [Test]
+    public async Task Core_Case_CaseCreateLocalOnly_RejectsPastEndDate()
+    {
+        CheckList cl1 = await testHelpers.CreateTemplate(
+            DateTime.Now, DateTime.Now, "A", "D", "CheckList", "Folder", 1, 1);
+        Site site = await testHelpers.CreateSite("SiteName", 88);
+
+        MainElement main = new MainElement(cl1.Id, "label1", 1, "FolderWithList",
+            1, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(-1),
+            "Swahili", false, false, false, false,
+            "Type1", "Push", "TextForBody", false,
+            new CoreElement().ElementList, "Blue");
+
+        int casesBefore = await DbContext.Cases.CountAsync();
+
+        var caseId = await sut.CaseCreateLocalOnly(main, "", (int)site.MicrotingUid, null);
+
+        Assert.That(caseId, Is.Null, "past EndDate should be rejected");
+        int casesAfter = await DbContext.Cases.CountAsync();
+        Assert.That(casesAfter, Is.EqualTo(casesBefore), "no Cases row should have been inserted");
+    }
+
+    [Test]
+    public async Task Core_Case_CaseCreateLocalOnly_AcceptsUnspecifiedKindEndDate()
+    {
+        // Locks AsUtc("treat Unspecified as UTC") semantics: SDK callers commonly pass
+        // Unspecified-Kind DateTimes they mean as UTC; converting via local offset shifts
+        // end-of-today back to yesterday and re-introduces the original validation bug.
+        CheckList cl1 = await testHelpers.CreateTemplate(
+            DateTime.Now, DateTime.Now, "A", "D", "CheckList", "Folder", 1, 1);
+        Site site = await testHelpers.CreateSite("SiteName", 88);
+
+        DateTime startUnspec = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified);
+        DateTime endUnspec = DateTime.SpecifyKind(
+            DateTime.UtcNow.AddDays(1).AddTicks(-1), DateTimeKind.Unspecified);
+
+        MainElement main = new MainElement(cl1.Id, "label1", 1, "FolderWithList",
+            1, startUnspec, endUnspec,
+            "Swahili", false, false, false, false,
+            "Type1", "Push", "TextForBody", false,
+            new CoreElement().ElementList, "Blue");
+
+        var caseId = await sut.CaseCreateLocalOnly(main, "", (int)site.MicrotingUid, null);
+
+        Assert.That(caseId, Is.Not.Null,
+            "Unspecified-Kind end-of-today must be treated as UTC and accepted");
+        Assert.That(caseId.Value, Is.GreaterThan(0));
+    }
+
+    [Test]
+    public async Task Core_Case_CaseCreate_DoesNotRejectEndOfTodayUtcEndDate()
+    {
+        // Regression on the public CaseCreate path for the same .ToLongDateString() bug:
+        // CaseCreate swallows ArgumentException and returns null, so a non-null match
+        // here proves end-of-today UTC EndDate passes validation.
+        CheckList cl1 = await testHelpers.CreateTemplate(
+            DateTime.Now, DateTime.Now, "A", "D", "CheckList", "Folder", 1, 1);
+        Site site = await testHelpers.CreateSite("SiteName", 88);
+
+        DateTime startUtc = DateTime.UtcNow;
+        DateTime endUtc = DateTime.UtcNow.AddDays(1).AddTicks(-1);
+
+        MainElement main = new MainElement(cl1.Id, "label1", 1, "FolderWithList",
+            1, startUtc, endUtc,
+            "Swahili", false, false, false, false,
+            "Type1", "Push", "TextForBody", false,
+            new CoreElement().ElementList, "Blue");
+
+        var match = await sut.CaseCreate(main, "", (int)site.MicrotingUid, null);
+
+        Assert.That(match, Is.Not.EqualTo(null));
+    }
 
     #region eventhandlers
 

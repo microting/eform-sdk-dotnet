@@ -1288,6 +1288,14 @@ public class Core : CoreBase
 
     // case
 
+    private static DateTime AsUtc(DateTime d) => d.Kind switch
+    {
+        DateTimeKind.Utc => d,
+        DateTimeKind.Local => d.ToUniversalTime(),
+        DateTimeKind.Unspecified => DateTime.SpecifyKind(d, DateTimeKind.Utc),
+        _ => d,
+    };
+
     /// <summary>
     /// This method will send the mainElement to the Microting API endpoint.
     /// </summary>
@@ -1335,8 +1343,8 @@ public class Core : CoreBase
             Log.LogVariable(methodName, nameof(custom), custom);
 
             // check input
-            DateTime start = DateTime.Parse(mainElement.StartDate.ToLongDateString());
-            DateTime end = DateTime.Parse(mainElement.EndDate.ToLongDateString());
+            DateTime start = AsUtc(mainElement.StartDate);
+            DateTime end = AsUtc(mainElement.EndDate);
 
             if (end < DateTime.UtcNow)
             {
@@ -1346,7 +1354,7 @@ public class Core : CoreBase
 
             if (end <= start)
             {
-                Log.LogInfo(methodName, $"mainElement.StartDat is set to {start}");
+                Log.LogInfo(methodName, $"mainElement.StartDate is set to {start}");
                 throw new ArgumentException(
                     "mainElement.StartDate needs to be at least the day, before the remove date (mainElement.EndDate)");
             }
@@ -1391,6 +1399,60 @@ public class Core : CoreBase
 
             return lstMUId;
             throw new Exception("Core is not running");
+        }
+        catch (Exception ex)
+        {
+            Log.LogFail(methodName, "failed", ex);
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Creates a Cases row directly in the local Microting DB, without deploying it to the
+    /// Microting cloud via SendXml. Intended for callers (e.g. flutter-eform gRPC flow) that
+    /// don't need a Microting Uid round-trip. Returns the local Cases.Id of the inserted row,
+    /// or null on failure. Validation of EndDate / StartDate / Repeated still applies.
+    /// </summary>
+    /// <param name="mainElement">The template MainElement the case will be based on</param>
+    /// <param name="caseUId">NEEDS TO BE UNIQUE IF ASSIGNED. Same semantics as CaseCreate.</param>
+    /// <param name="siteUid">The Microting Uid of the site the case belongs to</param>
+    /// <param name="folderId">Optional folder id</param>
+    public async Task<int?> CaseCreateLocalOnly(
+        MainElement mainElement, string caseUId, int siteUid, int? folderId)
+    {
+        string methodName = "Core.CaseCreateLocalOnly";
+        try
+        {
+            if (!Running()) throw new Exception("Core is not running");
+            Log.LogInfo(methodName, "called");
+            Log.LogVariable(methodName, nameof(caseUId), caseUId);
+            Log.LogVariable(methodName, nameof(siteUid), siteUid);
+
+            DateTime start = AsUtc(mainElement.StartDate);
+            DateTime end = AsUtc(mainElement.EndDate);
+
+            if (end < DateTime.UtcNow)
+            {
+                Log.LogInfo(methodName, $"mainElement.EndDate is set to {end}");
+                throw new ArgumentException("mainElement.EndDate needs to be a future date");
+            }
+
+            if (end <= start)
+            {
+                Log.LogInfo(methodName, $"mainElement.StartDate is set to {start}");
+                throw new ArgumentException(
+                    "mainElement.StartDate needs to be at least the day, before the remove date (mainElement.EndDate)");
+            }
+
+            if (caseUId != "" && mainElement.Repeated != 1)
+                throw new ArgumentException("if caseUId can only be used for mainElement.Repeated == 1");
+
+            int caseId = await _sqlController.CaseCreate(
+                mainElement.Id, siteUid, null, null, caseUId, "", DateTime.UtcNow, folderId)
+                .ConfigureAwait(false);
+
+            Log.LogInfo(methodName, $"local case row created with Id {caseId}");
+            return caseId;
         }
         catch (Exception ex)
         {
