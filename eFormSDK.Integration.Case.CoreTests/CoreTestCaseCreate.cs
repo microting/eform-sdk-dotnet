@@ -172,7 +172,7 @@ public class CoreTestCaseCreate : DbTestFixture
     }
 
     [Test]
-    public async Task Core_Case_CaseCreateLocalOnly_InsertsRowWithNullMicrotingUid()
+    public async Task Core_Case_CaseCreateLocalOnly_InsertsRowWithSyntheticMicrotingUid()
     {
         CheckList cl1 = await testHelpers.CreateTemplate(
             DateTime.Now, DateTime.Now, "A", "D", "CheckList", "Folder", 1, 1);
@@ -189,7 +189,9 @@ public class CoreTestCaseCreate : DbTestFixture
         Assert.That(caseId, Is.Not.Null);
         var row = await DbContext.Cases.FirstOrDefaultAsync(x => x.Id == caseId.Value);
         Assert.That(row, Is.Not.Null, "the Cases row should exist");
-        Assert.That(row!.MicrotingUid, Is.Null, "MicrotingUid must be null on local-only create");
+        Assert.That(row!.MicrotingUid, Is.Not.Null, "synthetic MicrotingUid should be assigned");
+        Assert.That(row.MicrotingUid!.Value, Is.GreaterThanOrEqualTo(2_000_000_000),
+            "synthetic MicrotingUids live in the reserved local range");
         Assert.That(row.Id, Is.GreaterThan(0));
     }
 
