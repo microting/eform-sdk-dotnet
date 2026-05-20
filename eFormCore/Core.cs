@@ -1447,11 +1447,16 @@ public class Core : CoreBase
             if (caseUId != "" && mainElement.Repeated != 1)
                 throw new ArgumentException("if caseUId can only be used for mainElement.Repeated == 1");
 
+            // Without a non-null MicrotingUid, CaseCreate's dedup probe would match every
+            // prior local-only row and collapse them onto a single shared null/null row.
+            int syntheticUid = await _sqlController.NextSyntheticMicrotingUidAsync();
+
             int caseId = await _sqlController.CaseCreate(
-                mainElement.Id, siteUid, null, null, caseUId, "", DateTime.UtcNow, folderId)
+                mainElement.Id, siteUid, syntheticUid, null, caseUId, "", DateTime.UtcNow, folderId)
                 .ConfigureAwait(false);
 
-            Log.LogInfo(methodName, $"local case row created with Id {caseId}");
+            Log.LogInfo(methodName,
+                $"local case row created with Id {caseId}, synthetic MicrotingUid {syntheticUid}");
             return caseId;
         }
         catch (Exception ex)
@@ -5448,6 +5453,14 @@ public class Core : CoreBase
         string methodName = "Core.SendXml";
         Log.LogDebug(methodName, "siteId:" + siteId + ", requested sent eForm");
 
+        if (await SkipCloudDeployAsync())
+        {
+            int syntheticUid = await _sqlController.NextSyntheticMicrotingUidAsync();
+            Log.LogDebug(methodName,
+                $"siteId:{siteId}, skipCloudDeploy=true; synthetic MicrotingUid={syntheticUid}");
+            return new Response(Response.ResponseTypes.Success, syntheticUid.ToString());
+        }
+
         string xmlStrRequest = mainElement.ClassToXml();
 
         Log.LogDebug(methodName, "siteId:" + siteId + ", ClassToXml done");
@@ -5459,6 +5472,13 @@ public class Core : CoreBase
         Log.LogDebug(methodName, "siteId:" + siteId + ", XmlToClass done");
 
         return response;
+    }
+
+    private async Task<bool> SkipCloudDeployAsync()
+    {
+        // Pre-existing installations may not have seeded the row after upgrade —
+        // FirstOrDefault so a missing row reads as "cloud deploy" rather than throwing.
+        return await _sqlController.SettingReadOrDefaultAsync(Settings.skipCloudDeploy) == "true";
     }
 
     /// <summary>

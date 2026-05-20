@@ -63,5 +63,7 @@ public enum Settings
     translationsMigrated,
     pluginsEnabled,
     servicesEnabled,
-    comAddressNewApi
+    comAddressNewApi,
+    skipCloudDeploy,
+    syntheticMicrotingUidCounter
 }

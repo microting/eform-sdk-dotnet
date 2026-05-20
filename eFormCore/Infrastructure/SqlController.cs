@@ -909,12 +909,15 @@ public class SqlController : LogWriter
             _log.LogInfo(methodName, $"siteId is {siteId}");
 
             Case aCase = null;
-            // Lets see if we have an existing case with the same parameters in the db first.
-            // This is to handle none gracefull shutdowns.
-            aCase = await db.Cases.FirstOrDefaultAsync(x =>
-                x.MicrotingUid == microtingUId && x.MicrotingCheckUid == microtingCheckId);
-            _log.LogInfo(methodName,
-                $"aCase found based on MicrotingUid == {microtingUId} and MicrotingCheckUid == {microtingCheckId}");
+            // Dedup recovers from ungraceful shutdowns of the cloud-deploy path; skipping
+            // when microtingUId is null avoids collapsing every (null, null) local-only row.
+            if (microtingUId != null)
+            {
+                aCase = await db.Cases.FirstOrDefaultAsync(x =>
+                    x.MicrotingUid == microtingUId && x.MicrotingCheckUid == microtingCheckId);
+                _log.LogInfo(methodName,
+                    $"aCase found based on MicrotingUid == {microtingUId} and MicrotingCheckUid == {microtingCheckId}");
+            }
 
             if (aCase == null)
             {
@@ -5310,6 +5313,8 @@ public class SqlController : LogWriter
         await SettingCreate(Settings.pluginsEnabled);
         await SettingCreate(Settings.servicesEnabled);
         await SettingCreate(Settings.comAddressNewApi);
+        await SettingCreate(Settings.skipCloudDeploy);
+        await SettingCreate(Settings.syntheticMicrotingUidCounter);
 
         return true;
     }
@@ -5511,6 +5516,14 @@ public class SqlController : LogWriter
                 id = 38;
                 defaultValue = "none";
                 break;
+            case Settings.skipCloudDeploy:
+                id = 39;
+                defaultValue = "false";
+                break;
+            case Settings.syntheticMicrotingUidCounter:
+                id = 40;
+                defaultValue = "2000000000";
+                break;
 
             default:
                 throw new IndexOutOfRangeException(name + " is not a known/mapped Settings type");
@@ -5558,6 +5571,69 @@ public class SqlController : LogWriter
         }
 
         return true;
+    }
+
+    /// <summary>
+    /// Returns the next MicrotingUid in the reserved local range
+    /// (>= 2_000_000_000) so generated ids never collide with cloud-assigned ids.
+    /// Used by the local-only Case creation paths (CaseCreateLocalOnly, and
+    /// SendXml when Settings.skipCloudDeploy is enabled).
+    /// </summary>
+    /// <remarks>
+    /// Concurrency: the UPDATE is row-locked by InnoDB, so concurrent callers —
+    /// across threads in one process AND across separate host processes hitting
+    /// the same DB — serialise on the Settings row. Each caller's connection
+    /// holds its own session-scoped LAST_INSERT_ID, so the follow-up SELECT
+    /// returns the value THIS caller just wrote. Both statements run on the
+    /// same connection captured from the DbContext.
+    /// </remarks>
+    public async Task<int> NextSyntheticMicrotingUidAsync()
+    {
+        const int localUidOffset = 2_000_000_000;
+        const int rangeExhaustionGuard = 2_100_000_000;
+        await using var db = GetContext();
+        var conn = db.Database.GetDbConnection();
+        if (conn.State != System.Data.ConnectionState.Open)
+            await conn.OpenAsync().ConfigureAwait(false);
+
+        await using var update = conn.CreateCommand();
+        update.CommandText =
+            $"UPDATE Settings " +
+            $"   SET Value = CAST(LAST_INSERT_ID(CAST(Value AS UNSIGNED) + 1) AS CHAR) " +
+            $" WHERE Name = '{nameof(Settings.syntheticMicrotingUidCounter)}'";
+        var affected = await update.ExecuteNonQueryAsync().ConfigureAwait(false);
+        if (affected == 0)
+        {
+            // Pre-existing installation whose SettingCreateDefaults predates this
+            // setting — seed it and retry once.
+            await SettingCreate(Settings.syntheticMicrotingUidCounter).ConfigureAwait(false);
+            affected = await update.ExecuteNonQueryAsync().ConfigureAwait(false);
+            if (affected == 0)
+                throw new Exception(
+                    "Failed to allocate synthetic MicrotingUid: counter row missing after seeding");
+        }
+
+        await using var select = conn.CreateCommand();
+        select.CommandText = "SELECT LAST_INSERT_ID()";
+        var raw = await select.ExecuteScalarAsync().ConfigureAwait(false);
+        long next = Convert.ToInt64(raw);
+        if (next < localUidOffset || next > rangeExhaustionGuard)
+            throw new Exception(
+                $"Synthetic MicrotingUid {next} outside the reserved local range " +
+                $"[{localUidOffset}, {rangeExhaustionGuard}]");
+        return (int)next;
+    }
+
+    /// <summary>
+    /// Like <see cref="SettingRead"/> but returns null when the row is missing
+    /// instead of throwing — for callers that legitimately treat "missing row"
+    /// as "default behavior" (e.g. callers that pre-date a new setting).
+    /// </summary>
+    public async Task<string> SettingReadOrDefaultAsync(Settings name)
+    {
+        await using var db = GetContext();
+        Setting match = await db.Settings.FirstOrDefaultAsync(x => x.Name == name.ToString());
+        return match?.Value;
     }
 
     /// <summary>
