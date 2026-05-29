@@ -1933,7 +1933,8 @@ public class SqlController : LogWriter
             FieldValue = dbField.DefaultValue,
             EntityGroupId = dbField.EntityGroupId,
             Color = dbField.Color,
-            Id = dbField.Id
+            Id = dbField.Id,
+            Mandatory = _t.Bool(dbField.Mandatory)
         };
         field.Description.InderValue = dbField.Description;
 

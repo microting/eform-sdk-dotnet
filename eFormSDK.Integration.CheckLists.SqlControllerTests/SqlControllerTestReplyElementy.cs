@@ -406,6 +406,12 @@ public class SqlControllerTestReplyElementy : DbTestFixture
         Assert.That(f4.Mandatory, Is.EqualTo(1));
         Assert.That(f5.Mandatory, Is.EqualTo(1));
 
+        Assert.That(_f1.Mandatory, Is.EqualTo(true));
+        Assert.That(_f2.Mandatory, Is.EqualTo(false));
+        Assert.That(_f3.Mandatory, Is.EqualTo(true));
+        Assert.That(_f4.Mandatory, Is.EqualTo(true));
+        Assert.That(_f5.Mandatory, Is.EqualTo(true));
+
         #endregion
 
         #region maxLength
