@@ -30,6 +30,8 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microting.eForm.Dto;
 using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
@@ -75,7 +77,8 @@ public class SqlController : LogWriter
         try
         {
             using var db = GetContext();
-            if (db.Database.GetPendingMigrations().Any())
+            var historyRepo = db.GetService<IHistoryRepository>();
+            if (!historyRepo.Exists() || db.Database.GetPendingMigrations().Any())
             {
                 WriteDebugConsoleLogEntry(new LogEntry(2, methodName,
                     $"{DateTime.Now} : db.Database.Migrate() called"));
