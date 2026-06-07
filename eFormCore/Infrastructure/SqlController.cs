@@ -5915,9 +5915,15 @@ public class SqlController : LogWriter
             await using var db = GetContext();
             GetConverter();
 
-            Language language = await db.Languages.FirstAsync(x => x.Name == "Dansk").ConfigureAwait(false);
-            Language ukLanguage = await db.Languages.FirstAsync(x => x.Name == "English").ConfigureAwait(false);
-            Language deLanguage = await db.Languages.FirstAsync(x => x.Name == "Deutsch").ConfigureAwait(false);
+            var language = await db.Languages.FirstAsync(x => x.LanguageCode == "da").ConfigureAwait(false);
+            var enLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "en-US").ConfigureAwait(false);
+            var deLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "de-DE").ConfigureAwait(false);
+            var ukLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "uk-UA").ConfigureAwait(false);
+            var plLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "pl-PL").ConfigureAwait(false);
+            var noLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "no-NO").ConfigureAwait(false);
+            var svLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "sv-SE").ConfigureAwait(false);
+            var fiLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "fi-FI").ConfigureAwait(false);
+            var roLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "ro-RO").ConfigureAwait(false);
 
             // mainElement
 
@@ -5964,7 +5970,7 @@ public class SqlController : LogWriter
                 {
                     CheckListId = cl.Id,
                     Text = mainElement.Label.Split("|")[1],
-                    LanguageId = ukLanguage.Id
+                    LanguageId = enLanguage.Id
                 };
                 await checkListTranslation.Create(db).ConfigureAwait(false);
             }
@@ -5976,6 +5982,71 @@ public class SqlController : LogWriter
                     CheckListId = cl.Id,
                     Text = mainElement.Label.Split("|")[2],
                     LanguageId = deLanguage.Id
+                };
+                await checkListTranslation.Create(db).ConfigureAwait(false);
+            }
+
+            if (mainElement.Label.Split("|").Length > 3)
+            {
+                checkListTranslation = new CheckListTranslation
+                {
+                    CheckListId = cl.Id,
+                    Text = mainElement.Label.Split("|")[3],
+                    LanguageId = ukLanguage.Id
+                };
+                await checkListTranslation.Create(db).ConfigureAwait(false);
+            }
+
+            if (mainElement.Label.Split("|").Length > 4)
+            {
+                checkListTranslation = new CheckListTranslation
+                {
+                    CheckListId = cl.Id,
+                    Text = mainElement.Label.Split("|")[4],
+                    LanguageId = plLanguage.Id
+                };
+                await checkListTranslation.Create(db).ConfigureAwait(false);
+            }
+
+            if (mainElement.Label.Split("|").Length > 5)
+            {
+                checkListTranslation = new CheckListTranslation
+                {
+                    CheckListId = cl.Id,
+                    Text = mainElement.Label.Split("|")[5],
+                    LanguageId = noLanguage.Id
+                };
+                await checkListTranslation.Create(db).ConfigureAwait(false);
+            }
+
+            if (mainElement.Label.Split("|").Length > 6)
+            {
+                checkListTranslation = new CheckListTranslation
+                {
+                    CheckListId = cl.Id,
+                    Text = mainElement.Label.Split("|")[6],
+                    LanguageId = svLanguage.Id
+                };
+                await checkListTranslation.Create(db).ConfigureAwait(false);
+            }
+
+            if (mainElement.Label.Split("|").Length > 7)
+            {
+                checkListTranslation = new CheckListTranslation
+                {
+                    CheckListId = cl.Id,
+                    Text = mainElement.Label.Split("|")[7],
+                    LanguageId = fiLanguage.Id
+                };
+                await checkListTranslation.Create(db).ConfigureAwait(false);
+            }
+
+            if (mainElement.Label.Split("|").Length > 8)            {
+                checkListTranslation = new CheckListTranslation
+                {
+                    CheckListId = cl.Id,
+                    Text = mainElement.Label.Split("|")[8],
+                    LanguageId = roLanguage.Id
                 };
                 await checkListTranslation.Create(db).ConfigureAwait(false);
             }
@@ -6039,8 +6110,15 @@ public class SqlController : LogWriter
                 // Description = groupElement.Description != null ? groupElement.Description.InderValue : ""
             };
             await cl.Create(db).ConfigureAwait(false);
-            Language ukLanguage = await db.Languages.FirstAsync(x => x.Name == "English").ConfigureAwait(false);
-            Language deLanguage = await db.Languages.FirstAsync(x => x.Name == "Deutsch").ConfigureAwait(false);
+
+            var enLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "en-US").ConfigureAwait(false);
+            var deLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "de-DE").ConfigureAwait(false);
+            var ukLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "uk-UA").ConfigureAwait(false);
+            var plLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "pl-PL").ConfigureAwait(false);
+            var noLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "no-NO").ConfigureAwait(false);
+            var svLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "sv-SE").ConfigureAwait(false);
+            var fiLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "fi-FI").ConfigureAwait(false);
+            var roLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "ro-RO").ConfigureAwait(false);
 
             CheckListTranslation checkListTranslation = new CheckListTranslation
             {
@@ -6059,7 +6137,7 @@ public class SqlController : LogWriter
                 checkListTranslation = new CheckListTranslation
                 {
                     CheckListId = cl.Id,
-                    LanguageId = ukLanguage.Id,
+                    LanguageId = enLanguage.Id,
                     Text = groupElement.Label.Split("|")[1],
                     Description = groupElement.Description != null
                         ? groupElement.Description.InderValue != null
@@ -6083,6 +6161,113 @@ public class SqlController : LogWriter
                         ? groupElement.Description.InderValue != null
                             ? (groupElement.Description.InderValue.Split("|").Length > 2
                                 ? groupElement.Description.InderValue.Split("|")[2]
+                                : "")
+                            : ""
+                        : ""
+                };
+                await checkListTranslation.Create(db).ConfigureAwait(false);
+            }
+
+            if (groupElement.Label.Split("|").Length > 3)
+            {
+                checkListTranslation = new CheckListTranslation
+                {
+                    CheckListId = cl.Id,
+                    LanguageId = ukLanguage.Id,
+                    Text = groupElement.Label.Split("|")[3],
+                    Description = groupElement.Description != null
+                        ? groupElement.Description.InderValue != null
+                            ? (groupElement.Description.InderValue.Split("|").Length > 3
+                                ? groupElement.Description.InderValue.Split("|")[3]
+                                : "")
+                            : ""
+                        : ""
+                };
+                await checkListTranslation.Create(db).ConfigureAwait(false);
+            }
+
+            if (groupElement.Label.Split("|").Length > 4)
+            {
+                checkListTranslation = new CheckListTranslation
+                {
+                    CheckListId = cl.Id,
+                    LanguageId = plLanguage.Id,
+                    Text = groupElement.Label.Split("|")[4],
+                    Description = groupElement.Description != null
+                        ? groupElement.Description.InderValue != null
+                            ? (groupElement.Description.InderValue.Split("|").Length > 4
+                                ? groupElement.Description.InderValue.Split("|")[4]
+                                : "")
+                            : ""
+                        : ""
+                };
+                await checkListTranslation.Create(db).ConfigureAwait(false);
+            }
+
+            if (groupElement.Label.Split("|").Length > 5)
+            {
+                checkListTranslation = new CheckListTranslation
+                {
+                    CheckListId = cl.Id,
+                    LanguageId = noLanguage.Id,
+                    Text = groupElement.Label.Split("|")[5],
+                    Description = groupElement.Description != null
+                        ? groupElement.Description.InderValue != null
+                            ? (groupElement.Description.InderValue.Split("|").Length > 5
+                                ? groupElement.Description.InderValue.Split("|")[5]
+                                : "")
+                            : ""
+                        : ""
+                };
+                await checkListTranslation.Create(db).ConfigureAwait(false);
+            }
+
+            if (groupElement.Label.Split("|").Length > 6)
+            {
+                checkListTranslation = new CheckListTranslation
+                {
+                    CheckListId = cl.Id,
+                    LanguageId = svLanguage.Id,
+                    Text = groupElement.Label.Split("|")[6],
+                    Description = groupElement.Description != null
+                        ? groupElement.Description.InderValue != null
+                            ? (groupElement.Description.InderValue.Split("|").Length > 6
+                                ? groupElement.Description.InderValue.Split("|")[6]
+                                : "")
+                            : ""
+                        : ""
+                };
+                await checkListTranslation.Create(db).ConfigureAwait(false);
+            }
+
+            if (groupElement.Label.Split("|").Length > 7)
+            {
+                checkListTranslation = new CheckListTranslation
+                {
+                    CheckListId = cl.Id,
+                    LanguageId = fiLanguage.Id,
+                    Text = groupElement.Label.Split("|")[7],
+                    Description = groupElement.Description != null
+                        ? groupElement.Description.InderValue != null
+                            ? (groupElement.Description.InderValue.Split("|").Length > 7
+                                ? groupElement.Description.InderValue.Split("|")[7]
+                                : "")
+                            : ""
+                        : ""
+                };
+                await checkListTranslation.Create(db).ConfigureAwait(false);
+            }
+
+            if (groupElement.Label.Split("|").Length > 8)            {
+                checkListTranslation = new CheckListTranslation
+                {
+                    CheckListId = cl.Id,
+                    LanguageId = roLanguage.Id,
+                    Text = groupElement.Label.Split("|")[8],
+                    Description = groupElement.Description != null
+                        ? groupElement.Description.InderValue != null
+                            ? (groupElement.Description.InderValue.Split("|").Length > 8
+                                ? groupElement.Description.InderValue.Split("|")[8]
                                 : "")
                             : ""
                         : ""
@@ -6125,8 +6310,14 @@ public class SqlController : LogWriter
             };
             await cl.Create(db).ConfigureAwait(false);
 
-            Language ukLanguage = await db.Languages.FirstAsync(x => x.Name == "English");
-            Language deLanguage = await db.Languages.FirstAsync(x => x.Name == "Deutsch");
+            var enLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "en-US").ConfigureAwait(false);
+            var deLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "de-DE").ConfigureAwait(false);
+            var ukLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "uk-UA").ConfigureAwait(false);
+            var plLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "pl-PL").ConfigureAwait(false);
+            var noLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "no-NO").ConfigureAwait(false);
+            var svLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "sv-SE").ConfigureAwait(false);
+            var fiLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "fi-FI").ConfigureAwait(false);
+            var roLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "ro-RO").ConfigureAwait(false);
 
             CheckListTranslation checkListTranslation = new CheckListTranslation
             {
@@ -6152,7 +6343,7 @@ public class SqlController : LogWriter
                             ? dataElement.Description.InderValue.Split("|")[1]
                             : "")
                         : "",
-                    LanguageId = ukLanguage.Id
+                    LanguageId = enLanguage.Id
                 };
                 await checkListTranslation.Create(db);
             }
@@ -6169,6 +6360,102 @@ public class SqlController : LogWriter
                             : "")
                         : "",
                     LanguageId = deLanguage.Id
+                };
+                await checkListTranslation.Create(db);
+            }
+
+            if (dataElement.Label.Split("|").Length > 3)
+            {
+                checkListTranslation = new CheckListTranslation
+                {
+                    CheckListId = cl.Id,
+                    Text = dataElement.Label.Split("|")[3],
+                    Description = dataElement.Description != null
+                        ? (dataElement.Description.InderValue.Split("|").Length > 3
+                            ? dataElement.Description.InderValue.Split("|")[3]
+                            : "")
+                        : "",
+                    LanguageId = ukLanguage.Id
+                };
+                await checkListTranslation.Create(db);
+            }
+
+            if (dataElement.Label.Split("|").Length > 4)
+            {
+                checkListTranslation = new CheckListTranslation
+                {
+                    CheckListId = cl.Id,
+                    Text = dataElement.Label.Split("|")[4],
+                    Description = dataElement.Description != null
+                        ? (dataElement.Description.InderValue.Split("|").Length > 4
+                            ? dataElement.Description.InderValue.Split("|")[4]
+                            : "")
+                        : "",
+                    LanguageId = plLanguage.Id
+                };
+                await checkListTranslation.Create(db);
+            }
+
+            if (dataElement.Label.Split("|").Length > 5)
+            {
+                checkListTranslation = new CheckListTranslation
+                {
+                    CheckListId = cl.Id,
+                    Text = dataElement.Label.Split("|")[5],
+                    Description = dataElement.Description != null
+                        ? (dataElement.Description.InderValue.Split("|").Length > 5
+                            ? dataElement.Description.InderValue.Split("|")[5]
+                            : "")
+                        : "",
+                    LanguageId = noLanguage.Id
+                };
+                await checkListTranslation.Create(db);
+            }
+
+            if (dataElement.Label.Split("|").Length > 6)
+            {
+                checkListTranslation = new CheckListTranslation
+                {
+                    CheckListId = cl.Id,
+                    Text = dataElement.Label.Split("|")[6],
+                    Description = dataElement.Description != null
+                        ? (dataElement.Description.InderValue.Split("|").Length > 6
+                            ? dataElement.Description.InderValue.Split("|")[6]
+                            : "")
+                        : "",
+                    LanguageId = svLanguage.Id
+                };
+                await checkListTranslation.Create(db);
+            }
+
+            if (dataElement.Label.Split("|").Length > 7)
+            {
+                checkListTranslation = new CheckListTranslation
+                {
+                    CheckListId = cl.Id,
+                    Text = dataElement.Label.Split("|")[7],
+                    Description = dataElement.Description != null
+                        ? (dataElement.Description.InderValue.Split("|").Length > 7
+                            ? dataElement.Description.InderValue.Split("|")[7]
+                            : "")
+                        : "",
+                    LanguageId = fiLanguage.Id
+                };
+                await checkListTranslation.Create(db);
+            }
+
+            if (dataElement.Label.Split("|").Length > 8)
+            {
+                checkListTranslation = new CheckListTranslation
+                {
+                    CheckListId = cl.Id,
+                    Text = dataElement.Label.Split("|")[8],
+                    Description = dataElement.Description != null
+                        ? (dataElement.Description.InderValue.Split("|").Length > 8
+                            ? dataElement.Description.InderValue.Split("|")[8]
+                            : "")
+                        : "",
+                    LanguageId = roLanguage.Id
                 };
                 await checkListTranslation.Create(db);
             }
@@ -6204,8 +6491,14 @@ public class SqlController : LogWriter
 
             int fieldTypeId = Find(typeStr);
 
-            Language ukLanguage = await db.Languages.FirstAsync(x => x.Name == "English").ConfigureAwait(false);
-            Language deLanguage = await db.Languages.FirstAsync(x => x.Name == "Deutsch").ConfigureAwait(false);
+            var enLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "en-US").ConfigureAwait(false);
+            var deLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "de-DE").ConfigureAwait(false);
+            var ukLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "uk-UA").ConfigureAwait(false);
+            var plLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "pl-PL").ConfigureAwait(false);
+            var noLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "no-NO").ConfigureAwait(false);
+            var svLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "sv-SE").ConfigureAwait(false);
+            var fiLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "fi-FI").ConfigureAwait(false);
+            var roLanguage = await db.Languages.FirstAsync(x => x.LanguageCode == "ro-RO").ConfigureAwait(false);
 
             Field field = new Field
             {
@@ -6268,7 +6561,7 @@ public class SqlController : LogWriter
                     {
                         fieldTranslation = new FieldTranslation
                         {
-                            LanguageId = ukLanguage.Id,
+                            LanguageId = enLanguage.Id,
                             Text = dataItem.Label.Split("|")[1],
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 1
@@ -6302,6 +6595,120 @@ public class SqlController : LogWriter
                         await fieldTranslation.Create(db).ConfigureAwait(false);
                     }
 
+                    if (dataItem.Label.Split("|").Length > 3)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = ukLanguage.Id,
+                            Text = dataItem.Label.Split("|")[3],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 3
+                                    ? dataItem.Description.InderValue.Split("|")[3]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = comment.Value.Split("|").Length > 3
+                                ? comment.Value.Split("|")[3]
+                                : comment.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 4)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = plLanguage.Id,
+                            Text = dataItem.Label.Split("|")[4],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 4
+                                    ? dataItem.Description.InderValue.Split("|")[4]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = comment.Value.Split("|").Length > 4
+                                ? comment.Value.Split("|")[4]
+                                : comment.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 5)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = noLanguage.Id,
+                            Text = dataItem.Label.Split("|")[5],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 5
+                                    ? dataItem.Description.InderValue.Split("|")[5]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = comment.Value.Split("|").Length > 5
+                                ? comment.Value.Split("|")[5]
+                                : comment.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 6)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = svLanguage.Id,
+                            Text = dataItem.Label.Split("|")[6],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 6
+                                    ? dataItem.Description.InderValue.Split("|")[6]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = comment.Value.Split("|").Length > 6
+                                ? comment.Value.Split("|")[6]
+                                : comment.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 7)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = fiLanguage.Id,
+                            Text = dataItem.Label.Split("|")[7],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 7
+                                    ? dataItem.Description.InderValue.Split("|")[7]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = comment.Value.Split("|").Length > 7
+                                ? comment.Value.Split("|")[7]
+                                : comment.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 8)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = roLanguage.Id,
+                            Text = dataItem.Label.Split("|")[8],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 8
+                                    ? dataItem.Description.InderValue.Split("|")[8]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = comment.Value.Split("|").Length > 8
+                                ? comment.Value.Split("|")[8]
+                                : comment.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
                     isSaved = true;
                     break;
 
@@ -6327,7 +6734,7 @@ public class SqlController : LogWriter
                     {
                         fieldTranslation = new FieldTranslation
                         {
-                            LanguageId = ukLanguage.Id,
+                            LanguageId = enLanguage.Id,
                             Text = dataItem.Label.Split("|")[1],
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 1
@@ -6356,6 +6763,120 @@ public class SqlController : LogWriter
                             FieldId = field.Id,
                             DefaultValue = date.DefaultValue?.Split("|").Length > 2
                                 ? date.DefaultValue.Split("|")[2]
+                                : date.DefaultValue?.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 3)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = ukLanguage.Id,
+                            Text = dataItem.Label.Split("|")[3],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 3
+                                    ? dataItem.Description.InderValue.Split("|")[3]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = date.DefaultValue?.Split("|").Length > 3
+                                ? date.DefaultValue.Split("|")[3]
+                                : date.DefaultValue?.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 4)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = plLanguage.Id,
+                            Text = dataItem.Label.Split("|")[4],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 4
+                                    ? dataItem.Description.InderValue.Split("|")[4]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = date.DefaultValue?.Split("|").Length > 4
+                                ? date.DefaultValue.Split("|")[4]
+                                : date.DefaultValue?.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 5)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = noLanguage.Id,
+                            Text = dataItem.Label.Split("|")[5],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 5
+                                    ? dataItem.Description.InderValue.Split("|")[5]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = date.DefaultValue?.Split("|").Length > 5
+                                ? date.DefaultValue.Split("|")[5]
+                                : date.DefaultValue?.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 6)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = svLanguage.Id,
+                            Text = dataItem.Label.Split("|")[6],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 6
+                                    ? dataItem.Description.InderValue.Split("|")[6]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = date.DefaultValue?.Split("|").Length > 6
+                                ? date.DefaultValue.Split("|")[6]
+                                : date.DefaultValue?.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 7)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = fiLanguage.Id,
+                            Text = dataItem.Label.Split("|")[7],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 7
+                                    ? dataItem.Description.InderValue.Split("|")[7]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = date.DefaultValue?.Split("|").Length > 7
+                                ? date.DefaultValue.Split("|")[7]
+                                : date.DefaultValue?.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 8)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = roLanguage.Id,
+                            Text = dataItem.Label.Split("|")[8],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 8
+                                    ? dataItem.Description.InderValue.Split("|")[8]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = date.DefaultValue?.Split("|").Length > 8
+                                ? date.DefaultValue.Split("|")[8]
                                 : date.DefaultValue?.Split("|")[0]
                         };
                         await fieldTranslation.Create(db).ConfigureAwait(false);
@@ -6391,7 +6912,7 @@ public class SqlController : LogWriter
                     {
                         fieldTranslation = new FieldTranslation
                         {
-                            LanguageId = ukLanguage.Id,
+                            LanguageId = enLanguage.Id,
                             Text = dataItem.Label.Split("|")[1],
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 1
@@ -6413,6 +6934,108 @@ public class SqlController : LogWriter
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 2
                                     ? dataItem.Description.InderValue.Split("|")[2]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = number.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 3)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = ukLanguage.Id,
+                            Text = dataItem.Label.Split("|")[3],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 3
+                                    ? dataItem.Description.InderValue.Split("|")[3]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = number.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 4)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = plLanguage.Id,
+                            Text = dataItem.Label.Split("|")[4],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 4
+                                    ? dataItem.Description.InderValue.Split("|")[4]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = number.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 5)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = noLanguage.Id,
+                            Text = dataItem.Label.Split("|")[5],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 5
+                                    ? dataItem.Description.InderValue.Split("|")[5]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = number.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 6)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = svLanguage.Id,
+                            Text = dataItem.Label.Split("|")[6],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 6
+                                    ? dataItem.Description.InderValue.Split("|")[6]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = number.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 7)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = fiLanguage.Id,
+                            Text = dataItem.Label.Split("|")[7],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 7
+                                    ? dataItem.Description.InderValue.Split("|")[7]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = number.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 8)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = roLanguage.Id,
+                            Text = dataItem.Label.Split("|")[8],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 8
+                                    ? dataItem.Description.InderValue.Split("|")[8]
                                     : "")
                                 : "",
                             FieldId = field.Id,
@@ -6448,7 +7071,7 @@ public class SqlController : LogWriter
                     {
                         fieldTranslation = new FieldTranslation
                         {
-                            LanguageId = ukLanguage.Id,
+                            LanguageId = enLanguage.Id,
                             Text = dataItem.Label.Split("|")[1],
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 1
@@ -6470,6 +7093,108 @@ public class SqlController : LogWriter
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 2
                                     ? dataItem.Description.InderValue.Split("|")[2]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = numberStepper.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 3)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = ukLanguage.Id,
+                            Text = dataItem.Label.Split("|")[3],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 3
+                                    ? dataItem.Description.InderValue.Split("|")[3]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = numberStepper.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 4)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = plLanguage.Id,
+                            Text = dataItem.Label.Split("|")[4],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 4
+                                    ? dataItem.Description.InderValue.Split("|")[4]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = numberStepper.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 5)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = noLanguage.Id,
+                            Text = dataItem.Label.Split("|")[5],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 5
+                                    ? dataItem.Description.InderValue.Split("|")[5]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = numberStepper.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 6)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = svLanguage.Id,
+                            Text = dataItem.Label.Split("|")[6],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 6
+                                    ? dataItem.Description.InderValue.Split("|")[6]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = numberStepper.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 7)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = fiLanguage.Id,
+                            Text = dataItem.Label.Split("|")[7],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 7
+                                    ? dataItem.Description.InderValue.Split("|")[7]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = numberStepper.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 8)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = roLanguage.Id,
+                            Text = dataItem.Label.Split("|")[8],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 8
+                                    ? dataItem.Description.InderValue.Split("|")[8]
                                     : "")
                                 : "",
                             FieldId = field.Id,
@@ -6499,7 +7224,7 @@ public class SqlController : LogWriter
                     {
                         fieldTranslation = new FieldTranslation
                         {
-                            LanguageId = ukLanguage.Id,
+                            LanguageId = enLanguage.Id,
                             Text = dataItem.Label.Split("|")[1],
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 1
@@ -6520,6 +7245,102 @@ public class SqlController : LogWriter
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 2
                                     ? dataItem.Description.InderValue.Split("|")[2]
+                                    : "")
+                                : "",
+                            FieldId = field.Id
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 3)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = ukLanguage.Id,
+                            Text = dataItem.Label.Split("|")[3],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 3
+                                    ? dataItem.Description.InderValue.Split("|")[3]
+                                    : "")
+                                : "",
+                            FieldId = field.Id
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 4)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = plLanguage.Id,
+                            Text = dataItem.Label.Split("|")[4],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 4
+                                    ? dataItem.Description.InderValue.Split("|")[4]
+                                    : "")
+                                : "",
+                            FieldId = field.Id
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 5)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = noLanguage.Id,
+                            Text = dataItem.Label.Split("|")[5],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 5
+                                    ? dataItem.Description.InderValue.Split("|")[5]
+                                    : "")
+                                : "",
+                            FieldId = field.Id
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 6)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = svLanguage.Id,
+                            Text = dataItem.Label.Split("|")[6],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 6
+                                    ? dataItem.Description.InderValue.Split("|")[6]
+                                    : "")
+                                : "",
+                            FieldId = field.Id
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 7)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = fiLanguage.Id,
+                            Text = dataItem.Label.Split("|")[7],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 7
+                                    ? dataItem.Description.InderValue.Split("|")[7]
+                                    : "")
+                                : "",
+                            FieldId = field.Id
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 8)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = roLanguage.Id,
+                            Text = dataItem.Label.Split("|")[8],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 8
+                                    ? dataItem.Description.InderValue.Split("|")[8]
                                     : "")
                                 : "",
                             FieldId = field.Id
@@ -6553,7 +7374,7 @@ public class SqlController : LogWriter
                             fieldOptionTranslation = new FieldOptionTranslation
                             {
                                 FieldOptionId = fieldOption.Id,
-                                LanguageId = ukLanguage.Id,
+                                LanguageId = enLanguage.Id,
                                 Text = keyValuePair.Value.Split("|")[1]
                             };
                             await fieldOptionTranslation.Create(db).ConfigureAwait(false);
@@ -6566,6 +7387,72 @@ public class SqlController : LogWriter
                                 FieldOptionId = fieldOption.Id,
                                 LanguageId = deLanguage.Id,
                                 Text = keyValuePair.Value.Split("|")[2]
+                            };
+                            await fieldOptionTranslation.Create(db).ConfigureAwait(false);
+                        }
+
+                        if (keyValuePair.Value.Split("|").Length > 3)
+                        {
+                            fieldOptionTranslation = new FieldOptionTranslation
+                            {
+                                FieldOptionId = fieldOption.Id,
+                                LanguageId = ukLanguage.Id,
+                                Text = keyValuePair.Value.Split("|")[3]
+                            };
+                            await fieldOptionTranslation.Create(db).ConfigureAwait(false);
+                        }
+
+                        if (keyValuePair.Value.Split("|").Length > 4)
+                        {
+                            fieldOptionTranslation = new FieldOptionTranslation
+                            {
+                                FieldOptionId = fieldOption.Id,
+                                LanguageId = plLanguage.Id,
+                                Text = keyValuePair.Value.Split("|")[4]
+                            };
+                            await fieldOptionTranslation.Create(db).ConfigureAwait(false);
+                        }
+
+                        if (keyValuePair.Value.Split("|").Length > 5)
+                        {
+                            fieldOptionTranslation = new FieldOptionTranslation
+                            {
+                                FieldOptionId = fieldOption.Id,
+                                LanguageId = noLanguage.Id,
+                                Text = keyValuePair.Value.Split("|")[5]
+                            };
+                            await fieldOptionTranslation.Create(db).ConfigureAwait(false);
+                        }
+
+                        if (keyValuePair.Value.Split("|").Length > 6)
+                        {
+                            fieldOptionTranslation = new FieldOptionTranslation
+                            {
+                                FieldOptionId = fieldOption.Id,
+                                LanguageId = svLanguage.Id,
+                                Text = keyValuePair.Value.Split("|")[6]
+                            };
+                            await fieldOptionTranslation.Create(db).ConfigureAwait(false);
+                        }
+
+                        if (keyValuePair.Value.Split("|").Length > 7)
+                        {
+                            fieldOptionTranslation = new FieldOptionTranslation
+                            {
+                                FieldOptionId = fieldOption.Id,
+                                LanguageId = fiLanguage.Id,
+                                Text = keyValuePair.Value.Split("|")[7]
+                            };
+                            await fieldOptionTranslation.Create(db).ConfigureAwait(false);
+                        }
+
+                        if (keyValuePair.Value.Split("|").Length > 8)
+                        {
+                            fieldOptionTranslation = new FieldOptionTranslation
+                            {
+                                FieldOptionId = fieldOption.Id,
+                                LanguageId = roLanguage.Id,
+                                Text = keyValuePair.Value.Split("|")[8]
                             };
                             await fieldOptionTranslation.Create(db).ConfigureAwait(false);
                         }
@@ -6600,7 +7487,7 @@ public class SqlController : LogWriter
                     {
                         fieldTranslation = new FieldTranslation
                         {
-                            LanguageId = ukLanguage.Id,
+                            LanguageId = enLanguage.Id,
                             Text = dataItem.Label.Split("|")[1],
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 1
@@ -6634,6 +7521,120 @@ public class SqlController : LogWriter
                         await fieldTranslation.Create(db).ConfigureAwait(false);
                     }
 
+                    if (dataItem.Label.Split("|").Length > 3)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = ukLanguage.Id,
+                            Text = dataItem.Label.Split("|")[3],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 3
+                                    ? dataItem.Description.InderValue.Split("|")[3]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = saveButton.Value.Split("|").Length > 3
+                                ? saveButton.Value.Split("|")[3]
+                                : saveButton.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 4)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = plLanguage.Id,
+                            Text = dataItem.Label.Split("|")[4],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 4
+                                    ? dataItem.Description.InderValue.Split("|")[4]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = saveButton.Value.Split("|").Length > 4
+                                ? saveButton.Value.Split("|")[4]
+                                : saveButton.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 5)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = noLanguage.Id,
+                            Text = dataItem.Label.Split("|")[5],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 5
+                                    ? dataItem.Description.InderValue.Split("|")[5]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = saveButton.Value.Split("|").Length > 5
+                                ? saveButton.Value.Split("|")[5]
+                                : saveButton.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 6)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = svLanguage.Id,
+                            Text = dataItem.Label.Split("|")[6],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 6
+                                    ? dataItem.Description.InderValue.Split("|")[6]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = saveButton.Value.Split("|").Length > 6
+                                ? saveButton.Value.Split("|")[6]
+                                : saveButton.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 7)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = fiLanguage.Id,
+                            Text = dataItem.Label.Split("|")[7],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 7
+                                    ? dataItem.Description.InderValue.Split("|")[7]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = saveButton.Value.Split("|").Length > 7
+                                ? saveButton.Value.Split("|")[7]
+                                : saveButton.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 8)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = roLanguage.Id,
+                            Text = dataItem.Label.Split("|")[8],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 8
+                                    ? dataItem.Description.InderValue.Split("|")[8]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = saveButton.Value.Split("|").Length > 8
+                                ? saveButton.Value.Split("|")[8]
+                                : saveButton.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
                     isSaved = true;
                     break;
 
@@ -6657,7 +7658,7 @@ public class SqlController : LogWriter
                     {
                         fieldTranslation = new FieldTranslation
                         {
-                            LanguageId = ukLanguage.Id,
+                            LanguageId = enLanguage.Id,
                             Text = dataItem.Label.Split("|")[1],
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 1
@@ -6691,6 +7692,120 @@ public class SqlController : LogWriter
                         await fieldTranslation.Create(db).ConfigureAwait(false);
                     }
 
+                    if (dataItem.Label.Split("|").Length > 3)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = ukLanguage.Id,
+                            Text = dataItem.Label.Split("|")[3],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 3
+                                    ? dataItem.Description.InderValue.Split("|")[3]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = showPdf.Value.Split("|").Length > 3
+                                ? showPdf.Value.Split("|")[3]
+                                : showPdf.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 4)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = plLanguage.Id,
+                            Text = dataItem.Label.Split("|")[4],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 4
+                                    ? dataItem.Description.InderValue.Split("|")[4]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = showPdf.Value.Split("|").Length > 4
+                                ? showPdf.Value.Split("|")[4]
+                                : showPdf.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 5)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = noLanguage.Id,
+                            Text = dataItem.Label.Split("|")[5],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 5
+                                    ? dataItem.Description.InderValue.Split("|")[5]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = showPdf.Value.Split("|").Length > 5
+                                ? showPdf.Value.Split("|")[5]
+                                : showPdf.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 6)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = svLanguage.Id,
+                            Text = dataItem.Label.Split("|")[6],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 6
+                                    ? dataItem.Description.InderValue.Split("|")[6]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = showPdf.Value.Split("|").Length > 6
+                                ? showPdf.Value.Split("|")[6]
+                                : showPdf.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 7)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = fiLanguage.Id,
+                            Text = dataItem.Label.Split("|")[7],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 7
+                                    ? dataItem.Description.InderValue.Split("|")[7]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = showPdf.Value.Split("|").Length > 7
+                                ? showPdf.Value.Split("|")[7]
+                                : showPdf.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 8)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = roLanguage.Id,
+                            Text = dataItem.Label.Split("|")[8],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 8
+                                    ? dataItem.Description.InderValue.Split("|")[8]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = showPdf.Value.Split("|").Length > 8
+                                ? showPdf.Value.Split("|")[8]
+                                : showPdf.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
                     isSaved = true;
                     break;
 
@@ -6714,7 +7829,7 @@ public class SqlController : LogWriter
                     {
                         fieldTranslation = new FieldTranslation
                         {
-                            LanguageId = ukLanguage.Id,
+                            LanguageId = enLanguage.Id,
                             Text = dataItem.Label.Split("|")[1],
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 1
@@ -6748,6 +7863,120 @@ public class SqlController : LogWriter
                         await fieldTranslation.Create(db).ConfigureAwait(false);
                     }
 
+                    if (dataItem.Label.Split("|").Length > 3)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = ukLanguage.Id,
+                            Text = dataItem.Label.Split("|")[3],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 3
+                                    ? dataItem.Description.InderValue.Split("|")[3]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = showPicture.Value.Split("|").Length > 3
+                                ? showPicture.Value.Split("|")[3]
+                                : showPicture.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 4)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = plLanguage.Id,
+                            Text = dataItem.Label.Split("|")[4],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 4
+                                    ? dataItem.Description.InderValue.Split("|")[4]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = showPicture.Value.Split("|").Length > 4
+                                ? showPicture.Value.Split("|")[4]
+                                : showPicture.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 5)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = noLanguage.Id,
+                            Text = dataItem.Label.Split("|")[5],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 5
+                                    ? dataItem.Description.InderValue.Split("|")[5]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = showPicture.Value.Split("|").Length > 5
+                                ? showPicture.Value.Split("|")[5]
+                                : showPicture.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 6)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = svLanguage.Id,
+                            Text = dataItem.Label.Split("|")[6],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 6
+                                    ? dataItem.Description.InderValue.Split("|")[6]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = showPicture.Value.Split("|").Length > 6
+                                ? showPicture.Value.Split("|")[6]
+                                : showPicture.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 7)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = fiLanguage.Id,
+                            Text = dataItem.Label.Split("|")[7],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 7
+                                    ? dataItem.Description.InderValue.Split("|")[7]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = showPicture.Value.Split("|").Length > 7
+                                ? showPicture.Value.Split("|")[7]
+                                : showPicture.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 8)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = roLanguage.Id,
+                            Text = dataItem.Label.Split("|")[8],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 8
+                                    ? dataItem.Description.InderValue.Split("|")[8]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = showPicture.Value.Split("|").Length > 8
+                                ? showPicture.Value.Split("|")[8]
+                                : showPicture.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
                     isSaved = true;
                     break;
 
@@ -6772,7 +8001,7 @@ public class SqlController : LogWriter
                     {
                         fieldTranslation = new FieldTranslation
                         {
-                            LanguageId = ukLanguage.Id,
+                            LanguageId = enLanguage.Id,
                             Text = dataItem.Label.Split("|")[1],
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 1
@@ -6793,6 +8022,96 @@ public class SqlController : LogWriter
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 2
                                     ? dataItem.Description.InderValue.Split("|")[2]
+                                    : "")
+                                : "",
+                            FieldId = field.Id
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 3)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = ukLanguage.Id,
+                            Text = dataItem.Label.Split("|")[3],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 3
+                                    ? dataItem.Description.InderValue.Split("|")[3]
+                                    : "")
+                                : "",
+                            FieldId = field.Id
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 4)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = plLanguage.Id,
+                            Text = dataItem.Label.Split("|")[4],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 4
+                                    ? dataItem.Description.InderValue.Split("|")[4]
+                                    : "")
+                                : "",
+                            FieldId = field.Id
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 5)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = noLanguage.Id,
+                            Text = dataItem.Label.Split("|")[5],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 5
+                                    ? dataItem.Description.InderValue.Split("|")[5]
+                                    : "")
+                                : "",
+                            FieldId = field.Id
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 6)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = svLanguage.Id,
+                            Text = dataItem.Label.Split("|")[6],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 6
+                                    ? dataItem.Description.InderValue.Split("|")[6]
+                                    : "")
+                                : "",
+                            FieldId = field.Id
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 7)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = fiLanguage.Id,
+                            Text = dataItem.Label.Split("|")[7],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 7
+                                    ? dataItem.Description.InderValue.Split("|")[7]
+                                    : "")
+                                : "",
+                            FieldId = field.Id
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 8)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = roLanguage.Id,
+                            Text = dataItem.Label.Split("|")[8],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 8
+                                    ? dataItem.Description.InderValue.Split("|")[8]
                                     : "")
                                 : "",
                             FieldId = field.Id
@@ -6826,7 +8145,7 @@ public class SqlController : LogWriter
                             fieldOptionTranslation = new FieldOptionTranslation
                             {
                                 FieldOptionId = fieldOption.Id,
-                                LanguageId = ukLanguage.Id,
+                                LanguageId = enLanguage.Id,
                                 Text = keyValuePair.Value.Split("|")[1]
                             };
                             await fieldOptionTranslation.Create(db).ConfigureAwait(false);
@@ -6842,6 +8161,74 @@ public class SqlController : LogWriter
                             };
                             await fieldOptionTranslation.Create(db).ConfigureAwait(false);
                         }
+
+                        if (keyValuePair.Value.Split("|").Length > 3)
+                        {
+                            fieldOptionTranslation = new FieldOptionTranslation
+                            {
+                                FieldOptionId = fieldOption.Id,
+                                LanguageId = ukLanguage.Id,
+                                Text = keyValuePair.Value.Split("|")[3]
+                            };
+                            await fieldOptionTranslation.Create(db).ConfigureAwait(false);
+                        }
+
+                        if (keyValuePair.Value.Split("|").Length > 4)
+                        {
+                            fieldOptionTranslation = new FieldOptionTranslation
+                            {
+                                FieldOptionId = fieldOption.Id,
+                                LanguageId = ukLanguage.Id,
+                                Text = keyValuePair.Value.Split("|")[4]
+                            };
+                            await fieldOptionTranslation.Create(db).ConfigureAwait(false);
+                        }
+
+                        if (keyValuePair.Value.Split("|").Length > 5)
+                        {
+                            fieldOptionTranslation = new FieldOptionTranslation
+                            {
+                                FieldOptionId = fieldOption.Id,
+                                LanguageId = plLanguage.Id,
+                                Text = keyValuePair.Value.Split("|")[5]
+                            };
+                            await fieldOptionTranslation.Create(db).ConfigureAwait(false);
+                        }
+
+                        if (keyValuePair.Value.Split("|").Length > 6)
+                        {
+                            fieldOptionTranslation = new FieldOptionTranslation
+                            {
+                                FieldOptionId = fieldOption.Id,
+                                LanguageId = noLanguage.Id,
+                                Text = keyValuePair.Value.Split("|")[6]
+                            };
+                            await fieldOptionTranslation.Create(db).ConfigureAwait(false);
+                        }
+
+                        if (keyValuePair.Value.Split("|").Length > 7)
+                        {
+                            fieldOptionTranslation = new FieldOptionTranslation
+                            {
+                                FieldOptionId = fieldOption.Id,
+                                LanguageId = svLanguage.Id,
+                                Text = keyValuePair.Value.Split("|")[7]
+                            };
+                            await fieldOptionTranslation.Create(db).ConfigureAwait(false);
+                        }
+
+                        if (keyValuePair.Value.Split("|").Length > 8)
+                        {
+                            fieldOptionTranslation = new FieldOptionTranslation
+                            {
+                                FieldOptionId = fieldOption.Id,
+                                LanguageId = fiLanguage.Id,
+                                Text = keyValuePair.Value.Split("|")[8]
+                            };
+                            await fieldOptionTranslation.Create(db).ConfigureAwait(false);
+                        }
+
+
                     }
 
                     // field.KeyValuePairList = PairBuild(singleSelect.KeyValuePairList);
@@ -6873,7 +8260,7 @@ public class SqlController : LogWriter
                     {
                         fieldTranslation = new FieldTranslation
                         {
-                            LanguageId = ukLanguage.Id,
+                            LanguageId = enLanguage.Id,
                             Text = dataItem.Label.Split("|")[1],
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 1
@@ -6907,6 +8294,113 @@ public class SqlController : LogWriter
                         await fieldTranslation.Create(db).ConfigureAwait(false);
                     }
 
+                    if (dataItem.Label.Split("|").Length > 3)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = ukLanguage.Id,
+                            Text = dataItem.Label.Split("|")[3],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 3
+                                    ? dataItem.Description.InderValue.Split("|")[3]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = text.Value.Split("|").Length > 3
+                                ? text.Value.Split("|")[3]
+                                : text.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 4)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = plLanguage.Id,
+                            Text = dataItem.Label.Split("|")[4],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 4
+                                    ? dataItem.Description.InderValue.Split("|")[4]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = text.Value.Split("|").Length > 4
+                                ? text.Value.Split("|")[4]
+                                : text.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 5)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = noLanguage.Id,
+                            Text = dataItem.Label.Split("|")[5],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 5
+                                    ? dataItem.Description.InderValue.Split("|")[5]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = text.Value.Split("|").Length > 5
+                                ? text.Value.Split("|")[5]
+                                : text.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 6)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = svLanguage.Id,
+                            Text = dataItem.Label.Split("|")[6],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 6
+                                    ? dataItem.Description.InderValue.Split("|")[6]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = text.Value.Split("|").Length > 6
+                                ? text.Value.Split("|")[6]
+                                : text.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 7)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = fiLanguage.Id,
+                            Text = dataItem.Label.Split("|")[7],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 7
+                                    ? dataItem.Description.InderValue.Split("|")[7]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = text.Value.Split("|").Length > 7
+                                ? text.Value.Split("|")[7]
+                                : text.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 8)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = roLanguage.Id,
+                            Text = dataItem.Label.Split("|")[8],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 8
+                                    ? dataItem.Description.InderValue.Split("|")[8]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = text.Value.Split("|").Length > 8
+                                ? text.Value.Split("|")[8]
+                                : text.Value.Split("|")[0]
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
                     isSaved = true;
                     break;
 
@@ -6943,7 +8437,7 @@ public class SqlController : LogWriter
                     {
                         fieldTranslation = new FieldTranslation
                         {
-                            LanguageId = ukLanguage.Id,
+                            LanguageId = enLanguage.Id,
                             Text = dataItem.Label.Split("|")[1],
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 1
@@ -6965,6 +8459,102 @@ public class SqlController : LogWriter
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 2
                                     ? dataItem.Description.InderValue.Split("|")[2]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = entitySearch.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 3)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = ukLanguage.Id,
+                            Text = dataItem.Label.Split("|")[3],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 3
+                                    ? dataItem.Description.InderValue.Split("|")[3]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = entitySearch.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 4)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = plLanguage.Id,
+                            Text = dataItem.Label.Split("|")[4],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 4
+                                    ? dataItem.Description.InderValue.Split("|")[4]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = entitySearch.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 5)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = noLanguage.Id,
+                            Text = dataItem.Label.Split("|")[5],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 5
+                                    ? dataItem.Description.InderValue.Split("|")[5]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = entitySearch.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 6)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = svLanguage.Id,
+                            Text = dataItem.Label.Split("|")[6],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 6
+                                    ? dataItem.Description.InderValue.Split("|")[6]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = entitySearch.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 7)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = fiLanguage.Id,
+                            Text = dataItem.Label.Split("|")[7],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 7
+                                    ? dataItem.Description.InderValue.Split("|")[7]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = entitySearch.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 8)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = roLanguage.Id,
+                            Text = dataItem.Label.Split("|")[8],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 8
+                                    ? dataItem.Description.InderValue.Split("|")[8]
                                     : "")
                                 : "",
                             FieldId = field.Id,
@@ -6997,7 +8587,7 @@ public class SqlController : LogWriter
                     {
                         fieldTranslation = new FieldTranslation
                         {
-                            LanguageId = ukLanguage.Id,
+                            LanguageId = enLanguage.Id,
                             Text = dataItem.Label.Split("|")[1],
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 1
@@ -7019,6 +8609,102 @@ public class SqlController : LogWriter
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 2
                                     ? dataItem.Description.InderValue.Split("|")[2]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = entitySelect.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 3)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = ukLanguage.Id,
+                            Text = dataItem.Label.Split("|")[3],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 3
+                                    ? dataItem.Description.InderValue.Split("|")[3]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = entitySelect.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 4)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = plLanguage.Id,
+                            Text = dataItem.Label.Split("|")[4],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 4
+                                    ? dataItem.Description.InderValue.Split("|")[4]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = entitySelect.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 5)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = noLanguage.Id,
+                            Text = dataItem.Label.Split("|")[5],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 5
+                                    ? dataItem.Description.InderValue.Split("|")[5]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = entitySelect.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 6)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = svLanguage.Id,
+                            Text = dataItem.Label.Split("|")[6],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 6
+                                    ? dataItem.Description.InderValue.Split("|")[6]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = entitySelect.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 7)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = fiLanguage.Id,
+                            Text = dataItem.Label.Split("|")[7],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 7
+                                    ? dataItem.Description.InderValue.Split("|")[7]
+                                    : "")
+                                : "",
+                            FieldId = field.Id,
+                            DefaultValue = entitySelect.DefaultValue.ToString()
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 8)                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = roLanguage.Id,
+                            Text = dataItem.Label.Split("|")[8],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 8
+                                    ? dataItem.Description.InderValue.Split("|")[8]
                                     : "")
                                 : "",
                             FieldId = field.Id,
@@ -7052,7 +8738,7 @@ public class SqlController : LogWriter
                     {
                         fieldTranslation = new FieldTranslation
                         {
-                            LanguageId = ukLanguage.Id,
+                            LanguageId = enLanguage.Id,
                             Text = dataItem.Label.Split("|")[1],
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 1
@@ -7073,6 +8759,102 @@ public class SqlController : LogWriter
                             Description = dataItem.Description != null
                                 ? (dataItem.Description.InderValue.Split("|").Length > 2
                                     ? dataItem.Description.InderValue.Split("|")[2]
+                                    : "")
+                                : "",
+                            FieldId = field.Id
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 3)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = deLanguage.Id,
+                            Text = dataItem.Label.Split("|")[3],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 3
+                                    ? dataItem.Description.InderValue.Split("|")[3]
+                                    : "")
+                                : "",
+                            FieldId = field.Id
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 4)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = deLanguage.Id,
+                            Text = dataItem.Label.Split("|")[4],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 4
+                                    ? dataItem.Description.InderValue.Split("|")[4]
+                                    : "")
+                                : "",
+                            FieldId = field.Id
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 5)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = deLanguage.Id,
+                            Text = dataItem.Label.Split("|")[5],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 5
+                                    ? dataItem.Description.InderValue.Split("|")[5]
+                                    : "")
+                                : "",
+                            FieldId = field.Id
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 6)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = deLanguage.Id,
+                            Text = dataItem.Label.Split("|")[6],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 6
+                                    ? dataItem.Description.InderValue.Split("|")[6]
+                                    : "")
+                                : "",
+                            FieldId = field.Id
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 7)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = deLanguage.Id,
+                            Text = dataItem.Label.Split("|")[7],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 7
+                                    ? dataItem.Description.InderValue.Split("|")[7]
+                                    : "")
+                                : "",
+                            FieldId = field.Id
+                        };
+                        await fieldTranslation.Create(db).ConfigureAwait(false);
+                    }
+
+                    if (dataItem.Label.Split("|").Length > 8)
+                    {
+                        fieldTranslation = new FieldTranslation
+                        {
+                            LanguageId = deLanguage.Id,
+                            Text = dataItem.Label.Split("|")[8],
+                            Description = dataItem.Description != null
+                                ? (dataItem.Description.InderValue.Split("|").Length > 8
+                                    ? dataItem.Description.InderValue.Split("|")[8]
                                     : "")
                                 : "",
                             FieldId = field.Id
@@ -7117,7 +8899,7 @@ public class SqlController : LogWriter
                 {
                     fieldTranslation = new FieldTranslation
                     {
-                        LanguageId = ukLanguage.Id,
+                        LanguageId = enLanguage.Id,
                         Text = dataItem.Label.Split("|")[1],
                         Description = dataItem.Description != null
                             ? (dataItem.Description.InderValue.Split("|").Length > 1
@@ -7138,6 +8920,102 @@ public class SqlController : LogWriter
                         Description = dataItem.Description != null
                             ? (dataItem.Description.InderValue.Split("|").Length > 2
                                 ? dataItem.Description.InderValue.Split("|")[2]
+                                : "")
+                            : "",
+                        FieldId = field.Id
+                    };
+                    await fieldTranslation.Create(db).ConfigureAwait(false);
+                }
+
+                if (dataItem.Label.Split("|").Length > 3)
+                {
+                    fieldTranslation = new FieldTranslation
+                    {
+                        LanguageId = deLanguage.Id,
+                        Text = dataItem.Label.Split("|")[3],
+                        Description = dataItem.Description != null
+                            ? (dataItem.Description.InderValue.Split("|").Length > 3
+                                ? dataItem.Description.InderValue.Split("|")[3]
+                                : "")
+                            : "",
+                        FieldId = field.Id
+                    };
+                    await fieldTranslation.Create(db).ConfigureAwait(false);
+                }
+
+                if (dataItem.Label.Split("|").Length > 4)
+                {
+                    fieldTranslation = new FieldTranslation
+                    {
+                        LanguageId = deLanguage.Id,
+                        Text = dataItem.Label.Split("|")[4],
+                        Description = dataItem.Description != null
+                            ? (dataItem.Description.InderValue.Split("|").Length > 4
+                                ? dataItem.Description.InderValue.Split("|")[4]
+                                : "")
+                            : "",
+                        FieldId = field.Id
+                    };
+                    await fieldTranslation.Create(db).ConfigureAwait(false);
+                }
+
+                if (dataItem.Label.Split("|").Length > 5)
+                {
+                    fieldTranslation = new FieldTranslation
+                    {
+                        LanguageId = deLanguage.Id,
+                        Text = dataItem.Label.Split("|")[5],
+                        Description = dataItem.Description != null
+                            ? (dataItem.Description.InderValue.Split("|").Length > 5
+                                ? dataItem.Description.InderValue.Split("|")[5]
+                                : "")
+                            : "",
+                        FieldId = field.Id
+                    };
+                    await fieldTranslation.Create(db).ConfigureAwait(false);
+                }
+
+                if (dataItem.Label.Split("|").Length > 6)
+                {
+                    fieldTranslation = new FieldTranslation
+                    {
+                        LanguageId = deLanguage.Id,
+                        Text = dataItem.Label.Split("|")[6],
+                        Description = dataItem.Description != null
+                            ? (dataItem.Description.InderValue.Split("|").Length > 6
+                                ? dataItem.Description.InderValue.Split("|")[6]
+                                : "")
+                            : "",
+                        FieldId = field.Id
+                    };
+                    await fieldTranslation.Create(db).ConfigureAwait(false);
+                }
+
+                if (dataItem.Label.Split("|").Length > 7)
+                {
+                    fieldTranslation = new FieldTranslation
+                    {
+                        LanguageId = deLanguage.Id,
+                        Text = dataItem.Label.Split("|")[7],
+                        Description = dataItem.Description != null
+                            ? (dataItem.Description.InderValue.Split("|").Length > 7
+                                ? dataItem.Description.InderValue.Split("|")[7]
+                                : "")
+                            : "",
+                        FieldId = field.Id
+                    };
+                    await fieldTranslation.Create(db).ConfigureAwait(false);
+                }
+
+                if (dataItem.Label.Split("|").Length > 8)
+                {
+                    fieldTranslation = new FieldTranslation
+                    {
+                        LanguageId = deLanguage.Id,
+                        Text = dataItem.Label.Split("|")[8],
+                        Description = dataItem.Description != null
+                            ? (dataItem.Description.InderValue.Split("|").Length > 8
+                                ? dataItem.Description.InderValue.Split("|")[8]
                                 : "")
                             : "",
                         FieldId = field.Id
