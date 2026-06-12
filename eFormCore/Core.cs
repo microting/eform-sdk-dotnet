@@ -2875,6 +2875,8 @@ public class Core : CoreBase
     {
         string methodName = "Core.SiteCreate";
         await using var db = DbContextHelper.GetDbContext();
+        int? createdSiteMicrotingUid = null;
+        int? createdWorkerMicrotingUid = null;
         try
         {
             if (!Running()) throw new Exception("Core is not running");
@@ -2899,6 +2901,7 @@ public class Core : CoreBase
             await searchableList.Update(db);
 
             Tuple<SiteDto, UnitDto> siteResult = await _communicator.SiteCreate(name, languageCode);
+            createdSiteMicrotingUid = siteResult.Item1.SiteId;
 
             //string token = await _sqlController.SettingRead(Settings.token).ConfigureAwait(false);
             int customerNo = int.Parse(_sqlController.SettingRead(Settings.customerNo).ConfigureAwait(false)
@@ -2955,6 +2958,7 @@ public class Core : CoreBase
 
             WorkerDto workerDto = await Advanced_WorkerCreate(userFirstName, userLastName, userEmail)
                 .ConfigureAwait(false);
+            createdWorkerMicrotingUid = workerDto.WorkerUId;
             await Advanced_SiteWorkerCreate(siteDto, workerDto).ConfigureAwait(false);
 
             return await SiteRead(siteId).ConfigureAwait(false);
@@ -2962,6 +2966,33 @@ public class Core : CoreBase
         catch (Exception ex)
         {
             Log.LogFail(methodName, "failed", ex);
+            // Compensating cleanup: a failure here can leave the remotely-registered, locally-committed
+            // Site (and possibly Worker) with no SiteWorker link — an orphan that blocks recreating the
+            // name. Remove them directly (Advanced_SiteItemDelete bypasses SiteRead, which throws on
+            // worker-less sites, and soft-deletes the Site + entity items + remote). Never let cleanup
+            // mask the original failure.
+            if (createdSiteMicrotingUid.HasValue)
+            {
+                try
+                {
+                    await Advanced_SiteItemDelete(createdSiteMicrotingUid.Value).ConfigureAwait(false);
+                }
+                catch (Exception cleanupEx)
+                {
+                    Log.LogFail(methodName, "compensating Advanced_SiteItemDelete failed", cleanupEx);
+                }
+            }
+            if (createdWorkerMicrotingUid.HasValue)
+            {
+                try
+                {
+                    await Advanced_WorkerDelete(createdWorkerMicrotingUid.Value).ConfigureAwait(false);
+                }
+                catch (Exception cleanupEx)
+                {
+                    Log.LogFail(methodName, "compensating Advanced_WorkerDelete failed", cleanupEx);
+                }
+            }
             throw new Exception("failed", ex);
         }
     }
@@ -3071,10 +3102,16 @@ public class Core : CoreBase
 
             if (siteDto == null) return false;
             await Advanced_SiteItemDelete(microtingUid).ConfigureAwait(false);
-            SiteWorkerDto siteWorkerDto = await Advanced_SiteWorkerRead(null, microtingUid, siteDto.WorkerUid)
-                .ConfigureAwait(false);
-            await Advanced_SiteWorkerDelete(siteWorkerDto.MicrotingUId).ConfigureAwait(false);
-            await Advanced_WorkerDelete((int)siteDto.WorkerUid).ConfigureAwait(false);
+            if (siteDto.WorkerUid != null)
+            {
+                SiteWorkerDto siteWorkerDto = await Advanced_SiteWorkerRead(null, microtingUid, siteDto.WorkerUid)
+                    .ConfigureAwait(false);
+                if (siteWorkerDto != null)
+                {
+                    await Advanced_SiteWorkerDelete(siteWorkerDto.MicrotingUId).ConfigureAwait(false);
+                }
+                await Advanced_WorkerDelete((int)siteDto.WorkerUid).ConfigureAwait(false);
+            }
             return true;
         }
         catch (Exception ex)
