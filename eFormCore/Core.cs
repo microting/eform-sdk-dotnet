@@ -2971,6 +2971,9 @@ public class Core : CoreBase
             // name. Remove them directly (Advanced_SiteItemDelete bypasses SiteRead, which throws on
             // worker-less sites, and soft-deletes the Site + entity items + remote). Never let cleanup
             // mask the original failure.
+            // Residual: Advanced_SiteItemDelete only soft-deletes the local Site when the remote deregister
+            // succeeds; if the remote call returns false the local row survives. The downstream plugin
+            // cleanup (name-based) covers that case.
             if (createdSiteMicrotingUid.HasValue)
             {
                 try
