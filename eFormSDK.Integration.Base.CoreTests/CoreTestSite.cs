@@ -694,6 +694,67 @@ public class CoreTestSite : DbTestFixture
         //#endregion
     }
 
+    [Test] //Using Communicatorn needs httpMock
+    public async Task Core_Advanced_SiteItemDelete_OnSiteWithoutSiteWorker_SoftDeletesSite()
+    {
+        // Arrange: a pure orphan site — no Worker, no SiteWorker, no Unit. This mirrors what a
+        // failed SiteCreate leaves behind, and what the compensating cleanup must be able to remove
+        // without hitting SiteRead (which throws .First() on a worker-less site).
+        string siteName = Guid.NewGuid().ToString();
+        int siteMicrotingUid = 1; // This needs to be 1 for our tests to pass through the FakeHttp
+        // TODO: Improve the test for supporting random id.
+
+        Site site = await testHelpers.CreateSite(siteName, siteMicrotingUid);
+
+        await using MicrotingDbContext db = _dbContextHelper.GetDbContext();
+        EntityGroup entityGroup = new EntityGroup
+        {
+            Editable = true,
+            Locked = false,
+            Name = "Device users",
+            Type = Constants.FieldTypes.EntitySearch
+        };
+
+        await entityGroup.Create(db);
+
+        EntityItem entityItem = new EntityItem
+        {
+            Name = siteName,
+            EntityGroupId = entityGroup.Id
+        };
+        await entityItem.Create(db);
+        site.SearchableEntityItemId = entityItem.Id;
+        await site.Update(db);
+
+        entityGroup = new EntityGroup
+        {
+            Editable = true,
+            Locked = false,
+            Name = "Device users",
+            Type = Constants.FieldTypes.EntitySelect
+        };
+
+        await entityGroup.Create(db);
+
+        entityItem = new EntityItem
+        {
+            Name = siteName,
+            EntityGroupId = entityGroup.Id
+        };
+        await entityItem.Create(db);
+        site.SelectableEntityItemId = entityItem.Id;
+        await site.Update(db);
+
+        // Act
+        var match = await sut.Advanced_SiteItemDelete((int)site.MicrotingUid);
+
+        // Assert
+        Assert.That(match, Is.True);
+        Site deletedSite = await db.Sites.FirstOrDefaultAsync(x => x.Id == site.Id);
+        Assert.That(deletedSite, Is.Not.Null);
+        Assert.That(deletedSite.WorkflowState, Is.EqualTo(Constants.WorkflowStates.Removed));
+    }
+
     #endregion
 
     #region eventhandlers
