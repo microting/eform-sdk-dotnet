@@ -55,7 +55,7 @@ public class CoreTestCase : DbTestFixture
         await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
         testHelpers = new TestHelpers(ConnectionString);
         await testHelpers.GenerateDefaultLanguages();
-        language = DbContext.Languages.AsNoTracking().Single(x => x.Name == "Dansk");
+        language = DbContext.Languages.AsNoTracking().Single(x => x.LanguageCode == "da");
         //await sut.StartLog(new CoreBase());
     }
 

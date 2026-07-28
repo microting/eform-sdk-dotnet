@@ -67,7 +67,7 @@ public class Site : PnBase
     {
         List<Site> sites = await dbContext.Sites.ToListAsync();
         Language language = await dbContext.Languages
-            .FirstAsync(x => x.Name == "Dansk");
+            .FirstAsync(x => x.LanguageCode == "da");
         foreach (Site site in sites)
         {
             if (site.LanguageId == 0)

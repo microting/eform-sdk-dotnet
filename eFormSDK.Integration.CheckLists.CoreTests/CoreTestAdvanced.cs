@@ -83,7 +83,7 @@ public class CoreTestAdvanced : DbTestFixture
         await sut.SetSdkSetting(Settings.fileLocationJasper, Path.Combine(path, "output", "dataFolder", "reports"));
         testHelpers = new TestHelpers(ConnectionString);
         await testHelpers.GenerateDefaultLanguages();
-        language = DbContext.Languages.Single(x => x.Name == "Dansk");
+        language = DbContext.Languages.Single(x => x.LanguageCode == "da");
         //sut.StartLog(new CoreBase());
     }
 

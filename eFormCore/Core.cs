@@ -2916,16 +2916,9 @@ public class Core : CoreBase
                     .ConfigureAwait(false);
             if (site == null)
             {
-                Language language = await db.Languages.FirstOrDefaultAsync(x => x.LanguageCode == languageCode);
-                if (language == null)
-                {
-                    if (languageCode == "da")
-                    {
-                        language = await db.Languages.FirstAsync(x => x.Name == "Dansk");
-                        language.LanguageCode = "da";
-                        await language.Update(db);
-                    }
-                }
+                Language language = await db.Languages.FirstOrDefaultAsync(x => x.LanguageCode == languageCode)
+                                    ?? throw new InvalidOperationException(
+                                        $"No language found with LanguageCode '{languageCode}'");
 
                 site = new Site
                 {
@@ -4184,12 +4177,13 @@ public class Core : CoreBase
         };
 
         await using var db = DbContextHelper.GetDbContext();
-        var language = await db.Languages.FirstOrDefaultAsync(x => x.Name == "Dansk").ConfigureAwait(false);
+        var language = await db.Languages.FirstOrDefaultAsync(x => x.LanguageCode == "da").ConfigureAwait(false);
         if (language == null)
         {
             language = new Language
             {
-                Name = "Dansk"
+                Name = "Dansk",
+                LanguageCode = "da"
             };
             await language.Create(db);
         }
@@ -4326,7 +4320,7 @@ public class Core : CoreBase
                     }
 
                     answer.QuestionSet = null;
-                    answer.LanguageId = db.Languages.First(x => x.Name == "Dansk").Id;
+                    answer.LanguageId = db.Languages.First(x => x.LanguageCode == "da").Id;
                     await answer.Create(db).ConfigureAwait(false);
 
                     foreach (JToken avItem in subItem["AnswerValues"])

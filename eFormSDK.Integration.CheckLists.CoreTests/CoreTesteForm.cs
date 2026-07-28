@@ -83,7 +83,7 @@ public class CoreTesteForm : DbTestFixture
         testHelpers = new TestHelpers(ConnectionString);
         await testHelpers.GenerateDefaultLanguages();
         //sut.StartLog(new CoreBase());
-        language = DbContext.Languages.Single(x => x.Name == "Dansk");
+        language = DbContext.Languages.Single(x => x.LanguageCode == "da");
     }
 
     #region template
