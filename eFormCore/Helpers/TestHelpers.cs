@@ -53,7 +53,7 @@ public class TestHelpers
         // // {
         // //     Console.WriteLine(language1.Name);
         // // }
-        language = await dbContext.Languages.FirstOrDefaultAsync(x => x.Name == "Dansk");
+        language = await dbContext.Languages.FirstOrDefaultAsync(x => x.LanguageCode == "da");
     }
 
     private MicrotingDbContext GetContext(string connectionStr)

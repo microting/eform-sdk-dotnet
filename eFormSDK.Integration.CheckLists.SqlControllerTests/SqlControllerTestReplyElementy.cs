@@ -68,7 +68,7 @@ public class SqlControllerTestReplyElementy : DbTestFixture
         await sut.SettingUpdate(Settings.fileLocationPicture, @"\output\dataFolder\picture\");
         await sut.SettingUpdate(Settings.fileLocationPdf, @"\output\dataFolder\pdf\");
         await sut.SettingUpdate(Settings.fileLocationJasper, @"\output\dataFolder\reports\");
-        language = DbContext.Languages.Single(x => x.Name == "Dansk");
+        language = DbContext.Languages.Single(x => x.LanguageCode == "da");
     }
 
     [Test]

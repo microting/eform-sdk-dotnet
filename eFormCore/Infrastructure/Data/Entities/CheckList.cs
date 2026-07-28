@@ -142,7 +142,7 @@ public class CheckList : PnBase
     public static async Task MoveTranslations(MicrotingDbContext dbContext)
     {
         List<CheckList> checkLists = await dbContext.CheckLists.ToListAsync();
-        Language language = await dbContext.Languages.FirstAsync(x => x.Name == "Dansk");
+        Language language = await dbContext.Languages.FirstAsync(x => x.LanguageCode == "da");
         foreach (CheckList checkList in checkLists)
         {
             if (!string.IsNullOrEmpty(checkList.Label))

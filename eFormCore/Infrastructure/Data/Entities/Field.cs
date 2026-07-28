@@ -130,9 +130,9 @@ public class Field : PnBase
             FieldType pdfFieldType =
                 await dbContext.FieldTypes.FirstOrDefaultAsync(
                     x => x.Type == Constants.Constants.FieldTypes.ShowPdf);
-            Language language = await dbContext.Languages.FirstAsync(x => x.Name == "Dansk");
-            Language englishLanguage = await dbContext.Languages.FirstAsync(x => x.Name == "English");
-            Language DanskLanguage = await dbContext.Languages.FirstAsync(x => x.Name == "Dansk");
+            Language language = await dbContext.Languages.FirstAsync(x => x.LanguageCode == "da");
+            Language englishLanguage = await dbContext.Languages.FirstAsync(x => x.LanguageCode == "en-US");
+            Language DanskLanguage = await dbContext.Languages.FirstAsync(x => x.LanguageCode == "da");
             int i = 0;
             int totalFields = fields.Count;
             foreach (Field field in fields)
