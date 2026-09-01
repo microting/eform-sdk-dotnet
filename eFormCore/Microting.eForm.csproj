@@ -291,7 +291,7 @@
         <PackageReference Include="AWSSDK.SQS" Version="4.0.100.11" />
         <PackageReference Include="Castle.Core" Version="5.2.1" />
         <PackageReference Include="DocumentFormat.OpenXml" Version="3.5.1" />
-        <PackageReference Include="Google.Protobuf" Version="3.36.0" />
+        <PackageReference Include="Google.Protobuf" Version="3.36.1" />
         <PackageReference Include="Grpc.Tools" Version="2.83.0">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
