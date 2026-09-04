@@ -152,7 +152,7 @@ public class Core : CoreBase
     private string _s3SecretAccessKey = "";
     private string _s3Endpoint = "";
 
-    private static AmazonS3Client _s3Client;
+    private static IAmazonS3 _s3Client;
 
     /// <summary>
     /// How many times a file path based S3 upload is attempted before the failure is handed to
@@ -430,7 +430,6 @@ public class Core : CoreBase
                                 RegionEndpoint.EUCentral1);
                         }
 
-                        _container.Register(Component.For<AmazonS3Client>().Instance(_s3Client));
                     }
                     catch (Exception ex)
                     {
@@ -6596,7 +6595,7 @@ public class Core : CoreBase
         string methodName = "Core.GetFileFromS3Storage";
         string bucketName = await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false);
         string key = $"{_customerNo}/{fileName}";
-        AmazonS3Client s3Client = RequireS3Client(methodName);
+        IAmazonS3 s3Client = RequireS3Client(methodName);
 
         try
         {
@@ -6692,11 +6691,21 @@ public class Core : CoreBase
     }
 
     /// <summary>
+    /// Replaces the S3 client. Intended for tests, which need to substitute the client without a
+    /// reachable S3 endpoint. Pass null to restore the uninitialised state; the field is static,
+    /// so a test that sets it must also reset it or it leaks into other fixtures.
+    /// </summary>
+    internal static void SetS3ClientForTesting(IAmazonS3 s3Client)
+    {
+        _s3Client = s3Client;
+    }
+
+    /// <summary>
     /// Returns the S3 client, or fails with an actionable message when the core started
     /// without one. Without this guard a missing client surfaces as a NullReferenceException
     /// from deep inside a storage call, which says nothing about the actual misconfiguration.
     /// </summary>
-    private static AmazonS3Client RequireS3Client(string methodName)
+    private static IAmazonS3 RequireS3Client(string methodName)
     {
         return _s3Client ?? throw new InvalidOperationException(
             $"{methodName} was called but no S3 client is configured. Check the s3Enabled, s3AccessKeyId, s3SecrectAccessKey and s3Endpoint settings.");
@@ -6818,7 +6827,7 @@ public class Core : CoreBase
         string methodName = "Core.PutFileToS3Storage";
         string bucketName = await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false);
         string key = $"{_customerNo}/{fileName}";
-        AmazonS3Client s3Client = RequireS3Client(methodName);
+        IAmazonS3 s3Client = RequireS3Client(methodName);
         Log.LogInfo(methodName, $"Trying to upload file {fileName} to {bucketName}");
 
         // Deliberately a single attempt. PutObjectRequest.AutoCloseStream defaults to true, so a
@@ -6853,7 +6862,7 @@ public class Core : CoreBase
         string methodName = "Core.PutFileToS3Storage";
         string bucketName = await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false);
         string key = $"{_customerNo}/{fileName}";
-        AmazonS3Client s3Client = RequireS3Client(methodName);
+        IAmazonS3 s3Client = RequireS3Client(methodName);
         Log.LogInfo(methodName, $"Trying to upload file {fileName} to {bucketName}");
 
         try

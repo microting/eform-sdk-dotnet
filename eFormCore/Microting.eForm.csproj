@@ -13,6 +13,11 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <!-- Lets the Core tests substitute the S3 client, which has no reachable endpoint in CI. -->
+        <InternalsVisibleTo Include="eFormSDK.Integration.Base.CoreTests" />
+    </ItemGroup>
+
+    <ItemGroup>
         <None Remove="JasperExporter.jar" />
     </ItemGroup>
     <ItemGroup>
