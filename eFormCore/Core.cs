@@ -153,6 +153,12 @@ public class Core : CoreBase
     private string _s3Endpoint = "";
 
     private static AmazonS3Client _s3Client;
+
+    /// <summary>
+    /// How many times a file path based S3 upload is attempted before the failure is handed to
+    /// the caller. Stream uploads are not retried, see PutFileToS3Storage(Stream, string).
+    /// </summary>
+    private const int S3UploadAttempts = 2;
     //
     //
 
@@ -2575,9 +2581,22 @@ public class Core : CoreBase
                                     image.Resize((uint)newWidth, (uint)newHeight);
                                     image.Crop((uint)newWidth, (uint)newHeight);
                                     await image.WriteAsync(filePathResized);
-                                    await PutFileToStorageSystem(Path.Combine(_fileLocationPicture, bigFilename),
-                                        bigFilename).ConfigureAwait(false);
                                     fileContent = image.ToBase64();
+
+                                    try
+                                    {
+                                        await PutFileToStorageSystem(
+                                            Path.Combine(_fileLocationPicture, bigFilename), bigFilename)
+                                            .ConfigureAwait(false);
+                                    }
+                                    catch (Exception cacheEx)
+                                    {
+                                        // Best effort cache write only. fileContent is already in
+                                        // hand, so this must not abort the report.
+                                        Log.LogFail("Core.DocxToPdf",
+                                            $"Caching {bigFilename} to storage failed, the report was still produced",
+                                            cacheEx);
+                                    }
                                 }
 
                                 File.Delete(filePathResized);
@@ -2734,7 +2753,19 @@ public class Core : CoreBase
                     Directory.CreateDirectory(extractPath);
                     fastZip.ExtractZip(zipFileName, extractPath, "");
                     string extractedFile = Path.Combine(extractPath, "compact", $"{templateId}.docx");
-                    await PutFileToStorageSystem(extractedFile, $"{templateId}.docx");
+                    try
+                    {
+                        await PutFileToStorageSystem(extractedFile, $"{templateId}.docx");
+                    }
+                    catch (Exception cacheEx)
+                    {
+                        // Best effort cache write only. The report is built from the local file
+                        // below, so this must not abort report generation.
+                        Log.LogFail("Core.DocxToPdf",
+                            $"Caching {templateId}.docx to storage failed, the report was still produced",
+                            cacheEx);
+                    }
+
                     File.Move(extractedFile, resultDocument);
                 }
                 catch (Exception e)
@@ -6368,7 +6399,10 @@ public class Core : CoreBase
 
                         MemoryStream memoryStream = new MemoryStream();
                         await image.WriteAsync(memoryStream);
-                        await PutFileToS3Storage(memoryStream, fileName);
+                        if (_s3Enabled)
+                        {
+                            await PutFileToS3Storage(memoryStream, fileName);
+                        }
                         await memoryStream.DisposeAsync();
                         memoryStream.Close();
                         baseMemoryStream.Seek(0, SeekOrigin.Begin);
@@ -6446,7 +6480,10 @@ public class Core : CoreBase
                             image.Crop((uint)newWidth, (uint)newHeight);
                             MemoryStream memoryStream = new MemoryStream();
                             await image.WriteAsync(memoryStream);
-                            await PutFileToS3Storage(memoryStream, smallFilename);
+                            if (_s3Enabled)
+                            {
+                                await PutFileToS3Storage(memoryStream, smallFilename);
+                            }
                             await memoryStream.DisposeAsync();
                             memoryStream.Close();
                             baseMemoryStream.Seek(0, SeekOrigin.Begin);
@@ -6518,7 +6555,10 @@ public class Core : CoreBase
                             image.Crop((uint)newWidth, (uint)newHeight);
                             MemoryStream memoryStream = new MemoryStream();
                             await image.WriteAsync(memoryStream);
-                            await PutFileToS3Storage(memoryStream, bigFilename);
+                            if (_s3Enabled)
+                            {
+                                await PutFileToS3Storage(memoryStream, bigFilename);
+                            }
                             await memoryStream.DisposeAsync();
                             memoryStream.Close();
                         }
@@ -6553,34 +6593,113 @@ public class Core : CoreBase
 
     public async Task<GetObjectResponse> GetFileFromS3Storage(string fileName, bool isRetry = false)
     {
+        string methodName = "Core.GetFileFromS3Storage";
+        string bucketName = await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false);
+        string key = $"{_customerNo}/{fileName}";
+        AmazonS3Client s3Client = RequireS3Client(methodName);
+
         try
         {
             GetObjectRequest request = new GetObjectRequest
             {
-                BucketName =
-                    $"{await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false)}",
-                Key = $"{_customerNo}/{fileName}"
+                BucketName = bucketName,
+                Key = key
             };
 
-            return await _s3Client.GetObjectAsync(request);
+            return await s3Client.GetObjectAsync(request).ConfigureAwait(false);
         }
         catch (AmazonS3Exception ex)
         {
+            // Every exit from here rethrows the original AmazonS3Exception rather than a
+            // substitute, so the caller still sees the S3 status code that says whether this is a
+            // credentials or policy problem (403) or a genuinely missing object (404).
+            string failure = $"Reading {key} from bucket {bucketName} failed with {DescribeS3Failure(ex)}";
+
             if (isRetry)
             {
-                throw new UnauthorizedAccessException("Access denied for S3 storage", ex);
+                Log.LogFail(methodName, $"{failure}, even after re-downloading the uploaded data", ex);
+                throw;
             }
 
-            var dbContext = DbContextHelper.GetDbContext();
-            var uD = await dbContext.UploadedDatas.SingleAsync(x => x.FileName == fileName);
-            await DownloadUploadedData(uD.Id);
-            return await GetFileFromS3Storage(fileName, true);
-        }
+            string recoveryFailure = await DescribeUploadedDataRecovery(fileName).ConfigureAwait(false);
+            if (recoveryFailure != null)
+            {
+                Log.LogFail(methodName, $"{failure}, and {recoveryFailure}", ex);
+                throw;
+            }
 
+            return await GetFileFromS3Storage(fileName, true).ConfigureAwait(false);
+        }
+    }
+
+    /// <summary>
+    /// Tries to restore an SDK managed file to storage by re-downloading it from the source named
+    /// in its uploaded_data row. Returns null when the file was restored, otherwise a description
+    /// of why it could not be. Never throws: the caller is reporting an S3 failure already, and a
+    /// secondary failure raised from inside that catch block would replace the S3 error the
+    /// caller needs, which is the exact fault this method exists to avoid.
+    /// </summary>
+    private async Task<string> DescribeUploadedDataRecovery(string fileName)
+    {
+        try
+        {
+            // Auto recovery only exists for SDK managed files, which are the ones with an
+            // uploaded_data row naming the remote source to fetch again. Files owned by a plugin
+            // (Kanban attachments, for instance) have no such row and are unrecoverable here.
+            //
+            // FileName holds the storage name written by FileProcessed, which DownloadUploadedData
+            // builds as "{id}_{checksum}{extension}", so a match is effectively unique per row.
+            // The column still carries no uniqueness constraint though, and Single would answer a
+            // duplicate with an InvalidOperationException, which is the masking fault above.
+            var dbContext = DbContextHelper.GetDbContext();
+            var uploadedData = await dbContext.UploadedDatas
+                .Where(x => x.FileName == fileName)
+                .OrderBy(x => x.Id)
+                .FirstOrDefaultAsync().ConfigureAwait(false);
+
+            if (uploadedData == null)
+            {
+                return $"there is no uploaded_data row for {fileName} to recover it from";
+            }
+
+            if (!await DownloadUploadedData(uploadedData.Id).ConfigureAwait(false))
+            {
+                return $"re-downloading uploaded data {uploadedData.Id} failed";
+            }
+
+            return null;
+        }
         catch (Exception ex)
         {
-            throw new Exception($"Unable to auto recover for file: {fileName}", ex);
+            return $"recovering it raised {ex.GetType().Name}: {ex.Message}";
         }
+    }
+
+    /// <summary>
+    /// Renders the parts of an S3 failure that identify it. AmazonS3Exception carries the status
+    /// code, error code and request id as properties rather than in Message, so without this they
+    /// never reach the log and the failure cannot be told apart from any other, nor followed up
+    /// with AWS support.
+    /// </summary>
+    private static string DescribeS3Failure(Exception exception)
+    {
+        if (exception is AmazonS3Exception s3Exception)
+        {
+            return $"HTTP {(int)s3Exception.StatusCode} {s3Exception.ErrorCode} (request id {s3Exception.RequestId})";
+        }
+
+        return $"{exception.GetType().Name}: {exception.Message}";
+    }
+
+    /// <summary>
+    /// Returns the S3 client, or fails with an actionable message when the core started
+    /// without one. Without this guard a missing client surfaces as a NullReferenceException
+    /// from deep inside a storage call, which says nothing about the actual misconfiguration.
+    /// </summary>
+    private static AmazonS3Client RequireS3Client(string methodName)
+    {
+        return _s3Client ?? throw new InvalidOperationException(
+            $"{methodName} was called but no S3 client is configured. Check the s3Enabled, s3AccessKeyId, s3SecrectAccessKey and s3Endpoint settings.");
     }
 
     // public async Task<SwiftObjectGetResponse> GetFileFromSwiftStorage(string fileName)
@@ -6697,62 +6816,72 @@ public class Core : CoreBase
     public async Task PutFileToS3Storage(Stream stream, string fileName)
     {
         string methodName = "Core.PutFileToS3Storage";
-        string bucketName = await _sqlController.SettingRead(Settings.s3BucketName);
+        string bucketName = await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false);
+        string key = $"{_customerNo}/{fileName}";
+        AmazonS3Client s3Client = RequireS3Client(methodName);
         Log.LogInfo(methodName, $"Trying to upload file {fileName} to {bucketName}");
 
-        PutObjectRequest putObjectRequest = new PutObjectRequest
-        {
-            BucketName =
-                $"{await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false)}",
-            Key = $"{_customerNo}/{fileName}",
-            InputStream = stream
-        };
+        // Deliberately a single attempt. PutObjectRequest.AutoCloseStream defaults to true, so a
+        // failed attempt can hand back a closed stream; retrying would then fail on the stream
+        // instead of on S3 and bury the real cause. PutObjectRequest.AutoResetStreamPosition
+        // defaults to true, so the client already rewinds a seekable stream for us, and the
+        // failures worth reporting here (denied credentials, missing bucket) are not transient.
+        // The file path overload can retry safely because the client opens its own stream there.
         try
         {
-            await _s3Client.PutObjectAsync(putObjectRequest).ConfigureAwait(false);
-        }
-        catch (Exception e)
-        {
-            putObjectRequest = new PutObjectRequest
+            PutObjectRequest putObjectRequest = new PutObjectRequest
             {
-                BucketName =
-                    $"{await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false)}",
-                Key = $"{_customerNo}/{fileName}",
+                BucketName = bucketName,
+                Key = key,
                 InputStream = stream
             };
-            try
-            {
-                await _s3Client.PutObjectAsync(putObjectRequest).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Log.LogWarning(methodName, $"Something went wrong, message was {ex.Message}");
-            }
 
-            Log.LogWarning(methodName, $"Something went wrong, message was {e.Message}");
+            await s3Client.PutObjectAsync(putObjectRequest).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            // Callers write a database row that points at this key, so a swallowed failure here
+            // leaves a permanently unreadable reference behind. Fail loudly instead.
+            Log.LogFail(methodName,
+                $"Uploading {key} to bucket {bucketName} failed with {DescribeS3Failure(ex)}", ex);
+            throw;
         }
     }
 
     private async Task PutFileToS3Storage(string filePath, string fileName, int tryCount)
     {
         string methodName = "Core.PutFileToS3Storage";
-        string bucketName = await _sqlController.SettingRead(Settings.s3BucketName);
+        string bucketName = await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false);
+        string key = $"{_customerNo}/{fileName}";
+        AmazonS3Client s3Client = RequireS3Client(methodName);
         Log.LogInfo(methodName, $"Trying to upload file {fileName} to {bucketName}");
 
-        PutObjectRequest putObjectRequest = new PutObjectRequest
-        {
-            BucketName =
-                $"{await _sqlController.SettingRead(Settings.s3BucketName).ConfigureAwait(false)}",
-            Key = $"{_customerNo}/{fileName}",
-            FilePath = filePath
-        };
         try
         {
-            await _s3Client.PutObjectAsync(putObjectRequest).ConfigureAwait(false);
+            PutObjectRequest putObjectRequest = new PutObjectRequest
+            {
+                BucketName = bucketName,
+                Key = key,
+                FilePath = filePath
+            };
+
+            await s3Client.PutObjectAsync(putObjectRequest).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            Log.LogWarning(methodName, $"Something went wrong, message was {ex.Message}");
+            // Unlike the stream overload this retry is safe, because the client opens and owns the
+            // stream itself, so a failed attempt cannot leave a consumed or closed one behind.
+            if (tryCount + 1 >= S3UploadAttempts)
+            {
+                Log.LogFail(methodName,
+                    $"Uploading {key} to bucket {bucketName} failed after {tryCount + 1} attempt(s) with {DescribeS3Failure(ex)}",
+                    ex);
+                throw;
+            }
+
+            Log.LogWarning(methodName,
+                $"Uploading {key} to bucket {bucketName} failed on attempt {tryCount + 1} of {S3UploadAttempts}, retrying. Message was {ex.Message}");
+            await PutFileToS3Storage(filePath, fileName, tryCount + 1).ConfigureAwait(false);
         }
     }
 
