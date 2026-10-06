@@ -38,6 +38,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
     - uses: actions/checkout@v5
     - name: Setup .NET Core
@@ -53,5 +56,10 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Pack
       run: dotnet pack eFormCore/Microting.eForm.csproj -c Release -o ./artifacts -p:PackageVersion=${{ steps.get_version.outputs.VERSION }}
+    - name: NuGet login (OIDC trusted publishing)
+      uses: NuGet/login@v1
+      id: nuget-login
+      with:
+        user: microtingas
     - name: Push generated package to GitHub registry
-      run: dotnet nuget push /home/runner/work/eform-sdk-dotnet/eform-sdk-dotnet/artifacts/Microting.eForm.${{ steps.get_version.outputs.VERSION }}.nupkg -k ${{secrets.NUGET_SECRET_KEY}} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols
+      run: dotnet nuget push /home/runner/work/eform-sdk-dotnet/eform-sdk-dotnet/artifacts/Microting.eForm.${{ steps.get_version.outputs.VERSION }}.nupkg -k ${{ steps.nuget-login.outputs.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate --no-symbols
