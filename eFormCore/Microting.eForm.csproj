@@ -284,6 +284,8 @@
         <Compile Include="Migrations\20251020055532_AddServerStatusToCheckListSite.Designer.cs" />
         <Compile Include="Migrations\20251120072535_AddingResignedToWorker.cs" />
         <Compile Include="Migrations\20251120072535_AddingResignedToWorker.Designer.cs" />
+        <Compile Include="Migrations\20261010061607_MakeWorkerResignedAtDateNullable.cs" />
+        <Compile Include="Migrations\20261010061607_MakeWorkerResignedAtDateNullable.Designer.cs" />
         <Compile Include="Migrations\MicrotingDbAnySqlModelSnapshot.cs" />
         <Compile Include="Infrastructure\SqlController.cs" />
         <Compile Include="Services\Subscriber.cs" />
