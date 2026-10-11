@@ -47,5 +47,5 @@ public class WorkerVersion : BaseEntity
     [StringLength(50)]
     public string PhoneNumber { get; set; }
     public bool Resigned { get; set; }
-    public DateTime ResignedAtDate { get; set; }
+    public DateTime? ResignedAtDate { get; set; }
 }

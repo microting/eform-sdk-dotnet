@@ -47,7 +47,7 @@ public class Worker : PnBase
     [StringLength(50)]
     public string PhoneNumber { get; set; }
     public bool Resigned { get; set; }
-    public DateTime ResignedAtDate { get; set; }
+    public DateTime? ResignedAtDate { get; set; }
     public virtual ICollection<SiteWorker> SiteWorkers { get; set; }
 
     public string full_name()

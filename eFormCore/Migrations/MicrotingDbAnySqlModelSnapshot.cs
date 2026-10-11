@@ -4048,7 +4048,7 @@ namespace Microting.eForm.Migrations
                     b.Property<bool>("Resigned")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("ResignedAtDate")
+                    b.Property<DateTime?>("ResignedAtDate")
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -4114,7 +4114,7 @@ namespace Microting.eForm.Migrations
                     b.Property<bool>("Resigned")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<DateTime>("ResignedAtDate")
+                    b.Property<DateTime?>("ResignedAtDate")
                         .HasColumnType("datetime");
 
                     b.Property<DateTime?>("UpdatedAt")
