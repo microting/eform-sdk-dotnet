@@ -162,7 +162,7 @@ public class CoreTestS3Storage : DbTestFixture
     }
 
     [Test]
-    public void Core_S3Storage_GetFileFromS3Storage_DoesRethrowOriginalExceptionWhenNoUploadedDataRowExists()
+    public async Task Core_S3Storage_GetFileFromS3Storage_DoesRethrowOriginalExceptionWhenNoUploadedDataRowExists()
     {
         // Arrange
         // A file with no uploaded_data row is unrecoverable, and is what every plugin owned file
@@ -175,8 +175,8 @@ public class CoreTestS3Storage : DbTestFixture
             .ThrowsAsync(expected);
 
         // Act
-        AsyncTestDelegate act = async () => await sut.GetFileFromS3Storage("no-such-row.jpg");
-        AmazonS3Exception actual = Assert.ThrowsAsync<AmazonS3Exception>(act);
+        Func<Task> act = async () => await sut.GetFileFromS3Storage("no-such-row.jpg");
+        AmazonS3Exception actual = await Assert.ThrowsAsync<AmazonS3Exception>(act);
 
         // Assert
         Assert.That(actual, Is.SameAs(expected));
@@ -201,8 +201,8 @@ public class CoreTestS3Storage : DbTestFixture
             .ThrowsAsync(expected);
 
         // Act
-        AsyncTestDelegate act = async () => await sut.GetFileFromS3Storage(fileName);
-        AmazonS3Exception actual = Assert.ThrowsAsync<AmazonS3Exception>(act);
+        Func<Task> act = async () => await sut.GetFileFromS3Storage(fileName);
+        AmazonS3Exception actual = await Assert.ThrowsAsync<AmazonS3Exception>(act);
 
         // Assert
         Assert.That(actual, Is.SameAs(expected));
@@ -225,8 +225,8 @@ public class CoreTestS3Storage : DbTestFixture
             .ThrowsAsync(expected);
 
         // Act
-        AsyncTestDelegate act = async () => await sut.GetFileFromS3Storage("already-retried.jpg", true);
-        AmazonS3Exception actual = Assert.ThrowsAsync<AmazonS3Exception>(act);
+        Func<Task> act = async () => await sut.GetFileFromS3Storage("already-retried.jpg", true);
+        AmazonS3Exception actual = await Assert.ThrowsAsync<AmazonS3Exception>(act);
 
         // Assert
         Assert.That(actual, Is.SameAs(expected));
@@ -235,7 +235,7 @@ public class CoreTestS3Storage : DbTestFixture
     }
 
     [Test]
-    public void Core_S3Storage_GetFileFromS3Storage_DoesPreserveANotFoundDistinctFromAccessDenied()
+    public async Task Core_S3Storage_GetFileFromS3Storage_DoesPreserveANotFoundDistinctFromAccessDenied()
     {
         // Arrange
         // Telling 404 from 403 is the whole point of preserving the original exception: one means
@@ -246,8 +246,8 @@ public class CoreTestS3Storage : DbTestFixture
             .ThrowsAsync(expected);
 
         // Act
-        AsyncTestDelegate act = async () => await sut.GetFileFromS3Storage("missing.jpg");
-        AmazonS3Exception actual = Assert.ThrowsAsync<AmazonS3Exception>(act);
+        Func<Task> act = async () => await sut.GetFileFromS3Storage("missing.jpg");
+        AmazonS3Exception actual = await Assert.ThrowsAsync<AmazonS3Exception>(act);
 
         // Assert
         Assert.That(actual, Is.SameAs(expected));
@@ -256,7 +256,7 @@ public class CoreTestS3Storage : DbTestFixture
     }
 
     [Test]
-    public void Core_S3Storage_GetFileFromS3Storage_DoesLogTheStatusCodeErrorCodeAndRequestId()
+    public async Task Core_S3Storage_GetFileFromS3Storage_DoesLogTheStatusCodeErrorCodeAndRequestId()
     {
         // Arrange
         // AmazonS3Exception carries these as properties rather than in Message, so unless they are
@@ -266,8 +266,8 @@ public class CoreTestS3Storage : DbTestFixture
             .ThrowsAsync(AccessDenied());
 
         // Act
-        AsyncTestDelegate act = async () => await sut.GetFileFromS3Storage("logged.jpg");
-        Assert.ThrowsAsync<AmazonS3Exception>(act);
+        Func<Task> act = async () => await sut.GetFileFromS3Storage("logged.jpg");
+        await Assert.ThrowsAsync<AmazonS3Exception>(act);
 
         // Assert
         string logged = logWriter.AllText();
@@ -279,14 +279,14 @@ public class CoreTestS3Storage : DbTestFixture
     }
 
     [Test]
-    public void Core_S3Storage_GetFileFromS3Storage_DoesThrowDescriptiveExceptionWhenNoClientIsConfigured()
+    public async Task Core_S3Storage_GetFileFromS3Storage_DoesThrowDescriptiveExceptionWhenNoClientIsConfigured()
     {
         // Arrange
         Core.SetS3ClientForTesting(null);
 
         // Act & Assert
-        AsyncTestDelegate act = async () => await sut.GetFileFromS3Storage("anything.jpg");
-        Assert.That(act, Throws.TypeOf<InvalidOperationException>().With.Message.Contains("s3Enabled"));
+        Func<Task> act = async () => await sut.GetFileFromS3Storage("anything.jpg");
+        await Assert.ThatAsync(act, Throws.TypeOf<InvalidOperationException>().With.Message.Contains("s3Enabled"));
     }
 
     #endregion
@@ -294,7 +294,7 @@ public class CoreTestS3Storage : DbTestFixture
     #region put
 
     [Test]
-    public void Core_S3Storage_PutFileToS3Storage_DoesThrowWhenTheUploadFails()
+    public async Task Core_S3Storage_PutFileToS3Storage_DoesThrowWhenTheUploadFails()
     {
         // Arrange
         // Callers commit a database row pointing at this key, so a swallowed failure here leaves a
@@ -304,9 +304,9 @@ public class CoreTestS3Storage : DbTestFixture
             .ThrowsAsync(expected);
 
         // Act
-        AsyncTestDelegate act = async () =>
+        Func<Task> act = async () =>
             await sut.PutFileToS3Storage(new MemoryStream([1, 2, 3]), "upload.jpg");
-        AmazonS3Exception actual = Assert.ThrowsAsync<AmazonS3Exception>(act);
+        AmazonS3Exception actual = await Assert.ThrowsAsync<AmazonS3Exception>(act);
 
         // Assert
         Assert.That(actual, Is.SameAs(expected));
@@ -325,9 +325,9 @@ public class CoreTestS3Storage : DbTestFixture
             .ThrowsAsync(AccessDenied());
 
         // Act
-        AsyncTestDelegate act = async () =>
+        Func<Task> act = async () =>
             await sut.PutFileToS3Storage(new MemoryStream([1, 2, 3]), "once.jpg");
-        Assert.ThrowsAsync<AmazonS3Exception>(act);
+        await Assert.ThrowsAsync<AmazonS3Exception>(act);
 
         // Assert
         await s3Client.Received(1)
@@ -368,8 +368,8 @@ public class CoreTestS3Storage : DbTestFixture
         try
         {
             // Act
-            AsyncTestDelegate act = async () => await sut.PutFileToStorageSystem(filePath, "retried.txt");
-            Assert.ThrowsAsync<AmazonS3Exception>(act);
+            Func<Task> act = async () => await sut.PutFileToStorageSystem(filePath, "retried.txt");
+            await Assert.ThrowsAsync<AmazonS3Exception>(act);
 
             // Assert
             await s3Client.Received(2).PutObjectAsync(

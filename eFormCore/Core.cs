@@ -6355,17 +6355,17 @@ public class Core : CoreBase
                                             if (value.GetValue().ToString() == "6")
                                             {
                                                 image.Rotate(90);
-                                                image.Orientation = OrientationType.TopLeft;
+                                                image.Orientation = Orientation.TopLeft;
                                             }
                                             else if (value.GetValue().ToString() == "8")
                                             {
                                                 image.Rotate(270);
-                                                image.Orientation = OrientationType.TopLeft;
+                                                image.Orientation = Orientation.TopLeft;
                                             }
                                             else if (value.GetValue().ToString() == "3")
                                             {
                                                 image.Rotate(180);
-                                                image.Orientation = OrientationType.TopLeft;
+                                                image.Orientation = Orientation.TopLeft;
                                             }
                                         }
                                         else
@@ -6373,17 +6373,17 @@ public class Core : CoreBase
                                             if (value.GetValue().ToString() == "6")
                                             {
                                                 image.Rotate(90);
-                                                image.Orientation = OrientationType.TopLeft;
+                                                image.Orientation = Orientation.TopLeft;
                                             }
                                             else if (value.GetValue().ToString() == "8")
                                             {
                                                 image.Rotate(270);
-                                                image.Orientation = OrientationType.TopLeft;
+                                                image.Orientation = Orientation.TopLeft;
                                             }
                                             else if (value.GetValue().ToString() == "3")
                                             {
                                                 image.Rotate(180);
-                                                image.Orientation = OrientationType.TopLeft;
+                                                image.Orientation = Orientation.TopLeft;
                                             }
                                         }
                                     }
@@ -6430,17 +6430,17 @@ public class Core : CoreBase
                                                 if (value.GetValue().ToString() == "6")
                                                 {
                                                     image.Rotate(90);
-                                                    image.Orientation = OrientationType.TopLeft;
+                                                    image.Orientation = Orientation.TopLeft;
                                                 }
                                                 else if (value.GetValue().ToString() == "8")
                                                 {
                                                     image.Rotate(270);
-                                                    image.Orientation = OrientationType.TopLeft;
+                                                    image.Orientation = Orientation.TopLeft;
                                                 }
                                                 else if (value.GetValue().ToString() == "3")
                                                 {
                                                     image.Rotate(180);
-                                                    image.Orientation = OrientationType.TopLeft;
+                                                    image.Orientation = Orientation.TopLeft;
                                                 }
                                             }
                                             else
@@ -6448,17 +6448,17 @@ public class Core : CoreBase
                                                 if (value.GetValue().ToString() == "6")
                                                 {
                                                     image.Rotate(90);
-                                                    image.Orientation = OrientationType.TopLeft;
+                                                    image.Orientation = Orientation.TopLeft;
                                                 }
                                                 else if (value.GetValue().ToString() == "8")
                                                 {
                                                     image.Rotate(270);
-                                                    image.Orientation = OrientationType.TopLeft;
+                                                    image.Orientation = Orientation.TopLeft;
                                                 }
                                                 else if (value.GetValue().ToString() == "3")
                                                 {
                                                     image.Rotate(180);
-                                                    image.Orientation = OrientationType.TopLeft;
+                                                    image.Orientation = Orientation.TopLeft;
                                                 }
                                             }
                                         }
@@ -6505,17 +6505,17 @@ public class Core : CoreBase
                                                 if (value.GetValue().ToString() == "6")
                                                 {
                                                     image.Rotate(90);
-                                                    image.Orientation = OrientationType.TopLeft;
+                                                    image.Orientation = Orientation.TopLeft;
                                                 }
                                                 else if (value.GetValue().ToString() == "8")
                                                 {
                                                     image.Rotate(270);
-                                                    image.Orientation = OrientationType.TopLeft;
+                                                    image.Orientation = Orientation.TopLeft;
                                                 }
                                                 else if (value.GetValue().ToString() == "3")
                                                 {
                                                     image.Rotate(180);
-                                                    image.Orientation = OrientationType.TopLeft;
+                                                    image.Orientation = Orientation.TopLeft;
                                                 }
                                             }
                                             else
@@ -6523,17 +6523,17 @@ public class Core : CoreBase
                                                 if (value.GetValue().ToString() == "6")
                                                 {
                                                     image.Rotate(90);
-                                                    image.Orientation = OrientationType.TopLeft;
+                                                    image.Orientation = Orientation.TopLeft;
                                                 }
                                                 else if (value.GetValue().ToString() == "8")
                                                 {
                                                     image.Rotate(270);
-                                                    image.Orientation = OrientationType.TopLeft;
+                                                    image.Orientation = Orientation.TopLeft;
                                                 }
                                                 else if (value.GetValue().ToString() == "3")
                                                 {
                                                     image.Rotate(180);
-                                                    image.Orientation = OrientationType.TopLeft;
+                                                    image.Orientation = Orientation.TopLeft;
                                                 }
                                             }
                                         }
