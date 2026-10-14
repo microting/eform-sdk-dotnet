@@ -310,8 +310,8 @@
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.12" />
-        <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.12" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.12" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.13" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.13" />
         <PackageReference Include="Microting.Castle.Windsor" Version="6.0.1" />
         <PackageReference Include="Microting.Rebus" Version="10.0.5" />
         <PackageReference Include="Microting.Rebus.Castle.Windsor" Version="10.0.6" />
