@@ -5816,6 +5816,10 @@ public class Core : CoreBase
             }
             else
             {
+                // Resolve by type, never by id: ids differ between installs (e.g. Galera auto_increment_increment).
+                List<int?> nonDataFieldTypeIds = await dbContext.FieldTypes
+                    .Where(x => x.Type == Constants.FieldTypes.None || x.Type == Constants.FieldTypes.SaveButton)
+                    .Select(x => (int?)x.Id).ToListAsync();
                 foreach (Microting.eForm.Infrastructure.Data.Entities.Field field in await dbContext.Fields
                              .Where(x => x.CheckListId == checkListId && x.ParentFieldId == null)
                              .OrderBy(x => x.DisplayIndex).ToListAsync())
@@ -5825,7 +5829,7 @@ public class Core : CoreBase
                         foreach (var subField in await dbContext.Fields.Where(x => x.ParentFieldId == field.Id)
                                      .OrderBy(x => x.DisplayIndex).ToListAsync())
                         {
-                            if (field.FieldTypeId != 3 && field.FieldTypeId != 18)
+                            if (!nonDataFieldTypeIds.Contains(field.FieldTypeId))
                             {
                                 FieldTranslation fieldTranslation =
                                     await dbContext.FieldTranslations.FirstAsync(x =>
@@ -5846,7 +5850,7 @@ public class Core : CoreBase
                     }
                     else
                     {
-                        if (field.FieldTypeId != 3 && field.FieldTypeId != 18)
+                        if (!nonDataFieldTypeIds.Contains(field.FieldTypeId))
                         {
                             FieldTranslation fieldTranslation =
                                 await dbContext.FieldTranslations.FirstAsync(x =>
