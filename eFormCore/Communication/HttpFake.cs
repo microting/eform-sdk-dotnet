@@ -23,14 +23,19 @@ SOFTWARE.
 */
 
 using System;
+using System.Collections.Concurrent;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure.Constants;
+using Microting.eForm.Infrastructure.Data.Entities;
+using Microting.eForm.Infrastructure.Helpers;
 using Newtonsoft.Json.Linq;
 
 namespace Microting.eForm.Communication;
@@ -50,8 +55,11 @@ public class HttpFake : IHttp
     private readonly TestHelperReturnXML _testHelperReturnXml;
 
 
+    private readonly DbContextHelper _dbContextHelper;
+
     public HttpFake(string connectionString)
     {
+        _dbContextHelper = new DbContextHelper(connectionString);
         _testHelperReturnXml = new TestHelperReturnXML(connectionString);
     }
 
@@ -455,10 +463,35 @@ public class HttpFake : IHttp
         return contentToServer.ToString();
     }
 
+    /// <summary>
+    /// The app version and device details the fake server reports per unit MicrotingUid.
+    /// Units not listed here are reported as they are stored locally.
+    /// </summary>
+    public static readonly ConcurrentDictionary<int, Unit> ReportedUnits = new();
+
     public async Task<string> UnitLoadAllFromRemote()
     {
-        // Synchronous fake implementation
-        return "{}";
+        // Lists the local units back, with the details a test set in ReportedUnits
+        await using var dbContext = _dbContextHelper.GetDbContext();
+        var units = await dbContext.Units.Include(x => x.Site).ToListAsync();
+        JArray result = new JArray(units.Select(x =>
+        {
+            Unit reported = x.MicrotingUid != null && ReportedUnits.TryGetValue((int)x.MicrotingUid, out var r)
+                ? r
+                : x;
+            return JObject.FromObject(new
+            {
+                x.MicrotingUid,
+                SiteId = x.Site?.MicrotingUid,
+                x.WorkflowState,
+                x.OtpCode,
+                reported.eFormVersion,
+                reported.OsVersion,
+                reported.Manufacturer,
+                reported.Model
+            });
+        }));
+        return result.ToString();
     }
 
     public async Task<string> UnitDelete(int id)
