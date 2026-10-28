@@ -23,6 +23,7 @@ SOFTWARE.
 */
 
 using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -33,6 +34,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure.Constants;
+using Microting.eForm.Infrastructure.Data.Entities;
 using Microting.eForm.Infrastructure.Helpers;
 using Newtonsoft.Json.Linq;
 
@@ -461,22 +463,34 @@ public class HttpFake : IHttp
         return contentToServer.ToString();
     }
 
+    /// <summary>
+    /// The app version and device details the fake server reports per unit MicrotingUid.
+    /// Units not listed here are reported as they are stored locally.
+    /// </summary>
+    public static readonly ConcurrentDictionary<int, Unit> ReportedUnits = new();
+
     public async Task<string> UnitLoadAllFromRemote()
     {
-        // Lists the local units back with the device details UnitGet reports
+        // Lists the local units back, with the details a test set in ReportedUnits
         await using var dbContext = _dbContextHelper.GetDbContext();
         var units = await dbContext.Units.Include(x => x.Site).ToListAsync();
-        JArray result = new JArray(units.Select(x => JObject.FromObject(new
+        JArray result = new JArray(units.Select(x =>
         {
-            x.MicrotingUid,
-            SiteId = x.Site?.MicrotingUid,
-            x.WorkflowState,
-            x.OtpCode,
-            eFormVersion = "3.1.15",
-            OsVersion = "13",
-            Manufacturer = "Apple",
-            Model = "iPhone 6"
-        })));
+            Unit reported = x.MicrotingUid != null && ReportedUnits.TryGetValue((int)x.MicrotingUid, out var r)
+                ? r
+                : x;
+            return JObject.FromObject(new
+            {
+                x.MicrotingUid,
+                SiteId = x.Site?.MicrotingUid,
+                x.WorkflowState,
+                x.OtpCode,
+                reported.eFormVersion,
+                reported.OsVersion,
+                reported.Manufacturer,
+                reported.Model
+            });
+        }));
         return result.ToString();
     }
 

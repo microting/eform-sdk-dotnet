@@ -31,6 +31,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using eFormCore;
 using Microsoft.EntityFrameworkCore;
+using Microting.eForm.Communication;
 using Microting.eForm.Dto;
 using Microting.eForm.Helpers;
 using Microting.eForm.Infrastructure;
@@ -102,16 +103,27 @@ public class CoreTestUnit : DbTestFixture
     [Test]
     public async Task Core_Advanced_UnitsRefreshFromRemote_UpdatesAppVersionWithoutCaseEvent()
     {
-        // Arrange: a unit last seen on an older app version
+        // Arrange: a unit last seen on an older app version, while Microting reports a newer one
         Site site = await testHelpers.CreateSite("test site 1", 1313);
-        Unit created = await testHelpers.CreateUnit(564646, 0, site, 0);
+        Unit created = await testHelpers.CreateUnit(731842, 0, site, 0);
         Unit unit = await DbContext.Units.FirstAsync(x => x.Id == created.Id);
         unit.eFormVersion = "3.1.14";
         unit.OsVersion = "12";
         await unit.Update(DbContext);
+        HttpFake.ReportedUnits[731842] = new Unit
+        {
+            eFormVersion = "3.1.15", OsVersion = "13", Manufacturer = "Apple", Model = "iPhone 6"
+        };
 
-        // Act
-        await sut.Advanced_UnitsRefreshFromRemote();
+        try
+        {
+            // Act
+            await sut.Advanced_UnitsRefreshFromRemote();
+        }
+        finally
+        {
+            HttpFake.ReportedUnits.TryRemove(731842, out _);
+        }
 
         // Assert: the version Microting reports for the unit is stored
         List<Unit> matches = DbContext.Units.AsNoTracking().ToList();
@@ -126,9 +138,9 @@ public class CoreTestUnit : DbTestFixture
     [Test]
     public async Task Core_Advanced_UnitsRefreshFromRemote_LeavesUnchangedUnitAlone()
     {
-        // Arrange: a unit already on the version Microting reports
+        // Arrange: a unit already on the version Microting reports (the fake reports it as stored)
         Site site = await testHelpers.CreateSite("test site 1", 1313);
-        Unit created = await testHelpers.CreateUnit(564646, 0, site, 0);
+        Unit created = await testHelpers.CreateUnit(731843, 0, site, 0);
         Unit unit = await DbContext.Units.FirstAsync(x => x.Id == created.Id);
         unit.eFormVersion = "3.1.15";
         unit.OsVersion = "13";
@@ -141,7 +153,9 @@ public class CoreTestUnit : DbTestFixture
         await sut.Advanced_UnitsRefreshFromRemote();
 
         // Assert: no new unit version is written
-        Assert.That(DbContext.Units.AsNoTracking().Single().Version, Is.EqualTo(versionBefore));
+        Unit after = DbContext.Units.AsNoTracking().Single();
+        Assert.That(after.Version, Is.EqualTo(versionBefore));
+        Assert.That(after.eFormVersion, Is.EqualTo("3.1.15"));
     }
 
     #endregion
