@@ -99,6 +99,51 @@ public class CoreTestUnit : DbTestFixture
         Assert.That(matches[0].OtpCode, Is.EqualTo(558877));
     }
 
+    [Test]
+    public async Task Core_Advanced_UnitsRefreshFromRemote_UpdatesAppVersionWithoutCaseEvent()
+    {
+        // Arrange: a unit last seen on an older app version
+        Site site = await testHelpers.CreateSite("test site 1", 1313);
+        Unit created = await testHelpers.CreateUnit(564646, 0, site, 0);
+        Unit unit = await DbContext.Units.FirstAsync(x => x.Id == created.Id);
+        unit.eFormVersion = "3.1.14";
+        unit.OsVersion = "12";
+        await unit.Update(DbContext);
+
+        // Act
+        await sut.Advanced_UnitsRefreshFromRemote();
+
+        // Assert: the version Microting reports for the unit is stored
+        List<Unit> matches = DbContext.Units.AsNoTracking().ToList();
+
+        Assert.That(matches.Count, Is.EqualTo(1));
+        Assert.That(matches[0].eFormVersion, Is.EqualTo("3.1.15"));
+        Assert.That(matches[0].OsVersion, Is.EqualTo("13"));
+        Assert.That(matches[0].Manufacturer, Is.EqualTo("Apple"));
+        Assert.That(matches[0].Model, Is.EqualTo("iPhone 6"));
+    }
+
+    [Test]
+    public async Task Core_Advanced_UnitsRefreshFromRemote_LeavesUnchangedUnitAlone()
+    {
+        // Arrange: a unit already on the version Microting reports
+        Site site = await testHelpers.CreateSite("test site 1", 1313);
+        Unit created = await testHelpers.CreateUnit(564646, 0, site, 0);
+        Unit unit = await DbContext.Units.FirstAsync(x => x.Id == created.Id);
+        unit.eFormVersion = "3.1.15";
+        unit.OsVersion = "13";
+        unit.Manufacturer = "Apple";
+        unit.Model = "iPhone 6";
+        await unit.Update(DbContext);
+        int? versionBefore = DbContext.Units.AsNoTracking().Single().Version;
+
+        // Act
+        await sut.Advanced_UnitsRefreshFromRemote();
+
+        // Assert: no new unit version is written
+        Assert.That(DbContext.Units.AsNoTracking().Single().Version, Is.EqualTo(versionBefore));
+    }
+
     #endregion
 
     #region eventhandlers
