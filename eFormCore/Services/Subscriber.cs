@@ -24,10 +24,14 @@ SOFTWARE.
 
 using System;
 using System.Globalization;
+using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Amazon;
+using Amazon.Runtime;
 using Amazon.SQS;
 using Amazon.SQS.Model;
 using Microting.eForm.Dto;
@@ -149,7 +153,7 @@ public class Subscriber
 
             IAmazonSQS sqsClient = _injectedSqsClient ??
                                    new AmazonSQSClient(awsAccessKeyId, awsSecretAccessKey, RegionEndpoint.EUCentral1);
-            DateTime lastException = DateTime.MinValue;
+            int consecutiveFailures = 0;
 
             while (!_cancellationToken.IsCancellationRequested)
             {
@@ -234,28 +238,32 @@ public class Subscriber
                             $"{DateTime.UtcNow.ToString(CultureInfo.InvariantCulture)} -  No messages for us right now!");
                     }
                 }
-                catch (WebException webException)
+                catch (OperationCanceledException) when (_cancellationToken.IsCancellationRequested)
                 {
-                    _log.LogCritical(_t.GetMethodName("Subscriber"),
-                        _t.PrintException(_t.GetMethodName("Subscriber") + " failed", webException));
-                    // We try to sleep 20 seconds to see if the problem goes away by it self.
-                    Thread.Sleep(20000);
+                    break;
                 }
-
+                // This loop runs on a raw thread, so nothing may escape it: an unhandled exception
+                // here ends the whole hosting process. Every failure is logged, backed off and retried.
+                catch (Exception ex) when (IsTransient(ex))
+                {
+                    consecutiveFailures++;
+                    _log.LogWarning(_t.GetMethodName("Subscriber"),
+                        _t.PrintException(
+                            $"{_t.GetMethodName("Subscriber")} could not reach SQS ({consecutiveFailures}. failure in a row)",
+                            ex));
+                    WaitBeforeRetry(consecutiveFailures);
+                    continue;
+                }
                 catch (Exception ex)
                 {
-                    _log.LogCritical(_t.GetMethodName("Subscriber"),
-                        _t.PrintException(_t.GetMethodName("Subscriber") + " failed", ex));
-
-                    if (DateTime.Compare(lastException.AddMinutes(5), DateTime.UtcNow) > 0)
-                    {
-                        _log.LogFail(_t.GetMethodName("Subscriber"), "failed, twice in the last 5 minuts", ex);
-                        // TODO handle crash so we could restart!!!
-                        throw;
-                    }
-
-                    lastException = DateTime.UtcNow;
+                    consecutiveFailures++;
+                    _log.LogFail(_t.GetMethodName("Subscriber"),
+                        $"failed ({consecutiveFailures}. failure in a row)", ex);
+                    WaitBeforeRetry(consecutiveFailures);
+                    continue;
                 }
+
+                consecutiveFailures = 0;
             }
 
             _log.LogInfo(_t.GetMethodName("Subscriber"), "--- WE WHERE TOLD NOT TO CONTINUE TO SUBSCRIBE ---");
@@ -282,5 +290,27 @@ public class Subscriber
 
             _isActive = false;
         }
+    }
+
+    /// <summary>
+    /// Network and AWS failures that are expected to pass by themselves, such as a DNS lookup of
+    /// the SQS endpoint that fails while the AWS SDK's own retries are spent.
+    /// </summary>
+    private static bool IsTransient(Exception exception)
+    {
+        return exception is WebException or HttpRequestException or SocketException or IOException
+            or TimeoutException or AmazonClientException or AmazonServiceException;
+    }
+
+    /// <summary>
+    /// Waits with exponential backoff, from the initial backoff up to the max backoff, and returns
+    /// early when Close is called.
+    /// </summary>
+    private void WaitBeforeRetry(int consecutiveFailures)
+    {
+        double factor = Math.Pow(2, Math.Min(consecutiveFailures - 1, 30));
+        TimeSpan delay = TimeSpan.FromMilliseconds(Math.Min(_initialBackoff.TotalMilliseconds * factor,
+            _maxBackoff.TotalMilliseconds));
+        _cancellationToken.WaitHandle.WaitOne(delay);
     }
 }
