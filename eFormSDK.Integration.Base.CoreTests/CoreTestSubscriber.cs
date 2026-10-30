@@ -112,6 +112,39 @@ public class CoreTestSubscriber : DbTestFixture
         Assert.That(logWriter.AllText(), Does.Contain("Resource temporarily unavailable"));
     }
 
+    [Test]
+    public async Task Subscriber_CloseDuringBackoff_StopsWithoutWaitingForTheBackoff()
+    {
+        // Arrange
+        int polls = 0;
+        sqsClient.ReceiveMessageAsync(Arg.Any<ReceiveMessageRequest>(), Arg.Any<CancellationToken>())
+            .Returns(_ =>
+            {
+                Interlocked.Increment(ref polls);
+                return Task.FromException<ReceiveMessageResponse>(new HttpRequestException(
+                    "Resource temporarily unavailable (sqs.eu-central-1.amazonaws.com:443)",
+                    new SocketException((int)SocketError.TryAgain)));
+            });
+
+        // A backoff far longer than WaitUntil's timeout, so only a cancellable wait lets it stop.
+        Subscriber subscriber = new Subscriber(sqlController, new Log(logWriter), null, sqsClient,
+            TimeSpan.FromMinutes(10), TimeSpan.FromMinutes(10));
+
+        // Act
+        subscriber.Start();
+        bool failedOnce = await WaitUntil(() => Volatile.Read(ref polls) >= 1);
+        // Gives the thread time to log the failure and enter the backoff wait.
+        await Task.Delay(500);
+
+        await subscriber.Close();
+        bool stopped = await WaitUntil(() => !subscriber.IsActive());
+
+        // Assert
+        Assert.That(failedOnce, Is.True, "the subscriber never polled");
+        Assert.That(stopped, Is.True, "the subscriber did not stop while backing off");
+        Assert.That(Volatile.Read(ref polls), Is.EqualTo(1));
+    }
+
     private static async Task<ReceiveMessageResponse> EmptyLongPoll(CancellationToken cancellationToken)
     {
         // Stands in for SQS long polling, so the loop does not spin while the test waits.
