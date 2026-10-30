@@ -51,6 +51,9 @@ public class Subscriber
     Thread _subscriberThread;
     private readonly CancellationTokenSource _cancellationTokenSource;
     private readonly CancellationToken _cancellationToken;
+    private readonly IAmazonSQS _injectedSqsClient;
+    private readonly TimeSpan _initialBackoff;
+    private readonly TimeSpan _maxBackoff;
 
     readonly Tools _t = new Tools();
     // end
@@ -60,10 +63,23 @@ public class Subscriber
     /// Microting notification server subscriber C# DLL.
     /// </summary>
     public Subscriber(SqlController sqlController, Log log, IBus bus)
+        : this(sqlController, log, bus, null, TimeSpan.FromSeconds(5), TimeSpan.FromMinutes(5))
+    {
+    }
+
+    /// <summary>
+    /// Lets tests substitute the SQS client, which has no reachable endpoint in CI, and shorten
+    /// the backoff between failed polls. A supplied client is polled even under the unit test token.
+    /// </summary>
+    internal Subscriber(SqlController sqlController, Log log, IBus bus, IAmazonSQS sqsClient,
+        TimeSpan initialBackoff, TimeSpan maxBackoff)
     {
         _sqlController = sqlController;
         _log = log;
         _bus = bus;
+        _injectedSqsClient = sqsClient;
+        _initialBackoff = initialBackoff;
+        _maxBackoff = maxBackoff;
         _cancellationTokenSource = new CancellationTokenSource();
         _cancellationToken = _cancellationTokenSource.Token;
     }
@@ -120,7 +136,8 @@ public class Subscriber
     private void SubscriberThread()
     {
         var token = _sqlController.SettingRead(Settings.token).GetAwaiter().GetResult();
-        if (token != "UNIT_TEST___________________L:32" && token != "abc1234567890abc1234567890abcdef")
+        if (_injectedSqsClient != null ||
+            (token != "UNIT_TEST___________________L:32" && token != "abc1234567890abc1234567890abcdef"))
         {
             _log.LogInfo(_t.GetMethodName("Subscriber"), $"{DateTime.UtcNow.ToString()} - Starting up");
             _isActive = true;
@@ -130,7 +147,8 @@ public class Subscriber
             string awsQueueUrl = _sqlController.SettingRead(Settings.awsEndPoint).Result +
                                  _sqlController.SettingRead(Settings.token).Result;
 
-            var sqsClient = new AmazonSQSClient(awsAccessKeyId, awsSecretAccessKey, RegionEndpoint.EUCentral1);
+            IAmazonSQS sqsClient = _injectedSqsClient ??
+                                   new AmazonSQSClient(awsAccessKeyId, awsSecretAccessKey, RegionEndpoint.EUCentral1);
             DateTime lastException = DateTime.MinValue;
 
             while (!_cancellationToken.IsCancellationRequested)
@@ -241,7 +259,11 @@ public class Subscriber
             }
 
             _log.LogInfo(_t.GetMethodName("Subscriber"), "--- WE WHERE TOLD NOT TO CONTINUE TO SUBSCRIBE ---");
-            sqsClient.Dispose();
+            if (_injectedSqsClient == null)
+            {
+                sqsClient.Dispose();
+            }
+
             _isActive = false;
         }
         // end
