@@ -5202,6 +5202,60 @@ public class Core : CoreBase
         }
     }
 
+    /// <summary>
+    /// Copies the app version and device details of every local unit from Microting in one request,
+    /// so an app update shows without waiting for a case to be retrieved or completed.
+    /// Only units whose details changed are written.
+    /// </summary>
+    public async Task Advanced_UnitsRefreshFromRemote()
+    {
+        string methodName = "Core.Advanced_UnitsRefreshFromRemote";
+        try
+        {
+            if (!Running()) throw new Exception("Core is not running");
+            Log.LogInfo(methodName, "called");
+
+            string result = await _communicator.UnitLoadAllFromRemote(0).ConfigureAwait(false);
+            if (string.IsNullOrWhiteSpace(result)) return;
+            if (JToken.Parse(result) is not JArray remoteUnits) return;
+
+            await using var dbContext = DbContextHelper.GetDbContext();
+            var localUnits = (await dbContext.Units
+                    .Where(x => x.MicrotingUid != null)
+                    .Where(x => x.WorkflowState != Constants.WorkflowStates.Removed)
+                    .ToListAsync().ConfigureAwait(false))
+                .GroupBy(x => (int)x.MicrotingUid)
+                .ToDictionary(g => g.Key, g => g.First());
+
+            var settings = new JsonSerializerSettings { Error = (_, ev) => { ev.ErrorContext.Handled = true; } };
+            foreach (JToken item in remoteUnits)
+            {
+                Unit remoteUnit = JsonConvert.DeserializeObject<Unit>(item.ToString(), settings);
+                if (remoteUnit?.MicrotingUid == null) continue;
+                if (!localUnits.TryGetValue((int)remoteUnit.MicrotingUid, out Unit dbUnit)) continue;
+
+                if (dbUnit.eFormVersion == remoteUnit.eFormVersion
+                    && dbUnit.OsVersion == remoteUnit.OsVersion
+                    && dbUnit.Manufacturer == remoteUnit.Manufacturer
+                    && dbUnit.Model == remoteUnit.Model)
+                {
+                    continue;
+                }
+
+                dbUnit.eFormVersion = remoteUnit.eFormVersion;
+                dbUnit.OsVersion = remoteUnit.OsVersion;
+                dbUnit.Manufacturer = remoteUnit.Manufacturer;
+                dbUnit.Model = remoteUnit.Model;
+                await dbUnit.Update(dbContext).ConfigureAwait(false);
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.LogFail(methodName, "failed", ex);
+            throw;
+        }
+    }
+
     public async Task<bool> Advanced_UnitMove(int unitId, int siteId)
     {
         string methodName = "Core.Advanced_UnitMove";

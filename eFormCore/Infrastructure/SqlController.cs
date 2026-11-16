@@ -1698,30 +1698,14 @@ public class SqlController : LogWriter
                                     && x.CaseId == theCase.Id
                                     && x.WorkflowState != Constants.Constants.WorkflowStates.Removed))
                             {
-                                var dbFieldValue = await db.FieldValues.FirstOrDefaultAsync(x =>
-                                    x.FieldId == subDbField.Id
-                                    && x.CaseId == theCase.Id);
-                                if (dbFieldValue == null)
-                                {
-                                    FieldValue fieldValue = new FieldValue
-                                    {
-                                        FieldId = subDbField.Id,
-                                        CaseId = theCase.Id,
-                                        DoneAt = theCase.DoneAt
-                                    };
-                                    await fieldValue.Create(db);
-                                }
-                                else
-                                {
-                                    dbFieldValue.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                                    await dbFieldValue.Update(db);
-                                }
+                                await EnsureFieldValueExists(subDbField.Id, theCase);
                             }
 
                             foreach (FieldValue fieldValue in await db.FieldValues.Where(x =>
                                              x.FieldId == subDbField.Id
                                              && x.CaseId == theCase.Id
                                              && x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
+                                         .OrderBy(x => x.Id)
                                          .ToListAsync())
                             {
                                 Models.FieldValue answer =
@@ -1768,30 +1752,14 @@ public class SqlController : LogWriter
                                 && x.CaseId == theCase.Id
                                 && x.WorkflowState != Constants.Constants.WorkflowStates.Removed))
                         {
-                            var dbFieldValue = await db.FieldValues.FirstOrDefaultAsync(x =>
-                                x.FieldId == dbField.Id
-                                && x.CaseId == theCase.Id);
-                            if (dbFieldValue == null)
-                            {
-                                FieldValue fieldValue = new FieldValue
-                                {
-                                    FieldId = dbField.Id,
-                                    CaseId = theCase.Id,
-                                    DoneAt = theCase.DoneAt
-                                };
-                                await fieldValue.Create(db);
-                            }
-                            else
-                            {
-                                dbFieldValue.WorkflowState = Constants.Constants.WorkflowStates.Created;
-                                await dbFieldValue.Update(db);
-                            }
+                            await EnsureFieldValueExists(dbField.Id, theCase);
                         }
 
                         foreach (var fieldValue in await db.FieldValues.Where(x =>
                                          x.FieldId == dbField.Id
                                          && x.CaseId == theCase.Id
                                          && x.WorkflowState != Constants.Constants.WorkflowStates.Removed)
+                                     .OrderBy(x => x.Id)
                                      .ToListAsync())
                         {
                             var value = await ReadFieldValue(db, fieldValue, dbField, false, language);
@@ -1891,6 +1859,52 @@ public class SqlController : LogWriter
         {
             throw new Exception(methodName + " failed", ex);
         }
+    }
+
+    /// <summary>
+    /// Gives the field exactly one live FieldValue for the case, even when the case is read concurrently.
+    /// The case row is locked inside a transaction and the check is repeated under the lock, so two
+    /// readers cannot both see the value missing and insert one each.
+    /// </summary>
+    private async Task EnsureFieldValueExists(int fieldId, Case theCase)
+    {
+        await using var db = GetContext();
+        var strategy = db.Database.CreateExecutionStrategy();
+        await strategy.ExecuteAsync(async () =>
+        {
+            db.ChangeTracker.Clear();
+            await using var transaction =
+                await db.Database.BeginTransactionAsync(System.Data.IsolationLevel.ReadCommitted);
+            await db.Database.ExecuteSqlInterpolatedAsync(
+                $"SELECT Id FROM Cases WHERE Id = {theCase.Id} FOR UPDATE");
+
+            if (!await db.FieldValues.AnyAsync(x =>
+                    x.FieldId == fieldId
+                    && x.CaseId == theCase.Id
+                    && x.WorkflowState != Constants.Constants.WorkflowStates.Removed))
+            {
+                var dbFieldValue = await db.FieldValues.OrderBy(x => x.Id).FirstOrDefaultAsync(x =>
+                    x.FieldId == fieldId
+                    && x.CaseId == theCase.Id);
+                if (dbFieldValue == null)
+                {
+                    FieldValue fieldValue = new FieldValue
+                    {
+                        FieldId = fieldId,
+                        CaseId = theCase.Id,
+                        DoneAt = theCase.DoneAt
+                    };
+                    await fieldValue.Create(db);
+                }
+                else
+                {
+                    dbFieldValue.WorkflowState = Constants.Constants.WorkflowStates.Created;
+                    await dbFieldValue.Update(db);
+                }
+            }
+
+            await transaction.CommitAsync();
+        });
     }
 
     public async Task<List<FieldValue>> ChecksRead(int microtingUId, int checkUId)
