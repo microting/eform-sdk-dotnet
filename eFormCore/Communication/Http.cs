@@ -64,9 +64,20 @@ public class Http : IHttp
     // Polly retry policy for handling transient HTTP errors
     private readonly IAsyncPolicy<HttpResponseMessage> _retryPolicy;
 
+    // Production retry delay schedule: 10 s, 100 s, 1000 s for retry attempts 1, 2, 3
+    internal static TimeSpan DefaultRetryDelay(int retryAttempt) => TimeSpan.FromSeconds(Math.Pow(10, retryAttempt));
+
     //private object _lock = new object(); // todo maybe need delete
     public Http(string token, string comAddressBasic, string comAddressApi, string comOrganizationId,
         string comAddressPdfUpload, string comSpeechToText, string comAddressNewApi)
+        : this(token, comAddressBasic, comAddressApi, comOrganizationId, comAddressPdfUpload, comSpeechToText,
+            comAddressNewApi, DefaultRetryDelay)
+    {
+    }
+
+    // Lets tests replace the retry delay instead of waiting the production schedule
+    internal Http(string token, string comAddressBasic, string comAddressApi, string comOrganizationId,
+        string comAddressPdfUpload, string comSpeechToText, string comAddressNewApi, Func<int, TimeSpan> retryDelay)
     {
         _token = token;
         _addressBasic = comAddressBasic;
@@ -86,7 +97,7 @@ public class Http : IHttp
             .Or<HttpRequestException>() // Handles connection refused and other network errors
             .WaitAndRetryAsync(
                 retryCount: MaxRetryAttempts,
-                sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(10, retryAttempt)),
+                sleepDurationProvider: retryDelay,
                 onRetry: (outcome, timespan, retryCount, context) =>
                 {
                     var message = outcome.Exception != null

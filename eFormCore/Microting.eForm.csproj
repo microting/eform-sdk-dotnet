@@ -15,6 +15,8 @@
     <ItemGroup>
         <!-- Lets the Core tests substitute the S3 client, which has no reachable endpoint in CI. -->
         <InternalsVisibleTo Include="eFormSDK.Integration.Base.CoreTests" />
+        <!-- Lets the HTTP resilience tests replace the retry delay so they do not wait 10/100/1000 s. -->
+        <InternalsVisibleTo Include="eFormSDK.Http.Tests" />
     </ItemGroup>
 
     <ItemGroup>
