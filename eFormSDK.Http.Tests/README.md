@@ -12,10 +12,14 @@ The eForm SDK now includes automatic retry logic for handling transient HTTP fai
 ## Retry Configuration
 
 - **Retry Count**: 3 retries (4 total attempts including initial request)
-- **Backoff Strategy**: Exponential backoff with base 2
-  - 1st retry: ~2 seconds delay
-  - 2nd retry: ~4 seconds delay
-  - 3rd retry: ~8 seconds delay
+- **Backoff Strategy**: Exponential backoff with base 10 (`Http.DefaultRetryDelay`)
+  - 1st retry: 10 seconds delay
+  - 2nd retry: 100 seconds delay
+  - 3rd retry: 1000 seconds delay
+
+The tests do not wait this schedule. An `internal` constructor (exposed via `InternalsVisibleTo`)
+takes the retry delay; the tests pass one that returns zero and records the retry attempts it was
+asked for. `DefaultRetryDelay_Should_Be_10s_100s_1000s` pins the production schedule.
 
 ## Running Tests
 
@@ -57,38 +61,41 @@ The test suite includes:
    - Simulates network connectivity issues
    - Validates retry behavior for connection refused errors
 
+7. **DefaultRetryDelay_Should_Be_10s_100s_1000s**
+   - Pins the production retry delay schedule
+
 ## Implementation Details
 
 ### Technology Stack
 
-- **NUnit 4.4.0**: Testing framework
-- **WireMock.Net 1.6.11**: HTTP mocking for test scenarios
-- **Polly 8.6.4**: Resilience and transient-fault-handling library
-- **Polly.Extensions.Http 3.0.0**: HttpClient integration
+- **NUnit**: Testing framework
+- **WireMock.Net**: HTTP mocking for test scenarios
+- **Polly**: Resilience and transient-fault-handling library
+- **Polly.Extensions.Http**: HttpClient integration
 
 ### How It Works
 
 The tests use WireMock to create a mock HTTP server that simulates various failure scenarios. The tests verify that:
 
 1. The Http class properly retries failed requests
-2. Exponential backoff delays are applied correctly
+2. The retry delay is requested for the expected retry attempts, and the production schedule is unchanged
 3. After all retries, appropriate error responses are returned
 4. Success is achieved after transient failures clear
 
 ### Logging
 
-During test execution, you'll see debug output showing:
+In Debug builds you'll see the output below (`WriteDebugConsoleLogEntry` is compiled out in Release,
+which `./http-tests.sh` uses):
 - Each retry attempt number
-- Delay between retries
+- Delay between retries (0 s in these tests)
 - Error messages for each failed attempt
-- Final success or failure status
 
-Example output:
+Example output (`dotnet test -c Debug`):
 ```
-[DBG] HttpPost: called at 10/20/2025 06:23:02 for url http://localhost:41225/integration/create
-[DBG] Polly Retry: Retry 1 after 2s. HTTP request failed with status code: InternalServerError
-[DBG] Polly Retry: Retry 2 after 4s. HTTP request failed with status code: InternalServerError
-[DBG] HttpPost: Finished at 10/20/2025 06:23:08 - took -00:00:06.0087572
+dbug: Polly Retry[0]
+      POST http://localhost:36333/integration/create - Retry 1/3 after 0s delay. Total operation time: 0.4s. Error: HTTP request failed with status code: InternalServerError
+dbug: Polly Retry[0]
+      POST http://localhost:36333/integration/create - Retry 2/3 after 0s delay. Total operation time: 0.4s. Error: HTTP request failed with status code: InternalServerError
 ```
 
 ## Next Steps

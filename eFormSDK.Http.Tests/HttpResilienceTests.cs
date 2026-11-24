@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -40,6 +42,8 @@ namespace eFormSDK.Http.Tests;
 /// - HTTP 503 (Service Unavailable)
 /// - Retry behavior with exponential backoff
 /// - Eventual success after transient failures
+/// The retry delay is replaced by one that returns zero and records the requested
+/// retry attempts, so the tests skip the production 10 s / 100 s / 1000 s waits.
 /// </summary>
 [TestFixture]
 public class HttpResilienceTests
@@ -47,6 +51,7 @@ public class HttpResilienceTests
     private WireMockServer _mockServer;
     private string _serverUrl = string.Empty;
     private const string TestToken = "12345678901234567890123456789012";
+    private readonly List<int> _requestedRetryAttempts = new();
 
     [SetUp]
     public void Setup()
@@ -54,6 +59,7 @@ public class HttpResilienceTests
         // Start WireMock server for mocking HTTP endpoints
         _mockServer = WireMockServer.Start();
         _serverUrl = _mockServer.Url;
+        _requestedRetryAttempts.Clear();
     }
 
     [TearDown]
@@ -61,6 +67,21 @@ public class HttpResilienceTests
     {
         _mockServer?.Stop();
         _mockServer?.Dispose();
+    }
+
+    private Microting.eForm.Communication.Http CreateHttp(string url) =>
+        new(TestToken, url, url, "org123", url, url, url, retryAttempt =>
+        {
+            _requestedRetryAttempts.Add(retryAttempt);
+            return TimeSpan.Zero;
+        });
+
+    [Test]
+    public void DefaultRetryDelay_Should_Be_10s_100s_1000s()
+    {
+        Assert.That(Microting.eForm.Communication.Http.DefaultRetryDelay(1), Is.EqualTo(TimeSpan.FromSeconds(10)));
+        Assert.That(Microting.eForm.Communication.Http.DefaultRetryDelay(2), Is.EqualTo(TimeSpan.FromSeconds(100)));
+        Assert.That(Microting.eForm.Communication.Http.DefaultRetryDelay(3), Is.EqualTo(TimeSpan.FromSeconds(1000)));
     }
 
     [Test]
@@ -92,7 +113,7 @@ public class HttpResilienceTests
                 .WithStatusCode(200)
                 .WithBody("<Response><Value>Success</Value></Response>"));
 
-        var http = new Microting.eForm.Communication.Http(TestToken, _serverUrl, _serverUrl, "org123", _serverUrl, _serverUrl, _serverUrl);
+        var http = CreateHttp(_serverUrl);
 
         // Act
         var result = await http.Post(testData, siteId);
@@ -100,6 +121,7 @@ public class HttpResilienceTests
         // Assert
         Assert.That(result, Does.Contain("Success"), "Should eventually succeed and return success response");
         Assert.That(_mockServer.LogEntries.Count, Is.EqualTo(3), "Should make 3 attempts");
+        Assert.That(_requestedRetryAttempts, Is.EqualTo(new[] { 1, 2 }), "Should request the retry delay for retry attempts 1 and 2");
     }
 
     [Test]
@@ -124,7 +146,7 @@ public class HttpResilienceTests
                 .WithStatusCode(200)
                 .WithBody("<Response><Value>Success</Value></Response>"));
 
-        var http = new Microting.eForm.Communication.Http(TestToken, _serverUrl, _serverUrl, "org123", _serverUrl, _serverUrl, _serverUrl);
+        var http = CreateHttp(_serverUrl);
 
         // Act
         var result = await http.Post(testData, siteId);
@@ -132,6 +154,7 @@ public class HttpResilienceTests
         // Assert
         Assert.That(result, Does.Contain("Success"), "Should eventually succeed and return success response");
         Assert.That(_mockServer.LogEntries.Count, Is.EqualTo(2), "Should make 2 attempts");
+        Assert.That(_requestedRetryAttempts, Is.EqualTo(new[] { 1 }), "Should request the retry delay for retry attempt 1");
     }
 
     [Test]
@@ -146,7 +169,7 @@ public class HttpResilienceTests
             .Given(Request.Create().WithPath("/integration/create").UsingPost())
             .RespondWith(Response.Create().WithStatusCode(500));
 
-        var http = new Microting.eForm.Communication.Http(TestToken, _serverUrl, _serverUrl, "org123", _serverUrl, _serverUrl, _serverUrl);
+        var http = CreateHttp(_serverUrl);
 
         // Act
         // Post method catches exceptions and returns error XML
@@ -156,6 +179,7 @@ public class HttpResilienceTests
         Assert.That(result, Does.Contain("converterError"), "Should return error response after all retries exhausted");
         Assert.That(result, Does.Contain("500"), "Should include status code 500 in error message");
         Assert.That(_mockServer.LogEntries.Count, Is.EqualTo(4), "Should make 4 attempts (1 initial + 3 retries)");
+        Assert.That(_requestedRetryAttempts, Is.EqualTo(new[] { 1, 2, 3 }), "Should request the retry delay for retry attempts 1, 2 and 3");
     }
 
     [Test]
@@ -180,7 +204,7 @@ public class HttpResilienceTests
                 .WithStatusCode(200)
                 .WithBody("<Response><Status>OK</Status></Response>"));
 
-        var http = new Microting.eForm.Communication.Http(TestToken, _serverUrl, _serverUrl, "org123", _serverUrl, _serverUrl, _serverUrl);
+        var http = CreateHttp(_serverUrl);
 
         // Act
         var result = await http.Status(elementId, siteId);
@@ -188,6 +212,7 @@ public class HttpResilienceTests
         // Assert
         Assert.That(result, Does.Contain("OK"), "Should eventually succeed and return OK status");
         Assert.That(_mockServer.LogEntries.Count, Is.EqualTo(2), "Should make 2 attempts");
+        Assert.That(_requestedRetryAttempts, Is.EqualTo(new[] { 1 }), "Should request the retry delay for retry attempt 1");
     }
 
     [Test]
@@ -219,7 +244,7 @@ public class HttpResilienceTests
                 .WithStatusCode(200)
                 .WithBody("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response><Value type=\"success\">success</Value><Unit fetched_at=\"\" id=\"\"/></Response>"));
 
-        var http = new Microting.eForm.Communication.Http(TestToken, _serverUrl, _serverUrl, "org123", _serverUrl, _serverUrl, _serverUrl);
+        var http = CreateHttp(_serverUrl);
 
         // Act
         var result = await http.Delete(elementId, siteId);
@@ -227,6 +252,7 @@ public class HttpResilienceTests
         // Assert
         Assert.That(result, Does.Contain("success"), "Should eventually succeed and return success response");
         Assert.That(_mockServer.LogEntries.Count, Is.EqualTo(3), "Should make 3 attempts");
+        Assert.That(_requestedRetryAttempts, Is.EqualTo(new[] { 1, 2 }), "Should request the retry delay for retry attempts 1 and 2");
     }
 
     [Test]
@@ -238,7 +264,7 @@ public class HttpResilienceTests
         
         // Use invalid port to simulate connection refused
         var invalidUrl = "http://localhost:65432"; // Port unlikely to be open
-        var http = new Microting.eForm.Communication.Http(TestToken, invalidUrl, invalidUrl, "org123", invalidUrl, invalidUrl, invalidUrl);
+        var http = CreateHttp(invalidUrl);
 
         // Act
         // Post method catches exceptions and returns error XML
@@ -247,5 +273,6 @@ public class HttpResilienceTests
         // Assert
         Assert.That(result, Does.Contain("converterError"), "Should return error response after all retries exhausted");
         Assert.That(result, Does.Contain("Connection refused"), "Should include connection refused error message");
+        Assert.That(_requestedRetryAttempts, Is.EqualTo(new[] { 1, 2, 3 }), "Should request the retry delay for retry attempts 1, 2 and 3");
     }
 }
